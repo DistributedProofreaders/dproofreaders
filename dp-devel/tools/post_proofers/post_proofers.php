@@ -148,12 +148,14 @@ if (!$isPPV) {
 	echo _("Post Processing Forum</a> is available for any of your questions.</p>");
 }
 
-echo "<hr width=75% align='center'><center><b>"._("Books I Have Checked Out for Post Processing:")."</b></center>";
+echo "<hr width=75% align='center'>\n";
+echo "<a name='ChPP'></a>\n";
+echo "<center><b>"._("Books I Have Checked Out for Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT, 1, " ", $orderChPP);
 echo "<br>";
 
 if ($isPPV) {
-
+echo "<a name='ChPPV'></a>\n";
 echo "<center><b>"._("Books I Have Checked Out for Verifying Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT, 1, " ", $orderChPPV);
 echo "<br>";
@@ -162,6 +164,7 @@ echo "<br>";
 echo "<br><hr><br><br>";
 include('filter_PP_list.inc');
 
+echo "<a name='PP'></a>\n";
 echo "<center><b>"._("Books Available for Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_AVAILABLE, 1, $RFilter, $orderPP);
 echo "<br>";
@@ -170,7 +173,7 @@ if ($isPPV) {
 
 echo "<br><hr><br><br>";
 include('filter_PPV_list.inc');
-
+echo "<a name='PPV'></a>\n";
 echo "<center><b>"._("Books Available for Post Processing Verification & Posting:")."</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter, $orderPPV);
 echo "<br>";
