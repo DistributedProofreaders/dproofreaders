@@ -445,7 +445,7 @@ function _insertProjectBeginPages($projectid) {
             round1_user,
             round2_user,
             round1_time,
-            CASE WHEN pp.state = 'save_second' THEN round2_time ELSE 0 END AS round2_time,
+            CASE WHEN pp.state = 'P2.page_saved' THEN round2_time ELSE 0 END AS round2_time,
             pp.state AS pagestate,
             b_user,
             b_code

@@ -138,8 +138,8 @@ for ( $year = 1950; $year < 1978; $year ++ )
 			$projectid  = $project['projectid'];
 			$res2 = mysql_query("
 				SELECT 
-					SUM(state='save_first' OR state LIKE '%_second') as n_done1,
-					SUM(state='save_second') as n_done2,
+					SUM(state='P1.page_saved' OR state LIKE 'P2.page_%') as n_done1,
+					SUM(state='P2.page_saved') as n_done2,
 					COUNT(*) as n_pages
 				FROM $projectid
 			") or print(mysql_error());

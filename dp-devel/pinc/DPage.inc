@@ -81,15 +81,15 @@ function Pages_prepForRound( $projectid, $round_number )
 {
     global $writeBIGtable;
 
-    // When prepping for round 2, we just mark all pages as AVAIL_SECOND.
-    // So when prepping for round 1, why don't we just mark all pages as AVAIL_FIRST?
+    // When prepping for round 2, we just mark all pages as P2.page_avail.
+    // So when prepping for round 1, why don't we just mark all pages as P1.page_avail?
     //
     // I suspect the reason is that, for round 1, this function is called
     // when the project goes from PROJ_PROOF_FIRST_WAITING_FOR_RELEASE to
     // PROJ_PROOF_FIRST_AVAILABLE, and it can go through this transition
     // more than once (via PROJ_PROOF_FIRST_UNAVAILABLE). After the first
     // time, it can have some pages that have already been worked on, and
-    // we don't want the transition to put such pages back to AVAIL_FIRST.
+    // we don't want the transition to put such pages back to P1.page_avail.
     //
     // The problem doesn't arise for second round because there, the transition
     // is PROJ_PROOF_FIRST_COMPLETE to PROJ_PROOF_SECOND_AVAILABLE, and the
