@@ -22,7 +22,7 @@ $projectinfo = new projectinfo();
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
   } else {
     $verbose = 1;
-    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."'");
+    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'");
   }
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
@@ -51,17 +51,15 @@ $projectinfo = new projectinfo();
         $pagesleft += $projectinfo->avail2_pages;
         $projectinfo->availablepages = $projectinfo->avail2_pages;
 
-    } else if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
-        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."'");
-        if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
-        if ($badpages > 0) {
-            $state = PROJ_PROOF_FIRST_BAD_PROJECT;
+    } else if ($state == PROJ_PROOF_FIRST_BAD_PROJECT) {
+            $state = PROJ_PROOF_FIRST_COMPLETE;
             mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
-        }
         $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
         $projectinfo->availablepages = $projectinfo->avail1_pages;
 
     }
+    //PROJ_PROOF_FIRST_AVAILABLE
+    //mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
 
     $projectinfo->update($project, $state);
 
