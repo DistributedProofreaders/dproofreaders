@@ -3,13 +3,15 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 /* $_GET $project, $prooflevel, $proofing */
 
-    $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
+    $result = mysql_query("SELECT nameofwork, authorsname, comments, username, topic_id FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
     $authorsname = mysql_result($result, 0, "authorsname");
     $comments = mysql_result($result, 0, "comments");
     $username = mysql_result($result, 0, "username");
+    $topic_id = mysql_result($result, 0, "topic_id");
     $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
     $user_id = mysql_result($phpuser, 0, "user_id");
+
 
 if (isset($prooflevel)){
    if ($prooflevel==0)
@@ -82,7 +84,12 @@ if (isset($prooflevel))
     echo "<td>$lastproofed</td></tr>";}
 
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
-    echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id\">Discuss this project in the forum</td></tr>";
+
+if ($topic_id == "") {
+    echo "<td><a href=\"project_topic.php?project=$project\">Start a discussion about this project in the forum</td></tr>";
+} else {
+    echo "<td><a href=\"project_topic.php?project=$project\">Discuss this project in the forum</td></tr>";
+}
 
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=2 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=2>$comments</td></tr></table>";
     echo "<BR>";
