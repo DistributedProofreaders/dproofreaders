@@ -60,11 +60,16 @@ $resultPosted = mysql_query("SELECT sum(num_projects) as P, date FROM project_st
 
 $i = 0;
 
+$max_num_data = 0;
 
 while ($row = mysql_fetch_assoc($resultCreated)) {
 	$datay1[$i] = $row['P'];
 	$datax[$i] = $row['date'];
 	$i++;
+}
+
+if ($i > $max_num_data) {
+	$max_num_data = $i;
 }
 
 $i = 0;
@@ -74,11 +79,19 @@ while ($row = mysql_fetch_assoc($resultProofed)) {
 	$i++;
 }
 
+if ($i > $max_num_data) {
+	$max_num_data = $i;
+}
+
 $i = 0;
 
 while ($row = mysql_fetch_assoc($resultPPd)) {
 	$datay3[$i] = $row['P'];
 	$i++;
+}
+
+if ($i > $max_num_data) {
+	$max_num_data = $i;
 }
 
 $i = 0;
@@ -88,6 +101,9 @@ while ($row = mysql_fetch_assoc($resultPosted)) {
 	$i++;
 }
 
+if ($i > $max_num_data) {
+	$max_num_data = $i;
+}
 
 
 if (empty($datay1)) {
@@ -158,7 +174,22 @@ $graph->Add($lplot4);
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+// calculate tick interval based on number of datapoints
+// the data is daily, there are 7 days in a week
+// once we have more than about 30 labels, the axis is getting too crowded
+if ($max_num_data < 30 ) {
+        $tick = 1;            // one label per day
+} else if ($max_num_data < (30 * 7)) {
+        $tick = 7;            // one label per week
+} else if ($max_num_data < (30 * 7 * 4)) {
+        $tick = 7 * 4;        // one label per 4 weeks (pseudo-month)
+} else if ($max_num_data < (30 * 7 * 13)) {
+        $tick = 7 * 13;       // one label per quarter
+} else {
+        $tick = 7  * 52;       // one label per year
+}
+$graph->xaxis->SetTextTickInterval($tick);
+
 
 //Set Y axis
 //$graph->yaxis->title->Set(_('Projects'));
