@@ -31,7 +31,7 @@ function startTable($tableWidth,$extraTags)
      $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
                   They must be formatted in correct HTML syntax. The preceeding space will be added.
      closes : <td> if $tdO=1; <tr> if $trO=1; <table> if $tableO=1 (does not allow for nested tables)
-
+     nesting : must temp set $tableO=0; startTable() for new; echo '</TABLE>' to end table nested table
 
 function startTR($trType,$extraTags)
      $trType =  0=default, 1=goes with td light, 2=goes with td dark styles
@@ -40,8 +40,9 @@ function startTR($trType,$extraTags)
      closes : <td> if $tdO=1; <tr> if $trO=1
 
 
-function startTD($tdType,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags)
+function startTD($tdType,$tdWidth,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags)
      $tdType =  0=default, 1=light, 2=dark styles
+     $tdWidth = the width of the cell (set =0 to allow browser to determine a default width)
      $tdCols = value for COLSPAN attribute
      $tdRows = value for ROWSPAN attribute
      $tdAlign = "left"|"center"|"right" horizontal alignment of cell contents
