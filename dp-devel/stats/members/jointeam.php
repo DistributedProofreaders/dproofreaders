@@ -47,6 +47,7 @@ if ($tid != 1) {
 		}
 	} else {
 		metarefresh(4,"../teams/tdetail.php?tid=$tid",'Unable to Join the Team','You are already a member of this team....');
+		$redirect_team = 0;
 	}
 } else {
 	metarefresh(4,"../teams/tdetail.php?tid=$tid",'Unable to Join the Team','You are already a member of this team....');
