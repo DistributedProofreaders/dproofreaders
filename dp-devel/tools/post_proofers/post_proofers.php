@@ -45,7 +45,7 @@ echo "
 <p>
     As an experienced volunteer, you have access to do verification of texts
     that have been Post Processed already, if you wish.
-    Make sure you read the <b>new</b> <a href='$code_url/faq/ppv.php'>Post Processing Verification Guidelines</a>.
+    <font color='red' size=4>Make sure you read the <b>new</b> <a href='$code_url/faq/ppv.php'>Post Processing Verification Guidelines</a> and use the <a href='$code_url/faq/ppv_report.php'>PPV Report Card for each project you PPPV</a>.</font><br />
     Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) 
     is our Post Processing Coordinator. Julie Barkley
     (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>)

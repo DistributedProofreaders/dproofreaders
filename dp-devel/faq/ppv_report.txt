@@ -1,0 +1,89 @@
+PPV REPORT CARD
+
+Please fill out* at least the top portion of this PPV Report Card
+after each project you PPV, and email to ppv-reports @ pgdp.net,
+using the subject line "PPV Report Card."
+
+This PPV Report Card will be used by the PP(V) Coordinator to track
+PPers' progress and to decide when a PPer is ready to submit directly
+to PG and become a PPVer themselves.
+
+*(Save this file as a text document and edit your copy)
+
+=====================================================================
+
+Required Minimal Information:
+-----------------------------
+
+
+Date
+
+Username of PPVer
+
+Username of PPer
+
+Title of Project PPVed
+
+Number of pages 
+
+Language(s)
+
+Your estimate of difficulty level for PPing:
+     ___ Easy
+     ___ Average
+     ___ Difficult
+ 
+Overall evaluation of PPer's work on this project:
+     ___ Excellent
+     ___ Good
+     ___ Fair
+     ___ Poor
+
+If you had to return the project to the PP for revisions,
+what was the reason?
+
+---------------------------------------------------------------------
+
+Optional Information:
+---------------------
+ 
+Please check off any of the following which were present in the text:
+
+___ a. Tables
+___ b. Poetry
+___ c. Index
+___ d. Footnotes
+___ e. Sidenotes
+___ f. Blockquotes
+___ g. Illustration markup  (approx. number of images) ____
+___ h. Multiple languages
+___ i. Other unusual formatting, e.g. math, grammar, specialized topic
+     (Please specify) ________________
+
+Please note approximate number of errors in each category:
+ 
+___ a. comma/period error
+___ b. spellcheck/scannos
+___ c. hyphens/emdashes
+___ d. gutcheck
+       (If desired, list main gutcheck problem categories) ________
+___ e. other (please specify) _____
+
+
+If there were any formatting errors, please describe;
+e.g., poetry or index was rewrapped,
+spacing of chapter headings not consistent,
+page joining problems, etc.
+
+
+HTML:
+ 
+If HTML was submitted, please note any problems (e.g., HTML or CSS not
+valid, problems found by Tidy, handling of images, broken internal links,
+etc.). If there were no problems please note this.
+
+ 
+General comments:
+
+If desired, please provide general comments on this project
+or your experience with working with this PPer.
