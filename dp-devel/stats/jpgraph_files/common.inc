@@ -312,4 +312,5 @@ function draw_simple_bar_graph(
     $graph->Stroke();
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
