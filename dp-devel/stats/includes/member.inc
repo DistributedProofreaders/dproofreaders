@@ -56,12 +56,15 @@ function showMbrProfile($curMbr) {
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='avatar'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'>";
 	echo "\n";
+
+	$xml_doc_url = $GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username'];
+	$xml_img_url = $GLOBALS['code_url']."/graphics/xml.gif";
+	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
+	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
+
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
        	echo_tr_headerbar(
-	       	_("Statistics")
-		. " <a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'>"
-		. "<img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'>"
-		. "</a>",
+	       	_("Statistics") . " $xml_button",
 		2
        	);
 
