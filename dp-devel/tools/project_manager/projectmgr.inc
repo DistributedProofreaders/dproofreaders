@@ -34,9 +34,14 @@ function echo_manager_header()
 	echo " | ";
 	if ($userP['sitemanager'] == "yes")
 	{ 
-		echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
-		echo " | ";
-		echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
+		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
+		if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+			echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
+			echo " | ";
+			echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
+		} else {
+			echo "<b><a href='projectmgr.php?show=search_form'>Search Your Projects</a></b>"; 
+		}
 	}
 	else
 	{
