@@ -9,14 +9,15 @@ function abort_if_not_manager()
 
 	if ( !user_is_PM()) {
 		echo "
-			<p>
+			<p>".sprintf(_("
 			You are not listed as a project manager.
 			Please contact the
-			<a href='mailto:$site_manager_email_addr'>site manager</a>
-			about resolving this problem.
-			<p>
-			Back to <a href='$code_url/default.php'>home page</a>
-		";
+			%ssite manager%s
+			about resolving this problem."),"<a href='mailto:$site_manager_email_addr'>","</a>")."
+			</p><p>
+			".sprintf(_("Back to %shome page%s"),"<a href='$code_url/default.php'>","</a>")."
+		</p>";
+		theme("","footer");
 		exit();
 	}
 }
@@ -27,33 +28,33 @@ function echo_manager_header( $which )
 
 	echo "<p>";
 	echo "<center>";
-	echo "<a href='projectmgr.php?show=user_active'>Show Your Active Projects</a>";
+	echo "<a href='projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
 	echo " | ";
-	echo "<a href='projectmgr.php?show=all'>Show All of Your Projects</a>";
+	echo "<a href='projectmgr.php?show=all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
-	echo "<a href='editproject.php'>Create Project</a>";
+	echo "<a href='editproject.php'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{ 
-		echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
+		echo "<a href='projectmgr.php?show=site'>"._("Show All Projects")."</a>"; 
 		echo " | ";
-		echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
+		echo "<a href='projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>"; 
 	}
 	else
 	{
-		echo "<b><a href='projectmgr.php?show=search_form'>Search Your Projects</a></b>"; 
+		echo "<a href='projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
 	echo "</center>";
 
 	echo "
 		<p><center>
-		<font size=-1>
+		".sprintf("<font size=-1>
 		Visit the 
-		<a href='$code_url/faq/pm-faq.php#$which'>help section</a>
+		%shelp section%s
 		or
-		<a href='$forums_url/viewtopic.php?t=2793'>forum topic</a>
+		%sforum topic%s
 		for this page.
-		</font>
+		</font>","<a href='$code_url/faq/pm-faq.php#$which'>","</a>","<a href='$forums_url/viewtopic.php?t=2793'>","</a>")."
 		</center></p>
 	";
 
