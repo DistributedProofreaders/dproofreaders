@@ -112,7 +112,7 @@ echo "<form action='userprefs.php' method='post'>";
 echo $tb;
 echo $tr.$td1;
 
-echo "<font size=\"+2\"><b>"._("Preferences Page for ")."$pguser</font></b><br><i>"._("(click the ? for help on that specific preference)")."</i>";
+echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"._("Preferences Page for ")."$pguser</font></b><br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i>";
 
 echo $tre.$tr.$td2;
 echo "<strong>"._("Current Profile:")."</strong>";
