@@ -94,12 +94,9 @@ function activityCenter($curProj) {
 
 	if ($proj_round = 'GB') {
 
-		if (!empty($curProj['ziplink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['ziplink']."'>Zip Version</a></font></td></tr>"; }
-
-		if (!empty($curProj['txtlink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['txtlink']."'>Text Version</a></font></td></tr>"; }
-
-		if (!empty($curProj['htmllink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['htmllink']."'>HTML Version</a></font></td></tr>"; }
-
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>";
+		echo get_pg_catalog_link_for_etext( $curProj['postednum'] );
+		echo "</font></td></tr>";
 	}
 
 	echo "</table>";
