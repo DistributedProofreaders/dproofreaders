@@ -225,6 +225,8 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <table border="1" width="630">
 <tr>
   <td bgcolor="#CCCCCC">Random Rule</td>
+</tr>
+<tr>
   <td>
 <?
   include("../randrule.php");
