@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
 $db_Connection=new dbConnect();
 
-$result = mysql_query("SELECT * FROM user_teams WHERE id = ".$_GET['tid']);
+$result = select_from_teams("id = {$_GET['tid']}");
 $curTeam = mysql_fetch_assoc($result);
 $now = time();
 

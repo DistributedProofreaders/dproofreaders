@@ -9,7 +9,7 @@ $popHelpDir="$code_url/faq/pophelp/teams/edit_";
 //Do we need this anymore?
 if (!empty($_POST['tsid'])) { $tid = $_POST['tsid']; } else { $tid = $_GET['tid']; }
 
-$result = mysql_query("SELECT * FROM user_teams WHERE id = $tid");
+$result = select_from_teams("id = $tid");
 $curTeam = mysql_fetch_assoc($result);
 
 if ($userP['u_id'] != $curTeam['owner']) {

@@ -18,12 +18,12 @@ if (empty($_GET['order'])) {
 if (!empty($_GET['tstart'])) { $tstart = $_GET['tstart']; } else { $tstart = 0; }
 
 if (!empty($_REQUEST['tname'])) {
-	$tResult = mysql_query("SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE teamname LIKE '%".$_REQUEST['tname']."%' ORDER BY $order $direction LIMIT $tstart,20");
+	$tResult = select_from_teams("teamname LIKE '%{$_REQUEST['tname']}%'", "ORDER BY $order $direction LIMIT $tstart,20");
 	$tRows = mysql_num_rows($tResult);
 	if ($tRows == 1) { metarefresh(0,"tdetail.php?tid=".mysql_result($tResult,0,"id")."",'',''); exit; }
 	$tname = "tname=".$_REQUEST['uname']."&";
 } else {
-	$tResult=mysql_query("SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order $direction LIMIT $tstart,20");
+	$tResult=select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");
 	$tRows=mysql_num_rows($tResult);
 	$tname = "";
 }

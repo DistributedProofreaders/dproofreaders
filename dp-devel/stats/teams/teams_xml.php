@@ -27,7 +27,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-$result = mysql_query("SELECT * FROM user_teams WHERE id = ".$_GET['id']."");
+$result = select_from_teams("id = {$_GET['id']}");
 $curTeam = mysql_fetch_assoc($result);
 
 //Team info portion of $data
