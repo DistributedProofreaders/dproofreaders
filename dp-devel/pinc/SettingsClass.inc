@@ -115,7 +115,7 @@ class Settings
             // now continue to add values from usersettings table.
             // This could be null values if the outer join matched nothing
             // so check there is something in the "setting" column.
-            if($row[setting])
+            if($row['setting'])
                 $this->settings_array[$row['setting']] = $row['value'];
         }
         mysql_free_result($result);
