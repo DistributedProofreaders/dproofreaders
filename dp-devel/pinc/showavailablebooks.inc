@@ -20,8 +20,7 @@ echo "</tr>";
             $pages=bookpages($book['projectid'],"='{$state}'");
             $bgcolor=bgcol($rownum,$round);
         if (($state==AVAIL_FIRST && $book['state'] == AVAIL_PI_FIRST) || ($state==AVAIL_SECOND && $book['state'] == AVAIL_PI_SECOND)) {
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo " <tr>";
+            echo "<tr>";
             if ($tList==0)
               {$eURL="proof";}
             else
