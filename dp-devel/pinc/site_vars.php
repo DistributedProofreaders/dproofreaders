@@ -16,8 +16,8 @@ $projects_url = '<<PROJECTS_URL>>';
 $dynstats_dir = '<<DYNSTATS_DIR>>';
 $dynstats_url = '<<DYNSTATS_URL>>';
 
-$xmlfeeds_dir = '<<DYNSTATS_DIR>>';
-$xmlfeeds_url = '<<DYNSTATS_URL>>';
+$xmlfeeds_dir = '<<XMLFEEDS_DIR>>';
+$xmlfeeds_url = '<<XMLFEEDS_URL>>';
 
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
