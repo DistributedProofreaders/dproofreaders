@@ -30,6 +30,8 @@ if(isset($userP['i_theme'])) {
 		$theme = ${$theme_name};
 	}
 
+include_once($relPath.'gettext_setup.inc');
+
 function theme ($nameofpage, $location) {
 
 	if (isset($GLOBALS['pguser'])) {
@@ -222,10 +224,13 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	}
 
 		if (!isset($userindex)) {
-		$userindex = $i-1;
-		$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
-		$neighborhood['pages'][$userindex] = 0;
-		$neighborhood['rank'][$userindex] = $userindex;
+			$userindex = $i;
+			$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
+			$neighborhood['pages'][$userindex] = 0;
+			$neighborhood['rank'][$userindex] = $userindex+1;
+			$neighborhood['total_ranks'] = $userindex+1;
+		} else {
+			$neighborhood['total_ranks'] = $neighborhood['rank'][$i-1];
 		}
 
 		//If logged in & either a Post Processor or Project Manager display links
@@ -320,7 +325,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;Total Pages: ";
 	echo number_format($neighborhood['pages'][$userindex])."<br>\n";
 	echo "&nbsp;Current Position: ";
-	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['rank'][$i-1])."<br>\n";
+	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
 	echo "&nbsp;Current Rank: ";
 	echo "$rankname<br></font>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
