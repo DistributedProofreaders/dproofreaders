@@ -37,5 +37,5 @@ TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" onclick="ret
 if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" title=\"Save and Proof Next Page\" onclick=\"return(confirm('Are you sure you want to ".'\r\n\r\n'."Save and Proof Next Page?'));\" src=\"gfx/bt2.png\">".'&nbsp;';}
 ?><INPUT 
 TYPE="image" accesskey="9" name="button3" ID="button3" title="Quit without Saving" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Without Saving?'));" src="gfx/bt1.png">&nbsp;<a 
-href="../../faq/prooffacehelp.html" target="helpNewWin"><img 
+href="../../faq/prooffacehelp.html" accesskey="1" target="helpNewWin"><img 
 src="gfx/bt11.png" border="" alt="Help" TITLE="Help"></a>
