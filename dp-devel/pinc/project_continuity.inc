@@ -33,7 +33,7 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		}
 
 		echo "<p>";
-		echo "<a href='list_avail.php'>"._("Back to list of projects available for proofreading.")."</a>";
+		echo "<a href='list_avail.php' target=\"_top\">"._("Back to list of projects available for proofreading.")."</a>";
 		echo "</p>\n";
 
 		die();
