@@ -14,13 +14,10 @@ include($relPath.'connect.inc');
 include_once('./pages_proofed.inc');
 new dbConnect();
 
+header('Content-Type: text/plain');
+
 $EOL = "\n";
 $testing_this_script=$_GET['testing'];
-
-if ($testing_this_script)
-{
-    echo "<pre>", $EOL;
-}
 
 // Figure out the last day (X) for which a count was taken.
 $res = mysql_query( 'SELECT MAX(date) FROM pagestats WHERE pages != 0' )
@@ -101,12 +98,5 @@ $tracetimea = time();
 $sofar = $tracetimea - $tracetime;
 mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('update_daily_page_counts.php', $tracetimea, 'END ALL', 'time so far $sofar seconds')");
-
-
-
-if ($testing_this_script)
-{
-    echo "</pre>", $EOL;
-}
 
 ?>
