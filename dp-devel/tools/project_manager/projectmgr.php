@@ -251,7 +251,7 @@ abort_if_not_manager();
 			echo "<td>$author</td>\n";
 
 			// Difficulty
-			echo "<td>$author</td>\n";
+			echo "<td>$diff</td>\n";
 
 
 			// Left
