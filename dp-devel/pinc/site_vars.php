@@ -66,6 +66,7 @@ $testing = '<<TESTING>>';
 $use_cookies = '<<USE_COOKIES>>';
 $maintenance = '<<MAINTENANCE>>';
 $metadata = '<<METADATA>>';
+$charset = '<<CHARSET>>';
 
 // So far, the effects of setting $testing to TRUE are:
 // (1) It prevents email messages from being sent. Instead, the site shows a
