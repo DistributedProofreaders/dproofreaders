@@ -39,18 +39,20 @@ include_once($relPath.'maybe_mail.inc');
 
 		join_proofed_text ($project, $fp);
 
+        // close the file
+        fclose ($fp);
+
+        //create zip copy of file
+        exec ("zip -j $projectpath/$project.zip $savepath");
+
         // Genereate Joing text file as TEI and a zip of it.
         $savepath = $projectpath."/".$project."_TEI".".txt";
         $fp = fopen($savepath, "w"); //open file for writing
 
                 join_proofed_text_tei ($project, $fp);
     
-echo "got this far";
     // close the file
         fclose ($fp);
-
-        //create zip copy of file
-        exec ("zip -j $projectpath/$project.zip $savepath");
 
         // Decide whether to send to post-processing or have user work on it.
 
