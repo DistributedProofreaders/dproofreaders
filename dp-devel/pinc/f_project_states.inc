@@ -1,6 +1,5 @@
 <?PHP
 include_once($relPath.'project_states.inc');
-include_once($relPath.'project_states_text.inc');
 
 function get_phase_containing_project_state($state)
 {
