@@ -9,7 +9,7 @@ theme('FAQ Central','header');
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.7, released May 27, 2004 </h3>
+<h3 align="right">Version 1.8, released August 17, 2004 </h3>
 
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
@@ -32,8 +32,8 @@ theme('FAQ Central','header');
 
   <dt><a href="summary.pdf">Handy Proofreading Guide</a>
 
-  <dd>(aka "Summary Guidelines") A printable two-page summary of the most commonly needed
-      proofreading standards from the Proofreading Guidelines, done as one big example!
+  <dd>(aka "Summary Guidelines") A printable (.pdf) two-page summary of the most commonly needed
+      proofreading standards from the Proofreading Guidelines, done as one big example! You may need to download and install a .pdf reader to print or view the summary. You can get one free from Adobe&reg; <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
 
   <dt><a href="document.php">Proofreading Guidelines</a>
   <dd>The full details of the guidelines we use for proofreading documents.
