@@ -337,16 +337,33 @@ function user_initialize_page_tally_history( $u_id )
 // Ensure that subsequent queries about the given (new) user's page-tally history
 // will find something.
 {
-    // member_stats.date_updated should only have midnight times,
-    // otherwise the code gets confused.
-    $now = getdate();
-    $midnight = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
+    // We'll be inserting a record into member_stats.
+    // The timestamp we use in that record should be the same as the most recent
+    // timestamp used by the periodic snapshot script (mbrstats.php). (If we
+    // use a more recent timestamp, we'll mislead the next run of that script.)
+
+    $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
+    $latest_time_in_table = mysql_result($result,0,0);
+
+    if (!is_null($latest_time_in_table))
+    {
+        $time_for_record = $latest_time_in_table;
+    }
+    else
+    {
+        // member_stats is empty.
+        // (This is presumably the very first user.)
+        // The choice of timestamp is arbitrary?
+        // Pick the most recent midnight.
+        $now = getdate();
+        $time_for_record = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
+    }
 
     $result = mysql_query("
         INSERT INTO member_stats
         SET
             u_id                 = $u_id,
-            date_updated         = $midnight,
+            date_updated         = $time_for_record,
             daily_pagescompleted = 0,
             total_pagescompleted = 0,
             rank                 = 0
