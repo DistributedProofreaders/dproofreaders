@@ -1,3 +1,7 @@
+<? // get bad page code
+      $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
+      $b_code = mysql_result($result, 0, "b_code");
+      ?>
 <A 
 HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left')"></A><A 
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A 
@@ -53,7 +57,7 @@ TYPE="image" name="button11" ID="button11" align="top" size="26" alt="Run Common
 */
 ?>&nbsp;<INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" align="top" size="26" alt="Save and Change Interface Layout" title="Save and Change Interface Layout" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" src="gfx/bt<?PHP if ($userP['i_layout']==1) {echo "5";} else {echo "4";} ?>.png">&nbsp;<INPUT 
-TYPE="image" accesskey="3" name="button7" ID="button7" align="top" size="26" alt="Return Page to Current Round" title="Return Page to Current Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));" src="gfx/bt15.png">&nbsp;<? if (($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) { echo "<INPUT TYPE='image' accesskey='4' name='button6' ID='button6' align='top' size='26' alt='Report Bad Page' title='Report Bad Page' onclick=\"return(confirm('Are you sure you want to \r\nreport this page as bad?'));\" src='gfx/bt14.png'>&nbsp;"; } ?><INPUT TYPE="image" accesskey="7" name="button1" ID="button1" align="top" size="26" alt="Save" title="Save" src="gfx/bt3.png">&nbsp;<?PHP 
+TYPE="image" accesskey="3" name="button7" ID="button7" align="top" size="26" alt="Return Page to Current Round" title="Return Page to Current Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));" src="gfx/bt15.png">&nbsp;<? if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo "<INPUT TYPE='image' accesskey='4' name='button6' ID='button6' align='top' size='26' alt='Report Bad Page' title='Report Bad Page' onclick=\"return(confirm('Are you sure you want to \r\nreport this page as bad?'));\" src='gfx/bt14.png'>&nbsp;"; } ?><INPUT TYPE="image" accesskey="7" name="button1" ID="button1" align="top" size="26" alt="Save" title="Save" src="gfx/bt3.png">&nbsp;<?PHP 
   if($npage['editone']==0)
   {
     echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" align=\"top\" size=\"26\" alt=\"Save and Proof Next Page\" title=\"Save and Proof Next Page\" src=\"gfx/bt2.png\">".'&nbsp;';
