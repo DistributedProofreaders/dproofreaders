@@ -166,27 +166,27 @@ R554715.
    Le Producteur de lait; guide du controle
      laitier et beurrier. Par Andre
      Max Leroy, Jacqueline Sentex &amp; Rodolphe
-     Stoeckel. © 21Feb46; AF1301. Andre
+     Stoeckel. &copy; 21Feb46; AF1301. Andre
      Max Leroy (A); 28Jun73; R554715.
 
 R554716.
    Kitchener, marechal de l'Empire
      britannique. By Leon Lemonnier.
-     © 14Mar46; AF1438. Madame Lemonnier,
+     &copy; 14Mar46; AF1438. Madame Lemonnier,
      nee Renee Legrand (W) &amp; Alice Lemonnier
      (C); 28Jun73; R554716.
 
 R554717.
    La France bourgeoise, dix huitieme-vingtieme
      siecles. Par Charles Moraze,
-     pref. de Lucien Febvre. © 8Apr46;
+     pref. de Lucien Febvre. &copy; 8Apr46;
      AF2001. Charles Moraze (A); 28Jun73;
      R554717.
 
 R554718.
    La Maison des deux pigeons. Par
      Andre DeLaTourrasse, illus. de
-     A. Pecoud. © 9May46; AF2304. Andre
+     A. Pecoud. &copy; 9May46; AF2304. Andre
      DeLaTourrasse (A); 28Jun73; R554718.
       </pre>
       </td>
