@@ -221,7 +221,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	// Always put the BEGIN projects at the top.
 	$query = "
 		SELECT *,
-			(username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
+			(difficulty = 'beginner') AS is_beginner,
 			round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
 		FROM projects, page_counts
 		WHERE
