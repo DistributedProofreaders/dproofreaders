@@ -84,6 +84,24 @@ function echoSelect($txt_array,$value_array,$select_value,$id,$extraTags,$return
   if ($return) {return $tag;} else {echo $tag;}
 }
 
+function fillSelectFromSQL($result,$txt_field,$value_field,$select_value,$id,$extraTags,$return)
+{
+  // use $value_field='num_seq' to create a numeric sequence of option values
+  $numRows=mysql_num_rows($result);
+  $txt_array=array();
+  $value_array=array();
+  for($i=0;$i<$numRows;$i++)
+    {
+    $row=mysql_fetch_assoc($result);
+    $txt_array[$i]=$row[$txt_field];
+    if($value_field=='num_seq')
+      {$value_array[$i]=$i;}
+    else 
+      {$value_array[$i]=$row[$value_field];}
+    }
+  echoSelect($txt_array,$value_array,$select_value,$id,$extraTags,$return);
+}
+
 function echoInputText($txt,$value,$size,$id,$extraTags,$return)
 {
   $tag="<input \r\ntype=\"text\"";
