@@ -97,6 +97,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 	$done = 0;
 	$newpagesreleased = 0;
 	$totalnewreleased = 0;
+	$numReleased = 0;
 
 	// if there's enough out there already, don't bother
 	if ($target < $released) return 0;
