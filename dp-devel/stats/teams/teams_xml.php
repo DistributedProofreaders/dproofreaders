@@ -48,7 +48,7 @@ $curTeam = mysql_fetch_assoc($result);
 	$bestDayCount = mysql_result($result, 0, "daily_page_count");
 	$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
 
-	$data .= "<teaminfo id=\"".$curTeam['id']."\">
+	$data = "<teaminfo id=\"".$curTeam['id']."\">
 			<teamname>".xmlencode($curTeam['teamname'])."</teamname>
 			<datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
 			<leader>".xmlencode($curTeam['createdby'])."</leader>
