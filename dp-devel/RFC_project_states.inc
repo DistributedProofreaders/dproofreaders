@@ -3,6 +3,7 @@
   PR=Pre Processing
   PP=Post Processing
   PI=Proofing (In/Interface/Interval)
+  PO=Posting
 */
 
 // for the initial creation of a project
@@ -74,6 +75,10 @@
   define("AVAIL_PI_FIRST","avail_1");
   define("AVAIL_PI_SECOND","avail_2");
 
+  // being proofread
+  define("EDITING_PI_FIRST","editing_1");
+  define("EDITING_PI_SECOND","editing_2");
+
   // proofing round complete, but needing verification
   define("VERIFY_PI_FIRST","verify_1");
   define("VERIFY_PI_SECOND","verify_2");
@@ -83,19 +88,19 @@
   define("COMPLETE_PI_SECOND","done_2");
 
 // PP
+// First "round" of post-processing is what is the current PP section
+// Second "round" of post-processing is where an advanced proofreader verifies a project before posting it
 
-  // old codes
-  define("AVAIL_PP", "62");
-  define("IN_PP", "65");
-  define("VERIFY_PP", "67");
-  define("VERIFYING_PP", "68");
-  define("COMPLETE_PP", "69");
-  // end old codes
+  define("UNAVAIL_PP_FIRST", "unavail_pp_1");
+  define("UNAVAIL_PP_SECOND", "unavail_pp_2");
 
-  // needs advanced markup (is optionally set by PM during PR and generates a 'round 3')
-  define("NEEDS_PP_AXML", "need_axml");
-  // there are a few steps missing here as it goes through an xml 'round'
-  define("COMPLETE_PP_AXML", "done_axml");
+  // problem found in PP
+  define("BAD_PP_FIRST", "bad_pp_1");
+  define("BAD_PP_SECOND", "bad_pp_2");
+
+  // available for post-processing
+  define("AVAIL_PP_FIRST", "avail_pp_1");
+  define("AVAIL_PP_SECOND", "avail_pp_1");
 
   // the manual melding to take care of paragraph breaks across pages, etc.
   define("READY_PP_MELD_TEXT", "verify_meld_txt");
@@ -109,13 +114,30 @@
   define("CHECKING_PP_TEXT", "check_txt");
   define("CHECKED_PP_TEXT", "checked_txt");
 
-  // more to come.... ?
+  // post-processing complete, but needing verificiation
+  define("VERIFY_PP_FIRST", "verify_pp_1");
+  define("VERIFY_PP_SECOND", "verify_pp_2");
+
+  // post-processing round complete and verified
+  define("COMPLETE_PP_FIRST", "done_pp_1");
+  define("COMPLETE_PP_SECOND", "done_pp_2");
 
   // TEI conversion
   define("READY_PP_TEI", "verify_create_tei");
   define("CREATING_PP_TEI", "creating_tei");
   define("CREATED_PP_TEI", "created_tei");
 
-  // submission stuff....
+// PO
+  // submission stuff
+
+  define("UNAVAIL_PO", "unavail_po");
+  define("AVAIL_PO", "avail_po");
+  define("BEING_PO", "being_posted");
+  define("POSTED_PROJECT", "posted");
+
+  // needs advanced markup (is optionally set by PM during PR and generates a 'round 3')
+  define("NEEDS_PP_AXML", "need_axml");
+  // there are a few steps missing here as it goes through an xml 'round'
+  define("COMPLETE_PP_AXML", "done_axml");
 
 ?>
