@@ -10,6 +10,9 @@ $site_dir = '<<SITE_DIR>>';
 $siteurl='';
 // This is the HTTP URL that resolves to the directory described above.
 
+$projects_dir = "$site_dir/projects";  // '<<PROJECTS_DIR>>';
+$projects_url = "$siteurl/projects";   // '<<PROJECTS_URL>>';
+
 $forums_url = "$siteurl/phpBB2"; // <<FORUMS_URL>>
 $reset_password_url = "$forums_url/profile.php?mode=sendpassword";
 
