@@ -14,7 +14,6 @@ class processpage
   var $imagefile='';
   var $pageround=NULL;
   var $prd=NULL;
-  var $initial_text='';
 
 function processpage()
 {
@@ -153,17 +152,23 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 
 function getText($pagestate,$saved,$revert)
 {
-  if ($this->pagestate==$this->prd->avail_state || $this->pagestate==$this->prd->out_state)
+  if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND)
   {
-    $this->initial_text=$this->prd->prevtext_column_name;
+    $wText = $this->prd->prevtext_column_name;
+  }
+  else if ($saved==1)
+  {
+    $wText = $this->prd->text_column_name;
+  }
+  else if ($this->pagestate==$this->prd->avail_state || $this->pagestate==$this->prd->out_state)
+  {
+    $wText = $this->prd->prevtext_column_name;
   }
   else
   {
-    $this->initial_text=$this->prd->text_column_name;
+    $wText = $this->prd->text_column_name;
   }
-  $wText=$this->initial_text;
-    if ($saved==1) {$wText=$this->prd->text_column_name;}
-    if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND) {$wText=$this->prd->prevtext_column_name;}
+
   $dbQuery="SELECT $wText FROM {$this->project} WHERE fileid = '{$this->fileid}' AND image='{$this->imagefile}'";
   $result = mysql_query($dbQuery);
   $myrow = mysql_fetch_row($result);
