@@ -233,10 +233,11 @@ href="<?PHP
     {echo "JavaScript:window.close();";}
 ?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"><img
 src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="<? echo _("Exit"); ?>" title="<? echo _("Exit"); ?>"></a></td></tr><tr><td
-valign="top" colspan="3" align="center"><?PHP
-include('ptags.inc');
-?>
-<br><? echo _("Proofreading Diagrams:"); ?> [<a href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
+valign="top" colspan="3" align="center">
+<?PHP include('ptags.inc'); ?>
+<br>
+<font size=-1>
+<? echo _("Proofreading Diagrams:"); ?> [<a href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
 </td>
