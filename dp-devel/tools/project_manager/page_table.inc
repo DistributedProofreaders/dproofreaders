@@ -89,7 +89,7 @@ function echo_page_table( $projectid )
 		$fileid = $page_res['fileid'];
 
 		if ($rownum % 2 ) {
-			$row_color = $theme['color_main_bg'];
+			$row_color = $theme['color_mainbody_bg'];
 		} else {
 			$row_color = $theme['color_navbar_bg'];
 		}
