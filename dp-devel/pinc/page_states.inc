@@ -22,4 +22,24 @@ define("TEMP_SECOND","temp_second"); // did not exist
 // save
 define("SAVE_FIRST","save_first"); // 9
 define("SAVE_SECOND","save_second"); // 19
+
+// -----------------------------------------------------------------------------
+
+$PAGE_STATES_IN_ORDER = array(
+    UNAVAIL_FIRST,
+    AVAIL_FIRST,
+    OUT_FIRST,
+    TEMP_FIRST,
+    SAVE_FIRST,
+    BAD_FIRST,
+
+    UNAVAIL_SECOND,
+    AVAIL_SECOND,
+    OUT_SECOND,
+    TEMP_SECOND,
+    SAVE_SECOND,
+    BAD_SECOND
+);
+
 ?>
+
