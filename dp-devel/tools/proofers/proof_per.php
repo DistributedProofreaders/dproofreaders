@@ -199,7 +199,7 @@ theme("Personal Page for $pguser", "header");
                 echo "".$rule['rule']."<br>";
                 echo _("See the ");
                 echo "<a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a>";
-                ehco _(" section of the ");
+                echo _(" section of the ");
                 echo "<a href='$code_url/faq/document.php'>";
 		echo _("Proofreading Guidelines");
                 echo "</a><br><br>";
