@@ -78,6 +78,11 @@ function echo_page_table(
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
+			if ($rn == $latest_round_num)
+			{
+				$n_cols_per_round++;
+			}
+
 			$round_label = sprintf( _("Round %d"), $rn );
 			echo "    <td align='center' colspan='$n_cols_per_round'>$round_label</td>\n";
 		}
@@ -120,6 +125,11 @@ function echo_page_table(
 			{
 				echo "{$td_start}"._("Clear")."{$td_end}";
 			}
+		}
+
+		if ($project_phase == 'PAGE_EDITING')
+		{
+			echo "{$td_start}"._("Edit")."{$td_end}";
 		}
 
 		if ($can_edit) echo "{$td_start}"._("Bad/Fix")."{$td_end}";
@@ -228,6 +238,7 @@ function echo_page_table(
 			$avail_pages.="$index,";
 
 		// --------------------------------------------
+		// Per-Round Info
 
 		if ($can_see_names_for_all_pages)
 		{
@@ -259,7 +270,27 @@ function echo_page_table(
 		// or else make them global, which I don't want to do.)
 
 		// --------------------------------------------
+		// Link to proofing interface
+		if ($project_phase == 'PAGE_EDITING')
+		{
+			if ($page_res[$project_prd->user_column_name] == $pguser)  
+			{
+				$url = "../proofers/proof_frame.php?";
+				$url .= "project=$projectid";
+				$url .= "&amp;fileid=$fileid";
+				$url .= "&amp;imagefile=$imagename";
+				$url .= "&amp;proofstate=$state";
+				$url .= "&amp;pagestate=$page_state";
+				$url .= "&amp;saved=1&amp;editone=1";
 
+				echo "<td><a href=$url>"._("Edit")."</a></td>\n";
+			}
+			else
+				echo "<td></td>";
+		}
+
+		// --------------------------------------------
+		// PM/Admin project editing
 		if ($can_edit) {
 
 			// Bad Page
