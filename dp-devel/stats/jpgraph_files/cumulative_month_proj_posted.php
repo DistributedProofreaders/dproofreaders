@@ -91,7 +91,7 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 $lplot1 = new LinePlot($datay1);
 $lplot1->SetColor("gold");
 $lplot1->SetWeight(1);
-$lplot1->SetLegend(_("Projects PPd"));
+$lplot1->SetLegend(_("Projects Posted"));
 
 // only add colour to the part we have data for
 $lplot1->AddArea(0,$mynumrows,LP_AREA_FILLED,"gold");
