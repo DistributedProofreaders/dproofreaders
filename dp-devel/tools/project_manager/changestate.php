@@ -96,7 +96,7 @@ include_once($relPath.'maybe_mail.inc');
             }
 	}
     }
-    else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY))
+    else if ($newstate == 'automodify')
     {
         // Allows a user to change a project to be checked, but should not be something they do.
 
