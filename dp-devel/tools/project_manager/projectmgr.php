@@ -14,6 +14,7 @@ theme("Project Managers", "header");
 	if ($userP['manager'] != "yes") {
 		echo "<P>You are not listed as a project manager. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
         	echo "<P>Back to <A HREF=\"../../default.php\">home page</A>";
+        	theme("","footer");
         	exit();
 	}
 
@@ -56,6 +57,7 @@ theme("Project Managers", "header");
 		if (($manager != $pguser) && ($userP['sitemanager'] != 'yes')) {
             		echo "<P>You are not listed as a project manager for this project. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
             		echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
+            		theme("","footer");
             		exit();
         	}
         	
