@@ -35,7 +35,7 @@ function showMbrProfile($curMbr) {
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Date Joined")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['date_created'])."&nbsp;($daysInExistenceString)</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Last Login")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['last_login'])."&nbsp;($daysSinceLogin)</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Total Pages")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($curMbr['pagescompleted'])." "._("pages")." (".pageCountPercentage($curMbr['pagescompleted'])._("% of total").")</font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Overall Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($rankArray['curMbrRank'])." "._("out of")." ".number_format($rankArray['totalRanks']).rankPosition($rankArray['curMbrRank'], $curMbr['u_id'], 0, $rankArray)."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Overall Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($rankArray['curMbrRank'])." "._("out of")." ".number_format($rankArray['totalRanks']).rankPosition($rankArray['curMbrRank'], $curMbr['u_id'])."</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Highest Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($highestRank)."&nbsp;<i>(".date("M. jS, Y", $highestRankDate).")</i>&nbsp;".showChangeInRank($highestRank, $rankArray['curMbrRank'])."</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Best Day Ever")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($bestDay['count'])." "._("pages")." <i>(".$bestDay['time'].")</i></font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Daily Average")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($daily_Average)." "._("pages")."</font></td></tr>";
@@ -150,18 +150,12 @@ function mbrRank($username) {
 	return $rankArray;
 }
 
-function rankPosition($rank, $u_id, $highestrank, $rankArray) {
+function rankPosition($rank, $u_id) {
 
-		if (empty($highestrank)) {
 			// $rank is current rank. Compare it to rank as of latest midnight.
 			$currentRank = $rank;
 			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
 			$prevRank = mysql_result($result, 0, "rank");
-		} else {
-			// $rank is highest rank achieved. Compare current rank to it.
-			$prevRank = $rank;
-			$currentRank = $rankArray['curMbrRank'];
-		}
 
 	return showChangeInRank($prevRank, $currentRank);
 }
@@ -238,7 +232,7 @@ function showMbrNeighbors($curMbr) {
 			$username_html = "Anonymous";
 			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
-		echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td>";
+		echo "<td width='15%'>$rank".rankPosition($rank, $u_id)."</td>";
 		echo "<td width='28%'>$username_html</td>";
 		echo "<td width='28%'>$day_html</td>";
 		echo "<td width='29%'>$pagescompleted</td>";
