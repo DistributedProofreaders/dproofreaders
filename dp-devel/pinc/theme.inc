@@ -169,9 +169,9 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'><a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'>". _("Inbox") . "</a>";
+	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("Inbox") ;
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
-	echo "</font>";
+	echo "</a></font>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Preferences") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
