@@ -26,6 +26,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	theme($header, "header");
 
 	$tb=$htmlC->startTable(0,0,0,1);
+	$tb2=$htmlC->startTable(0,"80%",'align="center"',1);
 	$tr=$htmlC->startTR(0,0,1);
 	$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
 	$td2=$htmlC->startTD(1,0,0,0,"left",0,0,1);
@@ -34,8 +35,8 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 	$td6=$htmlC->startTD(2,0,2,0,"left",0,0,1);
 
-	echo "<br><br>";
-	echo $tb.$tr.$td6;
+	echo "<br><br><center>";
+	echo $tb2.$tr.$td6;
 	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
 	echo "<ul>";
 	echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
