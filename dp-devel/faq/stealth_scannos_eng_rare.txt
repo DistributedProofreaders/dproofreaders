@@ -30,22 +30,29 @@ ABE	ARE
 Ac	she
 act	not
 ad	as
+advent me	adventure
 agate	again
 Agues	Agnes
+ah	an
 Airs.	Mrs.
 akin	skin
 alien	Allen
 alt	all
 an	on
 anal	and
+Anus	Arms
 aped	aged
 appeal	appear
+are	see
 at	as
 atone	alone
 Aura	down
+away	array
 back	bank
 bade	back
 baffle	battle
+ban	man
+banded	handed
 bands	hands
 Bat	But
 Bate	Rate
@@ -57,14 +64,20 @@ bean	been
 Bear	Rear
 beard	heard
 beast	heart
+became	because
+Been	seen
 BEEP	BEEF
 beer	been
 bees	been
 beet	beef
 beets	been
+begun	began
 bell	boll
 bell	hell
+Best	West
 bet	her
+BIG	FIG
+bill	hill
 BIND	END
 blackhead	blockhead
 blew	new
@@ -72,6 +85,7 @@ BO	so
 boarding	hoarding
 Boast	Roast
 boil	bolt
+Boobs	Books
 borne	house
 Borne	Rome
 borne	some
@@ -79,6 +93,7 @@ both	10th
 both	loth
 BOW	now
 bowler	howler
+brings	beings
 bum	burn
 BUMP	RUMP
 bunched	launched
@@ -86,6 +101,7 @@ bundled	hundred
 bur	our
 burred	burned
 car	or
+caress	express
 cars	ears
 case	cafe
 case	ease
@@ -108,8 +124,10 @@ coming	coining
 conies	comes
 cot	not
 covet	cover
+coveting	covering
 cow	now
 crave	gave
+Cue	fine
 cue	one
 cur	our
 curb	curls
@@ -120,6 +138,7 @@ detective	defective
 dialing	chiding
 did	old
 die	the
+Dine	Dime
 ding	wedding
 do	no
 dock	clock
@@ -127,6 +146,8 @@ doer	door
 dose	close
 doth	cloth
 dram	drain
+dram	drum
+Due	Dime
 dullest	chillest
 ears	years
 eases	cases
@@ -161,8 +182,8 @@ fending	lending
 fer	for
 fetter	letter
 few	for
-fie	He
 fie	he
+fie	He
 fight	right
 file	the
 fill	all
@@ -173,6 +194,8 @@ fine	line
 fines	lines
 fitting	filling
 flat	fiat
+flatfish	flattish
+flay	May
 flight	might
 flow	now
 flown	flows
@@ -183,6 +206,7 @@ fold	told
 font	but
 foot	floor
 From	Prom
+front	from
 fry	try
 ft	it
 gamed	gained
@@ -196,6 +220,7 @@ Go.	Co.
 got	get
 Grade	Gracie
 gram	grain
+groused	aroused
 gunning	sunning
 guru	gum
 ha	he
@@ -204,11 +229,15 @@ had	bad
 hag	has
 hail	had
 hall	half
+Halt	Walt
 hare	have
 he	be
 he	lie
+Header	Reader
 heal	heart
 hear	beer
+heir	her
+Heir	Herr
 her	he
 her	here
 here-marked	he remarked
@@ -220,7 +249,9 @@ hi	in
 hid	bid
 hie	his
 Hie	the
+hill	bill
 hind	bind
+hint	him
 Hiring	living
 Hiss	Miss
 hist	him
@@ -237,6 +268,7 @@ hot	loot
 hot	not
 hove	have
 hurting	noting
+Hushing	flushing
 I low	How
 I've	live
 Ice	lee
@@ -249,8 +281,9 @@ in.	iii.
 info	into
 inmate	inmates
 innocence	ignorance
-Iris	his
+ip	is
 iris	his
+Iris	his
 IS	13
 is	in
 It	fit
@@ -258,22 +291,27 @@ it	is
 j	;
 Jay	lay
 Jet	let
+jet	yet
 jowls	fowls
 Kills	Rifle
 know	knew
 la	in
 lace	face
 lad	had
+ladles	ladies
 laid	told
 lameness	tameness
+lancers	dancers
 lateral	later at
 laud	land
 Lie	Life
 lie	the
 lier	her
 lies	her
+life	he
 light	right
 lip	up
+lit	fit
 live	five
 lock	look
 lode	look
@@ -287,6 +325,7 @@ love	leave
 lye	bye
 mad	and
 mads	made
+mail	mall
 many	marry
 marry	many
 mast	must
@@ -304,8 +343,8 @@ Mile.	Mlle.
 Mine	came
 mined	ruined
 ml.	vol.
-Mm	him
 mm	him
+Mm	him
 mm	was
 Mock	Mode
 Molds	Fields
@@ -315,6 +354,8 @@ more	swore
 mot	not
 motors	motory
 mottling	morning
+mounded	wounded
+mow	now
 Mr	Mr.
 Mr,	Mr.
 Mrs	Mrs.
@@ -326,12 +367,15 @@ nay	day
 nay	may
 nay	my
 nest	next
+nice	hire
 Night	Eight
 no	so
 noire	more
 not	hot
 nourish	flourish
 nourished	flourished
+nun	man
+nuns	runs
 O	0
 oar	our
 oat	out
@@ -342,6 +386,7 @@ oil	off
 oil	oh
 oil	on
 OK	on
+One	Dime
 OP	OF
 OR	on
 OS	on
@@ -360,6 +405,7 @@ part	past
 paster	master
 peek	week
 pelted	petted
+Person	Poison
 persona	persons
 Piddles	Fiddles
 Pie	He
@@ -370,11 +416,13 @@ Prance	France
 prepaying	repaying
 present	presence
 Prom	From
+Punishing	Publishing
 qualifies	qualities
 ram	rain
 ramie	made
 ran	run
 ranch	much
+rate	me
 rations	decorations
 ratter	rather
 rattier	rather
@@ -382,6 +430,7 @@ Rattle	Battle
 react	read
 readied	reached
 rear	roar
+recreating	retreating
 relieve	believe
 religious	religions
 renting	resting
@@ -397,6 +446,8 @@ rose	nose
 rot	not
 ROW	now
 rue	me
+rum	ruin
+rum	run
 rustic	rustle
 Rut	But
 Sampson	Simpson
@@ -413,6 +464,7 @@ sire	are
 sit	sat
 site	she
 skew	shew
+skip	ship
 Slime	Shame
 slimmer	summer
 smite	smile
@@ -420,6 +472,7 @@ snake	make
 snakes	makes
 snore	more
 snort	short
+So	No
 soil	son
 soma	some
 Sometimes	Sometime
@@ -429,6 +482,7 @@ sow	now
 Spam	Spain
 stabs	stairs
 stealing	steading
+stop	step
 stowed	stewed
 sue	she
 Surd	Surely
@@ -460,6 +514,7 @@ thief	chief
 thorn	them
 those	chose
 those	these
+thrash	thrush
 thrown	through
 Tier	her
 tight	sight
@@ -492,6 +547,7 @@ tong	long
 took	look
 toots	boots
 top	too
+tor	for
 tor	her
 totter	latter
 tour	hour
@@ -515,6 +571,7 @@ vas	was
 vet	yet
 wafted	walked
 wag	was
+wails	walls
 wait	went
 wall	well
 war	was
@@ -532,5 +589,6 @@ wider	under
 winch	which
 wind	mind
 WOMBS	WOMEN
+Women	woman
 wore	more
 wore	were
