@@ -72,12 +72,12 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	}
 	elseif ( $order == 'DaysA' )
 	{
-		$orderclause = 'days_avail ASC, nameofwork ASC';
+		$orderclause = 'modifieddate ASC, nameofwork ASC';
 		$flip_days = TRUE;
 	}
 	elseif ( $order == 'DaysD' )
 	{
-		$orderclause = 'days_avail DESC, nameofwork ASC';
+		$orderclause = 'modifieddate DESC, nameofwork ASC';
 	}
 	else
 	{
