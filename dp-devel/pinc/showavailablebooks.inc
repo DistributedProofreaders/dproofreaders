@@ -14,6 +14,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'TitleD' )
 	{
 		$orderclause = 'nameofwork DESC';
+		$flip_title = TRUE;
 	}
 	elseif ( $order == 'AuthorA' )
 	{
@@ -22,6 +23,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'AuthorD' )
 	{
 		$orderclause = 'authorsname DESC, nameofwork ASC';
+		$flip_author = TRUE;
 	}
 	elseif ( $order == 'LangA' )
 	{
@@ -30,6 +32,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'LangD' )
 	{
 		$orderclause = 'language DESC, nameofwork ASC';
+		$flip_lang = TRUE;
 	}
 	elseif ( $order == 'GenreA' )
 	{
@@ -38,6 +41,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'GenreD' )
 	{
 		$orderclause = 'genre DESC, nameofwork ASC';
+		$flip_genre = TRUE;
 	}
 	elseif ( $order == 'PMA' )
 	{
@@ -46,6 +50,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'PMD' )
 	{
 		$orderclause = 'username DESC, nameofwork ASC';
+		$flip_PM = TRUE;
 	}
 	elseif ( $order == 'DaysA' )
 	{
@@ -54,6 +59,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'DaysD' )
 	{
 		$orderclause = 'days_avail DESC, nameofwork ASC';
+		$flip_days = TRUE;
 	}
 	else
 	{
@@ -77,6 +83,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				is_beginner DESC, "
 				. $orderclause."	
 		";
+		$linkbase = "<a href=proofer_per.php?orderR1=";
 	}
 	else if ( $round == 'second' )
 	{
@@ -93,25 +100,32 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				is_beginner DESC, "
 				.$orderclause."
 		";
+		$linkbase = "<a href=proofer_per.php?orderR2=";
 	}
 
 	$result = mysql_query($query);
 
 	echo "<tr align=center ".bgcol(1,$round).">";
+
 	$word = _("Title");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_title?"TitleA":"TitleD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Author");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_author?"AuthorA":"AuthorD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Language");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_lang?"LangA":"LangD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Genre");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_genre?"GenreA":"GenreD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Project Manager");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_PM?"PMA":"PMD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Available Pages");
 	echo "\n<td><b>$word</b></td>";
@@ -120,11 +134,10 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Days");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_days?"DaysA":"DaysD").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	echo "</tr>";
-
-
 
 	global $pageCountArray;
 	$numrows = mysql_num_rows($result);
