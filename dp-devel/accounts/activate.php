@@ -66,7 +66,8 @@ $sql = "INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone,
     VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
 $result = mysql_query($sql);
 
-// Add row to member_stats at registration to eliminate zero-day php/mysql errors on stats page (Task 472)
+// Initialize the user's page-tally history at registrationt time
+// to eliminate zero-day php/mysql errors on stats page (Task 472).
 // First we have to dig out the auto-incremented users.u_id that was just created.
 $sql = "SELECT u_id FROM users WHERE id='$ID'";
 $result = mysql_query($sql);
