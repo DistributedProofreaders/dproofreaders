@@ -212,7 +212,7 @@ function showForumProfile($username) {
 
 function showMbrPageStats( $curMbr )
 {
-	global $users_P_page_tallyboard;
+	$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
 
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
@@ -351,7 +351,7 @@ function showMbrTeams($curMbr) {
 		_("Active Members")
 	);
 
-	global $teams_P_page_tallyboard;
+	$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
 
 	list($joined_with_team_P_page_tallies,$team_P_page_tally_column) =
 		$teams_P_page_tallyboard->get_sql_joinery_for_current_tallies('id');
