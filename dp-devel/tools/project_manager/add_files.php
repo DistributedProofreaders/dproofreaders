@@ -24,10 +24,12 @@ else
 	$source_area = $uploads_dir;
 }
 
+$loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
+
 if ( $_GET['source_dir'] == '' )
 {
      //if they are uploading tpnv files then get them from /tpnv 
-     if ($_GET['tpnv'] =='1')
+     if ( $loading_tpnv )
      {
          $source_dir = "$projectid/tpnv";
          $source_area = $uploads_dir;
@@ -50,9 +52,9 @@ else
 	}
 }
 
-if (substr($source_dir, -4) == ".zip") {
+$isZipFile = (substr($source_dir, -4) == ".zip");
+if ($isZipFile) {
 	$source_dir = substr($source_dir, 0, strpos($source_dir, ".zip"));
-	$isZipFile = 1;
 }
 
 echo "<pre>\n";
@@ -60,7 +62,7 @@ echo "<pre>\n";
 $source_project_dir = "$source_area/$source_dir";
 
 //if they are uploading tpnv files then put them in /tpnv 
-if ($_GET['tpnv'] =='1')
+if ( $loading_tpnv )
 {
       $dest_project_dir = "$projects_dir/$projectid/tpnv";
              if (!file_exists($dest_project_dir)) { 
@@ -113,7 +115,7 @@ if ($source_project_dir != $dest_project_dir)
 	system("cp *.jpg $dest_project_dir");
 }
 
-if ($_GET['tpnv'] !='1')
+if ( ! $loading_tpnv )
 {
 $n_txt_files_found = 0;
 $n_rows_inserted = 0;
@@ -198,7 +200,7 @@ echo "$n_rows_inserted rows inserted into table.\n";
 }
 
 //if uploaded tpnv files set project to project_new_waiting_app
-if ($_GET['tpnv'] =='1')
+if ( $loading_tpnv )
 {
 $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
 }
