@@ -11,9 +11,10 @@ $faq_file=array(
 	"faq_central.php"=>TRUE,
 	"pm-faq.php"=>TRUE,
 	"post_proof.php"=>TRUE,
+	"ppv.php"=>TRUE,
 	"privacy.php"=>TRUE,
 	"scanfaq.php"=>TRUE,
-	"submitting.php"=>"abc",
+	"submitting.php"=>TRUE,
 );
 
 if($f=fopen("$dynstats_dir/faq_data.inc","w")) {
