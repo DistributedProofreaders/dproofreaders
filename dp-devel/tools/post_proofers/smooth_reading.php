@@ -29,7 +29,7 @@ if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 if ($logged_in) {
     // we show more columns when user is logged in, so we don't have room for the stats bar
     $no_stats = 1;
-    $tcolspan = 9;
+    $tcolspan = 10;
     $showPPersF = TRUE;
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
@@ -307,6 +307,11 @@ if ($logged_in) {
     // no point sorting by this link
     $word = _("More Info");
     echo "\n<td><b>$word</b></td>";
+
+    // difficult to sort by this link(?)
+    $word = _("Uploaded");
+    echo "\n<td><b>$word</b></td>";
+
 }
 
 $word = _("Total Pages");
@@ -376,7 +381,17 @@ while ($rownum2 < $numrows) {
             if ($logged_in) {
                 echo "\n<td>$pm</td>";
                 echo "\n<td><a href='$forums_url/privmsg.php?mode=post&u=".$book['user_id']."'>{$book['checkedoutby']}</a></td>";
-                echo "\n<td><a href='SR_info.php?project=$prid'>"._("Project Info and Upload")."</a>";
+                echo "\n<td><a href='SR_info.php?project=$prid'>"._("Project Info and Upload")."</a></td>";
+
+                global $projects_dir;
+                if ($done_files = glob("$projects_dir/$prid/*smooth_done_*.zip") ) {
+                   $num_done = count($done_files); 
+                } else {
+                   $num_done = 0;
+                }
+
+                echo "\n<td align=center>".$num_done."</td>";
+
             } 
 
             echo "\n<td align=center>{$book['total_pages']}</td>";
