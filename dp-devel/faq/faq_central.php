@@ -31,14 +31,14 @@
 </table>
 
 <dl compact>
-  <dt><a href="ProoferFAQ.html">Beginning Proofer's FAQ </a>
+  <dt><a href="ProoferFAQ.php">Beginning Proofer's FAQ </a>
   <dd>Introduction to the site, general overview, beginner's questions.
 
   <dt><a href="summary.pdf">Guidelines Summary</a>
   <dd>(aka "Handy Guide") A printable two-page summary of the most commonly needed
       proofing standards from the Document Guidelines, done as one big example!
 
-  <dt><a href="document.html">Document Guidelines</a>
+  <dt><a href="document.php">Document Guidelines</a>
   <dd>Details of the guidelines we use for proofing.
 
   <dt><a href="../phpBB2/faq.php">Forums FAQ</a>
@@ -50,20 +50,20 @@
   <dt> &nbsp;
   <dd> &nbsp;
 
-  <dt><a href="pm-faq.html">Project Manager's FAQ</a>
+  <dt><a href="pm-faq.php">Project Manager's FAQ</a>
   <dd>Information for new or aspiring Project Managers.  (Project Managers are people who
       manage the progress of a particular project ("book") through this site.)
 
-  <dt><a href="scan/submitting.htm">Submitting Material FAQ</a>
+  <dt><a href="scan/submitting.php">Submitting Material FAQ</a>
   <dd>Overview for people who want to contribute material to be proofed on this site.
 
-  <dt><a href="scan/scanfaq.htm">Scanning FAQ</a>
+  <dt><a href="scan/scanfaq.php">Scanning FAQ</a>
   <dd>Basic information on scanners and how to use them, based on our experiences.
 
   <dt> &nbsp;
   <dd> &nbsp;
 
-  <dt><a href="post_proof.html">Post-Proofing FAQ</a>
+  <dt><a href="post_proof.php">Post-Proofing FAQ</a>
   <dd>Information for new and aspiring Post-Proofers.  (Post-Proofers are people who do
       all the processing  of a particular project ("book") after it has been proofread
       on this site (combining all the pages, making them consistent, fixing problems,

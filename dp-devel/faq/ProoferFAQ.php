@@ -85,15 +85,15 @@ making a donation. Funding for the site comes entirely from Charles and the Proj
 Please contact Charles if you wish to make a donation.
 
 <p>
-You can also donate Public Domain books by shipping them to us for scanning (better if they do not need to be returned). You can also scan the books and send us the images (best if you need to keep the book). We would prefer it if you would clear the books first with Project Gutenberg before scanning and sending us the images. Please refer to the <a href="pm-faq.html">Project Managers FAQ</a> for more details on clearing and scanning books.<p> 
+You can also donate Public Domain books by shipping them to us for scanning (better if they do not need to be returned). You can also scan the books and send us the images (best if you need to keep the book). We would prefer it if you would clear the books first with Project Gutenberg before scanning and sending us the images. Please refer to the <a href="pm-faq.php">Project Managers FAQ</a> for more details on clearing and scanning books.<p> 
 
-A <a href="DPflow.html">Workflow Diagram</a> for the site shows the general flow of material into and out of the site.
+A <a href="DPflow.php">Workflow Diagram</a> for the site shows the general flow of material into and out of the site.
 
 <br><br>
 
 <a name="5"><b>5. How do I handle ...? </b></a><br><br>
 There are no set "Rules" enforced by Project Gutenberg, but in order to allow the distributed proofreading to work, we
-have written up our own <a href="document.html">Document Guidelines</a>. Please reference these and any project
+have written up our own <a href="document.php">Document Guidelines</a>. Please reference these and any project
 comments that a project manager may have provided. 
 The main goal is to preserve as much formatting as possible while making the etext readable on a computer. If you are a new proofreader 
 it can be helpful to start proofing 'second round' e-texts, this can help you 'learn the ropes' and give you an idea of the general techniques.

@@ -12,7 +12,7 @@
 <body>
 <h1>Distributed Proofreaders</h1>
 <a href="../../">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
- href="./submitting.htm">Scanning - Submitting Guidelines</a>
+ href="./submitting.php">Scanning - Submitting Guidelines</a>
 <hr> <a href="#1"><b>Do I <i>have</i> to use Abbyy Finereader?<br>
 </b></a> <a href="#2"><b>What kind of scanner should I get?<br>
 </b></a> <a href="#3"><b>Should I get a scanner with an automatic

@@ -23,6 +23,6 @@ Distributed Proofreaders Workflow
 <img SRC="DPflow.gif" height=461 width=640>
 
 <p>
-<a href ="ProoferFAQ.html">Back</a> to Proofreaders FAQ.
+<a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.
 </body>
 </html>

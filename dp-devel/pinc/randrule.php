@@ -26,7 +26,7 @@ function dpRandomRule () {
 
 <p>$rule[rule]</p>
 
-<p>See the <a href="$siteurl/faq/document.html#$rule[doc]">$rule[subject]</a> section of the <a href="$siteurl/faq/document.html">Document Guidelines</a></p>
+<p>See the <a href="$siteurl/faq/document.php#$rule[doc]">$rule[subject]</a> section of the <a href="$siteurl/faq/document.php">Document Guidelines</a></p>
 EOT;
 }
 ?>

@@ -121,7 +121,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
+	echo "<a href='$siteurl/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	echo "</form>\n";
 	} else {
@@ -132,7 +132,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
     	$numofPMs = mysql_fetch_row($result);
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
-	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
+	echo "<a href='$siteurl/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";

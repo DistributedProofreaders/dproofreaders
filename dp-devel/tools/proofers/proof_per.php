@@ -36,7 +36,7 @@ if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> project
 }
 ?>
 
-<p>Want to <a href="<? echo $siteurl ?>/faq/scan/submitting.htm">help out the site by providing material for us to proof</a>? Find out how!<br><br>
+<p>Want to <a href="<? echo $siteurl ?>/faq/scan/submitting.php">help out the site by providing material for us to proof</a>? Find out how!<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Random Rule</b></font><br>
 
@@ -48,7 +48,7 @@ if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> project
     	$rule = mysql_fetch_assoc($result);
     	echo "<i>".$rule['subject']."</i><br>";
     	echo "".$rule['rule']."<br><br>";
-    	echo "See the <a href='$siteurl/faq/document.html#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$siteurl/faq/document.html'>Document Guidelines</a><br><br>";
+    	echo "See the <a href='$siteurl/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$siteurl/faq/document.php'>Document Guidelines</a><br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 

@@ -231,7 +231,7 @@
 
 <h2>Advanced Proofing Questions</h2>
 <br>
-<p>This section contains information on the more complex aspects of post-proofing.  Most of these issues are also treated in the <a href="document.html">Document Guidelines</a> if you should need information on proper markup.</p>
+<p>This section contains information on the more complex aspects of post-proofing.  Most of these issues are also treated in the <a href="document.php">Document Guidelines</a> if you should need information on proper markup.</p>
 <br>
 <h3><a name="Footnotes">Footnotes</a></h3>
 <br>
@@ -334,7 +334,7 @@
 <br>
 <h4>How do I handle footnotes, etc. in Greek, Russian, or other texts with a non-Latin alphabet?</h4>
 
-<p>If possible, the text should be transcribed into the Latin alphabet.  It's not a lossless process, but it's the only way to preserve these snippets in ASCII.  Information of the transcription process is available in the <a href="document.html">Document Guidelines</a>.</p>
+<p>If possible, the text should be transcribed into the Latin alphabet.  It's not a lossless process, but it's the only way to preserve these snippets in ASCII.  Information of the transcription process is available in the <a href="document.php">Document Guidelines</a>.</p>
 
 <p>Many languages, like Arabic and Hebrew, are difficult to transcribe without an intimate knowledge of the language.  If your text contains snippet
  s of such a language and you don't have the knowledge to transcribe it yourself, try posting in the <a href="../phpBB2/viewforum.php?f=3">Forums</a> to find someone to team up with for transcription.</p>

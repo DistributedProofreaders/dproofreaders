@@ -154,7 +154,7 @@ If your scanner has an ADF (Automatic Document Feeder) you may wish to cut the p
 <p>
 <a name="3"><b>3. How do I become a Project Manager?</b></a><br><br>
     <blockquote>
-    <a href="mailto:charlz@lvcablemodem.com">Email Me</a>  and we'll talk :) You can also review the <a href="DPflow.html">Workflow Diagram</a> which gives an overview of how material moves through the site and what the PM's do.
+    <a href="mailto:charlz@lvcablemodem.com">Email Me</a>  and we'll talk :) You can also review the <a href="DPflow.php">Workflow Diagram</a> which gives an overview of how material moves through the site and what the PM's do.
     </blockquote>
 
 <p>

@@ -13,7 +13,7 @@
 <body>
 <h1>Distributed Proofreaders</h1>
 <p><a href="../../">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
- href="./scanfaq.htm">Scanning FAQ</a></p>
+ href="./scanfaq.php">Scanning FAQ</a></p>
 <p>Scanning, Preprocessing &amp; Submitting Guidelines </p>
 <hr size="3" width="100%" align="left">
 <p>So you've reached the rank of "Proofer Extraordinaire" and figured
@@ -26,7 +26,7 @@ Whatever the reason, sooner or later there comes a time when you
 ask:&nbsp;&nbsp;"Just how do I submit a text to Distributed Proofreaders
 anyway?" </p>
 <p>These Guidelines are here to try to help you through the process.</p>
-<hr size="3" width="100%" align="left"> <a href="./scanfaq.htm">Frequently
+<hr size="3" width="100%" align="left"> <a href="./scanfaq.php">Frequently
 asked Questions</a><br>
 <p><a href="#software">Useful &amp; Necessary Software</a><br>
 <a href="#what">What kinds of books do you want for Distributed
@@ -512,7 +512,7 @@ yourself. </p>
 <p>Wow! That was fun, let's do another! :-)</p>
 <p>Remember, after the text has made it through the site, then you get
 to do post-processing... See the <a
- href="../post_proof.html">Post-Processing
+ href="../post_proof.php">Post-Processing
 FAQ</a> for more details. </p>
 </body>
 </html>

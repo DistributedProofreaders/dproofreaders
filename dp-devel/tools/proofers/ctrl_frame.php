@@ -222,7 +222,7 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 
 ?></td><td 
 align="right" valign="top"><a 
-href="../../faq/prooffacehelp.html" accesskey="1" target="helpNewWin"><img 
+href="../../faq/prooffacehelp.php" accesskey="1" target="helpNewWin"><img 
 src="gfx/tags/help.png" width="18" height="18" border="0" align="top" alt="Help" title="Help"></a><a 
 href="<?PHP
   if($userP['i_newwin']==0)

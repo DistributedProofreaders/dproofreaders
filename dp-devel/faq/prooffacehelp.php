@@ -13,9 +13,9 @@ COLSPAN="2">
 <P><A HREF="#itags"><B>Tags and Extended Character Displays</B></A>
 <P><B>Additional Help Files</B>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.html">Proofer's Frequently Asked Questions</A>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofer's Frequently Asked Questions</A>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.html">Document Guidelines</A><P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Document Guidelines</A><P>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="#ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
