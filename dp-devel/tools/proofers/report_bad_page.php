@@ -43,7 +43,7 @@ echo "</td></tr></table></form></div></center></body></html>";
 } else {
 
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='".$userP['username']."', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
+$result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
 
 //Find out how many pages have been marked bad
 $totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'"));
@@ -82,10 +82,10 @@ mail($PMemail, $subject, $message, "From: no-reply@texts01.archive.org <no-reply
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
-  $frame1 = "proof_frame.php?project=$_POST['projectname']&amp;proofstate=$_POST['proofstate']";
+  $frame1 = "proof_frame.php?project={$_POST['projectname']}&amp;proofstate={$_POST['proofstate']}";
   metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
 } else {
-  $frame1 = "projects.php?project=$_POST['projectname']&amp;proofstate=$_POST['proofstate']";
+  $frame1 = "projects.php?project={$_POST['projectname']}&amp;proofstate={$_POST['proofstate']}";
   metarefresh(0,$frame1,'Quit Proofing','Exiting proofing interface....');
 }
 }
