@@ -499,7 +499,7 @@ theme('Proofreading Guidelines','header');
           COMMERCIAL PAPER.                                                          <br>
                                                                                      <br>
                                                                                      <br>
-          &lt;b&gt;Kinds and Uses&lt;/b&gt;.--If a man wishes to buy some commodity  <br>
+          &lt;b&gt;Kinds and Uses.&lt;/b&gt;--If a man wishes to buy some commodity  <br>
           from another but has not the money to pay for                              <br>
           it, he may secure what he wants by giving his written                      <br>
           promise to pay at some future time. This written                           <br>
@@ -630,7 +630,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr valign="top">
       <td width="100%" align="center"><img src="side.png" alt=""
-          width="900" height="1366"><br>
+          width="600" height="910"><br>
       </td>
     </tr>
     <tr valign="top">
@@ -812,7 +812,7 @@ theme('Proofreading Guidelines','header');
     post-processor.  </p>
 <p> If a footnote continues on the next page (the page ends before the footnote does),
     leave the footnote at the bottom of the page, and just put an asterisk <tt>*</tt>
-    where the footnote ends, like this: <tt>[Footnote:  text-text-text]*</tt>.  (The
+    where the footnote ends, like this: <tt>[Footnote 1:  text-text-text]*</tt>.  (The
     <tt>*</tt> indicates that the footnote ended prematurely, and brings it to the
     attention of the post-processor, who will eventually join it up with the rest of the
     footnote text.  </p>
@@ -1153,7 +1153,7 @@ And everywhere that Mary went
   </tbody>
 </table>
 
-<h3><a name="#next_word">Single word at bottom of page</a>  </h3>
+<h3><a name="next_word">Single word at bottom of page</a>  </h3>
 <p> In some old books, you will see a single word at the bottom of the page, usually
     printed near the right margin.  Delete this word.  Even if it's the last half of a
     hyphenated word, delete it.  (Don't join the word across pages, because the last
@@ -1498,14 +1498,14 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&atilde; </td><td>Alt-0227</td>
       <td align=center bgcolor=mistyrose>&auml;   </td><td>Alt-0228</td>
       <td align=center bgcolor=mistyrose>&aring;  </td><td>Alt-0229</td>
-      <td align=center bgcolor=mistyrose>&aelig;  </td><td>Alt-0230&nbsp;&dagger;</td>
+      <td align=center bgcolor=mistyrose>&aelig;  </td><td>Alt-0230</td>
   <tr><td align=center bgcolor=mistyrose>&Agrave; </td><td>Alt-0192</td>
       <td align=center bgcolor=mistyrose>&Aacute; </td><td>Alt-0193</td>
       <td align=center bgcolor=mistyrose>&Acirc;  </td><td>Alt-0194</td>
       <td align=center bgcolor=mistyrose>&Atilde; </td><td>Alt-0195</td>
       <td align=center bgcolor=mistyrose>&Auml;   </td><td>Alt-0196</td>
       <td align=center bgcolor=mistyrose>&Aring;  </td><td>Alt-0197</td>
-      <td align=center bgcolor=mistyrose>&AElig;  </td><td>Alt-0198&nbsp;&dagger;</td>
+      <td align=center bgcolor=mistyrose>&AElig;  </td><td>Alt-0198</td>
   <tr><td align=center bgcolor=mistyrose>&egrave; </td><td>Alt-0232</td>
       <td align=center bgcolor=mistyrose>&eacute; </td><td>Alt-0233</td>
       <td align=center bgcolor=mistyrose>&ecirc;  </td><td>Alt-0234</td>
@@ -1598,9 +1598,9 @@ image/text for an example.</p>
   </tbody>
 </table>
   &dagger;&nbsp;
-    Note that the ligatures &aelig; &amp; &AElig; (and even more so the &oelig; and
-    &OElig; ones) are becoming obsolete in English.  In most cases, the two individual
-    letters have replaced them.  (Thus &AElig;sop's Fables becomes Aesop's Fables.)
+    Note that the ligatures &oelig; and &OElig; are becoming obsolete in English.
+    In most cases, the two individual
+    letters have replaced them.  (Thus &OElig;dipus becomes Oedipus.)
     Check the <a href="#comments">Project Comments</a> to see if the Project Manager
     wants you to use the ligature, otherwise use the two individual letters.</p>
 <p> <b>For Apple Macintoshs</b>, there are also several ways to get these characters: </p>
@@ -1646,14 +1646,14 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&atilde; </td><td>Opt-n, a</td>
       <td align=center bgcolor=mistyrose>&auml;   </td><td>Opt-u, a</td>
       <td align=center bgcolor=mistyrose>&aring;  </td><td>Opt-a   </td>
-      <td align=center bgcolor=mistyrose>&aelig;  </td><td>Opt-' &nbsp;&dagger;</td>
+      <td align=center bgcolor=mistyrose>&aelig;  </td><td>Opt-'   </td>
   <tr><td align=center bgcolor=mistyrose>&Agrave; </td><td>Opt-~, A</td>
       <td align=center bgcolor=mistyrose>&Aacute; </td><td>Opt-e, A</td>
       <td align=center bgcolor=mistyrose>&Acirc;  </td><td>Opt-i, A</td>
       <td align=center bgcolor=mistyrose>&Atilde; </td><td>Opt-n, A</td>
       <td align=center bgcolor=mistyrose>&Auml;   </td><td>Opt-u, A</td>
       <td align=center bgcolor=mistyrose>&Aring;  </td><td>Opt-A   </td>
-      <td align=center bgcolor=mistyrose>&AElig;  </td><td>Opt-" &nbsp;&dagger;</td>
+      <td align=center bgcolor=mistyrose>&AElig;  </td><td>Opt-"   </td>
   <tr><td align=center bgcolor=mistyrose>&egrave; </td><td>Opt-~, e</td>
       <td align=center bgcolor=mistyrose>&eacute; </td><td>Opt-e, e</td>
       <td align=center bgcolor=mistyrose>&ecirc;  </td><td>Opt-i, e</td>
@@ -1940,17 +1940,19 @@ cedilla                      [,x]*  [x,]
     For sub-topic listings in an index, start each one on a new line, indented 2 spaces.
     For example:                <br>
       <tt>
-        &nbsp;&nbsp;Hooker, Jos., maj. gen. U. S. V.,                                 <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;assigned to command Porter's corps;                   <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;afterwards, McDowell's;                               <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;in pursuit of Lee;                                    <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;at South Mt.;                                         <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;unacceptable to Halleck, retires from active service. <br>
-        &nbsp;&nbsp;Hopkins, Henry H.,                                                <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;notorious secessionist in Kanawha valley;             <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;controversy with Gen. Cox over escaped slave.         <br>
-        &nbsp;&nbsp;Hosea, Lewis M.,                                                  <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;capt. on Gen. Wilson's staff,                         <br>
+        &nbsp;&nbsp;Hooker, Jos., maj. gen. U. S. V., 345.                                 <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;assigned to command Porter's corps; 350.                   <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;afterwards, McDowell's; 367.                               <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;in pursuit of Lee; 380.                                    <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;at South Mt.; 382.                                         <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;unacceptable to Halleck, retires from active service. 390. <br>
+                                                                                           <br>
+        &nbsp;&nbsp;Hopkins, Henry H., 209.                                                <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;notorious secessionist in Kanawha valley; 217.             <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;controversy with Gen. Cox over escaped slave. 233.         <br>
+                                                                                           <br>
+        &nbsp;&nbsp;Hosea, Lewis M., 187.                                                  <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.                         <br>
       </tt>
 </p>
 <p>
