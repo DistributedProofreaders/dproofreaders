@@ -9,14 +9,6 @@ theme('Beginning Proofers\' FAQ','header');
 ?>
 
 <!--
-Need to decide what to do about the 6 places that give an email address.
-  - create several generic DP emails, forwarded to people?
-  - create standard threads in the forums, and link to those?
-  - something else?
-
-Also, fix section 4 -- too much detail about PM duties.
-
-Also, fix section 6 -- add more people that they may want to contact.
         -->
 
   <style TYPE="text/css">
@@ -26,15 +18,14 @@ Also, fix section 6 -- add more people that they may want to contact.
   </style>
 
 <h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
-<h3 align="right">Version 1.5, released June 19, 2003 </h3>
+<h3 align="right">Version 1.6, released April 16, 2004 </h3>
 
 <p> The purpose of this FAQ is to provide answers to common questions that new people
     joining us at the Distributed Proofreaders web site have asked.
     Obviously not all questions can be included here.  If you don't find an answer here,
     you can look in our
     <a href="faq_central.php">other documentation
-    pages</a> or email us at <a href="mailto:charlz@lvcablemodem.com">Charles
-    Franks</a>.
+    pages</a> or email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>.
 </p>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
@@ -93,13 +84,13 @@ different pages.  This will significantly speed up the proofreading process.
       another page to proofread or quit for the day.
   <br>Note that, <i>at the same time</i>, others will be working on other pages from
       this book, or from different books.  Each proofreader does just a bit (we suggest
-      "a page a day"), but working together we can get a lot of books done! [In 2003, we
-      average 250-300 proofreaders participating each day from countries all over the
-      world, and we finish 2500-3000 pages per day. That's about 2 pages every minute of
+      "a page a day"), but working together we can get a lot of books done! [In 2004, we
+      average 300-400 proofreaders participating each day from countries all over the
+      world, and we finish 4000-7000 pages per day. That's about 4 pages every minute of
       every day!]
   <li>The site stores that proofed page in our database for the next round.  (Each book
       goes through two rounds of proofreading, to try to catch all errors in the text.)
-  <li>When all the pages in a book have been proofread, a "post-proofer" does the
+  <li>When all the pages in a book have been proofread, a "post-processor" does the
       finishing work of getting this book ready: combining all the pages into one big
       file, making sure the markings are consistent, etc., and one last check for
       errors.
@@ -121,10 +112,10 @@ different pages.  This will significantly speed up the proofreading process.
     href="http://www.gutenberg.net/history.html">www.gutenberg.net/history.html</a></p>
 
 <h3><a name="3">3. Why do we pick the books that we do? </a></h3>
-<p> The Project Managers (mostly Charles) pick whatever books we can find. Due to US
+<p> The Project Managers pick whatever books we can find. Due to US
     copyright laws, we are severely limited in the books we are allowed to work with. We
     go to Used & Rare bookshops and scour the Internet websites &amp; auctions.
-    Sometimes we check out rare books from libraries and scan them.  We try to find
+    We check out rare books from libraries and scan them.  We obtain page images from other archive sites. We try to find
     books that we think people would enjoy reading and that we can find at an acceptable
     price.  </p>
 
@@ -137,7 +128,7 @@ different pages.  This will significantly speed up the proofreading process.
 <p> In summary, <i>we do whatever books people provide to us (that we legally can).</i>
     If you have a book that you would like to see done (and it is copyright cleared)
     we can probably do it (with your help).
-    Contact us at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>.
+    Contact us at <a href="mailto:dphelp@pgdp.net">DP Help</a>.
     or see the
     <a href="<? echo $forums_url ?>/viewforum.php?f=9">
     "Content Providers" Forum</a>. </p>
@@ -146,25 +137,20 @@ different pages.  This will significantly speed up the proofreading process.
 <p> The process of creating an etext is a long one.
 <br>Distributed Proofreaders was set up to make that go faster, by letting you help the
     Project Managers by proofreading pages in their books. If you have not already done
-    so, click on the "Create" link and make an account. This enables you to select an
+    so, click on the "Register" link and make an account. This enables you to select an
     available book and <b>proofread a few pages</b>.  We encourage people to try to do
     at least "a page a day", but any work done is greatly appreciated and goes a long
     way toward assisting in creating etexts.  This is the way most people help.  </p>
 
-<p> If you really catch Gutenberg fever, you may want to <b>become a Project Manager</b>.
+<p> If you really catch Distributed Proofreading fever, you may want to <b>become a Project Manager</b>.
     Project managers mainly shepherd a project ("book") through the uploading,
-    proofreading and post-proofing processes on this website. Sometimes they do most of
+    proofreading and post-processing processes on this website. Sometimes they do most of
     the tasks themselves; sometimes they coordinate others who are working on the tasks.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    If you think that being a Project Manager is for you, start by learning all you can
-    about Project Gutenberg. Go to the main site <a
-    href="http://www.gutenberg.net">www.gutenberg.net</a> and read all you can.
-    Subscribe to the PG mailing list and listen in for a while. Proofread pages from
-    several books here so you can get the feel for the process. Try to find a source, or
-    sources, for candidate books. Read the <a href="
+    If you think that being a Project Manager is for you, Read the <a href="
     pm-faq.php">Project Manager's FAQ</a>.  (We do
     have experienced Project Managers who will mentor you in this process.) When you
-    feel ready, contact us at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>. </p>
+    feel ready, contact us at <a href="mailto:dphelp@pgdp.net">DP Help</a>. </p>
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
       <input type="hidden" name="cmd" value="_xclick">
@@ -201,7 +187,7 @@ different pages.  This will significantly speed up the proofreading process.
            <li>Upload the page image files and OCR'd text files to the DP website.
         </ol>
       <li><b>Project Manager</b>.  See discussion above.
-      <li><b>Post Proofer</b>.  Does all the finishing work to take a project from a set
+      <li><b>Post Processor</b>.  Does all the finishing work to take a project from a set
           of proofread pages into a combined etext file suitable for adding to the
           Project Gutenberg archive.  Combines all the pages into one big file, deals
           with words or paragraphs split across pages, moves footnotes &amp; sidenotes
@@ -212,7 +198,7 @@ different pages.  This will significantly speed up the proofreading process.
           maintaining and improving this website. Programmers (PHP, mySQL and some Java
           Script) who can work on the website software, beta testers to check out new
           versions, document writers to help with our documentation are all needed.
-          Contact <a href="mailto:jgruber@tampabay.rr.com">Joseph Gruber</a> if you
+          Contact <a href="mailto:dphelp@pgdp.net">DP Help</a> if you
           you would like to help with any of these tasks.
     </ul>
 <p> You can do any of these entirely on your own, or you can work together with others to
@@ -246,8 +232,7 @@ different pages.  This will significantly speed up the proofreading process.
   <li>about problems in getting the proofing website to work:
 </ul>
 -->
-<p> You can email Charles at: <a href="mailto:charlz@lvcablemodem.com">Charles
-    Franks</a><br> Other Project Managers can be reached by clicking on their name on
+<p> You can email DP Help at: <a href="mailto:dphelp@pgdp.net">DP Help</a><br> Other Project Managers can be reached by clicking on their name on
     the Projects page. Each project has a link to the Project Manager in charge of it.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     Also, the "Discuss this book" link on the opening page where you start proofing the
@@ -256,28 +241,8 @@ different pages.  This will significantly speed up the proofreading process.
     proofing issue in the book.  </p>
 
 <h3><a name="7">7. What is the entire process for creating an etext?  </a></h3>
-<p> Here's a blow by blow list of the steps taken by a Project Manager when creating an
-    etext:
 
-<ol type="a">
-  <li>Locate a candidate book, checking against <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>.
-  <li>Send the copyright information to Michael Hart to make certain it is legal to do the book.
-  <li>When we get the clearance info back, we send this to Charles at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>
-  <li>Now we make digital images of the pages using a scanner.
-  <li>Next, we feed these images to an OCR program that turns them into text.
-  <li>We then feed this text to other pre-processing programs to fix the things left by
-      the OCR programs (like chapter headings, paragraph indention, paragraph separation, etc).
-  <li>Now we create a project using the Project Manager's web page.
-  <li>We upload the images and text to the web site, and make them available to proofreaders.
-  <li>Proofreaders come to the site and proofread pages of the text, fixing them to match the page images.
-  <li>Second-round proofreaders proof the pages of the text again, to catch anything missed in the first-round.
-  <li>The post-proofer downloads all the pages, and stitches them together into one file.
-  <li>The post-proofer checks this proofed copy and fixes anything left, using special programs designed to assist with this.
-  <li>The final copy is sent back to Charles who checks it again and then sends it on to Project Gutenberg.
-  <li>Other Gutenberg volunteers check it again and add it to the PG archive, notifying us when it becomes available.
-</ol>
-
-<p> As you can see, a book follows a long road to become an etext. These steps are
+<p> A book follows a long road to become an etext. These steps are
     covered in more detail in the
     <a href="pm-faq.php">Project Manager's FAQ</a>.
 <p> This <a href="DPflow.php">Workflow Diagram</a>
@@ -310,13 +275,13 @@ different pages.  This will significantly speed up the proofreading process.
     something correctly, leave a note in the Project Forum for that book (reached from
     the opening page where you started proofing -- click on "Discuss this Project").
     Give the number of the page you were on (if you remember) and what you did. This
-    lets the second round proofreader or the post-proofer fix it if it was not correct.
+    lets the second round proofreader or the post-processor fix it if it was not correct.
     </p>
 
 <p> Remember that all your proofed pages will be proofed again in the 'second round' of
     proofreading.  Few mistakes make it by both proofreaders undetected!  <i>So just do
     your best and don't worry.</i>  (Second-round proofing is limited to 'experienced'
-    first-round proofers [those who've proofed over 100 pages].) </p>
+    first-round proofers [those who've proofed over 50 pages].) </p>
 
 <p> Also, feel free to leave short notes in the pages as you do them, just make certain
     to mark them with an asterisk so that the next proofer can find them.  Like this: <br>
@@ -372,6 +337,7 @@ different pages.  This will significantly speed up the proofreading process.
 
 <hr align="center" width="66%">
 <h4>Revision History of this Document</h4>
+       04/16/2004 -- Version 1.6: Major changes by pourlean - removed all personal email addresses.
        06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
    <br>10/27/2002 -- updated version produced by Charles Franks.
    <br>10/16/2001 -- original version of this document produced by Robert Rowe.
