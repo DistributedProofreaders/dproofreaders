@@ -1,5 +1,31 @@
-<html><head><title>Login form</title></head><body bgcolor=#ffffff><center><form action="login.php" method="post"><table border=1>
-<tr><td bgcolor=#CCCCCC><strong>Username</strong></td><td><input type="text" name="username" size=10 maxsize=50></td></tr>
-<tr><td bgcolor=#CCCCCC><strong>Password</strong></td><td><input type="password" name="password" size=10 maxsize=50></td></tr>
-<tr><td colspan=2 align=center><input type="submit" value="Auth me"></td></tr>
-<tr><td colspan=2><B>Note:</B>Username/Password are case sensitive. Make sure your caps lock is not on.</td></tr></table></center></form></body></html>
+<?PHP
+$relPath="./../pinc/";
+include($relPath.'html_main.inc');
+$htmlC->startHeader("Login Form");
+$htmlC->startBody(1,0);
+echo '<FORM ACTION="login.php" METHOD="POST">';
+$htmlC->startTable(0,0);
+$htmlC->startTR(0,0);
+$htmlC->startTD(2,0,2,0,"center",0,0);
+echo '<B>Sign in to Distributed Proofreaders</B>';
+$htmlC->startTR(0,0);
+$htmlC->startTD(1,0,0,0,"center",0,0);
+echo '<STRONG>Username</STRONG>';
+$htmlC->startTD(0,0,0,0,"center",0,0);
+echo '<INPUT TYPE="text" NAME="userNM" SIZE="12" MAXSIZE="50">';
+$htmlC->startTR(0,0);
+$htmlC->startTD(1,0,0,0,"center",0,0);
+echo '<STRONG>Password</STRONG>';
+$htmlC->startTD(0,0,0,0,"center",0,0);
+echo '<INPUT TYPE="password" NAME="userPW" SIZE="12" MAXSIZE="50">';
+$htmlC->startTR(0,0);
+$htmlC->startTD(2,0,2,0,"center",0,0);
+echo '<INPUT TYPE="submit" VALUE="Auth me">';
+$htmlC->startTR(0,0);
+$htmlC->startTD(0,0,2,0,"center",0,0);
+echo '<B>Note:</B>Username/Password are case sensitive.<BR>Make sure your caps lock is not on.';
+$htmlC->startTR(0,0);
+$htmlC->startTD(1,0,2,0,"center",0,0);
+echo '<A HREF="addproofer.php"><B>New User?</B></A>';
+$htmlC->endHTML();
+?>
