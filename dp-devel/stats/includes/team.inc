@@ -137,10 +137,13 @@ function showTeamProfile($curTeam) {
 	);
 
 	$webpage = $curTeam['webpage'];
-	$topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
 	$t->row(
 		"<b>" . _("Website") . "</b>: <a href='$webpage' target='_new'>$webpage</a>"
-		. "<br><b>" . _("Forums") . "</b>: <a href='$topic_url'>"._("Team Discussion")."</a> "
+	);
+
+	$topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
+	$t->row(
+		"<b>" . _("Forums") . "</b>: <a href='$topic_url'>"._("Team Discussion")."</a> "
 		. ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
 	);
 
