@@ -1,6 +1,6 @@
 <?php
-$relPath = '../pinc/';
-include('./../../stats/statestats.inc');
+include_once($relPath.'v_site.inc');
+include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
 
 echo "<center>";
@@ -33,8 +33,8 @@ $created = state_change_since ( "
 echo _("Projects Created")." $descrip: <b>$created</b><br>";
 
 $FinProof = state_change_since ( "
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
+				(state LIKE 'proj_submit%'
+				OR state LIKE 'proj_correct%'
 				OR state LIKE 'proj_post%')
 			",$start_date);
 
@@ -44,8 +44,8 @@ echo _("Projects Proofread")." $descrip: <b>$FinProof</b> <br>";
 
 
 $FinPP = state_change_since ( "
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
+				(state LIKE 'proj_submit%'
+				OR state LIKE 'proj_correct%'
 				OR state LIKE 'proj_post_second%')
 	",$start_date);
 
