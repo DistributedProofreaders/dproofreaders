@@ -18,6 +18,7 @@ define('PROJECT_COMMENTS',            'M');
 define('REFRESH_IMAGE',               'N');
 define('REVERT_TO_LAST_SAVE_DISABLED','O');
 define('SHOW_ALL_TEXT',               'P');
+define('CONVERT_UTF8',                'R');
 
 function echo_button( $button_id, $which_interface )
 {
@@ -177,6 +178,14 @@ function echo_button( $button_id, $which_interface )
 				$label      => _("Spell Check"),
 				'title'     => _("Run Spelling Check"),
 				'src'       => "gfx/bt16.png",
+			);
+			break;
+		case CONVERT_UTF8:
+			$attrs = array(
+				'name'=>"button12",
+				$label=>"Convert",
+				'title'=>"Convert text codes to UTF-8",
+				'src'=>"gfx/bt19.png",
 			);
 			break;
 	}
