@@ -152,14 +152,13 @@ function mbrRank($username) {
 
 function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 
-	if (!empty($rank)) {
 		if (empty($highestrank)) {
 			// $rank is current rank. Compare it to rank as of latest midnight.
 			$currentRank = $rank;
 			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
 			$prevRank = mysql_result($result, 0, "rank");
 
-			if (empty($prevRank)) {
+			if (empty($currentRank) || empty($prevRank)) {
 				$rankPos = "&nbsp;";
 			} elseif ($prevRank > $currentRank) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
@@ -173,7 +172,7 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 			$prevRank = $rank;
 			$currentRank = $rankArray['curMbrRank'];
 
-			if (empty($currentRank)) {
+			if (empty($currentRank) || empty($prevRank)) {
 				$rankPos = "&nbsp;";
 			} elseif ($currentRank > $prevRank) {
 				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
@@ -183,9 +182,6 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 				$rankPos = "&nbsp;";
 			}
 		}
-	} else {
-		$rankPos = "&nbsp;";
-	}
 
 	return $rankPos;
 }
