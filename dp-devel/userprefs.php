@@ -77,6 +77,8 @@ $td2=$htmlC->startTD(1,0,0,0,"right",0,0,1);
 $td3=$htmlC->startTD(0,0,0,0,"left",0,0,1);
 $td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
 $td5=$htmlC->startTD(0,0,4,0,"center",0,0,1);
+$tde=$htmlC->closeTD(1);
+$tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 
 $result=mysql_query("SELECT * FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
@@ -86,200 +88,188 @@ echo "<form action='userprefs.php' method='post'>";
 echo $tb;
 echo $tr.$td1;
 
-echo "<font size=+2><b>Preferences Page for $pguser</b></font></td></tr>";
+echo "<font size=\"+2\"><b>Preferences Page for $pguser</b></font>";
 
-echo $tr.$td2;
-echo "<strong>Current Profile:</strong></td>";
-echo $td3;
-echo "<input type='text' name='profilename' value='{$userP['profilename']}'></td>";
-echo $td1a;
+echo $tre.$tr.$td2;
+echo "<strong>Current Profile:</strong>";
+echo $tde.$td3;
+echo "<input type='text' name='profilename' value='{$userP['profilename']}'>";
+echo $tde.$td1a;
 // show all profiles
 echo "<select name='c_profile' ID='c_profile'>";
   for ($i=0;$i<$pf_num;$i++)
   {
     $pf_Dex=mysql_result($pf_query,$i,'id');
     $pf_Val=mysql_result($pf_query,$i,'profilename');
-    echo "<option value='$pf_Dex'";
+    echo "<option value=\"$pf_Dex\"";
     if ($pf_Dex == $userP['u_profile']) { echo " SELECTED"; }
     echo ">$pf_Val</option>";
   }
 echo "</select>";
 
 //dropdown_select('c_profile', $userP['u_profile'], implode('|',$pf_arr));
-echo " <input type='submit' value='Switch Profiles' name='swProfile'> &nbsp;".
-"</td></tr>";
+echo " <input type=\"submit\" value=\"Switch Profiles\" name=\"swProfile\"> &nbsp;";
 
-echo $tr.$td2;
-echo "<strong>Name:</strong></td>";
-echo $td3;
-echo "<input type='text' name='real_name' value='$real_name'></td>";
-echo $td2;
-echo "<strong>Screen Resolution:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Name:</strong>";
+echo $tde.$td3;
+echo "<input type='text' name='real_name' value='$real_name'>";
+echo $tde.$td2;
+echo "<strong>Screen Resolution:</strong>";
+echo $tde.$td3;
 $array = implode('|', $i_r);
 dropdown_select('i_res', $userP['i_res'], $array);
 
-echo "</td></tr>".$tr.$td2;
+echo $tre.$tr.$td2;
 echo "<strong>Email:</strong>";
-echo $td3;
+echo $tde.$td3;
 echo "<input type='text' name='email' value='$email'>";
-echo $td2;
+echo $tde.$td2;
 echo "<strong>Interface Type:</strong>";
-echo $td3;
+echo $tde.$td3;
 radio_select('i_type', $userP['i_type'], 0, 'Standard');
 radio_select('i_type', $userP['i_type'], 1, 'Enhanced');
 
-echo "</td></tr>".$tr.$td2;
-echo "<strong>Email Updates:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Email Updates:</strong>";
+echo $tde.$td3;
 radio_select('email_updates', $userP['email_updates'], '1', 'Yes');
 radio_select('email_updates', $userP['email_updates'], '0', 'No');
-echo "</td>".$td2;
+echo $tde.$td2;
 echo "<strong>Interface Layout:</strong>";
-echo $td3;
+echo $tde.$td3;
 radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt5.png" width="26" alt="Horizontal">');
 radio_select('i_layout', $userP['i_layout'], 1, '<img src="tools/proofers/gfx/bt4.png" width="26" alt="Vertical">');
 
-echo "</td></tr>".$tr.$td2;
-echo "<strong>Show Projects From:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Show Projects From:</strong>";
+echo $tde.$td3;
 $array = implode('|', $p_l);
 dropdown_select('u_plist', $userP['u_plist'], $array);
-echo "</td>".$td2;
-echo "<strong>Launch in New Window:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Launch in New Window:</strong>";
+echo $tde.$td3;
 radio_select('i_newwin', $userP['i_newwin'], 1, 'Yes');
 radio_select('i_newwin', $userP['i_newwin'], 0, 'No');
 
-echo "</td></tr>".$tr.$td2;
-echo "<strong>Language:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Language:</strong>";
+echo $tde.$td3;
 $array = implode('|', $u_l);
 dropdown_select('u_lang', $userP['u_lang'], $array);
-echo "</td>".$td2;
+echo $tde.$td2;
 echo "<strong>Show Toolbar:</strong>";
-echo $td3;
+echo $tde.$td3;
 radio_select('i_toolbar', $userP['i_toolbar'], 1, 'Yes');
 radio_select('i_toolbar', $userP['i_toolbar'], 0, 'No');
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Password:</strong></td>";
-echo $td3;
-echo "<a href='http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword'>Reset Password</a></td>";
-echo $td2;
-echo "<strong>Show Statusbar:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Password:</strong>";
+echo $tde.$td3;
+echo "<a href='http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword'>Reset Password</a>";
+echo $tde.$td2;
+echo "<strong>Show Statusbar:</strong>";
+echo $tde.$td3;
 radio_select('i_statusbar', $userP['i_statusbar'], 1, 'Yes');
 radio_select('i_statusbar', $userP['i_statusbar'], 0, 'No');
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Show Rank Neighbors:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Show Rank Neighbors:</strong>";
+echo $tde.$td3;
 $array = implode('|', $u_n);
 dropdown_select('u_neigh', $userP['u_neigh'], $array);
-echo "</td>".$td2;
-echo "<strong>Show Top 10:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Show Top 10:</strong>";
+echo $tde.$td3;
 radio_select('u_top10', $userP['u_top10'], 1, 'Yes');
 radio_select('u_top10', $userP['u_top10'], 0, 'No');
-echo "</td></tr>";
 
-echo $tr.$td4;
-echo "<img src='tools/proofers/gfx/bt4.png'><b>Vertical Interface Preferences</b></td>";
-echo $td4;
+echo $tre.$tr.$td4;
+echo "<img src='tools/proofers/gfx/bt4.png'><b>Vertical Interface Preferences</b>";
+echo $tde.$td4;
 echo "<img src='tools/proofers/gfx/bt5.png'><b>Horizontal Interface Preferences</b>";
 
-echo "</td></tr>".$tr.$td2;
-echo "<strong>Font Face:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Font Face:</strong>";
+echo $tde.$td3;
 $array = implode('|', $f_f);
 dropdown_select('v_fntf', $userP['v_fntf'], $array);
-echo "</td>".$td2;
-echo "<strong>Font Face:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Font Face:</strong>";
+echo $tde.$td3;
 $array = implode('|', $f_f);
 dropdown_select('h_fntf', $userP['h_fntf'], $array);
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Font Size:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Font Size:</strong>";
+echo $tde.$td3;
 $array = implode('|', $f_s);
 dropdown_select('v_fnts', $userP['v_fnts'], $array);
-echo "</td>".$td2;
-echo "<strong>Font Size:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Font Size:</strong>";
+echo $tde.$td3;
 $array = implode('|', $f_s);
 dropdown_select('h_fnts', $userP['h_fnts'], $array);
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Image Zoom:</strong></td>";
-echo $td3;
-echo "<input type=\"text\" name=\"v_zoom\" value=\"{$userP['v_zoom']}\" size=\"3\">% of 1000 pixels</td>";
-echo $td2;
-echo "<strong>Image Zoom:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Image Zoom:</strong>";
+echo $tde.$td3;
+echo "<input type=\"text\" name=\"v_zoom\" value=\"{$userP['v_zoom']}\" size=\"3\">% of 1000 pixels";
+echo $tde.$td2;
+echo "<strong>Image Zoom:</strong>";
+echo $tde.$td3;
 echo "<input type=\"text\" name=\"h_zoom\" value=\"{$userP['h_zoom']}\" size=\"3\">% of 1000 pixels";
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Text Frame Size:</strong></td>";
-echo $td3;
-echo "<input type=\"text\" name=\"v_tframe\" value=\"{$userP['v_tframe']}\" size=\"3\">% of browser width</td>";
-echo $td2;
-echo "<strong>Text Frame Size:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Text Frame Size:</strong>";
+echo $tde.$td3;
+echo "<input type=\"text\" name=\"v_tframe\" value=\"{$userP['v_tframe']}\" size=\"3\">% of browser width";
+echo $tde.$td2;
+echo "<strong>Text Frame Size:</strong>";
+echo $tde.$td3;
 echo "<input type=\"text\" name=\"h_tframe\" value=\"{$userP['h_tframe']}\" size=\"3\">% of browser height";
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Scroll Text Frame:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Scroll Text Frame:</strong>";
+echo $tde.$td3;
 radio_select('v_tscroll', $userP['v_tscroll'], 1, 'Yes');
 radio_select('v_tscroll', $userP['v_tscroll'], 0, 'No');
-echo "</td>".$td2;
-echo "<strong>Scroll Text Frame:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Scroll Text Frame:</strong>";
+echo $tde.$td3;
 radio_select('h_tscroll', $userP['h_tscroll'], 1, 'Yes');
 radio_select('h_tscroll', $userP['h_tscroll'], 0, 'No');
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Number of Text Lines:</strong></td>";
-echo $td3;
-echo "<input type=\"text\" name=\"v_tlines\" value=\"{$userP['v_tlines']}\" size=\"3\"></td>";
-echo $td2;
-echo "<strong>Number of Text Lines:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Number of Text Lines:</strong>";
+echo $tde.$td3;
+echo "<input type=\"text\" name=\"v_tlines\" value=\"{$userP['v_tlines']}\" size=\"3\">";
+echo $tde.$td2;
+echo "<strong>Number of Text Lines:</strong>";
+echo $tde.$td3;
 echo "<input type=\"text\" name=\"h_tlines\" value=\"{$userP['h_tlines']}\" size=\"3\">";
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Length of Text Lines:</strong></td>";
-echo $td3;
-echo "<input type=\"text\" name=\"v_tchars\" value=\"{$userP['v_tchars']}\" size=\"3\"> characters</td>";
-echo $td2;
-echo "<strong>Length of Text Lines:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Length of Text Lines:</strong>";
+echo $tde.$td3;
+echo "<input type=\"text\" name=\"v_tchars\" value=\"{$userP['v_tchars']}\" size=\"3\"> characters";
+echo $tde.$td2;
+echo "<strong>Length of Text Lines:</strong>";
+echo $tde.$td3;
 echo "<input type=\"text\" name=\"h_tchars\" value=\"{$userP['h_tchars']}\" size=\"3\"> characters";
-echo "</td></tr>";
 
-echo $tr.$td2;
-echo "<strong>Wrap Text:</strong></td>";
-echo $td3;
+echo $tre.$tr.$td2;
+echo "<strong>Wrap Text:</strong>";
+echo $tde.$td3;
 radio_select('v_twrap', $userP['v_twrap'], 1, 'Yes');
 radio_select('v_twrap', $userP['v_twrap'], 0, 'No');
-echo "</td>".$td2;
-echo "<strong>Wrap Text:</strong></td>";
-echo $td3;
+echo $tde.$td2;
+echo "<strong>Wrap Text:</strong>";
+echo $tde.$td3;
 radio_select('h_twrap', $userP['h_twrap'], 1, 'Yes');
 radio_select('h_twrap', $userP['h_twrap'], 0, 'No');
-echo "</td></tr>";
 
-echo $td5;
+echo $tre.$tr.$td5;
 if (isset($project) && isset($proofstate))
   {echo "<input type='hidden' name='project' value='$project'>";
 echo "<input type='hidden' name='proofstate' value='$proofstate'>";}
@@ -291,7 +281,7 @@ echo "<center><input type='submit' value='Save Preferences' name='change'> &nbsp
 if ($pf_num < 10)
   {echo "<input type='submit' value='Save as New Profile' name='mkProfile'> &nbsp;";}
 echo "<input type='submit' value='Quit' name='quitnc'></center>";
-echo "</td></tr></table></form></body></html>";
+echo $tre.$htmlC->closeTable(1)."</form>".$htmlC->closeBody(1);
 } else {
 $user_id = $_POST['user_id'];
 $real_name = $_POST['real_name'];
