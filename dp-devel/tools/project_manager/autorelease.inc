@@ -174,7 +174,6 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                         $released = $released + $newpagesreleased;
                                         if ($count2ndRnd == "yes") $released = $released + $newpagesreleased;
                                 }
-                                $i++;
                         }
                 }  else {
                         // since projects are sorted by date, if we reach here we have already
@@ -182,6 +181,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                         // and can stop checking
                         $done = 1;
                 }
+                $i++;
         }
 
         // if $numavailable == 0, email someone!
