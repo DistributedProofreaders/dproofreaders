@@ -37,12 +37,17 @@ if ($source_project_dir != $dest_project_dir)
 	system("cp $source_project_dir/*.png $dest_project_dir");
 }
 
+$n_txt_files_found = 0;
+$n_rows_inserted = 0;
+
 echo "\n";
 echo "For each text file in\n";
 echo "    $source_project_dir\n";
 echo "adding a row to the $projectid table...\n";
 foreach ( glob("$source_project_dir/*.txt") as $txt_file_path )
 {
+	$n_txt_files_found++;
+
 	// basename() corrupts its first argument!
 	// So don't pass $txt_file_path to it directly.
 	$file_base = basename(strval($txt_file_path),'.txt');
@@ -70,8 +75,19 @@ foreach ( glob("$source_project_dir/*.txt") as $txt_file_path )
 	";
 	// echo $sql_command, "\n";
 	$res = mysql_query($sql_command);
-	if (!$res) echo "        ", mysql_error(), "\n";
+	if ($res)
+	{
+		$n_rows_inserted++;
+	}
+	else
+	{
+		echo "        ", mysql_error(), "\n";
+	}
 }
+
+echo "\n";
+echo "$n_txt_files_found text-files found.\n";
+echo "$n_rows_inserted rows inserted into table.\n";
 
 echo "</pre>\n";
 echo "<hr>\n";
