@@ -179,6 +179,21 @@ function user_is_site_news_editor()
 	}
 }
 
+function user_is_site_translator()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager()) return TRUE;
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'site_translator'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
 
 function user_can_see_BEGIN_R1()
 {
