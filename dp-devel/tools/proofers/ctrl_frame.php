@@ -142,6 +142,11 @@ name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedInde
 <option value="15">&#174;</option>
 <option value="0">--</option>
 
+<option value="63">&#222;</option>
+<option value="95">&#254;</option>
+<option value="64">&#223;</option>
+<option value="0">--</option>
+
 <option value="0">Y</option>
 <option value="0">--</option>
 <option value="62">&#221;</option>
@@ -160,17 +165,13 @@ name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedInde
 <option value="49">&#208;</option>
 <option value="81">&#240;</option>
 <option value="0">--</option>
+
 <option value="0">N</option>
 <option value="0">--</option>
 <option value="50">&#209;</option>
 <option value="82">&#241;</option>
 <option value="0">--</option>
-<option value="0">B</option>
-<option value="0">--</option>
-<option value="63">&#222;</option>
-<option value="95">&#254;</option>
-<option value="64">&#223;</option>
-<option value="0">--</option>
+
 <option value="7">&#166;</option>
 <option value="8">&#167;</option>
 <option value="9">&#168;</option>
