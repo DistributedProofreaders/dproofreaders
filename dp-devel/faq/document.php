@@ -248,27 +248,27 @@ theme('Proofing Guidelines','header');
     (If you haven't proofed any pages yet, there will be no links shown.) These links
     appear under one of two headings, depending on if you have told the system you have
     completed the proofing on a page or not.  </p>
-<p> The two headings are "My Recently Completed" and "My Recently Proofread". Links to
-    the fivemost recently proofed pages will show under each heading. Pages linked to
-    from "My Recently Completed" are considered complete, and will proceed automatically
+<p> The two headings are "DONE" and "IN PROGRESS". Links to
+    the five most recently proofed pages will show under each heading. Pages linked to
+    from "DONE" are considered complete, and will proceed automatically
     to the next round when all other pages in the project have also been completed.
-    Pages linked to from "My Recently Proofread" are waiting for you to complete them;
+    Pages linked to from "IN PROGRESS" are waiting for you to complete them;
     they will not proceed automatically to the next round (neither will they hold the
     book up indefinitely: eventually, if not completed by you, the system will reclaim
     them, discard your changes, and make them available for someone else to proof).
     </p>
 <p> When you first load a new page to proof, by clicking on the 'Start Proofing' link on
-    the project comments page, a link to the page is created under 'My Recently
-    Proofread'. Each time you press the "Save as 'In Progress'" button, this link is updated to point to
+    the project comments page, a link to the page is created under 'IN PROGRESS'.
+    Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
     proofing on a page by pressing either
     the "Save as 'Done'" or the "Save as 'Done' & Proof Next" buttons.
     Pressing either of these buttons moves the link to the page from
-    the "My Recently Proofread" section to the "My Recently Completed" section. This is
+    the "IN PROGRESS" section to the "DONE" section. This is
     the only way you can mark pages as complete and make sure your work will get through
     to the next round. Until you press one of those two buttons, the page is
     'incomplete', even if you press the "Stop Proofing" button.  </p>
-<p> Pages listed under either "My Recently Completed" or "My Recently Proofed"  are
+<p> Pages listed under either "DONE" or "IN PROGRESS"  are
     available to you for to make proofing corrections or to finish proofing.  Just click
     on the link to the page.  So if you discover that you made a mistake on a page, or
     marked something incorrectly, you can click on that page here and re-open it to fix

@@ -71,7 +71,7 @@ They are:
     All final changes are saved, and proofing is completed.
     These pages are ready to go to the next round.
     There are links to the five most recent pages in this category
-    on the Project Comments page, under the heading "My Recently Completed".
+    on the Project Comments page, under the heading "DONE".
     These pages can be re-opened for corrections if necessary
     by clicking on the individual links.
     Do not mark a page "DONE" unless you have really finished correcting it,
@@ -85,7 +85,7 @@ They are:
     Changes made so far are saved, but proofing is not yet completed.
     These pages are not yet ready to go the next round.
     There are links to the five most recent pages in this category
-    on the Project Comments page, under the heading "My Recently Proofread".
+    on the Project Comments page, under the heading "IN PROGRESS".
     These pages are waiting for you to complete them;
     you can do so by clicking on the individual links
     to re-open them and finish the proofing.
@@ -241,7 +241,7 @@ $help['Return Page to Current Round'] = "
     If you don't want to go proof a different project instead,
     you can \"Save as 'In Progress'\" the page, 'Stop Proofing' and follow the 'Start Proofing' link.
     This will load the next available page,
-    leaving the one you wanted to skip in your 'My Recently Proofread' section.
+    leaving the one you wanted to skip in your 'IN PROGRESS' section.
     When you have finished proofing for the day,
     you can re-open it from there and press 'Return Page to Current Round'
     to immediately make it available for someone else to proof.)

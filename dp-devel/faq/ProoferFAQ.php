@@ -302,8 +302,8 @@ different pages.  This will significantly speed up the proofreading process.
 
 <h3><a name="10">10. I think I messed something up (done something wrong), How can I fix it? </a></h3>
 <p> <i>Don't panic.</i> We all make mistakes. If you think you made a mistake on the last few
-    pages of a particular project, go back to the Project Page and note the "My Recently
-    Done" links.  They reconnect to the last 5 pages you proofread for that project.
+    pages of a particular project, go back to the Project Page and note the "DONE" links.
+    They reconnect to the last 5 pages you proofread for that project.
     Click on one, and you can make corrections to your proof of that page.</p>
 
 <p> If it's earlier than one of these last 5 pages, or you are not sure that you handled

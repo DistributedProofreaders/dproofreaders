@@ -5,7 +5,7 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_continuity.inc');
 
-/* $_GET from "My Recently Completed/Proofread"
+/* $_GET from IN PROGRESS/DONE
 $project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1, $editone=1
 */
 
@@ -38,7 +38,7 @@ if (isset($editone))
 
   // plug user page count cheat - if they reopen a saved page, subtract it from their count
   // as it is 'unproofing' it; they will get it back if they save it again
-  // if page comes from My Recently Completed (???)
+  // if page comes from DONE (???)
 
   if (($pagestate == SAVE_FIRST) || 
       ($pagestate == SAVE_SECOND))
