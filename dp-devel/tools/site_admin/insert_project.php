@@ -44,17 +44,16 @@ switch ( $submit_button )
 
         $projectid_ = array_get( $_POST, 'projectid_', NULL );
 
-        list($src_image_values,$src_column_names) = review( $projectid_ );
+        list($src_image_values,$dest_column_names) = review( $projectid_ );
 
         $n_moving_pages = count($src_image_values);
 
         echo "database:\n";
         // This ignores $writeBIGtable
-        $src_column_list = join( $src_column_names, ',' );
+        $dest_column_list = join( $dest_column_names, ',' );
         $query = "
             INSERT INTO {$projectid_['to']}
-            ($src_column_list)
-            SELECT *
+            SELECT $dest_column_list
             FROM {$projectid_['from']}
         ";
         echo $query;
@@ -224,26 +223,16 @@ function review( $projectid_ )
         die("");
     }
 
-    if ( count($column_names_['from']) != count($column_names_['to']) )
+    if ( count($column_names_['from']) < count($column_names_['to']) )
     {
-        die( "Different number of columns in page-tables. Not handled yet." );
+        die( "The 'from' project has fewer columns than the 'to' project. Not handled yet." );
+    }
+    else if ( count($column_names_['from']) > count($column_names_['to']) )
+    {
+        echo "The 'from' project has more columns than the 'to' project, but we can handle this now.\n";
     }
 
-    /*
-    $n_cols = count($column_names_['from']);
-    for ( $i = 0; $i < $n_cols; $i++ )
-    {
-        $from_col_name = $column_names_['from'][$i];
-        $to_col_name   = $column_names_['to'][$i];
-
-        if ( $from_col_name != $to_col_name )
-        {
-            die( "Column ".($i+1)." mismatch: '$from_col_name' != '$to_col_name'." );
-        }
-    }
-    */
-
-    return array( $image_values_['from'], $column_names_['from'] );
+    return array( $image_values_['from'], $column_names_['to'] );
 }
 
 // vim: sw=4 ts=4 expandtab
