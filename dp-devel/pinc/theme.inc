@@ -113,15 +113,16 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
 
-    // show number of projects posted to PG from DP
         echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
 
+	if ($maintenance) {
+		echo _("MAINTENANCE MODE");
+		echo "<br>\n";
+	}
+
+    // show number of projects posted to PG from DP
         $result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
         $numproj = mysql_result($result,0);
-        if ($maintenance) {
-                echo _("MAINTENANCE MODE");
-                echo "  ";
-        }
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." DP projects posted to PG!</b></font>\n";
 
      echo "<br>";
