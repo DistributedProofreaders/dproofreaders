@@ -48,7 +48,7 @@ if (date('H') == "23") {
 
 
 
-$Qdefn = 'comments like "SPECIAL: Birthday '.$today.'%"';
+$Qdefn = 'special = "Birthday '.$today.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 250";
 
@@ -63,7 +63,7 @@ else
         mysql_query($update_query) or die(mysql_error());
     }
 
-$Qdefn = 'comments like "SPECIAL: Birthday '.$tomorrow.'%"';
+$Qdefn = 'special = "Birthday '.$tomorrow.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 251";
 
@@ -80,7 +80,7 @@ else
 
 
 
-$Qdefn = 'comments like "SPECIAL: Otherday '.$today.'%"';
+$Qdefn = 'special = "Otherday '.$today.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 255";
 
@@ -95,7 +95,7 @@ else
         mysql_query($update_query) or die(mysql_error());
     }
 
-$Qdefn = 'comments like "SPECIAL: Otherday '.$tomorrow.'%"';
+$Qdefn = 'special = "Otherday '.$tomorrow.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 256";
 
@@ -116,7 +116,7 @@ else
 $check_month = substr($today, 0, 2);
 $check_day = substr($today,2);
 
-$specials_query = "SELECT spec_code FROM special_days WHERE open_month = $check_month and open_day = $check_day";
+$specials_query = "SELECT spec_code FROM special_days WHERE open_month = $check_month and open_day = $check_day and enable = 1";
 echo $specials_query, $EOL;
 $open_these = mysql_query($specials_query) or die(mysql_error());
 $numrows = mysql_num_rows($open_these);
@@ -144,7 +144,7 @@ while ($rownum < $numrows)
 
 // any SPECIAL queues to close today?
 
-$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day";
+$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day" and enable = 1;
 echo $specials_query, $EOL;
 $close_these = mysql_query($specials_query) or die(mysql_error());
 $numrows = mysql_num_rows($close_these);
