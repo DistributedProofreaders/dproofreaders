@@ -13,12 +13,14 @@ $owner = 527;
 //Get info about project
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
-$title = "Discussion: ".$row['nameofwork']."";
+$title = "".$row['nameofwork']." by ".$row['authorsname']."";
 $title = addslashes($title);
 $message =  "
-Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.<br>
-The Project Manager is {$row['username']}.<br>
-Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
+Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
+
+The Project Manager is {$row['username']}.
+
+Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id&proofing=1]project comments[/url] before posting.
 ";
 $message = addslashes($message);
 $topic_id = $row['topic_id'];
@@ -50,7 +52,7 @@ $forum_topics++;
 $update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics, forum_last_post_id=$post_id WHERE forum_id=2");
 }
 
-//Update project_db with topic_id so it can be deleted
+//Update project_db with topic_id so it can be moved later
 $update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
 
 //Redirect to the topic
