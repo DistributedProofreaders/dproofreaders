@@ -141,6 +141,11 @@ echo "Try to correct that, press 'restart' to restart or have a look at the <a t
 echo "</p>";
 // space the scawwy email text
 echo "<p>&nbsp;</p>";
+// give the user a button to push if the error sense no makes
+echo "<p>";
+echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
+echo "message doesn't make any sense, please post a feedback message in <a href='<? echo $forums_url; ?>/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "</p>"; 
 }
  ?>
  </div>
