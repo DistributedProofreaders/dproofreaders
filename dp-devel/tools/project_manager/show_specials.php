@@ -25,7 +25,7 @@ dpsql_dump_query("
                       '</a></span>') as 'Name',
                       concat('<span style=\"background-color: #',
                       color,
-                      '\" title=\",comment,'\">',
+                      '\" title=\"',comment,'\">',
                 comment,
                       '</a></span>') as 'Comment',
                 concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')) as 'Start Date',
