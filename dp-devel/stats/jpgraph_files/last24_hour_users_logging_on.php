@@ -62,7 +62,7 @@ $bplot = new BarPlot($datay);
 $graph->Add($bplot);
 
 // Setup the title
-$graph->title->Set("Number of users newly logged in each hour over the last 24");
+$graph->title->Set("Number of users newly logged in each hour over the last day");
 
 
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
