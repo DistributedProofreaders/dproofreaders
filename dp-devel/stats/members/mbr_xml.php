@@ -99,6 +99,7 @@ $bestDay = bestDayEver($curMbr['u_id']);
 
 	$i = 1;
 	while ($i <= 4) {
+		if (empty($rankArray['rank'][$rankArray['curMbrIndex']+$i])) { break; }
 		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '".$rankArray['username'][$rankArray['curMbrIndex']+$i]."'");
 
 		$data .= "<neighbor>
