@@ -1,5 +1,6 @@
 <?
 $relPath='../pinc/';
+include($relPath.'project_states.inc');
 include($relPath.'connect.inc');
 new dbConnect();
 
@@ -29,12 +30,32 @@ $mth = date('m');
 $dy = date('d');
 $dte = date('Y-m-d');
 
-// get counts of projects for each state
+// The SELECT we do below will only return counts for project-states that are
+// currently occupied. (I.e., there's at least one project in that state.)
+// But we want project_state_stats to get a row for every possible state for
+// every day, so we must do something extra to record zero for the unoccupied
+// states.
 
+// Initialize $num_projects_in_state_ to zero for every currently-defined state.
+$num_projects_in_state_ = array();
+foreach ( $PROJECT_STATES_IN_ORDER as $state )
+{
+    $num_projects_in_state_[$state] = 0;
+}
+
+// Get the number of projects in each (currently-occupied) state.
 $result = mysql_query ("SELECT state, count(*) FROM projects GROUP BY state ORDER BY state");
 
 while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
+    $num_projects_in_state_[$state] = $num_projects;
+}
 
+// $num_projects_in_state_ now has an entry for every defined state and for
+// every occupied state. (The occupied states should be a subset of the defined
+// states, but you never know.)
+// Insert a row into project_state_stats for each of those entries.
+foreach ( $num_projects_in_state_ as $state => $num_projects )
+{
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
         VALUES ($yr, $mth, $dy, '$dte', '$state', $num_projects)";
@@ -47,44 +68,6 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
     {
         echo $insert_query, $EOL;
         mysql_query($insert_query) or die(mysql_error());
-    }
-}
-
-// add rows for those states which have no projects today
-
-// (the following query assumes states are not ever 'retired';
-// if in the future they are, a where clause explicitly excluding them will work
-// in the short term, until eventually (after all states have shown again
-// at least once) this can be replaced with a where clause based on
-// date > some_date)
-
-$result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY state");
-
-while (list ($state) = mysql_fetch_row ($result)) {
-
-
-    $qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '$state' and date = '".date('Y-m-d')."'";
-    echo $qry, $EOL;
-    $result2 = mysql_query ($qry);
-
-    $cnt = mysql_result($result2,0,'cnt');
-    echo $cnt, $EOL;
-    // no row for this state yet today
-    if (( $cnt) == '0') {
-
-        $insert_query =
-            "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-            VALUES ($yr, $mth, $dy, '$dte','$state', 0)";
-
-        if ($testing_this_script)
-        {
-            echo $insert_query, $EOL;
-        }
-        else
-        {
-            echo $insert_query, $EOL;
-            mysql_query($insert_query) or die(mysql_error());
-        }
     }
 }
 
