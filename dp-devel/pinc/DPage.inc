@@ -68,6 +68,42 @@ function Pages_delete( $projectid )
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function Pages_prepForRound( $projectid, $round_number )
+{
+    global $writeBIGtable;
+
+    if ( $round_number == 1 )
+    {
+        $result = mysql_query("
+            UPDATE $projectid
+            SET state = '".AVAIL_FIRST."'
+            WHERE state = '".UNAVAIL_FIRST."'
+        ");
+
+        if ($writeBIGtable)
+        {
+            $result = mysql_query("
+                UPDATE project_pages
+                SET state = '".AVAIL_FIRST."'
+                WHERE projectid = '$projectid' AND state = '".UNAVAIL_FIRST."'
+            ");
+        }
+    }
+    else if ( $round_number == 2 )
+    {
+        $timestamp = time();
+
+        $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
+    
+        if ($writeBIGtable)
+        {
+            $result = mysql_query("UPDATE project_pages SET state = '".AVAIL_SECOND."', round2_time = '$timestamp' WHERE projectid = '$projectid' ");
+        }
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function project_add_page(
