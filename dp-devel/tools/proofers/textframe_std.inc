@@ -6,8 +6,6 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
 
-$lang=isset($lang)?$lang:1;
-
 // get cookie
 $npage = getPageCookie();
 
@@ -25,6 +23,11 @@ if ($npage['spcheck']==2)
     setTempPageCookie($npage);
     $npage['text'] = implode( '', file("$aspell_temp_dir/$text_file") );
   }
+
+// get page language
+	$result = mysql_query("SELECT language FROM projects WHERE projectid='".$npage['project']."'");
+	$lang=proj_lang_code(mysql_result($result,0,"language"),"primary");
+
 slim_header("Text Frame",TRUE,FALSE);
 ?>
 </head>

@@ -3,7 +3,7 @@ include_once($relPath.'prefs_options.inc');
 
 function echo_proofing_textarea( $page_text, $enhanced )
 {
-    global $userP, $f_f, $f_s;
+    global $userP, $f_f, $f_s, $lang;
 
     if ( $userP['i_layout']==1 )
     {
@@ -29,6 +29,7 @@ function echo_proofing_textarea( $page_text, $enhanced )
         id='text_data'
         cols='$n_cols'
         rows='$n_rows'
+        dir='".lang_direction($lang)."'
     ";
 
     $font_face = $f_f[$font_face_i];

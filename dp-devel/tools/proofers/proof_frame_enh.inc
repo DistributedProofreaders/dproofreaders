@@ -5,14 +5,15 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
 
-$lang=isset($lang)?$lang:1;
-
 // get cookie
 $npage = getPageCookie();
 
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
 
+// get page language
+$result = mysql_query("SELECT language FROM projects WHERE projectid='".$npage['project']."'");
+$lang=proj_lang_code(mysql_result($result,0,"language"),"primary");
 
 // set image and text height and width
   if ($userP['i_layout']=='1')
