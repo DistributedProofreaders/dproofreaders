@@ -5,10 +5,10 @@ use DBI;
 use Time::localtime;
 use GD::Graph::bars;
 
-my ($dsn)= "DBI:mysql:dproofreaders:localhost";
+my ($dsn)= "DBI:mysql:<<DB_NAME>>:<<DB_SERVER>>";
 
-my ($user_name) = "gutenuser";
-my ($password) = "13werk69";
+my ($user_name) = "<<DB_USER>>";
+my ($password) = "<<DB_PASSWORD>>";
 my ($dbh, $sth);
 my (@ary);
 my ($numrows) = 0;
