@@ -205,9 +205,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url, $site_supports_metadata;
     global $PG_paypal_business_id, $PG_donation_url;
-    // Get userid for personal stats link
-    $result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-    $u_id = mysql_result($result, 0, "u_id");
+
     		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
                 <script language="JavaScript"><!--
@@ -396,6 +394,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Professor of Proofreading");
 	}
 
+	// Get userid for personal stats link
+	$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+	$u_id = mysql_result($result, 0, "u_id");
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
