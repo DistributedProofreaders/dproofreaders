@@ -185,7 +185,7 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"                <date>2003</date>\r\n");
         fputs($fp,"                <idno type='PGnum'>$postednum</idno>\r\n");
         fputs($fp,"                <idno type='DPid'>$project</idno>\r\n");
-        fputs($fp,"                <availability>Public Domain</availability>\r\n");
+        fputs($fp,"                <availability><p>Public Domain</p></availability>\r\n");
         fputs($fp,"            </publicationStmt>\r\n");
         fputs($fp,"            <sourceDesc>\r\n");
         fputs($fp,"                <p>(Project Gutenberg doesn't like to be specific\r\n");
@@ -194,15 +194,15 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"        </fileDesc>\r\n");
         fputs($fp,"        <encodingDesc>\r\n");
         fputs($fp,"            <projectDesc>\r\n");
-        fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],\r\n");
+        fputs($fp,"                <p>Produced by [project manager], [post-processor], [scanner?],\r\n");
         fputs($fp,"                and the Online Distributed Proofreading Team at\r\n");
-        fputs($fp,"                &lt;$code_url&gt;.\r\n");
-        fputs($fp,"                Page-images available at\r\n");
-        fputs($fp,"                &lt;$projects_url/$project/&gt;\r\n");
+        fputs($fp,"                &lt;$code_url&gt;.</p>\r\n");
+        fputs($fp,"                <p>Page-images available at\r\n");
+        fputs($fp,"                &lt;$projects_url/$project/&gt;</p>\r\n");
         fputs($fp,"            </projectDesc>\r\n");
         fputs($fp,"        </encodingDesc>\r\n");
         fputs($fp,"    </teiHeader>\r\n");
-
+        fputs($fp,"\r\n");
         fputs($fp,"<text>\r\n");
         fputs($fp,"<front>\r\n");
         fputs($fp,"<titlePage>\r\n");
@@ -338,7 +338,7 @@ include_once($relPath.'maybe_mail.inc');
         $s2 = preg_replace( '/(\n)( *)([^ ].*) *(\r)/e', '\1<l rend="indent(' . strlen('\2') . ')">\2\3</l>\4', $s );
         if ($s==$s1) {$s=$s2;} else {$s=$s1;}
 
-        // And put the whole thing in an <lg> element.
+        // And mark the whole thing as poetry.
         return "\r\n\r\n<!-- poem -->$s<!-- poem -->\r\n\r\n";
     }
 
