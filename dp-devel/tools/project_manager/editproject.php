@@ -34,7 +34,7 @@ function saveProject() {
         $checkedoutby = $_POST['checkedoutby'];
         $result = mysql_query("SELECT u_id FROM users WHERE STRCMP(username, $checkedoutby) = 0");
         if (mysql_num_rows($result) == 0) {
-             $errormsg .= "PPer/PPVer must be an existing user.<br>"; 
+             $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>"; 
         }
    }
    if (!empty($_FILES['projectfiles']['name'])) { 
