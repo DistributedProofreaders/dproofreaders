@@ -387,6 +387,20 @@ function user_get_largest_page_tally_increment_info( $u_id )
     return mysql_fetch_row($result);
 }
 
+// -----------------------------------------------------------------------------
+
+function user_get_best_page_tally_rank_info( $u_id )
+{
+    $result = mysql_query("
+        SELECT rank, date_updated
+        FROM member_stats
+        WHERE u_id=$u_id
+        ORDER BY rank ASC
+        LIMIT 1
+    ");
+    return mysql_fetch_row($result);
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )

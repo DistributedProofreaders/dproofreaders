@@ -20,9 +20,8 @@ function showMbrProfile($curMbr) {
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
 	$bestDay = bestDayEver($curMbr['u_id']);
-	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
-	$highestRank = mysql_result($result, 0, "rank");
-	$highestRankDate = mysql_result($result, 0, "date_updated");
+
+	list($highestRank, $highestRankDate) = user_get_best_page_tally_rank_info($curMbr['u_id']);
 
 	if ($daysInExistenceInteger > 0) {
 	        $daily_Average = $curMbr['pagescompleted']/$daysInExistenceInteger;
