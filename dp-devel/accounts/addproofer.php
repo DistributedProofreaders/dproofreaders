@@ -13,11 +13,9 @@ echo "<br>";
 
 function abort_registration( $error )
 {
-    global $htmlC;
-    $htmlC->startBody(0,1,0,0);
     echo "$error<br>\n";
     echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
-    $htmlC->closeBody(0);
+    theme("", "footer");
     exit;
 }
 
@@ -37,10 +35,16 @@ if ($password=="proofer") {
         abort_registration( $err );
     }
 
-    if ($userpass == '')
+    if (empty($userpass) || empty($email) || empty($real_name))
     {
-        abort_registration( "You did not supply a Password" );
+        abort_registration( "You did not completely fill out the form.  Please hit back and try agian." );
     }
+
+    if (!ereg("^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
+    {
+    	abort_registration("Your e-mail address is invalid.  Please hit back and correct it.");
+    }
+
 
     $ID = uniqid("userID");
 
@@ -240,10 +244,11 @@ to have it reset.
 
         $htmlC->startHeader("User $username Added Successfully");
         $htmlC->startBody(0, 1, 0, 0);
+
         print "User <b>$username</b> added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.";
         echo "<center>";
-        echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
-        echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
+        echo "<br><font size=+1>Click below to sign in and start proofing!!";
+        echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='hidden' name='userPW' value='".$userpass."'><input type='submit' value='Sign In'></form>";
 	$htmlC->closeBody(0);
     }
 } else {
