@@ -71,6 +71,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#page_hf">Page Headers/Page Footers</a></li>
         <li><a href="#chap_head">Chapter Headers</a></li>
         <li><a href="#sect_head">Section Headers</a></li>
+        <li><a href="#maj_div">Other Major Divisions in Texts</a></li>
         <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
         <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
         <li><a href="#mult_col">Multiple Columns</a></li>
@@ -221,7 +222,7 @@ theme('Proofreading Guidelines','header');
    consider should be done differently, or if something is vague, please let us know.
 </p>
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
-   Documentation Forum in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=8570">this thread</a>.
+   Documentation Forum in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10779">this thread</a>.
 </p>
 
 <h3><a name="comments">Project Comments</a></h3>
@@ -579,6 +580,13 @@ theme('Proofreading Guidelines','header');
    Leave 2 blanks lines before the header and one after, unless the Project Manager has requested
    otherwise. If you are not sure if a header indicates a chapter or a section, post a question in
    the Project Thread, noting the page number.
+</p>
+
+<h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
+<p>Major Divisions in the text such as Preface, Foreword, Introduction, Prologue, Epilogue,
+   Appendix, References, Conclusion, Glossary, Summary, Acknowledgements, Bibliography, etc., should
+   be proofread in the same way as Chapter Headers, <i>i.e.</i> 4 blank lines before the heading and 2 blank lines
+   before the start of the text.
 </p>
 
 <h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
@@ -1836,7 +1844,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 
 
 <h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a></h3>
-<p>The guidelines are different for English and other languages (LOTE).
+<p>The guidelines are different for English and Languages Other Than English (LOTE).
 </p>
 
 <p><b>ENGLISH</b>: Leave a space before the three dots, and a space after. The exception is at the end
@@ -1859,7 +1867,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 <p>Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE</b>: Use the general rule "Follow closely the style used in the printed page."
+<p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style used in the printed page."
 Sometimes the printed page is unclear: in that case, insert a <tt>*</tt> to draw the attention of the post-processor.
 If spaces appear to exist between the dots, or between the word and the dots, replace the spaces with underscores:
 <tt>like this_...</tt> or <tt>like this_._._.</tt> depending on the style.
@@ -2472,6 +2480,9 @@ cedilla                      [,x]   [x,]
 <p>Indexes are often printed in 2 columns; this narrower space can cause entries to
    split onto the next line. Rejoin these back onto a single line.
 </p>
+<p>Indexes are a case where long lines created by following this rule are acceptable, since the lines
+   will be re-wrapped to the proper width and indentation during post-processing.
+</p>
 <p>For sub-topic listings in an index, start each one on a new line, indented 2 spaces.
 </p>
 <p>Treat each new section in an index (A, B, C...) the same as a <a href="#sect_head">section header</a> by placing 2
@@ -2479,9 +2490,6 @@ cedilla                      [,x]   [x,]
 </p>
 <p>Old books sometimes printed the first word of each letter in the index in all caps;
    change this to match the style used for the rest of the index entries.
-</p>
-<p>Indexes are a case where long lines created by following this rule are acceptable, since the lines
-   will be re-wrapped to the proper width and indentation during post-processing.
 </p>
 <!-- END RR -->
 
@@ -2498,6 +2506,7 @@ cedilla                      [,x]   [x,]
     &nbsp;&nbsp;birth of, 145.<br>
     &nbsp;&nbsp;christening, 146-147.<br>
     &nbsp;&nbsp;death and burial, 152.<br>
+    <br>
     Ethelred II, the Unready, 33.
 </td></tr></table>
       </td>
@@ -2591,7 +2600,8 @@ cedilla                      [,x]   [x,]
  shared by more than one speaker.</li>
  <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
    If the continuation is only a word or so, it is often shown on the line
-   above or below following a (, rather than having a line of its own.</li>
+   above or below following a (, rather than having a line of its own.<br>
+   See the <a href="#play3">example</a>.</li>
 </ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
    specify different formatting.
@@ -2727,6 +2737,7 @@ Such news as you'll be overjoy'd to hear.<br>
   </tbody>
 </table>
 <br>
+<a name="play3"><!-- Example --></a>
 <table width="100%" align="center" border="1" cellpadding="4"
  cellspacing="0" summary="Play Example 3">
   <tbody>
