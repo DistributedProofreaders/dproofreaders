@@ -46,11 +46,11 @@ echo "</td></tr></table></form></div></center></body></html>";
 $result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
 
 //Find out how many pages have been marked bad
-$totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'"));
+$totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'"));
 
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
-$uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(reporting_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'");
+$uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
 if ($uniqueBadPages >= 3) {
 if($_POST['badState']==bad_first) {
 $result = mysql_query("UPDATE projects SET state='".BAD_PI_FIRST."' WHERE projectid='".$_POST['projectname']."'");
@@ -68,7 +68,6 @@ $result = mysql_query("SELECT * FROM users WHERE username=$PMusername");
 $PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
-//TODO Post a note in the forum if a topic is in there
 if ($advisePM == 1) {
 $message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].") has been shut down.  This is due to at least 10 users, with at least 3 unique users, reporting errors or problems with this project.  Please visit the Project Manager page to view a list of your bad projects and make any necessary changes.  You will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Project Shut Down";
