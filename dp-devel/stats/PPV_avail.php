@@ -64,7 +64,7 @@ echo "</tr>\n";
 $result = mysql_query("
 	SELECT
 		nameofwork,
-		checkedoutby,
+		postproofer,
 		modifieddate
 	FROM projects
 	WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'
