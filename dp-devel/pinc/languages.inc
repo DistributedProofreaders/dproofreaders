@@ -227,7 +227,7 @@ function lang_forum($langcode)
 		"sr_YU.utf8"=>"sr",
 	);
 
-	return $a[$langcode];
+	if (in_array($langcode, $a)) { return $a[$langcode]; } else { return false; } 
 }
 
 function cur_lang_forum()
