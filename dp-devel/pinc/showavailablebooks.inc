@@ -276,7 +276,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	// (this does not affect the alternating between two
 	// background colors) in the project listing.
 	global $pguser;
-	$userSettings = Settings::get_Settings($pguser);
+	$userSettings =& Settings::get_Settings($pguser);
 	$show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 
 	$numrows = mysql_num_rows($result);
