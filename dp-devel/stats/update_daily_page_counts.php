@@ -73,7 +73,7 @@ for ( $d = 1; ; $d++ )
 
     $Y_end_ts = mktime(0,0,0,$X_month,$X_day+$d+1,$X_year);
 
-    $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts );
+    $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts, $n_projects );
 
     $update_query =
        "UPDATE pagestats SET pages=$total_n_pages_proofed WHERE date='$Y_date'";
