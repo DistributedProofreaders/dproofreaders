@@ -166,7 +166,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
 	$projectid, $inRound )
 {
-	global $userP;
+	global $userP, $forums_url;
 
 	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
@@ -215,23 +215,29 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	else
 	{
 		$R_ures = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$R_username'");
+		$R_phpbbid = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
 		if (mysql_num_rows($R_ures) == 0) {
 			$R_real_name = $R_username;
 			$R_email = "";
 			$R_pages_completed = 0;
 		} else {
 			$R_real_name = mysql_result($R_ures, 0, "real_name");
-			$R_email = mysql_result($R_ures, 0, "email");
+			$R_email = mysql_result($R_phpbbid, 0, "user_id");
 			$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
 		}
 
 		if ($userP['sitemanager'] == "yes") {
-			$R_display_name = $R_real_name;
+			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
+			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+				$R_display_name = $R_real_name;
+			} else {
+				$R_display_name = $R_username;
+			}
 		} else {
 			$R_display_name = $R_username;
 		}
 
-		echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
+		echo "<td align='center'><a href=$forums_url/privmsg.php?mode=post&u=$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
 	}
 
 	// ------------------------------
