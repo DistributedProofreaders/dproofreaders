@@ -52,7 +52,7 @@ $graph->img->SetAntiAliasing();
 
 //Create the line plot
 $lplot1 = new LinePlot($datay1);
-$lplot1->SetColor("silver");
+$lplot1->SetColor("blue");
 $lplot1->SetLegend(_("Total Projects Proofed"));
 $lplot1->SetWeight(1);
 $lplot1->SetFillColor("blue");
