@@ -18,7 +18,7 @@ $project, $proofstate
 project_continuity_check($project,$proofstate,!isset($editone));
 
 if (isset($saved)) {
-	$result = mysql_query("SELECT round1_user, round2_user FROM $project WHERE fileid = $fileid");
+	$result = mysql_query("SELECT round1_user, round2_user FROM $project WHERE fileid = '$fileid'");
 	$firstrounduser = mysql_result($result, 0, "round1_user");
 	$secondrounduser = mysql_result($result, 0, "round2_user");
 	if (($pguser != $firstrounduser) && ($pguser != $secondrounduser)) {

@@ -76,7 +76,7 @@ if (!isset($_POST['action'])) {
 
       //Determine if modify is set & if so display the form to either modify the image or text
       if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-	  $result = mysql_query("SELECT master_text FROM $projectID where fileid=$fileID");
+	  $result = mysql_query("SELECT master_text FROM $projectID where fileid='$fileID'");
 	  $master_text = mysql_result($result, 0, "master_text");
         echo "<form action='badpage.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
@@ -92,7 +92,7 @@ if (!isset($_POST['action'])) {
 	  Page_modifyStartingText( $projectID, $fileID, $master_text );
 	  echo "<b>Update of Original Text Complete!</b>";
       } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
-	  $result = mysql_query("SELECT image FROM $projectID where fileid=$fileID");
+	  $result = mysql_query("SELECT image FROM $projectID where fileid='$fileID'");
 	  $master_image = mysql_result($result, 0, "image");
 	  echo "<form enctype='multipart/form-data' action='badpage.php' method='post'>";
           echo "<input type='hidden' name='modify' value='image'>";
