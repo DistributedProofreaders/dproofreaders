@@ -11,16 +11,16 @@ include_once($relPath.'project_states.inc');
 	background-color: #FF9900;
 }
 .green {
-	background-color: #009900;
+	background-color: #00FF33;
 }
 .paleblue {
-	background-color: #99FFFF;
+	background-color: #CCFFFF;
 }
 .richblue {
-	background-color: #3399FF;
+	background-color: #33CCFF;
 }
 .yellow {
-	background-color: #FFFF00;
+	background-color: #FFFF33;
 }
 .grey {
 	background-color: #CCCCCC;
@@ -28,7 +28,6 @@ include_once($relPath.'project_states.inc');
 .red {
 	background-color: #FF0000;
 }
-
 -->
 </style>
 <?
@@ -92,11 +91,10 @@ echo "<br><br>";
 
 
 <body bgcolor="#FFFFFF">
-<p><font face="Arial, Helvetica, sans-serif">Legend for Special Books:<br><b><span class="orange"> Halloween </span>&nbsp; 
+<p><font face="Arial, Helvetica, sans-serif">Legend for Special Books:<br><br><b><span class="orange"> Halloween </span>&nbsp; 
 <span class="green"> Ramadan </span>&nbsp;<span class="paleblue"> recent authors' birthdays </span>&nbsp;
-  <span class="richblue"> TODAY's author birthdays </span>&nbsp;<span class="yellow"> Children's Book Week </span> 
-   &nbsp;<span class="grey"> Native 
-  American Heritage Month </span></b></font></p>
+  <span class="richblue"> TODAY's author birthdays </span>&nbsp;<br><span class="yellow"> Children's Book Week </span> 
+   &nbsp;<span class="grey"> Native American Heritage Month </span></b></font></p>
 
 
 <?
