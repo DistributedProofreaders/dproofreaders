@@ -43,7 +43,7 @@ DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
 	_("Old text") . ": $fileid",
-	_("New text" . ": $fileid")
+	_("New text") . ": $fileid"
 );
 
 theme("", "footer");
