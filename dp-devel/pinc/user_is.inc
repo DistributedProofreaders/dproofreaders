@@ -74,7 +74,7 @@ function user_is_PM_of($project)
 
 	$result = mysql_query("SELECT userid FROM projects WHERE projectid = '$project'");
 	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "value") == $pguser) { return TRUE; } else { return FALSE; }
+		if (mysql_result($result, 0, "userid") == $pguser) { return TRUE; } else { return FALSE; }
 	} else {
 		return FALSE;
 	}
@@ -92,7 +92,7 @@ function user_is_PP_of($project)
 
 	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND state = 'proj_post_first_checked_out'");
 	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "value") == $pguser) { return TRUE; } else { return FALSE; }
+		if (mysql_result($result, 0, "checkedoutby") == $pguser) { return TRUE; } else { return FALSE; }
 	} else {
 		return FALSE;
 	}
