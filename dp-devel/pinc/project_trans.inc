@@ -303,6 +303,17 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 
+		// if no postproofer recorded, project never went through PPV
+		// so whoever has it checked out must be cleared to post directly
+		// and must have been the PPer
+		if ({$project['postproofer']} == '' ) {
+			$settings .= ", postproofer='{$project['checkedoutby']}'";
+		}
+
+		// TODO: populate a new column on projects table PagesPosted that contains
+		// total number of pages in project when it was posted, so we have a 
+		// permanent record of number of pages in the project
+
 		//Delete from the HEAP table all page counts
 		$result = mysql_query("SELECT COUNT(projectid) AS rowExists FROM page_counts WHERE projectid = '$projectid'");
 		$rowExists = mysql_result($result, 0, "rowExists");
