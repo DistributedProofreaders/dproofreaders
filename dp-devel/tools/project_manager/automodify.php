@@ -57,7 +57,7 @@ $projectinfo = new projectinfo();
             if ($first_badpages >= 10) {
                 $state = PROJ_PROOF_FIRST_BAD_PROJECT;
                 mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
-            } elseif ($first_badpages < 10 && $first_badpages > 0) {
+            } elseif ($first_badpages < 10 && $first_badpages >= 0) {
             	$state = PROJ_PROOF_FIRST_AVAILABLE;
             	mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
             }
