@@ -59,19 +59,19 @@ echo "
 ";
 
 echo "<center><b>Books I Have Checked Out for Post-Processing:</b></center>";
-show_available_post(PROJ_POST_CHECKED_OUT);
+show_available_post(PROJ_POST_FIRST_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books I Have Checked Out for Verifying Post-Processing:</b></center>";
-show_available_post(PROJ_POST_VERIFYING);
+show_available_post(PROJ_POST_SECOND_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books Available for Post-Processing:</b></center>";
-show_available_post(PROJ_POST_AVAILABLE);
+show_available_post(PROJ_POST_FIRST_AVAILABLE);
 echo "<br>";
 
 echo "<center><b>Books Available for Post-Processing Verification & Posting:</b></center>";
-show_available_post(PROJ_POST_VERIFY);
+show_available_post(PROJ_POST_SECOND_AVAILABLE);
 echo "<br>";
 
 theme("", "footer");

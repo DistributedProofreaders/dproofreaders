@@ -149,33 +149,33 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_PROOF_SECOND_COMPLETE,
 			),
 		PROJ_PROOF_SECOND_COMPLETE => array(
-			PROJ_POST_CHECKED_OUT,
-			PROJ_POST_AVAILABLE,
+			PROJ_POST_FIRST_CHECKED_OUT,
+			PROJ_POST_FIRST_AVAILABLE,
 			),
 
-		PROJ_POST_UNAVAILABLE => array(
-			PROJ_POST_AVAILABLE,
-			PROJ_POST_CHECKED_OUT,
+		PROJ_POST_FIRST_UNAVAILABLE => array(
+			PROJ_POST_FIRST_AVAILABLE,
+			PROJ_POST_FIRST_CHECKED_OUT,
 			),
-		PROJ_POST_AVAILABLE => array(
-			PROJ_POST_UNAVAILABLE,
-			PROJ_POST_CHECKED_OUT,
+		PROJ_POST_FIRST_AVAILABLE => array(
+			PROJ_POST_FIRST_UNAVAILABLE,
+			PROJ_POST_FIRST_CHECKED_OUT,
 			),
-		PROJ_POST_CHECKED_OUT => array(
-			PROJ_POST_UNAVAILABLE,
-			PROJ_POST_AVAILABLE,
-			PROJ_POST_VERIFY,
-			PROJ_POST_VERIFYING,
+		PROJ_POST_FIRST_CHECKED_OUT => array(
+			PROJ_POST_FIRST_UNAVAILABLE,
+			PROJ_POST_FIRST_AVAILABLE,
+			PROJ_POST_SECOND_AVAILABLE,
+			PROJ_POST_SECOND_CHECKED_OUT,
 			PROJ_POST_COMPLETE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
-		PROJ_POST_VERIFY => array(
-			PROJ_POST_VERIFYING,
+		PROJ_POST_SECOND_AVAILABLE => array(
+			PROJ_POST_SECOND_CHECKED_OUT,
 			PROJ_POST_COMPLETE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
-		PROJ_POST_VERIFYING => array(
-			PROJ_POST_VERIFY,
+		PROJ_POST_SECOND_CHECKED_OUT => array(
+			PROJ_POST_SECOND_AVAILABLE,
 			PROJ_POST_COMPLETE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
@@ -241,13 +241,13 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 	}
-	else if ( $current_state == PROJ_POST_CHECKED_OUT &&
-		in_array( $new_state, array(PROJ_POST_UNAVAILABLE,PROJ_POST_AVAILABLE) ) )
+	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
+		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
 	{
 		$settings .= ", modifieddate=''";
 		$settings .= ", checkedoutby=''";
 	}
-	else if ( $new_state == PROJ_POST_CHECKED_OUT )
+	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
 		{
@@ -256,16 +256,16 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
 	}
-	else if ( $current_state == PROJ_POST_CHECKED_OUT &&
-		$new_state == PROJ_POST_VERIFY )
+	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
+		$new_state == PROJ_POST_SECOND_AVAILABLE )
 	{
 		global $postcomments;
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
 		$settings .= ", postcomments='{$postcomments}'";
 	}
-	else if ( $current_state == PROJ_POST_VERIFY &&
-		$new_state == PROJ_POST_VERIFYING )
+	else if ( $current_state == PROJ_POST_SECOND_AVAILABLE &&
+		$new_state == PROJ_POST_SECOND_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
 		{
@@ -275,8 +275,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
 		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
 	}
-	else if ( $current_state == PROJ_POST_VERIFYING &&
-		$new_state == PROJ_POST_VERIFY )
+	else if ( $current_state == PROJ_POST_SECOND_CHECKED_OUT &&
+		$new_state == PROJ_POST_SECOND_AVAILABLE )
 	{
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$project['postproofer']}'";

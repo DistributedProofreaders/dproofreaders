@@ -60,14 +60,14 @@ include_once($relPath.'maybe_mail.inc');
 
         // Change state based on user's settings
         if ($send_to_post == "yes") {
-            $new_state = PROJ_POST_AVAILABLE;
+            $new_state = PROJ_POST_FIRST_AVAILABLE;
             $extras = array();
             $body_blurb =
                 "This project has completed second round proofreading\n".
                 "and has been made available for someone else to do the post-processing.\n".
                 "You will be notified once it has completed post-processing.";
         } else {
-            $new_state = PROJ_POST_CHECKED_OUT;
+            $new_state = PROJ_POST_FIRST_CHECKED_OUT;
             $extras = array( 'checkedoutby' => $username );
             $body_blurb =
                 "This project has completed second round proofreading\n".

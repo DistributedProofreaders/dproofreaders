@@ -38,12 +38,12 @@ include($relPath.'project_edit.inc');
 	   ($newstate == PROJ_DELETE && $always == 'yes')
 	|| ($newstate == PROJ_PROOF_FIRST_UNAVAILABLE)
 	|| ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE)
-	|| ($newstate == PROJ_POST_CHECKED_OUT)
+	|| ($newstate == PROJ_POST_FIRST_CHECKED_OUT)
 	|| ($always == 'yes')
 	|| ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE)
 	|| ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE)
 	|| ($oldstate == PROJ_PROOF_SECOND_UNAVAILABLE)
-	|| ($oldstate == PROJ_POST_CHECKED_OUT)
+	|| ($oldstate == PROJ_POST_FIRST_CHECKED_OUT)
 	|| ($oldstate == PROJ_NEW))
     {
         // The above are valid changes that can be made to a project
@@ -51,7 +51,7 @@ include($relPath.'project_edit.inc');
 	$do_transition = TRUE;
         $refresh_url = "projectmgr.php";
 
-	if ( $newstate == PROJ_POST_CHECKED_OUT )
+	if ( $newstate == PROJ_POST_FIRST_CHECKED_OUT )
 	{
 	    $extras = array( 'checkedoutby' => $pguser );
 	}

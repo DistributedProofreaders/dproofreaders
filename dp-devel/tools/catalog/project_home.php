@@ -109,12 +109,12 @@ else
         echo "<li> Download a zip of joined page-texts.</li>\n";
     }
 
-    if ( $proj_state == PROJ_POST_AVAILABLE ) // and $pguser is qualified
+    if ( $proj_state == PROJ_POST_FIRST_AVAILABLE ) // and $pguser is qualified
     {
         echo "<li> Check it out for post-proofing.</li>\n";
     }
 
-    if ( $proj_state == PROJ_POST_CHECKED_OUT and
+    if ( $proj_state == PROJ_POST_FIRST_CHECKED_OUT and
         $pguser == $project_res['checkedoutby'] )
     {
         echo "<li> (You are the post-processor.) Check it in.</li>\n";

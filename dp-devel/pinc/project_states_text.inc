@@ -36,11 +36,11 @@
   define("PROJ_PROOF_SECOND_COMPLETE_TEXT","Completed Second Round");
 
 // PP
-  define("PROJ_POST_UNAVAILABLE_TEXT", "Unavailable for Post-Processing");
-  define("PROJ_POST_AVAILABLE_TEXT", "Available for Post-Processing");
-  define("PROJ_POST_CHECKED_OUT_TEXT", "In Post-Processing");
-  define("PROJ_POST_VERIFY_TEXT", "Verify Post-Processing");
-  define("PROJ_POST_VERIFYING_TEXT", "Verifying Post-Processing");
+  define("PROJ_POST_FIRST_UNAVAILABLE_TEXT", "Unavailable for Post-Processing");
+  define("PROJ_POST_FIRST_AVAILABLE_TEXT", "Available for Post-Processing");
+  define("PROJ_POST_FIRST_CHECKED_OUT_TEXT", "In Post-Processing");
+  define("PROJ_POST_SECOND_AVAILABLE_TEXT", "Verify Post-Processing");
+  define("PROJ_POST_SECOND_CHECKED_OUT_TEXT", "Verifying Post-Processing");
   define("PROJ_POST_COMPLETE_TEXT", "Completed Post-Processing");
   define("PROJ_POST_AVAIL_SECOND_TEXT", "Available for 2nd round of PP");
   define("PROJ_POST_CHECKEDOUT_SECOND_TEXT", "Checkedout for 2nd round PP");

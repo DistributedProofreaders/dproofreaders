@@ -24,9 +24,9 @@ theme("Personal Page for $pguser", "header");
     	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
     	$postprocessorpages = mysql_result($result,0);
     	if ($userP['postprocessor'] == "yes" || $postprocessorpages >= 400) {
-    		$result = mysql_query("SELECT count(projectid) FROM projects WHERE state='".PROJ_POST_AVAILABLE."' || state='".PROJ_POST_VERIFY."'");
+    		$result = mysql_query("SELECT count(projectid) FROM projects WHERE state='".PROJ_POST_FIRST_AVAILABLE."' || state='".PROJ_POST_SECOND_AVAILABLE."'");
         	$numprojects = mysql_result($result,0);
-        	$result = mysql_query("SELECT count(projectid) FROM projects WHERE checkedoutby='$pguser' && (state='".PROJ_POST_CHECKED_OUT."' || state='".PROJ_POST_VERIFYING."')");
+        	$result = mysql_query("SELECT count(projectid) FROM projects WHERE checkedoutby='$pguser' && (state='".PROJ_POST_FIRST_CHECKED_OUT."' || state='".PROJ_POST_SECOND_CHECKED_OUT."')");
         	$yourprojects = mysql_result($result,0);
 ?>
 

@@ -24,7 +24,7 @@ if ($mode != "upload") {
     $post_proofer = mysql_result($result, 0, "real_name");
 
     // mark the project as completed post-processing
-    $error_msg = project_transition( $project, PROJ_POST_VERIFYING );
+    $error_msg = project_transition( $project, PROJ_POST_SECOND_CHECKED_OUT );
 ?>
 
 <html><head><title>Completed Post-Processing</title></head>

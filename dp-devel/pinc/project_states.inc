@@ -55,14 +55,14 @@
 
 
 // POST
-  define("PROJ_POST_UNAVAILABLE", "proj_post_unavailable"); // 60
-  define("PROJ_POST_AVAILABLE", "proj_post_available"); // 61
+  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_unavailable"); // 60
+  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_available"); // 61
 //  define("AVAIL_PP", "62");  this is not the same as db
-  define("PROJ_POST_CHECKED_OUT", "proj_post_checkedout"); // 65
+  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_checkedout"); // 65
 
-  define("PROJ_POST_VERIFY", "proj_post_verify"); // this is not in db
+  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_verify"); // this is not in db
 
-  define("PROJ_POST_VERIFYING", "proj_post_verifying"); // 67
+  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_verifying"); // 67
   define("PROJ_POST_COMPLETE", "proj_post_complete"); // 69
   define("PROJ_POST_AVAIL_SECOND", "proj_post_avail_second");
   define("PROJ_POST_CHECKEDOUT_SECOND", "proj_post_checkedout_second");
@@ -104,11 +104,11 @@ $PROJECT_STATES_IN_ORDER = array(
     PROJ_PROOF_SECOND_VERIFY,
     PROJ_PROOF_SECOND_COMPLETE,
 
-    PROJ_POST_UNAVAILABLE,
-    PROJ_POST_AVAILABLE,
-    PROJ_POST_CHECKED_OUT,
-    PROJ_POST_VERIFY,
-    PROJ_POST_VERIFYING,
+    PROJ_POST_FIRST_UNAVAILABLE,
+    PROJ_POST_FIRST_AVAILABLE,
+    PROJ_POST_FIRST_CHECKED_OUT,
+    PROJ_POST_SECOND_AVAILABLE,
+    PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_COMPLETE,
     PROJ_POST_AVAIL_SECOND,
     PROJ_POST_CHECKEDOUT_SECOND,
@@ -135,11 +135,11 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_PROOF_SECOND_VERIFY."'"
       . ")");
   define("SQL_CONDITION_SILVER",
-           "(state='".PROJ_POST_UNAVAILABLE."'"
-      . " OR state='".PROJ_POST_AVAILABLE."'"
-      . " OR state='".PROJ_POST_CHECKED_OUT."'"
-      . " OR state='".PROJ_POST_VERIFY."'"
-      . " OR state='".PROJ_POST_VERIFYING."'"
+           "(state='".PROJ_POST_FIRST_UNAVAILABLE."'"
+      . " OR state='".PROJ_POST_FIRST_AVAILABLE."'"
+      . " OR state='".PROJ_POST_FIRST_CHECKED_OUT."'"
+      . " OR state='".PROJ_POST_SECOND_AVAILABLE."'"
+      . " OR state='".PROJ_POST_SECOND_CHECKED_OUT."'"
       . " OR state='".PROJ_POST_COMPLETE."'"
       . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
@@ -165,11 +165,11 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_PROOF_SECOND_VERIFY."'"
       . " OR state='".PROJ_PROOF_FIRST_COMPLETE."'"
       . " OR state='".PROJ_PROOF_SECOND_COMPLETE."'"
-      . " OR state='".PROJ_POST_UNAVAILABLE."'"
-      . " OR state='".PROJ_POST_AVAILABLE."'"
-      . " OR state='".PROJ_POST_CHECKED_OUT."'"
-      . " OR state='".PROJ_POST_VERIFY."'"
-      . " OR state='".PROJ_POST_VERIFYING."'"
+      . " OR state='".PROJ_POST_FIRST_UNAVAILABLE."'"
+      . " OR state='".PROJ_POST_FIRST_AVAILABLE."'"
+      . " OR state='".PROJ_POST_FIRST_CHECKED_OUT."'"
+      . " OR state='".PROJ_POST_SECOND_AVAILABLE."'"
+      . " OR state='".PROJ_POST_SECOND_CHECKED_OUT."'"
       . " OR state='".PROJ_POST_COMPLETE."'"
       . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
