@@ -33,6 +33,10 @@ theme("Project Managers", "header");
 		echo " | ";
 		echo "<a href='projectmgr.php?show=search_form'>Search for Projects</a>"; 
 	}
+	else
+	{
+		echo "<a href='projectmgr.php?show=search_form'>Search Your Projects</a>"; 
+	}
 	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
 ?>
