@@ -123,7 +123,7 @@ echo "</HEAD><BODY>";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
-<br><i><? _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!"); ?></i><br>
+<i><? _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!"); ?></i><br>
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
@@ -190,7 +190,7 @@ if (!isset($proofing)) {
 
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>"._("Project Comments")."</h3>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
     echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
-    echo "<b>"._("Instructions below take precedence over the guidelines"); ?></b>:<P>";
+    echo "<b>"._("Instructions below take precedence over the guidelines")."</b>:<P>";
     echo "$comments</td></tr></table>";
     echo "<BR>";
 
