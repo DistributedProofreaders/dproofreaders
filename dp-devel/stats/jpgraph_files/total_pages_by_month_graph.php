@@ -31,7 +31,7 @@ $graph->xaxis->SetTickLabels($datax);
 //$graph->xaxis->SetTextLabelInterval(91.25);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+//$graph->xaxis->SetTextTickInterval(91.25);
 //Set Y axis
 $graph->yaxis->title->Set('Pages');
 $graph->yaxis->SetTitleMargin(45);
