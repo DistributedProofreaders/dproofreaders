@@ -1,3 +1,4 @@
+<?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'theme.inc');
