@@ -41,10 +41,10 @@ return $to_echo;
     echo "\r\n<tr>";
 
     echo "<td>"._("Difficulty")."</td>";
-    echo "<td>"._("All")."<input type='checkbox' name='difficulty1[]' value=''>";
-    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
-    echo _("Easy").'<input type="checkbox" name="difficulty1[]" value="easy">';
-    echo _("Average").'<input type="checkbox" name="difficulty1[]" value="average">'; 
+    echo "<td>"._("All")."<input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;";
+    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;';
+    echo _("Easy").'<input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;';
+    echo _("Average").'<input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;'; 
     echo _("Hard").'<input type="checkbox" name="difficulty1[]" value="hard"></td>';
 
     echo "\r\n</tr>";
