@@ -126,11 +126,43 @@ if ($site_supports_metadata)
 
 // PROOF
 
-  // unavailable
+// first round
+declare_project_state(
+    "PROJ_PROOF_FIRST_BAD_PROJECT",
+    "bad_1",
+    _("Bad First Round Project"),
+    'PAGE_EDITING'
+);
 declare_project_state(
     "PROJ_PROOF_FIRST_UNAVAILABLE",
     "unavail_1",
     _("Unavailable First Round"),
+    'PAGE_EDITING'
+);
+declare_project_state(
+    "PROJ_PROOF_FIRST_WAITING_FOR_RELEASE",
+    "waiting_1",
+    _("Waiting for First Round Release"),
+    'PAGE_EDITING'
+);
+declare_project_state(
+    "PROJ_PROOF_FIRST_AVAILABLE",
+    "avail_1",
+    _("Available for First Round"),
+    'PAGE_EDITING'
+);
+declare_project_state(
+    "PROJ_PROOF_FIRST_COMPLETE",
+    "done_1",
+    _("Completed First Round"),
+    'PAGE_EDITING'
+);
+
+// second round
+declare_project_state(
+    "PROJ_PROOF_SECOND_BAD_PROJECT",
+    "bad_2",
+    _("Bad Second Round Project"),
     'PAGE_EDITING'
 );
 declare_project_state(
@@ -139,54 +171,16 @@ declare_project_state(
     _("Unavailable Second Round"),
     'PAGE_EDITING'
 );
-
-  // waiting for release
-declare_project_state(
-    "PROJ_PROOF_FIRST_WAITING_FOR_RELEASE",
-    "waiting_1",
-    _("Waiting for First Round Release"),
-    'PAGE_EDITING'
-);
 declare_project_state(
     "PROJ_PROOF_SECOND_WAITING_FOR_RELEASE",
     "waiting_2",
     _("Waiting for Second Round Release"),
     'PAGE_EDITING'
 );
-
-  // bad project
-declare_project_state(
-    "PROJ_PROOF_FIRST_BAD_PROJECT",
-    "bad_1",
-    _("Bad First Round Project"),
-    'PAGE_EDITING'
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_BAD_PROJECT",
-    "bad_2",
-    _("Bad Second Round Project"),
-    'PAGE_EDITING'
-);
-
-  // available for proofreading
-declare_project_state(
-    "PROJ_PROOF_FIRST_AVAILABLE",
-    "avail_1",
-    _("Available for First Round"),
-    'PAGE_EDITING'
-);
 declare_project_state(
     "PROJ_PROOF_SECOND_AVAILABLE",
     "avail_2",
     _("Available for Second Round"),
-    'PAGE_EDITING'
-);
-
-  // proofreading round complete and verified
-declare_project_state(
-    "PROJ_PROOF_FIRST_COMPLETE",
-    "done_1",
-    _("Completed First Round"),
     'PAGE_EDITING'
 );
 declare_project_state(
@@ -262,20 +256,20 @@ declare_project_state(
     'NONE'
 );
 
-// for the 'deletion' of a project
-declare_project_state(
-    "PROJ_DELETE",
-    "project_delete",
-    _("Delete Project"),
-    'NONE'
-);
-
 // for complete project
 declare_project_state(
     "PROJ_COMPLETE",
     "project_complete",
     _("Project Complete"),
     'COMPLETE'
+);
+
+// for the 'deletion' of a project
+declare_project_state(
+    "PROJ_DELETE",
+    "project_delete",
+    _("Delete Project"),
+    'NONE'
 );
 
 // -----------------------------------------------------------------------------
