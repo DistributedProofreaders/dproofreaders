@@ -4,7 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
-theme("Books To Be Released", "header");
+theme(_("Books To Be Released"), "header");
 
 if ($order == 'default') {
     $order ='nameofwork';
@@ -20,10 +20,9 @@ $numrows = mysql_numrows($result);
 $rownum = 0;
 
 echo "<table cols = \"3\" border =\"1\">";
-echo "<td><b>Index</b></td><td><b>Name of Work</b></td>
-      <td><b><a href =\"to_be_released.php?order=username\">Project Manager</b></td>
-      <td><b><a href = \"to_be_released.php?order=modifieddate\">Date Last
-      Modified</a></b></td><td><b>Language</b></td><td><b>Genre</b></td><tr>";
+echo "<td><b>"._("Index")."</b></td><td><b>"._("Name of Work")."</b></td>
+      <td><b><a href =\"to_be_released.php?order=username\">"._("Project Manager")."</b></td>
+      <td><b><a href =\"to_be_released.php?order=modifieddate\">"._("Date Last Modified")."</a></b></td><td><b>"._("Language")."</b></td><td><b>"._("Genre")."</b></td><tr>";
 
 $index = 0;
 while ($rownum < $numrows) {
