@@ -293,6 +293,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
 		$R_temp_state = TEMP_FIRST;
+		$R_out_state = OUT_FIRST;
 	}
 	elseif ($round_num == 2)
 	{
@@ -302,6 +303,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
 		$R_temp_state = TEMP_SECOND;
+		$R_out_state = OUT_SECOND;
 	}
 	else
 	{
@@ -322,7 +324,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
                 }
 
                 // a page saved as IN PROGRESS by the user has an orangey background
-                if ($page_state == $R_temp_state) {
+                if ($page_state == $R_temp_state || $page_state == $R_out_state) {
                         $cellcolorclause = "bgcolor='#FFCC66'";
                 }
 
