@@ -12,16 +12,18 @@ include_once($relPath.'page_ops.inc');
 
 function get_available_page( $project, $proofstate, $pguser )
 {
+    $prd = get_PRD_for_project_state($proofstate);
+
     // If $project is a BEGIN project in R1, people can only get a new page 
     // if they've done less than X pages on this project so far;
     // X is currently, let's say, 20
     //
-    if ($proofstate == PROJ_PROOF_FIRST_AVAILABLE)
+    if ($prd->round_number == 1)
     {
         $dbQuery = "
             SELECT COUNT(fileid) as pagesdone
             FROM $project, projects 
-            WHERE round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
+            WHERE {$prd->user_column_name} = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
         "; 
         $result = mysql_query($dbQuery);
         $pagesdone = mysql_result($result, 0, "pagesdone" );
@@ -34,14 +36,11 @@ function get_available_page( $project, $proofstate, $pguser )
 
     // Find page to be proofed.
     // (It appears that a simultaneous query from someone else would return the same page.)
-    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='";
-    if ($proofstate == PROJ_PROOF_SECOND_AVAILABLE)
+    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='{$prd->page_avail_state}'";
+    for ( $rn = 1; $rn < $prd->round_number; $rn++ )
     {
-        $dbQuery .= AVAIL_SECOND."' AND round1_user != '$pguser'";
-    }
-    else
-    {
-        $dbQuery .= AVAIL_FIRST."'";
+        $earlier_prd = get_PRD_for_round( $rn );
+        $dbQuery .= " AND {$earlier_prd->user_column_name} != '$pguser'";
     }
     $dbQuery .= " ORDER BY image ASC LIMIT 1";
     $result = mysql_query($dbQuery);
@@ -56,16 +55,7 @@ function get_available_page( $project, $proofstate, $pguser )
     $fileid    = $npage['fileid'];
     $imagefile = $npage['image'];
 
-    if ($proofstate == PROJ_PROOF_SECOND_AVAILABLE)
-    {
-        $round_number = 2;
-    }
-    else
-    {
-        $round_number = 1;
-    }
-
-    $pagestate = Page_checkout( $project, $fileid, $imagefile, $round_number, $pguser );
+    $pagestate = Page_checkout( $project, $fileid, $imagefile, $prd->round_number, $pguser );
 
     setPageCookie( $project, $proofstate, $fileid, $imagefile, $pagestate, 0, 0, 0, 0, 0, 0 );
 }
