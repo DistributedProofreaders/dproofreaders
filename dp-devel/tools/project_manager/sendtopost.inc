@@ -5,12 +5,11 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'maybe_mail.inc');
 
-    function sendtopost($project, $username, $todaysdate) {
+    function sendtopost($project, $username) {
         // Prepare a project for post-processing.
         //
         // $project: the unique id of the project.
         // $username: the DP username of the owner(?) of the project.
-        // $todaysdate: the result of calling time() recently.
         //
         // More specifically:
         // -- Make a zip of all the page-image files.
