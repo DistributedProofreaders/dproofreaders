@@ -4,6 +4,23 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+// DAK 6/18/04 The following two statements should accomplish much more quickly (0.002 sec. on test machine).
+// NOT parallel-tested to make sure results are identical - deferred until test machine is open again.
+// No fixes, just replacing 5 sql queries (4 with table scans) with one without a table scan.
+/*
+$sql_insert = "
+        INSERT INTO user_active_log
+            ( year, month, day, hour,  time_stamp,  U_lasthour ,  U_day,  U_week, U_4wks)
+        SELECT YEAR(NOW()) , MONTH(NOW()), DAYOFMONTH(NOW()), HOUR(NOW()), UNIX_TIMESTAMP(),
+                SUM( CASE WHEN last_login > UNIX_TIMESTAMP( ) - 60 * 60 THEN 1 ELSE 0 END ) ,
+                SUM( CASE WHEN last_login > UNIX_TIMESTAMP( ) - 60 * 60 * 24 THEN 1 ELSE 0 END ) ,
+                SUM( CASE WHEN last_login > UNIX_TIMESTAMP( ) - 7 * 60 * 60 * 24 THEN 1 ELSE 0 END ) ,
+                SUM( CASE WHEN last_login > UNIX_TIMESTAMP( ) - 4 * 7 * 60 * 60 * 24 THEN 1 ELSE 0 END )
+        FROM users
+        WHERE last_login > UNIX_TIMESTAMP( ) - 4 * 7 * 60 * 60 * 24 " ;
+
+mysql_query($sql_insert);
+*/
 
 $now = time();
 
