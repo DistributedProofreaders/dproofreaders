@@ -85,7 +85,7 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the line
 $lplot1 = new LinePlot($datay1);
-$lplot1->SetColor("blue");
+$lplot1->SetColor("green");
 $lplot1->SetWeight(1);
 $lplot1->SetLegend(_("Projects Created"));
 
