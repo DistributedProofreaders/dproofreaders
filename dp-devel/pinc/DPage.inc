@@ -70,6 +70,11 @@ function Pages_delete( $projectid )
 
 // -----------------------------------------------------------------------------
 
+// A comment would be appreciated explaining the reason for the "WHERE state=" clause.
+// What would happen to pages that were NOT in state UNAVAIL_FIRST and therefore would
+// be prohibited from becoming available? And if it's not possible for them to be in
+// any other state then the constraint shouldn't be fed to the query optimizer.
+
 function Pages_prepForRound( $projectid, $round_number )
 {
     global $writeBIGtable;
