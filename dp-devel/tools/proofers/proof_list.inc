@@ -81,7 +81,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= " AND (0";
 	    foreach( $_GET['difficulty1'] as $diff )
 	    {
-		if !inarray($array_of_diffs, $diff ) { echo "UHOH" & exit(); }
+		if (!inarray($array_of_diffs, $diff )) { echo "UHOH" & exit(); }
 
 		if ( $diff == '' )
 		{
