@@ -1,11 +1,8 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'cookiecheck.inc');
-include($relPath.'connect.inc');
-$dbC=new dbConnect();
-
-    $project = $_GET['project'];
-    $prooflevel = $_GET['prooflevel'];
+include($relPath.'dp_main.inc');
+    $project = gtog('project');
+    $prooflevel = gtog('prooflevel');
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
@@ -22,7 +19,7 @@ echo "<HTML><HEAD><TITLE> Project Comments</TITLE>$docType";
 <!-- 
 function newProofWin(winURL)
 {
-sw=screen.width
+sw=screen.width;
 if (sw)
 {newWidth=screen.width-20;
 newHeight=((newWidth-40) * 75)/100;

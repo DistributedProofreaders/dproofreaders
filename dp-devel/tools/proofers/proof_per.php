@@ -233,7 +233,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <tr>
   <td>
 <?
-  include("../randrule.php");
+  include($relPath."randrule.php");
   print dpRandomRule();
 ?>
   </td>

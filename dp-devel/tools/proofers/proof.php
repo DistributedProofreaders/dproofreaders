@@ -50,6 +50,7 @@ if (!isset($saved))
 
 }
 
+            $pageNum=substr($imagefile,0,-4);
             $fileid = '&fileid='.$fileid;
             $imagefile = '&imagefile='.$imagefile;
             $newprooflevel = '&prooflevel='.$prooflevel;
@@ -58,7 +59,6 @@ if (!isset($saved))
             $lang=gtog('lang');
             $lang=isset($lang)? $lang:'1';
             $lang="&lang=$lang";
-
 $frame1=isset($saved) && (!isset($editone))? 'saved':'imageframe';
             $frame1 = $frame1.'.php?project='.$project.$imagefile.$newjs;
             $frame3 = 'textframe.php?project='.$project.$imagefile.$fileid.$newprooflevel.$lang.$newjs;
