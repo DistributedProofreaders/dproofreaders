@@ -23,7 +23,7 @@ $lastweek = $now - (7 * 60 * 60 * 24);
 $result0 = mysql_query("
 	SELECT max(pagescompleted) as maxpages FROM users 
 ");
-$maxpages = mysql_result($result, 0,"maxpages");
+$maxpages = mysql_result($result0, 0,"maxpages");
 
 
 
@@ -84,36 +84,36 @@ while ($count < $maxpages) {
 
     // track how many values we've looked at and recorded from this data set
     // so as not to run out of bounds
-    if ($countAll < $numRowsAll) {
+    if ($countAll < $numrowsAll) {
 	if (mysql_result($resultAll, $countAll,"pagescompleted") == $count) {
-           $datayAll[$count] = mysql_result($resultAll, $count,"NumUsers");	
+           $datayAll[$count] = mysql_result($resultAll, $countAll,"NumUsers");	
 	   $countAll++;
 	} else {
 	   $datayAll[$count] = 0;
 	}
     }
 
-    if ($count90 < $numRows90) {
+    if ($count90 < $numrows90) {
 	if (mysql_result($result90, $count90,"pagescompleted") == $count) {
-           $datay90[$count] = mysql_result($result90, $count,"NumUsers");	
+           $datay90[$count] = mysql_result($result90, $count90,"NumUsers");	
 	   $count90++;
 	} else {
 	   $datay90[$count] = 0;
 	}
     }
 
-    if ($count28 < $numRows28) {
+    if ($count28 < $numrows28) {
 	if (mysql_result($result28, $count28,"pagescompleted") == $count) {
-           $datay28[$count] = mysql_result($result28, $count,"NumUsers");	
+           $datay28[$count] = mysql_result($result28, $count28,"NumUsers");	
 	   $count28++;
 	} else {
 	   $datay28[$count] = 0;
 	}
     }
 
-    if ($count7 < $numRows7) {
+    if ($count7 < $numrows7) {
 	if (mysql_result($result7, $count7,"pagescompleted") == $count) {
-           $datay7[$count] = mysql_result($result7, $count,"NumUsers");	
+           $datay7[$count] = mysql_result($result7, $count7,"NumUsers");	
 	   $count7++;
 	} else {
 	   $datay7[$count] = 0;
@@ -137,8 +137,8 @@ $graph->SetScale("textint");
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set(_("Pages Proofed"));
-// Only draw labels on every 2nd tick mark
-$graph->xaxis->SetTextTickInterval(91.25);
+// Only draw labels on every 100th tick mark
+$graph->xaxis->SetTextTickInterval(1000);
 
 //Set Y axis
 $graph->yaxis->title->Set(_("Number of Proofers"));
@@ -154,8 +154,6 @@ $graph->SetShadow();
 //left, right , top, bottom
 $graph->img->SetMargin(70,30,20,100);
 
-
-// TODO - colours, barplot_Group_thing
 
 // Create the bar pots
 $bplotAll = new BarPlot($datayAll);
@@ -173,7 +171,7 @@ $bplotAll->SetLegend(_("Logged on in last 28 days"));
 
 
 $bplot7 = new BarPlot($datay7);
-$bplotAll ->SetFillColor ("yello");
+$bplotAll ->SetFillColor ("yellow");
 $bplotAll->SetLegend(_("Logged on in last 7 days"));
 
 
