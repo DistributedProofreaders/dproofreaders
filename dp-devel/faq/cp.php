@@ -1,24 +1,19 @@
 <?
 $relPath='../../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Scanning and Submitting Guidelines','header');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-  <title>Scanning and Submitting Guidelines - Distributed Proofreaders</title>
-  <meta name="Description" content="">
-  <meta name="Keywords" content="">
-  <meta name="Author" content="Stephen Schulze">
-  <meta name="Generator" content="AceHTML 4 Pro">
-  <meta name="author" content="thubdergnat">
-</head>
-<body>
-<h1>Distributed Proofreaders</h1>
-<p><a href="../../">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+<meta name="Author" content="Stephen Schulze">
+<meta name="author" content="thubdergnat">
+
+<h1>Scanning, Preprocessing &amp; Submitting Guidelines</h1>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
  href="./scanfaq.php">Scanning FAQ</a></p>
-<p>Scanning, Preprocessing &amp; Submitting Guidelines </p>
 <hr size="3" width="100%" align="left">
 <p>So you've reached the rank of "Proofer Extraordinaire" and figured
 that you would branch out into different arenas.<br>
@@ -518,5 +513,7 @@ yourself. </p>
 to do post-processing... See the <a
  href="../post_proof.php">Post-Processing
 FAQ</a> for more details. </p>
-</body>
-</html>
+
+<?
+theme('','footer');
+?>

@@ -1,8 +1,13 @@
-<HR size=1><html>
-<head>
-<title>Project Managers Frequently Asked Questions (FAQ)</title
-</head>
-<xbody>
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Project Managers\' FAQ','header');
+?>
+
 <h1>Project Managers Frequently Asked Questions (FAQ)</h1>
 <br><br>
 Authors: Charles Franks <a href="mailto:charlz@lvcablemodem.com">charlz@lvcablemodem.com</a>, Robert Rowe <a href="mailto:robert_rowe@yahoo.com">robert_rowe@yahoo.com</a><br>
@@ -232,17 +237,8 @@ If your scanner has an ADF (Automatic Document Feeder) you may wish to cut the p
     <blockquote>
     No one will tell you that you should or shouldn't use a specific program. You can use whatever works for you. That said, Robert and I use Finereader from a company called ABBYY (<a href="http://www.abbyy.com">http://www.abbyy.com</a>). In our opinion, this is the best program for scanning and OCRing our books. They have a trial version on their website if you want to try it out. If you do decide to use Finreader, both Robert and I will be glad to answer any questions you have about using it. We have plans to create a "How To" that illustrates in greater detail the process of creating an etext using Finereader and PRTK.
     </blockquote>
+</p>
 
-
-
-
-<p>
-<hr>
-
-<br><br>
-This ends the Project Managers Frequently Asked Questions (FAQ)
-<p>
-Back to <a href ="../default.php">Distributed Proofreaders Mainpage</a>
-</body>
-</html>
-
+<?
+theme('','footer');
+?>

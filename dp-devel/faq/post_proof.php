@@ -1,14 +1,13 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Post-Proofing FAQ','header');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html>
-<head>
-<title>Post-Proofing FAQ</title>
-</head>
 
-<body>
 <h1>Post-Proofing FAQ</h1>
 <h5>(Version 2.1; last updated April 8, 2003)</h5>
 <br>
@@ -495,5 +494,7 @@ include($relPath.'v_site.inc');
  st-processors can then tell you how they would handle the situation.  Their suggestions might give you a logical answer for your text, or inspire your own idea as to how to handle the issue.</p>
 
 <p>If you think that something should be added to the FAQ, <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.  If it's a general or common enough question, I'll add it.</p>
-</body>
-</html>
+
+<?
+theme('','footer');
+?>

@@ -1,6 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Enhanced Proofing Interface Help</TITLE></HEAD><BODY
-BGCOLOR="#CCCCCC" TEXT="#000000" LINK="#000066" VLINK="#660000" ALINK="#006600"><CENTER><DIV ALIGN="CENTER"><TABLE
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Enhanced Proofing Interface Help','header');
+?>
+
+<CENTER><DIV ALIGN="CENTER"><TABLE
 BORDER="1" WIDTH="630" CELLPADDING="6"><TR><TD COLSPAN="2" ALIGN="CENTER"><FONT SIZE="+2">Enhanced Proofing Interface Help</FONT><BR>Version 1.02<BR></TD></TR>
 <TR><TD
 COLSPAN="2"><FONT SIZE="-1">
@@ -83,7 +91,7 @@ it is not an error, click the Check for Common Errors button to continue the err
 sequence.
 
 <P>When the error checking sequence is complete, click the Check for Common Errors button
-to replace the error check messages with the text.  Changes made during the error checking
+to replace the error check messages witfaq_central.phph the text.  Changes made during the error checking
 process will be included in the text.  If you wish to undo any changes made during the
 process, click the Undo Revert button to restore to your last edit before starting the
 Check for Common Errors sequence.
@@ -200,3 +208,6 @@ like the tag or character to appear and then paste the text from the clipboard
 (using ctrl-v/cmd-v).
 
 </TD></TR></TABLE></DIV></CENTER></BODY></HTML>
+<?
+theme('','footer');
+?>

@@ -1,18 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-  <title></title>
-  <meta name="Description" content="">
-  <meta name="Keywords" content="">
-  <meta name="Author" content="Stephen Schulze">
-  <meta name="Generator" content="AceHTML 4 Pro">
-</head>
-<body>
-<h1>Distributed Proofreaders</h1>
-<a href="../../">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
- href="./submitting.php">Scanning - Submitting Guidelines</a>
+<?
+$relPath='../../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Scanning FAQ','header');
+?>
+<meta name="Author" content="Stephen Schulze">
+
+<h1>Scanning FAQ</h1>
+<a href="./submitting.php">Scanning - Submitting Guidelines</a>
 <hr> <a href="#1"><b>Do I <i>have</i> to use Abbyy Finereader?<br>
 </b></a> <a href="#2"><b>What kind of scanner should I get?<br>
 </b></a> <a href="#3"><b>Should I get a scanner with an automatic
@@ -208,5 +206,7 @@ Just be aware, in the OCR world, you typically get what you pay for.
 <p><br>
 <br>
 </p>
-</body>
-</html>
+
+<?
+theme('','footer');
+?>

@@ -1,12 +1,12 @@
-<html>
-
-<head>
-<meta http-equiv="Content-Language" content="en-us">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>Distributed Proofreaders XML Fee</title>
-</head>
-
-<body>
+<?
+$relPath='../../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('XML Feeds SDK','header');
+?>
 
 <table border="0" style="border-collapse: collapse" width="100%" id="table1">
 <tr>
@@ -453,6 +453,6 @@ false) { <br>document.write(&quot;Library Reference: &lt;a href='&quot;);<br>doc
 </blockquote>
 </blockquote>
 
-</body>
-
-</html>
+<?
+theme('','footer');
+?>

@@ -1,15 +1,12 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.76 [en] (WinNT; U) [Netscape]">
-</head>
-<title>
-Distributed Proofreaders Workflow
-</title>
-
-
-<body>
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Workflow Diagram','header');
+?>
 
 <h1>Distributed Proofreaders General Workflow Diagram</h1>
 
@@ -24,5 +21,7 @@ Distributed Proofreaders Workflow
 
 <p>
 <a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.
-</body>
-</html>
+
+<?
+theme('','footer');
+?>
