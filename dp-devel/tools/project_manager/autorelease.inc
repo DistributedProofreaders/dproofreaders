@@ -71,7 +71,7 @@ function autorelease()
         while ( $author_row = mysql_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
-            $first_round_authors[$author] = 1;
+            $first_round_authors[$author]++;
         }
 		    echo "\n";
 		    echo "    List of authors in first round:\n";
@@ -81,7 +81,7 @@ function autorelease()
         }
     }
 
-    // First, get the set of all PMs with works in first round
+    // Next, get the set of all PMs with works in first round
     {
         $first_round_pms = array();
         $pm_res =
@@ -159,6 +159,7 @@ function autorelease()
             WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND ($project_selector)
             ORDER BY modifieddate ASC
         ");
+
         if (mysql_num_rows($waiting_res) == 0)
         {
             echo "    Could have released some projects in this category, but none were waiting!\n";
@@ -182,11 +183,19 @@ function autorelease()
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
 
-            if ( array_key_exists( $authorsname, $first_round_authors ) )
+            // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
+            // Otherwise we only allow one book by the author to be available in first round
+
+            if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
+                (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
+                (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
+		(array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various'))
             {
-                echo "        Its author, $authorsname, already has a project in first round.\n";
+                echo "        Its author, $authorsname, already has a project(s) in first round.\n";
                 continue;
             }
+
+            // If a PM has 5 books already in round 1, their books should be skipped
 
             if ((array_key_exists($pm, $first_round_pms) && ($first_round_pms[$pm] > 5))
             {
