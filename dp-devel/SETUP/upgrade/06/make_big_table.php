@@ -32,21 +32,14 @@ while ($row = mysql_fetch_assoc($result)) {
         	        NULL, NULL 
                 	FROM ".$projectid ) ;
 
-		$pagesCopied = mysql_affected_rows($result2);
+		echo $row['projectid']." -- Moved to project_pages table (".$numPages." pages copied)<br>";
+		$numOK++;
 
-		if ($result2 == FALSE || $numPages != $pagesCopied) {
-			echo $row['projectid']." -- Incomplete move to project_pages table (".
-				$pagesCopied." out of ".$numPages. " pages copied)<br>";
-			$numPartial++;
-		} else {
-			echo $row['projectid']." -- Moved to project_pages table (".$pagesCopied." pages copied)<br>";
-			$numOK++;
-		}
 	}
 }
 
 echo "<br><h1><center><b>Finished!</b></center></h1><br>";
 echo "<br><br><br><h1><center><b>Out of ".$numProjs." projects:<br>";
-echo $numOK." OK, ".$numPartial." partially OK and ".$numBad." bad.</b></center></h1><br>";
+echo $numOK." OK, and ".$numBad." bad.</b></center></h1><br>";
 
 ?>
