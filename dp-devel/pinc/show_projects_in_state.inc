@@ -265,9 +265,9 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	            	else { $genre = $book['genre']; }
 
 		echo "\n<td $bgcolor align=center>$genre</td>";
-		echo "\n<td $bgcolor> ". $book['total_pages']. " </td>";
+		echo "\n<td $bgcolor align=center> ". $book['total_pages']. " </td>";
 		echo "\n<td $bgcolor align=center>$foo_cell</td>";
-		echo "\n<td $bgcolor> ". $book['days_avail']. " </td>";
+		echo "\n<td $bgcolor align=center> ". $book['days_avail']. " </td>";
 
 		echo "</tr>\n";
 	}
