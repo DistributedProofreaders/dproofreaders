@@ -11,6 +11,8 @@ include($relPath.'theme.inc');
 theme("Create An Account", "header");
 echo "<br>";
 
+// This function takes any error message given to it, displays it & terminates the page
+
 function abort_registration( $error )
 {
     echo "$error<br>\n";
@@ -21,13 +23,16 @@ function abort_registration( $error )
 
 $password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
+
+    // From the form filled out at the end of this file
+
     $real_name = $_POST['real_name'];
     $username = $_POST['userNM'];
     $userpass = $_POST['userPW'];
     $email = $_POST['email'];
     $email_updates = $_POST['email_updates'];
 
-    // Do some validity-checks.
+    // Do some validity-checks on inputted username, password, e-mail and real name
 
     $err = check_username( $username );
     if ( $err != '' )
@@ -61,11 +66,14 @@ if ($password=="proofer") {
         // create profile
         $profileString="INSERT INTO user_profiles SET u_ref='".mysql_insert_id($db_link)."'";
         $makeProfile=mysql_query($profileString);
+
         // add ref to profile
         $refString="UPDATE users SET u_profile='".mysql_insert_id($db_link)."' WHERE id='$ID' AND username='$username'";
         $makeRef=mysql_query($refString);
+
         // join the all users team
         mysql_query("UPDATE user_teams SET member_count=member_count+1 WHERE id='1'");
+
         //code from php forums bb_register.php
         $passwd = md5($userpass);
         $sql = "SELECT max(user_id) AS total FROM phpbb_users";
@@ -79,6 +87,7 @@ if ($password=="proofer") {
             VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
         $result = mysql_query($sql);
 
+        // Send them an introduction e-mail
         maybe_mail($email, "Welcome to the Distributed Proofreaders' Site!", "
 Hello $real_name,
 
@@ -243,6 +252,8 @@ to have it reset.
             ",
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
+        // Page shown when account is succeffully created
+
         $htmlC->startHeader("User $username Added Successfully");
         $htmlC->startBody(0, 1, 0, 0);
 
@@ -253,6 +264,11 @@ to have it reset.
 	$htmlC->closeBody(0);
     }
 } else {
+
+// This is the portion that shows up when no parameters are given to the file
+//
+// When users fill the form out below, it will submit the information back
+// to this file & run the above commands.
 
     $tb=$htmlC->startTable(0,400,0,1);
     $tr=$htmlC->startTR(0,0,1);
