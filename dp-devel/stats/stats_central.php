@@ -8,9 +8,9 @@ new dbConnect();
 theme('Stats Central','header');
 echo "<h1>Stats Central</h1>";
 
-echo "<img src=\"curr_month_pages_graph.php\">";   
+echo "<img src=\"jpgraph_files/curr_month_pages_graph.php\">";   
 echo "<p>";
-echo "<img src=\"total_pages_graph.php\">";
+echo "<img src=\"jpgraph_files/total_pages_graph.php\">";
 
 theme('','footer');
 ?>
