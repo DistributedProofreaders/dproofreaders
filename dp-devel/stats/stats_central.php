@@ -15,6 +15,7 @@ $begin_themed_row = "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 echo "<br><h2>" . _("Statistics Central") . "</h2>";
 
 show_site_news_for_page("stats_central.php");
+random_news_item_for_page("stats_central.php");
 
 //Member/team stats searches and listings
 

@@ -42,7 +42,7 @@ welcome_see_beginner_forum( $pagesproofed );
 
 
 show_site_news_for_page("round.php?round_id=".$round_id);
-
+random_news_item_for_page("round.php?round_id=".$round_id);
 
 
 if ($pagesproofed <= 100)

@@ -19,6 +19,7 @@ theme('FAQ Central','header');
 
 <?
 show_site_news_for_page("faq_central.php");
+random_news_item_for_page("faq_central.php");
 ?>
 
 <table border="0" cellspacing="0" width="100%">

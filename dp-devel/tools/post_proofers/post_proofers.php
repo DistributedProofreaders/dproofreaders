@@ -94,6 +94,7 @@ if ($orderPPV != $orderPPVold) {
 
 
 show_site_news_for_page("post_proofers.php");
+random_news_item_for_page("post_proofers.php");
 
 $isPPV = user_is_post_proof_verifier();
 

@@ -44,7 +44,7 @@ echo sprintf( _("Distributed Proofreaders was founded in 2000 by Charles Franks 
 echo sprintf( _("If you have any questions or comments regarding this site, please e-mail <a href='mailto:%s'>%s</a>."), $general_help_email_addr, $general_help_email_addr );
 
 show_site_news_for_page("default.php");
-
+random_news_item_for_page("default.php");
 ?>
 </p>
 
