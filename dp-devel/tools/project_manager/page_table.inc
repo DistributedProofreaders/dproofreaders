@@ -26,21 +26,20 @@ function echo_page_table( $projectid, $show_image_size)
 
 	echo "<table border=1>\n";
 
+	$n_cols_per_round = 3; // Diff, Date, Text
+	if ($can_see_names) $n_cols_per_round += 1; // User
+	if ($can_edit)      $n_cols_per_round += 1; // Clear
+
 	// Top header row
 	{
 		echo "<tr>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-		if ($can_edit) {
-			echo "    <td align='center' colspan='5'>"._("Round 1")."</td>\n";
-			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='5'>"._("Round 2")."</td>\n";
-		} elseif ($can_see_names) {
-			echo "    <td align='center' colspan='4'>"._("Round 1")."</td>\n";
-			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='4'>"._("Round 2")."</td>\n";
-		} else {
-			echo "    <td align='center' colspan='3'>"._("Round 1")."</td>\n";
-			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='3'>"._("Round 2")."</td>\n";
+		echo "    <td align='center' colspan='$n_cols_per_round'>"._("Round 1")."</td>\n";
+		if ($inRound <> 'FIRST')
+		{
+			echo "    <td align='center' colspan='$n_cols_per_round'>"._("Round 2")."</td>\n";
 		}
 		echo "</tr>\n";
 	}
