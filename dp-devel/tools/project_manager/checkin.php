@@ -75,6 +75,20 @@ include($relPath.'project_edit.inc');
 
     // now clear the page
 
+
+    (if $writeBIGtable) {
+	    $result = mysql_query("
+		UPDATE project_pages
+		SET $text_field_name='',
+		    $user_field_name='',
+		    $time_field_name='',
+		    state='$new_state'
+		WHERE projectid = '$project' AND fileid = '$fileid'
+    ");
+
+
+    }
+
     $result = mysql_query("
 	UPDATE $project
 	SET $text_field_name='',
