@@ -28,21 +28,9 @@ function page_clear( $projectid, $fileid )
     $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
     $projstate = mysql_result($sql, 0, "state");
 
-    $project_phase = get_phase_containing_project_state($projstate);
+    $prd = get_PRD_for_project_state($projstate);
 
-    if ($project_phase == 'FIRST')
-    {
-        $round_number = 1;
-        $user_field_name = 'round1_user';
-        $saved_page_state = SAVE_FIRST;
-    }
-    else if ($project_phase == 'SECOND')
-    {
-        $round_number = 2;
-        $user_field_name = 'round2_user';
-        $saved_page_state = SAVE_SECOND;
-    }
-    else
+    if (is_null($prd))
     {
         return _("The project is not in a state that allows pages to be cleared.");
     }
@@ -58,7 +46,7 @@ function page_clear( $projectid, $fileid )
     }
     $data = mysql_fetch_array($result);
     $page_state = $data[0];
-    if ( $page_state != $saved_page_state )
+    if ( $page_state != $prd->page_save_state )
     {
         return _("The page is not in a state that allows it to be cleared.");
     }
@@ -67,7 +55,7 @@ function page_clear( $projectid, $fileid )
     // if page is cleared, decrement user's page count
 
     $result = mysql_query("
-        SELECT $user_field_name
+        SELECT {$prd->user_column_name}
         FROM $projectid
         WHERE fileid = '$fileid'
     ");
@@ -105,7 +93,7 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // now clear the page
 
-    Page_clearRound( $projectid, $fileid, $round_number );
+    Page_clearRound( $projectid, $fileid, $prd->round_number );
 }
 
 ?>
