@@ -37,13 +37,11 @@ function select_from_teams( $where_body, $other_clauses='' )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamInformation($curTeam)
+function showTeamInformation($curTeam, $tally_name)
 {
 	showTeamProfile($curTeam);
 
-	$tally_name = 'P';
-
-	if ($curTeam['id'] != 1)
+	if ($curTeam['id'] != 1 && !is_null($tally_name) )
 	{
 		showTeamStats($curTeam, $tally_name);
 		showTeamMbrs($curTeam, $tally_name);
