@@ -181,13 +181,14 @@ $table->end();
 // Project Graphs by Category
 
 $table = new ThemedTable(
-    2,
+    3,
     _("Project Graphs by Category"),
     array( 'width' => 99 )
 );
 
 $table->column_headers(
     '',
+    _('Number So Far'),
     _("Track by Project")
 );
 
@@ -195,8 +196,19 @@ foreach ( array('created','proofed','PPd','posted') as $which )
 {
     $psd = get_project_status_descriptor( $which );
 
+    $res = mysql_query("
+        SELECT SUM(num_projects)
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY date
+        ORDER BY date DESC
+        LIMIT 1
+    ");
+    $num_so_far = mysql_result($res,0);
+
     $table->row(
         $psd->projects_Xed_title,
+        $num_so_far,
         "<a href='projects_Xed_graphs.php?which=$which'>$psd->graphs_title</a>"
     );
 }
