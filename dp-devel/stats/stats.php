@@ -21,7 +21,7 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
 //limit to looking at projects which do not have
 //the archive flag set to 1 in order to limit run time
-$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0'");
+$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0' AND state != 'waiting_1'");
 $numProjects = mysql_num_rows($allProjects);
 
 while ($i < $numProjects) {
