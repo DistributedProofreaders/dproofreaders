@@ -1,8 +1,5 @@
 <?
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'showavailablebooks.inc');
-include_once($relPath.'project_states.inc');
-include_once($relPath.'page_states.inc');
 
 $result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
 $totalpages = mysql_result($result,0);
@@ -15,17 +12,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     tde("These files are output from the OCR software and have not been looked at.", bgcol(1,'first') . " colspan=5");
     echo "</tr>";
 
-    //Select all projects in the list for round 1
-    // now puts the BEGIN projects at the top
-
-    $result = mysql_query("
-	    SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
-	    FROM projects
-	    WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."'
-	    ORDER BY is_beginner DESC, modifieddate DESC, nameofwork ASC
-    ");
-    showbooklistheader('first');
-    showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
+    show_books_available_for_proofing( 'first', $userP, $tList );
 
     echo "</table>\n<br>";
   }
@@ -45,11 +32,9 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'second') . " colspan=5");
       echo "</tr>";
 
-      //Select all projects in the list for round 2
-        $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_SECOND_AVAILABLE."' or state = '".PROJ_PROOF_SECOND_VERIFY."' ORDER BY nameofwork ASC");
-      showbooklistheader('second');
-      showavailablebooks($result,AVAIL_SECOND,$userP,$tList,'second');
+      show_books_available_for_proofing( 'second', $userP, $tList );
       }
   echo "</table>\n<br>";
 }
+
 ?>
