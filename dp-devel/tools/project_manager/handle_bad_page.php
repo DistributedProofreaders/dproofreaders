@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'RoundDescriptor.inc');
 
-if (!isset($_POST['action'])) {
+if (!isset($_POST['resolution'])) {
     //Get variables to use for form
     $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectID = $_GET['projectid'];
@@ -67,7 +67,7 @@ if (!isset($_POST['action'])) {
     if (!empty($b_User) && !empty($b_Code)) {
         echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo "<input name='action' value='fixed' type='radio'>Fixed&nbsp;<input name='action' value='bad' type='radio'>Bad Report&nbsp;<input name='action' value='unfixed' checked type='radio'>Not Fixed&nbsp;</td></tr>";
+        echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;<input name='resolution' value='bad' type='radio'>Bad Report&nbsp;<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;</td></tr>";
     }
     
     echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
@@ -123,7 +123,7 @@ if (!isset($_POST['action'])) {
     $state = $_POST['state'];
 
     //If the PM fixed the problem or stated the report was bad update the database to reflect
-    if (($action == "fixed") || ($action == "bad")) {
+    if (($resolution == "fixed") || ($resolution == "bad")) {
         $prd = get_PRD_for_page_state($state);
         Page_eraseBadMark( $projectID, $fileID, $prd->round_number );
     }
