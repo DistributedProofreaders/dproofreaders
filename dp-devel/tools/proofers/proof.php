@@ -12,11 +12,19 @@ if (!isset($saved))
     $result = mysql_query($sql);
     $state = mysql_result($result, 0, "state");
     if ((($prooflevel == 0) && ($state != 2)) || (($prooflevel == 2) && ($state != 12))) {
-
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"4 ;URL=proof_per.php\"></head></body>";
-
-        echo "No more files available for proofing for this project.<BR> You will be taken back to the project page in 4 seconds.</body></html>";
-    exit;}
+  if ($js==0)
+  {
+  $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
+  metarefresh(4,"proof_per.php\" TARGET=\"_top\"",'Project Round Complete',$body);
+  exit;}
+  else {
+  include($relPath.'doctype.inc');
+  echo "$docType\r\n<HTML><HEAD><TITLE>Project Round Complete</TITLE></HEAD><BODY>";
+  echo "No more files available for proofing in this round of the project.<BR>";
+  echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
+  echo "</BODY></HTML>";
+  exit;}
+    }
 
         $timestamp = time();
         //find page to be proofed.
@@ -28,8 +36,8 @@ if (!isset($saved))
         $numrows = mysql_num_rows($result);
 
         if ($numrows == 0) {
-            echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"2 ;URL=proof_per.php\"></head><body>";
-            echo "No more files available for proofing for this project.<BR> You will be taken back to the project page in 2 seconds.</body></html>";
+            $body="No more files available for proofing for this project.<BR> You will be taken back to the project page in 2 seconds.";
+            metarefresh(2,'proof_per.php','Project Round Complete',$body);
         } else {
             $fileid = mysql_result($result, 0, "fileid");
             $imagefile = mysql_result($result, 0, "image");

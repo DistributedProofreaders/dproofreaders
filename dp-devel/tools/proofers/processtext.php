@@ -77,13 +77,12 @@ $isOpen=isOpenProject($project,$prooflevel);
 if (!$isOpen)
 {
   if ($js==0)
-  {include($relPath.'doctype.inc');
-  echo "$docType\r\n<HTML><HEAD><TITLE>Project Round Complete</TITLE>";
-  echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"4 ;URL=proof_per.php\" TARGET=\"_top\"></HEAD><BODY>";
-  echo "No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
-  echo "</BODY></HTML>";
+  {
+  $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
+  metarefresh(4,"proof_per.php\" TARGET=\"_top\"",'Project Round Complete',$body);
   exit;}
   else {
+  include($relPath.'doctype.inc');
   echo "$docType\r\n<HTML><HEAD><TITLE>Project Round Complete</TITLE></HEAD><BODY>";
   echo "No more files available for proofing in this round of the project.<BR>";
   echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
@@ -92,7 +91,7 @@ if (!$isOpen)
 }
 // see which button they pressed
 // buttons which save
-if ((@$button1 != "") || (@$button2 != "") || isset($button1_x) || isset($button2_x))
+if ((@$button1 != "") || (@$button2 != "") || isset($button1_x) || isset($button2_x) || isset($button4_x) || (@$button4 !=""))
 {
 addUserCount($project,$prooflevel,$fileid,$pguser);
 savePage($project,$prooflevel,$fileid,$text_data,$pguser);
@@ -118,8 +117,7 @@ $orient = '&orient='.$orient;
 $frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$orient.$lang.$js.$saved;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
-echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\"></HEAD><BODY>"; 
-
+metarefresh(0,$frame1,' ',' ');
 } // end save and continue same page button 1 & button 4
 
 // save and do another send back to proof.php for a new page
@@ -133,7 +131,7 @@ $orient = '&orient='.$orient;
 $frame1 = 'proof.php?'.$project.$prooflevel.$orient.$lang.$js;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
-echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\" TARGET=\"_top\"></HEAD><BODY>"; 
+metarefresh(0,$frame1,' ',' ');
 } // end save and do another button 2
 
 // if quit without saving send back to projects page
@@ -143,12 +141,6 @@ $dbQuery="UPDATE $project SET state='";
 $dbQuery.=$prooflevel==2?"12":"2";
 $dbQuery.="WHERE fileid = '$fileid'";
 $result = mysql_query($dbQuery);
-echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof_per.php\" TARGET=\"_top\"></HEAD><BODY>"; 
+metarefresh(0,'proof_per.php',' ',' ');
 } // end button 3 quit
 ?>
-<script language="JavaScript">
-<!--
-  javascript:window.history.forward(1);
-//-->
-</script>
-</BODY></HTML>

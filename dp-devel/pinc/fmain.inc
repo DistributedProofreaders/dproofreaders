@@ -1,4 +1,7 @@
 <?PHP
+
+include($relPath.'metarefresh.inc');
+
 function ptog($varNM)
 {if (isset($_POST[$varNM]))
 {return $_POST[$varNM];}
