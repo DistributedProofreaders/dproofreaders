@@ -392,8 +392,21 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Doctor of Proofing");
 	}
 	if ($neighborhood['pages'][$userindex] >= 100001) {
+	 $rankname = _("Prishan of Proofers");
+	}
+	if ($neighborhood['pages'][$userindex] >= 101001) {
 	 $rankname = _("Proofer of Proofers");
 	}
+	if ($neighborhood['pages'][$userindex] >= 110001) {
+	 $rankname = _("Proofer Extraordinaire");
+	}
+	if ($neighborhood['pages'][$userindex] >= 120001) {
+	 $rankname = _("Presidential Proofer");
+	}
+	if ($neighborhood['pages'][$userindex] >= 125001) {
+	 $rankname = _("Professor of Proofing");
+	}
+
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
