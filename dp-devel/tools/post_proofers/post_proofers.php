@@ -1,13 +1,6 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
-
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\">"; 
-} else {
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 ?>
 
 <html><title>Post Processing</title> 
@@ -16,9 +9,6 @@ if ($good_login != 1) {
 <table border="1" width="630" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111">
 <tr><td width="126" align="center" bgcolor="#cccccc"><a href="http://texts01.archive.org/dp/phpBB2/index.php">Forums</a></td>
 <td width="126" align="center" bgcolor="#cccccc"><?
-
-    include '../../connect.php';
-
     $result = mysql_query("SELECT manager FROM users WHERE username = '$pguser'");
     $manager = mysql_result($result, 0, "manager");
 
@@ -63,7 +53,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $username = mysql_result($rows, $rownum, "username");
 
         // get number of pages in project
-        $pages = mysql_query("SELECT fileid FROM $projectid WHERE prooflevel = '3'");
+        $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
         $totalpages = (mysql_num_rows($pages));
 
         $users = mysql_query("SELECT email, real_name FROM users WHERE username = '$username'");
@@ -118,7 +108,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $username = mysql_result($rows, $rownum, "username");
 
         // get number of pages in project
-        $pages = mysql_query("SELECT fileid FROM $projectid WHERE prooflevel = '3'");
+        $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
         $totalpages = (mysql_num_rows($pages));
 
         $users = mysql_query("SELECT email, real_name FROM users WHERE username = '$username'");
@@ -163,6 +153,3 @@ started on (usually fiction with a low page count is a good starter book) and wr
 <td width=126 bgcolor =CCCCCC align=center><a href ="../proofers/proof_per.php">Proofread Books</a></td>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
 </body></html>
-<?
-}
-?>

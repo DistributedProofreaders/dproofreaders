@@ -1,25 +1,10 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 
-$mode = $_GET['mode'];
-
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\">"; 
-} else if ($mode != "upload") {
+if ($mode != "upload") {
     $project = $_GET['projectid'];
-
-    //connect to database
-    include '../../connect.php';
-
-    //create date stamp
-    $year  = date("Y");
-    $month = date("m");
-    $day = date("d");
-    $todaysdate = $year.$month.$day;
+    $todaysdate = time();
 
     $sql = mysql_query("SELECT nameofwork, authorsname, language, scannercredit, clearance, username FROM projects WHERE projectid = '$projectid'");
     $NameofWork = mysql_result($sql, 0, "nameofwork");
