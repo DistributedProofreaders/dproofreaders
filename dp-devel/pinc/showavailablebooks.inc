@@ -48,8 +48,8 @@ function showavailablebooks($result,$state,$userP,$tList,$round) {
                       $genre = "BEGINNERS ONLY ".$book['genre'];
                     else 
                       $genre = "MENTORS ONLY ".$book['genre'];  }
-            	elseif ($book['difficulty'] == "easy") { $genre = "Easy ".$book['genre']; }
-            	elseif ($book['difficulty'] == "hard") { $genre = "Hard ".$book['genre']; }
+            	elseif ($book['difficulty'] == "easy") { $genre = "EASY ".$book['genre']; }
+            	elseif ($book['difficulty'] == "hard") { $genre = "HARD ".$book['genre']; }
             	else { $genre = $book['genre']; }
             tde($genre, bgcol($rownum, $round));
             tde($book['username'],bgcol($rownum, $round));
