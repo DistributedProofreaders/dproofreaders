@@ -267,12 +267,6 @@ Legend for Special Books:
 $tList=0;
 include_once('Tproof_list.inc');
 
-if ($pagesproofed <= 20) {
-
-                echo "<font face=" . $theme['font_mainbody'] ."><b>";
-                echo _("Click on the name of a book in the list below to start proofing.");
-                echo "</b></font><br><br>\n";
-}
 
 
 ?>
