@@ -115,6 +115,10 @@ $maintenance = <<MAINTENANCE>>;
 
 $site_supports_metadata = <<METADATA>>;
 
+// Similarly for the corrections-after-posting facility.
+
+$site_supports_corrections_after_posting = <<CORRECTIONS>>;
+
 // -----------------------------------------------------------------------------
 
 // $charset will hopefully one day apply to all relevant pages on site and can be
