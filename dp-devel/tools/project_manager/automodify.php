@@ -10,8 +10,6 @@ include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
 include($relPath.'projectinfo.inc');
-$projectinfo = new projectinfo();
-
 include($relPath.'project_trans.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'page_ops.inc');
@@ -204,7 +202,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
     }
 
-    $projectinfo->update($projectid, $state);
     // Decide which round the project is in
     if ($state == PROJ_PROOF_FIRST_AVAILABLE ||
         $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
@@ -212,10 +209,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $state == PROJ_PROOF_FIRST_VERIFY ||
         $state == PROJ_PROOF_FIRST_COMPLETE)
     {
-        $outtable = $projectinfo->out1_rows;
-        $numoutrows = $projectinfo->out1_pages;
-        $temptable = $projectinfo->temp1_rows;
-        $numtemprows = $projectinfo->temp1_pages;
+        $page_avail_state = AVAIL_SECOND;
+        $page_out_state   = OUT_FIRST;
+        $page_temp_state  = TEMP_FIRST;
+        $page_save_state  = SAVE_FIRST;
         $timetype = "round1_time";
         $texttype = "round1_text";
         $usertype = "round1_user";
@@ -223,7 +220,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $proj_proof_available_state = PROJ_PROOF_FIRST_AVAILABLE;
         $proj_proof_verify_state    = PROJ_PROOF_FIRST_VERIFY;
         $proj_proof_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
-        $page_save_state = SAVE_FIRST;
     }
     else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
         $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
@@ -231,10 +227,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $state == PROJ_PROOF_SECOND_VERIFY ||
         $state == PROJ_PROOF_SECOND_COMPLETE)
     {
-        $outtable = $projectinfo->out2_rows;
-        $numoutrows = $projectinfo->out2_pages;
-        $temptable = $projectinfo->temp2_rows;
-        $numtemprows = $projectinfo->temp2_pages;
+        $page_avail_state = AVAIL_SECOND;
+        $page_out_state   = OUT_SECOND;
+        $page_temp_state  = TEMP_SECOND;
+        $page_save_state  = SAVE_SECOND;
         $timetype = "round2_time";
         $texttype = "round2_text";
         $usertype = "round2_user";
@@ -242,7 +238,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $proj_proof_available_state = PROJ_PROOF_SECOND_AVAILABLE;
         $proj_proof_verify_state    = PROJ_PROOF_SECOND_VERIFY;
         $proj_proof_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
-        $page_save_state = SAVE_SECOND;
     }
     else
     {
@@ -254,7 +249,8 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     if (
         ($one_project) ||
         ($state == $proj_proof_verify_state ) ||
-        (($state == $proj_proof_available_state) && ($projectinfo->availablepages == 0))
+        (($state == $proj_proof_available_state) &&
+           (Project_getNumPagesInState($projectid, $page_avail_state) == 0))
     )
     {
 
@@ -265,6 +261,12 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
 
         // Check in MIA pages
+
+        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$page_out_state' ORDER BY image ASC");
+        if ($outtable != "") { $numoutrows = (mysql_num_rows($outtable)); } else $numoutrows = 0;
+
+        if ($verbose) echo "        examining $numoutrows pages in '$page_out_state'\n";
+
         $page_num = 0;
         $dietime = time() - 14400; // 4 Hour TTL
 
@@ -282,6 +284,12 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
 
         // Check in MIA temp pages
+
+        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$page_temp_state' ORDER BY image ASC");
+        if ($temptable != "") { $numtemprows = (mysql_num_rows($temptable)); } else $numtemprows = 0;
+
+        if ($verbose) echo "        examining $numtemprows pages in '$page_temp_state'\n";
+
         $page_num2 = 0;
 
         while ($page_num2 < $numtemprows) {
