@@ -15,13 +15,14 @@ if ($userP['i_layout']==1)
 {
         $tfonti = $userP['v_fntf'];
         $tfont = $f_f[$tfonti];
-	$cfont = $tfont;
-} else {
+} elsif ($userP['i_layout']==0) {
        	$tfonti = $userP['h_fntf'];
-       	$tfont = $f_f[$tfonti];
-	$cfont = $tfont;
+       	$tfont = $f_f[$tfonti];	
+} else {
+	$tfont = 'Arial';
 }
 
+$cfont = $tfont;
 
 // get font variable from url, if any
 
@@ -45,10 +46,6 @@ if ($cfont != 'DPCustomMono2') {
 	$DPCM = 1;
 }
 
-
-if (length($tfont) == 0) {
-	$tfont = 'Arial';
-}
 
 
 // echo text
