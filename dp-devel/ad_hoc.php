@@ -279,13 +279,6 @@ if (0)
 
 if (0)
 {
-	include_once($relPath.'../stats/pages_proofed.inc');
-	$sql = sql_n_proofings_for_page( 'START', 'END', 'proj_post_first_available' );
-	echo "$sql\n";
-}
-
-if (0)
-{
 	include_once($relPath.'../tools/project_manager/post_files.inc');
 	$projectid = 'projectID40e7bd24f37af';
 	generate_post_files( $projectid, FALSE );
@@ -366,19 +359,6 @@ if (0)
 		$res2 = mysql_query($q) or die( "$projectid: " . mysql_error() );
 		if ( mysql_num_rows($res2) > 0 ) echo "$projectid\n";
 	}
-}
-
-if (0)
-{
-	include_once($relPath.'../stats/pages_proofed.inc');
-	$start_ts = mktime(0,0,0,10,16,2004);
-	$end_ts   = mktime(0,0,0,10,17,2004);
-	$before_t = time();
-	$n_pages = get_n_pages_proofed( $start_ts, $end_ts, $n_projects );
-	$after_t = time();
-	$elapsed_t = $after_t - $before_t;
-
-	echo "n_pages = $n_pages, n_projects = $n_projects, elapsed_t = $elapsed_t seconds\n";
 }
 
 if (0)
