@@ -59,14 +59,17 @@ if (!$uP)
 // The login is successful!
 
 // Log into phpBB2
-$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$userNM'");
-$user_id = mysql_result($result, 0, "user_id");
-$phpbb_root_path = "$code_dir/phpBB2/";
-define ('IN_PHPBB', true);
-include($phpbb_root_path.'extension.inc');
-include($phpbb_root_path.'common.php');
-include($phpbb_root_path.'config.php');
-session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
+if ($forums_dir != "<<FORUMS_DIR>>" && !empty($forums_dir)) {
+	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$userNM'");
+	$user_id = mysql_result($result, 0, "user_id");
+	define('IN_PHPBB', true);
+	$phpbb_root_path = $forums_dir."/";
+	define ('IN_PHPBB', true);
+	include($phpbb_root_path.'extension.inc');
+	include($phpbb_root_path.'common.php');
+	include($phpbb_root_path.'config.php');
+	session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
+}
 
 // send them to the correct page
 if (!empty($_GET['destination']))
