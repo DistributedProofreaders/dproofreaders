@@ -60,7 +60,7 @@ if (isset($_GET['tid'])) {
     		uploadImages(0,$tid,"icon");
     	}
 
-    	mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString($_POST['teamname']))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
+    	mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString(trim($_POST['teamname'])))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
 
 	$title = _("Saving Team Update");
 	$desc = _("Updating team....");

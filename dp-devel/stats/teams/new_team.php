@@ -31,7 +31,7 @@ if (isset($_POST['mkPreview'])) {
 	echo "</center><br>";
 	theme("", "footer");
 } else if (isset($_POST['mkMake'])) {
-	mysql_query("INSERT INTO user_teams (teamname,team_info,webpage,createdby,owner,created) VALUES('".addslashes(stripAllString($_POST['teamname']))."','".addslashes(stripAllString($_POST['text_data']))."','".addslashes(stripAllString($_POST['teamwebpage']))."','$pguser','{$userP['u_id']}','".time()."')");
+	mysql_query("INSERT INTO user_teams (teamname,team_info,webpage,createdby,owner,created) VALUES('".addslashes(stripAllString(trim($_POST['teamname'])))."','".addslashes(stripAllString($_POST['text_data']))."','".addslashes(stripAllString($_POST['teamwebpage']))."','$pguser','{$userP['u_id']}','".time()."')");
 	$tid = mysql_insert_id($db_link);
 	if (!empty($_POST['tavatar'])) {
     		mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
