@@ -12,8 +12,8 @@ include_once($relPath.'projectinfo.inc');
 
 theme("Image Metadata Phase1", "header");
 
-//$projectid = $_GET['project'];
-$projectid ='projectID3f370ab725580';
+$projectid = $_GET['projectid'];
+//$projectid ='projectID3f370ab725580';
 //abort_if_cant_edit_project( $projectid );
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
