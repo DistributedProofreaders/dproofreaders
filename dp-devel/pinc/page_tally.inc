@@ -40,5 +40,26 @@ function page_tallies_add( $username, $amount )
     ");
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function user_get_page_tally( $username )
+// Return the user's page tally.
+{
+    $res = mysql_query("
+        SELECT pagescompleted
+        FROM users
+        WHERE username='$username'
+    ") or die(mysql_error());
+
+    if ( mysql_num_rows($res) == 0 )
+    {
+        // No row matched username='$username'.
+        // This probably shouldn't happen.
+        return 0;
+    }
+
+    return mysql_result($res,0);
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
