@@ -7,26 +7,11 @@ function show_block_for_round( $round_number, $projects_filter )
 {
 	global $pguser, $userP;
 
-	if ($round_number == 1 )
-	{
-		$round_name = 'R1';
-		$round_word = 'first';
-		$title = _("Current First - Round Projects");
-		$description = _("These pages are output from the OCR software and have not been looked at.");
-		$min_num_pages_to_see_this_round = -20;
-	}
-	else if ( $round_number == 2 )
-	{
-		$round_name = 'R2';
-		$round_word = 'second';
-		$title = _("Current Second - Round Projects");
-		$description = _("These are pages that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.");
-		$min_num_pages_to_see_this_round = 100;
-	}
-	else
-	{
-		assert( FALSE );
-	}
+	$prd = get_PRD_for_round($round_number);
+	$round_name  = $prd->round_name;
+	$title       = $prd->title;
+	$description = $prd->description;
+	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
 
 	$setting = "{$round_name}order";
 
@@ -71,7 +56,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 	echo "\n<a name='$round_name'></a>";
 	echo "\r\n<table border=1>";
-	echo "\r\n<tr " . bgcol(1,$round_word) . ">";
+	echo "\r\n<tr " . bgcol(1,$prd) . ">";
 	echo "\n<td colspan=2><h3>$title</h3></td>";
 	if ($pagescompleted < $min_num_pages_to_see_this_round)
 	{
@@ -87,19 +72,19 @@ function show_block_for_round( $round_number, $projects_filter )
 		echo "\n<td colspan=6>$description</td>";
 		echo "</tr>";
 
-		if (! user_can_see_BEGIN_in_round($round_number))
+		if (! user_can_see_BEGIN_in_round($prd->round_number))
 		{
 			$projects_filter .= " AND difficulty != 'beginner' ";
 		}
 
-		show_books_available_for_proofing( $round_word, $userP, $projects_filter, $order_new );
+		show_books_available_for_proofing( $prd, $userP, $projects_filter, $order_new );
 	}
 	echo "</table>\n<br>";
 }
 
 // -----------------------------------------------------------------------------
 
-function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
+function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $order = "DaysD" )
 {
 
 	$flip_title = FALSE;
@@ -205,9 +190,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	$query = "
 		SELECT projectid
 		FROM projects
-		WHERE
-			(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-			state = '".PROJ_PROOF_SECOND_AVAILABLE."') ";
+		WHERE state = '{$prd->project_available_state}'
+	";
 
 	$result = mysql_query($query);
 
@@ -225,18 +209,9 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 
 
-	if ( $round == 'first' )
-	{
-		$project_available_state = PROJ_PROOF_FIRST_AVAILABLE;
-		$linkbase = "<a href=proof_per.php?orderR1=";
-		$linkend = '#R1';
-	}
-	else if ( $round == 'second' )
-	{
-		$project_available_state = PROJ_PROOF_SECOND_AVAILABLE;
-		$linkbase = "<a href=proof_per.php?orderR2=";
-		$linkend = '#R2';
-	}
+	$project_available_state = $prd->project_available_state;
+	$linkbase = "<a href=proof_per.php?order{$prd->round_name}=";
+	$linkend = "#{$prd->round_name}";
 
 	// Always put the BEGIN projects at the top.
 	$query = "
@@ -254,7 +229,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	";
 	$result = mysql_query($query);
 
-	echo "<tr align=center ".bgcol(1,$round).">";
+	echo "<tr align=center ".bgcol(1,$prd).">";
 
 	$word = _("Title");
  	$link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
@@ -296,7 +271,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 	while ($rownum2 < $numrows) {
 		$book=mysql_fetch_assoc($result);
-		$bgcolor=bgcol($rownum,$round);
+		$bgcolor=bgcol($rownum,$prd);
 
 		// Special colours for special books of various types
 		if (1)
@@ -441,10 +416,12 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 			echo "\n<td>{$book['language']}</td>";
 			if ($book['difficulty'] == "beginner")
 			{
-				if  ($round == "first")
+				if  ($prd->round_number == 1)
 					$genre = _("BEGINNERS ONLY")." ".$book['genre'];
-				else
+				else if ($prd->round_number == 2)
 					$genre = _("MENTORS ONLY")." ".$book['genre'];
+				else
+					$genre = $book['genre'];
 			}
 			elseif ($book['difficulty'] == "easy")
 			{
@@ -477,22 +454,10 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 }
 
-function bgcol($rownum,$round_word)
+function bgcol($rownum,$prd)
 {
-	if ($round_word == 'first')
-	{
-		$bgcolor_odd = '#FFF8DC'; // cornsilk
-		$bgcolor_even = '#FFE4B5'; // mocassin
-	}
-	else if ($round_word == 'second')
-	{
-		$bgcolor_odd = '#D8BFD8'; // thistle
-		$bgcolor_even = '#DDA0DD'; // plum
-	}
-	else
-	{
-		assert(0);
-	}
+	$bgcolor_odd  = $prd->listing_bgcolors[1];
+	$bgcolor_even = $prd->listing_bgcolors[0];
 
 	if ($rownum % 2) 
 	{
