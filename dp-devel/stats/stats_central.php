@@ -6,6 +6,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
+include_once('jpgraph_files/common.inc'); // get_project_status_descriptor
 new dbConnect();
 
 $title = _("Statistics Central");
@@ -190,25 +191,15 @@ $table->column_headers(
     _("Track by Project")
 );
 
-$table->row(
-    _("Creating"),
-    "<a href='projects_Xed_graphs.php?which=created'>" . _("Projects Created Graphs") . "</a>"
-);
+foreach ( array('created','proofed','PPd','posted') as $which )
+{
+    $psd = get_project_status_descriptor( $which );
 
-$table->row(
-    _("Proofreading"),
-    "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a>"
-);
-
-$table->row(
-    _("PPing"),
-    "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a>"
-);
-
-$table->row(
-    _("Posting"),
-    "<a href='projects_Xed_graphs.php?which=posted'>" . _("Projects Posted Graphs") . "</a>"
-);
+    $table->row(
+        $psd->projects_Xed_title,
+        "<a href='projects_Xed_graphs.php?which=$which'>$psd->graphs_title</a>"
+    );
+}
 
 $table->end();
 
