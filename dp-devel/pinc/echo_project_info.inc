@@ -8,7 +8,7 @@ include_once($relPath.'comment_inclusions.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_project_info( $projectid, $proofstate, $sub )
+function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 {
 	global $code_url, $pguser, $userP;
 
@@ -219,6 +219,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	if ($proofstate == 'proj_post')
 	{
 		$word = _("Post Processor Comments");
+             if ($inSR) {	$word = _("Instructions for Smooth Reading");}
 		echo_row_b($word, '' );
 		echo_row_c( $project['postcomments'] );
 	}
