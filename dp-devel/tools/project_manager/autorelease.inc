@@ -70,6 +70,56 @@ function autorelease_for_round( $prd )
     echo "\n";
     echo "Starting autorelease for round {$prd->round_name}...\n";
 
+    $q_res = mysql_query("
+        SELECT *
+        FROM queue_defns
+        WHERE round_number={$prd->round_number}
+        ORDER BY ordering
+    ") or die(mysql_error());
+
+    if ( mysql_num_rows($q_res) == 0 )
+    {
+        echo "\n";
+        echo "There are no queue definitions for this round (enabled or not)!\n";
+        echo "We interpret this as meaning that projects should not\n";
+        echo "wait here, but automatically become available.\n";
+
+        // set of candidates for release
+        $waiting_res = mysql_query("
+            SELECT *
+            FROM projects
+            WHERE state = '{$prd->project_waiting_state}'
+            ORDER BY modifieddate ASC
+        ");
+
+        $n = mysql_num_rows($waiting_res);
+        echo "\n";
+        echo "There are $n projects waiting for release in this round.\n";
+
+        while ( $project = mysql_fetch_assoc($waiting_res) )
+        {
+            echo "\n";
+            echo "    considering project \"{$project['nameofwork']}\"...\n";
+
+            if (!attempt_to_release($prd, $project))
+            {
+                // Something went wrong. Error messages have been output.
+                continue;
+            }
+
+            echo "        Project released!\n";
+        }
+
+        echo "\n";
+        echo "Finished round {$prd->round_name}\n";
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        return;
+    }
+
+    // -------------------------------------------------------------------------
+
+    // Some queue definitions do exist for this round.
+
     // First, get the set of all authors with works in this round
     {
         $this_round_authors = array();
