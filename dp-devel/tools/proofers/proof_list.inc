@@ -89,14 +89,13 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    foreach( $_GET['language1'] as $lang )
 	    {
 
-		if (!in_array( $lang, $array_of_langs )) { echo "UHOH" & exit(); }
-
 		if ( $lang == '' )
 		{
 		    $condition1 .= " OR 1";
 		}
 		else
 		{
+		    if (!in_array( $lang, $array_of_langs )) { echo "UHOH" & exit(); }
 		    $condition1 .= " OR language='$lang'";
                     $display_filter .= $lang." ";
 		    $show_df = TRUE;
@@ -111,14 +110,13 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $display_filter .= "<br>Genres=";
 	    foreach( $_GET['genre1'] as $genre )
 	    {
-		if (!in_array($genre, $array_of_genres )) { echo "UHOH" &  exit(); }
-
 		if ( $genre == '' )
 		{
 		    $condition1 .= " OR 1";
 		}
 		else
 		{
+		    if (!in_array($genre, $array_of_genres )) { echo "UHOH" &  exit(); }
 		    $condition1 .= " OR genre='$genre'";
                     $display_filter .= $genre." ";
 		    $show_df = TRUE;
@@ -133,15 +131,13 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $display_filter .= "<br>PMs=";
 	    foreach( $_GET['PM1'] as $PM )
 	    {
- 
-		if (!in_array($PM, $array_of_PMs )) { echo "UHOH" & exit(); }
-
 		if ( $PM == '' )
 		{
 		    $condition1 .= " OR 1";
 		}
 		else
 		{
+		    if (!in_array($PM, $array_of_PMs )) { echo "UHOH" & exit(); }
 		    $condition1 .= " OR username='$PM'";
                     $display_filter .= $PM." ";
 		    $show_df = TRUE;
@@ -157,14 +153,13 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $display_filter .= "<br>Difficulty=";
 	    foreach( $_GET['difficulty1'] as $diff )
 	    {
-		if (!in_array($diff, $array_of_diffs )) { echo "UHOH" & exit(); }
-
 		if ( $diff == '' )
 		{
 		    $condition1 .= " OR 1";
 		}
 		else
 		{
+		    if (!in_array($diff, $array_of_diffs )) { echo "UHOH" & exit(); }
 		    $condition1 .= " OR difficulty='$diff'";
                     $display_filter .= $diff." ";
 		    $show_df = TRUE;
