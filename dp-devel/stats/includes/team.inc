@@ -204,19 +204,19 @@ function showTeamStats($curTeam) {
 
 	$team_id = $curTeam['id'];
 
-	$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
+	$teams_tallyboard = new TallyBoard( 'P', 'T' );
 
 	$snapshot_info =
-		$teams_P_page_tallyboard->get_info_from_latest_snapshot($team_id);
+		$teams_tallyboard->get_info_from_latest_snapshot($team_id);
 
 	$lastupdated = date("n/d/Y h:i:s A T", ($snapshot_info['timestamp']-1));
 
 	$prevRank = $snapshot_info['tally_rank'];
 
-	$pageCountRank = $teams_P_page_tallyboard->get_rank($team_id);
+	$pageCountRank = $teams_tallyboard->get_rank($team_id);
 
 	list($bestDayCount, $bestDayTimestamp) =
-		$teams_P_page_tallyboard->get_info_re_largest_delta($team_id);
+		$teams_tallyboard->get_info_re_largest_delta($team_id);
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	$t = new ThemedTable(
@@ -281,9 +281,9 @@ function showTeamMbrs($curTeam) {
 
 	$column_descriptors =
 		array(
-			array( 'mbr',   'username',             'asc',  _("Username")        ),
-			array( 'pages', 'current_P_page_tally', 'desc', _("Pages Completed") ),
-			array( 'date',  'date_created',         'asc',  _("Date Joined DP")  )
+			array( 'mbr',   'username',      'asc',  _("Username")        ),
+			array( 'pages', 'current_tally', 'desc', _("Pages Completed") ),
+			array( 'date',  'date_created',  'asc',  _("Date Joined DP")  )
 		);
 	foreach ( $column_descriptors as $column_descriptor )
 	{
@@ -320,14 +320,14 @@ function showTeamMbrs($curTeam) {
 
 	$t->column_headers( $header_content_ );
 
-	$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
+	$users_tallyboard = new TallyBoard( 'P', 'U' );
 
-	list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
-		$users_P_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
-	$users_table_with_tallies = "users $joined_with_user_P_page_tallies";
+	list( $joined_with_user_tallies, $user_tally_column ) =
+		$users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+	$users_table_with_tallies = "users $joined_with_user_tallies";
 
 	$mbrQuery = mysql_query("
-		SELECT *, $user_P_page_tally_column AS current_P_page_tally
+		SELECT *, $user_tally_column AS current_tally
 		FROM $users_table_with_tallies
 		WHERE {$_GET['tid']} IN (team_1, team_2, team_3)
 		ORDER BY $orderby $direction
@@ -339,12 +339,12 @@ function showTeamMbrs($curTeam) {
 		if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS)
 		{
 			$totalAnonUsers++;
-			$totalPagesAnonUsers += $curMbr['current_P_page_tally'];
+			$totalPagesAnonUsers += $curMbr['current_tally'];
 		}
 		elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($GLOBALS['pguser']))
 		{
 			$totalAnonUsers++;
-			$totalPagesAnonUsers += $curMbr['current_P_page_tally'];
+			$totalPagesAnonUsers += $curMbr['current_tally'];
 		}
 		else
 		{
@@ -352,7 +352,7 @@ function showTeamMbrs($curTeam) {
 			$member_url = "$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'];
 			$t->row(
 				"<a href='$member_url'>$username</a>",
-				number_format($curMbr['current_P_page_tally']),
+				number_format($curMbr['current_tally']),
 				date("m/d/Y", $curMbr['date_created'])
 			);
 		}
