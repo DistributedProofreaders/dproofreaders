@@ -59,16 +59,27 @@ if (!$uP)
 // The login is successful!
 
 // send them to the correct page
-// isn't this the same as the manager field in users?
-//        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
-// needs to be included in user.inc, if not....
-if ($userC->manager=='yes')
+if ($destination != '')
 {
-  $url = "../tools/project_manager/projectmgr.php";
+    // They were heading to $destination (via a bookmark, say)
+    // when we sidetracked them into the login pages.
+    // Make sure they get to where they were going.
+    $url = $destination;
 }
 else
 {
-  $url = "../tools/proofers/proof_per.php";
+    // isn't this the same as the manager field in users?
+    //        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
+    // needs to be included in user.inc, if not....
+
+    if ($userC->manager=='yes')
+    {
+        $url = "../tools/project_manager/projectmgr.php";
+    }
+    else
+    {
+        $url = "../tools/proofers/proof_per.php";
+    }
 }
 metarefresh(1,$url,"Login","");
 

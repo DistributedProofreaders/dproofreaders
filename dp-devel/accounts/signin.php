@@ -13,7 +13,7 @@ $td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 $tde=$htmlC->closeTD(1);
 $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 
-echo '<form action="login.php" method="POST">';
+echo "<form action='login.php?destination={$_GET['destination']}' method='POST'>";
 echo $tb;
 echo $tr.$td1;
 echo '<B>Sign in to Distributed Proofreaders</B>';
