@@ -10,19 +10,37 @@ include_once($relPath.'maybe_mail.inc');
 
 function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
 {
-    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    $prd_old = get_PRD_for_project_state($oldstate);
+    $prd_new = get_PRD_for_project_state($newstate);
+
+    if ( is_null($prd_old) || is_null($prd_new) )
     {
-        $prd = get_PRD_for_round($rn);
-        if (
-            $newstate == $prd->project_unavailable_state ||
-            $oldstate == $prd->project_unavailable_state ||
-            $oldstate == $prd->project_waiting_state
-        )
-        {
-            return TRUE;
-        }
+	// Transition to or from a non-round state.
+       	return FALSE;
     }
-    return FALSE;
+   
+    if ( $prd_old != $prd_new )
+    {
+	// Transition between different rounds.
+	// (Normally, this page doesn't see such transitions.)
+	return FALSE;
+    }
+
+    // States belong to same round.
+    $prd = $prd_old;
+
+    if (
+	$newstate == $prd->project_unavailable_state ||
+	$oldstate == $prd->project_unavailable_state ||
+	$oldstate == $prd->project_waiting_state
+    )
+    {
+	return $prd;
+    }
+    else
+    {
+	return FALSE;
+    }
 }
 
     // Get Passed parameters to code
