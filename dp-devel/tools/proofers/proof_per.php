@@ -200,10 +200,8 @@ neighbors <input type="submit" name="go" value="Go" /></p>
 <?
 
     // If Post Processor give link to post processing page.
-
-    $result = mysql_query("SELECT postprocessor, pagescompleted FROM users WHERE username = '$pguser'");
     $postprocessor = $userP['postprocessor'];
-    $postprocessorpages = $userP['pagescompleted'];
+    $postprocessorpages = $totalpages;
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
 //if ($postprocessor == "yes"){
 
@@ -280,8 +278,7 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
 <?
     // If Project Manager give link back to project manager page.
 
-    $result = mysql_query("SELECT manager FROM users WHERE username = '$pguser'");
-    $manager = mysql_result($result, 0, "manager");
+    $manager = $userP['manager'];
     if ($manager == "yes") {
         echo "<td width=126 bgcolor =CCCCCC align=center><a href = \"../project_manager/projectmgr.php\">Manage Projects</a></td>\n";
     } else {
