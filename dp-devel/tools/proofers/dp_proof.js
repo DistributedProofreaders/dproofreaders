@@ -10,6 +10,9 @@ cnSel=null;
 curSel='';
 curCaret='';
 
+// extended charset
+extC=' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ$';
+
 // image width
 iW='1000';
 
@@ -27,7 +30,14 @@ cRef.tCharsM.selectedIndex=0;}
 else if (wBox=='start')
 {markRef.markBox.focus();
 markRef.markBox.select();
-markRef.ttagsMore.selectedIndex=0;}}
+markRef.ttagsMore.selectedIndex=0;}
+else if (wBox=='oldS')
+{markRef.markBox.focus();
+markRef.markBox.select();}
+else if (wBox=='oldE')
+{markRef.markBoxEnd.focus();
+markRef.markBoxEnd.select();}
+}
 
 function getCurSel()
 {if (cnSel){curSel=docRef.selection.createRange().text;}}
@@ -37,7 +47,13 @@ function getCurCaret()
 
 // gets character code from numeric value cC
 function gCC(cC)
-{return String.fromCharCode(cC);}
+{thisC=String.fromCharCode(cC);
+if (thisC.length != 1)
+{if (cC !=36)
+{thisC=extC.charAt(cC-160);}
+else {thisC='$';}
+}
+return thisC;}
 
 // fancy check for selection
 function chkRange()
@@ -103,7 +119,6 @@ mUO[42]='definition';
 mUO[43]='bibliography';
 mUO[44]='header';
 
-
 // character selection
 function iMUc(wM)
 {
@@ -136,12 +151,12 @@ if (wM > 19)
 
 markRef.markBox.value=wOT;
 markRef.markBoxEnd.value=wCT;
-markRef.ttagsMore.selectedIndex=0;
+//markRef.ttagsMore.selectedIndex=0;
 cR=chkRange();
 
 //plain
 if (!cnSel || !cR)
-{selBox();}
+{selBox('old');}
 
 //fancy
 if (curSel != '' && docRef.selection.createRange().text == curSel)
@@ -264,4 +279,64 @@ switch (sdir) {
 docRef.editform.text_data.focus();
 return true;}
 
+
+// just for the old ptags list
+otO=new Array();
+otC=new Array();
+otO[0]='*';
+otC[0]='';
+otO[1]='[Footnote: ';
+otC[1]=']';
+otO[2]='[Sidenote: ';
+otC[2]=']';
+otO[3]='[Illustration: ';
+otC[3]=']';
+otO[4]='/*';
+otC[4]='*/';
+otO[5]='       *       *       *       *       *';
+otC[5]='';
+otO[6]='[Blank Page]';
+otC[6]='';
+
+// standard tag selection
+function iMUO(wM)
+{
+if (inProof==1)
+{
+wTag=mUO[wM];
+wOT=otO[wM];
+wCT=otC[wM];
+wWT=wOT;
+
+if (wM > 19)
+{wCT=otC[wM-20];wOT='';wWT=wCT;}
+
+
+markRef.markBox.value=wOT;
+markRef.markBoxEnd.value=wCT;
+cR=chkRange();
+
+//plain
+if (!cnSel || !cR)
+{if (wM > 19){selBox('oldE');} else {selBox('oldS');}}
+
+//fancy
+if (curSel != '' && docRef.selection.createRange().text == curSel)
+{docRef.editform.text_data.focus();
+docRef.selection.createRange().text=wOT + curSel + wCT;
+curCaret='';
+curSel='';
+docRef.editform.text_data.focus();}
+else { 
+if (cR && curSel=='')
+{cT=wWT;
+putCT(cT);}
+     }
+if(wM==6)
+{docRef.editform.text_data.value=wOT;}
+}}
+
+
+
+// a required var
 isLded2=0;
