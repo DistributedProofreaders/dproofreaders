@@ -10,8 +10,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'page_ops.inc');
-include_once($relPath.'authors.inc');
-include_once($relPath.'echo_project_info.inc');
+include_once($relPath.'comment_inclusions.inc');
 
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');

@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'v_site.inc');
-include_once($relPath.'echo_project_info.inc');
+include_once($relPath.'comment_inclusions.inc');
 
 function generate_post_files( $project, $make_images_zip )
 // Generate the files needed for post-processing.
