@@ -63,6 +63,7 @@ if ($orderR2 != $orderR2old) {
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
 
+    echo "\n<a name='R1'></a>";
     echo "\r\n<table border=1>";
     echo "\r\n<tr>";
     tde("<h3>"._("Current First - Round Projects")."</h3>", bgcol(1,'first') . " colspan=2");
@@ -83,6 +84,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
   {
+    echo "\n<a name='R2'></a>";
     echo "\r\n<table border=1>";
     echo "\r\n<tr>";
     tde("<h3>"._("Current Second - Round Projects")."</h3>", bgcol(1,'second') . " colspan=2");
