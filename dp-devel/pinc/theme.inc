@@ -233,7 +233,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         		$neighborhood['rank'][$i] = $i+1;
     		}
 		if (!empty($row['u_privacy'])) {
-			$neighborhood['username'][$i] = "Anonymous";
+			$neighborhood['username'][$i] = _("Anonymous");
 		} else $neighborhood['username'][$i] = $row['username'];
     		$neighborhood['pages'][$i] = $row['pagescompleted'];
     		$lastcompleted = $row['pagescompleted'];
@@ -309,20 +309,20 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	$todaysGoal = mysql_result($result, 0, "dailygoal");
 	echo "&nbsp;".sprintf(_("Today's Goal: %s pages"),number_format($todaysGoal)). "<br>\n";
-	echo "&nbsp;" . sprintf(_("Today (so far): %s pages"), number_format($sitestats['daily'])) . " (" . strftime("%R") . ")<br><br>\n";
+	echo "&nbsp;" . sprintf(_("Today: %s pages"), number_format($sitestats['daily'])) . " (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
 	$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
 	$yesterdaysTotal = mysql_result($result, 0, "pages");
-	echo "&nbsp;".sprintf(_("Yesterday's Goal: %s pages"),number_format($yesterdaysGoal))."<br>\n";
-	echo "&nbsp;".sprintf(_("Yesterday's Total: %s pages"),number_format($yesterdaysTotal))."<br><br>\n";
+	echo "&nbsp;"._("Yesterday's")." "._("Goal").": ".number_format($yesterdaysGoal)." "._("pages")."<br>\n";
+	echo "&nbsp;"._("Yesterday's")." "._("Total").": ".number_format($yesterdaysTotal)." "._("pages")."<br><br>\n";
 
 	// Month's Numbers
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
-	echo "&nbsp;" .  date("F") .  "'s Goal: " . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
-	echo "&nbsp;" . date("F") . " (so far): " . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
+	echo "&nbsp;".date("F")."'s "._("Goal").": " . number_format($sitestats['goal'])." "._("pages")." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
+	echo "&nbsp;".date("F").": ".number_format(($sitestats['monthly']+$sitestats['daily'])) . " "._("pages")."<br>\n";
 
 	echo "<br><hr width='75%' align='center'><br>\n";
 
@@ -331,67 +331,67 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the personal statistics
 	//get rank
 	if ($neighborhood['pages'][$userindex] >= 0) {
-	 $rankname = "Newbie";
+	 $rankname = _("Newbie");
 	}
 	if ($neighborhood['pages'][$userindex] >= 26) {
-	 $rankname = "Proofer";
+	 $rankname = _("Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 151) {
-	 $rankname = "Ace";
+	 $rankname = _("Ace");
 	}
 	if ($neighborhood['pages'][$userindex] >= 401) {
-	 $rankname = "Proofer Savant";
+	 $rankname = _("Proofer Savant");
 	}
 	if ($neighborhood['pages'][$userindex] >= 1001) {
-	 $rankname = "Master Proofer";
+	 $rankname = _("Master Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 2001) {
-	 $rankname = "Maestro";
+	 $rankname = _("Maestro");
 	}
 	if ($neighborhood['pages'][$userindex] >= 5001) {
-	 $rankname = "Connoisseur";
+	 $rankname = _("Connoisseur");
 	}
 	if ($neighborhood['pages'][$userindex] >= 10001) {
-	 $rankname = "Rare Talent";
+	 $rankname = _("Rare Talent");
 	}
 	if ($neighborhood['pages'][$userindex] >= 20001) {
-	 $rankname = "Super Proofer";
+	 $rankname = _("Super Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 30001) {
-	 $rankname = "Profound Proofer";
+	 $rankname = _("Profound Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 40001) {
-	 $rankname = "Priceless Proofer";
+	 $rankname = _("Priceless Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 50001) {
-	 $rankname = "Prishan Level Proofer";
+	 $rankname = _("Prishan Level Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 50101) {
-	 $rankname = "Prime Proofer";
+	 $rankname = _("Prime Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 60001) {
-	 $rankname = "Peerless Proofer";
+	 $rankname = _("Peerless Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 70001) {
-	 $rankname = "Primordial Proofer";
+	 $rankname = _("Primordial Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 75001) {
-	 $rankname = "Proofer Magnifico";
+	 $rankname = _("Proofer Magnifico");
 	}
 	if ($neighborhood['pages'][$userindex] >= 80001) {
-	 $rankname = "Proofer Supreme";
+	 $rankname = _("Proofer Supreme");
 	}
 	if ($neighborhood['pages'][$userindex] >= 90001) {
-	 $rankname = "Prooferissimo";
+	 $rankname = _("Prooferissimo");
 	}
 	if ($neighborhood['pages'][$userindex] >= 99001) {
-	 $rankname = "Master of Proofing";
+	 $rankname = _("Master of Proofing");
 	}
 	if ($neighborhood['pages'][$userindex] >= 99501) {
-	 $rankname = "Doctor of Proofing";
+	 $rankname = _("Doctor of Proofing");
 	}
 	if ($neighborhood['pages'][$userindex] >= 100001) {
-	 $rankname = "Proofer of Proofers";
+	 $rankname = _("Proofer of Proofers");
 	}
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
@@ -406,12 +406,12 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	//Show the team statistics
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Your Teams:") . "</u></font></center>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=1'>"._("Distributed Proofreaders")."</a></font><br>\n";
 	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id='{$userP['team_1']}' OR id='{$userP['team_2']}' OR id='{$userP['team_3']}'");
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 		}
-        echo "&nbsp;<a href='$code_url/stats/teams/tlist.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
+        echo "&nbsp;<a href='$code_url/stats/teams/tlist.php'><font face='".$theme['font_navbar']."' size='1'>"._("View all teams...")."</font></a><br>\n";
 
         //Show the Top Ten users is user has the option set
         if ($userP['u_top10']) {
@@ -478,11 +478,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>" . _("See more statistics here...") . "</font></a></center>\n";
 
 	if (!empty($userP)) {
-		echo "<br><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><center><u>Key Help Documents:</u></center></font>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>Frequently Asked Questions</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>Proofing Guidelines</a> (<a href='$code_url/faq/summary.pdf'>Summary</a>)</font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>Tips & How-To's</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>Support Request</a></font><br>\n";
+		echo "<br><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><center><u>"._("Key Help Documents:")."</u></center></font>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>"._("Proofing Guidelines")."</a> (<a href='$code_url/faq/summary.pdf'>"._("Summary")."</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips & How-To's")."</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
 	}
 
 
@@ -492,7 +492,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
 <input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='donate@gutenberg.net'>\n";
 echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></center>\n";
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>The Project Gutenberg Literary Archive Foundation (<a href='http://gutenberg.net/donate.shtml' target='_new'>PGLAF</a>) is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541</font></center></form>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='http://gutenberg.net/donate.shtml' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center></form>\n";
 }
 
 function html_footer($code_url, $theme, $theme_name) {
@@ -502,7 +502,7 @@ function html_footer($code_url, $theme, $theme_name) {
 
     //Bottom Copyright Text
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
-	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>Copyright Distributed Proofreaders (Page Build Time: ".substr($totaltime, 0, 5).") </font><a href='".$GLOBALS['code_url']."/tasks.php'><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>Report a Bug</font></a></center></td></tr>\n";
+	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Copyright")." "._("Distributed Proofreaders")." ("._("Page Build Time").": ".substr($totaltime, 0, 5).") </font><a href='".$GLOBALS['code_url']."/tasks.php'><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Report a Bug")."</font></a></center></td></tr>\n";
 	echo "</table>\n";
 
     //The End
