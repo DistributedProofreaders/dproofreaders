@@ -10,14 +10,65 @@ include_once($relPath.'gettext_setup.inc');
 
 new dbConnect();
 
+// Create "projects Xed per day" graph for current month
+
+$which = $_GET['which'];
+
+switch ( $which )
+{
+	case 'created':
+		$state_selector = "
+			state NOT LIKE 'proj_new%'
+		";
+		$legend = _('Projects Created');
+		$color = 'green';
+		$title = _('Projects Created Per Day for');
+		break;
+
+	case 'proofed':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post%'
+		";
+		$legend = _('Projects Proofed');
+		$color = 'blue';
+		$title = _('Projects Proofed Per Day for');
+		break;
+
+	case 'PPd':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post_second%'
+		";
+		$legend = _('Projects PPd');
+		$color = 'silver';
+		$title = _('Projects PPd Per Day for');
+		break;
+
+	case 'posted':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+		";
+		$legend = _('Projects Posted');
+		$color = 'gold';
+		$title = _('Projects Posted Per Day for');
+		break;
+
+	default:
+		die("bad value for 'which'");
+}
+
 $today = getdate();
 if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
 	if (isset($_GET['ignore_archive_graph']) && $_GET['ignore_archive_graph'] == 1) {
 		$todaysTimeStamp = time() - 86400;
 		echo "BACK!!";
 	} else {
-		if (!file_exists($dynstats_dir."/graph_archive/curr_month_proj_posted/".date("Fy",time()-86400).".png")) {
-			header("Location: ".$code_url."/stats/jpgraph_files/curr_month_proj_posted_graph.php?ignore_archive_graph=1");
+		if (!file_exists($dynstats_dir."/graph_archive/curr_month_proj_$which/".date("Fy",time()-86400).".png")) {
+			header("Location: ".$code_url."/stats/jpgraph_files/curr_month_proj.php?which=$which&ignore_archive_graph=1");
 		} else {
 			$todaysTimeStamp = time();
 		}
@@ -25,8 +76,6 @@ if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
 } else {
 	$todaysTimeStamp = time();
 }
-
-//Create projects posted per day graph for current month
 
 $day = date("d", $todaysTimeStamp);
 $year  = date("Y", $todaysTimeStamp);
@@ -40,16 +89,9 @@ $today = $year."-".$month."-".$day;
 $result = mysql_query("SELECT max(day) as maxday FROM pagestats WHERE month = '$month' AND year = '$year'");
 $maxday = mysql_result($result, 0, "maxday");
 
-$state_selector = "
-			(state LIKE 'proj_submit%'
-			  OR state LIKE 'proj_correct%')
-";
-
-
-
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as PC, day as PC FROM project_state_stats WHERE month = '$month' AND year = '$year' 
-				AND $state_selector 
+$result = mysql_query("SELECT sum(num_projects) as PC, day FROM project_state_stats WHERE month = '$month' AND year = '$year' 
+				AND ($state_selector)
 				group by day ORDER BY day");
 $mynumrows = mysql_numrows($result);
 
@@ -86,8 +128,8 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the bar plot
 $bplot = new BarPlot($datay1);
-$bplot->SetLegend(_("Projects Posted"));
-$bplot->SetFillColor("gold");
+$bplot->SetLegend($legend);
+$bplot->SetFillColor($color);
 
 $graph->Add($bplot); //Add the bar plot to the graph
 
@@ -100,7 +142,7 @@ $graph->xaxis->title->Set("");
 $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set(_("Projects Posted Per Day for")." $monthVar $year");
+$graph->title->Set("$title $monthVar $year");
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
@@ -110,7 +152,7 @@ $graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 if (isset($_GET['ignore_archive_graph']) && $_GET['ignore_archive_graph'] == 1) {
-	$archiveGraphPath = $dynstats_dir."/graph_archive/curr_month_proj_posted/".date("Fy",time()-86400).".png";
+	$archiveGraphPath = $dynstats_dir."/graph_archive/curr_month_proj_$which/".date("Fy",time()-86400).".png";
 	$graph ->Stroke($archiveGraphPath);
 	sleep(5);
 	header("Location: ".$code_url."/stats/stats_central.php");
