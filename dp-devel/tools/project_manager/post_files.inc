@@ -46,6 +46,8 @@ function generate_post_files( $project, $make_images_zip )
     exec ("zip -j $tei_zip_path $tei_path $comments_path");
 }
 
+// -----------------------------------------------------------------------------
+
 function write_project_comments($project, $fp)
 {
     $header = "<HTML><BODY>";
@@ -60,6 +62,8 @@ function write_project_comments($project, $fp)
     fputs($fp,$footer);
 }
 
+// -----------------------------------------------------------------------------
+
 function join_proofed_text ($project, $fp)
 {
     // Join the round 2 page-texts of the given project,
@@ -69,8 +73,8 @@ function join_proofed_text ($project, $fp)
     $linefeed = chr(10);
     $eol = $carriagereturn.$linefeed;
 
-    $myresult = mysql_query("SELECT image, round1_user, round2_user, round2_text FROM $project ORDER BY image");
-    while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
+    $myresult = page_info_query($project);
+    while( list($filename,$round1_user,$round2_user,$text_data) = page_info_fetch($myresult) )
     {
         $info_str = "-----File: $filename---\\$round1_user\\$round2_user\\";
         $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
@@ -80,6 +84,8 @@ function join_proofed_text ($project, $fp)
         fputs($fp,$fileinfo);
     }
 }
+
+// -----------------------------------------------------------------------------
 
 $carriagereturn = chr(13);   
 $linefeed = chr(10);
@@ -169,12 +175,8 @@ function join_proofed_text_tei ($project, $fp)
     fputs($fp,"<body>\r\n");
 
     // ROUNDS: generalize
-    $myresult = mysql_query("
-            SELECT image, round1_user, round2_user, round2_text
-            FROM $project
-            ORDER BY image
-    ");
-    while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
+    $myresult = page_info_query($project);
+    while( list($filename,$round1_user,$round2_user,$text_data) = page_info_fetch($myresult) )
     {
         fputs($fp,"\r\n\r\n<pb id='$filename' proofer1='$round1_user' proofer2='$round2_user'/>\r\n\r\n");
 
@@ -298,6 +300,23 @@ function startswith( $subject, $prefix )
 {
     return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 
+}
+
+// -----------------------------------------------------------------------------
+
+function page_info_query( $projectid )
+{
+    $res = mysql_query("
+        SELECT image, round1_user, round2_user, round2_text
+        FROM $projectid
+        ORDER BY image
+    ");
+    return $res;
+}
+
+function page_info_fetch( $res )
+{
+    return mysql_fetch_array($res);
 }
 
 // vim: sw=4 ts=4 expandtab
