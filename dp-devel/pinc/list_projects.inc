@@ -3,6 +3,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'bookpages.inc');
+include_once($relPath.'pg.inc');
 new dbConnect();
 
 function list_projects( $where_condition, $order_clause, $limit_clause )
@@ -98,14 +99,14 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
         // Third line
 
         // Download info
-        if ( $project['postednum'] != 6000 && $project['postednum'] != 0 )
+        $postednum = $project['postednum'];
+        if ( $postednum != 6000 && $postednum != 0 )
         {
-            if (trim($project['ziplink'])  <> "") echo "<a href='{$project['ziplink']}'>"._("zip version")."</a>, ";
-            if (trim($project['txtlink'])  <> "") echo "<a href='{$project['txtlink']}'>"._("text version")."</a>, ";
-            if (trim($project['htmllink']) <> "") echo "<a href='{$project['htmllink']}'>"._("html version")."</a>, ";
+            echo get_pg_catalog_link_for_etext($postednum);
 
             if ($site_supports_corrections_after_posting)
             {
+                echo ", ";
                 if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
                 } else {
