@@ -205,32 +205,43 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	$settings = "state='$new_state'";
 
-	if ( $current_state == PROJ_PROOF_FIRST_UNAVAILABLE &&
-	     $new_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE )
+	$prd = get_PRD_for_project_state($new_state);
+	if ( !is_null($prd) )
 	{
-		$errors = project_pre_release_check( $project );
-		if ($errors)
+		if ( $current_state == $prd->project_unavailable_state &&
+		     $new_state     == $prd->project_waiting_state )
 		{
-			$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
-			return $error;
+			$errors = project_pre_release_check( $project );
+			if ($errors)
+			{
+				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
+				return $error;
+			}
+			$settings .= ", modifieddate='$now'";
+			// The time when projects enter the 'waiting for release' state
+			// is the overall ordering criterion for the "release queue".
 		}
-		$settings .= ", modifieddate='$now'";
+		else if ( $current_state != $prd->project_bad_state &&
+			  $new_state     == $prd->project_available_state )
+		{
+			$settings .= ", modifieddate='$now'";
+			// The time when projects enter the 'available' state
+			// is the ordering criterion for "Sort by Days"
+			// in the list of available projects.
+			// (But if the project is just coming back from the
+			// 'bad' state, that shouldn't affect the sort order.)
+		}
+		else
+		{
+			// Don't update modifieddate.
+		}
 	}
-	else if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
-		$new_state == PROJ_PROOF_FIRST_AVAILABLE )
-	{
-		$settings .= ", modifieddate='$now'";
 
-	}
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
 	{
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
-	}
-        else if ( $new_state == PROJ_PROOF_SECOND_AVAILABLE )
-	{
-		$settings .= ", modifieddate='$now'";
 	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
