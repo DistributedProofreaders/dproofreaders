@@ -115,6 +115,13 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 				$bgcolor = " bgcolor='#CCCCCC'";
 			}
 
+
+			// yellow for Children's Book Week
+			if ( startswith( $book['comments'], 'SPECIAL: CBW' ) )
+			{
+				$bgcolor = " bgcolor='#FFFF33'";
+			}
+
 			
 
 		}
