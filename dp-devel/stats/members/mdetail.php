@@ -32,10 +32,13 @@ if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser)
 	// Note that this doesn't reveal anything;
 	// the requestor already knows the subject's u_id,
 	// because it was included in the request.
+	$brushoff = _("This user has requested to remain anonymous.");
 } elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
 	$user_referent = "#" . $curMbr['u_id'];
+	$brushoff = _("This user has requested their statistics remain private.");
 } else {
 	$user_referent = "'" . $curMbr['username'] . "'";
+	$brushoff = NULL;
 }
 
 $desc = sprintf( _("Details for user %s"), $user_referent );
@@ -45,10 +48,8 @@ echo "<br><center>";
 
 echo "<h1>$desc</h1>";
 
-	if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
-		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
-	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
-			echo "<p>"._("This user has requested their statistics remain private.")."</p>";
+	if ($brushoff) {
+		echo "<p>$brushoff</p>";
 	} else {
 		showMbrProfile($curMbr);
 		if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
