@@ -254,6 +254,13 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Provides a link for users to get more stats
     //Shows on all pages
 	if (file_exists("$dynstats_dir/stats.inc")) { include("$dynstats_dir/stats.inc"); }
+	if (!isset($sitestats))
+	{
+		$sitestats['daily'] = 0;
+		$sitestats['goal'] = 0;
+		$sitestats['monthly'] = 0;
+	}
+
 
     //Show the site statistics
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
@@ -265,7 +272,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	if (mysql_num_rows($result) > 0) { $todaysGoal = mysql_result($result, 0, "dailygoal"); } else { $todaysGoal = 0; }
 	echo "&nbsp;"._("Today's Goal:")." ".number_format($todaysGoal)."<br>\n";
-	if (isset($sitestats)) { echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n"; }
+	echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
@@ -280,10 +287,10 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
 	// Month's Numbers
-	if (isset($sitestats)) { $sitestatsgoal = $sitestats['goal']; } else { $sitestatsgoal = 0; }
+	$sitestatsgoal = $sitestats['goal'];
 
-	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:"))." ".number_format($sitestatsgoal).($sitestatsgoal?(" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)"):"")."<br>\n"; }
-	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
+	echo "&nbsp;".strftime(_("%B's Goal:"))." ".number_format($sitestatsgoal).($sitestatsgoal?(" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)"):"")."<br>\n";
+	echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
 	echo "<br>\n";
 
 	$res = mysql_query("SELECT COUNT(*) FROM users" );
