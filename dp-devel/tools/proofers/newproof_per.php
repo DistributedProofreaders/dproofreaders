@@ -8,7 +8,7 @@ include_once($relPath.'project_states.inc');
 <style type="text/css">
 <!--
 .purple {
-        background-color:#9933CC;
+        background-color:#9966CC;
 }
 .orange {
         background-color: #FF9900;
@@ -102,7 +102,7 @@ theme("Personal Page for $pguser", "header");
 
         if ($pagesproofed >= 20) {
                 if ($pagesproofed < 40) {
-                        echo "<font face=" . $theme['font_mainbody'] . "><i>";
+                        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
                         echo _("Now that you have proofed 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
@@ -113,10 +113,13 @@ theme("Personal Page for $pguser", "header");
                 $news = mysql_fetch_assoc($result);
                 echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>";
                 echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
+
 		echo _("archives") . "</a>)";
-        	echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-	        echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-        	echo "</b></font><br><br><font size=2 face=";
+         	echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
+ 	        echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
+         	echo "</b></font><br><br><font size=2 face=";
+
+
                 echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>\n";
         }
 
@@ -184,7 +187,7 @@ theme("Personal Page for $pguser", "header");
         if ($pagesproofed >= 10) {
 
                 if ($pagesproofed < 40) {
-                        echo "<font face=" . $theme['font_mainbody'] . "><i>";
+                        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
                         echo _("Now that you have proofed 10 pages you can see the Random Rule. Every time this page is refreshed, a randomly select rule from the");
 			echo " <a href=" . $code_url . "/faq/document.php>";
 			echo _("Proofing Guidelines");
@@ -213,7 +216,7 @@ theme("Personal Page for $pguser", "header");
 
         if ($pagesproofed >= 40) {
                 if ($pagesproofed < 50) {
-                        echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
+                        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Soon you will be able to see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
@@ -224,7 +227,7 @@ theme("Personal Page for $pguser", "header");
 
         if ($pagesproofed >= 50) {
                 if ($pagesproofed < 75) {
-                        echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
+                        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Now that you have proofed 50 pages you can see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
