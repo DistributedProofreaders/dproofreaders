@@ -20,7 +20,12 @@ users.</p>
 
 <p><font size="+1">Tracking information:</font></p>
 
-<p>The only tracking information we collect at this time is the number of pages you have
-completed, the date your account was created, and your last login date. Only the pages
-completed out of the three will be available to end users, the rest is for statistical
-purposes and removal of old accounts by the web site managers.</p>
+<p>The tracking information we collect at this time is the date your account was created, 
+your last login date and some statistical data: number of pages you have
+completed, your best day ever, team memberships, and the highest rank you've achieved. 
+This tracking information will be available to end users; however, you can have your
+name displayed as 'anonymous' for some of these data by setting &quot;Anonymous 
+Statistics&quot; to &quot;Yes&quot; in your Preferences.</p>
+
+<p>The site uses phpBB forums for discussions among the members. The data you fill out at 
+this forum will also be used on the rest of the site.</p>

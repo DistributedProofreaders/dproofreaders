@@ -24,11 +24,19 @@ if (empty($curMbr['u_privacy'])) {
 theme("$isAnonymousUsername'$needsApostrophe Statistics", "header");
 
 echo "<br><center>";
-if (!empty($curMbr['u_id'])) {
+if (!empty($curMbr['u_id'])) 
+{
+	if ($isAnonymousUsername == "Anonymous")
+	{
+		print "<p>This user requested to remain anonymous.</p>";
+	}
+	else
+	{
 	showMbrProfile($curMbr);
 	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
 	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+	}
 }
 
 echo "</center>";

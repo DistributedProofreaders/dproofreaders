@@ -39,7 +39,11 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $rankArray = mbrRank($curMbr['username']);
 $bestDay = bestDayEver($curMbr['u_id']);
 
+$data = '';
+
 //User info portion of $data
+if ($curMbr['u_privacy'] != true)
+{
 	$data = "<userinfo id=\"".$curMbr['u_id']."\">
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
@@ -115,6 +119,11 @@ $bestDay = bestDayEver($curMbr['u_id']);
 
 	$data .= "</neighborinfo>
 	";
+}
+else
+{
+	$data = '';
+}
 
 $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
 <memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">

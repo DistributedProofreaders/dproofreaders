@@ -156,12 +156,29 @@ function showTeamMbrs($curTeam) {
 	echo "</tr></table>\n<table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	$mbrQuery = mysql_query("SELECT * FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY $orderby $direction");
 
+	$totalAnonUsers = 0;
+	$totalPagesAnonUsers = 0;
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
-		if (!empty($curMbr['u_privacy'])) { $username = "Anonymous"; } else { $username = $curMbr['username']; }
-		echo "\n<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$username</a></td>";
-		echo "<td width='35%'>".number_format($curMbr['pagescompleted'])."</td>";
-		echo "<td width='30%'>".date("m/d/Y", $curMbr['date_created'])."</td></tr>";
+		if (!empty($curMbr['u_privacy'])) 
+		{ 
+			$totalAnonUsers++; 
+			$totalPagesAnonUsers += number_format($curMbr['pagescompleted']);
+		} 
+		else 
+		{ 
+			$username = $curMbr['username']; 
+			echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
+			echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'] . "'>$username</a></td>";
+			echo "<td width='35%'>" . number_format($curMbr['pagescompleted']) . "</td>";
+			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";
+		}
+	}
+	if ($totalAnonUsers > 1)
+	{
+		echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
+		echo "<td width='35%'>Anonymous users</td>";
+		echo "<td width='35%'>" . $totalPagesAnonUsers . "</td>";
+		echo "<td width='30%'>&nbsp;</td></tr>";
 	}
 	echo "</td></tr></table></table><p>";
 }
