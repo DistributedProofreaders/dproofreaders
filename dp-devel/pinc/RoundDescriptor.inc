@@ -219,7 +219,8 @@ class ProofingRoundDescriptor
                 else
                 {
                     $can = FALSE;
-                    $sentences[] = _("However, you can be granted access to this round. See XXX for details.");
+                    // Don't mention possibility of special permission.
+                    // $sentences[] = _("However, you can be granted access to this round. See XXX for details.");
                 }
             }
             else
