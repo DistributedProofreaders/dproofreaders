@@ -4,29 +4,29 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'bookpages.inc');
 
-function numpages($project) {
-        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $project");
+function numpages($projectid) {
+        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $projectid");
         if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
 }
 
-function numavailpages($project, $roundavailstate) {
-        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $project WHERE state = '$roundavailstate'");
+function numavailpages($projectid, $roundavailstate) {
+        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $projectid WHERE state = '$roundavailstate'");
         if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
 }
 
-function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
+function verifynew($projectid, $author, $nameofwork, $language, $clearance, $email) {
         global $projects_dir;
         global $auto_email_addr;
         global $code_url;
 
     $currstate = PROJ_PROOF_FIRST_VERIFY;
-    $result = mysql_query("UPDATE $project SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
+    $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
     $projectinfo = new projectinfo();
 
-    $projectinfo->update($project, $state);
+    $projectinfo->update($projectid, $state);
 
 	//Update the total and available pages in the HEAP table
-	update_total_pages($project, 1);
+	update_total_pages($projectid, 1);
 
     $page_num = 0;
 
@@ -39,7 +39,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     if ($errors) $errors .= "\n";
        
-    $path = "$projects_dir/$project/";
+    $path = "$projects_dir/$projectid/";
 
     while ($page_num < $projectinfo->avail1_pages) {
         $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");
@@ -64,8 +64,8 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
             "This is an automated message from the Distributed Proofreaders site.\n\n".
             "Regarding:\n".
             "  \"$nameofwork\"\n".
-            "  ($project)\n".
-            "  $code_url/tools/project_manager/project_detail.php?project=$project\n".
+            "  ($projectid)\n".
+            "  $code_url/tools/project_manager/project_detail.php?project=$projectid\n".
             "\n".
             "Some errors have been found:\n".
             "$errors\n".
@@ -75,7 +75,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     }
 
 
-    $error_msg = project_transition( $project, $currstate );
+    $error_msg = project_transition( $projectid, $currstate );
     if ($error_msg)
     {
         echo "$error_msg<br>\n";
@@ -83,8 +83,8 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     }
 
     if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
-         print "Prepared to release project = $project<BR>";
-         return numpages($project);
+         print "Prepared to release project = $projectid<BR>";
+         return numpages($projectid);
 
     } else return 0;
 
@@ -136,7 +136,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 // this candidate for early release, consider it now
                 {
                         $author = mysql_result($avail_result, $i, "authorsname");
-                        $project = mysql_result($avail_result, $i, "projectid");
+                        $projectid = mysql_result($avail_result, $i, "projectid");
 
 
                         // "no doubling up of authors"
@@ -152,7 +152,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                         if (mysql_num_rows(mysql_query($author_q)) > 0) {
                                 // fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
-                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$project'");
+                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$projectid'");
                                 $numAvailable--;
                         } else {
                                 // OK to release
@@ -166,7 +166,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
                                 // release the project for proofing, and keep track of
                                 // its contribution to reducing our total page shortfall
-                                $newpagesreleased = verifynew($project, $author, $nameofwork, $language, $clearance, $email);
+                                $newpagesreleased = verifynew($projectid, $author, $nameofwork, $language, $clearance, $email);
                                 $totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
                                 $numAvailable--;
                                 $numReleased++;
