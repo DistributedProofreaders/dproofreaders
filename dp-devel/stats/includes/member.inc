@@ -10,7 +10,7 @@ function showMbrInformation( $curMbr ) {
 	$curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 	$now = time();
 	showMbrProfile($curMbr);
-	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
+	showMbrTeams($curMbr);
 	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 }
@@ -300,6 +300,8 @@ function showMbrNeighbors($curMbr) {
 function showMbrTeams($curMbr) {
 	global $theme;
 	global $rollover_highlight_attrs;
+
+	if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("Teams") );
