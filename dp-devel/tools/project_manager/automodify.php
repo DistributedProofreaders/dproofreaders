@@ -7,6 +7,8 @@
 
   ///connect to database
   include '../../connect.php';
+  include 'autorelease.php';
+  include 'sendtopost.php';
 
   $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = 2 OR state = 8 OR state = 12 OR state = 18 OR state = 9 OR state = 19");
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
@@ -226,102 +228,11 @@
 
     // Completed Level
     if ($state == 19) {
-        // Generate Joined Text File
-        $extension = ".txt";
-        $zipextension = ".zip";
-        $images = "images";
-        $outfile = $project.$extension;
-        $zippedimages = $project.$images.$zipextension;
-        $zipfilename = $project.$zipextension;
-
-        //generate index.html for project images
-
-        // zip all images for project
-        exec ("zip -j /home/charlz/public_html/dproofreaders/projects/$project/$zippedimages /home/charlz/public_html/dproofreaders/projects/$project/*.png");
-
-        $myresult = mysql_query("SELECT Image_filename, text_data FROM $project WHERE prooflevel = '3' ORDER BY Image_Filename");
-
-        $count = 0;
-        $mynumrows = mysql_numrows($myresult);
-        $slashes = chr(47);
-        $projectdir = "/home/charlz/public_html/dproofreaders/projects/";
-        $projectpath = $projectdir.$project;
-        $slashedpath = $projectpath.$slashes;
-        $savepath = $slashedpath.$outfile;
-
-        $fp = fopen($savepath, "w"); //open file for writing
-
-        $carriagereturn = chr(13);
-        $linefeed = chr(10);
-        $indicator1 = "-----------------------File: ";
-        $indicator2 = "----------------------------";
-        $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
-        $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
-
-        while ($count < $mynumrows) {
-            $filename = mysql_result($myresult, $count, "Image_filename");
-            $text_data = mysql_result($myresult, $count, "text_data");
-
-            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
-            fputs($fp,$fileinfo);
-            $count++;
-        } //end else
-
-        // close the file
-        fclose ($fp);
-
-        //zip up the images
-        $imagesdir = $projectdir.$project;
-        exec ("/home/charlz/bin/images.pl $project *.png");
-
-        //create zip copy of file
-        exec ("zip -j /home/charlz/public_html/dproofreaders/projects/$project/$zipfilename /home/charlz/public_html/dproofreaders/projects/$project/$outfile");
-
-        // Decide whether to send to post-processing or have user work on it.
-        $result = mysql_query("SELECT value FROM usersettings WHERE setting = 'send_to_post' AND username='$username'");
-        if ($result != "") { $send_to_post = mysql_result($result, 0, "value"); } else $send_to_post = "no";
-
-        $result = mysql_query("SELECT email FROM users WHERE username = '$username'");
-        $email = mysql_result($result, 0, "email");
-
-        // Change state based on user's settings
-        if ($send_to_post == "yes") {
-            $sql = "UPDATE projects SET state=20, modifieddate = '$todaysdate' WHERE projectid = '$project'";
-            $result = mysql_query($sql);
-            mail("$email", "DP: $nameofwork Sent To Post-Processing",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
-                 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
-//            exec("perl mailpost.pl '$project' '$email'");
-        } else {
-            $result = mysql_query("UPDATE projects SET state = 25, modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
-            mail("$email", "DP: $nameofwork Ready For You To Post-Process",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. Contact the project manager once you have completed it.",
-                 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
-//            exec("perl mailsendto.pl '$project' '$email'");
-        }
+        sendtopost($project, $username, $todaysdate);
     }
     $rownum++;
   }
   print "Total pages available = ".$pagesleft."<BR>";
 
-  // Auto-Release Project
-  $pagesneeded = 15000;
-  while ($pagesleft < $pagesneeded) {
-    $result = mysql_query("SELECT projectid FROM projects WHERE state = 1 ORDER BY modifieddate ASC LIMIT 1");
-    if (mysql_num_rows($result) > 0) {
-      $project = mysql_result($result, 0, "projectid");
-
-      $level0rows = mysql_query("SELECT fileid FROM $project WHERE prooflevel = '0' ORDER BY Image_Filename ASC");
-      if ($level0rows != "") { $level0pages = (mysql_num_rows($level0rows)); } else $level0pages = 0;
-
-      $result = mysql_query("UPDATE projects SET state = 8, modifieddate = '$todaysdate' WHERE projectid = '$project'");
-      $pagesleft += (2 * $level0pages);
-
-      print "Released project = $project<BR>";
-    } else {
-      $pagesleft = $pagesneeded;
-    }
-  }
+  autorelease($pagesleft);
 ?>
