@@ -53,7 +53,7 @@ if ($totalBad >= 10) {
 $result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
 $uniqueBadPages = mysql_result($result,0);
 if ($uniqueBadPages >= 3) {
-if($_POST['badState']==bad_first) {
+if($_POST['badState']==BAD_FIRST) {
 $result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
 } else {
 $result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
@@ -77,8 +77,11 @@ $message = "*****This is an automated email*****\n\n----------------------------
 $subject = "Page Marked as Bad";
 }
 
+$message_report = "Project Name: $nameofwork\nProject ID: ".$_POST['projectname']."\nTotal Bad Pages: $totalBad\nTotal Unique Pages: $uniqueBadPages\nPM Advised: $advisePM";
+
 //Send the email to the PM
 mail($PMemail, $subject, $message, "From: no-reply@texts01.archive.org <no-reply@texts01.archive.org>\r\n"); 
+mail("jgruber@tampabay.rr.com","Bad Page Report",$message_report,"From: no-reply@texts01.archive.org <no-reply@texts01.archive.org>\r\n")
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
