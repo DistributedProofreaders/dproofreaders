@@ -1,16 +1,40 @@
 <?
 $relPath='../pinc/';
+include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 
 $user_is_a_sitemanager = user_is_a_sitemanager();
 
-if (!isset($_GET['name']))
+$round_num = array_get( $_GET, 'round_num', NULL );
+if (is_null($round_num))
 {
 	$title = _("Release Queues");
+	theme($title,'header');
+	echo "<br><h2>$title</h2>";
+
+	echo _("Each round has its own set of release queues."), "\n";
+	echo _("Please select the round that you're interested in:"), "\n";
+	echo "<ul>\n";
+	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		echo "<li><a href='release_queue.php?round_num=$rn'>{$prd->round_name}</a></li>\n";
+	}
+	echo "</ul>\n";
+	theme("", "footer");
+	return;
+}
+
+$prd = get_PRD_for_round($round_num);
+
+if (!isset($_GET['name']))
+{
+	$title = sprintf( _("Release Queues for Round '%s'"), $prd->round_name);
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
@@ -31,14 +55,19 @@ if (!isset($_GET['name']))
 		echo "</tr>\n";
 	}
 
-	$q_res = mysql_query("SELECT * FROM queue_defns ORDER BY ordering") or die(mysql_error());
+	$q_res = mysql_query("
+		SELECT *
+		FROM queue_defns
+		WHERE round_number=$round_num
+		ORDER BY ordering
+	") or die(mysql_error());
 	while ( $qd = mysql_fetch_assoc($q_res) )
 	{
 		$ename = urlencode( $qd['name'] );
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td>{$qd['ordering']}</td>\n";
 		echo "<td>{$qd['enabled']}</td>\n";
-		echo "<td><a href='release_queue.php?name=$ename'>{$qd['name']}</a></td>\n";
+		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>{$qd['name']}</a></td>\n";
 		$current_length =
 			mysql_result(mysql_query("
 				SELECT COUNT(*)
@@ -80,7 +109,7 @@ else
 		}
 
 	// Add Back to to Release Queues link
-	echo "<p><a href='".$code_url."/stats/release_queue.php'>"._("Back to Release Queues")."</a></p>\n";
+	echo "<p><a href='".$code_url."/stats/release_queue.php?round_num=$round_num'>"._("Back to Release Queues")."</a></p>\n";
 
         $comments_url1 = mysql_escape_string("<a href='".$code_url."/tools/proofers/projects.php?project=");
         $comments_url2 = mysql_escape_string("'>");
