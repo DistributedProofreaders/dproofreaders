@@ -40,20 +40,20 @@ function echo_button( $button_id, $which_interface )
 		case CHANGE_LAYOUT:
 			if ( $userP['i_layout']==1)
 			{
-				$horvert = "Horizontal";
+				$horvert = _("Horizontal");
 				$n = "5";
 			}
 			else
 			{
-				$horvert = "Vertical";
+				$horvert = _("Vertical");
 				$n = "4";
 			}
 			$attrs = array(
 				'accesskey' => "6",
 				'name'      => "button4",
-				$label      => "Switch to $horvert",
-				'title'     => "Save and Switch to $horvert Layout",
-				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}Change Layout{$CRLF} and {$CRLF}Save the Current Document?'));",
+				$label      => _("Switch to")." $horvert",
+				'title'     => _("Save and Switch to")." $horvert "._("Layout"),
+				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("Change Layout")."{$CRLF} & {$CRLF}"._("Save the Current Document?")));",
 				'src'       => "gfx/bt$n.png",
 			);
 			break;
@@ -62,9 +62,9 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "9",
 				'name'      => "button3",
-				$label      => "Stop Proofing",
-				'title'     => "Stop Proofing",
-				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}{$CRLF}Stop Proofing?'));",
+				$label      => _("Stop Proofreading"),
+				'title'     => _("Stop Proofreading"),
+				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}{$CRLF}"._("Stop Proofreading?")));",
 				'src'       => "gfx/bt1.png",
 			);
 			break;
@@ -73,8 +73,8 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => '4',
 				'name'      => 'button6',
-				$label      => 'Report Bad Page',
-				'title'     => 'Report Bad Page',
+				$label      => _("Report Bad Page"),
+				'title'     => _("Report Bad Page"),
 				'src'       => 'gfx/bt14.png',
 			);
 			break;
@@ -83,9 +83,9 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "3",
 				'name'      => "button7",
-				$label      => "Return Page to Round",
-				'title'     => "Return Page to Round",
-				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}return this page to the current round?'));",
+				$label      => _("Return Page to Round"),
+				'title'     => _("Return Page to Round"),
+				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("return this page to the current round?")));",
 				'src'       => "gfx/bt15.png",
 			);
 			break;
@@ -93,9 +93,9 @@ function echo_button( $button_id, $which_interface )
 		case REVERT_TO_LAST_SAVE:
 			$attrs = array(
 				'name'      => "button9",
-				$label      => "Revert to Last Save",
-				'title'     => "Revert to Last Save",
-				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}revert to your last save?'));",
+				$label      => _("Revert to Last Save"),
+				'title'     => _("Revert to Last Save"),
+				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("revert to your last save?")));",
 				'src'       => "gfx/bt7.png",
 			);
 			break;
@@ -103,8 +103,8 @@ function echo_button( $button_id, $which_interface )
 		case REVERT_TO_ORIGINAL:
 			$attrs = array(
 				'name'      => "button8",
-				$label      => "Revert to Original Document",
-				'title'     => "Revert to Original Document",
+				$label      => _("Revert to Original Document"),
+				'title'     => _("Revert to Original Document"),
 				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}revert to the original text for this round?'));",
 				'src'       => "gfx/bt8.png",
 			);
@@ -113,8 +113,8 @@ function echo_button( $button_id, $which_interface )
 		case RUN_COMMON_ERRORS_CHECK:
 			$attrs = array(
 				'name'      => "button11",
-				$label      => "Run Common Errors Check",
-				'title'     => "Run Common Errors Check",
+				$label      => _("Run Common Errors Check"),
+				'title'     => _("Run Common Errors Check"),
 				'onclick'   => "alert('currently disabled');return(false);",
 				'src'       => "gfx/bt17.png",
 			);
@@ -124,8 +124,8 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "8",
 				'name'      => "button2",
-				$label      => "Save as 'Done' & Proofread Next Page",
-				'title'     => "Save as 'Done' & Proofread Next Page",
+				$label      => _("Save as 'Done' & Proofread Next Page"),
+				'title'     => _("Save as 'Done' & Proofread Next Page"),
 				'src'       => "gfx/bt2.png",
 			);
 			break;
@@ -134,8 +134,8 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "5",
 				'name'      => "button5",
-				$label      => "Save as 'Done'",
-				'title'     => "Save as 'Done'",
+				$label      => _("Save as 'Done'"),
+				'title'     => _("Save as 'Done'"),
 				'src'       => "gfx/bt13.png",
 			);
 			break;
@@ -144,8 +144,8 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "7",
 				'name'      => "button1",
-				$label      => "Save as 'In Progress'",
-				'title'     => "Save as 'In Progress'",
+				$label      => _("Save as 'In Progress'"),
+				'title'     => _("Save as 'In Progress'"),
 				'src'       => "gfx/bt3.png",
 			);
 			break;
@@ -153,8 +153,8 @@ function echo_button( $button_id, $which_interface )
 		case SET_IMAGE_ZOOM:
 			$attrs = array(
 				'name'      => "button35",
-				$label      => "Set Image Zoom Percent",
-				'title'     => "Set Image Zoom Percent",
+				$label      => _("Set Image Zoom Percent"),
+				'title'     => _("Set Image Zoom Percent"),
 				'src'       => "gfx/bt10.png",
 				'onclick'   => "return(showIZ());",
 			);
@@ -163,8 +163,8 @@ function echo_button( $button_id, $which_interface )
 		case SPELL_CHECK:
 			$attrs = array(
 				'name'      => "button10",
-				$label      => "Spell Check",
-				'title'     => "Run Spelling Check",
+				$label      => _("Spell Check"),
+				'title'     => _("Run Spelling Check"),
 				'src'       => "gfx/bt16.png",
 			);
 			break;
@@ -200,32 +200,32 @@ function echo_img( $id )
 		case PROJECT_COMMENTS:
 			$attrs = array(
 				'src'       => "gfx/bt12.png",
-				'alt'       => "Project Comments",
-				'title'     => "Project Comments",
+				'alt'       => _("Project Comments"),
+				'title'     => _("Project Comments"),
 			);
 			break;
 
 		case REFRESH_IMAGE:
 			$attrs = array(
 				'src'       => "gfx/bt6.png",
-				'alt'       => "Refresh Image",
-				'title'     => "Refresh Image",
+				'alt'       => _("Refresh Image"),
+				'title'     => _("Refresh Image"),
 			);
 			break;
 
 		case REVERT_TO_LAST_SAVE_DISABLED:
 			$attrs = array(
 				'src'       => "gfx/bt7_n.png",
-				'alt'       => "Revert to Last Save Disabled",
-				'title'     => "Revert to Last Save Disabled",
+				'alt'       => _("Revert to Last Save Disabled"),
+				'title'     => _("Revert to Last Save Disabled"),
 			);
 			break;
 
 		case SHOW_ALL_TEXT:
 			$attrs = array(
 				'src'       => "gfx/bt9.png",
-				'alt'       => "Show All Text",
-				'title'     => "Show All Text",
+				'alt'       => _("Show All Text"),
+				'title'     => _("Show All Text"),
 			);
 			break;
 	}

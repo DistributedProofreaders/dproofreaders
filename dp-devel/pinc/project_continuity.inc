@@ -20,20 +20,20 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		$orig_state_text = project_states_text($orig_state);
 		$curr_state_text = project_states_text($curr_state);
 		echo "<p>";
-		echo "This project is no longer '$orig_state_text' ";
-		echo "(it is now '$curr_state_text'), ";
-		echo "so your request is no longer valid.";
+		echo _("This project is no longer")." '$orig_state_text', ";
+		echo _("it is now")." '$curr_state_text', ";
+		echo _("so your request is no longer valid.");
 		echo "</p>\n";
 
 		if ($no_more_pages)
 		{
 			echo "<p>";
-			echo "(The project has no more pages available for proofing in that round.)";
+			echo "("._("The project has no more pages available for proofing in that round").".)";
 			echo "</p>\n";
 		}
 
 		echo "<p>";
-		echo "Back to list of <a href='list_avail.php'>projects available for proofing.</a>";
+		echo "<a href='list_avail.php'>"._("Back to list of projects available for proofreading.")."</a>";
 		echo "</p>\n";
 
 		die();

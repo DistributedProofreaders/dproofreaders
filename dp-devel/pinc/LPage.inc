@@ -304,7 +304,7 @@ function exitInterface($newwin,$editone)
         echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
         echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
         echo "window.close();</SCRIPT>";
-        echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
+        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here")."</A> "._("to close the proofing window.");
         echo "</BODY></HTML>";
       }
 }

@@ -170,7 +170,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	echo_row_b( _("Project Comments"), "("._("Please check below for Guideline Modifications").")" );
 
-	$a = _("Follow the current <a href='$code_url/faq/document.php'>Proofing Guidelines</a> for detailed project formatting directions.");
+	$a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofing Guidelines")."</a> "._("for detailed project formatting directions.");
 	$b = _("Instructions below take precedence over the guidelines");
 	echo_row_c( "$a<b>$b:</b><P>$comments" );
 
