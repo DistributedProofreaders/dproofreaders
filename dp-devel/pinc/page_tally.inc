@@ -155,7 +155,7 @@ function users_get_page_tally_ranks()
 
 // -----------------------------------------------------------------------------
 
-function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy )
+function user_get_page_tally_neighborhood( $username, $radius )
 //
 // $radius is the (maximum) number of neighbors (on each side) to include in
 // the neighborhood. (It will include fewer that the maximum iff the target
@@ -235,7 +235,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
             $rel_posn = $i - $target_user_i;
 
-            if ($consider_privacy && should_anonymize( $row['username'], $row['u_privacy'] ) )
+            if ( should_anonymize( $row['username'], $row['u_privacy'] ) )
             {
                 $neighbor_is_anonymized = TRUE;
                 $neighbor_username = NULL;

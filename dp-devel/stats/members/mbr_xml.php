@@ -35,7 +35,7 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 list( $neighbors, $max_page_tally_rank ) =
 	user_get_page_tally_neighborhood(
-		$curMbr['username'], 4, TRUE );
+		$curMbr['username'], 4 );
 
 $bestDay = bestDayEver($curMbr['u_id']);
 
