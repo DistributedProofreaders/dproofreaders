@@ -1,0 +1,57 @@
+A variable and function reference for html.inc
+
+
+Class Variables:
+// These all use the letter O (for Open) and not the number 0
+
+     $headO = head tag open  1(true)|0(false)
+     $bodyO = body tag open  1(true)|0(false)
+     $centerO = center (and div) tag open  1(true)|0(false)
+     $tableO = table tag open  1(true)|0(false)
+     $trO = tr tag open  1(true)|0(false)
+     $tdO = td tag open  1(true)|0(false)
+
+     Variables are also created that match those in html_styles.inc
+
+
+function startHeader($docTitle)
+     $docTitle = the text string you would like displayed as the window title
+
+
+function startBody($centerAll,$extraTags)
+     $centerAll = boolean to add <center><div align="center"> tags at the start of the document.
+                  1(true)|0(false)
+     $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
+                  They must be formatted in correct HTML syntax. The preceeding space will be added.
+     closes : <head> if $headO=1
+
+
+function startTable($tableWidth,$extraTags)
+     $tableWidth = the width of the table (set =0 to allow browser to determine a default width)
+     $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
+                  They must be formatted in correct HTML syntax. The preceeding space will be added.
+     closes : <td> if $tdO=1; <tr> if $trO=1; <table> if $tableO=1 (does not allow for nested tables)
+
+
+function startTR($trType,$extraTags)
+     $trType =  0=default, 1=goes with td light, 2=goes with td dark styles
+     $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
+                  They must be formatted in correct HTML syntax. The preceeding space will be added.
+     closes : <td> if $tdO=1; <tr> if $trO=1
+
+
+function startTD($tdType,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags)
+     $tdType =  0=default, 1=light, 2=dark styles
+     $tdCols = value for COLSPAN attribute
+     $tdRows = value for ROWSPAN attribute
+     $tdAlign = "left"|"center"|"right" horizontal alignment of cell contents
+     $tdVAlign = "top"|"middle"|"bottom" vertical alignment of cell contents
+     $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
+                  They must be formatted in correct HTML syntax. The preceeding space will be added.
+     closes : <td> if $td=1
+
+
+function endHTML()
+     has no parameters.
+     closes : <td> if $tdO=1; <tr> if $trO=1; <table> if $tableO=1;
+              <div><center> if $centerO=1; <body><html> if $bodyO=1
