@@ -38,7 +38,7 @@ function avail_pages($project)
    $dbQ = mysql_query("SELECT modifieddate AS lastchanged FROM projects WHERE projectid = $project");
    if ($dbQ != "") { $lastchanged = mysql_result($dbQ,0,"lastchanged"); } else $lastchanged = 0;
       if ($lastchanged > 0) {
-         if (($now - $last_changed) < 1800)) {
+         if (($now - $last_changed) < 1800) {
             $booknums = bookpages($project," IN ('".AVAIL_FIRST."','".AVAIL_SECOND."')");   
             $avail_array[$project] = $booknums['available'];
          }
@@ -46,7 +46,7 @@ function avail_pages($project)
    }
    // if we have a saved total already in the array for this project, report it
    if (array_key_exists($project, $avail_array)) {
-      return $avail_array[$project]
+      return $avail_array[$project];
    } else {
    // else count and return total, saving it in array for next time
      $booknums = bookpages($project," IN ('".AVAIL_FIRST."','".AVAIL_SECOND."')");   
