@@ -2,11 +2,13 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
+include_once($relPath.'v_keepmarkup.inc');
+
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $editone, $savedm $pagestate */
 $project = isset($projectname)?$projectname:0;
-$text_data = isset($text_data)?strip_tags($text_data, '<i>'):'';
+$text_data = isset($text_data)?strip_tags($text_data, PROOF_SECOND_TAGS_KEEP):'';
 
 $tpage=new processpage();
   if ($project !='')

@@ -2,6 +2,7 @@
 
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'v_keepmarkup.inc');
 
 class processpage
 {
@@ -168,7 +169,7 @@ function getText($pagestate,$saved,$revert)
   $text_data = mysql_result($result, 0, $wText);
     if ($this->getPageRound($pagestate)==2 || $saved !=0)
     {
-      $text_data = strip_tags($text_data, '<i>&');
+      $text_data = strip_tags($text_data, PROOF_SECOND_TAGS_KEEP);
     }
     else
     {
