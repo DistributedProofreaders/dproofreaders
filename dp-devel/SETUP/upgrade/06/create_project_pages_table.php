@@ -28,7 +28,7 @@ KEY `round2_time` ( `round2_time` )
 */
 // DAK This was created phpMyAdmin and was copied directly here.
 
-sql .= ' CREATE TABLE `dproofreaders`.`temp_pages` ( `projectid` varchar( 25 ) NOT NULL default \'\',';
+sql .= ' CREATE TABLE `dproofreaders`.`project_pages` ( `projectid` varchar( 25 ) NOT NULL default \'\',';
 $sql .= ' `fileid` varchar( 20 ) NOT NULL default \'\',';
 $sql .= ' `image` varchar( 8 ) NOT NULL default \'\',';
 $sql .= ' `master_text` longtext NOT NULL ,';
@@ -47,6 +47,6 @@ $sql .= ' PRIMARY KEY ( `projectid` , `fileid` ) ,';
 $sql .= ' KEY `round1_user` ( `round1_user` ) ,';
 $sql .= ' KEY `round2_user` ( `round2_user` ) ,';
 $sql .= ' KEY `round1_time` ( `round1_time` ) ,';
-$sql .= ' KEY `round2_time` ( `round2_time` ) ) TYPE = MYISAM CHARSET = utf8;';
+$sql .= ' KEY `round2_time` ( `round2_time` ) ) TYPE = MYISAM ;';
 $sql .= ''; 
 
