@@ -49,6 +49,7 @@ function projectStateRound($state)
             $wProc = 'COMPLETE' ;
             break ;
     }
+    return $wProc;
 
 
 
