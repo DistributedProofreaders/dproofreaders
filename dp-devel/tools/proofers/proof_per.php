@@ -10,10 +10,8 @@ include($relPath.'showavailablebooks.inc');
     echo "<html><head>";
     echo "<title>Personal Page for $pguser</title></head><body>";
     echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
-    echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td bgcolor = \"CCCCCC\" align = left colspan =\"3\"><font size=+1>Welcome</font><font color=\"#0000FF\" font size = +1> $pguser</font></td><td width = \"1\" bgcolor = \"CCCCCC\" colspan =\"1\">&nbsp</td><tr>";
-    echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td align =\"center\"><b>This is your Personal Page!</b></td>";
+    echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td bgcolor = \"CCCCCC\" align = left colspan =\"2\"><font size=+1>Welcome</font><font color=\"#0000FF\" font size = +1> $pguser</font></td></tr><tr>";
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td>";
-
     echo" <b>Site Stats:</b><br>";
     include("../../stats/hourly.txt");
     echo" <p><b>Your Stats:<br></b>";
@@ -140,7 +138,7 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
     }
 
     $printedblankline = FALSE; // Note - this may be PHP4 only
-//    $show_neighbors = isset($_GET['show_neighbors']) ? $_GET['show_neighbors'] : 5;
+    $show_neighbors = $userP['u_neigh'];
 
     $i = 0;
     while ($i < $numrows) {
@@ -186,30 +184,12 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 ?>
 
 </TABLE>
-
-<? if ( $display_neighbors ) { ?>
-<form method="get" action="<? print $_SERVER['PHP_SELF']; ?>">
-<p>Show <select name="show_neighbors">
-<?
-for ( $i=1; $i <= 10; $i++ ) {
-   $real_value = $i*2;
-   print "  <option value=\"$i\"";
-   if ( $i == $show_neighbors ) {
-       print " selected=\"selected\"";
-   }
-   print ">$real_value</option>\n";
-}
-?>
-</select>
-neighbors <input type="submit" name="go" value="Go" /></p>
-</form>
-<? } ?>
 </blockquote>
 <? } ?>
 <p>
 <p>
 
-<font color=#FF0000><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again. Site cookies have changed to hold the preferences.</B><P></font>
+<font color=#FF0000><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again.</B><P></font>
 <b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
 <?
 
@@ -246,9 +226,8 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 </form>
 <p><p>
 Want to help out the site by providing material for us to proof? Check <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">here</a> to find out how!
-<p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td><tr>
-<td width = "1" bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td><td bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td>
-</table><p><p>
+<p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td></tr><tr>
+<td width = "1" bgcolor = "CCCCCC" colspan ="4">&nbsp</td></tr></table><p><p>
 <table border="1" width="630">
 <tr>
   <td bgcolor="#CCCCCC"><h3>Random Rule</h3></td>
