@@ -209,9 +209,9 @@ function stopOver()
 
 function reSize(newsize)
 {
-if (top.proofframe.imageframe.document.scanimage) 
+if (frameRef.scanimage) 
   {
-    top.proofframe.imageframe.document.scanimage.width=newsize;
+    frameRef.scanimage.width=newsize;
     setScrollWidths();
     imgstyle.top=0+bPX;
     imgstyle.left=0+bPX;

@@ -197,7 +197,7 @@ name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedInde
 <option value="56">&#215;</option>
 <option value="88">&#247;</option>
 </select><INPUT 
-TYPE="text" VALUE="" accesskey="\" name="markBoxChar" onfocus="this.select();" class="dropnormal" size="1" onclick="this.select()"><a 
+TYPE="text" VALUE="" accesskey="\" name="markBoxChar" class="dropnormal" size="1" onclick="this.select()"><a 
 href="#" onclick="mGR()" title="Greek-to-ASCII Transliteration"><img 
 src="gfx/tags/greek.png" width="62" height="22" border="0" align="top" alt="Greek Transliteration" title="Open Greek Transliteration Window"></a></td><td 
 valign="top" align="center"><INPUT 

@@ -21,7 +21,7 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
         $textHeight=100;
         $imageHeight=100;
         $textTop="0px";
-        $textLeft=$userP['v_tframe']."%";
+        $textLeft=(100-$userP['v_tframe'])."%";
       }
   else
       {
@@ -29,7 +29,7 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
         $imageWidth=100;
         $textHeight=$userP['h_tframe'];
         $imageHeight=(100-$userP['h_tframe'])-1;
-        $textTop=100-$userP['h_tframe']."%";
+        $textTop=(100-$userP['h_tframe'])."%";
         $textLeft="1%";
       }
 
@@ -250,7 +250,8 @@ id="controlframe" align="center"><form
   echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
 ?><table 
   id="tbtext" 
-  cellspacing="0"><tr><td 
+  cellspacing="0" 
+  align="center"><tr><td 
     id="tdtop" 
     valign="middle"><?PHP
   include('button_menu.inc');
