@@ -1,161 +1,343 @@
-<html>
-<head>
-<title>Proofer's Frequently Asked Questions (FAQ)</title>
-</head>
-<body>
-<h1>Proofer's Frequently Asked Questions (FAQ)</h1>
-<br><br>
-Author: Robert Rowe<br>
-Date: 10/16/2001<br>
-Updated: 10/27/2002<br>
-By Charles Franks<br>
-<br><br>
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Beginning Proofers\' FAQ','header');
+?>
 
-The purpose of this FAQ is to provide answers to common questions that users of the Distributed Proofreaders web site have asked. It should be considered a work in progress. Please visit it often as it's contents will change as user's needs change. If you find any errors, have suggestions or did not find your answer, please email me or Charles.<br><br>
-<hr>
-<br><br>
-<b>Contents</b><br><br>
+<!--
+Need to decide what to do about the 6 places that give an email address.
+  - create several generic DP emails, forwarded to people?
+  - create standard threads in the forums, and link to those?
+  - something else?
 
-1. <a href="#1">What is Distributed Proofreaders?</a><br>
-2. <a href="#2">What is Project Gutenberg?</a><br>
-3. <a href="#3">Why do we pick the books that we do?</a><br>
-4. <a href="#4">How can I help? </a><br>
-5. <a href="#5">How do I handle ...? </a><br>
-6. <a href="#6">How do I contact ...? </a><br>
-7. <a href="#7">What is the entire process for creating an etext?</a><br>
-8. <a href="#8">How can I get copies of the etexts I've worked on?</a><br>
-9. <a href="#9">How can I get copies of other Gutenberg etexts?</a><br>
-10. <a href="#10">I think I messed something up (done something wrong), How can I fix it?</a><br>
+Also, fix section 4 -- too much detail about PM duties.
 
-<br><br>
-<hr>
-<br><br>
-<a name="1"><b>1. What is Distributed Proofreaders?</b></a><br><br>
-This site is now an official <a href="http://www.gutenberg.net">Project Gutenberg</a> site and your donations go to The Project Gutenberg Literary Archive Foundation.  This site uses a combination of PHP, mySQL and some Java Script to
-create a 'library'. People scanning books (using scanners) can upload the scanned image files and the initial text file for 
-the images that is produced by OCR software. <p>
-When a proofer elects to proofread a page for a particular project, the text and image file are displayed on a single 
-webpage. This allows the text file to be easily reviewed and compared to the image file, thus assisting the proofreading 
-of the text file. The edited text file is then submitted back into the library. The basic concept is that several 
-proofreaders can be working on the same book, but different pages, at the same time. This will significantly speed up 
-the proofreading process. <p>
-Once all pages for a particular book have been processed and the proofed work submitted back into the library, all the 
-pieces can be joined, properly formatted and submitted to the PG archive by the project manager.
-<br><br>
+Also, fix section 6 -- add more people that they may want to contact.
+        -->
 
-<a name="2"><b>2. What is Project Gutenberg?</b></a><br><br>
-Michael Hart founded Project Gutenberg in 1971. His idea was: anything that can be entered into a computer can be 
-reproduced indefinitely. This led to the concept of entering books into computers and sharing these books with the
-world. <p>
+  <style TYPE="text/css">
+<!--
+  tt {color: red}
+        -->
+  </style>
 
-These Electronic Texts (Etexts) would be made available in the simplest, easiest to use form. This means 
-"Plain Vanilla ASCII." Italics, underlines, and bolds would be capitalized. In the same vein, the books selected 
-would be those that appealed to the greatest number of people possible. Due to copyright laws, it is only legal 
-to do this with older books (copyrighted 75 or more years ago). As a result, Project Gutenberg is mostly comprised
-of the "Classics." <p>
+<h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
+<h3 align="right">Version 1.5, released June 6, 2003 </h3>
 
-You can read more about Project Gutenberg at: <a href="http://www.gutenberg.net/history.html">www.gutenberg.net/history.html</a>
-<br><br>
-
-<a name="3"><b>3. Why do we pick the books that we do?</b></a><br><br>
-The Project Managers (mostly Charles) pick whatever books we can find. Due to US copyright laws, we are severely limited in the 
-books we are allowed to work with. We go to Used & Rare bookshops and scour the Internet. We try to find books that we think people 
-would enjoy reading and that we can find at an acceptable price. <p>
-
-Before selecting a book to make an etext out of, we check <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>
-to make certain that it has not already been done or is in progress by someone else.<p>
-
-If you have a book that you would like to see done (and it is copyright cleared) contact one of the Project Managers or Charles.
-<br><br>
-
-<a name="4"><b>4. How can I help?</b></a><br><br>
-The process of creating an etext is a long one. Distributed Proofreaders was set up so that you can help the Project Managers by proof reading
-their books. If you have not already done so, click on the "Create" link and make an account. This enables you to
-select an available book and proof read a few pages. Any work done is greatly appreciated and goes a long way toward
-assisting us in creating etexts.<p>
-
-If you really catch Gutenberg fever, you may want to become a Project Manager. If you think that being a Project Manager 
-is for you, start by learning all you can about Project Gutenberg. Go to the main site <a href="http://www.gutenberg.net">www.gutenberg.net</a> 
-and read all you can. Subscribe to the mailing lists and listen in for a while. Proof read pages from several books 
-so you can get the feel for the process. Try to find a source, or sources, for candidate books. Read the Project Manager's FAQ (forthcoming). 
-When you feel ready, contact Charles. <p>
-
-If you want to do more for the site, but don't have the time, or inclination, to become a Project Manager, you might consider
-making a donation. Funding for the site comes entirely from Charles and the Project Managers (for the books they do). 
-Please contact Charles if you wish to make a donation.
-
-<p>
-You can also donate Public Domain books by shipping them to us for scanning (better if they do not need to be returned). You can also scan the books and send us the images (best if you need to keep the book). We would prefer it if you would clear the books first with Project Gutenberg before scanning and sending us the images. Please refer to the <a href="pm-faq.php">Project Managers FAQ</a> for more details on clearing and scanning books.<p> 
-
-A <a href="DPflow.php">Workflow Diagram</a> for the site shows the general flow of material into and out of the site.
-
-<br><br>
-
-<a name="5"><b>5. How do I handle ...? </b></a><br><br>
-There are no set "Rules" enforced by Project Gutenberg, but in order to allow the distributed proofreading to work, we
-have written up our own <a href="document.php">Document Guidelines</a>. Please reference these and any project
-comments that a project manager may have provided. 
-The main goal is to preserve as much formatting as possible while making the etext readable on a computer. If you are a new proofreader 
-it can be helpful to start proofing 'second round' e-texts, this can help you 'learn the ropes' and give you an idea of the general techniques.
-<p>
-
-<a name="6"><b>6. How do I contact ...?</b></a><br><br>
-You can email Charles at: <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a><br>
-Other Project Managers can be reached by clicking on their name on the Projects page. Each project has a link
-to the Project Manager in charge of it.
-<br><br>
-
-<a name="7"><b>7. What is the entire process for creating an etext? </b></a><br><br>
-Here's a blow by blow list of the steps taken by a Project Manager when creating an etext.<br><br>
-<table border = "0" cellspacing = "0" width = "630"> 
-<td width = "30" valign="top">&nbsp&nbsp&nbsp a. </td><td>Locate a candidate book checking against <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp b. </td><td>Send the copyright information to Michael Hart to make certain it is legal to do the book.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp c. </td><td>When we get the clearance info back, we send this to Charles.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp d. </td><td>Now we make digital images of the pages using scanners.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp e. </td><td>Next, we feed these images to OCR programs that turn these images into text.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp f. </td><td>We then feed this text to other programs to fix the things left by the OCR programs (like chapter headings, paragraph indention, paragraph separation, etc).</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp g. </td><td>Now we create a project using the Project Manager's web page.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp h. </td><td>We upload the images and text to the web site.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp i. </td><td>Proof Readers come to the site and proof read the text twice, referring to the images as needed.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp j. </td><td>Now we download a copy of the text that has been stitched together.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp k. </td><td>We check this proofed copy and fix anything left using programs designed to assist us.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp&nbsp l. </td><td>The final copy is sent back to Charles who checks it again and finally sends it to Gutenberg.</td><tr>
-<td width = "30" valign="top">&nbsp&nbsp m. </td><td>Other Gutenberg volunteers check it again and add it to the library, notifying Charles when it becomes available.</td>
-
+<p> The purpose of this FAQ is to provide answers to common questions that new people
+    joining us at the Distributed Proofreaders web site have asked.
+    Obviously not all questions can be included here.  If you don't find an answer here,
+    you can look in our
+    <a href="faq_central.php">other documentation
+    pages</a> or email us at <a href="mailto:charlz@lvcablemodem.com">Charles
+    Franks</a>.
+</p>
+<table border="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td width="1" bgcolor="silver">&nbsp;</td>
+      <td bgcolor="silver" align="left"><font size="+2"><b>Contents</b></font></td>
+    </tr>
+    <tr>
+      <td width="1" bgcolor="silver">&nbsp;</td>
+      <td bgcolor="white" align="left">
+      <ol>
+        <li><a href="#1">What is Distributed Proofreaders?                     </a></li>
+        <li><a href="#2">What is Project Gutenberg?                            </a></li>
+        <li><a href="#3">Why do we pick the books that we do?                  </a></li>
+        <li><a href="#4">How can I help?                                       </a></li>
+        <li><a href="#5">How do I handle ...?                                  </a></li>
+        <li><a href="#6">How do I contact ...?                                 </a></li>
+        <li><a href="#7">What is the entire process for creating an etext?     </a></li>
+        <li><a href="#8">How can I get copies of the etexts I've worked on?    </a></li>
+        <li><a href="#9">How can I get copies of other Gutenberg etexts?       </a></li>
+        <li><a href="#10">I think I messed something up (done something wrong),
+                          How can I fix it?                                    </a></li>
+      </ol>
+      </td>
+    </tr>
+    <tr>
+      <td width="1" bgcolor="silver">&nbsp;</td>
+      <td bgcolor="silver">&nbsp;</td>
+    </tr>
+  </tbody>
 </table>
 
-<p>
-As you can see, a book follows a long road to become an etext. These steps are covered in more detail in the Project Manager's FAQ (forthcoming).
+<h3><a name="1">1. What is Distributed Proofreaders? </a></h3>
+Distributed Proofreaders is an effort to support <a href="
+http://www.gutenberg.net">Project Gutenberg</a>, and a recognized affiliated site of
+Project Gutenberg.  The basic concept is that our website software allows several
+proofreaders to be working on the same book at the same time, each proofreading on
+different pages.  This will significantly speed up the proofreading process.
 
-<br><br>
+<h4>How it works:</h4>
+<ol compact>
+  <li>This website uses online software and databases to create a "library".
+  <li>People ("content providers") scan books and upload the scanned images into this
+      library.
+  <li>People like you ("proofreaders") choose a project ("book") to work on today.
+  <li>The website then shows you a webpage containing the scanned image of one page and
+      the text from that image (as produced by OCR software). This allows you to easily
+      compare the scanned text to the image of the page, so you can note the differences
+      and fix them.
+  <li>You read the text, and correct it to match the page image.
+      Basically fixing OCR errors, and marking things like bold or italic text,
+      footnotes, etc.  according to our guidelines (so we all mark them the same way).
+  <li>When done with that page, you save the page, and then either request
+      another page to proofread or quit for the day.
+  <br>Note that, <i>at the same time</i>, others will be working on other pages from
+      this book, or from different books.  Each proofreader does just a bit (we suggest
+      "a page a day"), but working together we can get a lot of books done! [In 2003, we
+      average 250-300 proofreaders participating each day, and we finish 2500-3000 pages
+      per day. That's about 2 pages every minute of every day!]
+  <li>The site stores that proofed page in our database for the next round.  (Each book
+      goes through two rounds of proofreading, to try to catch all errors in the text.)
+  <li>When all the pages in a book have been proofread, a "post-proofer" does the
+      finishing work of getting this book ready: combining all the pages into one big
+      file, making sure the markings are consistent, etc., and one last check for
+      errors.
+  <li>Finally the book is submitted to the Project Gutenberg archive, and is posted on
+      mirror sites all over the world, freely available for anyone to read and enjoy.
+</ol>
 
-<a name="8"><b>8. How can I get copies of the etexts I've worked on?</b></a><br><br>
-At the bottom of the front page, Charles provides links to all the etexts processed through the site. Bronze and 
-Silver stars denote that the etext is still in progress and is not yet in the Gutenberg Library. Click on the <b>txt</b> 
-link for a plain text copy or the <b>zip</b> link for a zip compressed copy of the text. Some etexts also have an HTML copy. These 
-copies have been enhanced by turning them into a web page. This is commonly done to preserve the pictures in the original book. 
-<br><br>
+<h3><a name="2">2. What is Project Gutenberg? </a></h3>
+<p> Michael Hart founded Project Gutenberg in 1971. His idea was: anything that can be
+    entered into a computer can be reproduced indefinitely. This led to the concept of
+    entering books into computers and sharing these books with the whole world.  </p>
+<p> These Electronic Texts (E-texts) would be made available in the simplest, easiest to
+    use form. This means "Plain Vanilla ASCII." Italics, underlines, and bolds would be
+    converted to ASCII. In the same vein, the books selected would be those that
+    appealed to the greatest number of people possible. Due to copyright laws, it is
+    only legal to do this with older books (in gerneral, copyrighted before 1923). As a
+    result, Project Gutenberg is mostly comprised of the "Classics." </p>
+<p> You can read more about the history of Project Gutenberg at: <a
+    href="http://www.gutenberg.net/history.html">www.gutenberg.net/history.html</a></p>
 
-<a name="9"><b>9. How can I get copies of other Gutenberg etexts?</b></a><br><br>
-You can go to the Project Gutenberg site <a href="http://www.gutenberg.net">www.gutenberg.net</a> and get copies of any etext
-in the library, including the ones done through Distributed Proofreaders.
-<br><br>
+<h3><a name="3">3. Why do we pick the books that we do? </a></h3>
+<p> The Project Managers (mostly Charles) pick whatever books we can find. Due to US
+    copyright laws, we are severely limited in the books we are allowed to work with. We
+    go to Used & Rare bookshops and scour the Internet websites &amp; auctions.
+    Sometimes we check out rare books from libraries and scan them.  We try to find
+    books that we think people would enjoy reading and that we can find at an acceptable
+    price.  </p>
 
-<a name="10"><b>10. I think I messed something up (done something wrong), How can I fix it?</b></a><br><br>
-Don't panic. We all make mistakes. If you think you made a mistake on the last few pages of a particular project, go back to 
-the Project Page and click on the "My Recently Done" link for that project and you will be given a chance to re-visit the last 
-5 pages you submitted for that project.
-<p>
-If you think you made a mistake elsewhere on a text or are not sure that you handled something correctly, 
-email the Project Manager. Tell them the book you were doing, the page you were on and what you did. Feel free to leave 
-short notes in the pages as you do them, just make certain to mark them with an asterisk so that we can find them.
-<br><br>
+<p> Before selecting a book to convert to an etext, we check
+    <a href="http://www.ibiblio.org/gutenberg/GUTINDEX.ALL">Project Gutenberg's list</a>
+    (to make certain that it hasn't already been done) and we check
+    <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>
+    (to make certain that it isn't being done by someone else). </p>
 
-<hr>
+<p> In summary, <i>we do whatever books people provide to us (that we legally can).</i>
+    If you have a book that you would like to see done (and it is copyright cleared)
+    we can probably do it (with your help).
+    Contact us at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>.
+    or see the
+    <a href="<? echo $forums_url ?>/viewforum.php?f=9">
+    "Content Providers" Forum</a>. </p>
 
-<br><br>
-This ends the Proofer's Frequently Asked Questions (FAQ)
-<p>
-Back to <a href ="../default.php">Distributed Proofreaders Mainpage</a>
-</body>
-</html>
+<h3><a name="4">4. How can I help? </a></h3>
+<p> The process of creating an etext is a long one.
+<br>Distributed Proofreaders was set up to make that go faster, by letting you help the
+    Project Managers by proofreading pages in their books. If you have not already done
+    so, click on the "Create" link and make an account. This enables you to select an
+    available book and <b>proofread a few pages</b>.  We encourage people to try to do
+    at least "a page a day", but any work done is greatly appreciated and goes a long
+    way toward assisting in creating etexts.  This is the way most people help.  </p>
+
+<p> If you really catch Gutenberg fever, you may want to <b>become a Project Manager</b>.
+    Project managers mainly shepherd a project ("book") through the uploading,
+    proofreading and post-proofing processes on this website. Sometimes they do most of
+    the tasks themselves; sometimes they coordinate others who are working on the tasks.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    If you think that being a Project Manager is for you, start by learning all you can
+    about Project Gutenberg. Go to the main site <a
+    href="http://www.gutenberg.net">www.gutenberg.net</a> and read all you can.
+    Subscribe to the PG mailing list and listen in for a while. Proofread pages from
+    several books here so you can get the feel for the process. Try to find a source, or
+    sources, for candidate books. Read the <a href="
+    pm-faq.php">Project Manager's FAQ</a>.  (We do
+    have experienced Project Managers who will mentor you in this process.) When you
+    feel ready, contact us at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>. </p>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="donate@gutenberg.net">
+      <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif"
+      align="right" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+    </form>
+<p> If you want to do more for the site, but don't have the time, or inclination, to
+    become a Project Manager, you might consider <b>making a donation</b>. Funding for
+    the site comes entirely from Charles and the Project Managers, and voluntary
+    donations.
+    See the "donate" button on our
+    <a href="..">main page</a> if you wish to make a
+    tax-deductable donation. Or here! </p>
+
+<p> You can also <b>donate books</b> (Public Domain) by shipping them to us for scanning
+    (better if they do not need to be returned). You can also scan the books and send us
+    the images (best if you want to keep the book). We would prefer it if you would
+    clear the books first with Project Gutenberg before scanning and sending us the
+    images.  Please refer to the <a
+    href="scan/submitting.php">Submitting Material
+    FAQ</a> for more details on clearing and scanning books. </p>
+
+<p> So if you want to do more than just proofreading, you can also help by taking on any
+    of the following roles:
+    <ul compact>
+      <li><b>Content Provider</b>.  Does any or all of the following tasks:
+        <ol compact>
+           <li>Find a suitable (non-copyright) book to proofread.
+           <li>Obtain copyright clearance for the book.
+           <li>Run each page of the book through a scanner.
+           <li>Process each page image through OCR (optical Character Reader) software.
+           <li>Run pre-processing software on the OCR'd file to fix common problems.
+           <li>Upload the page image files and OCR'd text files to the DP website.
+        </ol>
+      <li><b>Project Manager</b>.  See discussion above.
+      <li><b>Post Proofer</b>.  Does all the finishing work to take a project from a set
+          of proofread pages into a combined etext file suitable for adding to the
+          Project Gutenberg archive.  Combines all the pages into one big file, deals
+          with words or paragraphs split across pages, moves footnotes &amp; sidenotes
+          to the proper place, and generally makes sure that all the proofreaders were
+          consistent in the way the proofed the text, and then finally sends it on to
+          Project Gutenberg.
+      <li><b>Website Help</b>.  We always welcome people to help in the work of
+          maintaining and improving this website. Programmers (PHP, mySQL and some Java
+          Script) who can work on the website software, beta testers to check out new
+          versions, document writers to help with our documentation are all needed.
+          Contact <a href="mailto:jgruber@tampabay.rr.com">Joseph Gruber</a> if you
+          you would like to help with any of these tasks.
+    </ul>
+<p> You can do any of these entirely on your own, or you can work together with others to
+    do the tasks.  Most of our projects are done by a group of people working together.
+
+<h3><a name="5">5. How do I handle ...?  </a></h3>
+<p> There are no set "Rules" enforced by Project Gutenberg, but in order to allow the
+    distributed proofreading to work, we have written up our own <a
+    href="document.php">Proofing Guidelines</a>.
+    Please read these and any project comments that a project manager may have provided
+    before starting to proofread.  The main goal is to preserve as much formatting as
+    possible, marked the same way, while making the etext readable on a computer. If you
+    are a new proofreader it may be helpful to print out a copy of our 2-page summary,
+    the <a href="scan/summary.pdf">Handy Proofing
+    Guide</a>, and keep it handy while proofreading. This covers the basics of
+    proofreading.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Also, some of our projects are marked "Beginners only".  These are books that are
+    straightforward, without complex proofreading issues.  It's a good idea to choose
+    one of these books when you first start proofreading. </p>
+
+<h3><a name="6">6. How do I contact someone ...? </a></h3>
+<!--
+<ul compact>
+  <li>about a question on a specific book:
+  <li>about providing material to be proofed here:
+  <li>about becoming a Project Manager for a specific book:
+  <li>about helping write the code that operates this website:
+  <li>about helping test the code that operates this website:
+  <li>about helping update the documentation about this website:
+  <li>about problems in getting the proofing website to work:
+</ul>
+-->
+<p> You can email Charles at: <a href="mailto:charlz@lvcablemodem.com">Charles
+    Franks</a><br> Other Project Managers can be reached by clicking on their name on
+    the Projects page. Each project has a link to the Project Manager in charge of it.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Also, the "Discuss this book" link on the opening page where you start proofing the
+    book links to the Forum for this book.  That's the best place to contact the Project
+    Manager of the book, or to ask questions about the book or ask how to handle some
+    proofing issue in the book.  </p>
+
+<h3><a name="7">7. What is the entire process for creating an etext?  </a></h3>
+<p> Here's a blow by blow list of the steps taken by a Project Manager when creating an
+    etext:
+
+<ol type="a">
+  <li>Locate a candidate book, checking against <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>.
+  <li>Send the copyright information to Michael Hart to make certain it is legal to do the book.
+  <li>When we get the clearance info back, we send this to Charles at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>
+  <li>Now we make digital images of the pages using a scanner.
+  <li>Next, we feed these images to an OCR program that turns them into text.
+  <li>We then feed this text to other pre-processing programs to fix the things left by the OCR programs (like chapter headings, paragraph indention, paragraph separation, etc).
+  <li>Now we create a project using the Project Manager's web page.
+  <li>We upload the images and text to the web site, and make them available to proofreaders.
+  <li>Proofreaders come to the site and proofread pages of the text, fixing them to match the page images.
+  <li>Second-round proofreaders proof the pages of the text again, to catch anything missed in the first-round.
+  <li>The post-proofer downloads all the pages, and stitches them together into one file.
+  <li>The post-proofer checks this proofed copy and fixes anything left, using special programs designed to assist with this.
+  <li>The final copy is sent back to Charles who checks it again and then sends it on to Project Gutenberg.
+  <li>Other Gutenberg volunteers check it again and add it to the PG archive, notifying us when it becomes available.
+</ol>
+
+<p> As you can see, a book follows a long road to become an etext. These steps are
+    covered in more detail in the
+    <a href="pm-faq.php">Project Manager's FAQ</a>.
+<p> This <a href="DPflow.php">Workflow Diagram</a>
+    for the site shows the general flow of material into and out of the site.  </p>
+
+
+<h3><a name="8">8. How can I get copies of the etexts I've worked on? </a></h3>
+<p> On the opening page where you start proofing a book there is an item "Book
+    Completed".  Click on "Yes, I would like to be notified when this has been posted to
+    Project Gutenberg." If you do that, when the book is eventually added to the Project
+    Gutenberg Archive, you will receive an email notifying you and giving the link to
+    download this book.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Also, on the DP main page, there is a weekly list of recent books completed and sent
+    to Project Gutenberg, books proofread and being post-proofed, and books currently in
+    the process of proofreading. </p>
+
+<h3><a name="9">9. How can I get copies of other Gutenberg etexts? </a></h3>
+<p> You can go to the Project Gutenberg site <a href="http://www.gutenberg.net">www.gutenberg.net</a> and get copies of any etext
+    in the library, including the ones done through Distributed Proofreaders. </p>
+
+<h3><a name="10">10. I think I messed something up (done something wrong), How can I fix it? </a></h3>
+<p> <i>Don't panic.</i> We all make mistakes. If you think you made a mistake on the last few
+    pages of a particular project, go back to the Project Page and note the "My Recently
+    Done" links.  They reconnect to the last 5 pages you proofread for that project.
+    Click on one, and you can make corrections to your proof of that page.</p>
+
+<p> If it's earlier than one of these last 5 pages, or you are not sure that you handled
+    something correctly, leave a note in the Project Forum for that book (reached from
+    the opening page where you started proofing -- click on "Discuss this Project").
+    Give the number of the page you were on (if you remember) and what you did. This
+    lets the second round proofreader or the post-proofer fix it if it was not correct.
+    </p>
+
+<p> Remember that all your proofed pages will be proofed again in the 'second round' of
+    proofreading.  Few mistakes make it by both proofreaders undetected!  <i>So just do
+    your best and don't worry.</i>  (Second-round proofing is limited to 'experienced'
+    first-round proofers [those who've proofed over 100 pages].) </p>
+
+<p> Also, feel free to leave short notes in the pages as you do them, just make certain
+    to mark them with an asterisk so that the next proofer can find them.  Like this: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <tt>John Smyth* [image too faint--I can't tell if it's Smythe or Smith here.]* </tt></p>
+
+<hr align="center" width="66%">
+<h4>Revision History of this Document</h4>
+       04/17/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
+   <br>10/27/2002 -- updated version produced by Charles Franks.
+   <br>10/16/2001 -- original version of this document produced by Robert Rowe.
+
+<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
+<tr><td width='10'>&nbsp;</td>
+    <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
+        Return to:
+        <a href="..">Distributed Proofreaders home page</a>,
+        &nbsp;&nbsp;&nbsp;
+        <a href="faq_central.php">DP FAQ Central page</a>,
+        &nbsp;&nbsp;&nbsp;
+        <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+        </font>
+    </td>
+</tr>
+</table>
+
+<?
+theme('','footer');
+?>
