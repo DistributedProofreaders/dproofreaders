@@ -43,11 +43,11 @@ dpsql_query("
 // DROP COLUMN pagescompleted
 
 // -----------------------------------------------
-// Move team page-tallies from 'user_teams' table.
+// Move site and team page-tallies from 'user_teams' table.
 
 dpsql_query("
     INSERT INTO current_tallies
-    SELECT 'T', id, 'P', page_count
+    SELECT IF(id=1,'S','T'), id, 'P', page_count
     FROM user_teams
     ORDER BY id
 ") or die("Aborting.");
