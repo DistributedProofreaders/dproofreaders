@@ -2,6 +2,7 @@
 $relPath="./pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
+include($relPath.'doctype.inc');
 
 $uid = $userP['user_id'];
 
@@ -10,6 +11,7 @@ $u_l= array('English','French','German','Spanish', 'Italian');
 $i_r= array('640x480','800x600','1024x768','1152x864','1280x1024','1600x1200');
 $f_f= array('Browser Default','Courier','Times','Arial','Lucida','Monospaced');
 $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
+$u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 
 function radio_select($db_name, $db_value, $value, $text_name) {
 if (strtolower($db_value) == strtolower($value)) {
@@ -31,8 +33,8 @@ echo ">$array_list[$i]</option>";
 if (isset($quitnc))
 {
 if (isset($project) && isset($proofstate))
-{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
+{echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
 exit;}
 
 // restore cookie values from db
@@ -40,8 +42,8 @@ if (isset($restorec))
 {
 $cookieC->setUserPrefs($pguser);
 if (isset($project) && isset($proofstate))
-{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
+{echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
 exit;}
 
 if (@$_POST["insertdb"] == "") {
@@ -98,7 +100,7 @@ radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt
 radio_select('i_layout', $userP['i_layout'], 1, '<img src="tools/proofers/gfx/bt4.png" width="26" alt="Vertical">');
 
 echo $tr.$td2;
-echo "<strong>Show projects from:</strong>";
+echo "<strong>Show Projects From:</strong>";
 echo $td3;
 $array = implode('|', $p_l);
 dropdown_select('u_plist', $userP['u_plist'], $array);
@@ -129,6 +131,18 @@ echo "<strong>Show Statusbar:</strong>";
 echo $td3;
 radio_select('i_statusbar', $userP['i_statusbar'], 1, 'Yes');
 radio_select('i_statusbar', $userP['i_statusbar'], 0, 'No');
+echo "</td></tr>";
+
+echo $tr.$td2;
+echo "<strong>Show Rank Neighbors:</strong>";
+echo $td3;
+$array = implode('|', $u_n);
+dropdown_select('u_neigh', $userP['u_neigh'], $array);
+echo $td2;
+echo "<strong>Show Top 10:</strong>";
+echo $td3;
+radio_select('u_top10', $userP['u_top10'], 1, 'Yes');
+radio_select('u_top10', $userP['u_top10'], 0, 'No');
 echo "</td></tr>";
 
 echo $tr.$td4;
@@ -243,7 +257,7 @@ $email_updates = $_POST['email_updates'];
 $project_listing = $_POST['project_listing'];
 
 $result = mysql_query("UPDATE users SET real_name='$real_name', email='$email', 
-email_updates='$email_updates', u_plist='$u_plist', 
+email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_neigh='$u_neigh',
 u_lang='$u_lang', i_res='$i_res', i_type='$i_type', i_layout='$i_layout', 
 i_newwin='$i_newwin', i_toolbar='$i_toolbar', i_statusbar='$i_statusbar', 
 v_fntf='$v_fntf', v_fnts='$v_fnts', v_zoom='$v_zoom', v_tframe='$v_tframe', v_tscroll='$v_tscroll', 
@@ -255,7 +269,7 @@ WHERE id='$user_id' AND username='$pguser'");
 echo mysql_error();
 $cookieC->setUserPrefs($pguser);
 if (isset($project) && isset($proofstate))
-{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
+{echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "$doctype<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
 }
 ?>
