@@ -19,19 +19,19 @@ function abort_login( $error )
     echo "<br>\n";
     echo "<b>$error</b>\n";
 ?>
-<p>Please attempt again to log in above. If problems continue to persists, review the following possible fixes:
+<p>Please attempt again to log in above. If problems persist, review the following possible fixes:
 <ol>
 <li>Type your username in the exact same way as when you registered.</li>
-<li><A HREF=\"$reset_password_url\">Reset</A> your password.</li>
+<li><A HREF="<? echo $reset_password_url; ?>">Reset</A> your password.</li>
 <li>Enable Javascript.</li>
 <li>Accept cookies (at least from us at www.pgdp.net)</li>
 <li>Allow popup windows (at least from us at www.pgdp.net)</li>
 <li>caching set to off (or: refresh page every visit)</li>
-<li>Ensure your PC clock is set to the correct date & time</li>
+<li>Ensure your PC clock is set to the correct date &amp; time</li>
 </ol>
-<p>If all of this fails, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.
-</body></html>
+<p>If all of this fails, contact the <a href="mailto:<? echo $site_manager_email_addr; ?>">site manager</a>.
 <?
+    theme("", "footer");
     exit();
 }
 
