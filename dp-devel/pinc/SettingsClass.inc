@@ -48,6 +48,11 @@ Example setting: posted_notice, value "projectID3dfe7f4b3c2ca"
      ******
     Implementation:
         Setting and Getting: Set and get exactly what's provided.
+
+Later....
+Added read-only access to the three booleans from the "user" table (sitemanager, manager,
+and postprocessor), since I could initialize them from the same query. Can add update
+capability if needed.
 */
         
 
@@ -60,41 +65,74 @@ function ExecSQL($sql)
 
 class Settings
 {
-    var $username;
     var $setting_array;
+    var $username;
 
     function Settings($name = Null)
     {
         global $pguser;
 
-        if(isset($name))
+        // don't let them do anything if not logged in.
+        if(!isset($pguser)) return;
+
+        // if an override username provided, use it.
+        if($name != Null)
             $this->username = $name;
         else
-        {
-            if(!isset($pguser))
-                return;
             $this->username = $pguser;
-        }
 
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
-        $sql = "SELECT *
-            FROM usersettings
-            WHERE username = '$this->username'";
+        $sql = "SELECT  u.sitemanager,
+                        u.manager,
+                        u.postprocessor,
+                        us.*
+            FROM users AS u
+            LEFT OUTER JOIN usersettings AS us ON u.username = us.username
+            WHERE u.username = '$this->username'";
 
         $result = mysql_query($sql);
-
         while ($row = mysql_fetch_assoc($result))
         {
-            $this->settings[$row['setting']] = $row['value'];
+            // to know whether we've populated user table fields yet.
+            static $isUserVals = false;
+            // get the onesies from the first row
+            // yes, this is more efficient than two separate queries.
+            if(!$isUserVals)
+            {
+                $isUserVals = true;
+                if ($row['sitemanager'] == 'yes')
+                    $this->settings_array['sitemanager'] = 'yes';
+                if ($row['manager'] == 'yes')
+                    $this->settings_array['manager'] = 'yes';
+                if ($row['postprocessor'] == 'yes')
+                    $this->settings_array['postprocessor'] = 'yes';
+            }
+            // now continue to add values from usersettings table.
+            $this->settings_array[$row['setting']] = $row['value'];
         }
         mysql_free_result($result);
     }
 
+    // if $settingCode from "users" table, can't set it here. 
+    function _isSettable($settingCode)
+    {
+        switch($settingCode)
+        {
+            default:
+                return true;
+            case 'sitemanager':
+            case 'manager':
+            case 'postprocessor':
+                return false;
+        }
+    }
 
     // create/update a row with Value set to 'yes'
     function set_true($settingCode)
     {
+        if(!$this->_isSettable($settingCode)) return;
+        
         ExecSQL("REPLACE INTO usersettings
                 SET value = 'yes',
                     username = '$this->username',
@@ -105,6 +143,7 @@ class Settings
     // delete any existing row.
     function set_false($settingCode)
     {
+        if(!$this->_isSettable($settingCode)) return;
         ExecSQL("DELETE FROM usersettings 
                 WHERE username = '$this->username' AND setting = '$settingCode'");
         unset($this->settings_array[$settingCode]);
@@ -114,35 +153,41 @@ class Settings
     // otherwise set_false (i.e. delete).
     function set_boolean($settingCode, $boolval)
     {
+        if(!$this->_isSettable($settingCode)) return;
         if($boolval == 'yes')
-            set_true($settingCode);
+            $this->set_true($settingCode);
         else
-            set_false($settingCode);
+            $this->set_false($settingCode);
     }
 
     // Return True iff a row exists and its value is 'yes'. Otherwise, False.
     function get_boolean($settingCode)
     {
+        $val = $this->settings_array[$settingCode] ;
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
 
     // If $value and $default are both equivalent to PHP Null, set_false (i.e. delete.)
     // If $value equivalent to PHP Null and $default is not, set Value to $default.
     // If $value is not equivalent to PHP Null, set Value to $value.
-    function set_value($settingCode, $value, $default = True)
+    function set_value($settingCode, $value, $default = Null)
     {
+        if(!$this->_isSettable($settingCode)) return;
+
         if(!$value)
             $value = $default;
 
-        if(!$value) {
+        if(!$value && ($default != Null))
+        {
             $this->set_false($settingCode);
         }
         else
         {
-            ExecSQL("REPLACE usersettings
+            $sql = "REPLACE usersettings
                     SET value = '$value',
                     username = '$this->username', 
-                    setting = '$settingCode'");
+                    setting = '$settingCode'" ;
+            ExecSQL($sql);
             $this->settings_array[$settingCode] = $value;
         }
     }
@@ -153,7 +198,13 @@ class Settings
     // Note: if setting is really boolean, this will NOT return True, but 'yes'.
     function get_value($settingCode, $default = Null)
     {
-        return ($val = $this->settings_array[$settingCode]) ? $val : $default ;
+        $val = $this->settings_array[$settingCode];
+        return $val ? $val : $default;
+    }
+
+    function settings_count()
+    {
+        return count($this->settings_array);
     }
 }
 ?>
