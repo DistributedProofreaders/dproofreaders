@@ -11,7 +11,7 @@ if (!isset($_POST['action'])) {
     $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectID = $_GET['projectid'];
     $fileID = $_GET['fileid'];
-  if (!isset($projectID)) { 
+  if (!isset($projectID)) {
     $projectID = $_POST['projectid'];
     $fileID = $_POST['fileid'];
   }
@@ -55,7 +55,7 @@ if (!isset($_POST['action'])) {
     echo $tr.$td2;
     echo "<strong>Originals:</strong>";
     echo $td3;
-    echo "<a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=".UNAVAIL_FIRST."' target='_new'>View Text</a>";
+    echo "<a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=".UNAVAIL_FIRST."' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a>";
     echo $tr.$td2;
     echo "<strong>Modify:</strong>";
     echo $td3;
@@ -67,7 +67,7 @@ if (!isset($_POST['action'])) {
     echo $tr.$td1;
     echo "<input type='submit' VALUE='Continue'>";
     echo "</td></tr></table></form></div><br><br>";
-            
+
       //Determine if modify is set & if so display the form to either modify the image or text
       if ($_GET['modify'] == "text") {
 	  $result = mysql_query("SELECT master_text FROM $projectID where fileid=$fileID");
@@ -103,10 +103,10 @@ if (!isset($_POST['action'])) {
 	  copy($_FILES['image']['tmp_name'],"$projects_dir/$projectID/$master_image") or die("Could not upload new image!");
 	  echo "<b>Update of Original Image Complete!</b>";
 	    } else {
-	  echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectID&fileid=$fileID&modify=image'>here</a> to return.</b>";	
-	    }  
+	  echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectID&fileid=$fileID&modify=image'>here</a> to return.</b>";
+	    }
       }
-    
+
     echo "</center></body></html>";
 } else {
 
@@ -117,9 +117,9 @@ if (!isset($_POST['action'])) {
 
   //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($action == "fixed") || ($action == "bad")) {
-      if ($state == BAD_FIRST) { 
+      if ($state == BAD_FIRST) {
         $result = mysql_query("UPDATE $projectID SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE fileid=$fileID");
-    } elseif ($state = BAD_SECOND) { 
+    } elseif ($state = BAD_SECOND) {
         $result = mysql_query("UPDATE $projectID SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE fileid=$fileID");
     }
 }
