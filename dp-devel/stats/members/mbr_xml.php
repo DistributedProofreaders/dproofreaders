@@ -38,11 +38,13 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
-$current_page_tally = $users_P_page_tallyboard->get_current_tally( $curMbr['u_id'] );
-$currentRank = $users_P_page_tallyboard->get_rank( $curMbr['u_id'] );
+$u_id = $curMbr['u_id'];
+
+$current_page_tally = $users_P_page_tallyboard->get_current_tally($u_id);
+$currentRank = $users_P_page_tallyboard->get_rank($u_id);
 
 list($bestDayCount,$bestDayTimestamp) =
-	$users_P_page_tallyboard->get_info_re_largest_delta($curMbr['u_id']);
+	$users_P_page_tallyboard->get_info_re_largest_delta($u_id);
 $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 $now = time();
@@ -58,7 +60,7 @@ if ($daysInExistence > 0) {
 if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 {
 	echo "
-		<userinfo id=\"".$curMbr['u_id']."\">
+		<userinfo id='$u_id'>
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
