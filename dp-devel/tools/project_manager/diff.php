@@ -8,6 +8,12 @@ include_once('projectmgr.inc');
 $no_stats=1;
 theme("Difference", "header");
 
+//define a CSS span class to make the diffs display in DPCustomMono2
+echo "<style type='text/css'>";
+echo "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}";
+echo "</style>";
+
+
 $projectid = $_GET['project'];
 
 $fileid=$_GET['file'];
