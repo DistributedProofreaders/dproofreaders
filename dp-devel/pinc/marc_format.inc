@@ -32,10 +32,16 @@ function marc_title($rec) {
 function marc_author($rec) {
 	$marc_author_100 = $rec[marc_key_search($rec,"100","a")][1];
 	  $marc_author_100 = trim(preg_replace("/,$/", "", $marc_author_100));
-	$marc_author_700 = $rec[marc_key_search($rec,"700","a")][1];
+
+	if (empty($marc_author_100)) {
+	  $marc_author_700 = $rec[marc_key_search($rec,"700","a")][1];
 	  $marc_author_700 = trim(preg_replace("/,$/", "", $marc_author_700));
-    	$marc_author_710 = $rec[marc_key_search($rec,"710","a")][1];
+	}
+
+    	if (empty($marc_author_100) && empty($marc_author_700)) {
+    	  $marc_author_710 = $rec[marc_key_search($rec,"710","a")][1];
 	  $marc_author_710 = trim($marc_author_710);
+	}
 
     	if (empty($marc_author_100) && empty($marc_author_700)) {
     		$marc_author = $marc_author_710;

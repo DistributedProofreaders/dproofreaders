@@ -309,7 +309,7 @@ function query_format() {
 	return $fullquery;
 }
 
-if ($_REQUEST['action'] == "marc_search") {
+if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 	theme("Search Results", "header");
 	if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
 	if (!empty($_GET['fq'])) { $fullquery = unserialize(base64_decode($_GET['fq'])); } else { $fullquery = query_format(); }
@@ -377,7 +377,7 @@ if ($_REQUEST['action'] == "marc_search") {
         }
         if ($i % 2 != 1) { echo "</tr>"; }
 
-        if (($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
+        if (isset($_GET['start']) && ($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
         if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>"; }
 
         echo "</table><br><center>";
@@ -385,7 +385,7 @@ if ($_REQUEST['action'] == "marc_search") {
         echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"editproject.php\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
         yaz_close($id);
         theme("", "footer");
-} elseif ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew" || isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview'])) {
+} elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || (isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
 	if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
 	if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
