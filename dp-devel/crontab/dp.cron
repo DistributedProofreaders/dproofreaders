@@ -4,6 +4,7 @@
 01 0 * * * lynx -dump <<SITE_URL>>/stats/update_daily_page_counts.php
 01 0 * * * lynx -dump <<SITE_URL>>/stats/teamstats.php
 01 0 * * * lynx -dump <<SITE_URL>>/stats/mbrstats.php
+07 0 * * * lynx -dump http://www.pgdp.net/c/crontab/archive_projects.php
 20 0 1 * * lynx -dump <<SITE_URL>>/crontab/inactivate_users.php
 35 0 1 * * lynx -dump <<SITE_URL>>/crontab/notify_users.php
 50 0 1 * * lynx -dump <<SITE_URL>>/crontab/notify_old_pp.php
