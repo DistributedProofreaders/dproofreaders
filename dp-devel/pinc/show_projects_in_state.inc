@@ -99,6 +99,11 @@ function show_projects_in_state($state,$table=1)
 		</tr>
 	";
 
+	// the following only need to be done once, not every iteration of the loop below!
+	$userid_q = mysql_query("SELECT u_id FROM users WHERE username = '".$GLOBALS['pguser']."'");
+	$u_id = mysql_result($userid_q, 0, "u_id");
+	$show_email = user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417;
+
 	$numrow = mysql_numrows($result);
 	for ( $rownum = 0; $rownum < $numrow; $rownum++ )
 	{
@@ -112,11 +117,10 @@ function show_projects_in_state($state,$table=1)
 
 		$foo_username = $book[$foo_field_name];
 		$users = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$foo_username'");
-		$userid_q = mysql_query("SELECT u_id FROM users WHERE username = '".$GLOBALS['pguser']."'");
-		$u_id = mysql_result($userid_q, 0, "u_id");
+		
 		if ( mysql_num_rows($users) > 0 )
 		{
-			if (user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417) {
+			if ($show_email) {
 				$users_email = mysql_query("SELECT email FROM users WHERE username = '$foo_username'");
 				$foo_email = mysql_result($users_email, 0, "email");
 				$foo_cell = "<A HREF=\"mailto:$foo_email\">".$book[$foo_field_name]."</A>";
