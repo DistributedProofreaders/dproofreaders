@@ -267,6 +267,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
+                if ($writeBIGtable) {
+	                $sql = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
+		}
+
                 $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num++;
@@ -283,6 +287,9 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
+                if ($writeBIGtable) {
+	                $sql = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
+		}
                 $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num2++;
@@ -344,6 +351,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
 
         $timestamp = time();
+	
+	if ($writeBIGtable) {
+		$updatefile = mysql_query("UPDATE project_pages SET state = '".AVAIL_SECOND."', round2_time = '$timestamp' WHERE projectid = '$projectid' ");
+	}
         $updatefile = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
         if ( $second_round_state == PROJ_PROOF_SECOND_UNAVAILABLE )

@@ -331,8 +331,8 @@ function saveComplete($proofstate,$text_data,$pguser,$userP)
   $timestamp = time();
 
   if ($writeBIGtable) {
-    $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
-    $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
+    $dbQuery="UPDATE project_pages SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
+    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery) or die(mysql_error());
   }
 
