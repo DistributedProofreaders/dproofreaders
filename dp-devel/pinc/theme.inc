@@ -297,6 +297,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	//Get the personal statistics array
 	$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
+	$max_page_tally_rank = $neighborhood['totalRanks'];
 	$neighbors = user_get_page_tally_neighbors($neighborhood, $userP['u_neigh']);
 	$usern = $neighbors[0];
 
@@ -312,7 +313,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
 	echo number_format($usern->get_current_page_tally())."<br>\n";
 	echo "&nbsp;" . _("Current Position: ");
-	echo number_format($usern->get_current_page_tally_rank())."/".number_format($neighborhood['totalRanks'])."<br>\n";
+	echo number_format($usern->get_current_page_tally_rank())."/".number_format($max_page_tally_rank)."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
 	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
