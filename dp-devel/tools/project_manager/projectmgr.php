@@ -61,7 +61,7 @@ $projectinfo = new projectinfo();
                 echo "<table border=1>\n";
 
                 echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Size</td><td>Master Text</td><td>Size</td><td>Date Uploaded</td><td>Delete</td></tr>\n";
+                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Size</td><td>Master Text</td><td>Size</td><td>Date Uploaded</td><td>Delete</td><td>Bad Page</td></tr>\n";
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
@@ -72,6 +72,7 @@ $projectinfo = new projectinfo();
                     $date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
                     $fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
                     $master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
+		    $project_state = mysql_result($projectinfo->total_rows, $rownum, "state");
 
                     if (file_exists($path.$imagename)) {
                        $imagesize = filesize(realpath($path.$imagename));
@@ -82,7 +83,13 @@ $projectinfo = new projectinfo();
                     }
 
                     $date_txt = date("M j h:i A", $date);
-                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td></tr>\n");
+                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
+
+		    if (($project_state == 31) || ($project_state == 41)) {
+		        printf("<center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		    } else { 	                
+		        printf("&nbsp;</td></tr>\n"); 
+		    } 
 
                     $counter++;
                     $rownum++;
@@ -95,7 +102,7 @@ $projectinfo = new projectinfo();
                 echo "<table border=1>\n";
 
                 echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Round 1 Text</td><td>Date Uploaded</td><td>Proofed By</td><td>Master Text</td><td>Delete</td></tr>\n";
+                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Round 1 Text</td><td>Date Uploaded</td><td>Proofed By</td><td>Master Text</td><td>Delete</td><td>Bad Page</td></tr>\n";
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
@@ -104,6 +111,7 @@ $projectinfo = new projectinfo();
                     $date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
                     $name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
                     $fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
+		    $project_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
 
                     $bgcolor = "#FFFFFF";
 
@@ -117,7 +125,13 @@ $projectinfo = new projectinfo();
                     }
                     $date_txt = date("M j h:i A" , $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td></tr>\n");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
+
+		    if (($project_state == 9) || ($project_state == 41)) {
+		        printf("<center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		    } else { 	                
+		        printf("&nbsp;</td></tr>\n"); 
+		    } 
 
                     $counter++;
                     $rownum++;
@@ -136,7 +150,7 @@ $projectinfo = new projectinfo();
 
                 echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td>";
                 if ($state < 20) echo "<td>Delete</td>";
-                echo "</tr>\n";
+                echo "<td>Bad Page</td></tr>\n";
 
                 $counter = 1;
                 $rownum = 0;
@@ -147,6 +161,7 @@ $projectinfo = new projectinfo();
                     $round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
                     $round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
                     $fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
+		    $project_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
 
                     $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round2_user'");
                     if (mysql_num_rows($users) == 0) {
@@ -172,7 +187,11 @@ $projectinfo = new projectinfo();
                     printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=19>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</a></td>");
                     printf("<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>$oldreal_name</A></td>");
                     if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
-                    printf("</tr>\n");
+		    if (($project_state == 9) || ($project_state == 41)) {
+		        printf("<td><center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		    } else { 	                
+		        printf("<td>&nbsp;</td></tr>\n"); 
+		    } 
 
                     $counter++;
                     $lastfilename = $imagename;
@@ -330,7 +349,7 @@ if ($sitemanager == "yes") {
 			print "<option value=$id>$s_name\n";
 		    }
 		} else if ($state == 41) {
-		    if (($id == 0) || ($id == 10) || ($id == 18)) {
+		    if (($id == 10) || ($id == 18)) {
 			print "<option value=$id>$s_name\n";
 		    }
                 } else if ($state == 60) {
