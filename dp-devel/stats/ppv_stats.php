@@ -10,22 +10,6 @@ echo "<br><br><h2>Post-Processing Verification Statistics</h2><br>\n";
 
 echo "<br>\n";
 
-
-$state_selector = "
-	(state LIKE 'proj_submit%')
-";
-
-
-dpsql_dump_query("
-	SELECT
-		SUM(num_projects) as 'Total Projects Post-Processed So Far'
-	FROM project_state_stats WHERE $state_selector
-	GROUP BY date ORDER BY date DESC LIMIT 1
-");
-
-echo "<br>\n";
-echo "<br>\n";
-
 echo "<h3>Number of Distinct Post-Processing Verifiers</h3>\n";
 
 dpsql_dump_query("
@@ -44,9 +28,9 @@ echo "<h4>(Number of Projects Posted to PG</h4>\n";
 
 dpsql_dump_ranked_query("
 	SELECT checkedoutby as 'PPVer', count(  *  ) as 'Projects PPVd'
-	FROM  `projects` , user_settings
+	FROM  `projects` , usersettings
 	WHERE 1  AND checkedoutby != postproofer AND state LIKE  '%posted%'
-		and checkedoutby = user_settings.username 
+		and checkedoutby = usersettings.username 
 		and setting = 'post_proof_verifier' and value = 'yes' 
 	GROUP  BY 1 
 	ORDER  BY 2  DESC ");
