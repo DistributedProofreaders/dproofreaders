@@ -7,6 +7,9 @@ include_once($relPath.'project_states.inc');
 ?>
 <style type="text/css">
 <!--
+.purple {
+	background-color:#9933CC;
+}
 .orange {
 	background-color: #FF9900;
 }
@@ -90,7 +93,8 @@ echo "<br><br>";
 <p><font face="<? echo $theme['font_mainbody']; ?>">Legend for Special Books:<br><br><b><span class="orange"> Halloween </span>&nbsp; 
 <span class="paleblue"> recent authors' birthdays </span>&nbsp;
   <span class="richblue"> TODAY's author birthdays </span>&nbsp;<br><span class="yellow"> Children's Book Week </span> 
-   &nbsp;<span class="grey"> Native American Heritage Month </span></b></font></p><br>
+   &nbsp;<span class="grey"> Native American Heritage Month </span><br>
+&nbsp;<span class="purple"> Other Special </span></b></font></p><br>
 
 
 <?
