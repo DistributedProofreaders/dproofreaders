@@ -19,29 +19,67 @@ else
 	exit;
 }
 
-$url_base = "checkedout.php?state=$state";
-
-theme("Books Checked Out for $activity", "header");
-
-if (isset($_GET['order']))
+$order = (isset($_GET['order']) ? $_GET['order'] : 'checkedoutby' );
+if ( $order == 'nameofwork' )
 {
-	if ( $_GET['order'] == "default")
-	{
-		$orderclause = ' ORDER BY checkedoutby, modifieddate ASC';
-	}
-	else
-	{
-		$orderclause = ' ORDER BY '.$_GET['order'].' ASC';
-	}
+	$orderclause = 'nameofwork ASC';
+}
+elseif ( $order == 'checkedoutby' )
+{
+	$orderclause = 'checkedoutby ASC, modifieddate ASC';
+}
+elseif ( $order == 'modifieddate' )
+{
+	$orderclause = 'modifieddate ASC';
+}
+elseif ( $order == 'holder_last_login' )
+{
+	$orderclause = 'holder_last_login ASC';
 }
 else
 {
-	$orderclause = "";
+	echo "checkedout.php: bad order value: '$order'";
+	exit;
 }
 
-echo "<a href ='$url_base'>Default Sort Order </a>is Checked Out To and then Date Last Modified";
+// ------------------
 
-//get projects that have been checked out
+theme("Books Checked Out for $activity", "header");
+
+echo "<h2>Books Checked Out for $activity</h2>\n";
+
+// ------------------
+
+// Header row
+
+$colspecs = array(
+	'#'                  => 'bogus',
+	'Name of Work'       => 'nameofwork',
+	'Checked Out To'     => 'checkedoutby',
+	'Date Last Modified' => 'modifieddate',
+	'User Last Login'    => 'holder_last_login'
+);
+
+echo "<table border='1'>\n";
+echo "<tr>\n";
+foreach ( $colspecs as $col_header => $col_order )
+{
+	$s = $col_header;
+	// Make each column-header a link that will sort on that column,
+	// except for the header of the column that we're already sorting on.
+	if ( $col_order != $order && $col_order != 'bogus' )
+	{
+		$s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
+	}
+	$s = "<th>$s</th>";
+	echo "$s\n";
+}
+echo "</tr>\n";
+
+// ------------------
+
+// Body
+
 $result = mysql_query("
 	SELECT
 		nameofwork,
@@ -52,19 +90,8 @@ $result = mysql_query("
 		LEFT OUTER JOIN users
 		ON projects.checkedoutby = users.username
 	WHERE state = '$state'
-	$orderclause
+	ORDER BY $orderclause
 ");
-
-echo "<table border='1'>";
-echo "
-	<tr>
-	<td><b>#</b></td>
-	<td><b>Name of Work</b></td>
-	<td><b><a href='$url_base&order=checkedoutby'>Checked Out To</a></b></td>
-	<td><b><a href='$url_base&order=modifieddate'>Date Last Modified</a></b></td>
-	<td>User Last Login</td>
-	</tr>
-";
 
 $rownum = 0;
 while ( $project = mysql_fetch_object( $result ) )
