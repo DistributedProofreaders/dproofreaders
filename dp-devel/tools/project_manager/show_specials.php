@@ -15,7 +15,7 @@ dpsql_dump_query("
         SELECT
                 concat('<span style=\"background-color: #',color,'\">',display_name,'</span>') as 'Name',
                 comment as 'Comment',
-                DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date',
+                concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')) as 'Start Date',
                 concat('<a href=\"',info_url,'\">',info_url,'</a>') as 'More Info'
         FROM special_days
         WHERE enable = 1
