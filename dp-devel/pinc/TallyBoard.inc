@@ -28,6 +28,27 @@ new dbConnect();
 // So  the TallyBoard is prepared to answer questions about
 // holders it has never heard of before.
 
+// -----------------------------------------------------------------------------
+
+function get_all_current_tallyboards()
+// Return an array of TallyBoard objects, representing all
+// boards on which there is some tally explicitly recorded.
+{
+    $tallyboards = array();
+    $res = mysql_query("
+        SELECT DISTINCT tally_name, holder_type
+        FROM current_tallies
+        ORDER BY tally_name, holder_type
+    ") or die(mysql_error());
+    while ( list($tally_name, $holder_type) = mysql_fetch_row($res) )
+    {
+        $tallyboards[] =& new TallyBoard( $tally_name, $holder_type );
+    }
+    return $tallyboards;
+}
+
+// -----------------------------------------------------------------------------
+
 class TallyBoard
 {
     function TallyBoard( $tally_name, $holder_type )
