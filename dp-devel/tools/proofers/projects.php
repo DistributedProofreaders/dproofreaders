@@ -63,7 +63,7 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
     if ($prooflevel == 0) {
         echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\"><b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {
-        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\"><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target = \" \">this page</A> for examples.</b></td>";
+        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\"><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
     }
 }
 else {
@@ -81,15 +81,17 @@ else {
 if (isset($prooflevel))
 {    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
     echo "<td>$lastproofed</td></tr>";}
+
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
+    echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id&amp;action=c\">Discuss this project in the forum</td></tr>";
+
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=2 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=2>$comments</td></tr></table>";
+    echo "<BR>";
+
 if (!isset($proofing))
-  {  echo "<tr><td bgcolor = \"CCCCCC\" align=center><h3>Project Comments</h3></td><td>$comments</td></tr></table>";}
-else {echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
-      echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id&amp;action=c\">Discuss this Project in the Forum</td></tr>";
-      echo "<tr><td bgcolor = \"CCCCCC\" colspan=\"2\" align=\"center\"><h3>Project Comments</h3></td></tr><tr><td colspan=\"2\">$comments</td></tr></table>";
+  {  include('./projects_menu.inc');}
+else {
       echo"<p><p><b> This information has been opened in a separate browser window, feel free to leave it open for reference or close it.</b>";
      }
-echo "<BR>";
-if (!isset($proofing))
-{include('./projects_menu.inc');}
 ?>
 </BODY></HTML>
