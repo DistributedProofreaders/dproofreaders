@@ -150,11 +150,11 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
 				// update our progress towards the target, 
 				// depending on whether we are tracking by project or page
-				if ($track_by = "project") {
+				if ($track_by == "project") {
 					$released = $numReleased;					
 				} else {
 					$released = $released + $newpagesreleased;
-					if ($count2ndRnd = "yes") $released = $released + $newpagesreleased;
+					if ($count2ndRnd == "yes") $released = $released + $newpagesreleased;
 				}
   			 	$i++;
 			}
@@ -167,7 +167,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 	}
 
 	// todo : if $numavailable = 0, email someone!
-	echo "<br>Released <b>$numReleased</b> $projtype_desc Projects";
+	echo "<br>Released <b>$numReleased</b> $projtype_desc Projects<br>";
 	return $totalnewreleased;
 }
 
@@ -222,7 +222,7 @@ function autorelease($pagesleft) {
 	//English Projects - always have a certain number of pages spread over the two rounds
 	$numReleased = 0;
 	$projtype_sql = "language LIKE 'English%'";
-	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
+	$rel_qry = mysql_query("SELECT projectid FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
 	$numProjects = mysql_num_rows($rel_qry);
 	$i = 0;
 	while ($i < $numProjects) {
