@@ -183,7 +183,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			$next_prd = get_PRD_for_round($rn+1);
 			$transition_graph[ $prd->project_complete_state ] = array(
 				$next_prd->project_unavailable_state,
-				$next_prd->project_available_state,
+				$next_prd->project_waiting_state,
 				);
 		}
 		else
@@ -211,8 +211,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	$prd = get_PRD_for_project_state($new_state);
 	if ( !is_null($prd) )
 	{
-		if ( $current_state == $prd->project_unavailable_state &&
-		     $new_state     == $prd->project_waiting_state )
+		if ( $new_state == $prd->project_waiting_state )
 		{
 			$errors = project_pre_release_check( $project );
 			if ($errors)
