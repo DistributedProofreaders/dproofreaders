@@ -65,9 +65,12 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
         $page_num++;
     }
 
-    $todaysdate = time();
-
-    $result = mysql_query("UPDATE projects SET state = '$currstate', modifieddate = '$todaysdate' WHERE projectid = '$project'");
+    $error_msg = project_transition( $project, $currstate );
+    if ($error_msg)
+    {
+        echo "$error_msg<br>\n";
+        return 0;
+    }
 
     if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
          print "Prepared to release project = $project<BR>";
