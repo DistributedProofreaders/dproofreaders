@@ -285,6 +285,18 @@ class PageTally_Neighbor
     function get_u_id()                    { return $this->u_id; }
     function get_current_page_tally()      { return $this->current_page_tally; }
     function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
+
+    function get_latest_saved_page_tally_rank()
+    {
+        $result = mysql_query("
+            SELECT rank
+            FROM member_stats
+            WHERE u_id = {$this->u_id}
+            ORDER BY date_updated DESC
+            LIMIT 1
+        ");
+        return mysql_result($result, 0, "rank");
+    }
 }
 
 // -----------------------------------------------------------------------------
