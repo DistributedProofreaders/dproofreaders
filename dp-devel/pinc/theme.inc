@@ -89,15 +89,15 @@ function theme ($nameofpage, $location) {
 function html_header($code_url, $theme, $nameofpage) {
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-      echo "<html>\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
+      echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
+	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page')
 	{
 		include($relPath.'special_colours.inc');
 	}
-	echo "\n<META http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
 	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
 	echo "</head>\n\n";
@@ -167,7 +167,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/faq/".cur_lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
+	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	echo "</form>\n";
 	} else {
@@ -182,12 +182,12 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
-	echo "<a href='$code_url/faq/".cur_lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
+	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	if(cur_lang_forum()) {
-		echo "<a href='".$GLOBALS['forums_url']."/".cur_lang_forum()."'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>"._("Your language forums")."</font></a>";
+	if(lang_forum()) {
+		echo "<a href='".$GLOBALS['forums_url']."/".lang_forum()."'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>"._("Your language forums")."</font></a>";
 		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	}
 	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("Inbox") ;
@@ -350,15 +350,14 @@ if ($site_supports_metadata){
 		$yesterdaysGoal = 0;
 		$yesterdaysTotal = 0;
 	}
-	echo "&nbsp;"._("Yesterday's Goal:").number_format($yesterdaysGoal)."<br>\n";
+	echo "&nbsp;"._("Yesterday's Goal:")." ".number_format($yesterdaysGoal)."<br>\n";
 	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
 	// Month's Numbers
 	if (isset($sitestats)) { $sitestatsgoal = $sitestats['goal']; } else { $sitestatsgoal = 0; }
-	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
 
-	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:")).number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n"; }
-	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:")).number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
+	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:"))." ".number_format($sitestatsgoal).($sitestatsgoal?(" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)"):"")."<br>\n"; }
+	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
 
        echo "</font><br><hr width='75%' align='center'><br>\n";
 
@@ -520,8 +519,8 @@ if ($site_supports_metadata){
 
 	if (!empty($userP)) {
 		echo "<br><center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>"._("Key Help Documents:")."</u></font></center>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".cur_lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".cur_lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".cur_lang_dir()."summary.pdf'>"._("Summary")."</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("Summary")."</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
 	}
