@@ -64,7 +64,6 @@ if (is_dir($forums_dir)) {
 	$user_id = mysql_result($result, 0, "user_id");
 	define('IN_PHPBB', true);
 	$phpbb_root_path = $forums_dir."/";
-	define ('IN_PHPBB', true);
 	include($phpbb_root_path.'extension.inc');
 	include($phpbb_root_path.'common.php');
 	include($phpbb_root_path.'config.php');
