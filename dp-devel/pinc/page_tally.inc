@@ -180,99 +180,61 @@ function user_get_page_tally_neighborhood( $username, $radius )
 //    
 // -- The maximum current page tally rank of any user.
 {
-    global $users_table_with_tallies, $user_P_page_tally_column;
-
-    assert( $radius >= 0 );
-
-    $rankArray = array();
-
-    // Note that for the purposes of this function,
-    // we pretend that no users with user_P_page_tally_column <= 0 exist,
-    // with the possible exception of the target user.
-
     $result = mysql_query("
-        SELECT username, date_created, u_id, u_privacy,
-            $user_P_page_tally_column AS current_P_page_tally
-        FROM $users_table_with_tallies
-        WHERE $user_P_page_tally_column > 0 OR username='$username'
-        ORDER BY $user_P_page_tally_column DESC
+        SELECT u_id
+        FROM users
+        WHERE username='$username'
     ");
-
-    $num_rows = mysql_num_rows($result);
-    
-    // First, run through the results,
-    // looking for the row that contains the target user.
-    $target_user_i = NULL;
-    for ($i = 0; $i < $num_rows; $i++)
-    {
-        $row = mysql_fetch_row($result);
-        if ( $row[0] == $username )
-        {
-            $target_user_i = $i;
-            break;
-        }
-    }
-
-    if ( is_null($target_user_i) )
+    if ( mysql_num_rows($result) == 0 )
     {
         // The target user does not appear in the 'users' table.
         // This shouldn't ever happen.
         die( "User '$username' does not appear in the 'users' table." );
     }
+    else if ( mysql_num_rows($result) > 1 )
+    {
+        // This shouldn't ever happen either.
+        die( "username='$username' matched more than one row in 'users' table." );
+    }
+    list($u_id) = mysql_fetch_row($result);
 
-    // Now, go through the results again
-    // (calculating page-tally rank as you go),
-    // and when you get to the neighborhood of the target user,
-    // save the results in the $neighbors array.
-
-    mysql_data_seek( $result, 0 );
+    global $users_P_page_tallyboard;
+    list($nb,$max_current_rank) =
+        $users_P_page_tallyboard->get_neighborhood(
+            $u_id, $radius,
+            'users',
+            'u_id',
+            'username, u_privacy, date_created, u_id',
+            'current_P_page_tally',
+            'P_page_rank'
+        );
 
     $neighbors = array();
-    $i = 0;
-    $latest_page_tally = -1000; // A value that the first $row['current_P_page_tally'] will not be equal to.
-    $latest_rank = NULL;
-    while ($row = mysql_fetch_assoc($result))
+    foreach ( $nb as $rel_posn => $row )
     {
-        if ($row['current_P_page_tally'] != $latest_page_tally)
+        if ( should_anonymize( $row['username'], $row['u_privacy'] ) )
         {
-            $latest_page_tally = $row['current_P_page_tally'];
-            $latest_rank = $i+1;
+            $neighbor_is_anonymized = TRUE;
+            $neighbor_username = NULL;
+            $neighbor_date_joined = NULL;
+        }
+        else
+        {
+            $neighbor_is_anonymized = FALSE;
+            $neighbor_username = $row['username'];
+            $neighbor_date_joined = $row['date_created'];
         }
 
-        if ( abs( $i - $target_user_i ) <= $radius )
-        {
-            // We're in the neighborhood of the target user.
-
-            $rel_posn = $i - $target_user_i;
-
-            if ( should_anonymize( $row['username'], $row['u_privacy'] ) )
-            {
-                $neighbor_is_anonymized = TRUE;
-                $neighbor_username = NULL;
-                $neighbor_date_joined = NULL;
-            }
-            else
-            {
-                $neighbor_is_anonymized = FALSE;
-                $neighbor_username = $row['username'];
-                $neighbor_date_joined = $row['date_created'];
-            }
-
-            $neighbors[$rel_posn] =&
-                new PageTally_Neighbor(
-                    $neighbor_is_anonymized,
-                    $neighbor_username,
-                    $neighbor_date_joined,
-                    $row['u_id'],
-                    $row['current_P_page_tally'],
-                    $latest_rank
-                );
-        }
-
-        $i++;
+        $neighbors[$rel_posn] =&
+            new PageTally_Neighbor(
+                $neighbor_is_anonymized,
+                $neighbor_username,
+                $neighbor_date_joined,
+                $row['u_id'],
+                $row['current_P_page_tally'],
+                $row['P_page_rank']
+            );
     }
-
-    $max_current_rank = $latest_rank;
 
     return array( $neighbors, $max_current_rank );
 }

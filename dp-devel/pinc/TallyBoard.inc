@@ -217,6 +217,116 @@ class TallyBoard
 
         return $rank_of_;
     }
+
+    // -------------------------------------------------------------------------
+
+    function get_neighborhood(
+        $target_holder_id,
+        $radius,
+        // The remaining params are an optimization for extracting
+        // other info from the database at the same time.
+        $other_table,
+        $holder_id_expr,
+        $other_select_exprs,
+        $tally_alias,
+        $rank_alias
+    )
+    // Return an array consisting of:
+    //
+    // -- The tally-neighborhood of the target holder. This is an array:
+    //
+    //    The keys are integers from the range [-$radius, +$radius],
+    //    indicating a holder's position (w.r.t. tally)
+    //    relative to the target holder.
+    //    (So key=0 refers to the target holder.)
+    //    The set of keys will be less than the full [-$radius, +$radius]
+    //    range if the target holder holder is within $radius of the
+    //    corresponding end of the ranked list.
+    //
+    //    For a given key, the value is data for the corresponding neighbor:
+    //    an associative array as returned by mysql_fetch_assoc(), with an
+    //    item added for the neighbor's rank.
+    //    
+    // -- The maximum current rank on this TallyBoard.
+    {
+        assert( $radius >= 0 );
+
+        $result = mysql_query("
+            SELECT
+                holder_id,
+                tally_value AS $tally_alias,
+                $other_select_exprs
+            FROM
+                $other_table
+                LEFT OUTER JOIN current_tallies
+                ON (
+                    tally_name      = '$this->tally_name'
+                    AND holder_type = '$this->holder_type'
+                    AND holder_id   = $holder_id_expr
+                )
+            WHERE tally_value > 0 OR holder_id='$target_holder_id'
+            ORDER BY tally_value DESC
+        ");
+        // Note that for the purposes of this function,
+        // we pretend that holders with tally_value <= 0 don't exist,
+        // with the possible exception of the target holder.
+
+        $num_rows = mysql_num_rows($result);
+        
+        // First, run through the results,
+        // looking for the row that contains the target holder.
+        $target_holder_r = NULL;
+        for ( $r = 1; $r <= $num_rows; $r++ )
+        {
+            $row = mysql_fetch_assoc($result);
+            if ( $row['holder_id'] == $target_holder_id )
+            {
+                $target_holder_r = $r;
+                break;
+            }
+        }
+
+        if ( is_null($target_holder_r) )
+        {
+            // The target holder does not appear on this TallyBoard.
+            // This shouldn't ever happen.
+            die( "Holder '$target_holder_id' does not appear on this TallyBoard." );
+        }
+
+        // Now, go through the results again (calculating rank as you go),
+        // and when you're in the neighborhood of the target holder,
+        // save the results in the $neighbors array.
+
+        mysql_data_seek( $result, 0 );
+
+        $neighbors = array();
+        $r = 1;
+        $latest_tally = -1000; // A value that the first $row[$tally_alias] will not be equal to.
+        $latest_rank = NULL;
+        while ($row = mysql_fetch_assoc($result))
+        {
+            if ( $row[$tally_alias] != $latest_tally )
+            {
+                $latest_tally = $row[$tally_alias];
+                $latest_rank = $r;
+            }
+
+            $rel_posn = $r - $target_holder_r;
+            if ( abs($rel_posn) <= $radius )
+            {
+                // We're in the neighborhood of the target holder.
+
+                $row[$rank_alias] = $latest_rank;
+                $neighbors[$rel_posn] = $row;
+            }
+
+            $r++;
+        }
+
+        $max_current_rank = $latest_rank;
+
+        return array( $neighbors, $max_current_rank );
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
