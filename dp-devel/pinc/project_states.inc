@@ -5,6 +5,15 @@
   PI=Proofing (In/Interface/Interval)
 */
 
+// for the initial creation of a project
+  define("NEW_PROJECT", "new_pr");
+
+// PR
+
+
+
+
+
 // PI
 
   // unavailable
