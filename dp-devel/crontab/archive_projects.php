@@ -1,5 +1,6 @@
 <?
 $relPath="./../pinc/";
+include($relPath.'misc.inc');
 include($relPath.'v_site.inc');
 include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');
@@ -12,6 +13,12 @@ header('Content-type: text/plain');
 // (that haven't been archived yet), and:
 // -- move the project's page-table to the archive database,
 // -- mark the project as having been archived.
+
+$dry_run = array_get( $_GET, 'dry_run', '' );
+if ($dry_run)
+{
+    echo "This is a dry run.\n";
+}
 
 $n_days_ago = 7;
 
@@ -32,6 +39,8 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
 
+    if ($dry_run) { continue; }
+
     mysql_query("
         ALTER TABLE $projectid
         RENAME AS dp_archive.$projectid
@@ -46,4 +55,6 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 
 
 echo "archive_projects.php executed.";
+
+// vim: sw=4 ts=4 expandtab
 ?>
