@@ -44,9 +44,11 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		if (!isset($_POST['task_id'])) {
 			$relatedtasks_array = array();
 			$relatedtasks_array = base64_encode(serialize($relatedtasks_array));
+			$relatedpostings_array = array();
+			$relatedpostings_array = base64_encode(serialize($relatedpostings_array));
 			$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
 			$u_id = mysql_result($result, 0, "u_id");
-			$result = mysql_query("INSERT INTO tasks (task_id, task_summary, task_type, task_category, task_status, task_assignee, task_severity, task_priority, task_os, task_browser, task_version, task_details, date_opened, opened_by, date_closed, closed_by, date_edited, edited_by, percent_complete, related_tasks) VALUES ('', '".addslashes(htmlspecialchars($_POST['task_summary']))."', ".$_POST['task_type'].", ".$_POST['task_category'].", ".$_POST['task_status'].", ".$_POST['task_assignee'].", ".$_POST['task_severity'].", ".$_POST['task_priority'].", ".$_POST['task_os'].", ".$_POST['task_browser'].", ".$_POST['task_version'].", '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."', ".time().", $u_id, '', '', ".time().", $u_id, 0, '$relatedtasks_array')");
+			$result = mysql_query("INSERT INTO tasks (task_id, task_summary, task_type, task_category, task_status, task_assignee, task_severity, task_priority, task_os, task_browser, task_version, task_details, date_opened, opened_by, date_closed, closed_by, date_edited, edited_by, percent_complete, related_tasks, related_postings) VALUES ('', '".addslashes(htmlspecialchars($_POST['task_summary']))."', ".$_POST['task_type'].", ".$_POST['task_category'].", ".$_POST['task_status'].", ".$_POST['task_assignee'].", ".$_POST['task_severity'].", ".$_POST['task_priority'].", ".$_POST['task_os'].", ".$_POST['task_browser'].", ".$_POST['task_version'].", '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."', ".time().", $u_id, '', '', ".time().", $u_id, 0, '$relatedtasks_array', '$relatedpostings_array')");
 			$result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
 			if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "DP Task Center: Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
 			$result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".mysql_insert_id().")");
@@ -115,6 +117,21 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		ShowTasks($result);
 	} else {
 		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related task id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
+	}
+} elseif (isset($_POST['new_relatedposting'])) {
+	$checkTopicExists = mysql_query("SELECT 1 FROM phpbb_topics WHERE topic_id = ".$_POST['related_posting']."");
+	$result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = ".$_POST['new_relatedposting']."");
+	$relatedpostings_array = unserialize(base64_decode(mysql_result($result, 0, "related_postings")));
+	if (!is_array($relatedpostings_array)) { $relatedpostings_array = array(); }
+	if (is_numeric($_POST['related_posting']) && mysql_num_rows($checkTopicExists) >= 1 && !in_array($_POST['related_posting'], $relatedpostings_array)) {
+		array_push($relatedpostings_array, $_POST['related_posting']);
+		$relatedpostings_array = base64_encode(serialize($relatedpostings_array));
+		$result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = ".$_POST['new_relatedposting']."");
+		NotificationMail($_POST['new_relatedposting'], "This task had a related posting added to it by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
+		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+		ShowTasks($result);
+	} else {
+		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related topic id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
 	}
 } else {
 	if (isset($_GET['orderby']) && isset($_GET['direction'])) {
@@ -432,6 +449,7 @@ function TaskDetails($tid) {
 			echo "</td></tr></table><br>\n";
 			TaskComments($tid);
 			RelatedTasks($tid);
+			RelatedPostings($tid);
 		}
 	} else {
 		echo "<tr bgcolor='#ffffff'><td colspan='7'><center><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid was not found!</font></center></td></tr>";
@@ -532,5 +550,31 @@ function RelatedTasks($tid) {
 	}
 
 	echo "</td></tr></table></form>";
+}
+
+function RelatedPostings($tid) {
+	global $forums_url;
+
+	$result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
+	$related_postings = mysql_result($result, 0, "related_postings");
+
+	echo "<form action='tasks.php' method='post'><input type='hidden' name='new_relatedposting' value='$tid'>";
+	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td>\n";
+	echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Topic ID&nbsp;&nbsp;</font></b>";
+	echo "<input type='text' name='related_posting' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
+	echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+
+	if (!empty($related_postings)) {
+		$related_postings = unserialize(base64_decode($related_postings));
+		asort($related_postings);
+		while (list($key, $val) = each($related_postings)) {
+			$result = mysql_query("SELECT phpbb_topics.topic_title AS Title, phpbb_topics.topic_replies AS Replies, 
+														phpbb_forums.forum_name AS Forum, phpbb_forums.forum_id As ForumID, phpbb_users.username AS Username FROM phpbb_topics 
+														INNER JOIN phpbb_forums ON phpbb_topics.forum_id = phpbb_forums.forum_id INNER JOIN 
+														phpbb_users ON phpbb_topics.topic_poster = phpbb_users.user_id WHERE phpbb_topics.topic_id = ".$val."") OR die(mysql_error());
+			while ($row = mysql_fetch_assoc($result)) { echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$forums_url/viewforum.php?f=".$row['ForumID']."'>".$row['Forum']."</a>&nbsp;&raquo;&nbsp;<a href='$forums_url/viewtopic.php?t=$val'>".$row['Title']."</a> (Posted by: ".$row['Username']." - ".$row['Replies']." replies)</font>\n"; }
+		}
+	echo "</td></tr></table></form>";
+	}
 }
 ?>
