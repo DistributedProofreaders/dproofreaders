@@ -14,15 +14,19 @@ if ($_GET['range'] == 7 || $_GET['range'] == 14 || $_GET['range'] == 30 || $_GET
 
 if ($range != "all") {
 	$range = time() - ($range * 86400);
-	$date_condition = "date_updated >= $range";
+	$date_condition = "timestamp >= $range";
 } else {
 	$date_condition = "1";
 }
 $result = mysql_query("
-	SELECT date_updated, daily_page_count
-	FROM user_teams_stats
-	WHERE team_id={$_GET['tid']} AND ($date_condition)
-	ORDER BY date_updated ASC
+	SELECT timestamp, tally_delta
+	FROM past_tallies
+	WHERE
+		($date_condition)
+		AND holder_type='T'
+		AND holder_id={$_GET['tid']}
+		AND tally_name='P'
+	ORDER BY timestamp ASC
 ");
 
 $i = 0;

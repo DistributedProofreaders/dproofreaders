@@ -529,10 +529,13 @@ function team_get_largest_page_tally_increment_info( $team_id )
 // -- a timestamp for which that increment was recorded.
 {
     $result = mysql_query("
-        SELECT daily_page_count, date_updated
-        FROM user_teams_stats
-        WHERE team_id=$team_id
-        ORDER BY daily_page_count DESC
+        SELECT tally_delta, timestamp
+        FROM past_tallies
+        WHERE
+            holder_type='T'
+            AND holder_id=$team_id
+            AND tally_name='P'
+        ORDER BY tally_delta DESC
         LIMIT 1
     ");
     return mysql_fetch_row($result);

@@ -95,20 +95,24 @@ function showTeamStats($curTeam) {
 	global $theme;
 
 	$result = mysql_query("
-		SELECT MAX(date_updated)
-		FROM user_teams_stats
+		SELECT MAX(timestamp)
+		FROM past_tallies
+		WHERE holder_type='T' AND tally_name='P'
 	");
 	$lastupdated = date("n/d/Y h:i:s A T", (mysql_result($result,0,0)-1));
 
 	$result = mysql_query("
-		SELECT rank
-		FROM user_teams_stats
-		WHERE team_id = ".$curTeam['id']."
-		ORDER BY date_updated DESC
+		SELECT tally_rank
+		FROM past_tallies
+		WHERE
+			holder_type='T'
+			AND holder_id = ".$curTeam['id']."
+			AND tally_name='P'
+		ORDER BY timestamp DESC
 		LIMIT 1
 	");
 	if (mysql_num_rows($result) > 0) {
-		$prevRank = mysql_result($result, 0, "rank");
+		$prevRank = mysql_result($result, 0, "tally_rank");
 		$hasStats = TRUE;
 	} else {
 		$prevRank = 0;
