@@ -63,6 +63,16 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 		// Special colours for special books of various types
 		if (1)
 		{
+
+			// will be nice one day to get all the following out of a table perhaps?
+
+                        // default Special colour (will be over-ridden by any specific matches below)
+
+			if ( startswith( $book['comments'], 'SPECIAL:' ) )
+			{
+				$bgcolor = " bgcolor='#9933CC'";
+			}
+
 			// Halloween colors for Halloween projects!
 			if ( startswith( $book['comments'], 'Halloween' ) )
 			{
@@ -78,12 +88,10 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 				$bgcolor = " bgcolor='#00FF33'";
 			}
 
-
-
 			// poppy red for Armistice Day
 			if ( startswith( $book['comments'], 'SPECIAL:Nov 11' ) )
 			{
-				$bgcolor = " bgcolor='red'";
+				$bgcolor = " bgcolor='#FF9090'";
 			}
 
 
@@ -101,7 +109,13 @@ function show_books_available_for_proofing( $round, $userP, $tList )
                                 $bgcolor = " bgcolor='#33CCFF'";
                         }
 
+			// Native Anerican Heritage Month "whitesmoke"
+			if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
+			{
+				$bgcolor = " bgcolor='#F5F5F5'";
+			}
 
+			
 
 		}
 
