@@ -77,11 +77,8 @@ $message = "*****This is an automated email*****\n\n----------------------------
 $subject = "Page Marked as Bad";
 }
 
-$message_report = "Project Name: $nameofwork\nProject ID: ".$_POST['projectname']."\nTotal Bad Pages: $totalBad\nTotal Unique Pages: $uniqueBadPages\nPM Advised: $advisePM";
-
 //Send the email to the PM
 mail($PMemail, $subject, $message, "From: no-reply@texts01.archive.org <no-reply@texts01.archive.org>\r\n"); 
-mail("jgruber@tampabay.rr.com", "Bad Page Report", $message_report, "From: no-reply@texts01.archive.org <no-reply@texts01.archive.org>\r\n");
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
