@@ -23,16 +23,13 @@ function get_phase_containing_project_state($state)
         case PROJ_PROOF_FIRST_AVAILABLE :
         case PROJ_PROOF_FIRST_VERIFY :
         case PROJ_PROOF_FIRST_COMPLETE :
-            $wProc = 'FIRST' ;
-            break ;
-
         case PROJ_PROOF_SECOND_UNAVAILABLE :
         case PROJ_PROOF_SECOND_WAITING_FOR_RELEASE :
         case PROJ_PROOF_SECOND_BAD_PROJECT :
         case PROJ_PROOF_SECOND_AVAILABLE :
         case PROJ_PROOF_SECOND_VERIFY :
         case PROJ_PROOF_SECOND_COMPLETE :
-            $wProc = 'SECOND' ;
+            $wProc = 'PAGE_EDITING' ;
             break ;
 
         case PROJ_POST_FIRST_UNAVAILABLE :
