@@ -44,7 +44,7 @@ if (!empty($_GET['lang']) && $func == "translate") {
 
 		while ($i < $numOfTranslations) {
 			$location = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":")));
-			echo "<b><i>".trim(htmlspecialchars($translation['msgid'][$i]))."</b></i>\n(<a href='$code_url/$location' target='_new'>Location</a>)<br>\n";
+			echo "<b><i>".visible_invisibles(htmlspecialchars($translation['msgid'][$i]))."</b></i>\n(<a href='$code_url/$location' target='_new'>Location</a>)<br>\n";
 			echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'>\n<input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize(trim($translation['msgid'][$i])))."'>\n";
 			echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".trim(htmlspecialchars($translation['msgstr'][$i]))."</textarea><br><br>\n\n";
 			$i++;
@@ -59,4 +59,16 @@ if (!empty($_GET['lang']) && $func == "translate") {
 	}
 
 theme('','footer');
+
+function visible_invisibles($str)
+{
+	return preg_replace(
+		array(
+			"/^ /",
+			"/ $/",
+		),
+		"<img src='space.gif' valign='bottom'>",
+		$str
+	);
+}
 ?>
