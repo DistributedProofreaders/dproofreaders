@@ -91,22 +91,28 @@ abort_if_not_manager();
 		$show_pages_left = 0;
 
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+
+		function echo_header_cell( $width, $text )
+		{
+		    global $theme;
+		    echo "<td width='$width' align='center' bgcolor='{$theme['color_headerbar_bg']}'>";
+		    echo "<font color='{$theme['color_headerbar_font']}'>";
+		    echo "<b>$text</b>";
+		    echo "</font>";
+		    echo "</td>";
+		}
+
+
     		echo "<tr>";
-      		echo "<td width='175' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Title</b></font></td>";
-      		echo "<td width='100' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Author</b></font></td>";
+      		echo_header_cell( 175, "Title" );
+      		echo_header_cell( 100, "Author" );
 		if ( $show_pages_left )
 		{
-		    echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Left</b></font></td>";
+		    echo_header_cell( 50, "Left" );
 		}
-      		echo "<td width='75' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>";
-	        if ($_GET['show'] == "site") {
-			echo "PM";
-        	} else {
-        		echo "Owner";
-        	}
-		echo "</b></font></td>";
-      		echo "<td width='180' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Project Status</b></font></td>";
-      		echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Options</b></font></td>";
+      		echo_header_cell(  75, ($_GET['show'] == "site" ? "PM" : "Owner" ) );
+      		echo_header_cell( 180, "Project Status" );
+      		echo_header_cell(  50, "Options" );
       		echo "</tr>";
 
         	$numrows = 0;
