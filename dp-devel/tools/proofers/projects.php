@@ -1,19 +1,11 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
-
-if ($good_login != 1) {
-    echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\"></head><body></body></html>"; 
-} else {
+$relPath="./../../pinc/";
+include($relPath.'cookiecheck.inc');
+include($relPath.'connect.inc');
+$dbC=new dbConnect();
 
     $project = $_GET['project'];
     $prooflevel = $_GET['prooflevel'];
-
-    //connect to database
-    include '../../connect.php';
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
@@ -54,7 +46,6 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
     echo "<td><A HREF=\"mailto: $email\">$username</A></td></tr>";
 
     echo "<tr><td bgcolor = \"CCCCCC\"><h3>Project Comments</h3></td><td>$comments</td></tr></table>"; 
-}
 ?>
 <br><table border=1 width=630><tr>
 <td width=126 bgcolor="CCCCCC" align=center><a href ="proof_per.php">Back</a></td>

@@ -1,16 +1,8 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
-
-if ($good_login != 1) {
-    echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\"></head><body></body></html>"; 
-} else {
-    ///connect to database
-    include '../../connect.php';
-
+$relPath="./../../pinc/";
+include($relPath.'cookiecheck.inc');
+include($relPath.'connect.inc');
+$dbC=new dbConnect() or die ('Error: Unable to connect to database.');
     echo "<html>";
     echo "<title>Personal Page for $pguser</title>";
 
@@ -265,7 +257,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
         $projectid = mysql_result($result, $rownum2, "projectid");
 
         // find out how many files are available for proofing for each project!!!!!
-        $rows = mysql_query("SELECT fileid FROM $projectid WHERE checkedout = 'no' AND prooflevel = '0'");
+        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state='2'");
         $availablepages = mysql_num_rows($rows);
 
             //alternate colors for each project
@@ -277,7 +269,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 
             // find out how many files the project has total!!!!!
 
-            $rows = mysql_query("SELECT fileid FROM $projectid WHERE prooflevel = '0' ");
+            $rows = mysql_query("SELECT fileid FROM $projectid");
             $totalpages = (mysql_num_rows($rows));
 
             $nameofwork = mysql_result($result, $rownum2, "nameofwork");
@@ -331,10 +323,10 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
         $projectid = mysql_result($result, $rownum2, "projectid");
 
         // find out how many files are available for proofing for each project!!!!!
-        $rows = mysql_query("SELECT * FROM $projectid WHERE checkedout = 'no' AND prooflevel = '2'");
+        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state='12'");
         $availablepages = mysql_num_rows($rows);
    
-            $rows = mysql_query("SELECT fileid FROM $projectid WHERE prooflevel = '0' ");
+            $rows = mysql_query("SELECT fileid FROM $projectid");
             $totalpages = (mysql_num_rows($rows));
 
             $nameofwork = mysql_result($result, $rownum2, "nameofwork");
@@ -404,7 +396,4 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
 
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
 </tr></table>
-<?
-}
-?>
 </html>

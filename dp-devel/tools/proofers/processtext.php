@@ -1,13 +1,8 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
-
-if ($good_login != 1) {
-    echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\"></head><body></body></html>";
-} else {
+$relPath="./../../pinc/";
+include($relPath.'cookiecheck.inc');
+include($relPath.'connect.inc');
+$dbC=new dbConnect();
 
     $projectname = $_POST['projectname'];
     $imagefile = $_POST['imagefile'];
@@ -20,8 +15,6 @@ if ($good_login != 1) {
     $text_data = $_POST['text_data'];
     $text_data = strip_tags($text_data, '<i>');
     $orient = $_POST['orient'];
-
-    include '../../connect.php';
 
     $result = mysql_query("SELECT state FROM projects WHERE projectid = '$project'");
     $state = mysql_result($result, 0, "state");
@@ -36,9 +29,9 @@ if ($good_login != 1) {
     $delay = 0;
 
     if (($button1 != "") || ($button2 != "")) {
-
-        $uniqueid = uniqid("fileID");
-        $sql = "SELECT fileid FROM $project WHERE checkedout = 'no' AND prooflevel = '$prooflevel' LIMIT 1";
+        $sql = "SELECT fileid FROM $project WHERE state='";
+        $sql.=$prooflevel==0? "2'":"12'";
+        $sql.=" LIMIT 1";
 
         $result = mysql_query($sql);
         $numrows=mysql_num_rows($result);
@@ -52,34 +45,36 @@ if ($good_login != 1) {
         $result = mysql_query($sql);
     }
 
-    // if save and quit selected save the file and redirect back to projects page
-    if ($button1 != "") {
-        $result = mysql_query("INSERT INTO $project (prooflevel, text_data, image_Filename, 
-         fileid, proofedby, timestamp) VALUES ('$newprooflevel','$text_data','$imagefile',  
-         '$uniqueid','$pguser', '$timestamp')");
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"2 ;URL=proof_per.php\"></head><body>";
-        echo "<p>File being saved. You will be taken to the projects page after save is complete.";
+    // save
+    if ($button1 != "" || $button2 !="") {
+     $dbQuery="UPDATE $project SET state='";
+     if ($prooflevel==1)
+     {$dbQuery.="18' round2_text='$text_data' round2_time='$timestamp' round2_user='$pguser'";}
+     else {$dbQuery.="8' round1_text='$text_data' round1_time='$timestamp' round1_user='$pguser'";}
+
+        $result = mysql_query($dbQuery);
     }
 
-    // if save and do another than save file and send back to proof.php for a new page
+    // save and restore image to edit view
+    if ($button1 != "") {
+     $frame1 = 'imageframe.php?project='.$project.$imagefile;
+     echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\"></HEAD><BODY>"; 
+    }
+    // save and do another send back to proof.php for a new page
     if ($button2 != "") {
-        
-        $sql = "INSERT INTO $project (prooflevel, text_data, image_Filename,
-         fileid, proofedby, timestamp) VALUES ('$newprooflevel','$text_data','$imagefile',  
-         '$uniqueid','$pguser','$timestamp')";
-        $result = mysql_query($sql);
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof.php?project=$project&prooflevel=$prooflevel&orient=$orient\"></head><body>"; 
+     echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof.php?project=$project&prooflevel=$prooflevel&orient=$orient\" TARGET=\"_top\"></HEAD><BODY>"; 
     }
 
     // if quit without saving send back to projects page
     if ($button3 != "") {
-        $result = mysql_query("UPDATE $project SET checkedout = 'no' WHERE fileid = '$fileid'");
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof_per.php\"></head><body>"; 
+// is this still needed? or just let the server-side stuff realize it's a missing file?
+//        $result = mysql_query("UPDATE $project SET checkedout = 'no' WHERE fileid = '$fileid'");
+//        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof_per.php\"></head><body>"; 
+     echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof_per.php\" TARGET=\"_top\"></HEAD><BODY>"; 
     }
     } else {
-
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"4 ;URL=proof_per.php\"></head></body>";
-        echo "No more files available for proofing for this project.<BR> You will be taken back to the project page in 4 seconds.</body></html>";
+     echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=proof_per.php\" TARGET=\"_top\"></HEAD><BODY>";
+     echo "No more files available for proofing for this project.<BR> You will be taken back to the project page in 4 seconds.";
     }
 ?>
 <script language="JavaScript">
@@ -87,7 +82,4 @@ if ($good_login != 1) {
   javascript:window.history.forward(1);
 //-->
 </script>
-</body></html>
-<?
-}
-?>
+</BODY></HTML>
