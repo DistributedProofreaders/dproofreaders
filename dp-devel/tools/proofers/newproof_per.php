@@ -71,7 +71,7 @@ theme("Personal Page for $pguser", "header");
 		echo _("post processing"); 
 		echo "</a> "; 
 		echo _("phase of Distributed Proofreaders!  Currently there are"); 
-		echo " <b>".$numprojects."</b> "
+		echo " <b>".$numprojects."</b> ";
 		echo _("projects waiting."); 
 
 		if (($yourPPprojects + $yourPPVprojects)  > 0) { 
