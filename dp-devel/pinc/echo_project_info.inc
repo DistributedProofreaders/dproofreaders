@@ -140,7 +140,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$word = _("Page Detail");
 	$blurb = _("Images, Pages Proofread, & Differences");
 
-	echo_row_a($word, "<a href=\"$code_url/tools/project_manager/page_detail.php?project=$projectid&show_images=0\">$blurb</a>");
+	echo_row_a($word, "<a href=\"$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0\">$blurb</a>");
 
 	// -------------------------------------------------------------------------
 	// Personal data with respect to this project
