@@ -317,7 +317,7 @@ class User
     function setRealName($realName)
     {
         if (isValidRealName($realName)) {
-            $this->setRowVal('real_name', $realName);
+            $this->_setRowVal('real_name', $realName);
             return true;
         } else return false;
     }
@@ -340,7 +340,7 @@ class User
 
     function updatesEmailed()
     {
-
+        return ($this->_rowVal('email_updates') == 1);
     }
 
     /**
@@ -349,7 +349,7 @@ class User
 
     function enableEmailUpdates()
     {
-
+        $this->_setRowVal('email_updates', 1);
     }
 
     /**
@@ -358,7 +358,7 @@ class User
 
     function disableEmailUpdates()
     {
-
+        $this->_setRowVal('email_updates', 0);
     }
 
     /**
@@ -436,7 +436,7 @@ class User
 
     function emailAddress()
     {
-
+        return $this->_rowVal('email');
     }
 
     /**
@@ -542,21 +542,12 @@ class User
     }
 
     /**
-     * Error Checking to see if the Theme exists
-     */
-
-    function isThemeExist($name)
-    {
-        
-    }
-
-    /**
      * Theme Name that User has selected in their preferences
      */
 
     function theme()
     {
-        return $this->getRow('i_theme');
+        return $this->_rowVal('i_theme');
     }
 
     /**
@@ -568,7 +559,7 @@ class User
 
     function setTheme($name)
     {
-
+        $this->_setRowVal('i_theme');
     }
 
     /**
@@ -585,15 +576,6 @@ class User
      */
 
     function isValidProfile($name)
-    {
-
-    }
-
-    /**
-     * Checks to see if the profile exists in the database
-     */
-
-    function isProfileExist($name)
     {
 
     }
@@ -620,9 +602,9 @@ class User
      * Active Profile's Name
      */
 
-    function activeProfile()
+    function profile()
     {
-
+        $this->_rowVal('u_profile');
     }
 
     /**
@@ -640,7 +622,7 @@ class User
 
     function setProfile($name)
     {
-
+        $this->_setRowVal('u_profile', $name);
     }
 
     /**
@@ -1012,7 +994,7 @@ class User
 
     function isToolbarShown()
     {
-
+        return ($this->_rowVal('i_toolbar') == 1);
     }
 
     /**
@@ -1021,7 +1003,7 @@ class User
 
     function enableShowToolbar()
     {
-
+        $this->_setRowVal('i_toolbar', 1);
     }
 
     /**
@@ -1030,7 +1012,7 @@ class User
 
     function disableShowToolbar()
     {
-
+        $this->_setRowVal('i_toolbar', 0);
     }
 
     /**
@@ -1039,7 +1021,7 @@ class User
 
     function isStatusBarShown()
     {
-
+        return ($this->_rowVal('i_statusbar') == 1);
     }
 
     /**
@@ -1048,7 +1030,7 @@ class User
 
     function enableShowStatusBar()
     {
-
+        $this->_setRowVal('i_statusbar', 1);
     }
 
     /**
@@ -1057,7 +1039,7 @@ class User
 
     function disableShowStatusBar()
     {
-
+        $this->_setRowVal('i_statusbar', 0);
     }
 
     /**
@@ -1066,7 +1048,7 @@ class User
 
     function isTop10Shown()
     {
-
+        return ($this->_rowVal('u_top10') == 1);
     }
 
     /**
@@ -1075,7 +1057,7 @@ class User
 
     function enableShowTop10()
     {
-
+        $this->_setRowVal('u_top10', 1);
     }
 
     /**
@@ -1084,7 +1066,7 @@ class User
 
     function disableShowTop10()
     {
-
+        $this->_setRowVal('u_top10', 0);
     }
 
     /**
@@ -1093,7 +1075,7 @@ class User
 
     function enableNoStatisticsBar()
     {
-
+        $this->_setRowVal('u_align', 2);
     }
 
     /**
@@ -1102,7 +1084,7 @@ class User
 
     function isNoStatisticsBar()
     {
-
+        return ($this->_rowVal('u_align') == 2);
     }
 
     /**
@@ -1111,7 +1093,7 @@ class User
 
     function enableLeftStatisticsBar()
     {
-
+        $this->_setRowVal('u_align', 1);
     }
 
     /**
@@ -1120,7 +1102,7 @@ class User
 
     function isLeftStatisticsBar()
     {
-
+        return ($this->_rowVal('u_align') == 1);
     }
 
     /**
@@ -1129,7 +1111,7 @@ class User
 
     function enableRightStatisticsBar()
     {
-
+        $this->_setRowVal('u_align', 0);
     }
 
     /**
@@ -1138,7 +1120,7 @@ class User
 
     function isRightStatisticsBar()
     {
-
+        return ($this->_rowVal('u_align') == 0);
     }
 
     /**
