@@ -143,7 +143,7 @@ function draw_pages_graph(
 )
 // Draw various kinds of 'pages completed vs. time' graphs.
 {
-    if ( @$_GET['echo_graph_data'] )
+    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
         echo_graph_data( $x_dates, $y_actual_n_pages, $y_page_goal );
@@ -274,7 +274,7 @@ function draw_projects_graph(
 )
 // Draw various kinds of 'number of projects vs. time' graphs.
 {
-    if ( @$_GET['echo_graph_data'] )
+    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
         echo_graph_data( $x_dates, $y_num_projects );
@@ -400,7 +400,7 @@ function draw_simple_bar_graph(
     $cache_timeout
 )
 {
-    if ( @$_GET['echo_graph_data'] )
+    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
         echo_graph_data( $datax, $datay );
