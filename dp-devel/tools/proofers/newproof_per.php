@@ -12,6 +12,62 @@ theme("Personal Page for $pguser", "header");
     	$pagesproofed = mysql_result($result,0);
 
 
+	// DEMO VERSION allows people to simulate different page counts via parameter in URL
+	$pagesproofed =  isset($_GET['numofpages'])?$_GET['numofpages']:0;
+
+	// Beginners Info
+
+	if ($pagesproofed <= 40) {
+		echo "<font face=" . $theme['font_mainbody'] . size=3 "><b>";
+		echo _("Welcome"); 
+		echo "</b></font><br><br><font face=" . $theme['font_mainbody'] .">";
+		echo _("Please see our");
+		echo "<a href='".$beginners_site_forum_url."'> ";
+		echo _("Beginner's Forum");
+		echo "</a> ";
+		echo _("for answers to common questions.");
+		echo "<br><br>";
+	
+		if ($pagesproofed > 30) {
+			echo "<font face=" . $theme['font_mainbody'] . "><i>";
+			echo _("After you do a few more pages, the following introductory Simple Proofing Rules will be removed from this page.");
+			echo "</i></font><br><br>";
+		}
+		
+		echo "<b>";
+		echo _("Simple Proofing Rules:");
+		echo "</b><br><br>";
+
+		echo _("1) Don't rewrap lines. Leave the ends of lines where they are in the image.");
+		echo "<br>";
+		echo _("a) except, please put words that are broken across lines back together.");
+		echo "<br><br>";
+		echo _("2) Use a blank line between paragraphs and don't indent at the beginning of a paragraph.");
+		echo "<br><br>";
+		echo _("3) Remove spaces around punctuation and in contractions.");
+		echo "<br><br>";
+		echo _("4) Don't correct the original spelling.");
+		echo "<br><br>";
+		echo _("5) When in doubt, make it look like the original and use * to flag the spot.";
+		echo "<br><br>";
+
+		echo _("The");
+		echo " <a href='".$code_url."/faq/summary.pdf>";
+		echo _("Handy Proofing Guide"); 
+		echo "</a> ";
+		echo _("(printable) and 
+		echo " <a href='".$code_url."/faq/document.php>";
+		echo _("Proofing Guidelines"); 
+		echo "</a> ";
+		echo _("(for reference) provide much more detail.");
+		echo "<br><br>";
+		echo _("BEGINNER'S ONLY projects are reserved for new proofers. After you have done 5-15 pages from these projects, please leave them for proofers who are newer than you. EASY projects make a good next step.");
+		echo "<br><br>";
+		echo _("Click on the project title in the list below to start proofing.");
+		echo "<br><br>";
+
+	}
+
 
 	//Display News Updates
 
@@ -28,16 +84,6 @@ theme("Personal Page for $pguser", "header");
 		echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
 		echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
 		echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>";
-	}
-
-	// Beginners Info
-
-	if ($pagesproofed <= 40) {
-		echo "<font face=" . $theme['font_mainbody'] . "><b>";
-		echo _("Brand New Proofers"); 
-		echo "</b></font><br>";
-		echo _("BEGINNERS ONLY projects are reserved for brand new proofers; after you have done between 5 to 15 pages total from these BEGINNERS ONLY projects, though, please move on to other projects. EASY projects are available for everyone, but make a great second step for beginners, too."); 
-		echo "<br><br>";
 	}
 
 
@@ -115,6 +161,31 @@ theme("Personal Page for $pguser", "header");
 
 	}
 
+	if ($pagesproofed >= 50) {
+		if ($pagesproofed < 75 {
+			echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
+			echo _("Now you have proofed 50 pages you can see the books in Second Round. This explanatory line will eventually vanish.");
+			echo "</i></font><br><br>";
+		}
+	}
+?>
+<p>
+<font face="<? echo $theme['font_mainbody']; ?>">
+Legend for Special Books:
+<br><br><b>
+<span class="orange"> Halloween </span>&nbsp; 
+<span class="paleblue"> Authors with recent birthdays </span>&nbsp;
+<span class="richblue"> Authors with birthdays today </span>&nbsp;
+<br>
+<span class="yellow"> Children's Book Week </span>&nbsp;
+<span class="grey"> Native American Heritage Month </span>
+</b></font>
+</p>
+<br>
+
+
+
+<?
 $tList=0;
 include_once('proof_list.inc');
 ?>
