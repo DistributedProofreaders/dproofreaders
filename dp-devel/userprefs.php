@@ -7,6 +7,7 @@ include_once($relPath.'doctype.inc');
 include_once($relPath.'v_resolution.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'user_is.inc');
 
 $uid = $userP['u_id'];
 
@@ -227,12 +228,13 @@ $array = implode('|', $u_il);
 dropdown_select_complex('u_intlang', $userP['u_intlang'], $array, $u_iloc);
 echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
 echo "</td><td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-if ($userP['manager'] == "yes") { echo "<strong>"._("Default PM Page:")."</strong>"; } else { echo ""; }
+$user_is_PM = user_is_PM();
+if ($user_is_PM) { echo "<strong>"._("Default PM Page:")."</strong>"; } else { echo ""; }
 echo "</td><td bgcolor='#ffffff' align='left'>";
 $array = implode('|', $i_pm);
-if ($userP['manager'] == "yes") { dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array); } else { echo "<input type='hidden' name='i_pmdefault' value='".$userP['i_pmdefault']."'>"; }
+if ($user_is_PM) { dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array); } else { echo "<input type='hidden' name='i_pmdefault' value='".$userP['i_pmdefault']."'>"; }
 echo "</td><td bgcolor='#ffffff' align='center'>";
-if ($userP['manager'] == "yes") { echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>"; } else { echo ""; }
+if ($user_is_PM) { echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>"; } else { echo ""; }
 
 echo "</td></tr><tr><td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
 echo "<strong>"._("Statistics")."</strong>";

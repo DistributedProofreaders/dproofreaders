@@ -266,7 +266,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/proofers/proof_per.php'>" . _("Proofread Projects") . "</a>";
 			$divider = 1;
 		}
-		if ($userP['manager'] == "yes" && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
+		if (user_is_PM() && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
