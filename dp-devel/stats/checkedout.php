@@ -8,11 +8,13 @@ $state = ( isset($_GET['state']) ? $_GET['state'] : PROJ_POST_FIRST_CHECKED_OUT 
 if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
 {
 	$activity = _('Post Processing');
+      $order = (isset($_GET['order']) ? $_GET['order'] : 'checkedoutby' );
 }
 elseif ( $state == PROJ_POST_SECOND_CHECKED_OUT )
 {
 	$activity = _('Post Processing Verification');
        $inPPV = 1;
+      $order = (isset($_GET['order']) ? $_GET['order'] : 'postproofer' );
 }
 else
 {
@@ -21,6 +23,7 @@ else
 }
 
 $order = (isset($_GET['order']) ? $_GET['order'] : 'checkedoutby' );
+
 if ( $order == 'nameofwork' )
 {
 	$orderclause = 'nameofwork ASC';
