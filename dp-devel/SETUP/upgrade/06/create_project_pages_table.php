@@ -18,7 +18,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 }
 
 $sql = "
-    CREATE TABLE project_pages_test (
+    CREATE TABLE project_pages (
         projectid     varchar( 25 ) NOT NULL default '',
         fileid        varchar( 20 ) NOT NULL default '',
         image         varchar( 8 )  NOT NULL default '',
