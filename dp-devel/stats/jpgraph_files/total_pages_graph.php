@@ -10,17 +10,17 @@ new dbConnect();
 //Total pages per day since beginning of stats
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT date, pages
+	SELECT date, pages, dailygoal
 	FROM pagestats
 	ORDER BY date ASC
 ");
 
-list($datax,$datay) = dpsql_fetch_columns($result);
+list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
 draw_pages_graph(
 	$datax,
-	$datay,
-	null,
+	$datay1,
+	$datay2,
 	'daily',
 	'increments',
 	'Pages Done Per Day Since the Beginning of Statistics Collection',

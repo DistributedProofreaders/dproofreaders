@@ -10,18 +10,18 @@ new dbConnect();
 //Total pages by month since beginning of stats
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT CONCAT(year, '-', month), SUM(pages)
+	SELECT CONCAT(year, '-', month), SUM(pages), SUM(dailygoal)
 	FROM pagestats
 	GROUP BY year, month
 	ORDER BY year ASC, month ASC
 ");
 
-list($datax,$datay) = dpsql_fetch_columns($result);
+list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
 draw_pages_graph(
 	$datax,
-	$datay,
-	null,
+	$datay1,
+	$datay2,
 	'monthly',
 	'increments',
 	'Pages Done Each Month Since the Beginning of Statistics Collection',
