@@ -34,7 +34,7 @@ theme('Proofreading Guidelines','header');
  ** Temporary redirect:  -->
 <h4>Proofreading Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</a> / 
      Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</a></h4>
-<table border="0" cellspacing="0" width="100%">
+<table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
   <tbody>
     <tr>
       <td width="1" bgcolor="silver">&nbsp;</td>
@@ -199,7 +199,7 @@ theme('Proofreading Guidelines','header');
     which looks similar to a modern "f".  In English, the "long s" and the regular "s"
     are the same, so we make them all the regular "s". </p>
 
-<table width="100%" border="0" cellspacing="0">
+<table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
     <tr>
       <td bgcolor="silver">&nbsp;</td>
@@ -287,7 +287,7 @@ theme('Proofreading Guidelines','header');
     the error. (If it's already gone by, then use the  <a href="#forums">project
     forum</a> to leave a note for the next round.) </p>
 <br>
-<table width="100%" border="0" cellspacing="0" cellpadding="6">
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
       <td bgcolor="silver"><font size="+2">Formatting of the...</font></td>
@@ -304,7 +304,7 @@ theme('Proofreading Guidelines','header');
     lower case, etc.  Older books often show the first letter as a large &amp; ornate
     graphic--put this as just the letter.  </p>
 <table width="100%" border="1" cellpadding="4"
- cellspacing="0">
+ cellspacing="0" summary="Title Page Example">
   <col width="256*"> <tbody>
     <tr>
       <td width="100%" valign="top">
@@ -329,7 +329,7 @@ theme('Proofreading Guidelines','header');
       <p>BY <br>
          GEORGE BARR McCUTCHEON                            <br>
          AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"  <br>
-         "THE PRINCE OF "GRAUSTARK," ETC.                  <br>
+         "THE PRINCE OF GRAUSTARK," ETC.                   <br>
                                                            <br>
          WITH FRONTISPIECE BY                              <br>
          C. ALLEN GILBERT                                  <br>
@@ -352,7 +352,7 @@ theme('Proofreading Guidelines','header');
     be left in. </p>
 
 <table width="100%" border="1" cellpadding="4"
- cellspacing="0">
+ cellspacing="0" summary="TOC">
   <col width="256*"> <tbody>
     <tr>
       <td width="100%" valign="top">
@@ -443,7 +443,7 @@ theme('Proofreading Guidelines','header');
 <p align="left" style="margin-bottom: 0cm;"><br>
 </p>
 <table width="100%" border="1" cellpadding="4"
- cellspacing="0">
+ cellspacing="0" summary="Page Headers and Footers">
   <col width="256*"> <tbody>
     <tr>
       <td width="100%" valign="top">
@@ -548,7 +548,7 @@ theme('Proofreading Guidelines','header');
 <p align="left" style="margin-bottom: 0cm;"><br>
 </p>
 <table width="100%" border="1" cellpadding="4"
- cellspacing="0">
+ cellspacing="0" summary="Chapters">
  <col width="256*"> <tbody>
     <tr>
       <td width="100%" valign="top">
@@ -622,7 +622,7 @@ theme('Proofreading Guidelines','header');
     don't separate them out with blank lines.  </p>
 
   <table width="100%" border="1" cellpadding="4"
-       cellspacing="0"> <col width="128*">
+       cellspacing="0" summary="Sidenotes"> <col width="128*">
   <tbody>
     <tr valign="top">
       <td width="100%"> <p>Sample Image</p>
@@ -637,7 +637,7 @@ theme('Proofreading Guidelines','header');
       <td width="100%"> <p>Correct Text</p>
       </td>
     </tr>
-    <tr align="top">
+    <tr valign="top">
       <td width="100%">
         <p><tt>
                *[Sidenote: Burning                                                  <br>
@@ -749,7 +749,7 @@ theme('Proofreading Guidelines','header');
 <p align="left" style="margin-bottom: 0cm;"><br>
 </p>
 <table width="100%" border="1" cellpadding="4"
- cellspacing="0">
+ cellspacing="0" summary="Illustrations">
   <col width="256*"> <tbody>
     <tr>
       <td width="100%" valign="top">
@@ -826,7 +826,7 @@ theme('Proofreading Guidelines','header');
     find it. (This is common in scientific &amp; technical books, where footnotes are often
     grouped at the end of chapters.)</p>
 
-<table border="1"  cellpadding="4" cellspacing="0" width="97%" align="center">
+<table border="1"  cellpadding="4" cellspacing="0" width="97%" align="center" summary="Footnote Examples">
   <col width="256*">
   <tbody>
     <tr>
@@ -838,7 +838,7 @@ theme('Proofreading Guidelines','header');
           leader and Imperator, and the orator Cicero<sup>2</sup>.
           Both were of the aristocratic                                          <br>
           (Patrician) class, and were quite wealthy.                             <br>
-     <hr align="left" width="50%" noshade size=2>
+     <hr align="left" width="50%" noshade size="2">
      <font size=-1><sup>1</sup> Gaius Julius Caesar.</font>                      <br>
      <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
       </td>
@@ -883,7 +883,7 @@ theme('Proofreading Guidelines','header');
     should be treated the same as other footnotes. Proofers should tag them and leave them
     at the bottom of the page; the post-proofer will decide on the final placement.</p>
 
-<table width=97%" border="1"  cellpadding="4" cellspacing="0">
+<table width="97%" border="1"  cellpadding="4" cellspacing="0" summary="Footnotes">
   <col width="256*">
   <tbody>
     <tr>
@@ -900,7 +900,6 @@ theme('Proofreading Guidelines','header');
      well known for the pure whiteness of their wool. </font>
       </td>
       <td valign="top">
-        <tt>
 <pre>
 /*
 Mary had a little lamb[1]
@@ -908,6 +907,7 @@ Mary had a little lamb[1]
 And everywhere that Mary went
   The lamb was sure to go!
 */</pre>
+          <tt>
           [Footnote 1: This lamb was obviously of the Hampshire breed,           <br>
           well known for the pure whiteness of their wool.]                      <br>
           </tt>
@@ -952,7 +952,7 @@ And everywhere that Mary went
    For example:  </p>
  
     
-<table width="90%" border="1"  cellpadding="4" cellspacing="0">
+<table width="90%" border="1"  cellpadding="4" cellspacing="0" summary="Italics">
   <col width="256*">
   <tbody>
     <tr>
@@ -991,7 +991,7 @@ And everywhere that Mary went
     army.</tt> </p>
 <p> Another way to mark this is with a caret <tt>^</tt> instead of the apostrophe to
     indicate the superscripting.
-    This is common in scientific & technical works, which have a lot of this.  They
+    This is common in scientific &amp; technical works, which have a lot of this.  They
     also use curly braces <tt>{</tt> and <tt>}</tt> when there are several letters
     superscripted.  Using this method, that line would be proofed like this:
   <br> &nbsp; &nbsp; &nbsp; &nbsp;    <tt>Gen^{rl} Washington defeated L^d Cornwall's
@@ -1087,7 +1087,7 @@ And everywhere that Mary went
     Some examples:
     </p>
     
-<table width="97%" border="1"  cellpadding="4" cellspacing="0" align="center">
+<table width="97%" border="1"  cellpadding="4" cellspacing="0" align="center" summary="Hyphens and Dashes">
   <col width="256*">
   <tbody>
     <tr>
@@ -1230,7 +1230,7 @@ And everywhere that Mary went
     See <a href="#line_no">Line Numbers</a> for details. </p>
     
 <table width="100%" border="1"  cellpadding="4"
-       cellspacing="0"> <col width="256*">
+       cellspacing="0" summary="Poetry Example"> <col width="256*">
   <tbody>
     <tr>
       <td width="100%" valign="top"> <p>Sample Image</p>
@@ -1358,7 +1358,7 @@ And everywhere that Mary went
     before punctuation such as a semicolon or comma.  If scanned text has a space before
     punctuation, remove it. </p>
 
-<table width="70%" border="1"  cellpadding="4" cellspacing="0">
+<table width="70%" border="1"  cellpadding="4" cellspacing="0" summary="Punctuation">
   <col width="256*">
   <tbody>
     <tr>
@@ -1441,7 +1441,7 @@ image/text for an example.</p>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the end....
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
     </tt></p>
-    <i>Sometimes you'll see it with the punctuation at the end; so proof it that way:</i>
+<p>    <i>Sometimes you'll see it with the punctuation at the end; so proof it that way:</i>
     <tt>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
     </tt>
@@ -1449,7 +1449,7 @@ image/text for an example.</p>
     </p>
     
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a> </h3>
-<p> Try to put in the proper accented or Non-ASCII characters. <br>
+<p> Try to put in the proper accented or Non-ASCII characters.<br>
     But there is a problem with using accented characters--they are upper
     ASCII, or characters above code 127. This can cause display problems for
     any computer not using the Western European character set (MS Windows
@@ -1480,13 +1480,13 @@ image/text for an example.</p>
   </li>
 </ul>
 <br>
-<table width="75%" border="6" rules="all" align=center>
+<table width="75%" border="6" rules="all" align="center" summary="Windows shortcuts">
   <tbody>
   <tr bgcolor=cornsilk  >
       <th colspan=14>Windows Shortcuts for Upper ASCII symbols</th>
   <tr bgcolor=cornsilk  >
       <th colspan=2>grav&egrave; </th>
-      <th colspan=2>acut&eacute; (&eacute;gu)</th>
+      <th colspan=2>acut&eacute; (aigu)</th>
       <th colspan=2>^circumflex</th>
       <th colspan=2>~ tilde    </th>
       <th colspan=2>&uuml;mlaut</th>
@@ -1597,7 +1597,7 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&deg;    </td><td>Alt-0186</td>
   </tbody>
 </table>
-  &dagger;&nbsp;
+<p>  &dagger;&nbsp;
     Note that the ligatures &oelig; and &OElig; are becoming obsolete in English.
     In most cases, the two individual
     letters have replaced them.  (Thus &OElig;dipus becomes Oedipus.)
@@ -1628,13 +1628,13 @@ image/text for an example.</p>
   </li>
 </ul>
 <br>
-<table width="75%" border="6" rules="all" align=center>
+<table width="75%" border="6" rules="all" align="center" summary="Mac shortcuts">
   <tbody>
   <tr bgcolor=cornsilk  >
       <th colspan=14>Apple Mac Shortcuts for Upper ASCII symbols</th>
   <tr bgcolor=cornsilk  >
       <th colspan=2>grav&egrave; </th>
-      <th colspan=2>acut&eacute; (&eacute;gu)</th>
+      <th colspan=2>acut&eacute; (aigu)</th>
       <th colspan=2>^circumflex</th>
       <th colspan=2>~ tilde    </th>
       <th colspan=2>&uuml;mlaut</th>
@@ -1758,7 +1758,7 @@ macron (straight line)       [=x]   [x=]
 2 dots (diaresis or umlaut)  [:x]   [x:]
 1 dot                        [.x]   [x.]*
 grave accent                 ['x]   [x']* or [/x] [x/]*
-acute (égu) accent           [`x]   [x`]* or [\x] [x\]*
+acute (aigu) accent          [`x]   [x`]* or [\x] [x\]*
 circumflex                   [^x]   [x^]*
 caron (v-shaped symbol)      [vx]   [xv]
 breve (u-shaped symbol)      [)x]   [x)]
@@ -1766,7 +1766,7 @@ tilde                        [~x]   [x~]*
 cedilla                      [,x]*  [x,]
   * indicates markings that are rare and seldom occur in our books.
 -->
-<table width="95%" border="6" rules="all" align=center>
+<table width="95%" border="6" rules="all" align="center" summary="Diacriticals">
   <tbody>
   <tr bgcolor="cornsilk">
       <th colspan=9>Proofing symbols for Diacritical marks</th>
@@ -1866,14 +1866,14 @@ cedilla                      [,x]*  [x,]
 
 <ul compact>
   <li> Greek:
-       <a href="http://www.promo.net/pg/vol/greek.html">Greek to ASCII Primer</a> (from
+       <a href="http://promo.net/pg/vol/greek.html">Greek to ASCII Primer</a> (from
        Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li> Cyrillic:
     <!--  Apparently dead link, as of Jan, 2004:
        <a href="http://www.history.uiuc.edu/steinb/translit/translit.htm">Transliteration Table</a>
     -->
-       <a href="http://learningrussian.com/transliteration.htm ">Transliteration Table</a>
+       <a href="http://learningrussian.com/transliteration.htm">Transliteration Table</a>
   </li>
   <li> Hebrew:
        Not recommended unless you are fluent in Hebrew.  There are significant
@@ -1913,7 +1913,7 @@ cedilla                      [,x]*  [x,]
     Indexes are often printed in 2 columns; this narrower space can cause entries to
     split onto the next line. Rejoin these back onto a single line.  See example below:
     </p>
-<table width="75%" border="1"  cellpadding="4" cellspacing="0">
+<table width="75%" border="1"  cellpadding="4" cellspacing="0" summary="Indexes">
   <col width="256*">
   <tbody>
     <tr>
@@ -1987,7 +1987,7 @@ cedilla                      [,x]*  [x,]
    </p>
 
 <br>
-<table width="100%" border="0" cellspacing="0">
+<table width="100%" border="0" cellspacing="0" summary="Other Guidelines">
   <tbody>
     <tr>
       <td bgcolor="silver">&nbsp;</td>
@@ -2016,7 +2016,7 @@ cedilla                      [,x]*  [x,]
   <li><b>                        Chemistry Books    [to be completed.]</b></li>
 </ul>
     
-<table width="100%" border="0" cellspacing="0">
+<table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
     <tr>
       <td bgcolor="silver">&nbsp;</td>
@@ -2106,9 +2106,9 @@ cedilla                      [,x]*  [x,]
 <h3><a name="uncertain">Uncertain Items</a> </h3>
 <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  [...to be completed...] </p>
     
-<table width="100%" border='0' cellpadding='0' cellspacing='0' bgcolor='silver'>
-<tr><td width='10'>&nbsp;</td>
-    <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="silver" summary="Links">
+<tr><td width="10">&nbsp;</td>
+    <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
         Return to:
         <a href="..">Distributed Proofreaders home page</a>,
         &nbsp;&nbsp;&nbsp;
