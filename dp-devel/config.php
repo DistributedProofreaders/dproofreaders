@@ -53,6 +53,7 @@ if (!$auth) {
 			elseif (substr($lines[$i], 1, 12) == "dynstats_url") { fputs($v_site_file, "\$dynstats_url = '".$_POST['dynstats_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_dir") { fputs($v_site_file, "\$xmlfeeds_dir = '".$_POST['xmlfeeds_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_url") { fputs($v_site_file, "\$xmlfeeds_url = '".$_POST['xmlfeeds_url']."';\n"); }
+			elseif (substr($lines[$i], 1, 10) == "forums_dir") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_url") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 18) == "reset_password_url") { fputs($v_site_file, "\$reset_password_url = \"".$_POST['reset_password_url']."\";\n"); }
 			elseif (substr($lines[$i], 1, 17) == "general_forum_url") { fputs($v_site_file, "\$general_forum_url = \"".$_POST['general_forum_url']."\";\n"); }
@@ -106,6 +107,7 @@ if (!$auth) {
 
 	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
 	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Forums Configuration</font></b></center></td></tr>";
+	echo "<tr><td align='right' width='30%' valign='top'>Forums Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='forums_dir' value='$forums_dir'></td></tr>";
 	echo "<tr><td align='right' width='30%' valign='top'>Forums URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='forums_url' value='$forums_url'></td></tr>";
 	echo "<tr><td align='right' width='30%' valign='top'>Reset Password URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='reset_password_url' value='$reset_password_url'></td></tr>";
 	echo "<tr><td align='right' width='30%' valign='top'>General Forum URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='general_forum_url' value='$general_forum_url'></td></tr>";
