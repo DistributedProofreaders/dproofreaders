@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'page_ops.inc');
 
 if (!isset($_POST['action'])) {
   //Get variables to use for form
@@ -77,10 +78,7 @@ if (!isset($_POST['action'])) {
 	  echo "<input type='submit' value='Update Original Text'></form>";
       } elseif ($_POST['modify'] == "text") {
 	  $master_text = $_POST['master_text'];
-	  if ($writeBIGtable) {
-        	$result = mysql_query("UPDATE project_pages SET master_text='$master_text' WHERE projectid = '$projectID' AND fileid=$fileID");
-	  }
-        $result = mysql_query("UPDATE $projectID SET master_text='$master_text' WHERE fileid=$fileID");
+	  Page_modifyStartingText( $projectID, $fileID, $master_text );
 	  echo "<b>Update of Original Text Complete!</b>";
       } elseif ($_GET['modify'] == "image") {
 	  $result = mysql_query("SELECT image FROM $projectID where fileid=$fileID");
@@ -116,16 +114,11 @@ if (!isset($_POST['action'])) {
   //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($action == "fixed") || ($action == "bad")) {
       if ($state == BAD_FIRST) {
-	if ($writeBIGtable) {
-        	$result = mysql_query("UPDATE project_pages SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE projectid = '$projectID' AND fileid=$fileID");
-	}
-        $result = mysql_query("UPDATE $projectID SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE fileid=$fileID");
+        $round_number = 1;
     } elseif ($state = BAD_SECOND) {
-	if ($writeBIGtable) {
-	        $result = mysql_query("UPDATE project_pages SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE projectid = '$projectID' AND fileid=$fileID");
-	}
-        $result = mysql_query("UPDATE $projectID SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE fileid=$fileID");
+        $round_number = 2;
     }
+      Page_eraseBadMark( $projectID, $fileID, $round_number );
 }
 
   //Redirect the user back to the project detail page.
