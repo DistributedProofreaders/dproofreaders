@@ -155,7 +155,7 @@ It's all good, and will answer many of your questions, so dig in when you have t
 
 <br>
 
-This is your personal link into the <b>Forums</b>. When you click on this, you enter the Forums <i>as you</i>. 
+This is your personal link into the <b><? echo "<a href='$forums_url'>Forums</a>"; ?></b>. When you click on this, you enter the Forums <i>as you</i>. 
 Any posts or replies that you make will come from your username.  
 When you log into DP, you are also logged into the Forums.<br>
 
@@ -351,7 +351,7 @@ The choices are the same for each layout:<br>
 
 </ul> <blockquote>DPCustomMono has been carefully crafted to help with proofreading: 
 although that makes it a <i>really ugly</i> font, it shows up errors much more clearly. 
-See <a href="http://www.pgdp.net/phpBB2/viewtopic.php?p=31521#31521">this post</a> for info about our special font 
+See <a href="<? echo "$forums_url"; ?>/viewtopic.php?p=31521#31521">this post</a> for info about our special font 
 (which you need to download and install, nothing too complex, and it does help).<br><br>
 
 Again, you will want to experiment. Your browser may fuss about font choices. Browsers vary in this.</blockquote>
@@ -497,7 +497,7 @@ with something, we hope, for everyone.<br>
 <br>
 
 If you want to see a specific book here (perhaps one you like, one you are interested in), 
-you are welcome to post about it in the <a href="http://www.pgdp.net/phpBB2/viewforum.php?f=9">Providing Content Forum</a>.<br>
+you are welcome to post about it in the <a href="<? echo "$content_providing_forum_url"; ?>">Providing Content Forum</a>.<br>
 
 <br>
 
@@ -525,7 +525,7 @@ and they make it all into the most attractive and most easily-read package, for 
 <br>
 
 You may become particularly interested in a text, and wish to post-process it. 
-You can post about this in the <a href="http://www.pgdp.net/phpBB2/viewforum.php?f=3">Post-Processing Forum</a>.<br>
+You can post about this in the <a href="<? echo "$post_processing_forum_url"; ?>">Post-Processing Forum</a>.<br>
 
 <br>
 
@@ -551,9 +551,9 @@ you may think that you can't remember all the Proofreading Guidelines, but, day 
 <br>
 
 You may this very useful. 
-You will have the printed <a href="http://www.pgdp.net/c/faq/summary.pdf">Handy Guide</a>, 
+You will have the printed <a href="<? echo "$code_url"; ?>/faq/summary.pdf">Handy Guide</a>, 
 which summarizes the Guidelines (keep that beside you as you proof!), 
-and also the whole <a href="http://www.pgdp.net/c/faq/document.php">Guidelines</a> saved (somewhere), 
+and also the whole <a href="<? echo "$code_url"; ?>/faq/document.php">Guidelines</a> saved (somewhere), 
 but this little Random Rule may help you remember things much better.<br>
 
 <br>
@@ -609,7 +609,7 @@ Once you've settled in and done some Beginners' and Easy texts, you can take you
 
 You can see the books' <b>title</b>, the <b>author</b>, the <b>language</b> the book is written in 
 (and we try to have as great a variety as possible: 
-please note your language skills in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=2384">this post</a> in the Forums), 
+please note your language skills in <a href="<? echo "$forums_url"; ?>/viewtopic.php?t=2384">this post</a> in the Forums), 
 the <b>genre</b> (novel? history? great dog story?), 
 the <b>project manager</b> (who is looking after this book: good person to ask questions about it), 
 how many <b>pages available</b> for proofreading right now (or as close to right now as the database gets) 
@@ -629,7 +629,7 @@ Can you see a second list of books (<b>Second Round</b>)?
 Again, we're trying not to overload you with detail, and will introduce this list a bit later on, after 50 pages proofed. 
 The second list of books is those which have already been through Round One. 
 But they should be perfect now? I hear you protest. Um, yeah. 
-That would be nice, but the <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=1563">scannos</a> 
+That would be nice, but the <a href="<? echo "$forums_url"; ?>/viewtopic.php?t=1563">scannos</a> 
 (sneaky things the scanner does, e. g. l for 1 and 0 for O) do tend to slip past us. 
 We've found by experience that what one person misses 
 (and the better the reader you are, the more likely your eye is to correct as it reads, and thus miss the errors!), 
@@ -706,7 +706,7 @@ Next!<br>
 Everybody is a member of the overall DP Team, but we've found it's also fun to optionally join different Teams. 
 So, you can join up to three other teams, and enjoy the competition. 
 You also get to enjoy the camaraderie, the mutual support, the chat and the shared interests. 
-See <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5339">this post</a> in the Beginners' Q & A Forum.<br>
+See <a href="<? echo "$forums_url"; ?>/viewtopic.php?t=5339">this post</a> in the Beginners' Q & A Forum.<br>
 
 <br>
 
@@ -787,17 +787,17 @@ and most importantly, you know you can find help in all of these.<br>
 
 <ol>
 
-<li>Read the <a href="http://www.pgdp.net/c/faq/document.php">Guidelines</a>.</li>
+<li>Read the <a href="<? echo "$code_url"; ?>/faq/document.php">Guidelines</a>.</li>
 
-<li>Check out the <a href="http://www.pgdp.net/c/faq/faq_central.php">FAQs</a></li>
+<li>Check out the <a href="<? echo "$code_url"; ?>/faq/faq_central.php">FAQs</a></li>
 
 <li>Read the Project information for each text; ask questions in its Project Forum.</li>
 
-<li>Post questions in the <a href="http://www.pgdp.net/phpBB2/">Forums</a>.</li>
+<li>Post questions in the <a href="<? echo "$forums_url"; ?>">Forums</a>.</li>
 
-<li>Send a <a href="http://www.pgdp.net/phpBB2/privmsg.php?folder=inbox">Private Message</a> to another DPer.</li>
+<li>Send a <a href="<? echo "$forums_url"; ?>/privmsg.php?folder=inbox">Private Message</a> to another DPer.</li>
 
-<li>email <a href="mailto:dphelp@pgdp.net">dphelp@pgdp.net</a></li>
+<li>email <? echo "<a href='$general_help_email_addr'>$general_help_email_addr</a>"; ?></li>
 
 </ul><br>
 
