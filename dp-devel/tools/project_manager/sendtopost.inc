@@ -100,8 +100,9 @@ include_once($relPath.'maybe_mail.inc');
         while ($count < $mynumrows) {
             $filename = mysql_result($myresult, $count, "image");
             $text_data = mysql_result($myresult, $count, "round2_text");
-            $decodetext = html_entity_decode($text_data);
-            $fileinfo = $pagebreak1.$filename.$pagebreak2.$decodetext;
+            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
+	    // SENDING PAGE-TEXT TO USER
+	    // It's a text-file, so no encoding is necessary.
             fputs($fp,$fileinfo);
             $count++;
         } //end else
@@ -207,8 +208,10 @@ works]</byline>\r\n");
             fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
 
             $text_data = mysql_result($myresult, $count, "round2_text");
-            $decodetext = html_entity_decode($text_data);
-            $fileinfo = $pagebreak1.$filename.$pagebreak2.$decodetext;
+	    // SENDING PAGE-TEXT TO USER
+	    // It's an XML file, so the non-markup angle-brackets and ampersands
+	    // should be entity-encoded, but it's tricky to find them.
+	    put_page_text($text_data, $fp);
             $count++;
         } //end else
 
