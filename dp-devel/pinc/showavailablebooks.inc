@@ -316,7 +316,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			if ($userP['i_newwin']==0)
 				{$temp="<a href=\"$eURL\">";}
 			else
-				{$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
+				{$temp="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
 			$temp.="{$book['nameofwork']}</a>";
 			echo "\n<td>$temp</td>";
 			echo "\n<td>{$book['authorsname']}</td>";
