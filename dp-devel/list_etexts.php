@@ -78,16 +78,7 @@ $links = "<br>";
 }
 
 $moddate = $row['modifieddate'];
-
-// deal with old date stamps else new time() stamp
-if (strlen($moddate)==8)
-{$dateyear = substr($moddate, 0, 4);
-$datemonth = substr($moddate, 4, 2);
-$dateday = substr($moddate, 6, 2);
-$datecomplete = $dateyear."-".$datemonth."-".$dateday;
-$unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);}
-else {$moddate=date("l, F jS, Y",$moddate);}
+$moddate=$moddate=date("l, F jS, Y",$moddate);
 
 if ($type == "Gold") {
 $moddate = "Uploaded: ".$moddate;

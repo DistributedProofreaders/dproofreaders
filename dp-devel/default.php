@@ -73,8 +73,12 @@ You can view the financial statement for this site <a href="finance.html">here.<
     $datefrom = $datethru - $daterange;
     $datefromformat = date("l jS",$datefrom)." of ".date("F",$datefrom);
     $datethruformat = date("l jS",$datethru)." of ".date("F",$datethru);
-    $sqldatefrom = date("Ymd",$datefrom);
-    $sqldatethru = date("Ymd",$datethru);
+// old table dates
+//    $sqldatefrom = date("Ymd",$datefrom);
+//    $sqldatethru = date("Ymd",$datethru);
+// new table dates
+    $sqldatefrom = $datefrom;
+    $sqldatethru = $datethru;
 
     //Put a few items into variables for handy usage later
     $blankline = "\n<td width = 1 bgcolor=CCCCCC>&nbsp</td><td>";
@@ -171,16 +175,7 @@ if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>te
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
 $projectid = $row['projectid'];
 $moddate = $row['modifieddate'];
-
-// deal with old date stamps else new time() stamp
-if (strlen($moddate)==8)
-{$dateyear = substr($moddate, 0, 4);
-$datemonth = substr($moddate, 4, 2);
-$dateday = substr($moddate, 6, 2);
-$datecomplete = $dateyear."-".$datemonth."-".$dateday;
-$unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);}
-else {$moddate=date("l, F jS, Y",$moddate);}
+$moddate=$moddate=date("l, F jS, Y",$moddate);
 
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
@@ -201,16 +196,7 @@ $numofetexts = 1;
 while ($row = mysql_fetch_array($goldresult)) {
 $projectid = $row['projectid'];
 $moddate = $row['modifieddate'];
-
-// deal with old date stamps else new time() stamp
-if (strlen($moddate)==8)
-{$dateyear = substr($moddate, 0, 4);
-$datemonth = substr($moddate, 4, 2);
-$dateday = substr($moddate, 6, 2);
-$datecomplete = $dateyear."-".$datemonth."-".$dateday;
-$unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);}
-else {$moddate=date("l, F jS, Y",$moddate);}
+$moddate=$moddate=date("l, F jS, Y",$moddate);
 
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
@@ -230,16 +216,7 @@ $numofetexts = 1;
 while ($row = mysql_fetch_array($goldresult)) {
 $projectid = $row['projectid'];
 $moddate = $row['modifieddate'];
-
-// deal with old date stamps else new time() stamp
-if (strlen($moddate)==8)
-{$dateyear = substr($moddate, 0, 4);
-$datemonth = substr($moddate, 4, 2);
-$dateday = substr($moddate, 6, 2);
-$datecomplete = $dateyear."-".$datemonth."-".$dateday;
-$unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);}
-else {$moddate=date("l, F jS, Y",$moddate);}
+$moddate=$moddate=date("l, F jS, Y",$moddate);
 
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
