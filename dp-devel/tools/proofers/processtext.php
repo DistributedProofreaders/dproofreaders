@@ -16,18 +16,31 @@ $tpage=new processpage();
   if ($project !='')
   {$tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);}
 
+define('B_TEMPSAVE',                1);
+define('B_SAVE_AND_DO_ANOTHER',     2);
+define('B_QUIT',                    3);
+define('B_SWITCH_LAYOUT',           4);
+define('B_SAVE_AND_QUIT',           5);
+define('B_REPORT_BAD_PAGE',         6);
+define('B_RETURN_PAGE_TO_ROUND',    7);
+define('B_REVERT_TO_ORIGINAL',      8);
+define('B_REVERT_TO_LAST_TEMPSAVE', 9);
+define('B_RUN_SPELL_CHECK',         10);
+define('B_RUN_COMMON_ERRORS_CHECK', 11);
+
+
 // set tbutton
-  if (isset($button1) || isset($button1_x)) {$tbutton=1;} // save (temp)
-  if (isset($button2) || isset($button2_x)) {$tbutton=2;} // save and do next
-  if (isset($button3) || isset($button3_x)) {$tbutton=3;} // Quit
-  if (isset($button4) || isset($button4_x)) {$tbutton=4;} // change layout/save (temp)
-  if (isset($button5) || isset($button5_x)) {$tbutton=5;} // save and Quit
-  if (isset($button6) || isset($button6_x)) {$tbutton=6;} // Bad Page
-  if (isset($button7) || isset($button7_x)) {$tbutton=7;} // Return to Round (abandon)
-  if (isset($button8) || isset($button8_x)) {$tbutton=8;} // Revert text/save (temp)
-  if (isset($button9) || isset($button9_x)) {$tbutton=9;} // Undo Revert text (to last save)
-  if (isset($button10) || isset($button10_x)) {$tbutton=10;} // Run Spelling Check
-  if (isset($button11) || isset($button11_x)) {$tbutton=11;} // Run Common Errors Check
+  if (isset($button1) || isset($button1_x)) {$tbutton=B_TEMPSAVE;}
+  if (isset($button2) || isset($button2_x)) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
+  if (isset($button3) || isset($button3_x)) {$tbutton=B_QUIT;}
+  if (isset($button4) || isset($button4_x)) {$tbutton=B_SWITCH_LAYOUT;}
+  if (isset($button5) || isset($button5_x)) {$tbutton=B_SAVE_AND_QUIT;}
+  if (isset($button6) || isset($button6_x)) {$tbutton=B_REPORT_BAD_PAGE;}
+  if (isset($button7) || isset($button7_x)) {$tbutton=B_RETURN_PAGE_TO_ROUND;}
+  if (isset($button8) || isset($button8_x)) {$tbutton=B_REVERT_TO_ORIGINAL;}
+  if (isset($button9) || isset($button9_x)) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
+  if (isset($button10) || isset($button10_x)) {$tbutton=B_RUN_SPELL_CHECK;}
+  if (isset($button11) || isset($button11_x)) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
 
   if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
   if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
@@ -72,18 +85,18 @@ $tpage=new processpage();
 // BUTTON CODE
 
 // temp saves and revert
-if ($tbutton==1 || $tbutton==4 || $tbutton==8 || $tbutton==9)
+if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
 {
   $npage=$tpage->getPageCookie();
-  if ($tbutton!=9) {$npage['pagestate']=$tpage->saveTemp($proofstate,$text_data,$pguser);}
+  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($proofstate,$text_data,$pguser);}
   else {$npage['pagestate']=$tpage->getRevertState();}
-    if ($tbutton==4)
+    if ($tbutton==B_SWITCH_LAYOUT)
     {
       $userP['i_layout']=$userP['i_layout']==1? 0:1;
       $userP['prefschanged']=1;
       $cookieC->setTempPrefs($userP, $pguser);
     } // end change layout prefs
-    if ($tbutton==8) {$npage['revert']=1;}
+    if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
     else {$npage['revert']=0;}
   $npage['saved']=1;
   $npage['spcheck']=0;
@@ -94,21 +107,18 @@ if ($tbutton==1 || $tbutton==4 || $tbutton==8 || $tbutton==9)
   else
     {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
   exit;
-} // end save and continue same page button 1 & button 4 & button 8
+} // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 
-// save and do another
-
-if ($tbutton==2)
+if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 {
   $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'proof_frame.php?'.$project.$proofstate;
   metarefresh(0,$frame1,'Save and Do Next Page','Page saved.');
-} // end save and do another button 2
+} // end B_SAVE_AND_DO_ANOTHER
 
-// quit
-if ($tbutton==3)
+if ($tbutton==B_QUIT)
 {
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
@@ -118,8 +128,7 @@ if ($tbutton==3)
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
 }
 
-// save and quit send back to projects page
-if ($tbutton==5)
+if ($tbutton==B_SAVE_AND_QUIT)
 {
   $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
   $project = 'project='.$project;
@@ -128,17 +137,15 @@ if ($tbutton==5)
   metarefresh(1,$frame1,'Save and Quit Proofing','Page Saved. Exiting proofing for current project....');
 //  $editone=isset($editone)?$editone:0;
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
-} // end button 5 quit
+} // end B_SAVE_AND_QUIT
 
-// bad page report
-if ($tbutton==6)
+if ($tbutton==B_REPORT_BAD_PAGE)
 {
 $badState=$tpage->bad_page;
 include('badpage.php');
-} // end button 6 bad page
+} // end B_REPORT_BAD_PAGE
 
-// return page to current round
-if ($tbutton==7)
+if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 {
   $tpage->returnPage($proofstate,$pguser,$userP);
   $project = 'project='.$project;
@@ -147,25 +154,24 @@ if ($tbutton==7)
   metarefresh(1,$frame1,'Return to Round','Page Returned to Round.  Exiting proofing interface....');
 //  $editone=isset($editone)?$editone:0;
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
-} // end return to round
+} // end B_RETURN_PAGE_TO_ROUND
 
-// run spelling check
-if ($tbutton==10)
+if ($tbutton==B_RUN_SPELL_CHECK)
 {
   $npage=$tpage->getPageCookie();
   $npage['spcheck']=1;
   $tpage->setTempPageCookie($npage);
   include('spellcheck.inc');
-} // end spelling check
+} // end B_RUN_SPELL_CHECK
 
 // run common errors check
-if ($tbutton==11)
+if ($tbutton==B_RUN_COMMON_ERRORS_CHECK)
 {
   $npage=$tpage->getPageCookie();
   $npage['errcheck']=1;
   $tpage->setTempPageCookie($npage);
 //  include('errcheck.inc');
-} // end common errors check
+} // end B_RUN_COMMON_ERRORS_CHECK
 
 // Return from spellcheck page...
 if ($tbutton==101 || $tbutton==102)
