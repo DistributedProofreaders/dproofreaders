@@ -5,7 +5,23 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+header('Content-type: text/plain');
+
 $testing = array_get($_GET, 'testing', FALSE);
+
+function maybe_query( $query )
+{
+	global $testing;
+	if ($testing)
+	{
+		echo "$query\n";
+		return TRUE;
+	}
+	else
+	{
+		return mysql_query( $query );
+	}
+}
 
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
@@ -25,7 +41,7 @@ $max_update = mysql_result($result,0,0);
 			if ($row['id'] != 1) {
 				$prevDayCount = mysql_query("SELECT total_page_count FROM user_teams_stats WHERE date_updated = $max_update && team_id = ".$row['id']."");
 				$todaysCount = $row['page_count'] - mysql_result($prevDayCount,0,"total_page_count");
-				$updateCount = mysql_query("INSERT INTO user_teams_stats (team_id, date_updated, daily_page_count, total_page_count) VALUES (".$row['id'].", $midnight, $todaysCount, ".$row['page_count'].")");
+				$updateCount = maybe_query("INSERT INTO user_teams_stats (team_id, date_updated, daily_page_count, total_page_count) VALUES (".$row['id'].", $midnight, $todaysCount, ".$row['page_count'].")");
 
 				//Calculate the average daily team proofing as total pages / total days
 				$daysInExistence = number_format(floor(($now - $row['created'])/86400));
@@ -34,7 +50,7 @@ $max_update = mysql_result($result,0,0);
 				} else {
 					$avgCount = 0;
 				}
-				$updateAvgCount = mysql_query("UPDATE user_teams SET daily_average = $avgCount WHERE id = ".$row['id']."");
+				$updateAvgCount = maybe_query("UPDATE user_teams SET daily_average = $avgCount WHERE id = ".$row['id']."");
 			}
 		}
 
@@ -62,7 +78,7 @@ $max_update = mysql_result($result,0,0);
 			if ($row['id'] != 1) {
 				$team_id = $row['id'];
 				$rank = $rankArray['rank'][$team_id];
-				$updateRank = mysql_query("UPDATE user_teams_stats SET rank = $rank WHERE team_id = $team_id && date_updated = $midnight");
+				$updateRank = maybe_query("UPDATE user_teams_stats SET rank = $rank WHERE team_id = $team_id && date_updated = $midnight");
 			}
 		}
 	}
