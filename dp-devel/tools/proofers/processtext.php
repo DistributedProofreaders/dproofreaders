@@ -71,6 +71,7 @@ $dbQuery="UPDATE $project SET state='";
   else {$dbQuery.="9', round1_time='$timestamp', round1_user='$pguser'";}
 $dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
+isProjectDone($project,$prooflevel);
 }
 
 function isOpenProject($project,$prooflevel)
@@ -106,7 +107,6 @@ if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x)
 if (!isset($saved))
 {addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);}
 savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid);
-isProjectDone($project,$prooflevel);
 } // end save page
 
 
