@@ -41,15 +41,8 @@ if (isset($GLOBALS['pguser']))
 // if user logged on
 {
 
-	// site managers get to see everyone
-	if ( user_is_a_sitemanager() || user_is_proj_facilitator()) {
-		$proofreader_expr = "username";
-	}
-	else
-	{
-		// hide names of users who don't want even logged on people to see their names
-		$proofreader_expr = "IF(u_privacy = ".PRIVACY_ANONYMOUS.",'Anonymous', username)";
-	}
+	// hide names of users who don't want even logged on people to see their names
+	$proofreader_expr = "IF(u_privacy = ".PRIVACY_ANONYMOUS.",'Anonymous', username)";
 } 
 else
 {
