@@ -38,13 +38,13 @@ if (!isset($saved))
             echo "No more files available for proofing for this project.<BR> You will be taken back to the project page in 2 seconds.</body></html>";
         } else {
             $fileid = mysql_result($result, 0, "fileid");
+            $imagefile = mysql_result($result, 0, "image");
             $dbQuery="UPDATE $project SET state='";
             if ($prooflevel==2)
-            {$dbQuery.="15' round2_time='$timestamp' round2_user='$pguser'";}
-            else {$dbQuery.="5' round1_time='$timestamp' round1_user='$pguser'";}
+            {$dbQuery.="15', round2_time='$timestamp', round2_user='$pguser'";}
+            else {$dbQuery.="5', round1_time='$timestamp', round1_user='$pguser'";}
             $dbQuery.="  WHERE fileid='$fileid'";
             $update = mysql_query($dbQuery);
-            $imagefile = mysql_result($result, 0, "image");
         }
 
 }
