@@ -40,7 +40,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	$result = mysql_query($query);
 
 	echo "<tr>";
-	tde('<b>'._("Name&nbsp;of&nbsp;Work").'</b>',bgcol(1,$round));
+	tde('<b>'._("Title").'</b>',bgcol(1,$round));
 	tde('<b>'._("Author").'</b>',bgcol(1,$round) . " align=center");
 	tde('<b>'._("Language").'</b>',bgcol(1,$round) . " width=70");
 	tde('<b>'._("Genre").'</b>',bgcol(1,$round) . "70");
@@ -162,17 +162,17 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			if ($book['difficulty'] == "beginner")
 			{
 				if  ($round == "first") 
-					$genre = "BEGINNERS ONLY ".$book['genre'];
+					$genre = _("BEGINNERS ONLY")." ".$book['genre'];
 				else 
-					$genre = "MENTORS ONLY ".$book['genre'];
+					$genre = _("MENTORS ONLY")." ".$book['genre'];
 			}
 			elseif ($book['difficulty'] == "easy")
 			{
-				$genre = "EASY ".$book['genre'];
+				$genre = _("EASY")." ".$book['genre'];
 			}
 			elseif ($book['difficulty'] == "hard")
 			{
-				$genre = "HARD ".$book['genre'];
+				$genre = _("HARD")." ".$book['genre'];
 			}
 			else
 			{

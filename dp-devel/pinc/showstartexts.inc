@@ -38,9 +38,9 @@ if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>" 
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>" . _("html version") . "</a>, ";
 
 if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>submit corrections</a>";
+	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>" . _("submit corrections") . "</a>";
 } else {
-	$links=$links."under review";
+	$links=$links._("under review");
 }
 
 if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
@@ -48,13 +48,13 @@ echo "$moddate<br>";
 echo "$links</font><br><br>";
 } else {
 $totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
-echo mysql_result($totalpages,0)." pages; $moddate</font><br><br>";
+echo mysql_result($totalpages,0)." "._("pages")."; $moddate</font><br><br>";
 }
 $i++;
 }
 
 if ($total > $etext_limit) {
-echo "<font face='Verdana' size='1'>--<a href='list_etexts.php?x=".substr($type,0,1)."'>See more $type e-texts</a></font><br><br>";
+echo "<font face='Verdana' size='1'>--<a href='list_etexts.php?x=".substr($type,0,1)."'>"._("See more...")."</a></font><br><br>";
 }
 
 }

@@ -16,19 +16,19 @@ function show_projects_in_state($state,$table=1)
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 	{
 		$stage = 'post_1';
-		$foo_Header = 'Manager';
+		$foo_Header = _("Manager");
 		$foo_field_name = 'username';
 	}
 	elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 	{
 		$stage = 'post_2';
-		$foo_Header = 'Post Processor';
+		$foo_Header = _("Post Processor");
 		$foo_field_name = 'postproofer';
 	}
 	elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
 	{
 		$stage = 'correct';
-		$foo_Header = 'Editor';
+		$foo_Header = _("Editor");
 		$foo_field_name = 'correctedby';
 	}
 	else
@@ -88,13 +88,13 @@ function show_projects_in_state($state,$table=1)
 	$tdc="</b></font></td>";
 	echo "
 		<tr>
-		$tds width=\"190\">$tdm<b>Title$tdc
-		$tds width=\"100\">$tdm<b>Author$tdc
-		$tds width=\"90\">$tdm<b>Language$tdc
-		$tds width=\"90\">$tdm<b>Genre$tdc
-		$tds width=\"50\">$tdm<b>Pages$tdc
+		$tds width=\"190\">$tdm<b>"._("Title")."$tdc
+		$tds width=\"100\">$tdm<b>"._("Author")."$tdc
+		$tds width=\"90\">$tdm<b>"._("Language")."$tdc
+		$tds width=\"90\">$tdm<b>"._("Genre")."$tdc
+		$tds width=\"50\">$tdm<b>"._("Pages")."$tdc
 		$tds width=\"75\">$tdm<b>$foo_Header$tdc
-		$tds>$tdm<b>Book Options$tdc
+		$tds>$tdm<b>"._("Book Options")."$tdc
 		</tr>
 	";
 
@@ -133,8 +133,8 @@ function show_projects_in_state($state,$table=1)
 		tde($book['authorsname'], $bgcolor);
 		tde($book['language'],    $bgcolor . " align=center");
 
-		if ($book['difficulty'] == "easy") { $genre = "EASY ".$book['genre']; }
-            		elseif ($book['difficulty'] == "hard") { $genre = "HARD ".$book['genre']; }
+		if ($book['difficulty'] == "easy") { $genre = _("EASY")." ".$book['genre']; }
+            		elseif ($book['difficulty'] == "hard") { $genre = _("HARD")." ".$book['genre']; }
 	            	else { $genre = $book['genre']; }
 
 		tde($genre,       $bgcolor . " align=center");
@@ -149,80 +149,80 @@ function show_projects_in_state($state,$table=1)
 		if ($state==PROJ_POST_FIRST_AVAILABLE)
 		{
 			$serious_code=PROJ_POST_FIRST_CHECKED_OUT;
-			$serious_label='Check Out Book';
-			$serious_question='Are you sure you want to check this book out for post processing?';
+			$serious_label= _("Check Out Book");
+			$serious_question= _("Are you sure you want to check this book out for post processing?");
 		}
 		elseif ($state==PROJ_POST_FIRST_CHECKED_OUT)
 		{
 			$serious_code=PROJ_POST_FIRST_AVAILABLE;
-			$serious_label='Return to Available';
-			$serious_question='Are you sure you want to make this book available to others for post processing?';
+			$serious_label=_("Return to Available");
+			$serious_question=_("Are you sure you want to make this book available to others for post processing?");
 		}
 		elseif ($state==PROJ_POST_SECOND_AVAILABLE)
 		{
 			$serious_code=PROJ_POST_SECOND_CHECKED_OUT;
-			$serious_label='Check Out Book';
-			$serious_question='Are you sure you want to check this book out for verifying post processing?';
+			$serious_label= _("Check Out Book");
+			$serious_question=_("Are you sure you want to check this book out for verifying post processing?");
 		}
 		elseif ($state==PROJ_POST_SECOND_CHECKED_OUT)
 		{
 			$serious_code=PROJ_POST_SECOND_AVAILABLE;
-			$serious_label='Return to Available';
-			$serious_question='Are you sure you want to make this book available to others to verify and lose your work?';
+			$serious_label=_("Return to Available");
+			$serious_question=_("Are you sure you want to make this book available to others to verify and lose your work?");
 		}
 		elseif ($state==PROJ_CORRECT_AVAILABLE)
 		{
 			$serious_code=PROJ_CORRECT_CHECKED_OUT;
-			$serious_label='Check Out Book';
-			$serious_question='Are you sure you want to check this book out to review corrections?';
+			$serious_label= _("Check Out Book");
+			$serious_question=_("Are you sure you want to check this book out to review corrections?");
 		}
 		elseif ($state==PROJ_CORRECT_CHECKED_OUT)
 		{
 			$serious_code=PROJ_CORRECT_AVAILABLE;
-			$serious_label='Return to Available';
-			$serious_question='Are you sure you want to make this book available to others for reviewing corrections?';
+			$serious_label=_("Return to Available");
+			$serious_question=_("Are you sure you want to make this book available to others for reviewing corrections?");
 		}
 		echo "<select name=\"request\" onchange=\"";
 		echo "if (this.value=='$serious_code'){di=confirm('$serious_question');if(di){this.form.submit();}}else {this.form.submit();}";
 		echo "\">\n";
 
-		echo "<option selected>Select...</option>\n";
+		echo "<option selected>"._("Select")."...</option>\n";
 
-		echo_option( 'GET_IMAGES_HTML', 'View Images Online' );
-		echo_option( 'GET_IMAGES_ZIP', 'Download Zipped Images' );
+		echo_option( 'GET_IMAGES_HTML', _("View Images Online") );
+		echo_option( 'GET_IMAGES_ZIP', _("Download Zipped Images") );
 
 		if ($stage == 'post_1')
 		{
-			echo_option( 'GET_TEXT_POST_1_ZIP', 'Download Zipped Text' );
-			echo_option( 'GET_XML_POST_1_ZIP',  'Download Zipped TEI Text' );
-			echo_option( 'GET_COMMENTS_POST', 'View Project Comments' );
+			echo_option( 'GET_TEXT_POST_1_ZIP', _("Download Zipped Text") );
+			echo_option( 'GET_XML_POST_1_ZIP',  _("Download Zipped TEI Text") );
+			echo_option( 'GET_COMMENTS_POST', _("View Project Comments") );
 			if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
-	                        echo_option( 'GET_PROJ_DETAILS', 'View Project Details' );
+	                        echo_option( 'GET_PROJ_DETAILS', _("View Project Details") );
 			}
 		}
 		elseif ($stage == 'post_2')
 		{
-			echo_option( 'GET_TEXT_POST_2_ZIP', 'Download Zipped Text' );
-			echo_option( 'GET_COMMENTS_POST', 'View Project Comments' );
+			echo_option( 'GET_TEXT_POST_2_ZIP', _("Download Zipped Text") );
+			echo_option( 'GET_COMMENTS_POST', _("View Project Comments") );
 			if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
-	                        echo_option( 'GET_PROJ_DETAILS', 'View Project Details' );
+	                        echo_option( 'GET_PROJ_DETAILS', _("View Project Details") );
 			}
 
 		}
 		elseif ($stage == 'correct')
 		{
-			echo_option( 'GET_TEXT_CORR_ZIP', 'Download Zipped Text' );
+			echo_option( 'GET_TEXT_CORR_ZIP', _("Download Zipped Text") );
 		}
 
 		echo_option( $serious_code, $serious_label );
 
 		if ($state == PROJ_POST_FIRST_CHECKED_OUT)
 		{
-			echo_option( PROJ_POST_SECOND_AVAILABLE, 'Upload for Verification' );
+			echo_option( PROJ_POST_SECOND_AVAILABLE, _("Upload for Verification") );
 		}
 		elseif ($state == PROJ_CORRECT_CHECKED_OUT)
 		{
-			echo_option(PROJ_SUBMIT_PG_POSTED, "Posted to Project Gutenberg");
+			echo_option(PROJ_SUBMIT_PG_POSTED, _("Posted to Project Gutenberg"));
 		}
 
 		echo "</select></form></td>\n";
