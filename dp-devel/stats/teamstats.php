@@ -38,10 +38,11 @@ $max_update = mysql_result($result,0,0);
 		$now = time();
 		$result = mysql_query("SELECT id, page_count, created FROM user_teams");
 		while($row = mysql_fetch_assoc($result)) {
-			if ($row['id'] != 1) {
-				$prevDayCount = mysql_query("SELECT total_page_count FROM user_teams_stats WHERE date_updated = $max_update && team_id = ".$row['id']."");
+			$team_id = $row['id'];
+			if ($team_id != 1) {
+				$prevDayCount = mysql_query("SELECT total_page_count FROM user_teams_stats WHERE date_updated = $max_update && team_id = $team_id");
 				$todaysCount = $row['page_count'] - mysql_result($prevDayCount,0,"total_page_count");
-				$updateCount = maybe_query("INSERT INTO user_teams_stats (team_id, date_updated, daily_page_count, total_page_count) VALUES (".$row['id'].", $midnight, $todaysCount, ".$row['page_count'].")");
+				$updateCount = maybe_query("INSERT INTO user_teams_stats (team_id, date_updated, daily_page_count, total_page_count) VALUES ($team_id, $midnight, $todaysCount, ".$row['page_count'].")");
 
 				//Calculate the average daily team proofing as total pages / total days
 				$daysInExistence = number_format(floor(($now - $row['created'])/86400));
@@ -50,7 +51,7 @@ $max_update = mysql_result($result,0,0);
 				} else {
 					$avgCount = 0;
 				}
-				$updateAvgCount = maybe_query("UPDATE user_teams SET daily_average = $avgCount WHERE id = ".$row['id']."");
+				$updateAvgCount = maybe_query("UPDATE user_teams SET daily_average = $avgCount WHERE id = $team_id");
 			}
 		}
 
