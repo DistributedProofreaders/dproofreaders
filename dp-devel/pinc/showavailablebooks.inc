@@ -16,7 +16,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			WHERE
 				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
 				state = '".PROJ_PROOF_FIRST_VERIFY."') "
-				.$where_filter." 
+				.$where_filter."
 			ORDER BY
 				is_beginner DESC,
 				modifieddate DESC,
@@ -32,7 +32,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			WHERE
 				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
 				state = '".PROJ_PROOF_SECOND_VERIFY."') "
-				.$where_filter." 
+				.$where_filter."
 			ORDER BY
 				is_beginner DESC,
 				modifieddate DESC,
@@ -101,7 +101,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			// and it was pretty unreadable as is on a black background.
 
 			// green for Ramadan, St Patrick
-			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' ) 
+			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' )
 			      or startswith( $book['comments'], 'SPECIAL: St. Pat') )
 			{
 				$bgcolor = " bgcolor='#00FF00'";
@@ -135,7 +135,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                                 $bgcolor = " bgcolor='#33CCFF'";
                         }
 
-			// Native American Heritage Month 
+			// Native American Heritage Month
 			if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
 			{
 				$bgcolor = " bgcolor='#CCCCCC'";
@@ -153,14 +153,14 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                         {
                                 $bgcolor = " bgcolor='#00CC99'";
                         }
-	
+
 	               // blue for Wright Bros
                         if ( startswith( $book['comments'], 'SPECIAL: FLY100' ) )
                         {
                                 $bgcolor = " bgcolor='#0099FF'";
                         }
 
-	               // middle grey for Black History Month 
+	               // middle grey for Black History Month
                         if ( startswith( $book['comments'], 'SPECIAL: BHM' ) )
                         {
                                 $bgcolor = " bgcolor='#D6D600'";
@@ -173,7 +173,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                                 $bgcolor = " bgcolor='#FF99FF'";
                         }
 
-			
+
 
 		}
 
@@ -196,9 +196,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			echo "\n<td>{$book['language']}</td>";
 			if ($book['difficulty'] == "beginner")
 			{
-				if  ($round == "first") 
+				if  ($round == "first")
 					$genre = _("BEGINNERS ONLY")." ".$book['genre'];
-				else 
+				else
 					$genre = _("MENTORS ONLY")." ".$book['genre'];
 			}
 			elseif ($book['difficulty'] == "easy")
@@ -215,8 +215,11 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			}
 			echo "\n<td>$genre</td>";
 			echo "\n<td>{$book['username']}</td>";
-			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
-			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
+			if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) { $availPages = update_total_pages($book['projectid'], 1); } else { $availPages = $pageCountArray[$book['projectid']]['avail_pages']; }
+			if ($pageCountArray[$book['projectid']]['total_pages'] == 0) { $totalPages = update_total_pages($book['projectid'], 1); } else { $totalPages = $pageCountArray[$book['projectid']]['total_pages']; }
+
+			echo "\n<td align=center>".$availPages."</td>";
+			echo "\n<td align=center>".$totalPages."</td>";
 		}
 		else
 		{
