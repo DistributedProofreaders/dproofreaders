@@ -61,7 +61,7 @@ $graph->img->SetMargin(70,30,20,100);
 
  // Create the line plot
 $l1plot = new LinePlot ($data1y);
-$l1plot ->SetFillColor ("aquamarine");
+$l1plot ->SetFillColor ("lightseagreen");
 
 
 // ...and add it to the graPH
