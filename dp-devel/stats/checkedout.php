@@ -43,8 +43,14 @@ echo "<a href ='$url_base'>Default Sort Order </a>is Checked Out To and then Dat
 
 //get projects that have been checked out
 $result = mysql_query("
-	SELECT nameofwork, txtlink, checkedoutby, modifieddate
+	SELECT
+		nameofwork,
+		checkedoutby,
+		modifieddate,
+		users.last_login as holder_last_login
 	FROM projects
+		LEFT OUTER JOIN users
+		ON projects.checkedoutby = users.username
 	WHERE state = '$state'
 	$orderclause
 ");
@@ -65,16 +71,6 @@ while ( $project = mysql_fetch_object( $result ) )
 {
 	$rownum++;
 
-	//get users last login date
-	$userresult = mysql_query("
-		SELECT last_login
-		FROM users
-		WHERE username = '$project->checkedoutby'
-	");
-
-	$lastlogin = mysql_result($userresult,0,"last_login");
-
-
 	//calc last modified date for project
 	$today = getdate($project->modifieddate);
 	$month = $today['month'];
@@ -83,7 +79,7 @@ while ( $project = mysql_fetch_object( $result ) )
 	$datestamp = "$month $mday, $year";
 
 	//calc last login date for user
-	$today = getdate($lastlogin);
+	$today = getdate($project->holder_last_login);
 	$month = $today['month'];
 	$mday = $today['mday'];
 	$year = $today['year'];
