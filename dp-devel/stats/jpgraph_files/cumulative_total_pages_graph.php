@@ -16,6 +16,7 @@ $today = $year."-".$month."-".$day;
 
 //query db and put results into arrays
 $result = mysql_query("SELECT pages,date, dailygoal FROM pagestats ORDER BY date ASC");
+$mynumrows = mysql_numrows($result);
 $i = 0;
 $p = 0;
 $g = 0;
@@ -63,6 +64,24 @@ $graph->Add($lplot2); //Add the bar pages completed plot to the graph
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
+
+
+// calculate tick interval based on number of datapoints
+// the data is daily, there are 7 days in a week
+// once we have more than about 30 labels, the axis is getting too crowded
+if ($mynumrows < 30 ) {
+        $tick = 1;            // one label per day
+} else if ($mynumrows < (30 * 7)) {
+        $tick = 7;            // one label per week
+} else if ($mynumrows < (30 * 7 * 4)) {
+        $tick = 7 * 4;        // one label per 4 weeks (pseudo-month)
+} else if ($mynumrows < (30 * 7 * 13)) {
+        $tick = 7 * 13;       // one label per quarter
+} else {
+        $tick = 7  * 52;       // one label per year
+}
+$graph->xaxis->SetTextTickInterval($tick);
+
 $graph->xaxis->SetTextTickInterval(91.25);
 
 //Set Y axis

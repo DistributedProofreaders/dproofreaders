@@ -27,11 +27,25 @@ $graph->SetScale("textint");
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
-// Only draw labels on every 2nd tick mark
-//$graph->xaxis->SetTextLabelInterval(91.25);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+// calculate tick interval based on number of datapoints
+// the data is daily, there are 7 days in a week
+// once we have more than about 30 labels, the axis is getting too crowded
+if ($mynumrows < 30 ) {
+        $tick = 1;            // one label per day
+} else if ($mynumrows < (30 * 7)) {
+        $tick = 7;            // one label per week
+} else if ($mynumrows < (30 * 7 * 4)) {
+        $tick = 7 * 4;        // one label per 4 weeks (pseudo-month)
+} else if ($mynumrows < (30 * 7 * 13)) {
+        $tick = 7 * 13;       // one label per quarter
+} else {
+        $tick = 7  * 52;       // one label per year
+}
+$graph->xaxis->SetTextTickInterval($tick);
+
+
 //Set Y axis
 $graph->yaxis->title->Set('Pages');
 $graph->yaxis->SetTitleMargin(45);
