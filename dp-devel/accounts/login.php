@@ -3,7 +3,7 @@ $relPath="./../pinc/";
 include($relPath.'cookie.inc');
 include($relPath.'connect.inc');
 include($relPath.'user.inc');
-$usersC=new db_udb();
+$userC=new db_udb();
 $noLogin="Username or password is incorrect.<BR>If you feel you have recieved this message in error, please try to <A HREF=\"http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:charlz@lvcablemodem.com\">webmaster</A><BR><A HREF=\"signin.php\">Back</A> to sign in page.";
 $htmlStart="<HTML><HEAD><TITLE>Login</TITLE>";
 $htmlMid="</HEAD><BODY>";
@@ -26,7 +26,7 @@ $uC=$userC->checkLogin($userNM,$userPW);
 // isn't this the same as the manager field in users?
 //        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
 // needs to be included in user.inc, if not....
-          if ($uP=='yes')
+          if ($uP->manager=='yes')
           {echo $htmlStart."project_manager/projectmgr".$htmlMid.$htmlEnd;}
           else {echo $htmlStart."proofers/proof_per".$htmlMid.$htmlEnd;}
           }
