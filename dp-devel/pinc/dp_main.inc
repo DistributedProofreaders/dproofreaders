@@ -24,4 +24,7 @@ $cookieC->setUserPrefs($pguser);
 echo _("Cookie reset by site update.  Please refresh current page.");
 exit;}
 $userP=$cookieC->getUserPrefs($pguser);
+
+isMaintenanceMode();
+
 ?>

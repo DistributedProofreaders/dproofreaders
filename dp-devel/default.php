@@ -5,6 +5,7 @@ include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();
 include($relPath.'showstartexts.inc');
+isMaintenanceMode();
 theme(_("Welcome"), "header");
 $etext_limit = 10;
 
