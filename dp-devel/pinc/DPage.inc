@@ -275,20 +275,11 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 
 function Page_reclaim( $projectid, $fileid, $round_number )
 {
-    if ( $round_number == 1 )
-    {
-        $newstate = AVAIL_FIRST;
-        $timetype = "round1_time";
-    }
-    else if ( $round_number == 2 )
-    {
-        $newstate = AVAIL_SECOND;
-        $timetype = "round2_time";
-    }
+    $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state = '$newstate',
-        $timetype = ''
+        state='{$prd->avail_state}',
+        {$prd->time_column_name}=''
     " );
 }
 
@@ -296,26 +287,13 @@ function Page_reclaim( $projectid, $fileid, $round_number )
 
 function Page_clearRound( $projectid, $fileid, $round_number )
 {
-    if ( $round_number == 1 )
-    {
-        $text_field_name = 'round1_text';
-        $time_field_name = 'round1_time';
-        $user_field_name = 'round1_user';
-        $avail_page_state = AVAIL_FIRST;
-    }
-    else if ( $round_number == 2 )
-    {
-        $text_field_name = 'round2_text';
-        $time_field_name = 'round2_time';
-        $user_field_name = 'round2_user';
-        $avail_page_state = AVAIL_SECOND;
-    }
+    $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state = '$avail_page_state',
-        $time_field_name='',
-        $user_field_name='',
-        $text_field_name=''
+        state='{$prd->avail_state}',
+        {$prd->time_column_name}='',
+        {$prd->user_column_name}='',
+        {$prd->text_column_name}=''
     ");
 }
 
@@ -323,22 +301,13 @@ function Page_clearRound( $projectid, $fileid, $round_number )
 
 function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
 {
-    if ( $round_number == 1 )
-    {
-        $badState = 'bad_first';
-        $text_copier = 'round1_text=master_text';
-    }
-    else
-    {
-        $badState = 'bad_second';
-        $text_copier = 'round2_text=round1_text';
-    }
+    $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='$badState',
+        state='{$prd->bad_state}',
         b_user='$user',
         b_code=$reason,
-        $text_copier
+        {$prd->text_column_name}={$prd->prevtext_column_name}
     " );
 }
 
@@ -346,26 +315,13 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
 
 function Page_eraseBadMark( $projectid, $fileid, $round_number )
 {
-    if ( $round_number == 1 )
-    {
-        $avail_state = AVAIL_FIRST;
-        $user_column_name = 'round1_user';
-    }
-    else if ( $round_number == 2 )
-    {
-        $avail_state = AVAIL_SECOND;
-        $user_column_name = 'round2_user';
-    }
-    else
-    {
-        return;
-    }
+    $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='$avail_state',
+        state='{$prd->avail_state}',
         b_user='',
         b_code='',
-        $user_column_name=''
+        {$prd->user_column_name}=''
     " );
 }
 
