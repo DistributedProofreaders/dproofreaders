@@ -22,7 +22,7 @@ if (isset($saved)) {
 	$firstrounduser = mysql_result($result, 0, "round1_user");
 	$secondrounduser = mysql_result($result, 0, "round2_user");
 	if (($pguser != $firstrounduser) && ($pguser != $secondrounduser)) {
-		echo "An error has occured.  Please close & relogin.";
+		echo _("An error has occured.  Please close & relogin.");
 		exit();
 	}
 }
