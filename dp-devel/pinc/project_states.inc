@@ -21,12 +21,22 @@
   SECOND
 */
 
+function declare_project_state(
+    $constant_name,
+    $constant_value )
+{
+    define( $constant_name, $constant_value );
+}
+
 
 // PR
 
 
 // for the initial creation of a project
-  define("PROJ_NEW", "project_new");  //did not exist, but sort of 0
+declare_project_state(
+    "PROJ_NEW",
+    "project_new"
+);
 
   // You might think that this group of states should be embedded within
   // if ($site_supports_metadata) { ... }
@@ -38,72 +48,177 @@
   //     one of these states.
   // (2) We leave these defines here, so those uses do not raise errors.
   //
-  define("PROJ_NEW_WAITING_APPROVAL", "project_new_waiting_app");
-  define("PROJ_NEW_UNAPPROVED", "project_new_unapp");
-  define("PROJ_NEW_APPROVED", "project_new_app");
-  define("PROJ_NEW_FILE_UPLOADED", "project_new_uploaded");
-  define("PROJ_NEW_METADATA_FIRST", "project_md_first");
-  define("PROJ_NEW_METADATA_BAD", "project_md_bad");
-  define("PROJ_NEW_METADATA_SECOND", "project_md_second");
-  define("PROJ_NEW_PREPROCESSING", "project_new_preprocess");
-  define("PROJ_NEW_PENDING_PM", "project_new_pend_pm");
+declare_project_state(
+    "PROJ_NEW_WAITING_APPROVAL",
+    "project_new_waiting_app"
+);
+declare_project_state(
+    "PROJ_NEW_UNAPPROVED",
+    "project_new_unapp"
+);
+declare_project_state(
+    "PROJ_NEW_APPROVED",
+    "project_new_app"
+);
+declare_project_state(
+    "PROJ_NEW_FILE_UPLOADED",
+    "project_new_uploaded"
+);
+declare_project_state(
+    "PROJ_NEW_METADATA_FIRST",
+    "project_md_first"
+);
+declare_project_state(
+    "PROJ_NEW_METADATA_BAD",
+    "project_md_bad"
+);
+declare_project_state(
+    "PROJ_NEW_METADATA_SECOND",
+    "project_md_second"
+);
+declare_project_state(
+    "PROJ_NEW_PREPROCESSING",
+    "project_new_preprocess"
+);
+declare_project_state(
+    "PROJ_NEW_PENDING_PM",
+    "project_new_pend_pm"
+);
 
 
 // PROOF
 
   // unavailable
-  define("PROJ_PROOF_FIRST_UNAVAILABLE","unavail_1");
-  define("PROJ_PROOF_SECOND_UNAVAILABLE","unavail_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_UNAVAILABLE",
+    "unavail_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_UNAVAILABLE",
+    "unavail_2"
+);
 
   // waiting for release
-  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE","waiting_1");
-  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE","waiting_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_WAITING_FOR_RELEASE",
+    "waiting_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_WAITING_FOR_RELEASE",
+    "waiting_2"
+);
 
   // bad project
-  define("PROJ_PROOF_FIRST_BAD_PROJECT","bad_1");
-  define("PROJ_PROOF_SECOND_BAD_PROJECT","bad_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_BAD_PROJECT",
+    "bad_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_BAD_PROJECT",
+    "bad_2"
+);
 
   // available for proofreading
-  define("PROJ_PROOF_FIRST_AVAILABLE","avail_1");
-  define("PROJ_PROOF_SECOND_AVAILABLE","avail_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_AVAILABLE",
+    "avail_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_AVAILABLE",
+    "avail_2"
+);
 
   // proofreading round complete, but needing verification
-  define("PROJ_PROOF_FIRST_VERIFY","verify_1");
-  define("PROJ_PROOF_SECOND_VERIFY","verify_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_VERIFY",
+    "verify_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_VERIFY",
+    "verify_2"
+);
 
   // proofreading round complete and verified
-  define("PROJ_PROOF_FIRST_COMPLETE","done_1");
-  define("PROJ_PROOF_SECOND_COMPLETE","done_2");
+declare_project_state(
+    "PROJ_PROOF_FIRST_COMPLETE",
+    "done_1"
+);
+declare_project_state(
+    "PROJ_PROOF_SECOND_COMPLETE",
+    "done_2"
+);
 
 
 // POST
-  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable");
-  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_first_available");
+declare_project_state(
+    "PROJ_POST_FIRST_UNAVAILABLE",
+    "proj_post_first_unavailable"
+);
+declare_project_state(
+    "PROJ_POST_FIRST_AVAILABLE",
+    "proj_post_first_available"
+);
 
-  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_first_checked_out");
+declare_project_state(
+    "PROJ_POST_FIRST_CHECKED_OUT",
+    "proj_post_first_checked_out"
+);
 
-  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_second_available");
+declare_project_state(
+    "PROJ_POST_SECOND_AVAILABLE",
+    "proj_post_second_available"
+);
 
-  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_second_checked_out");
-  define("PROJ_POST_COMPLETE", "proj_post_complete");
+declare_project_state(
+    "PROJ_POST_SECOND_CHECKED_OUT",
+    "proj_post_second_checked_out"
+);
+declare_project_state(
+    "PROJ_POST_COMPLETE",
+    "proj_post_complete"
+);
 
 
 
 // SUBMIT (was GB)
-  define("PROJ_SUBMIT_PG_UNAVAILABLE", "proj_submit_pgunavailable");
-  define("PROJ_SUBMIT_PG_AVAILABLE", "proj_submit_pgavailable");
-  define("PROJ_SUBMIT_PG_POSTING", "proj_submit_pgposting");
-  define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted");
+declare_project_state(
+    "PROJ_SUBMIT_PG_UNAVAILABLE",
+    "proj_submit_pgunavailable"
+);
+declare_project_state(
+    "PROJ_SUBMIT_PG_AVAILABLE",
+    "proj_submit_pgavailable"
+);
+declare_project_state(
+    "PROJ_SUBMIT_PG_POSTING",
+    "proj_submit_pgposting"
+);
+declare_project_state(
+    "PROJ_SUBMIT_PG_POSTED",
+    "proj_submit_pgposted"
+);
 
 // CORRECT
-  define("PROJ_CORRECT_AVAILABLE", "proj_correct_available");
-  define("PROJ_CORRECT_CHECKED_OUT", "proj_correct_checked_out");
+declare_project_state(
+    "PROJ_CORRECT_AVAILABLE",
+    "proj_correct_available"
+);
+declare_project_state(
+    "PROJ_CORRECT_CHECKED_OUT",
+    "proj_correct_checked_out"
+);
 
 // for the 'deletion' of a project
-  define("PROJ_DELETE", "project_delete");
+declare_project_state(
+    "PROJ_DELETE",
+    "project_delete"
+);
 
 // for complete project
-  define("PROJ_COMPLETE", "project_complete");
+declare_project_state(
+    "PROJ_COMPLETE",
+    "project_complete"
+);
 
 // -----------------------------------------------------------------------------
 
