@@ -52,6 +52,9 @@
 .midgrey {
         background-color: #D6D6D6;
 }
+.earthblue {
+        background-color: #669CFF;
+}
 -->
 </style>
                                                 
