@@ -32,7 +32,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		}
 		fclose($fd);
 
-		global $aspell_executable, $aspell_prefix, $iso_639;
+		global $aspell_executable, $aspell_prefix, $iso_639, $charset;
 
 		// Decide which dictionaries to ask for.
 		$aspell_dict = '';
@@ -75,7 +75,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			return;
 		}
 
-		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} {$aspell_dict} -H -a";
+		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} {$aspell_dict} --encoding {$charset} -H -a";
 		// echo $aspell_command; // Very useful for debugging
 		// run aspell
 		// "asr" stands for "aspell result"
