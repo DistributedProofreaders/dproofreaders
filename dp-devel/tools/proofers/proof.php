@@ -2,11 +2,10 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
-/* $_GET from IN PROGRESS, DONE
-$project, $fileid, $imagefile, $proofstate, $pagestate, $editone
-*/
+// (User clicked on the name of a project
+// in the list of projects available for proofing.)
 
-/* $_GET from Start Proofing
+/* $_GET register_globals:
 $project, $proofstate
 */
 
