@@ -1,6 +1,6 @@
 <?
 
-include 'maybe_mail.inc';
+include_once 'maybe_mail.inc';
 
   // Auto-Release Project
 
