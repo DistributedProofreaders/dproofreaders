@@ -65,7 +65,7 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // page will be cleared, so decrement page tallies for user & teams
 
-    page_tallies_add( $prd->tally_name, $proofer, -1 );
+    page_tallies_add( $prd->round_id, $proofer, -1 );
 
     // ------------------------------------------------
     // now clear the page

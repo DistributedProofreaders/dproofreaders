@@ -64,7 +64,6 @@ class ProofingRoundDescriptor
         $this->access_minima      = $access_minima;
         $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
-        $this->tally_name         = $round_id;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
