@@ -10,13 +10,56 @@ include_once($relPath.'gettext_setup.inc');
 
 new dbConnect();
 
-//Create projects created per day graph for all known history
+//Create "projects Xed per day" graph for all known history
+
+switch ( $_GET['which'] )
+{
+	case 'created':
+		$state_condition = "
+			state NOT LIKE 'proj_new%'
+		";
+		$fill_color = 'green';
+		$title = _("Projects Created Each Day Since Stats Began");
+		break;
+
+	case 'proofed':
+		$state_condition = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post%'
+		";
+		$fill_color = 'blue';
+		$title = _("Projects Proofed Each Day Since Stats Began");
+		break;
+
+	case 'PPd':
+		$state_condition = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post_second%'
+		";
+		$fill_color = 'silver';
+		$title = _("Projects Post-Processed Each Day Since Stats Began");
+		break;
+
+	case 'posted':
+		$state_condition = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+		";
+		$fill_color = 'gold';
+		$title = _("Projects Posted Each Day Since Stats Began");
+		break;
+
+	default:
+		die( "bad value for 'which'" );
+}
 
 
 //query db and put results into arrays
 $result = mysql_query("SELECT sum(num_projects) as PC, date  FROM project_state_stats WHERE  
-				(state NOT LIKE 'proj_new%') 
-				group by date ORDER BY date");
+			$state_condition
+			group by date ORDER BY date");
 $mynumrows = mysql_numrows($result);
 
 
@@ -53,7 +96,7 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the bar plot
 $bplot = new BarPlot($datay1);
-$bplot->SetFillColor("green");
+$bplot->SetFillColor($fill_color);
 
 $graph->Add($bplot); //Add the bar plot to the graph
 
@@ -77,12 +120,11 @@ if ($mynumrows < 30 ) {
 }
 $graph->xaxis->SetTextTickInterval($tick);
 
-
 //Set Y axis
 $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set(_("Projects Created Each Day Since Stats Began"));
+$graph->title->Set($title);
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);

@@ -13,7 +13,7 @@ echo "<br><br>";
 
 echo "<center><img src=\"jpgraph_files/curr_month_proj_PPd_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_proj_PPd.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_proj_PPd_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/total_proj_graph.php?which=PPd\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_total_proj_PPd_graph.php\"></center><br>";
 
 theme('','footer');
