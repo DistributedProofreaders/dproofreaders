@@ -39,22 +39,9 @@ function saveProject() {
 		//Update the projects database with the updated info
 		mysql_query("UPDATE projects SET nameofwork='".addslashes($_POST['nameofwork'])."', authorsname='".addslashes($_POST['authorsname'])."', language='$language', genre='".addslashes($_POST['genre'])."', difficulty='".addslashes($_POST['difficulty_level'])."', comments='".addslashes($_POST['comments'])."', scannercredit='".addslashes($_POST['scannercredit'])."', txtlink='".addslashes($_POST['txtlink'])."', ziplink='".addslashes($_POST['ziplink'])."', htmllink='".addslashes($_POST['htmllink'])."', postednum='".addslashes($_POST['postednum'])."', clearance='".addslashes($_POST['clearance'])."' WHERE projectid='".$_POST['projectid']."'");
 
-		//If the PM has sent us a zip file let's unzip it and put the files in the uploads and projects directories
-		if (!empty($_FILES['projectfiles']['name'])) {
-			$filename = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip"));
+		$projectid = $_POST['projectid'];
 
-			if (!file_exists("$uploads_dir/$pguser")) {
-				mkdir("$uploads_dir/$pguser", 0777);
-				chmod("$uploads_dir/$pguser", 0777);
-			}
-			$projectid = $_POST['projectid'];
-			mkdir("$uploads_dir/$pguser/$filename", 0777);
-			chmod("$uploads_dir/$pguser/$filename", 0777);
-			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $projects_dir/$projectid");
-			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $uploads_dir/$pguser/$filename");
-			insertTextFiles($filename, $projectid);
-			$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
-		}
+		handle_projectfiles( $projectid );
 
 		//Update the MARC record in the database
 		$result = mysql_query("SELECT updated_array FROM marc_records WHERE projectid = '".$_POST['projectid']."'"); //Pull the current MARC record array from the database
@@ -81,20 +68,7 @@ function saveProject() {
 		mkdir("$projects_dir/$projectid", 0777);
 		chmod("$projects_dir/$projectid", 0777);
 
-		//If the PM gave us a zip file let's upload it
-		if (!empty($_FILES['projectfiles']['name'])) {
-			$filename = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); //The file name w/o the .zip
-			if (!file_exists("$uploads_dir/$pguser")) {
-				mkdir("$uploads_dir/$pguser", 0777);
-				chmod("$uploads_dir/$pguser", 0777);
-			}
-			mkdir("$uploads_dir/$pguser/$filename", 0777);
-			chmod("$uploads_dir/$pguser/$filename", 0777);
-			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $projects_dir/$projectid");
-			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $uploads_dir/$pguser/$filename");
-			insertTextFiles($filename, $projectid);
-			$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
-		}
+		handle_projectfiles( $projectid );
 
 		//Add the original marc record to the database
 		$original_marc = convert_standard_marc($rec);
@@ -110,6 +84,45 @@ function saveProject() {
 		//Create a Dublin Core file in the projects_dir directory
 		create_dc_xml_oai($projectid, $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
 	}
+}
+
+function handle_projectfiles( $projectid )
+// If the PM uploaded a zip file, unzip it and put the files in the uploads and projects directories.
+{
+	global $uploads_dir, $pguser, $projects_dir;
+
+	$original_filename = $_FILES['projectfiles']['name'];
+	if (empty($original_filename))
+	{
+		// No file uploaded.
+		return;
+	}
+
+	$dir_name = substr($original_filename, 0, strpos($original_filename, ".zip"));
+
+	if (!file_exists("$uploads_dir/$pguser")) {
+		# echo "creating $uploads_dir/$pguser ...<br>\n";
+		mkdir("$uploads_dir/$pguser", 0777);
+		chmod("$uploads_dir/$pguser", 0777);
+	}
+
+	# echo "creating $uploads_dir/$pguser/$dir_name ...<br>\n";
+	mkdir("$uploads_dir/$pguser/$dir_name", 0777);
+	chmod("$uploads_dir/$pguser/$dir_name", 0777);
+
+	$local_zipfile = $_FILES['projectfiles']['tmp_name'];
+
+	# echo "unzipping to $projects_dir/$projectid ...<br>\n";
+	exec("unzip -o -j $local_zipfile -d $projects_dir/$projectid");
+
+	# echo "unzipping to $uploads_dir/$pguser/$dir_name ...<br>\n";
+	exec("unzip -o -j $local_zipfile -d $uploads_dir/$pguser/$dir_name");
+
+	# echo "insertTextFiles($dir_name, $projectid) ...<br>\n";
+	insertTextFiles($dir_name, $projectid);
+
+	# echo "UPDATE projects SET state ...<br>\n";
+	$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
 }
 
 function insertTextFiles($filename, $projectid) {
