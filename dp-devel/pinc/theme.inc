@@ -254,18 +254,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	//Get the personal statistics array
 	$result = mysql_query("SELECT username, pagescompleted, u_privacy FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
 	$i = 0;
-	$row = mysql_fetch_assoc($result);
-	if ($row['username'] == $GLOBALS['pguser']) {
-    		$userindex = 0;
-	}
-	$neighborhood['rank'][0] = 1;
-	if ($row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $GLOBALS['pguser']) {
-		$neighborhood['username'][0] = _("Anonymous");
-	} else $neighborhood['username'][0] = $row['username'];
-
-	$neighborhood['pages'][0] = $row['pagescompleted'];
-	$lastcompleted = $row['pagescompleted'];
-	$i++;
+	$lastcompleted = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
 	while ($row = mysql_fetch_assoc($result)) {
     		if ($row['username'] == $GLOBALS['pguser']) {
         		$userindex = $i;
