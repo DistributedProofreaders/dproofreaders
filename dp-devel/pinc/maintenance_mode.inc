@@ -2,7 +2,7 @@
 include_once($relPath.'user_is.inc');
 
 function abort_if_in_maintenance_mode() {
-	global $maintenance, $pguser;
+	global $maintenance, $pguser, $relPath;
 
 	if ($maintenance) {
 		if (!user_is_a_sitemanager()) {
