@@ -1,6 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html><head><title>Proofreading Interface</title><meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="-1" /></head>
+<html><head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<title>Proofreading Interface</title></head>
 <frameset rows="*,73">
 <frame name="proofframe" src="<?PHP echo "projects.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
 <frame name="menuframe" src="ctrl_frame.php" marginwidth="2" marginheight="2" frameborder="0">
