@@ -15,8 +15,12 @@ function showTeamProfile($curTeam) {
 	}
 
 	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
-    	$last_post_date = mysql_result($last_post,0,"post_time");
-    	$last_post_date = date("n/j/Y g:i:sA", $last_post_date);
+    	if (mysql_num_rows($last_post) > 0) {
+    		$last_post_date = mysql_result($last_post,0,"post_time");
+    		$last_post_date = date("n/j/Y g:i:sA", $last_post_date);
+    	} else {
+    		$last_post_date = date("n/j/y g:i:sA", 0);
+    	}
 
 	$now = time();
 	$daysInExistence = number_format(floor(($now - $curTeam['created'])/86400));

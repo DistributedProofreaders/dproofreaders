@@ -100,6 +100,7 @@ function pageCountPercentage($pagescompleted) {
 function mbrRank($username) {
 	$result = mysql_query("SELECT username, pagescompleted FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
 	$i = 0;
+	$lastcompleted = -1;
 
 	while ($row = mysql_fetch_assoc($result)) {
 		if ($row['username'] == $username) {
@@ -118,14 +119,16 @@ function mbrRank($username) {
 	}
 
 	if (!isset($userindex)) {
-	$userindex = $i-1;
-	$rankArray['username'][$userindex] = $GLOBALS['pguser'];
-	$rankArray['pages'][$userindex] = 0;
-	$rankArray['rank'][$userindex] = $userindex;
+		$userindex = $i+1;
+		$rankArray['username'][$userindex] = $GLOBALS['pguser'];
+		$rankArray['pages'][$userindex] = 0;
+		$rankArray['rank'][$userindex] = $userindex;
+		$rankArray['totalRanks'] = $userindex;
+	} else {
+		$rankArray['totalRanks'] = $rankArray['rank'][$i-1];
 	}
 
 	$rankArray['curMbrRank'] = $rankArray['rank'][$userindex];
-	$rankArray['totalRanks'] = $rankArray['rank'][$i-1];
 	$rankArray['curMbrIndex'] = $userindex;
 
 	return $rankArray;
@@ -139,7 +142,7 @@ function rankPosition($rank, $u_id) {
 		if ($prevRank > $rank && !empty($prevRank)) {
 			$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$rank)."'>&nbsp;".number_format(($prevRank-$rank)).")</font>";
 		} elseif ($prevRank < $rank && !empty($prevRank)) {
-			$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($rank-$prevRank)."'>&nbsp;".number_format(($rank-$prevRank)).")</font>"; \
+			$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($rank-$prevRank)."'>&nbsp;".number_format(($rank-$prevRank)).")</font>";
 		} else {
 			$rankPos = "&nbsp;";
 		}
