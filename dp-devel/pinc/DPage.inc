@@ -138,6 +138,7 @@ function project_add_page(
 
     $image_file_name_e = addslashes( $image_file_name );
     $txt_file_path_e = addslashes( $txt_file_path );
+    $txt_expr = "LOAD_FILE('$txt_file_path_e')";
 
     $prd = get_PRD_for_round(1);
     $page_state = $prd->page_avail_state;
@@ -149,7 +150,7 @@ function project_add_page(
         SET
             fileid      = '$fileid',
             image       = '$image_file_name',
-            master_text = LOAD_FILE('$txt_file_path_e'),
+            master_text = $txt_expr,
             round1_time = $now,
             state       = '$page_state'
     ";
@@ -168,7 +169,7 @@ function project_add_page(
                     projectid   = '$projectid',
                     fileid      = '$fileid',
                     image       = '$image_file_name',
-                    master_text = LOAD_FILE('$txt_file_path_e'),
+                    master_text = $txt_expr,
                     round1_time = $now,
                     state       = '$page_state'
             ";
