@@ -1,5 +1,16 @@
 <?
 
+function dpsql_dump_table( $table_name )
+{
+	dpsql_dump_query( "SELECT * FROM $table_name" );
+}
+
+function dpsql_dump_query( $query )
+{
+	$result = dpsql_query( $query );
+	dpsql_dump_query_result( $result );
+}
+
 function dpsql_query( $query )
 {
 	$result = mysql_query( $query );
@@ -14,17 +25,11 @@ function dpsql_query( $query )
 	return $result;
 }
 
-function dpsql_dump_table( $table_name )
-{
-	$result = dpsql_query( "SELECT * FROM $table_name" );
-	dpsql_dump_query_result( $result );
-}
-
 function dpsql_dump_query_result( $result )
 {
 	$n_cols = mysql_num_fields($result);
 
-	print "<table>\n";
+	print "<table border='1'>\n";
 
 	{
 		print "<tr>\n";
