@@ -14,42 +14,25 @@ new dbConnect();
 // Find any projects in those states and move them to
 // an appropriate state that still exists.
 
+$case = "
+	CASE state
+		WHEN 'verify_1'                  THEN '".PROJ_PROOF_FIRST_AVAILABLE."'
+		WHEN 'verify_2'                  THEN '".PROJ_PROOF_SECOND_AVAILABLE."'
+		WHEN 'proj_submit_pgunavailable' THEN '".PROJ_POST_COMPLETE."'
+		WHEN 'proj_submit_pgavailable'   THEN '".PROJ_POST_COMPLETE."'
+		WHEN 'proj_submit_pgposting'     THEN '".PROJ_POST_COMPLETE."'
+		ELSE state
+	END
+";
+
 echo "<pre>\n";
 
-$changes = array(
-	array('verify_1',                 PROJ_PROOF_FIRST_AVAILABLE),
-	array('verify_2',                 PROJ_PROOF_SECOND_AVAILABLE),
-	array('proj_submit_pgunavailable',PROJ_POST_COMPLETE),
-	array('proj_submit_pgavailable',  PROJ_POST_COMPLETE),
-	array('proj_submit_pgposting',    PROJ_POST_COMPLETE),
-);
+mysql_query("
+	UPDATE projects
+	SET state=$case
+") or die(mysql_error());
+echo mysql_affected_rows(), " rows affected\n";
 
-foreach ( $changes as $change )
-{
-	list($old_state,$new_state) = $change;
-
-	echo "Moving projects from '$old_state' to '$new_state'\n";
-	$res = mysql_query("
-		SELECT nameofwork, state, projectid
-		FROM projects
-		WHERE state='$old_state'
-	") or die(mysql_error());
-
-	$n = mysql_num_rows($res);
-	echo "$n projects to update...\n";
-	echo "\n";
-
-	while ( list($nameofwork,$state,$projectid) = mysql_fetch_row($res) )
-	{
-		echo "    Project $projectid: \"$nameofwork\"\n";
-		mysql_query("
-			UPDATE projects
-			SET state='$new_state'
-			WHERE projectid='$projectid'
-		") or die(mysql_error());
-		echo "\n";
-	}
-}
 echo "done.\n";
 echo "</pre>\n";
 ?>
