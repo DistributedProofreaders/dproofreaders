@@ -125,8 +125,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	  || $state == PROJ_CORRECT_CHECKED_OUT )
 	{
 		$postednum = $project['postednum'];
-		echo_row_a( _("PG etext num"),
-			get_pg_catalog_link_for_etext($postednum) );
+		echo_row_a( _("PG etext number"),
+			get_pg_catalog_link_for_etext($postednum, $postednum) );
 	}
 
 	// -------------------------------------------------------------------------
