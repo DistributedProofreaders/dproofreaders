@@ -1,5 +1,5 @@
 <FONT SIZE="-1"><a 
-href="#" onclick="iMUO(2)" title="[Sidenote:">[Sidenote: </a>&nbsp;| <a 
+href="#" onclick="iMUO(2)" title="[Sidenote #:">[Sidenote #: </a>&nbsp;| <a 
 href="#" onclick="iMUO(22)" title="]">]</a> | <a 
 href="#" onclick="iMUO(3)" title="[Illustration:">[Illustration: </a>&nbsp;| <a 
 href="#" onclick="iMUO(23)" title="]">]</a> | <a 
