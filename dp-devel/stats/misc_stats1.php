@@ -166,7 +166,23 @@ dpsql_dump_ranked_query("
 	LIMIT 10
 ");
 
+echo "<br>\n";
 
+echo "<h3>Months with most days over 9,000 pages</h3>\n";
+
+dpsql_dump_ranked_query("
+	SELECT
+		year as 'Year',
+		month as 'Month',
+		count(*) as 'Number of Days',
+		IF (MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
+	FROM pagestats
+	WHERE pages >= 9000
+	GROUP BY year, month
+	ORDER BY 3 DESC
+	LIMIT 10
+");
+echo "<br>\n";
 
 theme("","footer");
 ?>
