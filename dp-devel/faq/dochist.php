@@ -26,6 +26,26 @@ theme('Proofing Guidelines Revision History','header');
       </td>
     </tr>
     <tr>
+      <td>05/05/2004 </td>
+      <td>Ver.&nbsp;1.65 </td>
+      <td>The DP Community</td>
+      <td>Following items added or changed:
+        <ul compact="compact">
+                <li>Chapter Headings - use 4-1-2 spacing.</li>
+                <li>Title Page - leave all text </li>
+                <li>Sidenotes - clarification of and new example</li>
+                <li>Footnotes - remove all reference to in-line footnotes </li>
+                <li>Spaced Out text - added </li>
+                <li>Single word at bottom of page - added </li>
+                <li>Poetry/Epigrams - clarification of</li>
+                <li>Lett Indentation - added /* */ markup </li>
+                <li>Block Quotations - now mark with /# #/ </li>
+                <li>Characters with Diacritical marks - added </li>
+                <li>Indexes - leave all page number references </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>06/19/2003 </td>
       <td>Ver.&nbsp;1.5 </td>
       <td>Tim Bonham (with suggestions from many people)</td>
