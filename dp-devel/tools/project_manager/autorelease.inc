@@ -63,11 +63,6 @@ function verifynew($project) {
     $projectid = $project['projectid'];
     $nameofwork = $project['nameofwork'];
 
-    $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
-
-	//Update the total and available pages in the HEAP table
-	update_total_pages($projectid, 1);
-
     $errors = project_pre_release_check( $project );
 
     if ( $errors )
@@ -107,6 +102,11 @@ function verifynew($project) {
         // nothing else to do
         return 0;
     }
+
+    $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
+
+    //Update the total and available pages in the HEAP table
+    update_total_pages($projectid, 1);
 
     print "Prepared to release project = $projectid<BR>";
     return numpages($projectid);
