@@ -15,11 +15,8 @@ function numavailpages($projectid, $roundavailstate) {
 }
 
 function verifynew($project) {
-        global $auto_email_addr;
-        global $code_url;
 
     $projectid = $project['projectid'];
-    $nameofwork = $project['nameofwork'];
 
     $errors = project_pre_release_check( $project );
 
