@@ -175,7 +175,7 @@ function echo_bottom_button_row() {
 /*************** GENERAL TAB ***************/
 
 function echo_general_tab() {
-  global $theme, $uid, $pguser, $userP;
+  global $theme, $uid, $pguser, $userP, $reset_password_url;
   global $u_il, $u_iloc, $u_n, $i_stats, $u_l, $i_pm;
 
   $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
