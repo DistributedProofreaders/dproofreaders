@@ -56,7 +56,7 @@ function verifynew($project) {
     //Update the total and available pages in the HEAP table
     update_total_pages($projectid, 1);
 
-    echo "  Prepared to release project = $projectid\n";
+    echo "        Prepared to release project = $projectid\n";
     return numpages($projectid);
 }
 
@@ -74,13 +74,6 @@ function autorelease($pagesleft) {
 
 	echo "<pre>\n";
 	echo "Starting autorelease\n";
-	echo "Current thresholds/targets are:\n";
-	echo "$beginners_pagesneeded pages for Beginners Only\n";
-	echo "$easy_projects EASY projects\n";
-	echo "$noneng_pagesneeded nonEnglish pages minimum\n";
-	echo "$eng_pagesneeded English pages minimum\n";
-	//echo "$GLOBALS['pagesneeded'] total pages minimum\n\n\n";
-
 
         // Release of Different types of Projects from various logical queues
         // NB The arguments for these calls can come out of a table LATER (stage two)...
@@ -162,12 +155,28 @@ function autorelease($pagesleft) {
 
 		if ($count2ndRnd == 'yes')
 		{
+			$which_rounds_desc = "both rounds";
 			$which_rounds_sql = "(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')";
 		}
 		else
 		{
+			$which_rounds_desc = "first round";
 			$which_rounds_sql = "state = '".PROJ_PROOF_FIRST_AVAILABLE."'";
 		}
+
+		if ($track_by == 'project')
+		{
+		    $units_desc = 'projects';
+		}
+		else if ($track_by == 'page')
+		{
+		    $units_desc = 'unproofed pages';
+		}
+
+		echo "\n";
+		echo "    For projects matching: $projtype_sql\n";
+		echo "    look for: $units_desc in $which_rounds_desc\n";
+		echo "    target:    $target\n";
 
 		if ($track_by == 'project')
 		{
@@ -198,13 +207,24 @@ function autorelease($pagesleft) {
 			}
 		}
 
+		echo "    found:     $numReleased\n";
+
 		// if there's enough out there already, don't bother
 		if ($numReleased >= $target)
 		{
-			echo "  The number of $projtype_desc {$track_by}s ($numReleased) meets or exceeds the target ($target).\n";
-			echo "  So no releases from the $projtype_desc Queue\n";
+			$surplus = $numReleased - $target;
+			echo "    surplus:   $surplus\n";
+			echo "\n";
+			echo "    No room for releases in this category.\n";
 			continue;
 		}
+		else
+		{
+			$shortfall = $target;
+			echo "    shortfall: $shortfall\n";
+			echo "\n";
+		}
+		
 
 		// set of candidates for release
 		$waiting_res = mysql_query("
@@ -215,7 +235,7 @@ function autorelease($pagesleft) {
 		");
 		if (mysql_num_rows($waiting_res) == 0)
 		{
-			echo "Could have released some $projtype_desc projects, but none were waiting!\n";
+			echo "    Could have released some projects in this category, but none were waiting!\n";
 			// email someone?
 			continue;
 		}
@@ -233,14 +253,14 @@ function autorelease($pagesleft) {
 
 		while ( $project = mysql_fetch_assoc($waiting_res) )
 		{
-			echo "  considering project \"{$project['nameofwork']}\"...\n";
+			echo "    considering project \"{$project['nameofwork']}\"...\n";
 
 			// check the date
 			if ($project['modifieddate'] == $todaysdate) {
 				// since projects are sorted by date, if we reach here we have already
 				// considered and rejected all remaining candidates under the author rule
 				// and can stop checking
-				echo "    modifieddate is now.\n";
+				echo "        modifieddate is now.\n";
 				break;
 			}
 
@@ -260,7 +280,7 @@ function autorelease($pagesleft) {
 			{
 				// fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
-				echo "    Its author, {$project['authorsname']}, already has a book in first round.\n";
+				echo "        Its author, {$project['authorsname']}, already has a book in first round.\n";
 				$temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
 				continue;
 			}
@@ -291,7 +311,7 @@ function autorelease($pagesleft) {
 			}
 		}
 
-		echo "Prepared <b>$num_projects_released</b> $projtype_desc projects for release\n";
+		echo "    Released <b>$num_projects_released</b> $projtype_desc projects.\n";
 
 		$pagesneeded = $pagesneeded - $totalnewreleased;
 	}
