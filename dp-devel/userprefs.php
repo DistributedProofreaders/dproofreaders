@@ -146,8 +146,8 @@ echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('updates');\">?</a></b>";
 echo $tde.$td2;
 echo "<strong>Interface Layout:</strong>";
 echo $tde.$td3;
-radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt5.png" width="26" alt="Horizontal">');
 radio_select('i_layout', $userP['i_layout'], 1, '<img src="tools/proofers/gfx/bt4.png" width="26" alt="Vertical">');
+radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt5.png" width="26" alt="Horizontal">');
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('layout');\">?</a></b>";
 
 echo $tre.$tr.$td2;
