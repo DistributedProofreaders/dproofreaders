@@ -18,10 +18,12 @@ $startfrom = time() - 86400;
 //query db and put results into arrays
 
 
-$result = mysql_query("SELECT hour,AVG(U_lasthour) AS users 
-FROM user_active_log 
-GROUP BY hour 
-ORDER BY hour");
+$result = mysql_query("
+    SELECT hour, AVG(U_lasthour) AS users
+    FROM user_active_log
+    GROUP BY hour
+    ORDER BY hour
+");
 
 // over an hour
 
