@@ -13,13 +13,13 @@ $htmlEnd="</BODY></HTML>";
 $noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
 extract($_POST);
 
-if (ereg("[^1-zA-Z0-1@. \s\-]", $userNM) || strlen($userNM) > 25) {
+if (ereg("[^-a-zA-Z0-9@._ ]", $userNM) || strlen($userNM) > 25) {
 	theme("Invalid Username", "header");
 	echo "<b><center>Your username has invalid characters in it or is too long.  Please hit back & try again.<br>";
 	echo "If you believe this is in error please contact <a href='mailto:$general_help_email_addr'>$general_help_email_addr</a>.</center></b>";
 	theme("", "footer");
 	exit();
-} elseif (ereg("[^1-zA-Z0-1@. \s\-]", $userPW) || strlen($userPW) > 32) {
+} elseif (ereg("[^-a-zA-Z0-9@._ ]", $userPW) || strlen($userPW) > 32) {
 	theme("Invalid Password", "header");
 	echo "<b><center>Your password has invalid characters in it or is too long.  Please hit back & try again.<br>";
 	echo "If you believe this is in error please contact <a href='mailto:$general_help_email_addr'>$general_help_email_addr</a>.</center></b>";
