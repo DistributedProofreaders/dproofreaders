@@ -263,7 +263,23 @@ function posted_pg($projectid) {
 		$username = mysql_result($result, $rownum, "username");
 		$temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
 		$email = mysql_result($temp, 0, "user_email");
-		maybe_mail($email, "$NameofWork Posted to Project Gutenberg", "You had requested to be let known once $NameofWork was ready to be available for reading. It has been sent to Project Gutenberg and will soon be available for reading. Most files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so. Download the file at $ziplink and enjoy!/n/n--/nDistributed Proofreaders/n$code_url/n/nThis is an automated message that you had requested, please do not respond directly to this e-mail","From: $auto_email_addr/r/nReply-To: $auto_email_addr/r/n");
+		maybe_mail(
+			$email,
+			"$NameofWork Posted to Project Gutenberg",
+			"You had requested to be let known once $NameofWork was ready to be available for reading."
+			." It has been sent to Project Gutenberg and will soon be available for reading."
+			." Most files will be ready by the time you receive this mail;"
+			." sometimes there may be a delay of a day or so."
+			." Download the file at $ziplink and enjoy!/n"
+			."/n"
+			."--/n"
+			."Distributed Proofreaders/n"
+			."$code_url/n"
+			."/n"
+			."This is an automated message that you had requested,"
+			." please do not respond directly to this e-mail.",
+			"From: $auto_email_addr/r/nReply-To: $auto_email_addr/r/n"
+		);
             	$rownum++;
         }
 
