@@ -52,15 +52,14 @@ $max_update = mysql_result($result,0,0);
 			SELECT id, page_count
 			FROM user_teams
 		");
-		while($row = mysql_fetch_assoc($result)) {
-			$team_id = $row['id'];
+		while(list($team_id, $current_P_tally) = mysql_fetch_row($result)) {
 			if ($team_id != 1) {
 				$rank = $rankArray[$team_id];
-				$todaysCount = $row['page_count'] - $prevDayCount[$team_id];
+				$todaysCount = $current_P_tally - $prevDayCount[$team_id];
 				$updateCount = maybe_query("
 					INSERT INTO user_teams_stats
 					(team_id, date_updated, daily_page_count, total_page_count, rank)
-					VALUES ($team_id, $midnight, $todaysCount, ".$row['page_count'].", $rank)
+					VALUES ($team_id, $midnight, $todaysCount, $current_P_tally, $rank)
 				");
 			}
 		}

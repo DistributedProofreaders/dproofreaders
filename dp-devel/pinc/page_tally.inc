@@ -149,11 +149,10 @@ function users_get_page_tally_ranks()
         ORDER BY pagescompleted DESC
     ");
     $i = 1;
-    while ($row = mysql_fetch_assoc($result))
+    while (list($u_id, $P_tally) = mysql_fetch_row($result))
     {
-        $u_id = $row['u_id'];
-        if ($row['pagescompleted'] == 0) { $rankArray[$u_id] = 0; continue; }
-        if ($row['pagescompleted'] == $latest_page_tally)
+        if ($P_tally == 0) { $rankArray[$u_id] = 0; continue; }
+        if ($P_tally == $latest_page_tally)
         {
             $rankArray[$u_id] = $latest_rank;
             $latest_rank = $latest_rank;
@@ -163,7 +162,7 @@ function users_get_page_tally_ranks()
             $rankArray[$u_id] = $i;
             $latest_rank = $i;
         }
-        $latest_page_tally = $row['pagescompleted'];
+        $latest_page_tally = $P_tally;
         if ($i == 1) { $latest_rank = 1; }
         $i++;
     }
@@ -458,10 +457,9 @@ function teams_get_page_tally_ranks()
         ORDER BY page_count DESC
     ");
     $i = 1;
-    while ($row = mysql_fetch_assoc($result))
+    while (list($team_id, $P_tally) = mysql_fetch_row($result))
     {
-        $team_id = $row['id'];
-        if ($row['page_count'] == $latest_page_tally)
+        if ($P_tally == $latest_page_tally)
         {
             $rankArray[$team_id] = $latest_rank;
             $latest_rank = $latest_rank;
@@ -471,7 +469,7 @@ function teams_get_page_tally_ranks()
             $rankArray[$team_id] = $i;
             $latest_rank = $i;
         }
-        $latest_page_tally = $row['page_count'];
+        $latest_page_tally = $P_tally;
         if ($i == 1) { $latest_rank = 1; }
         $i++;
     }
