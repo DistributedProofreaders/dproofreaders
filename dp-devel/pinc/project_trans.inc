@@ -29,7 +29,24 @@ function project_transition( $projectid, $new_state, $extras = array() )
     $current_state = $project['state'];
 
 	$transition_str = "$projectid: transition from $current_state to $new_state";
-	// echo "$transition_str<br>";
+	if ($testing)
+	{
+		$indent = '    ';
+		if (FALSE)
+		{
+			// The trace output will be going into a <pre> element,
+			// or to a plain-text document.
+			$eol = "\n";
+		}
+		else
+		{
+			// The trace output will be going to an HTML doc,
+			// but not into a <pre> element.
+			$eol = "<br>\n";
+		}
+
+		// echo "{$indent}$transition_str{$eol}";
+	}
 
 	// -------------------------------------------------------------------------
 
@@ -39,7 +56,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// No attendant processing.
 		if ($testing)
 		{
-			echo "$transition_str: succeeds trivially<br>\n";
+			echo "{$indent}$transition_str: succeeds trivially{$eol}";
 		}
 		return '';
 	}
@@ -60,7 +77,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 		if ($testing)
 		{
-			echo "$transition_str: success<br>\n";
+			echo "{$indent}$transition_str: success{$eol}";
 		}
 
 		return '';
@@ -310,7 +327,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	if ($testing)
 	{
-		echo "settings = $settings<br>\n";
+		echo "{$indent}settings: $settings{$eol}";
 	}
 
 	$res = mysql_query("
@@ -323,7 +340,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	if ($testing)
 	{
-		echo "$transition_str: success<br>\n";
+		echo "{$indent}$transition_str: success{$eol}";
 	}
 	return '';
 }
