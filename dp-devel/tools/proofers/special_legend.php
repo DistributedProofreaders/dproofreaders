@@ -1,6 +1,7 @@
 
 Legend for Special Books:
 <br><br><b>
+<span class="midgrey">Black History Month</span>&nbsp;
 <span class="green">India's Republic Day</span>&nbsp;
 <span class="otherblue">Burns' Night</span>&nbsp;
 <br>
