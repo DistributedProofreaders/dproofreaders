@@ -14,7 +14,7 @@ theme('Scanning and Submitting Guidelines','header');
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanfaq.php">Scanning
 FAQ</a></p>
 <hr size="3" width="100%" align="left">
-<p>So you've reached the rank of "Proofer Extraordinaire" and figured
+<p>So you've reached the rank of "Proofreader Extraordinaire" and figured
 that you would branch out into different arenas.<br>
 Or perhaps proofreading just isn't really your cup of tea but you still
  want to help out the site.<br>
@@ -92,7 +92,7 @@ then it is probably OK to go ahead and do it.
 -->
 </p>
 <p>You might want to stick with a shorter fictional work for the first
-project you submit. Remember, after the book goes through the proofing
+project you submit. Remember, after the book goes through the proofreading
 cycle, with few exceptions, the person who <i>submitted</i> the book is
 expected to <i>post-process</i> the book as well. If you are unable or
 unwilling to do post-processing, you need to make that clear when you
@@ -267,7 +267,7 @@ page image, you should probably adjust your scanning "window" smaller to
 this will save you both time-the scanner doesn't have to scan such a
 large area-and space on your drive-smaller files. Don't crop the image
 down till there is no or very little margin around the text, this can
-affect recognition and can cause difficulties during the proofing
+affect recognition and can cause difficulties during the proofreading
 process. Ideally, what you want is some white space around the text, but
  no black.
 </p>
@@ -406,7 +406,7 @@ manually change the language, and read each box in the correct order,
 making this quite time consuming.</div>
 <div>&nbsp;</div>
 For complicated projects, getting Finereader to group the text
-correctly and present it in a sensible order saves the proofers A LOT of
+correctly and present it in a sensible order saves the proofreaders A LOT of
 time. It is WELL worth the extra time to get it right at the OCR stage.
 <p>When that is done, you'll need to save the text files to do further
 processing on them. Depending what tools you will use in preprocessing,
@@ -506,7 +506,7 @@ major tool (Guiprep) is covered here.<br>
 / <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a>:</span><br>
 </p>
 <p>Guiprep is capable of extracting italic and bold markup from the
-OCRed text. (save lots of time for proofers), removing the end-of-line
+OCRed text. (save lots of time for proofreaders), removing the end-of-line
 hyphens and rejoining the broken words, filtering out many, many
 scanning errors, renaming the files in the format need by Distributed
 Proofreaders and checking for zero byte files, all automatically. It
