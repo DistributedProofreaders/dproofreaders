@@ -109,6 +109,8 @@ function getAvailablePage($project,$proofstate,$pguser)
 
 function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
 {
+  global $use_cookies;
+
   //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
   $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
   if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
@@ -117,6 +119,8 @@ function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$ed
 
 function setTempPageCookie($tempPrefs)
 {
+  global $use_cookies;
+
   $pagerefs=implode("|",$tempPrefs);
   if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
   else { $_SESSION['userPage'] = $pagerefs; }
@@ -124,6 +128,8 @@ function setTempPageCookie($tempPrefs)
 
 function getPageCookie()
 {
+  global $use_cookies;
+
   if ($use_cookies) { @$cPage=explode("|",$_COOKIE['userPage']); }
   else { @$cPage=explode("|",$_SESSION['userPage']); }
   $uPage=array();
@@ -145,6 +151,8 @@ function getPageCookie()
 }
 
 function deletePageCookie() {
+  global $use_cookies;
+
 	if ($use_cookies) { setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0); }
   	else { $_SESSION['userPage'] = NULL; }
 }
