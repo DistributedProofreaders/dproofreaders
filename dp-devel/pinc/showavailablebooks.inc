@@ -59,6 +59,8 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 	while ($rownum2 < $numrows) {
 		$book=dassoc($result);
 		$bgcolor=bgcol($rownum,$round);
+
+		// Special colours for special books of various types
 		if (1)
 		{
 			// Halloween colors for Halloween projects!
@@ -69,6 +71,31 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			// Wanted to do orange-on-black, too,
 			// but couldn't figure out how to make link-text orange,
 			// and it was pretty unreadable as is on a black background.
+
+			// poppy red for Armistice Day
+			if ( startswith( $book['comments'], 'SPECIAL:Nov 11' ) )
+			{
+				$bgcolor = " bgcolor='red'";
+			}
+
+
+			// very light blue for birthday books still avaialble after the day
+			if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
+			{
+				$bgcolor = " bgcolor='#CCFFFF'";
+			}
+
+
+			
+			// slightly richer blue for birthday books when today IS the day
+			$bday = date('md');
+			if ( startswith( $book['comments'], 'SPECIAL: Birthday $bday' ) )
+			{
+				$bgcolor = " bgcolor='#33CCFF'";
+			}
+
+
+
 		}
 
 		if (($round == 'first'  && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
