@@ -11,8 +11,8 @@ include($relPath.'showavailablebooks.inc');
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td>";
 
     echo" <b>Site Stats:</b><br>";
-    include("stats/hourly.txt");  
-  echo" <p><b>Your Stats:<br></b>";
+    include("../../stats/hourly.txt");
+    echo" <p><b>Your Stats:<br></b>";
 
     //get total pages completed
     $pagessql = "SELECT pagescompleted FROM users WHERE username = '$pguser' LIMIT 1";
