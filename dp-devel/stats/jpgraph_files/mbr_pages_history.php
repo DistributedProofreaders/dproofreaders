@@ -30,6 +30,11 @@ $graph->SetScale("textint");
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
+
+	if ($_GET['range'] == 60) { $graph->xaxis->SetTextLabelInterval(2); }
+	if ($_GET['range'] == 365) { $graph->xaxis->SetTextLabelInterval(15); $graph->xaxis->HideTicks(true); }
+	if ($_GET['range'] == "all") { $graph->xaxis->SetTextLabelInterval(30); $graph->xaxis->HideTicks(true); }
+
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 //Set Y axis
