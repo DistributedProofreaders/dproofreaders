@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once('../includes/team.php');
 
-if ($_GET['tid'] != 1 && ($userP['team_1'] == $_GET['tid'] || $userP['team_2'] == $_GET['tid'] || $userP['team_3'] == $_GET['tid'])) {
+if ($userP['team_1'] == $_GET['tid'] || $userP['team_2'] == $_GET['tid'] || $userP['team_3'] == $_GET['tid']) {
     	$quitQuery = "UPDATE users SET ";
 	if ($userP['team_1'] == $_GET['tid']) { $quitQuery .= "team_1 = '0'"; }
 	if ($userP['team_2'] == $_GET['tid']) { $quitQuery .= "team_2 = '0'"; }

@@ -2220,9 +2220,7 @@ class User
      * Quit A Team
      *
      * <p>Takes as a parameter the team's ID # and attempts to remove the user from that team.
-     * If it's the site-wide team ($teamID 1), do not allow them to quit that team.
      * <b>NOTE:</b> This only changes the user's preference, it does not modify the team tables.</p>
-     * DAK: If team 1 haappened to get into one of their slots, they *better" be able to remove it!
      *
      * - returns true if successful
      * - returns false otherwise

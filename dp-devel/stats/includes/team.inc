@@ -43,7 +43,7 @@ function showTeamInformation($curTeam, $tally_name)
 
 	showTeamTallySelector($curTeam, $tally_name );
 
-	if ($curTeam['id'] != 1 && !is_null($tally_name) )
+	if ( !is_null($tally_name) )
 	{
 		showTeamStats($curTeam, $tally_name);
 		showTeamMbrs($curTeam, $tally_name);
@@ -87,12 +87,6 @@ function showTeamProfile($curTeam) {
 	{
 		// The requestor is not logged in,
 		// so they can't join or quit the team.
-		$joinquitlink = '';
-	}
-	elseif ($team_id == 1)
-	{
-		// This is team #1, with automatic membership.
-	       	// You can neither join nor quit.
 		$joinquitlink = '';
 	}
 	else
@@ -195,7 +189,6 @@ function team_get_member_count_rank( $team_id )
 	$result = mysql_query("
 		SELECT id
 		FROM user_teams
-		WHERE id != 1
 		ORDER BY member_count DESC
 	");
 	$i = 1;

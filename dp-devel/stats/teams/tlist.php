@@ -60,9 +60,9 @@ if (!empty($tRows)) {
 		echo "<td align='center'>".$row['member_count']."</td>";
 		echo "<td align='center'>".$row['page_count']."</td>";
 		echo "<td align='center'><b><a href='tdetail.php?tid=".$row['id']."'>"._("View")."</a>&nbsp;";
-		if ($row['id'] != 1 && $userP['team_1'] != $row['id'] && $userP['team_2'] != $row['id'] && $userP['team_3'] != $row['id']) {
+		if ($userP['team_1'] != $row['id'] && $userP['team_2'] != $row['id'] && $userP['team_3'] != $row['id']) {
 			echo "<a href='../members/jointeam.php?tid=".$row['id']."'>"._("Join")."</a></b></td>";
-		} elseif ($row['id'] != 1) {
+		} else {
 			echo "<a href='../members/quitteam.php?tid=".$row['id']."'>"._("Quit")."</a></b></td>";
 		}
 		echo "</tr>\n";

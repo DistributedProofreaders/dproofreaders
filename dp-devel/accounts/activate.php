@@ -51,9 +51,6 @@ $makeProfile=mysql_query($profileString);
 $refString="UPDATE users SET u_profile='".mysql_insert_id($db_link)."' WHERE id='$ID' AND username='$username'";
 $makeRef=mysql_query($refString);
 
-// join the all users team
-mysql_query("UPDATE user_teams SET member_count=member_count+1 WHERE id='1'");
-
 //code from php forums bb_register.php
 $sql = "SELECT max(user_id) AS total FROM phpbb_users";
 if(!$r = mysql_query($sql))

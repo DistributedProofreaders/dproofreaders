@@ -9,14 +9,10 @@ include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
 
-if (empty($_GET['id']) || $_GET['id'] == 1) {
+if (empty($_GET['id'])) {
 	include_once($relPath.'theme.inc');
 	theme("Error!", "header");
-	if (empty($_GET['id'])) {
-		echo "<br><center>A team id must specified in the following format:<br>$code_url/stats/teams/teams_xml.php?id=****</center>";
-	} else {
-		echo "<br><center>XML Statistics are not gathered for the default Distributed Proofreaders team.  Please choose a different team.</center>";
-	}
+	echo "<br><center>A team id must specified in the following format:<br>$code_url/stats/teams/teams_xml.php?id=****</center>";
 	theme("", "footer");
 	exit();
 }
@@ -36,7 +32,7 @@ $team_id = $curTeam['id'];
 //Team info portion of $data
 
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
-	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
+	$totalTeams = mysql_result($result, 0, "totalTeams");
 
 	$data = "<teaminfo id='$team_id'>
 			<teamname>".xmlencode($curTeam['teamname'])."</teamname>

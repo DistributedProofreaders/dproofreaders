@@ -5,9 +5,8 @@ include_once($relPath.'dp_main.inc');
 include_once('../includes/team.php');
 
 if (empty($_GET['otid'])) { $otid = 0; } else { $otid = $_GET['otid']; }
-if (empty($_GET['tid'])) { $tid = 1; } else { $tid = $_GET['tid']; }
+if (empty($_GET['tid'])) { die("parameter 'tid' is empty"); } else { $tid = $_GET['tid']; }
 
-if ($tid != 1) {
 	if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != $tid) {
 		if ($userP['team_1'] == 0 || $otid == 1) {
 			$teamResult = mysql_query("UPDATE users SET team_1 = $tid WHERE username = '".$GLOBALS['pguser']."' AND u_id = ".$userP['u_id']."");
@@ -49,12 +48,6 @@ if ($tid != 1) {
 		metarefresh(4,"../teams/tdetail.php?tid=$tid", $title, $desc);
 		$redirect_team = 0;
 	}
-} else {
-	$title = _("Unable to Join the Team");
-	$desc = _("You are already a member of this team....");
-
-	metarefresh(4,"../teams/tdetail.php?tid=$tid",$title, $desc);
-}
 
 if ($redirect_team == 1) {
 	dpsession_set_preferences_from_db();
