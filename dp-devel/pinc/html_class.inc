@@ -21,8 +21,9 @@ function htmlRender()
 function startHeader($docTitle)
      {
      include($GLOBALS['relPath'].'doctype.inc');
+     include($GLOBALS['relPath'].'v_site.inc');
      echo $docType."\r\n";
-     echo "<html><head><LINK REL=\"SHORTCUT ICON\" HREF=\"/dp/favicon.ico\"><title>".$docTitle."</title>\r\n";
+     echo "<html><head><LINK REL=\"SHORTCUT ICON\" HREF=\"$code_url/favicon.ico\"><title>".$docTitle."</title>\r\n";
      //add language, etc. meta tags here
      echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">";
      $this->headO=1;

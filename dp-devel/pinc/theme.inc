@@ -93,7 +93,7 @@ function theme ($nameofpage, $location) {
 
 function html_header($code_url, $theme, $nameofpage) {
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-        echo "<html><head><link rel='shortcut icon' href='/dp/favicon.ico'>\n";
+        echo "<html><head><link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
         if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
