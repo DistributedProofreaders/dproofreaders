@@ -39,18 +39,18 @@ function setUserPrefs($userID)
 {
   if ($this->checkCookieH() || $this->ignoreHash)
   {
-          $db_users="SELECT u_id, u_profile, u_lang, email_updates, 
-u_plist, u_top10, u_neigh, u_align, i_prefs, i_theme,
+          $db_users="SELECT u_id, u_profile, u_lang, email_updates,
+u_plist, u_top10, u_neigh, u_align, i_prefs, i_theme, i_pmdefault,
 id, manager, postprocessor, sitemanager, team_1, team_2, team_3,
 u_intlang
 FROM users WHERE username='$userID'";
           $db_usersres=mysql_query($db_users);
           $u_usersData=mysql_fetch_assoc($db_usersres);
-          $db_query="SELECT 
-profilename, i_res, i_type, i_layout, i_toolbar, 
-i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
-v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
-h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap 
+          $db_query="SELECT
+profilename, i_res, i_type, i_layout, i_toolbar,
+i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom,
+v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts,
+h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap
 FROM user_profiles WHERE u_ref='{$u_usersData['u_id']}' AND id='{$u_usersData['u_profile']}'";
           $db_result=mysql_query($db_query);
           $uData=mysql_fetch_assoc($db_result);
@@ -59,7 +59,7 @@ FROM user_profiles WHERE u_ref='{$u_usersData['u_id']}' AND id='{$u_usersData['u
           setcookie("$cookieName",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
     $this->ignoreHash=0;
   }
-  else 
+  else
   {
     $this->deleteCookie();
     echo "Database access error 1634: Preference Write Error.";
@@ -103,6 +103,7 @@ $i=0;
 @$uPrefs['u_align']=$cPrefs[$i++];
 @$uPrefs['i_prefs']=$cPrefs[$i++];
 @$uPrefs['i_theme']=$cPrefs[$i++];
+@$uPrefs['i_pmdefault']=$cPrefs[$i++];
 @$uPrefs['user_id']=$cPrefs[$i++];
 @$uPrefs['manager']=$cPrefs[$i++];
 @$uPrefs['postprocessor']=$cPrefs[$i++];
