@@ -32,8 +32,9 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
 //Find out if the script has been run once already for today
 $result = mysql_query("
-	SELECT MAX(date_updated)
-	FROM member_stats
+	SELECT MAX(timestamp)
+	FROM past_tallies
+	WHERE holder_type='U' AND tally_name='P'
 ");
 $max_update = mysql_result($result,0,0);
 	if ($max_update == $midnight && !$testing) {
@@ -45,11 +46,14 @@ $max_update = mysql_result($result,0,0);
 		//Update the page count rank for the previous day
 		$rankArray = users_get_page_tally_ranks();
 
-		//Update member_stats with previous days page count
+		//Update past_tallies with previous days page count
 		$result = mysql_query("
-			SELECT u_id, total_pagescompleted
-			FROM member_stats
-			WHERE date_updated = $max_update
+			SELECT holder_id, tally_value
+			FROM past_tallies
+			WHERE
+				timestamp = $max_update
+				AND holder_type='U'
+				AND tally_name='P'
 		");
 		while (list($u_id, $prev_tally_value) = mysql_fetch_row($result)) {
 			$prevDayCount[$u_id] = $prev_tally_value;
@@ -64,13 +68,15 @@ $max_update = mysql_result($result,0,0);
 			$rank = $rankArray[$u_id];
 			$todaysCount = $current_P_tally - $prevDayCount[$u_id];
 			$updateCount = maybe_query("
-				INSERT INTO member_stats
+				INSERT INTO past_tallies
 				SET
-					u_id                 = $u_id,
-					date_updated         = $midnight,
-					daily_pagescompleted = $todaysCount,
-					total_pagescompleted = $current_P_tally,
-					rank                 = $rank
+					timestamp   = $midnight,
+					holder_type = 'U',
+					holder_id   = $u_id,
+					tally_name  = 'P',
+					tally_delta = $todaysCount,
+					tally_value = $current_P_tally,
+					tally_rank  = $rank
 			");
 		}
 		$tracetimea = time();

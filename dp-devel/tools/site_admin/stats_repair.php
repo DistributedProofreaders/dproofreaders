@@ -14,6 +14,7 @@ if (! user_is_a_sitemanager())
 //$user_condition = "u_id > 0 AND u_id <= 1000";
 
 $user_condition =  "u_id >= 20000 ";
+$user_condition = '1'; // TESTING ONLY
 
 $users = mysql_query("
 	SELECT u_id, username
@@ -30,12 +31,14 @@ while ($user_row = mysql_fetch_assoc($users)) {
 	echo "attempting to repair stats for $username\n";
 
 	$userdates = mysql_query("
-		SELECT date_updated, total_pagescompleted
-		FROM member_stats
+		SELECT timestamp, tally_value
+		FROM past_tallies
 		WHERE
-			date_updated >= 1080979200
-			AND u_id = '$user'
-		ORDER by date_updated
+			timestamp >= 1080979200
+			AND holder_type='U'
+			AND holder_id = '$user'
+			AND tally_name='P'
+		ORDER by timestamp
 	");
 
 	list($dummy, $yester_total) = mysql_fetch_row($userdates);
@@ -45,11 +48,13 @@ while ($user_row = mysql_fetch_assoc($users)) {
 		$diff = $new_total - $yester_total;
 
 		$updq = mysql_query("
-			UPDATE member_stats
-			SET daily_pagescompleted = $diff
+			UPDATE past_tallies
+			SET tally_delta = $diff
 			WHERE
-				u_id = '$user'
-				AND date_updated = $currdate
+				timestamp = $currdate
+				AND holder_type='U'
+				AND holder_id='$user'
+				AND tally_name='P'
 		");
 
 		$yester_total = $new_total;
