@@ -19,12 +19,12 @@ if (empty($_GET['order'])) {
 if (!empty($_GET['mstart'])) { $mstart = $_GET['mstart']; } else { $mstart = 0; }
 
 if (!empty($_REQUEST['uname'])) {
-	$mResult = mysql_query("SELECT u_id, username, date_created, pagescompleted FROM users WHERE username LIKE '%".$_REQUEST['uname']."%' ORDER BY $order $direction LIMIT $mstart,20");
+	$mResult = mysql_query("SELECT u_id, username, date_created, pagescompleted, u_privacy FROM users WHERE username LIKE '%".$_REQUEST['uname']."%' ORDER BY $order $direction LIMIT $mstart,20");
 	$mRows = mysql_num_rows($mResult);
 	if ($mRows == 1) { metarefresh(0,"mdetail.php?id=".mysql_result($mResult,0,"u_id")."",'',''); exit; }
 	$uname = "uname=".$_REQUEST['uname']."&";
 } else {
-	$mResult=mysql_query("SELECT u_id, username, date_created, pagescompleted FROM users ORDER BY $order $direction LIMIT $mstart,20");
+	$mResult=mysql_query("SELECT u_id, username, date_created, pagescompleted, u_privacy FROM users ORDER BY $order $direction LIMIT $mstart,20");
 	$mRows = mysql_num_rows($mResult);
 	$uname = "";
 }
@@ -52,11 +52,29 @@ if (!empty($mRows)) {
 	while ($row = mysql_fetch_assoc($mResult)) {
         	$phpbbID = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$row['username']."' LIMIT 1");
         	if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
-		echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
-		echo "<td width='25%'>".$row['username']."</td>";
-		echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
-		echo "<td width='25%' align='center'>".number_format($row['pagescompleted'])."</td>";
-		echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$forums_url/privmsg.php?mode=post&u=".mysql_result($phpbbID, 0, "user_id")."'>"._("PM")."</a></td>";
+
+		if (($row['u_privacy'] == 2 && isset($GLOBALS['pguser'])) ||
+		    ($row['u_privacy'] == 1 && isset($GLOBALS['pguser']) && $row['username'] == $GLOBAL['pguser']) ||
+		    ($row['u_privacy'] == 0)) {
+
+			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
+			echo "<td width='25%'>".$row['username'].":""</td>";
+			echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
+			echo "<td width='25%' align='center'>".number_format($row['pagescompleted'])."</td>";
+			echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$forums_url/privmsg.php?mode=post&u=".mysql_result($phpbbID, 0, "user_id")."'>"._("PM")."</a></b></td>";
+
+		} else {
+			// Print Anonymous Info
+
+			echo "<td width='5%' align='center'><b>---</b></td>";
+			echo "<td width='25%'>Anonymous</td>";
+			echo "<td width='22%' align='center'>---</td>";
+			echo "<td width='25%' align='center'>".number_format($row['pagescompleted'])."</td>";
+			echo "<td width='23%' align='center'>None</td>";
+
+		}
+
+
 		echo "</tr>";
 		$i++;
 	}
