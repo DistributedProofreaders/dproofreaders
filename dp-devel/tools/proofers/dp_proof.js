@@ -19,6 +19,9 @@ iW='1000';
 
 // image actual width
 cW='0';
+// image copy for width
+var imageCopy = new Image();
+imageCopy.onload = loadImageSize;
 
 function selBox(wBox)
 {
@@ -260,9 +263,21 @@ function showActual()
 
 function loadImageSize()
 {
-  tmpim = new Image();
-  tmpim.src = frameRef.scanimage.src;
-  cW = tmpim.width;
+  if (imageCopy.complete) {
+    // This needs to be fixed properly.
+    // There is a varying maximum limit to image size, above which the
+    // image vanishes from the proofing interface.  Don't know why, yet.
+    if (imageCopy.width > 2000) {
+      cW = 2000;
+    } else {
+      cW = imageCopy.width;
+    }
+  }
+}
+
+function makeImageCopy()
+{
+  imageCopy.src = frameRef.scanimage.src;
 }
 
 function showNW()
@@ -394,7 +409,7 @@ if(wM==6)
 function doBU()
 {
 if (frameRef.scanimage) {
-    loadImageSize();
+    makeImageCopy();
     showIZ();
   }
 }
