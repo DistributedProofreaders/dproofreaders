@@ -18,7 +18,7 @@ while ($row = mysql_fetch_assoc($result)) {
 			$result2 = mysql_query("INSERT INTO project_pages (projectid, fileid, image, master_text, round1_text, round2_text, round1_user, round2_user, round1_time, round2_time, state, b_user, b_code) VALUES ('$projectid', '".$row1['fileid']."', '".$row1['image']."', '".mysql_escape_string($row1['master_text'])."', '".mysql_escape_string($row1['round1_text'])."', '".mysql_escape_string($row1['round2_text'])."', '".$row1['round1_user']."', '".$row1['round2_user']."', ".$row1['round1_time'].", ".$row1['round2_time'].", '".$row1['state']."', '".$row1['b_user']."', ".$row1['b_code'].")");
 		}
 		echo $row['projectid']." -- Moved to project_pages table<br>";
-		$result3 = mysql_query("DROP TABLE ".$row['projectid']."");
+		//$result3 = mysql_query("DROP TABLE ".$row['projectid']."");
 	}
 }
 
