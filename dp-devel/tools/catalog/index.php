@@ -1,12 +1,11 @@
-<html>
-<head>
-    <title>DP Catalog</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="-1" />
-</head>
-<body>
+<?php
+$relPath = '../../pinc/';
+include($relPath.'dp_main.inc');
+include($relPath.'project_states.inc');
+include($relPath.'f_project_states.inc');
+include($relPath.'slim_header.inc');
+slim_header("DP Catalog");
+?>
 <h1>Distributed Proofreaders Catalog</h1>
 
 <p>
@@ -15,12 +14,8 @@ This page lists all DP projects, grouped by state.
 We could also have a search interface.)
 Click on a project title to go to its home page.
 </p>
-<?php
-$relPath = '../../pinc/';
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
-include($relPath.'f_project_states.inc');
 
+<?php
 foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 {
     echo "<h3>";
