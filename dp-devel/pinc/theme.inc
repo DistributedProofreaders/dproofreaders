@@ -120,7 +120,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		echo "<br>\n";
 	}
 
-	if (1) {
+	if (0) {
 		// show number of projects posted to PG from DP
 		$result = mysql_query( "
 			SELECT COUNT(*)
