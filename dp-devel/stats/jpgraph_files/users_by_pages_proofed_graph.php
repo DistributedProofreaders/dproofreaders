@@ -14,9 +14,9 @@ new dbConnect();
 
 // define threshold timestamps
 $now = time();
-$last90d = $now - (90 * 60 * 60 * 24);
-$last28d = $now - (4 * 7 * 60 * 60 * 24);
-$lastweek = $now - (7 * 60 * 60 * 24);
+$t_90_days_ago = $now - (90 * 60 * 60 * 24);
+$t_28_days_ago = $now - (4 * 7 * 60 * 60 * 24);
+$t_7_days_ago  = $now - (7 * 60 * 60 * 24);
 
 
 // how many bars in the graph?
@@ -37,14 +37,14 @@ $resultAll = mysql_query("
 
 $result90 = mysql_query("
 	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $last90d
+	WHERE last_login > $t_90_days_ago
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");
 
 $result28 = mysql_query("
 	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $last28d
+	WHERE last_login > $t_28_days_ago
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");
@@ -52,7 +52,7 @@ $result28 = mysql_query("
 
 $result7 = mysql_query("
 	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $lastweek
+	WHERE last_login > $t_7_days_ago
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");
