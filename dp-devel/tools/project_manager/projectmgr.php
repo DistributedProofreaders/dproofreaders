@@ -352,12 +352,18 @@ function echo_cells_for_round($round_num)
 
         	$numrows = 0;
         	if ($_GET['show'] == "site" && $userP['sitemanager'] == "yes") {
-            		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' ORDER BY state asc, nameofwork asc");
+			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
         	} elseif ($_GET['show'] == "all") {
-            		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
+			$condition = "username = '$pguser'";
         	} else {
-        		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
+			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
+		$result = mysql_query("
+			SELECT projectid, nameofwork, authorsname, checkedoutby, state, username
+			FROM projects
+			WHERE $condition
+			ORDER BY state asc, nameofwork asc
+		");
         	if ($result != "") $numrows = (mysql_num_rows($result));
 
         	$rownum = 0;
