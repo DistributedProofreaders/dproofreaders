@@ -36,6 +36,8 @@ function page_tallies_add( $username, $amount )
 // Add $amount to the user's page tally,
 // and to the page tally of each team that the user currently belongs to.
 {
+    global $users_P_page_tallyboard, $teams_P_page_tallyboard;
+
     // get the user's u_id, and the teams that he/she belongs to
     $result = mysql_query("
         SELECT u_id, team_1, team_2, team_3
@@ -45,11 +47,7 @@ function page_tallies_add( $username, $amount )
     list($u_id, $team_1, $team_2, $team_3) = mysql_fetch_row($result);
 
     // update page tally for user
-    mysql_query("
-        UPDATE current_tallies
-        SET tally_value = tally_value + $amount
-        WHERE holder_type='U' AND holder_id='$u_id' AND tally_name='P'
-    ");
+    $users_P_page_tallyboard->add_to_tally( $u_id, $amount );
 
     // update page tally for each team
     // (The 'array_unique' shouldn't be necessary, but just in case.)
@@ -57,11 +55,7 @@ function page_tallies_add( $username, $amount )
     {
         if ( $team_id != 0 )
         {
-            mysql_query("
-                UPDATE current_tallies
-                SET tally_value = tally_value + $amount
-                WHERE holder_type='T' AND holder_id=$team_id AND tally_name='P'
-            ");
+            $teams_P_page_tallyboard->add_to_tally( $team_id, $amount );
         }
     }
 }

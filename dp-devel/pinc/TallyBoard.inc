@@ -30,6 +30,8 @@ class TallyBoard
         $this->holder_type = $holder_type;
     }
 
+    // -------------------------------------------------------------------------
+
     function initialize_tally( $holder_id )
     // Establish a tally (initialized to zero) for the given holder.
     // Typically, this is called when the holder is created.
@@ -84,6 +86,20 @@ class TallyBoard
                 tally_delta = 0,
                 tally_value = 0,
                 tally_rank  = 0
+        ") or die(mysql_error());
+    }
+
+    // -------------------------------------------------------------------------
+
+    function add_to_tally( $holder_id, $amount )
+    {
+        mysql_query("
+            UPDATE current_tallies
+            SET tally_value = tally_value + $amount
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = '$holder_id'
         ") or die(mysql_error());
     }
 }
