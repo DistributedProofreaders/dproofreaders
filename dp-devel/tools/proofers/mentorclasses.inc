@@ -85,13 +85,13 @@ class User
         global $pguser;
 
         $sql = "SELECT u.*
-                FROM dproofreaders.users AS u
-                INNER JOIN dproofreaders.phpbb_users AS bb ON u.username = bb.username
+                FROM users AS u
+                INNER JOIN phpbb_users AS bb ON u.username = bb.username
                 WHERE u.username = '$pguser'";
         $this->userrec = QueryRow($sql);
 
         $sql = "SELECT *
-            FROM dproofreaders.usersettings
+            FROM usersettings
             WHERE username = '$pguser'";
 
         $this->settings = QueryArray($sql, "setting");
@@ -143,10 +143,10 @@ class Project
                       u1.real_name AS managername,
                       u2.real_name AS scannername,
                       u3.real_name AS postproofername
-                FROM dproofreaders.projects AS p
-                LEFT OUTER JOIN dproofreaders.users AS u1 ON p.username=u1.username
-                LEFT OUTER JOIN dproofreaders.users AS u2 ON p.scannercredit=u1.username
-                LEFT OUTER JOIN dproofreaders.users AS u3 ON p.postproofer=u1.username
+                FROM projects AS p
+                LEFT OUTER JOIN users AS u1 ON p.username=u1.username
+                LEFT OUTER JOIN users AS u2 ON p.scannercredit=u1.username
+                LEFT OUTER JOIN users AS u3 ON p.postproofer=u1.username
                 WHERE projectid='" . $this->pid . "'";
         $projs = QueryArray($sql);
         if(count($projs) > 0) {
@@ -307,14 +307,14 @@ class Pages
             u2.pagescompleted AS r2pages,
             bb1.user_id AS r1uid,
             bb2.user_id as r2uid
-        FROM dproofreaders.$projectid AS p
-            LEFT OUTER JOIN dproofreaders.users AS u1
+        FROM $projectid AS p
+            LEFT OUTER JOIN users AS u1
                 ON nullif(p.round1_user,'') = u1.username
-            LEFT OUTER JOIN dproofreaders.users AS u2
+            LEFT OUTER JOIN users AS u2
                 ON nullif(p.round2_user,'') = u2.username
-            LEFT OUTER JOIN dproofreaders.phpbb_users AS bb1
+            LEFT OUTER JOIN phpbb_users AS bb1
                 ON nullif(p.round1_user,'') = bb1.username
-            LEFT OUTER JOIN dproofreaders.phpbb_users AS bb2
+            LEFT OUTER JOIN phpbb_users AS bb2
                 ON nullif(p.round2_user,'') = bb2.username";
     }
 }
@@ -371,7 +371,7 @@ class BeginProjects EXTENDS Projects
                         username AS PM,
                         state,
                         modifieddate AS releasedate
-                FROM dproofreaders.projects
+                FROM projects
                 WHERE difficulty = 'BEGINNER'
                     AND ( state='".PROJ_P2_AVAILABLE."' )";
     }
@@ -449,7 +449,7 @@ function _insertProjectBeginPages($projectid) {
             pp.state AS pagestate,
             b_user,
             b_code
-        FROM dproofreaders.$projectid AS pp, dproofreaders.projects AS p
+        FROM $projectid AS pp, projects AS p
         WHERE p.projectid = '$projectid'" ;
 }
 
@@ -480,8 +480,8 @@ function _insertNewbies() {
             SUM(CASE WHEN round2_time=0 THEN 0 ELSE 1 END) AS mentored_page_count,
             u.pagescompleted AS total_page_count
        FROM beginpages AS b
-            INNER JOIN dproofreaders.users AS u ON b.round1_user=u.username
-            INNER JOIN dproofreaders.phpbb_users AS bbu ON u.u_id = bbu.user_id
+            INNER JOIN users AS u ON b.round1_user=u.username
+            INNER JOIN phpbb_users AS bbu ON u.u_id = bbu.user_id
        GROUP BY b.round1_user
        ORDER BY earliest_time";
 } 
