@@ -6,6 +6,8 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
+$title = _('Average number of users newly logged in each hour');
+$cache_timeout = 58;
 
 ///////////////////////////////////////////////////
 //Numbers of users logging on in each hopur of  last 24
@@ -33,7 +35,7 @@ $mynumrows = mysql_numrows($result);
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",58);
+$graph = new Graph(640,400,"auto",$cache_timeout);
 $graph->SetScale("textint");
 
 //set X axis
@@ -61,7 +63,7 @@ $bplot = new BarPlot($datay);
 $graph->Add($bplot);
 
 // Setup the title
-$graph->title->Set(_("Average number of users newly logged in each hour"));
+$graph->title->Set($title);
 
 
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
