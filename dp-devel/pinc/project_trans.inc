@@ -108,52 +108,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_NEW_METADATA_FIRST
 			),
 
-		PROJ_PROOF_FIRST_BAD_PROJECT => array(
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_AVAILABLE,
-			PROJ_PROOF_FIRST_COMPLETE,
-			),
-		PROJ_PROOF_FIRST_UNAVAILABLE => array(
-			PROJ_PROOF_FIRST_WAITING_FOR_RELEASE
-			),
-		PROJ_PROOF_FIRST_WAITING_FOR_RELEASE => array(
-			PROJ_PROOF_FIRST_BAD_PROJECT,
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_AVAILABLE, // queue-jumping trick (if invoked from PM page)
-			),
-		PROJ_PROOF_FIRST_AVAILABLE => array(
-			PROJ_PROOF_FIRST_BAD_PROJECT,
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_COMPLETE,
-			),
-		PROJ_PROOF_FIRST_COMPLETE => array(
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			PROJ_PROOF_SECOND_AVAILABLE,
-			),
-
-		PROJ_PROOF_SECOND_BAD_PROJECT => array(
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			PROJ_PROOF_SECOND_AVAILABLE,
-			PROJ_PROOF_SECOND_COMPLETE,
-			),
-		PROJ_PROOF_SECOND_UNAVAILABLE => array(
-			PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
-			),
-		PROJ_PROOF_SECOND_WAITING_FOR_RELEASE => array(
-			PROJ_PROOF_SECOND_BAD_PROJECT,
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			PROJ_PROOF_SECOND_AVAILABLE,
-			),
-		PROJ_PROOF_SECOND_AVAILABLE => array(
-			PROJ_PROOF_SECOND_BAD_PROJECT,
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			PROJ_PROOF_SECOND_COMPLETE,
-			),
-		PROJ_PROOF_SECOND_COMPLETE => array(
-			PROJ_POST_FIRST_CHECKED_OUT,
-			PROJ_POST_FIRST_AVAILABLE,
-			),
-
 		PROJ_POST_FIRST_UNAVAILABLE => array(
 			PROJ_POST_FIRST_AVAILABLE,
 			PROJ_POST_FIRST_CHECKED_OUT,
@@ -197,6 +151,46 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			),
 
 	);
+
+	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+
+		$transition_graph[ $prd->project_bad_state ] = array(
+			$prd->project_unavailable_state,
+			$prd->project_available_state,
+			$prd->project_complete_state,
+			);
+		$transition_graph[ $prd->project_unavailable_state ] = array(
+			$prd->project_waiting_state,
+			);
+		$transition_graph[ $prd->project_waiting_state ] = array(
+			$prd->project_bad_state,
+			$prd->project_unavailable_state,
+			$prd->project_available_state,
+			);
+		$transition_graph[ $prd->project_available_state ] = array(
+			$prd->project_bad_state,
+			$prd->project_unavailable_state,
+			$prd->project_complete_state,
+			);
+
+		if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
+		{
+			$next_prd = get_PRD_for_round($rn+1);
+			$transition_graph[ $prd->project_complete_state ] = array(
+				$next_prd->project_unavailable_state,
+				$next_prd->project_available_state,
+				);
+		}
+		else
+		{
+			$transition_graph[ $prd->project_complete_state ] = array(
+				PROJ_POST_FIRST_CHECKED_OUT,
+				PROJ_POST_FIRST_AVAILABLE,
+				);
+		}
+	}
 
 	if ( ! in_array( $new_state, $transition_graph[$current_state] ) )
 	{
