@@ -21,7 +21,9 @@ function showMbrProfile($curMbr) {
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
-	$bestDay = bestDayEver($curMbr['u_id']);
+	list($bestDayCount,$bestDayTimestamp) =
+		user_get_largest_page_tally_increment_info( $curMbr['u_id'] );
+	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	list($highestRank, $highestRankDate) = user_get_best_page_tally_rank_info($curMbr['u_id']);
 
@@ -90,8 +92,8 @@ function showMbrProfile($curMbr) {
 	);
 	echo_tr_2_cols(
 		_("Best Day Ever"),
-		number_format($bestDay['count']) . " " . _("pages")
-		. " <i>(" . $bestDay['time'] . ")</i>"
+		number_format($bestDayCount) . " " . _("pages")
+		. " <i>(" . $bestDayTime . ")</i>"
 	);
 	echo_tr_2_cols(
 		_("Daily Average"),
@@ -134,13 +136,6 @@ function showMbrStatus($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	$mbrStatus .= "&nbsp;";
 
 	return $mbrStatus;
-}
-
-function bestDayEver($u_id) {
-	list($bestDayCount,$bestDayTimestamp) = user_get_largest_page_tally_increment_info($u_id);
-	$bestDay['count'] = $bestDayCount;
-	$bestDay['time'] = date("M. jS, Y", ($bestDayTimestamp-86400));
-	return $bestDay;
 }
 
 function messageCenter($curMbr) {
