@@ -48,7 +48,7 @@ theme("Personal Page for $pguser", "header");
 		echo _("Providing Content");
 		echo "</b></font><br>";
 		echo _("Want to help out the site by providing material for us to proof?");
-		echo "<a href=" . $code_url . "/faq/scan/submitting.php>"; 
+		echo "<a href=" . $code_url . "/faq/scan/submitting.php> "; 
 		echo _("Find out how!"); 
 		echo "</a><br><br>";
 	}
