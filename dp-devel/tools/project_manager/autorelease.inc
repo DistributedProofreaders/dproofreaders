@@ -71,113 +71,6 @@ function verifynew($project) {
 }
 
 
-// Release available projects of a given type (defined by $projtype_sql) until a target number of
-// PROJECTS or PAGES (depending on $track_by) of that type is available for proofing
-
-// $track_by            what units do we measure by, "project" or "page"?
-// $projtype_desc       human readable string describing this type of project
-// $projtype_sql        portion of WHERE clause that defines this type of project
-// $target              total number of units of this type we want available for proofing
-// $released            total number of units of this type already released before we start
-// $count2ndRnd         if "yes", and tracking by "page", consider contribution towards target of second round
-
-function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $released, $count2ndRnd, $todaysdate)
-{
-	echo "\n";
-        echo "Considering $projtype_desc projects...\n";
-
-        $newpagesreleased = 0;
-        $totalnewreleased = 0;
-        $numReleased = 0;
-
-        // if there's enough out there already, don't bother
-        if ($released > $target)
-        {
-            echo "We're currently exceeding ($released) the target for this category ($target).\n";
-            return 0;
-        }
-
-        // set of candidates for release
-        $waiting_res = mysql_query("
-            SELECT *
-            FROM projects
-            WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql
-            ORDER BY modifieddate ASC
-        ");
-        if (mysql_num_rows($waiting_res) == 0)
-        {
-            echo "Could have released some $projtype_desc projects, but none were waiting!\n";
-            // email someone?
-            return 0;
-        }
-
-        // Keep releasing these projects (SP) until:
-        //      we meet our target for them ($released >= $target),
-        // or   we run out of SP ready to release
-        // or   subject to the "no doubling up of authors" rule
-        // NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
-        // this is so a huge book ariving from another queue won't stop the release of needed SPs
-
-        while ( $project = mysql_fetch_assoc($waiting_res) ) {
-
-                echo "  considering project \"{$project['nameofwork']}\"...\n";
-
-                // check the date
-                if ($project['modifieddate'] == $todaysdate) {
-                        // since projects are sorted by date, if we reach here we have already
-                        // considered and rejected all remaining candidates under the author rule
-                        // and can stop checking
-			echo "    modifieddate is now.\n";
-                        break;
-                }
-
-                // if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
-                // this candidate for early release, consider it now
-                {
-                        // "no doubling up of authors"
-
-
-                        // corrected to include books already marked for release
-
-                        $author_q = "SELECT projectid FROM projects WHERE
-                                (state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-                                        OR
-                                state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '{$project['authorsname']}'";
-
-                        if (mysql_num_rows(mysql_query($author_q)) > 0) {
-                                // fails the author restriction,
-				// push this back two day's worth (in terms of order, not delay!) in the queue
-				echo "    Its author, {$project['authorsname']}, already has a book in first round.\n";
-                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
-                        } else {
-                                // OK to release
-                                // release the project for proofing, and keep track of
-                                // its contribution to reducing our total page shortfall
-                                $newpagesreleased = verifynew($project);
-                                $totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
-                                $numReleased++;
-
-                                // update our progress towards the target,
-                                // depending on whether we are tracking by project or page
-                                if ($track_by == "project") {
-                                        $released = $numReleased;
-                                } else {
-                                        $released = $released + $newpagesreleased;
-                                        if ($count2ndRnd == "yes") $released = $released + $newpagesreleased;
-                                }
-                                if ( $released >= $target )
-                                {
-                                        // We have now reached or exceeded our target,
-                                        // so don't consider any more projects in this category.
-                                        break;
-                                }
-                        }
-                }
-        }
-
-        echo "Prepared <b>$numReleased</b> $projtype_desc projects for release\n";
-        return $totalnewreleased;
-}
 
 
 function autorelease($pagesleft) {
@@ -308,8 +201,112 @@ function autorelease($pagesleft) {
 			continue;
 		}
 
-		$totalnewreleased =
-				release_projects($track_by, $projtype_desc, $projtype_sql, $target, $numReleased, $count2ndRnd, $todaysdate);
+		// Release available projects of a given type (defined by $projtype_sql) until a target number of
+		// PROJECTS or PAGES (depending on $track_by) of that type is available for proofing
+
+		// $track_by            what units do we measure by, "project" or "page"?
+		// $projtype_desc       human readable string describing this type of project
+		// $projtype_sql        portion of WHERE clause that defines this type of project
+		// $target              total number of units of this type we want available for proofing
+		// $numReleased            total number of units of this type already released before we start
+		// $count2ndRnd         if "yes", and tracking by "page", consider contribution towards target of second round
+
+		echo "\n";
+		echo "Considering $projtype_desc projects...\n";
+
+		$newpagesreleased = 0;
+		$totalnewreleased = 0;
+		$num_projects_released = 0;
+
+		// if there's enough out there already, don't bother
+		if ($numReleased > $target)
+		{
+		    echo "We're currently exceeding ($numReleased) the target for this category ($target).\n";
+		    continue;
+		}
+
+		// set of candidates for release
+		$waiting_res = mysql_query("
+			SELECT *
+			FROM projects
+			WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql
+			ORDER BY modifieddate ASC
+		");
+		if (mysql_num_rows($waiting_res) == 0)
+		{
+			echo "Could have released some $projtype_desc projects, but none were waiting!\n";
+			// email someone?
+			continue;
+		}
+
+		// Keep releasing these projects (SP) until:
+		//      we meet our target for them ($numReleased >= $target),
+		// or   we run out of SP ready to release
+		// or   subject to the "no doubling up of authors" rule
+		// NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
+		// this is so a huge book ariving from another queue won't stop the release of needed SPs
+
+		while ( $project = mysql_fetch_assoc($waiting_res) )
+		{
+			echo "  considering project \"{$project['nameofwork']}\"...\n";
+
+			// check the date
+			if ($project['modifieddate'] == $todaysdate) {
+				// since projects are sorted by date, if we reach here we have already
+				// considered and rejected all remaining candidates under the author rule
+				// and can stop checking
+				echo "    modifieddate is now.\n";
+				break;
+			}
+
+			// if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
+			// this candidate for early release, consider it now
+
+			// "no doubling up of authors"
+
+			// corrected to include books already marked for release
+
+			$author_q = "SELECT projectid FROM projects WHERE
+				(state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+					OR
+				state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '{$project['authorsname']}'";
+
+			if (mysql_num_rows(mysql_query($author_q)) > 0)
+			{
+				// fails the author restriction,
+				// push this back two day's worth (in terms of order, not delay!) in the queue
+				echo "    Its author, {$project['authorsname']}, already has a book in first round.\n";
+				$temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
+				continue;
+			}
+
+			// OK to release
+			// release the project for proofing, and keep track of
+			// its contribution to reducing our total page shortfall
+			$newpagesreleased = verifynew($project);
+			$totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
+			$num_projects_released++;
+
+			// update our progress towards the target,
+			// depending on whether we are tracking by project or page
+			if ($track_by == "project")
+			{
+				$numReleased = $num_projects_released;
+			}
+			else
+			{
+				$numReleased = $numReleased + $newpagesreleased;
+				if ($count2ndRnd == "yes") $numReleased = $numReleased + $newpagesreleased;
+			}
+			if ( $numReleased >= $target )
+			{
+				// We have now reached or exceeded our target,
+				// so don't consider any more projects in this category.
+				break;
+			}
+		}
+
+		echo "Prepared <b>$num_projects_released</b> $projtype_desc projects for release\n";
 
 		$pagesneeded = $pagesneeded - $totalnewreleased;
 	}
