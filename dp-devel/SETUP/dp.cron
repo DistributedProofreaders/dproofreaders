@@ -12,7 +12,7 @@
 # daily:
 01  0 * * * lynx -dump http://127.0.0.1/c/stats/teamstats.php
 01  0 * * * lynx -dump http://127.0.0.1/c/stats/mbrstats.php
-01  0 * * * lynx -dump http://127.0.0.1/c/crontab/archive_projects.php
+10  0 * * * lynx -dump http://127.0.0.1/c/crontab/archive_projects.php
 10  0 * * * lynx -dump http://127.0.0.1/c/stats/update_daily_page_counts.php
 10  0 * * * lynx -dump http://127.0.0.1/c/crontab/log_project_states.php
 15  0 * * * /home/dpadmin/mysql_backup.pl
