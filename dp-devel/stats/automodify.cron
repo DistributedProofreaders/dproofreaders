@@ -1,1 +1,1 @@
-0 0,3,6,9,12,15,18,21 * * * lynx -dump <<SITE_URL>>/tools/project_manager/automodify.php
+0 0,3,6,9,12,15,18,21 * * * lynx -dump <<SITE_URL>>/tools/project_manager/automodify.php > <<SITE_URL>>/stats/latest_releases.txt
