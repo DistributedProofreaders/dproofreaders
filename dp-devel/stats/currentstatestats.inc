@@ -1,8 +1,5 @@
 <?php
-$relPath='./../pinc/';
-include($relPath.'v_site.inc');
-include($relPath.'connect.inc');
-include('statestats.inc');
+include('./../../stats/statestats.inc');
 
 echo "<center>";
 
