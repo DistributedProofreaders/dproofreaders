@@ -77,6 +77,10 @@ function finddiff()
   global $text;
   global $solutions;
   global $showsolution;
+  global $qt_differencehead;
+  global $qt_difference;
+  global $qt_frstdiff;
+  global $qt_expected;
   
   foreach ($solutions as $solution)
   {
