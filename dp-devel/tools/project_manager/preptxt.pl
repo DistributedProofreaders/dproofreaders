@@ -10,6 +10,7 @@
 #  Removes start/end-of-line spaces.
 #  Collapses multiple adjacent spaces.
 #  Removes spaces before ,.:"!?) punctuation.
+#  Removes spaces before common contractions.
 #  Inserts "[Blank Page]" text into zero-byte files.
 #
 # CONTROLLABLE FUNCTIONS:
@@ -311,6 +312,12 @@ LINE:   while (<OLDFILE>) {
 
 	# Fix spaces before colon, semi-colon, comma, period, question mark, exclamation point, closing paren
 	$_ = $tmpline; $tmpline =~ s/ (:|;|,|\.|\?|\!|\))/$1/g;
+
+	# Remove spaces before common contractions
+	$_ = $tmpline; $tmpline =~ s/ 'll/'ll/g;
+	$_ = $tmpline; $tmpline =~ s/ 're/'re/g;
+	$_ = $tmpline; $tmpline =~ s/ 've/'ve/g;
+	$_ = $tmpline; $tmpline =~ s/ n't/n't/g;
 
         print NEWFILE $tmpline;				# Write the modified line
     }
