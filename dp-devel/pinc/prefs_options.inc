@@ -22,5 +22,10 @@ $u_il= array(_("English"), _("Dutch"), _("French"), _("German"), _("Italian"), _
 $u_iloc= array('en_EN', 'nl_NL', 'fr_FR', 'de_DE', 'it_IT', 'pt_PT', 'es_ES');
 
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
+
 $i_stats = array(_("Public"), _("Anonymous"), _("Private"));
+define('PRIVACY_PUBLIC',    0);
+define('PRIVACY_ANONYMOUS', 1);
+define('PRIVACY_PRIVATE',   2);
+
 ?>
