@@ -240,11 +240,14 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			$divider = 1;
 		}
 		if ($userP['sitemanager'] == "yes" && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
-			if (isset($divider)) {
-				echo " | ";
+			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
+			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+				if (isset($divider)) {
+					echo " | ";
+				}
+				echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
+				$divider = 1;
 			}
-			echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
-			$divider = 1;
 		}
 		echo "</center></font>\n";
 		if (isset($divider)) { echo "<br>\n"; }
