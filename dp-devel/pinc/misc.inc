@@ -44,6 +44,42 @@ function mkdir_recursive( $dir, $mode )
 
 // -----------------------------------------------------------------------------
 
+function all_possible_concatenations()
+// Each arg is an array of strings (or else is a string,
+// which is treated as if it were an array of length 1).
+// Return an array containing the "concatenation cross product" of the args:
+// the set of all strings obtained by picking one string from each arg and
+// concatenating them in the given (args) order.
+{
+	$args = func_get_args();
+	return all_possible_concats_r( $args );
+}
+
+function all_possible_concats_r( $args )
+{
+	if ( count($args) == 0 ) return array('');
+
+	$arg0 = array_shift( $args );
+	$rest_concats = all_possible_concats_r( $args );
+
+	if ( is_string($arg0) )
+	{
+		$arg0 = array( $arg0 );
+	}
+
+	$result = array();
+	foreach ( $arg0 as $str0 )
+	{
+		foreach ( $rest_concats as $rest )
+		{
+			$result[] = $str0 . $rest;
+		}
+	}
+	return $result;
+}
+
+// -----------------------------------------------------------------------------
+
 function factor_strings( $strings )
 // Given an array of N>0 strings, return an array
 //     [$left_common, $middles, $right_common]
