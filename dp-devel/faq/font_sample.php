@@ -9,26 +9,25 @@ $no_stats=1;
 theme(_('Custom Font Comparison'),'header');
 
 
+// determine user's current proofing font
+
+if ($userP['i_layout']==1)
+{
+        $tfonti = $userP['v_fntf'];
+        $tfont = $f_f[$tfonti];
+	$cfont = $tfont;
+} else {
+       	$tfonti = $userP['h_fntf'];
+       	$tfont = $f_f[$tfonti];
+	$cfont = $tfont;
+}
+
+
 // get font variable from url, if any
 
 if (isset($_GET['compare']) )
 {
         $tfont = $_GET['compare'];
-}
-else
-{
-// if none, then determine user's current proofing font
-
-        if ($userP['i_layout']==1)
-        {
-                $tfonti = $userP['v_fntf'];
-                $tfont = $f_f[$tfonti];
-        }
-        else
-        {
-            $tfonti = $userP['h_fntf'];
-            $tfont = $f_f[$tfonti];
-        }
 }
 
 
@@ -36,11 +35,17 @@ else
 
 if ($tfont != 'DPCustomMono2') {
 	echo "<FONT FACE='$tfont'>";
-    	$DPCM = 0;
 } else {
 	echo "<FONT FACE='Times New Roman, Times, serif'>";
+}
+
+if ($cfont != 'DPCustomMono2') {
+    	$DPCM = 0;
+} else {
 	$DPCM = 1;
 }
+
+
 
 // echo text
 
@@ -62,7 +67,7 @@ echo $exp_text;
 
 $exp_text ="
         <P>
-        <FONT FACE='DPCustomMono2, $tfont'>"
+        <FONT FACE='DPCustomMono2, $tfont'>"'
 
 if ($DPCM) {
 
@@ -82,7 +87,7 @@ $exp_text .=
 
 if ($DPCM) {
 
-$exp_text .= _("If DpCustomMono is displayed correctly in this paragraph, 
+$exp_text .= _("If DpCustomMono2 is displayed correctly in this paragraph, 
 	then please browse through the gallery of font comparisons below 
 	to remind yourself why its so useful.")." ";
 
@@ -100,7 +105,7 @@ foreach ($f_f as $otherfont) {
         if (($otherfont != $tfont) AND 
 		($otherfont != _("Browser Default")) AND 
 		($otherfont != 'DPCustomMono2') AND
-		($otherfont != _("Monospaced")) {
+		($otherfont != _("Monospaced"))) {
                 if (! $first) {
                         echo " | ";
                 } else {
@@ -121,7 +126,7 @@ echo _("On this page, the top font is")." <b>$tfont</b>, "._("and the bottom exa
         " <b>DPCustomMono2</b>.</P>";
 
 echo "
-        <p><img border='0' src='images".$tfont."_A.gif' width='415' height='285'></p>
+        <p><img border='0' src='images/".$tfont."_A.gif' width='415' height='285'></p>
         <p><img border='0' src='images/DPCustomMono2_A.gif' width='546' height='242'></p>
         <hr style='width: 546; text-align: left;'>
         <p><img border='0' src='images/".$tfont."_B.gif' width='414' height='198'></p>
