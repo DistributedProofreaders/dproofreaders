@@ -30,7 +30,7 @@ if (($smooth_dead > time()) AND ($state==PROJ_POST_FIRST_CHECKED_OUT) ) {
 } else {
     echo_project_info( $projectid, 'proj_post', 0 );
 }
-echo "<BR>";
+echo "<br />";
 
 
 
@@ -156,6 +156,12 @@ echo "<form name='$projectid' method='get' action='$code_url/tools/changestate.p
 echo "<input type='hidden' name='project' value='$projectid'>\n";
 echo "<input type='hidden' name='curr_state' value='$state'>\n";
 
+echo "<select name='request' onchange=\"";
+echo "if(this.form.request[this.form.request.selectedIndex].title != '') {di=confirm(this.form.request[this.form.request.selectedIndex].title);if(di){this.form.submit();}} else {this.form.submit();}";
+echo "\">\n";
+
+echo "<option selected>"._("Select")."...</option>\n";
+
 if ($state==PROJ_POST_FIRST_AVAILABLE)
 {
     $serious_code=PROJ_POST_FIRST_CHECKED_OUT;
@@ -192,13 +198,7 @@ elseif ($state==PROJ_CORRECT_CHECKED_OUT)
     $serious_label=_("Return to Available");
     $serious_question=_("Are you sure you want to make this book available to others for reviewing corrections?");
 }
-echo "<select name='request' onchange=\"";
-echo "if (this.value=='$serious_code'){di=confirm('$serious_question');if(di){this.form.submit();}}else {this.form.submit();}";
-echo "\">\n";
-
-echo "<option selected>"._("Select")."...</option>\n";
-
-echo_option( $serious_code, $serious_label );
+echo_serious_option( $serious_code, $serious_label, $serious_question );
 
 if ($state == PROJ_POST_FIRST_CHECKED_OUT)
 {
@@ -217,9 +217,15 @@ echo "</ul>\n";
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+// These options do not require a confirmation, and MUST NOT have a title attribute
 function echo_option($code,$label)
 {
     echo "<option value=\"$code\">$label</option>\n";
+}
+// These options DO require a confirmation, and MUST have a title attribute
+function echo_serious_option($code,$label,$question)
+{
+    echo "<option title=\"$question\" value=\"$code\">$label</option>\n";
 }
 
 theme('', 'footer');
