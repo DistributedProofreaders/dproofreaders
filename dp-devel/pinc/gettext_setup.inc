@@ -20,10 +20,5 @@ if ( function_exists('bindtextdomain') )
     bindtextdomain($gettext_domain, $code_dir . "/locale");
     textdomain($gettext_domain);
 }
-else
-{
-    // Allow for sites that do not have PHP's gettext extension installed.
-    function _($str) { return $str; }
-}
 
 ?>
