@@ -1,14 +1,4 @@
 <?
-echo "<script language='javascript'>";
-echo "function showSpan(id) {";
-echo "document.getElementById(id).style.display=\"\";";
-echo "}";
-echo "function hideSpan(id) {";
-echo "document.getElementById(id).style.display=\"none\";";
-echo "}";
-
-echo "</script>";
-
 $relPath='pinc/';
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
@@ -18,6 +8,14 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 $no_stats=1;
 theme('Task Center','header');
+?><script language='javascript'><!--
+function showSpan(id) {
+	document.getElementById(id).style.display="";
+}
+function hideSpan(id) {
+	document.getElementById(id).style.display="none";
+}
+// --></script><?
 
 $tasks_array = array(1 => "Bug Report", 2 => "Feature Request", 3 => "Support Request", 4 => "Site Administrator Request");
 $severity_array = array(1 => "Catastrophic", 2 => "Critical", 3 => "Major", 4 => "Normal", 5 => "Minor", 6 => "Trivial", 7 => "Enhancement");
@@ -76,10 +74,11 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 } elseif (isset($_POST['search_task'])) {
 	if ($_POST['task_type'] == 999) { $task_type = "task_type >= 0"; } else { $task_type = "task_type = ".$_POST['task_type']; }
 	if ($_POST['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$_POST['task_severity']; }
+	if ($_POST['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$_POST['task_priority']; }
 	if ($_POST['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_POST['task_assignee']; }
 	if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }	if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
 	if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
-	$sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_assignee AND $task_category AND $task_status AND $task_version $order_by";
+	$sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version $order_by";
 
 	$result = mysql_query($sql_query);
 	ShowTasks($result);
@@ -188,12 +187,12 @@ function dropdown_select($db_name, $db_value, $array, $sort_type) {
 }
 
 function TaskHeader() {
-	global $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
+	global $tasks_array, $severity_array, $priority_array, $developers_array, $categories_array, $tasks_status_array;
 	global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array;
 	global $percent_complete_array, $code_url;
 
 	if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) { $search_text = $_REQUEST['search_text']; } else { $search_text = ""; }
-	if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
+	if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_priority=".$_REQUEST['task_priority']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
 	if (isset($_GET['orderby'])) { $t .= "orderby=".$_GET['orderby']."&direction=".$_GET['direction']."&"; }
 
 
@@ -222,7 +221,14 @@ function TaskHeader() {
 			if (isset($_POST['task_severity']) && $_POST['task_severity'] == $key) { echo " SELECTED"; }
 			echo ">$val</option>\n";
 		}
-	echo "</select><br>\n";
+	echo "</select>\n";
+	echo "<select size='1' name='task_priority' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Priorities</option>\n";
+                while (list($key, $val) = each($priority_array)) {
+                        echo "<option value='$key'";
+                        if (isset($_POST['task_priority']) && $_POST['task_priority'] == $key) { echo " SELECTED"; }
+                        echo ">$val</option>\n";
+                }
+        echo "</select><br>\n";
 	echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Developers</option>\n";
 	echo "<option value='0'";
 	 if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == 0) { echo " SELECTED"; }
@@ -289,7 +295,7 @@ function ShowTasks($sql_result) {
 	global $code_url, $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
 	global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
 
-	if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
+	if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_priority=".$_REQUEST['task_priority']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
 
 	echo "<table cellpadding='5' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC'><tr>\n";
 	echo "<td><center><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></font></b></center></td>\n";
