@@ -19,12 +19,12 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 		$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive. ";
 		$text .= "<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>&nbsp;<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'><img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a><br>";
 	} else {
-		$state = "1"
+		$state = "1";
 		$text = " All.</font>";
 	}
 
-	if (!empty(search_char)) {
-		$state .= " AND $field_name = '$search_char%'"
+	if (!empty($search_char)) {
+		$state .= " AND $field_name = '$search_char%'";
 	}
 
 	if (!empty($orderby)) {
