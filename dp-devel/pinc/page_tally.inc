@@ -237,17 +237,20 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
             if ($consider_privacy && should_anonymize( $row['username'], $row['u_privacy'] ) )
             {
+                $neighbor_is_anonymized = TRUE;
                 $neighbor_username = NULL;
                 $neighbor_date_joined = NULL;
             }
             else
             {
+                $neighbor_is_anonymized = FALSE;
                 $neighbor_username = $row['username'];
                 $neighbor_date_joined = $row['date_created'];
             }
 
             $neighbors[$rel_posn] =&
                 new PageTally_Neighbor(
+                    $neighbor_is_anonymized,
                     $neighbor_username,
                     $neighbor_date_joined,
                     $row['u_id'],
@@ -266,8 +269,9 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
+    function PageTally_Neighbor( $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
     {
+        $this->is_anonymized = $is_anonymized;
         $this->username = $username;
         $this->date_joined = $date_joined;
         $this->u_id = $u_id;
@@ -275,6 +279,7 @@ class PageTally_Neighbor
         $this->current_page_tally_rank = $current_page_tally_rank;
     }
 
+    function is_anonymized()               { return $this->is_anonymized; }
     function get_username()                { return $this->username; }
     function get_date_joined()             { return $this->date_joined; }
     function get_u_id()                    { return $this->u_id; }
