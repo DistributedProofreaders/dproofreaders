@@ -61,21 +61,7 @@ switch ( $which )
 		die("bad value for 'which'");
 }
 
-$today = getdate();
-if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
-	if (isset($_GET['ignore_archive_graph']) && $_GET['ignore_archive_graph'] == 1) {
-		$todaysTimeStamp = time() - 86400;
-		echo "BACK!!";
-	} else {
-		if (!file_exists($dynstats_dir."/graph_archive/curr_month_proj_$which/".date("Fy",time()-86400).".png")) {
-			header("Location: ".$code_url."/stats/jpgraph_files/curr_month_proj.php?which=$which&ignore_archive_graph=1");
-		} else {
-			$todaysTimeStamp = time();
-		}
-	}
-} else {
-	$todaysTimeStamp = time();
-}
+$todaysTimeStamp = time();
 
 $day = date("d", $todaysTimeStamp);
 $year  = date("Y", $todaysTimeStamp);
@@ -151,14 +137,8 @@ $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
-if (isset($_GET['ignore_archive_graph']) && $_GET['ignore_archive_graph'] == 1) {
-	$archiveGraphPath = $dynstats_dir."/graph_archive/curr_month_proj_$which/".date("Fy",time()-86400).".png";
-	$graph ->Stroke($archiveGraphPath);
-	sleep(5);
-	header("Location: ".$code_url."/stats/stats_central.php");
-} else {
-	$graph->Stroke();
-}
+$graph->Stroke();
+
 ?>
 
 
