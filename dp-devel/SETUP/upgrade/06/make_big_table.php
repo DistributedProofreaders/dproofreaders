@@ -46,7 +46,7 @@ while ($row = mysql_fetch_assoc($result)) {
 }
 
 echo "<br><h1><center><b>Finished!</b></center></h1><br>";
-echo "<br><br><br><h1><center><b>Out of ".$numProjs." projects:"<br>";
+echo "<br><br><br><h1><center><b>Out of ".$numProjs." projects:<br>";
 echo $numOK." OK, ".$numPartial." partially OK and ".$numBad." bad.</b></center></h1><br>";
 
 ?>
