@@ -248,12 +248,8 @@ function showMbrNeighbors($curMbr) {
 	$now = time();
 
 	echo "\n";
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
-	echo_tr_headerbar( _("Neighbors") );
-	echo "\n";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td>";
-	echo "\n";
-	echo "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "<table rules='none' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
+	echo_tr_headerbar( _("Neighbors"), 4 );
 
 	function echo_td( $width, $content )
 	{
@@ -306,7 +302,7 @@ function showMbrNeighbors($curMbr) {
 		echo "</tr>";
 	}
 
-	echo "</td></tr></table></table><p>";
+	echo "</table><p>";
 }
 
 function showMbrTeams($curMbr) {
@@ -316,12 +312,8 @@ function showMbrTeams($curMbr) {
 	if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
 	echo "\n";
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
-	echo_tr_headerbar( _("Teams") );
-	echo "\n";
-	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>";
-	echo "\n";
-	echo "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "<table rules='none' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
+	echo_tr_headerbar( _("Teams"), 3 );
 	echo "\n";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = select_from_teams("id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
@@ -329,7 +321,7 @@ function showMbrTeams($curMbr) {
 		echo "\n<tr $rollover_highlight_attrs>";
 		echo "<td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
 	}
-	echo "</td></tr></table></table><p>";
+	echo "</table><p>";
 }
 
 function showMbrHistory($curMbr) {
