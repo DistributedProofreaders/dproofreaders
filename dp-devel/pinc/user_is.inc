@@ -195,7 +195,7 @@ function user_is_site_translator()
 	}
 }
 
-function user_can_see_BEGIN_R1()
+function user_can_see_BEGIN_in_round($round_number)
 {
 	global $userP, $pguser;
 
@@ -205,34 +205,25 @@ function user_can_see_BEGIN_R1()
 
 	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
 	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "pagescompleted") <= 40) { return TRUE; }
+		$n_pages = mysql_result($result, 0, "pagescompleted");
+		switch ($round_number)
+		{
+			case 1:
+				if ($n_pages <= 40) { return TRUE; }
+				break;
+			case 2:
+				if ($n_pages >= 300) { return TRUE; }
+				break;
+			default:
+				return TRUE;
+				// The round-restriction is sufficient.
+		}
 	} else {
 		return FALSE;
 	}
 
-	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'see_BEGIN_R1'");
-	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
-	} else {
-		return FALSE;
-	}
-}
-
-
-function user_can_see_BEGIN_R2()
-{
-	global $userP, $pguser;
-
-	if (!isset($userP)) { return FALSE; }
-
-	if (user_is_a_sitemanager() || user_is_proj_facilitator() ) return TRUE;
-
-	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
-	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "pagescompleted") >= 300) { return TRUE; }
-	}
-
-	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'see_BEGIN_R2'");
+	$setting = "see_BEGIN_R$round_number";
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = '$setting'");
 	if (mysql_num_rows($result) >= 1) {
 		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
 	} else {
