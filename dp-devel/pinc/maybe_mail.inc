@@ -16,7 +16,7 @@ include($relPath.'v_site.inc');
             echo "Subject: $subject\n";
             echo "$additional_headers";
             echo "\n";
-            echo "$message\n";
+            echo htmlspecialchars("$message\n", ENT_NOQUOTES);
             echo "</pre>\n";
             echo "<hr>\n";
         }
