@@ -116,6 +116,33 @@ function user_is_PP_of($project)
 	}
 }
 
+function user_is_PPV_of($project)
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager()) return TRUE;
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'post_proof_verifier'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "value") != "yes") { return FALSE; }
+	} else {
+		return FALSE;
+	}
+
+	// Note that if someone with PPV-ability is PPing a project,
+	// they can (and probably will) directly post to PG,
+	// with no explicit PPV phase. Thus, they are effectively
+	// both the PPer and PPVer of the project.
+	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND (state = 'proj_post_first_checked_out' or state = 'proj_post_second_checked_out')");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "checkedoutby") == $pguser) { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
 
 function user_is_site_news_editor()
 {
