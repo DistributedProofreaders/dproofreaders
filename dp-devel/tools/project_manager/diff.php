@@ -33,13 +33,13 @@ class OutputPage {
 }
 
 function wfMsg($key) {
-	return ($key=="lineno")?"Line $1":$key;
+	return ($key=="lineno")?_("Line $1"):$key;
 }
 
 $wgOut=new Outputpage();
 
 include("DifferenceEngine.php");
-DifferenceEngine::showDiff($txt[0],$txt[1],_("Old text: ".$fileid),_("New text:".$fileid));
+DifferenceEngine::showDiff($txt[0],$txt[1],_("Old text").": $fileid",_("New text".": $fileid"));
 
 theme("", "footer");
 ?>
