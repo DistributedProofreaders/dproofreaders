@@ -102,6 +102,47 @@ class TallyBoard
                 AND holder_id   = '$holder_id'
         ") or die(mysql_error());
     }
+
+    // -------------------------------------------------------------------------
+
+    function get_sql_joinery_for_current_tallies( $holder_id_expr )
+    // Return an array containing two strings of SQL code.
+    // You can use these in a SELECT statement when you want to
+    // extract the current tallies for a (SQL-specified) set of holders.
+    //
+    // $holder_id_expr is a string containing an SQL expression
+    // (typically just a column name) that yields the holder_ids
+    // of the holders for whom you want to extract tally data.
+    //
+    // The resulting strings are:
+    // -- a join-expression (for use in the FROM clause);
+    // -- a select-expression (for use in the SELECT and/or WHERE clauses)
+    //    that yields the current tally for each selected holder.
+    //    (It could be just a column-name, but don't rely on that.
+    //    In particular, don't assume that this will work:
+    //
+    //        $res = mysql_query("SELECT ... $expr_for_tally FROM ...");
+    //        $row = mysql_fetch_assoc($res);
+    //        ... $row[$expr_for_tally] ...
+    //
+    //    Instead, if you want to use mysql_fetch_assoc, this should work:
+    //
+    //        $res = mysql_query("SELECT ... $expr_for_tally AS foo FROM ...");
+    //        $row = mysql_fetch_assoc($res);
+    //        ... $row['foo'] ...
+    {
+        return array(
+            "
+                LEFT OUTER JOIN current_tallies
+                ON (
+                    tally_name      = '$this->tally_name'
+                    AND holder_type = '$this->holder_type'
+                    AND holder_id   = $holder_id_expr
+                )
+            ",
+            "current_tallies.tally_value"
+        );
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
