@@ -52,6 +52,7 @@ in the <? echo $uploads_account; ?> account,
 and then create your project-specific directories within it.
 (If you do this, it's recommended that you use your DP login name
 for the name of the personal directory,
+as that may be an assumed default in the future.)
 
 <?
 
