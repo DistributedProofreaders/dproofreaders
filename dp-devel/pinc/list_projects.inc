@@ -22,6 +22,8 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
     $result = mysql_query("
         SELECT *
         FROM projects
+            LEFT OUTER JOIN pg_books
+            ON projects.postednum=pg_books.etext_number
         WHERE $where_condition
         $order_clause
         $limit_clause
@@ -103,6 +105,7 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
         if ( $postednum != 6000 && $postednum != 0 )
         {
             echo get_pg_catalog_link_for_etext($postednum);
+            echo " [{$project['formats']}]";
 
             if ($site_supports_corrections_after_posting)
             {
