@@ -9,6 +9,7 @@ include_once($relPath.'user_is.inc');
 $user_is_logged_in = dpsession_resume();
 
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'languages.inc');
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
 		$theme_name = $userP['i_theme'];
@@ -191,6 +192,28 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url, $metadata;
+
+        if(!(isset($userP) && $userP['u_intlang'])) {
+                ?>
+                <script language="JavaScript"><!--
+                        function submitLang(i) {
+                                top.document.langform.submit();
+                        }
+                // --></script>
+                <?
+
+                echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
+		$langarr=installed_langs();
+                foreach($langarr as $v)
+                        echo "<option value='".$v."'".(($v==$GLOBALS['intlang'])?" selected":"").">".bilingual_name($v)."</option>\n";
+                echo "<option value='en_EN' disabled>-------------------</option>\n";
+                echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
+		$langarr=uninstalled_langs();
+                foreach($langarr as $v)
+                        echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
+                echo "</select><input type=hidden name=returnto value='".$_SERVER['PHP_SELF']."'>\n</form>\n";
+                echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
+        }
 
 	if (isset($GLOBALS['pguser'])) {
 
