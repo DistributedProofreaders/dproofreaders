@@ -27,7 +27,7 @@ function get_allowed_next_project_states($state)
 		case PROJ_PROOF_FIRST_AVAILABLE:
 			return array(
 				PROJ_PROOF_FIRST_UNAVAILABLE,
-				PROJ_PROOF_FIRST_VERIFY);
+				'automodify');
 
 		case PROJ_PROOF_FIRST_VERIFY:
 			return array(
@@ -46,7 +46,7 @@ function get_allowed_next_project_states($state)
 		case PROJ_PROOF_SECOND_AVAILABLE:
 			return array(
 				PROJ_PROOF_SECOND_UNAVAILABLE,
-				PROJ_PROOF_SECOND_VERIFY);
+				'automodify');
 
 		case PROJ_POST_FIRST_UNAVAILABLE:
 			return array(
@@ -98,7 +98,14 @@ function echo_project_state_option($project_state,$selected)
 	echo "<option value='$project_state'";
 	if ($selected) echo " SELECTED";
 	echo ">";
-	echo project_states_text($project_state);
+	if ($project_state == 'automodify')
+	{
+		echo 'automodify';
+	}
+	else
+	{
+		echo project_states_text($project_state);
+	}
 	echo "</option>";
 }
 ?>
