@@ -9,6 +9,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'page_ops.inc');
 
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
@@ -109,33 +110,7 @@ function saveProject() {
             )
         ");
 
-        //Create a table for this project
-        mysql_query("
-            CREATE TABLE $projectid (
-                fileid varchar(20) NOT NULL default '',
-                UNIQUE (fileid), image varchar(8) NOT NULL default '',
-                UNIQUE (image),
-                master_text longtext NOT NULL,
-                round1_text longtext NOT NULL,
-                round2_text longtext NOT NULL,
-                round1_user varchar(25) NOT NULL default '',
-                round2_user varchar(25) NOT NULL default '',
-                round1_time int(20) NOT NULL default '0',
-                round2_time int(20) NOT NULL default '0',
-                state VARCHAR(50) NOT NULL default '',
-                INDEX(state),
-                b_user VARCHAR(25) NOT NULL default '',
-                b_code INT(1) NOT NULL default '',
-                 metadata SET('blank','missing','badscan','outofseq','acknowledge','dedication','ednotes','foreword',
-                'abbreviation','intro','loi','preface','prologue','toc',
-                'titlepage','division','epigraph','footnote',
-                'illustration','letter','list','math','poetry',
-                'sidenote','verse','table','appendix','afterword',
-                'biblio','colophon','endnote','epilogue','index')
-                NOT NULL default '',
-                orig_page_num VARCHAR(6) NOT NULL default ''
-            )
-        ");
+	project_allow_pages( $projectid );
 
         //Make a directory in the projects_dir for this project
         mkdir("$projects_dir/$projectid", 0777);
@@ -215,39 +190,17 @@ function handle_projectfiles($projectid) {
 }
 
 function insertTextFiles($dir_name, $projectid) {
-   global $uploads_dir, $projects_dir, $pguser, $writeBIGtable;
+   global $uploads_dir, $projects_dir, $pguser;
    $r = chdir("$uploads_dir/$pguser/$dir_name");
    $now = time();
 
    foreach (glob("*.txt") as $txt_file_name) {
         $file_base = basename(strval($txt_file_name),'.txt');
-        $image_file_name = addslashes("$file_base.png");
-        $txt_file_path = addslashes("$uploads_dir/$pguser/$dir_name/$txt_file_name");
-
-        if ($writeBIGtable) {
-            $sql_command = "
-                INSERT INTO project_pages
-                SET
-                        projectid   = '$projectid',
-                        fileid      = '$file_base',
-                        image       = '$image_file_name',
-                        master_text = LOAD_FILE('$txt_file_path'),
-                        round1_time = $now,
-                        state       = '".AVAIL_FIRST."'
-                ";
-            $res = mysql_query($sql_command) or die(mysql_error());
-        }
-
-        $sql_command = "
-            INSERT INTO $projectid
-            SET
-                fileid      = '$file_base',
-                image       = '$image_file_name',
-                master_text = LOAD_FILE('$txt_file_path'),
-                round1_time = $now,
-                state       = '".AVAIL_FIRST."'
-            ";
-        $res = mysql_query($sql_command) or die(mysql_error());
+        $image_file_name = "$file_base.png";
+        $txt_file_path = "$uploads_dir/$pguser/$dir_name/$txt_file_name";
+	
+	$errs = project_add_page( $projectid, $file_base, $image_file_name, $txt_file_path, $now );
+	if ($errs) die($errs);
    }
 
    $r = chdir("$projects_dir/$projectid");
