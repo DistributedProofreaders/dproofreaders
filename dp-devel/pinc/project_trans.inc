@@ -249,7 +249,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
 	{
-		$settings .= ", modifieddate=''";
+		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
 	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
