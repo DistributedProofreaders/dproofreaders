@@ -9,9 +9,9 @@ $today = date('Y-m-d');
 
 if ($cday != 1) {
     $start_date = $cyear."-".$cmonth."-01";
-    $descrip = _("so far this month");
+    $descrip = _("this month");
 } else {
-    $descrip = _("since the start of last month");
+    $descrip = _("last month");
     if ($cmonth != 1) {
 	$temp = $cmonth -1;
 	$start_date = $cyear."-".$temp."-01";
@@ -28,7 +28,7 @@ $created = state_change_since ( "
 
 
 
-echo "<b>$created</b> "._("projects have been created")." $descrip<br>";
+echo _("Projects Created")." $descrip: <b>$created</b><br>";
 
 $FinProof = state_change_since ( "
 				(state LIKE 'proj_submit%' 
@@ -38,7 +38,7 @@ $FinProof = state_change_since ( "
 
 
 
-echo "<b>$FinProof</b> "._("projects have finished proofing")." $descrip<br>";
+echo _("Projects Proofread")." $descrip: <b>$FinProof</b> <br>";
 
 
 $FinPP = state_change_since ( "
@@ -49,8 +49,8 @@ $FinPP = state_change_since ( "
 
 
 
-echo "<b>$FinPP</b> "._("projects have finished PPing")." $descrip<br>";
+echo _("Projects Post-Processed")." $descrip: <b>$FinPP</b><br>";
 
-echo "</center>";
+echo "<br><hr width='75%'></center><br>";
 
 ?>
