@@ -146,13 +146,13 @@ if (($tfont != BROWSER_DEFAULT_STR) AND
 
 	echo "
 	        <p><img border='0' src='images/".$tfont."_A.gif'></p>
-        	<p><img border='0' src='images/DPCustomMono2_A.gif' width='546' height='242'></p>
+        	<p><img border='0' src='images/DPCustomMono2_A.gif' width='588' height='264'></p>
         	<hr style='width: 546; text-align: left;'>
 	        <p><img border='0' src='images/".$tfont."_B.gif'></p>
-	        <p><img border='0' src='images/DPCustomMono2_B.gif' width='582' height='200'></p>
+	        <p><img border='0' src='images/DPCustomMono2_B.gif' width='632' height='212'></p>
 	        <hr style='width: 546; text-align: left;'>
 	        <p><img border='0' src='images/".$tfont."_C.gif'></p>
-	        <p><img border='0' src='images/DPCustomMono2_C.gif' width='582' height='180'></p>
+	        <p><img border='0' src='images/DPCustomMono2_C.gif' width='624' height='190'></p>
 	";
 }
 
