@@ -7,6 +7,13 @@ include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 
+$projectid  = $_POST['projectname'];
+$proofstate = $_POST['proofstate'];
+$fileid     = $_POST['fileid'];
+// When this file included from processtext.php,
+// $_POST['badState'] is not defined,
+// $badState is set "manually".
+
 if ($_POST['submitted'] != 'true') {
 $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
 $htmlC->startHeader("Bad Page Report");
@@ -20,10 +27,10 @@ $td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
 $td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 $td6=$htmlC->startTD(2,0,2,0,"left",0,0,1);
 echo "<form action='badpage.php' method='post'>";
-echo "<input type='hidden' name='fileid' value='".$_POST['fileid']."'>";
-echo "<input type='hidden' name='projectname' value='".$_POST['projectname']."'>";
+echo "<input type='hidden' name='fileid' value='$fileid'>";
+echo "<input type='hidden' name='projectname' value='$projectid'>";
 echo "<input type='hidden' name='badState' value='$badState'>";
-echo "<input type='hidden' name='proofstate' value='".$_POST['proofstate']."'>";
+echo "<input type='hidden' name='proofstate' value='$proofstate'>";
 echo "<input type='hidden' name='submitted' value='true'>";
 echo $tb;
 echo $tr.$td1;
@@ -56,8 +63,11 @@ echo "</ul></td></tr></table></div></center>";
 echo "</body></html>";
 } else {
 
+$reason   = $_POST['reason'];
+$badState = $_POST['badState'];
+
 //See if they filled in a reason.  If not tell them to go back
-if ($_POST['reason'] == 0) {
+if ($reason == 0) {
 	include_once($relPath.'theme.inc');
 	theme("Incomplete Form!", "header");
 	echo "<br><center>You have not completely filled out this form!  Please hit the <a href='javascript:history.back()'>back</a> button on your browser & fill out all fields.</center>";
@@ -66,27 +76,27 @@ if ($_POST['reason'] == 0) {
 }
 
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
+$result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser', b_code=$reason WHERE fileid='$fileid'");
 
 //Find out how many pages have been marked bad
-$totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".$_POST['badState']."'"));
+$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
 
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
-	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".$_POST['badState']."'");
+	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$badState'");
 	$uniqueBadPages = mysql_result($result,0);
 	if ($uniqueBadPages >= 3) {
-		if($_POST['badState']==BAD_FIRST) {
-			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
+		if($badState==BAD_FIRST) {
+			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='$projectid'");
 		} else {
-			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
+			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='$projectid'");
 		}
-	$advisePM = 1;
+		$advisePM = 1;
 	} 
 }
 
 //Get the email address of the PM
-$result = mysql_query("SELECT * FROM projects WHERE projectID='".$_POST['projectname']."'");
+$result = mysql_query("SELECT * FROM projects WHERE projectID='$projectid'");
 $PMusername = mysql_result($result,0,"username");
 $nameofwork = mysql_result($result,0,"nameofwork");
 $result = mysql_query("SELECT * FROM users WHERE username='$PMusername'");
@@ -94,10 +104,10 @@ $PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
 if ($advisePM == 1) {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].") has been shut down.\nThis is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.\nPlease visit the Project Manager page to view a list of your bad projects and make any necessary changes.\nYou will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
+$message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: $projectid) has been shut down.\nThis is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.\nPlease visit the Project Manager page to view a list of your bad projects and make any necessary changes.\nYou will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Project Shut Down";
 } else {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThere has been a page marked as bad in the project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].").\nPlease visit the Project Manager page to view the reason it was marked as bad by the user.\nYou will then be able to make any needed changes and put the page back up for proofing.\nIf 10 pages are marked bad by at least 3 unique users the project will be automatically shut down.\n\nThank You!\nDistributed Proofreaders";
+$message = "*****This is an automated email*****\n\n------------------------------------\n\nThere has been a page marked as bad in the project you are managing, $nameofwork (Project ID: $projectid).\nPlease visit the Project Manager page to view the reason it was marked as bad by the user.\nYou will then be able to make any needed changes and put the page back up for proofing.\nIf 10 pages are marked bad by at least 3 unique users the project will be automatically shut down.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Page Marked as Bad";
 }
 
@@ -105,22 +115,22 @@ $subject = "Page Marked as Bad";
 maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
 
 //Update the page to have the master text & username of bad page reporter
-$result = mysql_query("SELECT master_text, round1_text FROM ".$_POST['projectname']." WHERE fileid='".$_POST['fileid']."'");
+$result = mysql_query("SELECT master_text, round1_text FROM $projectid WHERE fileid='$fileid'");
 $master_text = addslashes(mysql_result($result, 0, "master_text"));
 $round1_text = addslashes(mysql_result($result, 0, "round1_text"));
 
-if ($_POST['badState'] == "bad_first") {
-	$result = mysql_query("UPDATE ".$_POST['projectname']." SET round1_text='$master_text' WHERE fileid='".$_POST['fileid']."'");
+if ($badState == "bad_first") {
+	$result = mysql_query("UPDATE $projectid SET round1_text='$master_text' WHERE fileid='$fileid'");
 } else {
-	$result = mysql_query("UPDATE ".$_POST['projectname']." SET round2_text='$round1_text' WHERE fileid='".$_POST['fileid']."'");
+	$result = mysql_query("UPDATE $projectid SET round2_text='$round1_text' WHERE fileid='$fileid'");
 }
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
-  $frame1 = "proof_frame.php?project={$_POST['projectname']}&amp;proofstate={$_POST['proofstate']}";
+  $frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
   metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
 } else {
-  $frame1 = "projects.php?project={$_POST['projectname']}&amp;proofstate={$_POST['proofstate']}";
+  $frame1 = "projects.php?project={$projectid}&amp;proofstate={$proofstate}";
   metarefresh(0,$frame1,'Quit Proofing','Exiting proofing interface....');
 }
 }
