@@ -104,5 +104,5 @@ ALIGN="center" VALIGN="center"><FONT SIZE="+1"><B>&#252;</B></FONT></TD><TD
 ALIGN="center" VALIGN="center"><FONT SIZE="+1"><B>&#253;</B></FONT></TD><TD 
 ALIGN="center" VALIGN="center"><FONT SIZE="+1"><B>&#254;</B></FONT></TD><TD 
 ALIGN="center" VALIGN="center"><FONT SIZE="+1"><B>&#255;</B></FONT></TD></TR><TR><TD 
-ALIGN="center" VALIGN="center" COLSPAN="16"><FONT SIZE="-1" COLOR="#003300">Use Copy and Paste to Insert Characters into Proofing Window.</FONT><BR><A 
+ALIGN="center" VALIGN="center" COLSPAN="16"><FONT SIZE="-1" COLOR="#003300">Use copy and paste to insert characters into proofreading window.</FONT><BR><A 
 HREF="#" onclick="window.close()"><B>Close</B></A></TD></TR></TABLE></DIV></CENTER></BODY></HTML>

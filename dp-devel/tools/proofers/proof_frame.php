@@ -9,7 +9,7 @@ include_once($relPath.'project_continuity.inc');
 $project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1, $editone=1
 */
 
-/* $_GET from "Start Proofing" etc.
+/* $_GET from "Start Proofreading" etc.
 $project, $proofstate
 */
 
@@ -37,7 +37,7 @@ if (isset($editone))
   $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
 
   // plug user page count cheat - if they reopen a saved page, subtract it from their count
-  // as it is 'unproofing' it; they will get it back if they save it again
+  // as it is 'unproofreading' it; they will get it back if they save it again
   // if page comes from DONE (???)
 
   if (($pagestate == SAVE_FIRST) ||
@@ -55,7 +55,7 @@ if (isset($editone))
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
   else
-    {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading page....");}
+    {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading page....");}
   exit;
 }
 
@@ -91,5 +91,5 @@ $needPage=1;
 if ($userP['i_type'] != 1)
   {include('proof_frame_nj.inc');}
 else
-  {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
+  {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading next available page....");}
 ?>

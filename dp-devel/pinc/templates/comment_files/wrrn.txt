@@ -53,7 +53,7 @@
 
 <h3>Dashes</h3>
 
-<p>Recently the Proofing Guidelines changed so that all dashes are now represented by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some dashes are longer than others.  For longer dashes, please use four hyphens (----).</p>
+<p>Recently the Proofreading Guidelines changed so that all dashes are now represented by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some dashes are longer than others.  For longer dashes, please use four hyphens (----).</p>
 
 <h3>Non-Standard Formatting</h3>
 

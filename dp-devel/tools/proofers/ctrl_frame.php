@@ -235,4 +235,4 @@ href="<?PHP
 src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="Exit" title="Exit"></a></td></tr><tr><td
 valign="top" colspan="3" align="center"><?PHP
 include('ptags.inc');
-?><br>Proofing Diagrams: [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_new'>High Res</a>] [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_new'>Medium Res</a>] [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_new'>Low Res</a>]</font></td></tr></table></form></body></html>
+?><br>Proofreading Diagrams: [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_new'>High Res</a>] [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_new'>Medium Res</a>] [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_new'>Low Res</a>]</font></td></tr></table></form></body></html>

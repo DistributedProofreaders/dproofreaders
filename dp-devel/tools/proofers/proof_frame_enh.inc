@@ -39,7 +39,7 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
 
 echo $docType."\r\n";
 ?>
-<html><head><title>Proofing Page</title>
+<html><head><title>Proofreading Page</title>
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()

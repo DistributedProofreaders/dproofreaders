@@ -53,7 +53,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo $tr.$td2;
 	echo "<strong>"._("What to Do").":</strong>";
 	echo $td3;
-	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofing")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofing");
+	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
 	echo $tr.$td1;
 	echo "<input type='submit' value='"._("Submit Report")."'>";
 	echo "<input type='button' value='"._("Cancel").' onclick='javascript:history.go(-1)'>";
@@ -133,7 +133,7 @@ You will then be able to put the project back up on the site.";
 Please visit $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid to view
 the reason it was marked as bad by the user.
 You will then be able to make any needed
-changes and put the page back up for proofing.
+changes and put the page back up for proofreading.
 If 10 pages are marked bad by at least 3 unique users,
 the project will be automatically shut down.";
 	}
@@ -141,13 +141,16 @@ the project will be automatically shut down.";
 	//Send the email to the PM
 	maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 
-	//Redirect the user to either continue proofing if project is still open or back to their personal page
+	//Redirect the user to either continue proofreading if project is still open or back to their personal page
 	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
 		$frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
-		metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
+		$title = _("Bad Page Report");
+		$body = _("Continuing to Proofread");
 	} else {
 		$frame1 = "projects.php?project={$projectid}&amp;proofstate={$proofstate}";
-		metarefresh(0,$frame1,'Stop Proofing','Exiting proofing interface....');
+		$title = _("Stop Proofreading");
+		$body = _("Exiting proofreading interface");
 	}
+	metarefresh(0,$frame1, $title, $body);
 }
 ?>

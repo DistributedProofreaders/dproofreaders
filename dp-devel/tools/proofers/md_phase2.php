@@ -20,7 +20,7 @@ $result = mysql_query("SELECT image FROM $projectid WHERE state = 'avail_md_seco
 $numrows = mysql_num_rows($result);
  if($numrows == '0')
 {
-$body=_("No more files available for proofing for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
+$body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
 //////////this will be changed to pre-processing state
 $result = mysql_query("UPDATE $projectid SET state = 'avail_first'");
 $result = mysql_query("UPDATE projects SET state = 'avail_1' WHERE projectid = '$projectid'");

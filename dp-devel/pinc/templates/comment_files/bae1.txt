@@ -9,4 +9,4 @@ The BAE projects have three special proofreading features (not all of them appea
 They are discussed in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?p=50987&start=2"> the Uber-Project thread</a>
 
 
-<p>For the rest, refer to the <a href="http://www.pgdp.net/c/faq/document.php">Proofing Guidelines</a>.</p>
+<p>For the rest, refer to the <a href="http://www.pgdp.net/c/faq/document.php">Proofreading Guidelines</a>.</p>

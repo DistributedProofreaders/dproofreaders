@@ -16,7 +16,7 @@ $setU = "project=$project&amp;proofstate=$proofstate";
 $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
 
 if ($projectinfo->availablepages > 0) {
-	echo "$setT<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofing")."</a></b></td>";
+	echo "$setT<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b></td>";
 } else {
 	echo "$setT"._("Round Complete")."</td>";
 }

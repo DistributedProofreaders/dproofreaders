@@ -109,7 +109,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
   else
-    {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
+    {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading next available page....");}
   exit;
 } // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 
@@ -133,20 +133,20 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 {
 	if ($tbutton==B_QUIT)
 	{
-		$title='Stop Proofing';
+		$title=_("Stop Proofreading");
 		$body='';
 	}
 	else if ($tbutton==B_SAVE_AND_QUIT)
 	{
-		$title="Save as 'Done'";
-		$body='Page Saved. ';
+		$title=_("Save as 'Done'");
+		$body=_("Page Saved.");
 	}
 	else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 	{
-		$title='Return to Round';
-		$body='Page Returned to Round. ';
+		$title=_("Return to Round");
+		$body=_("Page Returned to Round.");
 	}
-	$body .= 'Exiting proofing interface....';
+	$body .= _(" Exiting proofreading interface....");
 	$url = "projects.php?project=$project&amp;proofstate=$proofstate";
 	metarefresh(1,$url,$title,$body);
 

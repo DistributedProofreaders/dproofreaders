@@ -25,7 +25,7 @@ echo "</HEAD><BODY>";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
-<br><i><? echo _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!"); ?></i><br>
+<br><i><? echo _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!"); ?></i><br>
 <br>
 
 <?
