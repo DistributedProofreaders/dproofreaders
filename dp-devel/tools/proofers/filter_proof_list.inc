@@ -118,8 +118,9 @@ return $to_echo;
     echo "</tr>";
     echo "</table>\n<br>";
 
-    echo "<input type='submit' value='Apply Filter to Projects'>";
-    echo "<input type='reset' value='Reset Filter to null'>";
+    echo "<input type='reset' value='Reset New Filter to null'>";
+    echo "<input type='submit' value='Apply New Filter to Projects'>";
+
     echo "</form><br>";
     echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
     echo "<br><br>";
