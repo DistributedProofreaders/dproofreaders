@@ -65,7 +65,7 @@
             $result = mysql_query("UPDATE projects SET state = 25, modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
             mail("$email", "DP: $nameofwork Ready For You To Post-Process",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. Contact the project manager once you have completed it.",
+                 "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         }
     }
