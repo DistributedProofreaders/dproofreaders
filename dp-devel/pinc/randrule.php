@@ -1,4 +1,5 @@
 <?
+include($relPath.'v_site.inc');
 
 /* dpRandomRule - Select and format a random rule from the database
  *
@@ -7,6 +8,8 @@
  */
 
 function dpRandomRule () {
+	global $siteurl;
+
     $query = "SELECT count(*) AS numrules FROM rules";
     $result = mysql_query($query);
     $num_rules = mysql_result($result,0,"numrules");
@@ -23,7 +26,7 @@ function dpRandomRule () {
 
 <p>$rule[rule]</p>
 
-<p>See the <a href="http://texts01.archive.org/dp/faq/document.html#$rule[doc]">$rule[subject]</a> section of the <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines</a></p>
+<p>See the <a href="$siteurl/faq/document.html#$rule[doc]">$rule[subject]</a> section of the <a href="$siteurl/faq/document.html">Document Guidelines</a></p>
 EOT;
 }
 ?>
