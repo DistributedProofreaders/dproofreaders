@@ -106,47 +106,46 @@ The new page lets you see the project comments and check the project in or out a
 
 
 if (!$isPPV) {
-echo "
-<br>
-<p>
-    The books listed below have already gone through
-    two rounds of proofreading on this site
-    and they now need to be massaged into a final e-text.
-    Once you have checked out and downloaded a book
-    it will remain checked out to you until you check it back in. 
-    When you have finished your work on the book, select <i>Upload 
-    for Verification</i> from the drop-down list for that project. If
-    you have several files to submit for a single project (say 
-    a text and HTML version), zip them up together first.
-</p>
-<p>
-    <b>First Time here?</b>
-    Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) 
-    is our Post Processing Coordinator. Julie Barkley
-    (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>)
-    maintains our <a href='$code_url/faq/post_proof.php'>Post Processing FAQ</a>.
-    Please read the FAQ as it covers all the steps needed to post process an e-text.
-    Select an easy work to get started on (usually fiction with a low page count is a 
-    good starter book; projects whose manager is BEGIN make excellent first projects
-    for a new post processor) and check out the <a href='$post_processing_forum_url'>
-    Post Processing Forum</a> to post all your questions. If nothing interests you
-    right now, check back later and there will be more!
-</p>";
+	echo "<br><p>";
+	echo _("The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text. ");
+	echo _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in. ");
+	echo _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project. ");
+	echo _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first.");
+
+	echo "</p><p>";
+	echo _("<b>First Time here?</b>");
+	echo _("Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) is our Post Processing Coordinator.");
+	echo _("Julie Barkley (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>) maintains our");
+	echo " <a href='$code_url/faq/post_proof.php'>";
+	echo _("Post Processing FAQ");
+	echo "</a>. ";
+	echo _("Please read the FAQ as it covers all the steps needed to post process an e-text. ");
+	echo _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post processor). ");
+	echo _("Check out the");
+	echo " <a href='$post_processing_forum_url'>";
+	echo _("Post Processing Forum</a> to post all your questions. ");
+	echo _("If nothing interests you right now, check back later and there will be more!");
+	echo "</p>";
 } else {
-echo "
-<br>
-<p>
-    As an experienced volunteer, you have access to do verification of texts
-    that have been Post Processed already, if you wish.
-    <font color='red' size=4>Make sure you read the <b>new</b> <a href='$code_url/faq/ppv.php'>Post Processing Verification Guidelines</a> and use the <a href='$code_url/faq/ppv_report.txt'>PPV Report Card for each project you PPV</a>.</font><br />
-    Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) 
-    is our Post Processing Coordinator. Julie Barkley
-    (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>)
-    maintains our <a href='$code_url/faq/post_proof.php'>Post Processing FAQ</a>.
-    As always, the <a href='$post_processing_forum_url'>Post Processing Forum</a> is available
-    for any of your questions.
-</p>
-";
+
+	echo "<p><br>";
+	echo _("As an experienced volunteer, you have access to do verification of texts that have been Post Processed already, if you wish. ");
+	echo "<font color='red' size=4>";
+	echo _("Make sure you read the <b>new</b>");
+	echo " <a href='$code_url/faq/ppv.php'>";
+	echo _("Post Processing Verification Guidelines</a> and use the");
+	echo " <a href='$code_url/faq/ppv_report.txt'>";
+	echo _("PPV Report Card for each project you PPV");
+	echo "</a>.</font><br />";
+
+	echo _("Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) is our Post Processing Coordinator. ");
+	echo _("Julie Barkley (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>) maintains our");
+	echo " <a href='$code_url/faq/post_proof.php'>";
+	echo _("Post Processing FAQ");
+	echo "</a>. ";
+	echo _("As always, the ");
+	echo "<a href='$post_processing_forum_url'>";
+	echo _("Post Processing Forum</a> is available for any of your questions.</p>");
 }
 
 echo "<hr width=75% align='center'><center><b>"._("Books I Have Checked Out for Post Processing:")."</b></center>";

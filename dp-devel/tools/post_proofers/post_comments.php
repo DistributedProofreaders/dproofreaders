@@ -3,10 +3,10 @@ $relPath="./../../pinc/";
 include($relPath.'echo_project_info.inc');
 include($relPath.'theme.inc');
 
-theme('Project Information', 'header');
+theme(_("Project Information"), 'header');
 
 if (!user_is_PP()) {
-	echo "You're not recorded as a PPer. If you feel this is an error, please contact site administration.";
+	echo _("You're not recorded as a post processor. If you feel this is an error, please contact the site administration.");
 	exit();
 }
 
