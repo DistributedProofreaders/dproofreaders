@@ -143,6 +143,14 @@ if (!isset($proofing)) {
         echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
         echo "<td colspan=4>$lastproofed</td></tr>";
     }
+    
+    if (!empty($topic_id)) {
+    	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
+    	$last_post_date = mysql_result($last_post,0,"post_time");
+    	$last_post_date = date("l, F jS, Y \a\\t g:i:sA", $last_post_date);
+    	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Forum Post</b></td>";
+    	echo "<td colspan=4>$last_post_date</td></tr>";
+    }
 
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
 
