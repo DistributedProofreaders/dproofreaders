@@ -32,11 +32,11 @@ function echo_page_table( $projectid )
 		echo "    <td align='center' colspan='$upload_colspan'>Upload</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		if ($can_edit) {
+			echo "    <td align='center' colspan='5'>Round 1</td>\n";
+			echo "    <td align='center' colspan='5'>Round 2</td>\n";
+		} else {
 			echo "    <td align='center' colspan='4'>Round 1</td>\n";
 			echo "    <td align='center' colspan='4'>Round 2</td>\n";
-		} else {
-			echo "    <td align='center' colspan='3'>Round 1</td>\n";
-			echo "    <td align='center' colspan='3'>Round 2</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -60,6 +60,7 @@ function echo_page_table( $projectid )
 
 		echo "{$td_start}Page State{$td_end}";
 
+		echo "{$td_start}Diff{$td_end}";
 		echo "{$td_start}Date{$td_end}";
 		echo "{$td_start}User{$td_end}";
 		echo "{$td_start}Text{$td_end}";
@@ -67,6 +68,7 @@ function echo_page_table( $projectid )
 		{
 			echo "{$td_start}Clear{$td_end}";
 		}
+		echo "{$td_start}Diff{$td_end}";
 		echo "{$td_start}Date{$td_end}";
 		echo "{$td_start}User{$td_end}";
 		echo "{$td_start}Text{$td_end}";
@@ -89,7 +91,9 @@ function echo_page_table( $projectid )
 	$fields_to_get = '
 		fileid, image, length(master_text),
 		state,
+		replace(master_text,\'\r\n\',\'\n\')=replace(round1_text,\'\r\n\',\'\n\') as round1_diff,
 		round1_time, round1_user, length(round1_text),
+		replace(round1_text,\'\r\n\',\'\n\')=replace(round2_text,\'\r\n\',\'\n\') as round2_diff,
 		round2_time, round2_user, length(round2_text)';
 
 	$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
@@ -195,6 +199,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 
 	if ($round_num == 1)
 	{
+		$R_diff_field_name = 'round1_diff';
 		$R_time_field_name = 'round1_time';
 		$R_user_field_name = 'round1_user';
 		$R_text_length_field_name = 'length(round1_text)';
@@ -202,6 +207,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	elseif ($round_num == 2)
 	{
+		$R_diff_field_name = 'round2_diff';
 		$R_time_field_name = 'round2_time';
 		$R_user_field_name = 'round2_user';
 		$R_text_length_field_name = 'length(round2_text)';
@@ -211,6 +217,19 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	{
 		assert(FALSE);
 	}
+
+	// ------------------------------
+	// Diff
+
+	echo "<td align='center'>";
+	if($page_res[$R_diff_field_name]) {
+		echo "no diff";
+	} else {
+		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>diff</a>";
+	}
+
+	echo "</td>\n";
+
 
 	// ------------------------------
 	// Date
