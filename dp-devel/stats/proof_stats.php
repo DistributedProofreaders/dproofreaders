@@ -12,26 +12,6 @@ theme($title, 'header');
 
 echo "<br><h2>" . _("Proofreading Statistics") . "</h2>\n";
 
-echo "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a><br>";
-
-echo "<br>\n";
-
-echo "<h3>" . _("Total Projects Proofread") . "</h3>\n";
-
-$state_selector = "
-	(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%'
-		OR state LIKE 'proj_post%')
-";
-
-
-dpsql_dump_themed_query("
-	SELECT
-		SUM(num_projects) as 'Total Projects Proofread So Far'
-	FROM project_state_stats WHERE $state_selector
-	GROUP BY date ORDER BY date DESC LIMIT 1
-");
-
 echo "<br>\n";
 echo "<br>\n";
 
