@@ -82,14 +82,12 @@ return $to_echo;
 	    </td>
 	";
        
-        echo "</tr><tr>";
-
 	// PM filter
 
  	echo "
 	    <td>
 	    <select name='PM1[]' size=5 multiple>
-		<option value=''>All Project Managers</option>
+		<option value=''>All PMs</option>
 	";
 
 	echo build_selectlist( $state_sql, "username", $array_of_PMs);
@@ -104,8 +102,8 @@ return $to_echo;
  	echo "
 	    <td>
 	    <select name='difficulty1[]' size=5 multiple>
-		<option value=''>All difficulties</option>
-		<option value='beginner'>Beginners Only</option>
+		<option value=''>All</option>
+		<option value='beginner'>Beginners</option>
 		<option value='easy'>Easy</option>
 		<option value='average'>Average</option>
 		<option value='hard'>Hard</option>
