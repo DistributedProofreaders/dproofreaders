@@ -32,7 +32,7 @@ if (!is_dir($projectpath))
 }
 
 header( "Content-type: application/zip");
-header( "Content-Disposition: filename='{$projectid}images.zip'" );
+header( "Content-Disposition: filename={$projectid}images.zip" );
 
 passthru( "zip -q -j -o - $projectpath/*.png $projectpath/*.jpg" );
 
