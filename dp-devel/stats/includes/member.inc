@@ -156,6 +156,7 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 
 	if (!empty($rank)) {
 		if (empty($highestrank)) {
+			// $rank is current rank. Compare it to rank as of latest midnight.
 			if ($prevRank > $rank && !empty($prevRank)) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$rank)."'>&nbsp;".number_format(($prevRank-$rank)).")</font>";
 			} elseif ($prevRank < $rank && !empty($prevRank)) {
@@ -164,6 +165,7 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 				$rankPos = "&nbsp;";
 			}
 		} else {
+			// $rank is highest rank achieved. Compare current rank to it.
 			$prevRank = $rankArray['curMbrRank'];
 			if ($prevRank > $rank && !empty($prevRank)) {
 				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($prevRank-$rank)."'>&nbsp;".number_format(($prevRank-$rank)).")</font>";
