@@ -9,6 +9,7 @@
 #  Marks "last line last word" hypen with asterisk.
 #  Removes start/end-of-line spaces.
 #  Collapses multiple adjacent spaces.
+#  Removes spaces before ,.:"!?) punctuation.
 #  Inserts "[Blank Page]" text into zero-byte files.
 #
 # CONTROLLABLE FUNCTIONS:
@@ -307,6 +308,9 @@ LINE:   while (<OLDFILE>) {
         $_ = $tmpline; $tmpline =~ s/^ {1,}//g;		# remove SOL spaces
         $_ = $tmpline; $tmpline =~ s/ {1,}$//g;		# Remove EOL spaces
         $_ = $tmpline; $tmpline =~ s/\r\n /\r\n/g;	# ditch space after dehyphening
+
+	# Fix spaces before colon, semi-colon, comma, period, question mark, exclamation point, closing paren
+	$_ = $tmpline; $tmpline =~ s/ (:|;|,|\.|\?|\!|\))/$1/g;
 
         print NEWFILE $tmpline;				# Write the modified line
     }
