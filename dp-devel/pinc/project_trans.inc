@@ -11,7 +11,7 @@ function project_transition( $projectid, $new_state )
 // This function produces no output except for debugging messages.
 {
 	global $testing;
-	error_reporting(E_ALL);
+	// error_reporting(E_ALL);
 
 	$res = mysql_query("
 		SELECT state, checkedoutby, postproofer
@@ -74,6 +74,7 @@ function project_transition( $projectid, $new_state )
 			PROJ_PROOF_FIRST_UNAVAILABLE,
 			),
 		PROJ_PROOF_FIRST_AVAILABLE => array(
+			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
 			// PROJ_PROOF_FIRST_VERIFY // misleading
 			),
@@ -92,6 +93,7 @@ function project_transition( $projectid, $new_state )
 			// PROJ_PROOF_SECOND_VERIFY // misleading
 			),
 		PROJ_PROOF_SECOND_AVAILABLE => array(
+			PROJ_PROOF_SECOND_BAD_PROJECT,
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			// PROJ_PROOF_SECOND_VERIFY // misleading
 			),
