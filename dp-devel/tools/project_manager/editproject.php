@@ -35,45 +35,42 @@ function saveProject() {
         $checkedoutby = $_POST['checkedoutby'];
         $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$checkedoutby'");
         if (mysql_num_rows($result) == 0) {
-             $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>"; 
+             $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>";
         }
    }
-   if (!empty($_FILES['projectfiles']['name'])) { 
-         if (substr($_FILES['projectfiles']['name'], -4) != ".zip") { 
+   if (!empty($_FILES['projectfiles']['name'])) {
+         if (substr($_FILES['projectfiles']['name'], -4) != ".zip") {
              $errormsg .= "File type must be ZIP.<br>";
-         } 
+         }
    }
-   if (!empty($_FILES['projectfiles']['name'])) { 
+   if (!empty($_FILES['projectfiles']['name'])) {
         $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip"));
-        if (file_exists("$uploads_dir/$pguser/$dir_name")) { 
-            $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>"; 
-        } 
+        if (file_exists("$uploads_dir/$pguser/$dir_name")) {
+            $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>";
+        }
    }
-
-
    if (!empty($_POST['special'])) {
       $special = $_POST['special'];
       if (    (strncmp($special, 'Birthday', 8) == 0)
            or (strncmp($special, 'Otherday', 8) == 0)) {
-           if (empty($_POST['bdayday']) or empty($_POST['bdaymonth'])) { 
-              $errormsg .= "Month and Day are required for Birthday or Otherday Specials.<br>"; 
+           if (empty($_POST['bdayday']) or empty($_POST['bdaymonth'])) {
+              $errormsg .= "Month and Day are required for Birthday or Otherday Specials.<br>";
           } else {
              $bdaymonth = $_POST['bdaymonth'];
              $bdayday = $_POST['bdayday'];
              if (!checkdate ( $bdaymonth, $bdayday, 2000)) {
-                 $errormsg .= "Invalid date supplied for Birthday or Otherday Special.<br>"; 
+                 $errormsg .= "Invalid date supplied for Birthday or Otherday Special.<br>";
              } else {
                  if (strlen($special) == 8) { $special = $special." ".$bdaymonth.$bdayday; }
              }
           }
       }
    }
-
    if (!empty($_POST['image_provider'])) {
       $image_provider = $_POST['image_provider'];
       if (strcmp($image_provider, 'OTHER') == 0) {
          if (empty($_POST['imp_other'])) {
-              $errormsg .= "When Image Provider is OTHER, details must be supplied.<br>"; 
+              $errormsg .= "When Image Provider is OTHER, details must be supplied.<br>";
           } else {
              $imp_other = $_POST['imp_other'];
              $image_provider = "O:".$imp_other;
@@ -82,8 +79,6 @@ function saveProject() {
    } else {
       $errormsg .= "Image Provider is required.<br>";
    }
-
-
 
    if (isset($errormsg)) {
         return $errormsg;
@@ -110,7 +105,9 @@ function saveProject() {
                 postednum='{$_POST['postednum']}',
                 clearance='{$_POST['clearance']}',
                 special='$special',
-                image_provider = '$image_provider'
+                image_provider = '$image_provider',
+                up_projectid ='{$_POST['up_projectid']}'
+
             WHERE projectid='{$_POST['projectid']}'
         ");
 
@@ -144,7 +141,7 @@ function saveProject() {
         //Insert a new row into the projects table
         mysql_query("
             INSERT INTO projects
-                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special, image_provider)
+                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special, image_provider, up_projectid)
             VALUES (
                 '{$_POST['nameofwork']}',
                 '{$_POST['authorsname']}',
@@ -160,11 +157,13 @@ function saveProject() {
                 '".PROJ_NEW."',
                 '{$_POST['clearance']}',
                 '$special',
-                '$image_provider'
+                '$image_provider',
+                '{$_POST['up_projectid']}'
+
             )
         ");
 
-	project_allow_pages( $projectid );
+        project_allow_pages( $projectid );
 
         //Make a directory in the projects_dir for this project
         mkdir("$projects_dir/$projectid", 0777);
@@ -202,6 +201,143 @@ function saveProject() {
    //If the project has been posted to PG let the users know
    if(isset($_POST['posted'])) { posted_pg($_POST['projectid']); }
 }
+
+function saveUberProject() {
+   global $pguser;
+
+   //Let's check to make sure everything is correct & there are no errors
+   if (empty($_POST['up_nameofwork'])) { $errormsg .= "Overall Name of Uber Project is required.<br>"; }
+
+   if (!empty($_POST['checkedoutby'])) {
+        $checkedoutby = $_POST['checkedoutby'];
+        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$checkedoutby'");
+        if (mysql_num_rows($result) == 0) {
+             $errormsg .= "Default Post Processor must be an existing user - check case and spelling of username.<br>";
+        }
+   }
+
+/*
+   if (!empty($_POST['up_topic_id'])) {
+        $up_topic_id = $_POST['up_topic_id'];
+        $result = mysql_query("SELECT forum_id FROM phpbb_topics WHERE topic_id = '$up_topic_id'");
+        if (mysql_num_rows($result) == 0) {
+             $errormsg .= "Uber Project Topic must already exist - check topic id.<br>";
+        }
+   }
+
+`up_topic_id` int(10) default NULL,
+  `up_contents_post_id` int(10) default NULL,
+
+*/
+
+   if (!empty($_POST['special'])) {
+      $special = $_POST['special'];
+      if (    (strncmp($special, 'Birthday', 8) == 0)
+           or (strncmp($special, 'Otherday', 8) == 0)) {
+           if (empty($_POST['bdayday']) or empty($_POST['bdaymonth'])) {
+              $errormsg .= "Month and Day are required for Default Special of Birthday or Otherday.<br>";
+          } else {
+             $bdaymonth = $_POST['bdaymonth'];
+             $bdayday = $_POST['bdayday'];
+             if (!checkdate ( $bdaymonth, $bdayday, 2000)) {
+                 $errormsg .= "Invalid date supplied for Default Special of Birthday or Otherday.<br>";
+             } else {
+                 if (strlen($special) == 8) { $special = $special." ".$bdaymonth.$bdayday; }
+             }
+          }
+      }
+   }
+
+   if (!empty($_POST['image_provider'])) {
+      $image_provider = $_POST['image_provider'];
+      if (strcmp($image_provider, 'OTHER') == 0) {
+         if (empty($_POST['imp_other'])) {
+              $errormsg .= "When Default Image Provider is OTHER, details must be supplied.<br>";
+          } else {
+             $imp_other = $_POST['imp_other'];
+             $image_provider = "O:".$imp_other;
+          }
+      }
+   }
+
+   if (isset($errormsg)) {
+        return $errormsg;
+        exit();
+   }
+
+   //Format the language as pri_language with sec_language if pri_language is set
+   //Otherwise set just the pri_language
+   if (!empty($_POST['sec_language'])) { $language = $_POST['pri_language']." with ".$_POST['sec_language']; } else { $language = $_POST['pri_language']; }
+
+   //If we are just updating an already existing uber project
+   if (isset($_POST['up_projectid'])) {
+        //Update the uber project database table with the updated info
+        mysql_query("
+            UPDATE uber_projects SET
+                up_nameofwork='{$_POST['up_nameofwork']}',
+                up_topic_id='{$_POST['up_topic_id']}',
+                up_contents_post_id='{$_POST['up_contents_post_id']}',
+                up_modifieddate=UNIX_TIMESTAMP(),
+                up_description='{$_POST['up_description']}',
+                d_nameofwork='{$_POST['nameofwork']}',
+                d_authorsname='{$_POST['authorsname']}',
+                d_checkedoutby='{$_POST['checkedoutby']}',
+                d_language='$language',
+                d_genre='{$_POST['genre']}',
+                d_year='{$_POST['year']}',
+                d_difficulty='{$_POST['difficulty_level']}',
+                d_comments='{$_POST['comments']}',
+                d_scannercredit='{$_POST['scannercredit']}',
+                d_clearance='{$_POST['clearance']}',
+                d_special='$special',
+                d_image_provider = '$image_provider'
+            WHERE up_projectid='{$_POST['up_projectid']}'
+        ");
+
+   } else {
+        global $up_projectid;
+
+        //Insert a new row into the uber projects table
+        mysql_query("
+            INSERT INTO uber_projects
+                (up_nameofwork, up_topic_id, up_contents_post_id, up_modifieddate, up_enabled, up_description,
+                 d_nameofwork, d_authorsname, d_language, d_comments, d_special, d_checkedoutby, d_scannercredit,
+                 d_clearance, d_year, d_genre, d_difficulty, d_image_provider)
+            VALUES (
+                '{$_POST['up_nameofwork']}',
+                '{$_POST['up_topic_id']}',
+                '{$_POST['up_comments_post_id']}',
+                UNIX_TIMESTAMP(),
+                1,
+                '{$_POST['up_description']}',
+                '{$_POST['nameofwork']}',
+                '{$_POST['authorsname']}',
+                '$language',
+                '{$_POST['comments']}',
+                '$special',
+                '{$_POST['checkedoutby']}',
+                '{$_POST['scannercredit']}',
+                '{$_POST['clearance']}',
+                '{$_POST['year']}',
+                '{$_POST['genre']}',
+                '{$_POST['difficulty_level']}',
+                '$image_provider'
+            )
+        ");
+
+         $up_projectid = mysql_insert_id();
+
+//  '{$GLOBALS['pguser']}'
+
+        // if topic / post IDs are blank :
+           // create the auto uber post and/or the auto contents post ?
+           // update uber_projects table with topic and/or post IDs
+
+   }
+
+}
+
+
 
 function handle_projectfiles($projectid) {
    // If the PM uploaded a zip file, unzip it and put the files in the uploads and projects directories.
@@ -252,9 +388,9 @@ function insertTextFiles($dir_name, $projectid) {
         $file_base = basename(strval($txt_file_name),'.txt');
         $image_file_name = "$file_base.png";
         $txt_file_path = "$uploads_dir/$pguser/$dir_name/$txt_file_name";
-	
-	$errs = project_add_page( $projectid, $file_base, $image_file_name, $txt_file_path, $now );
-	if ($errs) die($errs);
+
+        $errs = project_add_page( $projectid, $file_base, $image_file_name, $txt_file_path, $now );
+        if ($errs) die($errs);
    }
 
    $r = chdir("$projects_dir/$projectid");
@@ -330,9 +466,9 @@ function previewProject($nameofwork, $authorsname, $comments) {
    // insert e.g. templates and biographies
    $comments = parse_project_comments($comments);
 
-	$a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> "._("for detailed project formatting directions.");
-	$b = _("Instructions below take precedence over the guidelines");
-	
+        $a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> "._("for detailed project formatting directions.");
+        $b = _("Instructions below take precedence over the guidelines");
+
   echo "<br><table width='90%' border=1>";
   echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
   echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>\n";
@@ -345,7 +481,7 @@ function previewProject($nameofwork, $authorsname, $comments) {
   echo "<tr><td colspan=2>$a <b>$b: </b><P>$comments</td></tr>\n</table><br><br>";
 }
 
-function language_list($language) {
+function language_list($language, $label = 'Language', $bgcol = '#CCCCCC') {
    include_once($GLOBALS['relPath'].'iso_lang_list.inc');
 
    if (strpos($language, "with") > 0) {
@@ -358,7 +494,7 @@ function language_list($language) {
 
    $array_list = $GLOBALS['lang_list'];
 
-   echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td><select name='pri_language'>";
+   echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='pri_language'>";
    echo "<option value=''>Primary Language</option>";
    for ($i=0;$i<count($array_list);$i++)  {
         echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
@@ -375,7 +511,7 @@ function language_list($language) {
    echo "</select></td></tr>\n";
 }
 
-function genre_list($genre) {
+function genre_list($genre, $label = 'Genre', $bgcol = '#CCCCCC') {
    $array_list = array(
                 'Other'=>_('Other'),
                 'Adventure'=>_('Adventure'),
@@ -454,7 +590,7 @@ function genre_list($genre) {
                 'Western'=>_('Western'),
                 'Zoology'=>_('Zoology'),
             );
-   echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td><select name='genre'>";
+   echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='genre'>";
    foreach($array_list as $k=>$v) {
         echo "<option value='".encodeFormValue($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
@@ -463,10 +599,10 @@ function genre_list($genre) {
    echo "</select></td></tr>\n";
 }
 
-function difficulty_list($difficulty_level) {
+function difficulty_list($difficulty_level, $label = 'Difficulty Level', $bgcol = '#CCCCCC') {
         global $pguser;
    $array_list = array('Beginner', 'Easy', 'Average', 'Hard');
-   echo "<tr><td bgcolor='#CCCCCC'><b>Difficulty Level</b></td><td>";
+   echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td>";
         $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
         if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
         // only show the beginner level to the BEGIN PM or SiteAdmins
@@ -483,13 +619,13 @@ function difficulty_list($difficulty_level) {
    echo "</td></tr>\n";
 }
 
-function special_list($special) {
+function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CCCCCC') {
 
     // get info on special days
     $specs_result = mysql_query("
-            SELECT      spec_code, 
-                        display_name, 
-			DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date' 
+            SELECT      spec_code,
+                        display_name,
+                        DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
             FROM special_days
             WHERE enable = 1
             ORDER BY open_month, open_day
@@ -506,22 +642,22 @@ function special_list($special) {
     }
 
    // drop down select box for which special day
-   echo "<tr><td bgcolor='#CCCCCC'><b>Special Day (optional)</b></td><td><select name='special'>";
+   echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='special'>";
 
    // add special case values first
    echo "<option value=''>NONE</option>";
 
    echo "<option value='Birthday'";
-   if (strncmp ( $special, 'Birthday', 8) == 0) { 
-         echo " SELECTED"; 
+   if (strncmp ( $special, 'Birthday', 8) == 0) {
+         echo " SELECTED";
          $bdaymonth = substr($special, 9, 2);
          $bdayday = substr($special, 11, 2);
    }
    echo ">Birthday</option>";
 
    echo "<option value='Otherday'";
-   if (strncmp ( $special, 'Otherday', 8) == 0) { 
-         echo " SELECTED"; 
+   if (strncmp ( $special, 'Otherday', 8) == 0) {
+         echo " SELECTED";
          $bdaymonth = substr($special, 9, 2);
          $bdayday = substr($special, 11, 2);
    }
@@ -567,11 +703,11 @@ function special_list($special) {
 }
 
 
-function image_provider_list($image_provider) {
+function image_provider_list($image_provider, $label = 'Image Provider', $bgcol = '#CCCCCC') {
 
     // get info on image_providers
     $imp_result = mysql_query("
-            SELECT      image_provider, 
+            SELECT      image_provider,
                         display_name
             FROM image_providers
             WHERE enable = 1
@@ -589,12 +725,12 @@ function image_provider_list($image_provider) {
     }
 
    // drop down select box for which image provider
-   echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td><select name='image_provider'>";
+   echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='image_provider'>";
 
    // add special case value "DP User"
    echo "<option value='DP User' ";
-   if (strcmp ( $image_provider, 'DP User') == 0) { 
-         echo " SELECTED"; 
+   if (strcmp ( $image_provider, 'DP User') == 0) {
+         echo " SELECTED";
    }
    echo ">"._("DP User")."</option>";
 
@@ -607,8 +743,8 @@ function image_provider_list($image_provider) {
 
    // add special case value "Other"
    echo "<option value='OTHER' ";
-   if (strncmp ( $image_provider, 'O:',2) == 0) { 
-         echo " SELECTED"; 
+   if (strncmp ( $image_provider, 'O:',2) == 0) {
+         echo " SELECTED";
          $imp_other_val = substr($image_provider,2);
    }
    echo ">"._("OTHER")."</option>";
@@ -755,11 +891,69 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 
 // -----------------------------------------------------------------------------
 
-elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || (isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
-   if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
-   if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
+elseif ((isset( $_REQUEST['action']) &&
+              ( $_REQUEST['action'] == "submit_marcsearch" ||
+                $_REQUEST['action'] == "createnew"  ||
+                $_REQUEST['action'] == 'createnewfromuber')) ||
+        (isset( $_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
 
-   if(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
+    if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
+    if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
+
+    if (((isset($_REQUEST['action']) && ($_REQUEST['action'] == 'createnewfromuber')) ||
+        (isset($_POST['up_projectid']) && !isset($_POST['projectid'])))) {
+
+        // here we are either maknig our first attempt at creating a new project from an UP, OR
+        // saving and previewing a project that was meant to be created from an UP (up_projectid is set)
+        // but the creation attempt failed during saveProject (projectid is not set)
+
+        // if we have an error message, there was an attempt to save that went wrong,
+        // so we leave the values as they were submitted, for less editing
+
+        // otherwise, we populate the values with the default values of the given UP from the db
+
+        if (!strlen($errorMsg)) {
+            if (isset($_REQUEST['up_projectid']) && strlen($_REQUEST['up_projectid'])  ) {
+                $up_projectid = $_REQUEST['up_projectid'];
+                $result = mysql_query("SELECT * FROM uber_projects WHERE up_projectid = $up_projectid");
+                if (mysql_num_rows($result)) {
+
+                    // check that user has permission to create a project from this UP
+
+                    $up_info = mysql_fetch_assoc($result);
+                    $up_nameofwork = $up_info['up_nameofwork'];
+                    $up_topic_id =  $up_info['up_topic_id'];
+                    $nameofwork = $up_info['d_nameofwork'];
+                    $authorsname = $up_info['d_authorsname'];
+                    $checkedoutby = $up_info['d_checkedoutby'];
+                    $language = $up_info['d_language'];
+                    $scannercredit = $up_info['d_scannercredit'];
+                    $comments = $up_info['d_comments'];
+                    $clearance = $up_info['d_clearance'];
+                    $postednum = $up_info['d_postednum'];
+                    $genre = $up_info['d_genre'];
+                    $difficulty_level = $up_info['d_difficulty'];
+                    $special = $up_info['d_special'];
+                    $image_provider = $up_info['d_image_provider'];
+                    // $year = $up_info['d_year'];
+
+                } else {
+
+                    // invalid UP_ID supplied
+                    $errorMsg .= _("Invalid Uber Project ID supplied for Create New Project From Uber Project");
+                }
+            } else {
+
+                // no UP_ID supplied
+                $errorMsg .= _("No Uber Project ID supplied for Create New Project From Uber Project");
+           }
+        }
+
+        theme(_("Create a Project from an Uber Project"), "header");
+        $header_shown = true;
+    }
+
+    if(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
         if (empty($_GET['project']) && empty($GLOBALS['projectid'])) {
             $projectid = $_POST['projectid'];
         } elseif(empty($_POST['projectid']) && empty($GLOBALS['projectid'])) {
@@ -769,66 +963,215 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         }
 
         $result = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
-        $projectid = mysql_result($result, 0, "projectid");
-        $nameofwork = mysql_result($result, 0, "nameofwork");
-        $authorsname = mysql_result($result, 0, "authorsname");
-                $checkedoutby = mysql_result($result, 0, "checkedoutby");
-        $language = mysql_result($result, 0, "language");
-        $scannercredit = mysql_result($result, 0, "scannercredit");
-        $comments = mysql_result($result, 0, "comments");
-        $clearance = mysql_result($result, 0, "clearance");
-        $postednum = mysql_result($result, 0, "postednum");
-        $genre = mysql_result($result, 0, "genre");
-        $difficulty_level = mysql_result($result, 0, "difficulty");
-        $special = mysql_result($result, 0, "special");
-        $image_provider = mysql_result($result, 0, "image_provider");
-   }
 
-   if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
-   if (empty($authorsname) && isset($_POST['rec'])) {  $authorsname = marc_author($rec); }
-   if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
-   if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
-        if (empty($checkedoutby)) { $checkedoutby = ""; }
-   if (empty($comments)) { $comments = "<p>".sprintf(_("Refer to the %sProofreading Guidelines%s."),"<a href=\"$code_url/faq/document.php\">","</a>")."</p>"; }
-   if (empty($scannercredit)) { $scannercredit = ""; }
-   if (empty($clearance)) { $clearance = ""; }
-   if (empty($postednum)) { $postednum = ""; }
-   if (empty($special)) { $special = ""; }
-   if (empty($image_provider)) { $image_provider = "DP User"; }
-   if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
+        // if the project has been created and saved, use those values
 
-   theme(_("Create a Project"), "header");
-   echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
-   if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
-   if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
-   if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
-   echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
-   echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font></b></center></td></tr>\n";
-   if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>\n"; }
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
-        echo language_list($language);
-        echo genre_list($genre);
-        echo difficulty_list($difficulty_level);
-        echo special_list($special);
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
-        echo image_provider_list($image_provider);
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Text File URL")."</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Zip File URL")."</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("HTML File URL")."</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
-        if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Files")."</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
-        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
-   echo "</table>";
+        if (mysql_num_rows($result) == 1) {
 
-   if(isset($_POST['saveAndPreview'])) {
+            $projectid = mysql_result($result, 0, "projectid");
+            $nameofwork = mysql_result($result, 0, "nameofwork");
+            $authorsname = mysql_result($result, 0, "authorsname");
+            $checkedoutby = mysql_result($result, 0, "checkedoutby");
+            $language = mysql_result($result, 0, "language");
+            $scannercredit = mysql_result($result, 0, "scannercredit");
+            $comments = mysql_result($result, 0, "comments");
+            $clearance = mysql_result($result, 0, "clearance");
+            $postednum = mysql_result($result, 0, "postednum");
+            $genre = mysql_result($result, 0, "genre");
+            $difficulty_level = mysql_result($result, 0, "difficulty");
+            $special = mysql_result($result, 0, "special");
+            $image_provider = mysql_result($result, 0, "image_provider");
+            $up_projectid = mysql_result($result, 0, "up_projectid");
+
+            // if there's an associated UP, get info on it 
+
+            if (empty($up_projectid)) { $up_projectid =  $_POST['up_projectid'];}
+
+            if (!empty($up_projectid)) {
+                $result = mysql_query("SELECT up_nameofwork, up_topic_id FROM uber_projects WHERE up_projectid = '$up_projectid'");
+                $up_nameofwork = mysql_result($result, 0, "up_nameofwork");
+                $up_topic_id = mysql_result($result, 0, "up_nameofwork");
+            }
+
+        }
+
+        if (!$header_shown) { theme(_("Create a Project"), "header");}
+    }
+
+    if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
+    if (empty($authorsname) && isset($_POST['rec'])) {  $authorsname = marc_author($rec); }
+    if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
+    if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
+    if (empty($checkedoutby)) { $checkedoutby = ""; }
+    if (empty($comments)) { $comments = "<p>".sprintf(_("Refer to the %sProofreading Guidelines%s."),"<a href=\"$code_url/faq/document.php\">","</a>")."</p>"; }
+    if (empty($scannercredit)) { $scannercredit = ""; }
+    if (empty($clearance)) { $clearance = ""; }
+    if (empty($postednum)) { $postednum = ""; }
+    if (empty($special)) { $special = ""; }
+    if (empty($image_provider)) { $image_provider = "DP User"; }
+    if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
+
+    if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'submit_marcsearch')) {
+        theme(_("Create a Project"), "header");
+    }
+
+    echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
+    if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
+    if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
+    if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
+    if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
+    echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
+    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font></b></center></td></tr>\n";
+    if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>\n"; }
+    if (!empty($up_nameofwork)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>".encodeFormValue($up_nameofwork)."</td></tr>\n"; }
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
+    echo language_list($language);
+    echo genre_list($genre);
+    echo difficulty_list($difficulty_level);
+    echo special_list($special);
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+    echo image_provider_list($image_provider);
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Text File URL")."</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Zip File URL")."</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("HTML File URL")."</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
+    if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Files")."</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
+    echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
+    echo "</table>";
+
+    if(isset($_POST['saveAndPreview'])) {
         previewProject($nameofwork, $authorsname, $comments);
-   }
+    }
         theme("", "footer");
 }
+
+// -----------------------------------------------------------------------------
+
+elseif (isset($_REQUEST['action']) &&
+           ( ($_REQUEST['action'] == 'createnewuber') || ($_REQUEST['action'] == 'edituber')  ) ||
+        isset($_REQUEST['saveUberAndReturn'])) {
+
+    if (isset($_POST['saveUberAndReturn'])) {
+        $errorMsg = saveUberProject($_POST);
+    }
+
+    if ( isset($_REQUEST['saveUberAndReturn']) || isset($GLOBALS['up_projectid']) ||
+        (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'edituber'))) {
+
+        if ( empty($GLOBALS['up_projectid'])) {
+            $up_projectid = $_POST['up_projectid'];
+        } else {
+            $up_projectid = $GLOBALS['up_projectid'];
+        }
+
+        if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'edituber' && strlen($up_projectid) == 0) {
+            $errorMsg = _("No Uber Project Id supplied to Edit - Bad Link" . $up_projectid);
+        } else {
+            $result = mysql_query("SELECT * FROM uber_projects WHERE up_projectid = '$up_projectid'");
+            if (mysql_num_rows($result)) {
+
+                // check that user has permission to edit this UP
+
+                $up_info = mysql_fetch_assoc($result);
+
+                $up_nameofwork = $up_info['up_nameofwork'];
+                $up_description = $up_info['up_description'];
+                $nameofwork = $up_info['d_nameofwork'];
+                $authorsname = $up_info['d_authorsname'];
+                $checkedoutby = $up_info['d_checkedoutby'];
+                $language = $up_info['d_language'];
+                $scannercredit = $up_info['d_scannercredit'];
+                $comments = $up_info['d_comments'];
+                $clearance = $up_info['d_clearance'];
+                $genre = $up_info['d_genre'];
+                $difficulty_level = $up_info['d_difficulty'];
+                $special = $up_info['d_special'];
+                $image_provider = $up_info['d_image_provider'];
+                // $year = $up_info['d_year'];
+
+            } else {
+
+                if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'edituber') {
+                    // invalid UP_ID supplied
+                    $errorMsg .= _("Invalid Uber Project ID supplied");
+                }
+            }
+       }
+    } else {
+
+         // no UP_ID supplied, so we're creating a brand new uberproject...
+         // or possibly there was just a failed attempt to create one, so
+         // we will reclaim any of the values that may have been set by not resetting them(!)
+
+         // check that user is allowed to create new uberprojects
+
+        $errorMsg = $errorMsg;
+
+    }
+
+    theme(_("Create an Uber Project"), "header");
+
+    // want the "Create an Uber Project" version of this page to look a little different
+    // from the normal "Create a Project" version, so we'll use a theme colour
+    // instead of a grey for the left hand column
+
+    $bgcol = $theme['color_navbar_bg'];
+
+    echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
+    if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
+    if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
+    if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
+    echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
+    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Uber Project Settings")."</font></b></center></td></tr>\n";
+
+    if (!empty($up_projectid)) { echo "<tr><td bgcolor='$bgcol'><b>"._("Uber Project ID")."</b></td><td>$up_projectid<input type='hidden' name='up_projectid' value='".encodeFormValue($up_projectid)."'></td></tr>\n"; }
+
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Overall Name of Uber Project")."</b></td><td><input type='text' size='67' name='up_nameofwork' value='".encodeFormValue($up_nameofwork)."'></td></tr>\n";
+    echo "<tr><td colspan='2'><center><b>"._("Brief Description of Uber Project")."</b><br><textarea name='up_description' cols='74' rows='6'>".encodeFormValue($up_description)."</textarea></center></td></tr>\n";
+    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Default Values for Projects to be Created from this Uber Project")."</font></b></center></td></tr>\n";
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
+    echo language_list($language, 'Default Language', $bgcol);
+    echo genre_list($genre, 'Default Genre', $bgcol);
+    echo difficulty_list($difficulty_level, 'Default Difficulty Level', $bgcol);
+    echo special_list($special, 'Default Special Day', $bgcol);
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Default PPer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+    echo image_provider_list($image_provider, 'Default Image Provider', $bgcol);
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
+    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
+    echo "<tr><td colspan='2'><center><b>"._("Default Project Comments")."</b><br><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center></td></tr>\n";
+    echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
+    echo "</table>";
+
+    theme("", "footer");
+}
+
+// -----------------------------------------------------------------------------
+
+elseif (isset($_POST['saveUberAndQuit']) || isset($_POST['saveUberAndNewProject']) ) {
+   $errorMsg = saveUberProject($_POST);
+
+   if (empty($errorMsg)) {
+       if (isset($_POST['saveUberAndQuit'])) {
+           metarefresh(0, "projectmgr.php", _("Save Uber Project and Quit"), "");
+       } else {
+           metarefresh(0, "editproject.php?action=createnewfromuber&up_projectid=".$up_projectid, _("Save Uber Project and Create New Project"), "");
+       }
+   } else {
+        theme(_("Uber Project Error!"), "header");
+        echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
+        echo _("Press browser Back button to return, edit, and try again");
+        echo "</font></h3></center>";
+        theme("", "footer");
+   }
+}
+
+
+
 
 // -----------------------------------------------------------------------------
 
@@ -839,7 +1182,10 @@ elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
         if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", _("Save and Go To Project"), ""); }
    } else {
         theme(_("Project Error!"), "header");
-        echo "<br><center><h3><font color='#ff0000'>$errorMsg</font></h3></center>";
+        echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
+        echo _("Press browser Back button to return, edit, and try again");
+        echo "</font></h3></center>";
+
         theme("", "footer");
    }
 }
