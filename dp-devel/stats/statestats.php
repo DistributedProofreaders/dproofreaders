@@ -35,7 +35,7 @@ $created = state_change_since ( "
 
 
 
-echo "<b>$created</b>._("projects have been created")." $descrip<br>";
+echo "<b>$created</b>"._("projects have been created")." $descrip<br>";
 
 $FinProof = state_change_since ( "
 				(state LIKE 'proj_submit%' 
@@ -45,7 +45,7 @@ $FinProof = state_change_since ( "
 
 
 
-echo "<b>$FinProof</b>._("projects have finished proofing")." $descrip<br>";
+echo "<b>$FinProof</b>"._("projects have finished proofing")." $descrip<br>";
 
 
 $FinPP = state_change_since ( "
@@ -56,7 +56,7 @@ $FinPP = state_change_since ( "
 
 
 
-echo "<b>$FinPP</b>._("projects have finished PPing")." $descrip<br>";
+echo "<b>$FinPP</b>"._("projects have finished PPing")." $descrip<br>";
 
 
 ?>
