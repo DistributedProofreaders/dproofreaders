@@ -45,7 +45,7 @@ function verifynew($project) {
        
     $path = "$projects_dir/$projectid/";
 
-    $res = mysql_query("SELECT image,master_text FROM $projectid WHERE state='".AVAIL_FIRST."' ORDER BY image ASC");
+    $res = mysql_query("SELECT image,master_text FROM $projectid ORDER BY image ASC");
     while ( $page = mysql_fetch_assoc($res) )
     {
         $text     = $page['master_text'];
