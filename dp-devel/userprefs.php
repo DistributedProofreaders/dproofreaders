@@ -9,8 +9,11 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
+include_once($relPath.'SettingsClass.inc');
 
 $uid = $userP['u_id'];
+
+$userSettings = Settings::get_Settings($pguser);
 
 if (isset($swProfile))
   {
@@ -44,6 +47,17 @@ function dropdown_select($db_name, $db_value, $array) {
     echo ">$array_list[$i]</option>";
   }
   echo "</select>";
+}
+
+function dropdown_select_yesno($db_name, $yes_selected) {
+  echo "<select name='$db_name' ID='$db_name'>\n";
+  echo "<option value='yes'";
+  if ($yes_selected) { echo ' SELECTED'; }
+  echo '>'._('Yes')."</option>\n";
+  echo "<option value='no'";
+  if (!$yes_selected) { echo ' SELECTED'; }
+  echo '>'._('No')."</option>\n";
+  echo "</select>\n";
 }
 
 function dropdown_select_complex($db_name, $db_value, $array, $values) {
@@ -300,6 +314,7 @@ function save_general_tab() {
 function echo_proofreading_tab() {
   global $theme, $uid, $pguser, $userP;
   global $i_r, $p_l, $f_f, $f_s;
+  global $userSettings;
 
   // see if they already have 10 profiles, etc.
   $pf_query=mysql_query("SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
@@ -314,10 +329,13 @@ function echo_proofreading_tab() {
   echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('showrounds');\">?</a>&nbsp;</b>";
   echo "</td>\n";
   echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-  echo "&nbsp;";
+  echo "<strong>"._('Show Special Colors:')."</strong>";
   echo "</td><td bgcolor='#ffffff' align='left'>";
-  echo "&nbsp;";
-  echo "</td><td bgcolor='#ffffff' align='center'>&nbsp;";
+  // About 'show'/'hide': It seems better to present to the user the option
+  // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
+  $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+  dropdown_select_yesno('show_special_colors', $show_special_colors);
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('showspecialcolors');\">?</a>&nbsp;</b>";
   echo "</td>\n";
   echo "</tr>\n";
 
@@ -561,6 +579,8 @@ function save_proofreading_tab() {
   global $profilename, $i_res, $i_type, $i_layout, $i_newwin, $i_toolbar, $i_statusbar;
   global $v_fntf, $v_fnts, $v_zoom, $v_tframe, $v_tscroll, $v_tlines, $v_tchars, $v_twrap;
   global $h_fntf, $h_fnts, $h_zoom, $h_tframe, $h_tscroll, $h_tlines, $h_tchars, $h_twrap;
+  global $userSettings;
+  global $show_special_colors;
 
   // set/create user_profile values
   if (isset($mkProfile))
@@ -599,6 +619,8 @@ function save_proofreading_tab() {
 
   $result = mysql_query($prefs_query);
   echo mysql_error();
+
+  $userSettings->set_boolean('hide_special_colors', $show_special_colors=='no');
 
   dpsession_set_preferences_from_db();
 }
