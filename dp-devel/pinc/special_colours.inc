@@ -28,6 +28,9 @@
 .red {
         background-color: #FF9090;
 }
+.pink {
+        background-color: #FF99FF;
+}
 .flyblue {
         background-color: #0099FF;
 }
@@ -41,7 +44,7 @@
         background-color: #0090FE;
 }
 .midgrey {
-        background-color: #D6D600;
+        background-color: #D6D6D6;
 }
 -->
 </style>
