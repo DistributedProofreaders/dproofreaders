@@ -188,7 +188,7 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->prd = get_PRD_for_round( $this->pageround );
 }
 
-function addUserCount($proofstate,$pguser,$userP)
+function addUserCount($pguser,$userP)
 {
   $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result=mysql_query($sql);
@@ -196,7 +196,7 @@ function addUserCount($proofstate,$pguser,$userP)
     if ($rows !=0)
     {
       $curState=mysql_result($result,0,'state');
-        if ((getProjectRound($proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || (getProjectRound($proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
+        if ((getProjectRound($this->proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || (getProjectRound($this->proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
         {
           // add to user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
@@ -213,9 +213,9 @@ function saveTemp($text_data,$pguser)
   return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
 
-function saveComplete($proofstate,$text_data,$pguser,$userP)
+function saveComplete($text_data,$pguser,$userP)
 {
-  $this->addUserCount($proofstate,$pguser,$userP);
+  $this->addUserCount($pguser,$userP);
   return Page_saveAsDone( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
 
