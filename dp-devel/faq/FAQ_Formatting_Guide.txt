@@ -56,7 +56,7 @@ different types of programs for several
 different purposes. These different 
 types of programs have different ways 
 of dealing with the contents of the file. 
-Ideally we will be able to able to set 
+Ideally we will be able to set 
 the files up so that they work well with 
 all the different programs at once.
 
@@ -565,7 +565,7 @@ it."
 
 <a href="<? echo $projects_forum_url ?>">  
 is what we use for the project forums URL, instead
-of something like <a href="http://www,pgdp.net/phpBB2/viewforum.php?f=2">.
+of something like <a href="http://www.pgdp.net/phpBB2/viewforum.php?f=2">.
 This anchor will never need changing, even if the site 
 moves and the forums are renamed or moved, you can always 
 just cut-n-paste this string for the project 
