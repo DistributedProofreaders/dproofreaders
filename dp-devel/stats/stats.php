@@ -97,6 +97,9 @@ while ($i < $numProjects) {
         }
         $rows = $pages1+$pages2;
 
+	mysql_free_result($result1);
+	mysql_free_result($result2);
+
         $dailyPages = $dailyPages+$rows;
         $i++;
 }
@@ -108,7 +111,7 @@ echo "Daily pages: ".number_format($dailyPages);
 $tracetimea = time();
 $tooktime = $tracetimea - $tracetime;
 $qrytext = "INSERT INTO job_logs (filename, tracetime, event, comments)
-                VALUES ('stats.php', $tracetimea, 'MIDDLE', 'started at $tracetimea, took $tooktime seconds so far, looked at $numProjects projects')";
+                VALUES ('stats.php', $tracetimea, 'MIDDLE', 'started $tracetime, $tooktime sec, $numProjects projects')";
 $resultA = mysql_query($qrytext);
 
 
