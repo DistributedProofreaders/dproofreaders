@@ -103,9 +103,9 @@ theme("Personal Page for $pguser", "header");
         if ($pagesproofed >= 20) {
                 if ($pagesproofed < 40) {
                         echo "<font face=" . $theme['font_mainbody'] . "><i>";
-                        echo _("Now that you have proofed 20 pages you can see the Site News. This is update regularly with announcements from the administrators.");
+                        echo _("Now that you have proofed 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
 			echo "<br>";
-			echo _("(This explanatory line will eventually vanish.");
+			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>\n";
                 }
 
@@ -182,7 +182,7 @@ theme("Personal Page for $pguser", "header");
 			echo "</a> ";
 			echo _("is displayed in this section");
 			echo "<br>";
-			echo _("(This explanatory line will eventually vanish.");
+			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>";
                 }
 
@@ -207,7 +207,7 @@ theme("Personal Page for $pguser", "header");
                         echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Soon you will be able to see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
-			echo _("(This explanatory line will eventually vanish.");
+			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>";
                 }
         }
@@ -218,7 +218,7 @@ theme("Personal Page for $pguser", "header");
                         echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Now that you have proofed 50 pages you can see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
-			echo _("(This explanatory line will eventually vanish.");
+			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>";
                 }
         }
