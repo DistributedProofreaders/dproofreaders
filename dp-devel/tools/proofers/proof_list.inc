@@ -39,6 +39,7 @@ $i = 0;
 while ($a_res = mysql_fetch_row($result))
 {
     $array_of_langs[$i] = $val;
+    $i++;
 }
 
 $query = "
@@ -49,6 +50,7 @@ $i = 0;
 while ($a_res = mysql_fetch_row($result))
 {
     $array_of_genres[$i] = $val;
+    $i++;
 }
 
 
@@ -60,6 +62,7 @@ $i = 0;
 while ($a_res = mysql_fetch_row($result))
 {
     $array_of_PMs[$i] = $val;
+    $i++;
 }
 
 $array_of_diffs = array('beginner','easy','average','hard');
