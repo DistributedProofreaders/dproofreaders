@@ -128,7 +128,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 
     //Create the name of the page
-    	if (isset($GLOBALS['pguser'])) { echo "<a href='$code_url/tools/proofers/proof_per.php'>\n"; } else { echo "<a href='$code_url/default.php'>\n"; }
+    	echo "<a href='$code_url/default.php'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
 	echo "</td>\n";
@@ -185,8 +185,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if (isset($GLOBALS['pguser'])) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
 				
-		//if ((substr($_SERVER['PHP_SELF'], -14) == "projectmgr.php" || substr($_SERVER['PHP_SELF'], -17) == "post_proofers.php" || substr($_SERVER['PHP_SELF'], -12) == "sitenews.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
-		if ((substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
+		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") { 
 			echo "<a href='$code_url/tools/proofers/proof_per.php'>Proofread Projects</a>";
 			$divider = 1;
 		}
