@@ -26,6 +26,7 @@ class ProofingRoundDescriptor
         $minimum_user_pages,
             // The minimum number of pages that a user must complete
             // in order to be allowed to participate in this round.
+            // If NULL, users cannot qualify for this round by page-count.
         $description,
             // A sentence or two explaining what happens in this round.
         $listing_bgcolors,
@@ -112,7 +113,13 @@ class ProofingRoundDescriptor
     // If $n_pages_completed is non-null, use it as the number of pages
     // that the user has completed. Otherwise, consult the database.
     {
-        if ( $this->minimum_user_pages <= 0 )
+        if ( is_null($this->minimum_user_pages) )
+        {
+            $how = _("Only site admins are allowed in this round.");
+            $can = FALSE;
+            $why = '';
+        }
+        else if ( $this->minimum_user_pages <= 0 )
         {
             $how = _("All users can work in this round.");
             $can = TRUE;
