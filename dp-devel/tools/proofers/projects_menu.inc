@@ -32,7 +32,7 @@ echo "</a></td>";
 
 $setT = "<td bgcolor='#CCCCCC' align='center'>";
 $setU = "project=$project&amp;proofstate=$proofstate";
-$setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
+$setP = "<a href='../../userprefs.php?$setU&tab=1'>"._("Interface Preferences")."</a>";
 
 echo $setT.$setP."\r\n</td>";
 
