@@ -110,9 +110,15 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a>\n";
 	echo "</td>\n";
 	// show number of projects left till 10,000
-	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>\n";
-	$fp = fopen("$dynstats_dir/total_count.txt", "r");
-	$line = fgets($fp);
+	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
+	if ($fp = fopen("$dynstats_dir/total_count.txt", "r"))
+	{
+		$line = fgets($fp);
+	}
+	else
+	{
+		$line = "-1"; 
+	}
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." books left till number 10,000 is posted to PG!</font>\n";
@@ -257,11 +263,13 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	include("$dynstats_dir/stats.inc");
 
     //Show the site statistics
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+      echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 	echo "<center><u>Site Statistics:</u></center>\n";
-	echo "&nbsp;Today: ".number_format($sitestats['daily'])." pages<br>\n";
-	echo "&nbsp;".date("F: ")."".number_format(($sitestats['monthly']+$sitestats['daily']))." pages<br>\n";
-	echo "&nbsp;Goal: ".number_format($sitestats['goal'])." pages (".number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestats['goal'])*100, 2)."%)<br>\n";
+	echo "&nbsp;Today: " . number_format($sitestats['daily']) . " pages<br>\n";
+	echo "&nbsp;" . date("F: ") . "" . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
+	$sitestatsgoal = $sitestats['goal'];
+	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
+	echo "&nbsp;Goal: " . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
     //If the user is logged in show personal & team stats
