@@ -37,6 +37,6 @@ The Distributed Proofreaders Team",
         echo "$rownum";
     }
 
-    echo "$numrows";
+    echo "notify_users.php attempted to email $numrows users with a 5 month inactivity warning";
 
 ?>
