@@ -62,9 +62,9 @@ function attempt_to_release($project)
 
 
 
-function autorelease($pagesleft) {
+function autorelease()
+{
         $todaysdate = time();
-        $pagesneeded = $GLOBALS['pagesneeded'] - $pagesleft;
 
 	echo "<pre>\n";
 	echo "Starting autorelease\n";
@@ -238,11 +238,10 @@ function autorelease($pagesleft) {
 		//      we meet our target for them ($numReleased >= $target),
 		// or   we run out of SP ready to release
 		// or   subject to the "no doubling up of authors" rule
-		// NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
+		// NB No other restrictions; specifically, $GLOBALS['pagesneeded'] cannot influence SPs;
 		// this is so a huge book ariving from another queue won't stop the release of needed SPs
 
 		$newpagesreleased = 0;
-		$totalnewreleased = 0;
 		$num_projects_released = 0;
 
 		while ( $project = mysql_fetch_assoc($waiting_res) )
@@ -291,7 +290,6 @@ function autorelease($pagesleft) {
 			echo "        Project released!\n";
 
 			$newpagesreleased = numpages($project['projectid']);
-			$totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
 			$num_projects_released++;
 
 			// update our progress towards the target,
@@ -314,8 +312,6 @@ function autorelease($pagesleft) {
 		}
 
 		echo "    Released <b>$num_projects_released</b> $projtype_desc projects.\n";
-
-		$pagesneeded = $pagesneeded - $totalnewreleased;
 	}
 
         echo "</pre>\n";
