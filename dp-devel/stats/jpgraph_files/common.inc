@@ -38,6 +38,7 @@ function get_project_status_descriptor( $which )
                 state NOT LIKE 'proj_new%'
             ";
             $obj->color = 'green';
+            $obj->graphs_title = _('Created Projects Graphs');
             $obj->per_day_title = _('Projects Created Each Day');
             $obj->cumulative_title = _('Cumulative Projects Created');
             break;
@@ -49,6 +50,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post%'
             ";
             $obj->color = 'blue';
+            $obj->graphs_title = _('Proofed Projects Graphs');
             $obj->per_day_title = _('Projects Proofed Each Day');
             $obj->cumulative_title = _('Cumulative Projects Proofed');
             break;
@@ -60,6 +62,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post_second%'
             ";
             $obj->color = 'silver';
+            $obj->graphs_title = _('PPd Projects Graphs');
             $obj->per_day_title = _('Projects Post-Processed Each Day');
             $obj->cumulative_title = _('Cumulative Projects PPd');
             break;
@@ -70,6 +73,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_correct%'
             ";
             $obj->color = 'gold';
+            $obj->graphs_title = _('Posted Projects Graphs');
             $obj->per_day_title = _('Projects Posted to PG Each Day');
             $obj->cumulative_title = _('Cumulative Projects Posted to PG');
             break;
