@@ -20,17 +20,16 @@ $monthVar = date("F");
 $today = $year."-".$month."-".$day;
 
 $state_selector = "
-			(state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%')
-";
+		(state LIKE 'proj_submit%'
+		OR state LIKE 'proj_correct%')";
 
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as PPs, date FROM project_state_stats WHERE $state_selector AND date < $today ORDER BY date ASC");
+$result = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
 $i = 0;
-$p = 0;
+
 
 while ($row = mysql_fetch_assoc($result)) {
-	$datay1[$i] = $row['PPs'];
+	$datay1[$i] = $row['P'];
 	$datax[$i] = $row['date'];
 	$i++;
 }
