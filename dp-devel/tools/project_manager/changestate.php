@@ -46,6 +46,7 @@ include_once($relPath.'maybe_mail.inc');
 	|| ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE)
 	|| ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE)
 	|| ($oldstate == PROJ_PROOF_SECOND_UNAVAILABLE)
+	|| ($oldstate == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE)
 	|| ($oldstate == PROJ_POST_FIRST_CHECKED_OUT)
 	|| ($oldstate == PROJ_NEW))
     {
