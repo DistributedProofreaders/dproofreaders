@@ -136,9 +136,9 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	{
 		$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
 		if (mysql_num_rows($temp) == 0) {
-			$blurb = _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
+			$blurb = _("Click here to register for automatic email notification of when this has been posted to Project Gutenberg.");
 		} else {
-			$blurb = _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
+			$blurb = _("Click here to <b>undo</b> registration for automatic email notification of when this has been posted to Project Gutenberg.");
 		}
 		$word = _("Book Completed:");
 		echo_row_a($word, "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
