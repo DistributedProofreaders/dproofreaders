@@ -281,13 +281,13 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
                         if ( startswith( $book['comments'], 'SPECIAL:' ) )
                         {
-                                $bgcolor = '#FFFF66';
+                                $bgcolor = '#FFFF66'; // fadedyellow
                         }
 
                         // Halloween colors for Halloween projects!
                         if ( startswith( $book['comments'], 'Halloween' ) )
                         {
-                                $bgcolor = 'orange';
+                                $bgcolor = 'orange'; // #FF9900
                         }
                         // Wanted to do orange-on-black, too,
                         // but couldn't figure out how to make link-text orange,
@@ -299,7 +299,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
                         {
                                 $bgcolor = '#00FF00';
                         }
-                        // green for India & George Sand
+                        // mid green for India & George Sand
                         if (  startswith( $book['comments'], 'SPECIAL: India') 
 			       or ($book['username'] == 'PM-Sand') )
                         {
@@ -349,7 +349,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
                                 $bgcolor = '#33CCFF';
                         }
 
-                        // Native American Heritage Month
+                        // grey for Native American Heritage Month
                         if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
                         {
                                 $bgcolor = '#CCCCCC';
@@ -396,6 +396,10 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
                                 $bgcolor = '#FF99FF';
                         }
 
+
+			// purple:    #9966CC
+			// gold:      #FFCC0E
+			// scotsblue: #0090FE
 		}
 
 		if (TRUE)
