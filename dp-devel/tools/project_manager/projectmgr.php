@@ -40,8 +40,23 @@ theme("Project Managers", "header");
 	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
 ?>
+	<p>
+	<font size=-1>
+	Comments on this page?
+	Please visit
+	<a href='<? echo $forums_url; ?>/viewtopic.php?t=2793'>this forum topic</a>.
+	</font>
+
 	<p><b>Project Manager Notice:</b><br>
 
+	<p>
+	The "Pages Left" column of the projects table has been removed.
+	This should speed up assembly of the PM page dramatically,
+	and also reduce the load on the server.
+	Note that the "Pages Remaining to be Proofed" for a project
+	is still available, on its Project Details page.
+
+	<hr width='50%'>
 	<p>
 	On the Project Details page,
 	you can now specify a directory
@@ -212,11 +227,16 @@ theme("Project Managers", "header");
 		    </center>
 		";
 	} else {
+		$show_pages_left = 0;
+
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
     		echo "<tr>";
       		echo "<td width='175' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Title</b></font></td>";
       		echo "<td width='100' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Author</b></font></td>";
-      		echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Left</b></font></td>";
+		if ( $show_pages_left )
+		{
+		    echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Left</b></font></td>";
+		}
       		echo "<td width='75' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>";
 	        if ($_GET['show'] == "site") {
 			echo "PM";
@@ -302,8 +322,6 @@ theme("Project Managers", "header");
                 		$bgcolor = $theme['color_navbar_bg'];
             		}
 
-			$projectinfo->update_avail($projectid, $state);
-
             		echo "<tr bgcolor=$bgcolor>\n";
 
 			// Title
@@ -313,7 +331,12 @@ theme("Project Managers", "header");
 			echo "<td>$author</td>\n";
 
 			// Left
-			echo "<td align=\"center\">$projectinfo->availablepages</td>\n";
+			if ( $show_pages_left )
+			{
+			    $projectinfo->update_avail($projectid, $state);
+			    echo "<td align=\"center\">$projectinfo->availablepages</td>\n";
+			}
+
 			// Owner
 			echo "<td align=\"center\">";
             		if ($show == 'site') {
