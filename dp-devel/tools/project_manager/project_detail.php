@@ -14,12 +14,20 @@ include_once('page_table.inc');
 $no_stats=1;
 theme("Project Details", "header");
 
-abort_if_not_manager();
-
 $projectid = $_GET['project'];
-abort_if_cant_edit_project( $projectid );
+if (not user_is_PP_of( $projectid)) {
+	abort_if_not_manager();
+}
+
 
 echo_manager_header( 'project_detail_page' );
+
+$can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
+
+// test
+$can_edit = FALSE;
+
+if ($can_edit) {
 
 echo "
 <p>
@@ -30,6 +38,8 @@ password=<b>$uploads_password</b>
 </p>
 ";
 
+}
+
 $result = mysql_query("SELECT state FROM projects WHERE projectid='$projectid'");
 $state = mysql_result($result, 0);
 
@@ -39,7 +49,12 @@ echo "<center>";
 
 echo_project_info( $projectid, 'proj_post', 0 );
 
-echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
+
+if ($can_edit) {
+
+	echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
+
+}
 
 //if new project enable uploading of tpNv info
 if ($state == PROJ_NEW){
@@ -129,10 +144,13 @@ echo_page_table( $projectid );
 
 // -----------------------------------------------------------------------------
 
-if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
-{
-	echo "<br><br><br>";
-	echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+if ($can_edit) {
+
+	if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
+	{
+		echo "<br><br><br>";
+		echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+	}
 }
 
 echo "</center>";
