@@ -66,12 +66,17 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     }
 
     $todaysdate = time();
+
+    if ($currstate == PROJ_PROOF_FIRST_VERIFY)
+      $currstate = PROJ_PROOF_FIRST_AVAILABLE;
+
     $result = mysql_query("UPDATE projects SET state = '$currstate', modifieddate = '$todaysdate' WHERE projectid = '$project'");
 
-    if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
-        print "Prepared for Release project = $project<BR>";
-        return numpages($project);
+    if ($currstate == PROJ_PROOF_FIRST_AVAILABLE) {
+      print "Released project = $project<BR>";
+      return numpages($project);
     } else return 0;
+
 }
 
 
