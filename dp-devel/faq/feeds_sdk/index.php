@@ -1,11 +1,6 @@
 <?
 $relPath='../../pinc/';
 include($relPath.'v_site.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
-$no_stats=1;
-theme('XML Feeds SDK','header');
 ?>
 
 <table border="0" style="border-collapse: collapse" width="100%" id="table1">
@@ -107,7 +102,7 @@ willing to implement the code that we are going to discuss below into
 their site.&nbsp; It includes more data for your end user as well as 
 providing you more options on how to display the data.&nbsp; This feed 
 is again based upon the DTD definition format and you can see our DTD
-<a href="http://texts01.archive.org/dp/feeds/projects.dtd">here</a>.</p>
+<a href="<? echo $siteurl; ?>/feeds/projects.dtd">here</a>.</p>
 </blockquote>
 <table border="0" style="border-collapse: collapse" width="95%" id="table4" bgcolor="#D8E4F1">
 <tr>
@@ -157,24 +152,24 @@ own format which is yet to be named.&nbsp; Below are the links to the
 different feeds as well as the type of feed it is.</p>
 <ol>
 <li>
-<a href="http://texts01.archive.org/dp/feeds/backend.php?content=projects">
-http://texts01.archive.org/dp/feeds/backend.php?content=projects</a>
+<a href="<? echo $siteurl; ?>/feeds/backend.php?content=projects">
+<? echo $siteurl; ?>/feeds/backend.php?content=projects</a>
 <br>
 --The last ten projects posted to Project Gutenberg in our propriety 
 XML format.</li>
 <li>
-<a href="http://texts01.archive.org/dp/feeds/backend.php?content=projects&type=rss">
-http://texts01.archive.org/dp/feeds/backend.php?content=projects&amp;type=rss</a><br>
+<a href="<? echo $siteurl; ?>/feeds/backend.php?content=projects&type=rss">
+<? echo $siteurl; ?>/feeds/backend.php?content=projects&amp;type=rss</a><br>
 --The last ten projects posted to Project Gutenberg in RSS format.
 </li>
 <li>
-<a href="http://texts01.archive.org/dp/feeds/backend.php?content=news">
-http://texts01.archive.org/dp/feeds/backend.php?content=news</a><br>
+<a href="<? echo $siteurl; ?>/feeds/backend.php?content=news">
+<? echo $siteurl; ?>/feeds/backend.php?content=news</a><br>
 --News headlines for the Distributed Proofreaders site in RSS 
 format.<span style="text-decoration: none">*</span></li>
 <li>
-<a href="http://texts01.archive.org/dp/feeds/backend.php?content=news&type=rss">
-http://texts01.archive.org/dp/feeds/backend.php?content=news&amp;type=rss</a><br>
+<a href="<? echo $siteurl; ?>/feeds/backend.php?content=news&type=rss">
+<? echo $siteurl; ?>/feeds/backend.php?content=news&amp;type=rss</a><br>
 --News headlines for the Distributed Proofreaders site in RSS 
 format.<span style="text-decoration: none">*</span></li>
 </ol>
@@ -452,7 +447,4 @@ false) { <br>document.write(&quot;Library Reference: &lt;a href='&quot;);<br>doc
 </table>
 </blockquote>
 </blockquote>
-
-<?
-theme('','footer');
-?>
+</body></html>
