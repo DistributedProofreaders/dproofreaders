@@ -1,6 +1,48 @@
 <?
+include_once($relPath.'project_states.inc');
+include_once($relPath.'page_states.inc');
 include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
+
+function show_books_available_for_proofing( $round, $userP, $tList )
+{
+	if ( $round == 'first' )
+	{
+		// Select all projects in the list for round 1.
+		// Put the BEGIN projects at the top.
+		$query = "
+			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
+			FROM projects
+			WHERE
+				state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+				state = '".PROJ_PROOF_FIRST_VERIFY."'
+			ORDER BY
+				is_beginner DESC,
+				modifieddate DESC,
+				nameofwork ASC
+		";
+		$state = AVAIL_FIRST;
+	}
+	else if ( $round == 'second' )
+	{
+		// Select all projects in the list for round 2.
+		$query = "
+			SELECT *
+			FROM projects
+			WHERE
+				state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+				state = '".PROJ_PROOF_SECOND_VERIFY."'
+			ORDER BY
+				nameofwork ASC
+		";
+		$state = AVAIL_SECOND;
+	}
+
+	$result = mysql_query($query);
+	showbooklistheader($round);
+	showavailablebooks($result,$state,$userP,$tList,$round);
+}
+
 
 function showbooklistheader($round) {
 echo "<tr>";
