@@ -139,7 +139,7 @@ abort_if_not_manager();
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
 		$result = mysql_query("
-			SELECT projectid, nameofwork, authorsname, checkedoutby, state, username
+			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username
 			FROM projects
 			WHERE $condition
 			ORDER BY nameofwork asc
@@ -208,6 +208,7 @@ abort_if_not_manager();
     		echo "<tr>";
       		echo_header_cell( 175, "Title" );
       		echo_header_cell( 100, "Author" );
+      		echo_header_cell( 50, "Diff." );
 		if ( $show_pages_left )
 		{
 		    echo_header_cell( 50, "Left" );
@@ -231,6 +232,7 @@ abort_if_not_manager();
 		     {
             		$name = mysql_result($result, $rownum, "nameofwork");
             		$author = mysql_result($result, $rownum, "authorsname");
+                        $diff = substr(mysql_result($result, $rownum, "difficulty"),0,1);
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
 
@@ -247,6 +249,10 @@ abort_if_not_manager();
 
 			// Author
 			echo "<td>$author</td>\n";
+
+			// Difficulty
+			echo "<td>$author</td>\n";
+
 
 			// Left
 			if ( $show_pages_left )
