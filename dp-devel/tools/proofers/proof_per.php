@@ -7,12 +7,13 @@ include($relPath.'showavailablebooks.inc');
 // $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode
 // should offer link to save changes and|or restore defaults
 
-    echo "<html><head>";
-    echo "<title>Personal Page for $pguser</title></head><body>";
-    echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
-    echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td bgcolor = \"CCCCCC\" align = left colspan =\"2\"><font size=+1>Welcome</font><font color=\"#0000FF\" font size = +1> $pguser</font></td></tr><tr>";
-    echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td>";
-    echo" <b>Site Stats:</b><br>";
+    echo "\n<html><head>";
+    echo "\n<title>Personal Page for $pguser</title></head><body>";
+    echo "\n <table border=0 cellspacing=0 width=630>";
+    echo "\n <td width=1 bgcolor='#CCCCCC'>&nbsp;</td>";
+    echo "\n <td bgcolor='#CCCCCC' align=left colspan=2><font size='+1'>Welcome</font><font color='#0000FF' font size='+1'> $pguser</font></td></tr>";
+    echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td><td>";
+    echo "\n <b>Site Stats:</b><br>";
     include("../../stats/hourly.txt");
 
     //get total pages completed
@@ -53,11 +54,11 @@ include($relPath.'showavailablebooks.inc');
     //get total number of users
     $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
     $totalusers = (mysql_result($users,0,"numusers"));
-    echo "<br>Total users who completed at least 1 page: <b> $totalusers</b>";
+    echo "\n<br>Total users who completed at least 1 page: <b> $totalusers</b>";
 
-    echo" <p><b>Your Stats:<br></b>";
-    echo "Your Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
-    echo "Your Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
+    echo"\n <p><b>Your Stats:<br></b>";
+    echo "\nYour Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
+    echo "\nYour Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
 
     $pagessql = "SELECT username, pagescompleted FROM users ORDER BY pagescompleted DESC";
     $pages = mysql_query($pagessql);
@@ -88,14 +89,14 @@ if ($userP['i_prefs']==1)
 {echo "<a href=\"../../userprefs.php\">View</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
-echo "</b><P>";
+echo "</b>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 ?>
 
 
-<b>Top 10 Proofers:</b>
+<p><b>Top 10 Proofers:</b>
 <blockquote>
 
 <TABLE border=1 cellspacing=0 cellpadding=0>
@@ -185,11 +186,9 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 </TABLE>
 </blockquote>
 <? } ?>
-<p>
-<p>
 
-<font color=#FF0000><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again.</B><P></font>
-<b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
+<p><font color='#FF0000'><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again.</B></font>
+<P><b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
 <?
 
     // If Post Processor give link to post processing page.
@@ -246,8 +245,8 @@ Want to help out the site by providing material for us to proof? Check <a href="
 <?
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
-echo "<tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>";
-echo "<td bgcolor=CCCCCC colspan=5> These files are output from the OCR software and have not been looked at.</tr>";
+echo "<tr><td bgcolor='#CCCCCC' colspan=2><h3>Current First - Round Projects</h3></td>";
+echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR software and have not been looked at.</td></tr>";
 
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
@@ -258,7 +257,7 @@ echo "</table>";
 
 <?
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
-echo "<table border=1 width=630>";
+echo "\n<table border=1 width=630>";
 echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
 if ($totalpages < 50) {
 echo "<td bgcolor='#cccccc' colspan=5>Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.";
@@ -273,34 +272,34 @@ echo "</td></tr>";
     echo "</table>\n<p>";
 }
 } 
-
-
-echo "<table border=1 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111 width=630>";
 ?>
+
+<table border=1 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor='#111111' width=630>
+<tr>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <?
     // If Project Manager give link back to project manager page.
 
     $manager = $userP['manager'];
     if ($manager == "yes") {
-        echo "<td width=126 bgcolor =CCCCCC align=center><a href = \"../project_manager/projectmgr.php\">Manage Projects</a></td>\n";
+        echo "<td width=126 bgcolor='#CCCCCC' align=center><a href = \"../project_manager/projectmgr.php\">Manage Projects</a></td>\n";
     } else {
-        echo "<td width=126 bgcolor =CCCCCC align=center>&nbsp;</td>\n";
+        echo "<td width=126 bgcolor='#CCCCCC' align=center>&nbsp;</td>\n";
     }
 
 ?>
-<td width=126 bgcolor =CCCCCC align=center>&nbsp;</td>
+<td width=126 bgcolor='CCCCCC' align=center>&nbsp;</td>
 <?
 
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
   //  if ($postprocessor == "yes") {
-        echo "<td width=126 bgcolor =CCCCCC align=center><a href =\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
+        echo "<td width=126 bgcolor='#CCCCCC' align=center><a href =\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
     } else {
-        echo "<td width=126 bgcolor =CCCCCC align=center>&nbsp;</td>\n";
+        echo "<td width=126 bgcolor='#CCCCCC' align=center>&nbsp;</td>\n";
     }
 
 ?>
 
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
+<td width=126 bgcolor='#CCCCCC' align=center><a href ="../logout.php">Logout</a></td>
 </tr></table></body>
 </html>
