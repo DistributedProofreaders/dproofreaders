@@ -68,9 +68,11 @@ $state = $_POST['state'];
 
 //If the PM fixed the problem or stated the report was bad update the database to reflect
 if (($action == "fixed") || ($action == "bad")) {
-if ($state == BAD_FIRST) { $state = AVAIL_FIRST; } elseif ($state = BAD_SECOND) { $state = AVAIL_SECOND; }
-$result = mysql_query("UPDATE $projectID SET b_user='', b_code='', state='$state' WHERE fileid=$fileID");
-}
+if ($state == BAD_FIRST) { 
+$result = mysql_query("UPDATE $projectID SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE fileid=$fileID");
+} elseif ($state = BAD_SECOND) { 
+$result = mysql_query("UPDATE $projectID SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE fileid=$fileID");
+} }
 
 //Redirect the user back to the project detail page.
 header("Location: projectmgr.php?project=$projectID");
