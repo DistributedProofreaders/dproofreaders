@@ -11,10 +11,7 @@ function echo_page_table( $projectid )
 {
 	global $theme, $projects_dir;
 
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
-
-	// test
-	//$can_edit = FALSE;
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
