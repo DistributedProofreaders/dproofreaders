@@ -27,13 +27,15 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	{
 		// Select all projects in the list for round 2.
 		$query = "
-			SELECT *
+			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
 			FROM projects
 			WHERE
 				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
 				state = '".PROJ_PROOF_SECOND_VERIFY."') "
 				.$where_filter." 
 			ORDER BY
+				is_beginner DESC,
+				modifieddate DESC,
 				nameofwork ASC
 		";
 	}
