@@ -13,20 +13,24 @@ $result = mysql_query("SELECT * FROM user_teams WHERE id = $tid");
 $curTeam = mysql_fetch_assoc($result);
 
 if ($userP['u_id'] != $curTeam['owner']) {
-	metarefresh(4,"tdetail.php?tid=$tid",'Authorization Failed','You are not authorized to edit this team....');
+	$title = _("Authorization Failed");
+	$desc = _("You are not authorized to edit this team....");
+	metarefresh(4,"tdetail.php?tid=$tid",$title,$desc);
 	exit;
 }
 
 if (isset($_GET['tid'])) {
 	include($relPath.'js_newpophelp.inc');
-	theme("Edit ".$curTeam['teamname'], "header");
+	$edit = _("Edit");
+	theme($edit." ".$curTeam['teamname'], "header");
 	echo "<center><br>";
 	showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid,0,0);
 	echo "</center>";
 	theme("", "footer");
 } elseif (isset($_POST['edPreview'])) {
 	include($relPath.'js_newpophelp.inc');
-    	theme("Preview ".$_POST['teamname'], "header");
+	$preview = _("Preview");
+    	theme($preview." ".$_POST['teamname'], "header");
     	$teamimages = uploadImages(1,$tid,"both");
     	$curTeam['teamname'] = stripAllString($_POST['teamname']);
     	$curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -57,7 +61,10 @@ if (isset($_GET['tid'])) {
     	}
 
     	mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString($_POST['teamname']))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
-      	metarefresh(0,"tdetail.php?tid=$tid",'Saving Team Update','Updating team....');
+
+	$title = _("Saving Team Update");
+	$desc = _("Updating team....");
+      	metarefresh(0,"tdetail.php?tid=$tid",$title, $desc);
 }
 
 ?>

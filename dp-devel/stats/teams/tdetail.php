@@ -11,7 +11,9 @@ $result = mysql_query("SELECT * FROM user_teams WHERE id = ".$_GET['tid']);
 $curTeam = mysql_fetch_assoc($result);
 $now = time();
 
-theme($curTeam['teamname']." Stats", "header");
+$stats = _("Statistics");
+
+theme($curTeam['teamname']." ".$stats, "header");
 echo "<br><center>";
 showTeamProfile($curTeam);
 if ($_GET['tid'] != 1) {

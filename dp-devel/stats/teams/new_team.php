@@ -8,7 +8,8 @@ $popHelpDir="$code_url/faq/pophelp/teams/edit_";
 
 if (isset($_POST['mkPreview'])) {
 	include($relPath.'js_newpophelp.inc');
-	theme("Preview ".$_POST['teamname'], "header");
+	$name = _("Preview");
+	theme($name." ".$_POST['teamname'], "header");
 	$teamimages = uploadImages(1,"","both");
 	$curTeam['teamname'] = stripAllString($_POST['teamname']);
 	$curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -57,10 +58,15 @@ if (isset($_POST['mkPreview'])) {
 	// update cookie
         if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
         else { updateSessionPreferences($pguser); }
-	metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",'Join the Team','Creating the team....');
+
+	$title = _("Join the Team");
+	$desc = _("Creating the team....");
+	metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",$title, $desc);
 } else {
 	include($relPath.'js_newpophelp.inc');
-	theme("Create a New Team", "header");
+
+	$name = _("Create a New Team");
+	theme($name, "header");
 	echo "<center><br>";
 	showEdit("","","",1,0,0,0);
 	echo "</center>";

@@ -28,23 +28,27 @@ if (!empty($_REQUEST['tname'])) {
 	$tname = "";
 }
 
-theme("Team List", "header");
+$name = _("Team List");
+
+theme($name, "header");
 echo "<center><br>";
 
 //Display of user teams
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='4' style='border-collapse: collapse' width='95%'>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>User Teams</font></b></td></tr>";
+echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>"
+echo _("User Teams");
+echo "</font></b></td></tr>";
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-	echo "<td align='center'><b>Icon</b></td>";
+	echo "<td align='center'><b>"._("Icon")."</b></td>";
 	if ($order == "id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>ID</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>"._("ID")."</a></b></td>";
 	if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>Team Name</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>"._("Team Name")."</a></b></td>";
 	if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>Total Members</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>"._("Total Members")."</a></b></td>";
 	if ($order == "page_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=page_count&direction=$newdirection'>Page Count</a></b></td>";
-	echo "<td align='center'><b>Options</b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=page_count&direction=$newdirection'>"._("Page Count")."</a></b></td>";
+	echo "<td align='center'><b>"._("Options")."</b></td>";
 echo "</tr>";
 if (!empty($tRows)) {
 	$i = 0;
@@ -55,29 +59,29 @@ if (!empty($tRows)) {
 		echo "<td>".$row['teamname']."</td>";
 		echo "<td align='center'>".$row['member_count']."</td>";
 		echo "<td align='center'>".$row['page_count']."</td>";
-		echo "<td align='center'><b><a href='tdetail.php?tid=".$row['id']."'>View</a>&nbsp;";
+		echo "<td align='center'><b><a href='tdetail.php?tid=".$row['id']."'>"._("View")."</a>&nbsp;";
 		if ($row['id'] != 1 && $userP['team_1'] != $row['id'] && $userP['team_2'] != $row['id'] && $userP['team_3'] != $row['id']) {
-			echo "<a href='../members/jointeam.php?tid=".$row['id']."'>Join</a></b></td>";
+			echo "<a href='../members/jointeam.php?tid=".$row['id']."'>"._("Join")."</a></b></td>";
 		} elseif ($row['id'] != 1) {
-			echo "<a href='../members/quitteam.php?tid=".$row['id']."'>Quit</a></b></td>";
+			echo "<a href='../members/quitteam.php?tid=".$row['id']."'>"._("Quit")."</a></b></td>";
 		}
 		echo "</tr>";
 		$i++;
 	}
 } else {
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='6' align='center'><b>No more teams available.</b></td></tr>";
+	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='6' align='center'><b>"._("No more teams available.")."</b></td></tr>";
 }
 
 echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3' align='left'>";
 if (!empty($tstart)) {
-	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart-20)."'>Previous</a></b>";
+	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
 }
 echo "&nbsp;</td><td colspan='3' align='right'>&nbsp;";
 if ($tRows == 20) {
-	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart+20)."'>Next</a></b>";
+	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='new_team.php'><font color='".$theme['color_headerbar_font']."'>Create a New Team</font></a></b></td></tr>";
+echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='new_team.php'><font color='".$theme['color_headerbar_font']."'>"._("Create a New Team")."</font></a></b></td></tr>";
 echo "</table><p>";
 theme("", "footer");
 ?>
