@@ -103,7 +103,6 @@ function verifynew($projectid, $author, $nameofwork, $language, $clearance, $ema
 
 function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $released, $count2ndRnd, $todaysdate)
 {
-        $i = 0;
         $newpagesreleased = 0;
         $totalnewreleased = 0;
         $numReleased = 0;
@@ -117,14 +116,14 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
         // Keep releasing these projects (SP) until:
         //      we meet our target for them ($released >= $target),
-        // or   we run out of SP ready to release ($numAvailable),
+        // or   we run out of SP ready to release
         // or   subject to the "no doubling up of authors" rule
         // NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
         // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
-        while ($numAvailable > 0) {
+        while ( $project = mysql_fetch_assoc($avail_result) ) {
                 // check the date
-                $modifieddate = mysql_result($avail_result, $i, "modifieddate");
+                $modifieddate = $project['modifieddate'];
                 if ($modifieddate == $todaysdate) {
                         // since projects are sorted by date, if we reach here we have already
                         // considered and rejected all remaining candidates under the author rule
@@ -135,8 +134,8 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 // if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
                 // this candidate for early release, consider it now
                 {
-                        $author = mysql_result($avail_result, $i, "authorsname");
-                        $projectid = mysql_result($avail_result, $i, "projectid");
+                        $author = $project['authorsname'];
+                        $projectid = $project['projectid'];
 
 
                         // "no doubling up of authors"
@@ -153,14 +152,13 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 // fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
                                 $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$projectid'");
-                                $numAvailable--;
                         } else {
                                 // OK to release
                                 // get the other data
-                                $nameofwork = mysql_result($avail_result, $i, "nameofwork");
-                                $language = mysql_result($avail_result, $i, "language");
-                                $clearance = mysql_result($avail_result, $i, "clearance");
-                                $pm = mysql_result($avail_result, $i, "username");
+                                $nameofwork = $project['nameofwork'];
+                                $language = $project['language'];
+                                $clearance = $project['clearance'];
+                                $pm = $project['username'];
                                 $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
                                 $email = mysql_result($temp, 0, "email");
 
@@ -168,7 +166,6 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 // its contribution to reducing our total page shortfall
                                 $newpagesreleased = verifynew($projectid, $author, $nameofwork, $language, $clearance, $email);
                                 $totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
-                                $numAvailable--;
                                 $numReleased++;
 
                                 // update our progress towards the target,
@@ -187,7 +184,6 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 }
                         }
                 }
-                $i++;
         }
 
         // if $numavailable == 0, email someone!
