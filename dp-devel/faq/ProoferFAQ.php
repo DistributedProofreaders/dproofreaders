@@ -226,7 +226,7 @@ different pages.  This will significantly speed up the proofreading process.
     before starting to proofread.  The main goal is to preserve as much formatting as
     possible, marked the same way, while making the etext readable on a computer. If you
     are a new proofreader it may be helpful to print out a copy of our 2-page summary,
-    the <a href="scan/summary.pdf">Handy Proofing
+    the <a href="summary.pdf">Handy Proofing
     Guide</a>, and keep it handy while proofreading. This covers the basics of
     proofreading.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
