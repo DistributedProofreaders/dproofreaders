@@ -1,5 +1,6 @@
 <?
 $relPath="./pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
 include($relPath.'doctype.inc');
@@ -178,7 +179,7 @@ echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('toolbar');\">?</a></b>";
 echo $tre.$tr.$td2;
 echo "<strong>Password:</strong>";
 echo $tde.$td3;
-echo "<a href='http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword'>Reset Password</a>";
+echo "<a href='$siteurl/phpBB2/profile.php?mode=sendpassword'>Reset Password</a>";
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('password');\">?</a></b>";
 echo $tde.$td2;
 echo "<strong>Show Statusbar:</strong>";
