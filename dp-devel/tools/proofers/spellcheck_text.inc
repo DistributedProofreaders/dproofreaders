@@ -5,7 +5,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
-	echo "<input type='hidden' name='text_data' value='" . htmlentities($orig_text) . "'>";
+	echo "<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>";
 
 	$orig_lines= explode("[lf]",$orig_text);
 
@@ -57,7 +57,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			// Flush any remaining original-text on this line.
 			$orig_str = substr( $orig_line, $orig_start );
-			echo escapeStringEntities($orig_str);
+			echo html_safe($orig_str);
 
 			// Put a line-break in the output.
 			echo "\n\n";
@@ -104,11 +104,11 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			// Flush any original-text preceding the bad word.
 			$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
-			echo escapeStringEntities($orig_str);
+			echo html_safe($orig_str);
 
 			$n_bad_words++;
 
-			$orig_word = escapeStringEntities($orig_word);
+			$orig_word = html_safe($orig_word);
 
 			// create html
 			// hidden values line|offset|word length
@@ -130,8 +130,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			if ($n_suggs > 0)
 			{
-				// escape all words
-				$suggs_str = escapeStringEntities($suggs_str);
+				$suggs_str = html_safe($suggs_str);
 
 				// break word list
 				$suggs = explode(', ',$suggs_str);
@@ -153,6 +152,20 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 	echo "<input type='hidden' name='sptotal' value='$n_bad_words'>";
 }
 
+function html_safe( $str )
+// Return a copy of $str which has been rendered safe to send as
+// element-content or attribute-content in an HTML document.
+{
+	return htmlspecialchars($str,ENT_QUOTES);
+}
+
+// I think this function would only be useful
+// if you were sending the HTML to a browser
+// that only accepted (7-bit) ASCII.
+// But the rest of the site assumes
+// that any Latin-1 character is okay to send,
+// so I don't see why we wouldn't assume that here.
+//
 function escapeStringEntities($text)
 {
 	$ent_array=array();
