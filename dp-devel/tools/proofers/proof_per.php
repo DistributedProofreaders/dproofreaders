@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
     echo "<html><head>";
     echo "<title>Personal Page for $pguser</title></head><body>";
-
     echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td bgcolor = \"CCCCCC\" align = left colspan =\"3\"><font size=+1>Welcome</font><font color=\"#0000FF\" font size = +1> $pguser</font></td><td width = \"1\" bgcolor = \"CCCCCC\" colspan =\"1\">&nbsp</td><tr>";
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td align =\"center\"><b>This is your Personal Page!</b></td>";
@@ -254,7 +253,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
         $projectid = mysql_result($result, $rownum2, "projectid");
 
         // find out how many files are available for proofing for each project!!!!!
-        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state='2'");
+        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state=2");
         $availablepages = mysql_num_rows($rows);
 
             //alternate colors for each project

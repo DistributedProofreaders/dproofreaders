@@ -15,19 +15,28 @@ $dbC=new dbConnect();
 
     $users = mysql_query("SELECT email FROM users WHERE username = '$username'");
     $email = mysql_result($users, 0, "email");
+include($relPath.'doctype.inc');
+echo "<HTML><HEAD><TITLE> Project Comments</TITLE>$docType";
 ?>
-
-<html><head><title> Project Comments</title></head><body>
-<table border=1 width=630><tr>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="proof_per.php">Back</a></td>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
-<?
-echo "<td width=126 bgcolor=CCCCCC align=center><a href=\"proof.php?project=".$project."&prooflevel=".$prooflevel."&orient=vert\">Vertical Proofing</a></td>";
-echo "<td width=126 bgcolor=CCCCCC align=center><a href=\"proof.php?project=".$project."&prooflevel=".$prooflevel."\">Horizontal Proofing</a></td>";
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+<!-- 
+function newProofWin(winURL)
+{
+sw=screen.width
+if (sw)
+{newWidth=screen.width-20;
+newHeight=((newWidth-40) * 75)/100;
+}
+else {newWidth=600;newHeight=450;}
+newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width="+newWidth+",height="+newHeight+",top=0,left=5'";
+nwWin=window.open(winURL,"prooferWin",newFeatures);}
+// -->
+</SCRIPT></HEAD></BODY>
+<?PHP
+include('./projects_menu.inc');
 ?>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
-</tr></table><br>
-Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. Instructions in Project Comments below take precedence over the guidelines.
+<br>
+Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 <P><table border=1 width=630>
 <tr><td bgcolor="CCCCCC" align=center><h3><b>
 
@@ -46,13 +55,7 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
     echo "<td><A HREF=\"mailto: $email\">$username</A></td></tr>";
 
     echo "<tr><td bgcolor = \"CCCCCC\"><h3>Project Comments</h3></td><td>$comments</td></tr></table>"; 
+echo "<BR>";
+include('./projects_menu.inc');
 ?>
-<br><table border=1 width=630><tr>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="proof_per.php">Back</a></td>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
-<?
-echo "<td width=126 bgcolor=CCCCCC align=center><a href=\"proof.php?project=".$project."&prooflevel=".$prooflevel."&orient=vert\">Vertical Proofing</a></td>";
-echo "<td width=126 bgcolor=CCCCCC align=center><a href=\"proof.php?project=".$project."&prooflevel=".$prooflevel."\">Horizontal Proofing</a></td>";
-?>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
-</tr></table><br></body></html>
+</BODY></HTML>

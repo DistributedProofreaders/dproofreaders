@@ -1,0 +1,82 @@
+<html><head><TITLE>Proofing Page</TITLE>
+<SCRIPT LANGUAGE="JavaScript" SRC="dpproof.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+<!-- 
+<?PHP
+echo "newFntS=$fntS;\r\n";
+echo "newFntF=$fntF;\r\n";
+echo "newZmSize=$zmSize;\r\n";
+
+?>
+//  -->
+</SCRIPT></head><BODY 
+BGCOLOR="#CCCCCC" TEXT="#000000" LINK="#000000" VLINK="#000000" 
+ALINK="#000000" TOPMARGIN="0" onLoad="doBU()"><CENTER><FORM NAME="editform" ID="editform" 
+METHOD="POST" ACTION="processtext.php" TARGET="_top">
+<?PHP
+// set values for hidden form fields
+$sHidFS="<INPUT \nTYPE=\"hidden\" VALUE=\"";
+$sHidFM="\" NAME=\"";
+$sHidFM2="\" ID=\"";
+$sHidFE="\">";
+echo $sHidFS.$imagefile.$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
+echo $sHidFS.$fileid.$sHidFM.'fileid'.$sHidFM2.'fileid'.$sHidFE;
+echo $sHidFS.$prooflevel.$sHidFM.'prooflevel'.$sHidFM2.'prooflevel'.$sHidFE;
+echo $sHidFS.$project.$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+echo $sHidFS.$orient.$sHidFM.'orient'.$sHidFM2.'orient'.$sHidFE;
+echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
+echo $sHidFS.$js.$sHidFM.'js'.$sHidFM2.'js'.$sHidFE;
+echo $sHidFS.$fntF.$sHidFM.'fntF'.$sHidFM2.'fntF'.$sHidFE;
+echo $sHidFS.$fntS.$sHidFM.'fntS'.$sHidFM2.'fntS'.$sHidFE;
+//echo $sHidFS.$zmSize.$sHidFM.'zmSize'.$sHidFM2.'zmSize'.$sHidFE;
+echo $sHidFS.$sTags.$sHidFM.'sTags'.$sHidFM2.'sTags'.$sHidFE;
+?>
+<TABLE 
+CELLPADDING="0" CELLSPACING="0">
+<TR><TD COLSPAN="5" ALIGN="center" VALIGN="bottom">
+<?PHP
+include('button_menu.inc');
+?>
+</TD></TR><TR>
+<TD COLSPAN="5" ALIGN="center" VALIGN="top"><textarea 
+name="text_data" ID="text_data" COLS="70" ROWS="<?PHP
+if ($orient=='vert') {if ($lang==1) {echo "39";}else {echo "37";}}
+else {echo "6";}?>" onSelect="getCurSel()" 
+onClick="getCurCaret()" onKeyup="getCurCaret()" WRAP="off">
+<?PHP
+// depends on prooflevel
+$dbQuery="SELECT ";
+$dbQuery.=$prooflevel==0? "master":"round1";
+$dbQuery.="_text FROM $project WHERE fileid = '$fileid'";
+    $result = mysql_query($dbQuery);
+    $myrow = mysql_fetch_row($result);
+    $text_data = $prooflevel==0?mysql_result($result, 0, "master_text"):mysql_result($result, 0, "round1_text");;
+    if ($prooflevel != 0) {
+        $text_data = strip_tags($text_data, '<i>&');
+    } else {
+        $search = array("'>'i", "'<'i");
+        $replace = array("*", "*");
+        $text_data = preg_replace($search, $replace, $text_data);
+    }
+    echo $text_data;
+?></TEXTAREA></TD></TR><TR ID="sdn"><TD COLSPAN="5" ALIGN="center" VALIGN="top">
+<?PHP
+// include tag bar
+if ($sTags)
+{
+include('ptags.inc');
+
+// need to use $lang to determine non-ascii display
+// right now, it is on(2)/off(1), but could be lang specific
+if ($lang==2)
+{echo '<BR>';
+include('pnonascii.inc');}
+else {
+//space holder for more langs
+}
+
+//this is to finish off any lang
+echo " | <A \nHREF=\"#\" onclick=\"mNA()\">More</A></B>";
+}
+?>
+</TD></TR></TABLE></FORM></CENTER></BODY></HTML>
