@@ -311,17 +311,8 @@ function user_get_largest_page_tally_increment_info( $u_id )
 
 function user_get_best_page_tally_rank_info( $u_id )
 {
-    $result = mysql_query("
-        SELECT tally_rank, timestamp
-        FROM past_tallies
-        WHERE
-            holder_type='U'
-            AND holder_id=$u_id
-            AND tally_name='P'
-        ORDER BY tally_rank ASC
-        LIMIT 1
-    ");
-    return mysql_fetch_row($result);
+    global $users_P_page_tallyboard;
+    return $users_P_page_tallyboard->get_info_re_best_rank( $u_id );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

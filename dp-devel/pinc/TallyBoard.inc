@@ -433,6 +433,26 @@ class TallyBoard
         return mysql_fetch_row($result);
     }
 
+    // -------------------------------------------------------------------------
+
+    function get_info_re_best_rank( $holder_id )
+    // Return an array consisting of:
+    // -- the given holder's best recorded rank on this TallyBoard, and
+    // -- a timestamp for which that rank was recorded.
+    {
+        $result = mysql_query("
+            SELECT tally_rank, timestamp
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = $holder_id
+            ORDER BY tally_rank ASC
+            LIMIT 1
+        ") or die(mysql_error());
+        return mysql_fetch_row($result);
+    }
+
 }
 
 // vim: sw=4 ts=4 expandtab
