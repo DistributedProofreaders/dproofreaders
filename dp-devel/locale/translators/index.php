@@ -14,7 +14,10 @@ if (isset($_GET['func'])) { $func = $_GET['func']; } else { $func = ""; }
 
 if (empty($_REQUEST['lang']) && empty($func)) {
 	echo "<center><b><i><font size='+2'>"._("Translation Center")."</font></i></b></center><br>";
-	echo _("We currently have the following languages available for translation.  These languages are based upon the ISO-639 list and if you do not see a language you would like to proofread available please click <a href='new_lang.php?func=newlang'>here</a>.");
+	if(!user_is_site_translator())
+		echo _("<em>You are not an appointed translator and, even though you can view the translation interface, you can not save your translation or add a new language.</em>")."<br><br>";
+	echo _("We currently have the following languages translated or in the process of translation. These languages are based upon the ISO-639 list and if you do not see a language you would like to translate available please click <a href='new_lang.php?func=newlang'>here</a>.");
+	echo " "._("For documentation, refer to the <a href='../faq/translate.php'>Site translation</a> guideline.");
 	echo "<br><br><center>"._("Please click the <i>Translate</i> link next to the language you would like to translate to begin:")."</center><br><br>";
 
 	$dir = opendir($dyn_locales_dir);
@@ -69,7 +72,7 @@ $translation=array(
 		echo "<table border='0' cellspacing='3' cellpadding='' width='100%'><ul>\n";
 		echo "<tr><td width='50%'><li>"._("All")."</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$lang&amp;location=all'>"._("Translate")."</a> ]</td></tr>\n";
 		foreach($locations as $k=>$v)
-			echo "<tr><td width='50%'><li>$k</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$lang&amp;location=$k'>"._("Translate")."</a> ] (<a href='$code_url/$k' target='_new'>"._("Location")."</a>)</td></tr>\n";
+			echo "<tr><td width='50%'><li>$k</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$lang&amp;location=$k'>"._("Translate")."</a> ] (<a href='$code_url/".loc_eq($k)."' target='_new'>"._("Location")."</a>)</td></tr>\n";
                 echo "</ul><tr><td width='50%'><form action='save_po.php' method='post'>";
                 echo "<input type='hidden' name='lang' value='$lang'>";
 		echo "<center><input type='submit' name='rebuild_strings' value='"._("Rebuild String List")."'></center><br></form></td></tr></table>\n";
@@ -84,9 +87,9 @@ $translation=array(
 
 	        $i = 0;
 		while ($i < $numOfTranslations) {
-			$loc = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":")));
-			if($location=="all" || $location==$loc) {
-				echo "<b><i>".visible_invisibles(htmlspecialchars($translation['msgid'][$i]))."</b></i>\n(<a href='$code_url/$loc' target='_new'>"._("Location")."</a>)<br>\n";
+			if($location=="all" || strstr($translation['location'][$i],$location)!==FALSE) {
+				if($location=="all") $loc = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":"))); else $loc = $location;
+				echo "<b><i>".visible_invisibles(htmlspecialchars($translation['msgid'][$i]))."</b></i>\n(<a href='$code_url/".loc_eq($loc)."' target='_new'>"._("Location")."</a>)<br>\n";
 				echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'>\n<input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize($translation['msgid'][$i]))."'>\n";
 				echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".htmlspecialchars($translation['msgstr'][$i])."</textarea><br><br>\n\n";
 			}
@@ -103,6 +106,22 @@ $translation=array(
 	}
 
 theme('','footer');
+
+function loc_eq($loc) {
+        $a = array(
+                "pinc/theme.inc" => "default.php",
+                "pinc/pinc/simple_proof_text.inc" => "tools/proofers/proof_per.p
+hp?numofpages=0",
+		"pinc/prefs_options.inc" => "userprefs.php",
+		"pinc/showavailablebooks.inc" => "tools/proofers/proof_per.php",
+		"pinc/showstartexts.inc" => "default.php",
+		"tools/proofers/proof_list.inc" => "tools/proofers/proof_per.php",
+		"tools/proofers/projects_menu.inc" => "tools/proofers/projects.php",
+//		...
+        );
+
+	if($a[$loc]) return $a[$loc]; else return $loc;
+}
 
 function visible_invisibles($str)
 {
