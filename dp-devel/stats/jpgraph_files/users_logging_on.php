@@ -17,12 +17,12 @@ switch ( $past )
 {
 	case 'year':
 		$min_timestamp = time() - 366 * $seconds_per_day;
-		$date_format = 'Y-M-d H';
+		$date_format = '%Y-%b-%d %H';
 		break;
 
 	case 'day':
 		$min_timestamp = time() - $seconds_per_day;
-		$date_format = 'd H';
+		$date_format = '%d %H';
 		break;
 
 	default:
@@ -64,7 +64,7 @@ switch ( $preceding )
 //query db and put results into arrays
 
 $result = mysql_query("
-    SELECT time_stamp, $column_name
+    SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format') as T, $column_name
     FROM user_active_log 
     WHERE time_stamp >= $min_timestamp
     ORDER BY time_stamp
@@ -75,7 +75,7 @@ $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count, $column_name);
-        $datax[$count] = date($date_format,mysql_result($result, $count,"time_stamp"));
+        $datax[$count] = mysql_result($result, $count,"T");
             $count++;
         }
 
