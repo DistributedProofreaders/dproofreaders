@@ -200,6 +200,16 @@ radio_select('u_top10', $userP['u_top10'], 1, 'Yes');
 radio_select('u_top10', $userP['u_top10'], 0, 'No');
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('topten');\">?</a></b>";
 
+echo $tre.$tr.$td2;
+echo $tde.$td3;
+echo $tde.$td3a;
+echo $tde.$td2;
+echo "<strong>Stats Bar Alignment:</strong>";
+echo $tde.$td3;
+radio_select('u_align', $userP['u_align'], 1, 'Left');
+radio_select('u_align', $userP['u_align'], 0, 'Right');
+echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('align');\">?</a></b>";
+
 echo $tre.$tr.$td4;
 echo "<img src='tools/proofers/gfx/bt4.png'><b>Vertical Interface Preferences</b>";
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('vertprefs');\">?</a></b>";
@@ -343,7 +353,7 @@ echo mysql_error();
 
 // set users values
 $users_query="UPDATE users SET real_name='$real_name', email='$email', 
-email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_neigh='$u_neigh',
+email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_align='$u_align', u_neigh='$u_neigh',
 u_lang='$u_lang' , i_prefs='1'";
 if (isset($mkProfile))
   {$users_query.=", u_profile='".mysql_insert_id($db_link)."'";}
