@@ -4,7 +4,6 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'special_colours.inc');
 
 
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
