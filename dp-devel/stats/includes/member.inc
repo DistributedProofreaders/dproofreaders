@@ -126,7 +126,7 @@ function showMbrProfile($curMbr) {
 	echo "</td></tr></table><p>";
 }
 
-function showMbrStatus($siteadmin, $manager, $postprocessor, $pagescompleted) {
+function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	global $code_url;
 	$mbrStatus = "";
 
@@ -145,7 +145,7 @@ function messageCenter($curMbr) {
 	global $forums_url, $theme;
 
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-	echo "<tr><td align='center' colspan='2'>".showMbrStatus($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
+	echo "<tr><td align='center' colspan='2'>".showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
 
 	function echo_tr_mc( $label, $icon_filename, $url, $target='' )
 	{
