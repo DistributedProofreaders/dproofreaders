@@ -20,6 +20,9 @@
 
 # ----------------------------------------------------------------------
 
+# $GROUP is the name of the group that will group-own the files.
+GROUP=$USER
+
 # $SHIFT_TO_LIVE should be 'yes', 'no', or 'prompt'.
 # If it's 'yes', or it's 'prompt' and the user answers 'y',
 # then $_CODE_DIR.new will be moved to $_CODE_DIR.
@@ -27,9 +30,6 @@
 #     $_CODE_DIR.bak
 # and if *that* directory already exists, it will be REMOVED.
 SHIFT_TO_LIVE=prompt
-
-# $GROUP is the name of the group that will group-own the files.
-GROUP=$USER
 
 # ----------------------------------------------------------------------
 # We don't mandate the relative locations of c, d, projects, etc.,
