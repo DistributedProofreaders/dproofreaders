@@ -28,7 +28,12 @@ echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
 	
 
-$result = mysql_query("SELECT * FROM users WHERE username = '".$_GET['username']."' LIMIT 1");
+$result = mysql_query("
+	SELECT *
+	FROM users
+	WHERE username = '".$_GET['username']."'
+	LIMIT 1
+");
 $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));

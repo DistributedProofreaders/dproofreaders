@@ -20,7 +20,11 @@ $etext_limit = 10;
 default_page_heading();
 
 //get total number of users
-$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
+$users = mysql_query("
+    SELECT count(*) AS numusers
+    FROM users
+    WHERE pagescompleted >=1
+");
 $totalusers = mysql_result($users,0,"numusers");
 
 //get total users active in the last 24 hours

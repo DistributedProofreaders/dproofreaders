@@ -20,12 +20,23 @@ if (empty($_GET['order'])) {
 if (!empty($_GET['mstart'])) { $mstart = $_GET['mstart']; } else { $mstart = 0; }
 
 if (!empty($_REQUEST['uname'])) {
-	$mResult = mysql_query("SELECT u_id, username, date_created, pagescompleted, u_privacy FROM users WHERE username LIKE '%".$_REQUEST['uname']."%' ORDER BY $order $direction LIMIT $mstart,20");
+	$mResult = mysql_query("
+		SELECT u_id, username, date_created, pagescompleted, u_privacy
+		FROM users
+		WHERE username LIKE '%".$_REQUEST['uname']."%'
+		ORDER BY $order $direction
+		LIMIT $mstart,20
+	");
 	$mRows = mysql_num_rows($mResult);
 	if ($mRows == 1) { metarefresh(0,"mdetail.php?id=".mysql_result($mResult,0,"u_id")."",'',''); exit; }
 	$uname = "uname=".$_REQUEST['uname']."&";
 } else {
-	$mResult=mysql_query("SELECT u_id, username, date_created, pagescompleted, u_privacy FROM users ORDER BY $order $direction LIMIT $mstart,20");
+	$mResult=mysql_query("
+		SELECT u_id, username, date_created, pagescompleted, u_privacy
+		FROM users
+		ORDER BY $order $direction
+		LIMIT $mstart,20
+	");
 	$mRows = mysql_num_rows($mResult);
 	$uname = "";
 }

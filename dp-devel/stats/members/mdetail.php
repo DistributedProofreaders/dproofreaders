@@ -14,7 +14,11 @@ if (empty($id)) {
 	exit;
 }
 
-$result = mysql_query("SELECT * FROM users WHERE u_id = '$id'");
+$result = mysql_query("
+	SELECT *
+	FROM users
+	WHERE u_id = '$id'
+");
 
 if (mysql_num_rows($result) == 0)
 {
