@@ -53,7 +53,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="username" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
         <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
       <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
@@ -89,10 +88,6 @@
   </xs:element>
 
   <xs:element name="mostpagesday">
-    <xs:complexType mixed="true" />
-  </xs:element>
-
-  <xs:element name="pagescompleted">
     <xs:complexType mixed="true" />
   </xs:element>
 
