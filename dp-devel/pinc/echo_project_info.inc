@@ -164,7 +164,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$word = _("Book Completed:");
 		echo_row_a($word, "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 
-		if ($sub)
+		if ($sub && $prd)
 		{
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,0);
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,1);
@@ -302,6 +302,7 @@ function get_real_name( $login_name )
 function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 {
 	$prd = get_PRD_for_project_state($proofstate);
+	assert($prd);
 
 	if ($wlist==0) {
 		$top = _("DONE");
