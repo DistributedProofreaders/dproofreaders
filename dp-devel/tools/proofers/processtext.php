@@ -192,7 +192,7 @@ if ($tbutton==102)
           include_once($relPath.'sp_check_user.inc');
           $text_file= $project.substr($imagefile,0,-4).".txt";
           $text_array= explode("[lf]",$text_data);
-          $correct_text.=implode("\r\n",$text_array);
+          $correct_text=implode("\r\n",$text_array);
           if ($fd=fopen($text_dir.$text_file,"w"))
             {fwrite($fd,stripslashes($correct_text));}
         include ('proof_frame_nj.inc');
