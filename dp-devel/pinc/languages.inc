@@ -28,7 +28,8 @@ function lang_code($shortcode) {
 	global $locales;
 
 	$l=&$shortcode;
-	if($locales[$l]||$locales[$l=substr($l,0,5)]||$locales[$l=substr($l,0,2)]) return $locales[$l];
+//	if($locales[$l]||$locales[$l=substr($l,0,5)]||$locales[$l=substr($l,0,2)]) return $locales[$l];
+	if(isset($locales[$l])||isset($locales[$l=substr($l,0,5)])||isset($locales[$l=substr($l,0,2)])) return $locales[$l];
 	return FALSE;
 }
 
