@@ -12,7 +12,7 @@ echo "<center><h1><i>PPd Projects Graphs</i></h1></center>";
 echo "<br><br>";
 
 echo "<center><img src=\"jpgraph_files/curr_month_proj_PPd_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_month_proj_PPd.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/cumulative_month_proj.php?which=PPd\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_proj_graph.php?which=PPd\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=PPd\"></center><br>";
 
