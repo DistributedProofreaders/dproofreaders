@@ -24,11 +24,11 @@ my $total_pages = 0;
 while (my $project = $sth->fetchrow_array()) {
   my $query = qq{
     SELECT SUM(CASE WHEN round1_time >= $midnight 
-                         AND state = 'verify_1' OR state = 'done_1' OR state = 'unavail_2' OR state = 'waiting_2' or state = 'avail_2' OR state = 'verify_2' OR state = 'done_2' OR state >= 60
+                         AND state = 'verify_1' OR state = 'done_1' OR state = 'unavail_2' OR state = 'waiting_2' or state = 'avail_2' OR state = 'verify_2' OR state = 'done_2' OR state = 'proj_post_unavailable' OR state = 'proj_post_available' OR state = 'proj_post_checkedout' OR state = 'proj_post_verify' OR state = 'proj_post_verifying' OR state = 'proj_post_complete' OR state = 'proj_submit_pgunavailable' OR state = 'proj_submit_pgavailable' OR state = 'proj_submit_pgposting' OR state = 'proj_submit_pgposted'
                     THEN 1 ELSE 0 END
                + 
                CASE WHEN round2_time >= $midnight 
-                         AND state = 'verify_2' OR state = 'done_2' OR state >= 60
+                         AND state = 'verify_2' OR state = 'done_2' OR state = 'proj_post_unavailable' OR state = 'proj_post_available' OR state = 'proj_post_checkedout' OR state = 'proj_post_verify' OR state = 'proj_post_verifying' OR state = 'proj_post_complete' OR state = 'proj_submit_pgunavailable' OR state = 'proj_submit_pgavailable' OR state = 'proj_submit_pgposting' OR state = 'proj_submit_pgposted'
                     THEN 1 ELSE 0 END)
     FROM $project
   };
