@@ -182,7 +182,7 @@ abort_if_not_manager();
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
 		$result = mysql_query("
-			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username, comments
+			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username, comments, special
 			FROM projects
 			WHERE $condition
 			ORDER BY nameofwork asc
@@ -409,7 +409,7 @@ abort_if_not_manager();
 		// what's so special about it.
 		if (!$userSettings->get_boolean('hide_special_colors')) {
 		    echo "<p><font face='{$theme['font_mainbody']}'>\n";
-		    include('../proofers/special_legend.php');
+                    echo_special_legend(" 1 = 1");
 		    echo "</font></p><br>\n";
 		}
 	}
