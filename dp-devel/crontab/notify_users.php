@@ -15,7 +15,6 @@ $db_Connection=new dbConnect();
         $username = mysql_result($result, $rownum, "username");
         $real_name = mysql_result($result, $rownum, "real_name");
         $email = mysql_result($result, $rownum, "email");
-        $pagescompleted = mysql_result($result, $rownum, "pagescompleted");
         $email_updates = mysql_result($result, $rownum, "email_updates");
         echo "$username, $email\n<br>";
         if ($email_updates) {
