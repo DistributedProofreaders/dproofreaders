@@ -444,7 +444,7 @@ function showMbrHistory($curMbr, $tally_name) {
 			($d == 'all')
 			? _('Lifetime')
 			: sprintf( _('Last %d Days'), $d );
-		$choices[] = "<a href='mdetail.php?id=$u_id&range=$d'>$text</a>";
+		$choices[] = "<a href='mdetail.php?id=$u_id&tally_name=$tally_name&range=$d'>$text</a>";
 	}
 	$choices_str = join( $choices, ' | ' );
 
