@@ -1006,7 +1006,9 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($comments)) { $comments = "<p>".sprintf(_("Refer to the %sProofreading Guidelines%s."),"<a href=\"$code_url/faq/document.php\">","</a>")."</p>"; }
     if (empty($scannercredit)) { $scannercredit = ""; }
     if (empty($clearance)) { $clearance = ""; }
-    if (empty($postednum)) { $postednum = ""; }
+    // Cosmetic change. Do not display db default value, PM should not be
+    // able to change it, and the final value is only set through post_files
+    $postednum = "";
     if (empty($special)) { $special = ""; }
     if (empty($image_provider)) { $image_provider = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
