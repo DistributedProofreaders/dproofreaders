@@ -26,14 +26,14 @@ theme('Proofreading Guidelines','header');
 <h3 align="center">Version 1.65, released May 4, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
     
-<!-- Real version:
-<h4>Proofreading Guidelines in <a href="doc-fr.html">French</font></a> /
+<h4>Proofreading Guidelines in <a href="guidelines_francaises.html">French</font></a> /
  
-    Directives de Formatage en <a href="doc-fr.html">Fran&ccedil;aise</font></a></h4>
+    Directives de Formatage en <a href="guidelines_francaises.html">fran&ccedil;aise</font></a></h4>
 
- ** Temporary redirect:  -->
+<!-- Old version:
 <h4>Proofreading Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</a> / 
      Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</a></h4>
+ ** Temporary redirect:  -->
 <table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
   <tbody>
     <tr>
