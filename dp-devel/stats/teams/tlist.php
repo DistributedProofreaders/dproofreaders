@@ -3,11 +3,9 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.php');
 $db_Connection=new dbConnect();
-
-theme("Team List", "header");
-echo "<center><br>";
 
 if (empty($_GET['order'])) {
 	$order = "id";
@@ -19,8 +17,19 @@ if (empty($_GET['order'])) {
 
 if (!empty($_GET['tstart'])) { $tstart = $_GET['tstart']; } else { $tstart = 0; }
 
-$tResult=mysql_query("SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order $direction LIMIT $tstart,20");
-$tRows=mysql_num_rows($tResult);
+if (!empty($_REQUEST['tname'])) {
+	$tResult = mysql_query("SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE teamname LIKE '%".$_REQUEST['tname']."%' ORDER BY $order $direction LIMIT $tstart,20");
+	$tRows = mysql_num_rows($tResult);
+	if ($tRows == 1) { metarefresh(0,"tdetail.php?tid=".mysql_result($tResult,0,"id")."",'',''); exit; }
+	$tname = "tname=".$_REQUEST['uname']."&";
+} else {
+	$tResult=mysql_query("SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order $direction LIMIT $tstart,20");
+	$tRows=mysql_num_rows($tResult);
+	$tname = "";
+}
+
+theme("Team List", "header");
+echo "<center><br>";
 
 //Display of user teams
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='4' style='border-collapse: collapse' width='95%'>";
@@ -28,13 +37,13 @@ echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='cent
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 	echo "<td align='center'><b>Icon</b></td>";
 	if ($order == "id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?tstart=$tstart&order=id&direction=$newdirection'>ID</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>ID</a></b></td>";
 	if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?tstart=$tstart&order=teamname&direction=$newdirection'>Team Name</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>Team Name</a></b></td>";
 	if ($order == "member_count" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?tstart=$tstart&order=member_count&direction=$newdirection'>Total Members</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>Total Members</a></b></td>";
 	if ($order == "page_count" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td align='center'><b><a href='tlist.php?tstart=$tstart&order=page_count&direction=$newdirection'>Page Count</a></b></td>";
+		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=page_count&direction=$newdirection'>Page Count</a></b></td>";
 	echo "<td align='center'><b>Options</b></td>";
 echo "</tr>";
 if (!empty($tRows)) {
@@ -61,11 +70,11 @@ if (!empty($tRows)) {
 
 echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3' align='left'>";
 if (!empty($tstart)) {
-	echo "<b><a href='tlist.php?order=$order&direction=$direction&tstart=".($tstart-20)."'>Previous</a></b>";
+	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart-20)."'>Previous</a></b>";
 }
 echo "&nbsp;</td><td colspan='3' align='right'>&nbsp;";
 if ($tRows == 20) {
-	echo "<b><a href='tlist.php?order=$order&direction=$direction&tstart=".($tstart+20)."'>Next</a></b>";
+	echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart+20)."'>Next</a></b>";
 }
 echo "</td></tr>";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='new_team.php'><font color='".$theme['color_headerbar_font']."'>Create a New Team</font></a></b></td></tr>";
