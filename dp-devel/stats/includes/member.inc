@@ -146,7 +146,14 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 function showBBProfile($curMbr) {
 	global $forums_url;
 
-	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
+	if (empty($curMbr['user_avatar']))
+	{
+		$avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif";
+	}
+	else
+	{
+		$avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar'];
+	}
 
 	$t = new ThemedTable(
 		2,
