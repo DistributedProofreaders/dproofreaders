@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'c_pages.inc');
 include($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
@@ -28,7 +29,7 @@ $numrows = mysql_num_rows($result);
 $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
 //////////this will be changed to pre-processing state
 $result = mysql_query("UPDATE $projectid SET state = 'avail_first'");
-$result = mysql_query("UPDATE projects SET state = 'avail_1' WHERE projectid = '$projectid'");
+$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_AVAILABLE."' WHERE projectid = '$projectid'");
 //////////
 
 metarefresh(5,"md_available.php","Image Metadata Collection",$body);

@@ -26,7 +26,12 @@ COUNT(*) AS 'Notification Requests'
 FROM `usersettings`,`projects` 
 WHERE `value` = `projectid` 
 AND `setting` = 'posted_notice' 
-AND (`state` = 'waiting_1' OR `state` = 'waiting_2' OR `state` = 'avail_1' OR `state` = 'avail_2' OR `state` = 'verify_1' OR `state` = 'verify_2')
+AND (`state` = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
+  OR `state` = '".PROJ_PROOF_SECOND_WAITING_FOR_RELEASE."'
+  OR `state` = '".PROJ_PROOF_FIRST_AVAILABLE."'
+  OR `state` = '".PROJ_PROOF_SECOND_AVAILABLE."'
+  OR `state` = '".PROJ_PROOF_FIRST_VERIFY."'
+  OR `state` = '".PROJ_PROOF_SECOND_VERIFY."')
 GROUP BY `value` 
 ORDER BY 'Notification Requests' DESC 
 LIMIT 50");
