@@ -99,7 +99,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			// and it was pretty unreadable as is on a black background.
 
 			// green for Ramadan
-			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' ) )
+			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' ) 
+			      or startswith( $book['comments'], 'SPECIAL: India') )
 			{
 				$bgcolor = " bgcolor='#00FF33'";
 			}
@@ -140,8 +141,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				$bgcolor = " bgcolor='#FFFF33'";
 			}
 
-                               // nice green for Abolition of Slavery
-                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' ) )
+                               // nice green for Abolition of Slavery and IWD
+                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )  OR startswith( $book['comments'], 'SPECIAL: IWD))
                         {
                                 $bgcolor = " bgcolor='#00CC99'";
                         }
@@ -152,9 +153,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                                 $bgcolor = " bgcolor='#0099FF'";
                         }
 
-	               // middle grey for Black History Month (and Slave Narratives - temp)
-                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ) or
-				($book['username'] == 'papeters' and $book['authorsname'] == 'Work Projects Administration' ))
+	               // middle grey for Black History Month 
+                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ) )
                         {
                                 $bgcolor = " bgcolor='#D6D600'";
                         }
