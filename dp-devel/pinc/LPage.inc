@@ -19,26 +19,6 @@ function processpage()
 {
 }
 
-function getPageRound($state)
-{
-  if ($state==AVAIL_FIRST  || $state==OUT_FIRST || $state==TEMP_FIRST || $state==SAVE_FIRST)
-  {return 1;}
-  else if ($state==AVAIL_SECOND  || $state==OUT_SECOND || $state==TEMP_SECOND || $state==SAVE_SECOND)
-  {return 2;}
-  else
-  {return 0;}
-}
-
-function getProjectRound($state)
-{
-  if ($state==PROJ_PROOF_FIRST_AVAILABLE || $state==PROJ_PROOF_FIRST_VERIFY || $state==PROJ_PROOF_FIRST_BAD_PROJECT)
-  {return 1;}
-  else if ($state==PROJ_PROOF_SECOND_AVAILABLE || $state==PROJ_PROOF_SECOND_VERIFY || $state==PROJ_PROOF_SECOND_BAD_PROJECT)
-  {return 2;}
-  else
-  {return 0;}
-}
-
 function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 {
   $this->project=$project;
@@ -46,92 +26,9 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->imagefile=$imagefile;
   $this->pagestate=$pagestate;
   $this->proofstate=$proofstate;
-  $this->pageround=$this->getPageRound($pagestate);
+  $this->pageround=getPageRound($pagestate);
 
   $this->prd = get_PRD_for_round( $this->pageround );
-}
-
-function noPages($newwin, $begin_threshold = 0)
-{
-    if ($begin_threshold) {	
-       $body=_("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.<br> You will be taken back to the project listing page in 4 seconds.");
-       $title = _("Beginners Only quota reached for this Project");
-    } else {
-       $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
-       $title = _("Project Round Complete");
-    }
-    metarefresh(4,"list_avail.php",$title,$body);
-}
-
-function getAvailablePage($project,$proofstate,$pguser)
-{
-
-  // if a BEGIN project in R1, people can only get a new page 
-  // if they've done less than X pages on this project already;
-  // X is currently, let's say, 20
-
-  if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-       $dbQuery = "
-                   SELECT COUNT(fileid) as pagesdone FROM $project, projects 
-				WHERE  round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
-       "; 
-       $result=mysql_query($dbQuery);
-       $pagesdone = mysql_result($result, 0, "pagesdone" );
-       if ($pagesdone > 20) {
-           $rval['TooManyBegin'] = 1;
-           return $rval;
-       }
-  }
-
-  //find page to be proofed.
-  $dbQuery="SELECT fileid, image, state FROM $project WHERE state='";
-    if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE) {$dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";}
-    else {$dbQuery.=AVAIL_FIRST."'";}
-  $dbQuery.=" ORDER BY image ASC LIMIT 1";
-  $result=mysql_query($dbQuery);
-  $numrows = mysql_num_rows($result);
-    if ($numrows !=0) {$rval=mysql_fetch_assoc($result);$rval['isopen']=1;$rval['TooManyBegin'] = 0;}
-    else {$rval['isopen']=0;$rval['TooManyBegin'] = 0;}
-  return $rval;
-}
-
-function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
-{
-  //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
-  $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
-  dpsession_page_set($pagerefs);
-}
-
-function setTempPageCookie($tempPrefs)
-{
-  $pagerefs=implode("|",$tempPrefs);
-  dpsession_page_set($pagerefs);
-}
-
-function getPageCookie()
-{
-  @$cPage=explode("|", dpsession_page_get() );
-  $uPage=array();
-  $i=0;
-  @$uPage['project']=$cPage[$i++];
-  @$uPage['proofstate']=$cPage[$i++];
-  @$uPage['fileid']=$cPage[$i++];
-  @$uPage['image']=$cPage[$i++];
-  @$uPage['pagestate']=$cPage[$i++];
-  @$uPage['saved']=$cPage[$i++];
-  @$uPage['editone']=$cPage[$i++];
-  @$uPage['revert']=$cPage[$i++];
-  @$uPage['spcheck']=$cPage[$i++];
-  @$uPage['errcheck']=$cPage[$i++];
-  @$uPage['isDone']=$cPage[$i++];
-  @$uPage['pageTime']=$cPage[$i++];
-  //@$uPage['']=$cPage[$i++];
-  return $uPage;
-}
-
-function deletePageCookie()
-{
-	dpsession_page_end();
 }
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
@@ -201,7 +98,7 @@ function addUserCount($proofstate,$pguser,$userP)
     if ($rows !=0)
     {
       $curState=mysql_result($result,0,'state');
-        if (($this->getProjectRound($proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || ($this->getProjectRound($proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
+        if ((getProjectRound($proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || (getProjectRound($proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
         {
           // add to user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
@@ -220,7 +117,7 @@ function deleteUserCount($proofstate,$pguser,$userP)
     if ($rows !=0)
     {
       $curState=mysql_result($result,0,'state');
-        if (($this->getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || ($this->getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
+        if ((getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || (getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
         {
           // delete from user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
@@ -278,4 +175,126 @@ function returnPage($proofstate,$pguser,$userP)
 }
 
 } // end class
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Functions that used to be in the 'processpage' class, but didn't need to be.
+
+function getPageRound( $state )
+{
+  if ($state==AVAIL_FIRST  || $state==OUT_FIRST || $state==TEMP_FIRST || $state==SAVE_FIRST)
+  {
+    return 1;
+  }
+  else if ($state==AVAIL_SECOND  || $state==OUT_SECOND || $state==TEMP_SECOND || $state==SAVE_SECOND)
+  {
+    return 2;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+function getProjectRound( $state )
+{
+  if ($state==PROJ_PROOF_FIRST_AVAILABLE || $state==PROJ_PROOF_FIRST_VERIFY || $state==PROJ_PROOF_FIRST_BAD_PROJECT)
+  {
+    return 1;
+  }
+  else if ($state==PROJ_PROOF_SECOND_AVAILABLE || $state==PROJ_PROOF_SECOND_VERIFY || $state==PROJ_PROOF_SECOND_BAD_PROJECT)
+  {
+    return 2;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+function getAvailablePage($project,$proofstate,$pguser)
+{
+  // if a BEGIN project in R1, people can only get a new page 
+  // if they've done less than X pages on this project already;
+  // X is currently, let's say, 20
+
+  if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
+  {
+    $dbQuery = "
+      SELECT COUNT(fileid) as pagesdone
+      FROM $project, projects 
+      WHERE round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
+    "; 
+    $result=mysql_query($dbQuery);
+    $pagesdone = mysql_result($result, 0, "pagesdone" );
+    if ($pagesdone > 20)
+    {
+      $rval['TooManyBegin'] = 1;
+      return $rval;
+    }
+  }
+
+  //find page to be proofed.
+  $dbQuery="SELECT fileid, image, state FROM $project WHERE state='";
+  if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
+  {
+    $dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";
+  }
+  else
+  {
+    $dbQuery.=AVAIL_FIRST."'";
+  }
+  $dbQuery.=" ORDER BY image ASC LIMIT 1";
+  $result=mysql_query($dbQuery);
+  $numrows = mysql_num_rows($result);
+  if ($numrows !=0)
+  {
+    $rval=mysql_fetch_assoc($result);$rval['isopen']=1;$rval['TooManyBegin'] = 0;
+  }
+  else
+  {
+    $rval['isopen']=0;$rval['TooManyBegin'] = 0;
+  }
+  return $rval;
+}
+
+function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
+{
+  //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
+  $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
+  dpsession_page_set($pagerefs);
+}
+
+function setTempPageCookie($tempPrefs)
+{
+  $pagerefs=implode("|",$tempPrefs);
+  dpsession_page_set($pagerefs);
+}
+
+function getPageCookie()
+{
+  @$cPage=explode("|", dpsession_page_get() );
+  $uPage=array();
+  $i=0;
+  @$uPage['project']=$cPage[$i++];
+  @$uPage['proofstate']=$cPage[$i++];
+  @$uPage['fileid']=$cPage[$i++];
+  @$uPage['image']=$cPage[$i++];
+  @$uPage['pagestate']=$cPage[$i++];
+  @$uPage['saved']=$cPage[$i++];
+  @$uPage['editone']=$cPage[$i++];
+  @$uPage['revert']=$cPage[$i++];
+  @$uPage['spcheck']=$cPage[$i++];
+  @$uPage['errcheck']=$cPage[$i++];
+  @$uPage['isDone']=$cPage[$i++];
+  @$uPage['pageTime']=$cPage[$i++];
+  //@$uPage['']=$cPage[$i++];
+  return $uPage;
+}
+
+function deletePageCookie()
+{
+  dpsession_page_end();
+}
+
 ?>
