@@ -24,7 +24,7 @@ $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"users");
-        $datax[$count] = date('H',strtotime("+".mysql_result($result, $count,"hour")." hour",0));
+        $datax[$count] = mysql_result($result, $count,"hour");
             $count++;
         }
 
