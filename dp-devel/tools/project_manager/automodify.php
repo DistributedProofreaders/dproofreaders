@@ -16,7 +16,7 @@ $projectinfo = new projectinfo();
   include('sendtopost.php');
 
   $one_project = isset($_GET['project'])?$_GET['project']:0;
-
+  
   if ($one_project) {
     $verbose = 0;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
@@ -43,21 +43,28 @@ $projectinfo = new projectinfo();
     // Error checking
     if ($state == PROJ_PROOF_SECOND_AVAILABLE) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."'");
-        if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
-        if ($badpages > 0) {
+        if ($result != "") { $second_badpages = mysql_num_rows($result); } else $second_badpages = 0;
+        if ($second_badpages > 0) {
             $state = PROJ_PROOF_SECOND_BAD_PROJECT;
             mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
         }
         $pagesleft += $projectinfo->avail2_pages;
         $projectinfo->availablepages = $projectinfo->avail2_pages;
 
-    } else if ($state == PROJ_PROOF_FIRST_BAD_PROJECT) {
-            $state = PROJ_PROOF_FIRST_COMPLETE;
-            mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
+    } else if ($state == PROJ_PROOF_FIRST_AVAILABLE || $state == PROJ_PROOF_FIRST_BAD_PROJECT) {
+    	    $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."'");
+            if ($result != "") { $first_badpages = mysql_num_rows($result); } else $first_badpages = 0;
+            if ($first_badpages >= 10) {
+                $state = PROJ_PROOF_FIRST_BAD_PROJECT;
+                mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
+            } elseif ($first_badpages < 10 && $first_badpages > 0) {
+            	$state = PROJ_PROOF_FIRST_AVAILABLE;
+            	mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
+            }
         $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
-        $projectinfo->availablepages = $projectinfo->avail1_pages;
-
+        $projectinfo->availablepages = $projectinfo->avail1_pages;       
     }
+    
     //PROJ_PROOF_FIRST_AVAILABLE
     //mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
 
@@ -93,7 +100,7 @@ $projectinfo = new projectinfo();
       $newstate = AVAIL_SECOND;
 
     }
-
+    
     if (($state == PROJ_PROOF_FIRST_VERIFY) ||
         ($state == PROJ_PROOF_SECOND_VERIFY) || ($one_project) ||
         (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) || 
@@ -139,6 +146,7 @@ $projectinfo = new projectinfo();
         if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_VERIFY)) {
 
             if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_FIRST_COMPLETE; } else $state = PROJ_PROOF_FIRST_AVAILABLE;
+            if ($projectinfo->done1_pages + $first_badpages == $projectinfo->total_pages) {  $state = PROJ_PROOF_FIRST_COMPLETE; } else $state = PROJ_PROOF_FIRST_AVAILABLE;
 
         } else if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == PROJ_PROOF_SECOND_VERIFY)) {
 
