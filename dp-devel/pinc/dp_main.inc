@@ -16,8 +16,7 @@ if (!empty($_GET)) {extract($_GET);}
 if (!empty($_POST)) {extract($_POST);}
 
 //Global Variables
-$admin_email='';
-$admin_name='';
+
 $pguser=$cookieID;
 if (isset($_COOKIE[$pguser.'_prefs'])){
 $cookieC->deleteOldPrefs($pguser);
