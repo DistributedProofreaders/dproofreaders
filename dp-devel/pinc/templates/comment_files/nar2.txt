@@ -1,0 +1,127 @@
+<p>This is a second-time for this text to be proofed. Many small errors 
+remained after the normal 2 rounds of proofing, so we are trying to 
+eliminate them prior to post processing.</p>
+<p>Two common reasons for these remaining errors are:</p>
+<ul>
+<li>The images are copies (of copies of...) typewritten material. They 
+are  difficult to see unless you proof with at least 100% zoom.</li>
+<li>The vernacular means you cannot assume anything about a word's 
+spelling. Reading is not sufficient, you have to compare to the image. Many 
+people are finding it best to start at the bottom and work backwards so 
+they do not get trapped by reading such interesting content.</li>
+</ul>
+
+<hr width="50%" size="2" />
+<dl>
+<dt><font size="+1">Interview Headers:</font></dt><br />
+   <dd>At start of an interview leave four blank lines,<br />
+     /*<br />
+     one item per line<br />
+     one item per line<br />
+     */<br />
+     two blank lines,<br />
+     then start the interview.<br />
+   </dd>
+   <br /><dt><font size="+1">Handwritten Comments:</font></dt><br />
+   <dd>If spelling or punctuation was corrected in
+   handwriting, simply make the correction. If, however, a word or phrase
+   was added insert it like [HW: this ] or if a question mark was
+   inserted mark it[HW:?].
+   </dd>
+   <br /><dt><font size="+1">Transcriber's Comments:</font></dt><br />
+   <dd>
+   If, for example, a sentence was begun but not
+   completed you would [TR: sentence unfinished]. Or if a word was
+   illegible you would mark it [TR: illegible] or if you're not sure of
+   it 1883[TR:?]. That's a Transcriber's Comment done by you, as opposed
+   to a Handwritten Comment done by an editor.
+<br /><br />
+<u>Please</u> be careful about removing any Transcriber's Comments in 
+second round. They are not difficult to remove in PP and, in general, are 
+helpful. If you're doing second round and want to add a comment, that's great.
+   </dd>
+   <br /><dt><font size="+1">Typos, Misspellings in the original 
+document:</font></dt><br />
+   <dd>
+   You will encounter many of these. The post-processor
+   will have to make decisions on what to correct and what to leave as is
+   based on many factors. If definitely not part of dialect, mark
+   such words with * to be sure they're noticed.
+   </dd>
+   <br /><dt><font size="+1">Difficult to spot errors from the 
+OCR:</font></dt><br />
+   <dd>
+   <ul>
+     <li>"Stealth Scannos": For example, "He" and "We" are both valid words 
+often mistaken for each
+         other when the OCR interpreted the typewriter print. "Dey" or 
+"dey" (dialect for "they") is often
+         presented as "day" from the OCR software. Look very carefully at 
+the scans while you are
+         proofing. <em>Only people can find these!</em>
+         </li>
+         <li>Dialect: You will find examples of both "wuz" and "waz", and 
+"chillun" and "chillen"; only
+         a careful check against the scan can tell you which is used in any 
+one instance.
+     </li>
+         <li>Check carefully for "1"/"l"/"I"/"!" (digit-one / 
+lower-case-ell / upper-case-eye / exclamation-mark)
+         and "0"/"O"/"o" (digit-zero / upper-case-oh / lower-case-oh).
+         They look alike in some fonts, but don't be fooled. "0h!" is *not* 
+a word ... fix it to be "Oh!"
+         "We'!1" shoud be "We'll".
+         </li>
+         <li>The OCR commonly mistook the letter B (upper-case B) for a
+         "B (double-quote, upper-case B). Please keep an eye out for this.
+         </li>
+         <li>Some combinations of letters are more likely to have been 
+missed in the first proofing
+         rounds. Combinations that tend to misscan:  <br />
+         Kl&#8594;KL,  li&#8594;ll,  ch&#8594;oh,  rn&#8596;m</li>
+         <li>Some individual scannos that were often missed in the first 
+proofing rounds are: <br />
+         e&#8596;a,  e&#8596;s,  s&#8594;a,  c&#8596;o,  h&#8594;n, 
+M&#8596;N,  H&#8596;M,  W&#8594;v,  W&#8594;w,  I&#8594;i</li>
+         <li>Perhaps because of so many dialect words, another commonly 
+missed problem was a missing "i", e.g. "takng"
+         </li>
+   </ul>
+   </dd>
+   <br /><dt><font size="+1">Punctuation:</font></dt><br />
+   <dd>
+   <ul>
+         <li>Comma/period errors, especially commas at ends of sentences.</li>
+         <li>Extra comma next to period.</li>
+         <li>Periods sometimes scan as "^".</li>
+         <li>Extraneous quote marks may appear before letters with leading 
+lines, like "W" or "N".</li>
+         <li>Watch quotes in general, also check single/double quote 
+match-ups.</li>
+         <li>Apostrophes ("'") sometimes scan as "l" or "f", e.g. "Ilse" 
+should be "I'se".</li>
+         <li>Exclamation marks ("!") often scan as lower-case-ell ("l") or 
+digit-one ("1").</li>
+   </ul>
+   </dd>
+   <br /><dt><font size="+1">Underlines:</font></dt><br />
+   <dd>
+   A few instances of acutual underlining appear in the text.  Mark words 
+underlined for emphasis
+   "<font color="#800000"><</font><font color="#800000">u>word<</font><font 
+color="#800000">/u></font>".
+Sometimes it looks like someone just randomly underlined words on a page ...
+   reading with a pencil trailing. Don't keep these underlines.
+   </dd>
+   <br /><dt><font size="+1">Initials:</font></dt><br />
+   <dd>
+   If two upper-case initials separated put them together, e.g. "A.H. Jones"
+   </dd>
+   <br /><dt><font size="+1">New Paragraph at start of page:</font></dt><br />
+   <dd>
+   If you don't mind, you can do something that will be helpful in post 
+processing.
+   If the first line on the page is definitely a new paragraph, add a blank 
+line before it.
+   </dd>
+</dl>
