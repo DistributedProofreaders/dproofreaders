@@ -51,7 +51,7 @@ include_once($relPath.'f_project_states.inc');
             printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
             printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
 
-            if ($state == PROJ_NEW) {
+            if ($state == PROJ_NEW || $state==PROJ_PROOF_FIRST_UNAVAILABLE) {
                 printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
                 if ($sitemanager == 'yes') {
                    printf("Add All Text From projects Folder");
