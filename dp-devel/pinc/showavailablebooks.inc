@@ -231,7 +231,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
 			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
 
-			echo "\n<td>{$book['days_avail']}</td>";
+			echo "\n<td align=center>{$book['days_avail']}</td>";
 
 		}
 		else
