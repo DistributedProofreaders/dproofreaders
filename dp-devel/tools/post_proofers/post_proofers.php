@@ -22,7 +22,7 @@ include($relPath.'dp_main.inc');
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td></tr></table>
 
 <table border="1" width="630" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111">
-<tr><td colspan=5 bgcolor="CCCCCC">
+<tr><td colspan="6" bgcolor="CCCCCC">
 
 <P>This is the post processing section. The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text. Once you have checked out and downloaded a book it will remain checked out to you until you check it back in. <b>The Completed Post-Processing feature is currently disabled until it gets fully developed. E-mail the project manager with the completed project for now.</b>
 
@@ -32,17 +32,18 @@ steps that we normally take to post proof an etext. There is a <a href=http://te
 <b>First Time here?</b>  Juliet Sutherland is our Post Processing Coordinator. Please read the FAQ, select an easy work to get 
 started on (usually fiction with a low page count is a good starter book) and write <a href = 
 "mailto:juliet.sutherland@verizon.net"> Juliet</a> with any questions/comments.<p></td></tr>
-<tr><td colspan = 5 align=center bgcolor=999999><B>My Checked Out Post-Processing Books</B></td></tr>
-<tr><td width=205 align="center" bgcolor="CCCCCC"><b>Title</b></td>
+<tr><td colspan="6" align="center" bgcolor="999999"><B>My Checked Out Post-Processing Books</B></td></tr>
+<tr><td width=190 align="center" bgcolor="CCCCCC"><b>Title</b></td>
     <td width="100" align="center" bgcolor="CCCCCC"><b>Author</b></td>
+    <td width="90" align="center" bgcolor="CCCCCC"><b>Language</b></td>
     <td width="50" align="center" bgcolor="CCCCCC"><b>Pages</b></td>
     <td width="75" align="center" bgcolor="CCCCCC"><b>Manager</b></td>
-    <td width="200" align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
+    <td align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
 </tr>
 
 <?
 
-    $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit FROM projects WHERE checkedoutby = '$pguser' AND state=25");
+    $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language FROM projects WHERE checkedoutby = '$pguser' AND state=25");
 
     $rownum = 0;
     $numrow = mysql_numrows($rows);
@@ -51,6 +52,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $nameofwork = mysql_result($rows, $rownum, "nameofwork");
         $authorsname = mysql_result($rows, $rownum, "authorsname");
         $username = mysql_result($rows, $rownum, "username");
+        $lang = mysql_result($rows, $rownum, "language");
 
         // get number of pages in project
         $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
@@ -64,6 +66,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         }
  
         echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
+        echo "<td bgcolor = $bgcolor align=center>$lang</td>";
         echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
@@ -82,17 +85,18 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $rownum++;
     }
 ?>
-<tr><td colspan = 5 align=center bgcolor=999999><B>Available Post-Processing Books</B></td></tr>
-<tr><td width=205 align="center" bgcolor="CCCCCC"><b>Title</b></td>
+<tr><td colspan="6" align="center" bgcolor="999999"><B>Available Post-Processing Books</B></td></tr>
+<tr><td width=190 align="center" bgcolor="CCCCCC"><b>Title</b></td>
     <td width="100" align="center" bgcolor="CCCCCC"><b>Author</b></td>
+    <td width="90" align="center" bgcolor="CCCCCC"><b>Language</b></td>
     <td width="50" align="center" bgcolor="CCCCCC"><b>Pages</b></td>
     <td width="75" align="center" bgcolor="CCCCCC"><b>Manager</b></td>
-    <td width="200" align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
+    <td align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
 </tr>
 <?
 
     // list projects which are available for post proofing
-    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname FROM projects WHERE state=20");
+    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language FROM projects WHERE state=20");
       
     $rownum = 0;
     $numrow = mysql_numrows($rows);
@@ -102,6 +106,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $nameofwork = mysql_result($rows, $rownum, "nameofwork");
         $authorsname = mysql_result($rows, $rownum, "authorsname");
         $username = mysql_result($rows, $rownum, "username");
+        $lang = mysql_result($rows, $rownum, "language");
 
         // get number of pages in project
         $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
@@ -115,6 +120,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         }
 
         echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
+        echo "<td bgcolor = $bgcolor align=center>$lang</td>";
         echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
@@ -132,7 +138,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $rownum++;
     }
 ?>
-<tr><td bgcolor=#999999 colspan=5>&nbsp;</td></tr></table>
+<tr><td bgcolor="#999999" colspan="6">&nbsp;</td></tr></table>
 <table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111 width=630>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <td width=126 bgcolor =CCCCCC align=center><?
