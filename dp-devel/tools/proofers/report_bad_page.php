@@ -2,6 +2,8 @@
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'page_states.inc');
 
 //Get variables from POST form
 $projectID = $_POST['projectname'];
@@ -53,16 +55,20 @@ echo "<B>Note:</B>If this report causes a project to be marked<br> bad you will 
 echo "</td></tr></table></form></div></center></body></html>";
 } else {
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("UPDATE $projectID SET state=$badState, reason=$reason, reporting_user=$username WHERE fileid=$fileID");
+$result = mysql_query("UPDATE $projectID SET state='".$badState."', reason=$reason, reporting_user=$username WHERE fileid=$fileID");
 
 //Find out how many pages have been marked bad
-$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectID WHERE state=31 OR 41"));
+$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectID WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'"));
 
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
-$uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(reporting_user)) FROM $projectID WHERE state=31 OR 41");
+$uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(reporting_user)) FROM $projectID WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'");
 if ($uniqueBadPages >= 3) {
-$result = mysql_query("UPDATE projects SET state=$badState WHERE projectid=$projectID");
+if($badstate==BAD_FIRST)
+{$badProject=BAD_PI_FIRST;}
+else
+{$badProject=BAD_PI_SECOND;}
+$result = mysql_query("UPDATE projects SET state='".$badProject."' WHERE projectid=$projectID");
 $advisePM = 1;
 } }
 
@@ -91,21 +97,11 @@ if (($redirect_action == "proof") && ($advisePM != 1)) {
   $project = 'project='.$projectID;
   $proofstate = '&proofstate='.$proofstate;
   $lang='&lang='.$lang;
-  $frame1 = 'proof.php?'.$project.$proofstate.$lang;
+  $frame1 = 'proof_frame.php?'.$project.$proofstate.$lang;
   metarefresh(0,$frame1,' ',' ');
 } else {
-$returnURL=isset($editone)?"projects.php?project=$projectID&proofstate=$proofstate":"proof_per.php";
-    if ($userP['i_newwin']==0)
-      {metarefresh(0,"$returnURL",' ',' ');}
-    else
-      {
-        include($relPath.'doctype.inc');
-        echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
-        echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
-        echo "window.close();</SCRIPT>";
-        echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
-        echo "</BODY></HTML>";
-      }
+$returnURL=isset($editone)?"proof_frame.php?project=$projectID&proofstate=$proofstate":"list_avail.php";
+      metarefresh(0,"$returnURL",' ',' ');
 }
 }
 ?>
