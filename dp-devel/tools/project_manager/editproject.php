@@ -1006,10 +1006,8 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($comments)) { $comments = "<p>".sprintf(_("Refer to the %sProofreading Guidelines%s."),"<a href=\"$code_url/faq/document.php\">","</a>")."</p>"; }
     if (empty($scannercredit)) { $scannercredit = ""; }
     if (empty($clearance)) { $clearance = ""; }
-    // Cosmetic change. Do not display db default value, PM should not be
-    // changing it, and the final value is only set when an SA marks a project
-    // as posted.
-    $postednum = "";
+    // Do not display db default value(s).
+    if ($postednum == 6000 || $postednum == 0) { $postednum = ""; }
     if (empty($special)) { $special = ""; }
     if (empty($image_provider)) { $image_provider = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
