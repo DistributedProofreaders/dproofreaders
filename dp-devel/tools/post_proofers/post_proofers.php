@@ -7,6 +7,9 @@ include($relPath.'bookpages.inc');
 include($relPath.'show_projects_in_state.inc');
 include_once($relPath.'user_is.inc');
 
+global $pguser;
+
+$userSettings = Settings::get_Settings($pguser);
 
 theme(_("Post Processing"), "header");
 
@@ -146,6 +149,17 @@ if (!$isPPV) {
 	echo _("Post Processing Forum</a> is available for any of your questions.</p>");
 }
 
+// special colours legend
+// Don't display if the user has selected the
+// setting "Show Special Colors: No".
+if (!$userSettings->get_boolean('hide_special_colors'))
+{
+    echo "<hr width='75%'>\n";
+    echo "<p><font face='{$theme['font_mainbody']}'>\n";
+    include('../proofers/special_legend.php');
+    echo "</font></p><br>\n";
+}
+
 echo "<hr width=75% align='center'>\n";
 echo "<a name='ChPP'></a>\n";
 echo "<center><b>"._("Books I Have Checked Out for Post Processing:")."</b></center>";
@@ -165,6 +179,8 @@ $label = _("Post-Processing");
 $state_sql = " (state = '".PROJ_POST_FIRST_AVAILABLE."') ";
 $filtertype_stem = "avail_PP";
 include($relPath.'filter_project_list.inc');
+
+if (!isset($RFilter)) { $RFilter = ""; }
 
 echo "<a name='PP'></a>\n";
 echo "<center><b>"._("Books Available for Post Processing:")."</b></center>";
