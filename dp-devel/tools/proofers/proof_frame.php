@@ -51,12 +51,6 @@ if (isset($editone))
      // new function only to be called from here
      $tpage->reOpen($proofstate,$pguser);
   }
-
-  // load the frame
-  if ($userP['i_type'] != 1)
-    {include('proof_frame_nj.inc');}
-  else
-    {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading page...."));}
 }
 else
 {
@@ -96,11 +90,11 @@ $needPage=1;
         $pagestate=$tpage->checkOutPage($project,$proofstate,$pguser,$npage['fileid'],$npage['image']);
         setPageCookie($project,$proofstate,$npage['fileid'],$npage['image'],$pagestate,0,0,0,0,0,0);
       }
+}
 
 //load the frame
 if ($userP['i_type'] != 1)
   {include('proof_frame_nj.inc');}
 else
-  {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading next available page...."));}
-}
+  {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading page...."));}
 ?>
