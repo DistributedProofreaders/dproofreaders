@@ -142,22 +142,6 @@ if (($state == PROJ_NEW && ! $site_supports_metadata) || $state == PROJ_NEW_APPR
 	echo "<input type='submit' value='Add'>";
 	echo "<br>\n";
 	echo "</form>\n";
-
-    // isn't that helpful.
-    // no clue what this is for - not referenced in this module.
-	$something = 0;
-}
-elseif ( $state == PROJ_PROOF_FIRST_AVAILABLE
-	|| $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE
-	|| $state == PROJ_PROOF_FIRST_BAD_PROJECT
-	|| $state == PROJ_PROOF_FIRST_VERIFY
-	|| $state == PROJ_PROOF_FIRST_COMPLETE )
-{
-	$something = 1;
-}
-else
-{
-	$something = 2;
 }
 
 // -----------------------------------------------------------------------------
