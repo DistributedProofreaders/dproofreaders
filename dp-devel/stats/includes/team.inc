@@ -131,10 +131,9 @@ function showTeamStats($curTeam) {
 		$teams_P_page_tallyboard->get_info_re_largest_delta($team_id);
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
-	echo "\n<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
+	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' rules='none' style='border-collapse: collapse' width='95%'>";
+	echo "\n<tr><td colspan='2' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
 	echo "' color='" . $theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics")."</b><br><font size='1'>("._("Last Updated:")." $lastupdated)</font></font></center></td></tr>";
-	echo "\n<tr><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
 
 	function echo_tr( $left, $right )
 	{
@@ -179,7 +178,7 @@ function showTeamStats($curTeam) {
 			. "&nbsp;<i>($bestDayTime)</i></b>"
 	);
 
-	echo "</td></tr></table></table><p>";
+	echo "</table><p>";
 }
 
 function showTeamMbrs($curTeam) {
@@ -190,16 +189,15 @@ function showTeamMbrs($curTeam) {
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
+	echo "\n<table border='1' bordercolor='#111111' rules='none' cellspacing='2' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 	
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b>";
+	echo "<tr><td colspan='3' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b>";
 	$latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
 	if (mysql_num_rows($latestMbr) > 0) { 
 		if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) { echo "<br>Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!"; }
 	}
 	echo "</font></center></td></tr>";
 	
-	echo "\n<tr><td><table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	echo "\n<tr bgcolor='#cccccc'>";
 
 	if ($order == "mbr") {
@@ -226,7 +224,7 @@ function showTeamMbrs($curTeam) {
 		echo "<td width='30%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Date Joined DP")."</font></a></b></td>";
 	}
 
-	echo "</tr></table>\n<table border='0' width='100%' cellspacing='2' cellpadding='0'>";
+	echo "</tr>";
 	$mbrQuery = mysql_query("
 		SELECT *, $user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
@@ -265,7 +263,7 @@ function showTeamMbrs($curTeam) {
 		echo "<td width='35%'>" . number_format($totalPagesAnonUsers) . "</td>";
 		echo "<td width='30%'>&nbsp;</td></tr>";
 	}
-	echo "</td></tr></table></table><p>";
+	echo "</table><p>";
 }
 
 function showTeamHistory($curTeam) {
