@@ -1,6 +1,7 @@
 <?
 $relPath='./../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'project_states.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
@@ -21,7 +22,7 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
 //limit to looking at projects which do not have
 //the archive flag set to 1 in order to limit run time
-$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0' AND state != 'waiting_1'");
+$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0' AND state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
 $numProjects = mysql_num_rows($allProjects);
 
 while ($i < $numProjects) {

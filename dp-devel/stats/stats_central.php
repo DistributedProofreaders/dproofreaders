@@ -39,14 +39,14 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 
 
   //get total first round books waiting to be released
-    $firstwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects WHERE state = 'waiting_1'");
+    $firstwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
     $totalfirstwaiting = (mysql_result($firstwaitingbooks,0,"numbooks"));
     echo "<td align ='left'>Books waiting to be released for first round:   <a href ='to_be_released.php?order=default'>(View)</a></td><td align ='right'>$totalfirstwaiting</td><tr>";
 
 
   //get total non-English books waiting to be released
     $nonwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
-                                    WHERE state = 'waiting_1' AND language != 'English'");
+                                    WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language != 'English'");
     $totalnonwaiting = (mysql_result($nonwaitingbooks,0,"numbooks"));
     echo "<td align ='left'>Non-English Books waiting to be released for first round:</td><td align ='right'> $totalnonwaiting</td><tr>";
 
