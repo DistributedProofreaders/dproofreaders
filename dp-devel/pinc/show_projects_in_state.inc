@@ -101,12 +101,12 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	}
 	elseif ( $order == 'PersonA' )
 	{
-		$orderclause = '$foo_field_name ASC, nameofwork ASC';
+		$orderclause = "$foo_field_name ASC, nameofwork ASC";
 		$flip_Person = TRUE;
 	}
 	elseif ( $order == 'PersonD' )
 	{
-		$orderclause = '$foo_field_name DESC, nameofwork ASC';
+		$orderclause = "$foo_field_name DESC, nameofwork ASC";
 	}
 	
 	// note that we SHOW "days since M", but *order* by M, so the logic is flipped
