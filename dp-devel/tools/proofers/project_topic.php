@@ -1,7 +1,6 @@
 <?
 $relPath="./../../pinc/";
 $linkPath="./../../tools/proofers/";
-"<br><br>Click <a href='".$linkPath."projects.php?project=$project_id&prooflevel=0'> here to view the project comments."
 include($relPath.'dp_main.inc');
 
 if ($_GET['action'] == "c") {
@@ -20,7 +19,7 @@ $topic_id = $row['topic_id'];
 }
 
 //Determine if there is an existing topic or not
-if($topic_id == "") {
+if(($topic_id == "") || ($topic_id == 0)) {
 //Add Topic into phpbb_topics
 $insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, 2, '$title', $user_id, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
 $topic_id = mysql_insert_id();
