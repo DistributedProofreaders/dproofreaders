@@ -5,7 +5,6 @@ include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'project_trans.inc');
-include($relPath.'html_main.inc');
 include_once($relPath.'theme.inc');
 
 // use: $code_url/tools/upload_text.php?project=projectid&curr_state=...
