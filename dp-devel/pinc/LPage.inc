@@ -30,10 +30,25 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
-        $tpage = new processpage();
-        $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
-        $tpage->deleteUserCount($proofstate,$pguser,$userP);
-        $tpage->reOpen($proofstate,$pguser);
+        $sql = "SELECT state FROM $project WHERE image='$imagefile' AND fileid='$fileid'";
+        $result = mysql_query($sql);
+        $rows = mysql_num_rows($result);
+        if ($rows !=0)
+        {
+            $curState = mysql_result($result,0,'state');
+            if ((getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || (getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
+            {
+                // delete from user page count
+                $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
+                $result = mysql_query($sql);
+                $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
+                $result = mysql_query($sql);
+            }
+        }
+
+        $pageround = getPageRound($pagestate);
+        // no need to update text, just record state change
+        Page_reopen( $project, $fileid, $imagefile, $pageround, $pguser );
     }
 
     $saved = 1;
@@ -157,38 +172,11 @@ function addUserCount($proofstate,$pguser,$userP)
     }
 }
 
-function deleteUserCount($proofstate,$pguser,$userP)
-{
-  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result=mysql_query($sql);
-  $rows=mysql_num_rows($result);
-    if ($rows !=0)
-    {
-      $curState=mysql_result($result,0,'state');
-        if ((getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || (getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
-        {
-          // delete from user page count
-          $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
-          $result = mysql_query($sql);
-          $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
-          $result = mysql_query($sql);
-        }
-    }
-}
-
 
 function saveTemp($proofstate,$text_data,$pguser)
 {
   return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
-
-
-// when a page is reopened from MRC, no need to update text, just record state change
-function reOpen($proofstate,$pguser)
-{
-  return Page_reopen( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser );
-}
-
 
 function saveComplete($proofstate,$text_data,$pguser,$userP)
 {
