@@ -44,7 +44,9 @@ function echo_page_table(
 	echo "<table border=1>\n";
 
 	$n_cols_per_round = 3; // Diff, Date, Text
-	if ($can_see_names_for_all_pages) $n_cols_per_round += 1; // User
+	// Even if the user can't see names for all pages, they can see names
+	// for the pages they've worked on, so we always include the User column.
+	if (TRUE)           $n_cols_per_round += 1; // User
 	if ($can_edit)      $n_cols_per_round += 1; // Clear
 
 	// Top header row
@@ -90,7 +92,7 @@ function echo_page_table(
 
 		echo "{$td_start}"._("Diff")."{$td_end}";
 		echo "{$td_start}"._("Date")."{$td_end}";
-		if ($can_see_names_for_all_pages)
+		if (TRUE)
 		{
 			echo "{$td_start}"._("User")."{$td_end}";
 		}
@@ -103,7 +105,7 @@ function echo_page_table(
 		{
 			echo "{$td_start}"._("Diff")."{$td_end}";
 			echo "{$td_start}"._("Date")."{$td_end}";
-			if ($can_see_names_for_all_pages)
+			if (TRUE)
 			{
 				echo "{$td_start}"._("User")."{$td_end}";
 			}
