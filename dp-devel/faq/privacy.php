@@ -1,6 +1,9 @@
 <?php
-if(!isset($relPath)) $relPath="./../pinc/";
-include_once($relPath.'v_site.inc');
+if(!isset($relPath)) {
+	$relPath="./../pinc/";
+	include_once($relPath.'v_site.inc');
+	header("Content-Type: text/html; charset=$charset");
+}
 ?>
 
 <p align="center"><font size="+2">Privacy Statement:</font></p>
