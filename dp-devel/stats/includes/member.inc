@@ -164,6 +164,10 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 		}
 
 	if (empty($currentRank) || empty($prevRank)) {
+		// Normally, this means that the rank is zero,
+		// which indicates that the user's page tally is zero.
+		// (Uniformity would prefer that a page tally of zero
+		// gave a very high rank number, but it doesn't.)
 		$rankPos = "&nbsp;";
 	} elseif ($currentRank < $prevRank) {
 		$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
