@@ -1,5 +1,7 @@
 <?php
+$relPath = '../pinc';
 include('./../../stats/statestats.inc');
+include_once($relPath.'gettext_setup.inc');
 
 echo "<center>";
 
