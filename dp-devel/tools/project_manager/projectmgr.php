@@ -309,21 +309,38 @@ theme("Project Managers", "header");
 
 			$projectinfo->update_avail($projectid, $state);
 
-            		print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$projectinfo->availablepages</td><td align=\"center\">";
+            		echo "<tr bgcolor=$bgcolor>\n";
+
+			// Title
+			echo "<td><a href=\"projectmgr.php?project=$projectid\">$name</a></td>\n";
+
+			// Author
+			echo "<td>$author</td>\n";
+
+			// Left
+			echo "<td align=\"center\">$projectinfo->availablepages</td>\n";
+			// Owner
+			echo "<td align=\"center\">";
             		if ($show == 'site') {
                 		print mysql_result($result, $rownum, "username");
             		} else if ($outby != "") {
                 		print "<a href=mailto:$outbyemail>$outby</a>";
             		}
+			echo "</td>\n";
 
-			print "</td><td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
+			// Project Status
+			echo "<td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
             		getSelect($state);
-            		echo "</select></form></td><td align=center>";
+            		echo "</select></form></td>\n";
 
+			// Options
+			echo "<td align=center>";
 			print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
             		if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
             		if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/post.zip\">D/L</A>";
-            		echo "</td></tr>\n";
+            		echo "</td>\n";
+
+			echo "</tr>\n";
 
 			$tr_num++;
 		     }
