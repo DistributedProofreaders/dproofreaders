@@ -19,7 +19,7 @@ theme("Project Managers", "header");
 	}
 
 //Display the introduction & links bar
-	echo "<p><center><a href='projectmgr.php?show=all'>Show Your Projects</a> | <a href='editproject.php'>Create Project</a>";
+	echo "<p><center><a href='projectmgr.php'>Show Your Active Projects</a> | <a href='projectmgr.php?show=all'>Show All of Your Projects</a> | <a href='editproject.php'>Create Project</a>";
 	if ($userP['sitemanager'] == "yes") { 
 		echo " | <a href='projectmgr.php?show=site'>Show All Projects</a>"; 
 	}
