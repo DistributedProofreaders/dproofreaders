@@ -96,14 +96,15 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	}
     }
     else if (
-	is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
+	// assignment-in-condition
+	$prd = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
     {
 	$do_transition = TRUE;
 	$refresh_url = "projectmgr.php";
 
-	if ( $oldstate == PROJ_P1_WAITING_FOR_RELEASE &&
-	          $newstate == PROJ_P1_AVAILABLE )
+	if ( $oldstate == $prd->project_waiting_state &&
+	     $newstate == $prd->project_available_state )
 	{
 	    $errors = project_pre_release_check( $project );
 	    if ($errors)
@@ -115,7 +116,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 		echo "The project has been marked bad.\n";
 		echo "Please fix the problems and resubmit.\n";
 		echo "</pre>\n";
-		$newstate = PROJ_P1_BAD_PROJECT;
+		$newstate = $prd->project_bad_state;
 		$refresh_url = '';
 	    }
 	    else if ( ! user_is_a_sitemanager() && ! user_is_proj_facilitator() )
@@ -133,7 +134,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
             else
             {
                 maybe_mail_project_manager( $project,
-             	   "This project has been manually released by $pguser and has just become available for first-round proofreading.",
+             	   "This project has been manually released by $pguser and has just become available in '{$prd->round_name}'.",
                    "DP Proofreading Started (Manual Release)");
             }
 	}
