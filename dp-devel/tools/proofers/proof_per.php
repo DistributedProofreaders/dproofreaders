@@ -86,12 +86,12 @@ include($relPath.'page_states.inc');
         $yourrank = 1;
     }
 
-echo "User Preferences: <b>";
+echo "User Profile: <b> <a href=\"../../userprefs.php\">{$userP['profilename']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 if ($userP['prefschanged']==1)
 {echo "<a href=\"../../userprefs.php\">Save current changes</a>";}
 else {
 if ($userP['i_prefs']==1)
-{echo "<a href=\"../../userprefs.php\">View</a>";}
+{echo "<a href=\"../../userprefs.php\">View current profile</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
 echo "</b>";

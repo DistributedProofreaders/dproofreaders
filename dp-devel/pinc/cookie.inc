@@ -19,17 +19,21 @@ function checkCookie()
 
 function setUserPrefs($userID)
 {
-          $db_query="SELECT 
-u_lang, email_updates, u_plist, u_top10, u_neigh,
-i_prefs, i_res, i_type, i_layout, i_toolbar, 
-i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
-v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
-h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap, 
+          $db_users="SELECT u_id, u_profile, u_lang, email_updates, 
+u_plist, u_top10, u_neigh, i_prefs, 
 id, manager, postprocessor 
 FROM users WHERE username='$userID'";
+          $db_usersres=mysql_query($db_users);
+          $u_usersData=mysql_fetch_assoc($db_usersres);
+          $db_query="SELECT 
+profilename, i_res, i_type, i_layout, i_toolbar, 
+i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
+v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
+h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap 
+FROM user_profiles WHERE u_ref='{$u_usersData['u_id']}' AND id='{$u_usersData['u_profile']}'";
           $db_result=mysql_query($db_query);
           $uData=mysql_fetch_assoc($db_result);
-          $userPrefs=implode("|",$uData)."|0";
+          $userPrefs=implode("|",$u_usersData)."|".implode("|",$uData)."|0";
           $cookieName=md5($userID."_prefs");
           setcookie("$cookieName",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
 }
@@ -56,12 +60,20 @@ $cookieName=md5($userID."_prefs");
 @$cPrefs=explode("|",$_COOKIE[$cookieName]);
 $uPrefs=array();
 $i=0;
+// from users
+@$uPrefs['u_id']=$cPrefs[$i++];
+@$uPrefs['u_profile']=$cPrefs[$i++];
 @$uPrefs['u_lang']=$cPrefs[$i++];
 @$uPrefs['email_updates']=$cPrefs[$i++];
 @$uPrefs['u_plist']=$cPrefs[$i++];
 @$uPrefs['u_top10']=$cPrefs[$i++];
 @$uPrefs['u_neigh']=$cPrefs[$i++];
 @$uPrefs['i_prefs']=$cPrefs[$i++];
+@$uPrefs['user_id']=$cPrefs[$i++];
+@$uPrefs['manager']=$cPrefs[$i++];
+@$uPrefs['postprocessor']=$cPrefs[$i++];
+// from user_profiles
+@$uPrefs['profilename']=$cPrefs[$i++];
 @$uPrefs['i_res']=$cPrefs[$i++];
 @$uPrefs['i_type']=$cPrefs[$i++];
 @$uPrefs['i_layout']=$cPrefs[$i++];
@@ -84,9 +96,6 @@ $i=0;
 @$uPrefs['h_tchars']=$cPrefs[$i++];
 @$uPrefs['h_tscroll']=$cPrefs[$i++];
 @$uPrefs['h_twrap']=$cPrefs[$i++];
-@$uPrefs['user_id']=$cPrefs[$i++];
-@$uPrefs['manager']=$cPrefs[$i++];
-@$uPrefs['postprocessor']=$cPrefs[$i++];
 
 @$uPrefs['prefschanged']=$cPrefs[$i++];
 return $uPrefs;
