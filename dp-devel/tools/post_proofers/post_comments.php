@@ -25,6 +25,7 @@ $project = mysql_fetch_assoc(mysql_query("
 "));
 
 $state = $project['state'];
+$smooth_dead = $project['smoothread_deadline'];
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -95,7 +96,37 @@ elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
     echo_download_zip( $projectid, _("Download Zipped Text"), '_corrections' );
 }
 
+
 // ----------------------------------
+
+
+// if checked out for PPing, the project can be uploaded and made available for smoothreading
+// by anyone without changing state - it's still checked out to PPer
+
+if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
+
+    echo "<li>";
+    $now = time();
+    if ($smooth_dead > $now) {
+        $deadline = strftime(_("%A, %B %e, %Y"), $smooth_dead);
+        echo _("This project has been made available for smoothreading until ")."<b>$deadline</b>";
+
+    } else {
+        echo _("Upload project for smoothreading") . ":";
+
+        $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=";
+
+        echo "<ul>";
+        echo "<li>".$link_start."1'>"._("Make available for smoothreading for one week")."</a>";
+        echo "<li>".$link_start."2'>"._("Make available for smoothreading for two weeks")."</a>";
+        echo "<li>".$link_start."4'>"._("Make available for smoothreading for four weeks")."</a>";
+        echo "</ul>";
+    }
+}
+
+
+// ----------------------------------
+
 
 echo "<li>";
 echo _("Change Project State") . ":";
