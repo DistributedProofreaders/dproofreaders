@@ -16,10 +16,10 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 
 	if ($type == "bronze") {
 		$state = SQL_CONDITION_BRONZE;
-		$text = " "._("Now Proofing")."</font>  "._("These books are currently being processed through our site; sign in and start helping!!!!")."<br>";
+		$text = " "._("Now Proofreading")."</font>  "._("These books are currently being processed through our site; sign in and start helping!!!!")."<br>";
 	} elseif ($type == "silver") {
 		$state = SQL_CONDITION_SILVER;
-		$text = " "._("In Progress")."</font>  "._("These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).")."<br>";
+		$text = " "._("In Progress")."</font>  "._("These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofreading/assembly).")."<br>";
 	} elseif ($type == "gold") {
 		$state = SQL_CONDITION_GOLD;
 		$text = " "._("Complete")."</font>  "._("These books have been processed through our site and posted to the Project Gutenberg archive.");

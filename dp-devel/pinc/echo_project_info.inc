@@ -188,7 +188,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$details = _("(Please check below for guideline modifications.)");
 	echo_row_b($word, $details);
 
-	$a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofing Guidelines")."</a> "._("for detailed project formatting directions.");
+	$a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> "._("for detailed project formatting directions.");
 	$b = _("Instructions below take precedence over the guidelines");
 	echo_row_c( "$a<b>$b:</b><P>$comments" );
 
@@ -283,7 +283,7 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 
 	if ($wlist==0) {
 		$top = _("DONE");
-		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
+		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofreading, that are still available for correction)");
 		$state_condition = "state='$save_state'";
 	} else {
 		$top = _("IN PROGRESS");

@@ -1,9 +1,9 @@
 <?
 
-// Simple Proofing Rules text, for inclusion in other files only
+// Simple Proofreading Rules text, for inclusion in other files only
 
 echo "<font face=" . $theme['font_mainbody'] ."><b>";
-echo _("Simple Proofing Rules:");
+echo _("Simple Proofreading Rules:");
 echo "</b></font><br><br>";
 
 echo _("1) Don't rewrap lines. Leave the ends of lines where they are in the image.");
@@ -23,11 +23,11 @@ echo "<br><br>\n\n";
 echo "<i>";
 echo _("The");
 echo " <a href='".$code_url."/faq/summary.pdf'>";
-echo _("Handy Proofing Guide");
+echo _("Handy Proofreading Guide");
 echo "</a> ";
 echo _("(printable) and");
 echo " <a href='".$code_url."/faq/document.php'>";
-echo _("Proofing Guidelines");
+echo _("Proofreading Guidelines");
 echo "</a> ";
 echo _("(for reference) provide much more detail.");
 echo "</i><br><br>\n";

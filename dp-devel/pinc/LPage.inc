@@ -87,7 +87,7 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 
 function noPages($newwin)
 {
-    $body=_("No more files available for proofing for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
+    $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
     $title = _("Project Round Complete");
     metarefresh(4,"list_avail.php",$title,$body);
 }
@@ -190,7 +190,7 @@ function getText($pagestate,$saved,$revert)
 
     // Actually, this is all moot.
     // The value returned by this function will be sent to the client as the
-    // content of a <textarea> element (the Proofing Page's text frame),
+    // content of a <textarea> element (the Proofreading Page's text frame),
     // which the browser won't interpret as HTML anyhow.
     // (That's why we see <i> *tags* rather than seeing italicized text.)
     // So just return the text as-is.
@@ -305,7 +305,7 @@ function exitInterface($newwin,$editone)
         echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
         echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
         echo "window.close();</SCRIPT>";
-        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here to close the proofing window.")."</A>";
+        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here to close the proofreading window.")."</A>";
         echo "</BODY></HTML>";
       }
 }

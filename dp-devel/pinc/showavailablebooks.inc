@@ -56,7 +56,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	$word = _("Project<BR>Manager");
 	tde('<b>'.$word.'</b>',bgcol(1,$round) . "60");
 
-	$word = _("Pages available for proofing");
+	$word = _("Pages available for proofreading");
 	tde('<b>'.$word.'</b>',bgcol(1,$round) . "100");
 
 	$word = _("Total pages in the book");

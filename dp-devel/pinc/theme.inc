@@ -335,16 +335,16 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Newbie");
 	}
 	if ($neighborhood['pages'][$userindex] >= 26) {
-	 $rankname = _("Proofer");
+	 $rankname = _("Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 151) {
 	 $rankname = _("Ace");
 	}
 	if ($neighborhood['pages'][$userindex] >= 401) {
-	 $rankname = _("Proofer Savant");
+	 $rankname = _("Proofreader Savant");
 	}
 	if ($neighborhood['pages'][$userindex] >= 1001) {
-	 $rankname = _("Master Proofer");
+	 $rankname = _("Master Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 2001) {
 	 $rankname = _("Maestro");
@@ -356,19 +356,19 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Rare Talent");
 	}
 	if ($neighborhood['pages'][$userindex] >= 20001) {
-	 $rankname = _("Super Proofer");
+	 $rankname = _("Super Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 30001) {
-	 $rankname = _("Profound Proofer");
+	 $rankname = _("Profound Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 40001) {
-	 $rankname = _("Priceless Proofer");
+	 $rankname = _("Priceless Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 50001) {
-	 $rankname = _("Prishan Level Proofer");
+	 $rankname = _("Prishan Level Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 50101) {
-	 $rankname = _("Prime Proofer");
+	 $rankname = _("Prime Proofreader");
 	}
 	if ($neighborhood['pages'][$userindex] >= 60001) {
 	 $rankname = _("Peerless Proofer");
@@ -386,10 +386,10 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Prooferissimo");
 	}
 	if ($neighborhood['pages'][$userindex] >= 99001) {
-	 $rankname = _("Master of Proofing");
+	 $rankname = _("Master of Proofreading");
 	}
 	if ($neighborhood['pages'][$userindex] >= 99501) {
-	 $rankname = _("Doctor of Proofing");
+	 $rankname = _("Doctor of Proofreading");
 	}
 	if ($neighborhood['pages'][$userindex] >= 100001) {
 	 $rankname = _("Prishan of Proofers");
@@ -404,7 +404,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = _("Presidential Proofer");
 	}
 	if ($neighborhood['pages'][$userindex] >= 125001) {
-	 $rankname = _("Professor of Proofing");
+	 $rankname = _("Professor of Proofreading");
 	}
 
 
@@ -494,7 +494,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if (!empty($userP)) {
 		echo "<br><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><center><u>"._("Key Help Documents:")."</u></center></font>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>"._("Proofing Guidelines")."</a> (<a href='$code_url/faq/summary.pdf'>"._("Summary")."</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/summary.pdf'>"._("Summary")."</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips & How-To's")."</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
 	}
