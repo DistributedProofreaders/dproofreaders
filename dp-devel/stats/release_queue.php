@@ -74,9 +74,14 @@ else
 			echo "<h4>$comment</h4>\n";
 		}
 
+        $comments_url1 = mysql_escape_string("<a href='".$code_url."/tools/proofers/projects.php?project=");
+        $comments_url2 = mysql_escape_string("'>");
+        $comments_url3 = mysql_escape_string("</a>");
+
 	dpsql_dump_query("
 		SELECT
-			nameofwork  as 'Name of Work',
+
+ 			concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3')  as 'Name of Work',
 			authorsname as 'Author\'s Name',
 			language    as 'Language',
 			genre       as 'Genre',
