@@ -5,6 +5,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'show_projects_in_state.inc');
+include($relPath.'user_is.inc');
 theme("Post Processing", "header");
 
 echo "
@@ -59,21 +60,29 @@ echo "
 </p>
 ";
 
+$isPPV = user_is_proj_facilitator();
+
 echo "<center><b>Books I Have Checked Out for Post-Processing:</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT);
 echo "<br>";
 
+if ($isPPV) {
+
 echo "<center><b>Books I Have Checked Out for Verifying Post-Processing:</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 echo "<br>";
+}
 
 echo "<center><b>Books Available for Post-Processing:</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_AVAILABLE);
 echo "<br>";
 
+if ($isPPV) {
+
 echo "<center><b>Books Available for Post-Processing Verification & Posting:</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_AVAILABLE);
 echo "<br>";
+}
 
 theme("", "footer");
 ?>
