@@ -13,8 +13,11 @@ $code_url='<<CODE_URL>>';
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
 
-$dynstats_dir = '<<DYNSTATS_DIR>>';
-$dynstats_url = '<<DYNSTATS_URL>>';
+$dyn_dir = '<<DYN_DIR>>';
+$dyn_url = '<<DYN_URL>>';
+
+$dynstats_dir = "$dyn_dir/stats";
+$dynstats_url = "$dyn_url/stats";
 
 $xmlfeeds_dir = '<<XMLFEEDS_DIR>>';
 $xmlfeeds_url = '<<XMLFEEDS_URL>>';
