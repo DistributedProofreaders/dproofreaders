@@ -17,12 +17,12 @@ echo "<BR>\n";
 echo "<hr>\n";
 
 system("pwd");
-echo "<BR>\n";
-echo $_ENV['PWD'];
-echo "<BR>\n";
+echo "\n";
+system("ls -l .");
 echo "<hr>\n";
 
 system("ls -l /0/htdocs");
+echo "\n";
 echo "<hr>\n";
 
 if (0)
@@ -76,7 +76,7 @@ if (0)
     echo "<HR>\n";
 }
 
-if (1)
+if (0)
 {
     $res = mysql_query("SELECT projectID, modifieddate FROM projects WHERE archived='1' ORDER BY modifieddate")
 	or die(mysql_error());
