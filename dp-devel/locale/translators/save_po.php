@@ -55,7 +55,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
 
 	chdir($code_dir);
-	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
+	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C");
 
 	$i=4;
 	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
