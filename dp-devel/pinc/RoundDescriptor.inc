@@ -5,7 +5,7 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'TallyBoard.inc');
 
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
 
@@ -27,13 +27,15 @@ class ProofingRoundDescriptor
             // (Should probably conform to the rules for a PHP variable name.)
         $round_name,
             // A gettext-translated name for the round.
-        $minimum_user_pages,
-            // The minimum number of pages that a user must complete
-            // in order to be allowed to participate in this round.
-            // If NULL, users cannot qualify for this round by page-count.
+        $access_minima,
+            // An array of minimum requirements that a user must satisfy
+            // in order to be allowed to participate in this round
+            // (barring special permission).
+            // If empty array, no minima: everyone can participate.
+            // If NULL, users cannot qualify for this round by satisfying minima.
         $users_can_be_granted_access,
             // If TRUE, a user can be given access to this round (regardless
-            // of their number of completed pages) via a notation in the
+            // of how they stand w.r.t access minima) via a notation in the
             // database (specific to that user and this round).
             // (Theoretically, this param is unnecessary. We could act as if it
             // were always TRUE, i.e. always check the db for such a notation;
@@ -61,7 +63,7 @@ class ProofingRoundDescriptor
 
         $this->round_id           = $round_id;
         $this->round_name         = $round_name;
-        $this->minimum_user_pages = $minimum_user_pages;
+        $this->access_minima      = $access_minima;
         $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
         $this->tally_name         = $tally_name;
@@ -124,107 +126,123 @@ class ProofingRoundDescriptor
 
     function user_access( $username, $n_pages_completed=null )
     // Return an array containing:
-    // -- a string: detailing the means by which users gain access to the round.
     // -- a boolean: TRUE iff the user can access this round.
-    // -- a string: detailing why or why not (addressed to "you").
+    // -- NULL or an array of arrays (4-tuples):
+    //         ( $criterion_str, $minimum, $user_value, $satisfied )
+    // -- a non-empty array of strings: sentences (addressed to "you")
+    //         saying why you or don't have access.
     // 
+    // UNIMPLEMENTED:
     // If $n_pages_completed is non-null, use it as the number of pages
     // that the user has completed. Otherwise, consult the database.
     {
-        if ( is_null($this->minimum_user_pages) )
+        $res = mysql_query("
+            SELECT *
+            FROM users
+            WHERE username='$username'
+        ") or die(mysql_error());
+
+        if ( mysql_num_rows($res) == 0 )
         {
-            if ( $this->users_can_be_granted_access )
-            {
-                $how = _("Users cannot qualify for this round by page-count. Instead, they must be granted access.");
-                if ( $this->user_has_been_granted_access($username) )
-                {
-                    $can = TRUE;
-                    $why = _("You have been granted access to this round.");
-                }
-                else
-                {
-                    $can = FALSE;
-                    $why = _("You have not been granted access to this round.");
-                }
-            }
-            else
-            {
-                $how = _("Only site admins are allowed in this round.");
-                $can = FALSE;
-                $why = '';
-            }
+            die( "User '$username' does not exist." );
         }
-        else if ( $this->minimum_user_pages <= 0 )
+
+        $user_obj = mysql_fetch_object($res);
+
+
+        $minima_table = null;
+        $sentences = array();
+
+        // Considering the minima...
+
+        if ( is_null($this->access_minima) )
         {
-            $how = _("All users can work in this round.");
+            $sentences[] = _("Users cannot qualify for this round by satisfying minima.");
+            $can = FALSE;
+        }
+        else if ( empty($this->access_minima) )
+        {
+            $minima_table = null;
+            $sentences[] = _("All users can work in this round.");
             $can = TRUE;
-            $why = '';
         }
         else
         {
+            $minima_table = array();
+            $all_minima_satisfied = TRUE;
+            foreach ( $this->access_minima as $criterion_code => $minimum )
+            {
+                if ( $criterion_code == 'days since reg' )
+                {
+                    $criterion_str = _('days since registration');
+                    $user_value = sprintf( '%.1f', ( time() - $user_obj->date_created ) / 86400 );
+                }
+                else if ( $criterion_code == 'quiz' )
+                {
+                    assert( $minimum == 1 );
+                    $criterion_str = _('proofreading quiz pass');
+                    // UNIMPLEMENTED
+                    // For now, say they have passed.
+                    $user_value = 1;
+                }
+                else
+                {
+                    $tally_name = $criterion_code;
+                    $criterion_str = sprintf( _("'%s' pages completed"), $tally_name );
+                    $tallyboard = new TallyBoard( $tally_name, 'U' );
+                    $user_value = $tallyboard->get_current_tally( $user_obj->u_id );
+                }
+                $satisfied = ( $user_value >= $minimum );
+                $minima_table[] = array( $criterion_str, $minimum, $user_value, $satisfied );
+                if ( !$satisfied ) $all_minima_satisfied = FALSE;
+            }
+
+            if ( $all_minima_satisfied )
+            {
+                $sentences[] = _('You satisfy the minima, so you are allowed in the round.');
+                $can = TRUE;
+            }
+            else
+            {
+                $sentences[] = _('You do not satisfy the minima.');
+                $can = FALSE;
+            }
+        }
+
+        // Considering special grant of access:
+        if (!$can)
+        {
             if ( $this->users_can_be_granted_access )
             {
-                $how = sprintf(
-                    _("Users can work in the round after completing %d pages, or by being granted access."),
-                    $this->minimum_user_pages );
-            }
-            else
-            {
-                $how = sprintf(
-                    _("Users can work in the round after completing %d pages."),
-                    $this->minimum_user_pages );
-            }
-
-            if ( is_null($n_pages_completed) )
-            {
-                $n_pages_completed = user_get_page_tally( $username );
-            }
-
-            if ( $n_pages_completed >= $this->minimum_user_pages )
-            {
-                $can = TRUE;
-                $why = sprintf(
-                    _("You have completed %d pages, enough to work in this round."),
-                    $n_pages_completed );
-            }
-            else
-            {
-                // Not enough pages.
-                if ( $this->users_can_be_granted_access && $this->user_has_been_granted_access($username) )
+                if ( $this->user_has_been_granted_access($username) )
                 {
                     $can = TRUE;
-                    $why = sprintf(
-                        _("You have only completed %d pages, but you have been granted access."),
-                        $n_pages_completed );
+                    $sentences[] = _("However, you have been granted access to this round.");
                 }
                 else
                 {
                     $can = FALSE;
-                    $why = sprintf(
-                        _("You have completed %d pages, so you have to do %d more."),
-                        $n_pages_completed,
-                        $this->minimum_user_pages - $n_pages_completed );
+                    $sentences[] = _("However, you can be granted access to this round. See XXX for details.");
                 }
+            }
+            else
+            {
+                // There is no granting of access for this round.
+                $can = FALSE;
             }
         }
 
         // Site managers can go anywhere.
         if ( !$can )
         {
-            $res = mysql_query("
-                SELECT sitemanager
-                FROM users
-                WHERE username='$username'
-            ") or die(mysql_error());
-
-            if (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes')
+            if ($user_obj->sitemanager == 'yes')
             {
                 $can = TRUE;
-                $why .= ' ' . _("However, you're a site manager, so you have access to everywhere.");
+                $sentences[] = _("But ultimately, you're a site manager, so you have access to everywhere.");
             }
         }
 
-        return array( $how, $can, $why );
+        return array( $can, $minima_table, $sentences );
     }
 
     function user_has_been_granted_access( $username )
@@ -246,7 +264,7 @@ class ProofingRoundDescriptor
 $P1 = new ProofingRoundDescriptor(
     'P1',
     _('Proofreading Round 1'),
-    -20,
+    array(),
     FALSE,
     _("The page-texts are the output from OCR software and have not been looked at."),
     'P',
@@ -260,7 +278,7 @@ $P1 = new ProofingRoundDescriptor(
 $P2 = new ProofingRoundDescriptor(
     'P2',
     _('Proofreading Round 2'),
-    100,
+    array( 'P' => 1000, 'days since reg' => 91, 'quiz' => 1 ),
     FALSE,
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'P',
@@ -274,7 +292,7 @@ $P2 = new ProofingRoundDescriptor(
 $F1 = new ProofingRoundDescriptor(
     'F1',
     _('Formatting Round 1'),
-    400,
+    array( 'P' => 300, 'days since reg' => 21, 'quiz' => 1 ),
     FALSE,
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
     'F',

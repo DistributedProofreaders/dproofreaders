@@ -255,10 +255,37 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo $prd->description;
     echo "<br>\n";
 
-	list($how_access, $can_access,$explanation) = $prd->user_access( $pguser, $pagesproofed );
-    echo $how_access;
     echo "<br>\n";
-    echo $explanation;
+
+	list($can_access, $minima_table, $sentences) = $prd->user_access( $pguser, $pagesproofed );
+    if ( $minima_table )
+    {
+        echo _('Entrance Requirements') . ":\n";
+        echo "<table border='1'>\n";
+
+        echo "<tr>";
+        echo "<th>" . _('Criterion') . "</th>";
+        echo "<th>" . _('Minimum')  . "</th>";
+        echo "<th>" . _('You')      . "</th>";
+        echo "</tr>\n";
+
+        foreach ( $minima_table as $row )
+        {
+            list($criterion_str, $minimum, $user_value, $satisfied) = $row;
+            $bgcolor = ( $satisfied ? '#ccffcc' : '#ffcccc' );
+            echo "<tr>";
+            echo "<td>$criterion_str</td>";
+            echo "<td>$minimum</td>";
+            echo "<td bgcolor='$bgcolor'>$user_value</td>";
+            echo "</tr>\n";
+        }
+        echo "</table>\n";
+    }
+    foreach ( $sentences as $sentence )
+    {
+        echo "$sentence\n";
+    }
+    echo "<br>\n";
     echo "<br>\n";
 
     summarize_projects( array(
