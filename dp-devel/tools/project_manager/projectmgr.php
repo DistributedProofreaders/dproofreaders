@@ -73,6 +73,12 @@ abort_if_not_manager();
 			</tr>
 		    ";
 		}
+		echo "
+			<tr>
+			    <td>"._("Project ID")."</td>
+			    <td><input type='text' name='projectid'></td>
+			</tr>
+		";
 		// In the <select> tag, we set the name attribute to 'state[]'.
 		// I'm pretty sure this doesn't mean anything to HTML/HTTP,
 		// but PHP takes it as a cue to make the multiple values of
@@ -151,6 +157,10 @@ abort_if_not_manager();
 			    // The user is a project manager, not a site admin or project facilitator
 			    // so they can only see their own projects.
 			    $condition .= " AND username='$pguser'";
+			}
+			if ( $_GET['projectid'] != '' )
+			{
+			    $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
 			}
 			if ( isset($_GET['state']) && count($_GET['state']) > 0 )
 			{
