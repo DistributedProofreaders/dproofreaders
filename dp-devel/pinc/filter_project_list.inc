@@ -70,7 +70,7 @@ echo _("Filter available ").$label._(" books by").":";
 echo "</center>\n";    
 echo "<br>
     <form method=get action='$action_page'>
-    <input type='hidden' name='filter' value='filter_on'>";
+    <input type='hidden' name='filter_".$filtertype_stem."' value='filter_on'>";
 
 
 // checkboxes for selection of difficulty
@@ -200,7 +200,7 @@ if (mysql_num_rows($result) >= 1) {
 // validate each set value against the arrays of legal values
 // as some protection against the "injection of SQL into URL" attack
 
-if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
+if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem"] == 'filter_on')) {
 
 	$RFilter = " ";
 	$display_filter = "";
