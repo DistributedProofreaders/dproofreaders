@@ -8,7 +8,7 @@ include($relPath.'page_states.inc');
 
 $projectid = $_GET['project'];
 
-abort_if_cant_edit_project( $project );
+abort_if_cant_edit_project( $projectid );
 
 if ($userP['sitemanager'] == 'yes')
 {
@@ -93,6 +93,6 @@ echo "$n_rows_inserted rows inserted into table.\n";
 
 echo "</pre>\n";
 echo "<hr>\n";
-echo "Return to <a href='projectmgr.php?project=$project'>Project Page</a>.\n";
+echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
 
 ?>
