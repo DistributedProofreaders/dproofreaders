@@ -9,7 +9,7 @@ theme('FAQ Central','header');
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.6, released Jul 11, 2003 </h3>
+<h3 align="right">Version 1.7, released May 27, 2004 </h3>
 
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
@@ -40,6 +40,12 @@ theme('FAQ Central','header');
 
   <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a>
   <dd>A help-file for the Enhanced Proofreading Interface.
+
+  <dt><a href="font_sample.php">DP Custom Mono Proofing Font Sample</a>
+  <dd>Home of the DP Custom Proofing Font. Font Samples and download and installation instructions.
+
+  <dt><a href="<? echo $code_url ?>/tools/proofers/for_mentors.php">Mentors Page</a>
+  <dd>A page detailing currently available mentor projects.
 
   <dt><a href="<? echo $forums_url ?>/faq.php">Forums FAQ</a>
   <dd>Information on using the Forum software (our "bulletin board" system for
