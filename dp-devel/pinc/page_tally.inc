@@ -13,6 +13,10 @@
 
 // -----------------------------------------------------------------------------
 
+$page_tally_names = array( 'P' => _('Proofreading'), 'F' => _('Formatting') );
+
+// -----------------------------------------------------------------------------
+
 include_once($relPath.'TallyBoard.inc');
 
 $users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
