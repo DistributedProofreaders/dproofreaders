@@ -112,7 +112,7 @@ return $to_echo;
 	    </td>
 	";
 
-	$array_of_diffs = array('beginner','easy','average','hard');
+
 
 
     echo "</tr>";

@@ -31,7 +31,38 @@ if ($userP['u_plist'] == 3)
 }
 
 
+$query = "
+	SELECT distinct language FROM projects	WHERE $state_sql ORDER BY language
+	";
+$result = mysql_query($query);
+$i = 0;
+while ($a_res = mysql_fetch_row($result))
+{
+    $array_of_langs[$i] = $val;
+}
 
+$query = "
+	SELECT distinct genre FROM projects	WHERE $state_sql ORDER BY genre
+	";
+$result = mysql_query($query);
+$i = 0;
+while ($a_res = mysql_fetch_row($result))
+{
+    $array_of_genres[$i] = $val;
+}
+
+
+$query = "
+	SELECT distinct username FROM projects	WHERE $state_sql ORDER BY username
+	";
+$result = mysql_query($query);
+$i = 0;
+while ($a_res = mysql_fetch_row($result))
+{
+    $array_of_PMs[$i] = $val;
+}
+
+$array_of_diffs = array('beginner','easy','average','hard');
 
 
 include_once('filter_proof_list.inc');
@@ -171,6 +202,8 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       }
   echo "</table>\n<br>";
 }
+
+
 
 ?>
 
