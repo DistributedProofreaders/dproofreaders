@@ -337,16 +337,15 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 		$N = $userP['u_neigh'];
 
-		for ( $i = -$N; $i < $N; $i++ )
+		$neighbors = user_get_page_tally_neighbors( $neighborhood, $N );
+		foreach ( $neighbors as $rel_posn => $neighbor )
 		{
-			$j = $userindex + $i;
-			if (!isset($neighborhood['username'][$j])) { continue; }
 			echo "&nbsp;";
-			if ($i==0) echo "<b><i>";
-			echo $neighborhood['rank'][$j], ".) ";
-			echo $neighborhood['username'][$j], " - ";
-			echo number_format($neighborhood['pages'][$j]);
-			if ($i==0) echo "</i></b>";
+			if ($rel_posn==0) echo "<b><i>";
+			echo $neighbor->get_current_page_tally_rank(), ".) ";
+			echo $neighbor->get_username(), " - ";
+			echo number_format($neighbor->get_current_page_tally());
+			if ($rel_posn==0) echo "</i></b>";
 			echo "<br>\n";
 		}
 	}

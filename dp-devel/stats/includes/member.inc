@@ -246,18 +246,16 @@ function showMbrNeighbors($curMbr) {
 	echo_td( 29, _("Overall Pages Completed") );
 	echo "</tr>";
 
-	for ( $i = -4;  $i <= 4; $i++ ) {
-		$j = $rankArray['curMbrIndex']+$i;
-
-		if (!isset($rankArray['rank'][$j])) { continue; }
-
-		$rank = $rankArray['rank'][$j];
-		$username = $rankArray['username'][$j];
+	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
+	foreach ( $neighbors as $rel_posn => $neighbor )
+	{
+		$rank = $neighbor->get_current_page_tally_rank();
+		$username = $neighbor->get_username();
 		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
 		$u_id = mysql_result($result, 0, "u_id");
 		$date_created = mysql_result($result, 0, "date_created");
 		$privacy_enabled = mysql_result($result, 0, "u_privacy");
-		$pagescompleted = number_format($rankArray['pages'][$j]);
+		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
 		start_tr_with_rollover_highlight();
 

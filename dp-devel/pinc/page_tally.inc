@@ -217,6 +217,47 @@ function get_user_page_tally_rank_array( $username, $consider_privacy )
     return $rankArray;
 }
 
+// -----------------------------------------------------------------------------
+
+function user_get_page_tally_neighbors( $rankArray, $radius )
+// $radius is the (maximum) number of neighbors (on each side) to include in
+// the neighborhood. (It will include fewer that the maximum iff the target
+// user is within $radius of the corresponding end of the ranked list.)
+{
+    assert( $radius >= 0 );
+
+    $neighbors = array();
+
+    $userindex = $rankArray['curMbrIndex'];
+    for ( $rel_posn = -$radius; $rel_posn <= $radius; $rel_posn++ )
+    {
+        $j = $userindex + $rel_posn;
+        if (!isset($rankArray['username'][$j])) { continue; }
+        $neighbors[$rel_posn] =&
+            new PageTally_Neighbor(
+                $rankArray['username'][$j],
+                $rankArray['pages'][$j],
+                $rankArray['rank'][$j]
+            );
+    }
+
+    return $neighbors;
+}
+
+class PageTally_Neighbor
+{
+    function PageTally_Neighbor( $username, $current_page_tally, $current_page_tally_rank )
+    {
+        $this->username = $username;
+        $this->current_page_tally = $current_page_tally;
+        $this->current_page_tally_rank = $current_page_tally_rank;
+    }
+
+    function get_username()                { return $this->username; }
+    function get_current_page_tally()      { return $this->current_page_tally; }
+    function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )

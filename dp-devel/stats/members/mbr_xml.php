@@ -82,17 +82,16 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 //Neighbor info portion of $data
 	$curMbr_i = $rankArray['curMbrIndex'];
 	$data .= "<neighborinfo>";
-	for ( $i = -4; $i <= 4; $i++ )
-       	{
-		$j = $curMbr_i+$i;
-		if (!isset($rankArray['rank'][$j])) { continue; }
-		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
+	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
+	foreach ( $neighbors as $rel_posn => $neighbor )
+	{
+		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$neighbor->get_username()."'");
 
 		$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$j]."</rank>
-			<username>".xmlencode($rankArray['username'][$j])."</username>
+			<rank>".$neighbor->get_current_page_tally_rank()."</rank>
+			<username>".xmlencode($neighbor->get_username())."</username>
 			<datejoined>".date("m/d/Y", mysql_result($result, 0, "date_created"))."</datejoined>
-			<pagescompleted>".$rankArray['pages'][$j]."</pagescompleted>
+			<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
 		</neighbor>
 		";
 	}
