@@ -86,7 +86,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		echo_row_a( "Clearance Line:", $project['clearance'] );
 
 		echo_row_b( "Post Processor Comments", '' );
-		echo "<tr><td colspan=5>{$project['postcomments']}</td></tr>";
+		echo_row_c( $project['postcomments'] );
 	}
 	else
 	{
@@ -119,10 +119,10 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 
 	echo_row_b( _("Project Comments"), "("._("Please check below for Guideline Modifications").")" );
-	echo "<tr><td colspan=5>";
-	echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
-	echo "<b>"._("Instructions below take precedence over the guidelines").":</b><P>";
-	echo "$comments</td></tr>";
+
+	$a = _("Follow the current <a href='$code_url/faq/document.php'>Proofing Guidelines</a> for detailed project formatting directions.");
+	$b = _("Instructions below take precedence over the guidelines");
+	echo_row_c( "$a<b>$b:</b><P>$comments" );
 
 	echo "</table>";
 }
@@ -158,6 +158,14 @@ function echo_row_b( $top, $bottom )
 	echo "</tr>";
 }
 
+function echo_row_c( $content )
+{
+	echo "<tr>";
+	echo "<td colspan=5>";
+	echo $content;
+	echo "</td>";
+	echo "</tr>";
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
