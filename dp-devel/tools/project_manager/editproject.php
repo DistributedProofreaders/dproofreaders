@@ -1,12 +1,12 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'maybe_mail.inc');
-theme("Create a Project", "header");
-echo "<br>";
+
 // Encodes a form parameter to allow it to contain double quotes.
 function encodeFormValue($value) {
   return stripslashes(htmlentities($value));
@@ -112,11 +112,11 @@ if (isset($saveAndQuit)) {
   $errormsg = saveProject();
 
   if (strlen($errormsg) == 0) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+    metarefresh(0, "projectmgr.php", "Save and Quit", "");
     exit();
   }
 } else if (isset($quit)) {
-  echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+  metarefresh(0, "projectmgr.php", "Quit without Saving", "");
   exit();
 } 
 
@@ -150,8 +150,10 @@ if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/
 if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip";
 if ($Language == "") $Language = "English";
 if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$siteurl/faq/document.html\">Document Guidelines</a>.</p>";
-?>
 
+theme("Create a Project", "header");
+?>
+<br>
 <form method="POST" action="<? echo $_SERVER['PHP_SELF'] ?>">
 <input type="hidden" name="project" value="<? echo $project ?>">
 
