@@ -159,9 +159,11 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
 			$prevRank = mysql_result($result, 0, "rank");
 
-			if ($prevRank > $currentRank && !empty($prevRank)) {
+			if (empty($prevRank)) {
+				$rankPos = "&nbsp;";
+			} elseif ($prevRank > $currentRank) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
-			} elseif ($prevRank < $currentRank && !empty($prevRank)) {
+			} elseif ($prevRank < $currentRank) {
 				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
 			} else {
 				$rankPos = "&nbsp;";
@@ -170,9 +172,12 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 			// $rank is highest rank achieved. Compare current rank to it.
 			$prevRank = $rank;
 			$currentRank = $rankArray['curMbrRank'];
-			if ($currentRank > $prevRank && !empty($currentRank)) {
+
+			if (empty($currentRank)) {
+				$rankPos = "&nbsp;";
+			} elseif ($currentRank > $prevRank) {
 				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
-			} elseif ($currentRank < $prevRank && !empty($currentRank)) {
+			} elseif ($currentRank < $prevRank) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
 			} else {
 				$rankPos = "&nbsp;";
