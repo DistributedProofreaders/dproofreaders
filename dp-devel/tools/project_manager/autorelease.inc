@@ -1,7 +1,4 @@
 <?
-$relPath = "../../pinc/";
-include($relPath.'db_datestamp.inc');
-include($relPath.'projectinfo.inc');
 
   // Auto-Release Project
 
@@ -60,6 +57,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
         $page_num++;
     }
 
+    $todaysdate = time();
     $result = mysql_query("UPDATE projects SET state = $currstate, modifieddate = '$todaysdate' WHERE projectid = '$project'");
 
     if ($currstate == 8) {
@@ -70,7 +68,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
 function autorelease($pagesleft) {
 
-  $todaysdate = new db_datestamp();
+  $todaysdate = time();
   $pagesneeded = 20000;
   
   // NON-English Books

@@ -16,6 +16,7 @@ include($relPath.'dp_main.inc');
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
     } else {
         $sql = "DELETE FROM $project WHERE fileid = '$fileid'";
+        mysql_query($sql);
 
         echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php?project=$project\"></head><body></body></html>"; 
     }

@@ -56,19 +56,28 @@ $projectinfo = new projectinfo();
                 echo "<table border=1>\n";
 
                 echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Master Text</td><td>Date Uploaded</td><td>Delete</td></tr>\n";
+                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Size</td><td>Master Text</td><td>Size</td><td>Date Uploaded</td><td>Delete</td></tr>\n";
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
-                while ($rownum < $projectinfo->total_rows) {
-                    $imagename = mysql_result($projectinfo->level0rows, $rownum, "image");
-                    $date = mysql_result($projectinfo->level0rows, $rownum, "round1_time");
-                    $fileid = mysql_result($projectinfo->level0rows, $rownum, "fileid");
+                $path = "../../projects/".$project."/";
 
-                    $bgcolor = "#FFFFFF";
+                while ($rownum < $projectinfo->total_pages) {
+                    $imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
+                    $date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
+                    $fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
+                    $master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
+
+                    if (file_exists($path.$imagename)) {
+                       $imagesize = filesize(realpath($path.$imagename));
+                       $bgcolor = "#FFFFFF";
+                    } else {
+                       $imagesize = 0;
+                       $bgcolor = "#FF0000";
+                    }
 
                     $date_txt = date("M j h:i A", $date);
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td></tr>\n");
+                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td></tr>\n");
 
                     $counter++;
                     $rownum++;

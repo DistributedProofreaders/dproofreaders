@@ -8,7 +8,7 @@
         // zip all images for project
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
-        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY Image_Filename");
+        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
 
         $count = 0;
         $mynumrows = mysql_numrows($myresult);

@@ -9,7 +9,7 @@ $relPath="./../../pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-include($relPath.'globals.php');
+include($relPath.'projectinfo.inc');
 $projectinfo = new projectinfo();
 
   include 'autorelease.php';
@@ -103,11 +103,11 @@ $projectinfo = new projectinfo();
 
         if (($state == 2) || ($state == 8)) {
 
-            if ($projectinfo->availablepages == 0) { $state = 9; } else $state = 2;
+            if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = 9; } else $state = 2;
 
         } else if (($state == 12) || ($state == 18)) {
 
-            if ($projectinfo->availablepages == 0) { $state = 19; } else $state = 12;
+            if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = 19; } else $state = 12;
         }
 
         $sql = "UPDATE projects SET state = $state WHERE projectid = '$project'";
@@ -116,7 +116,7 @@ $projectinfo = new projectinfo();
     }
 
     // Promote Level
-    if (($state == 9) && ($projectinfo->avail1_pages == 0)) {
+    if ($state == 9) {
 
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $project SET state = 12, round2_time = '$timestamp'");
