@@ -64,7 +64,6 @@ body {
   color:#000000;
   background-color:#CDCDC1;
   text-align:center;
-  overflow:auto;
   }
 A:link {
   color:#000000;
@@ -123,7 +122,6 @@ A:active {
   ?>
   clip:rect(0px, 100%, 100%, 0px);
   z-index:2;
-  overflow:auto;
   text-align:center;
   }
 #imagedisplay {
@@ -152,7 +150,6 @@ A:active {
   ?>
   clip:rect(0px, 100%, 100%, 0px);
   background-color:#CDCDC1;
-  overflow:auto;
   text-align:center;
   z-index:6;
   }
@@ -163,14 +160,12 @@ A:active {
   width:100%;
   height=100%;
   background-color:#CDCDC1;
-  overflow:auto;
   text-align:center;
   z-index:6;
   }
 #tbtext {
   border:1px solid #000000;
   text-align:left;
-  overflow:auto;
   } 
 #tdtop {
   border:1px solid #000000;
