@@ -13,7 +13,7 @@ $info = "Below is the list of Gold e-texts that have passed through this site.  
 $type = "Silver";
 $status = "In Progress";
 $state = "state>=19 AND state<=29";
-$info = "Below is the list of Silver e-texts that are almost finished their proofreading life on our site.  Silver e-texts are books that have passed through a first round proofing, second round proofing and are now in the post-processing phase.  During the post-processing phase the project manager runs the e-text through some final checks to make sure they are as correct as possible.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
+$info = "Below is the list of Silver e-texts that are almost finished with their proofreading life on our site.  Silver e-texts are books that have passed through a first round proofing, second round proofing and are now in the post-processing phase.  During the post-processing phase the project manager runs the e-text through some final checks to make sure they are as correct as possible.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 } elseif ($_GET['x'] == "b") {
 $type = "Bronze";
 $status = "Now Proofing";
@@ -39,7 +39,7 @@ echo "<a href='list_etexts.php?x=g'>Gold</a> | <a href='list_etexts.php?x=b'>Bro
 echo "<a href='list_etexts.php?x=g'>Gold</a> | <a href='list_etexts.php?x=s'>Silver</a>";
 }
 ?>
-</center>
+ | <a href="default.php">Home</a></center>
 <br>
 
 <center><? echo $info; ?></center><br>
