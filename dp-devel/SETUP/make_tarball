@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# make_tarball <tag> <path_to_file_to_create>
+# Make a tarball of (a particular version of) the DP code.
+# e.g.:
+#     make_tarball R200406 ~/dp.R200406.tgz
+
+if [ $# != 2 ]; then
+    echo 1>&2 "usage: make_tarball <tag> <path_of_file_to_create>"
+    exit 1
+fi
+
+tag=$1
+file_to_create=$2
+
+group=$USER
+
+script_dir=`dirname $0`
+
+tmpdir=/tmp/make_tarball.$$
+
+if [ ! -d $tmpdir ]; then
+    mkdir $tmpdir
+fi
+rm -rf $tmpdir/c
+
+echo
+echo "get_cvs_snapshot ..."
+$script_dir/get_cvs_snapshot $tag $group $tmpdir/c
+
+echo
+echo "Creating tarball..."
+tar --create --gzip --file=$file_to_create --directory=$tmpdir c
+
+echo
+echo "Removing snapshot..."
+rm -rf $tmpdir
+
+echo
+echo "Done."
+
+# vim: sw=4 ts=4 expandtab
