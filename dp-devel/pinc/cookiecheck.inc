@@ -1,7 +1,7 @@
 <?
 include_once($relPath.'v_site.inc');
 if ($use_cookies) {
-	include($relPath.'cookie.inc');
+	include_once($relPath.'cookie.inc');
 	include_once($relPath.'cookiehash.php');
 	include_once($relPath.'metarefresh.inc');
 
