@@ -8,7 +8,7 @@ include_once($relPath.'project_states.inc');
 <style type="text/css">
 <!--
 .purple {
-	background-color:#9933CC;
+	background-color:#9966CC;
 }
 .orange {
 	background-color: #FF9900;
@@ -47,11 +47,13 @@ theme("Personal Page for $pguser", "header");
 	$news = mysql_fetch_assoc($result);
 	echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>";
 	echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
-	echo _("archives") . "</a>)";
-        echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-        echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-        echo "</b></font><br><br><font size=2 face=";
+	echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
 	echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>";
+
+
+
+
+
 ?>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Brand New Proofers"); ?></b></font><br>
