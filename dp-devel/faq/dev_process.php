@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 $test_host='http://www.pgdp.org';	
 $test_site_code_url="$test_host/c";	
 $dev_list='dproofreaders-devel@lists.sourceforge.net';
+$commits_list='dproofreaders-commits@lists.sourceforge.net';
 $sa_list='dp-sa @ pgdp.net';
 
 theme('Development Process Guidelines', 'header');
@@ -25,6 +26,10 @@ echo "
 <tr>
     <td>developers' mailing list</td>
     <td><a href='mailto:$dev_list'>$dev_list</a></td>
+</tr>
+<tr>
+    <td>cvs commits mailing list</td>
+    <td><a href='mailto:$commits_list'>$commits_list</a></td>
 </tr>
 <tr>
     <td>developers' Jabber chat room</td>
@@ -171,6 +176,11 @@ When supplying a comment for CVS,
  please add any relevant Task Center task IDs
  (e.g., "Fixed off-by-one error in 'your neighborhood'. (task #333)",
  or "Implements project-filtering feature requested in task #456.").
+If you commit multiple files at once,
+ please ensure that the comment makes sense for each file.
+Lastly, note that a record of your commit will be mailed to
+ the 'commits' mailing list,
+ so make it a good one!
 </p>
 
 <p>
