@@ -1185,7 +1185,7 @@ Only a few of the most common scannos will be listed here.
 </p>
  
 	<ul> 
-	<li>standalone 1 and O, which sometimes replace I and O, 
+	<li>standalone 1 and 0, which sometimes replace I and O, 
 	<li>arid, for and,
 	<li>arc, for are, 
 	<li>m, for in,
