@@ -152,16 +152,6 @@ function user_page_tally_get_interval_title( $user_page_tally )
 
 // -----------------------------------------------------------------------------
 
-function users_get_page_tally_ranks()
-// Returns an associative array that maps each user's id
-// to his/her rank (as determined by page tallies).
-{
-    global $users_P_page_tallyboard;
-    return $users_P_page_tallyboard->get_ranks();
-}
-
-// -----------------------------------------------------------------------------
-
 function user_get_page_tally_neighborhood( $username, $radius )
 //
 // $radius is the (maximum) number of neighbors (on each side) to include in
@@ -361,16 +351,6 @@ function team_get_page_tally_rank( $team_id )
 {
     global $teams_P_page_tallyboard;
     return $teams_P_page_tallyboard->get_rank( $team_id );
-}
-
-// -----------------------------------------------------------------------------
-
-function teams_get_page_tally_ranks()
-// Return an associative array that maps each team's id
-// to its rank (as determined by page tallies).
-{
-    global $teams_P_page_tallyboard;
-    return $teams_P_page_tallyboard->get_ranks();
 }
 
 // -----------------------------------------------------------------------------
