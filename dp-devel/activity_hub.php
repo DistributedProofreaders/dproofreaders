@@ -88,9 +88,8 @@ echo "\n<hr>\n";
 
 if ( user_is_PM() )
 {
-    echo "You are a Project Manager, so you get this link:\n";
     echo "<br>\n";
-    echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage Projects") . "</a>";
+    echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage My Projects") . "</a>";
     echo "<br>\n";
 }
 
@@ -114,6 +113,7 @@ function summarize_projects( $project_states, $filtertype_stem )
 {
     global $n_projects_in_state_;
     global $pguser;
+    global $theme;
 
     $total = 0;
     foreach ($project_states as $project_state)
@@ -121,22 +121,35 @@ function summarize_projects( $project_states, $filtertype_stem )
         $count = array_get( $n_projects_in_state_, $project_state, 0 );
         $total += $count;
     }
-    echo sprintf( _('There are %d projects in this stage.'), $total );
 
-    if ($total == 0)
+    $font_str = "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='-1'>";
+
+    echo "<table border='3' CELLSPACING='1' CELLPADDING='5'>";
+    echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='center' rowspan='2'>".$font_str.
+         _("All projects")."</font></td>";
+    $title_row = '';
+    foreach ($project_states as $project_state)
     {
-        // Nothing else to say.
-        return;
+        $state_label_name = project_states_text($project_state);
+        if (strpos($state_label_name, ':') > 0) {
+            $state_label_name = substr($state_label_name,strpos($state_label_name, ':') + 1);
+        }
+        $title_row .= "<td align='center'>".$font_str.$state_label_name."</font></td>";
     }
 
-    echo "<ul>\n";
+    $title_row .= "<td align='center'>".$font_str._("Total projects")."</font></td></tr>";
+
+    echo $title_row;
+
+    echo "<tr>";
+
     foreach ($project_states as $project_state)
     {
         $count = array_get( $n_projects_in_state_, $project_state, 0 );
-        $label = project_states_text($project_state);
-        echo "<li>$count $label</li>\n";
+        echo "<td align='center'>$count</td>";
     }
-    echo "</ul>\n";
+
+    echo "<td align='center'>$total</td></tr>";
 
     // -----------------------
 
@@ -150,11 +163,12 @@ function summarize_projects( $project_states, $filtertype_stem )
     if ( mysql_num_rows($res1) == 0 )
     {
         // echo _("You have no project filtering set up for this stage.");
+        echo "</table>";
         return;
     }
 
     list($project_filter) = mysql_fetch_row($res1);
-    
+
     $states_list = '';
     foreach ( $project_states as $project_state )
     {
@@ -177,23 +191,19 @@ function summarize_projects( $project_states, $filtertype_stem )
         $filtered_total += $count;
     }
 
-    echo sprintf(
-        _('After applying your filter for this stage, there are %d projects.'),
-        $filtered_total );
+    echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='center' rowspan='2'>".
+         $font_str._("After applying<br>your filter")."</font></td>";
+    echo $title_row;
 
-    if ($filtered_total == 0) // or $filtered_total == $total ?
-    {
-        return;
-    }
-
-    echo "<ul>\n";
     foreach ($project_states as $project_state)
     {
         $count = array_get( $n_filtered_projects_in_state_, $project_state, 0 );
-        $label = project_states_text($project_state);
-        echo "<li>$count $label</li>\n";
+        echo "<td align='center'>$count</td>\n";
     }
-    echo "</ul>\n";
+    echo "<td align='center'>$filtered_total</td>\n";
+    echo "</tr>";
+    echo "</table>";
+
 }
 
 echo "<ul>\n";
