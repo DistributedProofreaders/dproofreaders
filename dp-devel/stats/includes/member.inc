@@ -103,9 +103,10 @@ function messageCenter($curMbr) {
 function pageCountPercentage($pagescompleted) {
 	$result = mysql_query("SELECT SUM(pages) AS total_pagescompleted FROM pagestats");
 	$total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
-
-	$percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
-
+	if ($total_pagescompleted == 0)
+	    $percentTotal = number_format(0,2);
+	else
+	    $percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
 	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
 	return $percentTotal;
 }
@@ -264,3 +265,4 @@ function showMbrHistory($curMbr) {
 }
 
 ?>
+
