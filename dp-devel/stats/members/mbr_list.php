@@ -55,7 +55,7 @@ if (!empty($mRows)) {
         	if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
 
 		if (($row['u_privacy'] == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
-		    ($row['u_privacy'] == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $row['username'] == $GLOBAL['pguser']) ||
+		    ($row['u_privacy'] == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $row['username'] == $GLOBALS['pguser']) ||
 		    ($row['u_privacy'] == PRIVACY_PUBLIC)) {
 
 			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
