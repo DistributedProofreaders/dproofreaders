@@ -82,7 +82,7 @@ if (isset($prooflevel))
     echo "<td>$lastproofed</td></tr>";}
 
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
-    echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id&amp;action=c\">Discuss this project in the forum</td></tr>";
+    echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id\">Discuss this project in the forum</td></tr>";
 
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=2 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=2>$comments</td></tr></table>";
     echo "<BR>";
