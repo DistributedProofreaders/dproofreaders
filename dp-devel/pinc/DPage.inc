@@ -11,7 +11,7 @@ include_once($relPath.'RoundDescriptor.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_allow_pages( $projectid )
+function project_allow_pages($projectid)
 {
     $columns_for_rounds = "";
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
@@ -37,10 +37,12 @@ function project_allow_pages( $projectid )
             orig_page_num VARCHAR(6)  NOT NULL default '',
             metadata      SET(
                 'blank', 'missing', 'badscan', 'outofseq',
-                'acknowledge', 'dedication', 'ednotes', 'foreword', 'intro', 'loi', 'preface', 'prologue', 'toc', 'titlepage',
-                'abbreviation', 'division', 'epigraph', 'footnote', 'illustration', 'letter', 'list', 'math', 'poetry', 'sidenote', 'verse', 'table',
+                'acknowledge', 'dedication', 'ednotes', 'foreword', 'intro', 'loi',
+                'preface', 'prologue', 'toc', 'titlepage',
+                'abbreviation', 'division', 'epigraph', 'footnote', 'illustration',
+                'letter', 'list', 'math', 'poetry', 'sidenote', 'verse', 'table',
                 'appendix', 'afterword', 'biblio', 'colophon', 'endnote', 'epilogue', 'index'
-                ) NOT NULL default ''
+            ) NOT NULL default ''
         )
     ");
     return ( $res ? '' : mysql_error() );
@@ -48,20 +50,21 @@ function project_allow_pages( $projectid )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_drop_pages( $projectid )
+function project_drop_pages($projectid)
 {
     global $writeBIGtable;
 
     $result = mysql_query("DROP TABLE $projectid");
-
-    if ($writeBIGtable) {
-        $result = mysql_query("DELETE FROM project_pages WHERE projectid = '$projectid'");
+    if ($writeBIGtable)
+    {
+        global $pages;
+        $pages->Drop();
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function Pages_prepForRound( $projectid, $round_number )
+function Pages_prepForRound($projectid, $round_number)
 {
     global $writeBIGtable;
 
@@ -78,6 +81,8 @@ function Pages_prepForRound( $projectid, $round_number )
     // The problem doesn't arise for second round because there, the transition
     // is PROJ_P1_COMPLETE to PROJ_P2_AVAILABLE, and the
     // project can't go through that transition twice.
+    //
+    // Not needed for new design. Rounds are self-queued.
 
     $prd = get_PRD_for_round($round_number);
     if ( $round_number == 1 )
@@ -91,15 +96,6 @@ function Pages_prepForRound( $projectid, $round_number )
             SET state = '{$prd->page_avail_state}'
             WHERE 0
         ");
-
-        if ($writeBIGtable)
-        {
-            $result = mysql_query("
-                UPDATE project_pages
-                SET state = '{$prd->page_avail_state}'
-                WHERE projectid = '$projectid' AND 0
-            ");
-        }
     }
     else
     {
@@ -114,13 +110,8 @@ function Pages_prepForRound( $projectid, $round_number )
     
         if ($writeBIGtable)
         {
-            $result = mysql_query("
-                UPDATE project_pages
-                SET
-                    state = '{$prd->page_avail_state}',
-                    {$prd->time_column_name} = '$timestamp'
-                WHERE projectid = '$projectid'
-            ");
+            global $pages;
+            $pages->ReleaseProject($prd->roundCode);
         }
     }
 }
@@ -147,12 +138,12 @@ function project_add_page(
     $sql = "
         INSERT INTO $projectid
         SET
-            fileid      = '$fileid',
-            image       = '$image_file_name',
-            master_text = LOAD_FILE('$txt_file_path_e'),
-            round1_time = $now,
-            state       = '$page_state'
-    ";
+        fileid      = '$fileid',
+                    image       = '$image_file_name',
+                    master_text = LOAD_FILE('$txt_file_path_e'),
+                    round1_time = $now,
+                    state       = '$page_state'
+                        ";
     // echo $sql, "\n";
     $res = mysql_query($sql);
     if (!$res)
@@ -162,30 +153,14 @@ function project_add_page(
 
     if ($writeBIGtable)
     {
-        $sql = "
-            INSERT INTO project_pages
-            SET
-                    projectid   = '$projectid',
-                    fileid      = '$fileid',
-                    image       = '$image_file_name',
-                    master_text = LOAD_FILE('$txt_file_path_e'),
-                    round1_time = $now,
-                    state       = '$page_state'
-            ";
-        $res = mysql_query($sql);
-        if (!$res)
-        {
-            if ($errs) $errs .= "\n";
-            $errs .= mysql_error();
-        }
+        $pages->Load($fileid);
     }
-
     return $errs;
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_delete( $projectid, $fileid )
+function Page_delete($projectid, $fileid)
 {
     global $writeBIGtable;
 
@@ -194,24 +169,33 @@ function Page_delete( $projectid, $fileid )
 
     if ($writeBIGtable)
     {
-        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND fileid = '$fileid'";
-        mysql_query($sql);
+        // ************************
+        global $pages;
+        $pages->Delete($fileid);
+        // ************************
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyStartingText( $projectid, $fileid, $page_text )
+function Page_modifyStartingText($projectid, $fileid, $page_text)
 {
+    global $writeBIGtable;
     _Page_UPDATE( $projectid, $fileid, "
         master_text='$page_text'
     " );
+    if ($writeBIGtable)
+    {
+        // presumably obsolete - 
+        // determined by text file in project directory
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
+function Page_checkout($projectid, $fileid, $image, $round_number, $user)
 {
+    global $writeBIGtable;
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
@@ -222,147 +206,219 @@ function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
         {$prd->user_column_name}='$user'
     " );
 
+    if ($writeBIGtable)
+    {
+        // ***********************************
+        global $pages;
+        $pages->Checkout($fileid, $user, $prd->roundCode());
+        // ***********************************
+    }
     return $prd->page_out_state;
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $user, $page_text )
+function Page_saveAsInProgress($projectid, $fileid, $image, $round_number, $user, $page_text)
 {
+    global $writeBIGtable;
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $prd = get_PRD_for_round($round_number);
 
-    _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_temp_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user',
-        {$prd->text_column_name}='$page_text'
-    " );
+    _Page_UPDATE($projectid, $fileid, "
+            state='{$prd->page_temp_state}',
+            {$prd->time_column_name}='$timestamp',
+            {$prd->user_column_name}='$user',
+            {$prd->text_column_name}='$page_text'
+    ");
 
-    return $prd->page_temp_state;
+    if ($writeBIGtable)
+    {
+        {
+            // ***********************************
+            global $pages;
+            $pages->SaveTemp($fileid, $user, $page_text);
+            // ***********************************
+        }
+        return $prd->page_temp_state;
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $page_text )
+function Page_saveAsDone($projectid, $fileid, $image, $round_number, $user, $page_text)
 {
+    global $writeBIGtable;
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_save_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user',
-        {$prd->text_column_name}='$page_text'
-    " );
+            state='{$prd->page_save_state}',
+            {$prd->time_column_name}='$timestamp',
+            {$prd->user_column_name}='$user',
+            {$prd->text_column_name}='$page_text'
+            " );
 
+    if ($writeBIGtable)
+    {
+        // ***********************************
+        global $pages;
+        $pages->SaveDone($fileid, $user, $page_text);
+    }
+    // ***********************************
     return $prd->page_save_state;
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
+function Page_reopen($projectid, $fileid, $image, $round_number, $user)
 {
+    global $writeBIGtable;
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_temp_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user'
-    " );
+            state='{$prd->page_temp_state}',
+            {$prd->time_column_name}='$timestamp',
+            {$prd->user_column_name}='$user'
+            " );
 
+    if ($writeBIGtable)
+    {
+        // ***********************************
+        global $pages;
+        $pages->ReOpen($fileid);
+    }
+    // ***********************************
     return $prd->page_temp_state;
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
+function Page_returnToRound($projectid, $fileid, $image, $round_number, $user)
 {
+    global $writeBIGtable;
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user'
-    " );
+            state='{$prd->page_avail_state}',
+            {$prd->time_column_name}='$timestamp',
+            {$prd->user_column_name}='$user'
+            " );
 
-    return $prd->page_avail_state;
+    if ($writeBIGtable)
+    {
+        // ***********************************
+        global $pages;
+        $pg->PutBack();
+        // ***********************************
+        return $prd->page_avail_state;
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim( $projectid, $fileid, $round_number )
+function Page_reclaim($projectid, $fileid, $round_number)
 {
+    global $writeBIGtable;
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}=''
-    " );
+            state='{$prd->page_avail_state}',
+            {$prd->time_column_name}=''
+            " );
+    if ($writeBIGtable)
+    {
+        // ***********************************
+        global $pages;
+        $pg->Reclaim();
+        // ***********************************
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound( $projectid, $fileid, $round_number )
+function Page_clearRound($projectid, $fileid, $round_number)
 {
+    global $writeBIGtable;
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}='',
-        {$prd->user_column_name}='',
-        {$prd->text_column_name}=''
-    ");
+            state='{$prd->page_avail_state}',
+            {$prd->time_column_name}='',
+            {$prd->user_column_name}='',
+            {$prd->text_column_name}=''
+            ");
+
+    if ($writeBIGtable)
+    {
+        // ************************
+        global $pages;
+        $pg = $pages->Page($fileid);
+        $pg->Clear();
+        // ************************
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
+function Page_markAsBad($projectid, $fileid, $image, $round_number, $user, $reason)
 {
+    global $writeBIGtable;
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_bad_state}',
-        b_user='$user',
-        b_code=$reason,
-        {$prd->text_column_name}={$prd->prevtext_column_name}
-    " );
+            state='{$prd->page_bad_state}',
+            b_user='$user',
+            b_code=$reason,
+            {$prd->text_column_name}={$prd->prevtext_column_name}
+            " );
+    if ($writeBIGtable)
+    {
+        // ************************
+        global $pages;
+        $pg = $pages->Page($fileid);
+        $pg->SetBad($user, $reason);
+        // ************************
+    }
 }
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark( $projectid, $fileid, $round_number )
+function Page_eraseBadMark($projectid, $fileid, $round_number)
 {
+    global $writeBIGtable;
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        b_user='',
-        b_code='',
-        {$prd->user_column_name}=''
-    " );
+            state='{$prd->page_avail_state}',
+            b_user='',
+            b_code='',
+            {$prd->user_column_name}=''
+            " );
+    if ($writeBIGtable)
+    {
+        // ************************
+        global $pages;
+        $pg = $pages->Page($fileid);
+        $pg->ClearBad();
+        // ************************
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _Page_UPDATE( $projectid, $fileid, $settings )
+function _Page_UPDATE($projectid, $fileid, $settings)
 {
-    global $writeBIGtable;
+    // unneeded - this does what is an object's responsibility if there is one.
+    // global $writeBIGtable;
 
     $sql = "UPDATE $projectid SET $settings WHERE fileid='$fileid'";
     $res = mysql_query($sql) or die(mysql_error());
-
-    if ($writeBIGtable)
-    {
-        $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND fileid='$fileid'";
-        $res = mysql_query($sql) or die(mysql_error());
-    }
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -31,6 +31,11 @@ function CheckQueryError()
     }
 }
 
+function QueryErrorMessage()
+{
+    return mysql_error();
+}
+
 function QueryRow($sql)
 {
     $result = mysql_query($sql);
@@ -58,6 +63,8 @@ function QueryArray($sql, $key = 0)
                 $ary[] = $row;
         }
     }
+    else
+        say($sql);
     mysql_free_result($result);
     return $ary;
 }
@@ -73,6 +80,7 @@ class Pages
 {
     var $projectid;
     var $pagerows;
+    var $_filterstate;
 
     function Pages($projid) {
         $this->projectid = $projid;
@@ -93,18 +101,21 @@ class Pages
     function _selectProjectPagesSql()
     {
         return "
-        SELECT
-            p.*,
-            '$this->projectid' AS projectid,
-            u1.pagescompleted AS r1pages,
-            u2.pagescompleted AS r2pages,
-            bb1.user_id AS r1uid,
-            bb2.user_id as r2uid
+        SELECT p.pageId,
+               p.pageCode,
+               p.stateCode,
+               p.insertTime,
+               pt.sequenceNumber,
+               pt.userName,
+               pt.saveTempTime,
+               pt.checkoutTime,
+               pt.saveCompleteTime,
+               pt.turnBackTime,
+               pt.taskStateCode
         FROM pages as p
-            INNER JOIN pages AS pg
-                ON p.projectid = pg.projectid
-            LEFT OUTER JOIN pageTasks AS pt1 ON pg.pageId = pt1.pageId
-        ORDER BY pt1.pageTaskId DESC";
+            LEFT OUTER JOIN pageTasks AS pt ON p.pageId = pt.pageId
+        WHERE p.projectid = '$this->projectid'
+        ORDER BY pt.sequenceNumber DESC";
 /*
             LEFT OUTER JOIN users AS u2
                 ON nullif(p.round2_user,'') = u2.username
@@ -116,42 +127,26 @@ class Pages
 */
     }
 
-    function LoadPage($pagecode)
+    // create first round tasks for all pages, and set to available
+    function InitPages($roundCode)
     {
-       $prd = get_PRD_for_round(1);
-       $state = $prd->page_avail_state;
-
-        echo "Adding page for ($this->projectid)($pagecode)\n";
-        $sql = "
-            INSERT INTO pages
-            SET
-                    projectid       = '$this->projectid',
-                    pageCode        = '$pagecode',
-                    insertTime      = UNIX_TIMESTAMP(),
-                    stateCode       = '$state'";
-        QueryExecute($sql);
-    }
-
-    function ReleaseProject($roundCode)
-    {
-        $this->AddPageTasks($roundCode);
+        $this->AddUpdateTasks('P1');
     }
 
     // Add or update a task for all pages
     function AddUpdateTasks($taskCode, $seq = 1, $state = "AVL")
     {
         $sql = "
-            REPLACE INTO pageTasks
-            SELECT
-                    projectid,
-                    pageCode,
-                    '$taskCode',
-                    $seq,
-                    $state
+            REPLACE pageTasks
+            SET
+                    pageid = pageid,
+                    taskCode = '$taskCode',
+                    sequenceNumber = $seq,
+                    taskState = $state
             FROM
                     pages
             WHERE
-                    projectid = $pages->projectId()
+                    projectid = '$this->projectId'
         ";
         QueryExecute($sql);
     }
@@ -170,17 +165,28 @@ class Pages
         QueryExecute($sql);
     }
 
-    function AddUpdateTask($pageCode, $taskCode, $seq = NULL, $username = NULL, $state = "AVL")
+    function CountForState($code)
+    {
+        global $_filter_state;
+        $_filter_state = $code;
+        return count(array_filter($this->Rows(), "_state_filter"));
+    }
+
+    function TotalPageCount()
+    {
+        return count($this->Rows());
+    }
+
+    function AddUpdateTask($pageId, $taskCode, $seq = NULL, $username = NULL, $state = "AVL")
     {
         $sql = "
             REPLACE INTO pageTasks
             SET
-                    projectid       = '$this->projectid',
-                    pageCode        = '$pagecode.txt',
+                    pageId          =  $pageId,
                     taskCode        = '$taskCode',
                     sequenceNumber  =  $seq,
                     username        = '$username',
-                    stateCode       = 'AVL'
+                    stateCode       = '$state'
         ";
         QueryExecute($sql);
     }
@@ -323,10 +329,34 @@ class Pages
 
 class Page
 {
-    function Page($row)
+    var $pageCode;
+
+    function Page($pageCode)
     {
-        $this->pagerow = $row;
+        $this->pageCode = $pageCode;
     }
+
+    function Load()
+    {
+        $prd = get_PRD_for_round(1);
+        $state = $prd->page_avail_state;
+
+        echo "Adding page for ($this->pagerow->pageCode\n";
+        $sql = "
+            INSERT INTO pages
+            SET
+            pageCode        = $this->pageCode,
+            insertTime      = UNIX_TIMESTAMP(),
+            stateCode       = '$state'";
+        QueryExecute($sql);
+        return QueryErrorMessage();
+    }
+}
+
+function _state_filter($row)
+{
+    global $_filter_state;
+    return ($row->stateCode == $_filter_state);
 }
 
 ?>
