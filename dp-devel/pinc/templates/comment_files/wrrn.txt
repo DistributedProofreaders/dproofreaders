@@ -1,0 +1,56 @@
+<h3>Keep Text as Close to Original as Possible!</h3>
+
+<p>We've had some mention of people changing things like "* * *" to "..." &ndash; <strong>Please do not make such substitutions!</strong>  Please keep all text as close to the original as possible.
+
+<h3>Crossed-Out Words</h3>
+
+<p>In some places, words have been crossed out, removed, or redacted in some other way.  Please mark these in one of the following two ways:</p>
+
+<ul>
+  <li>If the word is readable, please print the word and put a note after it like, [**word crossed out]</li>
+  <li>If it is not readable, please just put a [**note] where it occurs.</li>
+</ul>
+
+<h3>Copyrighted Materials</h3>
+
+<p>Some of the content in the Warren Report and its supporting evidentiary and testimonial volumes is still under copyright. As a result, we are not allowed to include this copyrighted material in Project Gutenberg. Most (if not all) of this material has been identified, and place-holders have been included in the page images to indicate where these copyrighted materials occur.</p>
+
+<p>If you come across any materials (e.g., photographs, movie stills, etc.) that you think may need to be removed, please post a comment in the project thread.</p>
+
+<h3>Dialogue</h3>
+
+<p>The testimonial volumes are primarily dialogue. Please mark the speaker's names as bold (i.e., with &lt;b&gt; and &lt;/b&gt; tags), like so:</p>
+
+<pre>&lt;b&gt;Mr. RANKIN.</b> Mrs. Oswald, did you write in Russian a story of your experiences in the United States?
+
+  &lt;b&gt;Mrs. OSWALD.</b> Yes, I have. I think that you are familiar with it.</pre>
+
+<p>(<strong>Note:</strong> Please include the period inside the bold tags.)</p>
+
+<h3>Image Captions</h3>
+
+<p>Please put the image caption at the front of the illustration tag, even if the caption itself is below the image's text.  For example:</p>
+
+<pre>     [Illustration: COMMISSION EXHIBIT NO. 350
+
+     Windshield of Presidential limousine.]</pre>
+
+<h3>Footnotes</h3>
+
+<p>All of the footnotes are kept in a single volume.  Please mark the place where footnotes are referenced using standard out-of-line footnote markers. For example:</p>
+
+<pre>     Some note[3].</pre>
+
+<h3>Superscripts</h3>
+
+<p>In some places, there are superscripted letters that don't refer to footnotes. (This may be in the Report only, but we're not entirely sure.)  Please mark these using TeX-style markup, e.g., ^{A}</p>
+
+<p>Multiple superscripts may be combined into one: ^{A B}</p>
+
+<h3>Non-Standard Formatting</h3>
+
+<p>Many of the exhibits (which are given in the later volumes) are things like forms and charts which will be very hard to format using only ASCII text.  We just ask that you do your best.  Don't worry about trying to make sure all the lines are exact &ndash; it's the text and meaning of the documents that are important.</p>
+
+<h3>Anything Else</h3>
+
+<p>Please jump over to the forums if you have any questions about anything else.</p>
