@@ -17,8 +17,8 @@ $fileid     = $_POST['fileid'];
 
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
-	$reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
-	$htmlC->startHeader("Bad Page Report");
+	$reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
+	$htmlC->startHeader(_("Bad Page Report"));
 	$htmlC->startBody(0,1,0,0);
 	$tb=$htmlC->startTable(0,0,0,1);
 	$tr=$htmlC->startTR(0,0,1);
@@ -36,9 +36,9 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input type='hidden' name='submitted' value='true'>";
 	echo $tb;
 	echo $tr.$td1;
-	echo "<B><font color='#ffffff'>Submit a Bad Page Report</font></B>";
+	echo "<B><font color='#ffffff'>"._("Submit a Bad Page Report")."</font></B>";
 	echo $tr.$td2;
-	echo "<strong>Reason:</strong>";
+	echo "<strong>"._("Reason").":</strong>";
 	echo $td3;
 	echo "<select name='reason'>";
 	for ($i=0;$i<count($reason_list);$i++)
@@ -47,14 +47,14 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	}
 	echo "</select>";
 	echo $tr.$td2;
-	echo "<strong>What to Do:</strong>";
+	echo "<strong>"._("What to Do").":</strong>";
 	echo $td3;
-	echo "<input name='redirect_action' value='proof' type='radio'>Continue Proofing<input name='redirect_action' value='quit' checked type='radio'>Stop Proofing";
+	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofing")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofing");
 	echo $tr.$td1;
-	echo "<input type='submit' value='Submit Report'>";
-	echo "<input type='button' value='Cancel' onclick='javascript:history.go(-1)'>";
+	echo "<input type='submit' value='"._("Submit Report")."'>";
+	echo "<input type='button' value='"._("Cancel").' onclick='javascript:history.go(-1)'>";
 	echo $tr.$td5;
-	echo "<B>Note:</B>If this report causes a project to be marked<br> bad you will be redirected to your personal page.";
+	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to your personal page.");
 	echo "</td></tr></table></form></div>";
 	echo $tb.$tr.$td6;
 	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";

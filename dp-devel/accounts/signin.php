@@ -1,7 +1,7 @@
 <?PHP
 $relPath="./../pinc/";
 include($relPath.'html_main.inc');
-$htmlC->startHeader("Sign In");
+$htmlC->startHeader(_("Sign In"));
 $htmlC->startBody(0,1,0,0);
 $tb=$htmlC->startTable(0,0,0,1);
 $tr=$htmlC->startTR(0,0,1);
@@ -18,20 +18,20 @@ echo "<form action='login.php' method='POST'>";
 echo "<input TYPE='hidden' NAME='destination' VALUE='$destination'>";
 echo $tb;
 echo $tr.$td1;
-echo '<B>Distributed Proofreaders Sign In</B>';
+echo "<B>"._("Distributed Proofreaders Sign In")."</B>";
 echo $tre.$tr.$td2;
-echo '<STRONG>User Name</STRONG>';
+echo "<STRONG>"._("User Name")."</STRONG>";
 echo $tde.$td3;
 echo '<INPUT TYPE="text" NAME="userNM" SIZE="12" MAXSIZE="50">';
 echo $tre.$tr.$td2;
-echo '<STRONG>Password</STRONG>';
+echo "<STRONG>"._("Password")."</STRONG>";
 echo $tde.$td3;
 echo '<INPUT TYPE="password" NAME="userPW" SIZE="12" MAXSIZE="50">';
 echo $tre.$tr.$td1;
-echo '<INPUT TYPE="submit" VALUE="Sign In">';
+echo "<INPUT TYPE="submit" VALUE='"._("Sign In")."'>";
 echo $tre.$tr.$td5;
-echo '<B>Note:</B>User Name & Password are case sensitive.<BR>Make sure your caps lock is not on.';
+echo "<B>"._("Note").":</B>"._("User Name & Password are case sensitive.<BR>Make sure your caps lock is not on.");
 echo $tre.$tr.$td4;
-echo '<A HREF="addproofer.php"><B>New User?</B></A>';
+echo "<A HREF='addproofer.php'><B>"._("New User?")."</B></A>";
 echo $tre.$htmlC->closeTable(1)."</form>".$htmlC->closeBody(1);
 ?>

@@ -13,7 +13,7 @@ function abort_login( $error )
     global $reset_password_url;
     global $site_manager_email_addr;
 
-    theme("Login Failed", "header");
+    theme(_("Login Failed"), "header");
 
     echo "<br>\n";
     echo "<b>$error</b>\n";
@@ -44,7 +44,7 @@ if ($err != '')
 
 if ($userPW == '')
 {
-    abort_login( "You did not supply a password." );
+    abort_login(_("You did not supply a password."));
 }
 
 // $userNM = str_replace("\'", "''", $userNM);
@@ -53,13 +53,13 @@ $userC=new db_udb();
 $uC=$userC->checkLogin($userNM,$userPW);
 if (!$uC)
 {
-    abort_login('Username or password is incorrect.');
+    abort_login(_("Username or password is incorrect."));
 }
 
 $uP=$userC->getUserPrefs($userNM);
 if (!$uP)
 {
-    abort_login('Username or password is incorrect.');
+    abort_login(_("Username or password is incorrect."));
 }
 
 // The login is successful!
@@ -99,6 +99,6 @@ else
         $url = "../tools/proofers/proof_per.php";
     }
 }
-metarefresh(1,$url,"Login","");
+metarefresh(1,$url,_("Sign In"),"");
 
 ?>
