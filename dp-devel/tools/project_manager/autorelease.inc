@@ -107,6 +107,14 @@ function autorelease()
 
 
 
+    // Keep track of which PMs get a book released in this particular execution of the script
+
+    {
+		$fresh_released_pms = array();
+
+	}
+
+
     // -------------------------------------------------------------------------
 
     AP_setup();
@@ -186,6 +194,10 @@ function autorelease()
             // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
             // Otherwise we only allow one book by the author to be available in first round
 
+		  // TODO: Add a flag to some queues that all have identical authors that allows
+		  // a queue-defined limit of identical authors - eg some of the periodicals that have short
+            // issues
+
             if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
                 (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
                 (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
@@ -195,14 +207,23 @@ function autorelease()
                 continue;
             }
 
-            // If a PM has 10 books already in round 1, their books should be skipped
+            // If a PM has more than 10 books already in round 1, their books should be skipped
 
             if ((array_key_exists($pm, $first_round_pms)) && ($first_round_pms[$pm] > 10))
             {
                 echo "        The PM, $pm, already has $first_round_pms[$pm] projects in first round.\n";
                 continue;
             }
-	    
+
+            // If a PM has had a book released in this execution of the script, pass over it until next time
+
+            if (array_key_exists($pm, $fresh_released_pms))
+            {
+                echo "        The PM, $pm, already has had a project released during this execution of the release script.\n";
+                continue;
+            }
+
+
             // OK to release
             // release the project for proofing, and keep track of
             // its contribution to reducing our total page shortfall
@@ -214,7 +235,18 @@ function autorelease()
 
             echo "        Project released!\n";
 
-            $first_round_authors[$authorsname] = 1;
+
+		  // special authors (anon, etc) have to have their counts incremented
+		  if (array_key_exists($authorsname, $first_round_authors)) {
+                $first_round_authors[$authorsname] = $first_round_authors[$authorsname] + 1;
+		  } else {
+                $first_round_authors[$authorsname] = 1;
+		  }
+
+
+		  // keep track of which PMs have had a book released this execution of the script
+		  $fresh_released_pms[$pm] = 1;
+
 
             $num_projects_released++;
 
