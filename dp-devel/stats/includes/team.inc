@@ -1,11 +1,11 @@
 <?
 //A file full of functions used in team stats
 
-$team_avatars_dir = "$code_dir/users/teams/avatar";
-$team_avatars_url = "$code_url/users/teams/avatar";
+$team_avatars_dir = "$dyn_dir/teams/avatar";
+$team_avatars_url = "$dyn_url/teams/avatar";
 
-$team_icons_dir   = "$code_dir/users/teams/icon";
-$team_icons_url   = "$code_url/users/teams/icon";
+$team_icons_dir   = "$dyn_dir/teams/icon";
+$team_icons_url   = "$dyn_url/teams/icon";
 
 
 function showTeamProfile($curTeam) {
