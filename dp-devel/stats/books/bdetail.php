@@ -6,7 +6,7 @@ include_once($relPath.'theme.inc');
 include_once('../includes/book.php');
 $db_Connection=new dbConnect();
 
-$result = mysql_query("SELECT * FROM projects WHERE projectid = ".$_GET['project']."");
+$result = mysql_query("SELECT * FROM projects WHERE projectid = '".$_GET['project']."'");
 $curProj = mysql_fetch_assoc($result);
 
 theme($curProj['nameofwork']."'s Details", "header");
