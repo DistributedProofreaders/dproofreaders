@@ -448,7 +448,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         }
         else if ($can_see_names_for_this_page)
         {
-		$R_pages_completed = user_get_page_tally( $R_username );
+		$R_pages_completed = user_get_ELR_page_tally( $R_username );
 
                 $R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
                 if (mysql_num_rows($R_bbres) == 0) {

@@ -28,7 +28,7 @@ function echo_hidden_fields( $npage )
 function ReportBadPage_button_should_be_shown( $npage, $username )
 {
     // Find out how many pages the user has proofread so far.
-    $pagescompleted = user_get_page_tally( $username );
+    $pagescompleted = user_get_ELR_page_tally( $username );
 
     // get bad page code
     $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");

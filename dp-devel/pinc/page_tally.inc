@@ -86,8 +86,8 @@ function get_daily_average( $start_time, $total )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_get_page_tally( $username )
-// Return the user's page tally.
+function user_get_ELR_page_tally( $username )
+// Return the user's page tally for the Entry-Level Round.
 {
     global $joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column;
 

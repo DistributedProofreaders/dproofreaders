@@ -64,7 +64,7 @@ function user_is_PP()
     global $pguser;
     $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor")
-        || (user_get_page_tally($pguser) >= 400);
+        || (user_get_ELR_page_tally($pguser) >= 400);
 }
 
 function user_is_post_proof_verifier()
@@ -140,7 +140,7 @@ function user_can_see_BEGIN_in_round($round_number)
         return TRUE;
 
     global $pguser;
-    $n_pages = user_get_page_tally( $pguser );
+    $n_pages = user_get_ELR_page_tally( $pguser );
     if ($round_number == 1)
         return $n_pages <= 40;
     else if ($round_number == 2)

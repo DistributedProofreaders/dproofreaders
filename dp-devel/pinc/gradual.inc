@@ -18,7 +18,7 @@ function get_pages_proofed_maybe_simulated()
 {
     global $pguser;
 
-    $pagesproofed = user_get_page_tally( $pguser );
+    $pagesproofed = user_get_ELR_page_tally( $pguser );
 
     if (isset($_GET['numofpages']))
     {
