@@ -21,23 +21,20 @@ if ($testing_this_script)
     echo "<pre>", $EOL;
 }
 
-if ($testing_this_script)
-{
-    $X_date = '2003-01-01';
-}
-else
-{
-    // Figure out the last day (X) for which a count was taken.
-    $res = mysql_query( 'SELECT MAX(date) FROM pagestats WHERE pages != 0' )
-        or die(mysql_error());
-    list($X_date) = mysql_fetch_array($res);
-    if ($testing_this_script)
-    {
-        echo 'Last counted date was ', $X_date, $EOL;
-    }
-}
+// Figure out the last day (X) for which a count was taken.
+$res = mysql_query( 'SELECT MAX(date) FROM pagestats WHERE pages != 0' )
+    or die(mysql_error());
+list($X_date) = mysql_fetch_array($res);
 
 list($X_year,$X_month,$X_day) = explode('-',$X_date);
+
+if ($testing_this_script)
+{
+    echo 'Last counted date was ', $X_date, $EOL;
+    echo 'Backing up a few days', $EOL;
+
+    $X_day -= 3;
+}
 
 // Get a timestamp for the most recent midnight (local time).
 $today_start_ts = mktime(0,0,0);
@@ -60,7 +57,7 @@ for ( $d = 1; ; $d++ )
 
     if ($testing_this_script)
     {
-        echo "update pagestats: $Y_date $total_n_pages_proofed", $EOL;
+        echo "count for $Y_date is $total_n_pages_proofed", $EOL;
     }
 }
 
