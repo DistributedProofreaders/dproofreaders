@@ -53,7 +53,7 @@ if (!$auth) {
 			elseif (substr($lines[$i], 1, 12) == "dynstats_url") { fputs($v_site_file, "\$dynstats_url = '".$_POST['dynstats_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_dir") { fputs($v_site_file, "\$xmlfeeds_dir = '".$_POST['xmlfeeds_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_url") { fputs($v_site_file, "\$xmlfeeds_url = '".$_POST['xmlfeeds_url']."';\n"); }
-			elseif (substr($lines[$i], 1, 10) == "forums_dir") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
+			elseif (substr($lines[$i], 1, 10) == "forums_dir") { fputs($v_site_file, "\$forums_dir = '".$_POST['forums_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_url") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 18) == "reset_password_url") { fputs($v_site_file, "\$reset_password_url = \"".$_POST['reset_password_url']."\";\n"); }
 			elseif (substr($lines[$i], 1, 17) == "general_forum_url") { fputs($v_site_file, "\$general_forum_url = \"".$_POST['general_forum_url']."\";\n"); }
