@@ -318,6 +318,13 @@ function show_tally_specific_stats( $tally_name, $theme, $userP )
 {
 	global $code_url;
 
+	// Put the whole thing in a table, just so we can put a box around it.
+	echo "<br>";
+	echo "<center>";
+	echo "<table width='96%' border='1' bordercolor='#111111' style='border-collapse: collapse'>";
+	echo "<tr>";
+	echo "<td>";
+
 	// Show the site statistics
 
 	$site_stats = get_site_page_tally_summary($tally_name);
@@ -425,6 +432,10 @@ function show_tally_specific_stats( $tally_name, $theme, $userP )
 			}
 		}
 	}
+
+	echo "<br>";
+	echo "</td></tr></table>";
+	echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
