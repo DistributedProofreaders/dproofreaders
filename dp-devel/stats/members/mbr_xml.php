@@ -29,8 +29,8 @@ echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xs
 	
 
 $result = mysql_query("
-	SELECT *, $user_P_page_tally_column AS current_P_page_tally
-	FROM users $joined_with_user_P_page_tallies
+	SELECT *
+	FROM users
 	WHERE username = '".$_GET['username']."'
 	LIMIT 1
 ");
@@ -38,6 +38,7 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
+$current_page_tally = $users_P_page_tallyboard->get_current_tally( $curMbr['u_id'] );
 $currentRank = $users_P_page_tallyboard->get_rank( $curMbr['u_id'] );
 
 list($bestDayCount,$bestDayTimestamp) =
@@ -47,7 +48,7 @@ $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 $now = time();
 $daysInExistence = floor(($now - $curMbr['date_created'])/86400);
 if ($daysInExistence > 0) {
-	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistence;
+	        $daily_Average = $current_page_tally/$daysInExistence;
 } else {
 		$daily_Average = 0;
 }
@@ -61,7 +62,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
-			<pagescompleted>".$curMbr['current_P_page_tally']."</pagescompleted>
+			<pagescompleted>$current_page_tally</pagescompleted>
 			<overallrank>$currentRank</overallrank>
 			<bestdayever>
 				<pages>$bestDayCount</pages>
