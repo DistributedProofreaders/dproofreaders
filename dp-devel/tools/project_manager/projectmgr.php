@@ -178,7 +178,7 @@ abort_if_not_manager();
             		$outby = mysql_result($result, $rownum, "checkedoutby");
 
 			if ($tr_num % 2 ) {
-                		$bgcolor = $theme['color_main_bg'];
+                		$bgcolor = $theme['color_mainbody_bg'];
                 	} else {
                 		$bgcolor = $theme['color_navbar_bg'];
             		}
