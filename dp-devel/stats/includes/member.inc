@@ -8,10 +8,23 @@ include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr ) {
 	$now = time();
+	showXmlButton($curMbr['username']);
 	showMbrProfile($curMbr);
 	showMbrTeams($curMbr);
 	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+}
+
+function showXmlButton( $username )
+{
+	global $code_url;
+
+	$xml_doc_url = "$code_url/stats/members/mbr_xml.php?username=$username";
+	$xml_img_url = "$code_url/graphics/xml.gif";
+	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
+	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
+	echo "\n";
+	echo $xml_button;
 }
 
 function showMbrProfile($curMbr) {
@@ -60,14 +73,9 @@ function showMbrProfile($curMbr) {
 	echo "<td align='center' valign='top'>";
 	echo "\n";
 
-	$xml_doc_url = $GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username'];
-	$xml_img_url = $GLOBALS['code_url']."/graphics/xml.gif";
-	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
-	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
-
 	$t = new ThemedTable(
 		2, 
-		_("Statistics") . " $xml_button",
+		_("Statistics"),
 		array( 'width'=>100 )
 	);
 	$t->set_column_widths( 30, 70 );
