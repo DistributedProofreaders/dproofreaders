@@ -32,6 +32,12 @@ theme('FAQ Central','header');
   <dt><a href="document.php">Proofing Guidelines</a>
   <dd>The full details of the guidelines we use for proofing documents.
 
+  <dt><a href="prooffacehelp.php?i_type=0">Standard Proofing Interface Help</a>
+  <dd>A help-file for the Standard Proofing Interface.
+
+  <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofing Interface Help</a>
+  <dd>A help-file for the Enhanced Proofing Interface.
+
   <dt><a href="<? echo $forums_url ?>/faq.php">Forums FAQ</a>
   <dd>Information on using the Forum software (our "bulletin board" system for
       communication between all the people working on a book: the proofreaders, the
