@@ -346,7 +346,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 				WHERE forum_id=15
 			");
 
-
+                        // TODO: ? add the id of the most recent post in the topic
+                        // to the forum_last_post_id field of the forums table  record for forum 15?
 
 
 		}
