@@ -1,0 +1,8 @@
+01 * * * *  lynx -dump http://beryl.ils.unc.edu/~bfish/total_count.txt > <<DYNSTATS_DIR>>/total_count.txt
+01 * * * * lynx -dump <<SITE_URL>>/tools/project_manager/automodify.php
+02,17,32,47 * * * * lynx -dump <<SITE_URL>>/stats/stats.php
+01 0 * * * lynx -dump <<SITE_URL>>/stats/update_daily_page_counts.php
+01 0 * * * lynx -dump <<SITE_URL>>/stats/teamstats.php
+20 0 1 * * lynx -dump <<SITE_URL>>/crontab/inactivate_users.php
+35 0 1 * * lynx -dump <<SITE_URL>>/crontab/notify_users.php
+50 0 1 * * lynx -dump <<SITE_URL>>/crontab/notify_old_pp.php
