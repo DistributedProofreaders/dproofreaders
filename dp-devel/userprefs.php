@@ -250,7 +250,7 @@ echo $tde.$td2;
 if ($userP['manager'] == "yes") { echo "<strong>"._("Default PM Page:")."</strong>"; } else { echo ""; }
 echo $tde.$td3;
 $array = implode('|', $i_pm);
-if ($userP['manager'] == "yes") { dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array); } else { echo ""; }
+if ($userP['manager'] == "yes") { dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array); } else { echo "<input type='hidden' name='i_pmdefault' value='".$userP['i_pmdefault']."'>"; }
 echo $tde.$td3a;
 if ($userP['manager'] == "yes") { echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>"; } else { echo ""; }
 
