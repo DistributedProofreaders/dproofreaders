@@ -156,7 +156,7 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 
 if ($tbutton==B_REPORT_BAD_PAGE)
 {
-$badState=$tpage->bad_page;
+$badState=$tpage->prd->bad_state;
 include('badpage.php');
 } // end B_REPORT_BAD_PAGE
 
