@@ -31,6 +31,7 @@ auger	anger
 away	ray
 b	h
 back	hack
+back	tack
 bang	hang
 bank	back
 bard	hard
@@ -102,6 +103,7 @@ burned	hurried
 bush	hush
 but	bat
 but	hut
+But	Out
 by	hy
 by	toy
 bye	lye
@@ -113,6 +115,8 @@ came	Mine
 carriage	carnage
 carrie	came
 carried	earned
+carries	curries
+case	east
 cased	eased
 cases	eases
 cast	oust
@@ -127,6 +131,7 @@ chillest	dullest
 chilly	dully
 close	dose
 cloth	doth
+clutch	dutch
 cm	cry
 cock	code
 code	cock
@@ -155,6 +160,7 @@ dancers	lancers
 dawn	damn
 day	clay
 day	tiny
+days	clays
 dc	de
 de	dc
 defect	detect
@@ -164,22 +170,24 @@ defects	detects
 detect	defect
 detected	defected
 detects	defects
+die	did
 Dime	Dine
 Dime	Due
 Dime	One
 does	docs
 dog	clog
+done	dope
 down	clown
 drain	dram
 drain	draw
 draw	drain
+Dreams	Breams
 drum	dram
 dull	chill
 dully	chilly
 e	c
 ear	car
 earned	carried
-ears	cars
 eased	cased
 east	cast
 eastern	custom
@@ -192,7 +200,7 @@ even	oven
 expense	expanse
 express	caress
 eye	eve
-eyes	eves
+facts	fads
 failing	falling
 fails	falls
 fall	fail
@@ -229,6 +237,7 @@ flows	flown
 flushing	Hushing
 foe	toe
 for	far
+for	fur
 for	tor
 form	porn
 Four	Pour
@@ -236,6 +245,7 @@ fowls	jowls
 France	Prance
 from	front
 full	fall
+further	farther
 gain	gary
 gained	gamed
 gaining	gaming
@@ -271,8 +281,8 @@ hay	bay
 he	life
 He	Pie
 head	bead
-heads	Beads
 heads	beads
+heads	Beads
 hear	bear
 heard	beard
 hearing	bearing
@@ -291,6 +301,7 @@ Herr	Heir
 hide	bide
 hills	bills
 him	hint
+him	Trim
 him	turn
 hire	nice
 his	bis
@@ -333,7 +344,6 @@ iii	ill
 Ill	111
 ill	iii
 in	hi
-in	is
 inc	me
 inc	we
 inn	run
@@ -349,20 +359,25 @@ last	fast
 later at	lateral
 lay	Jay
 le	ie
+lead	fond
+leader	leafier
 lee	Ice
 lee	ice
 lets	lots
+life	lifts
 lift	lilt
 lilt	lift
 line	fine
 list	fist
 live	I've
 living	Hiring
+load	loud
 locked	looked
 locks	looks
 looks	locks
 loot	hot
 loss	logs
+loves	lores
 mail	wall
 main	mary
 main	warn
@@ -410,14 +425,17 @@ more	wore
 morn	mom
 motory	motors
 mouth	month
+Mr	Sir
 Mr.	Mr
 Mr.	Mr,
 Mrs.	Mrs
 Mrs.	Mrs,
 much	ranch
+mules	nudes
 must	mast
 my	nay
 my	ray
+natives	Datives
 Nearing	Wearing
 New	Hew
 next	nest
@@ -435,10 +453,10 @@ now	mow
 o	0
 ob	oh
 OF	OP
+of face	efface
 oh	ob
 on	an
 one	cue
-or	of
 other	ether
 our	bur
 our	cur
@@ -453,6 +471,7 @@ person	parson
 Pile	File
 Pill	Fill
 pin	pm
+plain	plum
 pm	pin
 Poison	Person
 Publishing	Punishing
@@ -469,6 +488,7 @@ reacted	reached
 read	react
 Reader	Header
 Rear	Bear
+Red	Bed
 religions	religious
 remained	retrained
 retreating	recreating
@@ -489,6 +509,7 @@ Rome	Borne
 Rome	Home
 Rose	Hose
 rote	note
+rubber	rub her
 ruin	rum
 ruined	mined
 RUMP	BUMP
@@ -498,6 +519,7 @@ run	rum
 runs	nuns
 rustle	rustic
 said	paid
+said	wild
 salts	waits
 sam	saw
 save	saw
@@ -519,10 +541,14 @@ shore	shove
 short	snort
 skie	side
 skin	akin
+sleep	sloop
+small	email
 so	go
 so	to
 some	borne
+some	come
 some	sonic
+son	eon
 Spain	Spam
 stairs	stabs
 steading	stealing
@@ -532,7 +558,7 @@ stem	stern
 step	stop
 stern	stem
 stewed	stowed
-stones	stories
+still	stall
 stories	stones
 strain	straw
 straw	strain
@@ -569,6 +595,7 @@ tight	fight
 tightness	rightness
 time	lime
 time	tune
+times	rimes
 timings	tintings
 tin	try
 tiny	day
@@ -581,6 +608,7 @@ Torn	Tom
 torn	tory
 tory	tom
 train	tram
+traits	trails
 tried	tied
 try	fry
 try	tin
@@ -606,6 +634,7 @@ walked	wafted
 wall	mail
 walls	wails
 Walt	Halt
+Walter	Waiter
 war	wax
 warm	marry
 warn	main
@@ -642,6 +671,7 @@ WOMEN	WOMBS
 wood	mood
 wounded	mounded
 y	v
+Yale	Yak
 YEAR	TEAR
 Years	Tears
 yet	jet

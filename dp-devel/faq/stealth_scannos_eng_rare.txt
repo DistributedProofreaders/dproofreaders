@@ -65,6 +65,7 @@ Bear	Rear
 beard	heard
 beast	heart
 became	because
+Bed	Red
 Been	seen
 BEEP	BEEF
 beer	been
@@ -93,6 +94,7 @@ both	10th
 both	loth
 BOW	now
 bowler	howler
+Breams	Dreams
 brings	beings
 bum	burn
 BUMP	RUMP
@@ -112,6 +114,7 @@ CHATTER	CHAPTER
 check	cheek
 chewed	shewed
 cit her	either
+clays	days
 clog	dog
 clone	done
 clown	down
@@ -119,6 +122,7 @@ cm	on
 coarse	course
 cockles	cookies
 coiner	comer
+come	some
 comers	corners
 coming	coining
 conies	comes
@@ -131,11 +135,14 @@ Cue	fine
 cue	one
 cur	our
 curb	curls
+curries	carries
 Cut	But
 darting	darling
+Datives	natives
 denned	defined
 detective	defective
 dialing	chiding
+did	die
 did	old
 die	the
 Dine	Dime
@@ -143,29 +150,39 @@ ding	wedding
 do	no
 dock	clock
 doer	door
+dope	done
 dose	close
 doth	cloth
 dram	drain
 dram	drum
 Due	Dime
 dullest	chillest
+dutch	clutch
+ears	cars
 ears	years
 eases	cases
+east	case
 easterner	customer
 eat	ear
 economies	economics
+efface	of face
 Eight	Right
 Eke	like
+email	small
 encumbers	cucumbers
 end	and
+eon	son
 ether	other
 eve	eye
 eves	eyes
 Eves	lives
 expanse	expense
+eyes	eves
+fads	facts
 faking	taking
 fall	full
 far	for
+farther	further
 fast	last
 fate	face
 fatuous	famous
@@ -203,12 +220,14 @@ FOB	FOR
 FOE	FOR
 Foe	Poe
 fold	told
+fond	lead
 font	but
 foot	floor
 From	Prom
 front	from
 fry	try
 ft	it
+fur	for
 gamed	gained
 gaming	gaining
 Gay	Guy
@@ -245,7 +264,6 @@ hest	best
 Hew	New
 hex	her
 hi	he
-hi	in
 hid	bid
 hie	his
 Hie	the
@@ -276,6 +294,7 @@ ID	to
 If	by
 ills	his
 in	iii
+in	is
 In	to
 in.	iii.
 info	into
@@ -304,11 +323,13 @@ lameness	tameness
 lancers	dancers
 lateral	later at
 laud	land
+leafier	leader
 Lie	Life
 lie	the
 lier	her
 lies	her
 life	he
+lifts	life
 light	right
 lip	up
 lit	fit
@@ -320,7 +341,9 @@ lolled	killed
 look	lock
 look	took
 looked	locked
+lores	loves
 lots	lets
+loud	load
 love	leave
 lye	bye
 mad	and
@@ -374,24 +397,27 @@ noire	more
 not	hot
 nourish	flourish
 nourished	flourished
+nudes	mules
 nun	man
 nuns	runs
 O	0
 oar	our
 oat	out
 of	by
-of	or
 Of	or
+of	or
 oil	off
 oil	oh
 oil	on
 OK	on
 One	Dime
 OP	OF
+or	of
 OR	on
 OS	on
 ottered	offered
 oust	cast
+Out	But
 out	one
 oven	even
 OWE	own
@@ -410,6 +436,7 @@ persona	persons
 Piddles	Fiddles
 Pie	He
 pilling	willing
+plum	plain
 porn	form
 Pour	Four
 Prance	France
@@ -438,6 +465,7 @@ retained	returned
 retrained	remained
 rick	sick
 ride	side
+rimes	times
 riot	not
 rip	up
 rooks	rocks
@@ -445,6 +473,7 @@ roots	room
 rose	nose
 rot	not
 ROW	now
+rub her	rubber
 rue	me
 rum	ruin
 rum	run
@@ -460,6 +489,7 @@ set	see
 shall	shalt
 shove	shore
 side	skie
+Sir	Mr
 sire	are
 sit	sat
 site	she
@@ -467,6 +497,7 @@ skew	shew
 skip	ship
 Slime	Shame
 slimmer	summer
+sloop	sleep
 smite	smile
 snake	make
 snakes	makes
@@ -481,12 +512,15 @@ sot	not
 sow	now
 Spam	Spain
 stabs	stairs
+stall	still
 stealing	steading
+stones	stories
 stop	step
 stowed	stewed
 sue	she
 Surd	Surely
 swill	swift
+tack	back
 tad	had
 tally	rally
 tare	care
@@ -555,8 +589,10 @@ Tour	Your
 tow	low
 toy	boy
 toy	by
+trails	traits
 trill	will
 trills	wills
+Trim	him
 TUB	THE
 tum	turn
 turn	him
@@ -573,6 +609,7 @@ wafted	walked
 wag	was
 wails	walls
 wait	went
+Waiter	Walter
 wall	well
 war	was
 wax	war
@@ -586,9 +623,11 @@ white	while
 whoa	when
 whore	where
 wider	under
+wild	said
 winch	which
 wind	mind
 WOMBS	WOMEN
 Women	woman
 wore	more
 wore	were
+Yak	Yale
