@@ -1,20 +1,20 @@
 <?
 // DP includes
 $relPath="./../../pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
 
 // PHPBB includes (from the standard installation)
 define('IN_PHPBB', true);
 $phpbb_root_path = $forums_dir.'/';
-include($phpbb_root_path . 'extension.inc');
-include($phpbb_root_path . 'common.'.$phpEx);
-include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
-include($phpbb_root_path . 'includes/functions_post.'.$phpEx);
+include_once($phpbb_root_path . 'extension.inc');
+include_once($phpbb_root_path . 'common.'.$phpEx);
+include_once($phpbb_root_path . 'includes/bbcode.'.$phpEx);
+include_once($phpbb_root_path . 'includes/functions_post.'.$phpEx);
 
 // include the custom PHPBB file
-include($relPath . 'functions_insert_post.'.$phpEx);
+include_once($relPath . 'functions_insert_post.'.$phpEx);
 
 // Which team?
 $team_id = $_GET['team'];

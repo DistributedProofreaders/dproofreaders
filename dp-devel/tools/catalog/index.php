@@ -1,8 +1,8 @@
 <?php
 $relPath = '../../pinc/';
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
-include($relPath.'slim_header.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'slim_header.inc');
 slim_header("DP Catalog");
 ?>
 <h1>Distributed Proofreaders Catalog</h1>

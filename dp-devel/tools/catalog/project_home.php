@@ -1,8 +1,8 @@
 <?php
 $relPath="../../pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'RoundDescriptor.inc');
 
 function format_time( $time_sse )

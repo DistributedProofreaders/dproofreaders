@@ -1,7 +1,7 @@
 <?php
 $relPath="../../pinc/";
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
 
 $projectid  = $_GET['project'];
 $page_image = $_GET['page_image'];

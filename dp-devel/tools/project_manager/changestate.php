@@ -1,11 +1,11 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
-include($relPath.'project_states.inc');
-include($relPath.'project_trans.inc');
-include($relPath.'project_edit.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'metarefresh.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'project_trans.inc');
+include_once($relPath.'project_edit.inc');
 include_once($relPath.'maybe_mail.inc');
 
 function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
