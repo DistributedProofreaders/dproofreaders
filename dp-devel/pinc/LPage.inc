@@ -212,6 +212,19 @@ function getProjectRound( $state )
   }
 }
 
+// Following function appears to construct and return an array named $rval.
+// Here are the keys that might be in $rval:
+// 1. 'TooManyBegin' - set to 1 if:
+//      this was a beginner project, and the user has already proofed
+//      too many pages from this project (hard-coded guess? to 20).
+//     If this key is set to '1', the array with the single key in it is returned.
+//     Nonetheless, the key is set to 0 subsequently.
+// 2. 'isopen' - set to 1 if any available page was found,  set to 0 otherwise.
+//      In either case, 'TooManyBegin' is set to 0 (see #1) - possibly redundant.
+// 3. In addition, if a page was found, a set of field values is also included
+//    in the return array, perhaps for subsequent assignment. It appears that
+//    a simultaneous query from someone else would return the same page.
+
 function getAvailablePage($project,$proofstate,$pguser)
 {
   // if a BEGIN project in R1, people can only get a new page 
