@@ -64,18 +64,19 @@ if (!isset($proofing))
 <br>
 Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 
-<P><table border=1 width=630><tr>
-<tr><td bgcolor="CCCCCC" align=center><h3><b>
+<P><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
     if ($prooflevel == 0) {
-        echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\"><b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
+        echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {
-        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\"><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
+        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
     }
 }
 else {
 ?>
+<br>
+Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 <table border=1 width=630>
 <?PHP
 }
@@ -89,6 +90,16 @@ else {
 if (isset($prooflevel))
 {    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
     echo "<td colspan=4>$lastproofed</td></tr>";}
+
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
+
+if ($topic_id == "") {
+    echo "Start a discussion about this project in the forum";
+} else {
+    echo "Discuss this project in the forum";
+}
+    echo "</a></td>";
+
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td></tr>";
     echo "<tr><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td></tr><tr>";
 
@@ -138,15 +149,7 @@ echo "</TD>";
 // should be some check to see if the td's=5 and fill in blank ones for proper html before:
     echo "</tr>";
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
-
-if ($topic_id == "") {
-    echo "Start a discussion about this project in the forum";
-} else {
-    echo "Discuss this project in the forum";
-}
-
-    echo "</a></td></tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";
+    echo "</tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";
     echo "<BR>";
 
 if (!isset($proofing))
