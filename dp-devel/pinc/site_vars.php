@@ -124,6 +124,14 @@ $charset = '<<CHARSET>>';
 
 // -----------------------------------------------------------------------------
 
+// Font face and style values for JpGraph graphs. For possible values, see
+// $jpgraph_dir/jpgraph.php , lines 233-269. Previous default values: 2 and 9002
+
+$jpgraph_FF='<<JPGRAPH_FONT_FACE>>';
+$jpgraph_FS='<<JPGRAPH_FONT_STYLE>>';
+
+// -----------------------------------------------------------------------------
+
 // for staged transition to all in one project_pages table
 
 $writeBIGtable = <<WRITEBIGTABLE>>;
