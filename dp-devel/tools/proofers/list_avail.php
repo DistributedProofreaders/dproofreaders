@@ -1,10 +1,6 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'bookpages.inc');
-include_once($relPath.'showavailablebooks.inc');
-include_once($relPath.'project_states.inc');
-include_once($relPath.'page_states.inc');
 include_once($relPath.'theme.inc');
 
 theme("Available Projects", "header");
