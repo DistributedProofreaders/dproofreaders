@@ -158,31 +158,25 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
                 if ($trace) echo "project looks bad.\n";
-                if ($state != $prd->project_bad_state)
-                {
-                    if ($trace) echo "changing its state to $prd->project_bad_state\n";
-                    $error_msg = project_transition( $projectid, $prd->project_bad_state );
-                    if ($error_msg)
-                    {
-                        echo "$error_msg\n";
-                    }
-                    $state = $prd->project_bad_state;
-                }
+                $appropriate_state = $prd->project_bad_state;
             }
             else
             {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
                 if ($trace) echo "project looks okay.\n";
-                if ($state == $prd->project_bad_state)
+                $appropriate_state = $prd->project_available_state;
+            }
+
+            if ($state != $appropriate_state)
+            {
+                if ($trace) echo "changing its state to $appropriate_state\n";
+                $error_msg = project_transition( $projectid, $appropriate_state );
+                if ($error_msg)
                 {
-                    // We could change the project's state to
-                    // $prd->project_available_state,
-                    // but we don't have to, because it will be set later
-                    // (either to that, or some other state value).
-                    if ($trace) echo "pretending to change its state to $prd->project_available_state\n";
-                    $state = $prd->project_available_state;
+                    echo "$error_msg\n";
                 }
+                $state = $appropriate_state;
             }
         }
     }
