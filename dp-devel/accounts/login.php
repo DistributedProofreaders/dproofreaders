@@ -15,15 +15,21 @@ function abort_login( $error )
     theme("Login Failed", "header");
 
     echo "<br>\n";
-    echo "<b>$error</b><br>\n";
-    echo "<br>\n";
-    echo "Please hit Back & try again.<br>\n";
-    echo "If the problem persists, you can try to <A HREF=\"$reset_password_url\">reset</A> your password.<br>\n";
-    echo "If this fails, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.<br>\n";
-    echo "<br>\n";
-    echo "<a href=\"signin.php\">Back</A> to the sign in page.";
-
-    theme("", "footer");
+    echo "<b>$error</b>\n";
+?>
+<p>Please attempt again to log in above. If problems continue to persists, review the following possible fixes:
+<ol>
+<li>Type your username in the exact same way as when you registered.</li>
+<li><A HREF=\"$reset_password_url\">Reset</A> your password.</li>
+<li>Enable Javascript.</li>
+<li>Accept cookies (at least from us at www.pgdp.net)</li>
+<li>Allow popup windows (at least from us at www.pgdp.net)</li>
+<li>caching set to off (or: refresh page every visit)</li>
+<li>Ensure your PC clock is set to the correct date & time</li>
+</ol>
+<p>If all of this fails, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.
+</body></html>
+<?
     exit();
 }
 
