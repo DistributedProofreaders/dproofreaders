@@ -21,6 +21,7 @@ if ($stage == 'post_1')
 	$bottom_blurb = "
 		<B>Note:</B>Please make sure the file you upload is<BR> Zipped
 		(not Gzip, TAR, etc.).<BR>
+		 The file should have the .zip extension, NOT .Zip, .ZIP, etc.<BR>
 		After you click Upload, the browser will appear to be slow<BR>
 		getting to the next page.
 		This is because it is uploading the file.
@@ -36,7 +37,8 @@ else if ($stage == 'correct')
 	$back_blurb = "Back to Gold List";
 	$bottom_blurb = "
 		<B>Note:</B>Please make sure the file you upload is Zipped
-		(not Gzip, TAR, etc.).
+		(not Gzip, TAR, etc.). The file should have the .zip
+		extension, NOT .Zip, .ZIP, etc.
 		After you click Upload, the browser will appear to be slow
 		getting to the next page.
 		This is because it is uploading the file.
@@ -75,7 +77,7 @@ if (!isset($action))
 	echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
 	echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
 	echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
-	echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='8388608'>";
+	echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='25165824'>";
 	echo $tr.$td2;
 	echo "<STRONG>Zipped File:</STRONG>";
 	echo $td3;
@@ -101,7 +103,7 @@ else
 	// if files have been uploaded, process them
 
 	// make reasonably sure script does not timeout on large file uploads
-	set_time_limit(3600);
+	set_time_limit(14400);
 	$path_to_file = "$projects_dir/$project";
 
 	$files = $HTTP_POST_FILES['files'];
