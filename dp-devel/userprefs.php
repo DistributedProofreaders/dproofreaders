@@ -13,7 +13,26 @@ $i_r= array('640x480','800x600','1024x768','1152x864','1280x1024','1600x1200');
 $f_f= array('Browser Default','Courier','Times','Arial','Lucida','Monospaced');
 $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 
+//just a way to get them back to someplace on quit button
+if (isset($quitnc))
+{
+if (isset($project) && isset($proofstate))
+{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
+exit;}
+
+// restore cookie values from db
+if (isset($restorec))
+{
+$cookieC->setUserPrefs($pguser);
+if (isset($project) && isset($proofstate))
+{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
+exit;}
+
+
 if (@$_POST["insertdb"] == "") {
+echo "<html><head><title> User Preferences</title></head><body>";
 $result=mysql_query("SELECT real_name, email FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
@@ -140,7 +159,7 @@ echo "<td width='79%'>";
 echo "<select name=\"v_fnts\" ID=\"v_fnts\">";
 for ($i=0;$i<count($f_s);$i++)
 {echo "<option value=\"$i\"";
-if ($userP['v_fntf']==$i)
+if ($userP['v_fnts']==$i)
 {echo " selected";}
 echo ">$f_s[$i]</option>";}
 echo "</select>";
@@ -207,7 +226,7 @@ echo "<td width='79%'>";
 echo "<select name=\"h_fnts\" ID=\"h_fnts\">";
 for ($i=0;$i<count($f_s);$i++)
 {echo "<option value=\"$i\"";
-if ($userP['h_fntf']==$i)
+if ($userP['h_fnts']==$i)
 {echo " selected";}
 echo ">$f_s[$i]</option>";}
 echo "</select>";
@@ -259,23 +278,24 @@ echo "</tr>";
 
 
 echo "</table>";
-$project = $_GET['project'];
-$prooflevel = $_GET['prooflevel'];
+if (isset($project) && isset($proofstate))
+{echo "<input type='hidden' name='project' value='$project'>";
+echo "<input type='hidden' name='proofstate' value='$proofstate'>";}
 
-echo "<input type='hidden' name='project' value='$project'>";
-echo "<input type='hidden' name='prooflevel' value='$prooflevel'>";
 echo "<input type='hidden' name='insertdb' value='true'><br><br>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
-echo "<center><input type='submit' value='Submit'></center>";
-echo "</form>";
+echo "<center><input type='submit' value='Quit' name='quitnc'> ";
+if ($userP['prefschanged']==1)
+{echo "<input type='submit' value='Restore to Saved Preferences' name='restorec'> ";}
+echo "<input type='submit' value='Save Preferences' name='change'></center>";
+echo "</form></body></html>";
 } else {
 $user_id = $_POST['user_id'];
 $real_name = $_POST['real_name'];
 $email = $_POST['email'];
 $email_updates = $_POST['email_updates'];
 $project_listing = $_POST['project_listing'];
-$project = $_POST['project'];
-$prooflevel = $_POST['prooflevel'];
+
 $result = mysql_query("UPDATE users SET real_name='$real_name', email='$email', 
 email_updates='$email_updates', project_listing='$project_listing', 
 u_lang='$u_lang', i_res='$i_res', i_type='$i_type', i_layout='$i_layout', 
@@ -288,6 +308,8 @@ h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'
 WHERE id='$user_id' AND username='$pguser'");
 echo mysql_error();
 $cookieC->setUserPrefs($pguser);
-echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&prooflevel=$prooflevel\"></head><body></body></html>"; 
+if (isset($project) && isset($proofstate))
+{echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
+else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
 }
 ?>
