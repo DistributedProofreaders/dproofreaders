@@ -8,6 +8,24 @@ include($relPath.'showstartexts.inc');
 theme("Welcome", "header");
 $etext_limit = 10;
 
+if ($testing)
+{
+	echo "<font color='red'>";
+	echo "<center>";
+	echo "<p>";
+	echo "<b>THIS IS A TEST SITE!!!</b>";
+	echo "</p>";
+	echo "<p>";
+	echo "For the real site, go to <a href='http://www.pgdp.net'>www.pgdp.net</a>.";
+	echo "</p>";
+	echo "<p>";
+	echo "To leave feedback or report bugs regarding this TEST site, ";
+	echo "please go to <a href='http://www.pgdp.net/phpBB2/viewtopic.php?t=3767'>this forum topic</a> on the real site.";
+
+	echo "</p>";
+	echo "</center>";
+	echo "</font>";
+}
 
 //get total number of users
 $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
