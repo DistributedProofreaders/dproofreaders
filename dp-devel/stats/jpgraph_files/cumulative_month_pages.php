@@ -30,7 +30,6 @@ while ($row = mysql_fetch_assoc($result)) {
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
-$gJpgBrandTiming=true ;
 $graph = new Graph(640,400,"auto",1);
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
