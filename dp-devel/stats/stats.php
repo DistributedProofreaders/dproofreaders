@@ -63,11 +63,6 @@ $allProjects = mysql_query("
 	");
 $numProjects = mysql_num_rows($allProjects);
 
-$tracetimeA = time();
-mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
-		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  numProjects is $numProjects')");
-
-
 while ($i < $numProjects) {
         $projectID = mysql_result($allProjects, $i, "projectid");
 
@@ -125,7 +120,7 @@ $tracetime2 = time();
 $timetorun = $tracetime2 - $tracetime1;
 
 mysql_query("INSERT INTO job_logs (filename, timestamp, event, comments)
-		VALUES ('stats.php', $tracetime2, 'END', 'started at $tracetime, took $timetorun seconds')");
+		VALUES ('stats.php', $tracetime2, 'END', 'started at $tracetime, took $timetorun seconds, looked at $numProjects projects')");
 
 
 }
