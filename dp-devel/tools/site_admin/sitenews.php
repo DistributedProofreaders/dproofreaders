@@ -11,7 +11,7 @@ $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
 
 if (mysql_result($result,0,"sitemanager") == "yes") {
 
-if ($_GET['action'] == "add") {
+if (isset($_GET['action']) && $_GET['action'] == "add") {
 $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
 $message = nl2br($message);
 $date_posted = date(U);
@@ -19,7 +19,7 @@ $insert_news = mysql_query("INSERT INTO news (uid, date_posted, message) VALUES 
 header("Location: sitenews.php");
 }
 
-elseif ($_GET['$action'] == "view") {
+elseif (isset($_GET['action']) && $_GET['$action'] == "view") {
 $uid = $_GET['uid'];
 $result = mysql_query("SELECT * FROM news WHERE uid = $uid");
 $date_posted = date("l, F jS, Y",mysql_result($result,0,'date_posted'));
@@ -28,13 +28,13 @@ echo mysql_result($result,0,"message");
 echo "<br><br><a href='javascript:history.back()'>Go Back...</a>";
 }
 
-elseif ($_GET['action'] == "delete") {
+elseif (isset($_GET['action']) && $_GET['action'] == "delete") {
 $uid = $_GET['uid'];
 $result = mysql_query("DELETE FROM news WHERE uid=$uid");
 header("Location: sitenews.php");
 }
 
-elseif ($_GET['action'] == "edit_update") {
+elseif (isset($_GET['action']) && $_GET['action'] == "edit_update") {
 $message = $_POST['message'];
 $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
 $message = nl2br($message);
@@ -46,15 +46,18 @@ header("Location: sitenews.php");
 else {
 $action = "add";
 $submit_query = "Add Site Update";
-if ($_GET['action'] == "edit") {
+if (isset($_GET['action']) && $_GET['action'] == "edit") {
 $uid = $_GET['uid'];
 $result = mysql_query("SELECT * FROM news WHERE uid=$uid");
-$message = mysql_result($result,0,"message"); 
+$message = mysql_result($result,0,"message");
 $action = "edit_update";
 $submit_query = "Edit Site Update";
 }
+
+if (empty($message)) { $message = ""; }
+
 echo "<form action='sitenews.php?action=$action' method='post'>";
-echo "<center><textarea name='message' cols=50 rows=5>$message</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>"; 
+echo "<center><textarea name='message' cols=50 rows=5>$message</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
 echo "<input type='hidden' name='uid' value='$uid'></form>";
 $result = mysql_query("SELECT * FROM news ORDER BY uid DESC");
 while($row = mysql_fetch_array($result)) {
