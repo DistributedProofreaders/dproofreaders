@@ -68,7 +68,7 @@ $qry = "
 	SELECT SUM(num_projects) AS Num
 	FROM project_state_stats
 	WHERE 1 AND $state_selector
-	AND date = $startdate
+	AND date = '$startdate'
 ";
 
 $res = mysql_query($qry) or die(mysql_error());
