@@ -180,6 +180,8 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
 	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+	echo "<a href='$code_url/activity_hub.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Activity Hub") . "</font></a>";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	if(lang_forum()) {
@@ -271,54 +273,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		} else {
 			$neighborhood['total_ranks'] = $neighborhood['rank'][$i-1];
 		}
-
-		//If logged in & either a Post Processor or Project Manager display links
-		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;";
-
-		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") {
-			echo "<a href='$code_url/tools/proofers/proof_per.php'>" . _("Proofread Projects") . "</a>";
-			$divider = 1;
-		}
-		if (user_is_PM() && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
-			if (isset($divider)) {
-				echo " | ";
-			}
-			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage Projects") . "</a>";
-			$divider = 1;
-		}
-		if (user_is_PP() && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
-			if (isset($divider)) {
-				echo " | ";
-			}
-			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>" . _("Post Processing") . "</a>";
-			$divider = 1;
-		}
-		if (user_is_a_sitemanager() && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
-			if (isset($divider)) {
-				echo " | ";
-			}
-			echo "<a href='$code_url/tools/site_admin/sitenews.php'>" . _("News Update") . "</a>";
-			$divider = 1;
-		}
-if ($site_supports_metadata){
-
-		if (substr($_SERVER['PHP_SELF'], -16) != "md_available.php") {
-			if (isset($divider)) {
-				echo " | ";
-			}
-			echo "<a href='$code_url/tools/proofers/md_available.php'>" . _("Metadata Collection") . "</a>";
-			$divider = 1;
-		}
-		if (user_is_a_sitemanager() && substr($_SERVER['PHP_SELF'], -18) != "proj_approvals.php") {
-			if (isset($divider)) {
-				echo " | ";
-			}
-			echo "<a href='$code_url/tools/site_admin/proj_approvals.php'>" . _("Clearance Approvals") . "</a>";
-			$divider = 1;
-		}
-}
-		echo "</font></center>\n";
-		if (isset($divider)) { echo "<br>\n"; }
 	}
 
     //Show site, personal, team & top ten stats.
