@@ -26,7 +26,7 @@ echo '<STRONG>Password</STRONG>';
 echo $tde.$td3;
 echo '<INPUT TYPE="password" NAME="userPW" SIZE="12" MAXSIZE="50">';
 echo $tre.$tr.$td1;
-echo '<INPUT TYPE="submit" VALUE="Auth me">';
+echo '<INPUT TYPE="submit" VALUE="Sign In">';
 echo $tre.$tr.$td5;
 echo '<B>Note:</B>Username/Password are case sensitive.<BR>Make sure your caps lock is not on.';
 echo $tre.$tr.$td4;
