@@ -16,9 +16,12 @@ asciiWin.focus();
 //-->
 </script>
 <?
-    if ($orient == "vert") {?>
-<textarea name="text_data" COLS="65" ROWS="42" WRAP="no"><?  } else {?>
-<textarea name="text_data" COLS="65" ROWS="6" WRAP="no"><?  }
+if ($userP['i_layout']==1)
+{$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
+else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
+$twrap=$twrap==1? '': " wrap=\"off\"";
+echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
+
 
 // depends on prooflevel
 if ($prooflevel==0)
@@ -51,12 +54,10 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$prooflevel\" name=\"prooflevel\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$project\" name=\"projectname\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$lang\" name=\"lang\">";
-    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$js\" name=\"js\">";
-    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$orient\" name=\"orient\">";
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
 if (isset($saved)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$saved\" name=\"saved\">";}
 ?>
-<INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($orient=="vert") {echo "Horizontal";} else {echo "Vertical";} ?>"> 
+<INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>"> 
 <INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save"> <?PHP 
 if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save and Proof Next Page\"> ";}
 ?><INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save and Quit">

@@ -3,6 +3,10 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'showavailablebooks.inc');
+
+// $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode
+// should offer link to save changes and|or restore defaults
+
     echo "<html><head>";
     echo "<title>Personal Page for $pguser</title></head><body>";
     echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
@@ -13,11 +17,8 @@ include($relPath.'showavailablebooks.inc');
     echo" <b>Site Stats:</b><br>";
     include("../../stats/hourly.txt");
     echo" <p><b>Your Stats:<br></b>";
-
     //get total pages completed
-    $pagessql = "SELECT pagescompleted FROM users WHERE username = '$pguser' LIMIT 1";
-    $pages = mysql_query($pagessql);
-    $totalpages = mysql_result($pages, 0, "pagescompleted");
+    $totalpages = $userP['pagescompleted'];
     echo "Your Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
 
     //get rank
@@ -199,8 +200,8 @@ neighbors <input type="submit" name="go" value="Go" /></p>
     // If Post Processor give link to post processing page.
 
     $result = mysql_query("SELECT postprocessor, pagescompleted FROM users WHERE username = '$pguser'");
-    $postprocessor = mysql_result($result, 0, "postprocessor");
-    $postprocessorpages = mysql_result($result, 0, "pagescompleted");
+    $postprocessor = $userP['postprocessor'];
+    $postprocessorpages = $userP['pagescompleted'];
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
 //if ($postprocessor == "yes"){
 

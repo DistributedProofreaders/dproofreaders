@@ -33,23 +33,19 @@ $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER 
 }
 include($relPath.'doctype.inc');
 echo "$docType\r\n<HTML><HEAD><TITLE> Project Comments</TITLE>";
-if (!isset($proofing))
+if (!isset($proofing) && $userP['i_newwin']==1)
 {
 ?>
 <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
 <!-- 
 function newProofWin(winURL)
 {
-newWidth=600;newHeight=450;
-iCan=(window.ScriptEngine) ? (ScriptEngine().indexOf("InScript") != -1) : false;
-if (!iCan)
-{sw=screen.width;
-if (sw)
-{newWidth=screen.width-20;
-newHeight=((newWidth-40) * 75)/100;}
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width="+newWidth+",height="+newHeight+",top=0,left=5'";
+<?PHP 
+$i_r= array('640x480','800x600','1024x768','1152x864','1280x1024','1600x1200');
+$wSize=explode("x",$i_r[$userP['i_res']*1]);
+echo "newFeatures='toolbars={$userP['i_toolbar']},status={$userP['i_statusbar']},location=0,directories=0,menubar=0,scrollbars=1,resizable=1,width=".($wSize[0]-20).",height=".($wSize[1]-30).",top=0,left=5';\r\n";
+?>
 nwWin=window.open(winURL,"prooferWin",newFeatures);}
-else {alert('This interface does not currently support the iCab browser.\r\nPlease use the standard proofing interface.');}}
 // -->
 </SCRIPT>
 <?PHP
@@ -108,9 +104,9 @@ if ($topic_id == "") {
      $whichTime=$prooflevel==2? "round2_time" : "round1_time";
      $sql.=$whichTime." FROM $project WHERE ";
      if ($prooflevel==2) {$sql.="round2_user";} else {$sql.="round1_user";}
-     $sql.="='$pguser' AND (state =='";
-     if ($prooflevel==2) {$sql.="19' OR state == '18";} else {$sql.="9 OR state == '8";}
-     $sql.="') ORDER BY ".$whichTime." DESC";
+     $sql.="='$pguser' AND (state ='"; 
+     if ($prooflevel==2) {$sql.="19' OR state = '18";} else {$sql.="9' OR state = '8";} 
+     $sql.="') ORDER BY ".$whichTime." DESC"; 
     $result = mysql_query($sql);
     $rownum = 0;
     $numrows = mysql_num_rows($result);
@@ -122,31 +118,24 @@ $newproject = "project=$project";
 $newfileid="&amp;fileid=$fileid";
 $newimagefile = '&amp;imagefile='.$imagefile;
 $newprooflevel = '&amp;prooflevel='.$prooflevel;
-$orientVert = "&amp;orient=vert";
-$orientHrzn = "&amp;orient=hrzn";
 $saved="&amp;saved=1";
-$jsOn="&amp;js=1";
-$jsOff="&amp;js=0";
 $editone="&amp;editone=1";
-
-$btnVertNo="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientVert.$jsOff.$saved.$editone;
-$btnHrznNo="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientHrzn.$jsOff.$saved.$editone;
-$btnVertYes="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientVert.$jsOn.$saved.$editone;
-$btnHrznYes="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientHrzn.$jsOn.$saved.$editone;
         echo "<TD ALIGN=\"center\">".date("M d", $timestamp)." - ".$imagefile."<BR>";
-echo "<A HREF=\"$btnVertNo\">";
-echo "<IMG SRC=\"gfx/bt4.png\" TITLE=\"Vertical Standard Proofing\" ALT=\"Vertical Standard Proofing\" BORDER=\"0\"></A>";
-echo "<A HREF=\"$btnHrznNo\">";
-echo "<IMG SRC=\"gfx/bt5.png\" TITLE=\"Horizontal Standard Proofing\" ALT=\"Horizontal Standard Proofing\" BORDER=\"0\"></A>&nbsp;&nbsp;&nbsp;";
-echo "<A HREF=\"#\" onclick=\"newProofWin('$btnVertYes')\">";
-echo "<IMG SRC=\"gfx/bt4.png\" TITLE=\"Vertical Enhanced Proofing\" ALT=\"Vertical Enhanced Proofing\" BORDER=\"0\"></A>";
-echo "<A HREF=\"#\" onclick=\"newProofWin('$btnHrznYes')\">";
-echo "<IMG SRC=\"gfx/bt5.png\" TITLE=\"Horizontal Enhanced Proofing\" ALT=\"Horizontal Enhanced Proofing\" BORDER=\"0\"></A>";
-echo "</TD>";
+  if ($userP['i_prefs']==0)
+     {echo "<a href=\"../../userprefs.php\">Set Interface</a></td>";}
+  else {
+    $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$saved.$editone;
+      if ($userP['i_newwin']==0)
+      {echo "<A HREF=\"$eURL\">";}
+      else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}
+    echo "Edit</a></td>";
+      }
         $rownum++;
     }
 
-// should be some check to see if the td's=5 and fill in blank ones for proper html before:
+while ($rownum < 5)
+{echo "<td> </td>"; $rownum++;}
+
     echo "</tr>";
 
     echo "</tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";

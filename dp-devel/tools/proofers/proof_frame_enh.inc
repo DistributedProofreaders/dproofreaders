@@ -1,15 +1,6 @@
 <html><head><TITLE>Proofing Page</TITLE>
 <SCRIPT LANGUAGE="JavaScript" SRC="dpproof.js" TYPE="text/javascript"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
-<!-- 
-<?PHP
-echo "newFntS=$fntS;\r\n";
-echo "newFntF=$fntF;\r\n";
-echo "newZmSize=$zmSize;\r\n";
-
-?>
-//  -->
-</SCRIPT></HEAD><BODY 
+</HEAD><BODY 
 BGCOLOR="#CCCCCC" TEXT="#000000" LINK="#000000" VLINK="#000000" 
 ALINK="#000000" TOPMARGIN="0" onLoad="doBU()"><CENTER><FORM NAME="editform" ID="editform" 
 METHOD="POST" ACTION="processtext.php" TARGET="_top">
@@ -23,13 +14,7 @@ echo $sHidFS.$imagefile.$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
 echo $sHidFS.$fileid.$sHidFM.'fileid'.$sHidFM2.'fileid'.$sHidFE;
 echo $sHidFS.$prooflevel.$sHidFM.'prooflevel'.$sHidFM2.'prooflevel'.$sHidFE;
 echo $sHidFS.$project.$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-echo $sHidFS.$orient.$sHidFM.'orient'.$sHidFM2.'orient'.$sHidFE;
 echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
-echo $sHidFS.$js.$sHidFM.'js'.$sHidFM2.'js'.$sHidFE;
-echo $sHidFS.$fntF.$sHidFM.'fntF'.$sHidFM2.'fntF'.$sHidFE;
-echo $sHidFS.$fntS.$sHidFM.'fntS'.$sHidFM2.'fntS'.$sHidFE;
-//echo $sHidFS.$zmSize.$sHidFM.'zmSize'.$sHidFM2.'zmSize'.$sHidFE;
-echo $sHidFS.$sTags.$sHidFM.'sTags'.$sHidFM2.'sTags'.$sHidFE;
 if (isset($editone)) { echo $sHidFS.$editone.$sHidFM.'editone'.$sHidFM2.'editone'.$sHidFE;}
 if (isset($saved)) { echo $sHidFS.$saved.$sHidFM.'saved'.$sHidFM2.'saved'.$sHidFE;}
 ?>
@@ -40,12 +25,13 @@ CELLPADDING="0" CELLSPACING="0">
 include('button_menu.inc');
 ?>
 </TD></TR><TR>
-<TD COLSPAN="5" ALIGN="center" VALIGN="top"><textarea 
-name="text_data" ID="text_data" COLS="70" ROWS="<?PHP
-if ($orient=='vert') {if ($lang==1) {echo "38";}else {echo "36";}}
-else {echo "6";}?>" onSelect="getCurSel()" 
-onClick="getCurCaret()" onKeyup="getCurCaret()" WRAP="off">
-<?PHP
+<TD COLSPAN="5" ALIGN="center" VALIGN="top"><?PHP
+if ($userP['i_layout']==1)
+{$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
+else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
+$twrap=$twrap==1? '': " wrap=\"off\"";
+echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\" onSelect=\"getCurSel()\" 
+onClick=\"getCurCaret()\" onKeyup=\"getCurCaret()\"$twrap>";
 // depends on prooflevel
 if ($prooflevel==0)
 { if (isset($saved))
@@ -81,9 +67,6 @@ echo "<FONT SIZE=\"-1\"><B>Page Number: $pageNum";
     }
 echo "</B></FONT>";
 // include tag bar
-if ($sTags)
-{
-
 echo "<BR>";
 include('ptags.inc');
 
@@ -98,6 +81,5 @@ else {
 
 //this is to finish off any lang
 echo " | <a \r\nhref=\"#\" onclick=\"mNA()\" title=\"Extended Latin-1 Character Set\">More</A></FONT>";
-}
 ?>
 </TD></TR></TABLE></FORM></CENTER></BODY></HTML>

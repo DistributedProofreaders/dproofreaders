@@ -5,18 +5,32 @@ include($relPath.'dp_main.inc');
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $editone, $saved */
 
+if ($userP['i_type']==1)
+{$isChg=0;
+if ($userP['i_layout']==1)
+{
+if ($userP['v_fntf']!=$fntFace)
+{$userP['v_fntf']=$fntFace;$isChg=1;}
+if($userP['v_fnts']!=$fntSize)
+{$userP['v_fnts']=$fntSize;$isChg=1;}
+if ($userP['v_zoom']!=$zmSize)
+{$userP['v_zoom']=$zmSize;$isChg=1;}
+}
+else {
+if ($userP['h_fntf']!=$fntFace)
+{$userP['h_fntf']=$fntFace;$isChg=1;}
+if($userP['h_fnts']!=$fntSize)
+{$userP['h_fnts']=$fntSize;$isChg=1;}
+if ($userP['h_zoom']!=$zmSize)
+{$userP['h_zoom']=$zmSize;$isChg=1;}
+}
+$userP['prefschanged']=$isChg;
+$cookieC->setTempPrefs($userP,$pguser);
+}
+
 $project = $projectname;
 $text_data = strip_tags($text_data, '<i>');
 
-if ($js==1)
-{
-/* $_POST $fntF, $fntS, $sTags, $zmSize */
-$fntF=isset($fntF)? $fntF:'0';
-$fntS=isset($fntS)? $fntS:'0';
-$sTags=isset($sTags)? $sTags:'1';
-$zmSize=isset($zmSize)? $zmSize:'100';
-$prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
-}
 
 function addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid)
 {
@@ -54,10 +68,10 @@ $rows=nrows($result);
 function savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid)
 {
 $timestamp = time();
-$dbQuery="UPDATE $project SET state='";
+$dbQuery="UPDATE $project SET ";
   if ($prooflevel==2)
-  {$dbQuery.="15', round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
-  else {$dbQuery.="5', round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
+  {$dbQuery.="round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
+  else {$dbQuery.="round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
 $dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
 }
@@ -88,7 +102,7 @@ $curState=dresult($result,0,'state');
 $isOpen=isOpenProject($project,$prooflevel);
 if (!$isOpen)
 {
-  if ($js==0)
+  if ($userP['i_type']==0)
   {
   $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
   metarefresh(4,"proof_per.php\" TARGET=\"_top\"",'Project Round Complete',$body);
@@ -116,17 +130,16 @@ $project = 'project='.$project;
 $fileid = '&fileid='.$fileid;
 $imagefile = '&imagefile='.$imagefile;
 $prooflevel = '&prooflevel='.$prooflevel;
-$newjs='&js='.$js;
 $lang='&lang='.$lang;
 $saved='&saved=1';
   if (@$button4 != "" || isset($button4_x))
   {
-  $orient=$orient=='vert'? $orient='hrzn':$orient='vert';
+$userP['i_layout']=$userP['i_layout']==1? 0:1;
+$userP['prefschanged']=1;
+$cookieC->setTempPrefs($userP, $pguser);
   } // end change layout button 4
-$orient = '&orient='.$orient;
-$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$orient.$lang.$newjs.$saved;
+$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$lang.$saved;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
-  if ($js==1) {$frame1=$frame1.$prefTags;}
 metarefresh(0,$frame1,' ',' ');
 } // end save and continue same page button 1 & button 4
 
@@ -136,12 +149,9 @@ if (isset($button2) || isset($button2_x))
 setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
-$newjs='&js='.$js;
 $lang='&lang='.$lang;
-$orient = '&orient='.$orient;
-$frame1 = 'proof.php?'.$project.$prooflevel.$orient.$lang.$newjs;
+$frame1 = 'proof.php?'.$project.$prooflevel.$lang;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
-  if ($js==1) {$frame1=$frame1.$prefTags;}
 metarefresh(0,$frame1,' ',' ');
 } // end save and do another button 2
 
@@ -154,7 +164,7 @@ if (!isset($saved))
   $dbQuery.="' WHERE image = '$imagefile' AND fileid='$fileid'";
   $result = mysql_query($dbQuery);}
 else {setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);}
-if ($js==0)
+if ($userP['i_newwin']==0)
   {metarefresh(0,'proof_per.php',' ',' ');}
   else {
   include($relPath.'doctype.inc');
@@ -168,7 +178,7 @@ if ($js==0)
 if (isset($button5) || isset($button5_x))
 {
 setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
-if ($js==0)
+if ($userP['i_newwin']==0)
   {metarefresh(0,'proof_per.php',' ',' ');}
   else {
   include($relPath.'doctype.inc');

@@ -12,7 +12,7 @@ if (!isset($saved))
     $result = mysql_query($sql);
     $state = mysql_result($result, 0, "state");
     if ((($prooflevel == 0) && ($state != 2)) || (($prooflevel == 2) && ($state != 12))) {
-  if ($js==0)
+  if ($userP['i_type']==0)
   {
   $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
   metarefresh(4,"proof_per.php\" TARGET=\"_top\"",'Project Round Complete',$body);
@@ -60,29 +60,15 @@ if (!isset($saved))
             $fileid = '&fileid='.$fileid;
             $imagefile = '&imagefile='.$imagefile;
             $newprooflevel = '&prooflevel='.$prooflevel;
-            $newjs='&js='.$js;
 // will need to add a true language option to this in future
             $lang=isset($lang)? $lang:'1';
             $lang="&lang=$lang";
 $frame1=isset($saved)? 'saved':'imageframe';
-            $frame1 = $frame1.'.php?project='.$project.$imagefile.$newjs;
-            $frame3 = 'textframe.php?project='.$project.$imagefile.$fileid.$newprooflevel.$lang.$newjs;
-if (isset($orient)) {$neworient="&orient=$orient"; $frame1.=$neworient;$frame3.=$neworient;}
+            $frame1 = $frame1.'.php?project='.$project.$imagefile;
+            $frame3 = 'textframe.php?project='.$project.$imagefile.$fileid.$newprooflevel.$lang;
 if (isset($editone)) {$editone="&editone=$editone"; $frame3.=$editone;}
 if (isset($saved)) {$saved="&saved=$saved"; $frame3.=$saved;}
 
-if ($js)
-{
-/* $_GET $fntF, $fntS, $sTags, $zmSize */
-$fntF=isset($fntF)? $fntF:'0';
-$fntS=isset($fntS)? $fntS:'0';
-$sTags=isset($sTags)? $sTags:'1';
-if (!isset($zmSize))
-{$zmSize=$orient=='vert'?'59':76;}
-$prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
-$frame3=$frame3.$prefTags;
-}
-            //print $sql;
             include('frameset.inc');
 
 ?>
