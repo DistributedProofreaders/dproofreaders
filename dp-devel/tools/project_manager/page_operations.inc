@@ -9,6 +9,24 @@ include_once($relPath.'page_ops.inc');
 
 function page_del( $projectid, $fileid )
 {
+    // Delete the image file from the project directory.
+    global $projects_dir;
+    $result = mysql_query("
+        SELECT image
+        FROM $projectid
+        WHERE fileid = '$fileid'
+    ");
+    if ( mysql_num_rows($result) == 0 )
+    {
+        return _("There is no page with that fileid.");
+    }
+    list($image) = mysql_fetch_row($result);
+    $image_path = "$projects_dir/$projectid/$image";
+    if ( ! unlink($image_path) )
+    {
+        return sprintf( _('Unable to remove file %s'), $image_path );
+    }
+
     Page_delete( $projectid, $fileid );
 }
 
