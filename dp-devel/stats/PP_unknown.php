@@ -35,8 +35,9 @@ $result = mysql_query("	SELECT nameofwork, authorsname, username,
 $numrows = mysql_numrows($result);
 $rownum = 0;
 
-echo "<table cols = \"5\" border =\"1\">";
-echo "<td><b><a href =\"PP_unknown.php?order=nameofwork\">Title</b></td>
+echo "<table cols = \"6\" border =\"1\">";
+echo "<td><b>Number</b></td>
+      <td><b><a href =\"PP_unknown.php?order=nameofwork\">Title</b></td>
       <td><b><a href =\"PP_unknown.php?order=authorsname\">Author</b></td>
       <td><b><a href =\"PP_unknown.php?order=username\">Project Manager</b></td>
       <td><b><a href =\"PP_unknown.php?order=projectid\">Project ID</b></td>
