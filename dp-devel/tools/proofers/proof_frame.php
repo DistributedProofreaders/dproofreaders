@@ -28,14 +28,14 @@ if (isset($saved)) {
 }
 
 $tpage=new processpage();
-//$tpage->deletePageCookie();
+//deletePageCookie();
 
 // proof single page
 if (isset($editone))
 {
 
   // set the cookie
-  $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
+  setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
 
   // plug user page count cheat - if they reopen a saved page, subtract it from their count
   // as it is 'unproofreading' it; they will get it back if they save it again
@@ -68,7 +68,7 @@ $needPage=1;
     if ( dpsession_page_is_set() )
     {
       // see if the cookie is older than 3 seconds
-        $npage=$tpage->getPageCookie();
+        $npage=getPageCookie();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
           {$needPage=0;}
     }
@@ -76,21 +76,25 @@ $needPage=1;
   // give them a new page
     if ($needPage==1)
       {
-        $npage=$tpage->getAvailablePage($project,$proofstate,$pguser);
+        $npage = getAvailablePage($project,$proofstate,$pguser);
         // check to see if the user has exceeded the R1 BEGIN quota for this project
 	    if ($npage['TooManyBegin'] == 1) 
             {
-              $tpage->noPages($userP['i_newwin'], 1);
+              $body = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.<br> You will be taken back to the project listing page in 4 seconds.");
+              $title = _("Beginners Only quota reached for this Project");
+              metarefresh(4,"list_avail.php",$title,$body);
               exit;
             } //end R1 BEGIN quota check
         // check to see if project is open
           if ($npage['isopen'] == 0)
             {
-              $tpage->noPages($userP['i_newwin']);
+              $body = _("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
+              $title = _("Project Round Complete");
+              metarefresh(4,"list_avail.php",$title,$body);
               exit;
             } //end no pages left check
         $pagestate=$tpage->checkOutPage($project,$proofstate,$pguser,$npage['fileid'],$npage['image']);
-        $tpage->setPageCookie($project,$proofstate,$npage['fileid'],$npage['image'],$pagestate,0,0,0,0,0,0);
+        setPageCookie($project,$proofstate,$npage['fileid'],$npage['image'],$pagestate,0,0,0,0,0,0);
       }
 
 //load the frame
