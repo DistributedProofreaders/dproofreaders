@@ -1,6 +1,8 @@
 <?
 include($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'user_is.inc');
+
 
 define('PROJECT_DOES_NOT_EXIST',  1);
 define('USER_CANNOT_EDIT_PROJECT',2);
@@ -27,11 +29,9 @@ function user_can_edit_project( $projectid )
 	return USER_CAN_EDIT_PROJECT;
     }
 
-    $res = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser' LIMIT 1");
-    $sitemanager = mysql_result($res, 0, "sitemanager");
-    if ( $sitemanager == 'yes' )
+    if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     {
-	// The user is a site manager, and thus can edit any existing project.
+	// The user is a site manager or project facilitator, and thus can edit any existing project.
 	return USER_CAN_EDIT_PROJECT;
     }
 
