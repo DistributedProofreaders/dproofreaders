@@ -70,7 +70,7 @@ function html_header($siteurl, $theme, $nameofpage) {
         if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
 	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"></head>\n";
-	echo "<body bgcolor='".$theme['body_bgcolor']."' text='".$theme['body_text']."' link='".$theme['body_link']."' vlink='".$theme['body_vlink']."' alink='".$theme['body_alink']."' topmargin=0 leftmargin=0>\n";
+	echo "<body bgcolor='".$theme['body_bgcolor']."' text='".$theme['body_text']."' link='".$theme['body_link']."' vlink='".$theme['body_vlink']."' alink='".$theme['body_alink']."' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n";
 }
 
 function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
