@@ -12,6 +12,7 @@ include_once($relPath.'gettext_setup.inc');
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];
 $fileid     = $_POST['fileid'];
+$imagefile  = $_POST['imagefile'];
 // When this file included from processtext.php,
 // $_POST['badState'] is not defined,
 // $badState is set "manually".
@@ -127,7 +128,7 @@ of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
 	} else {
 		$message =
-"There has been a page marked as bad in this project.
+"$imagefile has been a page marked as bad in this project.
 Please visit $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid to view
 the reason it was marked as bad by the user.
 You will then be able to make any needed
