@@ -169,13 +169,13 @@ function getText($pagestate,$saved,$revert)
   $text_data = mysql_result($result, 0, $wText);
     if ($this->getPageRound($pagestate)==2 || $saved !=0)
     {
-      $text_data = strip_tags($text_data, PROOF_SECOND_TAGS_KEEP);
+      $text_data = strip_tags(htmlentities($text_data), PROOF_SECOND_TAGS_KEEP);
     }
     else
     {
-      $search = array("'>'i", "'<'i");
-      $replace = array("*", "*");
-      $text_data = preg_replace($search, $replace, $text_data);
+     $search = array("'>'i", "'<'i");
+     $replace = array("*", "*");
+     $text_data = preg_replace($search, $replace, $text_data);
     }
   return $text_data;
 }
