@@ -30,7 +30,7 @@
   define("PROJ_NEW_WAITING_APPROVAL", "project_new_waiting_app");
   define("PROJ_NEW_UNAPPROVED", "project_new_unapp");
   define("PROJ_NEW_APPROVED", "project_new_app");
-  define("PROJ_NEW_FILE_UPLOAD", "project_new_upload");
+  define("PROJ_NEW_FILE_UPLOADED", "project_new_uploaded");
   define("PROJ_NEW_METADATA_FIRST", "project_md_first");
   define("PROJ_NEW_METADATA_BAD", "project_md_bad");
   define("PROJ_NEW_METADATA_SECOND", "project_md_second");
@@ -101,7 +101,7 @@ $PROJECT_STATES_IN_ORDER = array(
     PROJ_NEW_WAITING_APPROVAL,
     PROJ_NEW_UNAPPROVED,
     PROJ_NEW_APPROVED,
-    PROJ_NEW_FILE_UPLOAD,
+    PROJ_NEW_FILE_UPLOADED,
     PROJ_NEW_METADATA_FIRST,
     PROJ_NEW_METADATA_BAD,
     PROJ_NEW_METADATA_SECOND,
@@ -196,7 +196,7 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_NEW_WAITING_APPROVAL."'"
       . " OR state='".PROJ_NEW_UNAPPROVED."'"
       . " OR state='".PROJ_NEW_APPROVED."'"
-      . " OR state='".PROJ_NEW_FILE_UPLOAD."'"
+      . " OR state='".PROJ_NEW_FILE_UPLOADED."'"
       . " OR state='".PROJ_NEW_METADATA_FIRST."'"
       . " OR state='".PROJ_NEW_METADATA_BAD."'"
       . " OR state='".PROJ_NEW_METADATA_SECOND."'"

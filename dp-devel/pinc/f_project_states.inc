@@ -38,8 +38,8 @@ function project_states_text($state)
       return PROJ_NEW_UNAPPROVED_TEXT;
     case PROJ_NEW_APPROVED;
       return PROJ_NEW_APPROVED_TEXT;
-    case PROJ_NEW_FILE_UPLOAD:
-      return PROJ_NEW_FILE_UPLOAD_TEXT;
+    case PROJ_NEW_FILE_UPLOADED:
+      return PROJ_NEW_FILE_UPLOADED_TEXT;
     case PROJ_NEW_METADATA_FIRST:
       return PROJ_NEW_METADATA_FIRST_TEXT;
     case PROJ_NEW_METADATA_BAD:

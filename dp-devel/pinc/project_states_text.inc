@@ -11,7 +11,7 @@
   define("PROJ_NEW_WAITING_APPROVAL_TEXT", "Awaiting Approval");
   define("PROJ_NEW_UNAPPROVED_TEXT", "Unapproved Project");
   define("PROJ_NEW_APPROVED_TEXT", "Approved Project");
-  define("PROJ_NEW_FILE_UPLOAD_TEXT", "Awaiting File Upload");
+  define("PROJ_NEW_FILE_UPLOADED_TEXT", "Files Uploaded");
   define("PROJ_NEW_METADATA_FIRST_TEXT", "Metadata First Round");
   define("PROJ_NEW_METADATA_BAD_TEXT", "Bad Metadata");
   define("PROJ_NEW_METADATA_SECOND_TEXT", "Metadata Second Round");

@@ -165,6 +165,8 @@ foreach ( glob("*.txt") as $txt_file_name )
 		echo "        ", mysql_error(), "\n";
 	}
 }
+//update projects table and put the project into proj_new_files_uploaded
+$result = mysql_query("UPDATE projects SET state = 'project_new_uploaded' WHERE projectid = '$projectid'");
 
 echo "\n";
 echo "$n_txt_files_found text-files found.\n";

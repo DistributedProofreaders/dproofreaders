@@ -58,7 +58,7 @@ if ($state == PROJ_NEW){
         echo "</form>\n";
 }       
 
-if ($state == PROJ_NEW_FILE_UPLOAD || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
+if ($state == PROJ_NEW_APPROVED || $state == PROJ_PROOF_FIRST_UNAVAILABLE || $state == PROJ_NEW_FILE_UPLOADED)
 {
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";
@@ -129,7 +129,7 @@ echo_page_table( $projectid );
 
 // -----------------------------------------------------------------------------
 
-if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
+if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
 {
 	echo "<br><br><br>";
 	echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";

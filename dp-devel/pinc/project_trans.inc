@@ -93,13 +93,17 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// Re transitions marked "misleading":
 	// The pop-up menus on the PM project listings page imply that these
-	// transitions are possible, but project_manager/chanagestate.php
+	// transitions are possible, but project_manager/changestate.php
 	// refers these cases (among others) to automodify.php, which may
 	// cause a transition, but (in these cases) not the requested one.
 
 	$transition_graph = array(
 		PROJ_NEW => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE
+			),
+
+		PROJ_NEW_FILE_UPLOADED => array(
+			PROJ_NEW_METADATA_FIRST
 			),
 
 		PROJ_PROOF_FIRST_BAD_PROJECT => array(

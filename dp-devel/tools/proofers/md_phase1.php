@@ -7,14 +7,63 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 //include_once($relPath.'project_edit.inc');
 //$projectinfo = projectinfo();
-
+$show_image_size = '';
+$badmetadata = 0;
 
 
 theme("Image Metadata Phase1", "header");
 
+
+if (isset($_POST['done']))
+{
+//parse through post values and update database
+foreach($HTTP_POST_VARS as $key => $val)
+  {
+    //echo "key is $key and value is $val<p>";
+    if (strpos($key, 'pagenum') == 'TRUE'){
+    $pagenum = str_replace("pagenum_", "", $key);
+    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = $pagenum");
+    }else{
+       $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
+       if ($val == 'badscan' || $val == 'missing' || $val == 'sequence'){
+       $badmetadata = 1;
+       }
+    }
+    if ($badmetadata == 1){
+    $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
+    metarefresh(0,'md_available.php',"Image Metadata Collection","");
+    }else{
+    $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
+    $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
+    metarefresh(0,'md_available.php',"Image Metadata Collection","");
+    }
+}
+}
+
+if(isset($_POST['return']))
+   {
+   //they don't want to save so clean it up and return them to md_available
+   metarefresh(0,'md_available.php',"Image Metadata Collection","");
+   }
+
+
+if(isset($_POST['continue']))
+{
+  foreach($HTTP_POST_VARS as $key => $val)
+  {
+    //echo "key is $key and value is $val<p>";
+    if (strpos($key, 'pagenum') == 'TRUE'){
+    $pagenum = str_replace("pagenum_", "", $key);
+    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = $pagenum");
+    }else{
+       $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
+       }
+    }
+}
+
+
+
 $projectid = $_GET['projectid'];
-//$projectid ='projectID3f370ab725580';
-//abort_if_cant_edit_project( $projectid );
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
@@ -27,16 +76,17 @@ $language = mysql_result($result, 0, "language");
 
 //$projectinfo->update($projectid, $state);
 
-
+ $res = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
+  $numpages = mysql_result($res,0,"totalpages");
 
 echo "<center><table border=1>";
 
-echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name </b></td></tr>";
+echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=6><b><font color='".$theme['color_headerbar_font']."' 
+size=+1>Project Name: $name </b></td></tr>";
 
-echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
-
-echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
-
+echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><b>Author:</b></td><td>$author</td><td 
+bgcolor='".$theme['color_navbar_bg']."'><b>Total Number of Master Pages:</b></td><td>$numpages</td>";
+echo "<td bgcolor='".$theme['color_navbar_bg']."'><b>Language:</b></td><td>$language</td></tr><tr></tr>";
 echo "</table>";
 
 //---------------------------------------------------------------------------------------------------
@@ -44,7 +94,8 @@ echo "</table>";
 
 //echo "<h3>Per-Page Info</h3>\n";
 
-echo "<table border=1>\n";
+
+echo "<form method ='post'><table border=1>\n";
 
 
 	// Top header row
@@ -61,22 +112,27 @@ echo "<table border=1>\n";
 // Image rows
 	$path = "$projects_dir/$projectid/";
 
-	$fields_to_get = '
-		fileid, image
-              ,length(master_text),
-	      state,
-		round1_time, round1_user, length(round1_text),
-		round2_time, round2_user, length(round2_text)
-                ';
+	$fields_to_get = 'fileid, image, state, metadata';
 
-	$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
+	$res = mysql_query( "SELECT fileid, image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
 	$num_rows = mysql_num_rows($res);
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
 	{
+
+               $illustration ='';
+               $blank ='';
+               $missing ='';
+               $badscan ='';
+               $sequence ='';
+               $nonblank ='';
+               $orig_page_num ='';
+
 		$page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
 
 		$fileid = $page_res['fileid'];
+            $metadata = $page_res['metadata'];
+            $orig_page_num = $page_res['orig_page_num'];
 
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
@@ -103,15 +159,39 @@ echo "<table border=1>\n";
 		echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
 
 		// Original Page Number   
-            echo "<td bgcolor='$bgcolor'><input type ='textbox' name='pagenumber'></td>";
-   
+                echo "<td bgcolor='$bgcolor'><input type ='textbox' name='pagenum.$fileid' value = $orig_page_num></td>";
+              
 
-            // Page metadata
-            echo "<td bgcolor='$bgcolor' align='right'><form>
-                 <input type='radio' name='Metadata' value='yes'>Illustration 
-                 <input type='radio' name='Metadata' value='yes'>Blank
-                 <input type='radio' name='Metadata' value='yes'>Missing
-                 </form></td>";
+            // Set up existing page metadata if there is any, page defaults to nonblank
+               $nonblank ='';
+               if ($metadata == 'illustration')
+               {
+               $illustration = 'checked';
+               }elseif ($metadata == 'blank')
+               {
+               $blank = 'checked';
+               }elseif ($metadata == 'missing')
+               {
+               $missing = 'checked';
+               }elseif ($metadata == 'badscan')
+               {
+               $badscan = 'checked';
+               }elseif ($metadata == 'sequence')
+               {
+               $sequence = 'checked';
+               }else{
+               $nonblank = 'checked';
+               }
+
+            echo "<td bgcolor='$bgcolor' align='left'>
+                 <input type='hidden' name=$fileid value='nonblank' $nonblank> 
+                 <input type='radio' name=$fileid value='illustration' $illustration>Illustration<br>
+                 <input type='radio' name=$fileid value='blank' $blank>Blank<br>
+                 <input type='radio' name=$fileid value='missing' $missing>Page Missing After This One<br>
+                 <input type='radio' name=$fileid value='badscan' $badscan>Bad Scan<br>
+                 <input type='radio' name=$fileid value='sequence' $sequence>Page Out of Sequence<br>
+                 <input type='radio' name=$fileid value='nonblank' $nonblank>Non-Blank<br>
+                 </td>";
 
             // Show Thumbnail
             echo "<td bgcolor='$bgcolor' align='right'>
@@ -122,10 +202,14 @@ echo "<table border=1>\n";
 	}
 	echo "</table>";
 
+ echo "<INPUT TYPE=SUBMIT VALUE=\"Save and Continue Working\" NAME =\"continue\">
+       <INPUT TYPE=SUBMIT VALUE=\"Save as Done\" NAME =\"done\">
+       <INPUT TYPE=SUBMIT VALUE=\"Leave As Is and Quit\" NAME =\"return\">";
 
-echo "</center>";
-
+echo "</form></center>";
 echo "<br>";
 
 theme("","footer");
+
+
 ?>
