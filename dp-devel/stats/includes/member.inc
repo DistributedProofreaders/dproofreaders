@@ -190,16 +190,18 @@ function showMbrNeighbors($curMbr) {
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='15%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Rank")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Username")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Date Joined DP")."</i></u></b></font></td><td width='29%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Overall Pages Completed")."</i></u></b></font></td></tr>";
 
-	$i = 4;
-	if ($rankArray['rank'][$rankArray['curMbrIndex']] <= 4) { $i = $rankArray['rank'][$rankArray['curMbrIndex']]-1; }
-	while (!empty($i)) {
-		$rank = $rankArray['rank'][$rankArray['curMbrIndex']-$i];
-		$username = $rankArray['username'][$rankArray['curMbrIndex']-$i];
+	for ( $i = -4;  $i <= 4; $i++ ) {
+		$j = $rankArray['curMbrIndex']+$i;
+
+		if (!isset($rankArray['rank'][$j])) { continue; }
+
+		$rank = $rankArray['rank'][$j];
+		$username = $rankArray['username'][$j];
 		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
 		$u_id = mysql_result($result, 0, "u_id");
 		$date_created = mysql_result($result, 0, "date_created");
 		$privacy_enabled = mysql_result($result, 0, "u_privacy");
-		$pagescompleted = number_format($rankArray['pages'][$rankArray['curMbrIndex']-$i]);
+		$pagescompleted = number_format($rankArray['pages'][$j]);
 
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
 
@@ -216,41 +218,6 @@ function showMbrNeighbors($curMbr) {
 			echo "Anonymous";
 			echo "</td><td width='28%'>--/--/-- <i>(--- "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
 		}
-
-		$i--;
-	}
-
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-	echo "<td width='15%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'], 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>".$curMbr['username']."</a></td><td width='28%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='29%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
-
-	$i = 1;
-	while ($i <= 4) {
-		if (empty($rankArray['rank'][$rankArray['curMbrIndex']+$i])) { break; }
-		$rank = $rankArray['rank'][$rankArray['curMbrIndex']+$i];
-		$username = $rankArray['username'][$rankArray['curMbrIndex']+$i];
-		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
-		$u_id = mysql_result($result, 0, "u_id");
-		$date_created = mysql_result($result, 0, "date_created");
-		$privacy_enabled = mysql_result($result, 0, "u_privacy");
-		$pagescompleted = number_format($rankArray['pages'][$rankArray['curMbrIndex']+$i]);
-
-		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-
-		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
-		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBALS['pguser']) ||
-		    ($privacy_enabled == PRIVACY_PUBLIC)) {
-
-			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
-			echo $username;
-			echo "</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." days)</i></td><td width='29%'>$pagescompleted</td></tr>";
-
-		} else {
-			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'>";
-			echo "Anonymous";
-			echo "</td><td width='28%'>--/--/-- <i>(--- "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
-		}
-
-		$i++;
 	}
 
 	echo "</td></tr></table></table><p>";
