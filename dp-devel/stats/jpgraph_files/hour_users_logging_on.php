@@ -51,6 +51,7 @@ $graph->img->SetMargin(70,30,20,100);
 
 // Create a bar pot
 $bplot = new BarPlot($datay);
+$bplot->SetColor("lightblue");
 $graph->Add($bplot);
 
 // Setup the title
