@@ -1,0 +1,11 @@
+The following changes must be made for these files to work on a specific system:
+
+cookie.php:
+     The variable $cookieDomain must be set to the URL for the cookie
+     (example: "texts01.archive.org") or "" for most local testing.
+
+user.php:
+     Same as cookie.php above.
+
+udb_user.php:
+     Much change class variables to match the information for your local database.
