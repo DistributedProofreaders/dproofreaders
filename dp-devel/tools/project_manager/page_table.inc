@@ -32,10 +32,10 @@ function echo_page_table( $projectid, $show_image_size)
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		if ($can_edit) {
 			echo "    <td align='center' colspan='5'>"._("Round 1")."</td>\n";
-			echo "    <td align='center' colspan='5'>"._("Round 2")."</td>\n";
+			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='5'>"._("Round 2")."</td>\n";
 		} else {
 			echo "    <td align='center' colspan='3'>"._("Round 1")."</td>\n";
-			echo "    <td align='center' colspan='3'>"._("Round 2")."</td>\n";
+			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='3'>"._("Round 2")."</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -70,36 +70,50 @@ function echo_page_table( $projectid, $show_image_size)
 		{
 			echo "{$td_start}"._("Clear")."{$td_end}";
 		}
-		echo "{$td_start}"._("Diff")."{$td_end}";
-		echo "{$td_start}"._("Date")."{$td_end}";
-		if ($can_edit)
+		if ($inRound <> 'FIRST')
 		{
-			echo "{$td_start}"._("User")."{$td_end}";
-		}
-		echo "{$td_start}"._("Text")."{$td_end}";
-		if ($can_edit)
-		{
-			echo "{$td_start}"._("Clear")."{$td_end}";
-		
-			echo "{$td_start}"._("Bad")."{$td_end}";
-
-			if ($show_delete) {
-				echo "{$td_start}"._("Delete")."{$td_end}";
+			echo "{$td_start}"._("Diff")."{$td_end}";
+			echo "{$td_start}"._("Date")."{$td_end}";
+			if ($can_edit)
+			{
+				echo "{$td_start}"._("User")."{$td_end}";
+			}
+			echo "{$td_start}"._("Text")."{$td_end}";
+			if ($can_edit)
+			{
+				echo "{$td_start}"._("Clear")."{$td_end}";
 			}
 		}
+		if ($can_edit) echo "{$td_start}"._("Bad")."{$td_end}";
 
-		echo "</tr>";
+		if ($show_delete)
+		{
+			echo "{$td_start}"._("Delete")."{$td_end}";
+		}
 	}
+
+	echo "</tr>";
+}
 
 	$path = "$projects_dir/$projectid/";
 
-	$fields_to_get = '
+	if ($inRound <> 'FIRST')
+	{
+		$fields_to_get = '
 		fileid, image, length(master_text),
 		state,
 		replace(master_text,\'\r\n\',\'\n\')=replace(round1_text,\'\r\n\',\'\n\') as round1_diff,
 		round1_time, round1_user, length(round1_text),
 		replace(round1_text,\'\r\n\',\'\n\')=replace(round2_text,\'\r\n\',\'\n\') as round2_diff,
 		round2_time, round2_user, length(round2_text)';
+	} else 
+	{
+		$fields_to_get = '
+		fileid, image, length(master_text),
+		state,
+		replace(master_text,\'\r\n\',\'\n\')=replace(round1_text,\'\r\n\',\'\n\') as round1_diff,
+		round1_time, round1_user, length(round1_text)';
+	}
 
 	$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
 	$num_rows = mysql_num_rows($res);
@@ -161,7 +175,7 @@ function echo_page_table( $projectid, $show_image_size)
 
 		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit);
 
-		echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit);
+		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit);
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
