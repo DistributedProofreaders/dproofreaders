@@ -128,16 +128,21 @@ function html_header($code_url, $theme, $nameofpage) {
 }
 
 function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
-	global $dynstats_dir;
+	global $dynstats_dir, $maintenance;
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
-	// show number of projects posted to PG from DP
+
+    // show number of projects posted to PG from DP
 	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
 	$result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
 	$numproj = mysql_result($result,0);
+        if ($maintenance) {
+                echo _("MAINTENANCE MODE");
+                echo "  ";
+        }
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." books posted to PG from DP!</b></font>\n";
 	echo "</td>\n";
 	echo "</tr>\n";
@@ -207,7 +212,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 }
 
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
-    global $dynstats_dir, $dynstats_url;
+    global $dynstats_dir, $dynstats_url, $metadata;
 
 	if (isset($GLOBALS['pguser'])) {
 
@@ -278,6 +283,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/site_admin/sitenews.php'>" . _("News Update") . "</a>";
 			$divider = 1;
 		}
+if ($metadata){
+
 		if (substr($_SERVER['PHP_SELF'], -16) != "md_available.php") {
 			if (isset($divider)) {
 				echo " | ";
@@ -292,6 +299,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/site_admin/proj_approvals.php'>" . _("Clearance Approvals") . "</a>";
 			$divider = 1;
 		}
+}
 		echo "</center></font>\n";
 		if (isset($divider)) { echo "<br>\n"; }
 	}
