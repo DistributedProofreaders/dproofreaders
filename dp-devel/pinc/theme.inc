@@ -169,7 +169,8 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
     	$pguser_id = mysql_result($result, 0, "user_id");
     	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
     	$numofPMs = mysql_fetch_row($result);
-    	$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+    	$result = mysql_query("SELECT date_created, u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+    	$u_id = mysql_result($result, 0, "u_id");
     	$datecreated = mysql_result($result, 0, "date_created");
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
@@ -179,10 +180,12 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a>";
-	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] new)"; }
+	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
 	echo "</font>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
+	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Statistics</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
