@@ -99,8 +99,8 @@ $translation=array(
 		echo "<input type='hidden' name='numofTranslations' value='".($numOfTranslations-1)."'>";
 		echo "<input type='hidden' name='lang' value='$lang'>";
 		echo "<input type='hidden' name='location' value='$location'>";
-		echo "<center><input type='submit' name='save_po' value='"._("Save and Compile")."'>&nbsp;";
-		echo "<input type='submit' name='rebuild_strings' value='"._("Rebuild String List")."'></center><br></form>";
+		echo "<center><input type='submit' name='save_po' value='"._("Save and Compile")."'>";
+		echo "</center><br></form>";
 		echo "</td></tr></table>\n";
 		}
 	}
