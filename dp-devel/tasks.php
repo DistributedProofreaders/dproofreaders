@@ -117,7 +117,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	}
 } else {
 	if (isset($_GET['orderby']) && isset($_GET['direction'])) {
-		$order_by = $_GET['orderby']." ".$_GET['direction'];
+		$order_by = "ORDER BY ".$_GET['orderby']." ".$_GET['direction'];
 	}
 
 	if (isset($_GET['search_text'])) {
@@ -133,7 +133,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$criteria = "date_closed = 0";
 	}
 
-	$result = mysql_query("SELECT * FROM tasks WHERE $criteria ORDER BY $order_by");
+	$result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
 	ShowTasks($result);
 }
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
