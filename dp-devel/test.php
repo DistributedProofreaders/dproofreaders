@@ -32,7 +32,7 @@ if (0)
 	fclose($f_out);
 }
 
-if (1)
+if (0)
 {
     // For each possible project state, create a project in that state.
     include($relPath.'project_states.inc');
