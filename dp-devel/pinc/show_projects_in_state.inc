@@ -1,5 +1,4 @@
 <?PHP
-include_once($relPath.'tdecho.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
@@ -243,7 +242,25 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 
 		$book = mysql_fetch_assoc($result);
 
-		$bgcolor = bgcol($rownum,$stage);
+		if ($stage == 'post_2')
+		{
+			$bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
+			$bgcolor_even = '#99FFFF'; // "harshflourolightblue"
+		}
+		else
+		{
+			$bgcolor_odd = $theme['color_mainbody_bg'];
+			$bgcolor_even = $theme['color_navbar_bg'];
+		}
+
+		if ($rownum % 2) 
+		{
+			$bgcolor = " bgcolor='$bgcolor_odd'";
+		}
+		else 
+		{
+			$bgcolor = " bgcolor='$bgcolor_even'";
+		}
 
 		// experimental!
 
