@@ -8,4 +8,9 @@
 <frame name="menuframe" src="ctrl_frame.php" marginwidth="2" marginheight="2" frameborder="0">
 </frameset><noframes>
 <? _("Your browser is not frames capable!"); ?>
-</noframes></html>
+</noframes>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+</head>
+</html>
