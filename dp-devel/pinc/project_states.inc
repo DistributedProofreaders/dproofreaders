@@ -21,6 +21,8 @@ include_once($relPath.'v_site.inc');
   METADATA COLLECTION (MD)
   FIRST
   SECOND
+
+  (Actually, the naming convention is in transition.)
 */
 
 $PROJECT_STATES_IN_ORDER = array();
@@ -75,16 +77,13 @@ function get_phase_containing_project_state($state)
 
 // -----------------------------------------------
 
-function declare_project_states_for_round(
-    $round_id,
-    $round_name,
-    $constant_name_part )
+function declare_project_states_for_round( $round_id, $round_name )
 {
     global $projects_forum_idx;
     global $waiting_projects_forum_idx;
 
     declare_project_state(
-        "PROJ_{$constant_name_part}_BAD_PROJECT",
+        "PROJ_{$round_id}_BAD_PROJECT",
         "$round_id.proj_bad",
         "$round_name: " . _("Bad Project"),
         $projects_forum_idx,
@@ -92,7 +91,7 @@ function declare_project_states_for_round(
         ''
     );
     declare_project_state(
-        "PROJ_{$constant_name_part}_UNAVAILABLE",
+        "PROJ_{$round_id}_UNAVAILABLE",
         "$round_id.proj_unavail",
         "$round_name: " . _("Unavailable"),
         ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
@@ -100,7 +99,7 @@ function declare_project_states_for_round(
         ''
     );
     declare_project_state(
-        "PROJ_{$constant_name_part}_WAITING_FOR_RELEASE",
+        "PROJ_{$round_id}_WAITING_FOR_RELEASE",
         "$round_id.proj_waiting",
         "$round_name: " . _("Waiting for Release"),
         ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
@@ -108,7 +107,7 @@ function declare_project_states_for_round(
         ''
     );
     declare_project_state(
-        "PROJ_{$constant_name_part}_AVAILABLE",
+        "PROJ_{$round_id}_AVAILABLE",
         "$round_id.proj_avail",
         "$round_name: " . _("Available"),
         $projects_forum_idx,
@@ -116,7 +115,7 @@ function declare_project_states_for_round(
         'BRONZE'
     );
     declare_project_state(
-        "PROJ_{$constant_name_part}_COMPLETE",
+        "PROJ_{$round_id}_COMPLETE",
         "$round_id.proj_done",
         "$round_name: " . _("Completed"),
         $projects_forum_idx,
@@ -224,9 +223,9 @@ if ($site_supports_metadata)
 
 // PROOF
 
-declare_project_states_for_round( 'P1', _('Proofreading Round 1'), 'PROOF_FIRST' );
+declare_project_states_for_round( 'P1', _('Proofreading Round 1') );
 
-declare_project_states_for_round( 'P2', _('Proofreading Round 2'), 'PROOF_SECOND' );
+declare_project_states_for_round( 'P2', _('Proofreading Round 2') );
 
 
 // POST

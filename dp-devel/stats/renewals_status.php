@@ -123,17 +123,17 @@ for ( $year = 1950; $year < 1978; $year ++ )
 			$n_proofings[2]['done'] = 0;
 		}
 		else if (
-			$state == PROJ_PROOF_FIRST_UNAVAILABLE or
-			$state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE or
-			$state == PROJ_PROOF_FIRST_AVAILABLE or
-			$state == PROJ_PROOF_FIRST_BAD_PROJECT or
-			$state == PROJ_PROOF_FIRST_COMPLETE or
+			$state == PROJ_P1_UNAVAILABLE or
+			$state == PROJ_P1_WAITING_FOR_RELEASE or
+			$state == PROJ_P1_AVAILABLE or
+			$state == PROJ_P1_BAD_PROJECT or
+			$state == PROJ_P1_COMPLETE or
 
-			$state == PROJ_PROOF_SECOND_UNAVAILABLE or
-			$state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE or
-			$state == PROJ_PROOF_SECOND_AVAILABLE or
-			$state == PROJ_PROOF_SECOND_BAD_PROJECT or
-			$state == PROJ_PROOF_SECOND_COMPLETE )
+			$state == PROJ_P2_UNAVAILABLE or
+			$state == PROJ_P2_WAITING_FOR_RELEASE or
+			$state == PROJ_P2_AVAILABLE or
+			$state == PROJ_P2_BAD_PROJECT or
+			$state == PROJ_P2_COMPLETE )
 		{
 			$projectid  = $project['projectid'];
 			$res2 = mysql_query("

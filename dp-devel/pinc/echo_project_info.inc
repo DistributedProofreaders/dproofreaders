@@ -187,7 +187,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
         // automatically prepend R2 intro for Beginners Only
         if  ($project['difficulty'] == "beginner")
 	{
-		if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE) {
+		if ($proofstate==PROJ_P2_AVAILABLE) {
 	             $comments = "[template=BGr2.txt]".$comments;
 		}
 	}

@@ -46,7 +46,7 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
             AND (state != '".PROJ_POST_SECOND_AVAILABLE."')
             AND (state != '".PROJ_POST_SECOND_CHECKED_OUT."')
             AND (state != '".PROJ_POST_FIRST_CHECKED_OUT."'          OR modifieddate > $start_ts)
-            AND (state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' OR modifieddate > $start_ts)
+            AND (state != '".PROJ_P1_WAITING_FOR_RELEASE."' OR modifieddate > $start_ts)
             AND (state != '".PROJ_POST_FIRST_UNAVAILABLE."'          OR modifieddate > $start_ts)
     ")
         or die(mysql_error());

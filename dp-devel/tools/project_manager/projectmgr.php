@@ -214,8 +214,8 @@ abort_if_not_manager();
 		    }
 		}
 
-		option_to_move( PROJ_NEW, PROJ_PROOF_FIRST_UNAVAILABLE );
-		option_to_move( PROJ_PROOF_FIRST_UNAVAILABLE, PROJ_PROOF_FIRST_WAITING_FOR_RELEASE );
+		option_to_move( PROJ_NEW, PROJ_P1_UNAVAILABLE );
+		option_to_move( PROJ_P1_UNAVAILABLE, PROJ_P1_WAITING_FOR_RELEASE );
 
 		// -------------------------------------------------------------
 

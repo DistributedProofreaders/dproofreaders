@@ -99,7 +99,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	$transition_graph = array(
 		PROJ_NEW => array(
-			PROJ_PROOF_FIRST_UNAVAILABLE
+			PROJ_P1_UNAVAILABLE
 			),
 
 		PROJ_POST_FIRST_UNAVAILABLE => array(
@@ -352,8 +352,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	// Now make any collateral changes to other tables.
 	// (This needs to be expanded.)
 
-	if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
-		$new_state == PROJ_PROOF_FIRST_AVAILABLE )
+	if ( $current_state == PROJ_P1_WAITING_FOR_RELEASE &&
+		$new_state == PROJ_P1_AVAILABLE )
 	{
 		// Releasing the project.
 		// Update the corresponding projectID* table.

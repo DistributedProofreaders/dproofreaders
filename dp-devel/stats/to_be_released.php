@@ -16,7 +16,7 @@ if ($order == 'default') {
 //get projects that have been checked out
 $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genre
                      FROM projects
-                     WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
+                     WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'
                      ORDER BY '$order' ASC");
 
 $numrows = mysql_numrows($result);

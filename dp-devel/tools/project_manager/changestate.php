@@ -79,8 +79,8 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	{
 	    $extras = array( 'checkedoutby' => $pguser );
 	}
-	else if ( $oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
-	          $newstate == PROJ_PROOF_FIRST_AVAILABLE )
+	else if ( $oldstate == PROJ_P1_WAITING_FOR_RELEASE &&
+	          $newstate == PROJ_P1_AVAILABLE )
 	{
 	    $errors = project_pre_release_check( $project );
 	    if ($errors)
@@ -92,7 +92,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 		echo "The project has been marked bad.\n";
 		echo "Please fix the problems and resubmit.\n";
 		echo "</pre>\n";
-		$newstate = PROJ_PROOF_FIRST_BAD_PROJECT;
+		$newstate = PROJ_P1_BAD_PROJECT;
 		$refresh_url = '';
 	    }
 	    else if ( ! user_is_a_sitemanager() && ! user_is_proj_facilitator() )

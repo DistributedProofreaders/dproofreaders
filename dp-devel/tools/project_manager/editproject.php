@@ -195,7 +195,7 @@ function handle_projectfiles($projectid) {
    # echo "insertTextFiles($dir_name, $projectid) ...<br>\n";
    insertTextFiles($dir_name, $projectid);
 
-   $error_msg = project_transition( $projectid, PROJ_PROOF_FIRST_UNAVAILABLE );
+   $error_msg = project_transition( $projectid, PROJ_P1_UNAVAILABLE );
    if ($error_msg)
    {
         echo "$error_msg<br>\n";

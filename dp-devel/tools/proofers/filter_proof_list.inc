@@ -7,18 +7,18 @@ $action_page = 'proof_per.php';
 
 if ($userP['u_plist'] == 1) 
 {
-	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."') ";
+	$state_sql = " (state = '".PROJ_P1_AVAILABLE."') ";
 	$label = _("First Round");
 }
 if ($userP['u_plist'] == 2)
 {
-	$state_sql = " (state = '".PROJ_PROOF_SECOND_AVAILABLE."') ";
+	$state_sql = " (state = '".PROJ_P2_AVAILABLE."') ";
 	$label = _("Second Round");
 }
 if ($userP['u_plist'] == 3)
 {
-	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-		 state = '".PROJ_PROOF_SECOND_AVAILABLE."') ";
+	$state_sql = " (state = '".PROJ_P1_AVAILABLE."' OR
+		 state = '".PROJ_P2_AVAILABLE."') ";
 	$label = "";
 }
 

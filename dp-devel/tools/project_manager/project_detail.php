@@ -125,7 +125,7 @@ if ($site_supports_metadata) {
 if (
 	($state == PROJ_NEW && ! $site_supports_metadata)
 	|| ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
-	|| $state == PROJ_PROOF_FIRST_UNAVAILABLE
+	|| $state == PROJ_P1_UNAVAILABLE
 )
 {
 	echo "<br>\n";
@@ -193,7 +193,7 @@ if ($page_type == "Full") {
 
     // offer oppty to delete all pages if not begun proofing yet.
 	if ($can_edit) {
-		if ( $state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE
+		if ( $state == PROJ_NEW || $state == PROJ_P1_UNAVAILABLE
 			|| ($site_supports_metadata && $state == PROJ_NEW_FILE_UPLOADED) )
 		{
 			echo "<br>";

@@ -6,7 +6,7 @@ include_once($relPath.'RoundDescriptor.inc');
 $transition_options_ = array(
 	PROJ_NEW =>
 		array(
-			PROJ_PROOF_FIRST_UNAVAILABLE),
+			PROJ_P1_UNAVAILABLE),
 
 	PROJ_POST_FIRST_UNAVAILABLE =>
 		array(

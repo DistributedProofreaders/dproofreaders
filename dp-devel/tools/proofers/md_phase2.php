@@ -29,7 +29,7 @@ $numrows = mysql_num_rows($result);
 $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
 //////////this will be changed to pre-processing state
 $result = mysql_query("UPDATE $projectid SET state = 'P1.page_avail'");
-$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_AVAILABLE."' WHERE projectid = '$projectid'");
+$result = mysql_query("UPDATE projects SET state = '".PROJ_P1_AVAILABLE."' WHERE projectid = '$projectid'");
 //////////
 
 metarefresh(5,"md_available.php","Image Metadata Collection",$body);
