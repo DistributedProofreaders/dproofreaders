@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Templates available for Project Comments','header');
+theme('Preview of Templates available for Project Comments','header');
 ?>
 
 <style TYPE="text/css">
@@ -22,37 +22,70 @@ margin-right: 3.18cm; margin-top: 2.54cm; margin-bottom: 2.54cm }
   </style>
         -->
 
+<h1>Preview of Templates available for Project Comments</h1>
+<br>
+<br>
+
+
 <!-- BG1a.txt info -->
-<a name="bg1a"></a>
+<a name="bg1a"><h3>BG1a.txt</h3></a><br>
 <?
-include(../pinc/templates/comment_files/BG1a.txt');
+include('../pinc/templates/comment_files/BG1a.txt');
 ?>
 		
+<br><hr><br>
 
 <!-- BG1b.txt info -->		
-<a name="bg1b"></a>
+<a name="bg1b"><h3>BG1b.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/BG1b.txt');
+?>
 
+<br><hr><br>
 
 <!-- BGr2.txt info -->
-<a name="bgr2"></a>
+<a name="bgr2"><h3>BGr2.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/BGr2.txt');
+?>
 
-		
+<br><hr><br>		
 
 <!-- diac.txt info -->
-<a name="diac"></a>
+<a name="diac"><h3>diac.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/diac.txt');
+?>
+
 		
+<br><hr><br>
 
 <!-- pgnm.html info -->		
-<a name="pgnm"></a>
+<a name="pgnm"><h3>pgnm.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/pgnm.txt');
+?>
 
+
+<br><hr><br>
 
 <!-- port.txt info -->
-<a name="port"></a>
+<a name="port"><h3>port.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/port.txt');
+?>
+
+
+<br><hr><br>
 
 <!-- wrrn.txt info -->
-<a name="wrrn"></a>
+<a name="wrrn"><h3>wrrn.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/wrrn.txt');
+?>
 
-		
+
+<br><hr><br>		
 
 <!-- cedron.html info -->		
 

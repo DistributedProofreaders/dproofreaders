@@ -22,7 +22,7 @@ theme('Templates available for Project Comments','header');
         -->
 
 <h1 align="center">Layout Templates</h1>
-
+<br><br>
 There are two types of template available <br>
 <ol>
 <li>standard sections of text, like pre-fabricated building blocks, <br>
@@ -31,6 +31,7 @@ wherever you place a special tag. These are particularly useful for series, <br>
 where some text will be common for many individual volumes, but there <br>
 are also some standard technical sections that can be <br>
 fitted into your comments like jigsaw pieces. </li>
+<br><br>
 <li>fill-in-the-blank skeleton templates, for which you will have to <br>
 manually copy and paste the code and then fill in <br>
 specific information relating to the individual project.<br> 
