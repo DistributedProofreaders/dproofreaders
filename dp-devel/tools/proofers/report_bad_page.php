@@ -104,8 +104,8 @@ maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_
 
 //Update the page to have the master text & username of bad page reporter
 $result = mysql_query("SELECT master_text, round1_text FROM ".$_POST['projectname']." WHERE fileid='".$_POST['fileid']."'");
-$master_text = mysql_result($result, 0, "master_text");
-$round1_text = mysql_result($result, 0, "round1_text");
+$master_text = addslashes(mysql_result($result, 0, "master_text"));
+$round1_text = addslashes(mysql_result($result, 0, "round1_text"));
 
 if ($_POST['badState'] == "bad_first") {
 	$result = mysql_query("UPDATE ".$_POST['projectname']." SET round1_text='$master_text' WHERE fileid='".$_POST['fileid']."'");
