@@ -3,6 +3,12 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
+system("pwd");
+echo "<BR>\n";
+echo $_ENV['PWD'];
+echo "<BR>\n";
+echo "<hr>\n";
+
 echo "<pre>\n";
 system("ls -l /0/htdocs");
 echo "</pre>\n";
