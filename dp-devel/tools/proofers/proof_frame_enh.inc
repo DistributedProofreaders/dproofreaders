@@ -3,6 +3,13 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'bookpages.inc');
+
+global $pageCountArray;
+if (empty($pageCountArray)) {
+	update_pageCountArray();
+}
+
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
@@ -295,7 +302,8 @@ id="controlframe" align="center"><form
   valign="top"><?PHP
 //display page number
   $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><B>Page Number: $pageNum ";
+  $total=$pageCountArray[$npage['project']]['total_pages'];
+  echo "<font size=\"-1\"><B>Page: $pageNum/$total ";
     if ($tpage->getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
