@@ -42,15 +42,8 @@ echo "<h1>$desc</h1>";
 
 	if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
 		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
-	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
-		if (!isset($pguser)) {
+	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
 			echo "<p>"._("This user has requested their statistics remain private.")."</p>";
-		} else {
-			showMbrProfile($curMbr);
-			if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-			if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
-			if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
-		}
 	} else {
 		showMbrProfile($curMbr);
 		if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
