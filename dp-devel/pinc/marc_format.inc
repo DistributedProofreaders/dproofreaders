@@ -141,16 +141,6 @@ function convert_short_lang($marc_language) {
 	return $marc_language;
 }
 
-function xmlencode($data) {
-	$trans_array = array();
-	for ($i=127; $i<255; $i++) {
-		$trans_array[chr($i)] = "&#" . $i . ";";
-		}
-      	$data = strtr($data, $trans_array);
-	$data = htmlentities($data, ENT_QUOTES);
-       	return $data;
-}
-
 function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $author, $title, $rec) {
 	$filename = $GLOBALS['projects_dir']."/$projectid/dc.xml";
 
@@ -168,18 +158,18 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 
       $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"UTF-8\" ?".">
 	<dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
-	  <title>".xmlencode($title)."</title>
-	  <creator>".xmlencode($author)."</creator>
-	  <subject>".xmlencode(marc_subject($rec))."</subject>
-	  <description>".xmlencode(marc_description($rec))."</description>
+	  <title>$title</title>
+	  <creator>$author</creator>
+	  <subject>".marc_subject($rec)."</subject>
+	  <description>".marc_description($rec)."</description>
 	  <publisher>Project Gutenberg</publisher>
-	  <contributer>".xmlencode($createdby)."</contributer>
-	  <date>".xmlencode(marc_date($rec))."</date>
-	  <type>".xmlencode($genre)."</type>
+	  <contributer>$createdby</contributer>
+	  <date>".marc_date($rec)."</date>
+	  <type>$genre</type>
 	  <format>XML</format>
 	  <identifier>http://www.pgdp.net/tools/catalog/project_home.php?project=$projectid</identifier>
-	  <source>LCCN: ".xmlencode(marc_lccn($rec))."</source>
-	  <language>".xmlencode($language)."</language>
+	  <source>LCCN: ".marc_lccn($rec)."</source>
+	  <language>$language</language>
 	  <rights>http://www.pgdp.net/agreement.php</rights>
 	</dc>";
 
