@@ -290,7 +290,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round1_diff';
 		$R_time_field_name = 'round1_time';
 		$R_user_field_name = 'round1_user';
-                $R_other_user_field_name = 'round2_user';
+    $R_other_user_field_name = 'round2_user';
 		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
 		$R_temp_state = TEMP_FIRST;
@@ -302,7 +302,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round2_diff';
 		$R_time_field_name = 'round2_time';
 		$R_user_field_name = 'round2_user';
-                $R_other_user_field_name = 'round1_user';
+    $R_other_user_field_name = 'round1_user';
 		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
 		$R_temp_state = TEMP_SECOND;
@@ -318,7 +318,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         // we will let people see proofreader names of pages they themselves proofread
 
         $R_username = $page_res[$R_user_field_name];
-        $R_other_username = $page_res[$R_other_user_field_name];
+        if (!empty($page_res[$R_other_user_field_name])) { $R_other_username = $page_res[$R_other_user_field_name]; } else { $R_other_username = ""; }
 
 
        // colour-code pages proofread by the user
