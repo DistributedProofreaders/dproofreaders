@@ -62,4 +62,4 @@ TYPE="image" accesskey="7" name="button1" ID="button1" align="top" size="26" alt
   }
 ?><INPUT 
 TYPE="image" accesskey="5" name="button5" ID="button5" align="top" size="26" alt="Save and Quit" title="Save and Quit" src="gfx/bt13.png">&nbsp;<INPUT 
-TYPE="image" accesskey="9" name="button3" ID="button3" align="top" size="26" alt="Quit" title="Quit" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));" src="gfx/bt1.png">
+TYPE="image" accesskey="9" name="button3" ID="button3" align="top" size="26" alt="Quit Proofing" title="Quit Proofing" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" src="gfx/bt1.png">

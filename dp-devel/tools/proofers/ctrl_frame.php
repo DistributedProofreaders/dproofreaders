@@ -229,8 +229,8 @@ href="<?PHP
     {echo "proof_per.php";}
   else
     {echo "JavaScript:window.close();";}
-?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));"><img 
-src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="Quit" title="Quit"></a></td></tr><tr><td 
+?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"><img 
+src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="Exit" title="Exit"></a></td></tr><tr><td 
 valign="top" colspan="3" align="center"><?PHP
 include('ptags.inc');
 ?></font></td></tr></table></form></body></html>
