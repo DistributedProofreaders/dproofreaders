@@ -162,6 +162,8 @@ include('badpage.php');
 
 if ($tbutton==B_RUN_SPELL_CHECK)
 {
+  if ( ! is_dir($aspell_temp_dir) ) // Check first
+  { mkdir($aspell_temp_dir);}
   $npage = getPageCookie();
   $npage['spcheck']=1;
   setTempPageCookie($npage);
