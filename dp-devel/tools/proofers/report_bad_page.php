@@ -102,6 +102,17 @@ $subject = "Page Marked as Bad";
 //Send the email to the PM
 maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
 
+//Update the page to have the master text & username of bad page reporter
+$result = mysql_query("SELECT master_text, round1_text FROM ".$_POST['projectname']." WHERE fileid='".$_POST['fileid']."'");
+$master_text = mysql_result($result, 0, "master_text");
+$round1_text = mysql_result($result, 0, "round1_text");
+
+if ($_POST['badState'] == "bad_first") {
+	$result = mysql_query("UPDATE ".$_POST['projectname']." SET round1_text='$master_text' WHERE fileid='".$_POST['fileid']."'");
+} else {
+	$result = mysql_query("UPDATE ".$_POST['projectname']." SET round2_text='$round1_text' WHERE fileid='".$_POST['fileid']."'");
+}
+
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
   $frame1 = "proof_frame.php?project={$_POST['projectname']}&amp;proofstate={$_POST['proofstate']}";
