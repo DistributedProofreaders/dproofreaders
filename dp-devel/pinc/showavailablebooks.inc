@@ -10,7 +10,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 	$prd = get_PRD_for_round($round_number);
 
-	$setting = "{$prd->round_name}order";
+	$setting = "{$prd->round_id}order";
 
 	// read saved sort orders from user_settings table 
 	$result = mysql_query("
@@ -28,7 +28,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 
 	// read new sort order from url, if any
-	$url_param = "order{$prd->round_name}";
+	$url_param = "order{$prd->round_id}";
 	$order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
 
 	// if orders have changed, save them to database
@@ -51,7 +51,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	");
 	$pagescompleted = mysql_result($result,0);
 
-	echo "\n<a name='{$prd->round_name}'></a>";
+	echo "\n<a name='{$prd->round_id}'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr bgcolor='{$prd->listing_bgcolors[1]}'>";
 	echo "\n<td colspan=2><h3>{$prd->title}</h3></td>";
@@ -207,8 +207,8 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 
 
-	$linkbase = "<a href=proof_per.php?order{$prd->round_name}=";
-	$linkend = "#{$prd->round_name}";
+	$linkbase = "<a href=proof_per.php?order{$prd->round_id}=";
+	$linkend = "#{$prd->round_id}";
 
 	// Always put the BEGIN projects at the top.
 	$query = "

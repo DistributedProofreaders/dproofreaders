@@ -23,7 +23,7 @@ if (is_null($round_num))
 	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
 		$prd = get_PRD_for_round($rn);
-		echo "<li><a href='release_queue.php?round_num=$rn'>{$prd->round_name}</a></li>\n";
+		echo "<li><a href='release_queue.php?round_num=$rn'>{$prd->round_id}</a></li>\n";
 	}
 	echo "</ul>\n";
 	theme("", "footer");
@@ -34,7 +34,7 @@ $prd = get_PRD_for_round($round_num);
 
 if (!isset($_GET['name']))
 {
-	$title = sprintf( _("Release Queues for Round '%s'"), $prd->round_name);
+	$title = sprintf( _("Release Queues for Round '%s'"), $prd->round_id);
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";

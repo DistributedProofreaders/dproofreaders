@@ -57,7 +57,7 @@ if (0)
 	foreach ($PAGE_STATES_IN_ORDER as $page_state)
 	{
 		$prd = get_PRD_for_page_state($page_state);
-		echo "$page_state\t$prd->round_name\n";
+		echo "$page_state\t$prd->round_id\n";
 	}
 }
 
