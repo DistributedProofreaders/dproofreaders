@@ -1,5 +1,5 @@
 <?
-// set $label, $action_page, $filtertype_stem  and $state_sql before inclusion
+// set $label, $filtertype_stem  and $state_sql before inclusion
 
 include_once('select_list.inc');
 
@@ -71,7 +71,7 @@ echo "<center>";
 echo _("Filter available ").$label._(" books by").":";
 echo "</center>\n";    
 echo "<br>
-    <form method=get action='$action_page'>
+    <form method=get action=''>
     <input type='hidden' name='filter_".$filtertype_stem."' value='filter_on'>";
 
 
