@@ -51,7 +51,8 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 			postproofer,
 			checkedoutby,
 			correctedby,
-                        difficulty
+                        difficulty, 
+			comments
 		FROM projects
 		WHERE state='$state'
                 $where_filter 
@@ -112,9 +113,20 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 	{
 		echo "<tr>\n";
 
-		$bgcolor = bgcol($rownum,'blah');
+
 
 		$book = mysql_fetch_assoc($result);
+
+		$bgcolor = bgcol($rownum,'blah');
+
+		// experimental!
+
+		// pink for Saint Valentine's Day
+                if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
+                {
+                	$bgcolor = " bgcolor='#FF99FF'";
+                }
+
 
 		$tpages = $pageCountArray[$book['projectid']]['total_pages'];
 
@@ -258,6 +270,12 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 function echo_option($code,$label)
 {
 	echo "<option value=\"$code\">$label</option>\n";
+}
+
+function startswith( $subject, $prefix )
+// Return TRUE iff $subject starts with $prefix.
+{
+	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 }
 
 ?>
