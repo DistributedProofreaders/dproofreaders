@@ -220,20 +220,16 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
         $rankArray['username'][$userindex] = $username;
         $rankArray['pages'][$userindex] = 0;
         $rankArray['rank'][$userindex] = $userindex+1;
-        $rankArray['totalRanks'] = $userindex+1;
+        $max_current_rank = $userindex+1;
     }
     else
     {
-        $rankArray['totalRanks'] = $rankArray['rank'][$i-1];
+        $max_current_rank = $rankArray['rank'][$i-1];
     }
-
-    $rankArray['curMbrRank'] = $rankArray['rank'][$userindex];
-    $rankArray['curMbrIndex'] = $userindex;
 
 
     $neighbors = array();
 
-    $userindex = $rankArray['curMbrIndex'];
     for ( $rel_posn = -$radius; $rel_posn <= $radius; $rel_posn++ )
     {
         $j = $userindex + $rel_posn;
@@ -246,7 +242,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
             );
     }
 
-    return array( $neighbors, $rankArray['totalRanks'] );
+    return array( $neighbors, $max_current_rank );
 }
 
 class PageTally_Neighbor
