@@ -61,6 +61,7 @@ for ( $d = 1; ; $d++ )
     // Consider the day (Y) that is $d days after $X_date.
     $Y_start_ts = mktime(0,0,0,$X_month, $X_day+$d, $X_year);
     $Y_date = date('Y-m-d', $Y_start_ts );
+    list($Y_year,$Y_month,$Y_day) = explode('-',$Y_date);
 
     // If Y is today (or later), we're done.
     if ($Y_start_ts >= $today_start_ts)
@@ -72,17 +73,42 @@ for ( $d = 1; ; $d++ )
 
     $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts, $n_projects );
 
-    $update_query =
-       "UPDATE pagestats SET pages=$total_n_pages_proofed WHERE date='$Y_date'";
+    $res = mysql_query("
+        SELECT COUNT(*) FROM pagestats WHERE date='$Y_date'
+    ") or die(mysql_error());
+    list($count) = mysql_fetch_row($res);
 
-    if ($testing_this_script)
+    if ($count == 0)
     {
-        echo $update_query, $EOL;
+        $query = "
+            INSERT INTO pagestats
+            SET year=$Y_year, month=$Y_month, day=$Y_day, date='$Y_date',
+                pages=$total_n_pages_proofed, dailygoal=1, comments=NULL
+        ";
+    }
+    else if ($count == 1)
+    {
+        $query = "
+            UPDATE pagestats
+            SET pages=$total_n_pages_proofed
+            WHERE date='$Y_date'
+        ";
     }
     else
     {
-        echo $update_query, $EOL;
-        mysql_query($update_query) or die(mysql_error());
+        echo "Multiple rows where date='$Y_date'. Skipping.", $EOL;
+        continue;
+    }
+
+
+    if ($testing_this_script)
+    {
+        echo $query, $EOL;
+    }
+    else
+    {
+        echo $query, $EOL;
+        mysql_query($query) or die(mysql_error());
     }
 
 
