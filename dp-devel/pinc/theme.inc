@@ -166,7 +166,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 }
 	
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
-    global $dynstats_dir;
+    global $dynstats_dir, $dynstats_url;
     //If logged in & either a Post Processor or Project Manager display links
 	if (isset($GLOBALS['pguser'])) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
