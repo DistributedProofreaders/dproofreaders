@@ -39,10 +39,12 @@ $max_update = mysql_result($result,0,0);
 		// also, since we're going round the loop anyway, let's update the
 		// teams daily average as well
 		$now = time();
+		$rankArray = teams_get_page_tally_ranks();
 		$result = mysql_query("SELECT id, page_count, created FROM user_teams");
 		while($row = mysql_fetch_assoc($result)) {
 			$team_id = $row['id'];
 			if ($team_id != 1) {
+				$rank = $rankArray[$team_id];
 				$prevDayCount = mysql_query("
 					SELECT total_page_count
 					FROM user_teams_stats
@@ -51,8 +53,8 @@ $max_update = mysql_result($result,0,0);
 				$todaysCount = $row['page_count'] - mysql_result($prevDayCount,0,"total_page_count");
 				$updateCount = maybe_query("
 					INSERT INTO user_teams_stats
-					(team_id, date_updated, daily_page_count, total_page_count)
-					VALUES ($team_id, $midnight, $todaysCount, ".$row['page_count'].")
+					(team_id, date_updated, daily_page_count, total_page_count, rank)
+					VALUES ($team_id, $midnight, $todaysCount, ".$row['page_count'].", $rank)
 				");
 
 				//Calculate the average daily team proofing as total pages / total days
@@ -67,18 +69,6 @@ $max_update = mysql_result($result,0,0);
 					SET daily_average = $avgCount
 					WHERE id = $team_id
 				");
-			}
-		}
-
-	//Update the page count rank for the previous day
-	$rankArray = teams_get_page_tally_ranks();
-
-	$result = mysql_query("SELECT id FROM user_teams");
-		while($row = mysql_fetch_assoc($result)) {
-			if ($row['id'] != 1) {
-				$team_id = $row['id'];
-				$rank = $rankArray[$team_id];
-				$updateRank = maybe_query("UPDATE user_teams_stats SET rank = $rank WHERE team_id = $team_id && date_updated = $midnight");
 			}
 		}
 	}
