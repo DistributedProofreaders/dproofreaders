@@ -1,27 +1,56 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'html_main.inc');
 
 //Get variables from POST form
 $projectID = $_POST['projectname'];
 $fileID = $_POST['fileid'];
 $reason = $_POST['reason'];
-$reason_list = array('Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
+$redirect_action = $_POST['redirect_action'];
+$proofstate = $_POST['proofstate'];
+$lang = $_POST['lang'];
+$reason_list = array('','Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
 $username = $userP['username'];
 if ($badState == "") { $badState = $_POST['badstate']; }
 
 //Determine which page to display -- Form or DB submit
 //TODO Add in an option if the user wants to quit proofing or continue
 if ($_POST['submitted'] != 'true') {
-echo "<html><head><title>Bad Page Report</title></head><body>";
+$htmlC->startHeader("Bad Page Report");
+$htmlC->startBody(0,1,0,0);
+$tb=$htmlC->startTable(0,0,0,1);
+$tr=$htmlC->startTR(0,0,1);
+$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
+$td2=$htmlC->startTD(1,0,0,0,"center",0,0,1);
+$td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
+$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
+$td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 echo "<form action='badpage.php' method='post'>";
 echo "<input type='hidden' name='fileid' value='$fileID'>";
 echo "<input type='hidden' name='projectname' value='$projectID'>";
 echo "<input type='hidden' name='badstate' value='$badState'>";
+echo "<input type='hidden' name='proofstate' value='$proofstate'>";
+echo "<input type='hidden' name='lang' value='$lang'>";
 echo "<input type='hidden' name='submitted' value='true'>";
+echo $tb;
+echo $tr.$td1;
+echo "<B>Submit a Bad Page Report</B>";
+echo $tr.$td2;
+echo "<strong>Reason:</strong>";
+echo $td3;
 echo "<select name='reason'>";
 for ($i=0;$i<count($reason_list);$i++)  { echo "<option value='$i'>$reason_list[$i]</option>"; }
-echo "</select>&nbsp;&nbsp;<input type='submit' value='Submit Report'></form></body></html>";
+echo "</select>";
+echo $tr.$td2;
+echo "<strong>What to Do:</strong>";
+echo $td3;
+echo "<input name='redirect_action' value='proof' type='radio'>Continue Proofing<input name='redirect_action' value='quit' checked type='radio'>Quit Proofing";
+echo $tr.$td1;
+echo "<input type='submit' VALUE='Submit Report'>";
+echo $tr.$td5;
+echo "<B>Note:</B>If this report causes a project to be marked bad you will be redirected to your personal page.";
+echo "</td></tr></table></form></div></center></body></html>";
 } else {
 //Update the page the user was working on to reflect a bad page.
 $result = mysql_query("UPDATE $projectID SET state=$badState, reason=$reason, reporting_user=$username WHERE fileid=$fileID");
@@ -57,7 +86,26 @@ $subject = "Page Marked as Bad";
 //Send the email to the PM
 mail($PMemail, $subject, $message, "From: no-reply@texts01.archive.org <no-reply@texts01.archive.org>\r\n"); 
 
-//Redirect the user//TODO Add in code to redirect either back to proofing or personal page
-echo "proof_per.php";
+//Redirect the user to either continue proofing if project is still open or back to their personal page
+if (($redirect_action == "proof") && ($advisePM != 1)) { 
+  $project = 'project='.$projectID;
+  $proofstate = '&proofstate='.$proofstate;
+  $lang='&lang='.$lang;
+  $frame1 = 'proof.php?'.$project.$proofstate.$lang;
+  metarefresh(0,$frame1,' ',' ');
+} else {
+$returnURL=isset($editone)?"projects.php?project=$projectID&proofstate=$proofstate":"proof_per.php";
+    if ($userP['i_newwin']==0)
+      {metarefresh(0,"$returnURL",' ',' ');}
+    else
+      {
+        include($relPath.'doctype.inc');
+        echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
+        echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
+        echo "window.close();</SCRIPT>";
+        echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
+        echo "</BODY></HTML>";
+      }
+}
 }
 ?>
