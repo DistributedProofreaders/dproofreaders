@@ -70,7 +70,7 @@ echo "<tr><td width='21%'>Show projects from:</td><td width='79%'>";
 $array = implode('|', $p_l);
 dropdown_select('u_plist', $userP['u_plist'], $array);
 echo "</td></tr>";
-}
+} else echo "<input type='hidden' name='u_plist' value='1'>";
 
 echo "<tr><td width='21%'>Language:</td><td width='79%'>";
 $array = implode('|', $u_l);
