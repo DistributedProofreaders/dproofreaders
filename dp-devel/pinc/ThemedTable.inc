@@ -87,43 +87,24 @@ class ThemedTable
     function column_headers()
     {
         $args = func_get_args();
-
-        if ( $this->n_cols > 1 && count($args) == 1 && is_array($args[0]) )
-        {
-            $args = $args[0];
-        }
-
-        // There should be an arg (header) for each column.
-        assert( count($args) == $this->n_cols );
-
-        global $theme;
-        $bgcolor    = $theme['color_navbar_bg'];
-        $font_face  = $theme['font_navbar'];
-        $font_color = $theme['color_navbar_font'];
-
-        echo "\n";
-        echo "<tr bgcolor='$bgcolor'>";
-
-        for ( $c = 0; $c < $this->n_cols; $c++ )
-        {
-            $header_text = $args[$c];
-            $width = $this->column_widths[$c];
-
-            echo "<td width='$width%'>";
-            echo   "<font face='$font_face' color='$font_color' size='2'>";
-            echo     "<b><u><i>";
-            echo       $header_text;
-            echo     "</i></u></b>";
-            echo   "</font>";
-            echo "</td>";
-        }
-        echo "</tr>";
+        $this->_row( $args, TRUE );
     }
 
     function row()
     {
+        $args = func_get_args();
+        $this->_row( $args, FALSE );
+    }
+
+    function _row( $cell_texts, $is_header )
+    {
+        if ( $this->n_cols > 1 && count($cell_texts) == 1 && is_array($cell_texts[0]) )
+        {
+            $cell_texts = $cell_texts[0];
+        }
+
         // There should be an arg (cell content) for each column.
-        assert( func_num_args() == $this->n_cols );
+        assert( count($cell_texts) == $this->n_cols );
 
         global $theme;
         $bgcolor         = $theme['color_navbar_bg'];
@@ -132,7 +113,9 @@ class ThemedTable
         $font_color      = $theme['color_navbar_font'];
 
         echo "\n";
-        if ($this->rollover_highlight)
+        // (We don't put the rollover highlight on a header row,
+        // though there's no particular reason we couldn't.)
+        if ($this->rollover_highlight && !$is_header)
         {
             echo "<tr"
                 . " bgcolor='$bgcolor'"
@@ -148,14 +131,16 @@ class ThemedTable
 
         for ( $c = 0; $c < $this->n_cols; $c++ )
         {
-            $cell_text = func_get_arg($c);
             $width = $this->column_widths[$c];
+            $cell_content = $cell_texts[$c];
 
-            echo "<td width='$width%'>";
-            // echo   "<font face='$font_face' color='$font_color' size='2'>";
-            echo     $cell_text;
-            // echo   "</font>";
-            echo "</td>";
+            if ($is_header)
+            {
+                $cell_content = "<b><u><i>$cell_content</i></u></b>";
+                $cell_content = "<font face='$font_face' color='$font_color' size='2'>$cell_content</font>";
+            }
+
+            echo "<td width='$width%'>$cell_content</td>";
         }
 
         echo "</tr>";
