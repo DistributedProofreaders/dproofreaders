@@ -14,6 +14,9 @@ function maybe_query( $query )
 	global $testing;
 	if ($testing)
 	{
+		// Normalize whitespace
+		// (mainly to remove newlines and indentation)
+		$query = preg_replace('/\s+/', ' ', trim($query));
 		echo "$query\n";
 		return TRUE;
 	}
@@ -39,7 +42,11 @@ $max_update = mysql_result($result,0,0);
 		$rankArray = users_get_page_tally_ranks();
 
 		//Update member_stats with previous days page count
-		$result = mysql_query("SELECT u_id, total_pagescompleted FROM member_stats WHERE date_updated = $max_update");
+		$result = mysql_query("
+			SELECT u_id, total_pagescompleted
+			FROM member_stats
+			WHERE date_updated = $max_update
+		");
 		while ($row = mysql_fetch_assoc($result)) {
 			$prevDayCount[$row['u_id']] = $row['total_pagescompleted'];
 		}
@@ -47,7 +54,11 @@ $max_update = mysql_result($result,0,0);
 		$result = mysql_query("SELECT u_id, pagescompleted FROM users");
 		while($row = mysql_fetch_assoc($result)) {
 			$todaysCount = $row['pagescompleted'] - $prevDayCount[$row['u_id']];
-			$updateCount = maybe_query("INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank) VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray[$row['u_id']].")");
+			$updateCount = maybe_query("
+				INSERT INTO member_stats
+				(u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
+				VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray[$row['u_id']].")
+			");
 		}
 		$tracetimea = time();
 		$tooktime = $tracetimea - $tracetime;
