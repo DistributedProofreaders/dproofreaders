@@ -32,3 +32,8 @@ v_prep_text_scanos_n_z.inc
 f_prep_text_scanos.inc
      Function to combine the two scanno vars into an array
      function returnScannos()
+
+v_prep_easy_errors.inc
+     Variables $bpTxt and $gpTxt as arrays.  Preptext specifice order, but can be
+     culled for creation of other area specific replace arrays.
+
