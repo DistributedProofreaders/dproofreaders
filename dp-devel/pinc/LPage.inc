@@ -114,7 +114,7 @@ function nPage_getText( $npage )
 
     $prd = get_PRD_for_round( $pageround );
 
-    if ( $npage['revert']==1 || $npage['pagestate']==OUT_FIRST || $npage['pagestate']==OUT_SECOND )
+    if ( $npage['revert']==1 || $npage['pagestate']==$prd->page_out_state )
     {
         $desired_column_name = $prd->prevtext_column_name;
     }
@@ -196,7 +196,7 @@ function addUserCount($pguser,$userP)
     if ($rows !=0)
     {
       $curState=mysql_result($result,0,'state');
-        if ((getProjectRound($this->proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || (getProjectRound($this->proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
+        if ($curState == $this->prd->page_out_state || $curState == $this->prd->page_temp_state)
         {
           // add to user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
