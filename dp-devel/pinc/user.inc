@@ -1,17 +1,8 @@
 <?PHP
-include_once($relPath.'cookie.inc');
-include_once($relPath.'session.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'dpsession.inc');
 
 class db_udb
 {
-     var $cookieDomain="";
-
-function db_udb()
-{
-    $server_name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
-    $this->cookieDomain = substr_count($server_name, ".") > 0 ? $server_name : "";
-}
 
 function checkSafe($uInfo,$chktype)
      {
@@ -64,13 +55,7 @@ function checkLogin($userID,$userPW)
           if (!$this->checkQuery($db_result)) {return 0;}
           if (!$this->checkResult($db_result)) {return 0;}
           $userID = mysql_result($db_result,0,'username');
-          if($GLOBALS['use_cookies']) {
-	      // set cookie
-              $cookieC=new userCookie();
-              $cookieSet=$cookieC->setCookie($userID);
-          } else {
-	      startSession($userID);
-          }
+	  dpsession_begin( $userID );
           return 1;
           }
      else {$this->error='Invalid Login'; return 0;}
