@@ -85,9 +85,9 @@ elseif ($feedb == 'ok') {
 echo "<h2>Quiz successfully solved</h2>";
 echo "
 Congratulations, no errors found!<p>
-That's it for now! These 5 parts covered the most important things to watch out for in proofing. When in doubt you should always consult the <a href='$CODE_URL/faq/document.php' target='_top'>Proofing Guidelines</a> or ask in the forums if that doesn't help.</p>
+That's it for now! These 5 parts covered the most important things to watch out for in proofing. When in doubt you should always consult the <a href='$code_url/faq/document.php' target='_top'>Proofing Guidelines</a> or ask in the forums if that doesn't help.</p>
 <p>
-You'll find books to proofread on your <a href='$SITE_URL/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$CODE_URL/faq/quiz/start.php' target='top'>return to the start of the quiz</a>.";
+You'll find books to proofread on your <a href='$code_url/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$code_url/faq/quiz/start.php' target='top'>return to the start of the quiz</a>.";
 }
 // they tried to edit the text, or something :roll:
 elseif ($feedb == 'other') {
