@@ -47,7 +47,7 @@ user_viewemail)
 
 "In order to activate your account, go to <http://texts01.archive.org/dp/accounts/activate.php?username=$username&password=$passwd&magic=$currtime> and it will log you in for your first time.\n\n".
 
-"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Frequently Asked Questions <http://texts01.archive.org/dp/faq/ProoferFAQ.html> lists most users initial questions, so be sure to read it over too.\n\n".
+"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Frequently Asked Questions <http://texts01.archive.org/dp/faq/ProoferFAQ.html> lists most user's initial questions, so be sure to read it over too.\n\n".
 
 "Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
 
@@ -70,7 +70,7 @@ Charles Franks\n\nPS - Your user name, in case you forget is $username and make 
 If your password doesn't work after you have activated your account, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
 
-        print "User <b>$username</b> added sucessfully. Please verify your account by following the link provided in the e-mail just sent to you.!";
+        print "User <b>$username</b> added successfully. Please verify your account by following the link provided in the e-mail being sent to you.";
         echo "<center>";
         echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
         echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
@@ -97,7 +97,7 @@ If your password doesn't work after you have activated your account, go to <http
 available to the project manager(s) for whom you have proofread.
 <br>This will allow the project manager to provide feedback to<br>
 each proofer such as thanks, pointers on how to proof better, etc.<br>
-It will also send you an e-mail with a link to activate your account>.
+It will also send you an e-mail with a link to activate your account.
 <br><br><a href = "../default.php">Back</a> to the main page.</center>
 </form>
 </tr></td></table></tr></td></table>
