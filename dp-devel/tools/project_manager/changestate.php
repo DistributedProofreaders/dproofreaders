@@ -13,8 +13,9 @@ include($relPath.'project_edit.inc');
     $always = $_GET['always'];
 
     // Get more information about the project
-    $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
-    $oldstate = mysql_result($sql, 0, "state");
+    $sql = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
+    $project = mysql_fetch_assoc($sql);
+    $oldstate = $project['state'];
 
     abort_if_cant_edit_project( $projectid );
 
@@ -47,12 +48,30 @@ include($relPath.'project_edit.inc');
     {
         // The above are valid changes that can be made to a project
 
+	$do_transition = TRUE;
+        $refresh_url = "projectmgr.php";
+
 	if ( $newstate == PROJ_POST_CHECKED_OUT )
 	{
 	    $extras = array( 'checkedoutby' => $pguser );
 	}
-	$do_transition = TRUE;
-        $refresh_url = "projectmgr.php";
+	else if ( $oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
+	          $newstate == PROJ_PROOF_FIRST_AVAILABLE )
+	{
+	    $errors = project_pre_release_check( $project );
+	    if ($errors)
+	    {
+		echo "<pre>\n";
+		echo "The pre-release check found the following problems:\n";
+		echo $errors;
+		echo "\n";
+		echo "The project has been marked bad.\n";
+		echo "Please fix the problems and resubmit.\n";
+		echo "</pre>\n";
+		$newstate = PROJ_PROOF_FIRST_BAD_PROJECT;
+		$refresh_url = '';
+	    }
+	}
     }
     else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY))
     {
@@ -77,7 +96,7 @@ include($relPath.'project_edit.inc');
 	    echo "<p>$error_msg <p>Back to <a href=\"projectmgr.php\">project manager</a> page.";
 	    die();
 	}
-	else
+	else if ($refresh_url)
 	{
 	    metarefresh( 0, $refresh_url, "Project Transition Succeeded", "" );
 	}
