@@ -7,52 +7,52 @@
   PI=Proofing (In/Interface/Interval)
 */
 
-  define("NEW_PROJECT_TEXT", "New Project");
+  define("PROJ_NEW_TEXT", "New Project");
 
 // PI
 
   // unavailable
-  define("UNAVAIL_PI_FIRST_TEXT","Unavailable First Round");
-  define("UNAVAIL_PI_SECOND_TEXT","Unavailable Second Round");
+  define("PROJ_PROOF_FIRST_UNAVAILABLE_TEXT","Unavailable First Round");
+  define("PROJ_PROOF_SECOND_UNAVAILABLE_TEXT","Unavailable Second Round");
 
   // waiting for release
-  define("WAITING_PI_FIRST_TEXT","Waiting for First Round Release");
-  define("WAITING_PI_SECOND_TEXT","Waiting for Second Round Release");
+  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE_TEXT","Waiting for First Round Release");
+  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE_TEXT","Waiting for Second Round Release");
 
   // bad project
-  define("BAD_PI_FIRST_TEXT","Bad First Round Project");
-  define("BAD_PI_SECOND_TEXT","Bad Second Round Project");
+  define("PROJ_PROOF_FIRST_BAD_PROJECT_TEXT","Bad First Round Project");
+  define("PROJ_PROOF_SECOND_BAD_PROJECT_TEXT","Bad Second Round Project");
 
   // available for proofing
-  define("AVAIL_PI_FIRST_TEXT","Available for First Round");
-  define("AVAIL_PI_SECOND_TEXT","Available for Second Round");
+  define("PROJ_PROOF_FIRST_AVAILABLE_TEXT","Available for First Round");
+  define("PROJ_PROOF_SECOND_AVAILABLE_TEXT","Available for Second Round");
 
   // proofing round complete, but needing verification
-  define("VERIFY_PI_FIRST_TEXT","Verify First Round");
-  define("VERIFY_PI_SECOND_TEXT","Verify Second Round");
+  define("PROJ_PROOF_FIRST_VERIFY_TEXT","Verify First Round");
+  define("PROJ_PROOF_SECOND_VERIFY_TEXT","Verify Second Round");
 
   // proofing round complete and verified
-  define("COMPLETE_PI_FIRST_TEXT","Completed First Round");
-  define("COMPLETE_PI_SECOND_TEXT","Completed Second Round");
+  define("PROJ_PROOF_FIRST_COMPLETE_TEXT","Completed First Round");
+  define("PROJ_PROOF_SECOND_COMPLETE_TEXT","Completed Second Round");
 
 // PP
-  define("UNAVAIL_PP_TEXT", "Available for Post-Processing");
-  define("AVAIL_PP_TEXT", "Available for Post-Processing");
-  define("IN_PP_TEXT", "In Post-Processing");
-  define("VERIFY_PP_TEXT", "Verify Post-Processing");
-  define("VERIFYING_PP_TEXT", "Verifying Post-Processing");
-  define("COMPLETE_PP_TEXT", "Completed Post-Processing");
+  define("PROJ_POST_UNAVAILABLE_TEXT", "Available for Post-Processing");
+  define("PROJ_POST_AVAILABLE_TEXT", "Available for Post-Processing");
+  define("PROJ_POST_CHECKED_OUT_TEXT", "In Post-Processing");
+  define("PROJ_POST_VERIFY_TEXT", "Verify Post-Processing");
+  define("PROJ_POST_VERIFYING_TEXT", "Verifying Post-Processing");
+  define("PROJ_POST_COMPLETE_TEXT", "Completed Post-Processing");
 
 
 // GB
-  define("UNAVAIL_GB_TEXT", "Unavailable for Posting");
-  define("AVAIL_GB_TEXT", "Available for Posting");
-  define("POSTING_GB_TEXT", "Being Posted");
-  define("POSTED_GB_TEXT", "Posted to Project Gutenberg");
+  define("PROJ_SUBMIT_PG_UNAVAILABLE_TEXT", "Unavailable for Posting");
+  define("PROJ_SUBMIT_PG_AVAILABLE_TEXT", "Available for Posting");
+  define("PROJ_SUBMIT_PG_POSTING_TEXT", "Being Posted");
+  define("PROJ_SUBMIT_PG_POSTED_TEXT", "Posted to Project Gutenberg");
 
 // for the 'deletion' of a project
-  define("DELETE_PROJECT_TEXT", "Delete Project");
+  define("PROJ_DELETE_TEXT", "Delete Project");
 
 // for complete project
-  define("COMPLETED_PROJECT_TEXT", "Project Complete");
+  define("PROJ_COMPLETE_TEXT", "Project Complete");
 ?>

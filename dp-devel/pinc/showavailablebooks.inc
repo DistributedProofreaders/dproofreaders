@@ -19,7 +19,8 @@ echo "</tr>";
             // find out how many files the project has total/available!!!!!
             $pages=bookpages($book['projectid'],"='{$state}'");
             $bgcolor=bgcol($rownum,$round);
-        if (($state==AVAIL_FIRST && $book['state'] == AVAIL_PI_FIRST) || ($state==AVAIL_SECOND && $book['state'] == AVAIL_PI_SECOND)) {
+        if (($state==AVAIL_FIRST && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
+            ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE)) {
             echo "<tr>";
             if ($tList==0)
               {$eURL="proof";}

@@ -49,7 +49,7 @@ include_once('projectmgr_select.inc');
             printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
             printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
 
-            if ($state == NEW_PROJECT) {
+            if ($state == PROJ_NEW) {
                 printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
                 if ($sitemanager == 'yes') {
                    printf("Add All Text From projects Folder");
@@ -96,8 +96,12 @@ include_once('projectmgr_select.inc');
                     $rownum++;
                 }
                 echo "</table>";
-            } else if ($state == AVAIL_PI_FIRST || $state== WAITING_PI_FIRST || $state== BAD_PI_FIRST ||
-                $state== VERIFY_PI_FIRST || $state== COMPLETE_PI_FIRST) {
+            } else if (
+                    $state == PROJ_PROOF_FIRST_AVAILABLE ||
+                    $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
+                    $state == PROJ_PROOF_FIRST_BAD_PROJECT ||
+                    $state == PROJ_PROOF_FIRST_VERIFY ||
+                    $state == PROJ_PROOF_FIRST_COMPLETE) {
                 echo "</table><h3>First-Round Files:</h3>";
 
                 //Print each row
@@ -287,10 +291,10 @@ if ($sitemanager == "yes") {
 <?
         $numrows = 0;
         if (($show == 'site') && ($sitemanager === 'yes')) {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".POSTED_GB."' ORDER BY state asc, nameofwork asc");
+            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' ORDER BY state asc, nameofwork asc");
         } else if ($show == 'all') {
             $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
-        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".POSTED_GB."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
+        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
         if ($result != "") $numrows = (mysql_num_rows($result));
 
         $rownum = 0;
@@ -327,8 +331,8 @@ if ($sitemanager == "yes") {
             echo "</select></form></td><td align=center>";
 
             print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
-            if ($state==UNAVAIL_PP || $state==AVAIL_PP || $state==IN_PP) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
-            if (($state == VERIFYING_PP) || ($state == COMPLETE_PP)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
+            if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
+            if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
             echo "</td></tr>\n";
             //increment row number for background color change
             $rownum++;

@@ -34,9 +34,9 @@ function getPageRound($state)
 
 function getProjectRound($state)
 {
-  if ($state==AVAIL_PI_FIRST || $state==VERIFY_PI_FIRST || $state==BAD_PI_FIRST)
+  if ($state==PROJ_PROOF_FIRST_AVAILABLE || $state==PROJ_PROOF_FIRST_VERIFY || $state==PROJ_PROOF_FIRST_BAD_PROJECT)
   {return 1;}
-  else if ($state==AVAIL_PI_SECOND || $state==VERIFY_PI_SECOND || $state==BAD_PI_SECOND)
+  else if ($state==PROJ_PROOF_SECOND_AVAILABLE || $state==PROJ_PROOF_SECOND_VERIFY || $state==PROJ_PROOF_SECOND_BAD_PROJECT)
   {return 2;}
   else
   {return 0;}
@@ -91,7 +91,7 @@ function getAvailablePage($project,$proofstate,$pguser)
 {
   //find page to be proofed.
   $dbQuery="SELECT fileid, image, state FROM $project WHERE state='";
-    if ($proofstate==AVAIL_PI_SECOND) {$dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";}
+    if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE) {$dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";}
     else {$dbQuery.=AVAIL_FIRST."'";}
   $dbQuery.=" ORDER BY image ASC LIMIT 1";
   $result=mysql_query($dbQuery);
@@ -142,7 +142,7 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 {
   $timestamp=time();
   $dbQuery="UPDATE $project SET state='";
-    if ($proofstate==AVAIL_PI_SECOND)
+    if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
     {
       $rval=OUT_SECOND;
       $dbQuery.="$rval', round2_time='$timestamp', round2_user='$pguser'";
@@ -190,7 +190,7 @@ function isProjectDone($proofstate)
   $rows=nrows($result);
     if ($rows == 0)
     {
-      $newstate=$this->getProjectRound($proofstate)==1? VERIFY_PI_FIRST:VERIFY_PI_SECOND;
+      $newstate = $this->getProjectRound($proofstate)==1 ? PROJ_PROOF_FIRST_VERIFY : PROJ_PROOF_SECOND_VERIFY;
       $result = dquery("UPDATE projects SET state = '$newstate' WHERE projectid = '{$this->project}'");
     }
 }

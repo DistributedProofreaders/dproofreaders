@@ -53,9 +53,9 @@ if ($totalBad >= 10) {
 $uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
 if ($uniqueBadPages >= 3) {
 if($_POST['badState']==bad_first) {
-$result = mysql_query("UPDATE projects SET state='".BAD_PI_FIRST."' WHERE projectid='".$_POST['projectname']."'");
+$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
 } else {
-$result = mysql_query("UPDATE projects SET state='".BAD_PI_SECOND."' WHERE projectid='".$_POST['projectname']."'");
+$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
 }
 $advisePM = 1;
 } }

@@ -15,7 +15,7 @@ $projectinfo = new projectinfo();
   include 'autorelease.php';
   include 'sendtopost.php';
 
-  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".AVAIL_PI_FIRST."' OR state = '".VERIFY_PI_FIRST."' OR state = '".AVAIL_PI_SECOND."' OR state = '".VERIFY_PI_SECOND."' OR state = '".COMPLETE_PI_FIRST."' OR state = '".COMPLETE_PI_SECOND."' OR state = '15'");
+  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state = '15'");
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
   $pagesleft = 0;
@@ -33,21 +33,21 @@ $projectinfo = new projectinfo();
     $projectinfo->update($project, $state);
 
     // Error checking
-    if (($state == AVAIL_PI_SECOND) || ($state == 15)) {
+    if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == 15)) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."' AND state != '".BAD_SECOND."'");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {
-            $state = BAD_PI_SECOND;
+            $state = PROJ_PROOF_SECOND_BAD_PROJECT;
             mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
         }
         $pagesleft += $projectinfo->avail2_pages;
         $projectinfo->availablepages = $projectinfo->avail2_pages;
 
-    } else if ($state == AVAIL_PI_FIRST) {
+    } else if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."' AND state != '".BAD_FIRST."'");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {
-            $state = BAD_PI_FIRST;
+            $state = PROJ_PROOF_FIRST_BAD_PROJECT;
             mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
         }
         $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
@@ -58,8 +58,11 @@ $projectinfo = new projectinfo();
     $projectinfo->update($project, $state);
 
     // Decide which round the project is in
-    if ($state == AVAIL_PI_FIRST || $state== WAITING_PI_FIRST || $state== BAD_PI_FIRST ||
-      $state== VERIFY_PI_FIRST || $state== COMPLETE_PI_FIRST) {
+    if ($state == PROJ_PROOF_FIRST_AVAILABLE ||
+        $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
+        $state == PROJ_PROOF_FIRST_BAD_PROJECT ||
+        $state == PROJ_PROOF_FIRST_VERIFY ||
+        $state == PROJ_PROOF_FIRST_COMPLETE) {
       $outtable = $projectinfo->out1_rows;
       $numoutrows = $projectinfo->out1_pages;
       $temptable = $projectinfo->temp1_rows;
@@ -69,8 +72,11 @@ $projectinfo = new projectinfo();
       $usertype = "round1_user";
       $newstate = AVAIL_FIRST;
 
-    } else if ($state == AVAIL_PI_SECOND || $state== WAITING_PI_SECOND || $state== BAD_PI_SECOND ||
-      $state== VERIFY_PI_SECOND || $state== COMPLETE_PI_SECOND) {
+    } else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
+        $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
+        $state == PROJ_PROOF_SECOND_BAD_PROJECT ||
+        $state == PROJ_PROOF_SECOND_VERIFY ||
+        $state == PROJ_PROOF_SECOND_COMPLETE) {
       $outtable = $projectinfo->out2_rows;
       $numoutrows = $projectinfo->out2_pages;
       $temptable = $projectinfo->temp2_rows;
@@ -82,9 +88,10 @@ $projectinfo = new projectinfo();
 
     }
 
-    if (($state == VERIFY_PI_FIRST) || ($state == VERIFY_PI_SECOND) ||
-        (($state == AVAIL_PI_FIRST) && ($projectinfo->availablepages == 0)) || 
-        (($state == AVAIL_PI_SECOND) && ($projectinfo->availablepages == 0))) {
+    if (($state == PROJ_PROOF_FIRST_VERIFY) ||
+        ($state == PROJ_PROOF_SECOND_VERIFY) ||
+        (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) || 
+        (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
 
         echo "Found \"$nameofwork\" to verify = $project<BR>";
 
@@ -123,13 +130,13 @@ $projectinfo = new projectinfo();
 
         $projectinfo->update($project, $state);
 
-        if (($state == AVAIL_PI_FIRST) || ($state == VERIFY_PI_FIRST)) {
+        if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_VERIFY)) {
 
-            if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = COMPLETE_PI_FIRST; } else $state = AVAIL_PI_FIRST;
+            if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_FIRST_COMPLETE; } else $state = PROJ_PROOF_FIRST_AVAILABLE;
 
-        } else if (($state == AVAIL_PI_SECOND) || ($state == VERIFY_PI_SECOND)) {
+        } else if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == PROJ_PROOF_SECOND_VERIFY)) {
 
-            if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = COMPLETE_PI_SECOND; } else $state = AVAIL_PI_SECOND;
+            if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_SECOND_COMPLETE; } else $state = PROJ_PROOF_SECOND_AVAILABLE;
         }
 
         $sql = "UPDATE projects SET state = '$state' WHERE projectid = '$project'";
@@ -138,18 +145,18 @@ $projectinfo = new projectinfo();
     }
 
     // Promote Level
-    if ($state == COMPLETE_PI_FIRST) {
+    if ($state == PROJ_PROOF_FIRST_COMPLETE) {
 
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $project SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
         echo "Found project to promote = $project<BR>";
 
-        $updatefile = mysql_query("UPDATE projects SET state = '".AVAIL_PI_SECOND."' WHERE projectid = '$project'");
+        $updatefile = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_SECOND_AVAILABLE."' WHERE projectid = '$project'");
     }
 
     // Completed Level
-    if ($state == COMPLETE_PI_SECOND) {
+    if ($state == PROJ_PROOF_SECOND_COMPLETE) {
         sendtopost($project, $username, $todaysdate);
     }
     $rownum++;

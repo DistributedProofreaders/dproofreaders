@@ -5,23 +5,23 @@ include_once($relPath.'project_states_text.inc');
 function projectStateRound($state)
   {
   $wProc='NONE';
-    if ($state==NEW_PROJECT)
+    if ($state==PROJ_NEW)
       {$wProc=='NEW';}
 //  for the pre-processing
 //    else if ($state==)
 //      {$wProc=='PR';}
-    else if ($state==UNAVAIL_PI_FIRST || $state==WAITING_PI_FIRST || $state==BAD_PI_FIRST || 
-      $state==AVAIL_PI_FIRST || $state==VERIFY_PI_FIRST || $state==COMPLETE_PI_FIRST)
+    else if ($state==PROJ_PROOF_FIRST_UNAVAILABLE || $state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT || 
+      $state==PROJ_PROOF_FIRST_AVAILABLE || $state==PROJ_PROOF_FIRST_VERIFY || $state==PROJ_PROOF_FIRST_COMPLETE)
       {$wProc=='FIRST';}
-    else if ($state==UNAVAIL_PI_SECOND || $state==WAITING_PI_SECOND || $state==BAD_PI_SECOND || 
-      $state==AVAIL_PI_SECOND || $state==VERIFY_PI_SECOND || $state==COMPLETE_PI_SECOND)
+    else if ($state==PROJ_PROOF_SECOND_UNAVAILABLE || $state==PROJ_PROOF_SECOND_WAITING_FOR_RELEASE || $state==PROJ_PROOF_SECOND_BAD_PROJECT || 
+      $state==PROJ_PROOF_SECOND_AVAILABLE || $state==PROJ_PROOF_SECOND_VERIFY || $state==PROJ_PROOF_SECOND_COMPLETE)
       {$wProc=='SECOND';}
-    else if ($state==UNAVAIL_PP || $state==AVAIL_PP || $state==IN_PP || $state==VERIFY_PP || 
-      $state==VERIFYING_PP || $state==COMPLETE_PP)
+    else if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT || $state==PROJ_POST_VERIFY || 
+      $state==PROJ_POST_VERIFYING || $state==PROJ_POST_COMPLETE)
       {$wProc=='PP';}
-    else if ($state==UNAVAIL_GB || $state==AVAIL_GB || $state==POSTING_GB || $state==POSTED_GB)
+    else if ($state==PROJ_SUBMIT_PG_UNAVAILABLE || $state==PROJ_SUBMIT_PG_AVAILABLE || $state==PROJ_SUBMIT_PG_POSTING || $state==PROJ_SUBMIT_PG_POSTED)
       {$wProc=='GB';}
-    else if ($state==COMPLETED_PROJECT)
+    else if ($state==PROJ_COMPLETE)
       {$wProc=='COMPLETE';}
   return $wProc;
   }
@@ -30,56 +30,56 @@ function project_states_text($state)
   {
   switch($state)
     {
-    case NEW_PROJECT:
-      return NEW_PROJECT_TEXT;
-    case UNAVAIL_PI_FIRST:
-      return UNAVAIL_PI_FIRST_TEXT;
-    case UNAVAIL_PI_SECOND:
-      return UNAVAIL_PI_SECOND_TEXT;
-    case WAITING_PI_FIRST:
-      return WAITING_PI_FIRST_TEXT;
-    case WAITING_PI_SECOND:
-      return WAITING_PI_SECOND_TEXT;
-    case BAD_PI_FIRST:
-      return BAD_PI_FIRST_TEXT;
-    case BAD_PI_SECOND:
-      return BAD_PI_SECOND_TEXT;
-    case AVAIL_PI_FIRST:
-      return AVAIL_PI_FIRST_TEXT;
-    case AVAIL_PI_SECOND:
-      return AVAIL_PI_SECOND_TEXT;
-    case VERIFY_PI_FIRST:
-      return VERIFY_PI_FIRST_TEXT;
-    case VERIFY_PI_SECOND:
-      return VERIFY_PI_SECOND_TEXT;
-    case COMPLETE_PI_FIRST:
-      return COMPLETE_PI_FIRST_TEXT;
-    case COMPLETE_PI_SECOND:
-      return COMPLETE_PI_SECOND_TEXT;
-    case UNAVAIL_PP:
-      return UNAVAIL_PP_TEXT;
-    case AVAIL_PP:
-      return AVAIL_PP_TEXT;
-    case IN_PP:
-      return IN_PP_TEXT;
-    case VERIFY_PP:
-      return VERIFY_PP_TEXT;
-    case VERIFYING_PP:
-      return VERIFYING_PP_TEXT;
-    case COMPLETE_PP:
-      return COMPLETE_PP_TEXT;
-    case UNAVAIL_GB:
-      return UNAVAIL_GB_TEXT;
-    case AVAIL_GB:
-      return AVAIL_GB_TEXT;
-    case POSTING_GB:
-      return POSTING_GB_TEXT;
-    case POSTED_GB:
-      return POSTED_GB_TEXT;
-    case DELETE_PROJECT:
-      return DELETE_PROJECT_TEXT;
-    case COMPLETED_PROJECT:
-      return COMPLETED_PROJECT_TEXT;
+    case PROJ_NEW:
+      return PROJ_NEW_TEXT;
+    case PROJ_PROOF_FIRST_UNAVAILABLE:
+      return PROJ_PROOF_FIRST_UNAVAILABLE_TEXT;
+    case PROJ_PROOF_SECOND_UNAVAILABLE:
+      return PROJ_PROOF_SECOND_UNAVAILABLE_TEXT;
+    case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE:
+      return PROJ_PROOF_FIRST_WAITING_FOR_RELEASE_TEXT;
+    case PROJ_PROOF_SECOND_WAITING_FOR_RELEASE:
+      return PROJ_PROOF_SECOND_WAITING_FOR_RELEASE_TEXT;
+    case PROJ_PROOF_FIRST_BAD_PROJECT:
+      return PROJ_PROOF_FIRST_BAD_PROJECT_TEXT;
+    case PROJ_PROOF_SECOND_BAD_PROJECT:
+      return PROJ_PROOF_SECOND_BAD_PROJECT_TEXT;
+    case PROJ_PROOF_FIRST_AVAILABLE:
+      return PROJ_PROOF_FIRST_AVAILABLE_TEXT;
+    case PROJ_PROOF_SECOND_AVAILABLE:
+      return PROJ_PROOF_SECOND_AVAILABLE_TEXT;
+    case PROJ_PROOF_FIRST_VERIFY:
+      return PROJ_PROOF_FIRST_VERIFY_TEXT;
+    case PROJ_PROOF_SECOND_VERIFY:
+      return PROJ_PROOF_SECOND_VERIFY_TEXT;
+    case PROJ_PROOF_FIRST_COMPLETE:
+      return PROJ_PROOF_FIRST_COMPLETE_TEXT;
+    case PROJ_PROOF_SECOND_COMPLETE:
+      return PROJ_PROOF_SECOND_COMPLETE_TEXT;
+    case PROJ_POST_UNAVAILABLE:
+      return PROJ_POST_UNAVAILABLE_TEXT;
+    case PROJ_POST_AVAILABLE:
+      return PROJ_POST_AVAILABLE_TEXT;
+    case PROJ_POST_CHECKED_OUT:
+      return PROJ_POST_CHECKED_OUT_TEXT;
+    case PROJ_POST_VERIFY:
+      return PROJ_POST_VERIFY_TEXT;
+    case PROJ_POST_VERIFYING:
+      return PROJ_POST_VERIFYING_TEXT;
+    case PROJ_POST_COMPLETE:
+      return PROJ_POST_COMPLETE_TEXT;
+    case PROJ_SUBMIT_PG_UNAVAILABLE:
+      return PROJ_SUBMIT_PG_UNAVAILABLE_TEXT;
+    case PROJ_SUBMIT_PG_AVAILABLE:
+      return PROJ_SUBMIT_PG_AVAILABLE_TEXT;
+    case PROJ_SUBMIT_PG_POSTING:
+      return PROJ_SUBMIT_PG_POSTING_TEXT;
+    case PROJ_SUBMIT_PG_POSTED:
+      return PROJ_SUBMIT_PG_POSTED_TEXT;
+    case PROJ_DELETE:
+      return PROJ_DELETE_TEXT;
+    case PROJ_COMPLETE:
+      return PROJ_COMPLETE_TEXT;
     }
   return "";
   }

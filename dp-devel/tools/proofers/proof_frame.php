@@ -32,7 +32,8 @@ if (isset($editone))
   $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
   $result = mysql_query($sql);
   $state = mysql_result($result, 0, "state");
-    if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_PI_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_PI_SECOND)))
+    if ((($proofstate == PROJ_PROOF_FIRST_AVAILABLE)  && ($state != PROJ_PROOF_FIRST_AVAILABLE)) ||
+        (($proofstate == PROJ_PROOF_SECOND_AVAILABLE) && ($state != PROJ_PROOF_SECOND_AVAILABLE)))
     {
       $tpage->noPages($userP['i_newwin']);
       exit;

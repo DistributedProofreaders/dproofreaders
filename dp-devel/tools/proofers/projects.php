@@ -23,11 +23,11 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
     $recentNum=5;
 
     $sql = "SELECT image, fileid, state, ";
-    $whichTime=$proofstate ==AVAIL_PI_FIRST? "round1_time" : "round2_time";
+    $whichTime = $proofstate==PROJ_PROOF_FIRST_AVAILABLE ? "round1_time" : "round2_time";
     $sql.=$whichTime." FROM $project WHERE ";
-    if ($proofstate ==AVAIL_PI_FIRST) {$sql.="round1_user";} else {$sql.="round2_user";}
+    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {$sql.="round1_user";} else {$sql.="round2_user";}
     $sql.="='$pguser' AND "; 
-    if ($proofstate ==AVAIL_PI_FIRST) 
+    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) 
       {
         if ($wlist==0)
           {$sql.="state ='".SAVE_FIRST."'";}
@@ -72,9 +72,9 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
 
 $projectinfo = new projectinfo();
-if ($proofstate ==AVAIL_PI_FIRST) {
-  $projectinfo->update_avail($project, AVAIL_PI_FIRST);
-} else $projectinfo->update_avail($project,AVAIL_PI_SECOND);
+if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
+  $projectinfo->update_avail($project, PROJ_PROOF_FIRST_AVAILABLE);
+} else $projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
 
 /* $_GET $project, $proofstate, $proofing */
 
@@ -89,7 +89,7 @@ if ($proofstate ==AVAIL_PI_FIRST) {
 
 
 if (isset($proofstate)){
-   if ($proofstate ==AVAIL_PI_FIRST)
+   if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
    {$wTime="round1_time";
     $wState=SAVE_FIRST;}
    else {$wTime="round2_time";
@@ -110,7 +110,7 @@ if (!isset($proofing)) {
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
-    if ($proofstate ==AVAIL_PI_FIRST) {
+    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
         echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
         echo "<b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {

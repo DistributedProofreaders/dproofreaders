@@ -57,7 +57,8 @@ $tpage=new processpage();
     $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
     $result = mysql_query($sql);
     $state = mysql_result($result, 0, "state");
-      if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_SECOND)))
+      if ((($proofstate == PROJ_PROOF_FIRST_AVAILABLE) && ($state != AVAIL_FIRST)) ||
+          (($proofstate == PROJ_PROOF_SECOND_AVAILABLE) && ($state != AVAIL_SECOND)))
       {
         $tpage->noPages($userP['i_newwin']);
         exit;

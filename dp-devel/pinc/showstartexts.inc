@@ -5,7 +5,7 @@ function showstartexts($etext_limit,$type) {
 $i = 1;
 
 if ($type == "bronze") {
-$state = "state='".AVAIL_PI_FIRST."' OR state='".AVAIL_PI_SECOND."' OR state='".VERIFY_PI_FIRST."' OR state='".VERIFY_PI_SECOND."'";
+$state = "state='".PROJ_PROOF_FIRST_AVAILABLE."' OR state='".PROJ_PROOF_SECOND_AVAILABLE."' OR state='".PROJ_PROOF_FIRST_VERIFY."' OR state='".PROJ_PROOF_SECOND_VERIFY."'";
 $text = " Now Proofing.</font>  The book is currently being processed through this site, sign in and start helping!!!! <br>";
 } elseif ($type == "silver") {
 $state = "state>=60 AND state<79";
