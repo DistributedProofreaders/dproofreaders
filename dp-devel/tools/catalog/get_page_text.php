@@ -20,10 +20,8 @@ if ( mysql_numrows($rows) == 0 )
 else
 {
     $row = mysql_fetch_array( $rows );
-    echo "<pre>\n";
+    header('Content-type: text/plain');
     echo $row[$column];
-    echo "\n";
-    echo "</pre>\n";
 }
 
 ?>
