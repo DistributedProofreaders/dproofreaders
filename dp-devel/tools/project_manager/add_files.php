@@ -110,6 +110,7 @@ if ($source_project_dir != $dest_project_dir)
 	echo "to\n";
 	echo "    $dest_project_dir\n";
 	system("cp *.png $dest_project_dir");
+	system("cp *.jpg $dest_project_dir");
 }
 
 if ($_GET['tpnv'] !='1')
@@ -204,6 +205,6 @@ $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHE
 
 echo "</pre>\n";
 echo "<hr>\n";
-echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
+echo "Return to <a href='project_detail.php?project=$projectid&type=Full'>Project Page</a>.\n";
 
 ?>
