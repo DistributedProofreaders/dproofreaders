@@ -27,10 +27,12 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     echo "</tr>";
 
     if (! user_can_see_BEGIN_R1()) {
-         $RFilter = $RFilter . " AND difficulty != 'beginner' ";
+         $extra =  " AND difficulty != 'beginner' ";
+    } else {
+	$extra = " ";
     }
 
-    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter );
+    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter . $extra );
 
     echo "</table>\n<br>";
   }
