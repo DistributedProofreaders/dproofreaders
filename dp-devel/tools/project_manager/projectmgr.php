@@ -9,6 +9,7 @@ include_once($relPath.'project_edit.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr_select.inc');
 include_once($relPath.'f_project_states.inc');
+if (isset($_GET['project'])) { $no_stats=1; }
 theme("Project Managers", "header");
 
 function echo_cells_for_round($round_num)
