@@ -87,15 +87,38 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
     }
 }
 
-function noPages($newwin)
+function noPages($newwin, $begin_threshold = 0)
 {
-    $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
-    $title = _("Project Round Complete");
+    if ($begin_threshold) {	
+       $body=_("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.<br> You will be taken back to the project listing page in 4 seconds.");
+       $title = _("Beginners Only quota reached for this Project");
+    } else {
+       $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
+       $title = _("Project Round Complete");
+    }
     metarefresh(4,"list_avail.php",$title,$body);
 }
 
 function getAvailablePage($project,$proofstate,$pguser)
 {
+
+  // if a BEGIN project in R1, people can only get a new page 
+  // if they've done less than X pages on this project already;
+  // X is currently, let's say, 20
+
+  if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
+       $dbQuery = "
+                   SELECT COUNT(fileid) as pagesdone FROM $project, projects 
+				WHERE  round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
+       "; 
+       $result=mysql_query($dbQuery);
+       $pagesdone = mysql_result($result, 0, "pagesdone" );
+       if ($pagesdone > 20) {
+           $rval['TooManyBegin'] = 1;
+           return $rval;
+       }
+  }
+
   //find page to be proofed.
   $dbQuery="SELECT fileid, image, state FROM $project WHERE state='";
     if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE) {$dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";}
@@ -103,8 +126,8 @@ function getAvailablePage($project,$proofstate,$pguser)
   $dbQuery.=" ORDER BY image ASC LIMIT 1";
   $result=mysql_query($dbQuery);
   $numrows = mysql_num_rows($result);
-    if ($numrows !=0) {$rval=mysql_fetch_assoc($result);$rval['isopen']=1;}
-    else {$rval['isopen']=0;}
+    if ($numrows !=0) {$rval=mysql_fetch_assoc($result);$rval['isopen']=1;$rval['TooManyBegin'] = 0;}
+    else {$rval['isopen']=0;$rval['TooManyBegin'] = 0;}
   return $rval;
 }
 

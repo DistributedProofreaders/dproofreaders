@@ -77,6 +77,12 @@ $needPage=1;
     if ($needPage==1)
       {
         $npage=$tpage->getAvailablePage($project,$proofstate,$pguser);
+        // check to see if the user has exceeded the R1 BEGIN quota for this project
+	    if ($npage['TooManyBegin'] == 1) 
+            {
+              $tpage->noPages($userP['i_newwin'], 1);
+              exit;
+            } //end R1 BEGIN quota check
         // check to see if project is open
           if ($npage['isopen'] == 0)
             {
