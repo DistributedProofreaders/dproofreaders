@@ -176,33 +176,28 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 
   $timestamp=time();
 
+  if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
+  {
+    $rval=OUT_SECOND;
+    $round_time='round2_time';
+    $round_user='round2_user';
+  }
+  else
+  {
+    $rval=OUT_FIRST;
+    $round_time='round1_time';
+    $round_user='round1_user';
+  }
+
   if ($writeBIGtable) {
     $dbQuery="UPDATE project_pages SET state='";
-      if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
-      {
-        $rval=OUT_SECOND;
-        $dbQuery.="$rval', round2_time='$timestamp', round2_user='$pguser'";
-      }
-      else
-      {
-        $rval=OUT_FIRST;
-        $dbQuery.="$rval', round1_time='$timestamp', round1_user='$pguser'";
-      }
+    $dbQuery.="$rval', $round_time='$timestamp', $round_user='$pguser'";
     $dbQuery.="  WHERE projectid = '$project' and fileid='$fileid'";
     $update = mysql_query($dbQuery);
   }
 
   $dbQuery="UPDATE $project SET state='";
-    if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
-    {
-      $rval=OUT_SECOND;
-      $dbQuery.="$rval', round2_time='$timestamp', round2_user='$pguser'";
-    }
-    else
-    {
-      $rval=OUT_FIRST;
-      $dbQuery.="$rval', round1_time='$timestamp', round1_user='$pguser'";
-    }
+  $dbQuery.="$rval', $round_time='$timestamp', $round_user='$pguser'";
   $dbQuery.="  WHERE fileid='$fileid' AND image='$imagefile'";
   $update = mysql_query($dbQuery);
   return $rval;
