@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include($relPath.'project_states.inc');
 
     $todaysdate = time();
 
@@ -19,10 +20,10 @@ include($relPath.'dp_main.inc');
     $sitemanager = mysql_result($sql, 0, "sitemanager");
 
     // If it was in "Unavailable No Round"
-    if ($oldstate == PROJ_NEW) {
+    if ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE) {
         // Check to see if there are pages. Project shouldn't be released if it has no pages in it.
         $result = mysql_query("SELECT fileid FROM $projectid");
-        if ((mysql_num_rows($result) == 0) && ($newstate == PROJ_PROOF_FIRST_VERIFY)) {
+        if ((mysql_num_rows($result) == 0) && ($newstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE)) {
             echo "<P>Project must have pages to be proofread in order to be taken out of unavailable no round. Back to <a href=\"projectmgr.php\">project manager</a> page.";
             die();
         }
@@ -82,8 +83,9 @@ if ($topic_id == "") {
 
         // TODO: Archive the project
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid&posted=1\">";
-    } else if (($newstate == PROJ_NEW) || ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE) || ($newstate == PROJ_POST_CHECKED_OUT) || ($always == 'yes') ||
-        ($oldstate == PROJ_NEW) || ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE) || ($oldstate == PROJ_PROOF_SECOND_UNAVAIL) || ($oldstate == PROJ_POST_CHECKED_OUT)) {
+    } else if (($newstate == PROJ_PROOF_FIRST_UNAVAILABLE) || ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE) || ($newstate == PROJ_POST_CHECKED_OUT) || ($always == 'yes') ||
+        ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE) || ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE) || ($oldstate == PROJ_PROOF_SECOND_UNAVAIL) || ($oldstate == PROJ_POST_CHECKED_OUT) ||
+        ($oldstate == PROJ_NEW)) {
 
         // The above are valid changes that can be made to a project
 
