@@ -4,7 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
-include($relPath.'showavailablecorr.inc');
+include($relPath.'show_projects_in_state.inc');
 theme("Correct Editions", "header");
 
 echo "
@@ -28,11 +28,11 @@ echo "
 ";
 
 echo "<center><b>Books I Have Checked Out to Verify Corrections:</b></center>";
-show_available_corr(PROJ_CORRECT_CHECKED_OUT);
+show_projects_in_state(PROJ_CORRECT_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books Available with Corrections:</b></center>";
-show_available_corr(PROJ_CORRECT_AVAILABLE);
+show_projects_in_state(PROJ_CORRECT_AVAILABLE);
 echo "<br>";
 
 theme("", "footer");

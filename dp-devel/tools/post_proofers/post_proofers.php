@@ -4,7 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
-include($relPath.'showavailablepost.inc');
+include($relPath.'show_projects_in_state.inc');
 theme("Post Processing", "header");
 
 echo "
@@ -59,19 +59,19 @@ echo "
 ";
 
 echo "<center><b>Books I Have Checked Out for Post-Processing:</b></center>";
-show_available_post(PROJ_POST_FIRST_CHECKED_OUT);
+show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books I Have Checked Out for Verifying Post-Processing:</b></center>";
-show_available_post(PROJ_POST_SECOND_CHECKED_OUT);
+show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books Available for Post-Processing:</b></center>";
-show_available_post(PROJ_POST_FIRST_AVAILABLE);
+show_projects_in_state(PROJ_POST_FIRST_AVAILABLE);
 echo "<br>";
 
 echo "<center><b>Books Available for Post-Processing Verification & Posting:</b></center>";
-show_available_post(PROJ_POST_SECOND_AVAILABLE);
+show_projects_in_state(PROJ_POST_SECOND_AVAILABLE);
 echo "<br>";
 
 theme("", "footer");
