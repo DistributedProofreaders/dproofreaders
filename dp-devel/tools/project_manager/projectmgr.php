@@ -320,11 +320,11 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 65) {
-                    if (($id == 60) || ($id == 68) || ($id == 69) || ($id == 79)) {
+                    if (($id == 60) || ($id == 61) || ($id == 68) || ($id == 69) || ($id == 79)) {
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 68) {
-                    if ($id == 69) {
+                    if (($id == 69) || ($id == 79)) {
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 69) {
