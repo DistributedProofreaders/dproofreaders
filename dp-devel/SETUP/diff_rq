@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+
+# diff_rq dir1 dir2
+# gives the same information as diff -r -q dir1 dir2,
+# but in a different format.
+
+import re
+import os
+import sys
+
+if len(sys.argv) != 3:
+    print >> sys.stderr, 'usage: diff_rq dir1 dir2'
+    sys.exit(1)
+
+(_,L,R) = sys.argv
+
+only_in_L_reo = re.compile( r'^Only in %s(|/.+): (.*)$' % re.escape(L) )
+only_in_R_reo = re.compile( r'^Only in %s(|/.+): (.*)$' % re.escape(R) )
+differ_reo = re.compile( r'^Files %s(.*) and %s\1 differ$' % ( re.escape(L), re.escape(R)) )
+
+only_in_L = []
+only_in_R = []
+differ = []
+
+pipe = os.popen( "diff -r -q %s %s" % (L,R) )
+while 1:
+    line = pipe.readline()
+    if line == '':
+	break
+
+    # trim trialing newline
+    line = line.rstrip()
+
+    mo = only_in_L_reo.match( line )
+    if mo:
+	(dir,f) = mo.groups()
+	p = dir + '/' + f
+	p = re.sub( r'^/', '', p )
+	only_in_L.append( p )
+	continue
+
+    mo = only_in_R_reo.match( line )
+    if mo:
+	(dir,f) = mo.groups()
+	p = dir + '/' + f
+	p = re.sub( r'^/', '', p )
+	only_in_R.append( p )
+	continue
+
+    mo = differ_reo.match( line )
+    if mo:
+	(p,) = mo.groups()
+	p = re.sub( r'^/', '', p )
+	differ.append( p )
+	continue
+
+    assert 0, line
+
+print 'Replacing %s with %s would...' % (L, R)
+
+print '    '
+print '    delete:'
+if len(only_in_L) > 0:
+    for p in only_in_L: print '       ', p
+else:
+    print '        (nothing)'
+
+print '    '
+print '    create:'
+if len(only_in_R) > 0:
+    for p in only_in_R: print '       ', p
+else:
+    print '        (nothing)'
+
+print '    '
+print '    change:'
+if len(differ) > 0:
+    for p in differ: print '       ', p
+else:
+    print '        (nothing)'

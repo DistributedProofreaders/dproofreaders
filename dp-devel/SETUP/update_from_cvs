@@ -1,0 +1,226 @@
+#!/bin/sh
+
+if [ $# != 1 ]; then
+    echo 'usage: update_from_cvs <path-to-site-config-file>'
+    exit 1
+fi
+
+this_script_file=$0
+site_config_file=$1
+
+# ------------------------------------------------------------------------------
+
+# Overview of this script:
+# ------------------------
+#
+# The CVS snapshot of dp-devel will be installed at
+#     $_CODE_DIR.new
+# (i.e., that directory will contain pinc, tools, etc.)
+#
+# If $SHIFT_TO_LIVE (defined in the config file) is 'yes',
+# or it's 'prompt' and the user answers 'y',
+# then $_CODE_DIR.new will be moved to $_CODE_DIR.
+# If that directory already exists, it will first be renamed as
+#     $_CODE_DIR.bak
+# and if *that* directory already exists, it will be REMOVED.
+#
+# So if this script is being invoked periodically, any "manual"
+# changes you make within the snapshot hierarchy will soon disappear.
+# Basically, you should treat it as read-only (although I've
+# occasionally made quick changes to test some code that I'm
+# working on at home).
+#
+# In order to make the resulting site functional, this script
+# makes a few tweaks to the CVS snapshot, replacing certain
+# patterns in certain files with site-specific strings.
+
+# ------------------------------------------------------------------------------
+
+# To update the dproofreaders.sourceforge.net test site every hour,
+# we invoke this script from a crontab on a SourceForge shell-server,
+# using the following line:
+#   00 * * * * /home/groups/d/dp/dproofreaders/bin/update_from_cvs
+
+# ------------------------------------------------------------------------------
+
+check()
+{
+    status=$?
+    blurb=$1
+    if [ $status != 0 ]; then
+        echo "'$blurb' returned status $status, so exiting"
+        exit 1
+    fi
+}
+
+# ------------------------------------------------------------------------------
+
+# Set _CODE_DIR
+. $site_config_file
+
+abort=/bin/false
+if [ "$_CODE_DIR" = "" ]; then
+    echo "Error: config file did not define _CODE_DIR."
+    abort=/bin/true
+fi
+if [ "$GROUP" = "" ]; then
+    echo "Error: config file did not define GROUP."
+    abort=/bin/true
+fi
+if [ "$SHIFT_TO_LIVE" = "" ]; then
+    echo "Error: config file did not define SHIFT_TO_LIVE."
+    abort=/bin/true
+fi
+
+if $abort; then
+    echo "Aborting due to config errors."
+    exit 1
+fi
+
+
+# ------------------------------------------------------------------------------
+
+if /bin/true; then
+    # ------------------------------------------------------------------------------
+    # Remove any $_CODE_DIR.new
+
+    if [ -d $_CODE_DIR.new ]; then
+        # It's probably left over from a previous invocation of this
+        # script that failed for some reason.
+        rm -rf $_CODE_DIR.new
+        check "rm $_CODE_DIR.new"
+    fi
+
+    # ------------------------------------------------------------------------------
+    # Extract the latest source from the CVS repository.
+
+    if hostname | grep -q sourceforge.net; then
+        # We're on a SourceForge host.
+        cvs_server=cvs1
+    else
+        # We're not on a SourceForge host.
+        cvs_server=cvs.sourceforge.net
+    fi
+
+    if false; then
+        cvs_account=:pserver:anonymous@$cvs_server
+        # This is delayed from the ssh CVS server by up to 5 hours.
+    else
+        case $USER in
+            charlz)   sf_userid=charlz       ;;
+            jgruber)  sf_userid=usfjoseph    ;;
+            mdyck)    sf_userid=jmdyck       ;;
+            bkeir)    sf_userid=big_bill_boy ;;
+            pourlean) sf_userid=pourlean     ;;
+            dkretz)   sf_userid=dkretz       ;;
+            donovan)  sf_userid=donovang     ;;
+            *)        sf_userid=UNKNOWN      ;;
+        esac
+        cvs_account=:ext:$sf_userid@$cvs_server
+        export CVS_RSH=ssh
+    fi
+
+    # Apparently, CVS doesn't like it if you say
+    #     cvs export -d /0/htdocs/c.new
+    # It complains:
+    #     cvs [export aborted]:
+    #     absolute pathname `/0/htdocs/c.new' illegal for server
+    # Instead, you have to say
+    #     cd /0/htdocs
+    #     cvs export -d c.new
+    # (But we want to do this is a subshell, so that it doesn't break
+    # other paths [e.g. $site_config_file], which might be relative.)
+    # (Stupid CVS.)
+    # So we have to decompose $_CODE_DIR.
+
+    code_dir_parent=`dirname $_CODE_DIR`
+    code_dir_name=`basename $_CODE_DIR`
+
+    echo ""
+    echo "Getting snapshot from CVS repository on SourceForge,"
+    echo "putting it in $_CODE_DIR.new ..."
+    for attempt in 1 2 3 4 last; do
+        ( cd $code_dir_parent &&
+        cvs -Q -d$cvs_account:/cvsroot/dproofreaders export -r HEAD -d $code_dir_name.new dp-devel )
+        status=$?
+        if [ $status = 0 ]; then break; fi
+        echo "'cvs export -r HEAD -d $_CODE_DIR.new dp-devel' returned $status"
+        if [ $attempt = last ]; then
+            echo "so exiting"
+            exit 1
+        else
+            echo "so trying again"
+        fi
+    done
+    # check "cvs export -r HEAD -d $_CODE_DIR.new dp-devel"
+
+    chgrp -R $GROUP $_CODE_DIR.new
+
+    # ------------------------------------------------------------------------------
+    # Make everything group-writeable, so that anyone in the group
+    # can delete it (which they need to do to install a new one).
+
+    chmod -R g+w $_CODE_DIR.new
+
+    # Remove all 'other' permissions on the SETUP directory,
+    # to prevent it being served over the web.
+
+    chmod -R o= $_CODE_DIR.new/SETUP
+fi
+
+# ------------------------------------------------------------------------------
+# Install site-specific info.
+
+configure_script_file=`dirname $this_script_file`/configure
+$configure_script_file $site_config_file $_CODE_DIR.new
+
+# ------------------------------------------------------------------------------
+
+echo ""
+~dphelp/bin/diff_rq $_CODE_DIR $_CODE_DIR.new
+echo ""
+
+if [ $SHIFT_TO_LIVE = yes ]; then
+    # fine
+    :
+
+elif [ $SHIFT_TO_LIVE = no ]; then
+    echo "SHIFT_TO_LIVE is 'no', so exiting without an install"
+    exit 1
+
+elif [ $SHIFT_TO_LIVE = prompt ]; then
+    echo -n "Install $_CODE_DIR.new? [yn] "
+    read response
+    echo -n "Your response was '$response', so "
+    if [ "$response" != y ]; then
+        echo "exiting."
+        exit 1
+    fi
+    echo "continuing..."
+
+else
+    echo "Error: unexpected value for SHIFT_TO_LIVE: '$SHIFT_TO_LIVE'."
+    echo "Assuming SHIFT_TO_LIVE='no', so exiting without an install."
+    exit 1
+fi
+
+# ------------------------------------------------------------------------------
+
+# "Install" the new hierarchy.
+echo "installing the new hierarchy..."
+
+if [ -d $_CODE_DIR.bak ]; then
+    rm -rf $_CODE_DIR.bak
+    check "rm $_CODE_DIR.bak"
+fi
+
+if [ -d $_CODE_DIR ]; then
+    mv $_CODE_DIR $_CODE_DIR.bak
+    check "mv $_CODE_DIR $_CODE_DIR.bak"
+fi
+
+mv $_CODE_DIR.new $_CODE_DIR
+check "mv $_CODE_DIR.new $_CODE_DIR"
+
+# ------------------------------------------------------------------------------
+# vim: ai sw=4 ts=100

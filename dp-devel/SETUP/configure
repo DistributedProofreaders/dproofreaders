@@ -1,0 +1,76 @@
+#!/bin/sh
+
+if [ $# != 2 ]; then
+    echo 'usage: configure <path-to-site-config-file> <path-to-code-dir>'
+    exit 1
+fi
+site_config_file=$1
+code_dir=$2
+
+# Go to each text file under $code_dir and change occurrences of
+#     <<SOME_VARIABLE_NAME>>
+# to the value of the corresponding variable as defined in the
+# $site_config_file.
+
+# First, get the values of the variables in #site_config_file
+# by sourcing it.
+
+. $site_config_file
+
+# We perform the replacements with a sed script, but the way we
+# construct the script is a bit tricky. ...
+# The 'set' command echoes name and value of each variable in the
+# currently-running shell. This includes all the environment variables
+# that the shell process inherited from its parent, the few variables
+# that the script sets itself, and the variables that were defined in
+# the site.config file. We're only interested in the last group, and we
+# assume that we can catch them with the regular expression:
+#    _[^=]+
+# It's probably no big deal if this catches some variables from the
+# other groups, because it's very unlikely that there would be
+# corresponding <<...>> constructs in the code. And if there were,
+# it would presumably be because there was a correspondingly-named
+# variable defined in the site.config file, which would take precedence
+# over any other.
+
+sed_script=`set | sed -n "s/^_\([^=][^=]*\)='*\([^']*\)'*$/s'<<\1>>'\2'g/p"`
+
+check()
+{
+    status=$?
+    blurb=$1
+    if [ $status != 0 ]; then
+        echo "'$blurb' returned status $status, so exiting"
+        exit 1
+    fi
+}
+
+echo ""
+echo "Making site-specific modifications..."
+find $code_dir -type f \( -name '*.png' -o -name '*.gif' -o -name '*.jpg' -o -name '*.ico' -o -name '*.pdf' -o -print \) |
+while read p; do
+    dir=`dirname $p`
+    base=`basename $p`
+
+    # Do this first, so that the new file will have the same
+    # permissions and ownership as the original.
+    cp -p $dir/$base $dir/new.$base
+
+    < $dir/$base sed -e "$sed_script" > $dir/new.$base
+    check "writing $dir/new.$base"
+
+    if diff -q $dir/$base $dir/new.$base > /dev/null; then
+        # no differences found
+               rm $dir/new.$base
+        check "rm $dir/new.$base"
+    else
+        # some difference found (or else an error, hm)
+        echo "    tweaking $dir/$base"
+
+               mv $dir/$base $dir/bak.$base
+        check "mv $dir/$base $dir/bak.$base"
+
+               mv $dir/new.$base $dir/$base
+        check "mv $dir/new.$base $dir/$base"
+    fi
+done
