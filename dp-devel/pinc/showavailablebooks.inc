@@ -52,7 +52,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 	echo "\n<a name='{$prd->round_name}'></a>";
 	echo "\r\n<table border=1>";
-	echo "\r\n<tr " . bgcol(1,$prd) . ">";
+	echo "\r\n<tr bgcolor='{$prd->listing_bgcolors[1]}'>";
 	echo "\n<td colspan=2><h3>{$prd->title}</h3></td>";
 
 	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
@@ -226,7 +226,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	";
 	$result = mysql_query($query);
 
-	echo "<tr align=center ".bgcol(1,$prd).">";
+	echo "<tr align=center bgcolor='{$prd->listing_bgcolors[1]}'>";
 
 	$word = _("Title");
  	$link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
@@ -268,7 +268,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 	while ($rownum2 < $numrows) {
 		$book=mysql_fetch_assoc($result);
-		$bgcolor=bgcol($rownum,$prd);
+		$bgcolor=" bgcolor='{$prd->listing_bgcolors[$rownum % 2]}'";
 
 		// Special colours for special books of various types
 		if (1)
@@ -449,13 +449,6 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 		$rownum2++;
 	}
 
-}
-
-function bgcol($rownum,$prd)
-{
-	$bgcolor = " bgcolor='" .  $prd->listing_bgcolors[$rownum % 2] . "'";
-
-	return $bgcolor;
 }
 
 function startswith( $subject, $prefix )
