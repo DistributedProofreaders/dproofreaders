@@ -81,8 +81,8 @@ function showMbrDpProfile( $curMbr )
 		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
 	);
 
-	global $users_P_page_tallyboard;
-	$current_P_page_tally = $users_P_page_tallyboard->get_current_tally( $curMbr['u_id'] );
+	global $users_ELR_page_tallyboard;
+	$current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $curMbr['u_id'] );
 	$t->row(
 		_('Roles'),
 		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $current_P_page_tally)

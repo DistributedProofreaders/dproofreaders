@@ -16,7 +16,7 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'theme.inc');
 // for PROJ_ declarations
 include_once($relPath.'project_states.inc');
-// for $users_P_page_tallyboard
+// for $users_ELR_page_tallyboard
 include_once($relPath.'page_tally.php');
 
 function project_sql()
@@ -40,10 +40,10 @@ function page_summary_sql($projectid)
 {
     global $forums_url;
     global $dynstats_url;
-    global $users_P_page_tallyboard;
+    global $users_ELR_page_tallyboard;
 
     list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
-	    $users_P_page_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
+	    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
     return "SELECT 
                 CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'

@@ -35,13 +35,13 @@ foreach ( $PRD_for_round_id_ as $prd )
 // defined in RoundDescriptor.inc.
 $ELR_prd = get_PRD_for_round(1);
 
-$users_P_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'U' );
+$users_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'U' );
 $teams_P_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
 
 // See TallyBoard.inc for explanation of these two strings:
 //
 list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
-    $users_P_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
 // -----------------------------------------------------------------------------
 
