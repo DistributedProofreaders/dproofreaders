@@ -306,7 +306,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// if no postproofer recorded, project never went through PPV
 		// so whoever has it checked out must be cleared to post directly
 		// and must have been the PPer
-		if ({$project['postproofer']} == '' ) {
+		if ($project['postproofer'] == '' ) {
 			$settings .= ", postproofer='{$project['checkedoutby']}'";
 		}
 
