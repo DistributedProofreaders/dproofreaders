@@ -34,16 +34,9 @@ $curTeam = mysql_fetch_assoc($result);
 $team_id = $curTeam['id'];
 
 //Team info portion of $data
-	$pageCountRank = $teams_P_page_tallyboard->get_rank( $team_id );
 
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
-
-	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
-
-	list($bestDayCount, $bestDayTimestamp) =
-		$teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	$data = "<teaminfo id='$team_id'>
 			<teamname>".xmlencode($curTeam['teamname'])."</teamname>
@@ -55,11 +48,21 @@ $team_id = $curTeam['id'];
 			<totalmembers>".$curTeam['member_count']."</totalmembers>
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
+
+	$pageCountRank = $teams_P_page_tallyboard->get_rank( $team_id );
+
+	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
+
+	list($bestDayCount, $bestDayTimestamp) =
+		$teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
+	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+
 	$data .= "
 			<totalpages>".$curTeam['page_count']."</totalpages>
 			<rank>".$pageCountRank."/".$totalTeams."</rank>
 			<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
 			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>";
+
 	$data .= "
 		</teaminfo>
 	";
