@@ -32,6 +32,7 @@ return $to_echo;
 
     echo "<center>";
     echo _("Filter available ").$label._(" books by");
+    echo "</center><br><br>\n";    
     echo ":<br>
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
@@ -116,11 +117,12 @@ return $to_echo;
 
     echo "</tr>";
     echo "</table>\n<br>";
-
+    echo "<center>";
     echo "<input type='reset' value='Reset New Filter to null'>";
     echo "<input type='submit' value='Apply New Filter to Projects'>";
-
+    echo "</center><br><br>\n";    
     echo "</form><br>";
+    echo "<center>";
     echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
     echo "<br><br>";
     echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
