@@ -50,7 +50,7 @@ $row_num = 0;
 
 
 // consider in turn each possible pagescompleted value...
-while ($count < $maxpages) {
+while ($count <= $maxpages) {
 
     // if for the current pagescompleted value ($count) a 
     // corresponding value exists for pagescompleted, add the n_* values to the array of Y-axis data;
