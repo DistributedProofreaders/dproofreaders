@@ -115,17 +115,21 @@ $projectinfo = new projectinfo();
 
                     $bgcolor = "#FFFFFF";
 
-                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$name'");
+                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$name'");
                     if (mysql_num_rows($users) == 0) {
                         $real_name = $name;
 			$email = "";
+                        $pagescompleted = 0;
                     } else {
                         $email = mysql_result($users, 0, "email");
                         $real_name = mysql_result($users, 0, "real_name");
+                        $pagescompleted = mysql_result($users, 0, "pagescompleted");
                     }
                     $date_txt = date("M j h:i A" , $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
+                    if ($sitemanager == "yes") { printf("$real_name"); } else printf("$name");
+                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
 
 		    if (($project_state == 31) || ($project_state == 41)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
@@ -148,7 +152,7 @@ $projectinfo = new projectinfo();
 
                 echo "<table border=1>\n";
 
-                echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td>";
+                echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td><td>Master Text</td>";
                 if ($state < 20) echo "<td>Delete</td>";
                 echo "<td>Bad Page</td></tr>\n";
 
@@ -163,29 +167,36 @@ $projectinfo = new projectinfo();
                     $fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
 		    $project_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
 
-                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round2_user'");
+                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round2_user'");
                     if (mysql_num_rows($users) == 0) {
                         $real_name = $round2_user;
 			$email = "";
+                        $pagescompleted = 0;
                     } else {
                         $email = mysql_result($users, 0, "email");
                         $real_name = mysql_result($users, 0, "real_name");
+                        $pagescompleted = mysql_result($users, 0, "pagescompleted");
                     }
 
                     $bgcolor = "#FFFFFF";
 
-                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round1_user'");
+                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round1_user'");
                     if (mysql_num_rows($users) == 0) {
                         $oldreal_name = $round1_user;
                         $oldemail = "";
+                        $oldpagescompleted = 0;
                     } else {
                         $oldemail = mysql_result($users, 0, "email");
                         $oldreal_name = mysql_result($users, 0, "real_name");
+                        $oldpagescompleted = mysql_result($users, 0, "pagescompleted");
                     }
                     $date_txt = date("M j h:i A", $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=19>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</a></td>");
-                    printf("<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>$oldreal_name</A></td>");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=19>View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
+                    if ($sitemanager == "yes") { printf("$real_name"); } else printf("$round2_user");
+                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>");
+                    if ($sitemanager == "yes") { printf("$oldreal_name"); } else printf("$round1_user");
+                    printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td>");
                     if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
 		    if (($project_state == 31) || ($project_state == 41)) {
 		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
