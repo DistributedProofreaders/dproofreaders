@@ -86,13 +86,13 @@ echo _("On this page, the top font is")." <b>$tfont</b>, "._("and the bottom exa
         " <b>DPCustomMono2</b>.</P>";
 
 echo "
-        <p><img border='0' src='$tfont_A.gif' width='415' height='285'></p>
+        <p><img border='0' src='".$tfont."_A.gif' width='415' height='285'></p>
         <p><img border='0' src='DPCustomMono2_A.gif' width='546' height='242'></p>
         <hr style='width: 546; text-align: left;'>
-        <p><img border='0' src='$tfont_B.gif' width='414' height='198'></p>
+        <p><img border='0' src='".$tfont."_B.gif' width='414' height='198'></p>
         <p><img border='0' src='DPCustomMono2_B.gif' width='582' height='200'></p>
         <hr style='width: 546; text-align: left;'>
-        <p><img border='0' src='$tfont_C.gif' width='402' height='174'></p>
+        <p><img border='0' src='".$tfont."_C.gif' width='402' height='174'></p>
         <p><img border='0' src='DPCustomMono2_C.gif' width='582' height='180'></p>
 ";
 
