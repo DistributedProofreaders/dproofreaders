@@ -250,17 +250,11 @@ class PageTally_Neighbor
 
     function get_latest_saved_page_tally_rank()
     {
-        $result = mysql_query("
-            SELECT tally_rank
-            FROM past_tallies
-            WHERE
-                holder_type='U'
-                AND holder_id={$this->u_id}
-                AND tally_name='P'
-            ORDER BY timestamp DESC
-            LIMIT 1
-        ");
-        return mysql_result($result, 0, "tally_rank");
+        global $users_P_page_tallyboard;
+
+        $info = $users_P_page_tallyboard->get_info_from_latest_snapshot($this->u_id);
+
+        return $info['tally_rank'];
     }
 }
 
