@@ -1,14 +1,15 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'page_states.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr_select.inc');
 include_once($relPath.'f_project_states.inc');
+theme("Project Managers", "header");
 
-    echo "<title>Project Managers Page</title>";
-
+	echo "<br><br>";
     $project = isset($_GET['project'])?$_GET['project']:0;
     $show = isset($_GET['show'])?$_GET['show']:null;
 
@@ -363,7 +364,7 @@ if ($sitemanager == "yes") {
 }
 ?>
 </tr></table></div>
-</body>
 <?
     }
+    theme("", "footer");
 ?>

@@ -1,13 +1,15 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'showavailablepost.inc');
+theme("Post Processing", "header");
+
+echo "<br>";
 ?>
 
-<html><title>Post Processing</title> 
 
-<body>
 <table border="1" width="630" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111">
 <tr><td width="126" align="center" bgcolor="#cccccc"><a href="http://texts01.archive.org/dp/phpBB2/index.php">Forums</a></td>
 <td width="126" align="center" bgcolor="#cccccc"><?
@@ -90,4 +92,7 @@ $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scanne
 <td width=126 bgcolor =CCCCCC align=center><a href ="../proofers/proof_per.php">Proofread Books</a></td>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td></tr>
 </table>
-</body></html>
+
+<?
+theme("", "footer");
+?>
