@@ -81,8 +81,6 @@ function html_header($siteurl, $theme, $nameofpage) {
 }
 
 function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
-    global $forums_url;
-
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>";	
 	echo "<tr>";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>";
@@ -125,8 +123,8 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
     	$numofPMs = mysql_fetch_row($result);
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$forums_url/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$forums_url/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a>";
+	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>&nbsp;<b>&#183;</b>&nbsp;";
+	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a>";
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] new)"; }
 	echo "</font>&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>&nbsp;<b>&#183;</b>&nbsp;";
