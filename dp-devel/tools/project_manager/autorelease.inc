@@ -1,9 +1,7 @@
 <?
-
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
-
   // Auto-Release Project
 
 function numpages($project) {
@@ -73,63 +71,162 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 }
 
 function autorelease($pagesleft) {
+	$todaysdate = time();
+	$pagesneeded = $GLOBALS['pagesneeded'];
+	$noneng_pagesneeded = $GLOBALS['noneng_pagesneeded'];
+	$eng_pagesneeded = $GLOBALS['eng_pagesneeded'];
+	$beginners_projects = $GLOBALS['beginners_projects'];
+	$easy_projects = $GLOBALS['easy_projects'];
 
-  $todaysdate = time();
-  $pagesneeded = 20000;
-  
-  // NON-English Books
-  $releasenonenglish = "False";
-  
-  
-if ($releasenonenglish != "False"){
+	//Beginners Projects
+	$result1 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND username = 'BEGIN' ORDER BY modifieddate ASC");
+	$beginnersAvailable = mysql_num_rows($result1);
+	$result2 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND username = 'BEGIN' ORDER BY modifieddate ASC");
+	$beginnersFirstRound = mysql_num_rows($result2);
+	$i = 0;
+	while ($beginnersAvailable > 0 && $beginnersFirstRound < $beginners_projects && $pagesneeded > 0 && $done != 1) {
+  		$project = mysql_result($result1, $i, "projectid");
+  		$author = mysql_result($result1, $i, "authorsname");
+		$nameofwork = mysql_result($result1, $i, "nameofwork");
+		$language = mysql_result($result1, $i, "language");
+		$clearance = mysql_result($result1, $i, "clearance");
+		$modifieddate = mysql_result($result1, $i, "modifieddate");
+		$pm = mysql_result($result1, $i, "username");
+		$temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+		$email = mysql_result($temp, 0, "email");
+		
+		if ($modifieddate != $todaysdate) {
+			$temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+			$pagesneeded = $pagesneeded - (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
+		} else {
+			$done = 1;
+		}		
+  		$beginnersFirstRound++;
+  		$i++;
+	}
+	
+	//Easy English Projects
+	$result1 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND genre LIKE 'EASY%' && language LIKE 'English%' ORDER BY modifieddate ASC");
+	$easyEnglishAvailable = mysql_num_rows($result1);
+	$result2 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND genre LIKE 'EASY%' && language LIKE 'English%' ORDER BY modifieddate ASC");
+	$easyEnglishFirstRound = mysql_num_rows($result2);
+	$i = 0;
+	while ($easyEnglishFirstRound < $easy_projects && $easyEnglishAvailable > 0 && $pagesneeded > 0 && $done != 1) {		
+		$project = mysql_result($result1, $i, "projectid");
+  		$author = mysql_result($result1, $i, "authorsname");
+		$nameofwork = mysql_result($result1, $i, "nameofwork");
+		$language = mysql_result($result1, $i, "language");
+		$clearance = mysql_result($result1, $i, "clearance");
+		$modifieddate = mysql_result($result1, $i, "modifieddate");
+		$pm = mysql_result($result1, $i, "username");
+		$temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+		$email = mysql_result($temp, 0, "email");
 
-  $non_english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language != 'English' ORDER BY modifieddate ASC");
-  $done = 0;
+		if ($modifieddate != $todaysdate) {
+			$temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+			$pagesneeded = $pagesneeded - (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
+			$easyEnglishAvailable--;
+		} else {
+			$done = 1;
+		}
+		
+		$easyEnglishFirstRound++;
+		$i++;		
+	}
+	
+	//Non-English Projects
+	$result1 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language NOT LIKE 'English%'");
+	$nonEnglishAvailable = mysql_num_rows($result1);
+	$i = 0;
+	while ($noneng_pagesneeded > 0 && $pagesneeded > 0 && $nonEnglishAvailable > 0 && $done != 1) {
+		$project = mysql_result($result1, $i, "projectid");
+  		$author = mysql_result($result1, $i, "authorsname");
+		$nameofwork = mysql_result($result1, $i, "nameofwork");
+		$language = mysql_result($result1, $i, "language");
+		$clearance = mysql_result($result1, $i, "clearance");
+		$modifieddate = mysql_result($result1, $i, "modifieddate");
+		$pm = mysql_result($result1, $i, "username");
+		$temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+		$email = mysql_result($temp, 0, "email");
 
-  while (($pagesleft < $pagesneeded) && (mysql_num_rows($non_english) != 0) && ($done != 1)) {
-    $project = mysql_result($non_english, 0, "projectid");
-    echo "working on $project<BR>";
-    $author = mysql_result($non_english, 0, "authorsname");
-    $nameofwork = mysql_result($non_english, 0, "nameofwork");
-    $language = mysql_result($non_english, 0, "language");
-    $clearance = mysql_result($non_english, 0, "clearance");
-    $modifieddate = mysql_result($non_english, 0, "modifieddate");
-    $pm = mysql_result($non_english, 0, "username");
+		if ($modifieddate != $todaysdate) {
+			$temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+			$totalpages = (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
+			$pagesneeded = $pagesneeded - $totalpages;
+			$noneng_pagesneeded = $noneng_pagesneeded - $totalpages;
+			$nonEnglishAvailable--;
+		} else {
+			$done = 1;
+		}
+		
+		$i++;
+	}
+	$nonEnglishReleased = $i;
+	
+	//English Projects
+	$result1 = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language LIKE 'English%'");
+	$EnglishAvailable = mysql_num_rows($result1);
+	$i = 0;
+	while ($eng_pagesneeded > 0 && $pagesneeded > 0 && $EnglishAvailable > 0 && $done != 1) {
+		$project = mysql_result($result1, $i, "projectid");
+  		$author = mysql_result($result1, $i, "authorsname");
+		$nameofwork = mysql_result($result1, $i, "nameofwork");
+		$language = mysql_result($result1, $i, "language");
+		$clearance = mysql_result($result1, $i, "clearance");
+		$modifieddate = mysql_result($result1, $i, "modifieddate");
+		$pm = mysql_result($result1, $i, "username");
+		$temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+		$email = mysql_result($temp, 0, "email");
 
-    $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
-    $email = mysql_result($temp, 0, "email");
+		if ($modifieddate != $todaysdate) {
+			$temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+			$totalpages = (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
+			$pagesneeded = $pagesneeded - $totalpages;
+			$eng_pagesneeded = $eng_pagesneeded - $totalpages;
+			$EnglishAvailable--;
+		} else {
+			$done = 1;
+		}
+		
+		$i++;
+	}
+	$englishReleased = $i;
+		
+	//Extra Projects
+	if ($pagesneeded > 0) {
+		$result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
+		$extraAvailable = mysql_num_rows($result);
+		$extraReleased = 0;
+		$i = 0;
+		while ($pagesneeded > 0 && $extraAvailable > 0 && $done != 1) {
+			$project = mysql_result($result1, $i, "projectid");
+  			$author = mysql_result($result1, $i, "authorsname");
+			$nameofwork = mysql_result($result1, $i, "nameofwork");
+			$language = mysql_result($result1, $i, "language");
+			$clearance = mysql_result($result1, $i, "clearance");
+			$modifieddate = mysql_result($result1, $i, "modifieddate");
+			$pm = mysql_result($result1, $i, "username");
+			$temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+			$email = mysql_result($temp, 0, "email");
 
-    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
-      $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
-    } else if ($modifieddate != $todaysdate) {
-      $pagesleft += (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
-    } else $done = 1;
-    $non_english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language != 'English' ORDER BY modifieddate ASC");
-  }
+			if ($modifieddate != $todaysdate) {
+				$temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+				$pagesneeded = $pagesneeded - (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
+				$extraAvailable--;
+			} else {
+				$done = 1;
+			}
+		$i++;
+		}
+	}
+	$extraReleased = $i;
+
+	echo "<br>Released <b>$beginnersFirstRound</b> Beginners Projects";
+	echo "<br>Released <b>$easyEnglishFirstRound</b> Easy English Projects";
+	echo "<br>Released <b>$nonEnglishReleased</b> Non English Projects";
+	echo "<br>Released <b>$englishReleased</b> English Projects";
+	echo "<br>Released <b>$extraReleased</b> Extra Projects";
+	exit();
 }
-  // English Books
 
-  $english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language = 'English' ORDER BY modifieddate ASC");
-  $done = 0;
-
-  while (($pagesleft < $pagesneeded) && (mysql_num_rows($english) != 0) && ($done != 1)) {
-    $project = mysql_result($english, 0, "projectid");
-    $author = mysql_result($english, 0, "authorsname");
-    $nameofwork = mysql_result($english, 0, "nameofwork");
-    $language = mysql_result($english, 0, "language");
-    $clearance = mysql_result($english, 0, "clearance");
-    $modifieddate = mysql_result($english, 0, "modifieddate");
-    $pm = mysql_result($english, 0, "username");
-
-    $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
-    $email = mysql_result($temp, 0, "email");
-
-    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
-      $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
-    } else if ($modifieddate != $todaysdate) {
-      $pagesleft += (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
-    } else  $done = 1;
-    $english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language = 'English' ORDER BY modifieddate ASC");
-  }
-}
 ?>
