@@ -21,7 +21,7 @@ theme('Templates available for Project Comments','header');
   </style>
         -->
 
-<h1 align="center">Layout Templates</h1>
+<h1 align="center">Layout Templates for Project Comments</h1>
 <br><br>
 There are two types of template available <br>
 <ol>
@@ -96,64 +96,64 @@ into the commment window on your Project Information page.
 
 
 <!-- BG1a.txt info -->
-<a name="bg1a"><h3>BG1a.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="bg1a"><h3>BG1a.txt</h3></a> <br>
 <?
 include('../pinc/templates/comment_files/BG1a.txt');
 ?>
 		
-<br><hr><br>
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- BG1b.txt info -->		
-<a name="bg1b"><h3>BG1b.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="bg1b"><h3>BG1b.txt</h3></a> <br>
 <?
 include('../pinc/templates/comment_files/BG1b.txt');
 ?>
 
-<br><hr><br>
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- BGr2.txt info -->
-<a name="bgr2"><h3>BGr2.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="bgr2"><h3>BGr2.txt</h3></a><br>
 <?
 include('../pinc/templates/comment_files/BGr2.txt');
 ?>
 
-<br><hr><br>		
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- diac.txt info -->
-<a name="diac"><h3>diac.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="diac"><h3>diac.txt</h3></a><br>
 <?
 include('../pinc/templates/comment_files/diac.txt');
 ?>
 
 		
-<br><hr><br>
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- pgnm.html info -->		
-<a name="pgnm"><h3>pgnm.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="pgnm"><h3>pgnm.txt</h3></a> <br>
 <?
 include('../pinc/templates/comment_files/pgnm.txt');
 ?>
 
 
-<br><hr><br>
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- port.txt info -->
-<a name="port"><h3>port.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="port"><h3>port.txt</h3></a> <br>
 <?
 include('../pinc/templates/comment_files/port.txt');
 ?>
 
 
-<br><hr><br>
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- wrrn.txt info -->
-<a name="wrrn"><h3>wrrn.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<a name="wrrn"><h3>wrrn.txt</h3></a><br>
 <?
 include('../pinc/templates/comment_files/wrrn.txt');
 ?>
 
 
-<br><hr><br>		
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- cedron.html info -->		
 
