@@ -48,14 +48,14 @@ echo "<br><center>";
 
 echo "<h1>$desc</h1>";
 
-	if ($brushoff) {
-		echo "<p>$brushoff</p>";
-	} else {
-		showMbrProfile($curMbr);
-		if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-		if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
-		if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
-	}
+if ($brushoff) {
+	echo "<p>$brushoff</p>";
+} else {
+	showMbrProfile($curMbr);
+	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
+	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
+	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+}
 
 echo "</center>";
 theme("", "footer");
