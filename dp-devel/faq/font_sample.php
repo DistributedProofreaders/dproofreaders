@@ -130,7 +130,7 @@ foreach ($f_f as $otherfont) {
 }
 
 
-echo " | "._("View original image")."</P>\n";
+echo " | <a href='images/Original.gif'>"._("View original image")."</a></P>\n";
 
 echo "<hr style='width: 546; text-align: left;'>";
 echo "<P>";
