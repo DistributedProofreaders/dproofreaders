@@ -155,14 +155,20 @@ theme("Personal Page for $pguser", "header");
 
                 if (($yourPPprojects + $yourPPVprojects)  > 0) {
                         echo "  ". _("You currently have") . " ";
-                        if ($yourPPprojects > 0) {
-                                echo " <b>".$yourPPprojects."</b> ". _("projects checked out for PPing");
-                                if ($yourPPVprojects > 0) {
-                                        echo " ". _("and");
-                                }
+                        if ($yourPPprojects == 1) {
+                                echo "<b>1</b> " . _("project checked out for PPing");
                         }
-                        if ($yourPPVprojects > 0) {
-                                echo " <b>".$yourPPVprojects."</b> ". _("projects checked out for PPVing");
+                        elseif ($yourPPprojects > 1) {
+                                echo "<b>".$yourPPprojects."</b> ". _("projects checked out for PPing");
+                        }
+                        if ($yourPPprojects > 0 && $yourPPVprojects > 0) {
+                                echo " ". _("and") . " ";
+                        }
+                        if ($yourPPVprojects == 1) {
+                                echo "<b>1</b> " . _("project checked out for PPVing");
+                        }
+                        elseif ($yourPPVprojects > 1) {
+                                echo "<b>".$yourPPVprojects."</b> ". _("projects checked out for PPVing");
                         }
                         echo ".";
                 }
