@@ -34,10 +34,19 @@ if (!file_exists($stats_inc_path)) {
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
+$tracetime = now();
+mysql_query("INSERT INTO job_log (filename, tracetime, event, comment)
+		VALUES ('stats.php', $tracetime, 'BEGIN', 'ok to run, no lock file'");
+
 //limit to looking at projects which do not have
 //the archive flag set to 1 in order to limit run time
 $allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0' AND state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
 $numProjects = mysql_num_rows($allProjects);
+
+$tracetimeA = now();
+mysql_query("INSERT INTO job_log (filename, tracetime, event, comment)
+		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  $numProjects is $numProjects'");
+
 
 while ($i < $numProjects) {
         $projectID = mysql_result($allProjects, $i, "projectid");
@@ -91,6 +100,13 @@ while ($i < count($lines)) {
 	fclose($statsfile);
 //delete lock file
 unlink ($filename);
+
+$tracetime2 = now();
+$timetorun = $tracetime2 - $tracetime1;
+
+mysql_query("INSERT INTO job_log (filename, timestamp, event, comment)
+		VALUES ('stats.php', $tracetime2, 'END', 'started at $tracetime, took $timetorun seconds");
+
 
 }
 ?>
