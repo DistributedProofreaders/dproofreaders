@@ -131,7 +131,7 @@ Now you will understand the following explanations of what the buttons do.
 
 $help = Array();
 
-$help['Save and Quit'] = "
+$help["Save as 'Done'"] = "
 <p>
     <i>\"I have finished proofing this page,
     it is as correct as I can make it,
@@ -141,13 +141,12 @@ $help['Save and Quit'] = "
 <p>
     Save all changes, and finish proofing the current page.
     The page is now <a href='#done'>DONE</a>.
-    Quit proofing.
+    Stop proofing.
     The proofing browser window will close.
 </p>
 ";
 
-$help['Save and Do Another'] = 
-$help['Save and Proof Next Page'] = "
+$help["Save as 'Done' & Proof Next"] = "
 <p>
     <i>\"I have finished proofing this page,
     it is as correct as I can make it,
@@ -162,7 +161,7 @@ $help['Save and Proof Next Page'] = "
 </p>
 ";
 
-$help['Save'] = "
+$help["Save as 'In Progress'"] = "
 <p>
     <i>\"I haven't finished proofing this page,
     but I want to save my work on it so far.\"</i>
@@ -170,14 +169,14 @@ $help['Save'] = "
 <p>
     Save changes to the current page.
     The page is now <a href='#progr'>IN PROGRESS</a>.
-    'Save' is intended to temporarily save your work so far
+    This button is intended to temporarily save your work so far
     on a page you plan to finish later,
     perhaps because it is too long or you are interrupted.
     You will be repositioned to the start of the page.
 </p>
 ";
 
-$help['Quit'] = "
+$help['Stop Proofing'] = "
 <p>
     <i>\"I haven't finished proofing this page,
     but I want to stop proofing for now.
@@ -187,10 +186,10 @@ $help['Quit'] = "
     Closes the proofing interface without saving the current page.
     The page will be <a href='#progr'>IN PROGRESS</a>.
     To save your most recent changes before quitting,
-    use the 'Save' button first.
-    Note that 'Save' followed by 'Quit'
+    use the \"Save as 'In Progress'\" button first.
+    Note that \"Save as 'In Progress'\" followed by 'Stop Proofing'
     (page is left <a href='#progr'>IN PROGRESS</a>)
-    is NOT equivalent to 'Save and Quit'
+    is NOT equivalent to \"Save as 'Done'\"
     (page is left <a href='#done'>DONE</a>).
 </p>
 ";
@@ -240,7 +239,7 @@ $help['Return Page to Current Round'] = "
     (Note if you then immediately request a new page to proof,
     the 'someone else' may be you!
     If you don't want to go proof a different project instead,
-    you can 'Save' the page, 'Quit' and follow the 'Start Proofing' link.
+    you can \"Save as 'In Progress'\" the page, 'Stop Proofing' and follow the 'Start Proofing' link.
     This will load the next available page,
     leaving the one you wanted to skip in your 'My Recently Proofread' section.
     When you have finished proofing for the day,
@@ -418,10 +417,10 @@ if ( $i_type == 0 )
     echo "<dl>\n";
     foreach(
 	Array(
-	    'Save',
-	    'Save and Do Another',
-	    'Save and Quit',
-	    'Quit',
+	    "Save as 'In Progress'",
+	    "Save as 'Done' & Proof Next",
+	    "Save as 'Done'",
+	    'Stop Proofing',
 	    'Switch to Vertical/Horizontal',
 	    'Return Page to Round',
 	    'Report Bad Page',
@@ -437,7 +436,7 @@ if ( $i_type == 0 )
 	}
 	else
 	{
-	    echo "<input type='button' value='$name'>";
+	    echo "<input type='button' value=\"$name\">";
 	}
 	echo "</dt>\n";
 	echo "<dd>$help[$name]</dd>\n";
@@ -562,10 +561,10 @@ function echo_row( $name, $tooltip, $button_image_base, $accelerator )
 }
 
 echo_row( 'Help', 'Help', 'bt11', '1' );
-echo_row( 'Quit', 'Quit without Saving', 'bt1', '9' );
-echo_row( 'Save and Quit', 'Save and Quit', 'bt13', '' );
-echo_row( 'Save and Proof Next Page', 'Save and Proof Next Page', 'bt2', '8' );
-echo_row( 'Save', 'Save', 'bt3', '7' );
+echo_row( 'Stop Proofing', 'Stop Proofing without Saving', 'bt1', '9' );
+echo_row( "Save as 'Done'", "Save as 'Done'", 'bt13', '' );
+echo_row( "Save as 'Done' & Proof Next", "Save as 'Done' & Proof Next", 'bt2', '8' );
+echo_row( "Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7' );
 echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
 echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15', '' );
 echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
@@ -808,7 +807,7 @@ Currently, this is the only method for scrolling the image.<BR>
 </dt>
 <dd>
     <p>
-    Quit, equivalent to the QUIT button.
+    Quit, equivalent to the 'Stop Proofing' button.
     </p>
     <p>
     The page you are proofing is not saved,

@@ -126,18 +126,18 @@ else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 {
 	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
-	metarefresh(1,$url,'Save and Do Next Page','Page saved.');
+	metarefresh(1,$url,"Save as 'Done' & Proof Next",'Page saved.');
 }
 else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAGE_TO_ROUND)
 {
 	if ($tbutton==B_QUIT)
 	{
-		$title='Quit Proofing';
+		$title='Stop Proofing';
 		$body='';
 	}
 	else if ($tbutton==B_SAVE_AND_QUIT)
 	{
-		$title='Save and Quit Proofing';
+		$title="Save as 'Done'";
 		$body='Page Saved. ';
 	}
 	else if ($tbutton==B_RETURN_PAGE_TO_ROUND)

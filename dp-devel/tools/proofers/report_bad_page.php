@@ -45,7 +45,7 @@ echo "</select>";
 echo $tr.$td2;
 echo "<strong>What to Do:</strong>";
 echo $td3;
-echo "<input name='redirect_action' value='proof' type='radio'>Continue Proofing<input name='redirect_action' value='quit' checked type='radio'>Quit Proofing";
+echo "<input name='redirect_action' value='proof' type='radio'>Continue Proofing<input name='redirect_action' value='quit' checked type='radio'>Stop Proofing";
 echo $tr.$td1;
 echo "<input type='submit' value='Submit Report'>";
 echo "<input type='button' value='Cancel' onclick='javascript:history.go(-1)'>";
@@ -138,7 +138,7 @@ if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
   metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
 } else {
   $frame1 = "projects.php?project={$projectid}&amp;proofstate={$proofstate}";
-  metarefresh(0,$frame1,'Quit Proofing','Exiting proofing interface....');
+  metarefresh(0,$frame1,'Stop Proofing','Exiting proofing interface....');
 }
 }
 ?>
