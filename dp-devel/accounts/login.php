@@ -24,8 +24,8 @@ function abort_login( $error )
 <li>Type your username in the exact same way as when you registered.</li>
 <li><A HREF="<? echo $reset_password_url; ?>">Reset</A> your password.</li>
 <li>Enable Javascript.</li>
-<li>Accept cookies (at least from us at www.pgdp.net)</li>
-<li>Allow popup windows (at least from us at www.pgdp.net)</li>
+<li>Accept cookies (at least from us at <? echo $_SERVER["HTTP_HOST"]; ?>)</li>
+<li>Allow popup windows (at least from us at <? echo $_SERVER["HTTP_HOST"]; ?>)</li>
 <li>caching set to off (or: refresh page every visit)</li>
 <li>Ensure your PC clock is set to the correct date &amp; time</li>
 </ol>
