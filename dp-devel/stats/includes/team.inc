@@ -16,11 +16,14 @@ function showTeamProfile($curTeam) {
     	$last_post_date = mysql_result($last_post,0,"post_time");
     	$last_post_date = date("n/j/Y g:i:sA", $last_post_date);
 
+	$now = time();
+	$daysInExistence = number_format(floor(($now - $curTeam['created'])/86400));
+
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td rowspan='6' align='center' width='30%' bgcolor='".$theme['color_mainbody_bg']."'>";
 	echo "<img border='0' src='".$GLOBALS['code_url']."/users/teams/avatar/".$curTeam['avatar']."' alt='".strip_tags($curTeam['teamname'])."'></td>";
 	echo "<td align='left' width='70%' valign='top'><center><font color='".$theme['color_headerbar_font']."'><b>".stripslashes($curTeam['teamname'])."</b></font>".$editlink.$joinquitlink."</center></td></tr>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Created</b>: ".date("m/d/Y", $curTeam['created'])."</font></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Created</b>: ".date("m/d/Y", $curTeam['created'])."&nbsp;($daysInExistence days)</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: ".$curTeam['createdby']."</font>&nbsp;<a href='".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=".$curTeam['owner']."'><img src='".$GLOBALS['forums_url']."/templates/subSilver/images/lang_english/icon_pm.gif' width='59' height='18' align='absbottom' border='0' alt='Private Message ".$curTeam['createdby']."'></a></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Total Pages</b>: ".number_format($curTeam['page_count'])."</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Description</b>: ".stripslashes($curTeam['team_info'])."</font></td></tr>";
@@ -33,6 +36,9 @@ function showTeamStats($curTeam) {
 
 	$result = mysql_query("SELECT MAX(date_updated) FROM user_teams_stats");
 	$lastupdated = date("n/d/Y h:i:s A T", mysql_result($result,0,0));
+
+	$result = mysql_query("SELECT rank FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY date_updated DESC LIMIT 1");
+	$prevRank = mysql_result($result, 0, "rank");
 
 	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY member_count DESC");
 	$i = 1;
@@ -48,6 +54,11 @@ function showTeamStats($curTeam) {
 		$i++;
 	}
 
+	$result = mysql_query("SELECT MAX(daily_page_count) AS bestDay FROM user_teams_stats WHERE team_id = ".$curTeam['id']."");
+	$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");
+	$bestDayCount = mysql_result($result, 0, "daily_page_count");
+	$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
+
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>Team Statistics</b><br><font size='1'>(Last Updated: $lastupdated)</font></font></center></td></tr>";
 	echo "<tr><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
@@ -62,10 +73,17 @@ function showTeamStats($curTeam) {
 		echo "<td width='40%'><b>".number_format($curTeam['member_count'] - $curTeam['active_members'])."</b></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
 		echo "<td width='60%'>Total Pages <i>(Rank)</i><font size='2'></font></td>";
-		echo "<td width='40%'><b>".number_format($curTeam['page_count'])."</b>&nbsp;<i>(#$pageCountRank)</i></td></tr>";
+		echo "<td width='40%'><b>".number_format($curTeam['page_count'])."</b>&nbsp;<i>(#$pageCountRank)</i>";
+			if ($prevRank > $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$pageCountRank)."'>"; }
+			elseif ($prevRank < $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($pageCountRank-$prevRank)."'>"; }
+			else { echo "&nbsp;"; }
+		echo "</td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
 		echo "<td width='60%'>Avg. Pages per Day<font size='2'></font></td>";
 		echo "<td width='40%'><b>".number_format($curTeam['daily_average'])."</b></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
+		echo "<td width='60%'>Most Pages Done per Day</td>";
+		echo "<td width='40%'><b>".number_format($bestDayCount)."</b>&nbsp;<i>($bestDayTime)</i></b></td></tr>";
 	echo "</td></tr></table></table><p>";
 }
 
