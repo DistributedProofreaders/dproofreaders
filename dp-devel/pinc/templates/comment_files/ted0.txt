@@ -1,6 +1,20 @@
-<p>There WILL NOT BE an illustrated version, unless otherwise noted here.  </p>
-<p>Please retain page references (like see page number x, or the page numbers in the Table of Contents or Index), not actual page numbers at the top or bottom of the page.</p>
-<p>Please note any problems, observations, complains, request for guidance etc, in that forum. There, we will reach consensus and make a decision.</p> 
-<p>You can also reach me in Jabber (I hang out there quite a bit). Instructions for Jabber are <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5497">here.</a></p>
-<p>Failing that, PM me and I will respond as soon as possible.</p>
-<p>- Ted<p>
+<p>Please retain page references (like see page number x, or the page numbers
+in the Table of Contents or Index), not actual page numbers at the top or
+bottom of the page.
+<p>Please make an HTML edition, including any illustrations, if
+any.
+<b>Formatting is important; please format TOCs, lists of Illustrations,
+etc., correctly.</b>
+Please note any problems, observations, complains, request
+for guidance etc., in that forum. There, we will reach
+consensus and make a decision.
+<p>You can also reach me in Jabber (I hang out there quite a bit).
+Instructions for Jabber are
+<a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5497">here.</a>
+
+Failing that, email or PM me and I will respond as soon as possible. I check
+my email frequently.
+<p>I apologize in advance for any missing pages or other difficulties.
+If you encounter such, please post to the Missing Pages Wiki as well as making
+a note in the appropriate forum and emailing me.
+- Ted
