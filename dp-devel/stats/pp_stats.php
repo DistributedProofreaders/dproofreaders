@@ -33,7 +33,7 @@ echo "<h3>Number of Distinct Post-Processors</h3>\n";
 
 dpsql_dump_query("
 	SELECT
-		count (distinct (postproofer)) as 'Different PPers'
+		count (distinct postproofer) as 'Different PPers'
 	FROM projects
 ");
 
