@@ -39,14 +39,38 @@ echo "\n";
 
 function echo_download_zip( $projectid, $link_text, $discriminator )
 {
-    global $projects_url, $projects_dir;
+    global $projects_url, $projects_dir, $code_url;
 
-    $p = "$projectid/$projectid$discriminator.zip";
+    if ( $discriminator == 'images' )
+    {
+        // Generate images zip on the fly,
+        // so it's not taking up space on the disk.
 
-    $filesize_kb = round( filesize( "$projects_dir/$p") / 1024 );
+        $url = "$code_url/tools/download_images.php?projectid=$projectid&amp;dummy={$projectid}images.zip";
+        // The 'dummy' parameter is for the benefit of download-software that
+        // names the resulting file after the last component of the request URL.
+
+        // Images don't compress much in a zip,
+        // so the sum of their individual filesizes
+        // is a fair approximation (and hopefully an upper bound)
+        // of the size of the resulting zip.
+        $filesize_b = 0;
+        foreach( glob("$projects_dir/$projectid/*.{png,jpg}", GLOB_BRACE) as $image_path )
+        {
+            $filesize_b += filesize($image_path);
+        }
+        $filesize_kb = round( $filesize_b / 1024 );
+    }
+    else
+    {
+        $p = "$projectid/$projectid$discriminator.zip";
+
+        $url = "$projects_url/$p";
+        $filesize_kb = round( filesize( "$projects_dir/$p") / 1024 );
+    }
 
     echo "<li>";
-    echo "<a href='$projects_url/$p'>";
+    echo "<a href='$url'>";
     echo $link_text;
     echo "</a>";
     echo " ($filesize_kb kb)";
@@ -148,4 +172,5 @@ function echo_option($code,$label)
 
 theme('', 'footer');
 
+// vim: sw=4 ts=4 expandtab
 ?>
