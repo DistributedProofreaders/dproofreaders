@@ -235,7 +235,16 @@ class Settings
     // around for each user, and no problems will arise with
     // setting/getting the same settings at various places.
     // If the name is not set, null is returned.
-    function get_Settings($username)
+    //
+    // We use assignment-by-reference and return-by-reference (note the ampersands)
+    // to ensure that multiple returns for the same $username are references to
+    // the originally created object, rather than copies of it.
+    // (See the PHP manual under "Assignment Operators" and "References Explained".)
+    // Callers should also use assignment-by-reference, e.g.
+    //     $settings =& Settings::get_settings($pguser);
+    // to ensure that changes in settings are visible everywhere they should be.
+    //
+    function & get_Settings($username)
     {
         if (!isset($username))
           return Null;
@@ -247,8 +256,8 @@ class Settings
         }
         else
         {
-            $settings = new Settings($username);
-            $Settings_for_[$username] = $settings;
+            $settings =& new Settings($username);
+            $Settings_for_[$username] =& $settings;
             return $settings;
         }
     }
