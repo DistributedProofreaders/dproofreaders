@@ -213,10 +213,14 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"</front>\r\n");
         fputs($fp,"<body>\r\n");
 
-        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
-        while( list($filename,$text_data) = mysql_fetch_array($myresult) )
+        $myresult = mysql_query("
+                SELECT image, round1_user, round2_user, round2_text
+                FROM $project
+                ORDER BY image
+        ");
+        while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
         {
-            fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
+            fputs($fp,"\r\n\r\n<pb id='$filename' proofer1='$round1_user' proofer2='$round2_user'/>\r\n\r\n");
 
             // SENDING PAGE-TEXT TO USER
             // It's an XML file, so the non-markup angle-brackets and ampersands
