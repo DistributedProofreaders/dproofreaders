@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
+include_once($relPath.'prefs_options.inc');
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
@@ -265,14 +266,16 @@ id="controlframe" align="center"><form
     $tcols = $userP['v_tchars'];
     $trows = $userP['v_tlines'];
     $twrap = $userP['v_twrap'];
-    $tfont = $userP['v_fntf'];
+    $tfonti = $userP['v_fntf'];
+    $tfont = $f_f[$tfonti];
   }
   else 
   {
     $tcols = $userP['h_tchars'];
     $trows = $userP['h_tlines'];
     $twrap = $userP['h_twrap'];
-    $tfont = $userP['h_fntf'];
+    $tfonti = $userP['h_fntf'];
+    $tfont = $f_f[$tfonti];
   }
   // General settings
   $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
