@@ -84,18 +84,26 @@ include_once($relPath.'maybe_mail.inc');
         //
         $carriagereturn = chr(13);
         $linefeed = chr(10);
-        $indicator1 = "-----------------------File: ";
-        $indicator2 = "----------------------------";
+        $indicator1 = "-----File:";
+        $indicator2 = "---\";
         $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
-        $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
+        $pagebreak2 = $carriagereturn.$linefeed;
 
-        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
+        $myresult = mysql_query("SELECT image, round1_user, round2_user, round2_text FROM $project ORDER BY image");
         $mynumrows = mysql_numrows($myresult);
         $count = 0;
         while ($count < $mynumrows) {
             $filename = mysql_result($myresult, $count, "image");
             $text_data = mysql_result($myresult, $count, "round2_text");
-            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
+	    $round1_user = mysql_result($myresult, $count, "round1_user");
+	    $round2_user = mysql_result($myresult, $count, "round2_user");
+            $dashes_todo = 78 - 20 - strlen($round1_user) - strlen($round2_user);
+            $dashes = "";
+            for ($i = 1; $i <= $dashes_todo; $i++) {
+               $dashes += "-";
+            }
+	    $separator = $pagebreak1.$filename.$indicator2.$round1_user."\".$round2_user."\".$dashes.$pagebreak2;
+            $fileinfo = $separator.$text_data;
             // SENDING PAGE-TEXT TO USER
             // It's a text-file, so no encoding is necessary.
             fputs($fp,$fileinfo);
