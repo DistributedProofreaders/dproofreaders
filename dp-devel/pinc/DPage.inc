@@ -107,6 +107,20 @@ function project_add_page(
     return $errs;
 }
 
+// -----------------------------------------------------------------------------
+
+function Page_modifyStartingText( $projectid, $fileid, $page_text )
+{
+    global $writeBIGtable;
+
+    $result = mysql_query("UPDATE $projectid SET master_text='$page_text' WHERE fileid='$fileid'");
+
+    if ($writeBIGtable)
+    {
+        $result = mysql_query("UPDATE project_pages SET master_text='$page_text' WHERE projectid = '$projectid' AND fileid='$fileid'");
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
@@ -227,6 +241,60 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
     }
 
     return $prd->avail_state;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
+{
+    global $writeBIGtable;
+
+    if ( $round_number == 1 )
+    {
+        $badState = 'bad_first';
+        $text_copier = 'round1_text=master_text';
+    }
+    else
+    {
+        $badState = 'bad_second';
+        $text_copier = 'round2_text=round1_text';
+    }
+
+    $result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$user', b_code=$reason, $text_copier WHERE fileid='$fileid'");
+
+    if ($writeBIGtable)
+    {
+        $result = mysql_query("UPDATE project_pages SET state='$badState', b_user='$user', b_code=$reason, $text_copier WHERE projectid = '$projectid' AND fileid='$fileid'");
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_eraseBadMark( $projectid, $fileid, $round_number )
+{
+    global $writeBIGtable;
+
+    if ( $round_number == 1 )
+    {
+        $avail_state = AVAIL_FIRST;
+        $user_column_name = 'round1_user';
+    }
+    else if ( $round_number == 2 )
+    {
+        $avail_state = AVAIL_SECOND;
+        $user_column_name = 'round2_user';
+    }
+    else
+    {
+        return;
+    }
+
+    $result = mysql_query("UPDATE $projectid SET $user_column_name='', b_user='', b_code='', state='$avail_state' WHERE fileid='$fileid'");
+
+    if ($writeBIGtable)
+    {
+        $result = mysql_query("UPDATE project_pages SET $user_column_name='', b_user='', b_code='', state='$avail_state' WHERE projectid = '$projectid' AND fileid='$fileid'");
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
