@@ -4,6 +4,20 @@ $starttime = $mtime[1] + $mtime[0];
 
 include_once($relPath.'v_site.inc');
 include_once($relPath.'udb_user.php');
+include_once($relPath.'cookie.inc');
+
+//Let's check to see if the user has a cookie already
+	$cookieC=new userCookie();
+	$cookieSet=$cookieC->checkCookie();
+	if ($cookieSet) { $pguser=$cookieC->userID;
+		if (isset($_COOKIE[$pguser.'_prefs'])){
+			$cookieC->deleteOldPrefs($pguser);
+			$cookieC->setUserPrefs($pguser);
+			echo 'Cookie reset by site update.  Please refresh current page.';
+			exit;
+		}
+	$userP=$cookieC->getUserPrefs($pguser);
+}
 
 if(isset($userP['i_theme'])) { 
 		include_once($relPath.'templates/'.$userP['i_theme'].'/theme.tpl');		
