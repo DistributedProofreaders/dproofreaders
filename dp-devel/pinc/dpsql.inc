@@ -73,8 +73,10 @@ function dpsql_dump_query_result( $result )
 		print "<tr>\n";
 		for ($c = 0; $c < $n_cols; $c++ )
 		{
+			$val = $row[$c];
+			if (is_null($val)) { $val = 'NULL'; }
 			print "<td>";
-			print $row[$c];
+			print $val;
 			print "</td>\n";
 		}
 		print "</tr>\n";
