@@ -4,12 +4,11 @@ include_once($relPath.'v_site.inc');
 $orig_line_i=0;
 $orig_line='';
 $orig_start=0;
-$html_for_line='';
 $n_bad_words=0;
 
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
-	global $orig_line,$html_for_line,$orig_line_i,$orig_start,$n_bad_words;
+	global $orig_line,$orig_line_i,$orig_start,$n_bad_words;
 
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
@@ -86,17 +85,16 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		if (strcmp($asrm_line,"[ok]")==0)
 		{
 			// print text as is
-			echo escapeStringEntities($orig_lines[$orig_line_i])."<BR>\r\n";
+			echo escapeStringEntities($orig_lines[$orig_line_i])."<BR>\n";
 			$orig_line_i++;
 		}
 		else if (strcmp($asrm_line,"[nl]")==0)
 		{
 			// new line
-			$html_for_line .= substr($orig_line,$orig_start);
-			echo $html_for_line."<BR>\r\n";
+			echo substr($orig_line,$orig_start);
+			echo "<BR>\n";
 			$orig_start = 0;
 			$orig_line = '';
-			$html_for_line = '';
 			$orig_line_i++;
 		}
 		else if (strcmp($asrm_line{0},'#')==0)
@@ -122,7 +120,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		}
 		else
 		{
-			echo "Error Processing Aspell return data<BR>\r\n";
+			echo "Error Processing Aspell return data<BR>\n";
 		}
 	} // end display text for spelling
 	echo "</pre>";
@@ -133,22 +131,31 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 {
 	// echo "spellSuggest( orig_word='$orig_word', n_suggs=$n_suggs, orig_word_offset=$orig_word_offset, suggs_str='$suggs_str' )<br>\n";
-	global $orig_line,$orig_line_i,$orig_start,$n_bad_words,$html_for_line;
+	global $orig_line,$orig_line_i,$orig_start,$n_bad_words;
 
 	$n_bad_words++;
 
-	$html_for_line .= escapeStringEntities(substr($orig_line,$orig_start,($orig_word_offset-1)-$orig_start));
+	echo escapeStringEntities(substr($orig_line,$orig_start,($orig_word_offset-1)-$orig_start));
+
 	$orig_word = escapeStringEntities($orig_word);
 
 	// create html
 	// hidden values line|offset|word length
-	$html_for_word = "<input type='hidden' name='posit{$n_bad_words}' value='".
-		"{$orig_line_i}|{$orig_word_offset}|".strlen($orig_word)."'>";
-	$html_for_word .= "<input type='hidden' name='wd{$n_bad_words}' value='{$orig_word}'>";
-	// option list
-	$html_for_word .= "<select name='sp{$n_bad_words}' onChange='setSpell($n_bad_words,this.value);'>".
-		"<option value='{$orig_word}' selected>{$orig_word}</option>\r\n";
-	$html_for_word .= "<option value='sp1input'>-- Insert --</option>\r\n";
+	echo
+		"<input
+			type='hidden'
+			name='posit{$n_bad_words}'
+			value='$orig_line_i|$orig_word_offset|".strlen($orig_word)."'
+		><input
+			type='hidden'
+			name='wd{$n_bad_words}'
+			value='{$orig_word}'
+		><select
+			name='sp{$n_bad_words}'
+			onChange='setSpell($n_bad_words,this.value);'>
+			<option value='{$orig_word}' selected>{$orig_word}</option>
+			<option value='sp1input'>-- Insert --</option>
+		";
 	if ($n_suggs > 0)
 	{
 		// escape all words
@@ -157,13 +164,10 @@ function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 		$suggs = explode(', ',$suggs_str);
 		foreach ($suggs as $sugg)
 		{
-			$html_for_word .= "<option value='$sugg'>$sugg</option>\r\n";
+			echo "<option value='$sugg'>$sugg</option>\n";
 		}
 	}
-	$html_for_word .= "</select>";
-
-	// put html in end
-	$html_for_line .= $html_for_word;
+	echo "</select>";
 
 	// advance $orig_start
 	$orig_start = ($orig_word_offset-1)+strlen($orig_word);
