@@ -73,11 +73,7 @@ theme('FAQ Central','header');
 
   <dt><a href="http://www.gutenberg.net/faq/gutfaq.htm">Project Gutenberg FAQ</a>
   <dd>The <i>massive</i> FAQ from our parent site,
-      <a href="http://www.gutenberg.net/">Project Gutenberg</a>
-
-      (draft of new version).
-      (This url is "unofficial" and "temporary" -- it points to Jim Tinsley's own site
-      rather than anywhere on the official PG site -- but useful anyway.)
+      <a href="http://www.gutenberg.net/">Project Gutenberg</a>.
 
   <dt><a href="privacy.php">DP Privacy Policy</a>
   <dd>A link to the Distributed Proofreading Privacy Policy that you saw when you
