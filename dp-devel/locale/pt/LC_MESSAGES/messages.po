@@ -1,34 +1,34 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Project Gutenberg's Distributed Proofreaders portuguese localization
+# Copyright (C) 2003 - dproofreaders - João Miguel Neves
+# This file is distributed under the same license as the dproofreaders package.
+# João Miguel Neves <joao@silvaneves.org>, 2003.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-14 18:17+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2003-08-19 11:39+0100\n"
+"PO-Revision-Date: 2003-08-19 15:18+0100\n"
+"Last-Translator: João Miguel Neves <joao@silvaneves.org>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: default.php:21 default.php:22 default.php:23 default.php:23
+#: default.php:21 default.php:22 default.php:23
 msgid " active users out of "
 msgstr " utilizadores activos de um total de "
 
-#: default.php:21 default.php:22 default.php:23 default.php:23
+#: default.php:21 default.php:22 default.php:23
 msgid " total users in the past twenty-four hours."
 msgstr " nas últimas vinte e quatro horas."
 
-#: default.php:22 default.php:24 default.php:25 default.php:25
+#: default.php:22 default.php:24 default.php:25
 msgid "About This Site"
 msgstr "Sobre o Projecto"
 
-#: default.php:23 default.php:25 default.php:26 default.php:26
+#: default.php:23 default.php:25 default.php:26
 msgid ""
 "Distributed Proofreaders was founded in 2000 by Charles Franks to support "
 "the digitization of Public Domain books. Originally conceived to assist <a "
@@ -47,20 +47,20 @@ msgstr ""
 "tal, é suportado pelo Projecto Gutenberg. Se tiver alguma questão ou "
 "comentários sobre este <em>site</em>, envie uma mensagem para: "
 
-#: default.php:28 default.php:28
+#: default.php:28
 msgid "Site Concept"
-msgstr ""
+msgstr "Conceito do Sítio"
 
-#: default.php:29 default.php:29
+#: default.php:29
 msgid ""
 "This site provides a web-based method of easing the proofreading work "
 "associated with the digitization of Public Domain books into Project "
 "Gutenberg e-books. By breaking the work into individual pages many "
 "proofreaders can be working on the same book at the same time. This "
 "significantly speeds up the proofreading/e-book creation process."
-msgstr ""
+msgstr "Este projecto fornece um método baseado na web de forma a facilitar o trabalho de revisão associado à digitalização de livros no Domínio Público necessário para a criação de e-books para o Projecto Gutenberg. Ao dividir cada obra em páginas individuais muitos revisores podem trabalhar no mesmo livro ao mesmo tempo. Isto acelera significativamente o processo de revisão/criação de um e-book."
 
-#: default.php:30 default.php:30
+#: default.php:30
 msgid ""
 "When a proofer elects to proofread a page of a particular book, the text and "
 "image file are displayed on a single web page. This allows the page text to "
@@ -70,394 +70,451 @@ msgid ""
 "then presented with the work of the first proofreader and the page image. "
 "Once they have verified the work of the first proofreader and corrected any "
 "additional errors the page text is again submitted back to the site."
-msgstr ""
+msgstr "Quando um revisor escolhe rever uma página de um dos livros, o texto e a imagem da página são-lhe apresentadas numa única página web. Isto facilita a observação do texto da página e a comparação com a imagem da página, apoiando a revisão do texto. O texto editado é submetido de novo para o sítio através da mesma página web em que foi editado. O trabalho submetido é apresentado a um segundo revisor e conjunto com a imagem da página. Uma vez verificado o trabalho do primeiro revisor e corrijido qualquer erro o texto da página é de novo submetido ao site.\""
 
-#: default.php:31 default.php:31
+#: default.php:31
 msgid ""
 "Once all pages for a particular book have been processed, a post-processor "
 "joins the pieces, properly formats them into a Project Gutenberg e-book and "
 "submits it to the Project Gutenberg archive."
-msgstr ""
+msgstr "Uma vez que todas as páginas de um determinado livro tenham sido processadas, um editor junta as peças, formata-as de acordo com as regras do Projecto Gutenberg para e-books e submete ao Projecto Gutenberg para arquivo."
 
-#: default.php:33 default.php:33
+#: default.php:33
 msgid "How You Can Help"
-msgstr ""
+msgstr "Como Pode Ajudar"
 
-#: default.php:36 default.php:36
+#: default.php:36
 msgid ""
 "Remember that there is no commitment expected on this site. Proofread as "
 "often or as seldom as you like, and as many or as few pages as you like.  We "
 "encourage people to do 'a page a day', but it's entirely up to you! We hope "
 "you will join us in our mission of 'preserving the literary history of the "
 "world in a freely available form for everyone to use'."
-msgstr ""
+msgstr "Não existe qualquer expectativa de compromisso para o site. Reveja tão regularmente ou raramente quanto o desejar, e quantas páginas quiser. Encorajamos as pessoas a fazerem 'uma página por dia', mas depende de cada um! Esperamos que se junte a nós na missão de 'preservar a história da literatura mundial de uma forma disponível livremente para todos'."
 
-#: default.php:38 default.php:38
+#: default.php:38
 msgid "Most Recent Projects"
-msgstr ""
+msgstr "Projectos Mais Recentes"
 
-#: userprefs.php:115 userprefs.php:115
+#: userprefs.php:115
 msgid "Preferences Page for "
-msgstr ""
+msgstr "Página de Preferências de"
 
-#: userprefs.php:115 userprefs.php:115
+#: userprefs.php:115
 msgid "(click the ? for help on that specific preference)"
-msgstr ""
+msgstr "(carregue em ? para obter ajuda nessa escolha específica)"
 
-#: userprefs.php:118 userprefs.php:118
+#: userprefs.php:118
 msgid "Current Profile:"
-msgstr ""
+msgstr "Perfil Actual:"
 
-#: userprefs.php:134 userprefs.php:134
+#: userprefs.php:134
 msgid "Switch Profiles"
-msgstr ""
+msgstr "Mudar Perfis"
 
-#: userprefs.php:137 userprefs.php:137
+#: userprefs.php:137
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
-#: userprefs.php:142 userprefs.php:142
+#: userprefs.php:142
 msgid "Screen Resolution:"
-msgstr ""
+msgstr "Resolução do Ecrã:"
 
-#: userprefs.php:149 userprefs.php:149
+#: userprefs.php:149
 msgid "Email:"
-msgstr ""
+msgstr "E-mail:"
 
-#: userprefs.php:154 userprefs.php:154
+#: userprefs.php:154
 msgid "Interface Type:"
-msgstr ""
+msgstr "Tipo de Interface:"
 
-#: userprefs.php:156 userprefs.php:156
+#: userprefs.php:156
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
-#: userprefs.php:157 userprefs.php:157
+#: userprefs.php:157
 msgid "Enhanced"
-msgstr ""
+msgstr "Melhorado"
 
-#: userprefs.php:161 userprefs.php:161
+#: userprefs.php:161
 msgid "Email Updates:"
-msgstr ""
+msgstr "Actualizações por e-mail:"
 
 #: userprefs.php:163 userprefs.php:182 userprefs.php:195 userprefs.php:207
 #: userprefs.php:220 userprefs.php:313 userprefs.php:319 userprefs.php:348
-#: userprefs.php:354 userprefs.php:163 userprefs.php:182 userprefs.php:195
-#: userprefs.php:207 userprefs.php:220 userprefs.php:313 userprefs.php:319
-#: userprefs.php:348 userprefs.php:354
+#: userprefs.php:354
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: userprefs.php:164 userprefs.php:183 userprefs.php:196 userprefs.php:208
 #: userprefs.php:221 userprefs.php:314 userprefs.php:320 userprefs.php:349
-#: userprefs.php:355 userprefs.php:164 userprefs.php:183 userprefs.php:196
-#: userprefs.php:208 userprefs.php:221 userprefs.php:314 userprefs.php:320
-#: userprefs.php:349 userprefs.php:355
+#: userprefs.php:355
 msgid "No"
-msgstr ""
+msgstr "Não"
 
-#: userprefs.php:167 userprefs.php:167
+#: userprefs.php:167
 msgid "Interface Layout:"
-msgstr ""
+msgstr "Apresentação da Interface:"
 
-#: userprefs.php:169 userprefs.php:169
+#: userprefs.php:169
 msgid "Vertical"
-msgstr ""
+msgstr "Vertical"
 
-#: userprefs.php:170 userprefs.php:170
+#: userprefs.php:170
 msgid "Horizontal"
-msgstr ""
+msgstr "Horizontal"
 
-#: userprefs.php:174 userprefs.php:174
+#: userprefs.php:174
 msgid "Show Projects From:"
-msgstr ""
+msgstr "Mostrar Projectos de:"
 
-#: userprefs.php:180 userprefs.php:180
+#: userprefs.php:180
 msgid "Launch in New Window:"
-msgstr ""
+msgstr "Criar numa nova Janela:"
 
-#: userprefs.php:187 userprefs.php:187
+#: userprefs.php:187
 msgid "Language:"
-msgstr ""
+msgstr "Língua:"
 
-#: userprefs.php:193 userprefs.php:193
+#: userprefs.php:193
 msgid "Show Toolbar:"
-msgstr ""
+msgstr "Mostrar Barra de Apoio:"
 
-#: userprefs.php:200 userprefs.php:200
+#: userprefs.php:200
 msgid "Password:"
-msgstr ""
+msgstr "Palavra-Chave:"
 
-#: userprefs.php:202 userprefs.php:202
+#: userprefs.php:202
 msgid "Reset Password"
-msgstr ""
+msgstr "Criar Nova Palavra-Chave"
 
-#: userprefs.php:205 userprefs.php:205
+#: userprefs.php:205
 msgid "Show Statusbar:"
-msgstr ""
+msgstr "Mostrar Barra de Estado:"
 
-#: userprefs.php:212 userprefs.php:212
+#: userprefs.php:212
 msgid "Show Rank Neighbors:"
-msgstr ""
+msgstr "Mostrar Vizinhos de Ordenação:"
 
-#: userprefs.php:218 userprefs.php:218
+#: userprefs.php:218
 msgid "Show Top 10:"
-msgstr ""
+msgstr "Mostrar os 10 Melhores:"
 
-#: userprefs.php:225 userprefs.php:225
+#: userprefs.php:225
 msgid "Theme:"
-msgstr ""
+msgstr "Tema"
 
-#: userprefs.php:237 userprefs.php:237
+#: userprefs.php:237
 msgid "Stats Bar Alignment:"
-msgstr ""
+msgstr "Alinhamento da Barra de Estatísticas:"
 
-#: userprefs.php:239 userprefs.php:239
+#: userprefs.php:239
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
-#: userprefs.php:240 userprefs.php:240
+#: userprefs.php:240
 msgid "Right"
-msgstr ""
+msgstr "Direita"
 
-#: userprefs.php:244 userprefs.php:244
+#: userprefs.php:244
 msgid "Interface Language:"
-msgstr ""
+msgstr "Língua da Interface:"
 
-#: userprefs.php:256 userprefs.php:256
+#: userprefs.php:256
 msgid "Vertical Interface Preferences"
-msgstr ""
+msgstr "Preferências da Interface Vertical"
 
-#: userprefs.php:259 userprefs.php:259
+#: userprefs.php:259
 msgid "Horizontal Interface Preferences"
-msgstr ""
+msgstr "Preferências da Interface Horizontal"
 
-#: userprefs.php:263 userprefs.php:269 userprefs.php:263 userprefs.php:269
+#: userprefs.php:263 userprefs.php:269
 msgid "Font Face:"
-msgstr ""
+msgstr "Fonte:"
 
-#: userprefs.php:276 userprefs.php:282 userprefs.php:276 userprefs.php:282
+#: userprefs.php:276 userprefs.php:282
 msgid "Font Size:"
-msgstr ""
+msgstr "Tamanho da Fonte:"
 
-#: userprefs.php:289 userprefs.php:294 userprefs.php:289 userprefs.php:294
+#: userprefs.php:289 userprefs.php:294
 msgid "Image Zoom:"
-msgstr ""
+msgstr "Escala da Imagem:"
 
-#: userprefs.php:291 userprefs.php:296 userprefs.php:291 userprefs.php:296
+#: userprefs.php:291 userprefs.php:296
 #, php-format
 msgid "% of 1000 pixels"
-msgstr ""
+msgstr "% de 1000 pixeis"
 
-#: userprefs.php:300 userprefs.php:305 userprefs.php:300 userprefs.php:305
+#: userprefs.php:300 userprefs.php:305
 msgid "Text Frame Size:"
-msgstr ""
+msgstr "Tamanho da Frame de Texto:"
 
-#: userprefs.php:302 userprefs.php:302
+#: userprefs.php:302
 #, php-format
 msgid "% of browser width"
-msgstr ""
+msgstr "% da largura do browser"
 
-#: userprefs.php:307 userprefs.php:307
+#: userprefs.php:307
 #, php-format
 msgid "% of browser height"
-msgstr ""
+msgstr "% da altura do browser"
 
-#: userprefs.php:311 userprefs.php:317 userprefs.php:311 userprefs.php:317
+#: userprefs.php:311 userprefs.php:317
 msgid "Scroll Text Frame:"
-msgstr ""
+msgstr "Deslocamento da Caixa de Texto:"
 
-#: userprefs.php:324 userprefs.php:329 userprefs.php:324 userprefs.php:329
+#: userprefs.php:324 userprefs.php:329
 msgid "Number of Text Lines:"
-msgstr ""
+msgstr "Número de Linhas de Texto"
 
-#: userprefs.php:335 userprefs.php:340 userprefs.php:335 userprefs.php:340
+#: userprefs.php:335 userprefs.php:340
 msgid "Length of Text Lines:"
-msgstr ""
+msgstr "Comprimento das Linhas de Texto"
 
-#: userprefs.php:337 userprefs.php:342 userprefs.php:337 userprefs.php:342
+#: userprefs.php:337 userprefs.php:342
 msgid "characters"
-msgstr ""
+msgstr "caracteres"
 
-#: userprefs.php:346 userprefs.php:352 userprefs.php:346 userprefs.php:352
+#: userprefs.php:346 userprefs.php:352
 msgid "Wrap Text:"
-msgstr ""
+msgstr "Passar o Texto para a Linha Seguinte:"
 
-#: userprefs.php:365 userprefs.php:365
+#: userprefs.php:365
 msgid "'Restore to Saved Preferences'"
-msgstr ""
+msgstr "'Restaurar Preferências Gravadas'"
 
-#: userprefs.php:366 userprefs.php:366
+#: userprefs.php:366
 msgid "'Save Preferences'"
-msgstr ""
+msgstr "'Gravar Preferências'"
 
-#: userprefs.php:368 userprefs.php:368
+#: userprefs.php:368
 msgid "'Save as New Profile'"
-msgstr ""
+msgstr "'Gravar como Novo Perfil'"
 
-#: userprefs.php:369 userprefs.php:369
+#: userprefs.php:369
 msgid "'Quit'"
-msgstr ""
+msgstr "'Sair'"
 
-#: tools/proofers/proof_per.php:20 tools/proofers/proof_per.php:20
+#: tools/proofers/proof_per.php:20
 msgid "News Update for"
-msgstr ""
+msgstr "Notícias Actualizadas por"
 
-#: tools/proofers/proof_per.php:20 tools/proofers/proof_per.php:20
+#: tools/proofers/proof_per.php:20
 msgid "archives"
-msgstr ""
+msgstr "arquivos"
 
-#: tools/proofers/proof_per.php:32 tools/proofers/proof_per.php:32
+#: tools/proofers/proof_per.php:32
 msgid "Providing Content"
-msgstr ""
+msgstr "Fornecer Conteúdo"
 
-#: tools/proofers/proof_per.php:33 tools/proofers/proof_per.php:33
+#: tools/proofers/proof_per.php:33
 msgid "Want to help out the site by providing material for us to proof?"
-msgstr ""
+msgstr "Quer ajudar-nos fornecendo material para nós revermos?"
 
-#: tools/proofers/proof_per.php:34 tools/proofers/proof_per.php:34
+#: tools/proofers/proof_per.php:34
 msgid "Find out how!"
-msgstr ""
+msgstr "Descubra como!"
 
-#: tools/proofers/proof_per.php:37 tools/proofers/proof_per.php:37
+#: tools/proofers/proof_per.php:37
 msgid "Post Processing"
-msgstr ""
+msgstr "Pós-Processamento"
 
-#: tools/proofers/proof_per.php:38 tools/proofers/proof_per.php:38
+#: tools/proofers/proof_per.php:38
 msgid ""
 "After going through two rounds of proofreading, the books need to be "
 "massaged into a final e-text. You can help in the"
-msgstr ""
+msgstr "Depois de passar por duas rondas, os livros necessitam de ser editados para criar o e-book final. Pode ajudar-nos na fase de"
 
-#: tools/proofers/proof_per.php:38 tools/proofers/proof_per.php:38
+#: tools/proofers/proof_per.php:38
 msgid "post processing"
-msgstr ""
+msgstr "pós-processamento"
 
-#: tools/proofers/proof_per.php:38 tools/proofers/proof_per.php:38
+#: tools/proofers/proof_per.php:38
 msgid "phase of Distributed Proofreaders!  Currently there are"
-msgstr ""
+msgstr "do Distributed Proofreaders! Actualmente existem"
 
-#: tools/proofers/proof_per.php:38 tools/proofers/proof_per.php:38
+#: tools/proofers/proof_per.php:38
 msgid "projects waiting."
-msgstr ""
+msgstr "projectos à espera."
 
-#: tools/proofers/projects.php:9 tools/proofers/projects.php:9
+#: tools/proofers/projects.php:9
 msgid "Book Completed:"
-msgstr ""
+msgstr "Livro Completado:"
 
-#: tools/proofers/projects.php:12 tools/proofers/projects.php:12
+#: tools/proofers/projects.php:12
 msgid ""
 "Yes, I would like to be notified when this has been posted to Project "
 "Gutenberg."
-msgstr ""
+msgstr "Sim, quero ser avisado quando este texto for posto no Projecto Gutenberg."
 
-#: tools/proofers/projects.php:13 tools/proofers/projects.php:13
+#: tools/proofers/projects.php:13
 msgid ""
 "No, I would like to not be notified when this has been posted to Project "
 "Gutenberg."
-msgstr ""
+msgstr "Não, não quero ser avisado quando este texto for posto no Projecto Gutenberg."
 
-#: tools/proofers/projects.php:21 tools/proofers/projects.php:21
+#: tools/proofers/projects.php:21
 msgid "My Recently Completed"
-msgstr ""
+msgstr "Páginas que Completei Recentemente"
 
-#: tools/proofers/projects.php:23 tools/proofers/projects.php:23
+#: tools/proofers/projects.php:23
 msgid "My Recently Proofread"
-msgstr ""
+msgstr "Páginas que Revi Recentemente"
 
-#: tools/proofers/projects.php:27 tools/proofers/projects.php:27
+#: tools/proofers/projects.php:27
 msgid "DONE"
-msgstr ""
+msgstr "FEITAS"
 
-#: tools/proofers/projects.php:27 tools/proofers/projects.php:27
+#: tools/proofers/projects.php:27
 msgid "pages I've finished proofing, that are still available for correction)"
-msgstr ""
+msgstr "páginas que acabei de rever que ainda estão disponíveis para correcção)"
 
-#: tools/proofers/projects.php:31 tools/proofers/projects.php:31
+#: tools/proofers/projects.php:31
 msgid "IN PROGRESS"
-msgstr ""
+msgstr "EM CURSO"
 
-#: tools/proofers/projects.php:31 tools/proofers/projects.php:31
+#: tools/proofers/projects.php:31
 msgid "pages I haven't yet completed)"
-msgstr ""
+msgstr "páginas que ainda não completei)"
 
-#: tools/proofers/projects.php:115 tools/proofers/projects.php:115
+#: tools/proofers/projects.php:115
 msgid "Current Time:"
-msgstr ""
+msgstr "Hora actual:"
 
-#: tools/proofers/projects.php:116 tools/proofers/projects.php:116
+#: tools/proofers/projects.php:116
 msgid "Project has not been proofread in this round."
-msgstr ""
+msgstr "Projecto ainda não foi revisto nesta ronda."
 
-#: tools/proofers/projects.php:119 tools/proofers/projects.php:178
 #: tools/proofers/projects.php:119 tools/proofers/projects.php:178
 msgid "Project Comments"
-msgstr ""
+msgstr "Comentários do Projecto"
 
-#: tools/proofers/projects.php:126 tools/proofers/projects.php:126
+#: tools/proofers/projects.php:126
 msgid ""
 "Please scroll down and read the Project Comments for any special "
 "instructions <b>before</b> proofing!"
-msgstr ""
+msgstr "Por favor veja os Comentários do Projecto para para alguma instrução específica <b>antes</b> de começar a revisão!"
 
-#: tools/proofers/projects.php:131 tools/proofers/projects.php:131
+#: tools/proofers/projects.php:131
 msgid "First Round Project"
-msgstr ""
+msgstr "Projecto de Primeira Ronda"
 
-#: tools/proofers/projects.php:132 tools/proofers/projects.php:132
+#: tools/proofers/projects.php:132
 msgid ""
 "This is a First-Round project, these files are output from the OCR software "
 "and have not been looked at."
-msgstr ""
+msgstr "Este é um projecto de Primeira Ronda, estes ficheiros são o resultado de OCR e ainda não foram vistos."
 
-#: tools/proofers/projects.php:134 tools/proofers/projects.php:134
+#: tools/proofers/projects.php:134
 msgid "Second Round Project"
-msgstr ""
+msgstr "Projecto de Segunda Ronda"
 
-#: tools/proofers/projects.php:135 tools/proofers/projects.php:135
+#: tools/proofers/projects.php:135
 msgid ""
 "These are files that have already been proofed once, but now need to be "
 "examined <B>closely</B> for small errors that may have been missed."
-msgstr ""
+msgstr "Estes ficheiros já foram revistos uma vez, mas precisam de ser analisados <b>cuidadosamente</b> para identificar quaisquer erros que possam ter escapado."
 
-#: tools/proofers/projects.php:135 tools/proofers/projects.php:135
+#: tools/proofers/projects.php:135
 msgid ""
 "http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</"
 "A> for examples."
 msgstr ""
 
-#: tools/proofers/projects.php:143 tools/proofers/projects.php:143
+#: tools/proofers/projects.php:143
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
-#: tools/proofers/projects.php:145 tools/proofers/projects.php:145
+#: tools/proofers/projects.php:145 pinc/showavailablebooks.inc:8
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
-#: tools/proofers/projects.php:147 tools/proofers/projects.php:147
+#: tools/proofers/projects.php:147
 msgid "Project Manager"
-msgstr ""
+msgstr "Gestor de Projecto"
 
-#: tools/proofers/projects.php:150 tools/proofers/projects.php:150
+#: tools/proofers/projects.php:150
 msgid "Last Proofread"
-msgstr ""
+msgstr "Último Revisto"
 
-#: tools/proofers/projects.php:162 tools/proofers/projects.php:162
+#: tools/proofers/projects.php:162
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
-#: tools/proofers/projects.php:165 tools/proofers/projects.php:165
+#: tools/proofers/projects.php:165
 msgid "Start a discussion about this project"
-msgstr ""
+msgstr "Começar uma discussão sobre este projecto"
 
-#: tools/proofers/projects.php:167 tools/proofers/projects.php:167
+#: tools/proofers/projects.php:167
 msgid "Discuss this project"
-msgstr ""
+msgstr "Discutir este projecto"
 
-#: tools/proofers/projects.php:178 tools/proofers/projects.php:178
+#: tools/proofers/projects.php:178
 msgid "Please check below for Guideline Modifications"
-msgstr ""
+msgstr "Por favor verifique se existem quaisquer modificações às regras"
 
-#: tools/proofers/projects.php:180 tools/proofers/projects.php:180
+#: tools/proofers/projects.php:180
 msgid "Instructions below take precedence over the guidelines"
-msgstr ""
+msgstr "Instruções abaixo tomam precedência em relação às regras"
+
+#: pinc/showavailablebooks.inc:7
+msgid "Name&nbsp;of&nbsp;Work"
+msgstr "Nome$nbsp;da&nbsp;Obra"
+
+#: pinc/showavailablebooks.inc:9
+msgid "Language"
+msgstr "Língua"
+
+#: pinc/showavailablebooks.inc:10
+msgid "Genre"
+msgstr "Género"
+
+#: pinc/showavailablebooks.inc:11
+msgid "Project<BR>Manager"
+msgstr "Gestor de<br />Projecto"
+
+#: pinc/showavailablebooks.inc:12
+msgid "Pages available for proofing"
+msgstr "Páginas disponíveis para revisão"
+
+#: pinc/showavailablebooks.inc:13
+msgid "Total pages in the book"
+msgstr "Número total de páginas"
+
+#: tools/proofers/master_frame.inc:8
+msgid ""
+"Your \n"
+"browser is not frames capable!"
+msgstr "O seu browser não suporta frames!"
+
+#: tools/proofers/projects_menu.inc:11
+msgid "Personal Page"
+msgstr "Página Pessoal"
+
+#: tools/proofers/projects_menu.inc:12
+msgid "Forums"
+msgstr "Fora"
+
+#: tools/proofers/projects_menu.inc:16
+msgid "Interface Preferences"
+msgstr "Preferências de Interface"
+
+#: tools/proofers/projects_menu.inc:19
+msgid "Start Proofing"
+msgstr "Começar a Rever"
+
+#: tools/proofers/projects_menu.inc:21
+msgid "Round Complete"
+msgstr "Ronda Completada"
+
+#: tools/proofers/projects_menu.inc:33
+msgid "Logout"
+msgstr "Sair"
+
+#: tools/proofers/projects_menu.inc:35
+msgid "View Available Projects"
+msgstr "Ver Projectos Disponíveis"
+
+#: tools/proofers/textframe_js.inc:39
+msgid "Proofing Page"
+msgstr "Página de Revisão"
