@@ -27,7 +27,7 @@ if ($code_url != "$real_site_url/c" )
 	echo "</p>";
 	echo "<p>";
 	echo "To leave feedback or report bugs regarding this TEST site, ";
-	echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=3767'>this forum topic</a> on the real site.";
+	echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=8894'>this forum topic</a> on the real site.";
 
 	echo "</p>";
 	echo "</center>";
