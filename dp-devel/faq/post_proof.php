@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'faq.inc');
 include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
@@ -1298,14 +1299,14 @@ check all the links to make sure that they work and to double check that all you
 linkchecker at <a href="http://validator.w3.org/checklink">http://validator.w3.org/checklink</a> 
 or another linkchecker such as <a href="http://home.snafu.de/tilman/xenulink.html">xenulink</a>; 
 run <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> to uncover any remaining problems in the HTML.
-Any HTML questions not answered in the PG HTML FAQ or <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5489">DP's DPWiki's Guide to HTML</a> should be discussed
+Any HTML questions not answered in the PG HTML FAQ or <a href="<? echo $DPWiki_Guide_to_HTML_id; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
 in the Post-Processing forum.</p>
 
 <p>
 There have been a few especially useful discussion in the Post-Processing Forum.
-One is a <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=4244&amp;view=next">post</a>
+One is a <a href="<? echo $XHTML_suggestion_URL; ?>">post</a>
 which suggests a format for documents based on XHTML 1.0. 
-Another is <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=1563&amp;view=next">
+Another is <a href="<? echo $DPWiki_HTML_guide_URL; ?>">
 this DPWiki post</a>
 which gives a suggested guide for HTML writers and provides an index of HTML-related topics.
 </p>

@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'faq.inc');
 include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
@@ -17,7 +18,7 @@ theme('Beginning Proofreaders\' FAQ','header');
     Obviously not all questions can be included here.  If you don't find an answer here,
     you can look in our
     <a href="faq_central.php">other documentation
-    pages</a> or email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>.
+    pages</a> or email us at <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a>.
 </p>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
@@ -120,7 +121,7 @@ different pages.  This will significantly speed up the proofreading process.
 <p> In summary, <i>we do whatever books people provide to us (that we legally can).</i>
     If you have a book that you would like to see done (and it is copyright cleared)
     we can probably do it (with your help).
-    Contact us at <a href="mailto:dphelp@pgdp.net">DP Help</a>.
+    Contact us at <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a>.
     or see the
     <a href="<? echo $forums_url ?>/viewforum.php?f=9">
     "Content Providers" Forum</a>. </p>
@@ -143,7 +144,7 @@ different pages.  This will significantly speed up the proofreading process.
 <p>If you think that being a Project Manager is for you, Read the <a href="
     pm-faq.php">Project Manager's FAQ</a>.  (We do
     have experienced Project Managers who will mentor you in this process.) When you
-    feel ready, contact us at <a href="mailto:dphelp@pgdp.net">DP Help</a>. </p>
+    feel ready, contact us at <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a>. </p>
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
       <input type="hidden" name="cmd" value="_xclick">
@@ -153,7 +154,7 @@ different pages.  This will significantly speed up the proofreading process.
     </form>
 <p> If you want to do more for the site, but don't have the time, or inclination, to
     become a Project Manager, you might consider <b>making a donation</b>. Funding for
-    the site comes entirely from Charles and the Project Managers, and voluntary
+    the site comes entirely from <? echo $site_funder; ?> and the Project Managers, and voluntary
     donations.
     See the "donate" button on our
     <a href="..">main page</a> if you wish to make a
@@ -191,7 +192,7 @@ different pages.  This will significantly speed up the proofreading process.
           maintaining and improving this website. Programmers (PHP, mySQL and some Java
           Script) who can work on the website software, beta testers to check out new
           versions, document writers to help with our documentation are all needed.
-          Contact <a href="mailto:dphelp@pgdp.net">DP Help</a> if you
+          Contact <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a> if you
           you would like to help with any of these tasks.
     </ul>
 <p> You can do any of these entirely on your own, or you can work together with others to
@@ -224,7 +225,7 @@ different pages.  This will significantly speed up the proofreading process.
   <li>about problems in getting the proofreading website to work:
 </ul>
 -->
-<p> You can email DP Help at: <a href="mailto:dphelp@pgdp.net">DP Help</a></p>
+<p> You can email DP Help at: <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a></p>
 
 <p>Other Project Managers can be reached by clicking on their name on
     the Projects page. Each project has a link to the Project Manager in charge of it.</p>
@@ -299,7 +300,7 @@ different pages.  This will significantly speed up the proofreading process.
     Setting these options correctly solves most problems accessing or using the site.
     For specific examples of setting these options for various browsers, check the latest
     info on the DPWiki post, available by
-    <a href="<? echo $forums_url; ?>/viewtopic.php?p=17984&amp;highlight=#17984">clicking here.</a>
+    <a href="<? echo $Common_browser_problems_URL; ?>">clicking here.</a>
 
 <table border=1 rules="none" width="75%" align="center">
   <tr><td colspan=2> * <i>Security note:</i> for security and privacy reasons, many people have some of
@@ -315,13 +316,13 @@ different pages.  This will significantly speed up the proofreading process.
           offer an option to list specific sites from which you accept pop-ups.  So
           rather than simply setting it to "Accept all pop-ups", you can set the more
           restrictive option of "Suppress all pop-ups" but include the DP website
-          (www.pgdp.net) in the Exceptions list. </td></tr>
+          (<? echo preg_replace(array("|^[a-z]+://|","|/.*$|"),"",$code_url); ?>) in the Exceptions list. </td></tr>
   <tr><td colspan=2> <i>Note:</i> the exact wording of these options will depend on your
           browser.</td></tr>
 </table>
 
 <p> The DP site attempts to cooperate with firewalls, web caches and proxies, though if you see the
-    <i>'I get the same page to proofread over and over again'</i> difficulty, please email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>, including your browser details.
+    <i>'I get the same page to proofread over and over again'</i> difficulty, please email us at <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a>, including your browser details.
     </p>
 
 

@@ -151,7 +151,7 @@ You can also use the OCR Pool. See the Content Provider Forum for more details. 
 </a>
 <p> How are you accessing this FAQ anyway? Wow, you don't let many
 things get in your way do you? If nothing else, we can always use money
-to buy new (old) books, new software, a new super scanner for charlz
+to buy new (old) books, new software, a new super scanner
 (sooner than anticipated at the present rate :-) or other incidentals.
 Find or donate books that someone else can scan. Go to your local
 library, many have public access computers with Internet. You could log

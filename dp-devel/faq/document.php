@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'faq.inc');
 include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
@@ -222,7 +223,7 @@ theme('Proofreading Guidelines','header');
    consider should be done differently, or if something is vague, please let us know.
 </p>
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
-   Documentation Forum in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10779">this thread</a>.
+   Documentation Forum in <a href="<? echo $Guideline_discussion_URL; ?>">this thread</a>.
 </p>
 
 <h3><a name="comments">Project Comments</a></h3>
@@ -241,7 +242,7 @@ theme('Proofreading Guidelines','header');
 </p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
    see how other proofreaders have made changes.
-   <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217">This Forum thread</a>
+   <a href="<? echo $Using_project_details_URL ?>">This Forum thread</a>
    discusses different ways to use this information.
 </p>
 
@@ -1550,7 +1551,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    readable table in an e-book. Sometimes this requires sacrificing the original
    format of the table on the printed page. Check the <a href="#comments">Project Comments</a> and discussion
    thread because other proofreaders may have settled on a specific format. If there is nothing there, you might
-   find something useful in the <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=4311">Gallery of Table Layouts</a> forum thread.
+   find something useful in the <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a> forum thread.
 </p>
 <p><b>Footnotes</b> in tables should go at the end of the table. See <a href="#footnotes">footnotes</a> for details.
 </p>
@@ -2876,7 +2877,7 @@ You told me the walk was private.<br>
 </ul>
 <p>Possibly the most common example of the second type is "and" being OCR'ed as "arid." Other examples: "eve" for "eye",
    "Torn" for "Tom", "train" for "tram". This type is harder to spot and we have a special term for them: "Stealth Scannos."
-   We collect examples of Stealth Scannos in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=1563">this thread</a>.
+   We collect examples of Stealth Scannos in <a href="<? echo $Stealth_Scannos_URL; ?>">this thread</a>.
 </p>
 <p>Spotting scannos is much easier if you use a mono-spaced font such as
    <a href="font_sample.php">DPCustomMono</a> or Courier.

@@ -63,7 +63,7 @@ where <i>file.txt</i> is the name of the template you wish to have included <br>
 in your project comments. You can use as many as you wish.<br />
 <br />
 <b>If you would like to create your own re-usable templates</b> similar to those above<br />
-please email them as a text file to <a href="mailto:dphelp@pgdp.net">dphelp@pgdp.net</a>.<br />
+please email them as a text file to <a href="<? echo $general_help_email_addr; ?>">DP Help</a>.<br />
 The filename needs to be four letters in length.
 <br>
   <br />

@@ -872,7 +872,7 @@ and then paste the text from the clipboard (using ctrl-v/cmd-v).
     or find an error in it,
     or can make a clarification,
     please post a message in
-    <a href='<? echo $forums_url; ?>/viewtopic.php?t=2739'>this forum topic</a>.
+    <a href='<? echo $Proofing_Interface_Help_URL; ?>'>this forum topic</a>.
 </p>
 <br>
 <?

@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'faq.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -31,8 +32,7 @@ or they can choose to manage a project that someone else has prepared.
 </p>
 
 <p>
-To become a PM, send an email to <a
- href="mailto:juliet.sutherland@verizon.net">JulietS</a>. 
+To become a PM, send an email to <? echo $PM_rights_giver_contact; ?>.
 </p>
 
 <hr>
@@ -77,7 +77,9 @@ and what the PMs do.
     On the main PM page (at the top) is a link to the "Create Project" page.
     After you create your project, it will be listed on your PM page.
     Each project has an "Edit Comments" link.
-    You can email Robert or Charlz for a file containing the "standard" comments or make up anything you like.
+    You can email <? echo $proj_comments_supplier_1; ?> or <? echo
+    $proj_comments_supplier_2; ?> for a file containing the "standard"
+    comments or make up anything you like.
     HTML is allowed in the comments including links to example pictures.
     You should be able to use any characters in the comments.
     </blockquote>
@@ -198,7 +200,7 @@ and what the PMs do.
 
     <blockquote>
     On your first few projects,
-    you probably want to send it to Charlz for posting.
+    you probably want to send it to <? echo $PG_poster; ?> for posting.
     (Please include your "raw" file that you downloaded from the site,
     as this helps tremendously.)
     He will review it, give you feedback, and submit it to PG.
