@@ -42,11 +42,11 @@ include_once($relPath.'theme.inc');
 function echo_stylesheet_for_tabs() {
   global $theme, $theme_name, $code_url;
 
-  $image_path = $code_url . "pinc/templates/$theme_name/graphics";
+  $image_path = "$code_url/pinc/templates/$theme_name/graphics";
   $tabs = $theme['tabs'];
 
   if (isset($tabs['use_default_graphics']) && $tabs['use_default_graphics']) {
-    $image_path = $code_url . "pinc/templates/default_graphics";
+    $image_path = "$code_url/pinc/templates/default_graphics";
     $tabs['padding-left'] = '4px';
     $tabs['background-position'] = 'bottom';
     if ($tabs['background'] == null)
