@@ -77,16 +77,29 @@ theme("Project Managers", "header");
 		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name</font></b> <font color='".$theme['color_headerbar_font']."'>($projectid)</font></td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
+		echo "</table>";
 
 		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 		{
-			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_files.php?project=$projectid'>";
+			echo "<br>\n";
+			echo "<form method='get' action='add_files.php'>\n";
+			echo "<input type='hidden' name='project' value='$projectid'>\n";
 			if ($userP['sitemanager'] == "yes") {
-				echo "Add All Text From projects Folder";
+				echo "Add Text From projects Folder";
+				echo "<input type='hidden' name='source_dir' value=''>\n";
 			} else {
-				echo "Add All Text/Images from dpscans Account";
+				echo "Add Text+Images from dpscans Account";
+				echo "<br>\n";
+				echo "directory: ";
+				echo "<input type='text' name='source_dir'>";
+				echo " (defaults to $projectid )";
 			}
-			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=$projectid'>Delete All Text</a></td></tr>";
+			echo "<br>\n";
+			echo "<input type='submit' value='Add'>";
+			echo "<br>\n";
+			echo "</form>\n";
+
+			echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
 			$something = 0;
 		}
 		elseif ( $state == PROJ_PROOF_FIRST_AVAILABLE
@@ -101,7 +114,7 @@ theme("Project Managers", "header");
 		{
 			$something = 2;
 		}
-		echo "</table>";
+
 
 		echo "<h3>Per-Page Info</h3>\n";
 		echo_page_table( $projectid );
