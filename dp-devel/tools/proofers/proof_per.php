@@ -38,9 +38,9 @@ theme("Personal Page for $pguser", "header");
 			echo "<br><br><font color='red' size=3><b>";
 			echo _("You have received a private message in your Inbox!");
 			echo "</b></font><br><br><font color='red'>";
-			echo _("This could be from somebody sending you feedback on some of the pages you have proofed, earlier. We strongly recommend you READ your messages. Near the upper right of this page there is a link that says Inbox, just click on that to open your Inbox.");
+			echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you READ your messages. Near the upper right corner of this page, there is a link that says Inbox. Just click on that to open your Inbox.");
 			echo "</font><br><br><i><font size=-1>";
-			echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there in the corner, and when you have new messages that will be shown in the link)");
+			echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there and when you have new messages that will be shown in the link)");
 			echo "</font></i><br><br>\n";
 		}
 
@@ -62,7 +62,7 @@ theme("Personal Page for $pguser", "header");
 
                 if ($pagesproofed > 80) {
                         echo "<i><font size=-1>";
-                        echo _("After you proof a few more pages, the following introductory Simple Proofing Rules will be removed from this page. However, they are permanently available ");
+                        echo _("After you proof a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available ");
  	                echo "<a href =" . $code_url . "/faq/simple_proof_rules.php>";
 			echo _("here");
 			echo "</a> ";
@@ -84,7 +84,7 @@ theme("Personal Page for $pguser", "header");
         if ($pagesproofed >= 20) {
                 if ($pagesproofed < 40) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
-                        echo _("Now that you have proofed 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
+                        echo _("Now that you have proofread 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>\n";
@@ -119,7 +119,7 @@ theme("Personal Page for $pguser", "header");
                 echo "<font face=" . $theme['font_mainbody'] ."><b>";
                 echo _("Providing Content");
                 echo "</b></font><br>";
-                echo _("Want to help out the site by providing material for us to proof?");
+                echo _("Want to help out the site by providing material for us to proofread?");
                 echo "<a href=" . $code_url . "/faq/scan/submitting.php> ";
                 echo _("Find out how!");
                 echo "</a><br><br>\n";
@@ -142,7 +142,7 @@ theme("Personal Page for $pguser", "header");
                 echo "</b></font><br>";
                 echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the ");
                 echo "<a href =" . $code_url . "/tools/post_proofers/post_proofers.php>";
-                echo _("post processing");
+                echo _("Post-Processing");
                 echo "</a> ";
                 echo _(" phase of Distributed Proofreaders!  Currently there are");
                 echo " <b>".$numprojects."</b> ";
@@ -177,9 +177,9 @@ theme("Personal Page for $pguser", "header");
 
                 if ($pagesproofed < 40) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
-                        echo _("Now that you have proofed 10 pages you can see the Random Rule. Every time this page is refreshed, a randomly select rule from the");
+                        echo _("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the");
 			echo " <a href=" . $code_url . "/faq/document.php>";
-			echo _("Proofing Guidelines");
+			echo _("Proofreading Guidelines");
 			echo "</a> ";
 			echo _("is displayed in this section");
 			echo "<br>";
@@ -197,7 +197,12 @@ theme("Personal Page for $pguser", "header");
                 $rule = mysql_fetch_assoc($result);
                 echo "<i>".$rule['subject']."</i><br>";
                 echo "".$rule['rule']."<br>";
-                echo "See the <a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$code_url/faq/document.php'>Proofing Guidelines</a><br><br>";
+                echo _("See the ");
+                echo "<a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a>";
+                ehco _(" section of the ");
+                echo "<a href='$code_url/faq/document.php'>";
+		echo _("Proofreading Guidelines");
+                echo "</a><br><br>";
 
                 echo "<center><hr width='75%'></center><br>";
 
@@ -207,7 +212,10 @@ theme("Personal Page for $pguser", "header");
 
                 if ($pagesproofed < 80) {
 
-			echo "New Proofers: <a href='$forums_url/viewtopic.php?t=6651'>What did you think of the Mentor feedback you received?</a><br><br>";
+			echo _("New Proofreaders:");
+                        echo " <a href='$forums_url/viewtopic.php?t=6651'>";
+			echo _("What did you think of the Mentor feedback you received?");
+                        echo "</a><br><br>";
 
 		}
 	}
@@ -216,7 +224,8 @@ theme("Personal Page for $pguser", "header");
 
                 if ($pagesproofed < 50) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
-                        echo _("Soon you will be able to see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
+                        echo _("Soon you will be able to see the books in Second Round. ");
+			echo _("Every page that is proofread in First Round is proofread again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>";
@@ -227,7 +236,8 @@ theme("Personal Page for $pguser", "header");
         if ($pagesproofed >= 50) {
                 if ($pagesproofed < 75) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
-                        echo _("Now that you have proofed 50 pages you can see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
+                        echo _("Now that you have proofread 50 pages you can see the books in Second Round. ");
+			echo _("Every page that is proofread in First Round is proofread again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
                         echo "</i></font><br><br>";
