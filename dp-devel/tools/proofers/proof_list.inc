@@ -85,7 +85,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	if ( isset($_GET['language1']) && count($_GET['language1']) > 0 )
 	{
 	    $condition1 .= " AND (0";
-	    $display_filter .= ("<br>Languages=";
+	    $display_filter .= "<br>Languages=";
 	    foreach( $_GET['language1'] as $lang )
 	    {
 
