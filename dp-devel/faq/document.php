@@ -2422,7 +2422,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Greek: <a href="<? echo $PG_greek_howto_url ?>">Greek HOWTO</a> (from
+  <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
       Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
