@@ -3,6 +3,16 @@ $relPath='./../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+if (!file_exists(stats.inc)) { 
+	touch("stats.inc"); 
+	$statsfile = fopen("stats.inc", "w");
+	fputs($statsfile, "<?\n");
+	fputs($statsfile, "\$sitestats['monthly'] = \"0\";\n");
+	fputs($statsfile, "\$sitestats['daily'] = \"0\";\n");
+	fputs($statsfile, "\$sitestats['goal'] = \"150,000\";\n");
+	fputs($statsfile, "?>\n");
+	}
+
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
