@@ -13,7 +13,9 @@ $owner = 527;
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
 $title = "Discussion: ".$row['nameofwork']."";
+$title = addslashes($title);
 $message =  "Discussion of ".$row['nameofwork']." by ".$row['authorsname']."<br><br>Please <a href=".$linkPath."projects.php?project=$project_id&proofing=1>review</a> the project comments before posting.";
+$message = addslashes($message);
 $topic_id = $row['topic_id'];
 }
 
