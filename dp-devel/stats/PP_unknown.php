@@ -4,6 +4,8 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
+// Not translating these strings since the PP mysteries are old English-only projects
+
 theme("Post-Processing Mysteries", "header");
 
 if ($order == 'default') {
@@ -21,9 +23,9 @@ echo "<br><br><h2>Post-Processing Mysteries</h2><br>\n";
 
 echo "<br>\n";
 
-echo _("We don't know for sure who PPd these books; if you do know, or if you did, please send email
-	e-mail: ")."<a href='mailto:$general_help_email_addr'>$general_help_email_addr</a> "
-	._("quoting the other information in the row, including the project ID. Thanks!")."<br><br>";
+echo "We don't know for sure who PPd these books; if you do know, or if you did, please send email
+	e-mail: <a href='mailto:$general_help_email_addr'>$general_help_email_addr</a> 
+	quoting the other information in the row, including the project ID. Thanks!<br><br>";
 
 	
 //get projects that have been PPd but we don't know by whom
