@@ -1,10 +1,11 @@
 <?
+include_once($relPath.'project_states.inc');
 function showstartexts($etext_limit,$type) {
 
 $i = 1;
 
 if ($type == "bronze") {
-$state = "state=2 OR state=12 OR state=8 OR state=18";
+$state = "state='".AVAIL_PI_FIRST."' OR state='".AVAIL_PI_SECOND."' OR state='".VERIFY_PI_FIRST."' OR state='".VERIFY_PI_SECOND."'";
 $text = " Now Proofing.</font>  The book is currently being processed through this site, sign in and start helping!!!! <br>";
 } elseif ($type == "silver") {
 $state = "state>=60 AND state<79";
