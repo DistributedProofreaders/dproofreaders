@@ -109,41 +109,44 @@ function showTeamProfile($curTeam) {
 	echo "<td width='70%'>";
 
 	$t = new ThemedTable(
-		1,
+		2,
 		stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
 		array( 'width' => 100 )
 	);
+	$t->set_column_widths( 20, 80 );
 
 	$t->row(
-		"<b>" . _("Created") . "</b>: "
-		. date("m/d/Y", $curTeam['created'])
+		_("Created"),
+		date("m/d/Y", $curTeam['created'])
 		. "&nbsp;($daysInExistence "._("days").")"
 	);
 
 	$owner_url = "$code_url/stats/members/mdetail.php?id=" . $curTeam['owner'];
 	$t->row(
-		"<b>"._("Leader")."</b>: "
-		. "<a href='$owner_url'>" . $curTeam['createdby'] . "</a>"
+		_("Leader"),
+		"<a href='$owner_url'>" . $curTeam['createdby'] . "</a>"
 	);
 
 	$t->row(
-		"<b>" . _("Total Pages") . "</b>: "
-		. number_format($curTeam['page_count'])
+		_("Total Pages"),
+		number_format($curTeam['page_count'])
 	);
 
 	$t->row(
-		"<b>" . _("Description") . "</b>: "
-		. stripslashes($curTeam['team_info'])
+		_("Description"),
+		stripslashes($curTeam['team_info'])
 	);
 
 	$webpage = $curTeam['webpage'];
 	$t->row(
-		"<b>" . _("Website") . "</b>: <a href='$webpage' target='_new'>$webpage</a>"
+		_("Website"),
+		"<a href='$webpage' target='_new'>$webpage</a>"
 	);
 
 	$topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
 	$t->row(
-		"<b>" . _("Forums") . "</b>: <a href='$topic_url'>"._("Team Discussion")."</a> "
+		_("Forums"),
+		"<a href='$topic_url'>"._("Team Discussion")."</a> "
 		. ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
 	);
 
