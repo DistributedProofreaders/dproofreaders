@@ -1,27 +1,43 @@
 <?PHP
 // Localization setup
-$locales=array(
-	"en"=>"en_EN",
-	"en-us"=>"en_EN",
-        "es"=>"es_ES.utf8",
-	"nl"=>"nl_NL.utf8",
-	"pt"=>"pt_PT",
-	"sr"=>"sr_YU.utf8@cyrillic"
-);
+include_once('languages.inc');
 
-// Try to extract the interface language from user preferences
-if (isset($userP)){
+/* Explanation of logic:
+
+If $_GET['lang'] is set (a page is linked as f. e. default.php?lang=sr) and
+requested language is installed, then use that language and set language cookie
+so that after clicking on links user would remain in the language. This is
+useful both for external linking to a localised version and for users to test
+it, so it has precedence over user preferences.
+
+Else, if user is logged in, and has set language in user preferences, use that
+language.
+
+If user is not logged in, or has not set language in the preferences, use
+language cookie, if there is one.
+
+If there is no cookie try to guess an appropriate language from browser's
+settings. There is no need to set the cookie because browser remains the same.
+
+If everything else fails, default to English.
+
+*/
+
+if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
+    $intlang = lang_code($_GET['lang']);
+    setcookie("language",$intlang,time()+31536000,"/");
+} else if (isset($userP)  && $userP['u_intlang']){
     $intlang = $userP['u_intlang'];
-} else if (isset($_GET['lang'])) {
-    $intlang = $_GET['lang'];
+} else if ($_COOKIE['language']) {
+    $intlang=$_COOKIE['language'];
 } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
     $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
     $intlang = "";
     foreach($langs as $i) {
         $i = explode(";",$i);
         $i = trim($i[0]);
-        if($locales[$i] || $locales[substr($i,0,5)] || $locales[substr($i,0,2)]) {
-            $intlang=$locales[$i];
+        if(lang_code($i)) {
+            $intlang=lang_code($i);
             break;
         }
     }
