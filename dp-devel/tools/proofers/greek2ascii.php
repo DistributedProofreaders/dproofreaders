@@ -55,8 +55,16 @@ function addChar(myChar) {
 </tr>
 
 <tr>
-<td colspan="3" align="center">
-Use Copy and Paste to Insert Characters into Proofing Window.
+<td colspan="3">
+<small>Use Copy and Paste to Insert Characters into Proofing Window.</small>
+</td>
+</tr>
+
+<tr>
+<td colspan="3">
+For further information, see the Project Gutenberg 
+<A HREF="http://www.gutenberg.net/vol/greek.html" target="_new">
+Greek-ASCII Primer</a>.
 </td>
 </tr>
 
