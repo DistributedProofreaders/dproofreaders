@@ -10,7 +10,7 @@ $db_name = "dproofreaders";
 $db = mysql_connect($db_host,$db_user,$db_pass);
 
 //Create the new database
-$createdb = mysql_query("CREATE DATABASE $db_name");
+$createdb = mysql_query("CREATE DATABASE $db_name CHARACTER SET UTF8");
 
 //Select the newly created database
 mysql_select_db($db_name,$db) or die ("Unable to select database.");
