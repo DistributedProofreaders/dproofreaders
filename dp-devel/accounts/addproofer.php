@@ -6,6 +6,9 @@ include($relPath.'connect.inc');
 include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
+include($relPath.'theme.inc');
+theme("Create An Account", "header");
+echo "<br><center>";
 
 $password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
@@ -88,8 +91,7 @@ If your password doesn't work, go to <$reset_password_url> to have it reset.",
         echo "</center></body></html>";
     }
 } else {
-    $htmlC->startHeader("Create An Account");
-    $htmlC->startBody(0,1,0,0);
+
     $tb=$htmlC->startTable(0,400,0,1);
     $tr=$htmlC->startTR(0,0,1);
 
@@ -130,8 +132,9 @@ $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 <p><font size="+1">Tracking information:</font></p>
 <p>The only tracking information we collect at this time is the number of pages you have completed, the date your account was created, and your last login date. Only the pages completed out of the three will be available to end users, the rest is for statistical purposes and removal of old accounts by the web site managers.</p>
 <?php
-    echo $tre.$tr.$td4."<a href=\"../default.php\"><b>Home</b></a>";
-    echo $tre.$htmlC->closeTable(1)."</form>".$htmlC->closeBody(1);
+     echo $tre.$htmlC->closeTable(1)."</form>";
 
 }
+echo "</center>";
+theme("", "footer");
 ?>
