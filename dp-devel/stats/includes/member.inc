@@ -108,11 +108,10 @@ function showMbrProfile($curMbr) {
 		number_format($daily_Average) . " " . _("pages")
 	);
 
-	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { $t->hr( 90 ); }
-        if (!empty($curMbr['user_from']))      { $t->row( _("Location"),   $curMbr['user_from'] ); }
-        if (!empty($curMbr['user_occ']))       { $t->row( _("Occupation"), $curMbr['user_occ'] ); }
-	if (!empty($curMbr['user_interests'])) { $t->row( _("Interests"),  $curMbr['user_interests'] ); }
-        if (!empty($curMbr['user_website']))   { $t->row( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
+	$t->row(
+		_('Roles'),
+		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])
+	);
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
 		$t->row(
@@ -165,10 +164,13 @@ function showBBProfile($curMbr) {
 		"<img border='0' src='$avatar' alt='avatar'>"
 	);
 
-	$t->row(
-		_('Roles'),
-		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])
-	);
+	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { $t->hr( 90 ); }
+        if (!empty($curMbr['user_from']))      { $t->row( _("Location"),   $curMbr['user_from'] ); }
+        if (!empty($curMbr['user_occ']))       { $t->row( _("Occupation"), $curMbr['user_occ'] ); }
+	if (!empty($curMbr['user_interests'])) { $t->row( _("Interests"),  $curMbr['user_interests'] ); }
+        if (!empty($curMbr['user_website']))   { $t->row( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
+
+	$t->hr( 90 );
 
 	$contact_data = array(
 		array(
