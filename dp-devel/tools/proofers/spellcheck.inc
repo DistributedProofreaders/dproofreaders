@@ -286,12 +286,24 @@ name="spcorrects" action="processtext.php" method="POST"><table
       if (isset($saved)) { echo $sHidFS.$saved.$sHidFM.'saved'.$sHidFM2.'saved'.$sHidFE;}
 
     spellcheck_text( $text_data, $project, $imagefile );
-
-  // basic end form html
-    echo "</td></tr><tr><td  id=\"tdtop\">";
-    echo
-      "<input type=\"submit\" name=\"spcorrect\" value=\"Submit Corrections\">&nbsp;&nbsp;&nbsp;".
-      "<input type=\"submit\" name=\"spexit\" value=\"Quit\">".
-      "</td></tr></table></form></div>";
 ?>
-</body></html>
+</td>
+</tr>
+<tr>
+    <td id="tdtop">
+        <input
+            type="submit"
+            name="spcorrect"
+            value="Submit Corrections">
+        &nbsp;&nbsp;&nbsp;
+        <input
+            type="submit"
+            name="spexit"
+            value="Quit">
+    </td>
+</tr>
+</table>
+</form>
+</div>
+</body>
+</html>
