@@ -3,15 +3,15 @@
 
 // Try to extract the interface language from user preferences
 if (isset($userP)){
-    $language = $userP['u_intlang'];
+    $intlang = $userP['u_intlang'];
 } else {
     // Set default interface language to English if it's not specified
-    if (!isset($language)) {
-	$language = "en_EN";
+    if (!isset($lang)) {
+	$intlang = "en_EN";
     }
 }
 
-$locale = setlocale(LC_ALL, $language);
+$locale = setlocale(LC_ALL, $intlang);
 
 // Specify location of translation tables and choose domain
 $gettext_domain = 'messages';
