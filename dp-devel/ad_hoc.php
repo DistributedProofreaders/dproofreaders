@@ -22,6 +22,31 @@ echo "<hr>\n";
 
 if (0)
 {
+	// Test factor_strings()
+
+	include_once($relPath.'misc.inc');
+	function test( $strings )
+	{
+		echo "----------------------------\n";
+		echo "\$strings:\n";
+		var_dump( $strings );
+		echo "\n";
+		echo "factor_strings( \$strings ):\n";
+		var_dump( factor_strings( $strings ) );
+	}
+
+	test( array( 'aaaa', 'aaaaaa', 'aaaaa' ) );
+	test( array( 'desert', 'dessert' ) );
+	test( array( 'boot', 'boo' ) );
+	test( array( 'stan', 'tan' ) );
+	test( array( 'one' ) );
+	test( array( 'two', 'two' ) );
+	test( array( '' ) );
+	test( array( '', '' ) );
+}
+
+if (0)
+{
 	// Get Settings twice for the same user.
        	// Change one, see if the other changes.
 	include_once($relPath.'SettingsClass.inc');
