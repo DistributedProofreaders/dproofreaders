@@ -105,7 +105,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 //    $translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po"));
 
     chdir($code_dir);
-    exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C -L PHP 2>&1",$exec_out,$ret_var);
+    exec("$xgettext_executable -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C -L PHP 2>&1",$exec_out,$ret_var);
 
     if($ret_var) {
         echo "<center>"._("Strings <b>not</b> rebuilt!")."</center><br>"._("Following error is given:")."<br><br>";
