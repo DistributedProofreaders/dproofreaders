@@ -7,8 +7,11 @@ include($relPath.'project_states.inc');
 include($relPath.'page_states.inc');
 include_once($relPath.'theme.inc');
 
-theme("Books Checked Out for Post Processing", "header");
+theme("Books To Be Released", "header");
 
+if ($order == 'default'){
+       $order ='nameofwork';
+  }
 
     //get projects that have been checked out
     $result = mysql_query("SELECT nameofwork, txtlink, username, modifieddate, language, genre
