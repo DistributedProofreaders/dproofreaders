@@ -355,7 +355,7 @@ echo $beginPage;
         $teamID=$curTeam['id'];
         $teamName=$curTeam['teamname'];
         echo "</tr>\r\n<tr>";
-        echo "<td><img src=\"./users/teams/icons/$teamIcon\" width=\"25\" height=\"25\" alt=\"$teamName\"></td>".
+        echo "<td><img src=\"./users/teams/icons/$teamIcon\" width=\"25\" height=\"25\" alt=\"".strip_tags($teamName)."\"></td>".
           "<td><strong>$teamID</strong></td><td>$teamName</td>".
           "<td align=\"center\">{$curTeam['member_count']}</td><td align=\"center\">{$curTeam['page_count']}</td><td>".
           "<b><a href=\"userteams.php?tid=$teamID&amp;tstart=$tstart\">View</a> ";
