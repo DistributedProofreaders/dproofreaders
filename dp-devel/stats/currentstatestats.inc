@@ -28,30 +28,37 @@ $created = state_change_since ( "
 				state not like 'project_new%'
 				",$start_date);
 
-
-
-echo _("Projects Created")." $descrip: <b>$created</b><br>";
-
 $FinProof = state_change_since ( "
 				(state LIKE 'proj_submit%'
 				OR state LIKE 'proj_correct%'
 				OR state LIKE 'proj_post%')
 			",$start_date);
 
-
-
-echo _("Projects Proofread")." $descrip: <b>$FinProof</b> <br>";
-
-
 $FinPP = state_change_since ( "
 				(state LIKE 'proj_submit%'
 				OR state LIKE 'proj_correct%'
 				OR state LIKE 'proj_post_second%')
-	",$start_date);
+			",$start_date);
 
-
-
-echo _("Projects Post-Processed")." $descrip: <b>$FinPP</b><br>";
+$Posted = state_change_since ( "
+				(state LIKE 'proj_submit%'
+				OR state LIKE 'proj_correct%')
+			",$start_date);
+echo "
+	<table width='75%' border='4' rules='all' align=center>
+	  <tbody>
+	  <tr bgcolor='#000099'>
+	      <th colspan=04><font color='#ffffff' face='verdana, arial'>"
+	. _("Projects this month") .
+		"</font></th>
+	  <tr><td align=center bgcolor='#99CCFF'>"._("Created").":        <b>$created</b></td>
+	      <td align=center bgcolor='#99CCFF'>"._("Proofread").":      <b>$FinProof</b></td>
+	      <td align=center bgcolor='#99CCFF'>"._("Post-Processed").": <b>$FinPP</b></td>
+	      <td align=center bgcolor='#99CCFF'>"._("Posted to PG").": <b>$Posted</b></td>
+	  </tr>
+	  </tbody>
+	</table>
+";
 
 echo "<br><hr width='75%'></center><br>";
 
