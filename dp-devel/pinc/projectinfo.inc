@@ -63,7 +63,7 @@ function update($project, $state) {
     $this->temp1_rows = mysql_query("SELECT * FROM $project WHERE state = '".TEMP_FIRST."' ORDER BY image ASC");
     if ($this->temp1_rows != "") { $this->temp1_pages = (mysql_num_rows($this->temp1_rows)); } else $this->temp1_pages = 0;
 
-    $this->done1_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_FIRST."' || state = '".BAD_FIRST."' || state = '".BAD_SECOND."' ORDER BY image ASC");
+    $this->done1_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_FIRST."' ORDER BY image ASC");
     if ($this->done1_rows != "") { $this->done1_pages = (mysql_num_rows($this->done1_rows)); } else $this->done1_pages = 0;
 
     $this->out2_rows = mysql_query("SELECT * FROM $project WHERE state = '".OUT_SECOND."' ORDER BY image ASC");
@@ -72,7 +72,7 @@ function update($project, $state) {
     $this->temp2_rows = mysql_query("SELECT * FROM $project WHERE state = '".TEMP_SECOND."' ORDER BY image ASC");
     if ($this->temp2_rows != "") { $this->temp2_pages = (mysql_num_rows($this->temp2_rows)); } else $this->temp2_pages = 0;
 
-    $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_SECOND."' || state ='".BAD_FIRST."' || state = '".BAD_SECOND."' ORDER BY image ASC");
+    $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_SECOND."' ORDER BY image ASC");
     if ($this->done2_rows != "") { $this->done2_pages = (mysql_num_rows($this->done2_rows)); } else $this->done2_pages = 0;
 
     $this->update_avail($project, $state);
