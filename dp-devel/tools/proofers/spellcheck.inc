@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'doctype.inc');
-include_once($relPath.'sp_check_user.inc');
 $aspell_dict="en.multi";
 $text_file= $project.substr($imagefile,0,-4).".txt";
 $aspell_command="cat {$aspell_temp_dir}{$text_file} | {$aspell_executable} --prefix={$aspell_prefix} --master={$aspell_dict} --ignore-accents -H -a";

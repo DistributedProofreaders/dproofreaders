@@ -20,7 +20,6 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
       
 if ($npage['spcheck']==2)
   {
-    include_once($relPath.'sp_check_user.inc');
     $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
     $npage['spcheck']=0;
     $tpage->setTempPageCookie($npage);
