@@ -3,6 +3,7 @@ $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 
 include_once($relPath.'v_site.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'udb_user.php');
 include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
@@ -425,7 +426,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 			$displaydate = date("M Y", $begindate );
 
-			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
+			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = '".PROJ_SUBMIT_PG_POSTED."'");
 			$totalprojects = mysql_result($result,0);
 			//echo "&nbsp;$displaydate - $totalprojects<br>\n";
 			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";

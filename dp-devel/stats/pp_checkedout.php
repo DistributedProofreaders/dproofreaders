@@ -19,7 +19,7 @@ if ($order == 'default'){
     //get projects that have been checked out
     $result = mysql_query("SELECT nameofwork, txtlink, checkedoutby, modifieddate
                      FROM projects
-                     WHERE state = 'proj_post_first_checked_out'
+                     WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'
                      ORDER BY '$order' ASC");
 
     $numrows = mysql_numrows($result);

@@ -42,10 +42,11 @@ readfile($xmlfile);
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
+include($relPath.'project_states.inc');
 $db_Connection=new dbConnect();
 	
 	if ($content == "posted") {
-	$result = mysql_query("SELECT * FROM projects WHERE state='proj_submit_pgposted' ORDER BY modifieddate DESC LIMIT 10");
+	$result = mysql_query("SELECT * FROM projects WHERE state='".PROJ_SUBMIT_PG_POSTED."' ORDER BY modifieddate DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
 		$posteddate = date("r",($row['modifieddate']));
 			if (isset($_GET['type'])) {
