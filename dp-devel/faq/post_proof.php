@@ -9,7 +9,7 @@ theme('Post-Processing FAQ','header');
 ?>
 
 <h1>Post-Processing FAQ</h1> 
-<h5>(Version 3.6; last updated July 15, 2004)</h5> 
+<h5>(Version 3.7; last updated July 22, 2004)</h5> 
 <br> 
 <h3>Getting Started</h3> 
  
@@ -288,9 +288,8 @@ if you are so inclined.
 <li><a name="6">Format the first page(s) to your liking.</a> 
     These pages contain the title of the book, the author's name, 
     and occasionally information on a translator, etc. 
-    Delete any copyright or publication information (unless you really want to keep them in), 
-    <b>except</b> for the years of publication and/or year of copyright (which, in a recent change, 
-    we are now keeping), and space the rest in a way that is pleasing to your eye. 
+    Retain the publication date and publisher name, but delete words or phrases
+    such as "copyright," "all rights reserved," etc.
     If this section is in ALL CAPS, you can change it to Capitalized Text if you wish.<br>
  
 <li><a name="7">Scan the entire book for problems and formatting issues.</a> 
@@ -398,11 +397,14 @@ as it incorporates Gutcheck into its interface.
 </p>
  
 <li><a name="10">Search for *.</a> 
-    In addition to the asterisks that you may have inserted yourself to mark potential problems, 
-    proofers may have used them to mark problems that they had 
-    to bring them to your attention. 
-    If you have left in the page markers, 
-    use them to guide you to the image containing the text that you are checking.<br>
+Search for *. In addition to the asterisks that you may have inserted
+yourself to mark potential problems, proofers may have used them to mark
+problems that they had to bring them to your attention. If you have left in
+the page markers, use them to guide you to the image containing the text
+that you are checking. Resolve all the problems and remove the asterisks
+before uploading for PPV. If you can't resolve the problem on your own,
+contact the project manager or ask your question in the post-processing
+forum.<br>
  
 <li><a name="11">Format chapter headings and any subheadings 
     that you may find in the text.</a> 
@@ -507,8 +509,10 @@ that may have been introduced by the rewrap.
     If you switched characted sets (eg. used MIDex on a Mac), switch back to ISO encoding now.<br>
 
 <li><a name="20">Zip the finished product and upload it to the site.</a> 
-    Make sure that the file is saved as plain text.  
-    <b>No other file formats will be accepted.</b>
+    <b>Make sure that the text version is saved as plain text (i.e., not as Word format, WordPerfect
+    format, etc). The file extension should be .txt. If you are submitting an
+    HTML version or another version in addition to the plain text version,
+    please include this in the same zip file as the plain text version.</b>
     Go to your Post-Processing page, 
     and select Upload for Verification from the project's drop-down menu. 
     Enter your name and email address in the submit form if you would like your real name
@@ -691,14 +695,8 @@ Guiguts is very well-documented.
 </p>
 
 <p>
-Guiguts comes in two forms: as a 
-<a href="http://mywebpages.comcast.net/thundergnat/winguts.zip">DOS/Windows executable</a> 
-(no other software needed to run it), and as a 
-<a href="http://mywebpages.comcast.net/thundergnat/guiguts.zip">perl script</a>, 
-which can be run on most platforms (NOT MacOS Classic), but requires a perl interpreter.  
-The online manual can be found 
-<a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
-Guiguts does not come with a spell checker. 
+Guiguts is available from <a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
+Guiguts does not come with a spell checker, but integrates well with Aspell.
 </p>
 <br>
 <h4><a name="Gut">The Gut* Foursome</a></h4>
@@ -1281,24 +1279,26 @@ PG will be glad to accept any other version that you may produce.
 </p>
 
 <p>
-Many projects will need an HTML version, as they are not well-suited to ASCII.
-In particular, texts with non-Latin languages (like Greek) which will need Unicode,
-those with illustrations, 
-and those with many, many footnotes require HTML versions.
-For some others, such as those with long indexes or many chapters or subsections, 
-HTML would be beneficial but not essential.
+Check the project comments to find out whether the project manager has
+requested an HTML version. If they have not requested an HTML version, you
+may still create one if you wish, but it is not necessary.
+
 If you wish to work on a text which will need HTML treatment,
 you must either be willing to produce the extra version yourself 
 or find a partner to do it for you.
 </p>
 
-<p>Specific HTML questions should be dealt with in the 
-<a href="<? $post_processing_forum_url ?>">Post-Processing Forum</a>.
-There is no required format, though the HTML is required to be clean,
-and should be run through a <a href="#HTML">validator</a> before being submitted.
-Any images should be reduced as much as possible while still preserving detail.
-Be kind to those with slow internet connections.
-</p>
+<p>There are several requirements for HTML. 
+First, be sure to read the <a href="http://gutenberg.net/faq/gutfaq.htm#H.1">PG HTML FAQ</a> and follow all the
+requirements. Before submitting your HTML for PPV, please do the following:<br>
+Validate the HTML at <a href="http://validator.w3.org/">http://validator.w3.org</a>; 
+validate the CSS, if any, at <a href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator</a>; 
+check all the links to make sure that they work and to double check that all your images are present, using the
+linkchecker at <a href="http://validator.w3.org/checklink">http://validator.w3.org/checklink</a> 
+or another linkchecker such as <a href="http://home.snafu.de/tilman/xenulink.html">xenulink</a>; 
+run <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> to uncover any remaining problems in the HTML.
+Any HTML questions not answered in the PG HTML FAQ or <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5489">DP's DPWiki's Guide to HTML</a> should be discussed
+in the Post-Processing forum.</p>
 
 <p>
 There have been a few especially useful discussion in the Post-Processing Forum.
