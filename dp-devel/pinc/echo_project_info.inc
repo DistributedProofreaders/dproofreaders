@@ -24,25 +24,17 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	// -------------------------------------------------------------------------
 	// The state of the project
 
-	if ($proofstate == 'proj_post')
+	$right = project_states_text($project['state']);
+	if ($proofstate != 'proj_post')
 	{
-		$proj_state = _("Project State");
-		echo_row_a($proj_state, project_states_text($project['state']) );
-	}
-	else
-	{
-		if (TRUE)
-		{
-			if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-				$left  = _("First Round Project");
-				$right = _("This is a First-Round project, these files are output from the OCR software and have not been looked at.");
-			} else {
-				$left  = _("Second Round Project");
-				$right = _("These are files that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.");
-			}
-			echo_row_a( $left, "<b>$right</b>", 1 );
+		if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
+			$extra = _("The page-texts are output from the OCR software and have not been looked at.");
+		} else {
+			$extra = _("The page-texts have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.");
 		}
+		$right = "$right ($extra)";
 	}
+	echo_row_a( _("Project State"), $right );
 
 	// -------------------------------------------------------------------------
 	// Information about the work itself (independent of DP)
