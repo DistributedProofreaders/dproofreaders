@@ -90,8 +90,8 @@ If your password doesn't work after you have activated your account, go to <http
 <Input Type=hidden Name="password" value = "proofer">
 <table border=0>
 <td width=20>Real Name:</td><td><INPUT TYPE=text MAXLENGTH=70 NAME="real_name" SIZE=20><Br></td><tr>
-<td>Username:</td><td> <INPUT TYPE=text MAXLENGTH=70 NAME="username" SIZE=20></td><tr>
-<td>Password:</td><td> <Input Type=password Maxlength=70 Name="userpass" Size=10></td><tr>
+<td>Username:</td><td> <INPUT TYPE=text MAXLENGTH=70 NAME="userNM" SIZE=20></td><tr>
+<td>Password:</td><td> <Input Type=password Maxlength=70 Name="userPW" Size=10></td><tr>
 <td>E-mail address:</td><td> <Input Type=text Maxlength=70 Name="email" Size=20></td>
 </table>
 <center><INPUT TYPE=submit VALUE="Add">  <INPUT type=reset VALUE="Reset Form"><br>
