@@ -19,7 +19,8 @@ function xmlencode($data) {
 if (empty($_GET['id']) || $_GET['id'] == 1) {
 	include_once($relPath.'theme.inc');
 	theme("Error!", "header");
-	echo "<br><center>A team id must specified in the following format:<br>$code_url/stats/teams/teams_xml.php?id=****</center>";
+	if (empty($_GET['id']) { echo "<br><center>A team id must specified in the following format:<br>$code_url/stats/teams/teams_xml.php?id=****</center>"; }
+	else { echo "<br><center>XML Statistics are not gathered for the default Distributed Proofreaders team.  Please choose a different team</center>"; }
 	theme("", "footer");
 	exit();
 }
@@ -68,7 +69,7 @@ $curTeam = mysql_fetch_assoc($result);
 //Team members portion of $data
 	$data .= "<teammembers>";
 	$mbrQuery = mysql_query("SELECT username, pagescompleted, date_created, u_id, u_privacy FROM users WHERE team_1 = ".$curTeam['id']." || team_2 = ".$curTeam['id']." || team_3 = ".$curTeam['id']." ORDER BY username ASC");
-	while ($curMbr = mysql_fetch_assoc($mbrQuery)) 
+	while ($curMbr = mysql_fetch_assoc($mbrQuery))
 	{
 		if ($curMbr['u_privacy'] != true)
 		{
