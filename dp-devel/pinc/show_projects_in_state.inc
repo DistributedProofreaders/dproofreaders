@@ -102,16 +102,22 @@ function show_projects_in_state($state,$table=1)
 
 		$foo_username = $book[$foo_field_name];
 		$users = mysql_query("SELECT email FROM users WHERE username = '$foo_username'");
-		$foo_email = mysql_result($users, 0, "email");
+		if ( mysql_num_rows($users) > 0 )
+		{
+			$foo_email = mysql_result($users, 0, "email");
+			$foo_cell = "<A HREF=\"mailto: $foo_email\">".$book[$foo_field_name]."</A>";
+		}
+		else
+		{
+			$foo_cell = $book[$foo_field_name];
+		}
 
 		tde($book['nameofwork'],  $bgcolor);
 		tde($book['authorsname'], $bgcolor);
 		tde($book['language'],    $bgcolor . " align=center");
 		tde($book['genre'],       $bgcolor . " align=center");
 		tde($tpages,              $bgcolor . " align=center");
-
-		tde("<A HREF=\"mailto: $foo_email\">".$book[$foo_field_name]."</A>",
-			$bgcolor . " align=center");
+		tde($foo_cell,            $bgcolor . " align=center");
 
 		echo "<td $bgcolor>\n";
 		echo "<form name=\"{$book['projectid']}\" method=\"get\" action=\"$code_url/tools/changestate.php\">";
