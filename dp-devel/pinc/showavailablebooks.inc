@@ -20,7 +20,8 @@ function showavailablebooks($result,$state,$userP,$tList,$round)
     while ($rownum2 < $numrows) {
            $book=dassoc($result);
             // find out how many files the project has total/available!!!!!
-            $pages=bookpages($book['projectid'],"='{$state}'");
+            $apages = avail_pages($book['projectid']);
+            $tpages = total_pages($book['projectid']);
             $bgcolor=bgcol($rownum,$round);
         if (($state==AVAIL_FIRST && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
             ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE)) {
@@ -40,8 +41,8 @@ function showavailablebooks($result,$state,$userP,$tList,$round)
             tde($book['language'], bgcol($rownum, $round));
 	    tde($book['genre'], bgcol($rownum, $round));
             tde($book['username'],bgcol($rownum, $round));
-            tde($pages['available'], bgcol($rownum, $round) . " align=center");
-            tde($pages['total'], bgcol($rownum, $round) . " align=center");
+            tde($apages, bgcol($rownum, $round) . " align=center");
+            tde($tpages, bgcol($rownum, $round) . " align=center");
         } else $rownum--;
         $rownum++;
         $rownum2++;
