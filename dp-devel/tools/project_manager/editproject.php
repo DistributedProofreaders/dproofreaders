@@ -30,6 +30,7 @@ function saveProject() {
    if (empty($_POST['authorsname'])) { $errormsg .= "Author is required.<br>"; }
    if (empty($_POST['pri_language'])) { $errormsg .= "Primary Language is required.<br>"; }
    if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
+
    if (!empty($_POST['checkedoutby'])) {
         $checkedoutby = $_POST['checkedoutby'];
         $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$checkedoutby'");
@@ -68,6 +69,22 @@ function saveProject() {
       }
    }
 
+   if (!empty($_POST['image_provider'])) {
+      $image_provider = $_POST['image_provider'];
+      if (strcmp($image_provider, 'OTHER') == 0) {
+         if (empty($_POST['imp_other'])) {
+              $errormsg .= "When Image Provider is OTHER, details must be supplied.<br>"; 
+          } else {
+             $imp_other = $_POST['imp_other'];
+             $image_provider = "O:".$imp_other;
+          }
+      }
+   } else {
+      $errormsg .= "Image Provider is required.<br>";
+   }
+
+
+
    if (isset($errormsg)) {
         return $errormsg;
         exit();
@@ -92,7 +109,8 @@ function saveProject() {
                 scannercredit='{$_POST['scannercredit']}',
                 postednum='{$_POST['postednum']}',
                 clearance='{$_POST['clearance']}',
-                special='$special'
+                special='$special',
+                image_provider = '$image_provider'
             WHERE projectid='{$_POST['projectid']}'
         ");
 
@@ -126,7 +144,7 @@ function saveProject() {
         //Insert a new row into the projects table
         mysql_query("
             INSERT INTO projects
-                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special)
+                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special, image_provider)
             VALUES (
                 '{$_POST['nameofwork']}',
                 '{$_POST['authorsname']}',
@@ -141,7 +159,8 @@ function saveProject() {
                 '{$_POST['scannercredit']}',
                 '".PROJ_NEW."',
                 '{$_POST['clearance']}',
-                '$special'
+                '$special',
+                '$image_provider'
             )
         ");
 
@@ -548,6 +567,66 @@ function special_list($special) {
 }
 
 
+function image_provider_list($image_provider) {
+
+    // get info on image_providers
+    $imp_result = mysql_query("
+            SELECT      image_provider, 
+                        display_name
+            FROM image_providers
+            WHERE enable = 1
+            ORDER BY display_name
+        ");
+
+    // it'd be nice to make this static, or something, so it only was loaded once
+    $imp_array = array();
+
+    // put list into array
+    while ($i_row = mysql_fetch_assoc($imp_result)) {
+        $show = $i_row['display_name'];
+        $code = $i_row['image_provider'];
+        $imp_array["$code"] = $show;
+    }
+
+   // drop down select box for which image provider
+   echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td><select name='image_provider'>";
+
+   // add special case value "DP User"
+   echo "<option value='DP User' ";
+   if (strcmp ( $image_provider, 'DP User') == 0) { 
+         echo " SELECTED"; 
+   }
+   echo ">"._("DP User")."</option>";
+
+   // add the pre-defined image_providers
+   foreach($imp_array as $k=>$v) {
+        echo "<option value='".encodeFormValue($k)."'";
+        if ($image_provider == $k) { echo " SELECTED"; }
+        echo ">$v</option>";
+   }
+
+   // add special case value "Other"
+   echo "<option value='OTHER' ";
+   if (strncmp ( $image_provider, 'O:',2) == 0) { 
+         echo " SELECTED"; 
+         $imp_other_val = substr($image_provider,2);
+   }
+   echo ">"._("OTHER")."</option>";
+
+   echo "</select>";
+
+   echo " "._("Details for OTHER: ").
+          "<input type='text' size='18' name='imp_other' value='"
+          .encodeFormValue($imp_other_val)."'>";
+
+   echo " <a href='show_image_providers.php'>Details of Image Providers</a><br>";
+
+   echo "</td></tr>\n";
+}
+
+
+
+
 function query_format() {
    $attr_set = 0;
    $fullquery = "";
@@ -702,6 +781,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         $genre = mysql_result($result, 0, "genre");
         $difficulty_level = mysql_result($result, 0, "difficulty");
         $special = mysql_result($result, 0, "special");
+        $image_provider = mysql_result($result, 0, "image_provider");
    }
 
    if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
@@ -714,6 +794,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (empty($clearance)) { $clearance = ""; }
    if (empty($postednum)) { $postednum = ""; }
    if (empty($special)) { $special = ""; }
+   if (empty($image_provider)) { $image_provider = "DP User"; }
    if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
    theme(_("Create a Project"), "header");
@@ -731,6 +812,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         echo difficulty_list($difficulty_level);
         echo special_list($special);
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+        echo image_provider_list($image_provider);
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Text File URL")."</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
