@@ -81,12 +81,10 @@ include_once('filter_proof_list.inc');
 $result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'");
 if (mysql_num_rows($result) >= 1) {
 	$RFilter = mysql_result($result, 0, "value");
-echo "rfilter read from DB is ".$Rfilter;
 }
 $result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'");
 if (mysql_num_rows($result) >= 1) {
 	$display_filter = mysql_result($result, 0, "value");
-echo "dfilter read from DB is ".$display_filter;
 }
 
 
@@ -187,10 +185,6 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 
 	$RFilter = " AND ".$condition1;
 
-
-echo "rfilters i ".$RFilter;
-
-
 	// save or update filter to usersettings here (since they've potentially changed)
 
 	//Note:  When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
@@ -211,14 +205,12 @@ echo "rfilters i ".$RFilter;
 
 	$query = "INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '".addslashes($RFilter)."')";
 	$result = mysql_query($query);
-echo $query;
+
 	$query = "
 		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'display_filter', '"
 		.$display_filter."')
 		";
 	$result = mysql_query($query);
-echo $query;
-
 
 }
 
