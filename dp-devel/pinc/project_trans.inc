@@ -2,7 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 
-function project_transition( $projectid, $new_state )
+function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,
 // and perform any attendant processing.
 // If there are any problems, return a string containing an error message.
@@ -185,8 +185,6 @@ function project_transition( $projectid, $new_state )
 
 	$settings = "state='$new_state'";
 
-	global $pguser;
-
 	if ( $current_state == PROJ_PROOF_FIRST_UNAVAILABLE &&
 	     $new_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE )
 	{
@@ -206,8 +204,12 @@ function project_transition( $projectid, $new_state )
 	}
 	else if ( $new_state == PROJ_POST_CHECKED_OUT )
 	{
+		if ( $extras['checkedoutby'] == '' )
+		{
+			return "$transition_str: \$extras['checkedoutby'] is unset";
+		}
 		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby='$pguser'";
+		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
 	}
 	else if ( $current_state == PROJ_POST_CHECKED_OUT &&
 		$new_state == PROJ_POST_VERIFY )
@@ -220,9 +222,13 @@ function project_transition( $projectid, $new_state )
 	else if ( $current_state == PROJ_POST_VERIFY &&
 		$new_state == PROJ_POST_VERIFYING )
 	{
+		if ( $extras['checkedoutby'] == '' )
+		{
+			return "$transition_str: \$extras['checkedoutby'] is unset";
+		}
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		$settings .= ", checkedoutby='$pguser'";
+		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
 	}
 	else if ( $current_state == PROJ_POST_VERIFYING &&
 		$new_state == PROJ_POST_VERIFY )
