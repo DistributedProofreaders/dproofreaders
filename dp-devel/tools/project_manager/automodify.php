@@ -153,8 +153,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         ensure_project_blurb( $project );
     }
 
-    $projectinfo->update($projectid, $state);
-
     //Bad Page Error Check
 
     foreach (array(1,2) as $round)
@@ -203,7 +201,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                     $state = $AVAILABLE_PROJECT_STATE;
                 }
             }
-            $projectinfo->availablepages = $projectinfo->avail1_pages;
         }
     }
 
