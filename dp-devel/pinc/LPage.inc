@@ -159,7 +159,26 @@ function deletePageCookie() {
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 {
+  global $writeBIGtable;
+
   $timestamp=time();
+
+  if ($writeBIGtable) {
+    $dbQuery="UPDATE project_pages SET state='";
+      if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
+      {
+        $rval=OUT_SECOND;
+        $dbQuery.="$rval', round2_time='$timestamp', round2_user='$pguser'";
+      }
+      else
+      {
+        $rval=OUT_FIRST;
+        $dbQuery.="$rval', round1_time='$timestamp', round1_user='$pguser'";
+      }
+    $dbQuery.="  WHERE projectid = '$project' and fileid='$fileid' AND image='$imagefile'";
+    $update = mysql_query($dbQuery);
+  }
+
   $dbQuery="UPDATE $project SET state='";
     if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
     {
@@ -268,7 +287,16 @@ function deleteUserCount($proofstate,$pguser,$userP)
 
 function saveTemp($proofstate,$text_data,$pguser)
 {
+  global $writeBIGtable;
+
   $timestamp = time();
+
+  if ($writeBIGtable) {
+    $dbQuery="UPDATE project_pages SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
+    $result = mysql_query($dbQuery);
+  }
+
   $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
@@ -279,7 +307,16 @@ function saveTemp($proofstate,$text_data,$pguser)
 // when a page is reopened from MRC, no need to update text, just record state change
 function reOpen($proofstate,$pguser)
 {
+  global $writeBIGtable;
+
   $timestamp = time();
+
+  if ($writeBIGtable) {
+    $dbQuery="UPDATE project_pages SET {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
+    $result = mysql_query($dbQuery);
+  }
+
   $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
@@ -289,8 +326,16 @@ function reOpen($proofstate,$pguser)
 
 function saveComplete($proofstate,$text_data,$pguser,$userP)
 {
+  global $writeBIGtable;
   $this->addUserCount($proofstate,$pguser,$userP);
   $timestamp = time();
+
+  if ($writeBIGtable) {
+    $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
+    $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
+    $result = mysql_query($dbQuery) or die(mysql_error());
+  }
+
   $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery) or die(mysql_error());
@@ -321,7 +366,16 @@ function exitInterface($newwin,$editone)
 
 function returnPage($proofstate,$pguser,$userP)
 {
+  global $writeBIGtable;
+
   $timestamp = time();
+
+  if ($$writeBIGtable) {
+    $dbQuery="UPDATE project_pages SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
+    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
+    $result = mysql_query($dbQuery);
+  }
+
   $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
