@@ -10,6 +10,8 @@ echo "<br><br><h2>Post-Processing Statistics</h2><br>\n";
 
 echo "<a href='proj_PPd_graphs.php'>Projects PPd Graphs</a>";
 
+echo "<a href='PP_unknown.php'>Books with Mystery PPers</a>";
+
 echo "<br>\n";
 
 echo "<h3>Total Projects Post-Processed Since Statistics were Kept</h3>\n";
