@@ -365,12 +365,10 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 
 	$R_username = $page_res[$prd->user_column_name];
 
+        $cellcolorclause = " ";
 
        // colour-code pages proofread by the user
         if ($R_username == $pguser) {
-
-                // a page by the user but not available for editing has a reddish background
-                $cellcolorclause = "bgcolor='#FF3366'";
 
                 // a page saved as DONE by the user has a greenish background
                 if ($page_state == $prd->page_save_state) {
@@ -378,13 +376,17 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
                 }
 
                 // a page saved as IN PROGRESS by the user has an orangey background
-                if ($page_state == $prd->page_temp_state || $page_state == $prd->page_out_state) {
+                else if ($page_state == $prd->page_temp_state 
+                    || $page_state == $prd->page_out_state) {
                         $cellcolorclause = "bgcolor='#FFCC66'";
                 }
 
-        } else
-                $cellcolorclause = " ";
-
+                // a page by the user but not available for editing has a reddish background
+                else if ($page_state != $prd->page_avail_state)
+                {
+                        $cellcolorclause = "bgcolor='#FF3366'";
+                }
+        }
 
 	// ------------------------------
 	// Diff
