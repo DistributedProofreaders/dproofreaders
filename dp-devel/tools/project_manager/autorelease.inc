@@ -104,7 +104,6 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $released, $count2ndRnd, $todaysdate)
 {
         $i = 0;
-        $done = 0;
         $newpagesreleased = 0;
         $totalnewreleased = 0;
         $numReleased = 0;
@@ -119,17 +118,23 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         // Keep releasing these projects (SP) until:
         //      we meet our target for them ($released >= $target),
         // or   we run out of SP ready to release ($numAvailable),
-        // or   subject to the "no doubling up of authors" rule ($done)
+        // or   subject to the "no doubling up of authors" rule
         // NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
         // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
-        while ($numAvailable > 0 && $released < $target && $done != 1) {
+        while ($numAvailable > 0 && $released < $target) {
                 // check the date
                 $modifieddate = mysql_result($avail_result, $i, "modifieddate");
+                if ($modifieddate == $todaysdate) {
+                        // since projects are sorted by date, if we reach here we have already
+                        // considered and rejected all remaining candidates under the author rule
+                        // and can stop checking
+                        break;
+                }
 
                 // if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
                 // this candidate for early release, consider it now
-                if ($modifieddate != $todaysdate) {
+                {
                         $author = mysql_result($avail_result, $i, "authorsname");
                         $project = mysql_result($avail_result, $i, "projectid");
 
@@ -175,11 +180,6 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                         if ($count2ndRnd == "yes") $released = $released + $newpagesreleased;
                                 }
                         }
-                }  else {
-                        // since projects are sorted by date, if we reach here we have already
-                        // considered and rejected all remaining candidates under the author rule
-                        // and can stop checking
-                        $done = 1;
                 }
                 $i++;
         }
