@@ -1,21 +1,6 @@
 <?
-// Send real HTTP headers to user-agents - at least one of these headers should
-// be honored by all clients/proxies/caches.
-//
-// Date in the past
-header("Expires: Mon, 01 Sep 2000 09:00:00 GMT");
-
-// always modified
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-// HTTP/1.1
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-
-// HTTP/1.0
-header("Pragma: no-cache");
-
 $relPath="./../../pinc/";
+include_once($relPath.'http_headers.inc');
 include($relPath.'projectinfo.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'echo_project_info.inc');
@@ -35,13 +20,6 @@ if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
 
 include($relPath.'doctype.inc');
 echo "$docType\r\n<HTML><HEAD><TITLE> "._("Project Comments")."</TITLE>";
-?>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="-1" />
-
-<?
 
 if (!isset($proofing) && $userP['i_newwin']==1)
 {include($relPath.'js_newwin.inc');}
