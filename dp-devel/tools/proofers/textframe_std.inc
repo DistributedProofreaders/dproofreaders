@@ -72,7 +72,7 @@ if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save 
 ?><INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save and Quit">
 <INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
 <INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>"> <INPUT 
-TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));"><? if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo " <INPUT TYPE='submit' accesskey='4' name='button6' ID='button6' value='Report Bad Page'>; } ?><BR><INPUT 
+TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));"><? if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo " <INPUT TYPE='submit' accesskey='4' name='button6' ID='button6' value='Report Bad Page'>"; } ?><BR><INPUT 
 TYPE="submit" name="button10" ID="button10" value="Spell Check"><br>
 <?
 //display page number
