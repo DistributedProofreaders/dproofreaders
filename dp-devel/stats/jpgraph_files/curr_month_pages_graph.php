@@ -1,8 +1,9 @@
 <?
 $relPath="./../../pinc/";
-include_once("jpgraph/jpgraph.php");
-include_once("jpgraph/jpgraph_bar.php");
-include_once("jpgraph/jpgraph_line.php");
+include_once($relPath.'v_site.inc');
+include_once($jpgraph_dir.'/src/jpgraph.php');
+include_once($jpgraph_dir.'/src/jpgraph_bar.php');
+include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
