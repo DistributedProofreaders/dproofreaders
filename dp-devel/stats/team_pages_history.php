@@ -8,7 +8,7 @@ new dbConnect();
 $result = mysql_query("SELECT * FROM user_teams_stats WHERE team_id = ".$_GET['tid']." ORDER BY date_updated ASC");
 $i = 0;
 while ($row = mysql_fetch_assoc($result)) {
-	$datay[$i] = $row['page_count'];
+	$datay[$i] = $row['daily_page_count'];
         $datax[$i] = date("n/j/Y", $row['date_updated']);
         $i++;
 }
