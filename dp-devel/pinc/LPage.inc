@@ -56,7 +56,7 @@ function getText($pagestate,$saved,$revert)
   {
     $wText = $this->prd->text_column_name;
   }
-  else if ($this->pagestate==$this->prd->avail_state || $this->pagestate==$this->prd->out_state)
+  else if ($this->pagestate==$this->prd->page_avail_state || $this->pagestate==$this->prd->page_out_state)
   {
     $wText = $this->prd->prevtext_column_name;
   }
@@ -151,7 +151,7 @@ function saveComplete($proofstate,$text_data,$pguser,$userP)
 
 function getRevertState()
 {
-  return $this->prd->temp_state;
+  return $this->prd->page_temp_state;
 }
 
 function exitInterface($newwin,$editone)

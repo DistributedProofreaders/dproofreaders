@@ -199,12 +199,12 @@ function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->out_state}',
+        state='{$prd->page_out_state}',
         {$prd->time_column_name}='$timestamp',
         {$prd->user_column_name}='$user'
     " );
 
-    return $prd->out_state;
+    return $prd->page_out_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -216,13 +216,13 @@ function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $use
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->temp_state}',
+        state='{$prd->page_temp_state}',
         {$prd->time_column_name}='$timestamp',
         {$prd->user_column_name}='$user',
         {$prd->text_column_name}='$page_text'
     " );
 
-    return $prd->temp_state;
+    return $prd->page_temp_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -234,13 +234,13 @@ function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $pa
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->save_state}',
+        state='{$prd->page_save_state}',
         {$prd->time_column_name}='$timestamp',
         {$prd->user_column_name}='$user',
         {$prd->text_column_name}='$page_text'
     " );
 
-    return $prd->save_state;
+    return $prd->page_save_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -252,12 +252,12 @@ function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->temp_state}',
+        state='{$prd->page_temp_state}',
         {$prd->time_column_name}='$timestamp',
         {$prd->user_column_name}='$user'
     " );
 
-    return $prd->temp_state;
+    return $prd->page_temp_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -269,12 +269,12 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->avail_state}',
+        state='{$prd->page_avail_state}',
         {$prd->time_column_name}='$timestamp',
         {$prd->user_column_name}='$user'
     " );
 
-    return $prd->avail_state;
+    return $prd->page_avail_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -284,7 +284,7 @@ function Page_reclaim( $projectid, $fileid, $round_number )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->avail_state}',
+        state='{$prd->page_avail_state}',
         {$prd->time_column_name}=''
     " );
 }
@@ -296,7 +296,7 @@ function Page_clearRound( $projectid, $fileid, $round_number )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->avail_state}',
+        state='{$prd->page_avail_state}',
         {$prd->time_column_name}='',
         {$prd->user_column_name}='',
         {$prd->text_column_name}=''
@@ -310,7 +310,7 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->bad_state}',
+        state='{$prd->page_bad_state}',
         b_user='$user',
         b_code=$reason,
         {$prd->text_column_name}={$prd->prevtext_column_name}
@@ -324,7 +324,7 @@ function Page_eraseBadMark( $projectid, $fileid, $round_number )
     $prd = get_PRD_for_round( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->avail_state}',
+        state='{$prd->page_avail_state}',
         b_user='',
         b_code='',
         {$prd->user_column_name}=''

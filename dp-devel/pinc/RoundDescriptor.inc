@@ -5,24 +5,24 @@ class ProofingRoundDescriptor {}
 // A container for various constants relating to a particular round of proofing.
 
 $PRD_1 = new ProofingRoundDescriptor;
-$PRD_1->unavail_state = UNAVAIL_FIRST;
-$PRD_1->avail_state   = AVAIL_FIRST;
-$PRD_1->out_state     = OUT_FIRST;
-$PRD_1->temp_state    = TEMP_FIRST;
-$PRD_1->save_state    = SAVE_FIRST;
-$PRD_1->bad_state     = BAD_FIRST;
+$PRD_1->page_unavail_state = UNAVAIL_FIRST;
+$PRD_1->page_avail_state   = AVAIL_FIRST;
+$PRD_1->page_out_state     = OUT_FIRST;
+$PRD_1->page_temp_state    = TEMP_FIRST;
+$PRD_1->page_save_state    = SAVE_FIRST;
+$PRD_1->page_bad_state     = BAD_FIRST;
 $PRD_1->time_column_name     = 'round1_time';
 $PRD_1->text_column_name     = 'round1_text';
 $PRD_1->user_column_name     = 'round1_user';
 $PRD_1->prevtext_column_name = 'master_text';
 
 $PRD_2 = new ProofingRoundDescriptor;
-$PRD_2->unavail_state = UNAVAIL_SECOND;
-$PRD_2->avail_state   = AVAIL_SECOND;
-$PRD_2->out_state     = OUT_SECOND;
-$PRD_2->temp_state    = TEMP_SECOND;
-$PRD_2->save_state    = SAVE_SECOND;
-$PRD_2->bad_state     = BAD_SECOND;
+$PRD_2->page_unavail_state = UNAVAIL_SECOND;
+$PRD_2->page_avail_state   = AVAIL_SECOND;
+$PRD_2->page_out_state     = OUT_SECOND;
+$PRD_2->page_temp_state    = TEMP_SECOND;
+$PRD_2->page_save_state    = SAVE_SECOND;
+$PRD_2->page_bad_state     = BAD_SECOND;
 $PRD_2->time_column_name     = 'round2_time';
 $PRD_2->text_column_name     = 'round2_text';
 $PRD_2->user_column_name     = 'round2_user';
@@ -35,11 +35,11 @@ $PRD_2->prevtext_column_name = 'round1_text';
 // two instances.
 
 // Alternatively, I could have simply defined $PRD_1 and $PRD_2 as arrays,
-// e.g. $PRD_1 = array( 'unavail_state' => UNAVAIL_FIRST, ... );
+// e.g. $PRD_1 = array( 'page_unavail_state' => UNAVAIL_FIRST, ... );
 // but then the accesses would have been like
-//     $prd['unavail_state'],
+//     $prd['page_unavail_state'],
 // which I find somewhat less readable than
-//     $prd->unavail_state
+//     $prd->page_unavail_state
 
 // Although $PRD_1 and $PRD_2 are variables, they should be treated as
 // constants; thus the all-uppercase names.
