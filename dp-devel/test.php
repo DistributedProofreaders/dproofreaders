@@ -75,36 +75,37 @@ if (0)
     echo "<hr>\n";
 }
 
-if (0)
-{
-    $res = mysql_query("SELECT username FROM users") or die(mysql_error());
-    while( $user_row = mysql_fetch_array($res))
-    {
-	list($username) = mysql_fetch_array($res);
-	echo $username, "\n";
-    }
-    echo "<hr>\n";
-}
-
-
 echo "</pre>\n";
 
 if (0)
 {
-    $res = mysql_query("DESCRIBE projects")
-		or die(mysql_error());
-    dpsql_dump_query_result($res);
+    dpsql_dump_query("SELECT username FROM users");
+    echo "<hr>\n";
+}
+
+
+if (0)
+{
+    dpsql_dump_query("DESCRIBE projects");
     echo "<HR>\n";
 }
 
 if (0)
 {
-    $res = mysql_query("SELECT projectID, modifieddate FROM projects WHERE archived='1' ORDER BY modifieddate")
-	or die(mysql_error());
-    dpsql_dump_query_result($res);
+    dpsql_dump_query("
+	SELECT projectID, modifieddate
+	FROM projects
+	WHERE archived='1'
+	ORDER BY modifieddate
+	");
 
-    $res = mysql_query("SELECT projectID, modifieddate FROM projects WHERE archived='0' ORDER BY modifieddate")
-	or die(mysql_error());
-    dpsql_dump_query_result($res);
+    echo "<br>";
+
+    dpsql_dump_query("
+	SELECT projectID, modifieddate
+	FROM projects
+	WHERE archived='0'
+	ORDER BY modifieddate
+    ");
 }
 ?>
