@@ -45,7 +45,7 @@ if (!isset($saved))
             if ($prooflevel==2)
             {$dbQuery.="15', round2_time='$timestamp', round2_user='$pguser'";}
             else {$dbQuery.="5', round1_time='$timestamp', round1_user='$pguser'";}
-            $dbQuery.="  WHERE fileid='$fileid'";
+            $dbQuery.="  WHERE fileid='$fileid' AND image='$imagefile'";
             $update = mysql_query($dbQuery);
         }
 
