@@ -12,8 +12,8 @@ if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
 		$todaysTimeStamp = time() - 86400;
 		echo "BACK!!";
 	} else {
-		if (!file_exists($code_dir."/stats/graph_archive/cumulative_month_pages/".date("Fy",time()-86400).".png")) {
-			header("Location: ".$dynstats_dir."/jpgraph_files/cumulative_month_pages.php?ignore_archive_graph=1");
+		if (!file_exists($dynstats_dir."/graph_archive/cumulative_month_pages/".date("Fy",time()-86400).".png")) {
+			header("Location: ".$code_dir."/stats/jpgraph_files/cumulative_month_pages.php?ignore_archive_graph=1");
 		} else {
 			$todaysTimeStamp = time();
 		}
