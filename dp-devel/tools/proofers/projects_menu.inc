@@ -37,5 +37,6 @@ if (empty($userP['i_newwin'])) {
 
 echo _("Logout")."</a></td>";
 
-echo "</tr><tr><td colspan='5' align='center'><a href='list_avail.php'>"._("View Available Projects")."</a></td></table>";
+echo "</tr><tr><td colspan='5' align='center'><a href='list_avail.php' target='_top'>"; 
+echo _("View Available Projects") . "</a></td></table>";
 ?>

@@ -18,7 +18,7 @@ echo "<br>";
     $winPref=$userP['i_newwin'];
     $userP['i_newwin']=0;
 
-$tList=1;
+$tList=0;
 include_once('proof_list.inc');
 
 // restore old win pref
