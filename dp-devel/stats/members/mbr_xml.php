@@ -64,17 +64,21 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
+			<location>".xmlencode($curMbr['user_from'])."</location>
+			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
+			<interests>".xmlencode($curMbr['user_interests'])."</interests>
+			<website>".xmlencode($curMbr['user_website'])."</website>";
+
+	echo "
 			<pagescompleted>$current_page_tally</pagescompleted>
 			<overallrank>$currentRank</overallrank>
 			<bestdayever>
 				<pages>$bestDayCount</pages>
 				<date>$bestDayTime</date>
 			</bestdayever>
-			<dailyaverage>".number_format($daily_Average)."</dailyaverage>
-			<location>".xmlencode($curMbr['user_from'])."</location>
-			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
-			<interests>".xmlencode($curMbr['user_interests'])."</interests>
-			<website>".xmlencode($curMbr['user_website'])."</website>
+			<dailyaverage>".number_format($daily_Average)."</dailyaverage>";
+
+	echo "
 		</userinfo>";
 
 //Team info
