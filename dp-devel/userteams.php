@@ -5,6 +5,7 @@ include($relPath.'html_main.inc');
 
 if (!isset($tstart))
   {$tstart=0;}
+$popHelpDir='faq/pophelp/teams/edit_';
 
 $beginPage="</head>".$htmlC->startBody(0,1,0,1);
 $tb=$htmlC->startTable(1,'650',0,1);
@@ -228,12 +229,11 @@ function showEdit($userP,$tstart,$tname,$ttext,$tedit,$tsid)
     $tb.$tr.$td1.
     "New Proofing Team".$tre.$tr.$td13a.
     "<strong>Team Name</strong> <INPUT \r\n".
-    "TYPE=\"text\" VALUE=\"$tname\" name=\"teamname\" size=\"30\">\r\n".
-    "<br>limit 50 characters".$tre.$tr.$td13.
-    "<strong>Team Description</strong><br><textarea \r\n".
+    "TYPE=\"text\" VALUE=\"$tname\" name=\"teamname\" size=\"50\">\r\n".
+    " <b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b>".$tre.$tr.$td13.
+    "<strong>Team Description</strong> <b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea \r\n".
     "name=\"text_data\" COLS=\"40\" ROWS=\"6\">\r\n".
-    $ttext."</textarea><br>You may use the following markup in the description:<br>\r\n".
-    "[b][/b]=bold [i][/i]=italic [p][/p]=paragraph [lb]=line break".$tre.$tr.$td13a.
+    $ttext."</textarea>".$tre.$tr.$td13a.
     "The Team Icon and Team Logo can be uploaded after the team is created.";
   $team_1=$userP['team_1'];$team_2=$userP['team_2'];$team_3=$userP['team_3'];
   if ($tedit==1 && $team_1!=0 && $team_2!=0 && $team_3!=0)
@@ -283,6 +283,7 @@ if (isset($etid) || isset($edPreview) || isset($edMake))
   if (isset($etid))
     {
     $htmlC->startHeader("User Teams");
+    include($relPath.'js_newpophelp.inc');
     echo $beginPage.$menuBar;
     showEdit($userP,$tstart,unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),0,$ntid);
     echo $menuBar.$closePage;
@@ -290,6 +291,7 @@ if (isset($etid) || isset($edPreview) || isset($edMake))
   else if (isset($edPreview))
     {
     $htmlC->startHeader("User Teams");
+    include($relPath.'js_newpophelp.inc');
     echo $beginPage.$menuBar;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),0,$ntid);
     echo "</div><br><div align=\"center\">";
@@ -315,6 +317,7 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
     {
     // show creation interface
     $htmlC->startHeader("User Teams");
+    include($relPath.'js_newpophelp.inc');
     echo $beginPage.$menuBar;
     showEdit($userP,$tstart,"","",1,0);
     echo $menuBar.$closePage;
@@ -322,6 +325,7 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   else if (isset($mkPreview))
     {
     $htmlC->startHeader("User Teams");
+    include($relPath.'js_newpophelp.inc');
     echo $beginPage.$menuBar;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),1,0);
     echo "</div><br><div align=\"center\">";
@@ -359,7 +363,7 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   $htmlC->startHeader("User Teams");
   echo $beginPage.$menuBar;
 // the teams table query
-  $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY id ASC LIMIT $tstart,20";
+  $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE id>$tstart ORDER BY id ASC LIMIT 20";
   $tResult=mysql_query($tQuery);
   $tRows=mysql_num_rows($tResult);
   $cellCount=0;
