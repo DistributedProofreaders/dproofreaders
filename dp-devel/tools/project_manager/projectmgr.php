@@ -10,7 +10,7 @@ include_once($relPath.'f_project_states.inc');
     echo "<title>Project Managers Page</title>";
 
     $project = isset($_GET['project'])?$_GET['project']:0;
-    $show = isset($_GET['show'])?$_GET['show']:0;
+    $show = isset($_GET['show'])?$_GET['show']:null;
 
     $users = mysql_query("SELECT manager, sitemanager FROM users WHERE username = '$pguser'");
     $manager = mysql_result($users, 0, "manager");
@@ -291,11 +291,11 @@ if ($sitemanager == "yes") {
       <td width="50" align="center" bgcolor="#C0C0C0"><b>Options</b></td>
     </tr>
 
-<?
+<? 
         $numrows = 0;
-        if (($show == 'site') && ($sitemanager === 'yes')) {
+        if (($show == "site") && ($sitemanager == "yes")) {
             $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' ORDER BY state asc, nameofwork asc");
-        } else if ($show == 'all') {
+        } elseif ($show == 'all') {
             $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
         } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
         if ($result != "") $numrows = (mysql_num_rows($result));
