@@ -17,7 +17,7 @@ function showMbrProfile($curMbr) {
 		user_get_page_tally_neighborhood(
 			$curMbr['username'], 0, FALSE );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
-	$latestSavedRank = user_get_latest_saved_page_tally_rank($curMbr['u_id']);
+	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
 	$bestDay = bestDayEver($curMbr['u_id']);
 	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
@@ -175,12 +175,6 @@ function pageCountPercentage($pagescompleted) {
 	return $percentTotal;
 }
 
-function user_get_latest_saved_page_tally_rank( $u_id )
-{
-	$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
-	return mysql_result($result, 0, "rank");
-}
-
 function showChangeInRank($prevRank, $currentRank)
 // Return a snippet of HTML that visually conveys
 // the change in rank between $prevRank and $currentRank.
@@ -253,7 +247,7 @@ function showMbrNeighbors($curMbr) {
 		$username = $neighbor->get_username();
 		$u_id = $neighbor->get_u_id();
 		$date_created = $neighbor->get_date_joined();
-		$latestSavedRank = user_get_latest_saved_page_tally_rank($u_id);
+		$latestSavedRank = $neighbor->get_latest_saved_page_tally_rank();
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
 		start_tr_with_rollover_highlight();
