@@ -36,7 +36,7 @@ foreach ( $PRD_for_round_id_ as $prd )
 $ELR_prd = get_PRD_for_round(1);
 
 $users_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'U' );
-$teams_P_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
+$teams_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
 
 // See TallyBoard.inc for explanation of these two strings:
 //
