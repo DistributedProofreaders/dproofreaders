@@ -5,15 +5,20 @@ include_once($relPath.'project_states.inc');
 new dbConnect();
 
 // The project states denoted by:
+//     PROJ_PROOF_FIRST_VERIFY
+//     PROJ_PROOF_SECOND_VERIFY
 //     PROJ_SUBMIT_PG_UNAVAILABLE
 //     PROJ_SUBMIT_PG_AVAILABLE
 //     PROJ_SUBMIT_PG_POSTING
 // have been discontinued.
-// Find any projects in those states and move them to PROJ_POST_COMPLETE.
+// Find any projects in those states and move them to
+// an appropriate state that still exists.
 
 echo "<pre>\n";
 
 $changes = array(
+	array('verify_1',                 PROJ_PROOF_FIRST_AVAILABLE),
+	array('verify_2',                 PROJ_PROOF_SECOND_AVAILABLE),
 	array('proj_submit_pgunavailable',PROJ_POST_COMPLETE),
 	array('proj_submit_pgavailable',  PROJ_POST_COMPLETE),
 	array('proj_submit_pgposting',    PROJ_POST_COMPLETE),
