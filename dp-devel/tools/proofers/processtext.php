@@ -110,7 +110,8 @@ if ($tbutton==5)
 // bad page report
 if ($tbutton==6)
 {
-
+$badState=$tpage->bad_page;
+include('badpage.php');
 
 } // end button 6 bad page
 
