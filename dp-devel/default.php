@@ -2,6 +2,7 @@
 $relPath="./pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
+include($relPath.'showstartexts.inc');
 $etext_limit = 10;
 ?>
 
@@ -164,63 +165,11 @@ You can view the financial statement for this site <a href="finance.html">here.<
 
 <? 
 //Gold E-texts
-$result = mysql_query("SELECT projectid FROM projects WHERE state=30"); 
-$goldresult = mysql_query("SELECT nameofwork, authorsname, ziplink, txtlink, htmllink, modifieddate, postednum, projectid FROM projects WHERE state=30 ORDER BY modifieddate DESC LIMIT $etext_limit");
-echo "<img src='web_graphics/gold_star.jpg' border='0' height='38' width='40' alt='Gold_Star.jpg'> = <font face='Verdana' size='4'>".mysql_num_rows($result)." Complete.</font>  The book has been processed through this site and posted to the Project Gutenberg archive.<br>";
-$numofetexts = 1;
-while ($row = mysql_fetch_array($goldresult)) {
-$links="";
-if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zip version</a>, ";
-if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
-if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
-$projectid = $row['projectid'];
-$moddate = date("l, F jS, Y",$row['modifieddate']);
-$totalpages = mysql_query("SELECT fileid FROM $projectid");
-$totalpages = mysql_num_rows($totalpages);
-if ($numofetexts == $etext_limit) {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>$links<br>--<a href='list_etexts.php?x=g'>See more e-texts</a></font><br><br>";
-} else {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>$links</font><br><br>";
-}
-$numofetexts++;
-}
-
-
+showstartexts($etext_limit,'gold');
 //Silver E-texts
-$result = mysql_query("SELECT projectid FROM projects WHERE state>=19 AND state<=29"); 
-$goldresult = mysql_query("SELECT nameofwork, authorsname, modifieddate, postednum, projectid FROM projects WHERE state>=19 AND state<=29 ORDER BY modifieddate DESC LIMIT $etext_limit");
-echo "<img src='web_graphics/silver_star.jpg' border='0' height='38' width='40' alt='Silver_Star.jpg'> = <font face='Verdana' size='4'>".mysql_num_rows($result)." In Progress.</font>  The book has been processed through this site but not yet posted to the Project Gutenberg archive (going through final proofing/assembly).<br>";
-$numofetexts = 1;
-while ($row = mysql_fetch_array($goldresult)) {
-$projectid = $row['projectid'];
-$moddate = date("l, F jS, Y",$row['modifieddate']);
-$totalpages = mysql_query("SELECT fileid FROM $projectid");
-$totalpages = mysql_num_rows($totalpages);
-if ($numofetexts == $etext_limit) {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>--<a href='list_etexts.php?x=s'>See more e-texts</a></font><br><br>";
-} else {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate</font><br><br>";
-}
-$numofetexts++;
-}
-
+showstartexts($etext_limit,'silver');
 //Bronze E-texts
-$result = mysql_query("SELECT projectid FROM projects WHERE state=2 OR state=12 OR state=8 OR state=18"); 
-$goldresult = mysql_query("SELECT nameofwork, authorsname, modifieddate, postednum, projectid FROM projects WHERE state=2 OR state=12 OR state=8 OR state=18 ORDER BY modifieddate DESC LIMIT $etext_limit");
-echo "<img src='web_graphics/bronze_star.jpg' border='0' height='38' width='40' alt='Bronze_Star.jpg'> = <font face='Verdana' size='4'>".mysql_num_rows($result)." Now Proofing.</font>  The book is currently being processed through this site, sign in and start helping!!!! <br>";
-$numofetexts = 1;
-while ($row = mysql_fetch_array($goldresult)) {
-$projectid = $row['projectid'];
-$moddate = date("l, F jS, Y",$row['modifieddate']);
-$totalpages = mysql_query("SELECT fileid FROM $projectid");
-$totalpages = mysql_num_rows($totalpages);
-if ($numofetexts == $etext_limit) {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>--<a href='list_etexts.php?x=b'>See more e-texts</a></font><br><br>";
-} else {
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate</font><br><br>";
-}
-$numofetexts++;
-}
+showstartexts($etext_limit,'bronze');
 ?>
 
 </body>
