@@ -216,10 +216,12 @@ function showTeamMbrs($curTeam) {
 			// So here's the db-column to ORDER BY in the SQL query.
 			$orderby = $cd_dbcolumn;
 
-			// Render the column-header using 'headerbar' settings.
-			$bgcolor    = $theme['color_headerbar_bg'];
-			$font_face  = $theme['font_headerbar'];
-			$font_color = $theme['color_headerbar_font'];
+			// Mark this column-header with a direction-indicator.
+			$arrow = ($direction == "asc") ? 'down' : 'up';
+			$dir_indicator = " <img src='$code_url/graphics/$arrow.gif'>";
+			// (You might think that if the column is sorted in ascending
+			// order, we should use an up-arrow. But I'm following the
+			// Netscape/Mozilla convention, which is the opposite.)
 
 			// And provide a link to sort by this column in the opposite direction.
 			$dir = ($direction == "asc") ? "desc" : "asc";
@@ -227,15 +229,17 @@ function showTeamMbrs($curTeam) {
 		} else {
 			// This is a non-sorting column (for this request).
 
-			// Render the column-header using 'navbar' settings.
-			$bgcolor    = $theme['color_navbar_bg'];
-			$font_face  = $theme['font_navbar'];
-			$font_color = $theme['color_navbar_font'];
+			$dir_indicator = '';
 
 			// And provide a link to sort by this column in its default direction.
 			$dir = $cd_default_dir;
 		}
 		$url = "tdetail.php?tid=".$curTeam['id']."&order=$cd_order&direction=$dir";
+
+		// Render the column-header using 'navbar' settings.
+		$bgcolor    = $theme['color_navbar_bg'];
+		$font_face  = $theme['font_navbar'];
+		$font_color = $theme['color_navbar_font'];
 
 		echo "<td width='$cd_width%' bgcolor='$bgcolor'>";
 		echo   "<b>";
@@ -245,6 +249,7 @@ function showTeamMbrs($curTeam) {
 		echo       "</font>";
 		echo     "</a>";
 		echo   "</b>";
+		echo   $dir_indicator;
 		echo "</td>";
 	}
 
