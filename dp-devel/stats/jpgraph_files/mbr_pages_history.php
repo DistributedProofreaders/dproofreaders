@@ -14,10 +14,16 @@ if ($_GET['range'] == 7 || $_GET['range'] == 14 || $_GET['range'] == 30 || $_GET
 
 if ($range != "all") {
 	$range = time() - ($range * 86400);
-	$result = mysql_query("SELECT * FROM member_stats WHERE u_id = '".$_GET['id']."' && date_updated >= $range ORDER BY date_updated ASC");
+	$date_condition = "date_updated >= $range";
 } else {
-	$result = mysql_query("SELECT * FROM member_stats WHERE u_id = '".$_GET['id']."' ORDER BY date_updated ASC");
+	$date_condition = "1";
 }
+$result = mysql_query("
+	SELECT *
+	FROM member_stats
+	WHERE u_id='{$_GET['id']}' AND ($date_condition)
+	ORDER BY date_updated ASC
+");
 
 $i = 0;
 while ($row = mysql_fetch_assoc($result)) {
