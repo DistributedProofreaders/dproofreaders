@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
 $uid = $userP['user_id'];
+$result = mysql_query("SELECT * FROM users WHERE id = $uid");
 if (mysql_result($result,0,"sitemanager") == "yes") {
 
 if ($action == "add") {
