@@ -16,7 +16,7 @@ function echo_page_table(
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
 	// want PPers able to see names
-	$can_see_names = ($can_edit || user_is_PP_of( $projectid));
+	$can_see_names_for_all_pages = ($can_edit || user_is_PP_of( $projectid));
 
 	if ( $disable_editing )
 	{
@@ -44,7 +44,7 @@ function echo_page_table(
 	echo "<table border=1>\n";
 
 	$n_cols_per_round = 3; // Diff, Date, Text
-	if ($can_see_names) $n_cols_per_round += 1; // User
+	if ($can_see_names_for_all_pages) $n_cols_per_round += 1; // User
 	if ($can_edit)      $n_cols_per_round += 1; // Clear
 
 	// Top header row
@@ -90,7 +90,7 @@ function echo_page_table(
 
 		echo "{$td_start}"._("Diff")."{$td_end}";
 		echo "{$td_start}"._("Date")."{$td_end}";
-		if ($can_see_names)
+		if ($can_see_names_for_all_pages)
 		{
 			echo "{$td_start}"._("User")."{$td_end}";
 		}
@@ -103,7 +103,7 @@ function echo_page_table(
 		{
 			echo "{$td_start}"._("Diff")."{$td_end}";
 			echo "{$td_start}"._("Date")."{$td_end}";
-			if ($can_see_names)
+			if ($can_see_names_for_all_pages)
 			{
 				echo "{$td_start}"._("User")."{$td_end}";
 			}
@@ -222,9 +222,9 @@ function echo_page_table(
 
 		// --------------------------------------------
 
-		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names);
+		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_all_pages);
 
-		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names);
+		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_all_pages);
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -275,7 +275,7 @@ function echo_page_table(
 
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
-	$projectid, $inRound, $can_edit, $can_see_names)
+	$projectid, $inRound, $can_edit, $can_see_names_for_all_pages)
 {
 	global $userP, $forums_url, $pguser;
 
@@ -376,7 +376,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         {
                 echo "<td></td>\n";
         }
-        else if ($can_see_names or ($pguser ==  $R_username) or ($pguser == $R_other_username))
+        else if ($can_see_names_for_all_pages or ($pguser ==  $R_username) or ($pguser == $R_other_username))
         {
 
                 $R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
