@@ -1,144 +1,121 @@
 <?php
 include_once($relPath.'misc.inc');
 
+
 // Returns the special color associated with this
 // project, or null if no such color is specified.
 //
-// $project is supposed to be an associative array
+// $book is supposed to be an associative array
 // representing a  record from the
 // projects table. At the moment it is 'enough'
 // that the keys 'comments' and 'username' are
 // existant.
-function get_special_color_for_project($project) {
+function get_special_color_for_project($book) {
 
     $bgcolor = null;
 
-    // will be nice one day to get all the following out of a table perhaps?
+    // first three are (for now) special cases, the rest will be data-driven
+    // from the SPECIAL_DAYS table
 
     // default Special colour (will be over-ridden by any specific matches below)
-
-    if ( startswith( $project['comments'], 'SPECIAL:' ) )
+    if ( startswith( $book['comments'], 'SPECIAL:' ) or (!is_null($book['special'])))
     {
         $bgcolor = '#FFFF66'; // fadedyellow
     }
 
-    // Halloween colors for Halloween projects!
-    if ( startswith( $project['comments'], 'Halloween' ) )
-    {
-        $bgcolor = 'orange'; // #FF9900
-    }
-    // Wanted to do orange-on-black, too,
-    // but couldn't figure out how to make link-text orange,
-    // and it was pretty unreadable as is on a black background.
-
-    // green for Ramadan, St Patrick
-    if ( startswith( $project['comments'], 'SPECIAL: Ramadan' )
-         or startswith( $project['comments'], 'SPECIAL: St. Pat') )
-    {
-        $bgcolor = '#00FF00';
-    }
-    // mid green for India & George Sand
-    if (  startswith( $project['comments'], 'SPECIAL: India') 
-         or ($project['username'] == 'PM-Sand') )
-    {
-        $bgcolor = '#33FF99';
-    }
-
-    // khaki for Boer War
-    if (startswith( $project['comments'], 'SPECIAL: Boer'))
-    {
-        $bgcolor = '#D7CDA4';
-    }
-
-    // blue for Burns' night (Scotland)
-    if (startswith( $project['comments'], 'SPECIAL: Burns'))
-    {
-        $bgcolor = '#99CCFF';
-    }
-
-    // poppy red for Armistice Day, pale red for Christmas
-    if ( startswith( $project['comments'], 'SPECIAL: Nov 11' ) or
-         startswith( $project['comments'], 'SPECIAL: CHRISTMAS' ) or
-         startswith( $project['comments'], 'SPECIAL: Christmas' ) or
-         startswith( $project['comments'], 'SPECIAL: WWI' ) or
-         startswith( $project['comments'], 'SPECIAL: Ides' ))
-    {
-        $bgcolor = '#FF9090';
-    }
-
-    // Earth blue for Earth Day
-    if ( startswith( $project['comments'], 'SPECIAL: Earth' ) or
-         startswith( $project['comments'], 'SPECIAL: DP-5000' ))
-    {
-        $bgcolor = '#669CFF';
-    }
-
-    // very light blue for birthday books before or after the day
-    if ( startswith( $project['comments'], 'SPECIAL: Birthday' ) )
+    // very light blue for birthday books still available after the day
+    if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
     {
         $bgcolor = '#CCFFFF';
     }
 
-
-     // slightly richer blue for birthday books when today IS the day
+    // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
-    if ( startswith( $project['comments'], "SPECIAL: Birthday $bday" ) )
+    if ( startswith( $book['comments'], "SPECIAL: Birthday $bday" ) )
     {
         $bgcolor = '#33CCFF';
     }
 
-    // grey for Native American Heritage Month
-    if ( startswith( $project['comments'], 'SPECIAL: NAHM' ) )
-    {
-        $bgcolor = '#CCCCCC';
+    $specs_result = mysql_query("
+            SELECT spec_code, color FROM special_days
+            WHERE 1 = 1
+        ");
+
+    // it'd be nice to make this static, or something, so it only was loaded once
+    $specials_array = array();
+
+    while ($s_row = mysql_fetch_assoc($specs_result)) {
+        $col = $s_row['color'];
+        $code = $s_row['spec_code'];
+        $specials_array["$code"] = $col;
     }
 
-
-    // green for World Health Day
-    if ( startswith( $project['comments'], 'SPECIAL: Health' ) )
-    {
-        $bgcolor = '#00FF00';
+    // if we recognise the special code, use the associated colour
+    $book_special = $book['special'];
+    if (array_key_exists("$book_special", $specials_array)) {
+        $bgcolor = "#".$specials_array["$book_special"];
     }
-
-    // yellow for Children's Book Week - actually Blue so as not to clash with other special
-    if ( startswith( $project['comments'], 'SPECIAL: CBW' )
-        OR startswith( $project['comments'], 'SPECIAL: ChBook'))
-    {
-        $bgcolor = '#0099FF';
-        //$bgcolor = '#FFFF33';
-    }
-
-    // nice green for Abolition of Slavery
-    if ( startswith( $project['comments'], 'SPECIAL: Abolition' )
-        OR startswith( $project['comments'], 'SPECIAL: IWD'))
-    {
-        $bgcolor = '#00CC99';
-    }
-
-    // blue for Wright Bros
-    if ( startswith( $project['comments'], 'SPECIAL: FLY100' ) )
-    {
-        $bgcolor = '#0099FF';
-    }
-
-    // middle grey for Black History Month (and Slave Narratives - temp)
-    if ( startswith( $project['comments'], 'SPECIAL: BHM' ))
-    {
-        $bgcolor = '#D6D6D6';
-    }
-
-    // pink for Saint Valentine's Day
-    if ( startswith( $project['comments'], 'SPECIAL: St. Val' ) or
-        startswith( $project['comments'], 'SPECIAL: April Fool') )
-    {
-        $bgcolor = '#FF99FF';
-    }
-
-
-    // purple:    #9966CC
-    // gold:      #FFCC0E
-    // scotsblue: #0090FE
 
     return $bgcolor;
 }
+
+
+// outputs HTML showing the name of all SPECIAL DAYS
+// backed by their characteristic colour,
+// that have any projects within the set of projects
+// specified by $projects_where_clause (WHERE keyword NOT needed)
+// for use as a legend.
+
+function echo_special_legend( $projects_where_clause) {
+
+    echo _("Legend for Special Books:");
+    echo "<br><br><b>";
+
+    $currspecs_result = mysql_query("
+            SELECT distinct special as spec FROM projects
+            WHERE $projects_where_clause
+        ");
+
+    $curr_specs_array = array();
+
+    while ($cs_row = mysql_fetch_assoc($currspecs_result)) {
+
+        $curr_specs_array[] = $cs_row['spec'];
+    }
+
+    $specs_result = mysql_query("
+            SELECT spec_code, display_name, color FROM special_days
+            WHERE 1 = 1
+            ORDER BY open_month desc, open_day desc
+        ");
+
+    $running_length = 0;
+    $span_prefix = "<span style=\"background-color: #";
+    $span_midfix = "\">";
+    $span_suffix = "</span>&nbsp;";
+
+    while ($sr_row = mysql_fetch_assoc($specs_result)) {
+        if (in_array($sr_row['spec_code'], $curr_specs_array)) {
+            echo $span_prefix.$sr_row['color'].$span_midfix.$sr_row['display_name'].$span_suffix ;
+            $running_length = $running_length + strlen($csrow['display_name']) + 1;
+            if ($running_length > 60) {
+               echo "<br>";
+               $running_length = 0;
+            }
+        }
+    }
+
+    if ($running_length > 0) {
+        echo "<br>";
+    }
+
+    echo $span_prefix."CCFFFF".$span_midfix._("Authors with recent birthdays").$span_suffix;
+    echo $span_prefix."33CCFF".$span_midfix._("Authors with birthdays today").$span_suffix;
+    echo "<br>";
+    echo $span_prefix."FFFF66".$span_midfix._("Other Special").$span_suffix;
+    echo "<br>";
+    echo "</b>";
+
+}
+
 ?>
