@@ -37,8 +37,8 @@ function parse_po($messages_po) {
 			while (!empty($messages_po[$i]) && (substr($messages_po[$i], 0, 6) == "msgstr" || substr($messages_po[$i], 0, 1) == "\"")) {
 				if (!isset($translation['msgstr'][$p])) { $translation['msgstr'][$p] = ""; }
 				$formatted_msgstr = trim(preg_replace("/^msgstr/", "", $messages_po[$i]));
-				$formatted_msgstr = trim(substr($formatted_msgstr, 1, (strlen($formatted_msgstr)-2)));
-				$translation['msgstr'][$p] .= " ".$formatted_msgstr;
+				$formatted_msgstr = substr($formatted_msgstr, 1, (strlen($formatted_msgstr)-2));
+				$translation['msgstr'][$p] .= $formatted_msgstr;
 				$i++;
 			}
 			$p++;
