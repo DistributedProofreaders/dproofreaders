@@ -290,11 +290,19 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo "(PPV) <a href='$code_url/tools/post_proofers/post_proofers.php'>Post-Processing Verification</a>";
     echo "<br>\n";
 
-    echo "Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.";
+    echo _("Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.");
     echo "<br>\n";
 
-    echo "PPVers are promoted from the ranks of PPers by peer review.";
-    echo " [Is this user a PPVer?]";
+    echo _("PPVers are promoted from the ranks of PPers by peer review.");
+    echo "<br>\n";
+    if ( user_is_post_proof_verifier() )
+    {
+        echo _("You are allowed to participate in this stage.");
+    }
+    else
+    {
+        echo _("You are not allowed to participate in this stage.");
+    }
     echo "<br>\n";
 
     summarize_projects( array(
