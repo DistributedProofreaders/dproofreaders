@@ -140,7 +140,6 @@ function bestDayEver($u_id) {
 	list($bestDayCount,$bestDayTimestamp) = user_get_largest_page_tally_increment_info($u_id);
 	$bestDay['count'] = $bestDayCount;
 	$bestDay['time'] = date("M. jS, Y", ($bestDayTimestamp-86400));
-	if (empty($bestDay['count'])) { $bestDay['count'] = 0; $bestDay['time'] = date("M. jS, Y", time()); }
 	return $bestDay;
 }
 
