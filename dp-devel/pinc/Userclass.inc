@@ -3,7 +3,8 @@
 // ID: $Id$
 
 require_once 'v_site.inc';
-require_once "Profileclass.inc" ;
+require_once 'dpsession.inc';
+require_once "Profileclass.inc";
 
 /**
  * User Class.
@@ -39,7 +40,6 @@ require_once "Profileclass.inc" ;
 
 class User
 {
-    var $my_username;      // the usename for which we want to instantiate this instance
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;         // This is for the records from usersettings for this user.
@@ -60,53 +60,43 @@ class User
      * or wherever it is.</p>
      */
 
-    // optional parameter username - if empty use $pguser
-    function User($username = 0)
+    // query the session vi dpsession_resume() to find out if there is a
+    // session for me.
+    function User()
     {
         global $pguser ;
-        // if null username submitted but there is $pguser, use it.
-        // ($this->subject is the username of the User of concern here,
-        // whether logged on for theselves, or being administered.
-        // using $pguser is the quickanddirty way to hitchhike on the
-        // existing security.
-
-        if(!($this->my_username = $username))
+        if($this->logged_in = dpsession_resume())
         {
-            $this->my_username = $pguser ;
+            $this->username = $pguser ;
+            $this->_queryPhpbb_Users($this->username) ;
         }
-        assert($pguser) ;
-        assert($this->my_username);
-
-        // temporary comment out validuser etc. - work on it later.
-        // if(! $this->_isValidUser()) {
-        $this->_queryPhpbb_Users($username);
-        $this->_querySettings();
-        // }
-
-        // switching logged-in-ness to be the presence of GLOBAL['username'];
-        // $this->logged_in = ($this->logIn($password) == '' );
-        
-        // And now we have a configured user!
+        else
+        {
+            $this->username = "" ;
+        }
     }
 
     function _queryPhpbb_Users($username)
     {
-        $sql = "SELECT u.*, bbu.*, t1.*, t2.*, t3.*
+        $sql = "SELECT  u.*,
+                        bbu.user_id AS bb_user_id,
+                        t1.teamname AS teamname_1, t1.id AS teamid_1, 
+                        t2.teamname AS teamname_2, t2.id AS teamid_2, 
+                        t3.teamname AS teamname_3, t3.id AS teamid_3 
                 FROM users AS u
-                LEFT OUTER JOIN phpbb_users AS bbu ON u.username = bbu.username
-                LEFT OUTER JOIN user_teams AS t1 ON u.team_1 = t1.id
-                LEFT OUTER JOIN user_teams AS t2 ON u.team_2 = t2.id
-                LEFT OUTER JOIN user_teams AS t3 ON u.team_3 = t3.id
+                    LEFT OUTER JOIN phpbb_users AS bbu ON u.username = bbu.username
+                    LEFT OUTER JOIN user_teams AS t1 ON u.team_1 = t1.id
+                    LEFT OUTER JOIN user_teams AS t2 ON u.team_2 = t2.id
+                    LEFT OUTER JOIN user_teams AS t3 ON u.team_3 = t3.id
                 WHERE u.username = '$username'" ;
 
         $result = mysql_query($sql);
 
-        if( ! mysql_num_rows($result) )
+        if(mysql_num_rows($result) == 0)
         {
             $this->logged_in = False ;
             return ;
         }
-    
         $this->logged_in = True ;
 
         // collect metadata about each of the columns
@@ -187,8 +177,7 @@ class User
 
     function isLoggedIn()
     {
-        return (isset($GLOBALS['pguser'])) ;
-        // return $this->logged_in;
+        return isset($GLOBALS['pguser']) ;
     }
 
     /**
@@ -263,7 +252,14 @@ class User
 
     function _isValidUser()
     {
-        return Null ;
+        if( $this->userName() )
+        {
+            return True ;
+        }
+        else
+        {
+            return False ;
+        }
     }
 
     /**
@@ -406,11 +402,14 @@ class User
 
     function _isValidPassword($password)
     {
-        if (MD5($password) != $this->_passwordMD5()) {
-            $error = _("Password is invalid.");
-        } else $error = "";
-
-        return $error;
+        if (MD5($password) != $this->_passwordMD5())
+        {
+             return _("Password is invalid.");
+        }
+        else
+        {
+            return True ;
+        }
     }
 
     /**
@@ -423,8 +422,12 @@ class User
     /*
     function logIn($password)
     {
-        return ($this->_isValidUser() == ''
-                && $this->_isValidPassword($password) == '') ;
+        if( ! $this->_isValidUser )
+        {
+            return False ;
+        }
+
+        return ( $this->_isValidPassword($password) == '') ;
     }
     */
 
@@ -731,7 +734,8 @@ class User
 
     function _queryTopTen()
     {
-        $sql = "SELECT u.username,
+        $sql = "SELECT
+                    u.username,
                     CASE
                         WHEN u.u_privacy = 1
                         THEN 'Anonymous'
@@ -787,39 +791,42 @@ class User
      * creates the user's neighbor list.
      */
 
-/*
-The first query gets the users above
-SELECT
-    'Above' AS direction,
-    u.username, 
-    CASE WHEN u.u_privacy = 0
-        THEN u.username
-        ELSE 'Anonymous' END
-        AS neighborname,
-    u.pagescompleted AS pages,
-    u.u_privacy AS privacy
-FROM users AS u, users AS ume
-WHERE ume.username = 'dkretz'
-    AND u.pagescompleted >= ume.pagescompleted
-ORDER BY u.pagescompleted
-LIMIT 10 
+     function nearestNeighbors()
+     {
+        return $this->nearestTenNeighbors() ;
+     }
+        
 
-SELECT
-    'Below' AS direction,
-    u.username,
-    CASE 
-        WHEN u.u_privacy = 0
-        THEN u.username
-        ELSE 'Anonymous' END
-        AS neighborname,
-    u.pagescompleted AS pages,
-    u.u_privacy as privacy
-FROM users AS u, users AS ume
-WHERE ume.username = 'dkretz'
-    AND u.pagescompleted < ume.pagescompleted
-ORDER BY u.pagescompleted DESC
-LIMIT 10 
-*/
+    /*
+        proofer - how many have the same count?
+        how many have higher count? (rank = this + 1)
+        identify proofer 10 ranks away.
+        from his count, get his rank. All with same
+        count have same rank.
+
+        I have 1 page. My rank is 4000. 10 above has
+        1 page. his rank is 4000.
+
+        I have 1 page. My rank is 4000. 10 above has
+        2 pgs, rank is 3000. All with 2 pgs have 3000.
+
+        I have 1 pg. rank 4000. 10 above has 4 pgs. rank 3994.
+        4 4 4 4 4 4 3 3 2 2 1
+        4 4 4 4 4 4 6 6 8 9 0
+                        8 8    n dups => my rank - n
+                    6 7        
+        0 1 2 3 4 5 6 6
+        1. find my rank.
+        2. find the count of the user 10 above.
+        3. find his rank.
+        4. assign that rank to users with same count
+        5. at break, next user has rank (user - distance)
+        e.g. my rank is 4000
+        10 away is 3980 (can't be more than 3990)
+        next rank might be 3991 to 3999 but must be equal
+        to my rank - distance.
+        find break, rank is my rank - distance; may duplicate.
+    */
 
     function _getNeighbors($count)
     {
@@ -839,20 +846,16 @@ LIMIT 10
             ORDER BY u.pagescompleted
             LIMIT " . number_format($count+1) ;
 
-        // print $sql ;
         $result = mysql_query( $sql ) ;
-        assert( $result );
         $this->neighbors = array() ;
-        for( $i = $this->rank() ; $row = mysql_fetch_assoc( $result ) ; $i++ )
+        // add these to the array
+        while($row = mysql_fetch_assoc($result))
         {
             array_push($this->neighbors,$row) ;
-            // print "<br>$i " . $row['username'] . " " . $row['pages'] ;
-            // $this->neighbors[$row['username']] = $row ;
-        } 
+        }
         mysql_free_result( $result ) ;
-
-        $this->neighbors = array_reverse( $this->neighbors ) ;
-        $num_above = count($this->neighbors) ;
+        // sort was min to max, so reverse it.
+        $this->neighbors = array_reverse($this->neighbors);
 
         $sql = "
             SELECT
@@ -868,21 +871,19 @@ LIMIT 10
             WHERE ume.username = '" . $this->userName() . "'
                 AND u.pagescompleted < ume.pagescompleted
                 AND u.pagescompleted > 0
-            ORDER BY u.pagescompleted DESC
+            ORDER BY u.pagescompleted DESC,
+                     u.date_created DESC
             LIMIT " . number_format($count) ;
-
-        // print $sql ;
         $result = mysql_query( $sql ) ;
-        assert( $result ) ;
-        for( $i = $this->rank() -1 ; $row = mysql_fetch_assoc( $result ) ; $i-- )
+        
+        // add this 10 to the array.
+        while(mysql_fetch_assoc($result))
         {
             array_push($this->neighbors,$row) ;
-            // $this->neighbors[--$i] = $row ;
-            // print "<br>$i" . $row['username'] . " " . $row['pages'] ;
-        } 
+        }
         mysql_free_result( $result ) ;
 
-        return '' ;
+        return $this->neighbors;
     }
 
     /**
@@ -1053,7 +1054,7 @@ LIMIT 10
 
     function dateCreated()
     {
-        return $this->_rowVal('u.date_created');
+        return $this->_rowVal('date_created');
     }
 
     /**
@@ -1073,7 +1074,7 @@ LIMIT 10
 
     function _daysBetween($earlierdate, $laterdate)
     {
-        return $laterdate / 24 / 60 / 60 - $earlierdate / 24 / 60 / 60 ;
+        return ($laterdate - $earlierdate) / 24 / 60 / 60 ;
     }
 
     /**
@@ -1083,7 +1084,9 @@ LIMIT 10
 
     function daysSinceCreated()
     {
-        return _daysBetween( $this->dateCreated(), getdate() ) ;
+        return 12 ;
+        // return ($this->dateCreated() - getdate()) / 24 / 60 / 60 ;
+        // return _daysBetween($this->dateCreated(), getdate());
         // return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
     }
 
@@ -1157,77 +1160,77 @@ LIMIT 10
 
     function rankingDescription()
     {
-        if ($this->pagesCompleted() <= 25) {
+        if ($this->pageCount() <= 25) {
             return _("Newbie");
         }
-        if ($this->pagesCompleted() <= 150) {
+        if ($this->pageCount() <= 150) {
             return _("Proofreader");
         }
-        if ($this->pagesCompleted() <= 400) {
+        if ($this->pageCount() <= 400) {
             return _("Ace");
         }
-        if ($this->pagesCompleted() <= 1000) {
+        if ($this->pageCount() <= 1000) {
             return _("Proofreader Savant");
         }
-        if ($this->pagesCompleted() <= 2000) {
+        if ($this->pageCount() <= 2000) {
             return _("Master Proofreader");
         }
-        if ($this->pagesCompleted() <= 5000) {
+        if ($this->pageCount() <= 5000) {
             return _("Maestro");
         }
-        if ($this->pagesCompleted() <= 10000) {
+        if ($this->pageCount() <= 10000) {
             return _("Connoisseur");
         }
 
-        if ($this->pagesCompleted() <= 20000) {
+        if ($this->pageCount() <= 20000) {
             return _("Rare Talent");
         }
-        if ($this->pagesCompleted() <= 30000) {
+        if ($this->pageCount() <= 30000) {
             return _("Super Proofreader");
         }
-        if ($this->pagesCompleted() <= 40000) {
+        if ($this->pageCount() <= 40000) {
             return _("Profound Proofreader");
         }
-        if ($this->pagesCompleted() <= 50000) {
+        if ($this->pageCount() <= 50000) {
             return _("Priceless Proofreader");
         }
-        if ($this->pagesCompleted() <= 50100) {
+        if ($this->pageCount() <= 50100) {
             return _("Prishan Level Proofreader");
         }
-        if ($this->pagesCompleted() <= 60000) {
+        if ($this->pageCount() <= 60000) {
             return _("Prime Proofreader");
         }
-        if ($this->pagesCompleted() <= 70000) {
+        if ($this->pageCount() <= 70000) {
             return _("Peerless Proofreader");
         }
-        if ($this->pagesCompleted() <= 75000) {
+        if ($this->pageCount() <= 75000) {
             return _("Primordial Proofreader");
         }
-        if ($this->pagesCompleted() <= 80000) {
+        if ($this->pageCount() <= 80000) {
             return _("Proofreader Magnifico");
         }
-        if ($this->pagesCompleted() <= 90000) {
+        if ($this->pageCount() <= 90000) {
             return _("Proofreader Supreme");
         }
-        if ($this->pagesCompleted() <= 99000) {
+        if ($this->pageCount() <= 99000) {
             return _("Prooferissimo");
         }
-        if ($this->pagesCompleted() <= 99500) {
+        if ($this->pageCount() <= 99500) {
             return _("Master of Proofreading");
         }
-        if ($this->pagesCompleted() <= 100000) {
+        if ($this->pageCount() <= 100000) {
             return _("Doctor of Proofreading");
         }
-        if ($this->pagesCompleted() <= 101000) {
+        if ($this->pageCount() <= 101000) {
             return _("Prishan of Proofreaders");
         }
-        if ($this->pagesCompleted() <= 110000) {
+        if ($this->pageCount() <= 110000) {
             return _("Proofer of Proofers");
         }
-        if ($this->pagesCompleted() <= 120000) {
+        if ($this->pageCount() <= 120000) {
             return _("Proofreader Extraordinaire");
         }
-        if ($this->pagesCompleted() <= 125000) {
+        if ($this->pageCount() <= 125000) {
             return _("Professor of Proofreading");
         }
         // return = _("Presidential Proofreader");
@@ -1237,8 +1240,9 @@ LIMIT 10
      * Returns the phpBB forums internal user ID # of the User object
      */
 
-    function phpUserId() {
-        return $this->users_phpbb['ubb.user_id'];
+    function bbUserId()
+    {
+        return $this->_rowVal['bb_user_id'];
     }
 
     /**
@@ -2008,7 +2012,7 @@ LIMIT 10
             $sql = "SELECT COUNT(1) AS PMcount
                     FROM phpbb_privmsgs
                     WHERE
-                    privmsgs_to_userid = '$this->_userId()'
+                    privmsgs_to_userid = '".$this->_userId()."'
                          && privmsgs_type IN (1, 5)";
             $result = mysql_query($sql);
             $PM_count = mysql_result($result, 0);
@@ -2030,8 +2034,7 @@ LIMIT 10
                     AVG(daily_pagescompleted) AS avgCount,
                     MAX(daily_pagescompleted) as maxCount
                 FROM member_stats
-                WHERE u_id = " . $this->_userID()  ;
-
+                WHERE u_id = " . $this->_userId();
         $result = mysql_query($sql);
         $row = mysql_fetch_assoc($result);
         $this->stats['avgCount'] = $row['avgCount'] ;
@@ -2166,25 +2169,27 @@ LIMIT 10
 
     function teams()
     {
-        return array(
-                $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
-                $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
-                $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')) ;
-
-        /*
-           if( ! isset($this->teams) )
-           {
-           $this->teams = array(
-           $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
-           $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
-           $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')
-           )
-           }
-
-           return $this->teams ;
-         */
+        if( ! $this->_teams )
+        {
+            $this->_teams = array() ;
+            if($this->_rowVal('team_1'))
+            {
+                $t = new Team($this->_rowVal('team_1'),$this->_rowVal('teamname_1')) ;
+                $this->_teams[$this->_rowVal('team_1')] = $t;
+            }
+            if($this->_rowVal('team_2'))
+            {
+                $t = new Team($this->_rowVal('team_2'),$this->_rowVal('teamname_2')) ;
+                $this->_teams[$this->_rowVal('team_2')] = $t;
+            }
+            if($this->_rowVal('team_3'))
+            {
+                $t = new Team($this->_rowVal('team_3'),$this->_rowVal('teamname_3')) ;
+                $this->_teams[$this->_rowVal('team_3')] = $t;
+            }
+        }
+        return $this->_teams;
     }
-
 
     /**
      * Join A Team
@@ -2199,7 +2204,20 @@ LIMIT 10
 
     function joinTeam($teamID)
     {
+        $i = count($this->_teams);
+        if($i > 2) return ;
 
+        if(! $this->_teams[$teamID])
+        {
+            $i++;
+            $sql="UPDATE users SET team_$i = $teamID WHERE username='" . $this->userName() . "'";
+            mysql_free_result(mysql_query($sql));
+            $sql = "SELECT * FROM user_teams WHERE id=$teamID" ;
+            $result = mysql_query($sql);
+            $row = mysql_fetch_object($result);
+            $t = new Team($row->id,$row->teamname);
+            $this->_teams[$teamID] = $t;
+        }
     }
 
     /**
@@ -2214,7 +2232,10 @@ LIMIT 10
 
     function isTeamMember($teamID)
     {
-
+        if($this->_teams[$teamID])
+            return True;
+        else
+            return False;
     }
 
     /**
@@ -2232,17 +2253,51 @@ LIMIT 10
     function quitTeam($teamID)
     {
         if ($this->users_phpbb['team_1'] == $teamID) {
+            $sql = "team_1" ;
             $this->users_phpbb['team_1'] = 0;
             return true;
         } elseif ($this->users_phpbb['team_2'] == $teamID) {
+            $sql = "team_2" ;
             $this->users_phpbb['team_2'] = 0;
             return true;
         } elseif ($this->users_phpbb['team_3'] == $teamID) {
+            $sql = "team_3" ;
             $this->users_phpbb['team_3'] = 0;
             return true;
-        } else {
-            return false;
         }
+        if($sql) {
+            $sql = "UPDATE USERS SET ".$sql."=0 WHERE username='" . $this->userName() ."'";
+            mysql_free_result(mysql_query($sql));
+        }
+
+    }
+}
+
+class Neighbor
+{
+    var $rank;
+    var $name;
+    var $pages;
+    function Neighbor($name,$pages=Null,$rank=Null)
+    {
+        $this->rank=$rank;
+        $this->name=$name;
+        $this->pages=$pages;
+    }
+}
+
+class Team
+{
+    var $index;
+    var $id;
+    var $name;
+    var $pages;
+
+    function Team($id,$name,$pages=Null)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->pages = $pages;
     }
 }
 
