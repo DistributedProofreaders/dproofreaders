@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 
     $project = $_GET['project'];
@@ -19,7 +20,7 @@ include($relPath.'dp_main.inc');
             $string = "perl add_files.pl $project $projects_dir/";
         } else $string = "perl add_files.pl $project $uploads_dir/";
         exec($string);
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php?project=$project\"></head><body></body></html>";
+        metarefresh(0, "projectmgr.php?project=$project", "Files Added", "");
     }
 ?>
 
