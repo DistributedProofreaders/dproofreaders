@@ -67,15 +67,52 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		exit;
 	}
 
+
+	global $pageCountArray;
+
+	if (empty($pageCountArray)) {
+		update_pageCountArray();
+	}
+
+
+	// make sure we have a figure for total pages of every available book
+
+	$query = "
+		SELECT projectid
+		FROM projects
+		WHERE
+			(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+			state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+			state = '".PROJ_PROOF_SECOND_VERIFY."' OR
+			state = '".PROJ_PROOF_FIRST_VERIFY."') ";
+
+	$result = mysql_query($query);
+
+	$numrows = mysql_num_rows($result);
+	$rownum = 0;
+
+	while ($rownum < $numrows) {
+		$book=mysql_fetch_assoc($result);
+		if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
+			update_total_pages($book['projectid'], 1);
+			update_pageCountArray;
+		}
+		$rownum++;
+	}
+
+
+
 	if ( $round == 'first' )
 	{
+
 		// Select all projects in the list for round 1., subject to filter
 		// Put the BEGIN projects at the top.
 		$query = "
 			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
                    round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
-			FROM projects
+			FROM projects, page_counts 
 			WHERE
+				projects.projectid = page_counts.projectid AND
 				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
 				state = '".PROJ_PROOF_FIRST_VERIFY."') "
 				.$where_filter."
@@ -91,8 +128,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		$query = "
 			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
 		      round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
-			FROM projects
+			FROM projects, page_counts
 			WHERE
+				projects.projectid = page_counts.projectid AND
 				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
 				state = '".PROJ_PROOF_SECOND_VERIFY."') "
 				.$where_filter."
@@ -139,14 +177,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 
 	echo "</tr>";
 
-	global $pageCountArray;
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
 	$rownum2 = 0;
-
-	if (empty($pageCountArray)) {
-		update_pageCountArray();
-	}
 
 	while ($rownum2 < $numrows) {
 		$book=mysql_fetch_assoc($result);
@@ -289,13 +322,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			}
 			echo "\n<td>$genre</td>";
 			echo "\n<td>{$book['username']}</td>";
-			if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
-				update_total_pages($book['projectid'], 1);
-				update_pageCountArray;
-			}
 
-			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
-			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
+			echo "\n<td align=center>{$book['avail_pages']}</td>";
+			echo "\n<td align=center>{$book['total_pages']}</td>";
 
 			echo "\n<td align=center>{$book['days_avail']}</td>";
 
@@ -317,4 +346,3 @@ function startswith( $subject, $prefix )
 }
 
 ?>
-
