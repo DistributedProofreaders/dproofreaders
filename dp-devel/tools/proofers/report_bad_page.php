@@ -16,10 +16,10 @@ $imagefile  = $_POST['imagefile'];
 // When this file included from processtext.php,
 // $_POST['badState'] is not defined,
 // $badState is set "manually".
+$reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
-	$reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 	$header = _("Bad Page Report");
 	$htmlC->startHeader($header);
 	$htmlC->startBody(0,1,0,0);
@@ -128,7 +128,7 @@ of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
 	} else {
 		$message =
-"$imagefile has been a page marked as bad in this project.
+"$imagefile has been a page marked as bad in this project due to $reason_list[$reason].
 Please visit $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid to view
 the reason it was marked as bad by the user.
 You will then be able to make any needed
