@@ -169,6 +169,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                         // since projects are sorted by date, if we reach here we have already
                         // considered and rejected all remaining candidates under the author rule
                         // and can stop checking
+			echo "    modifieddate is now.\n";
                         break;
                 }
 
@@ -188,6 +189,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                         if (mysql_num_rows(mysql_query($author_q)) > 0) {
                                 // fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
+				echo "    Its author, {$project['authorsname']}, already has a book in first round.\n";
                                 $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
                         } else {
                                 // OK to release
