@@ -90,7 +90,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
 {
   $npage = getPageCookie();
-  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($proofstate,$text_data,$pguser);}
+  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($text_data,$pguser);}
   else {$npage['pagestate']=$tpage->getRevertState();}
     if ($tbutton==B_SWITCH_LAYOUT)
     {
@@ -119,7 +119,7 @@ if ($tbutton==B_SAVE_AND_DO_ANOTHER || $tbutton==B_SAVE_AND_QUIT)
 }
 else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 {
-	$tpage->returnPage($proofstate,$pguser,$userP);
+	$tpage->returnPage($pguser,$userP);
 }
 
 if ($tbutton==B_SAVE_AND_DO_ANOTHER)

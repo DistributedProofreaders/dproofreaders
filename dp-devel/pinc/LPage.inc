@@ -208,7 +208,7 @@ function addUserCount($proofstate,$pguser,$userP)
 }
 
 
-function saveTemp($proofstate,$text_data,$pguser)
+function saveTemp($text_data,$pguser)
 {
   return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
@@ -240,7 +240,7 @@ function exitInterface($newwin,$editone)
       }
 }
 
-function returnPage($proofstate,$pguser,$userP)
+function returnPage($pguser,$userP)
 {
   return Page_returnToRound( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser );
 }
