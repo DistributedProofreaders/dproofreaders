@@ -47,16 +47,6 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function initialize_tally( $holder_id )
-    // Establish a tally (initialized to zero) for the given holder.
-    // Typically, this is called when the holder is created.
-    // (Eventually, this function won't be necessary.)
-    {
-        // obsolete
-    }
-
-    // -------------------------------------------------------------------------
-
     function add_to_tally( $holder_id, $amount )
     {
         // In MySQL 4.1.0, we could use ON DUPLICATE KEY UPDATE to do this

@@ -74,16 +74,6 @@ function get_daily_average( $start_time, $total )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_initialize_page_tally( $u_id )
-// Ensure that subsequent queries about the given (new) user's
-// page-tally will find something.
-{
-    global $users_P_page_tallyboard;
-    $users_P_page_tallyboard->initialize_tally( $u_id );
-}
-
-// -----------------------------------------------------------------------------
-
 function user_get_page_tally( $username )
 // Return the user's page tally.
 {
@@ -310,16 +300,6 @@ function user_get_best_page_tally_rank_info( $u_id )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function team_initialize_page_tally( $team_id )
-// Ensure that subsequent queries about the given (new) team's
-// page-tally will find something.
-{
-    global $teams_P_page_tallyboard;
-    $teams_P_page_tallyboard-> initialize_tally( $team_id );
-}
-
-// -----------------------------------------------------------------------------
 
 function team_get_page_tally_rank( $team_id )
 // Return the given team's rank (among all teams)
