@@ -418,13 +418,8 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	if ($can_edit) {
 		// Anticipate the tests in page_clear()
 		if (
-			$round_num == 1 &&
-			$page_state == $prd->page_save_state &&
-			($project_phase=='FIRST')
-			||
-			$round_num == 2 &&
-			$page_state == $prd->page_save_state &&
-			($project_phase=='SECOND')
+			($project_phase=='FIRST' || $project_phase=='SECOND') &&
+			$page_state == $prd->page_save_state
 		)
 		{
 			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
