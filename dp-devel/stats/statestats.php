@@ -11,19 +11,9 @@ $db_Connection=new dbConnect();
 $cday = date('d'); $cmonth = date('m'); $cyear = date('Y');
 $today = date('Y-m-d');
 
-if ($cday != 1) {
-    $start_date = $cyear."-".$cmonth."-01";
-    $descrip = _("so far this month");
-} else {
-    $descrip = _("since the start of last month");
-    if ($cmonth != 1) {
-	$temp = $cmonth -1;
-	$start_date = $cyear."-".$temp."-01";
-    } else {
-	$temp = $cyear - 1;
-	$start_date = $temp."-12-01";
-    }
-}
+
+$start_date = date('Y-m-d',mktime(0,0,1,0,$cmonth,$cyear));
+$descrip = _("so far this month");
 
 echo "Today is $today, start is $start_date, descrip is $descrip  <br><br>";
 
