@@ -69,7 +69,7 @@ function activityCenter($curProj) {
 
 // View Page Images
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.html'>View Page Images</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>View Page Images</a></font></td></tr>";
 
 // Download Page Images
 

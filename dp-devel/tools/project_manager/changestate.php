@@ -6,7 +6,6 @@ include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'project_trans.inc');
 include($relPath.'project_edit.inc');
-include($relPath.'images_index.inc');
 
     // Get Passed parameters to code
     $projectid = $_GET['project'];
@@ -87,7 +86,6 @@ include($relPath.'images_index.inc');
 		echo "<p>Back to <a href=\"projectmgr.php\">project manager</a> page.</p>";
 		$do_transition = FALSE;
 	    }
-	    generate_images_index($project);
 	}
     }
     else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY))

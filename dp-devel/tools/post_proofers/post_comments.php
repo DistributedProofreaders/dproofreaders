@@ -31,7 +31,7 @@ $state = $project['state'];
 echo "<ul>\n";
 
 echo "<li>";
-echo "<a href='$projects_url/$projectid/images.html'>";
+echo "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>";
 echo _("View Images Online");
 echo "</a>\n";
 
