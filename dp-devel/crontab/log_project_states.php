@@ -67,11 +67,11 @@ while (list ($state) = mysql_fetch_row ($result)) {
 	$result = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = $state and date = $X_day");
 
 	// no row for this state yet today
-	if (! mysql_fetch_row ($result)) {	
+	if ( !mysql_res ($result,0)) {	
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES ($X_year,$X_month,$X_day, $X_date,'". $state."', 0)";
+               VALUES ($X_year,$X_month,$X_day, $X_year-$X_month-$X_day,'". $state."', 0)";
 	
           if ($testing_this_script)
           {
