@@ -1,6 +1,7 @@
 <?php
 $relPath="./pinc/";
 include($relPath.'connect.inc');
+include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'project_states.inc');
@@ -21,14 +22,9 @@ $status = "Now Proofing";
 $state = SQL_CONDITION_BRONZE;
 $info = "Below is the list of Bronze e-texts that are currently available for proofreading on this site.  Bronze e-texts is what most of our members see and what you can work on now by logging in.  These e-texts are either in the first round or second round proofing where you have a chance to correct any mistakes that may be found.  After the proofing phase the e-text is then passed onto the Project Manager for post-processing.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 }
+theme("$type E-Texts", "header");
 ?>
 
-<html>
-<head>
-<title><? echo $status." ".$type; ?> E-Texts</title>
-</head>
-
-<body alink="#0000FF" vlink="#0000ff" link="#0000ff">
 <center><font face="Verdana" size="6" color="<? echo $type; ?>"><b><? echo $status." ".$type; ?> E-Texts</b></font></center>
 <center>
 <?
@@ -40,8 +36,7 @@ echo "<a href='list_etexts.php?x=g'>Gold</a> | <a href='list_etexts.php?x=b'>Bro
 echo "<a href='list_etexts.php?x=g'>Gold</a> | <a href='list_etexts.php?x=s'>Silver</a>";
 }
 ?>
- | <a href="default.php">Home</a></center>
-<br>
+</center><br>
 
 <center><? echo $info; ?></center><br>
 
@@ -102,7 +97,5 @@ echo "$moddate<br>$links</font>";
 
 $numofetexts++;
 }
+theme("", "footer");
 ?>
-
-</body>
-</html>
