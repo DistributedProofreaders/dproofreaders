@@ -22,7 +22,10 @@ class processpage
   var $all_complete_state='';
 
 function processpage()
-{$this->cookieDomain=(substr_count($_SERVER['SERVER_NAME'], ".")) > 0? $_SERVER['SERVER_NAME'] : "";}
+{
+    $server_name = ( isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "" );
+    $this->cookieDomain = ( substr_count($server_name, ".") > 0 ? $server_name : "" );
+}
 
 function getPageRound($state)
 {
