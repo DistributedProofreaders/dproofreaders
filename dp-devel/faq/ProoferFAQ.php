@@ -18,7 +18,7 @@ theme('Beginning Proofers\' FAQ','header');
   </style>
 
 <h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
-<h3 align="right">Version 1.6, released April 16, 2004 </h3>
+<h3 align="right">Version 1.7, released May 27, 2004 </h3>
 
 <p> The purpose of this FAQ is to provide answers to common questions that new people
     joining us at the Distributed Proofreaders web site have asked.
@@ -298,6 +298,7 @@ different pages.  This will significantly speed up the proofreading process.
       <ol compact type="a">
         <li>Cookies accepted/on*
         <li>Javascript enabled
+	<li>The date and time on your PC are correct for your timezone
          <p>Also, if in your Forum Profile (<a
           href="<? echo $code_url; ?>/userprefs.php">located
           here</a>), "Launch in New Window" is set to "Yes", then there is
@@ -317,6 +318,7 @@ different pages.  This will significantly speed up the proofreading process.
       <td>DP cookies are only for the DP Website, so rather than setting this
           option to "Accept All Cookies", you can set it to the more restricted option
           "Accept Cookies for the originating website only". </td></tr>
+	  <tr></tr>
   <tr><td>Pop-up Windows:</td>
       <td>Most browser Pop-up options or pop-up blocking utilities
           offer an option to list specific sites from which you accept pop-ups.  So
