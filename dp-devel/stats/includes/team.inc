@@ -2,6 +2,7 @@
 //A file full of functions used in team stats
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
+include($relPath.'v_site.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
 $team_avatars_url = "$dyn_url/teams/avatar";
@@ -9,6 +10,16 @@ $team_avatars_url = "$dyn_url/teams/avatar";
 $team_icons_dir   = "$dyn_dir/teams/icon";
 $team_icons_url   = "$dyn_url/teams/icon";
 
+// PHPBB includes (from the standard installation)
+define('IN_PHPBB', true);
+$phpbb_root_path = $forums_dir.'/';
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
+include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
+include($phpbb_root_path . 'includes/functions_post.'.$phpEx);
+
+// include the custom PHPBB file
+include($relPath . 'functions_insert_post.'.$phpEx);
 
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
@@ -301,6 +312,8 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 function createThread($tname, $tinfo, $towner, $tid) {
 	//Declare variables
 	global $code_url;
+	global $teams_forum_idx;
+
 	$timeposted = time();
 	$owner = 527;
 	$title = $tname;
@@ -311,11 +324,11 @@ function createThread($tname, $tinfo, $towner, $tid) {
 	$post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
 
 	//Add Topic into phpbb_topics
-	$insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, 10, '$title', $owner, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
+	$insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, $teams_forum_idx, '$title', $owner, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
 	$topic_id = mysql_insert_id();
 
 	//Add Post into phpbb_posts
-	$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, 10, $owner, $timeposted, '$post_ip', '', 1, 0, 1, 0, NULL, 0)");
+	$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, $teams_forum_idx, $owner, $timeposted, '$post_ip', '', 1, 0, 1, 0, NULL, 0)");
 	$post_id = mysql_insert_id();
 
 	//Add Post Text into phpbb_posts_text
@@ -325,13 +338,13 @@ function createThread($tname, $tinfo, $towner, $tid) {
 	$update_topic = mysql_query("UPDATE phpbb_topics SET topic_first_post_id=$post_id, topic_last_post_id=$post_id WHERE topic_id=$topic_id");
 
 	//Update forum post count
-	$get_count = mysql_query("SELECT forum_posts, forum_topics FROM phpbb_forums WHERE forum_id=10");
+	$get_count = mysql_query("SELECT forum_posts, forum_topics FROM phpbb_forums WHERE forum_id=$teams_forum_idx");
 	while($row = mysql_fetch_array($get_count)) {
 	$forum_posts = $row['forum_posts'];
 	$forum_topics = $row['forum_topics'];
 	$forum_posts++;
 	$forum_topics++;
-	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics, forum_last_post_id=$post_id WHERE forum_id=10");
+	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics, forum_last_post_id=$post_id WHERE forum_id=$teams_forum_idx");
 	}
 
 	//Update teams db with topic_id so it can be deleted
