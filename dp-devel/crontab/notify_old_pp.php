@@ -37,7 +37,7 @@ $db_Connection=new dbConnect();
 		    $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
 		    $email = mysql_result($userresult, 0, "email");
 			
-		    echo $PPinQuestion . "\n" . $projectslist ."<br><br>\n\n";
+		    echo $PPinQuestion . "\n" . $displayprojectslist ."<br><br>\n\n";
 
 		    if ($numprojs == 1) {
 			$message = "This is an automated message.\n\n
@@ -85,6 +85,8 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 	} else {
 		$subject = "Distributed Proofreaders: $numprojs projects checked out over 90 days";
 	}	
+
+	$displayprojectslist = $projectslist . "<br>";
 
         $rownum++;
 }
