@@ -50,8 +50,12 @@ echo "$n_rc_updated release_criterion values updated\n";
 
 mysql_query("
 	ALTER TABLE queue_defns
-	ADD COLUMN round_number TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 FIRST
-") or dir(mysql_error());
+	ADD COLUMN round_number TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 FIRST,
+	DROP INDEX ordering,
+	DROP INDEX name,
+	ADD UNIQUE ordering (round_number,ordering),
+       	ADD UNIQUE name     (round_number,name)
+") or die(mysql_error());
 
 // -------------------------------------------------------------------
 
