@@ -237,7 +237,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
             if ($consider_privacy && should_anonymize( $row['username'], $row['u_privacy'] ) )
             {
-                $neighbor_username = _("Anonymous");
+                $neighbor_username = NULL;
             }
             else
             {
