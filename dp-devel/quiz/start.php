@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
+$db_Connection=new dbConnect();
 theme(_('Proofreading Tutorial and Interactive Quiz'),'header');
 ?>
 <body bgcolor='#ffffff'>
