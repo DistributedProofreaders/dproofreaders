@@ -27,7 +27,7 @@ echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
 while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
-    print("
+    dpsql_query("
         UPDATE projects
         SET archived = '1'
         WHERE projectid='$projectid'
