@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 theme("Books Checked Out for Post Processing", "header");
 
 
-if (isset($_GET['order'] && $_GET['order'] == "default"){
+if (isset($_GET['order']) && $_GET['order'] == "default"){
        $order ='checkedoutby, modifieddate';
   }
 
