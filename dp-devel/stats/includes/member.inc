@@ -220,7 +220,6 @@ function showChangeInRank($prevRank, $currentRank)
 
 function showMbrNeighbors($curMbr) {
 	global $theme;
-	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
 	$now = time();
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
@@ -246,6 +245,7 @@ function showMbrNeighbors($curMbr) {
 	echo_td( 29, _("Overall Pages Completed") );
 	echo "</tr>";
 
+	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
 	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
