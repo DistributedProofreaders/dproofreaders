@@ -246,10 +246,14 @@ function pages_indicate_bad_project( $projectid, $round )
             if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_SECOND_COMPLETE; } else $state = PROJ_PROOF_SECOND_AVAILABLE;
 
         }
-        	
-        $sql = "UPDATE projects SET state = '$state' WHERE projectid = '$project'";
+
         if ($verbose) echo "New state = $state<P>";
-        $result = mysql_query($sql);
+        $error_msg = project_transition( $project, $state );
+        if ($error_msg)
+        {
+            echo "$error_msg<br>\n";
+	    return;
+        }
       }
 
 
