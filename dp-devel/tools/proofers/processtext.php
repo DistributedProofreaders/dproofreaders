@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
-include_once($relPath.'v_keepmarkup.inc');
 include_once($relPath.'project_continuity.inc');
 
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,

@@ -2,7 +2,6 @@
 
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'v_keepmarkup.inc');
 include_once($relPath.'project_trans.inc');
 
 class processpage
