@@ -6,9 +6,14 @@ include_once($relPath.'theme.inc');
 
 theme("Books Checked Out for Post Processing Verification", "header");
 
-if ($order == 'default'){
-       $order ='checkedoutby, modifieddate';
-  }
+if (isset($_GET['order'])) {
+   if ( $_GET['order'] == "default") {
+       $orderclause = ' ORDER BY checkedoutby, modifieddate ASC';
+   } else {
+       $orderclause = ' ORDER BY '.$_GET['order'].' ASC';
+   }
+}
+else $orderclause = "";
 
        echo "<a href =\"ppv_checkedout.php\">Default Sort Order </a>is Checked Out To and then Date Last Modified";
 
@@ -16,7 +21,7 @@ if ($order == 'default'){
     $result = mysql_query("SELECT nameofwork, txtlink, checkedoutby, modifieddate
                      FROM projects
                      WHERE state = '".PROJ_POST_SECOND_CHECKED_OUT."'
-                     ORDER BY '$order' ASC");
+                     $orderclause");
 
     $numrows = mysql_numrows($result);
     $rownum = 0;
