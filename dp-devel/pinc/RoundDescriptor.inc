@@ -22,6 +22,7 @@ $PRD_1->time_column_name     = 'round1_time';
 $PRD_1->text_column_name     = 'round1_text';
 $PRD_1->user_column_name     = 'round1_user';
 $PRD_1->prevtext_column_name = 'master_text';
+$PRD_1->textdiff_column_name = 'round1_diff'; // a computed column
 
 $PRD_2 = new ProofingRoundDescriptor;
 $PRD_2->round_number = 2;
@@ -40,6 +41,7 @@ $PRD_2->time_column_name     = 'round2_time';
 $PRD_2->text_column_name     = 'round2_text';
 $PRD_2->user_column_name     = 'round2_user';
 $PRD_2->prevtext_column_name = 'round1_text';
+$PRD_2->textdiff_column_name = 'round2_diff'; // a computed column
 
 // Yes, the usual way to do the above would be to declare the class with a
 // bunch of instance variables, then define a constructor function that
