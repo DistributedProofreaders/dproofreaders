@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="memberstats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="userinfo" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="teaminfo" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="neighborinfo" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="userinfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="username" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="lastlogin" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="overallrank" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="bestdayever" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="dailyaverage" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="location" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="occupation" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="interests" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="website" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="bestdayever">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pages" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="date" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="teaminfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="team" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="team">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="activemembers" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="neighborinfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="neighbor" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="neighbor">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="username" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="activemembers">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="dailyaverage">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="date">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="datejoined">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="interests">
+    <xs:complexType mixed="true">
+  </xs:element>
+
+  <xs:element name="lastlogin">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="location">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="name">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="occupation">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="overallrank">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="pages">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="pagescompleted">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="rank">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="username">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="website">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+</xs:schema>
