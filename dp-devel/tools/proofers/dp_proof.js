@@ -1,6 +1,8 @@
 // start of code byCarel
+
 docRef=null;
 markRef=null;
+cRef=null;
 // true=fancy : false=plain
 cnSel=null;
 
@@ -8,14 +10,18 @@ cnSel=null;
 curSel='';
 curCaret='';
 
-//back up
-bU='';
-bR='';
+// image width
 iW='1000';
 
-function selBox()
+
+function selBox(wBox)
+{
+if (wBox=='char')
+{cRef.markBoxChar.focus();
+cRef.markBoxChar.select();}
+else if (wBox=='start')
 {markRef.markBox.focus();
-markRef.markBox.select();}
+markRef.markBox.select();}}
 
 function getCurSel()
 {if (cnSel){curSel=docRef.selection.createRange().text;}}
@@ -26,25 +32,6 @@ function getCurCaret()
 // gets character code from numeric value cC
 function gCC(cC)
 {return String.fromCharCode(cC);}
-
-mUO=new Array();
-mUO[0]='';
-mUO[1]='[Illustration: ';
-mUO[2]='[Footnote: ';
-mUO[3]='[Sidenote: ';
-mUO[4]='       *       *       *       *       *';
-mUO[5]='/*';
-mUO[6]='[Blank Page]';
-mUO[7]='<i>';
-
-mUC=new Array();
-mUC[0]='*';mUC[1]=']';mUC[2]=']';mUC[3]=']';mUC[4]='';mUC[5]='*/';mUC[6]='';mUC[7]='</i>';
-mUC[8]=gCC(163);mUC[9]=gCC(161);mUC[10]=gCC(191);mUC[11]=gCC(169);mUC[12]=gCC(196);mUC[13]=gCC(228);
-mUC[14]=gCC(214);mUC[15]=gCC(246);mUC[16]=gCC(220);mUC[17]=gCC(252);mUC[18]=gCC(223);mUC[19]=gCC(199);
-mUC[20]=gCC(231);mUC[21]=gCC(201);mUC[22]=gCC(233);mUC[23]=gCC(202);mUC[24]=gCC(234);mUC[25]=gCC(200);
-mUC[26]=gCC(232);mUC[27]=gCC(192);mUC[28]=gCC(224);mUC[29]=gCC(193);mUC[30]=gCC(225);mUC[31]=gCC(210);
-mUC[32]=gCC(242);mUC[33]=gCC(243);mUC[34]=gCC(209);mUC[35]=gCC(241);mUC[36]=gCC(204);mUC[37]=gCC(236);
-mUC[38]=gCC(205);mUC[39]=gCC(237);mUC[40]=gCC(198);mUC[41]=gCC(230);
 
 // fancy check for selection
 function chkRange()
@@ -58,6 +45,76 @@ curCaret.text=cT;
 curSel='';
 curCaret='';
 docRef.editform.text_data.focus();
+}
+
+// 2 - 97
+mUC=new Array(0,0,gCC(161),gCC(162),gCC(163),gCC(164),
+gCC(165),gCC(166),gCC(167),gCC(168),gCC(169),
+gCC(170),gCC(171),gCC(172),gCC(173),gCC(174),
+gCC(175),gCC(176),gCC(177),gCC(178),gCC(179),
+gCC(180),gCC(181),gCC(182),gCC(183),gCC(184),
+gCC(185),gCC(186),gCC(187),gCC(188),gCC(189),
+gCC(190),gCC(191),gCC(192),gCC(193),gCC(194),
+gCC(195),gCC(196),gCC(197),gCC(198),gCC(199),
+gCC(200),gCC(201),gCC(202),gCC(203),gCC(204),
+gCC(205),gCC(206),gCC(207),gCC(208),gCC(209),
+gCC(210),gCC(211),gCC(212),gCC(213),gCC(214),
+gCC(215),gCC(216),gCC(217),gCC(218),gCC(219),
+gCC(220),gCC(221),gCC(222),gCC(223),gCC(224),
+gCC(225),gCC(226),gCC(227),gCC(228),gCC(229),
+gCC(230),gCC(231),gCC(232),gCC(233),gCC(234),
+gCC(235),gCC(236),gCC(237),gCC(238),gCC(239),
+gCC(240),gCC(241),gCC(242),gCC(243),gCC(244),
+gCC(245),gCC(246),gCC(247),gCC(248),gCC(249),
+gCC(250),gCC(251),gCC(252),gCC(253),gCC(254),
+gCC(255),gCC(036));
+
+mUO=new Array();
+mUO[1]='blank page';
+mUO[20]='p';
+mUO[21]='i';
+mUO[22]='b';
+mUO[23]='u';
+mUO[24]='caps';
+mUO[25]='sup';
+mUO[26]='sub';
+mUO[27]='footnote';
+mUO[28]='endnote';
+mUO[29]='sidenote';
+mUO[30]='illustration';
+mUO[31]='poetry';
+mUO[32]='drama';
+mUO[33]='lyrics';
+mUO[34]='letter';
+mUO[35]='blockquote';
+mUO[36]='table';
+mUO[37]='formatted';
+mUO[38]='formula';
+mUO[39]='math';
+mUO[40]='glossary';
+mUO[41]='term';
+mUO[42]='definition';
+mUO[43]='bibliography';
+mUO[44]='header';
+
+
+// character selection
+function iMUc(wM)
+{
+ if (inProof==1)
+ {
+cRef.markBoxChar.value=mUC[wM];
+cR=chkRange();
+
+//plain
+if (!cnSel || !cR)
+{selBox('char');}
+
+//fancy
+if (cR)
+{cT=mUC[wM];
+putCT(cT);}
+ }
 }
 
 // opening tag selection
@@ -75,7 +132,13 @@ if (!cnSel || !cR)
 //fancy
 if (curSel != '' && docRef.selection.createRange().text == curSel)
 {docRef.editform.text_data.focus();
-docRef.selection.createRange().text=mUO[wM] + curSel + mUC[wM];
+wTag=+mUO[wM];
+wOT='<'+wtag+'>';
+wCT='';
+if (wM < 10)
+{wCT='</'+wTag+'>';}
+else {}
+docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
@@ -88,33 +151,8 @@ if(wM==6)
 {docRef.editform.text_data.value=mUO[6];}
 }}
 
-// closing or single tag selection
-function iMUe(wM)
-{
-if (inProof==1)
-{
-markRef.markBox.value=mUC[wM];
-cR=chkRange();
 
-//plain
-if (!cnSel || !cR)
-{selBox();}
-
-//fancy
-if (cR)
-{cT=mUC[wM];
-putCT(cT);}
-}}
-
-function mNA()
-{
-// additional character window
-winURL='morenonascii.php';
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=460,height=240,top=200,left=200'";
-asciiWin=window.open(winURL,"nonasciiWin",newFeatures);
-asciiWin.focus();
-}
-
+// start of general interface functions
 function mGR()
 {
 // greek character window
@@ -186,13 +224,6 @@ reSize(zP)
 docRef.editform.zmSize.value=nP;
 }
 
-function doBU()
-{chFFace(docRef.editform.fntFace.selectedIndex);
-chFSize(docRef.editform.fntSize.selectedIndex);
-if (top.imageframe.docRef.scanimage) {showIZ();}
-}
-
-
 function showNW()
 {
 nW=window.open();
@@ -200,111 +231,6 @@ nW.document.open();
 nW.document.write('<PRE>'+unescape(docRef.editform.text_data.value)+'</PRE>');
 nW.document.close()
 }
-
-//check for common errors
-
-edM='';
-//edit stage
-edS=0;
-
-//edit text
-edT='';
-
-//postion in text
-edP=0;
-
-//second half of edit
-eH2='';
-inE=0;
-
-function cFCE()
-{
-tF=docRef.editform.text_data;
-//make edit master
-if (inE == 1)
-{//show text for edit
-edD=edM.substring(0,(cP+2));
-eH2=edM.substring(cP+2);
-tF.value=edD;
-inE=2;}
-else {
-if (inE==2) {edM=tF.value+eH2;}
-
-if (edS==0)
-{
-//make backup
-bR=escape(tF.value);
-edM=tF.value;
-//write explanation in window
-tF.value='Check for Common Errors \r\n\r\nPlease read the help file for more information on this feature.\r\n\r\nClick the Check for Common Errors button to Start.\r\nClick the Undo Revert button to Exit.';
-edS++;
-}
-else if (edS==1)
-{edT='\r\nDouble Space Check....\r\n'+edT;
-tF.value=edT;
-dCC('  ');}
-else if(edS==2)
-{edT='\r\nStarting Double Single Quotes Check....\r\n'+edT;
-tF.value=edT;
-dCC('\'\'');}
-else if (edS==3)
-{edT='\r\nStarting Check for Spacing before Hyphens and Em-Dashes....\r\n'+edT;
-tF.value=edT;
-dCC(' -');}
-else if (edS==4)
-{edT='\r\nStarting Check for Spacing after Hyphens and Em-Dashes....\r\n'+edT;
-tF.value=edT;
-dCC('- ');}
-else if (edS==5){
-//clean up
-edT='\r\nPlease Click Check for Common Errors to Load Error Checked Document.\r\n\r\n\r\nCheck for Common Errors Complete!\r\n'+edT;
-tF.value=edT;
-edS++;
-}
-else {tF.value=edM;edS=0;edT='';}
-}
-tF.focus();
-}
-showErr='\r\nClick Check for Common Errors to show error at the bottom of the text area.\r\n';
-showErr+='When the error has been corrected, click Check for Common Errors again.\r\n';
-
-cAl=new Array();
-cAl[1]='\r\nDouble Space Found!'+showErr;
-cAl[2]='\r\nDouble Single Quotes Found!'+showErr;
-cAl[3]='\r\nSpace before Hyphen or Em-Dash Found!'+showErr;
-cAl[4]='\r\nSpace after Hyphen or Em-Dash Found!'+showErr;
-cAl[5]='';
-cAl[6]='';
-
-cntErr='\r\nClick Check for Common Errors to continue.\r\n';
-cAd=new Array();
-cAd[1]=cntErr+'\r\nDouble Space Check Complete.';
-cAd[2]=cntErr+'\r\nDouble Single Quotes Check Complete.';
-cAd[3]=cntErr+'\r\nCheck for Spacing before Hyphens and Em-Dashes Complete.';
-cAd[4]=cntErr+'\r\nCheck for Spacing after Hyphens and Em-Dashes Complete.';
-cAd[5]='';
-cAd[6]='';
-
-function dCC(cChar)
-{
-tF=docRef.editform.text_data;
-dS=cChar;
-dL=edM.length-1;
-cP=edM.indexOf(dS,edP);
-if (cP != -1)
-{inE=1;
-edT=cAl[edS]+edT;
-tF.value=edT;
-//set new positions
-edP=cP+1;
-}
-else {
-edT=cAd[edS]+edT;
-tF.value=edT;
-edP=0;
-edS++;
-inE=0;
-}}
 
 function dSI(sdir)
 {

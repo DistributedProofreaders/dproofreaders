@@ -11,8 +11,8 @@ $menuWidth=$wSize[0]<=800?'99%':'780';
 
 ?>
 <html><head><title>Control Frame</title>
-<script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <script language="JavaScript" src="dp_proof.js" type="text/javascript"></script>
+<script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <style type="text/css">
 <!--
 body {
@@ -56,7 +56,7 @@ A:active {
 -->
 </style></head><body><table cellpadding="0" cellspacing="0" 
 align="center" width="<?PHP echo $menuWidth; ?>" border="0"><tr><form 
-name="charform" id="tagform" onsubmit="return(false);"><td valign="top"><select 
+name="charform" id="charform" onsubmit="return(false);"><td valign="top"><select 
 name="tCharsA" ID="tCharsA" title="A" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">A</option>
 <option value="0">--</option>

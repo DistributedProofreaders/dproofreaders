@@ -224,6 +224,7 @@ function ldAll(wFace)
   isLded=1;
   inProof=1;
   inFace=wFace;
+  cRef=document.charform;
   markRef=document.tagform;
   if(wFace==1)
     {
