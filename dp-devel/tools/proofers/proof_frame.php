@@ -23,7 +23,7 @@ if (isset($saved)) {
     $result = mysql_query("SELECT {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
     $proofer = mysql_result($result, 0, $prd->user_column_name);
     if ($pguser != $proofer) {
-        echo _("An error has occured.  Please close & relogin.");
+        echo sprintf( _("You (%s) do not have the necessary access to page %s"), $pguser, $imagefile );
         exit();
     }
 
