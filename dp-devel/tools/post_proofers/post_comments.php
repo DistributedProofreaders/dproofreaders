@@ -14,8 +14,6 @@ if (!user_is_PP()) {
 
 $projectid = $_GET['project'];
 
-echo_project_info( $projectid, 'proj_post', 0 );
-echo "<BR>";
 
 // Inefficient to do this twice (in echo_project_info and here).
 // Get echo_project_info to take $project arg.
@@ -26,6 +24,15 @@ $project = mysql_fetch_assoc(mysql_query("
 
 $state = $project['state'];
 $smooth_dead = $project['smoothread_deadline'];
+
+if ($smooth_dead > time()) {
+    echo_project_info( $projectid, 'proj_post', 0 , 1);
+} else {
+    echo_project_info( $projectid, 'proj_post', 0 );
+}
+echo "<BR>";
+
+
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
