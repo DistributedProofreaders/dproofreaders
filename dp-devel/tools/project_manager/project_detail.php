@@ -39,6 +39,8 @@ echo "<center>";
 
 echo_project_info( $projectid, 'proj_post', 0 );
 
+echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
+
 if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 {
 	echo "<br>\n";
