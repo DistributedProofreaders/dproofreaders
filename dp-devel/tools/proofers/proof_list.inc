@@ -18,11 +18,12 @@ if ($totalpages <= 20) {
 
 // read saved sort orders from user_settings table 
 
-$result = mysql_query("SELECT value FROM user_settings WHERE username = '$pguser' AND setting = 'R1order'");
+$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'");
+
 if (mysql_num_rows($result) >= 1) {
 	$orderR1old = mysql_result($result, 0, "value");
 } else {
-	$orderR1old = 'daysD';
+	$orderR1old = 'DaysD';
 }
 
 
