@@ -2,10 +2,11 @@
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
+include($relPath.'project_states.inc');
+include($relPath.'project_trans.inc');
 
 if ($mode != "upload") {
     $project = $_GET['projectid'];
-    $todaysdate = time();
 
     $sql = mysql_query("SELECT nameofwork, authorsname, language, scannercredit, clearance, username FROM projects WHERE projectid = '$projectid'");
     $NameofWork = mysql_result($sql, 0, "nameofwork");
@@ -23,7 +24,7 @@ if ($mode != "upload") {
     $post_proofer = mysql_result($result, 0, "real_name");
 
     // mark the project as completed post-processing
-    $sql = mysql_query("UPDATE projects SET state='".PROJ_POST_VERIFYING."', modifieddate = '$todaysdate' WHERE projectid = '$project'");
+    $error_msg = project_transition( $project, PROJ_POST_VERIFYING );
 ?>
 
 <html><head><title>Completed Post-Processing</title></head>
