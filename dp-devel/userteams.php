@@ -2,12 +2,46 @@
 $relPath="./pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
-include($relPath.'doctype.inc');
 
 if (!isset($tstart))
   {$tstart=0;}
 
-$beginPage=$docType."<html><head><title>User Teams</title></head><body><div align=\"center\">";
+$beginPage="</head>".$htmlC->startBody(0,1,0,1);
+$tb=$htmlC->startTable(1,'650',0,1);
+$tb2=$htmlC->startTable(1,'250',0,1);
+$tr=$htmlC->startTR(0,0,1);
+$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
+$td2=$htmlC->startTD(1,0,0,0,"center",0,0,1);
+$td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
+$td4=$htmlC->startTD(0,0,2,0,"left",0,0,1);
+$td5=$htmlC->startTD(1,0,0,0,"left",0,0,1);
+$td6=$htmlC->startTD(0,0,0,0,"left",0,0,1);
+$td6a=$htmlC->startTD(1,0,0,0,"left",0,0,1);
+$td7=$htmlC->startTD(2,0,6,0,"center",0,0,1);
+$td8=$htmlC->startTD(0,0,6,0,"center",0,0,1);
+$td9=$htmlC->startTD(0,0,3,0,"left",0,0,1);
+$td10=$htmlC->startTD(0,0,3,0,"right",0,0,1);
+$td11=$htmlC->startTD(2,0,0,0,"center",0,0,1);
+$td12=$htmlC->startTD(2,0,3,0,"center",0,0,1);
+$td12a=$htmlC->startTD(0,0,3,0,"center",0,0,1);
+$td13=$htmlC->startTD(1,0,2,0,"center",0,0,1);
+$td13a=$htmlC->startTD(0,0,2,0,"center",0,0,1);
+
+//startTD($tdType,$tdWidth,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags,$return)
+
+/*
+$td1b=$htmlC->startTD(2,0,4,0,"center",0,0,1);
+$td1a=$htmlC->startTD(0,0,2,0,"center",0,0,1);
+$td2=$htmlC->startTD(1,0,0,0,"right",0,0,1);
+$td3=$htmlC->startTD(0,0,0,0,"left",0,0,1);
+$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
+$td5=$htmlC->startTD(0,0,4,0,"center",0,0,1);
+*/
+$tde=$htmlC->closeTD(1);
+$tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
+$tbe=$htmlC->closeTable(1);
+$closePage=$htmlC->closeBody(1);
+
 
 function stripAllString($ttext)
   {
@@ -31,47 +65,41 @@ function unstripAllString($ttext,$sType)
 
 function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tmembers,$tpages,$ttime,$tcreator,$ownerName,$tpreview)
   {
-    echo "<table \r\nid=\"teamtabletop\" border=\"1\" cellpadding=\"10\" width=\"650\">".
-      "<tr><td \r\nalign=\"center\">";
+    global $tb,$tr,$td1,$td2,$td3,$td4,$td5,$td6,$tde,$tre,$tbe;
 
+    echo $tb.$tr.$td2;
     if (strcmp($tavatar,0)!=0)
       {echo "<img \r\nsrc=\"./users/teams/icons/$tavatar\" width=\"100\" height=\"100\" alt=\"".strip_tags($tname)."\">";}
-    echo "</td>".
-      "</td><td \r\nalign=\"center\"><b>".stripslashes($tname)."</b>".
+    echo $tde.$td3."<b>".stripslashes($tname)."</b>".
       "<p>Created: ".date("l, F jS, Y \a\\t g:i:sA",$ttime);
-    echo "</td></tr></table><br>";
-    echo "<table \r\nid=\"teamtable\" border=\"1\" cellpadding=\"10\" width=\"650\">";
-    echo "<tr><td \r\ncolspan=\"2\" align=\"center\"><strong>Description</strong>";
-    echo "</td></tr><tr><td \r\ncolspan=\"2\">".
-      stripslashes($ttext);
-    echo "</td></tr><tr><td>".
-      "Created by: <b>$tcreator</b>";
-    echo "</td><td>".
-      "Owned by: <b>$ownerName</b>";
+    echo $tre.$tbe."<br>";
+    echo $tb.$tr.$td1;
+    echo "<strong>Description</strong>";
+    echo $tre.$tr.$td4.stripslashes($ttext);
+    echo $tre.$tr.$td5."Created by: <b>$tcreator</b>";
+    echo $tde.$td5."Owned by: <b>$ownerName</b>";
     // if owner, let them edit
       if ($ownerName==$pguser && $tpreview==0)
         {echo "&nbsp;&nbsp;&nbsp;&nbsp;<a \r\nhref=\"userteams.php?etid=$tid\">Edit</a>";}
-    echo "</td></tr><tr><td>".
-      "Number of Members: <b>$tmembers</b>";
-    echo "</td><td>".
-      "Pages Proofed: <b>$tpages</b>";
+    echo $tre.$tr.$td5."Number of Members: <b>$tmembers</b>";
+    echo $tde.$td5."Pages Proofed: <b>$tpages</b>";
   // end display
     if ($tpreview ==0)
       {
-        echo "</td></tr><tr><td \r\nalign=\"left\">".
-          "<b><a href=\"userteams.php?tstart=$tstart\">View Teams</a>";
-        echo "</td><td \r\nalign=\"right\">";
+        echo $tre.$tr.$td3."<b><a href=\"userteams.php?tstart=$tstart\">View Teams</a></b>";
+        echo $tde.$td3;
         if ($tid!=1 && $userP['team_1']!=$tid && $userP['team_2']!=$tid && $userP['team_3']!=$tid)
-          {echo "<a href=\"userteams.php?jtid=$tid\">Join</a></b>";}
+          {echo "<b><a href=\"userteams.php?jtid=$tid\">Join</a></b>";}
         else if ($tid !=1)
-          {echo "<a href=\"userteams.php?qtid=$tid\">Quit the Team</a></b>";}
+          {echo "<b><a href=\"userteams.php?qtid=$tid\">Quit the Team</a></b>";}
       }
-    echo "</td></tr></table>";
+    echo $tre.$tbe;
   }
 
 // see if they just want a team profile
 if (isset($tid))
   {
+  $htmlC->startHeader("User Teams");
   echo $beginPage;
   $tQuery="SELECT * FROM user_teams WHERE id=$tid";
   $tResult=mysql_query($tQuery);
@@ -83,7 +111,7 @@ if (isset($tid))
   // start display
     showTeamProfile($pguser,$userP,$tstart,$curTeam['id'],$curTeam['teamname'],$curTeam['team_info'],$curTeam['avatar'],
       $curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$ownerName,0);
-    echo "</div></body></html>";
+    echo $closePage;
   exit;
   } // end of show team profile
 
@@ -101,15 +129,18 @@ function joinTeam($userP,$pguser,$otid,$jtid)
       {$joinQ="team_3='$jtid'";$qtid=$userP['team_3'];}
     if ($joinQ!='')
       {
-      if ($otid!=0)
-        {
-        $teamQuery="UPDATE user_teams SET member_count=member_count-1 WHERE id='$jtid'";
-        mysql_query($teamQuery);
-        }
       $joinQuery="UPDATE users SET ".$joinQ." WHERE username='$pguser' AND u_id='{$userP['u_id']}'";
-        mysql_query($joinQuery);
-      $teamQuery="UPDATE user_teams SET member_count=member_count+1 WHERE id='$jtid'";
-        mysql_query($teamQuery);
+      $teamResult=mysql_query($joinQuery);
+      if ($teamResult==1)
+        {
+          $teamQuery="UPDATE user_teams SET member_count=member_count+1 WHERE id='$jtid'";
+          mysql_query($teamQuery);
+          if ($otid!=0)
+          {
+            $teamQuery="UPDATE user_teams SET member_count=member_count-1 WHERE id='$qtid'";
+            mysql_query($teamQuery);
+          }
+        }
       }
     }
   else
@@ -127,26 +158,27 @@ if (isset($jtid))
     if ($joinQ=='')
       {
       // all the spaces are filled, which would the like to overwrite?
+        $htmlC->startHeader("User Teams");
         echo $beginPage;
-        echo "<table id=\"teamtabletop\" border=\"1\" cellpadding=\"10\" width=\"650\">".
-          "<tr><td align=\"center\" colspan=\"3\">";
+        echo $tb.$tr.$td12."<b>Three Team Maximum</b>";
+        echo $tre.$tr.$td12a;
         echo "You have already joined three teams.<br>".
-          "Which team would you like to replace?<P>";
+          "Which team would you like to replace?";
         $teamQ1="SELECT teamname FROM user_teams WHERE id='{$userP['team_1']}'";
         $teamQ2="SELECT teamname FROM user_teams WHERE id='{$userP['team_2']}'";
         $teamQ3="SELECT teamname FROM user_teams WHERE id='{$userP['team_3']}'";
+        echo $tre.$tr.$td2;
         $teamR=mysql_query($teamQ1);
-        echo "</td></tr><tr><td align=\"center\">";
-        echo "<a href=\"userteams.php?jtid=$jtid&amp;otid=1\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-        echo "</td><td align=\"center\">";
+        echo "<b><a href=\"userteams.php?jtid=$jtid&amp;otid=1\">".mysql_result($teamR,0,'teamname')."</a></b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo $tde.$td2;
         $teamR=mysql_query($teamQ2);
-        echo "<a href=\"userteams.php?jtid=$jtid&amp;otid=2\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-        echo "</td><td align=\"center\">";
+        echo "<b><a href=\"userteams.php?jtid=$jtid&amp;otid=2\">".mysql_result($teamR,0,'teamname')."</a></b>&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo $tde.$td2;
         $teamR=mysql_query($teamQ3);
-        echo "<a href=\"userteams.php?jtid=$jtid&amp;otid=3\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;".
-          "</td></tr><tr><td align=\"center\" colspan=\"3\">";
-        echo "<br><a href=\"userteams.php?tid=$jtid\">Do Not Join Team</a>";
-        echo "</td></tr></table></div></body></html>";
+        echo "<b><a href=\"userteams.php?jtid=$jtid&amp;otid=3\">".mysql_result($teamR,0,'teamname')."</a></b>&nbsp;&nbsp;&nbsp;&nbsp;".
+          $tre.$tr.$td12;
+        echo "<br><b><a href=\"userteams.php?tid=$jtid\">Do Not Join Team</a></b>";
+        echo $tre.$tbe.$closePage;
       }  
     else if ($joinQ=='mem')
       {
@@ -176,12 +208,15 @@ if (isset($qtid))
     if ($userP['team_3']==$qtid)
       {$quitQuery.="team_3='0'";}
     $quitQuery.=" WHERE username='$pguser' AND u_id='{$userP['u_id']}'";
-    mysql_query($quitQuery);
-    $teamQuery="UPDATE user_teams SET member_count=member_count-1 WHERE id='$qtid'";
-    mysql_query($teamQuery);
-    // update cookie
-      $cookieC->setUserPrefs($pguser);
-    metarefresh(0,"userteams.php?tid=$qtid",'Quit the Team','Quitting the team....');
+    $teamResult=mysql_query($quitQuery);
+    if ($teamResult==1)
+      {
+        $teamQuery="UPDATE user_teams SET member_count=member_count-1 WHERE id='$qtid'";
+        mysql_query($teamQuery);
+        // update cookie
+          $cookieC->setUserPrefs($pguser);
+        metarefresh(0,"userteams.php?tid=$qtid",'Quit the Team','Quitting the team....');
+      }
     }
   else {metarefresh(3,"userteams.php?tid=$qtid",'Not a member','Unable to quit team....');}
   exit;
@@ -190,51 +225,49 @@ if (isset($qtid))
 
 function showEdit($userP,$tstart,$tname,$ttext,$tedit,$tsid)
   {
+  global $tb,$tr,$td1,$td13,$td13a,$tde,$tre,$tbe;
   echo "<form \r\n".
     "id=\"mkTeam\" name=\"mkTeam\" action=\"userteams.php\" method=\"POST\" target=\"_top\"><input \r\n".
     "type=\"hidden\" name=\"tstart\" value=\"$tstart\"><input \r\n".
-    "type=\"hidden\" name=\"tsid\" value=\"$tsid\"><table \r\n".
-    "id=\"teamtable\" border=\"1\" cellpadding=\"10\"><tr><td \r\n".
-    "colspan=\"2\" align=\"center\">New Proofing Team</td></tr><tr><td \r\n".
-    "colspan=\"2\" align=\"center\"><strong>Team Name</strong> <INPUT \r\n".
+    "type=\"hidden\" name=\"tsid\" value=\"$tsid\">".
+    $tb.$tr.$td1.
+    "New Proofing Team".$tre.$tr.$td13a.
+    "<strong>Team Name</strong> <INPUT \r\n".
     "TYPE=\"text\" VALUE=\"$tname\" name=\"teamname\" size=\"30\">\r\n".
-    "<br>limit 50 characters</td></tr><tr><td \r\n".
-    "colspan=\"2\" align=\"center\"><strong>Team Description</strong><br><textarea \r\n".
+    "<br>limit 50 characters".$tre.$tr.$td13.
+    "<strong>Team Description</strong><br><textarea \r\n".
     "name=\"text_data\" COLS=\"40\" ROWS=\"6\">\r\n".
     $ttext."</textarea><br>You may use the following markup in the description:<br>\r\n".
-    "[b][/b]=bold [i][/i]=italic [p][/p]=paragraph [lb]=line break</td></tr><tr><td \r\n".
-    "colspan=\"2\">The Team Icon and Team Logo can be uploaded after ".
-    "the team is created.";
+    "[b][/b]=bold [i][/i]=italic [p][/p]=paragraph [lb]=line break".$tre.$tr.$td13a.
+    "The Team Icon and Team Logo can be uploaded after the team is created.";
   $team_1=$userP['team_1'];$team_2=$userP['team_2'];$team_3=$userP['team_3'];
   if ($tedit==1 && $team_1!=0 && $team_2!=0 && $team_3!=0)
     {
-    echo "</td></tr><tr><td \r\n".
-      "colspan=\"2\" align=\"center\">You must join the team to create it, \r\n".
+    echo $tre.$tr.$td13.
+      "You must join the team to create it, \r\n".
       "which team space would you like to use?<br><select \r\n".
       "name=\"tteams\" ID=\"tteams\" title=\"Team List\">";
     $teamQuery="SELECT teamname,id FROM user_teams WHERE id='{$userP['team_1']}' OR  id='{$userP['team_2']}' OR  id='{$userP['team_3']}'";
       $teamRes=mysql_query($teamQuery);
       while($row = mysql_fetch_assoc($teamRes))
-        {echo "<option value=\"{$row['id']}\">{$row['teamname']}</option>";}
-    echo "</select></td></tr>";
+        {echo "<option value=\"{$row['id']}\">".unstripAllString(strip_tags($row['teamname']),1)."</option>";}
+    echo "</select>".$tre;
     }
   else
-    {echo "<input \r\n"."type=\"hidden\" name=\"teamall\" value=\"1\"></td></tr>";}
+    {echo "<input \r\n"."type=\"hidden\" name=\"teamall\" value=\"1\">$tre";}
   if($tedit==1)
     {
-    echo "<tr><td \r\n".
-      "colspan=\"2\" align=\"center\"><input \r\n".
+    echo $tr.$td13a."<input \r\n".
       "type=\"submit\" name=\"mkPreview\" value=\"Preview Team Display\">&nbsp;&nbsp;&nbsp;<input \r\n".
       "type=\"submit\" name=\"mkMake\" value=\"Make Team\">&nbsp;&nbsp;&nbsp;<input \r\n".
-      "type=\"submit\" name=\"mkQuit\" value=\"Quit\"></td></tr></table></form>";
+      "type=\"submit\" name=\"mkQuit\" value=\"Quit\">".$tre.$tbe."</form>";
     }
   else
     {
-    echo "<tr><td \r\n".
-      "colspan=\"2\" align=\"center\"><input \r\n".
+    echo $tr.$td13a."<input \r\n".
       "type=\"submit\" name=\"edPreview\" value=\"Preview Changes\">&nbsp;&nbsp;&nbsp;<input \r\n".
       "type=\"submit\" name=\"edMake\" value=\"Save Changes\">&nbsp;&nbsp;&nbsp;<input \r\n".
-      "type=\"submit\" name=\"edQuit\" value=\"Quit\"></td></tr></table></form>";
+      "type=\"submit\" name=\"edQuit\" value=\"Quit\">".$tre.$tbe."</form>";
     }
   }
 
@@ -254,17 +287,19 @@ if (isset($etid) || isset($edPreview) || isset($edMake))
   // start display
   if (isset($etid))
     {
+    $htmlC->startHeader("User Teams");
     echo $beginPage;
     showEdit($userP,$tstart,unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),0,$ntid);
-    echo "</div></body></html>";
+    echo $closePage;
     }
   else if (isset($edPreview))
     {
+    $htmlC->startHeader("User Teams");
     echo $beginPage;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),0,$ntid);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,$ntid,stripAllString($teamname),stripAllString($text_data),0,$curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$pguser,1);
-    echo "</div></body></html>";
+    echo $closePage;
     }
   else if (isset($edMake))
     {
@@ -284,17 +319,19 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   if (isset($ctid))
     {
     // show creation interface
+    $htmlC->startHeader("User Teams");
     echo $beginPage;
     showEdit($userP,$tstart,"","",1,0);
-    echo "</div></body></html>";
+    echo $closePage;
     }
   else if (isset($mkPreview))
     {
+    $htmlC->startHeader("User Teams");
     echo $beginPage;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),1,0);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,0,stripAllString($teamname),stripAllString($text_data),0,0,0,time(),$pguser,$pguser,1);
-    echo "</div></body></html>";
+    echo $closePage;
     }
   else if (isset($mkMake))
     {
@@ -323,72 +360,68 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   exit;
   }
 
-/*
-  teamname varchar(30) NOT NULL default 'default',
-team_info TEXT NOT NULL,
-  createdby varchar(25) NOT NULL default '',
-  owner INT UNSIGNED NOT NULL REFERENCES users,
-  created  INT(20) NOT NULL default '0',
-  member_count  int(20) NOT NULL default '0',
-  page_count  int(20) NOT NULL default '0',
-avatar VARCHAR(25) NOT NULL default 'avatar_default.png',
-icon VARCHAR(25) NOT NULL default 'icon_default.png',
-*/
-
 // show a list of teams
-echo $beginPage;
+  $htmlC->startHeader("User Teams");
+  echo $beginPage;
 // the teams table query
   $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE id>$tstart ORDER BY id ASC LIMIT 20";
   $tResult=mysql_query($tQuery);
   $tRows=mysql_num_rows($tResult);
   $cellCount=0;
 // start display
-  echo "<table id=\"teamtable\" border=\"1\" cellpadding=\"10\"><tr><td colspan=\"6\" align=\"center\"><b>Teams</b></td></tr><tr>";
-  $teamRow="<td align=\"center\">Icon</td><td align=\"center\">ID</td><td align=\"center\" width=\"150\">Team Name</td>".
-    "<td align=\"center\">Total Members</td><td align=\"center\">Page Count</td><td align=\"center\">Options</td>";
+$td_ar=array($td2,$td3,$td6a,$td6);
+
+  echo $tb.$tr.$td7."<b>User Teams</b>".$tre.$tr;
+  $teamRow="$td2<b>Icon</b>$tde$td2<b>ID</b>$tde$td6a<b>Team Name</b>".
+    "$tde$td2<b>Total Members</b>$tde$td2<b>Page Count</b>$tde$td2<b>Options</b>";
   echo $teamRow;
   if ($tRows!=0)
   {
     for ($i=0;$i<$tRows;$i++)
       {
+        if (($i % 2)==0)
+          {$t_td1=$td_ar[1];$t_td2=$td_ar[3];}
+        else
+          {$t_td1=$td_ar[0];$t_td2=$td_ar[2];}
+
         $curTeam=mysql_fetch_assoc($tResult);
         $teamIcon=$curTeam['icon'];
         $teamID=$curTeam['id'];
         $teamName=$curTeam['teamname'];
-        echo "</tr>\r\n<tr>";
-        echo "<td><img src=\"./users/teams/icons/$teamIcon\" width=\"25\" height=\"25\" alt=\"".strip_tags($teamName)."\"></td>".
-          "<td><strong>$teamID</strong></td><td>$teamName</td>".
-          "<td align=\"center\">{$curTeam['member_count']}</td><td align=\"center\">{$curTeam['page_count']}</td><td>".
+        echo $tre."\r\n".$tr;
+        echo $t_td1."<img src=\"./users/teams/icons/$teamIcon\" width=\"25\" height=\"25\" alt=\"".strip_tags($teamName)."\">".
+          "$tde$t_td1<strong>$teamID</strong>$tde$t_td2$teamName$tde".
+          "$t_td1{$curTeam['member_count']}$tde$t_td1{$curTeam['page_count']}$tde$t_td1".
           "<b><a href=\"userteams.php?tid=$teamID&amp;tstart=$tstart\">View</a> ";
         if ($curTeam['id']!=1 && $userP['team_1']!=$curTeam['id'] && $userP['team_2']!=$curTeam['id'] && $userP['team_3']!=$curTeam['id'])
           {echo " <a href=\"userteams.php?jtid=$teamID\">Join</a></b>";}
         else if ($teamID !=1)
           {echo " <a href=\"userteams.php?qtid=$teamID\">Quit</a></b>";}
-        echo "</td>";
+        else {echo "</b>";}
         $cellCount++;
       } // end team display loop
 
   // finish off table
     for ($i=$cellCount;$i<20;$i++)
       {
-       echo "</tr>\r\n<tr>";
-        echo "<td></td><td></td><td></td><td></td><td></td><td></td>";
+       echo $tre."\r\n".$tr;
+        echo $td11.$tde.$td11.$tde.$td11.$tde.$td11.$tde.$td11.$tde.$td11;
       } // end finish cells
   } // end of are there any rows to display if
   else
   {
-    echo "</tr><tr><td colspan=\"6\" align=\"center\">";
-    echo "<strong>No more teams available.</strong></td>";
+    echo $tre.$tr.$td8."<strong>No more teams available.</strong>";
   }
-echo "</tr><tr><td colspan=\"3\">";
+echo $tre.$tr.$td9;
 // show back if needed
 if ($tstart!=0)
   {echo "<strong><a href=\"userteams.php?tstart=".($tstart-20)."\">Previous</a></strong>";}
 
-echo "</td><td colspan=\"3\" align=\"right\">";
-if ($tRows!=0)
+echo $tde.$td10;
+if ($tRows==20)
   {echo "<strong><a href=\"userteams.php?tstart=".($tstart+20)."\">Next</a></strong>";}
-echo "</td></tr></table><p><strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong></p></div></body></html>";
+echo $tre.$tbe."<br>".$tb2.$tr.$td3."<strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong>";
+echo $tre.$tbe.$closePage;
 
 
 
