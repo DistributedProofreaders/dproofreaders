@@ -85,7 +85,7 @@ function activityCenter($curProj) {
 		{
 			$available_state = PROJ_PROOF_SECOND_AVAILABLE;
 		}
-		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href=".$code_url."/c/tools/proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofing!</a></font></td></tr>\n";
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href=".$code_url."/c/tools/proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofreading!</a></font></td></tr>\n";
 	}
 
 //	Book is Posted

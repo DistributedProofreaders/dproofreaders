@@ -229,7 +229,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 	if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center><font color='".$theme['color_headerbar_font']."'><b>";
-	if ($tedit != 1) { echo "Edit Team Information</b></font></td></tr>"; } else { echo "New Proofing Team</b></font></td></tr>"; }
+	if ($tedit != 1) { echo "Edit Team Information</b></font></td></tr>"; } else { echo "New Proofreading Team</b></font></td></tr>"; }
 	echo "\n<tr><td><table border='0' cellspacing='0' cellpadding='0' width='100%'>";
 	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>Team Name</b>:&nbsp;</td>";
 	echo "<td width='65%' align='left'><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td></tr>";
