@@ -39,7 +39,7 @@ else
 	$orderclause = "";
 }
 
-echo "<a href =\"$url_base\">Default Sort Order </a>is Checked Out To and then Date Last Modified";
+echo "<a href ='$url_base'>Default Sort Order </a>is Checked Out To and then Date Last Modified";
 
 //get projects that have been checked out
 $result = mysql_query("
@@ -52,12 +52,15 @@ $result = mysql_query("
 $numrows = mysql_numrows($result);
 $rownum = 0;
 
-echo "<table cols=\"3\" border=\"1\">";
+echo "<table border='1'>";
 echo "
-	<td><b>#</b></td><td><b>Name of Work</b></td>
-	<td><b><a href =\"$url_base&order=checkedoutby\">Checked Out To</b></td>
-	<td><b><a href = \"$url_base&order=modifieddate\">Date Last Modified</a></b></td><td>User Last
-	Login</td><tr>
+	<tr>
+	<td><b>#</b></td>
+	<td><b>Name of Work</b></td>
+	<td><b><a href='$url_base&order=checkedoutby'>Checked Out To</a></b></td>
+	<td><b><a href='$url_base&order=modifieddate'>Date Last Modified</a></b></td>
+	<td>User Last Login</td>
+	</tr>
 ";
 
 $index = 0;
@@ -94,8 +97,13 @@ while ($rownum < $numrows)
 
 	$rownum++;
 	echo "
-		<td>$rownum</td><td width=\"200\">$nameofwork</td>
-		<td>$checkedoutby</td><td>$datestamp</td><td>$lastlogindate</td><tr>
+		<tr>
+		<td>$rownum</td>
+		<td width='200'>$nameofwork</td>
+		<td>$checkedoutby</td>
+		<td>$datestamp</td>
+		<td>$lastlogindate</td>
+		</tr>
 	";
 }
 
