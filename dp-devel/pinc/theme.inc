@@ -351,23 +351,18 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         	echo "<br><hr width='75%' align='center'><br>\n";
         	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Neighborhood:</u></font></center>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-		$i = $userP['u_neigh'];
-		if ($userindex <= 10) {
-			$i = $userindex;
-		}
-		while ($i > 0) {
-			echo "&nbsp;".$neighborhood['rank'][$userindex-$i].".) ".$neighborhood['username'][$userindex-$i]." - ".number_format($neighborhood['pages'][$userindex-$i])."<br>\n";
-			$i--;
 
-		}
-		echo "&nbsp;<b><i>".$neighborhood['rank'][$userindex].".) ".$neighborhood['username'][$userindex]." - ".number_format($neighborhood['pages'][$userindex])."</i></b><br>\n";
-		$i = 1;
-		if ($neighborhood['pages'][$userindex] != 0) {
-		while ($i <= $userP['u_neigh']) {
-			if (empty($neighborhood['username'][$userindex+$i])) { break; }
-			echo "&nbsp;".$neighborhood['rank'][$userindex+$i].".) ".$neighborhood['username'][$userindex+$i]." - ".number_format($neighborhood['pages'][$userindex+$i])."<br>\n";
-			$i++;
-		}
+		$N = $userP['u_neigh'];
+
+		for ( $i = -$N; $i < $N; $i++ )
+		{
+			$j = $userindex + $i;
+			if (!isset($neighborhood['username'][$j])) { continue; }
+			echo "&nbsp;";
+			if ($i==0) echo "<b><i>";
+			echo $neighborhood['rank'][$j].".) ".$neighborhood['username'][$j]." - ".number_format($neighborhood['pages'][$j]);
+			if ($i==0) echo "</i></b>";
+			echo "<br>\n";
 		}
 	}
 
