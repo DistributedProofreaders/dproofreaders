@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'v_site.inc');
+include_once($relPath.'page_tally.php');
 include_once($relPath.'theme.inc');
 include_once($relPath.'dp_main.inc');
 
@@ -17,12 +18,7 @@ function get_pages_proofed_maybe_simulated()
 {
     global $pguser;
 
-    $result = mysql_query("
-        SELECT pagescompleted
-        FROM users
-        WHERE username = '$pguser'
-    ") or die(mysql_error());
-    $pagesproofed = mysql_result($result,0);
+    $pagesproofed = user_get_page_tally( $pguser );
 
     if (isset($_GET['numofpages']))
     {

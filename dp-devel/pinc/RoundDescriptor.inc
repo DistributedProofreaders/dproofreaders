@@ -2,6 +2,7 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'page_tally.php');
 
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
 
@@ -170,12 +171,7 @@ class ProofingRoundDescriptor
 
             if ( is_null($n_pages_completed) )
             {
-                $result = mysql_query("
-                    SELECT pagescompleted
-                    FROM users
-                    WHERE username = '$username'
-                ");
-                $n_pages_completed = mysql_result($result,0);
+                $n_pages_completed = user_get_page_tally( $username );
             }
 
             if ( $n_pages_completed >= $this->minimum_user_pages )

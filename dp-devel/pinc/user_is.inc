@@ -1,4 +1,5 @@
 <?
+include_once($relPath.'page_tally.php');
 
 // This file is for functions that ascertain various things about the user?
 // (capabilities, roles)
@@ -75,10 +76,10 @@ function user_is_PP()
 
 	if (user_is_a_sitemanager()) return TRUE;
 
-	$result = mysql_query("SELECT postprocessor, pagescompleted FROM users WHERE username = '$pguser'");
+	$result = mysql_query("SELECT postprocessor FROM users WHERE username = '$pguser'");
 	if (mysql_num_rows($result) >= 1) {
 		if (mysql_result($result, 0, "postprocessor") == 'yes') { return TRUE; } 
-		elseif (mysql_result($result, 0, "pagescompleted") >= 400) { return TRUE; } 
+		elseif (user_get_page_tally($pguser) >= 400) { return TRUE; } 
 		else { return FALSE; }
 	} else {
 		return FALSE;
@@ -203,9 +204,7 @@ function user_can_see_BEGIN_in_round($round_number)
 
 	if (user_is_a_sitemanager() || user_is_proj_facilitator() ) return TRUE;
 
-	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
-	if (mysql_num_rows($result) >= 1) {
-		$n_pages = mysql_result($result, 0, "pagescompleted");
+		$n_pages = user_get_page_tally( $pguser );
 		switch ($round_number)
 		{
 			case 1:
@@ -218,9 +217,6 @@ function user_can_see_BEGIN_in_round($round_number)
 				return TRUE;
 				// The round-restriction is sufficient.
 		}
-	} else {
-		return FALSE;
-	}
 
 	$setting = "see_BEGIN_R$round_number";
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = '$setting'");

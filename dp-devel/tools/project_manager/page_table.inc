@@ -4,6 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
+include_once($relPath.'page_tally.php');
 
 function echo_page_table(
 	$projectid,
@@ -416,13 +417,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         }
         else if ($can_see_names_for_this_page)
         {
-
-                $R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
-                if (mysql_num_rows($R_ures) == 0) {
-                        $R_pages_completed = 0;
-                } else {
-                        $R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
-                }
+		$R_pages_completed = user_get_page_tally( $R_username );
 
                 $R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
                 if (mysql_num_rows($R_bbres) == 0) {

@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'v_site.inc');
+include_once($relPath.'page_tally.php');
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
@@ -27,9 +28,7 @@ function echo_hidden_fields( $npage )
 function ReportBadPage_button_should_be_shown( $npage, $username )
 {
     // Find out how many pages the user has proofread so far.
-    $pagessql = "SELECT pagescompleted FROM users WHERE username = '$username' LIMIT 1";
-    $res1 = mysql_query($pagessql);
-    $pagescompleted = mysql_result($res1, 0, "pagescompleted");
+    $pagescompleted = user_get_page_tally( $username );
 
     // get bad page code
     $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
