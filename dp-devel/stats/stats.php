@@ -54,8 +54,14 @@ echo "Daily pages: $dailyPages";
 $result = mysql_query("SELECT SUM(pages) AS monthlypages FROM pagestats WHERE month=".$today['mon']." AND year=".$today['year']."");
 $monthlyPages = number_format(mysql_result($result, 0, "monthlypages"));
 
+//Let's only update the monthly goal if it is the first day of the month and it is
+//between 0000 hours and 0300 hours (to allow for cron job delays).  Always update the monthly
+//goal if override_goal has been set
+if (($today['mday'] == 1 && ($today['hours'] >= 0 && $today['hours'] <= 3)) || $_GET['override_goal'] == 1) {
 $result = mysql_query("SELECT SUM(dailygoal) AS monthlygoal FROM pagestats WHERE year=".$today['year']." AND month=".$today['mon']."");
 $monthlyGoal = number_format(mysql_result($result, 0, "monthlygoal"));
+$updateMonthlyGoal = 1;
+}
 
 //Read the entire stats file into the $lines array
 $i=0;
@@ -64,7 +70,7 @@ $statsfile = fopen($stats_inc_path, "w");
 while ($i < count($lines)) {
 	if (substr($lines[$i], 12, 7) == "monthly") { fputs($statsfile, "\$sitestats['monthly'] = \"$monthlyPages\";\n"); }
 	elseif (substr($lines[$i], 12, 5) == "daily") {	fputs($statsfile, "\$sitestats['daily'] = \"$dailyPages\";\n");	}
-	elseif (substr($lines[$i], 12, 4) == "goal") {	fputs($statsfile, "\$sitestats['goal'] = \"$monthlyGoal\";\n");	}
+	elseif (substr($lines[$i], 12, 4) == "goal" && $updateMonthlyGoal == 1) { fputs($statsfile, "\$sitestats['goal'] = \"$monthlyGoal\";\n");	}
 	else { fputs($statsfile, trim($lines[$i])."\n"); }
 	$i++;
 	}
