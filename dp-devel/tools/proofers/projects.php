@@ -17,7 +17,7 @@ function recentlyproofed($project, $proofstate, $pguser,$userP) {
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>My Recently Proofread</h3></td>";
     $recentNum=5;
 
-    $sql = "SELECT image, fileid, ";
+    $sql = "SELECT image, fileid, state, ";
     $whichTime=$proofstate <9? "round1_time" : "round2_time";
     $sql.=$whichTime." FROM $project WHERE ";
     if ($proofstate <9) {$sql.="round1_user";} else {$sql.="round2_user";}
@@ -33,14 +33,16 @@ function recentlyproofed($project, $proofstate, $pguser,$userP) {
         $imagefile = mysql_result($result, $rownum, "image");
         $fileid = mysql_result($result, $rownum, "fileid");
         $timestamp = mysql_result($result, $rownum, $whichTime);
+        $pagestate = mysql_result($result, $rownum, "state");
         $newproject = "project=$project";
         $newfileid="&amp;fileid=$fileid";
         $newimagefile = '&amp;imagefile='.$imagefile;
         $newproofstate = '&amp;proofstate='.$proofstate;
+        $newpagestate = '&amp;pagestate='.$pagestate;
         $saved="&amp;saved=1";
         $editone="&amp;editone=1";
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$saved.$editone;
+        $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
         echo "<TD ALIGN=\"center\">";
         if ($userP['i_newwin']==0) {echo "<A HREF=\"$eURL\">";}
         else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}

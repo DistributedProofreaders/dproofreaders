@@ -1,4 +1,15 @@
-
+<?PHP
+include($relPath.'doctype.inc');
+include($relPath.'f_pages.inc');
+$tpage=new processpage();
+// set page
+$tpage->setPageState($pagestate,$project,$fileid,$imagefile);
+// get page
+$saved=isset($saved)? $saved:0;
+$revert=isset($revert)? $revert:0;
+$npage=$tpage->getText($pagestate,$saved,$revert);
+echo $docType."\r\n";
+?>
 <html><head><TITLE></TITLE></head><body><center><form method="post" action="processtext.php" target="_top">
 <script language="JavaScript">
 <!--
@@ -25,42 +36,20 @@ greekWin.focus();
 //-->
 </script>
 <?
-if ($userP['i_layout']==1)
-{$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
-else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
-$twrap=$twrap==1? '': " wrap=\"off\"";
-echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
-
-
-// depends on prooflevel
-if ($proofstate <9)
-{ if (isset($saved))
-  {$wText="round1_text";}
-  else {$wText="master_text";}
-}
-else {
-  if (isset($saved))
-  {$wText="round2_text";}
-  else {$wText="round1_text";}
-}
-$dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$imagefile'";
-    $result = mysql_query($dbQuery);
-    $myrow = mysql_fetch_row($result);
-    $text_data = mysql_result($result, 0, $wText);
-    if ($proofstate > 9 || isset($saved)) {
-        $text_data = strip_tags($text_data, '<i>&');
-    } else {
-        $search = array("'>'i", "'<'i");
-        $replace = array("*", "*");
-        $text_data = preg_replace($search, $replace, $text_data);
-    }
-    echo $text_data;
+// display text area
+    if ($userP['i_layout']==1)
+    {$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
+    else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
+  $twrap=$twrap==1? '': " wrap=\"off\"";
+  echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
+  echo $npage;
 ?></textarea>
 <BR>
 <?
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$imagefile\" name=\"imagefile\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$fileid\" name=\"fileid\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$proofstate\" name=\"proofstate\">";
+    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$pagestate\" name=\"pagestate\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$project\" name=\"projectname\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$lang\" name=\"lang\">";
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
@@ -75,24 +64,21 @@ TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Ro
 TYPE="submit" accesskey="4" name="button6" ID="button6" value="Report Bad Page" onclick="return(confirm('Are you sure you want to \r\nreport this page as bad?'));"><BR>
 <?
 //display page number
-echo "<B>Page Number: $pageNum ";
-    if ($proofstate > 9) {
+  echo "<B>Page Number: $pageNum ";
+    if ($proofstate > SAVE_PI_FIRST) {
         $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile' AND fileid='$fileid'");
         $username = mysql_result($result, 0, "round1_user");
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
         $user_id = mysql_result($result, 0, "user_id");   
         echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
     }
-echo "</B><BR>";
-    echo "View: <a href=\"projects.php?project=$project&amp;proofstate=$proofstate&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-    echo "Characters: ";
-    echo "<a href=\"#\" onclick=\"mNA()\">Extended</a> ";
-    echo "<a href=\"#\" onclick=\"mGR()\">Greek</a> ";
-    echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a> ";
+  echo "</B><BR>";
+  echo "View: <a href=\"projects.php?project=$project&amp;proofstate=$proofstate&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
+  echo "Characters: ";
+  echo "<a href=\"#\" onclick=\"mNA()\">Latin-1</a> ";
+  echo "<a href=\"#\" onclick=\"mGR()\">Greek</a> ";
+  echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a> ";
 ?>
 <br>
- Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)"></center>
-
-</form>
-
-</body></html>
+ Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)">
+</form></center></body></html>

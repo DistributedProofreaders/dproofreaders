@@ -26,14 +26,21 @@ echo $optP;}
 type="text" value="<? 
 if ($userP['i_layout']==1)
 {echo $userP['v_zoom'];} else{echo $userP['h_zoom'];}?>" name="zmSize" ID="zmSize" size="3" title="Input Zoom %"><INPUT 
-TYPE="image" name="button35" ID="button35" size="26" alt="Set Image Zoom Percent" title="Set Image Zoom Percent" onclick="return(showIZ())" src="gfx/bt10.png">&nbsp;<a 
-href="#" onclick="doRV()"><img 
-src="gfx/bt8.png" width="26" height="26" border="0" alt="Revert to Original Document" title="Revert to Original Document"></a>&nbsp;<a href="#" onclick="udoRV()"><img 
-src="gfx/bt7.png" width="26" height="26" border="0" alt="Undo Revert" title="Undo Revert"></a>&nbsp;<a href="#" onclick="showNW()"><img 
+TYPE="image" name="button35" ID="button35" size="26" alt="Set Image Zoom Percent" title="Set Image Zoom Percent" onclick="return(showIZ())" src="gfx/bt10.png">&nbsp;<INPUT 
+TYPE="image" accesskey="1" name="button8" ID="button8" size="26" alt="Revert to Original Document" title="Revert to Original Document" onclick="return(confirm('Are you sure you want to \r\nrevert to the original text for this round?'));" src="gfx/bt8.png">&nbsp;<?PHP
+if ($revert==1 || $saved==1) {
+echo "<INPUT \r\nTYPE=\"image\" accesskey=\"2\" name=\"button9\" ID=\"button9\" size=\"26\" alt=\"Undo Revert\" title=\"Undo Revert\" ".
+"onclick=\"return(confirm('Are you sure you want to \\r\\nrevert to your last save?'));\" src=\"gfx/bt7.png\">&nbsp;";}
+?><a href="#" onclick="showNW()"><img 
 src="gfx/bt9.png" width="26" height="26" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a 
 href="projects.php?project=<?PHP echo "$project&amp;proofstate=$proofstate"; ?>&amp;proofing=1" TARGET="viewcomments"><img 
-src="gfx/bt12.png" width="26" height="26" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<a href="#" onclick="cFCE()"><img 
-src="gfx/bt6.png" width="26" height="26" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;<INPUT 
+src="gfx/bt12.png" width="26" height="26" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<?PHP 
+// temp disabled
+/*
+<a href="#" onclick="cFCE()"><img 
+src="gfx/bt6.png" width="26" height="26" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;
+*/
+?><INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" size="26" alt="Save and Change Interface Layout" title="Save and Change Interface Layout" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" src="gfx/bt<?PHP if ($userP['i_layout']==1) {echo "5";} else {echo "4";} ?>.png">&nbsp;<INPUT 
 TYPE="image" accesskey="3" name="button7" ID="button7" size="26" alt="Return Page to Current Round" title="Return Page to Current Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));" src="gfx/bt15.png">&nbsp;<INPUT 
 TYPE="image" accesskey="4" name="button6" ID="button6" size="26" alt="Report Bad Page" title="Report Bad Page" onclick="return(confirm('Are you sure you want to \r\nreport this page as bad?'));" src="gfx/bt14.png">&nbsp;<INPUT 
