@@ -58,7 +58,8 @@ $max_update = mysql_result($result,0,0);
 		while($row = mysql_fetch_assoc($result)) {
 			if ($row['id'] != 1) {
 				$team_id = $row['id'];
-				$updateRank = mysql_query("UPDATE user_teams_stats SET rank = ".$rankArray['rank'][$team_id]." WHERE team_id = ".$row['id']." && date_updated = $midnight");
+				$rank = $rankArray['rank'][$team_id];
+				$updateRank = mysql_query("UPDATE user_teams_stats SET rank = $rank WHERE team_id = $team_id && date_updated = $midnight");
 			}
 		}
 	}
