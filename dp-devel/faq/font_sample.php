@@ -18,7 +18,7 @@ other fonts. For information on installing and using the font, read the <? echo 
 <P><FONT FACE="DPCustomMono2, Times New Roman, Times, serif">If you already have the font
 installed, you will see this sentence in the DPCustomMono2 typeface.
 If this sentence looks normal, you can download DPCustomMono2 from
-HERE (right click the link, and choose &ldquo;Save to Disk&rdquo;).</FONT></P>
+<a href="DPCustomMono2.ttf">here</a> (right click the link, and choose &ldquo;Save to Disk&rdquo;).</FONT></P>
 <P><BR><BR>
 </P>
 <TABLE WIDTH=1108 BORDER=0 CELLPADDING=4 CELLSPACING=0>
