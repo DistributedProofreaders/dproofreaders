@@ -123,7 +123,10 @@ if (!$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
     echo "<p><font face='{$theme['font_mainbody']}'>\n";
-    include('special_legend.php');
+    if (!isset($state_sql)) {
+        $state_sql = " (state = '{$prd->project_available_state}') ";
+    }
+    echo_special_legend($state_sql);
     echo "</font></p><br>\n";
 }
 
