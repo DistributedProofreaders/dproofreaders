@@ -155,6 +155,9 @@ function project_add_page(
     $image_file_name_e = addslashes( $image_file_name );
     $txt_file_path_e = addslashes( $txt_file_path );
 
+    $prd = get_PRD_for_round(1);
+    $page_state = $prd->page_avail_state;
+
     $errs = '';
 
     $sql = "
@@ -164,7 +167,7 @@ function project_add_page(
             image       = '$image_file_name',
             master_text = LOAD_FILE('$txt_file_path_e'),
             round1_time = $now,
-            state       = '".AVAIL_FIRST."'
+            state       = '$page_state'
     ";
     // echo $sql, "\n";
     $res = mysql_query($sql);
@@ -183,7 +186,7 @@ function project_add_page(
                     image       = '$image_file_name',
                     master_text = LOAD_FILE('$txt_file_path_e'),
                     round1_time = $now,
-                    state       = '".AVAIL_FIRST."'
+                    state       = '$page_state'
             ";
         $res = mysql_query($sql);
         if (!$res)
