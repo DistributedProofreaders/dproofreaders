@@ -13,7 +13,7 @@ if ($good_login != 1) {
     $prooflevel = $_GET['prooflevel'];
 
     //connect to database
-    import '../../connect.php';
+    include '../../connect.php';
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");

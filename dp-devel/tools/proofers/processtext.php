@@ -21,7 +21,7 @@ if ($good_login != 1) {
     $text_data = strip_tags($text_data, '<i>');
     $orient = $_POST['orient'];
 
-    import '../../connect.php';
+    include '../../connect.php';
 
     $result = mysql_query("SELECT state FROM projects WHERE projectid = '$project'");
     $state = mysql_result($result, 0, "state");

@@ -21,7 +21,7 @@ if ($good_login != 1) {
     echo "<HTML><HEAD><TITLE>Proofers Page</TITLE></HEAD><font color=\"#000f00\">";
 
     //Make sure project is still available
-    import '../../connect.php';
+    include '../../connect.php';
 
     $sql = "SELECT * FROM projects WHERE projectid = '$project' LIMIT 1";
     $result = mysql_query($sql);

@@ -9,7 +9,7 @@ if ($good_login != 1) {
     echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\"></head><body></body></html>"; 
 } else {
     ///connect to database
-    import '../../connect.php';
+    include '../../connect.php';
 
     echo "<html>";
     echo "<title>Personal Page for $pguser</title>";
