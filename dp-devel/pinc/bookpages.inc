@@ -1,12 +1,15 @@
 <?
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'user_is.inc');
 
 $pageCountArray = "";
 
-$result = mysql_query("SELECT COUNT(projectid) AS isEmpty FROM page_counts");
-$isEmpty = mysql_result($result, 0, "isEmpty");
-if (empty($isEmpty)) { updatePageCountsTable(); }
+if ((user_is_a_sitemanager()) || (substr($_SERVER['PHP_SELF'], -14) == "automodify.php")) {
+	$result = mysql_query("SELECT COUNT(projectid) AS isEmpty FROM page_counts");
+	$isEmpty = mysql_result($result, 0, "isEmpty");
+	if (empty($isEmpty)) { updatePageCountsTable(); }
+}
 
 function checkRowExistence($projectid) {
 	$result = mysql_query("SELECT COUNT(projectid) AS rowExists FROM page_counts WHERE projectid = '$projectid'");
