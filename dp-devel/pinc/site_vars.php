@@ -52,10 +52,17 @@ $auto_email_addr = $general_help_email_addr;
 
 // -----------------------------------------------------------------------------
 
+$pagesneeded = 20000; //Total pages available for proofing at one time
+$noneng_pagesneeded = 8000; //Total pages of Non English pages out of $pagesneeded
+$eng_pagesneeded = 10000; //Total pages of English pages out of $pagesneeded
+$beginners_projects = 1; //Total number of beginners projects available at one time
+$easy_projects = 5; //Total number of easy projects available at one time
+
+// -----------------------------------------------------------------------------
+
 $testing = <<TESTING>>;
 // So far, the effects of setting $testing to TRUE are:
 // (1) It prevents email messages from being sent. Instead, the site shows a
 //     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 // (2) metarefresh delays by 15 seconds.
-
 ?>
