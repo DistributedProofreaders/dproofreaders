@@ -284,14 +284,14 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
             echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=0\">Project Comments & Start Proofing</a></td>";
-            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"editone/listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
+            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
         } else if (($availablepages == 0) || ($state == 2)) {
 
             // NOTE: Leave space before <tr> in there, needed for client.
             echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
             echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"editone/listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
+            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
 
         } else $rownum--;
         $rownum++;
@@ -348,14 +348,14 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
             echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=2\">Project Comments & Start Proofing</a></td>";
-            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"editone/listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
+            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
         } else if ($availablepages == 0) {
 
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
             echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"editone/listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
+            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
 
         } else $rownum--;
         $rownum++;

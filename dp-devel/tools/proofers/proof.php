@@ -9,6 +9,7 @@ include($relPath.'dp_main.inc');
     $imagefile = gtog('imagefile');
     $js=gtog('js');
     $saved=gtog('saved');
+    $editone=gtog('editone');
 
 
 if (!isset($saved))
@@ -48,6 +49,7 @@ if (!isset($saved))
         }
 
 }
+
             $fileid = '&fileid='.$fileid;
             $imagefile = '&imagefile='.$imagefile;
             $newprooflevel = '&prooflevel='.$prooflevel;
@@ -57,10 +59,12 @@ if (!isset($saved))
             $lang=isset($lang)? $lang:'1';
             $lang="&lang=$lang";
 
-$frame1=isset($saved)? 'saved':'imageframe';
+$frame1=isset($saved) && (!isset($editone))? 'saved':'imageframe';
             $frame1 = $frame1.'.php?project='.$project.$imagefile.$newjs;
             $frame3 = 'textframe.php?project='.$project.$imagefile.$fileid.$newprooflevel.$lang.$newjs;
 if (isset($orient)) {$neworient="&orient=$orient"; $frame1.=$neworient;$frame3.=$neworient;}
+if (isset($editone)) {$editone="&editone=$editone"; $frame3.=$editone;}
+
 if ($js)
 {
 $fntF=gtog('fntF');
@@ -71,7 +75,6 @@ $fntF=isset($fntF)? $fntF:'0';
 $fntS=isset($fntS)? $fntS:'0';
 $sTags=isset($sTags)? $sTags:'1';
 $zmSize=isset($zmSize)? $zmSize:'100';
-//echo $fntF;
 $prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
 $frame3=$frame3.$prefTags;
 }

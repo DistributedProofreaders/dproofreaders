@@ -30,6 +30,7 @@ echo $sHidFS.$fntF.$sHidFM.'fntF'.$sHidFM2.'fntF'.$sHidFE;
 echo $sHidFS.$fntS.$sHidFM.'fntS'.$sHidFM2.'fntS'.$sHidFE;
 //echo $sHidFS.$zmSize.$sHidFM.'zmSize'.$sHidFM2.'zmSize'.$sHidFE;
 echo $sHidFS.$sTags.$sHidFM.'sTags'.$sHidFM2.'sTags'.$sHidFE;
+if (isset($editone)) { echo $sHidFS.$editone.$sHidFM.'editone'.$sHidFM2.'editone'.$sHidFE;}
 ?>
 <TABLE 
 CELLPADDING="0" CELLSPACING="0">

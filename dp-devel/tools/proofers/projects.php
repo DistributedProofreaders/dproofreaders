@@ -31,7 +31,7 @@ else {newWidth=600;newHeight=450;}
 newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width="+newWidth+",height="+newHeight+",top=0,left=5'";
 nwWin=window.open(winURL,"prooferWin",newFeatures);}
 // -->
-</SCRIPT></HEAD></BODY>
+</SCRIPT></HEAD><BODY>
 <?PHP
 include('./projects_menu.inc');
 ?>

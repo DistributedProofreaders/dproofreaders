@@ -39,8 +39,11 @@ $dbQuery.="_text FROM $project WHERE fileid = '$fileid'";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$lang\" name=\"lang\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$js\" name=\"js\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$orient\" name=\"orient\">";
+if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
 ?>
-<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1"> <INPUT TYPE="Submit" accesskey="8" VALUE="Save and Do Another" name="button2"> <INPUT TYPE="Submit" accesskey="9" VALUE="Quit" name="button3"><BR>
+<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1"> <?PHP 
+if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\"> ";}
+?><INPUT TYPE="Submit" accesskey="9" VALUE="Quit" name="button3"><BR>
 <?
     echo "View: <a href=\"viewprojectcomments.php?project=$project\" target=\"comments\">Project Comments</a> ";
     echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a>";

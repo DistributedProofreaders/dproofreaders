@@ -18,6 +18,7 @@ include($relPath.'dp_main.inc');
     $button2_x = ptog('button2_x');
     $button3_x = ptog('button3_x');
     $button4_x = ptog('button4_x');
+    $editone = ptog('editone');
 
 if ($js==1)
 {
@@ -130,6 +131,7 @@ $saved='&saved=1';
   } // end change layout button 4
 $orient = '&orient='.$orient;
 $frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$orient.$lang.$js.$saved;
+if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
 echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\"></HEAD><BODY>"; 
 
@@ -144,6 +146,7 @@ $js='&js='.$js;
 $lang='&lang='.$lang;
 $orient = '&orient='.$orient;
 $frame1 = 'proof.php?'.$project.$prooflevel.$orient.$lang.$js;
+if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
 echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\" TARGET=\"_top\"></HEAD><BODY>"; 
 } // end save and do another button 2
