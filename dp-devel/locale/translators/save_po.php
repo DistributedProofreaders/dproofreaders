@@ -13,6 +13,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
     $lang = $_POST['lang'];
     chdir("$dyn_locales_dir/$lang/LC_MESSAGES/");
+    $translation = parse_po(file("messages.po"));
     $result = mysql_query("SELECT real_name, email FROM users WHERE username = '$pguser'");
     $real_name = mysql_result($result, 0, "real_name");
     $email_addr = mysql_result($result, 0, "email");
@@ -31,15 +32,21 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
     	$i = 0;
     	while ($i <= $_POST['numofTranslations']) {
-    		$translation_location = unserialize(base64_decode($_POST['location_'.$i]));
-    		$translation_msgid = unserialize(base64_decode($_POST['msgid_'.$i]));
-    		$translation_msgstr = str_replace("\n", "\"\n\"", $_POST['msgstr_'.$i]);
-    		$translation_msgstr = stripslashes($translation_msgstr);
+            if($_POST['location_'.$i]) {
+                $translation_location = unserialize(base64_decode($_POST['location_'.$i]));
+                $translation_msgid = unserialize(base64_decode($_POST['msgid_'.$i]));
+                $translation_msgstr = str_replace("\n", "\"\n\"", $_POST['msgstr_'.$i]);
+                $translation_msgstr = stripslashes($translation_msgstr);
+            } else {
+                $translation_location = $translation['location'][$i];
+                $translation_msgid = $translation['msgid'][$i];
+                $translation_msgstr = $translation['msgstr'][$i];
+            }
  
-    		fputs($po_file, $translation_location);
-    		fputs($po_file, "msgid \"$translation_msgid\"\n");
-    		fputs($po_file, "msgstr \"$translation_msgstr\"\n\n");
-    		$i++;
+    	    fputs($po_file, $translation_location);
+    	    fputs($po_file, "msgid \"$translation_msgid\"\n");
+    	    fputs($po_file, "msgstr \"$translation_msgstr\"\n\n");
+    	    $i++;
     	}
     	fclose($po_file);
 
@@ -86,16 +93,16 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
     exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C -L PHP 2>&1",$exec_out,$ret_var);
 
     if($ret_var) {
-                echo "<center>"._("Strings <b>not</b> rebuilt!")."</center><br>"._("Following error is given:")."<br><br>";
-                echo "<pre>";
-                foreach($exec_out as $v)
-                        echo $v."\n";
-                echo "</pre><br>";
-        } else {
+        echo "<center>"._("Strings <b>not</b> rebuilt!")."</center><br>"._("Following error is given:")."<br><br>";
+        echo "<pre>";
+        foreach($exec_out as $v)
+            echo $v."\n";
+        echo "</pre><br>";
+    } else {
     	$i=4;
     	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po");
     	$po_file = fopen("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po", "w");
-    	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
+    	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments']?$_POST['comments']:$translation['comments'])."\n");
     	while ($i < count($lines)) {
     		fputs($po_file, $lines[$i]);
     		$i++;
