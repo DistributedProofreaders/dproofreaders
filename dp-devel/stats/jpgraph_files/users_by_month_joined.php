@@ -29,10 +29,10 @@ $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
 	$row = mysql_fetch_object($result);
-        $data1y[$count] = $row->num_who_joined;
-        $datax[$count] = $row->month;
-        $data2y[$count] = $row->num_who_proofed;
-	$data3y[$count] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
+        $data1y[] = $row->num_who_joined;
+        $datax[]  = $row->month;
+        $data2y[] = $row->num_who_proofed;
+	$data3y[] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
             $count++;
         }
 
