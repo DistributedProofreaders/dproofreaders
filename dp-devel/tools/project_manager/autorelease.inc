@@ -96,33 +96,33 @@ function autorelease()
 	error_reporting(E_ALL);
 
 	// You can easily imagine this data coming from a DB table.
-	$categories = array(
+	$queue_defns = array(
 		array(
 			// Beginners Projects
 			// Always have a certain number of pages available in round 1
-			'projtype_desc' => "Beginners Only",
-			'projtype_sql'  => "username = 'BEGIN'",
+			'name' => "Beginners Only",
+			'project_selector'  => "username = 'BEGIN'",
 			'release_criterion' => "pages1 < {$GLOBALS['beginners_pagesneeded']}",
 		),
 		array(
 			// Easy English Projects
 			// Always have a certain number of projects in first round
-			'projtype_desc' => "EASY English",
-			'projtype_sql'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
+			'name' => "EASY English",
+			'project_selector'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
 			'release_criterion' => "projects1 < {$GLOBALS['easy_projects']} or pages1 < 500",
 		),
 		array(
 			// Non-English Projects
 			// Always have a certain number of pages spread over the two rounds
-			'projtype_desc' => "Non English",
-			'projtype_sql'  => "language NOT LIKE 'English%'",
+			'name' => "Non English",
+			'project_selector'  => "language NOT LIKE 'English%'",
 			'release_criterion' => "pages1 + pages2 < {$GLOBALS['noneng_pagesneeded']}",
 		),
 		array(
 			// English Projects
 			// Always have a certain number of pages spread over the two rounds
-			'projtype_desc' => "English",
-			'projtype_sql'  => "language LIKE 'English%'",
+			'name' => "English",
+			'project_selector'  => "language LIKE 'English%'",
 			'release_criterion' => "pages1 + pages2 < {$GLOBALS['eng_pagesneeded']}",
 		),
 		array(
@@ -130,33 +130,33 @@ function autorelease()
 			// Make sure we have a total of at least X pages spread out over
 			// the two rounds; if there's any room left, just release projects
 			// from the front of the queue until we have enough pages out.
-			'projtype_desc' => "Extra", // Total?
-			'projtype_sql'  => "1",
+			'name' => "Extra", // Total?
+			'project_selector'  => "1",
 			'release_criterion' => "pages1 + pages2 < {$GLOBALS['pagesneeded']}",
 		),
 	);
 
-	foreach ($categories as $cat)
+	foreach ($queue_defns as $qd)
 	{
-		$projtype_desc = $cat['projtype_desc'];
-		$projtype_sql  = $cat['projtype_sql'];
-		$release_criterion = $cat['release_criterion'];
+		$q_name            = $qd['name'];
+		$project_selector  = $qd['project_selector'];
+		$release_criterion = $qd['release_criterion'];
 
-		// Release available projects of a given type (defined by $projtype_sql)
+		// Release available projects of a given type (defined by $project_selector)
 		// as long as the $release_criterion is true for projects of that type.
 
-		// $projtype_desc       human readable string describing this type of project
-		// $projtype_sql        portion of WHERE clause that defines this type of project
+		// $q_name       human readable string describing this type of project
+		// $project_selector        portion of WHERE clause that defines this type of project
 		// $release_criterion   logical expression using projects1|2, pages1|2
 
 		echo "\n";
-		echo "Considering $projtype_desc projects...\n";
+		echo "Considering $q_name projects...\n";
 		echo "\n";
-		echo "    For projects matching: $projtype_sql\n";
+		echo "    For projects matching: $project_selector\n";
 		echo "    release if: $release_criterion\n";
 
 		// Does the $release_criterion allow us to release any projects?
-		if (! AP_evaluate_criteria( $projtype_sql, $release_criterion ) )
+		if (! AP_evaluate_criteria( $project_selector, $release_criterion ) )
 		{
 			echo "    The release criterion fails, so no projects released in this category.\n";
 			continue;
@@ -168,7 +168,7 @@ function autorelease()
 		$waiting_res = mysql_query("
 			SELECT *
 			FROM projects
-			WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql
+			WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $project_selector
 			ORDER BY modifieddate ASC
 		");
 		if (mysql_num_rows($waiting_res) == 0)
@@ -220,14 +220,14 @@ function autorelease()
 			// in other categories.)
 			AP_add_project( $project['projectid'] );
 
-			if (! AP_evaluate_criteria( $projtype_sql, $release_criterion ) )
+			if (! AP_evaluate_criteria( $project_selector, $release_criterion ) )
 			{
 				echo "    The release criterion now fails, so no further projects released in this category.\n";
 				break;
 			}
 		}
 
-		echo "    Released <b>$num_projects_released</b> $projtype_desc projects.\n";
+		echo "    Released <b>$num_projects_released</b> $q_name projects.\n";
 	}
 
         echo "</pre>\n";
@@ -303,7 +303,7 @@ function AP_add_project( $projectid )
 	") or die(mysql_error());
 }
 
-function AP_evaluate_criteria( $projtype_sql, $release_criterion )
+function AP_evaluate_criteria( $project_selector, $release_criterion )
 {
 	// Get the criterion-evaluation environment
 	// (values for projects1|2, pages1|2)
@@ -314,7 +314,7 @@ function AP_evaluate_criteria( $projtype_sql, $release_criterion )
 				SUM(active_page_counts.pages1) as pages1,
 				SUM(active_page_counts.pages2) as pages2
 			FROM projects NATURAL JOIN active_page_counts
-			WHERE $projtype_sql
+			WHERE $project_selector
 		") or die(mysql_error());
 	$env = mysql_fetch_assoc($res);
 	// print_r($env);
