@@ -31,7 +31,6 @@ dpsql_query("
     INSERT INTO past_tallies
     SELECT date_updated, 'U', u_id, 'P', daily_pagescompleted, total_pagescompleted, rank
     FROM member_stats
-    ORDER BY u_id
 ") or die("Aborting.");
 
 // For ease of backing out during testing,
@@ -49,7 +48,6 @@ dpsql_query("
     INSERT INTO past_tallies
     SELECT date_updated, 'T', team_id, 'P', daily_page_count, total_page_count, rank
     FROM user_teams_stats
-    ORDER BY team_id
 ") or die("Aborting.");
 
 // For ease of backing out during testing,
