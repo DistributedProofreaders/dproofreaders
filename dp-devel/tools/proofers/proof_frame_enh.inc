@@ -283,32 +283,10 @@ id="controlframe" align="center"><form
       echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
     }
   echo "</b></font>";
-  $temp_image_name = str_pad(($npage['image']+1),3,0,STR_PAD_LEFT);
-echo <<<OUT
-
+?>
   </td>
   </tr>
   </table>
   </form>
   </div>
-  <!-- the following is a hack, to be replaced by a function that 
-  	predicts which image the user will need, then preload that. -->
-  <script type="text/javascript" language="JavaScript">
-  <!-- 
-  var temp_timeout = setTimeout("preload_tempimage()", 10000);
-  function preload_tempimage()
-  {
-  	if (document.images)
-  	{
-  		// pre-load an image
-  		temp_image = new Image();
-  		temp_image.src = "{$projects_url}/{$npage['project']}/{$temp_image_name}.png";
-  	}
-  clearTimeout(temp_timeout);
-  }
-  -->
-  </script>
-  
-OUT;
-?>
 </body></html>
