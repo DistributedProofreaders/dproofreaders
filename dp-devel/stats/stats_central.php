@@ -6,7 +6,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 
-$title = _("(Test) Statistics Central");
+$title = _("Statistics Central");
 theme($title,'header');
 //Member/team stats
 
