@@ -218,6 +218,8 @@ function showBBProfile($curMbr) {
 	while( list( $condition, $label, $icon_filename, $url, $target ) = next($contact_data) )
 	{
 		global $theme;
+
+		if (!$condition) continue;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
 		$img_tag = "<img src='$icon_path' alt='$label ".$curMbr['username']."' border='0'>";
