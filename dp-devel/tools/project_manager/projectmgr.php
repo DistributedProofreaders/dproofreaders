@@ -232,7 +232,7 @@ abort_if_not_manager();
 		     {
             		$name = mysql_result($result, $rownum, "nameofwork");
             		$author = mysql_result($result, $rownum, "authorsname");
-                        $diff = substr(mysql_result($result, $rownum, "difficulty"),0,1);
+                        $diff = substr(mysql_result($result, $rownum, "difficulty"),0,5);
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
 
@@ -251,7 +251,7 @@ abort_if_not_manager();
 			echo "<td>$author</td>\n";
 
 			// Difficulty
-			echo "<td>$diff</td>\n";
+			echo "<td align=\"center\">$diff</td>\n";
 
 
 			// Left
