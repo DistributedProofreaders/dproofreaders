@@ -190,7 +190,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		echo "<a href='".$GLOBALS['forums_url']."/".lang_forum()."'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>"._("Your language forums")."</font></a>";
 		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	}
-	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("Inbox") ;
+	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("My Inbox") ;
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
 	echo "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
