@@ -16,6 +16,9 @@ $projects_url = '<<PROJECTS_URL>>';
 $dynstats_dir = '<<DYNSTATS_DIR>>';
 $dynstats_url = '<<DYNSTATS_URL>>';
 
+$xmlfeeds_dir = '<<DYNSTATS_DIR>>';
+$xmlfeeds_url = '<<DYNSTATS_URL>>';
+
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
 $projects_forum_url        = "$forums_url/viewforum.php?f=2";
