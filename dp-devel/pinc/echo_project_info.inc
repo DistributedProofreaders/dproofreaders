@@ -13,6 +13,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	global $code_url, $pguser, $userP;
 
 	$prd = get_PRD_for_project_state($proofstate);
+	// Note that $prd may be NULL;
 
 	echo "<table border=1 width=630>";
 
@@ -28,7 +29,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	// The state of the project
 
 	$right = project_states_text($project['state']);
-	if ($proofstate != 'proj_post')
+	if ($prd)
 	{
 		$extra = $prd->description;
 		$right = "$right ($extra)";
@@ -91,7 +92,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	// -------------------------------------------------------------------------
 	// Current activity
 
-	if ($proofstate != 'proj_post')
+	if ($prd)
 	{
 		$proofdate = mysql_query("
 			SELECT {$prd->time_column_name}
