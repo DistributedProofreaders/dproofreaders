@@ -16,6 +16,8 @@ include($relPath.'project_edit.inc');
     $sql = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
     $project = mysql_fetch_assoc($sql);
     $oldstate = $project['state'];
+    $nameofwork = $project['nameofwork'];
+    $author = $project['authorsname'];
 
     abort_if_cant_edit_project( $projectid );
 
@@ -26,8 +28,8 @@ include($relPath.'project_edit.inc');
     if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.
-	echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
-	print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+	echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.';
+	print "<P>Are you sure you want to change this state and delete $nameofwork by $author ($projectid)? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
     }
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
