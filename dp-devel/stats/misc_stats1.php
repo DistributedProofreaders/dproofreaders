@@ -89,7 +89,7 @@ dpsql_dump_themed_ranked_query("
 echo "<br>\n";
 
 $sub_title = _("Total Pages Proofread Per Month");
-echo "<h3></h3>\n";
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_themed_ranked_query("
 	SELECT
