@@ -16,7 +16,7 @@ include_once('projectmgr_select.inc');
 
 
 
-if (empty($_GET['show'])) {
+if (empty($_GET['show']) && empty($_GET['up_projectid'])) {
 	if ($userP['i_pmdefault'] == 0) {
 		metarefresh(0,"projectmgr.php?show=all","","");
 		exit();
@@ -34,7 +34,10 @@ abort_if_not_manager();
 
 
 
-	if ( !isset($_GET['show']) || $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
+	  if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
+              $_GET['show'] == 'search_form' || 
+             ($_GET['show'] == '' && $_GET['up_projectid'] == '' )) {
+
 		echo_manager_header('project_search_page');
 
 		echo "
@@ -129,6 +132,8 @@ abort_if_not_manager();
 
         	if ($_GET['show'] == "site" && $can_see_all) {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
+        	} elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
+			$condition = " 1 ";
         	} elseif ($_GET['show'] == "all") {
 			$condition = "username = '$pguser'";
 		} elseif ($_GET['show'] == 'search') {
@@ -181,6 +186,26 @@ abort_if_not_manager();
         	} else {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
+
+
+        	if (isset($_GET['up_projectid'])) {
+                 $up_projectid = $_GET['up_projectid'];
+                 $can_see_this_uber = $can_see_all;
+                 if (!$can_see_this_uber) {
+                     $UP_ok_qry = mysql_query("
+                         SELECT * FROM uber_projects up, usersettings us
+                         WHERE us.username = '$pguser' AND
+                             us.setting  = 'up_manager' AND
+                             us.value = up.up_projectid AND
+                             up.up_projectid > 0
+                    ");
+                    $can_see_this_uber = mysql_num_rows($UP_ok_qry);
+                 }
+                 if ($can_see_this_uber) {
+                     $condition .= " AND up_projectid = '$up_projectid' ";
+                 }
+             }
+
 		$result = mysql_query("
 			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username, comments, special
 			FROM projects
@@ -396,7 +421,7 @@ abort_if_not_manager();
 		     }
         	   }
 		}
-		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+		echo "<tr><td colspan=7 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
 
 		// special colours legend
 		// Don't display if the user has selected the
@@ -414,17 +439,29 @@ abort_if_not_manager();
 		}
 
 
-             // if the user is currently the UP_manager of any Uber Projects, display them
+             // site managers and project facilitors can see all uber projects
 
-             // note that the Settings class can't handle lists of values, nor joins to other tables,
-             // so we go directly to the user_settings table instead
+             if ($can_see_all) {
 
-             $UPs = mysql_query("
-                 SELECT * FROM uber_projects up, usersettings us
-                 WHERE us.username = '$pguser' AND
-                       us.setting  = 'up_manager' AND
-                       us.value = up.up_projectid
-             ");
+                 $UPs = mysql_query("
+                     SELECT * FROM uber_projects WHERE up_enabled = 1
+                 ");
+
+             } else {
+
+                 // if the user is currently the UP_manager of any Uber Projects, display them
+
+                 // note that the Settings class can't handle lists of values, nor joins to other tables,
+                 // so we go directly to the user_settings table instead
+
+                 $UPs = mysql_query("
+                     SELECT * FROM uber_projects up, usersettings us
+                     WHERE us.username = '$pguser' AND
+                          us.setting  = 'up_manager' AND
+                          us.value = up.up_projectid
+                 ");
+
+             }
 
              if (mysql_num_rows($UPs)) {
 
@@ -435,12 +472,22 @@ abort_if_not_manager();
                  echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
 
                  echo "<tr>";
-                 echo_header_cell( 200, _("Overall Name of Uber Project") );
-                 echo_header_cell( 75, _("Number of Projects") );
-                 echo_header_cell( 55, _("Number of PMs") );
-                 echo_header_cell( 30, _("Forum Thread") );
-                 echo_header_cell(  30, _("Options") );
+                 echo_header_cell( 300, _("Overall Name of Uber Project") );
+                 echo_header_cell( 75,  _("Your Active Related Projects") );
+                 echo_header_cell( 55,  _("All Your Related Projects") );
+                 echo_header_cell( 75,  _("All Active Related Projects") );
+                 echo_header_cell( 55,  _("All Related Projects") );
+                 echo_header_cell( 55,  _("Project Managers") );
+                 echo_header_cell( 30,  _("Forum Thread") );
+                 echo_header_cell( 30,  _("Options") );
                  echo "</tr>";
+
+
+                 if (!$can_see_all) { 
+                     $limit_to_user = " ";
+                 } else {
+                     $limit_to_user = " ";
+                 }
 
                  while ($UPinfo = mysql_fetch_assoc($UPs)) {
 
@@ -449,59 +496,102 @@ abort_if_not_manager();
                      $up_topicid = $UPinfo['up_topic_id']; 
                      
                      // no one will have specific access to a large number of UPs,
-                     // so these next two queries shouldn't be too expensive
+                     // and SA/PFs only see the list when they request it,
+                     // so these next few queries shouldn't be too expensive
                      // in absolute terms, even though they are in a loop
                     
+                     $num_active_proj_res = mysql_fetch_assoc(mysql_query("
+                         SELECT count(*) as num 
+                         FROM projects WHERE up_projectid = '$up_projid'
+                         AND state != '".PROJ_SUBMIT_PG_POSTED."'
+                         AND username = '".$pguser."'
+                     "));
+                     $num_active_proj = $num_active_proj_res['num'];
+
+                     $num_all_active_proj_res = mysql_fetch_assoc(mysql_query("
+                         SELECT count(*) as num 
+                         FROM projects WHERE up_projectid = '$up_projid'
+                         AND state != '".PROJ_SUBMIT_PG_POSTED."'
+                     "));
+                     $num_all_active_proj = $num_all_active_proj_res['num'];
+
                      $num_proj_res = mysql_fetch_assoc(mysql_query("
                          SELECT count(*) as num 
                          FROM projects WHERE up_projectid = '$up_projid'
+                         AND username = '".$pguser."'
                      "));
-
                      $num_proj = $num_proj_res['num'];
 
-                    
+                     $num_all_proj_res = mysql_fetch_assoc(mysql_query("
+                         SELECT count(*) as num 
+                         FROM projects WHERE up_projectid = '$up_projid'
+                     "));
+                     $num_all_proj = $num_all_proj_res['num'];
+
                      $num_PM_res = mysql_fetch_assoc(mysql_query("
                          SELECT count(*) as num 
                          FROM usersettings WHERE setting = 'up_manager' and value = '$up_projid'
                      "));
-
                      $num_PM = $num_PM_res['num'];
 
-  			if ($tr_num % 2 ) {
+   			  if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_mainbody_bg'];
-                	} else {
+                	  } else {
                 		$bgcolor = $theme['color_navbar_bg'];
-            		}
+            		  }
 
-            		echo "<tr bgcolor=$bgcolor>\n";
+            		  echo "<tr bgcolor=$bgcolor>\n";
 
+			  // Name
+			  echo "<td>$up_name</td>\n";
 
-			// Name
-			echo "<td>$up_name</td>\n";
+			  // Number of THIS USER'S active related projects  (NB SA/PFs are users too!)
+			  echo "<td align=\"center\"><a href='projectmgr.php?up_projectid=$up_projid'>$num_active_proj</a></td>\n";
 
-			// Number of projects
-			echo "<td align=\"center\">$num_proj</td>\n";
+			  // Number of all of THIS USER'S related projects
+			  echo "<td align=\"center\"><a href='projectmgr.php?show=all&up_projectid=$up_projid'>$num_proj</a></td>\n";
 
-			// Number of project managers
-			echo "<td align=\"center\">$num_PM</td>\n";
+			  // Number of ALL active related projects
+                     // For SA/PFs this is a link to them, others just see the total
+                     if ($can_see_all) {
+                         $link_top = "<a href='projectmgr.php?show=site&up_projectid=".$up_projid."'>";
+                         $link_tail = "</a>";
+                     } else { 
+                         $link_top = "";
+                         $link_tail = "";
+                     }
+			  echo "<td align=\"center\">".$link_top.$num_all_active_proj.$link_tail."</td>\n";
 
-			// link to Forum thread
-			echo "<td>Click here</td>\n";
+			  // Number of ALL related projects
+                     // For SA/PFs this is a link to them, others just see the total
+                     if ($can_see_all) {
+                         $link_top = "<a href='projectmgr.php?show=allfor&up_projectid=".$up_projid."'>";
+                         $link_tail = "</a>";
+                     } else { 
+                         $link_top = "";
+                         $link_tail = "";
+                     }
+			  echo "<td align=\"center\">".$link_top.$num_all_proj.$link_tail."</td>\n";
 
-			// Options
-			echo "<td>Edit / Create New</td>\n";
+ 			  // Number of project managers
+                     // could in a fancy future show SA/PFs a drop down list of PMs with 
+                     // projects related to this UP, and let selection show the list
+                     // filtered by PM...
+			  echo "<td align=\"center\">$num_PM</td>\n";
 
-			echo "</tr>\n";
+ 		        // link to Forum thread
+			  echo "<td>Click here</td>\n";
 
-			$tr_num++;
+   		        // Options
+			  echo "<td>Edit / Create New</td>\n";
+			  echo "</tr>\n";
+
+			 $tr_num++;
                  }
 
-                 echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
-
+                 echo "<tr><td colspan=8 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
            }
-
 	}
-
 echo "<br>";
 theme("","footer");
 ?>
