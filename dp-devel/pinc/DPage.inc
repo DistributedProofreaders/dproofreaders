@@ -61,22 +61,6 @@ function project_drop_pages( $projectid )
 
 // -----------------------------------------------------------------------------
 
-function Pages_delete( $projectid )
-{
-    global $writeBIGtable;
-
-    $sql = "DELETE FROM $projectid";
-    mysql_query($sql);
-
-    if ($writeBIGtable)
-    {
-        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid'";
-        mysql_query($sql);
-    }
-}
-
-// -----------------------------------------------------------------------------
-
 function Pages_prepForRound( $projectid, $round_number )
 {
     global $writeBIGtable;
