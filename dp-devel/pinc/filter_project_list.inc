@@ -20,7 +20,7 @@ $query = "
 	";
 $result = mysql_query($query);
 $i = 0;
-while ($a_res = mysql_fetch_row($result))
+while ($a_res = @mysql_fetch_row($result))
 {
     $val = $a_res[0];	
     $array_of_langs[$i] = $val;
@@ -35,7 +35,7 @@ $query = "
 	";
 $result = mysql_query($query);
 $i = 0;
-while ($a_res = mysql_fetch_row($result))
+while ($a_res = @mysql_fetch_row($result))
 {
     $val = $a_res[0];	
     $array_of_genres[$i] = $val;
@@ -50,7 +50,7 @@ $query = "
 	";
 $result = mysql_query($query);
 $i = 0;
-while ($a_res = mysql_fetch_row($result))
+while ($a_res = @mysql_fetch_row($result))
 {
     $val = $a_res[0];	
     $array_of_PMs[$i] = $val;
