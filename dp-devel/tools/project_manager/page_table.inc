@@ -185,7 +185,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 {
 	global $userP, $forums_url;
 
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager()  || user_is_proj_facilitator() );
 
 	// test
 	//$can_edit = FALSE;
