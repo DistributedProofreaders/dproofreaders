@@ -15,7 +15,6 @@ $fntF=isset($fntF)? $fntF:'0';
 $fntS=isset($fntS)? $fntS:'0';
 $sTags=isset($sTags)? $sTags:'1';
 $zmSize=isset($zmSize)? $zmSize:'100';
-//echo $fntF;
 $prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
 }
 
@@ -91,7 +90,7 @@ if (!$isOpen)
 }
 // see which button they pressed
 // buttons which save
-if ((@$button1 != "") || (@$button2 != "") || isset($button1_x) || isset($button2_x) || isset($button4_x) || (@$button4 !=""))
+if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4))
 {
 addUserCount($project,$prooflevel,$fileid,$pguser);
 savePage($project,$prooflevel,$fileid,$text_data,$pguser);
@@ -100,7 +99,7 @@ isProjectDone($project,$prooflevel);
 
 
 // save and restore image to edit view
-if ((@$button1 != "") || isset($button1_x) || isset($button4_x) || (@$button4 !=""))
+if (isset($button1) || isset($button1_x) || isset($button4_x) || isset($button4))
 {
 $project = 'project='.$project;
 $fileid = '&fileid='.$fileid;
@@ -121,7 +120,7 @@ metarefresh(0,$frame1,' ',' ');
 } // end save and continue same page button 1 & button 4
 
 // save and do another send back to proof.php for a new page
-if (@$button2 != "" || isset($button2_x))
+if (isset($button2) || isset($button2_x))
 {
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
@@ -135,11 +134,11 @@ metarefresh(0,$frame1,' ',' ');
 } // end save and do another button 2
 
 // if quit without saving send back to projects page
-if (@$button3 != "" || isset($button3_x))
+if (isset($button3) || isset($button3_x))
 {
 $dbQuery="UPDATE $project SET state='";
 $dbQuery.=$prooflevel==2?"12":"2";
-$dbQuery.="WHERE fileid = '$fileid'";
+$dbQuery.="' WHERE image = '$imagefile'";
 $result = mysql_query($dbQuery);
 metarefresh(0,'proof_per.php',' ',' ');
 } // end button 3 quit
