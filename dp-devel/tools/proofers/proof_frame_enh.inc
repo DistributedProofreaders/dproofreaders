@@ -15,6 +15,10 @@ $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npa
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
 
+// get total pages available for proofing
+$result = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '".$npage['project']."'");
+$total_pages = mysql_result($result, 0, "total_pages");
+
 // set image and text height and width
   if ($userP['i_layout']=='1')
       {
@@ -269,7 +273,7 @@ id="controlframe" align="center"><form
     $tfonti = $userP['v_fntf'];
     $tfont = $f_f[$tfonti];
   }
-  else 
+  else
   {
     $tcols = $userP['h_tchars'];
     $trows = $userP['h_tlines'];
@@ -281,9 +285,9 @@ id="controlframe" align="center"><form
   $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
   // display text area
   echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\" $twrap";
-  if ($tfont != '') 
-  { 
-    echo ' style="font-family: ' . $tfont . '"'; 
+  if ($tfont != '')
+  {
+    echo ' style="font-family: ' . $tfont . '"';
   }
   echo ">";
   // SENDING PAGE-TEXT TO USER
@@ -294,7 +298,7 @@ id="controlframe" align="center"><form
   valign="top"><?PHP
 //display page number
   $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><B>Page Number: $pageNum";
+  echo "<font size=\"-1\"><B>Page Number: $pageNum/$total_pages";
     if ($tpage->getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
