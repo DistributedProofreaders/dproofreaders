@@ -75,6 +75,27 @@ function saveProject() {
   return ""; // An empty string indicates no error 
 }
 
+
+if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
+
+        $result = mysql_query("SELECT username FROM usersettings WHERE value = '$project' AND setting = 'posted_notice'");
+        $numrows = mysql_numrows($result);
+        $rownum = 0;
+
+        while ($rownum < $numrows) {
+            $username = mysql_result($result, $rownum, "username");
+            $temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
+            $email = mysql_result($temp, 0, "email");
+
+            mail($email, "$NameofWork Posted to Project Gutenberg",
+"You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
+--\n
+Distributed Proofreaders\nhttp://texts01.archive.org/dp/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
+             "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+        }
+}
+
+
 if (isset($saveAndQuit)) {
   $errormsg = saveProject();
 
@@ -137,6 +158,7 @@ if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.arch
 <td><? print $project; ?></td>
 </tr>
 <? } ?>
+<? if(isset($posted)) { ?><input type="hidden" name=posted value=1><? } ?>
 <tr>
 <td bgcolor="#CCCCCC"><b>Name of Work</b></td>
 <td><input type ="text" size="67" name="NameofWork" value="<? echo encodeFormValue($NameofWork) ?>"></td>

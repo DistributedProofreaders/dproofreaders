@@ -81,7 +81,7 @@ if ($topic_id == "") {
         mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
 
         // TODO: Archive the project
-        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid\">";
+        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid&posted=1\">";
     } else if (($newstate == 0) || ($newstate == 10) || ($newstate == 65) || ($always == 'yes') ||
         ($oldstate == 0) || ($oldstate == 1) || ($oldstate == 10) || ($oldstate == 65)) {
 
