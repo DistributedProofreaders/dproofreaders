@@ -29,7 +29,7 @@ if (!isset($_POST['resolution'])) {
     theme($header, "header");
 
     echo "<form action='badpage.php' method='post'>";
-    echo "<input type='hidden' name='projectID' value='$projectID'>";
+    echo "<input type='hidden' name='projectid' value='$projectID'>";
     echo "<input type='hidden' name='fileID' value='$fileID'>";
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
@@ -118,7 +118,7 @@ if (!isset($_POST['resolution'])) {
 } else {
 
     //Get variables passed from form
-    $projectID = $_POST['projectID'];
+    $projectID = $_POST['projectid'];
     $fileID = $_POST['fileID'];
     $state = $_POST['state'];
 
