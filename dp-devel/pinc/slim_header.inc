@@ -7,12 +7,15 @@ if($dt) { ?>
 } ?>
 <html>
 <head>
-    <title><?php echo $title ?></title>
-<?
+    <title><?php echo $title; ?></title>
+    
+<?php
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />";
 ?>
+
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="-1" />
-<?php if($hb) echo "</head>\n<body>";
+
+<?php if($hb) echo "\n</head>\n\n<body>\n";
 }
 ?>

@@ -66,7 +66,7 @@ slim_header("Text Frame",TRUE,FALSE);
   $twrap = $twrap==1? '': " wrap=\"off\"";
   // write the textarea
   echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\" $twrap";
-  if ($tfont != '')
+  if ($tfont != '' && $tfonti != 0)
   {
     echo ' style="font-family: ' . $tfont . '"';
   }

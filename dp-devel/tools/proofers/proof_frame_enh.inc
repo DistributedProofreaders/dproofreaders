@@ -285,7 +285,7 @@ id="controlframe" align="center"><form
   $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
   // display text area
   echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\" $twrap";
-  if ($tfont != '')
+  if ($tfont != '' && $tfonti != 0)
   {
     echo ' style="font-family: ' . $tfont . '"';
   }

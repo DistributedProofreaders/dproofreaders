@@ -15,18 +15,22 @@ HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down'
 name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.menuframe.chFFace(this.selectedIndex)"><?PHP
   $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
 //  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
-    for ($i=0;$i<7;$i++)
+  $ff_len = count($f_f);
+  for ($i=0;$i<$ff_len;$i++)
     {$optP="<option \r\n value=\"$i\"";
-    if ($i==$ff){$optP.=" selected";}
+  if ($i==$ff)
+    {$optP.=" selected";}
   $optP.=">$f_f[$i]</option>";
   echo $optP;}
 ?></select><select
 name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.menuframe.chFSize(this.selectedIndex)"><?PHP
   $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
 //  $f_f= array('Size','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
-  for ($i=0;$i<12;$i++)
+  $fs_len = count($f_s);
+  for ($i=0;$i<$fs_len;$i++)
     {$optP="<option \r\n value=\"$i\"";
-  if ($i==$fs){$optP.=" selected";}
+  if ($i==$fs)
+    {$optP.=" selected";}
   $optP.=">$f_s[$i]</option>";
   echo $optP;}
 ?></select>&nbsp;<input
