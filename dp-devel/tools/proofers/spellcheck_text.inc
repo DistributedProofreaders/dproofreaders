@@ -189,39 +189,39 @@ function escapeStringEntities($text)
 
 function spellcheck_quit()
 {
-	$text_data = stripslashes($_POST['text_data']);
-	return str_replace( "[lf]", "\r\n", $text_data );
+	$orig_text = stripslashes($_POST['text_data']);
+	return str_replace( "[lf]", "\r\n", $orig_text );
 }
 
 function spellcheck_apply_corrections()
 {
-	$text_data = stripslashes($_POST['text_data']);
+	$orig_text = stripslashes($_POST['text_data']);
 
 	// were there any corrections?
-	$spell_count=isset($_POST['sptotal'])?$_POST['sptotal']:0;
-	if ($spell_count==0)
+	$n_bad_words=isset($_POST['sptotal'])?$_POST['sptotal']:0;
+	if ($n_bad_words==0)
 	{
 		// just give them the text
-		$correct_text = str_replace("[lf]","\r\n",$text_data);
+		$correct_text = str_replace("[lf]","\r\n",$orig_text);
 	}
 	else
 	{
 		// make corrections
-		$text_array = explode("[lf]",$text_data);
-		for ($i=1;$i<=$spell_count;$i++)
+		$text_array = explode("[lf]",$orig_text);
+		for ($i=1;$i<=$n_bad_words;$i++)
 		{
 			// hidden values line|offset|word length
 			$inst_array=explode('|',$_POST['posit'.$i]);
-			$text_line=$inst_array[0];
-			$text_offset=$inst_array[1];
-			$word_length=$inst_array[2];
+			$orig_line_i      = $inst_array[0];
+			$orig_word_offset = $inst_array[1];
+			$orig_word_length = $inst_array[2];
 			// hidden word
 			$correct_word=stripslashes($_POST['wd'.$i]);
 			// replace word in string
-			$text_array[$text_line] =
-				substr($text_array[$text_line],0,$text_offset-1) .
+			$text_array[$orig_line_i] =
+				substr($text_array[$orig_line_i],0,$orig_word_offset-1) .
 				$correct_word .
-				substr($text_array[$text_line],($text_offset+$word_length)-1);
+				substr($text_array[$orig_line_i],($orig_word_offset+$orig_word_length)-1);
 		}
 		$correct_text .= implode("\r\n",$text_array);
 	}
