@@ -111,6 +111,58 @@ $sql_usersettings = $sql_usersettings . " ) TYPE=MyISAM;";
 $result = mysql_query("$sql_usersettings"); 
 if ($result == 1) { echo "$db_name.usersettings ....... Created<br>"; } else { echo "$db_name.usersettings ....... Not Created<br>"; }
 
+$sql_phpbb_users = " CREATE TABLE phpbb_users ( ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_id mediumint(8) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_active tinyint(1) default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " username varchar(25) NOT NULL default '', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_password varchar(32) NOT NULL default '', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_session_time int(11) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_session_page smallint(5) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_lastvisit int(11) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_regdate int(11) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_level tinyint(4) default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_posts mediumint(8) unsigned NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_timezone decimal(4,2) NOT NULL default '0.00', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_style tinyint(4) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_lang varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_dateformat varchar(14) NOT NULL default 'd M Y H:i', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_new_privmsg smallint(5) unsigned NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_unread_privmsg smallint(5) unsigned NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_last_privmsg int(11) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_emailtime int(11) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_viewemail tinyint(1) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_attachsig tinyint(1) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allowhtml tinyint(1) default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allowbbcode tinyint(1) default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allowsmile tinyint(1) default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allowavatar tinyint(1) NOT NULL default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allow_pm tinyint(1) NOT NULL default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_allow_viewonline tinyint(1) NOT NULL default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_notify tinyint(1) NOT NULL default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_notify_pm tinyint(1) NOT NULL default '1', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_popup_pm tinyint(1) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_rank int(11) default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_avatar varchar(100) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_avatar_type tinyint(4) NOT NULL default '0', ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_email varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_icq varchar(15) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_website varchar(100) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_from varchar(100) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_sig text, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_sig_bbcode_uid varchar(10) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_aim varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_yim varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_msnm varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_occ varchar(100) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_interests varchar(255) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_actkey varchar(32) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " user_newpasswd varchar(32) default NULL, ";
+  $sql_phpbb_users = $sql_phpbb_users . " PRIMARY KEY  (user_id), ";
+  $sql_phpbb_users = $sql_phpbb_users . " KEY user_session_time (user_session_time) ";
+$sql_phpbb_users = $sql_phpbb_users . " ) TYPE=MyISAM;";
+$result = mysql_query("$sql_phpbb_users"); 
+if ($result == 1) { echo "$db_name.phpbbusers ....... Created<br>"; } else { echo "$db_name.phpbbusers ....... Not Created<br>"; }
+
 //Finish Completion
 echo "<br><br>Database creation completed!  Created database $db_name with the above tables";
 ?> 
