@@ -106,7 +106,8 @@ Thanks,
 The Distributed Proofreaders Team
 
 PS - Your user name, in case you forget, is $username.
-If your password doesn't work, go to <$reset_password_url>
+If your password doesn't work, go to
+<$reset_password_url>
 to have it reset.
             ",
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
