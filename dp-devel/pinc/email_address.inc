@@ -1,4 +1,5 @@
 <?
+include_once($relPath.'v_site.inc');
 
 function check_email_address( $email_address )
 // Check whether $email_address is a reasonable/acceptable E-mail Address.
@@ -20,7 +21,7 @@ function check_email_address( $email_address )
 	return $error;
     }
 
-    if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
+    if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email_address))
     {
 	$error = _("Your E-mail Address contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ ".")";
 	return $error;
