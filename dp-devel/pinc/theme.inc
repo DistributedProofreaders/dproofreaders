@@ -130,7 +130,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<tr>\n";
 	echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
-	echo "<td width='50%' align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "<td align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 
     //Create the name of the page
     	echo "<a href='$code_url/default.php'>\n";
@@ -147,15 +147,15 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	// So instead, put the td element within the form.
 	// (Yeah, it doesn't make sense, but the browsers don't complain.)
 	echo "<form action='$code_url/accounts/login.php' method='post'>\n";
-	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 	echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 	echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+	echo "<a href='$code_url/faq/".cur_lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	echo "</form>\n";
 	} else {
@@ -167,21 +167,25 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
     	$result = mysql_query("SELECT date_created, u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     	$u_id = mysql_result($result, 0, "u_id");
     	$datecreated = mysql_result($result, 0, "date_created");
-	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
-	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "<a href='$code_url/faq/".cur_lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+	if(cur_lang_forum()) {
+		echo "<a href='".$GLOBALS['forums_url']."/".cur_lang_forum()."'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>"._("Your language forums")."</font></a>";
+		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+	}
 	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("Inbox") ;
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
 	echo "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Preferences") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Statistics") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;";
+	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Log Out") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	}
@@ -516,8 +520,8 @@ if ($metadata){
 
 	if (!empty($userP)) {
 		echo "<br><center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>"._("Key Help Documents:")."</u></font></center>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/summary.pdf'>"._("Summary")."</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".cur_lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".cur_lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".cur_lang_dir()."summary.pdf'>"._("Summary")."</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
 	}
