@@ -4,13 +4,57 @@ include($relPath.'dp_main.inc');
 include($relPath.'projectinfo.inc');
 
 function notify($project, $proofstate, $pguser) {
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Notify</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Book Completed:</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
     $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
     if (mysql_num_rows($temp) == 0) {
-        echo "Notify me when book complete";
-    } else echo "Do not notify me when book complete";
+        echo "Notify me";
+    } else echo "Do not notify me";
     echo "</a></td></tr>";
 }
+
+function recentlyproofed($project, $proofstate, $pguser) {
+
+    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>My Recently Proofread</h3></td>";
+    $recentNum=5;
+
+    $sql = "SELECT image, fileid, ";
+    $whichTime=$proofstate <9? "round1_time" : "round2_time";
+    $sql.=$whichTime." FROM $project WHERE ";
+    if ($proofstate <9) {$sql.="round1_user";} else {$sql.="round2_user";}
+    $sql.="='$pguser' AND (state ='"; 
+    if ($proofstate <9) {$sql.="9' OR state = '8";} else {$sql.="19' OR state = '18";} 
+    $sql.="') ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
+    $result = mysql_query($sql);
+
+    $rownum = 0;
+    $numrows = mysql_num_rows($result);
+
+    while (($rownum < $recentNum) && ($rownum < $numrows)) {
+        $imagefile = mysql_result($result, $rownum, "image");
+        $fileid = mysql_result($result, $rownum, "fileid");
+        $timestamp = mysql_result($result, $rownum, $whichTime);
+        $newproject = "project=$project";
+        $newfileid="&amp;fileid=$fileid";
+        $newimagefile = '&amp;imagefile='.$imagefile;
+        $newproofstate = '&amp;proofstate='.$proofstate;
+        $saved="&amp;saved=1";
+        $editone="&amp;editone=1";
+        if (($rownum % 5) ==0) {echo "</tr><tr>";}
+        $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$saved.$editone;
+        echo "<TD ALIGN=\"center\">";
+        if ($userP['i_newwin']==0) {echo "<A HREF=\"$eURL\">";}
+        else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}
+        echo date("M d", $timestamp).": ".$imagefile."</a></td>\r\n";
+        $rownum++;
+    }
+
+    while (($rownum % 5) !=0) {echo "<td>&nbsp;</td>"; $rownum++;}
+    echo "</tr>";
+}
+
+
+
+
 
 $projectinfo = new projectinfo();
 if ($proofstate < 9) {
@@ -62,102 +106,60 @@ nwWin=window.open(winURL,"prooferWin",newFeatures);}
 ?>
 </HEAD><BODY>
 <?PHP
-if (!isset($proofing))
-{include('./projects_menu.inc');
-?>
+if (!isset($proofing)) {
+    include('./projects_menu.inc');
+    ?>
 
-<br>
-Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.22</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
-
-<P><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
+<br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
     if ($proofstate < 9) {
-        echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
+        echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
+        echo "<b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {
-        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
+        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
+        echo "<b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
     }
-}
-else {
+} else {
 ?>
-<br>
-Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.22</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 <table border=1 width=630>
 <?PHP
 }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Name of Work</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Title</b></td>";
     echo "<td colspan=4>$nameofwork</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Author</b></td>";
     echo "<td colspan=4>$authorsname</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
     echo "<td colspan=4>$username</td></tr>";
-if (isset($proofstate))
-{    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
-    echo "<td colspan=4>$lastproofed</td></tr>";}
+    if (isset($proofstate)) {
+        echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
+        echo "<td colspan=4>$lastproofed</td></tr>";
+    }
 
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
 
-if ($topic_id == "") {
-    echo "Start a discussion about this project in the forum";
-} else {
-    echo "Discuss this project in the forum";
-}
+    if ($topic_id == "") {
+        echo "Start a discussion about this project";
+    } else {
+        echo "Discuss this project";
+    }
     echo "</a></td></tr>";
 
     notify($project, $proofstate, $pguser);
 
-    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td>";
-    echo "</tr><tr>";
-$recentNum=5;
- for ($i=0;$i<5;$i++)
-  { echo "<td \r\nbgcolor=CCCCCC><B>Date &amp; Image</B></td>";}
+    recentlyproofed($project, $proofstate, $pguser);
 
-    $sql = "SELECT image, fileid, ";
-     $whichTime=$proofstate <9? "round1_time" : "round2_time";
-     $sql.=$whichTime." FROM $project WHERE ";
-     if ($proofstate <9) {$sql.="round1_user";} else {$sql.="round2_user";}
-     $sql.="='$pguser' AND (state ='"; 
-     if ($proofstate <9) {$sql.="9' OR state = '8";} else {$sql.="19' OR state = '18";} 
-     $sql.="') ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
-    $result = mysql_query($sql);
-    $rownum = 0;
-    $numrows = mysql_num_rows($result);
-    while (($rownum < $recentNum) && ($rownum < $numrows)) {
-        $imagefile = mysql_result($result, $rownum, "image");
-        $fileid = mysql_result($result, $rownum, "fileid");
-        $timestamp = mysql_result($result, $rownum, $whichTime);
-$newproject = "project=$project";
-$newfileid="&amp;fileid=$fileid";
-$newimagefile = '&amp;imagefile='.$imagefile;
-$newproofstate = '&amp;proofstate='.$proofstate;
-$saved="&amp;saved=1";
-$editone="&amp;editone=1";
-  if (($rownum % 5) ==0)
-  {echo "</tr><tr>";}
-  echo "<TD \r\nALIGN=\"center\">".date("M d", $timestamp)." - ".$imagefile."<BR>\r\n";
-  if ($userP['i_prefs']==0)
-     {echo "<a \r\nhref=\"../../userprefs.php?".$newproject.$newproofstate."\">Set Interface</a></td>";}
-  else {
-    $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$saved.$editone;
-      if ($userP['i_newwin']==0)
-      {echo "<A HREF=\"$eURL\">";}
-      else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}
-    echo "Edit</a></td>";
-      }
-        $rownum++;
-    }
-
-while (($rownum % 5) !=0)
-{echo "<td> </td>"; $rownum++;}
-
-    echo "</tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
+    echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 1.22</a> for detailed project formatting directions.";
+    echo "Instructions below take precedence over the guidelines:<P>";
+    echo "$comments</td></tr></table>";
     echo "<BR>";
 
-if (!isset($proofing))
-  {  include('./projects_menu.inc');}
-else {
-      echo"<p><p><b> This information has been opened in a separate browser window, feel free to leave it open for reference or close it.</b>";
-     }
+    if (!isset($proofing)) {
+        include('./projects_menu.inc');
+    } else {
+        echo"<p><p><b> This information has been opened in a separate browser window, feel free to leave it open for reference or close it.</b>";
+    }
 ?>
 </BODY></HTML>
