@@ -29,6 +29,17 @@ dpsql_dump_query("
 echo "<br>\n";
 echo "<br>\n";
 
+echo "<h3>Number of Distinct Post-Processors</h3>\n";
+
+dpsql_dump_query("
+	SELECT
+		count (distinct (postproofer)) as 'Different PPers'
+	FROM projects
+");
+
+echo "<br>\n";
+
+
 
 echo "<h3>Most Prolific Post-Processors</h3>\n";
 echo "<h4>(Number of Projects Finished PPing</h4>\n";
@@ -44,7 +55,7 @@ dpsql_dump_ranked_query("
 		AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
-	LIMIT 50
+	LIMIT 100
 ");
 
 echo "<br>\n";
@@ -63,7 +74,7 @@ dpsql_dump_ranked_query("
 	AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
-	LIMIT 50
+	LIMIT 100
 ");
 
 echo "<br>\n";
