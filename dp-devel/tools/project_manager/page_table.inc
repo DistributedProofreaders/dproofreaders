@@ -314,14 +314,14 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		assert(FALSE);
 	}
 
-        // who are the people who proofed this page in each round?
-        // we will let people see proofer names of pages they themselves proofed
+        // who are the people who proofread this page in each round?
+        // we will let people see proofreader names of pages they themselves proofread
 
         $R_username = $page_res[$R_user_field_name];
         $R_other_username = $page_res[$R_other_user_field_name];
 
 
-       // colour-code pages proofed by the user
+       // colour-code pages proofread by the user
         if ($R_username == $pguser) {
 
                 // a page by the user but not available for editing has a reddish background

@@ -63,10 +63,10 @@ include_once($relPath.'maybe_mail.inc');
                 $email_addr = mysql_result(mysql_query("
                         SELECT email FROM users WHERE username = '$PPer'
                 "),0);
-                $body_blurb = "A project you had made a reservation to Post-Process has finished proofing\n".
+                $body_blurb = "A project you had made a reservation to Post-Process has finished proofreading\n".
                         "and will soon appear in your list of checked out projects.\n";
 
-                maybe_mail( $email_addr, "Reserved book finished proofing", $body_blurb,
+                maybe_mail( $email_addr, "Reserved book finished proofreading", $body_blurb,
                         "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
 

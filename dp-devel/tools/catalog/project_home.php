@@ -96,8 +96,8 @@ else
         {
             $available_state = PROJ_PROOF_SECOND_AVAILABLE;
         }
-        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofing!</a></li>\n";
-        echo "<li> Re-proof pages (if you've proofed any).</li>\n";
+        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofreading!</a></li>\n";
+        echo "<li> Re-proofread pages (if you've proofread any).</li>\n";
     }
 
     if ( $proj_round != 'NEW' )
@@ -112,7 +112,7 @@ else
 
     if ( $proj_state == PROJ_POST_FIRST_AVAILABLE ) // and $pguser is qualified
     {
-        echo "<li> Check it out for post-proofing.</li>\n";
+        echo "<li> Check it out for post-processing.</li>\n";
     }
 
     if ( $proj_state == PROJ_POST_FIRST_CHECKED_OUT and

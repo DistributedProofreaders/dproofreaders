@@ -225,7 +225,7 @@ function autorelease()
 
 
             // OK to release
-            // release the project for proofing, and keep track of
+            // release the project for proofreading, and keep track of
             // its contribution to reducing our total page shortfall
             if (!attempt_to_release($project))
             {
@@ -276,10 +276,10 @@ function AP_setup()
 // containing a row for each project in round 1 or 2.
 // fields:
 //     projectid
-//     pages1 = number of pages yet to receive 1st proofing
-//     pages2 = number of pages yet to receive 2nd proofing
+//     pages1 = number of pages yet to receive 1st proofreading
+//     pages2 = number of pages yet to receive 2nd proofreading
 // Note that, by definition, pages1 <= pages2, since
-// a page can only receive 2nd proofing after 1st proofing.
+// a page can only receive 2nd proofreading after 1st proofreading.
 //
 // This table is similar to page_counts,
 // but contains slightly different information.
