@@ -121,11 +121,17 @@ theme("Project Managers", "header");
 			</tr>
 		    ";
 		}
+		// In the <select> tag, we set the name attribute to 'state[]'.
+		// I'm pretty sure this doesn't mean anything to HTML/HTTP,
+		// but PHP takes it as a cue to make the multiple values of
+		// the select control available as an array.
+		// That is, $_GET['state'] will be an array containing
+		// all selected values.
 		echo "
 			<tr>
 			    <td>State</td>
 			    <td>
-			    <select name='state'>
+			    <select name='state[]' multiple>
 				<option value=''>any state</option>
 		";
 		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
@@ -190,9 +196,21 @@ theme("Project Managers", "header");
 			    // so they can only see their own projects.
 			    $condition .= " AND username='$pguser'";
 			}
-			if ( $_GET['state'] != '' )
+			if ( count($_GET['state']) > 0 )
 			{
-			    $condition .= " AND state='{$_GET['state']}'";
+			    $condition .= " AND (0";
+			    foreach( $_GET['state'] as $state )
+			    {
+				if ( $state == '' )
+				{
+				    $condition .= " OR 1";
+				}
+				else
+				{
+				    $condition .= " OR state='$state'";
+				}
+			    }
+			    $condition .= ")";
 			}
         	} else {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
