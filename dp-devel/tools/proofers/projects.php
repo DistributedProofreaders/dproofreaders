@@ -12,7 +12,7 @@ function notify($project, $proofstate, $pguser) {
     echo "</a></td></tr>";
 }
 
-function recentlyproofed($project, $proofstate, $pguser) {
+function recentlyproofed($project, $proofstate, $pguser,$userP) {
 
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>My Recently Proofread</h3></td>";
     $recentNum=5;
@@ -148,7 +148,7 @@ if (!isset($proofing)) {
 
     notify($project, $proofstate, $pguser);
 
-    recentlyproofed($project, $proofstate, $pguser);
+    recentlyproofed($project, $proofstate, $pguser,$userP);
 
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
     echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 1.22</a> for detailed project formatting directions.";
