@@ -101,7 +101,7 @@ theme("Personal Page for $pguser", "header");
 
 
 		echo "<font face=".$theme['font_mainbody']."><b>";
-		echo _(Random Rule);
+		echo _("Random Rule");
 		echo "</b></font><br>";
 
 
