@@ -9,9 +9,9 @@ new dbConnect();
 //Total pages per day since beginning of stats
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT date, year, month, day, pages
+	SELECT date, pages
 	FROM pagestats
-	ORDER BY year ASC, month ASC, day ASC
+	ORDER BY date ASC
 ");
 
 $mynumrows = mysql_numrows($result);
