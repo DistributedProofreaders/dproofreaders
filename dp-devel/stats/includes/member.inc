@@ -15,8 +15,8 @@ function showMbrProfile($curMbr) {
 	$highestRank = mysql_result($result, 0, "rank");
 	$highestRankDate = mysql_result($result, 0, "date_updated");
 
-	if (daysInExistence > 0) {
-	        $daily_Average = $curMbr['pagescompleted']/daysInExistence;
+	if ($daysInExistence > 0) {
+	        $daily_Average = $curMbr['pagescompleted']/$daysInExistence;
 	} else {
 		$daily_Average = 0;
 	}
