@@ -208,7 +208,7 @@ function echo_page_table(
 
 		// Master Text
 		$master_text_length = $page_res['length(master_text)'];
-		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">$master_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&round_num=0>$master_text_length&nbsp;b</a></td>\n";
 
 		// --------------------------------------------
 
@@ -409,7 +409,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	else
 	{
-		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$prd->page_save_state>$R_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$round_num>$R_text_length&nbsp;b</a></td>\n";
 	}
 
 	// ------------------------------

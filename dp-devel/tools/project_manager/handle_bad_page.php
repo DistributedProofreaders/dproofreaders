@@ -57,7 +57,7 @@ if (!isset($_POST['action'])) {
 	  echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=".UNAVAIL_FIRST."' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a></td></tr>";
+    echo "<a href='downloadproofed.php?project=$projectID&fileid=$fileid&round_num=0' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a></td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
