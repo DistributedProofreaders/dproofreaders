@@ -51,7 +51,7 @@ echo $reason_list[$b_Code];
 echo $tr.$td2;
 echo "<strong>Originals:</strong>";
 echo $td3;
-echo "<a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=0' target='_new'>View Text</a>";
+echo "<a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=".UNAVAIL_FIRST."' target='_new'>View Text</a>";
 echo $tr.$td2;
 echo "<strong>What to do:&nbsp;&nbsp;</strong>";
 echo $td3;

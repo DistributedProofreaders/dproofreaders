@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'projectinfo.inc');
+include_once($relPath.'page_states.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr_select.inc');
 
@@ -84,7 +85,7 @@ include_once('projectmgr_select.inc');
                     }
 
                     $date_txt = date("M j h:i A", $date);
-                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
+                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
 
 		     if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
@@ -133,9 +134,9 @@ include_once('projectmgr_select.inc');
                     }
                     $date_txt = date("M j h:i A" , $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
                     if ($sitemanager == "yes") { printf("$real_name"); } else printf("$name");
-                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
+                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>");
 
 		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
@@ -198,14 +199,14 @@ include_once('projectmgr_select.inc');
                     }
                     $date_txt = date("M j h:i A", $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=19>View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
                     if ($sitemanager == "yes") { printf("$real_name"); } else printf("$round2_user");
-                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>");
+                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>");
                     if ($sitemanager == "yes") { printf("$oldreal_name"); } else printf("$round1_user");
-                    printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td>");
+                    printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>");
 
                     $roundID=projectStateRound($state);
-                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); } else { printf("<td>&nbsp;</td>"); }
+                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"); } else { printf("<td>&nbsp;</td>"); }
                     if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
