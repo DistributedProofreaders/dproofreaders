@@ -9,25 +9,14 @@ include_once($relPath.'page_ops.inc');
 
 function page_del( $projectid, $fileid )
 {
-    global $writeBIGtable;
-
     if ($fileid == '')
     {
-        $page_selector = '1';
+        Pages_delete( $projectid );
     }
     else
     {
-        $page_selector = "fileid = '$fileid'";
+        Page_delete( $projectid, $fileid );
     }
-
-    if ($writeBIGtable) {
-        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND $page_selector";
-        mysql_query($sql);
-    }
-
-    $sql = "DELETE FROM $projectid WHERE $page_selector";
-    echo "$sql<br>\n";
-    mysql_query($sql);
 }
 
 // -----------------------------------------------------------------------------
