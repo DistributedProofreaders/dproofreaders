@@ -5,6 +5,7 @@ include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'comment_inclusions.inc');
+include_once($relPath.'SettingsClass.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -132,11 +133,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 		$word = _("Post Processor");
 		echo_row_a($word, $project['postproofer'] );
 
-		$managercredit   = get_real_name( $project['username'] );
-		$scannercredit   = get_real_name( $project['scannercredit'] );
-		$postproofername = get_real_name( $project['postproofer'] );
-
-		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
+		$creditline = create_credit_line($project);
 
              if (isset($image_credit)) { $creditline = $creditline." ".$image_credit;}
 
@@ -308,23 +305,88 @@ function echo_row_c( $content )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_real_name( $login_name )
+// $project should preferrably be an associative array matching
+// the record in the projects table. The array doesn't
+// *have* to contain all the data for this to work. Currently,
+// the keys 'username', 'scannercredit' and 'postproofer' are
+// enough.
+//
+// The string will not be localized, since it should be ready
+// to be included with the finished project.
+function create_credit_line( $project )
+{
+	$credits = array();
+
+	global $code_url;
+
+	// The code to check whether/how to credit is rather generic, so
+	// define two arrays and loop over them.
+	$roles = array('cp', 'pm', 'pp');
+	$usernames = array($project['scannercredit'], $project['username'], $project['postproofer']);
+
+	$i = 0;
+	foreach ($roles as $role) {
+		$username = $usernames[$i++];
+		if ($username != '' && !wants_anonymity($username, $role)) {
+			$credit = htmlspecialchars(get_credit_name($username));
+			if (!in_array($credit, $credits))
+				array_push($credits, $credit);
+		}
+        }
+
+	if (count($credits) > 0)
+		$creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $code_url.";
+	else
+		$creditline = "The Online Distributed Proofreading Team at $code_url.";
+
+	return $creditline;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// $activity should be one of 'cp', 'pm' and 'pp'.
+function wants_anonymity( $login_name, $activity )
+{
+	$settings =& Settings::get_Settings($login_name);
+	return $settings->get_boolean($activity . '_anonymous');
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Returns the real name OR the username OR a user-specified 'other'.
+// (If the user hasn't specified anything in the preferences, the
+// real name will be returned.
+function get_credit_name( $login_name )
 {
 	if ($login_name == '')
 	{
 		return '(no name)';
 	}
 
-	$res = mysql_query("
-		SELECT real_name FROM users WHERE username='$login_name'
-	");
-	if (mysql_num_rows($res) > 0)
-	{
-		$name = mysql_result($res, 0);
-	}
-	else
+	$settings =& Settings::get_Settings($login_name);
+	$credit = $settings->get_value('credit_name', 'real_name');
+
+	if ($credit == 'username')
 	{
 		$name = $login_name;
+	}
+	else if ($credit == 'other')
+	{
+		$name = $settings->get_value('credit_other');
+	}
+	else // default: real_name
+	{
+		$res = mysql_query("
+			SELECT real_name FROM users WHERE username='$login_name'
+		");
+		if (mysql_num_rows($res) > 0)
+		{
+			$name = mysql_result($res, 0);
+		}
+		else
+		{
+			$name = $login_name;
+		}
 	}
 	return $name;
 }
