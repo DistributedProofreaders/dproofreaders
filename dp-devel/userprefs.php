@@ -149,7 +149,9 @@ echo "<table width='90%' bgcolor='#ffffff' border='1' bordercolor='#111111' cell
 
 echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='6' align='center'>";
 
-echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"._("Preferences Page for ")."$pguser</font></b><br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i></td></tr>";
+echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"._("Preferences Page for ")."$pguser</font></b>\n";
+echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</font></i>\n";
+echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i></td></tr>";
 
 echo_tabs($tabs, $selected_tab, $query_string);
 
@@ -296,7 +298,6 @@ function save_general_tab() {
   $real_name = $_POST['real_name'];
   $email = $_POST['email'];
   $email_updates = $_POST['email_updates'];
-  $project_listing = $_POST['u_plist'];
 
   // set users values
   $users_query="UPDATE users SET real_name='$real_name', email='$email',
