@@ -135,12 +135,13 @@ if ($good_login != 1) {
     }
 
     $printedblankline = FALSE; // Note - this may be PHP4 only
+    $show_neighbors = isset($_GET['show_neighbors']) ? $_GET['show_neighbors'] : 5;
 
     $i = 0;
     while ($i < $numrows) {
         // If ranking is in top ten or is current user or immediate
         // neighbour, print line in table
-        if(($rankings[$i] < 11) || (($i >= $userindex - 1) && ($i <= $userindex + 1))) {
+        if(($rankings[$i] < 11) || (($i >= $userindex - $show_neighbors) && ($i <= $userindex + $show_neighbors))) {
             echo "<TR";
             if ($userindex == $i) {
                 // Highlight current user (#C0C0C0 is grey)
@@ -172,6 +173,21 @@ if ($good_login != 1) {
 ?>
 
 </TABLE>
+<form method="get" action="<? print $_SERVER['PHP_SELF']; ?>">
+<p>Show <select name="show_neighbors">
+<?
+for ( $i=1; $i <= 10; $i++ ) {
+   $real_value = $i*2;
+   print "  <option value=\"$i\"";
+   if ( $i == $show_neighbors ) {
+       print " selected=\"selected\"";
+   }
+   print ">$real_value</option>\n";
+}
+?>
+</select>
+neighbors <input type="submit" name="go" value="Go" /></p>
+</form>
 </blockquote>
 <p>
 <p>
