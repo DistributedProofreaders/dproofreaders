@@ -19,12 +19,14 @@ function echo_cells_for_round($round_num)
 	{
 		$R_time_field_name = 'round1_time';
 		$R_user_field_name = 'round1_user';
+		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
 	}
 	elseif ($round_num == 2)
 	{
 		$R_time_field_name = 'round2_time';
 		$R_user_field_name = 'round2_user';
+		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
 	}
 	else
@@ -70,7 +72,16 @@ function echo_cells_for_round($round_num)
 		echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
 	}
 
-	echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>Text</a></td>\n";
+	$text_length = mysql_result($res, $rownum, $R_text_length_field_name);
+
+	if ( $text_length == 0 )
+	{
+		echo "<td></td>\n";
+	}
+	else
+	{
+		echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$text_length&nbsp;b</a></td>\n";
+	}
 
 	echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>\n";
 }
@@ -159,9 +170,8 @@ function echo_cells_for_round($round_num)
 		$inRound=projectStateRound($state);
 
 		$show_image_size = 1;
-		$show_master_size = 1;
 		$show_delete = ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND');
-		$upload_colspan = 2 + $show_image_size + $show_master_size;
+		$upload_colspan = 2 + $show_image_size;
 
 		echo "<h3>Per-Page Info</h3>\n";
 
@@ -190,11 +200,7 @@ function echo_cells_for_round($round_num)
 				echo "{$td_start}Size{$td_end}";
 			}
 
-			echo "{$td_start}Master Text{$td_end}";
-			if ($show_master_size)
-			{
-				echo "{$td_start}Size{$td_end}";
-			}
+			echo "{$td_start}Text{$td_end}";
 
 			echo "{$td_start}Page State{$td_end}";
 
@@ -219,11 +225,11 @@ function echo_cells_for_round($round_num)
 
 		$path = "$projects_dir/$projectid/";
 
-		$fields_to_get = 'fileid,image,state,round1_time,round1_user,round2_time,round2_user';
-		if ($show_master_size)
-		{
-			$fields_to_get .= ',master_text';
-		}
+		$fields_to_get = '
+			fileid, image, length(master_text),
+			state,
+			round1_time, round1_user, length(round1_text),
+			round2_time, round2_user, length(round2_text)';
 
 		$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
 		$num_rows = mysql_num_rows($res);
@@ -260,14 +266,8 @@ function echo_cells_for_round($round_num)
 			}
 
 			// Master Text
-			echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>\n";
-
-			// Master Text Size
-			if ($show_master_size)
-			{
-				$master_text = mysql_result($res, $rownum, "master_text");
-				echo "<td>".strlen($master_text)."</td>\n";
-			}
+			$master_text_length = mysql_result($res, $rownum, "length(master_text)");
+			echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">$master_text_length&nbsp;b</a></td>\n";
 
 			// --------------------------------------------
 
