@@ -134,8 +134,6 @@ theme('Proofreading Guidelines','header');
       <ul>
         <li>
           <ul>
-            <li><a href="#sp_copy">Copyright Renewal Books</a>             </li>
-            <!-- above still needed ??? -->
             <li><a href="#sp_ency">Encyclopedias</a>                       </li>
             <li><a href="#sp_poet">Poetry Books</a>                        </li>
             <li><a href="#sp_chem">Chemistry Books</a>   [to be completed.]</li>
@@ -1243,11 +1241,11 @@ And everywhere that Mary went
 <p> For quotes from non-English languages, use the quotation marks that are appropriate
     to that language, if they are available in the Latin-1 character set (the special 
     characters in the drop-down lists in the proofing interface are all in Latin-1).  
-    For example, in German mark quotations 
+    For example, the quotation marks used in some German texts, 
     <font color="red"> &bdquo;</font><tt>like this</tt><font color="red">&rdquo;</font> 
-    are NOT in Latin-1 but the French mark them with guillemets 
-    <font color="red">&laquo;</font>&nbsp;<tt>like this</tt>&nbsp;
-    <font color="red">&raquo;</font>, which are.  (As always, the Project Manager might instruct
+    are NOT in Latin-1 but the French equivalent, guillemets,  
+    <font color="red">&laquo;</font><tt>like this</tt><font color="red">&raquo;</font>, 
+    are.  (As always, the Project Manager might instruct
     you to do these differently for a particular book). </p>
 <p> Also, do not change single quotes to double quotes or vice versa.  Leave them as the Author wrote
     them.  See the <a href="#chap_head">Chapter Headers</a> image and text for an
@@ -1832,14 +1830,8 @@ cedilla                      [,x]*  [x,]
     this in the <a href="#comments">Project Comments</a>. </p>
  
 <h3><a name="bk_index">Indexes</a> </h3>
-<p> Remove all page numbers from index pages unless requested, along with any ... or ***
-    used to align the page numbers.  You can leave any trailing commas or semicolons.
-    (When the book is converted to electronic form, there will no longer be any 'pages'
-    in the book, so page numbers are not useful.  Some Project Managers prefer to
-    remove the index pages entirely because of this&mdash;if so, they will tell you this in
-    the <a href="#comments">Project Comments</a>.  Other PM's leave index pages, as they
-    are an indication of what the author thought important enough to list.  Include
-    index pages unless told otherwise.)</p>
+<p>Please retain page numbers on index pages unless requested otherwise. You don't need to align the numbers as they appear in the scan; just put a comma or semicolon, followed by the page numbers.
+</p>
 <p>
     Indexes are often printed in 2 columns; this narrower space can cause entries to
     split onto the next line. Rejoin these back onto a single line.  See example below:
@@ -1857,13 +1849,13 @@ cedilla                      [,x]*  [x,]
                        &nbsp;&nbsp;birth of, 145.                          <br>
                        &nbsp;&nbsp;christening, 146-147.                   <br>
                        &nbsp;&nbsp;death and burial, 152.                  <br>
-                       Ethelred II, the Unready                            </td>
-      <td valign="top"><tt>Elizabeth I, her royal Majesty the Queen,       <br>
-                       &nbsp;&nbsp;birth of,                               <br>
-                       &nbsp;&nbsp;christening,                            <br>
-                       &nbsp;&nbsp;death and burial,                       <br>
+                       Ethelred II, the Unready, 33.                       </td>
+      <td valign="top"><tt>Elizabeth I, her royal Majesty the Queen, 123, 144-155. <br>
+                       &nbsp;&nbsp;birth of, 145.                          <br>
+                       &nbsp;&nbsp;christening, 146-147.                   <br>
+                       &nbsp;&nbsp;death and burial, 152.                  <br>
                                                                            <br>
-                       Ethelred II, the Unready   </tt>                    </td>
+                       Ethelred II, the Unready, 33.</tt>                  </td>
     </tr>
   </tbody>
 </table>
@@ -1939,9 +1931,6 @@ cedilla                      [,x]*  [x,]
 <p> Click on the link below when you need to see the guidelines for one of these
     special types of books. </p>
 <ul compact>
-  <li><b><a href="doc-copy.php">Copyright Renewal Books</a>          </b></li>
-  <!--still need this link? mention uber projects?-->
-
   <li><b><a href="doc-ency.php">Encyclopedias</a>                    </b></li>
   <li><b><a href="doc-poet.php">Poetry Books </a>                    </b></li>
   <li><b>                        Mathematics Books  [to be completed.]</b></li>
