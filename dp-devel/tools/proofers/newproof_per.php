@@ -162,7 +162,7 @@ theme("Personal Page for $pguser", "header");
 	}
 
 	if ($pagesproofed >= 50) {
-		if ($pagesproofed < 75 {
+		if ($pagesproofed < 75) {
 			echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
 			echo _("Now you have proofed 50 pages you can see the books in Second Round. This explanatory line will eventually vanish.");
 			echo "</i></font><br><br>";
