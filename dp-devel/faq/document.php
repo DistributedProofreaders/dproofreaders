@@ -1071,9 +1071,9 @@ And everywhere that Mary went
                                                  <br>
           /*                                     <br>
           Here lies our Sovereign Lord the King, <br>
-            Whose word no man relies on,         <br>
+          &nbsp;&nbsp;Whose word no man relies on,         <br>
           Who never said a foolish thing,        <br>
-            Nor ever did a wise one.             <br>
+          &nbsp;&nbsp;Nor ever did a wise one.             <br>
           */                                     <br>
                                                  <br>
           The next twenty years are of such disgrace and national weakness <br>
