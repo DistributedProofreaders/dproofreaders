@@ -252,12 +252,26 @@ function showNW()
 nW=window.open();
 nW.document.open();
 // SENDING PAGE-TEXT TO USER
-// We're sending it in a HTML document, so we should entity-encode its
-// HTML-special characters. In PHP, we would say
-//     htmlspecialchars($text_data,ENT_NOQUOTES)
-// What do you do in JavaScript?
-nW.document.write('<PRE>'+unescape(docRef.editform.text_data.value)+'</PRE>');
+// We're sending it in a HTML document,
+// so we entity-encode its HTML-special characters.
+nW.document.write('<PRE>'+html_safe(docRef.editform.text_data.value)+'</PRE>');
 nW.document.close()
+}
+
+function html_safe(str)
+// Return a version of str that is safe to send as element-content
+// in an HTML document.
+// That is, make the following replacements:
+//    &  ->  &amp;
+//    <  ->  &lt;
+//    >  ->  &gt;
+// This should be equivalent to PHP's
+//     htmlspecialchars($str,ENT_NOQUOTES)
+{
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
 }
 
 function dSI(sdir)
