@@ -342,7 +342,19 @@ if ($sitemanager == "yes") {
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 69) {
-                    if ($id == 79) {
+                    if (($id == 79) || ($id == 70) || ($id == 71) || ($id == 75)) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 70) {
+                    if (($id == 71) || ($id == 75)) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 71) {
+                    if (($id == 70) || ($id == 75) || ($id == 79)) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 75) {
+                    if (($id == 70) || ($id == 71) || ($id == 79)) {
                         print "<option value=$id>$s_name\n";
                     }
                 }
