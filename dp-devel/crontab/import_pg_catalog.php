@@ -1,5 +1,6 @@
 <?php
 $relPath='../pinc/';
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();
@@ -37,26 +38,6 @@ $start_from_scratch = TRUE;
 $remote_catalog_url = "http://www.gutenberg.org/browse/rdf/catalog.rdf.bz2";
 $local_temp_file    = "/tmp/catalog.rdf.bz2";
 $local_catalog_file = "$dyn_dir/pg/catalog.rdf";
-
-function mkdir_recursive( $dir, $mode )
-{
-    if ( file_exists($dir) )
-    {
-        if ( is_dir($dir) )
-        {
-            // Great!
-        }
-        else
-        {
-            die( "$dir exists, but isn't a directory." );
-        }
-    }
-    else
-    {
-        mkdir_recursive( dirname($dir), $mode );
-        mkdir( $dir, $mode ) or die( "Unable to create $dir" );
-    }
-}
 
 if ($start_from_scratch)
 {
