@@ -23,10 +23,8 @@ if ($npage['spcheck']==2)
     $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
     $npage['spcheck']=0;
     $tpage->setTempPageCookie($npage);
-    $loadFile=1;
+    $npage['text'] = implode( '', file($aspell_temp_dir.$text_file) );
   }
-else
-  {$loadFile=0;}
 echo $docType."\r\n";
 ?>
 <html>
@@ -51,11 +49,7 @@ echo $docType."\r\n";
   echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
   // SENDING PAGE-TEXT TO USER
   // We're sending it in an HTML document, so encode special characters.
-  if ($loadFile==1)
-    // How should I handle encoding here?
-    {include($aspell_temp_dir.$text_file);}
-  else
-    {echo htmlspecialchars($npage['text'],ENT_NOQUOTES);}
+  echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
 ?></textarea>
 <BR>
 <?
