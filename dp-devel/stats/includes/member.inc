@@ -11,9 +11,11 @@ function showMbrProfile($curMbr) {
 
 	$rankArray = mbrRank($curMbr['username']);
 	$bestDay = bestDayEver($curMbr['u_id']);
-	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank DESC LIMIT 1");
+	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
 	$highestRank = mysql_result($result, 0, "rank");
 	$highestRankDate = mysql_result($result, 0, "date_updated");
+
+	if ($rankArray['curMbrRank'] <= $highestRank) { $highestRank = $rankArray['curMbrRank']; $highestRankDate = time(); }
 
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
