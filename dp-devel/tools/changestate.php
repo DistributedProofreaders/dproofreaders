@@ -120,10 +120,6 @@ if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
 {
 	$refresh_url="upload_text.php?project=$projectid&stage=post_1";
 }
-else if ($reqd_state == 69) // No code requests this.
-{
-	$refresh_url="post_proofers/completepost.php?project=$projectid";
-}
 else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
          $reqd_state == PROJ_SUBMIT_PG_POSTED)
 {
