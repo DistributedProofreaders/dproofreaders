@@ -262,8 +262,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the site statistics
         global $page_tally_names;
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-        echo "<u>" . $page_tally_names[$tally_name] . "</u><br><br>\n";
-        echo "<u>" . _("Site Statistics:") . "</u></font></center>\n";
+        echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
+        echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
 
@@ -335,7 +335,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
 	$u_id = mysql_result($result, 0, "u_id");
 
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
 	echo number_format($usern->get_current_page_tally())."<br>\n";
 	echo "&nbsp;" . _("Current Position: ");
@@ -347,7 +347,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<br><hr width='75%' align='center'><br>\n";
 
 	//Show the team statistics
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Your Teams:") . "</u></font></center>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Your Teams:") . "</b></font></center>\n";
 	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
@@ -357,7 +357,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
         	echo "<br><hr width='75%' align='center'><br>\n";
-        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Neighborhood:</u></font></center>\n";
+        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>Your Neighborhood:</b></font></center>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
 		foreach ( $neighbors as $rel_posn => $neighbor )
@@ -374,7 +374,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
    //If it is a guest user show the past years completed projects
         } else {
-		echo "<center><u>" . _("Completed Projects:") . "</u></center>\n";
+		echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
 		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
 		$thismonth = date("n");
 		$thisyear = date("Y");
@@ -396,7 +396,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	if (!empty($userP)) {
 		echo "<br><hr width='75%' align='center'><br>\n";
-		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>"._("Key Help Documents:")."</u></font></center>\n";
+		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>"._("Key Help Documents:")."</b></font></center>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
