@@ -1,0 +1,99 @@
+#!/bin/sh
+
+# usage: get_cvs_snapshot <TAG> <GROUP> <root_dir>
+#
+# Get a snapshot of the DP code (the revisions tagged with $TAG) from
+# the CVS repository on SourceForge, creating the directory $root_dir
+# to house it. Set the group-ownership of everything to $GROUP.
+
+TAG=$1
+GROUP=$2
+root_dir=$3
+
+# Remove any $root_dir
+
+if [ -d $root_dir ]; then
+    # It's probably left over from a previous invocation of this
+    # script that failed for some reason.
+    rm -rf $root_dir
+    status=$?
+    if [ $status != 0 ]; then
+        echo "'rm $root_dir' returned status $status, so exiting"
+        exit 1
+    fi
+fi
+
+# ------------------------------------------------------------------------------
+# Extract the latest source from the CVS repository.
+
+if hostname | grep -q sourceforge.net; then
+    # We're on a SourceForge host.
+    cvs_server=cvs1
+else
+    # We're not on a SourceForge host.
+    cvs_server=cvs.sourceforge.net
+fi
+
+if false; then
+    cvs_account=:pserver:anonymous@$cvs_server
+    # This is delayed from the ssh CVS server by up to 5 hours.
+else
+    sf_userid=`cat ~/.sourceforge_id 2>/dev/null`
+    if [ "$sf_userid" = "" ]; then
+        echo -n "Please enter your SourceForge user id: "
+        read sf_userid
+        echo "(Saving that to ~/.sourceforge_id)"
+        echo $sf_userid > ~/.sourceforge_id
+    else
+        echo "~/.sourceforge_id says you are $sf_userid at SourceForge"
+        echo "(If this is incorrect, please abort and edit the file.)"
+    fi
+    cvs_account=:ext:$sf_userid@$cvs_server
+    export CVS_RSH=ssh
+fi
+
+# Apparently, CVS doesn't like it if you say
+#     cvs export -d /0/htdocs/c.new
+# It complains:
+#     cvs [export aborted]:
+#     absolute pathname `/0/htdocs/c.new' illegal for server
+# Instead, you have to say
+#     cd /0/htdocs
+#     cvs export -d c.new
+# (But we want to do this is a subshell, so that it doesn't break
+# other paths [e.g. $site_config_file], which might be relative.)
+# (Stupid CVS.)
+# So we have to decompose $root_dir.
+
+root_dir_parent=`dirname $root_dir`
+root_dir_name=`basename $root_dir`
+
+echo ""
+echo "Getting snapshot from CVS repository on SourceForge,"
+echo "putting it in $root_dir ..."
+for attempt in 1 2 3 4 last; do
+    ( cd $root_dir_parent &&
+    cvs -Q -d$cvs_account:/cvsroot/dproofreaders export -r $TAG -d $root_dir_name dp-devel )
+    status=$?
+    if [ $status = 0 ]; then break; fi
+    echo "'cvs export -r $TAG -d $root_dir dp-devel' returned $status"
+    if [ $attempt = last ]; then
+        echo "so exiting"
+        exit 1
+    else
+        echo "so trying again"
+    fi
+done
+
+chgrp -R $GROUP $root_dir
+
+# ------------------------------------------------------------------------------
+# Make everything user+group-writeable, so that anyone in the group
+# can delete it (which they need to do to install a new one).
+
+chmod -R ug+w $root_dir
+
+# Remove all 'other' permissions on the SETUP directory,
+# to prevent it being served over the web.
+
+chmod -R o= $root_dir/SETUP
