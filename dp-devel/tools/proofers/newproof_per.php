@@ -43,7 +43,7 @@ theme("Personal Page for $pguser", "header");
         $pagesproofed = mysql_result($result,0);
 
         // DEMO VERSION allows people to simulate different page counts via parameter in URL
-        $pagesproofed =  isset($_GET['numofpages'])?$_GET['numofpages']:0;
+        // $pagesproofed =  isset($_GET['numofpages'])?$_GET['numofpages']:0;
 
         echo '<br>';
 
