@@ -23,10 +23,7 @@ else $orderclause = "";
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'
                      $orderclause");
-echo ("SELECT nameofwork, txtlink, checkedoutby, modifieddate
-                     FROM projects
-                     WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'
-                     $orderclause");
+
     $numrows = mysql_numrows($result);
     $rownum = 0;
 
