@@ -44,13 +44,13 @@ These can be accessed by pointing to a specific file <br />
 within the comments section of the Project Comments form.<br />
 <br />
 The standard template files currently available are:<br />
-<a href="laycoms.php#bg1a" target="_blank">BG1a.txt</a> Beginners Only, round one, upper<br />
-<a href="laycoms.php#bg1b" target="_blank">BG1b.txt</a> Beginners Only, round one, lower<br />
-<a href="laycoms.php#bgr2" target="_blank">BGr2.txt</a> Beginners Only, round two extra<br />
-<a href="laycoms.php#diac" target="_blank">diac.txt</a> diacritical marks<br />
-<a href="laycoms.php#pgnm" target="_blank">pgnm.txt</a> preserve index page numbers<br />
-<a href="laycoms.php#port" target="_blank">port.txt</a> Portuguese National Library<br />
-<a href="laycoms.php#wrrn" target="_blank">wrrn.txt</a> Warren Commission<br />
+<a href="templates_catalog.php#bg1a" target="_blank">BG1a.txt</a> Beginners Only, round one, upper<br />
+<a href="templates_catalog.php#bg1b" target="_blank">BG1b.txt</a> Beginners Only, round one, lower<br />
+<a href="templates_catalog.php#bgr2" target="_blank">BGr2.txt</a> Beginners Only, round two extra<br />
+<a href="templates_catalog#diac" target="_blank">diac.txt</a> diacritical marks<br />
+<a href="templates_catalog#pgnm" target="_blank">pgnm.txt</a> preserve index page numbers<br />
+<a href="templates_catalog.php#port" target="_blank">port.txt</a> Portuguese National Library<br />
+<a href="templates_catalog.php#wrrn" target="_blank">wrrn.txt</a> Warren Commission<br />
 <br />
 <br />
 To place any one of the above samples into your comments simply include the line:<br />
@@ -71,8 +71,8 @@ or sent to site development for inclusion here.<br />
 <br />
 Style names are based on User ID where style was first seen:<br />
 <br />
-<strong>Cedron:</strong> <a href="laycoms.php#cedrlayout">Layout</a> / <a href="laycoms.php#cedrcode">Code</a><br />
-<strong>Cgehring:</strong> <a href="laycoms.php#cgehlayout">Layout</a> / <a href="laycoms.php#cgehcode">Code</a> 
+<strong>Cedron:</strong> <a href="templates_catalog.php#cedrlayout">Layout</a> / <a href="templates_catalog.php#cedrcode">Code</a><br />
+<strong>Cgehring:</strong> <a href="templates_catalog.php#cgehlayout">Layout</a> / <a href="templates_catalog.php#cgehcode">Code</a> 
  
 <br />
 <br />
