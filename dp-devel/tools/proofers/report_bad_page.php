@@ -128,7 +128,7 @@ You will then be able to put the project back up on the site.";
 	} else {
 		$message =
 "There has been a page marked as bad in this project.
-Please visit the Project Manager page to view
+Please visit $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid to view
 the reason it was marked as bad by the user.
 You will then be able to make any needed
 changes and put the page back up for proofing.
