@@ -14,7 +14,7 @@ $popHelpDir='./../../faq/pophelp/project_manager/';
 include_once($relPath.'js_newpophelp.inc');
 
 function encodeFormValue($value) {
-  return htmlentities($value,ENT_QUOTES,"UTF-8");
+  return htmlspecialchars($value,ENT_QUOTES);
 }
 
 // Because we have PHP configured with magic_quotes_gpc On,
@@ -548,8 +548,8 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
 	if (empty($authorsname) && isset($_POST['rec'])) {  $authorsname = marc_author($rec); }
 	if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
 	if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
-	if (empty($txtlink)) { $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.txt"; }
-	if (empty($ziplink)) { $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.zip"; }
+	if (empty($txtlink)) { $txtlink = ""; }
+	if (empty($ziplink)) { $ziplink = ""; }
 	if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>"; }
 	if (empty($scannercredit)) { $scannercredit = ""; }
 	if (empty($clearance)) { $clearance = ""; }
@@ -607,6 +607,7 @@ else {
 	theme("Create a Project", "header");
 	if (!function_exists('yaz_connect')) {
 		echo "<br><center><b>PHP is not compiled with YAZ support.  Please do so and try again.</b></center><br>";
+		echo "<center>Until you do so, click <a href='editproject.php?action=createnew'>here</a> for creating a new project.</center><br>";
 		echo "<center>If you believe you should be seeing the Create Project page please contact a <a href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></center>";
 	} else {
 		echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
