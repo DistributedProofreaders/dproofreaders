@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'tdecho.inc');
-function showavailablebooks($result,$state,$userP,$tList,$round)
+function showbooklistheader($round)
 {
 echo "<tr>";
 tde('<b>Name&nbsp;of&nbsp;Work</b>',bgcol(1,$round));
@@ -11,6 +11,9 @@ tde('<b>Project<BR>Manager</b>',bgcol(1,$round) . "60");
 tde('<b>Pages available for proofing</b>',bgcol(1,$round) . "100");
 tde('<b>Total pages in the book</b>',bgcol(1,$round) . "100");
 echo "</tr>";
+}
+function showavailablebooks($result,$state,$userP,$tList,$round)
+{
     $numrows = mysql_num_rows($result);
     $rownum = 0;
     $rownum2 = 0;
