@@ -254,8 +254,20 @@ nW.document.open();
 // SENDING PAGE-TEXT TO USER
 // We're sending it in a HTML document,
 // so we entity-encode its HTML-special characters.
-nW.document.write('<PRE>'+html_safe(docRef.editform.text_data.value)+'</PRE>');
+nW.document.write('<PRE>'+showNW_safe(docRef.editform.text_data.value)+'</PRE>');
 nW.document.close()
+}
+
+function showNW_safe(str)
+// Entity-encode str's HTML-special characters,
+// but reinstate <i> and <b> tags,
+// because we want the browser to interpret them (but nothing else) as markup.
+{
+    return html_safe(str)
+	.replace(/&lt;i&gt;/ig, '<i>')
+	.replace(/&lt;\/i&gt;/ig, '</i>')
+	.replace(/&lt;b&gt;/ig, '<b>')
+	.replace(/&lt;\/b&gt;/ig, '</b>')
 }
 
 function html_safe(str)
