@@ -122,7 +122,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         // NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
         // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
-        while ($numAvailable > 0 && $released < $target) {
+        while ($numAvailable > 0) {
                 // check the date
                 $modifieddate = mysql_result($avail_result, $i, "modifieddate");
                 if ($modifieddate == $todaysdate) {
@@ -178,6 +178,12 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 } else {
                                         $released = $released + $newpagesreleased;
                                         if ($count2ndRnd == "yes") $released = $released + $newpagesreleased;
+                                }
+                                if ( $released >= $target )
+                                {
+                                        // We have now reached or exceeded our target,
+                                        // so don't consider any more projects in this category.
+                                        break;
                                 }
                         }
                 }
