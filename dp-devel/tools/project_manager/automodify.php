@@ -352,6 +352,7 @@ if ($trace) echo "\n";
 
 if ($verbose)
 {
+    echo "\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
     echo "\n";
     echo "Total pages available = $pagesleft\n";
