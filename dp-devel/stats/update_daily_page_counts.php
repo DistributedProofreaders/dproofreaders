@@ -57,9 +57,25 @@ for ( $d = 1; ; $d++ )
 
     $Y_end_ts = mktime(0,0,0,$X_month,$X_day+$d+1,$X_year);
 
+    $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts );
+}
+
+if ($trace)
+{
+    echo "</pre>", $EOL;
+}
+
+function get_n_pages_proofed( $start_ts, $end_ts )
+// Return the total number of pages proofed between the two timestamps.
+{
+    global $trace, $EOL;
+
     if ($trace)
     {
-        echo 'Looking for all pages proofed on that day...', $EOL;
+        echo 'Looking for all pages proofed between ', $EOL;
+        echo '    ', date('r',$start_ts), ' and', $EOL;
+        echo '    ', date('r',$end_ts), $EOL;
+        echo '    ....', $EOL;
     }
 
     $total_n_pages_proofed = 0;
@@ -76,24 +92,34 @@ for ( $d = 1; ; $d++ )
     {
         list($projectid) = $project_row;
 
+        if ($trace)
+        {
+            echo "    project $projectid: ";
+        }
+
         $res2 = mysql_query("
             SELECT COUNT(*) FROM $projectid
             WHERE 
             state='save_first' 
-                AND round1_time >= $Y_start_ts
-                AND round1_time <  $Y_end_ts
+                AND round1_time >= $start_ts
+                AND round1_time <  $end_ts
             OR
             state='save_second'
-                AND round2_time >= $Y_start_ts
-                AND round2_time <  $Y_end_ts
-            ")
-            or die(mysql_error());
+                AND round2_time >= $start_ts
+                AND round2_time <  $end_ts
+            ");
+
+        if (!$res2)
+        {
+            echo mysql_error(), $EOL;
+            continue;
+        }
 
         list($n_pages_proofed) = mysql_fetch_array($res2);
 
         if ($trace)
         {
-            echo "    project $projectid: $n_pages_proofed", $EOL;
+            echo $n_pages_proofed, $EOL;
         }
 
         $total_n_pages_proofed += $n_pages_proofed;
@@ -103,10 +129,7 @@ for ( $d = 1; ; $d++ )
     {
         echo "total: $total_n_pages_proofed", $EOL;
     }
-}
 
-if ($trace)
-{
-    echo "</pre>", $EOL;
+    return $total_n_pages_proofed;
 }
 ?>
