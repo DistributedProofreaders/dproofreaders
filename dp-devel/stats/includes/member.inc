@@ -163,6 +163,13 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 			$currentRank = $rankArray['curMbrRank'];
 		}
 
+	return showChangeInRank($prevRank, $currentRank);
+}
+
+function showChangeInRank($prevRank, $currentRank)
+// Return a snippet of HTML that visually conveys
+// the change in rank between $prevRank and $currentRank.
+{
 	if (empty($currentRank) || empty($prevRank)) {
 		// Normally, this means that the rank is zero,
 		// which indicates that the user's page tally is zero.
