@@ -23,6 +23,20 @@ $post_processing_forum_url = "$forums_url/viewforum.php?f=3";
 
 $uploads_dir = '<<UPLOADS_DIR>>';
 
+// -----------------------------------------------------------------------------
+
+// location of aspell executable
+$aspell_executable = '<<ASPELL_EXECUTABLE>>';
+
+// root of all aspell dir ./bin/ etc.
+// (passed to aspell as --prefix=$aspell_prefix)
+$aspell_prefix = "<<ASPELL_PREFIX>>";
+
+// document root for temp files
+// $aspell_temp_dir = "{$_SERVER['DOCUMENT_ROOT']}/~userdirectory~/spell/tmp/";
+// So far we have always located this under the system tmp
+// in its own dir for easy purging.
+$aspell_temp_dir = '<<ASPELL_TEMP_DIR>>/';
 
 // -----------------------------------------------------------------------------
 
