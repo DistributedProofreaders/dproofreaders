@@ -91,7 +91,7 @@ it is not an error, click the Check for Common Errors button to continue the err
 sequence.
 
 <P>When the error checking sequence is complete, click the Check for Common Errors button
-to replace the error check messages witfaq_central.phph the text.  Changes made during the error checking
+to replace the error check messages with the text.  Changes made during the error checking
 process will be included in the text.  If you wish to undo any changes made during the
 process, click the Undo Revert button to restore to your last edit before starting the
 Check for Common Errors sequence.
