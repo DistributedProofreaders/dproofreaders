@@ -38,6 +38,23 @@ if (isset($editone))
   exit;
 }
 
+
+// plug user page count cheat - if they reopen a saved page, subtract it from their count
+// as it is 'unproofing' it; they will get it back if they save it again
+
+// if editing a page
+if (isset($editone)) 
+{
+  // if page comes from My Recently Completed
+  if (($pagestate == SAVE_FIRST) || 
+      ($pagestate == SAVE_SECOND))
+  {
+
+     $tpage->deleteUserCount($proofstate, $pguser,$userP);
+  }
+}
+
+
 //Make sure project is still available
   $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
   $result = mysql_query($sql);
