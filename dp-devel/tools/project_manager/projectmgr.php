@@ -268,7 +268,7 @@ abort_if_not_manager();
 					}
 				else
 					{
-						$dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $project");
+						$dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
 						if ($dbQ != "") { $totpag=mysql_result($dbQ,0,"totalpages"); } 
 						else 			
 							{
