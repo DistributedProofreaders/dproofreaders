@@ -5,7 +5,7 @@ $orig_line_i=0;
 $orig_line='';
 $orig_start=0;
 $html_for_line='';
-$n_bad_words=1;
+$n_bad_words=0;
 
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
@@ -127,13 +127,15 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 	} // end display text for spelling
 	echo "</pre>";
 
-	echo "<input type='hidden' name='sptotal' value='".($n_bad_words-1)."'>";
+	echo "<input type='hidden' name='sptotal' value='$n_bad_words'>";
 }
 
 function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 {
 	// echo "spellSuggest( orig_word='$orig_word', n_suggs=$n_suggs, orig_word_offset=$orig_word_offset, suggs_str='$suggs_str' )<br>\n";
 	global $orig_line,$orig_line_i,$orig_start,$n_bad_words,$html_for_line;
+
+	$n_bad_words++;
 
 	$html_for_line .= escapeStringEntities(substr($orig_line,$orig_start,($orig_word_offset-1)-$orig_start));
 	$orig_word = escapeStringEntities($orig_word);
@@ -159,7 +161,6 @@ function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 		}
 	}
 	$html_for_word .= "</select>";
-	$n_bad_words++;
 
 	// put html in end
 	$html_for_line .= $html_for_word;
