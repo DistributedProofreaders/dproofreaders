@@ -74,9 +74,11 @@ switch ( $submit_button )
         echo "<input type='hidden' name='projectid' value='$projectid'>";
 
         echo "<hr>";
-        echo "If you just want to renumber the pages from 001\n";
-        echo "(while maintaining their current order), click here:\n";
-        echo "<input type='checkbox' name='renumber_from_001'>Renumber from 001";
+        echo "If you just want to number all pages serially\n";
+        echo "(while maintaining their current order), check here,\n";
+        echo "and specify a starting name (including any leading zeroes).\n";
+        echo "<input type='checkbox' name='renumber_from_n'>Renumber from ";
+        echo "<input type='text' size='4' name='renumbering_start' value='001'>";
 
         echo "<hr>";
         echo "Otherwise, for each page that you wish to rename, type in the new fileid.\n";
@@ -112,17 +114,41 @@ switch ( $submit_button )
 
     case 'Check renamings':
 
-        $renumber_from_001 = array_get( $_POST, 'renumber_from_001', 'off' );
+        $renumber_from_n = array_get( $_POST, 'renumber_from_n', 'off' );
 
-        if ( $renumber_from_001 == 'on' )
+        if ( $renumber_from_n == 'on' )
         {
             // Ignore $_POST['new_fileid_for_']
 
+            $start_str = array_get( $_POST, 'renumbering_start', '001' );
+
+            $n_matches = preg_match( '/^(\D*)(\d+)(\D*)$/', $start_str, $matches );
+            if ($n_matches == 0)
+            {
+                echo "Starting name '$start_str' is invalid.\n";
+                echo "Please hit 'Back' and fix.\n";
+                return;
+            }
+
+            list($all,$prefix,$numeral,$postfix) = $matches;
+            $n_digits = strlen($numeral);
+            $numeral_format = "%0{$n_digits}d";
+
+            $start_number = intval($numeral);
+            $end_number = $start_number + count($current_image_for_fileid_) - 1;
+            if ( $end_number >= pow(10,$n_digits) )
+            {
+                echo "The last page would be numbered $end_number, which exceeds $n_digits digits.\n";
+                echo "Please hit 'Back' and fix.\n";
+                return;
+            }
+
             $new_fileid_for_ = array();
-            $i = 1;
+            $i = $start_number;
             foreach ( $current_image_for_fileid_ as $fileid => $image )
             {
-                $new_fileid = sprintf( '%03d', $i );
+                $new_numeral = sprintf( $numeral_format, $i );
+                $new_fileid = $prefix . $new_numeral . $postfix;
                 $new_fileid_for_[$fileid] = $new_fileid;
                 $i++;
             }
