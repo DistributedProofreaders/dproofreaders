@@ -402,7 +402,7 @@ function user_initialize_page_tally_history( $u_id )
         INSERT INTO past_tallies
         SET
             timestamp   = $time_for_record,
-            holder_type = 'U'
+            holder_type = 'U',
             holder_id   = $u_id,
             tally_name  = 'P',
             tally_delta = 0,
