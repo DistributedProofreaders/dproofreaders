@@ -91,9 +91,32 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
 // if the project is in second round, the number of pages that
 // are available for first-round proofing is zero.)
 {
-	$projectinfo = new projectinfo();
-	$projectinfo->update_avail($projectid, $proofstate);
-	return $projectinfo->availablepages;
+    $project_round = projectStateRound($proofstate);
+
+    if ( $project_round == 'FIRST' || $project_round == 'NEW' )
+    {
+        $avail_state = AVAIL_FIRST;
+    }
+    else if ( $project_round == 'SECOND' )
+    {
+        $avail_state = AVAIL_SECOND;
+    }
+    else
+    {
+        return 0;
+    }
+
+    $res = mysql_query("SELECT COUNT(*) FROM $projectid WHERE state='$avail_state'");
+    if (!$res)
+    {
+        echo mysql_error();
+        return 0;
+    }
+
+    list($num_available_pages) = mysql_fetch_row($res);
+
+    return $num_available_pages;
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
