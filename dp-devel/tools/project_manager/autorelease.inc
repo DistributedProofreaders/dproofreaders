@@ -3,16 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'bookpages.inc');
-
-function numpages($projectid) {
-        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $projectid");
-        if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
-}
-
-function numavailpages($projectid, $roundavailstate) {
-        $level0rows = mysql_query("SELECT COUNT(fileid) FROM $projectid WHERE state = '$roundavailstate'");
-        if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
-}
+// include_once($relPath.'f_dpsql.inc');
 
 function attempt_to_release($project)
 {
@@ -92,6 +83,12 @@ function autorelease()
 		}
 	}
 
+	// -------------------------------------------------------------------------
+
+	AP_setup();
+
+	// -------------------------------------------------------------------------
+
         // Release of Different types of Projects from various logical queues
         // NB The arguments for these calls can come out of a table LATER (stage two)...
         // For now, let's get it out and working, even with hardwired arguments
@@ -105,36 +102,28 @@ function autorelease()
 			// Always have a certain number of pages available in round 1
 			'projtype_desc' => "Beginners Only",
 			'projtype_sql'  => "username = 'BEGIN'",
-			'count2ndRnd'   => "",
-			'track_by'      => "page",
-			'target'        => $GLOBALS['beginners_pagesneeded'],
+			'release_criterion' => "pages1 < {$GLOBALS['beginners_pagesneeded']}",
 		),
 		array(
 			// Easy English Projects
 			// Always have a certain number of projects in first round
 			'projtype_desc' => "EASY English",
 			'projtype_sql'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
-			'count2ndRnd'   => "",
-			'track_by'      => "project",
-			'target'        => $GLOBALS['easy_projects'],
+			'release_criterion' => "projects1 < {$GLOBALS['easy_projects']}",
 		),
 		array(
 			// Non-English Projects
 			// Always have a certain number of pages spread over the two rounds
 			'projtype_desc' => "Non English",
 			'projtype_sql'  => "language NOT LIKE 'English%'",
-			'count2ndRnd'   => "yes",
-			'track_by'      => "page",
-			'target'        => $GLOBALS['noneng_pagesneeded'],
+			'release_criterion' => "pages1 + pages2 < {$GLOBALS['noneng_pagesneeded']}",
 		),
 		array(
 			// English Projects
 			// Always have a certain number of pages spread over the two rounds
 			'projtype_desc' => "English",
 			'projtype_sql'  => "language LIKE 'English%'",
-			'count2ndRnd'   => "yes",
-			'track_by'      => "page",
-			'target'        => $GLOBALS['eng_pagesneeded'],
+			'release_criterion' => "pages1 + pages2 < {$GLOBALS['eng_pagesneeded']}",
 		),
 		array(
 			// Extra Projects
@@ -143,9 +132,7 @@ function autorelease()
 			// from the front of the queue until we have enough pages out.
 			'projtype_desc' => "Extra", // Total?
 			'projtype_sql'  => "1",
-			'count2ndRnd'   => "yes",
-			'track_by'      => "page",
-			'target'        => $GLOBALS['pagesneeded'],
+			'release_criterion' => "pages1 + pages2 < {$GLOBALS['pagesneeded']}",
 		),
 	);
 
@@ -153,95 +140,29 @@ function autorelease()
 	{
 		$projtype_desc = $cat['projtype_desc'];
 		$projtype_sql  = $cat['projtype_sql'];
-		$count2ndRnd   = $cat['count2ndRnd'];
-		$track_by      = $cat['track_by'];
-		$target        = $cat['target'];
+		$release_criterion = $cat['release_criterion'];
 
-		// Release available projects of a given type (defined by $projtype_sql) until a target number of
-		// PROJECTS or PAGES (depending on $track_by) of that type is available for proofing
+		// Release available projects of a given type (defined by $projtype_sql)
+		// as long as the $release_criterion is true for projects of that type.
 
-		// $track_by            what units do we measure by, "project" or "page"?
 		// $projtype_desc       human readable string describing this type of project
 		// $projtype_sql        portion of WHERE clause that defines this type of project
-		// $target              total number of units of this type we want available for proofing
-		// $numReleased            total number of units of this type already released before we start
-		// $count2ndRnd         if "yes", and tracking by "page", consider contribution towards target of second round
+		// $release_criterion   logical expression using projects1|2, pages1|2
 
 		echo "\n";
 		echo "Considering $projtype_desc projects...\n";
-
-		if ($count2ndRnd == 'yes')
-		{
-			$which_rounds_desc = "both rounds";
-			$which_rounds_sql = "(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')";
-		}
-		else
-		{
-			$which_rounds_desc = "first round";
-			$which_rounds_sql = "state = '".PROJ_PROOF_FIRST_AVAILABLE."'";
-		}
-
-		if ($track_by == 'project')
-		{
-		    $units_desc = 'projects';
-		}
-		else if ($track_by == 'page')
-		{
-		    $units_desc = 'unproofed pages';
-		}
-
 		echo "\n";
 		echo "    For projects matching: $projtype_sql\n";
-		echo "    look for: $units_desc in $which_rounds_desc\n";
-		echo "    target:    $target\n";
+		echo "    release if: $release_criterion\n";
 
-		if ($track_by == 'project')
+		// Does the $release_criterion allow us to release any projects?
+		if (! AP_evaluate_criteria( $projtype_sql, $release_criterion ) )
 		{
-			$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE $which_rounds_sql AND $projtype_sql ORDER BY modifieddate ASC");
-			$numReleased = mysql_result($rel_qry,0);
-		}
-		else if ($track_by == 'page')
-		{
-			$rel_qry = mysql_query("SELECT projectid, state FROM projects WHERE $which_rounds_sql AND $projtype_sql ORDER BY modifieddate ASC");
-			$numProjects = mysql_num_rows($rel_qry);
-			$numReleased = 0;
-			$i = 0;
-			while ($i < $numProjects) {
-				$proj = mysql_result($rel_qry,$i,0);
-				if ($count2ndRnd == 'yes')
-				{
-					if (mysql_result($rel_qry,$i,1) == PROJ_PROOF_FIRST_AVAILABLE) {
-						$numReleased = $numReleased + numpages($proj) + numavailpages($proj, AVAIL_FIRST);
-					} else {
-						$numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
-					}
-				}
-				else
-				{
-					$numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);
-				}
-				$i++;
-			}
-		}
-
-		echo "    found:     $numReleased\n";
-
-		// if there's enough out there already, don't bother
-		if ($numReleased >= $target)
-		{
-			$surplus = $numReleased - $target;
-			echo "    surplus:   $surplus\n";
-			echo "\n";
-			echo "    No room for releases in this category.\n";
+			echo "    The release criterion fails, so no projects released in this category.\n";
 			continue;
 		}
-		else
-		{
-			$shortfall = $target;
-			echo "    shortfall: $shortfall\n";
-			echo "\n";
-		}
 		
+		// We are allowed to release projects!
 
 		// set of candidates for release
 		$waiting_res = mysql_query("
@@ -258,13 +179,12 @@ function autorelease()
 		}
 
 		// Keep releasing these projects (SP) until:
-		//      we meet our target for them ($numReleased >= $target),
+		//      the $release_criterion fails
 		// or   we run out of SP ready to release
 		// or   subject to the "no doubling up of authors" rule
 		// NB No other restrictions; specifically, $GLOBALS['pagesneeded'] cannot influence SPs;
 		// this is so a huge book ariving from another queue won't stop the release of needed SPs
 
-		$newpagesreleased = 0;
 		$num_projects_released = 0;
 
 		while ( $project = mysql_fetch_assoc($waiting_res) )
@@ -292,24 +212,17 @@ function autorelease()
 
 			$first_round_authors[$authorsname] = 1;
 
-			$newpagesreleased = numpages($project['projectid']);
 			$num_projects_released++;
 
-			// update our progress towards the target,
-			// depending on whether we are tracking by project or page
-			if ($track_by == "project")
+			// Update active_page_counts
+			// (The release of this project will affect the release-ability
+			// of other projects in this category, and possibly of projects
+			// in other categories.)
+			AP_add_project( $project['projectid'] );
+
+			if (! AP_evaluate_criteria( $projtype_sql, $release_criterion ) )
 			{
-				$numReleased = $num_projects_released;
-			}
-			else
-			{
-				$numReleased = $numReleased + $newpagesreleased;
-				if ($count2ndRnd == "yes") $numReleased = $numReleased + $newpagesreleased;
-			}
-			if ( $numReleased >= $target )
-			{
-				// We have now reached or exceeded our target,
-				// so don't consider any more projects in this category.
+				echo "    The release criterion now fails, so no further projects released in this category.\n";
 				break;
 			}
 		}
@@ -319,4 +232,119 @@ function autorelease()
 
         echo "</pre>\n";
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function AP_setup()
+// Set up temporary table active_page_counts,
+// containing a row for each project in round 1 or 2.
+// fields:
+//     projectid
+//     pages1 = number of pages yet to receive 1st proofing
+//     pages2 = number of pages yet to receive 2nd proofing
+// Note that, by definition, pages1 <= pages2, since
+// a page can only receive 2nd proofing after 1st proofing.
+//
+// This table is similar to page_counts,
+// but contains slightly different information.
+// Maybe they could be merged.
+{
+	// If we had one table with all page info,
+	// we could set up this table with a single
+	// CREATE TABLE ... SELECT ...
+	// statement.
+	// Instead, we have to loop over the active projects.
+
+	// Create the table.
+	mysql_query("
+		CREATE TEMPORARY TABLE active_page_counts
+		(
+			projectid  TEXT NOT NULL,
+			pages1     INT(4),
+			pages2     INT(4)
+		)
+	") or die(mysql_error());
+
+	// Get a list of active projects.
+	$projects_res =
+		mysql_query("
+			SELECT projectid
+			FROM projects
+			WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')
+		") or die(mysql_error());
+
+	// Run through them and fill up the table.
+	while( $project = mysql_fetch_assoc($projects_res) )
+	{
+		AP_add_project( $project['projectid'] );
+	}
+
+	// echo "\n";
+	// dpsql_dump_table('active_page_counts');
+}
+
+function AP_add_project( $projectid )
+{
+	mysql_query("
+		INSERT INTO active_page_counts
+		SELECT
+			'$projectid',
+			SUM(
+				state = '".UNAVAIL_FIRST."' OR
+				state = '".BAD_FIRST."' OR
+				state = '".AVAIL_FIRST."' OR
+				state = '".OUT_FIRST."' OR
+				state = '".TEMP_FIRST."'
+			) as pages1,
+			SUM(
+				state != '".SAVE_SECOND."'
+			) as pages2
+		FROM $projectid
+	") or die(mysql_error());
+}
+
+function AP_evaluate_criteria( $projtype_sql, $release_criterion )
+{
+	// Get the criterion-evaluation environment
+	// (values for projects1|2, pages1|2)
+	$res = mysql_query("
+			SELECT
+				SUM(projects.state='".PROJ_PROOF_FIRST_AVAILABLE."') as projects1,
+				SUM(projects.state='".PROJ_PROOF_SECOND_AVAILABLE."') as projects2,
+				SUM(active_page_counts.pages1) as pages1,
+				SUM(active_page_counts.pages2) as pages2
+			FROM projects NATURAL JOIN active_page_counts
+			WHERE $projtype_sql
+		") or die(mysql_error());
+	$env = mysql_fetch_assoc($res);
+	// print_r($env);
+
+	return evaluate_expression( $release_criterion, $env );
+}
+
+function evaluate_expression( $expression, $env )
+{
+	$expr = $expression;
+	foreach( $env as $id => $value )
+	{
+		if (is_null($value)) $value = 0;
+		$expr = str_replace( $id, $value, $expr );
+	}
+	// should check $expr for traps
+	$result = eval( "return ($expr);" );
+
+	if (TRUE)
+	{
+		echo "\n";
+		echo "    Evaluate '$expression' wrt {";
+		foreach( $env as $id => $value )
+		{
+			echo " $id => $value,";
+		}
+		echo "} = '$expr' = $result\n";
+	}
+
+	return $result;
+}
+
 ?>
