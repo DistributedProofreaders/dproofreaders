@@ -48,9 +48,36 @@ date("l, F jS, Y",$row['modifieddate'])
 function activityCenter($curProj) {
 	global $theme;
 
+	include($relPath.'page_states.inc');
+	include($relPath.'f_project_states.inc');
+
+	$proj_round = projectStateRound($curProj['state']);
+
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.html'>View Page Images</font></td></tr>";
+// Discuss project in forums
+
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$code_url."/tools/proofers/project_topic.php?project=".$curProj['projectid']."'>Discuss</a></font></td></tr>";
+
+// View Page Images
+
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.html'>View Page Images</a></font></td></tr>";
+
+// Download Page Images
+
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.zip'>Download Page Images</a></font></td></tr>";
+
+//	Book is Posted
+
+	if ($proj_round = 'GB') {
+
+	if (!empty($curProj['ziplink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['ziplink']."'>Zip Version</a></font></td></tr>"; }
+
+	if (!empty($curProj['txtlink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['txtlink']."'>Text Version</a></font></td></tr>"; }
+
+	if (!empty($curProj['htmllink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['htmllink']."'>HTML Version</a></font></td></tr>"; }
+
+	}
 
 	echo "</table>";
 }
