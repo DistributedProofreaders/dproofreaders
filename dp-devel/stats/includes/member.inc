@@ -42,6 +42,7 @@ function showMbrProfile($curMbr) {
 	function echo_tr_2_cols( $left, $right )
 	{
 		global $theme;
+		echo "\n";
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo   "<td width='30%' align='left' valign='top'>";
 		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
@@ -274,6 +275,7 @@ function showMbrNeighbors($curMbr) {
 		$privacy_enabled = mysql_result($result, 0, "u_privacy");
 		$pagescompleted = number_format($rankArray['pages'][$j]);
 
+		echo "\n";
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
 
 		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
@@ -306,6 +308,7 @@ function showMbrTeams($curMbr) {
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
 	while ($row = mysql_fetch_assoc($result)) {
+		echo "\n";
 		echo "<tr  onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"' bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
 	}
 	echo "</td></tr></table></table><p>";
@@ -328,6 +331,7 @@ function showMbrHistory($curMbr) {
 function echo_tr_headerbar( $blurb, $colspan=1 )
 {
 	global $theme;
+	echo "\n";
 	echo "<tr>";
 	echo "<td colspan='$colspan' bgcolor='".$theme['color_headerbar_bg']."'>";
 	echo "<center>";
