@@ -85,7 +85,18 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<tr>";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>";
 	echo "<img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo'></td>";
-	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>&nbsp;</td>";
+	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>";
+	
+	//get number of projects left till 10,000
+	$fp = fopen($siteurl."/stats/total_count.txt", r);
+	$line = fgets($fp);
+	$numProjectsLeft = 10000 - $line;
+	if ($numProjectsLeft > 0) {
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." projects left till number 10,000!</font></td>";\
+		} elseif ($numProjectsLeft <= 0) {
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font></td>";\
+	}
+			
 	echo "</tr></table>";
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>";
 	echo "<tr>";
