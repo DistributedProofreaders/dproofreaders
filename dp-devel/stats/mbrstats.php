@@ -36,24 +36,7 @@ $max_update = mysql_result($result,0,0);
 		$tracetime=time();
 		maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', $tracetime, 'BEGIN', 'Started generating member statistics for $midnight')");
 		//Update the page count rank for the previous day
-		$result = mysql_query("SELECT u_id, pagescompleted FROM users ORDER BY pagescompleted DESC");
-		$rankArray = "";
-		$i = 1;
-
-		while ($row = mysql_fetch_assoc($result)) {
-			$user_id = $row['u_id'];
-			if ($row['pagescompleted'] == 0) { $rankArray[$user_id] = 0; continue; }
-			if ($row['pagescompleted'] == $lastcompleted) {
-				$rankArray[$user_id] = $lastrank;
-				$lastrank = $lastrank;
-    			} else {
-    				$rankArray[$user_id] = $i;
-    				$lastrank = $i;
-   			}
-    			$lastcompleted = $row['pagescompleted'];
-    			if ($i == 1) { $lastrank = 1; }
-    			$i++;
-		}
+		$rankArray = users_get_page_tally_ranks();
 
 	//Update member_stats with previous days page count
 	$result = mysql_query("SELECT u_id, total_pagescompleted FROM member_stats WHERE date_updated = $max_update");

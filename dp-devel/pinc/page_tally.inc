@@ -106,6 +106,41 @@ function user_page_tally_get_interval_title( $user_page_tally )
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function users_get_page_tally_ranks()
+// Returns an associative array that maps each user's id
+// to his/her rank (as determined by page tallies).
+{
+    $rankArray = "";
+
+    $result = mysql_query("
+        SELECT u_id, pagescompleted
+        FROM users
+        ORDER BY pagescompleted DESC
+    ");
+    $i = 1;
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $user_id = $row['u_id'];
+        if ($row['pagescompleted'] == 0) { $rankArray[$user_id] = 0; continue; }
+        if ($row['pagescompleted'] == $lastcompleted)
+        {
+            $rankArray[$user_id] = $lastrank;
+            $lastrank = $lastrank;
+        }
+        else
+        {
+            $rankArray[$user_id] = $i;
+            $lastrank = $i;
+        }
+        $lastcompleted = $row['pagescompleted'];
+        if ($i == 1) { $lastrank = 1; }
+        $i++;
+    }
+
+    return $rankArray;
+}
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )
