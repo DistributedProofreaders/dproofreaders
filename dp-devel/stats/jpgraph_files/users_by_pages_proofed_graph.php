@@ -13,10 +13,11 @@ new dbConnect();
 
 
 // define threshold timestamps
+$seconds_per_day = 24 * 60 * 60;
 $now = time();
-$t_90_days_ago = $now - (90 * 60 * 60 * 24);
-$t_28_days_ago = $now - (4 * 7 * 60 * 60 * 24);
-$t_7_days_ago  = $now - (7 * 60 * 60 * 24);
+$t_90_days_ago = $now - (90 * $seconds_per_day);
+$t_28_days_ago = $now - (28 * $seconds_per_day);
+$t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 
 
 // how many bars in the graph?
