@@ -18,8 +18,8 @@ $result1 = mysql_query("
 		count(*)
 		  AS num_who_joined
 	FROM users 
-	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
-	ORDER BY FROM_UNIXTIME(date_created, '%Y-%m')
+	GROUP BY month
+	ORDER BY month
 ");
 
 $result2 = mysql_query("
@@ -30,8 +30,8 @@ $result2 = mysql_query("
 		  AS num_who_proofed
 	FROM users 
 	WHERE pagescompleted > 0 
-	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
-	ORDER BY FROM_UNIXTIME(date_created, '%Y-%m')
+	GROUP BY month
+	ORDER BY month
 ");
 
 
