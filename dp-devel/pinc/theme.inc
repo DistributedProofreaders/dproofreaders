@@ -335,7 +335,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
 			$totalprojects = mysql_result($result,0);
 			//echo "&nbsp;$displaydate - $totalprojects<br>\n";
-			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate - </font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>$totalprojects&nbsp;</font></td></tr>\n";
+			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";
 		}
 		echo "</table>\n";
         }	
