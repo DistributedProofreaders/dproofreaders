@@ -1,8 +1,16 @@
 <?
 //A file full of functions used in team stats
 
+$team_avatars_dir = "$code_dir/users/teams/avatar";
+$team_avatars_url = "$code_url/users/teams/avatar";
+
+$team_icons_dir   = "$code_dir/users/teams/icon";
+$team_icons_url   = "$code_url/users/teams/icon";
+
+
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
+	global $team_avatars_url;
 
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Edit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
@@ -30,7 +38,7 @@ function showTeamProfile($curTeam) {
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='95%'>";
 	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'];
 	echo "'><td rowspan='6' align='center' width='30%' bgcolor='" . $theme['color_mainbody_bg']."'>";
-	echo "<img border='0' src='" . $GLOBALS['code_url'] . "/users/teams/avatar/";
+	echo "<img border='0' src='$team_avatars_url/";
 	echo $curTeam['avatar'] . "' alt='".strip_tags($curTeam['teamname'])."'></td>";
 	echo "<td align='left' width='70%' valign='top'><center><font color='" . $theme['color_headerbar_font'];
 	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b></font>&nbsp;<a href='";
@@ -311,6 +319,7 @@ function createThread($tname, $tinfo, $towner, $tid) {
 }
 
 function uploadImages($preview,$tid,$type) {
+	global $team_avatars_dir, $team_icons_dir;
 	if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
 		if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
 			if ($_FILES['teamavatar']['size'] > 2097152) {
@@ -318,7 +327,7 @@ function uploadImages($preview,$tid,$type) {
 				return;
 			}
 			$avatarID = uniqid("avatar_").substr($_FILES['teamavatar']['name'], -4);
-			$upload_avatar_dir = $GLOBALS['code_dir']."/users/teams/avatar/".$avatarID;
+			$upload_avatar_dir = "$team_avatars_dir/$avatarID";
 			move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
 			if ($preview != 1) {
 				mysql_query("UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid") or die(mysql_error());
@@ -337,7 +346,7 @@ function uploadImages($preview,$tid,$type) {
 				return;
 			}
 			$iconID = uniqid("icon_").substr($_FILES['teamicon']['name'], -4);
-			$upload_icon_dir = $GLOBALS['code_dir']."/users/teams/icon/".$iconID;
+			$upload_icon_dir = "$team_icons_dir/$iconID";
 			move_uploaded_file($_FILES['teamicon']['tmp_name'], $upload_icon_dir);
 			if ($preview != 1) {
 				mysql_query("UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
@@ -354,7 +363,7 @@ function uploadImages($preview,$tid,$type) {
 }
 
 function deleteImages() {
-	global $code_dir;
+	global $team_avatars_dir, $team_icons_dir;
 	$oneHourAgo = time() - 600;
 	//Delete unused avatars
 	$result = mysql_query("SELECT id,avatar FROM user_teams");
@@ -363,11 +372,11 @@ function deleteImages() {
 		$activeAvatars[$id] = $row['avatar'];
 	}
 
-	$dir = opendir($code_dir."/users/teams/avatar/");
+	$dir = opendir( $team_avatars_dir );
  	while (false !== ($file = readdir($dir))) {
         	if ($file != "." && $file != ".." && $file != "CVS" && $file != "avatar_default.png" && $file != "avatar_default2.png" && $file != "dp_avatar.png") {
 			if (!in_array ($file, $activeAvatars)) {
-				if (filemtime($code_dir."/users/teams/avatar/".$file) <= $oneHourAgo) { unlink($code_dir."/users/teams/avatar/".$file); }
+				if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo) { unlink("$team_avatars_dir/$file"); }
 			}
 		}
 	}
@@ -380,11 +389,11 @@ function deleteImages() {
 		$activeIcons[$id] = $row['icon'];
 	}
 
-	$dir = opendir($code_dir."/users/teams/icon/");
+	$dir = opendir($team_icons_dir);
  	while (false !== ($file = readdir($dir))) {
         	if ($file != "." && $file != ".." && $file != "CVS" && $file != "icon_default.png" && $file != "icon_default2.png" && file != "dp_icon.png") {
 			if (!in_array ($file, $activeIcons)) {
-				if (filemtime($code_dir."/users/teams/icon/".$file) <= $oneHourAgo) { unlink($code_dir."/users/teams/icon/".$file); }
+				if (filemtime("$team_icons_dir/$file") <= $oneHourAgo) { unlink("$team_icons_dir/$file"); }
 			}
 		}
 	}
