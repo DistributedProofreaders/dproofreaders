@@ -48,7 +48,7 @@ showavailablepost($rows,PROJ_POST_AVAILABLE);
 ?>
 <tr><td bgcolor="#999999" colspan="7">&nbsp;</td></tr></table>
 <P><table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111 width=630>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
+<td width=126 bgcolor ="CCCCCC" align=center><tr><a href ="../../phpBB2/index.php">Forums</a></td>
 <td width=126 bgcolor =CCCCCC align=center><?
 
     if ($manager == "yes") {
