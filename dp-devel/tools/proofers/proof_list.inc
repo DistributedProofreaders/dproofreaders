@@ -16,9 +16,6 @@ if ($totalpages <= 20) {
 
 }
 
-
-$result = mysql_query("SELECT );
-
 // read saved sort orders from user_settings table 
 
 $result = mysql_query("SELECT value FROM user_settings WHERE username = '$pguser' AND setting = 'R1order'");
