@@ -38,6 +38,9 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     echo "<td align ='left'>Books posted in the last 7 days:</td><td align ='right'>$totalbooks</td><tr>";
 
 
+
+
+
   //get total first round books waiting to be released
     $firstwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
     $totalfirstwaiting = (mysql_result($firstwaitingbooks,0,"numbooks"));
@@ -78,17 +81,21 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
     echo "<td align ='left'>Books being verified:</td><td align ='right'>$totalverifying</td><tr>";
 
-
 echo "</table>";
+
+echo "<a href='misc_stats1.php'>Miscellaneous Stats (Top Proofing Days and Months, etc)</a><br><br>";
+
+echo "<a href='../tools/project_manager/release_queue/php'>See All Waiting Queues</a><br><br>";
+
 
 
 echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
 
-echo "<hr><br><br>Special temporary graphs showing last month's results:<br><br>";
-echo "<center><img src=\"jpgraph_files/prev_month_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_prev_month_pages.php\"></center><br>";
+//echo "<hr><br><br>Special temporary graphs showing last month's results:<br><br>";
+//echo "<center><img src=\"jpgraph_files/prev_month_pages_graph.php\"></center><br>";
+//echo "<center><img src=\"jpgraph_files/cumulative_prev_month_pages.php\"></center><br>";
 
 
 theme('','footer');
