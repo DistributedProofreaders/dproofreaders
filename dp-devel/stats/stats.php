@@ -1,11 +1,14 @@
 <?
 $relPath='./../pinc/';
+include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-if (!file_exists(stats.inc)) { 
-	touch("stats.inc"); 
-	$statsfile = fopen("stats.inc", "w");
+$stats_inc_path="$dynstats_dir/stats.inc";
+
+if (!file_exists($stats_inc_path)) { 
+	touch($stats_inc_path); 
+	$statsfile = fopen($stats_inc_path, "w");
 	fputs($statsfile, "<?\n");
 	fputs($statsfile, "\$sitestats['monthly'] = \"0\";\n");
 	fputs($statsfile, "\$sitestats['daily'] = \"0\";\n");
@@ -38,8 +41,8 @@ $monthlyPages = number_format($monthlyPages);
 
 //Read the entire stats file into the $lines array
 $i=0;
-$lines = file("stats.inc");
-$statsfile = fopen("stats.inc", "w");
+$lines = file($stats_inc_path);
+$statsfile = fopen($stats_inc_path, "w");
 while ($i < count($lines)) {
 	if (substr($lines[$i], 12, 7) == "monthly") { fputs($statsfile, "\$sitestats['monthly'] = \"$monthlyPages\";\n"); }
 	elseif (substr($lines[$i], 12, 5) == "daily") {	fputs($statsfile, "\$sitestats['daily'] = \"$dailyPages\";\n");	}
