@@ -30,7 +30,7 @@ function page_clear( $projectid, $fileid )
 
     $project_phase = get_phase_containing_project_state($projstate);
 
-    if ($project_phase == 'NEW' || $project_phase == 'PR' || $project_phase == 'FIRST')
+    if ($project_phase == 'FIRST')
     {
         $round_number = 1;
         $user_field_name = 'round1_user';
