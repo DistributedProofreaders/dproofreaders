@@ -55,11 +55,19 @@ elseif ($feedb == 'fnfalsemarker') {
 echo "<h2>Incorrect footnote tag.</h2>";
 echo "It seems you have used different footnote tags. Please refer to the tutorial, or the Proofreading Guidelines.";
 }
+
+// Illustration tag in wrong place
+elseif ($feedb == 'illupos') {
+echo "<h2>Illustration position incorrect.</h2>";
+echo "The illustration should be moved outside the paragraph, but next to the paragraph it was in.";
+}
+
 // The user forgot the footnote marker
 elseif ($feedb == 'fnmarkermissing') {
 echo "<h2>Footnote marker missing</h2>";
 echo "It seems you haven't inserted the required footnote marker. The marker should be in square brackets.";
 }
+
 // The user used the symbol :(
 elseif ($feedb == 'fnmarkerone') {
 echo "<h2>Footnote marker wrong.</h2>";
