@@ -43,7 +43,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-	VALUES (".$yr.", ".$mth.", ".$dy.", ".$dte.", '". $state."', $num_projects)";
+	VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."', '". $state."', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -76,11 +76,11 @@ echo $qry;
 $cnt = mysql_result($result2,0,'cnt');
 echo $cnt;
 	// no row for this state yet today
-	if (( $cnt) == 0) {	
+	if (( $cnt) == '0') {	
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES (".$yr.", ".$mth.", ".$dy.", ".$dte.",'". $state."', 0)";
+               VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."','". $state."', 0)";
 	
         if ($testing_this_script)
           {
