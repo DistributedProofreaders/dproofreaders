@@ -11,6 +11,7 @@ $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('page_table.inc');
 
+
 $no_stats=1;
 theme("Project Details", "header");
 
@@ -20,12 +21,24 @@ if (! user_is_PP_of( $projectid)) {
 }
 
 
-
-
 $can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
 
+
+if (!$can_edit && ! user_is_PP_of( $projectid))
+{
+	echo "
+			<p>
+			You do not have access to this page.
+			<p>
+			Back to <a href='$code_url/default.php'>home page</a>
+		";
+	exit();
+}
+
+
+
 // test
-$can_edit = FALSE;
+//$can_edit = FALSE;
 
 if ($can_edit) {
 
