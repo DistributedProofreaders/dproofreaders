@@ -66,7 +66,7 @@ switch ( $operation )
 
     case 'delete':
         $your_request = _('You requested that each page be deleted.');
-        $page_func = 'page_delete';
+        $page_func = 'page_del';
     break;
 
     default:

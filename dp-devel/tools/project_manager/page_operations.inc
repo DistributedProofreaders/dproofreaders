@@ -7,7 +7,7 @@ include_once($relPath.'page_ops.inc');
 
 // -----------------------------------------------------------------------------
 
-function page_delete( $projectid, $fileid )
+function page_del( $projectid, $fileid )
 {
     global $writeBIGtable;
 
