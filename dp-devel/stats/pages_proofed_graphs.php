@@ -15,8 +15,8 @@ echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=increments&timeframe
 echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=cumulative&timeframe=curr_month\"></center><br>";
 echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=increments&timeframe=prev_month\"></center><br>";
 echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=increments&timeframe=all_time\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_pages_by_month_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=cumulative&timeframe=all_time\"></center><br>";
+echo "<center><img src=\"jpgraph_files/total_pages_by_month_graph.php\"></center><br>";
 
 theme('','footer');
 ?>
