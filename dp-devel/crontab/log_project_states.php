@@ -3,26 +3,22 @@ $relPath='../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
 
+header('Content-type: text/plain');
+
 $EOL = "\n";
 $testing_this_script=$_GET['mytesting'];
 
-
-if ($testing_this_script)
-{
-    echo "<pre>", $EOL;
-}
 
 // See if this has been run once today or not
 $res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
 $X_date = mysql_result($res,0); // If table is empty, this returns NULL.
-echo $X_date;
+echo $X_date, $EOL;
 if ($X_date == date('Y-m-d')) {
-    echo "Already run once for today ";
+    echo "Already run once for today.", $EOL;
     if (! $testing_this_script)
     {
-        echo "switching to testing mode <br><br>";
-        echo "<pre>", $EOL;
+        echo "switching to testing mode", $EOL;
         $testing_this_script = TRUE;
     }
 }
@@ -68,11 +64,11 @@ while (list ($state) = mysql_fetch_row ($result)) {
 
 
     $qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '$state' and date = '".date('Y-m-d')."'";
-    echo $qry;
+    echo $qry, $EOL;
     $result2 = mysql_query ($qry);
 
     $cnt = mysql_result($result2,0,'cnt');
-    echo $cnt;
+    echo $cnt, $EOL;
     // no row for this state yet today
     if (( $cnt) == '0') {
 
@@ -90,11 +86,6 @@ while (list ($state) = mysql_fetch_row ($result)) {
             mysql_query($insert_query) or die(mysql_error());
         }
     }
-}
-
-if ($testing_this_script)
-{
-    echo "</pre>", $EOL;
 }
 
 // vim: sw=4 ts=4 expandtab
