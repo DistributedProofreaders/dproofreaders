@@ -48,7 +48,7 @@ echo "<br><center>";
 
 echo "<h1>$desc</h1>";
 
-if ($brushoff) {
+if (!is_null($brushoff)) {
 	echo "<p>$brushoff</p>";
 } else {
 	showMbrProfile($curMbr);
