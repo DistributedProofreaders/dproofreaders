@@ -47,19 +47,12 @@ theme('Proofreading Guidelines -- Poetry','header');
     <li>But don't try to <b>center</b> poetry, even if it was centered in the
         printed version.  (That won't work for an e-book viewed with many
         different screen sizes.) Slide the lines towards the left margin, while preserving
-        teh relative indents.         </li>
+        the relative indents.         </li>
     <li>If a line of verse is "broken" because it collided with the right
         margin, join it back into a single line.                                </li>
     <li>If some words are set in ALL CAPS at the beginning of a poem (or each
         stanza of a poem), change them to normal capitalization.  (This was a
         common typesetting convention in these older books.)                    </li>
-    <li>Footnotes in Poetry should be at the end, so as to not interrupt the
-        flow of the Author's verse.
-    <br>Put square brackets <tt>[</tt> and <tt>]</tt> around the footnote number
-        in the line of verse.
-    <br>Then put the footnote itself on a separate line at the end of a stanza,
-        or at the end of the poem (just after the closing <tt>*/</tt>). Example:
-        <tt>[Footnote 1: text of footnote goes here.]</tt>                      </li>
     <li>Check the Project Comments for the specific book.  Poetry books often
         have special instructions from the Project Manager.  (Many times, you
         won't have to follow all these formatting guidelines for a book that is
