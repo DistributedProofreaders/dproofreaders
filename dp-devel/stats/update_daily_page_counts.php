@@ -1,7 +1,4 @@
 <?
-$relPath='./../pinc/';
-include($relPath.'project_states.inc');
-
 // (This is a replacement for dailystats.pl.)
 
 // The 'pagestats' table records the number of pages proofed on any given day,
@@ -14,6 +11,7 @@ include($relPath.'project_states.inc');
 
 $relPath='../pinc/';
 include($relPath.'connect.inc');
+include_once('./pages_proofed.inc');
 new dbConnect();
 
 $EOL = "\n";
@@ -111,86 +109,4 @@ if ($testing_this_script)
     echo "</pre>", $EOL;
 }
 
-function get_n_pages_proofed( $start_ts, $end_ts )
-// Return the total number of pages proofed between the two timestamps.
-// (Takes about ?? seconds.) haven't measured since queries were changed
-{
-    $total_n_pages_proofed = 0;
-
-    // Only consider projects that have not been archived.
-    // Also exclude new projects, projects in PPV, projects
-    // that became checked out for PP or waiting or unavailable
-    // before midnight, and posted projects.
-    // The assumption is that a book won't be proofing in the morning
-    // and posted to PG before midnight.
-    // When we have the big table this will be rewritten and will be able to run
-    // MUCH faster
-
-    // Note that for backfilling arbitrary dates (only to be done on a non-production server, 
-    // or when we have the big table in place, would need to rewrite so as to include all
-    // projects. Even the archive bit will lead to wrong totals if we were calculating, say,
-    // the total from a day last month.
-
-    $res = mysql_query("SELECT projectid FROM projects WHERE archived = '0' AND 
-			(state != '".PROJ_NEW."') AND 
-			(state != '".PROJ_SUBMIT_PG_POSTED."') AND 
-	 		(state !='".PROJ_POST_SECOND_AVAILABLE."') AND 
- 			(state !='".PROJ_POST_SECOND_CHECKED_OUT."') AND 
- 			(state != '".PROJ_POST_FIRST_CHECKED_OUT."' 
- 				OR modifieddate > $start_ts) AND 
-	 		(state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' 
- 				OR modifieddate > $start_ts) AND 
-	 		(state != '".PROJ_POST_FIRST_UNAVAILABLE."' 
- 				OR modifieddate > $start_ts)
-		" )
-        or die(mysql_error());
-
-    while( $project_row = mysql_fetch_array($res) )
-    {
-        list($projectid) = $project_row;
-
-	// page finished in R1 may have since progressed to R2
-
-        $pdoneR1 = mysql_query("SELECT COUNT(*) FROM $projectid WHERE         
-		round1_time >= $start_ts
-            AND round1_time <  $end_ts
-            AND (state='save_first' OR state LIKE '%_second%')
-	");   
-
-        if (!$pdoneR1)
-        {
-            // Probably the project's page-table does not exist.
-            // Not sure why.
-	    $pages1 = 0;
-            continue;
-        } else {
-            $row1 = mysql_fetch_row($pdoneR1);
-	    $pages1 = $row1[0];
-	}
-
-        
-        $pdoneR2 = mysql_query("SELECT COUNT(*) FROM $projectid WHERE
-         	  state='save_second' 
-            AND round2_time >= $start_ts
-            AND round2_time <  $end_ts 
-         ");
-
-        if (!$pdoneR2)
-        {
-            // Probably the project's page-table does not exist.
-            // Not sure why.
-	    $pages2 = 0;
-            continue;
-        } else {
-            $row2 = mysql_fetch_row($pdoneR2);
-            $pages2 = $row2[0];
-	}
-        
-        $n_pages_proofed = $pages1+$pages2;
-        
-        $total_n_pages_proofed += $n_pages_proofed;
-    }
-
-    return $total_n_pages_proofed;
-}
 ?>
