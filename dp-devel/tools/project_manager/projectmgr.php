@@ -68,7 +68,7 @@ abort_if_not_manager();
 			<tr>
 			    <td>State</td>
 			    <td>
-			    <select name='state[]' multiple>
+			    <select size='1' name='state[]' multiple>
 				<option value=''>any state</option>
 		";
 		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
@@ -178,7 +178,7 @@ abort_if_not_manager();
 			$curr_blurb = project_states_text($curr_state);
 			$new_blurb  = project_states_text($new_state);
 			$projectids_str = implode( ',', $projectids );
-			
+
 			echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
 			echo "Move all <b>$curr_blurb</b> projects on this page to <b>$new_blurb</b>";
 			echo "</a>";
@@ -279,17 +279,17 @@ abort_if_not_manager();
 			if ( $show_pages_total )
 			{
 
-				// get the total from the HEAP table if possible, only look at projectID table if have to	
+				// get the total from the HEAP table if possible, only look at projectID table if have to
 				$totqry = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
-				if (mysql_num_rows($totqry)) 
+				if (mysql_num_rows($totqry))
 	 				{
 						$totpag = mysql_result($totqry,0,"total_pages");
 					}
 				else
 					{
 						$dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
-						if ($dbQ != "") { $totpag=mysql_result($dbQ,0,"totalpages"); } 
-						else 			
+						if ($dbQ != "") { $totpag=mysql_result($dbQ,0,"totalpages"); }
+						else
 							{
 								$totpag = 0;
 							}
@@ -331,9 +331,9 @@ abort_if_not_manager();
 						onchange='this.form.submit()'>
 				";
 	            		getSelect($state);
-	            		echo "</select></form></td>\n";	
+	            		echo "</select></form></td>\n";
 			} else {
-				echo "<td valign=center>$state</td>\n";	
+				echo "<td valign=center>$state</td>\n";
 			}
 
 			// Options
