@@ -65,29 +65,30 @@ echo $docType."\r\n";
   echo $sHidFS.$npage['pagestate'].$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
   echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
   echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
-?>
-<? echo_button(SAVE_AS_IN_PROGRESS,'s'); ?>
-<?PHP
+
+	echo_button(SAVE_AS_IN_PROGRESS,'s');
 	if (!isset($editone))
 	{
 		echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'s');
 	}
-?>
-<? echo_button(SAVE_AS_DONE_AND_QUIT,'s'); ?>
-<? echo_button(QUIT,'s'); ?>
-<BR>
-<? echo_button(CHANGE_LAYOUT,'s'); ?>
-<? echo_button(RETURN_PAGE,'s'); ?>
-<?
+	echo_button(SAVE_AS_DONE_AND_QUIT,'s');
+	echo_button(QUIT,'s');
+
+	echo "<BR>\n";
+
+	echo_button(CHANGE_LAYOUT,'s');
+	echo_button(RETURN_PAGE,'s');
 	if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
 	{
 		echo_button(REPORT_BAD_PAGE,'s');
 	}
-?>
-<BR>
-<? echo_button(SPELL_CHECK,'s'); ?>
-<br>
-<?
+
+	echo "<BR>\n";
+
+	echo_button(SPELL_CHECK,'s');
+
+	echo "<br>\n";
+
 //display page number
   $pageNum=substr($npage['image'],0,-4);
   echo "<font size=\"-1\"><B>Page Number: $pageNum";
