@@ -209,7 +209,7 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 <? } ?>
 
 <p><font color='#FF0000'><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again.</B></font>
-<P><b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
+<P><b>See what's new in the <a href = "../../phpBB2/index.php">Forums</a></b>
 <?
     // If Post Processor give link to post processing page.
     $postprocessor = $userP['postprocessor'];
