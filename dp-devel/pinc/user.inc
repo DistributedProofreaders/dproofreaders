@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'cookie.inc');
 class db_udb
 {
      var $cookieDomain="";
@@ -54,7 +55,8 @@ function checkLogin($userID,$userPW)
           if (!$this->checkQuery($db_result)) {return 0;}
           if (!$this->checkResult($db_result)) {return 0;}
           // set cookie
-          setcookie("pguser",$userID,time()+86400,"/",$this->cookieDomain,0);
+          $cookieC=new userCookie();
+          $cookieSet=$cookieC->setCookie($userID);
           return 1;
           }
      else {$this->error='Invalid Login'; return 0;}

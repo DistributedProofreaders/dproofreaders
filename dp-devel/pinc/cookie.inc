@@ -17,11 +17,63 @@ function checkCookie()
      else {return 0;}
      }
 
+function setUserPrefs($userID)
+{
+          $db_query="SELECT 
+u_lang, email_updates, project_listing, 
+i_prefs, i_res, i_type, i_layout, i_toolbar, 
+i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
+v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
+h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap, 
+id, manager, pagescompleted 
+FROM users WHERE username='$userID'";
+          $db_result=mysql_query($db_query);
+          $uData=mysql_fetch_assoc($db_result);
+          $userPrefs=implode("|",$uData);
+          setcookie("{$userID}_prefs",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
+}
+
 function setCookie($userID)
      {
           setcookie("pguser",$userID,time()+86400,"/",$this->cookieDomain,0);
+          $this->setUserPrefs($userID);
      }
 
+function getUserPrefs($userID)
+{$cPrefs=explode("|",$_COOKIE[$userID.'_prefs']);
+$uPrefs=array();
+$i=0;
+$uPrefs['u_lang']=$cPrefs[$i++];
+$uPrefs['email_updates']=$cPrefs[$i++];
+$uPrefs['project_lising']=$cPrefs[$i++];
+$uPrefs['i_prefs']=$cPrefs[$i++];
+$uPrefs['i_res']=$cPrefs[$i++];
+$uPrefs['i_type']=$cPrefs[$i++];
+$uPrefs['i_layout']=$cPrefs[$i++];
+$uPrefs['i_toolbar']=$cPrefs[$i++];
+$uPrefs['i_statusbar']=$cPrefs[$i++];
+$uPrefs['i_newwwin']=$cPrefs[$i++];
+$uPrefs['v_fnts']=$cPrefs[$i++];
+$uPrefs['v_fntf']=$cPrefs[$i++];
+$uPrefs['v_zoom']=$cPrefs[$i++];
+$uPrefs['v_tframe']=$cPrefs[$i++];
+$uPrefs['v_tlines']=$cPrefs[$i++];
+$uPrefs['v_tchars']=$cPrefs[$i++];
+$uPrefs['v_tscroll']=$cPrefs[$i++];
+$uPrefs['v_twrap']=$cPrefs[$i++];
+$uPrefs['h_fnts']=$cPrefs[$i++];
+$uPrefs['h_fntf']=$cPrefs[$i++];
+$uPrefs['h_zoom']=$cPrefs[$i++];
+$uPrefs['h_tframe']=$cPrefs[$i++];
+$uPrefs['h_tlines']=$cPrefs[$i++];
+$uPrefs['h_tchars']=$cPrefs[$i++];
+$uPrefs['h_tscroll']=$cPrefs[$i++];
+$uPrefs['h_twrap']=$cPrefs[$i++];
+$uPrefs['user_id']=$cPrefs[$i++];
+$uPrefs['manager']=$cPrefs[$i++];
+$uPrefs['pagescompleted']=$cPrefs[$i++];
+return $uPrefs;
+}
 function deleteCookie()
      {
      setcookie("pguser","",time() - 86400,"/",$this->cookieDomain,0);

@@ -2,6 +2,7 @@
 include($relPath.'udb_user.php');
 class dbConnect
 {
+var $error='';
 function dbConnect()
      {$db_info=new db_udb_user();
      $this->db_lk=mysql_connect($db_info->server,$db_info->username,$db_info->password);
