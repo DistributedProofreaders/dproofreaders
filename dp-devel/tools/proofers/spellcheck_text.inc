@@ -135,7 +135,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 					value='{$orig_word}'
 				><select
 					name='sp{$n_bad_words}'
-					onChange='setSpell($n_bad_words,this.value);'>
+					onChange='setSpell($n_bad_words,this.value);'
+					style='font-family: DPCustomMono2'>
 					<option value='{$orig_word}' selected>{$orig_word}</option>
 					<option value='sp1input'>-- Insert --</option>
 				";
