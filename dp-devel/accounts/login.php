@@ -1,44 +1,38 @@
-<?
-$username = isset($HTTP_POST_VARS['userNM']) ? $HTTP_POST_VARS['userNM'] : '';
-$password = isset($HTTP_POST_VARS['userPW']) ? $HTTP_POST_VARS['userPW'] : '';
-$username = str_replace("\'", "''", $username);
+<?PHP
+$relPath="./../pinc/";
+include($relPath.'cookie.inc');
+include($relPath.'connect.inc');
+include($relPath.'user.inc');
+$usersC=new db_udb();
+$noLogin="Username or password is incorrect.<BR>If you feel you have recieved this message in error, please try to <A HREF=\"http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:charlz@lvcablemodem.com\">webmaster</A><BR><A HREF=\"signin.php\">Back</A> to sign in page.";
+$htmlStart="<HTML><HEAD><TITLE>Login</TITLE>";
+$htmlMid="</HEAD><BODY>";
+$htmlEnd="</BODY></HTML>";
+$noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
 
-include '../connect.php';
+if (isset($userNM) && isset($userPW))
+{
+// $userNM = str_replace("\'", "''", $userNM);
 
-$sql = "SELECT username, user_password FROM phpbb_users WHERE username = '$username'";
-
-if (!($result = mysql_query($sql))) {
-     die("Unable to make request, contact webmaster");
+$uC=$userC->checkLogin($userNM,$userPW);
+     if ($uC)
+     {
+     $uP=$userC->getUserPrefs($userNM);
+          if ($uP)
+          {
+          // send them to the correct page
+          $htmlStart.="<META HTTP-EQUIV=\"refresh\" CONTENT=\"1 ;URL=../tools/";
+          $htmlMid=".php\">".$htmlMid;
+// isn't this the same as the manager field in users?
+//        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
+// needs to be included in user.inc, if not....
+          if ($uP=='yes')
+          {echo $htmlStart."project_manager/projectmgr".$htmlMid.$htmlEnd;}
+          else {echo $htmlStart."proofers/proof_per".$htmlMid.$htmlEnd;}
+          }
+          else die ($noLogin);
+     }
+     else die ($noLogin);
 }
-
-if (mysql_num_rows($result) == 1) {
-    $user_password = mysql_result($result, 0, "user_password");
-    if (md5($password) == $user_password) {
-        //set cookie if not already set
-        if (!isset($pguser)) {
-            setcookie("pguser",$username,time()+86400,"/",$_SERVER['SERVER_NAME'],0);
-        }
-
-        // calculate date
-        $year  = date("Y");
-        $month = date("m");
-        $day = date("d");
-        $todaysdate = $year.$month.$day;
-
-        //update last login date
-        $updatefile = mysql_query("UPDATE users SET last_login = '$todaysdate' WHERE username = '$username'");
-
-        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
-        if (mysql_num_rows($result) > 0) {
-            $manager = mysql_result($result, 0, "value");
-            if ($manager == 'yes') {    ///if have a manager account send to projectmgr.php
-                echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"1 ;URL=../tools/project_manager/projectmgr.php\">";
-            } else {
-                echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"1 ;URL=../tools/proofers/proof_per.php\">";
-            }
-        } else echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"1 ;URL=../tools/proofers/proof_per.php\">";
-
-    } else print("Username or password is incorrect.<br>If you feel you have recieved this message in error, please try to <a href=\"http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword\">reset</a> your password. If this fails, contact the <a href=\"mailto:charlz@lvcablemodem.com\">webmaster</a><br><a href=\"signin.php\">Back</a> to sign in page.");
-
-} else die ("Username or password is incorrect.<br>If you feel you have recieved this message in error, please try to <a href=\"http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword\">reset</a> your password. If this fails, contact the <a href=\"mailto:charlz@lvcablemodem.com\">webmaster</a><br><a href=\"signin.php\">Back</a> to sign in page.");
+else die ($noLogin);
 ?>
