@@ -29,7 +29,7 @@ if(isset($userP['i_theme'])) {
 		include_once($relPath.'templates/project_gutenberg/theme.tpl');
 		$theme_name = "project_gutenberg";
 		$theme = ${$theme_name};
-	}
+}
 
 include_once($relPath.'gettext_setup.inc');
 
@@ -41,6 +41,10 @@ function theme ($nameofpage, $location) {
 		} else {
 		$statsbar_align = 0;
 		$userP = "";
+	}
+
+	if (isset($userP['last_login']) && $userP['last_login'] <= (time() - 1440)) {
+		$result = mysql_query("UPDATE users SET last_login = ".time()." WHERE u_id = ".$userP['u_id']."");
 	}
 
 	$code_url = $GLOBALS['code_url'];
@@ -470,7 +474,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>Frequently Asked Questions</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>Proofing Guidelines</a> (<a href='$code_url/faq/summary.pdf'>Summary</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>Tips & How-To's</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>Request Help</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>Support Request</a></font><br>\n";
 	}
 
 
