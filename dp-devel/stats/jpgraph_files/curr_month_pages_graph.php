@@ -1,9 +1,9 @@
 <?
 $relPath="./../../pinc/";
-include ("../../../jpgraph-1.12.1/src/jpgraph.php");
-include ("../../../jpgraph-1.12.1/src/jpgraph_bar.php");
-include ("../../../jpgraph-1.12.1/src/jpgraph_line.php");
-include($relPath.'connect.inc');
+include_once("jpgraph/jpgraph.php");
+include_once("jpgraph/jpgraph_bar.php");
+include_once("jpgraph/jpgraph_line.php");
+include_once($relPath.'connect.inc');
 new dbConnect();
 
 //Create pages per day graph for current month

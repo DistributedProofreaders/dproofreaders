@@ -1,8 +1,8 @@
 <?
-include ("../../../jpgraph-1.12.1/src/jpgraph.php");
-include ("../../../jpgraph-1.12.1/src/jpgraph_bar.php");
 $relPath="./../../pinc/";
-include($relPath.'connect.inc');
+include_once("jpgraph/jpgraph.php");
+include_once("jpgraph/jpgraph_bar.php");
+include_once($relPath.'connect.inc');
 new dbConnect();
 
 if ($_GET['range'] == 7 || $_GET['range'] == 14 || $_GET['range'] == 30 || $_GET['range'] == 60 || $_GET['range'] == 365 || $_GET['range'] == "all") {

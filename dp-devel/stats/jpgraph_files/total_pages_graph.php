@@ -1,8 +1,8 @@
 <?
-include ("../../../jpgraph-1.12.1/src/jpgraph.php");
-include ("../../../jpgraph-1.12.1/src/jpgraph_bar.php");
 $relPath="./../../pinc/";
-include($relPath.'connect.inc');
+include_once("jpgraph/jpgraph.php");
+include_once("jpgraph/jpgraph_bar.php");
+include_once($relPath.'connect.inc');
 new dbConnect();
 
 
@@ -13,7 +13,7 @@ $result = mysql_query("SELECT pages,date,year,month, day FROM pagestats ORDER BY
 year ASC, month ASC, day ASC");
 $mynumrows = mysql_numrows($result);
         $count = 0;
-        while ($count < $mynumrows) { 
+        while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"pages");
         $datax[$count] = mysql_result($result, $count,"date");
             $count++;
@@ -26,8 +26,8 @@ $graph->SetScale("textint");
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
-// Only draw labels on every 2nd tick mark 
-//$graph->xaxis->SetTextLabelInterval(91.25); 
+// Only draw labels on every 2nd tick mark
+//$graph->xaxis->SetTextLabelInterval(91.25);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 $graph->xaxis->SetTextTickInterval(91.25);
@@ -40,7 +40,7 @@ $graph->SetMarginColor('white');
 
 // Add a drop shadow
 $graph->SetShadow();
-        
+
 // Adjust the margin a bit to make more room for titles
 //left, right , top, bottom
 
@@ -57,8 +57,8 @@ $graph->title->Set("Pages Done Per Day Since the Beginning of Statistics Collect
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-        
-// Display the graph 
+
+// Display the graph
 $graph->Stroke();
 
 
