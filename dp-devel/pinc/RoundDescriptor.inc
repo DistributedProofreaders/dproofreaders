@@ -27,6 +27,16 @@ class ProofingRoundDescriptor
             // The minimum number of pages that a user must complete
             // in order to be allowed to participate in this round.
             // If NULL, users cannot qualify for this round by page-count.
+        $users_can_be_granted_access,
+            // If TRUE, a user can be given access to this round (regardless
+            // of their number of completed pages) via a notation in the
+            // database (specific to that user and this round).
+            // (Theoretically, this param is unnecessary. We could act as if it
+            // were always TRUE, i.e. always check the db for such a notation;
+            // in the cases where this arg *would* be FALSE, we would presumably
+            // find nothing in the db, and so arrive at the same answer.
+            // However, this param is useful as an optimization and as
+            // documentation of intent.)
         $description,
             // A sentence or two explaining what happens in this round.
         $listing_bgcolors,
@@ -46,6 +56,7 @@ class ProofingRoundDescriptor
         $this->round_id           = $round_id;
         $this->round_name         = $round_name;
         $this->minimum_user_pages = $minimum_user_pages;
+        $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
@@ -115,9 +126,26 @@ class ProofingRoundDescriptor
     {
         if ( is_null($this->minimum_user_pages) )
         {
-            $how = _("Only site admins are allowed in this round.");
-            $can = FALSE;
-            $why = '';
+            if ( $this->users_can_be_granted_access )
+            {
+                $how = _("Users cannot qualify for this round by page-count. Instead, they must be granted access.");
+                if ( $this->user_has_been_granted_access($username) )
+                {
+                    $can = TRUE;
+                    $why = _("You have been granted access to this round.");
+                }
+                else
+                {
+                    $can = FALSE;
+                    $why = _("You have not been granted access to this round.");
+                }
+            }
+            else
+            {
+                $how = _("Only site admins are allowed in this round.");
+                $can = FALSE;
+                $why = '';
+            }
         }
         else if ( $this->minimum_user_pages <= 0 )
         {
@@ -127,9 +155,18 @@ class ProofingRoundDescriptor
         }
         else
         {
-            $how = sprintf(
-                _("Users can work in the round after completing %d pages."),
-                $this->minimum_user_pages );
+            if ( $this->users_can_be_granted_access )
+            {
+                $how = sprintf(
+                    _("Users can work in the round after completing %d pages, or by being granted access."),
+                    $this->minimum_user_pages );
+            }
+            else
+            {
+                $how = sprintf(
+                    _("Users can work in the round after completing %d pages."),
+                    $this->minimum_user_pages );
+            }
 
             if ( is_null($n_pages_completed) )
             {
@@ -151,15 +188,35 @@ class ProofingRoundDescriptor
             else
             {
                 // Not enough pages.
-                $can = FALSE;
-                $why = sprintf(
-                    _("You have completed %d pages, so you have to do %d more."),
-                    $n_pages_completed,
-                    $this->minimum_user_pages - $n_pages_completed );
+                if ( $this->users_can_be_granted_access && $this->user_has_been_granted_access($username) )
+                {
+                    $can = TRUE;
+                    $why = sprintf(
+                        _("You have only completed %d pages, but you have been granted access."),
+                        $n_pages_completed );
+                }
+                else
+                {
+                    $can = FALSE;
+                    $why = sprintf(
+                        _("You have completed %d pages, so you have to do %d more."),
+                        $n_pages_completed,
+                        $this->minimum_user_pages - $n_pages_completed );
+                }
             }
         }
 
         return array( $how, $can, $why );
+    }
+
+    function user_has_been_granted_access( $username )
+    {
+        $res = mysql_query("
+            SELECT value
+            FROM usersettings
+            WHERE username='$username' AND setting='{$this->round_id}.access'
+        ") or die(mysql_error());
+        return (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes');
     }
 }
 
@@ -167,6 +224,7 @@ $P1 = new ProofingRoundDescriptor(
     'P1',
     _('Proofreading Round 1'),
     -20,
+    FALSE,
     _("The page-texts are the output from OCR software and have not been looked at."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -179,6 +237,7 @@ $P2 = new ProofingRoundDescriptor(
     'P2',
     _('Proofreading Round 2'),
     100,
+    FALSE,
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     array(
         0 => '#DDA0DD', // plum
