@@ -10,10 +10,11 @@ function showMbrInformation( $curMbr ) {
 	$now = time();
 	showXmlButton($curMbr['username']);
 	showMbrProfile($curMbr);
-	showMbrPageStats($curMbr);
-	showMbrTeams($curMbr);
-	showMbrNeighbors($curMbr);
-	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+	$tally_name = 'P';
+	showMbrPageStats($curMbr, $tally_name);
+	showMbrTeams($curMbr, $tally_name);
+	showMbrNeighbors($curMbr, $tally_name);
+	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr, $tally_name); }
 }
 
 function showXmlButton( $username )
@@ -212,9 +213,9 @@ function showForumProfile($username) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrPageStats( $curMbr )
+function showMbrPageStats( $curMbr, $tally_name )
 {
-	$users_tallyboard = new TallyBoard( 'P', 'U' );
+	$users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
 	$current_tally = $users_tallyboard->get_current_tally( $curMbr['u_id'] );
 
@@ -223,7 +224,7 @@ function showMbrPageStats( $curMbr )
 
 	list( $neighbors, $totalRanks ) =
 		user_get_page_tally_neighborhood(
-			'P', $curMbr['username'], 0 );
+			$tally_name, $curMbr['username'], 0 );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
@@ -290,7 +291,7 @@ function pageCountPercentage($pagescompleted) {
 	return $percentTotal;
 }
 
-function showMbrNeighbors($curMbr) {
+function showMbrNeighbors($curMbr, $tally_name) {
 	$now = time();
 
 	$t = new ThemedTable(
@@ -308,7 +309,7 @@ function showMbrNeighbors($curMbr) {
 
 	list( $neighbors, $max_page_tally_rank ) =
 		user_get_page_tally_neighborhood(
-			'P', $curMbr['username'], 4 );
+			$tally_name, $curMbr['username'], 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$rank = $neighbor->get_current_page_tally_rank();
@@ -339,7 +340,7 @@ function showMbrNeighbors($curMbr) {
 	$t->end();
 }
 
-function showMbrTeams($curMbr) {
+function showMbrTeams($curMbr, $tally_name) {
 
 	if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
@@ -355,7 +356,7 @@ function showMbrTeams($curMbr) {
 		_("Active Members")
 	);
 
-	$teams_tallyboard = new TallyBoard( 'P', 'T' );
+	$teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 
 	list($joined_with_team_tallies,$team_tally_column) =
 		$teams_tallyboard->get_sql_joinery_for_current_tallies('id');
@@ -378,7 +379,7 @@ function showMbrTeams($curMbr) {
 	$t->end();
 }
 
-function showMbrHistory($curMbr) {
+function showMbrHistory($curMbr, $tally_name) {
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 
@@ -394,7 +395,7 @@ function showMbrHistory($curMbr) {
 	}
 	$choices_str = join( $choices, ' | ' );
 
-	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=U&holder_id=$u_id&days_back=$range";
+	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&holder_type=U&holder_id=$u_id&days_back=$range";
 
 	$t = new ThemedTable(
 		1,
