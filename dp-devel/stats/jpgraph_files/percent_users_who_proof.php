@@ -11,24 +11,24 @@ new dbConnect();
 //Numbers of users logging on in last hour, day, week and 28 days
 //query db and put results into arrays
 $result1 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as Month, count(*) as Joined FROM users 
-	GROUP BY Month
-	ORDER BY Month
+	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as month, count(*) as num_who_joined FROM users 
+	GROUP BY month
+	ORDER BY month
 ");
 
 $result2 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as Month, count(*) as EverProofed FROM users 
+	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as month, count(*) as num_who_proofed FROM users 
 	WHERE pagescompleted > 0 
-	GROUP BY Month
-	ORDER BY Month
+	GROUP BY month
+	ORDER BY month
 ");
 
 
 $mynumrows = mysql_numrows($result1);
         $count = 0;
         while ($count < $mynumrows) {
-        $data1y[$count] = 100 *  mysql_result($result2, $count,"EverProofed") / mysql_result($result1, $count,"Joined");
-        $datax[$count] = mysql_result($result1, $count,"Month");
+        $data1y[$count] = 100 *  mysql_result($result2, $count,"num_who_proofed") / mysql_result($result1, $count,"num_who_joined");
+        $datax[$count] = mysql_result($result1, $count,"month");
             $count++;
         }
 
