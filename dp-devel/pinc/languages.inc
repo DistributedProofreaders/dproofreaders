@@ -9,13 +9,19 @@
 // existing ones is appropriate.
 
 $locales=array(
+	"da"=>"da_DK.utf8",
+	"de"=>"de_DE.utf8",
         "en"=>"en_EN",
         "es"=>"es_ES.utf8",
         "fi"=>"fi_FI.utf8",
+	"fr"=>"fr_FR.utf8",
+	"it"=>"it_IT.utf8",
         "nl"=>"nl_NL.utf8",
+	"no"=>"no_NO.utf8",
+	"pl"=>"pl_PL.utf8",
         "pt"=>"pt_PT.utf8",
         "sr"=>"sr_YU.utf8@cyrillic",
-        "sv"=>"sv_SE.utf8"
+        "sv"=>"sv_SE.utf8",
 );
 
 $phpbblangs=Array(
@@ -193,6 +199,42 @@ function bilingual_name($langcode)
 	} else {
 		return trim("$b ($a)");
 	}
+}
+
+function lang_dir($langcode)
+{
+	$a=substr($langcode,0,2);
+
+	if($a=="en") return "";
+	else return $a."/";
+}
+
+function cur_lang_dir()
+{
+	global $locale;
+
+	return lang_dir($locale);
+}
+
+// This function returns forum of a particular language. If there is no such
+// forum, it might return a team thread or whatever is appropriate (or nothing,
+// of course).
+function lang_forum($langcode)
+{
+	$a=array(
+		"fr_FR.utf8"=>"fr",
+		"sr_YU.utf8@cyrillic"=>"sr",
+		"sr_YU.utf8"=>"sr",
+	);
+
+	return $a[$langcode];
+}
+
+function cur_lang_forum()
+{
+	global $locale;
+
+	return lang_forum($locale);
 }
 
 function phpbb_lang($langcode) {
