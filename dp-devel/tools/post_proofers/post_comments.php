@@ -25,7 +25,7 @@ $project = mysql_fetch_assoc(mysql_query("
 $state = $project['state'];
 $smooth_dead = $project['smoothread_deadline'];
 
-if ($smooth_dead > time()) {
+if (($smooth_dead > time()) AND ($state==PROJ_POST_FIRST_CHECKED_OUT) ) {
     echo_project_info( $projectid, 'proj_post', 0 , 1);
 } else {
     echo_project_info( $projectid, 'proj_post', 0 );
