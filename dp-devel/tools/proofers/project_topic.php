@@ -12,7 +12,7 @@ $owner = 527;
 //Get info about project
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
-$title = $row['nameofwork'];
+$title = "Discussion: ".$row['nameofwork']."";
 $message =  "Discussion of ".$row['nameofwork']." by ".$row['authorsname']."<br><br>Please <a href=".$linkPath."projects.php?project=$project_id&prooflevel=0>review</a> the project comments before posting.";
 $topic_id = $row['topic_id'];
 }
