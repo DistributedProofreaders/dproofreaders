@@ -145,6 +145,17 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 
 	$comments = $project['comments'];
+      
+        
+        // automatically prepend R2 intro for Beginners Only
+        if  ($project['difficulty'] == "beginner")
+	{
+		if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE) {
+	             $comments = "[template=BGr2.txt]".$comments;
+		}
+	}
+
+
 	$template_count = substr_count($comments, "[template=");
 	if (!empty($template_count)) {
 		$i = 1;
