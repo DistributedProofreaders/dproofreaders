@@ -30,6 +30,9 @@ if (!file_exists($filename)) {
           <tr><td>"._("German")."</td><td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=common'>"._("Common")."</a></td>
                                        <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=suspect'>"._("Suspect")."</a></td>
                                        <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("Spanish")."</td><td><a href='$_SERVER[PHP_SELF]?language=es&amp;type=common'>"._("Common")."</a></td>
+                                       <td><!-- <a href='$_SERVER[PHP_SELF]?language=es&amp;type=suspect'>"._("Suspect")."</a> --></td>
+                                       <td><!-- <a href='$_SERVER[PHP_SELF]?language=es&amp;type=rare'>"._("Rare")."</a></td> --></tr>
           </table>
           ";
 
