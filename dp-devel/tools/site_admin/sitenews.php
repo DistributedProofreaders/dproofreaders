@@ -36,8 +36,9 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$site_news_id."'>".
                     $news_type."</a> "._("Last modified : ").$last_modified."<br><br><br>";
              }
-             echo "</ul></font>";   
+             echo "</ul></font>";
        }
+       theme('','footer');
        exit();
     }
 
