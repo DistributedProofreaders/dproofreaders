@@ -109,13 +109,8 @@ include_once($relPath.'maybe_mail.inc');
         $pagebreak2 = $carriagereturn.$linefeed;
 
         $myresult = mysql_query("SELECT image, round1_user, round2_user, round2_text FROM $project ORDER BY image");
-        $mynumrows = mysql_numrows($myresult);
-        $count = 0;
-        while ($count < $mynumrows) {
-            $filename = mysql_result($myresult, $count, "image");
-            $text_data = mysql_result($myresult, $count, "round2_text");
-	    $round1_user = mysql_result($myresult, $count, "round1_user");
-	    $round2_user = mysql_result($myresult, $count, "round2_user");
+        while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
+        {
             $dashes_todo = 78 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
             $dashes = "";
             for ($i = 1; $i <= $dashes_todo; $i++) {
@@ -126,7 +121,6 @@ include_once($relPath.'maybe_mail.inc');
             // SENDING PAGE-TEXT TO USER
             // It's a text-file, so no encoding is necessary.
             fputs($fp,$fileinfo);
-            $count++;
         }
     }
 
@@ -220,18 +214,14 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"<body>\r\n");
 
         $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
-        $mynumrows = mysql_numrows($myresult);
-        $count = 0;
-        while ($count < $mynumrows) {
-            $filename = mysql_result($myresult, $count, "image");
+        while( list($filename,$text_data) = mysql_fetch_array($myresult) )
+        {
             fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
 
-            $text_data = mysql_result($myresult, $count, "round2_text");
             // SENDING PAGE-TEXT TO USER
             // It's an XML file, so the non-markup angle-brackets and ampersands
             // should be entity-encoded, but it's tricky to find them.
             put_page_text($text_data, $fp);
-            $count++;
         } //end else
 
         fputs($fp,"        </body>\r\n");
