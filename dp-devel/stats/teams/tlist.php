@@ -54,7 +54,7 @@ if (!empty($tRows)) {
 	$i = 0;
 	while ($row = mysql_fetch_assoc($tResult)) {
         	if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
-		echo "<td align='center'><a href='tdetail.php?tid=".$row['id']."'><img src='".$GLOBALS['code_url']."/users/teams/icon/".$row['icon']."' width='25' height='25' alt='".strip_tags($row['teamname'])."' border='0'></a></td>";
+		echo "<td align='center'><a href='tdetail.php?tid=".$row['id']."'><img src='$team_icons_url/".$row['icon']."' width='25' height='25' alt='".strip_tags($row['teamname'])."' border='0'></a></td>";
 		echo "<td align='center'><b>".$row['id']."</b></td>";
 		echo "<td>".$row['teamname']."</td>";
 		echo "<td align='center'>".$row['member_count']."</td>";
