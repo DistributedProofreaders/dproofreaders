@@ -637,6 +637,7 @@ function echo_pm_tab() {
 
   global $theme, $userP;
   global $i_pm;
+  global $userSettings;
 
   echo "<tr>\n";
   echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
@@ -648,10 +649,11 @@ function echo_pm_tab() {
   echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>";
   echo "</td>\n";
   echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-  echo "&nbsp;";
+  echo "<strong>"._('Automatically watch your project threads:')."</strong>";
   echo "</td><td bgcolor='#ffffff' align='left'>";
-  echo "&nbsp;";
-  echo "</td><td bgcolor='#ffffff' align='center'>&nbsp;";
+  $auto_proj_thread = $userSettings->get_boolean('auto_proj_thread');
+  dropdown_select_yesno('auto_proj_thread', $auto_proj_thread);
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('auto_thread');\">?</a>&nbsp;</b>";
   echo "</td>\n";
   echo "</tr>\n";
 
@@ -663,6 +665,8 @@ function echo_pm_tab() {
 function save_pm_tab() {
   global $uid, $pguser;
   global $i_pmdefault;
+  global $auto_proj_thread;
+  global $userSettings;
 
   /*
     i_pmdefault is "Default PM Page"
@@ -672,6 +676,11 @@ function save_pm_tab() {
   $result = mysql_query($users_query);
 
   echo mysql_error();
+
+  // remeber if the PM wants to be automatically signed up for email notifications of
+  // replies made to their project threads
+
+  $userSettings->set_boolean('auto_proj_thread', $auto_proj_thread == 'yes');
 
   dpsession_set_preferences_from_db();
 }
