@@ -120,19 +120,22 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		echo "<br>\n";
 	}
 
-    // show number of projects posted to PG from DP
-        $result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
-        $numproj = mysql_result($result,0);
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." DP projects posted to PG!</b></font>\n";
+	if (1) {
+		// show number of projects posted to PG from DP
+		$result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+		$numproj = mysql_result($result,0);
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." DP projects posted to PG!</b></font>\n";
+		echo "<br>";
+	}
 
-     echo "<br>";
+	if (1) {
+		// show number of books posted to PG from DP
+		// (takes into account that some books are processed as several projects)
 
-    // show number of books posted to PG from DP
-    // (takes into account that some books are processed as several projects)
-
-        $result = mysql_query( "SELECT COUNT(distinct postednum) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
-        $numproj = mysql_result($result,0);
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><b>".number_format($numproj)." different books posted to PG from DP!</b></font>\n";
+		$result = mysql_query( "SELECT COUNT(distinct postednum) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+		$numproj = mysql_result($result,0);
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><b>".number_format($numproj)." different books posted to PG from DP!</b></font>\n";
+	}
 
 	echo "</td>\n";
 	echo "</tr>\n";
