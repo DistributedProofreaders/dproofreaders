@@ -11,9 +11,10 @@
 //
 // This file is for code dealing with page tallies.
 
-// -----------------------------------------------------------------------------
-
+include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'RoundDescriptor.inc');
+
+// -----------------------------------------------------------------------------
 
 $page_tally_names = array();
 foreach ( $PRD_for_round_id_ as $prd )
@@ -24,15 +25,11 @@ foreach ( $PRD_for_round_id_ as $prd )
 
 // -----------------------------------------------------------------------------
 
-include_once($relPath.'TallyBoard.inc');
-
 $users_P_page_tallyboard = new TallyBoard( 'P1', 'U' );
 $teams_P_page_tallyboard = new TallyBoard( 'P1', 'T' );
 
-// -----------------------------------------------------------------------------
-
-// See TallyBoard.inc for explanation of these two strings.
-
+// See TallyBoard.inc for explanation of these two strings:
+//
 list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
     $users_P_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
