@@ -30,6 +30,16 @@ function dpsession_resume()
 
 	if ( isset($_SESSION['userP']) && !empty($_SESSION['userP']) )
 	{
+		// Refresh the cookie
+		// (session_start() used to do this for us,
+		// but they changed that in PHP 4.3.9)
+		setcookie(
+			ini_get('session.name'),
+		 	session_id(),
+			time() + ini_get('session.cookie_lifetime'),
+			'/'
+		);
+
 		// Extract all $_SESSION items to globals.
 		extract($_SESSION);
 		return TRUE;
