@@ -26,9 +26,6 @@ if ($db_value == $i) { echo " SELECTED"; }
 echo ">$array_list[$i]</option>";
 } echo "</select>"; }
 
-
-
-
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
 {
@@ -51,8 +48,6 @@ echo "<html><head><title> User Preferences</title></head><body>";
 $result=mysql_query("SELECT * FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
-$email_updates = $userP['email_updates'];
-$project_listing = $userP['project_listing'];
 $pagescompleted = mysql_result($result,0,"pagescompleted");
 
 echo "<form action='userprefs.php' method='post'>";
@@ -66,8 +61,8 @@ echo "<tr><td width='21%'>Email:</td>";
 echo "<td width='79%'><input type='text' name='email' value='$email'></td></tr>";
 
 echo "<tr><td width='21%'>Email Updates:</td><td width='79%'>";
-radio_select('email_updates', $email_updates, '1', 'Yes');
-radio_select('email_updates', $email_updates, '0', 'No');
+radio_select('email_updates', $userP['email_updates'], '1', 'Yes');
+radio_select('email_updates', $userP['email_updates'], '0', 'No');
 echo "</td></tr>";
 
 if ($pagescompleted >= 50) {
