@@ -1,5 +1,6 @@
 <?
 $relPath="./../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
@@ -54,7 +55,7 @@ if ($password=="proofer") {
              "Hello $real_name,\n\n".
 "I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg <http://www.gutenberg.net/>.\n\n".
 
-"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Document Guidelines <http://texts01.archive.org/dp/faq/document.html> covers most formatting questions, so be sure to read it over too.\n\n".
+"As a new user, I recommend you read over our main page <$siteurl/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Document Guidelines <$siteurl/faq/document.html> covers most formatting questions, so be sure to read it over too.\n\n".
 
 "Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
 
@@ -74,7 +75,7 @@ if ($password=="proofer") {
 
 "Thanks,\n
 The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username.
-If your password doesn't work, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
+If your password doesn't work, go to <$siteurl/phpBB2/profile.php?mode=sendpassword> to have it reset.",
 "From: dphelp@texts01.archive.org\r\nReply-To: dphelp@texts01.archive.org\r\n");
 
         $htmlC->startHeader("User $username Added Successfully");
