@@ -1,20 +1,21 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 
-$text_index=0;
-$text_all=array('start'=>'','end'=>'');
-$string_start=0;
-$select_count=1;
+$orig_line_i=0;
+$orig_line='';
+$orig_start=0;
+$html_for_line='';
+$n_bad_words=1;
 
-function spellcheck_text( $text_data, $projectid, $imagefile )
+function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
-	global $text_all,$text_index,$string_start,$select_count;
+	global $orig_line,$html_for_line,$orig_line_i,$orig_start,$n_bad_words;
 
-	$text_data=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$text_data);
+	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
-	echo "<input type='hidden' name='text_data' value='" . htmlentities($text_data) . "'>";
+	echo "<input type='hidden' name='text_data' value='" . htmlentities($orig_text) . "'>";
 
-	$text_array= explode("[lf]",$text_data);
+	$orig_lines= explode("[lf]",$orig_text);
 
 	{
 		$tmp_file_name = $projectid . substr($imagefile,0,-4) . ".txt";
@@ -27,10 +28,10 @@ function spellcheck_text( $text_data, $projectid, $imagefile )
 		}
 
 		fwrite($fd,"!\n");
-		foreach($text_array as $key=>$value)
+		foreach($orig_lines as $orig_line)
 		{
 			// adding carat
-			fwrite($fd,"^$value\n");
+			fwrite($fd,"^$orig_line\n");
 		}
 		fclose($fd);
 
@@ -38,25 +39,26 @@ function spellcheck_text( $text_data, $projectid, $imagefile )
 		$aspell_dict="en.multi";
 		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} --master={$aspell_dict} --ignore-accents -H -a";
 		// run aspell
-		$return=`$aspell_command`;
-		$return=str_replace(array("\r","\n"),array('',"[lf]"),$return);
-		$return_array= explode("[lf]",$return);
-		$return_lines= count($return_array);
+		// "asr" stands for "aspell result"
+		$asr_text = `$aspell_command`;
+		$asr_text = str_replace(array("\r","\n"),array('',"[lf]"),$asr_text);
+		$asr_lines = explode("[lf]",$asr_text);
+		$asr_n_lines = count($asr_lines);
 	}
 
 	//pretty return to show newline [nl] vs ok lines [ok]
 	// discard 0 as it is just the identifier
-	$return_index=1;
-	$check_array=array();
-	$check_index=0;
+	$asr_line_i=1;
+	$asrm_lines=array();
+	$asrm_line_i=0;
 	$check_ok=1;
 
-	while($return_index<$return_lines-2)
+	while($asr_line_i < $asr_n_lines-2)
 	{
-		if(strcmp($return_array[$return_index]{0},'&')==0 || strcmp($return_array[$return_index]{0},'#')==0)
+		if(strcmp($asr_lines[$asr_line_i]{0},'&')==0 || strcmp($asr_lines[$asr_line_i]{0},'#')==0)
 		{
 			// incorrect
-			$check_array[$check_index]=$return_array[$return_index];
+			$asrm_lines[$asrm_line_i]=$asr_lines[$asr_line_i];
 			$check_ok=0;
 		}
 		else 
@@ -64,58 +66,59 @@ function spellcheck_text( $text_data, $projectid, $imagefile )
 			// correct
 			if ($check_ok==1)
 			{
-				$check_array[$check_index]="[ok]";
+				$asrm_lines[$asrm_line_i]="[ok]";
 			}
 			else
 			{
-				$check_array[$check_index]="[nl]";
+				$asrm_lines[$asrm_line_i]="[nl]";
 				$check_ok=1;
 			}
 		}
-		$check_index++;
-		$return_index++;
+		$asrm_line_i++;
+		$asr_line_i++;
 	} // end line up arrays
 
 	// print text with html
 	echo "<pre>";
-	foreach($check_array as $key=>$value)
+	$orig_line = '';
+	foreach($asrm_lines as $asrm_line)
 	{
-		if (strcmp($value,"[ok]")==0)
+		if (strcmp($asrm_line,"[ok]")==0)
 		{
 			// print text as is
-			echo escapeStringEntities($text_array[$text_index])."<BR>\r\n";
-			$text_index++;
+			echo escapeStringEntities($orig_lines[$orig_line_i])."<BR>\r\n";
+			$orig_line_i++;
 		}
-		else if (strcmp($value,"[nl]")==0)
+		else if (strcmp($asrm_line,"[nl]")==0)
 		{
 			// new line
-			$text_all['end'].=substr($text_all['start'],$string_start);
-			echo $text_all['end']."<BR>\r\n";
-			$string_start=0;
-			$text_all['start']='';
-			$text_all['end']='';
-			$text_index++;
+			$html_for_line .= substr($orig_line,$orig_start);
+			echo $html_for_line."<BR>\r\n";
+			$orig_start = 0;
+			$orig_line = '';
+			$html_for_line = '';
+			$orig_line_i++;
 		}
-		else if (strcmp($value{0},'#')==0)
+		else if (strcmp($asrm_line{0},'#')==0)
 		{
 			// format==# original offset
-			$inst_array=explode(' ',$value);
-			$sp_original=$inst_array[1];
-			$sp_offset=$inst_array[2];
-			spellSuggest($sp_original, 0, $sp_offset, '');
+			$asrm_fields = explode(' ',$asrm_line);
+			$orig_word        = $asrm_fields[1];
+			$orig_word_offset = $asrm_fields[2];
+			spellSuggest($orig_word, 0, $orig_word_offset, '');
 		}
-		else if (strcmp($value{0},'&')==0)
+		else if (strcmp($asrm_line{0},'&')==0)
 		{
 			// format==& original count offset: word, word, ....
-			$sug_array=explode(":",$value);
-			$inst_array=explode(' ',$sug_array[0]);
+			$sug_array = explode(":",$asrm_line);
+			$asrm_fields = explode(' ',$sug_array[0]);
 			// instructions
-			$sp_original=$inst_array[1];
-			$sp_count=$inst_array[2];
-			$sp_offset=$inst_array[3];
-			$sp_suggest=trim($sug_array[1]);
-			$text_all['start']=$text_array[$text_index];
-			spellSuggest($sp_original, $sp_count, $sp_offset, $sp_suggest);
+			$orig_word        = $asrm_fields[1];
+			$n_suggs          = $asrm_fields[2];
+			$orig_word_offset = $asrm_fields[3];
+			$suggs_str        = trim($sug_array[1]);
+			$orig_line        = $orig_lines[$orig_line_i];
+			spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str);
 		}
 		else
 		{
@@ -124,45 +127,45 @@ function spellcheck_text( $text_data, $projectid, $imagefile )
 	} // end display text for spelling
 	echo "</pre>";
 
-	echo "<input type='hidden' name='sptotal' value='".($select_count-1)."'>";
+	echo "<input type='hidden' name='sptotal' value='".($n_bad_words-1)."'>";
 }
 
-function spellSuggest($text_word, $text_count, $text_offset, $text_suggest)
+function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 {
-	// echo "spellSuggest( text_word='$text_word', text_count=$text_count, text_offset=$text_offset, text_suggest='$text_suggest' )<br>\n";
-	global $text_all,$text_index,$string_start,$select_count;
+	// echo "spellSuggest( orig_word='$orig_word', n_suggs=$n_suggs, orig_word_offset=$orig_word_offset, suggs_str='$suggs_str' )<br>\n";
+	global $orig_line,$orig_line_i,$orig_start,$n_bad_words,$html_for_line;
 
-	$text_all['end'].=escapeStringEntities(substr($text_all['start'],$string_start,($text_offset-1)-$string_start));
-	$text_word=escapeStringEntities($text_word);
+	$html_for_line .= escapeStringEntities(substr($orig_line,$orig_start,($orig_word_offset-1)-$orig_start));
+	$orig_word = escapeStringEntities($orig_word);
 
 	// create html
 	// hidden values line|offset|word length
-	$text_html="<input type='hidden' name='posit{$select_count}' value='".
-		"{$text_index}|{$text_offset}|".strlen($text_word)."'>";
-	$text_html.="<input type='hidden' name='wd{$select_count}' value='{$text_word}'>";
+	$html_for_word = "<input type='hidden' name='posit{$n_bad_words}' value='".
+		"{$orig_line_i}|{$orig_word_offset}|".strlen($orig_word)."'>";
+	$html_for_word .= "<input type='hidden' name='wd{$n_bad_words}' value='{$orig_word}'>";
 	// option list
-	$text_html.="<select name='sp{$select_count}' onChange='setSpell($select_count,this.value);'>".
-		"<option value='{$text_word}' selected>{$text_word}</option>\r\n";
-	$text_html.= "<option value='sp1input'>-- Insert --</option>\r\n";
-	if ($text_count > 0)
+	$html_for_word .= "<select name='sp{$n_bad_words}' onChange='setSpell($n_bad_words,this.value);'>".
+		"<option value='{$orig_word}' selected>{$orig_word}</option>\r\n";
+	$html_for_word .= "<option value='sp1input'>-- Insert --</option>\r\n";
+	if ($n_suggs > 0)
 	{
 		// escape all words
-		$text_suggest=escapeStringEntities($text_suggest);
+		$suggs_str = escapeStringEntities($suggs_str);
 		// break word list
-		$sp_list=explode(', ',$text_suggest);
-		foreach ($sp_list as $key=>$value)
+		$suggs = explode(', ',$suggs_str);
+		foreach ($suggs as $sugg)
 		{
-			$text_html.= "<option value='$value'>$value</option>\r\n";
+			$html_for_word .= "<option value='$sugg'>$sugg</option>\r\n";
 		}
 	}
-	$text_html.="</select>";
-	$select_count++;
+	$html_for_word .= "</select>";
+	$n_bad_words++;
 
 	// put html in end
-	$text_all['end'].=$text_html;
+	$html_for_line .= $html_for_word;
 
-	// advance $string_start
-	$string_start=($text_offset-1)+strlen($text_word);
+	// advance $orig_start
+	$orig_start = ($orig_word_offset-1)+strlen($orig_word);
 } // end spellSuggest
 
 function escapeStringEntities($text)
