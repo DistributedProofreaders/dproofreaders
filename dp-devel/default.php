@@ -171,10 +171,10 @@ $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
 $moddate = date("l, F jS, Y",$unixsec);
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br>$links<br><br></font>";
+echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br>$links<br><br>";
 $numofetexts++;
 }
-echo "<a href='list_etexts.php?x=g'>See more...</a><br><br>";
+if (mysql_num_rows($result) > 10) { echo "<a href='list_etexts.php?x=g'>See more...</a></font><br><br>"; } else { echo "</font><br><br>"; }
 
 //Silver E-texts
 $result = mysql_query("SELECT projectid FROM projects WHERE state>=19 AND state<=29"); 
@@ -189,10 +189,10 @@ $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
 $moddate = date("l, F jS, Y",$unixsec);
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br><br></font>";
+echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br><br>";
 $numofetexts++;
 }
-echo "<a href='list_etexts.php?x=s'>See more...</a><br><br>";
+if (mysql_num_rows($result) > 10) { echo "<a href='list_etexts.php?x=s'>See more...</a></font><br><br>"; } else { echo "</font><br><br>"; }
 
 //Bronze E-texts
 $result = mysql_query("SELECT projectid FROM projects WHERE state=2 OR state=12 OR state=8 OR state=18"); 
@@ -207,10 +207,10 @@ $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
 $moddate = date("l, F jS, Y",$unixsec);
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br><br></font>";
+echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br><br>";
 $numofetexts++;
 }
-echo "<a href='list_etexts.php?x=b'>See more...</a><br><br>";
+if (mysql_num_rows($result) > 10) { echo "<a href='list_etexts.php?x=b'>See more...</a></font><br><br>"; } else { echo "</font><br><br>"; }
 ?>
 
 </body>
