@@ -75,7 +75,7 @@ $quizemail = '<<QUIZEMAIL>>';
 //     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 // (2) metarefresh delays by 15 seconds.
 
-$testing = '<<TESTING>>';
+$testing = <<TESTING>>;
 
 // -----------------------------------------------------------------------------
 
@@ -93,14 +93,14 @@ $cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
 // (displaying a 'back soon' message) for anyone but admins;
 // but bookmarks to interior pages are still live for everyone
 
-$maintenance = '<<MAINTENANCE>>';
+$maintenance = <<MAINTENANCE>>;
 
 // -----------------------------------------------------------------------------
 
 // $metadata is a flag to allow the still developing metadata functionality, links, etc
 // to be active or not
 
-$metadata = '<<METADATA>>';
+$metadata = <<METADATA>>;
 
 // -----------------------------------------------------------------------------
 
@@ -113,8 +113,8 @@ $charset = '<<CHARSET>>';
 
 // for staged transition to all in one project_pages table
 
-$writeBIGtable = '<<WRITEBIGTABLE>>';
-$readBIGtable = '<<READBIGTABLE>>';
+$writeBIGtable = <<WRITEBIGTABLE>>;
+$readBIGtable = <<READBIGTABLE>>;
 
 // -----------------------------------------------------------------------------
 
