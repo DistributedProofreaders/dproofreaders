@@ -3,6 +3,7 @@ $relPath="./pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();
 include($relPath.'showstartexts.inc');
 isMaintenanceMode();
@@ -14,28 +15,7 @@ $etext_limit = 10;
 		$result = mysql_query("UPDATE users SET last_login = '".time()."' WHERE username = '$pguser'");
 	}
 
-$real_site_url = 'http://www.pgdp.net';
-if ($code_url != "$real_site_url/c" )
-{
-	echo "<center>";
-	echo "\n<p>";
-	echo "<font color='red'>";
-	echo "<b>THIS IS A TEST SITE!!!</b>";
-	echo "</font>";
-	echo "</p>";
-	echo "\n<p>";
-	echo "<font color='red'>";
-	echo "For the real site, go to <a href='$real_site_url'>$real_site_url</a>.";
-	echo "</font>";
-	echo "</p>";
-	echo "\n<p>";
-	echo "<font color='red'>";
-	echo "To leave feedback or report bugs regarding this TEST site, ";
-	echo "\nplease go to <a href='$real_site_url/phpBB2/viewtopic.php?t=8894'>this forum topic</a> on the real site.";
-	echo "</font>";
-	echo "</p>";
-	echo "</center>";
-}
+default_page_heading();
 
 //get total number of users
 $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
