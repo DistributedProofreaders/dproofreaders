@@ -259,6 +259,8 @@ abort_if_not_manager();
 			// Total
 			if ( $show_pages_total )
 			{
+
+				// get the total from the HEAP table if possible, only look at projectID table if have to	
 				$totqry = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
 				if (mysql_num_rows($totqry)) 
 	 				{
@@ -266,7 +268,12 @@ abort_if_not_manager();
 					}
 				else
 					{
-						$totpag = 0;
+						$dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $project");
+						if ($dbQ != "") { $totpag=mysql_result($dbQ,0,"totalpages"); } 
+						else 			
+							{
+								$totpag = 0;
+							}
 					}
 
 			    echo "<td align=\"center\">$totpag</td>\n";
