@@ -1,5 +1,5 @@
 <?PHP
-include($relPath.'udb_user.inc');
+include($relPath.'udb_user.php');
 class dbConnect
 {
 function dbConnect()
