@@ -1,4 +1,7 @@
 <?PHP
+
+// $Id$
+
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
@@ -229,6 +232,11 @@ class ProofingRoundDescriptor
             WHERE username='$username' AND setting='{$this->round_id}.access'
         ") or die(mysql_error());
         return (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes');
+    }
+
+    function roundCode()
+    {
+        return $this->round_id;
     }
 }
 
