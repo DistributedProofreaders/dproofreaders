@@ -214,6 +214,7 @@ switch ( $submit_button )
             echo "Considering doing the renamings $direction ...\n";
             echo "\n";
 
+            $max_n_failed_steps_to_show = 3;
             $n_failed_steps = 0;
 
             $sim = $current_image_for_fileid_; // copies it
@@ -248,14 +249,17 @@ switch ( $submit_button )
                 if ( count($reasons) > 0 )
                 {
                     $n_failed_steps++;
-                    echo "Renamings will fail at step #$i:\n";
-                    echo "    ($old_fileid,$old_image) -> ($new_fileid,$new_image)\n";
-                    echo "because:\n";
-                    foreach ( $reasons as $reason )
+                    if ($n_failed_steps <= $max_n_failed_steps_to_show)
                     {
-                        echo "    $reason\n";
+                        echo "Renamings will fail at step #$i:\n";
+                        echo "    ($old_fileid,$old_image) -> ($new_fileid,$new_image)\n";
+                        echo "because:\n";
+                        foreach ( $reasons as $reason )
+                        {
+                            echo "    $reason\n";
+                        }
+                        echo "\n";
                     }
-                    echo "\n";
                 }
                 
                 $sim[$new_fileid] = $new_image;
@@ -269,6 +273,13 @@ switch ( $submit_button )
             }
             else
             {
+                if ($n_failed_steps > $max_n_failed_steps_to_show)
+                {
+                    $n_more = $n_failed_steps - $max_n_failed_steps_to_show;
+                    echo "and $n_more more such failures.\n";
+                    echo "\n";
+                }
+
                 echo "So $direction won't work.\n";
             }
         }
