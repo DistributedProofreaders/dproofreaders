@@ -379,6 +379,7 @@ function get_project_status_descriptor( $which )
                 state NOT LIKE 'project_new%'
             )";
             $obj->color = 'green';
+	    $obj->Xed_title = _('Created');
             $obj->projects_Xed_title = _('Projects Created');
             $obj->graphs_title = _('Created Projects Graphs');
             $obj->per_day_title = _('Projects Created Each Day');
@@ -392,6 +393,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post%'
             )";
             $obj->color = 'blue';
+	    $obj->Xed_title = _('Proofread');
             $obj->projects_Xed_title = _('Projects Proofread');
             $obj->graphs_title = _('Proofed Projects Graphs');
             $obj->per_day_title = _('Projects Proofed Each Day');
@@ -405,6 +407,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_post_second%'
             )";
             $obj->color = 'silver';
+	    $obj->Xed_title = _('Post-Processed');
             $obj->projects_Xed_title = _('Projects Post-Processed');
             $obj->graphs_title = _('PPd Projects Graphs');
             $obj->per_day_title = _('Projects Post-Processed Each Day');
@@ -417,6 +420,7 @@ function get_project_status_descriptor( $which )
                 OR state LIKE 'proj_correct%'
             )";
             $obj->color = 'gold';
+	    $obj->Xed_title = _('Posted to PG');
             $obj->projects_Xed_title = _('Projects Posted');
             $obj->graphs_title = _('Posted Projects Graphs');
             $obj->per_day_title = _('Projects Posted to PG Each Day');
