@@ -13,14 +13,21 @@
 
 // -----------------------------------------------------------------------------
 
-$page_tally_names = array( 'P' => _('Proofreading'), 'F' => _('Formatting') );
+include_once($relPath.'RoundDescriptor.inc');
+
+$page_tally_names = array();
+foreach ( $PRD_for_round_id_ as $prd )
+{
+    $page_tally_names[$prd->round_id] =
+        sprintf( _('Pages saved-as-done in round %s'), $prd->round_id );
+}
 
 // -----------------------------------------------------------------------------
 
 include_once($relPath.'TallyBoard.inc');
 
-$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
-$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
+$users_P_page_tallyboard = new TallyBoard( 'P1', 'U' );
+$teams_P_page_tallyboard = new TallyBoard( 'P1', 'T' );
 
 // -----------------------------------------------------------------------------
 

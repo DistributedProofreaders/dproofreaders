@@ -290,7 +290,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	list($num_users) = mysql_fetch_row($res);
 	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
 
-	$tally_name = 'P';
+	$tally_name = 'P1';
 	if ( $tally_name )
 	{
 		$tallyboard = new TallyBoard( $tally_name, 'U' );

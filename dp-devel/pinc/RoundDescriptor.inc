@@ -45,8 +45,6 @@ class ProofingRoundDescriptor
             // documentation of intent.)
         $description,
             // A sentence or two explaining what happens in this round.
-        $tally_name,
-            // The name of the tally for pages saved-as-done in this round.
         $listing_bgcolors,
             // An array of (two) HTML colors that will be used as the bgcolor
             // in alternating rows in the listing of projects in this round.
@@ -66,7 +64,7 @@ class ProofingRoundDescriptor
         $this->access_minima      = $access_minima;
         $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
-        $this->tally_name         = $tally_name;
+        $this->tally_name         = $round_id;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
@@ -267,7 +265,6 @@ $P1 = new ProofingRoundDescriptor(
     array(),
     FALSE,
     _("The page-texts are the output from OCR software and have not been looked at."),
-    'P',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -278,10 +275,9 @@ $P1 = new ProofingRoundDescriptor(
 $P2 = new ProofingRoundDescriptor(
     'P2',
     _('Proofreading Round 2'),
-    array( 'P' => 1000, 'days since reg' => 91, 'quiz' => 1 ),
+    array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
     FALSE,
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
-    'P',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
@@ -292,10 +288,9 @@ $P2 = new ProofingRoundDescriptor(
 $F1 = new ProofingRoundDescriptor(
     'F1',
     _('Formatting Round 1'),
-    array( 'P' => 300, 'days since reg' => 21, 'quiz' => 1 ),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
     FALSE,
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
-    'F',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -309,7 +304,6 @@ $F2 = new ProofingRoundDescriptor(
     NULL,
     TRUE,
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
-    'F',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle

@@ -234,7 +234,7 @@ function showMbrTallySelector( $u_id, $tally_name )
 			$choices .= " | ";
 		}
 
-		$text = $t_title;
+		$text = $t_name;
 		if ($t_name != $tally_name)
 		{
 			$text = "<a href='mdetail.php?id=$u_id&amp;tally_name=$t_name'>$text</a>";
@@ -244,7 +244,7 @@ function showMbrTallySelector( $u_id, $tally_name )
 	echo "\n";
 	echo "<center>";
 	echo "<p>";
-	echo _("Display user stats for various activities:") . ' ' . $choices;
+	echo _("Display user stats for different rounds:") . ' ' . $choices;
 	echo "</p>";
 	echo "</center>";
 
@@ -258,8 +258,6 @@ function showMbrTallySelector( $u_id, $tally_name )
 	echo "<center>";
 	echo "<p>";
 	echo $tally_title;
-	echo "<br>";
-	echo "(Below, 'pages' refers to 'pages saved-as-done in a $tally_name round'.)";
 	echo "</p>";
 	echo "</center>";
 }
