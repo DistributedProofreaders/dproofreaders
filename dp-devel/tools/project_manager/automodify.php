@@ -377,8 +377,9 @@ if (!$one_project)
 {
     // log tracetimes
     $tracetimea = time();
+    $tooktime = $tracetimea - $tracetime;
     mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
-               VALUES ('automodify.php', $tracetimea, 'MIDDLE', 'pre autorelease')");
+               VALUES ('automodify.php', $tracetimea, 'MIDDLE', 'pre autorelease, $tooktime seconds so far')");
 
     autorelease();
 
