@@ -1,6 +1,6 @@
 <?
-include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'user_is.inc');
 
 $pageCountArray = "";
@@ -21,16 +21,22 @@ function checkRowExistence($projectid) {
 
 function project_update_page_counts($projectid) {
 
+	$is_avail = "0";
+	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		$is_avail .= " || state='$prd->page_avail_state'";
+	}
 	$result = mysql_query("
 		SELECT
 			COUNT(*) AS total_pages,
-			SUM( state='".AVAIL_FIRST."' || state='".AVAIL_SECOND."' ) as avail_pages
+			SUM( $is_avail ) as avail_pages
 		FROM $projectid
 	");
 	// Note that when MySQL evaluates
-	//     state='...' || state='...'
+	//     state='...' || state='...' || ...
 	// for each page, the result is either 0 (false) or 1 (true).
-	// Summing this over all pages gives the number of pages in either state.
+	// Summing this over all pages gives the number of pages in some available state.
 
 	if (!$result)
 	{
