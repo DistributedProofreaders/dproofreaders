@@ -113,7 +113,7 @@ include_once($relPath.'maybe_mail.inc');
 	( $f = fopen( $images_html, 'w' ) ) and
 	fwrite( $f, $s ) and
 	fclose($f) or
-	die( "Problems writing $images_html" );
+	print( "\nProblems writing $images_html\n" );
     }
 
     function join_proofed_text ($project, $fp) {
