@@ -3,9 +3,14 @@ include_once($relPath.'tdecho.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 
+if ( empty($pageCountArray) )
+{
+	update_pageCountArray();
+}
+
 function show_projects_in_state($state,$table=1)
 {
-	global $pguser, $code_url;
+	global $pguser, $code_url, $pageCountArray;
 
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 	{
@@ -98,7 +103,7 @@ function show_projects_in_state($state,$table=1)
 
 		$book = mysql_fetch_assoc($result);
 
-		$tpages = total_pages($book['projectid']);
+		$tpages = $pageCountArray[$book['projectid']]['total_pages'];
 
 		$foo_username = $book[$foo_field_name];
 		$users = mysql_query("SELECT email FROM users WHERE username = '$foo_username'");

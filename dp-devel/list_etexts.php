@@ -6,6 +6,11 @@ include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 include_once($relPath.'project_states.inc');
 
+if ( empty($pageCountArray) )
+{
+	update_pageCountArray();
+}
+
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
 	$type = "Gold";
 	$status = "Completed";
@@ -87,10 +92,10 @@ while($row = mysql_fetch_array($result)) {
 		$moddate = "Uploaded: ".$moddate;
 	} elseif ($type == "Silver") {
 		$moddate = "Last Proofed: ".$moddate;
-		$totalpages = total_pages($projectid);
+		$totalpages = $pageCountArray[$projectid]['total_pages'];
 	} elseif ($type == "Bronze") {
 		$moddate = "Released: ".$moddate;
-		$totalpages = total_pages($projectid);
+		$totalpages = $pageCountArray[$projectid]['total_pages'];
 	}
 
 	echo "<a name='".$row['projectid']."'><font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br></a>";
