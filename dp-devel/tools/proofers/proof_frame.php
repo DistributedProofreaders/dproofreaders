@@ -56,7 +56,7 @@ if (isset($editone))
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
   else
-    {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading page....");}
+    {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading page...."));}
   exit;
 }
 
@@ -101,5 +101,5 @@ $needPage=1;
 if ($userP['i_type'] != 1)
   {include('proof_frame_nj.inc');}
 else
-  {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading next available page....");}
+  {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading next available page...."));}
 ?>
