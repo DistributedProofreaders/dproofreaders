@@ -86,20 +86,22 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-	echo "<img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo'></td>\n";
+	echo "<img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo'>\n";
+	echo "</td>\n";
+	// show number of projects left till 10,000
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>\n";
-	
-	//get number of projects left till 10,000
 	$fp = fopen($siteurl."/stats/total_count.txt", "r");
 	$line = fgets($fp);
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." projects left till number 10,000!</font></td>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." projects left till number 10,000!</font>\n";
 		} elseif ($numProjectsLeft <= 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font></td>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font>\n";
 	}
-			
-	echo "</tr></table>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "</table>\n";
+
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<tr>\n";
 	echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
@@ -109,7 +111,8 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
     	if (isset($GLOBALS['pguser'])) { echo "<a href='$siteurl/tools/proofers/proof_per.php'>\n"; } else { echo "<a href='$siteurl/default.php'>\n"; }
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Distributed Proofreading</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
-	echo "</td><td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "</td>\n";
+	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	
     //Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
@@ -121,7 +124,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font></td>\n";
+	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
 	} else {
     //Code to display if the user is logged in
     	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
@@ -139,10 +142,12 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font></td>\n";
+	echo "<a href='$siteurl/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
 	}
 
-	echo "</tr></table>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "</table>\n";
 }
 	
 function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
