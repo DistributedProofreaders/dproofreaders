@@ -123,6 +123,10 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			// PROJ_PROOF_SECOND_VERIFY // misleading
 			PROJ_PROOF_SECOND_COMPLETE,
 			),
+		PROJ_PROOF_SECOND_COMPLETE => array(
+			PROJ_POST_CHECKED_OUT,
+			PROJ_POST_AVAILABLE,
+			),
 
 		PROJ_POST_UNAVAILABLE => array(
 			PROJ_POST_AVAILABLE,
