@@ -152,7 +152,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	// Personal data with respect to this project
 	// (This is the only section that uses $pguser and $userP.)
 
-	if ($proofstate != 'proj_post')
+	if (TRUE)
 	{
 		$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
 		if (mysql_num_rows($temp) == 0) {
