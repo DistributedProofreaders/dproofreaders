@@ -86,12 +86,10 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 	$data .= "<neighborinfo>";
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
-		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$neighbor->get_username()."'");
-
 		$data .= "<neighbor>
 			<rank>".$neighbor->get_current_page_tally_rank()."</rank>
 			<username>".xmlencode($neighbor->get_username())."</username>
-			<datejoined>".date("m/d/Y", mysql_result($result, 0, "date_created"))."</datejoined>
+			<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>
 			<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
 		</neighbor>
 		";

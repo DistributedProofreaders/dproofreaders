@@ -257,6 +257,12 @@ class PageTally_Neighbor
     function get_username()                { return $this->username; }
     function get_current_page_tally()      { return $this->current_page_tally; }
     function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
+
+    function get_date_joined()
+    {
+        $result = mysql_query("SELECT date_created FROM users WHERE username = '{$this->username}'");
+        return mysql_result($result, 0, "date_created");
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
