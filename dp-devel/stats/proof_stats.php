@@ -7,10 +7,18 @@ include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.php');
 
-$title = _("Proofreading Statistics");
+$taly_name = @$_GET['tally_name'];
+if (empty($tally_name))
+{
+	die("parameter 'tally_name' is unset/empty");
+}
+
+
+$title = sprintf( _('Top 100 Proofreaders for Round %s'), $tally_name );
+
 theme($title, 'header');
 
-echo "<br><h2>" . _("Proofreading Statistics") . "</h2>\n";
+echo "<br><h2>$title</h2>\n";
 
 echo "<br>\n";
 echo "<br>\n";
@@ -29,9 +37,10 @@ else
 	$proofreader_expr = "IF(u_privacy != ".PRIVACY_PUBLIC.",'Anonymous', username)";
 }
 
-foreach ( $page_tally_names as $tally_name => $tally_title )
 {
-	echo "<h3>" . _("Most Prolific Proofreaders") . ': ' . $tally_name . "</h3>\n";
+	$subtitle = sprintf( _('Users with the Highest Number of Pages Saved-as-Done in Round %s'), $tally_name );
+
+	echo "<h3>$subtitle</h3>\n";
 
 	$users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
