@@ -101,7 +101,7 @@
 	   "(state='".PROJ_PROOF_FIRST_UNAVAILABLE."'"
       . " OR state='".PROJ_PROOF_SECOND_UNAVAILABLE."'"
       . " OR state='".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'"
-      . " OR state='".PROJ_PROOF_SECOND_WAITING_FOR_RELASE."'"
+      . " OR state='".PROJ_PROOF_SECOND_WAITING_FOR_RELEASE."'"
       . " OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'"
       . " OR state='".PROJ_PROOF_SECOND_BAD_PROJECT."'"
       . " OR state='".PROJ_PROOF_FIRST_AVAILABLE."'"
