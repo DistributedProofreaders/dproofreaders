@@ -35,7 +35,7 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 list( $neighbors, $max_page_tally_rank ) =
 	user_get_page_tally_neighborhood(
-		$curMbr['username'], 4, FALSE );
+		$curMbr['username'], 4, TRUE );
 
 $bestDay = bestDayEver($curMbr['u_id']);
 
@@ -92,9 +92,16 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 	{
 		echo "
 			<neighbor>
-				<rank>".$neighbor->get_current_page_tally_rank()."</rank>
+				<rank>".$neighbor->get_current_page_tally_rank()."</rank>";
+
+		if (!$neighbor->is_anonymized())
+		{
+			echo "
 				<username>".xmlencode($neighbor->get_username())."</username>
-				<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>
+				<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>";
+		}
+
+		echo "
 				<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
 			</neighbor>";
 	}
