@@ -36,6 +36,7 @@ $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 $u_il= array('English','French','German','Spanish', 'Italian', 'Portuguese');
 $u_iloc= array('en_EN','fr_FR','de_DE','es_ES', 'it_IT', 'pt_PT');
+$i_pm= array('All Projects', 'Active Projects', 'Search Page');
 
 function radio_select($db_name, $db_value, $value, $text_name) {
 if (strtolower($db_value) == strtolower($value)) {
@@ -247,10 +248,12 @@ $array = implode('|', $u_il);
 dropdown_select_complex('u_intlang', $userP['u_intlang'], $array, $u_iloc);
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
 echo $tde.$td2;
-echo " ";
+if ($userP['manager'] == "yes") { echo "<strong>"._("Default PM Page:")."</strong>"; } else { echo ""; }
 echo $tde.$td3;
-echo " ";
-echo $tde.$td3a." ";
+$array = implode('|', $i_pm);
+if ($userP['manager'] == "yes") { dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array); } else { echo ""; }
+echo $tde.$td3a;
+if ($userP['manager'] == "yes") { echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>"; } else { echo ""; }
 
 echo $tre.$tr.$td4;
 echo "<img src='tools/proofers/gfx/bt4.png'><b>"._("Vertical Interface Preferences")."</b>";
@@ -383,11 +386,11 @@ if (isset($mkProfile))
 else
   {$prefs_query="UPDATE user_profiles SET ";}
 
-$prefs_query.="profilename='$profilename', i_res='$i_res', i_type='$i_type', i_layout='$i_layout', 
-i_newwin='$i_newwin', i_toolbar='$i_toolbar', i_statusbar='$i_statusbar', 
-v_fntf='$v_fntf', v_fnts='$v_fnts', v_zoom='$v_zoom', v_tframe='$v_tframe', v_tscroll='$v_tscroll', 
-v_tlines='$v_tlines', v_tchars='$v_tchars', v_twrap='$v_twrap', 
-h_fntf='$h_fntf', h_fnts='$h_fnts', h_zoom='$h_zoom', h_tframe='$h_tframe', h_tscroll='$h_tscroll', 
+$prefs_query.="profilename='$profilename', i_res='$i_res', i_type='$i_type', i_layout='$i_layout',
+i_newwin='$i_newwin', i_toolbar='$i_toolbar', i_statusbar='$i_statusbar',
+v_fntf='$v_fntf', v_fnts='$v_fnts', v_zoom='$v_zoom', v_tframe='$v_tframe', v_tscroll='$v_tscroll',
+v_tlines='$v_tlines', v_tchars='$v_tchars', v_twrap='$v_twrap',
+h_fntf='$h_fntf', h_fnts='$h_fnts', h_zoom='$h_zoom', h_tframe='$h_tframe', h_tscroll='$h_tscroll',
 h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'";
 if (!isset($mkProfile))
   {$prefs_query.=" WHERE u_ref='{$userP['u_id']}' AND id='{$userP['u_profile']}'";}
@@ -396,9 +399,9 @@ $result = mysql_query($prefs_query);
 echo mysql_error();
 
 // set users values
-$users_query="UPDATE users SET real_name='$real_name', email='$email', 
+$users_query="UPDATE users SET real_name='$real_name', email='$email',
 email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_align='$u_align', u_neigh='$u_neigh',
-u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme' , u_intlang='$u_intlang' ";
+u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme', i_pmdefault='$i_pmdefault', u_intlang='$u_intlang' ";
 if (isset($mkProfile))
   {$users_query.=", u_profile='".mysql_insert_id($db_link)."'";}
 $users_query.=" WHERE id='$user_id' AND username='$pguser'";
