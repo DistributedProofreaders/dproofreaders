@@ -244,7 +244,7 @@ function echo_cells_for_round($round_num)
 			echo "{$td_start}Text{$td_end}";
 			echo "{$td_start}Clear{$td_end}";
 
-			echo "{$td_start}Bad Page{$td_end}";
+			echo "{$td_start}Bad{$td_end}";
 
 			if ($show_delete) {
 				echo "{$td_start}Delete{$td_end}";
@@ -292,7 +292,7 @@ function echo_cells_for_round($round_num)
 			// Image Size
 			if ($show_image_size)
 			{
-				echo "<td bgcolor='$bgcolor'>$imagesize";
+				echo "<td bgcolor='$bgcolor' align='right'>$imagesize";
 			}
 
 			// Master Text
