@@ -27,6 +27,9 @@ theme('FAQ Central','header');
   <dt><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a>
   <dd>Introduction to the site, general overview, beginner's questions.
 
+  <dt><a href="quiz/start.php">Proofing Quiz </a>
+  <dd>Try the proofing quiz - a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.
+
   <dt><a href="summary.pdf">Handy Proofreading Guide</a>
 
   <dd>(aka "Summary Guidelines") A printable two-page summary of the most commonly needed
