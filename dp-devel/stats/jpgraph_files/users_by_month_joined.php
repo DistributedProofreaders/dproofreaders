@@ -14,9 +14,9 @@ new dbConnect();
 $result1 = mysql_query("
 	SELECT
 		FROM_UNIXTIME(date_created, '%Y-%m')
-		  AS Month,
+		  AS month,
 		count(*)
-		  AS Joined
+		  AS num_who_joined
 	FROM users 
 	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
 	ORDER BY FROM_UNIXTIME(date_created, '%Y-%m')
@@ -25,9 +25,9 @@ $result1 = mysql_query("
 $result2 = mysql_query("
 	SELECT
 		FROM_UNIXTIME(date_created, '%Y-%m')
-		  AS Month,
+		  AS month,
 		count(*)
-		  AS EverProofed
+		  AS num_who_proofed
 	FROM users 
 	WHERE pagescompleted > 0 
 	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
@@ -38,14 +38,14 @@ $result2 = mysql_query("
 $mynumrows = mysql_numrows($result1);
         $count = 0;
         while ($count < $mynumrows) {
-        $data1y[$count] = mysql_result($result1, $count,"Joined");
-        $datax[$count] = mysql_result($result1, $count,"Month");
+        $data1y[$count] = mysql_result($result1, $count,"num_who_joined");
+        $datax[$count] = mysql_result($result1, $count,"month");
             $count++;
         }
 
         $count = 0;
         while ($count < $mynumrows) {
-        $data2y[$count] = mysql_result($result2, $count,"EverProofed");
+        $data2y[$count] = mysql_result($result2, $count,"num_who_proofed");
             $count++;
         }
 
