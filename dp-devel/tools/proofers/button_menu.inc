@@ -29,7 +29,7 @@ type="text" value="<?PHP
 TYPE="image" name="button35" ID="button35" align="top" size="26" alt="Set Image Zoom Percent" title="Set Image Zoom Percent" 
 onclick="return(showIZ());" src="gfx/bt10.png">&nbsp;<a href="#" 
 onclick="top.proofframe.imageframe.document.scanimage.src='../../projects/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><img 
-src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border=""></a>&nbsp;<INPUT 
+src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border="" width="26" height="26"></a>&nbsp;<INPUT 
 TYPE="image" name="button8" ID="button8" align="top" size="26" alt="Revert to Original Document" title="Revert to Original Document" 
 onclick="return(confirm('Are you sure you want to \r\nrevert to the original text for this round?'));" src="gfx/bt8.png">&nbsp;<?PHP
   if ($npage['revert']==1 || $npage['saved']==1)
@@ -39,12 +39,12 @@ onclick="return(confirm('Are you sure you want to \r\nrevert to the original tex
   }
   else
   {
-    echo "<img src=\"gfx/bt7_n.png\" align=\"top\" alt=\"Revert to Last Save Disabled\" title=\"Revert to Last Save Disabled\" border=\"\">";
+    echo "<img src=\"gfx/bt7_n.png\" align=\"top\" alt=\"Revert to Last Save Disabled\" title=\"Revert to Last Save Disabled\" border=\"0\" height=\"26\" width=\"26\">";
   }
 ?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><img 
-src="gfx/bt9.png" width="26" height="26" border="0" align="top" alt="Show All Text" title="Show All Text"></a>&nbsp;<a 
+src="gfx/bt9.png" width="26" height="26" border="0" align="top" alt="Show All Text" title="Show All Text" width="26" height="26"></a>&nbsp;<a 
 href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><img 
-src="gfx/bt12.png" width="26" height="26" border="0" align="top" alt="Project Comments" title="Project Comments"></a>&nbsp;<INPUT 
+src="gfx/bt12.png" width="26" height="26" border="0" align="top" alt="Project Comments" title="Project Comments" width="26" height="26"></a>&nbsp;<INPUT 
 TYPE="image" name="button10" ID="button10" align="top" size="26" alt="Run Spelling Check" title="Run Spelling Check" src="gfx/bt16.png"><?PHP 
 /*
 temp disabled
