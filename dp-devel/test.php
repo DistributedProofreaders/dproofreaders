@@ -20,39 +20,42 @@ echo "<hr>\n";
 system("ls -l /0/htdocs");
 echo "<hr>\n";
 
-$relPath='./pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
-
-$project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
-$res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
-        or die(mysql_error());
-
-while( $project_row = mysql_fetch_array($res) )
+if (0)
 {
-    list($projectid) = $project_row;
+    $relPath='./pinc/';
+    include($relPath.'connect.inc');
+    new dbConnect();
 
-    echo $projectid;
-    echo " ";
-    $res2 = mysql_query("SELECT COUNT(*) FROM $projectid");
-    if (!$res2)
+    $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
+    $res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
+	    or die(mysql_error());
+
+    while( $project_row = mysql_fetch_array($res) )
     {
-	echo mysql_error();
+	list($projectid) = $project_row;
+
+	echo $projectid;
+	echo " ";
+	$res2 = mysql_query("SELECT COUNT(*) FROM $projectid");
+	if (!$res2)
+	{
+	    echo mysql_error();
+	}
+	else
+	{
+	    list($n_pages) = mysql_fetch_array($res2);
+	    echo $n_pages;
+	}
+	echo "\n";
     }
-    else
-    {
-	list($n_pages) = mysql_fetch_array($res2);
-	echo $n_pages;
-    }
-    echo "\n";
+    echo "<hr>\n";
 }
-echo "<hr>\n";
 
 $res = mysql_query("SELECT username FROM users") or die(mysql_error());
 while( $user_row = mysql_fetch_array($res))
 {
     list($username) = mysql_fetch_array($res);
-    echo $username;
+    echo $username, "\n";
 }
 
 
