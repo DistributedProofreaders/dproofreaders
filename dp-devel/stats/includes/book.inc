@@ -3,8 +3,9 @@
 
 function showProjProfile($curProj) {
 	global $theme;
+	include_once($relPath.'project_states_text.inc');
 
-        $avatar = $GLOBALS['projects_url']."/".$projectid."/001.png";
+        $avatar = $GLOBALS['projects_url']."/".$curProj['projectid']."/001.png";
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 
@@ -17,7 +18,7 @@ function showProjProfile($curProj) {
 
 // Author of Book
 
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Author</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['author']."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Author</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['authorsname']."</font></td></tr>";
 
 // Language of Book
 
