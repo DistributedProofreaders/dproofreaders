@@ -5,9 +5,13 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
 
+
+
 function echo_page_table( $projectid )
 {
 	global $theme, $projects_dir;
+
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
 
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
@@ -54,12 +58,17 @@ function echo_page_table( $projectid )
 		echo "{$td_start}Date{$td_end}";
 		echo "{$td_start}User{$td_end}";
 		echo "{$td_start}Text{$td_end}";
-		echo "{$td_start}Clear{$td_end}";
-
+		if ($can_edit)
+		{
+			echo "{$td_start}Clear{$td_end}";
+		}
 		echo "{$td_start}Date{$td_end}";
 		echo "{$td_start}User{$td_end}";
 		echo "{$td_start}Text{$td_end}";
-		echo "{$td_start}Clear{$td_end}";
+		if ($can_edit)
+		{
+			echo "{$td_start}Clear{$td_end}";
+		}
 
 		echo "{$td_start}Bad{$td_end}";
 
@@ -168,6 +177,8 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 {
 	global $userP, $forums_url;
 
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
+
 	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
 
@@ -248,24 +259,27 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Clear
 
-	// Anticipate the tests in checkin.php:
-	if (
-		$round_num == 1 &&
-		$page_state == SAVE_FIRST &&
-		($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST')
-		||
-		$round_num == 2 &&
-		$page_state == SAVE_SECOND &&
-		($inRound=='SECOND')
-	)
-	{
-		echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>\n";
+	if ($can_edit) {
+		// Anticipate the tests in checkin.php:
+		if (
+			$round_num == 1 &&
+			$page_state == SAVE_FIRST &&
+			($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST')
+			||
+			$round_num == 2 &&
+			$page_state == SAVE_SECOND &&
+			($inRound=='SECOND')
+		)
+		{
+			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>";
+		}
+		else
+		{
+			// checkin.php won't let anything happen
+			echo "<td></td>";
+		}
 	}
-	else
-	{
-		// checkin.php won't let anything happen
-		echo "<td></td>\n";
-	}
+	echo "\n";
 }
 
 ?>
