@@ -61,7 +61,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	// -------------------------------------------------------------------------
 	// People who have certain roles with respect to the project
-	
+
 	echo_row_a( _("Project Manager"), $project['username'] );
 
 	if ($proofstate == 'proj_post')
@@ -145,8 +145,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 
 	$comments = $project['comments'];
-      
-        
+
+
         // automatically prepend R2 intro for Beginners Only
         if  ($project['difficulty'] == "beginner")
 	{
@@ -162,7 +162,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		while ($i <= $template_count) {
 			$comments_backup = $comments;
 			$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
-			$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
+			$comments .= file_get_contents($code_url."/pinc/templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
 			$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
 			$i++;
 		}
