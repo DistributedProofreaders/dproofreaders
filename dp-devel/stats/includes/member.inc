@@ -36,7 +36,7 @@ function showMbrProfile($curMbr) {
 	echo "<tr>";
 	echo "<td align='center' valign='top'>";
 
-	showBBProfile($curMbr['username']);
+	showForumProfile($curMbr['username']);
 
 	echo "</td>";
 
@@ -94,7 +94,7 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	return $mbrStatus;
 }
 
-function showBBProfile($username) {
+function showForumProfile($username) {
 	global $forums_url, $theme;
 
 	$result = mysql_query("
@@ -118,7 +118,7 @@ function showBBProfile($username) {
 
 	$t = new ThemedTable(
 		2,
-		_("phpBB Profile") . $editlink,
+		_("Forum Profile") . $editlink,
 		array( 'width'=>100 )
 	);
 
