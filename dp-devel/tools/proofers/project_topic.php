@@ -9,10 +9,6 @@ $project_id = $_GET['project'];
 $ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
 $post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
 
-// raz
-$owner = 527;
-
-
 
 //Get info about project
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
@@ -20,11 +16,11 @@ while($row = mysql_fetch_array($result)) {
 $title = "\"".$row['nameofwork']."\"    by ".$row['authorsname']."";
 $title = addslashes($title);
 $message =  "
-Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
-
-The Project Manager is {$row['username']}.
+This thread is for discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
 
 Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
+
+(This post is automatically generated.)
 ";
 $message = addslashes($message);
 $topic_id = $row['topic_id'];
