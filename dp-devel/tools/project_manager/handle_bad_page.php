@@ -69,6 +69,11 @@ if (!isset($_POST['resolution'])) {
         echo "<td bgcolor='#ffffff' align='center'>";
         echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;<input name='resolution' value='bad' type='radio'>Bad Report&nbsp;<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;</td></tr>";
     }
+    else
+    {
+        echo "<input name='resolution' value='something' type='hidden'>";
+        // Doesn't really matter what the value is.
+    }
     
     echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
     echo "<input type='submit' VALUE='Continue'>";
