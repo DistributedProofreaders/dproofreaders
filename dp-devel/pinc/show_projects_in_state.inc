@@ -204,6 +204,10 @@ function show_projects_in_state($state,$table=1)
 		{
 			echo_option( 'GET_TEXT_POST_2_ZIP', 'Download Zipped Text' );
 			echo_option( 'GET_COMMENTS_POST', 'View Project Comments' );
+			if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
+	                        echo_option( 'GET_PROJ_DETAILS', 'View Project Details' );
+			}
+
 		}
 		elseif ($stage == 'correct')
 		{
