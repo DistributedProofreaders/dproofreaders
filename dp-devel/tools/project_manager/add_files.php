@@ -6,6 +6,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
 include($relPath.'page_states.inc');
+include($relPath.'page_ops.inc');
 
 $projectid = $_GET['project'];
 
@@ -133,7 +134,7 @@ foreach ( glob("*.txt") as $txt_file_name )
 
 	// We assume that there is a correspondingly-named .png file.
 	// If there isn't, it will discovered at the verification stage?
-	$image_file_name = addslashes("$file_base.png");
+	$image_file_name = "$file_base.png";
 
 	// I'm pretty sure that fileid serves no architectural purpose.
 	// That is, it's redundant, given the 'image' field.
@@ -143,44 +144,17 @@ foreach ( glob("*.txt") as $txt_file_name )
 	// unpredictability, but not uniqueness.
 
 	// We need to pass an absolute path to LOAD_FILE.
-	$txt_file_path = addslashes("$source_project_dir/$txt_file_name");
-	$sql_command = "
-		INSERT INTO $projectid
-		SET
-			fileid      = '$file_base',
-			image       = '$image_file_name',
-			master_text = LOAD_FILE('$txt_file_path'),
-			round1_time = $now,
-			state       = '".AVAIL_FIRST."'
-	";
-	// echo $sql_command, "\n";
-	$res = mysql_query($sql_command);
-	if ($res)
+	$txt_file_path = "$source_project_dir/$txt_file_name";
+
+	$errs = project_add_page( $projectid, $file_base, $image_file_name, $txt_file_path, $now );
+	if (!$errs)
 	{
 		$n_rows_inserted++;
 	}
 	else
 	{
-		echo "        ", mysql_error(), "\n";
+		echo "        $errs\n";
 	}
-
-	if ($writeBIGtable) {
-
-		$sql_command = "
-			INSERT INTO project_pages
-			SET
-				projectid   = '$projectid',
-				fileid      = '$file_base',
-				image       = '$image_file_name',
-				master_text = LOAD_FILE('$txt_file_path'),
-				round1_time = $now,
-				state       = '".AVAIL_FIRST."'
-		";
-
-		$res = mysql_query($sql_command);
-	}
-
-
 }
 
 //update projects table and put the project into proj_new_files_uploaded
