@@ -23,9 +23,6 @@ function verifynew($project) {
 
     $currstate = PROJ_PROOF_FIRST_VERIFY;
     $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
-    $projectinfo = new projectinfo();
-
-    $projectinfo->update($projectid, $state);
 
 	//Update the total and available pages in the HEAP table
 	update_total_pages($projectid, 1);
@@ -48,10 +45,11 @@ function verifynew($project) {
        
     $path = "$projects_dir/$projectid/";
 
-    while ($page_num < $projectinfo->avail1_pages) {
-        $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");
-        $text = mysql_result($projectinfo->avail1_rows, $page_num, "master_text");
-        $filename = mysql_result($projectinfo->avail1_rows, $page_num, "image");
+    $res = mysql_query("SELECT image,master_text FROM $projectid WHERE state='".AVAIL_FIRST."' ORDER BY image ASC");
+    while ( $page = mysql_fetch_assoc($res) )
+    {
+        $text     = $page['master_text'];
+        $filename = $page['image'];
 
         if (!file_exists($path.$filename)) {
             $errors .= "  $filename: image file is missing\n";
