@@ -105,7 +105,8 @@ class ProofingRoundDescriptor
 
     function user_access( $username, $n_pages_completed=null )
     // Return an array containing:
-    // -- a boolean: TRUE iff the user can participate in this round.
+    // -- a string: detailing the means by which users gain access to the round.
+    // -- a boolean: TRUE iff the user can access this round.
     // -- a string: detailing why or why not (addressed to "you").
     // 
     // If $n_pages_completed is non-null, use it as the number of pages
@@ -113,11 +114,16 @@ class ProofingRoundDescriptor
     {
         if ( $this->minimum_user_pages <= 0 )
         {
+            $how = _("All users can work in this round.");
             $can = TRUE;
-            $why = _("Everyone can work in this round.");
+            $why = '';
         }
         else
         {
+            $how = sprintf(
+                _("Users can work in the round after completing %d pages."),
+                $this->minimum_user_pages );
+
             if ( is_null($n_pages_completed) )
             {
                 $result = mysql_query("
@@ -131,22 +137,22 @@ class ProofingRoundDescriptor
             if ( $n_pages_completed >= $this->minimum_user_pages )
             {
                 $can = TRUE;
-                $why = _("You have completed enough pages to work in this round.");
+                $why = sprintf(
+                    _("You have completed %d pages, enough to work in this round."),
+                    $n_pages_completed );
             }
             else
             {
+                // Not enough pages.
                 $can = FALSE;
                 $why = sprintf(
-                    _("You have completed %d of the %d pages necessary to work in this round."),
-                    $n_pages_completed, $this->minimum_user_pages );
-                    // _("This round is inaccessible until you have completed %d pages."),
-                    // $this->minimum_user_pages );
-                    // _("This round will be opened to you when you have completed %d pages."),
-                    // $this->minimum_user_pages );
+                    _("You have completed %d pages, so you have to do %d more."),
+                    $n_pages_completed,
+                    $this->minimum_user_pages - $n_pages_completed );
             }
         }
 
-        return array( $can, $why );
+        return array( $how, $can, $why );
     }
 }
 
