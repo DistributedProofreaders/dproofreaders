@@ -115,6 +115,7 @@ while( $line = fgets( $fp ) )
         $display_format = null;
     }
 }
+fclose($fp);
 
 if ($trace) echo "Putting the data into the table...\n";
 
