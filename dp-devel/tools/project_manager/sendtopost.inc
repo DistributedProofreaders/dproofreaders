@@ -83,7 +83,7 @@ include_once($relPath.'maybe_mail.inc');
 
     function generate_images_index( $project )
     {
-	global $projects_dir;
+	global $projects_dir, $code_url;
 
         $projectpath = "$projects_dir/$project";
 	$images_html = "$projectpath/images.html";
@@ -104,8 +104,8 @@ include_once($relPath.'maybe_mail.inc');
 	    $s .= "  <B>$png_filename</B> <I>($size bytes)</I><P>\n";
 	}
 	$s .= "<HR>\n";
-	$s .= "<a href=\"../../tools/post_proofers/post_proofers.php?project=$project\">Back</a> to the Post Processing page.";
-	$s .= "<p>Return to your <a href=\"../../tools/proofers/proof_per.php\">personal page.</a>";
+	$s .= "<a href=\"$code_url/tools/post_proofers/post_proofers.php?project=$project\">Back</a> to the Post Processing page.";
+	$s .= "<p>Return to your <a href=\"$code_url/tools/proofers/proof_per.php\">personal page.</a>";
 	$s .= "</BODY>\n";
 	$s .= "</HTML>\n";
 	
