@@ -50,7 +50,8 @@ $totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." 
 
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
-$uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
+$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
+$uniqueBadPages = mysql_result($result,0);
 if ($uniqueBadPages >= 3) {
 if($_POST['badState']==bad_first) {
 $result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
