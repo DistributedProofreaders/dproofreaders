@@ -52,12 +52,12 @@ function showMbrProfile($curMbr) {
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
 	echo "\n";
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
+	echo "<table width='99%'>";
 	echo "\n";
 	echo "<tr>";
-	echo "<td bgcolor='".$theme['color_mainbody_bg']."' width='35%'>";
+	echo "<td align='center' valign='top'>";
 
-	echo "<table width='100%'>";
+	echo "<table border='1' width='100%'>";
 	echo "<tr>";
 	echo "<td align='center' height='90'>";
 	echo "<img border='0' src='$avatar' alt='avatar'>";
@@ -72,7 +72,7 @@ function showMbrProfile($curMbr) {
 
 	echo "</td>";
 
-	echo "<td bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'>";
+	echo "<td align='center' valign='top'>";
 	echo "\n";
 
 	$xml_doc_url = $GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username'];
@@ -83,7 +83,7 @@ function showMbrProfile($curMbr) {
 	$t = new ThemedTable(
 		2, 
 		_("Statistics") . " $xml_button",
-		array( 'border'=>0, 'width'=>100 )
+		array( 'width'=>100 )
 	);
 	$t->set_column_widths( 30, 70 );
 
