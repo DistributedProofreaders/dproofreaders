@@ -201,8 +201,17 @@ radio_select('u_top10', $userP['u_top10'], 0, 'No');
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('topten');\">?</a></b>";
 
 echo $tre.$tr.$td2;
+echo "<strong>Theme:</strong>";
 echo $tde.$td3;
-echo $tde.$td3a;
+echo "<select name='i_theme' ID='i_theme'>";
+$result = mysql_query("SELECT * FROM themes");
+while ($row = mysql_fetch_array($result)) {
+	echo "<option value='".$row['unixname']."'";
+	if ($row['unixname'] == $userP['i_theme']) { echo " SELECTED"; }
+	echo ">".$row['name']."</option>";
+}
+echo "</select>";
+echo $tde.$td3a."<b><a href=\"Javascript:newHelpWin('theme');\">?</a></b>";
 echo $tde.$td2;
 echo "<strong>Stats Bar Alignment:</strong>";
 echo $tde.$td3;
@@ -354,7 +363,7 @@ echo mysql_error();
 // set users values
 $users_query="UPDATE users SET real_name='$real_name', email='$email', 
 email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_align='$u_align', u_neigh='$u_neigh',
-u_lang='$u_lang' , i_prefs='1'";
+u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme'";
 if (isset($mkProfile))
   {$users_query.=", u_profile='".mysql_insert_id($db_link)."'";}
 $users_query.=" WHERE id='$user_id' AND username='$pguser'";
