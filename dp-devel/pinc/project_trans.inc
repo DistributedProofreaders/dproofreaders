@@ -1,6 +1,7 @@
 <?
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'page_states.inc');
 include_once($relPath.'bookpages.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
@@ -394,6 +395,30 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		return "$transition_str: mysql error: " . mysql_error();
 	}
+
+	// ---------------------------------------------------------------------
+	// Okay, so the update to the 'projects' table succeeded.
+	// Now make any collateral changes to other tables.
+	// (This needs to be expanded.)
+
+	if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
+		$new_state == PROJ_PROOF_FIRST_AVAILABLE )
+	{
+		// Releasing the project.
+		// Update the corresponding projectID* table.
+		$result = mysql_query("
+			UPDATE $projectid
+			SET state = '".AVAIL_FIRST."'
+			WHERE state = '".UNAVAIL_FIRST."'
+		");
+		// Update the page_counts table.
+		update_total_pages($projectid, 1);
+	}
+
+	// (All the stuff under PROJ_SUBMIT_PG_POSTED, except for the assignment
+	// to $settings, should probably be moved here.)
+
+	// ---------------------------------------------------------------------
 
 	if ($testing)
 	{
