@@ -295,7 +295,7 @@ function query_format() {
 	return $fullquery;
 }
 
-if ($_POST['action'] == "marc_search" || $_GET['action'] == "marc_search") {
+if ($_REQUEST['action'] == "marc_search") {
 	theme("Search Results", "header");
 	if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
 	if (!empty($_GET['fq'])) { $fullquery = unserialize(base64_decode($_GET['fq'])); } else { $fullquery = query_format(); }
@@ -371,11 +371,11 @@ if ($_POST['action'] == "marc_search" || $_GET['action'] == "marc_search") {
         echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"editproject.php\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
         yaz_close($id);
         theme("", "footer");
-} elseif ($_POST['action'] == "submit_marcsearch" || $_GET['action'] == "createnew" || isset($_GET['project']) || isset($_POST['saveAndPreview'])) {
+} elseif ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew" || isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview'])) {
 	if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
 	if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
-	if(isset($_GET['project']) || isset($_POST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
+	if(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
 		if (empty($_GET['project']) && empty($GLOBALS['projectid'])) {
 			$projectid = $_POST['projectid'];
 		} elseif(empty($_POST['projectid']) && empty($GLOBALS['projectid'])) {
