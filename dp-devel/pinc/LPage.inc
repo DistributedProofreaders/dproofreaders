@@ -204,7 +204,7 @@ function addUserCount($proofstate,$pguser,$userP)
     if ($rows !=0)
     {
       $curState=dresult($result,0,'state');
-        if (($this->getProjectRound($proofstate)==1 && $curState==OUT_FIRST) || ($this->getProjectRound($proofstate)==2 && $curState==OUT_SECOND))
+        if (($this->getProjectRound($proofstate)==1 && ($curState==OUT_FIRST || $curState==TEMP_FIRST)) || ($this->getProjectRound($proofstate)==2 && ($curState==OUT_SECOND || $curState==TEMP_SECOND)))
         {
           // add to user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
@@ -223,7 +223,7 @@ function deleteUserCount($proofstate,$pguser,$userP)
     if ($rows !=0)
     {
       $curState=dresult($result,0,'state');
-        if (($this->getProjectRound($proofstate)==1 && ($curState==SAVE_FIRST || $curState==TEMP_FIRST)) || ($this->getProjectRound($proofstate)==2 && ($curState==SAVE_SECOND || $curState==TEMP_SECOND)))
+        if (($this->getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || ($this->getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
         {
           // delete from user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
