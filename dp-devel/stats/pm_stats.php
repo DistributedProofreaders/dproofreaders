@@ -23,7 +23,7 @@ echo "<br>\n";
 
 
 echo "<h3>Most Prolific Project Managers</h3>\n";
-echo "<h4>(Number of Projects Created</h4>\n";
+echo "<h4>(Number of Projects Created)</h4>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -40,7 +40,7 @@ echo "<br>\n";
 
 
 echo "<h3>Most Prolific Project Managers</h3>\n";
-echo "<h4>(Number of Projects Posted to PG</h4>\n";
+echo "<h4>(Number of Projects Posted to PG)</h4>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
