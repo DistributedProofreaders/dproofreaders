@@ -3,9 +3,9 @@ $relPath="../../pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'theme.inc');
-include($relPath.'bookpages.inc');
+include_once($relPath.'bookpages.inc');
 include_once($relPath.'project_states.inc');
-include($relPath.'showtexts.inc');
+include_once($relPath.'showtexts.inc');
 
 
 $type = $_GET['type'];
