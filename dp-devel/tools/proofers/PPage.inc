@@ -48,15 +48,16 @@ function echo_page_info( $npage )
     echo _("Page: $pageNum");
 
     $prd = get_PRD_for_project_state($npage['proofstate']);
-    $other_prds = $prd->other_rounds_with_visible_usernames;
-    if (count($other_prds) > 0)
+    $other_round_ids = $prd->other_rounds_with_visible_usernames;
+    if (count($other_round_ids) > 0)
     {
         echo " - ";
         echo _("Proofread by:");
 
         $show_comma = FALSE;
-        foreach ($other_prds as $other_prd)
+        foreach ($other_round_ids as $other_round_id)
         {
+            $other_prd = get_PRD_for_round_id($other_round_id);
             $res = mysql_query("SELECT {$other_prd->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
             $username = mysql_result($res, 0, $other_prd->user_column_name);
 
