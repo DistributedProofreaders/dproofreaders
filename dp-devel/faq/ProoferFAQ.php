@@ -258,7 +258,7 @@ different pages.  This will significantly speed up the proofreading process.
     href="<? echo $PG_catalog_url; ?>">online catalog</a> and get copies of any etext in
     the library, including the ones done through Distributed Proofreaders. </p>
 
-<h3><a name="10">10. I think I messed something up (done something wrong), How can I fix it? </a></h3>
+<h3><a name="10">10. I think I messed something up (did something wrong), how can I fix it? </a></h3>
 <p> <i>Don't panic.</i> We all make mistakes. If you think you made a mistake on the last few
     pages of a particular project, go back to the Project Page and note the "DONE" links.
     They reconnect to the last 5 pages you proofread for that project.
