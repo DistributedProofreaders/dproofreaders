@@ -1,9 +1,48 @@
 <?PHP
-include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
 
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 2);
+
+// -----------------------------------------------------------------------------
+
+// bad page
+define("BAD_FIRST","bad_first"); // 31
+define("BAD_SECOND","bad_second"); // 41
+
+// available
+define("AVAIL_FIRST","avail_first"); // 2
+define("AVAIL_SECOND","avail_second"); // 12
+
+// checked out
+define("OUT_FIRST","out_first"); // 5
+define("OUT_SECOND","out_second"); // 15
+
+// temp save
+define("TEMP_FIRST","temp_first"); // did not exist
+define("TEMP_SECOND","temp_second"); // did not exist
+
+// save
+define("SAVE_FIRST","save_first"); // 9
+define("SAVE_SECOND","save_second"); // 19
+
+// -------------------------------------
+
+$PAGE_STATES_IN_ORDER = array(
+    AVAIL_FIRST,
+    OUT_FIRST,
+    TEMP_FIRST,
+    SAVE_FIRST,
+    BAD_FIRST,
+
+    AVAIL_SECOND,
+    OUT_SECOND,
+    TEMP_SECOND,
+    SAVE_SECOND,
+    BAD_SECOND
+);
+
+// -----------------------------------------------------------------------------
 
 class ProofingRoundDescriptor {}
 // A container for various constants relating to a particular round of proofing.
