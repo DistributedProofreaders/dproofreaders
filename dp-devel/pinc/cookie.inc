@@ -40,7 +40,7 @@ function setUserPrefs($userID)
   if ($this->checkCookieH() || $this->ignoreHash)
   {
           $db_users="SELECT u_id, u_profile, u_lang, email_updates, 
-u_plist, u_top10, u_neigh, i_prefs, 
+u_plist, u_top10, u_neigh, u_align, i_prefs, 
 id, manager, postprocessor, team_1, team_2, team_3 
 FROM users WHERE username='$userID'";
           $db_usersres=mysql_query($db_users);
@@ -99,6 +99,7 @@ $i=0;
 @$uPrefs['u_plist']=$cPrefs[$i++];
 @$uPrefs['u_top10']=$cPrefs[$i++];
 @$uPrefs['u_neigh']=$cPrefs[$i++];
+@$uPrefs['u_align']=$cPrefs[$i++];
 @$uPrefs['i_prefs']=$cPrefs[$i++];
 @$uPrefs['user_id']=$cPrefs[$i++];
 @$uPrefs['manager']=$cPrefs[$i++];
