@@ -1,5 +1,12 @@
 <?php
 
+/** NOTES
+ *
+ * This class should probably be responsible for knowing if this user is logged in or
+ * not based on whether logIn() has succeeded and logOut() has not subsequently occurred.
+ * Hence the var $logged_in for the purpose.
+ */
+
 /**
  * User Class
  *
@@ -15,8 +22,9 @@ class User
 {
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $settings;      // This is for the records from usersettings for this user.
-    var $prefs;         // this is for the records from userprofiles for this user
-    var $logged_in;     // Shows if user is logged in or not
+    var $prefs;    // this is for the records from userprofiles for this user.
+    var $stats;    // this is for the fields from a summary query from member_stats.
+    var $logged_in; // boolean = True when they are and False when they're not.
 
     /**
      * Class Initializer
@@ -456,6 +464,11 @@ class User
 
     }
 
+    function password()
+    {
+        return $this->users_phpbb['bbu.password'];
+    }
+
     /**
      * Displays User Ranking
      *
@@ -673,9 +686,9 @@ class User
     {
 
     }
-
+     * May User Manage Site??
     /**
-     * May User Manage Site?
+     * May User Manage Site
      *
      * <p>This function has the same action as isSiteManager(), but is included to keep
      * the interface for this class to be consistent.</p>
@@ -727,9 +740,9 @@ class User
     {
 
     }
-
+     * May User Manage Task Center??
     /**
-     * May User Manage Task Center?
+     * May User Manage Task Center
      *
      * <p>This is different from isTaskCenterManager() in that Site Managers, in their very nature
      * of being Site Managers, are allowed to do anything.</p>
@@ -811,7 +824,7 @@ class User
 
     function isProjectMentor()
     {
-        return true;
+        return ($this->settings['proj_mentor'] == 'yes');
     }
 
     /**
@@ -1183,58 +1196,61 @@ class User
      *
      * - Returns 0 if there are no daily statistics for the User
      * - Otherwise will return the average.
-     *
-     * <p>Code was previously in stats/include/member.php</p>
      */
+
+     function _queryStats()
+     {
+         $sql = "SELECT
+                    AVG(daily_pagescompleted) AS avgCount,
+                    MAX(daily_pagescompleted) as maxCount
+                FROM member_status
+                WHERE u_id = $this->userID()" 
+         $result = mysql_query( $sql ) ;
+         $stats= mysql_fetch_assoc( $result ) ;
+         mysql_free_result( $result ) ;
+     }
+
+     function _maybeQueryStats()
+     {
+         if( ! $stats ) {
+             $this->_queryStats() ;
+         }
+     }
 
     function dailyPageAverage()
     {
-        $sql = "SELECT AVG(daily_pagescompleted) AS avgCount
-                FROM member_stats
-                WHERE
-                u_id = ".$this->userID()";
-	$avgPageCount = mysql_query($sql);
-	$daily_average = mysql_result($avgPageCount, 0, "avgCount");
-        mysql_free_result($avgPageCount);
+         _maybeQueryStats() ;
+         return empty( $avg = $this->stats['avgCount'] ) ? 0 : $avg ;
+     }
 
-	if (empty($daily_average)) {
-            $daily_average = 0;
+     function bestCountEver()
+     {
+         _maybeQueryStats() ;
+         return empty($max = $this->stats['maxCount'] ) : 0 : $max ;
         }
 
-	return $daily_average;
-    }
+     // this extra query can be eliminated when we have correlated subqueries
+     // in mysql. But in the meantime...
 
-    /**
-     * Best Proofreading Day Ever for User
-     *
-     * <p>Pulls from the member_stats table their best day and places it into an array with
-     * two slots called:</p>
-     *
-     * - 'count' which is the total for that day.
-     * - 'time' which is a text form of the date that it occurred on in.
-     *
-     * <p>If they have no best day ever, then it will return 0 for 'count' and today for 'time'</p>
-     *
-     * <p>Code was previously in stats/include/member.php</p>
-     */
+     function bestDayEver()
+     {
+         static $best ;
 
-    function bestDayEver() {
-        $sql = "SELECT date_updated, daily_pagescompleted
+         _maybeQueryStats() ;
+
+         if( ! isset( $best ) ) {
+             $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
                 FROM member_stats
-                WHERE
-                u_id = $this->userID()
-                ORDER BY daily_pagescompleted
-                DESC LIMIT 1";
+                     WHERE u_id = $this->userID()
+                         AND daily_pagescompleted = $this->bestCountEver()
+                    ORDER BY date_updated DESC LIMIT 1" ;
         $result = mysql_query($sql);
-        $bestDay['count'] = mysql_result($result, 0, "daily_pagescompleted");
-        $bestDay['time'] = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
-
-        if (empty($bestDay['count'])) {
-            $bestDay['count'] = 0;
-            $bestDay['time'] = date("M. jS, Y", time());
+             $best = mysql_result( $result, 0, "BestDay" ) ;
+             // This is returned in a field that is a 
+             mysql_free_result( $result ) ;
         }
 
-        return $bestDay;
+         return $best;
     }
 
 }
