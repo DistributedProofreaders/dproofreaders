@@ -265,11 +265,11 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
 function createThread($tname, $tinfo, $towner, $tid) {
 	//Declare variables
-	global $dynstats_url;
+	global $code_url;
 	$timeposted = time();
 	$owner = 527;
 	$title = $tname;
-	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$dynstats_url/teams/tdetail.php?tid=$tid'>$dynstats_url/teams/tdetail.php?tid=$tid</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
+	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$code_url/stats/teams/tdetail.php?tid=$tid'>$code_url/stats/teams/tdetail.php?tid=$tid</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
 	$message = addslashes($message);
 
 	$ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
