@@ -2,6 +2,8 @@
 
 function build_selectlist( $states, $field)
 {
+
+	$to_echo = "";
 	$query = "
 		SELECT distinct $field
 		FROM projects
@@ -14,12 +16,12 @@ function build_selectlist( $states, $field)
 	while ($a_res = mysql_fetch_row($result))
 	{
 	    $val = $a_res[0];	
-	    echo "<option value='$val'>";
-	    echo $val;
-	    echo "</option>\n";
+	    $to_echo .= "<option value='$val'>";
+	    $to_echo .= $val;
+	    $to_echo .="</option>\n";
 	}
 
-return TRUE;
+return $to_echo;
 
 }
 
@@ -48,7 +50,7 @@ if ($userP['u_plist'] == 3)
 
 
     echo "<center>";
-    echo _("Filter available ").$label." books by");
+    echo _("Filter available ").$label._(" books by");
     echo ":<br>
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
@@ -78,7 +80,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All languages</option>
 	";
 
-	build_selectlist( $state_sql, "language");
+	echo build_selectlist( $state_sql, "language");
 
 	echo "
 	    </select>
@@ -94,7 +96,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All genres</option>
 	";
 
-	build_selectlist( $state_sql, "genre");
+	echo build_selectlist( $state_sql, "genre");
 	echo "
 	    </select>
 	    </td>
@@ -109,7 +111,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All Project Managers</option>
 	";
 
-	build_selectlist( $state_sql, "username");
+	echo build_selectlist( $state_sql, "username");
 	echo "
 	    </select>
 	    </td>
