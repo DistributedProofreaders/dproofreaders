@@ -22,9 +22,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 //     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
-	global $projects_forum_idx;
-	global $pp_projects_forum_idx;
-	global $posted_projects_forum_idx;
 	global $site_supports_metadata;
 
 	// error_reporting(E_ALL);
@@ -369,19 +366,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 
 	// move the project topic in synch with the project's progress
-
-	if ($new_state == PROJ_PROOF_FIRST_AVAILABLE) 
-	{
-		move_project_thread( $projectid, $projects_forum_idx);
-	}
-	else if (($new_state == PROJ_POST_FIRST_AVAILABLE) or ($new_state == PROJ_POST_FIRST_CHECKED_OUT))
-	{
-		move_project_thread( $projectid, $pp_projects_forum_idx);
-	}
-	else if ($new_state == PROJ_SUBMIT_PG_POSTED)
-	{
-		move_project_thread( $projectid, $posted_projects_forum_idx);
-	}
+	move_project_thread( $projectid, get_forum_id_for_project_state($new_state) );
 
 
 	// (All the stuff under PROJ_SUBMIT_PG_POSTED, except for the assignment

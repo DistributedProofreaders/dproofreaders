@@ -35,33 +35,7 @@ if(($topic_id == "") || ($topic_id == 0))
 	$state = $row['state'];
 
 	// determine appropriate forum to create thread in
-
-	switch ($state) {
-        	case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE :
-	    	$forum_id = $waiting_projects_forum_idx;
-            break ;
-
-	        case PROJ_PROOF_FIRST_AVAILABLE :
-	        case PROJ_PROOF_SECOND_AVAILABLE :
-	    	$forum_id = $projects_forum_idx;
-            break ;
-
-        	case PROJ_POST_FIRST_AVAILABLE :
-	        case PROJ_POST_FIRST_CHECKED_OUT :
-	        case PROJ_POST_SECOND_AVAILABLE :
-        	case PROJ_POST_SECOND_CHECKED_OUT :
-	        case PROJ_POST_COMPLETE :
-	    	$forum_id = $pp_projects_forum_idx;
-            break ;
-
-	        case PROJ_SUBMIT_PG_POSTED :
-	    	$forum_id = $posted_projects_forum_idx;
-            break ;
-
-	        default :
-	    	$forum_id = $projects_forum_idx;
-            break ;	
-	}
+	$forum_id = get_forum_id_for_project_state($state);
 
         $post_subject = "\"".$nameofwork."\"    by ".$authorsname;
 
