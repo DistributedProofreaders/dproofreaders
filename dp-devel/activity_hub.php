@@ -202,7 +202,9 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo $prd->description;
     echo "<br>\n";
 
-	list($can_access,$explanation) = $prd->user_access( $pguser, $pagesproofed );
+	list($how_access, $can_access,$explanation) = $prd->user_access( $pguser, $pagesproofed );
+    echo $how_access;
+    echo "<br>\n";
     echo $explanation;
     echo "<br>\n";
 

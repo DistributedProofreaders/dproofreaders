@@ -51,10 +51,10 @@ function show_block_for_round( $round_number, $projects_filter )
 	$title = _('Projects Currently Available');
 	echo "\n<td colspan=2><h3>$title</h3></td>";
 
-	list($can_access,$explanation) = $prd->user_access( $pguser );
+	list($how_access,$can_access,$explanation) = $prd->user_access( $pguser );
 	if ( !$can_access )
 	{
-		echo "\n<td colspan=6>$explanation</td>";
+		echo "\n<td colspan=6>$how_access $explanation</td>";
 		echo "</tr>";
 	}
 	else
