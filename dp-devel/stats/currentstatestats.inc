@@ -55,9 +55,9 @@ echo "
 	. _("Projects this month") .
 		"</font></th>
 	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_created_graphs.php'>"._("Created")."</a>:        <b>$created</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Proofread").":      <b>$FinProof</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Post-Processed").": <b>$FinPP</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Posted to PG").": <b>$Posted</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_proofed_graphs.php'>"._("Proofread")."</a>:      <b>$FinProof</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_PPd_graphs.php'>"._("Post-Processed")."</a>: <b>$FinPP</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_posted_graphs.php'>"._("Posted to PG")."</a>: <b>$Posted</b></td>
 	  </tr>
 	  </tbody>
 	</table>
