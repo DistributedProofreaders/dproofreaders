@@ -26,7 +26,7 @@ function echo_manager_header()
 
 	echo "<p>";
 	echo "<center>";
-	echo "<a href='projectmgr.php'>Show Your Active Projects</a>";
+	echo "<a href='projectmgr.php?show=user_active'>Show Your Active Projects</a>";
 	echo " | ";
 	echo "<a href='projectmgr.php?show=all'>Show All of Your Projects</a>";
 	echo " | ";
