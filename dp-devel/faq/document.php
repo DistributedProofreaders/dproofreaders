@@ -70,10 +70,10 @@ theme('Proofreading Guidelines','header');
             <li><a href="#title_pg">Front/Back Title Page</a>           </li>
             <li><a href="#toc">Table of Contents</a>                    </li>
             <li><a href="#blank_pg">Blank Page</a>                      </li>
-            <li><a href="#page_hf">Page Headers/Footers</a>             </li>
+            <li><a href="#page_hf">Page Headers/Page Footers</a>             </li>
             <li><a href="#chap_head">Chapter Headers</a>                </li>
             <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
-            <li><a href="#para_space">Paragraph Spacing</a>             </li>
+            <li><a href="#para_space">Paragraph Spacing/Indenting</a>             </li>
             <li><a href="#mult_col">Multiple Columns</a>                </li>
             <li><a href="#illust">Illustrations</a>                     </li>
             <li><a href="#footnotes">Footnotes/Endnotes</a>             </li>
@@ -92,7 +92,7 @@ theme('Proofreading Guidelines','header');
             <li><a href="#abbrev">Abbreviations</a>                     </li>
             <li><a href="#contract">Contractions</a>                    </li>
             <li><a href="#poetry">Poetry/Epigrams </a>                  </li>
-            <li><a href="#letter">Letter Indenting</a>                  </li>
+            <li><a href="#letter">Letter Indentation</a>                  </li>
             <li><a href="#lists">Lists of Items</a>                     </li>
             <li><a href="#tables">Tables</a>                            </li>
             <li><a href="#block_qt">Block Quotations</a>                </li>
@@ -105,7 +105,7 @@ theme('Proofreading Guidelines','header');
             <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
             <li><a href="#line_no">Line Numbers</a>                     </li>
             <li><a href="#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></li>
-            <li><a href="#period_p">Period Pause "..."</a>              </li>
+            <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a>              </li>
             <li><a href="#a_chars">Accented/Non-ASCII Characters</a>    </li>
             <li><a href="#d_chars">Characters with Diacritical marks</a></li>
             <li><a href="#f_chars">Non-English Characters</a>           </li>
@@ -613,7 +613,7 @@ theme('Proofreading Guidelines','header');
 <p> If there are multiple sidenotes for a single paragraph, put them one after another
     at the start of the paragraph.  Leave a blank line separating each of them.</p>
 <p> If the paragraph began on a previous page, put the Sidenote at the top of the page
-    and mark it with <tt>*</tt> so that the post-proofreader can see that it belongs on
+    and mark it with <tt>*</tt> so that the post-processor can see that it belongs on
     the previous page.  Like this: <tt>*[Sidenote: the-description-text]</tt>.  The
     post-processor will move them to the appropriate place. </p>
 <p> Sometimes a Project Manager will request that you put Sidenotes next to the sentence
@@ -698,7 +698,7 @@ theme('Proofreading Guidelines','header');
                German superstition that a house which                               <br>
                contains a brand from the midsummer                                  <br>
                bonfire will not be struck by lightning                              <br>
-               (J.W. Wolf, &lt;i&gt;Beiträge, zur deutschen                         <br>
+               (J.W. Wolf, &lt;i&gt;Beiträge zur deutschen                         <br>
                Mythologie&lt;/i&gt;, i. p. 217, § 185).]                            <br>
                                                                                     <br>
                [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus               <br>
@@ -799,7 +799,7 @@ theme('Proofreading Guidelines','header');
 <p> In some books, the Project Manager may ask that you move the footnotes
     in-line; read the Project Comments for instructions in this case.  </p>
 
-<p>    See the <a href="#page_hf">Page Headers/Footers</a>
+<p>    See the <a href="#page_hf">Page Headers/Page Footers</a>
     image/text for an example footnote.</p>
  
 <p> If there's a footnote at the bottom of the page with no footnote marker in the text,
@@ -875,12 +875,12 @@ theme('Proofreading Guidelines','header');
     surround the text of each note with <tt>[Footnote _: text-text-text]</tt>, putting
     the footnote number or marker where the underline is, and the actual text for
     "text-text-text".  Put a blank line after each one, so that they stay separate
-    paragraphs when the text is reflowed in post-processing. </p>
+    paragraphs when the text is re-flowed in post-processing. </p>
  <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p> <b>Footnotes in <a href="#poetry">Poetry</a> or <a href="#tables">Tables</a></b>
     should be treated the same as other footnotes. Proofers should tag them and leave them
-    at the bottom of the page; the post-proofer will decide on the final placement.</p>
+    at the bottom of the page; the post-processor will decide on the final placement.</p>
 
 <table width="97%" border="1"  cellpadding="4" cellspacing="0" summary="Footnotes">
   <col width="256*">
@@ -924,9 +924,9 @@ And everywhere that Mary went
     <p>
     Punctuation goes OUTSIDE the italics, unless it is an entire sentence or section
     that is being italicized, or the punctuation is itself part of a phrase, title
-    or abbreviation that is being italicised. (For instance, the . that mark that
+    or abbreviation that is being italicized. (For instance, the . that mark that
     words in the title of a journal like <i>Phil. Trans.</i> have been abbreviated
-    is part of the title for italicisation 
+    is part of the title for italicization 
     purposes, and are included within the italic tags, thus:
     <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>)
   
@@ -970,7 +970,7 @@ And everywhere that Mary went
 <h3><a name="bold">Bold Text</a> </h3>
 <p> Bold text (text printed in a heavier typeface) should be marked with
     <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>after it.
-    See the <a href="#page_hf">Page Headers/Footers</a> image/text for an example.
+    See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an example.
   </p>
 
 <p> Some Project Managers may specify in the <a
@@ -1011,7 +1011,7 @@ And everywhere that Mary went
     <tt>&lt;/i&gt;</tt>, and remove the extra spaces.  This was a typesetting technique
     used to emphasize a piece of text in older German (and some Italian) books.  Italics
     serve that purpose for modern readers, and extra spacing may not be clear on all the
-    different screen sizes &amp; fonts where people may read the final ebook. </p>
+    different screen sizes &amp; fonts where people may read the final e-book. </p>
 
 <h3><a name="font_sz">Font size changes</a> </h3>
 <p> Don't do anything to mark changes in font size.  When the book is converted to
@@ -1064,7 +1064,7 @@ And everywhere that Mary went
     <br>Leave these as a single hyphen, with no spaces on either side.
     <li><i>En-dashes</i>.  These are just a little longer, and are used for a
         <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
-    <br>Proof these too as a single hyphen.  Spaces before or after is determined by the
+    <br>Proof these, too, as a single hyphen.  Spaces before or after are determined by the
         way it was done in the book; usually no spaces in number ranges, usually spaces
         around mathematical minus signs, sometimes both sides, sometimes just before.
     <li><i>Em-dashes &amp; long dashes</i>.  These serve as <b>separators</b> between
@@ -1154,7 +1154,7 @@ And everywhere that Mary went
 
 <h3><a name="next_word">Single word at bottom of page</a>  </h3>
 <p> In some old books, you will see a single word at the bottom of the page, usually
-    printed near the right margin.  Delete this word.  Even if it's the last half of a
+    printed near the right margin.  Delete this word.  Even if it's the second half of a
     hyphenated word, delete it.  (Don't join the word across pages, because the last
     half will be duplicated when someone else doing the next page leaves it there.) It
     is actually the first word on the next page of the book.  (That's called an
@@ -1179,11 +1179,11 @@ And everywhere that Mary went
     probably an OCR scanning issue.  Remove the extra space in either case.) </p>
     
 <h3><a name="poetry">Poetry/Epigrams</a> </h3>
-<p> This section applies an occasional Poem or Epigram in a mainly non-poetry book.
+<p> This section applies to an occasional Poem or Epigram in a mainly non-poetry book.
     For an entire book of poetry, see the
     <a href="doc-poet.php">special guidelines for Poetry Books</a>.  </p>
 
-<p> Mark poetry or epigrams so the post-processor can find the poetry quicker. Insert a
+<p> Mark poetry or epigrams so the post-processor can find the poetry more quickly. Insert a
     separate line with <tt>/*</tt> at the start of the poetry or epigram and a separate
     line with <tt>*/</tt> at the end. </p>
 
@@ -1214,7 +1214,7 @@ And everywhere that Mary went
     but there are many others). </p>
 
 <p> Lines with type 2) indents (printer's, rejoin) usually start with a lower case letter, 
-    and rather than occuring at regular places in the metre of the poem, as type 1) indents
+    and rather than occurring at regular places in the metre of the poem, as type 1) indents
     often do, will appear randomly, depending on the lengths of the words in the line.</p> 
 
 <p> If the poetry was centered on the printed page, don't bother trying to center lines of 
@@ -1268,12 +1268,12 @@ And everywhere that Mary went
     Instead of indenting put a blank line before the start of the letter. </p>
 <p> Mark consecutive heading or footing lines (such as addresses, date blocks or signatures) with 
     <tt>/*</tt> on a line before them, and <tt>*/</tt> on a line after them, as if they were poetry, 
-    so that they are kept as individual lines in post processing and not rewrapped. 
+    so that they are kept as individual lines in post-processing and not rewrapped. 
     Don't indent them, even if they are indented or right justified in the original--just 
-    put them at the left margin. The post proofer will format them as needed. </p>
+    put them at the left margin. The post-processor will format them as needed. </p>
     
 <h3><a name="lists">Lists of Items</a> </h3>
-<p> Mark these similar to poetry; insert a line with <tt>/*</tt> before the list, and
+<p> Mark these similarly to poetry; insert a line with <tt>/*</tt> before the list, and
     insert a line with <tt>*/</tt> after the list.  This marking tells the post
     processor that this section of text should be kept as separate lines, and not
     re-flowed into paragraphs.  Mark it this way for any such list that should not be
@@ -1351,7 +1351,7 @@ And everywhere that Mary went
     automatically in post-processing.  See the <a href="#chap_head">Chapter Headers</a>
     image and text for an example. </p>
     
-<h3><a name="punctuat">Punctuation characters</a> </h3>
+<h3><a name="punctuat">Punctuation</a> </h3>
 <p> In general, there is no space before punctuation characters (except the opening
     quote). Books typeset in the 1700's &amp; 1800's often had a partial space inserted
     before punctuation such as a semicolon or comma.  If scanned text has a space before
@@ -1427,10 +1427,10 @@ end of the line of text.<br>
 <br>
 Text starts up again.</tt><br>
 (The enhanced proofreading interface has this separator available to cut
- &amp; paste.) <br> See the <a href="#page_hf">Page Headers/Footers</a>
+ &amp; paste.) <br> See the <a href="#page_hf">Page Headers/Page Footers</a>
 image/text for an example.</p>
     
-<h3><a name="period_p">Period Pause "..." (Ellipsis)</a> </h3>
+<h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a> </h3>
 <p> Leave a space before the three dots, and a space after.  The exception is at the end
     of a sentence, when there would be no space, four dots, and a space after.  This is
     also the case for any other ending punctuation mark: the 3 dots follow immediately,
@@ -1896,12 +1896,12 @@ cedilla                      [,x]*  [x,]
 <p> For <b>fractions</b>, convert them like this: <tt>2&frac12;</tt> becomes
     <tt>2-1/2</tt>.</p>
 
-<h3><a name="page_ref">Page References</a> </h3>
+<h3><a name="page_ref">Page References &quot;See Pg. 123&quot;</a> </h3>
 <p> Some non-fiction works will reference themselves by giving a page number to go to,
     for example: (see p. 123). Please leave these references as they are within the text
     (even though we remove page numbers from the Table of Contents and the headers or footers of pages).
     Mark these page references with a <tt>*</tt>, as in <tt>(see p. 123*)</tt>, unless the Project Manager specifies not to
-    in the <a href="#comments">Project Comments</a>. This will make it easier for the Post Processor 
+    in the <a href="#comments">Project Comments</a>. This will make it easier for the Post-Processor 
     to find them later. This is for page references within the main body of the text or within footnotes only; see
     below for page references within indexes.</p>
  
@@ -2011,8 +2011,8 @@ cedilla                      [,x]*  [x,]
 <ul compact>
   <li><b><a href="doc-ency.php">Encyclopedias</a>                    </b></li>
   <li><b><a href="doc-poet.php">Poetry Books </a>                    </b></li>
-  <li><b>                        Mathematics Books  [to be completed.]</b></li>
   <li><b>                        Chemistry Books    [to be completed.]</b></li>
+  <li><b>                        Mathematics Books  [to be completed.]</b></li>
 </ul>
     
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
@@ -2087,7 +2087,7 @@ cedilla                      [,x]*  [x,]
     English.</p>
 <p> Whenever you make a change like this, include a note describing what you changed:
     <tt>[*Transcriber's note: typo fixed, changed from "3/8 = .378" to "3/8 = .375"]</tt>
-    Include an <tt>*</tt> so the post proofer will notice it. </p>
+    Include an <tt>*</tt> so the post-processor will notice it. </p>
 
 <h3><a name="f_errors">Factual Errors in Texts</a> </h3>
 <p> In general, don't correct factual errors in the author's book.  Many of the books we
@@ -2100,7 +2100,7 @@ cedilla                      [,x]*  [x,]
     explain-your-concern]</tt> at that point in the text. </p>
 <p> Whenever you make a change like this, include a note describing what you changed:
     <tt>[*Transcriber's note: typo fixed, changed from "3/8 = .378" to "3/8 = .375"]</tt>
-    Include an <tt>*</tt> so the post proofer will notice it. </p>
+    Include an <tt>*</tt> so the post-processor will notice it. </p>
 
 <h3><a name="uncertain">Uncertain Items</a> </h3>
 <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  [...to be completed...] </p>
