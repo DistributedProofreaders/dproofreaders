@@ -18,7 +18,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
     $real_name = mysql_result($result, 0, "real_name");
     $email_addr = mysql_result($result, 0, "email");
     if($po_file = @fopen("messages_temp.po", "w")) {
-    	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
+    	fputs($po_file, "# ".str_replace("\n", "\n# ", stripslashes($_POST['comments']))."\n");
     	fputs($po_file, "msgid \"\"\n");
     	fputs($po_file, "msgstr \"\"\n");
     	fputs($po_file, "\"Project-Id-Version: 1.0\\n\"\n");
@@ -87,7 +87,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
     // It makes sure that the .po file is UTF-8
     exec("iconv -f iso-8859-1 -t utf8 < $dyn_locales_dir/$lang/LC_MESSAGES/messages.po > $dyn_locales_dir/$lang/LC_MESSAGES/temp.po");
 
-    $translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po"));
+//    $translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po"));
 
     chdir($code_dir);
     exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C -L PHP 2>&1",$exec_out,$ret_var);
@@ -99,7 +99,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
             echo $v."\n";
         echo "</pre><br>";
     } else {
-    	$i=4;
+/*    	$i=4;
     	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po");
     	$po_file = fopen("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po", "w");
     	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments']?$_POST['comments']:$translation['comments'])."\n");
@@ -107,7 +107,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
     		fputs($po_file, $lines[$i]);
     		$i++;
     	}
-    	fclose($po_file);
+    	fclose($po_file);*/
 
     	echo "<center><b><i><font size='+2'>"._("Strings Rebuilt!")."</font></i></b><br><br>";
     }
