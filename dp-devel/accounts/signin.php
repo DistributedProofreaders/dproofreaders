@@ -14,7 +14,8 @@ $tde=$htmlC->closeTD(1);
 $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 
 $destination = ( isset($_GET['destination']) ? $_GET['destination'] : '' );
-echo "<form action='login.php?destination=$destination' method='POST'>";
+echo "<form action='login.php' method='POST'>";
+echo "<input TYPE='hidden' NAME='destination' VALUE='$destination'>";
 echo $tb;
 echo $tr.$td1;
 echo '<B>Sign in to Distributed Proofreaders</B>';
