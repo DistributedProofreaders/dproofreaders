@@ -17,7 +17,7 @@ function bgcol($row,$round)
 	}
 	if ($round == 'post_2')
 	{
-		$bgcolor_odd = '#EAF7D7'; // "paledarkskyblue"
+		$bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
 		$bgcolor_even = '#99FFFF'; // "harshflourolightblue"
 	}
 	if ($row % 2) 
