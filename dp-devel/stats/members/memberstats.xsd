@@ -69,8 +69,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="username" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="username" minOccurs="0" maxOccurs="1" />
+        <xs:element ref="datejoined" minOccurs="0" maxOccurs="1" />
         <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
     </xs:complexType>
