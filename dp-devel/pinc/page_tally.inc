@@ -182,7 +182,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
     // with the possible exception of the target user.
 
     $result = mysql_query("
-        SELECT username, pagescompleted, u_privacy
+        SELECT username, date_created, pagescompleted, u_privacy
         FROM users
         WHERE pagescompleted > 0 OR username='$username'
         ORDER BY pagescompleted DESC
@@ -238,15 +238,18 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
             if ($consider_privacy && should_anonymize( $row['username'], $row['u_privacy'] ) )
             {
                 $neighbor_username = NULL;
+                $neighbor_date_joined = NULL;
             }
             else
             {
                 $neighbor_username = $row['username'];
+                $neighbor_date_joined = $row['date_created'];
             }
 
             $neighbors[$rel_posn] =&
                 new PageTally_Neighbor(
                     $neighbor_username,
+                    $neighbor_date_joined,
                     $row['pagescompleted'],
                     $latest_rank
                 );
@@ -262,22 +265,18 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $username, $current_page_tally, $current_page_tally_rank )
+    function PageTally_Neighbor( $username, $date_joined, $current_page_tally, $current_page_tally_rank )
     {
         $this->username = $username;
+        $this->date_joined = $date_joined;
         $this->current_page_tally = $current_page_tally;
         $this->current_page_tally_rank = $current_page_tally_rank;
     }
 
     function get_username()                { return $this->username; }
+    function get_date_joined()             { return $this->date_joined; }
     function get_current_page_tally()      { return $this->current_page_tally; }
     function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
-
-    function get_date_joined()
-    {
-        $result = mysql_query("SELECT date_created FROM users WHERE username = '{$this->username}'");
-        return mysql_result($result, 0, "date_created");
-    }
 }
 
 // -----------------------------------------------------------------------------
