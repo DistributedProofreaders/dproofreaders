@@ -2,6 +2,7 @@
 include_once($relPath.'tdecho.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'user_is.inc');
 
 if ( empty($pageCountArray) )
 {
@@ -108,10 +109,18 @@ function show_projects_in_state($state,$table=1)
 
 		$foo_username = $book[$foo_field_name];
 		$users = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$foo_username'");
+		$userid_q = mysql_query("SELECT u_id FROM users WHERE username = '".$GLOBALS['pguser']."'");
+		$u_id = mysql_result($userid_q, 0, "u_id");
 		if ( mysql_num_rows($users) > 0 )
 		{
-			$foo_userid = mysql_result($users, 0, "user_id");
-			$foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$foo_field_name]."</A>";
+			if (user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417) {
+				$users_email = mysql_query("SELECT email FROM users WHERE username = '$foo_username'");
+				$foo_email = mysql_result($users_email, 0, "email");
+				$foo_cell = "<A HREF=\"mailto:$foo_email\">".$book[$foo_field_name]."</A>";
+			} else {
+				$foo_userid = mysql_result($users, 0, "user_id");
+				$foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$foo_field_name]."</A>";
+			}
 		}
 		else
 		{
