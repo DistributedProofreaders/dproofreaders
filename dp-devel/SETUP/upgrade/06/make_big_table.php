@@ -32,7 +32,7 @@ while ($row = mysql_fetch_assoc($result)) {
         	        NULL, NULL 
                 	FROM ".$projectid ) ;
 
-		$pagesCopied = mysql_num_rows($result2);
+		$pagesCopied = mysql_affected_rows($result2);
 
 		if ($result2 == FALSE || $numPages != $pagesCopied) {
 			echo $row['projectid']." -- Incomplete move to project_pages table (".
