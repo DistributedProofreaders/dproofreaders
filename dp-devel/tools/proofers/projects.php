@@ -22,23 +22,18 @@ if (!isset($proofing) && $userP['i_newwin']==1)
 if (!isset($proofing)) {
     $top_menu = 1;
 
-    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-	$wTime="round1_time"; $wState=SAVE_FIRST; $wName="round1_user";
-    } else {
-	$wTime="round2_time"; $wState=SAVE_SECOND; $wName="round2_user";
-    }
-
     // Get Last Page Date Proofed By Current User
 
+    $prd = get_PRD_for_project_state($proofstate);
     $proofdate = mysql_query("
-        SELECT $wTime
+        SELECT {$prd->time_column_name}
         FROM $project
-        WHERE state='$wState' AND $wName='$pguser'
-        ORDER BY $wTime DESC
+        WHERE state='{$prd->page_save_state}' AND {$prd->user_column_name}='$pguser'
+        ORDER BY {$prd->time_column_name} DESC
         LIMIT 1
     ");
     if (mysql_num_rows($proofdate)!=0) {
-        $my_last_page_date = mysql_result($proofdate,0,$wTime);
+        $my_last_page_date = mysql_result($proofdate,0,$prd->time_column_name);
     } else $my_last_page_date = 0;
 
     $project_comments = mysql_fetch_assoc(mysql_query("SELECT modifieddate FROM projects WHERE projectid = '$project'"));
