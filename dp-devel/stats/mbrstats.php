@@ -53,13 +53,13 @@ $max_update = mysql_result($result,0,0);
 
 		$result = mysql_query("SELECT u_id, pagescompleted FROM users");
 		while($row = mysql_fetch_assoc($result)) {
-			$user_id = $row['u_id'];
-			$rank = $rankArray[$user_id];
-			$todaysCount = $row['pagescompleted'] - $prevDayCount[$user_id];
+			$u_id = $row['u_id'];
+			$rank = $rankArray[$u_id];
+			$todaysCount = $row['pagescompleted'] - $prevDayCount[$u_id];
 			$updateCount = maybe_query("
 				INSERT INTO member_stats
 				(u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
-				VALUES ($user_id, $midnight, $todaysCount, ".$row['pagescompleted'].", $rank)
+				VALUES ($u_id, $midnight, $todaysCount, ".$row['pagescompleted'].", $rank)
 			");
 		}
 		$tracetimea = time();
