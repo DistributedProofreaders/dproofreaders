@@ -265,4 +265,3 @@ function showMbrHistory($curMbr) {
 }
 
 ?>
-
