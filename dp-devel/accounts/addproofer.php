@@ -144,7 +144,7 @@ process once you log in:
 
 - Select a book that you would like to read a little bit on.
 
-- Click on the title you want to work on. This will open
+- Follow the link for the title you want to work on. This will open
   the Project Comments page for this project (book).
 
 - Among the contents of the Project Comments page may be some
@@ -152,7 +152,7 @@ process once you log in:
   carefully as they supersede the Proofreading Guidelines, for that
   project.
 
-- Click on the \"Start Proofreading\" link near the top of the page,
+- Follow the \"Start Proofreading\" link near the top of the page,
   this will open the proofreading interface.
 
 - Compare the text in the text box to what is in the image, making
