@@ -110,6 +110,8 @@ function echo_page_table( $projectid, $show_image_size)
 
 		$fileid = $page_res['fileid'];
 
+		if (($page_res['round1_user'] == $pguser) || ($page_res['round2_user'] == $pguser))
+			$row_color = '#FF0000';
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
 		} else {
