@@ -222,6 +222,19 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
     $numrows = mysql_num_rows($result);
 ?>
+<table border="1" width="630">
+<tr>
+  <td bgcolor="#CCCCCC">Random Rule</td>
+  <td>
+<?
+  include("../randrule.php");
+  print dpRandomRule();
+?>
+  </td>
+</tr>
+</table>
+
+
 <table border=1 width=630>
 <tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>
 <td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>
