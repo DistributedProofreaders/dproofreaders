@@ -197,7 +197,7 @@ function mysql_session_destroy($sid)
 
 function mysql_session_garbage_collect($lifetime)
 {
-	$result = mysql_query("DELETE FROM sessions WHERE expiration < ".time()-$lifetime."") or die(mysql_error());
+	$result = mysql_query("DELETE FROM sessions WHERE expiration < ". (time()-$lifetime) ."") or die(mysql_error());
 	return $result;
 }
 
