@@ -15,7 +15,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."' ORDER BY modifieddate desc, nameofwork asc");
     showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
-    echo "</table>";
+    echo "</table>\n<br>";
   }
 
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
@@ -37,6 +37,6 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
         $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_SECOND_AVAILABLE."' or state = '".PROJ_PROOF_SECOND_VERIFY."' ORDER BY nameofwork ASC");
       showavailablebooks($result,AVAIL_SECOND,$userP,$tList,'second');
       }
-  echo "</table>\n<p>";
+  echo "</table>\n<br>";
 } 
 ?>

@@ -16,7 +16,7 @@ include($relPath.'page_states.inc');
     echo "</head><body>";
     echo "\n <table border=0 cellspacing=0 width=630>";
     echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td>";
-    echo "\n <td bgcolor='#CCCCCC' align=left colspan=2><font size='+1'>Welcome</font><font color='#0000FF' font size='+1'> $pguser</font></td></tr>";
+    echo "\n <td bgcolor='#CCCCCC' align=left colspan=2><font size='+1'>Welcome</font><font color='#0000FF' size='+1'> $pguser</font></td></tr>";
     echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td><td>";
     echo "\n <b>Site Stats:</b><br>";
     include("../../stats/hourly.txt");
@@ -101,8 +101,7 @@ if ($userP['i_prefs']==1)
 {echo "<a href=\"../../userprefs.php\">View current profile</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
-echo "<p>";
-echo "\r\n<b>Your Teams: </b><blockquote>";
+echo "\r\n<p><b>Your Teams: </b><blockquote>";
   echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\">";
   echo "<tr><td><img src=\"../../users/teams/icon/dp_icon.png\" width=\"25\" height=\"25\" alt=\"\"></td><td><a \r\nhref=\"../../userteams.php?tid=1\">Distributed Proofreaders</a></td></tr>";
     $teamQuery="SELECT teamname,id,icon FROM user_teams WHERE id='{$userP['team_1']}' OR  id='{$userP['team_2']}' OR  id='{$userP['team_3']}'";
@@ -112,7 +111,8 @@ echo "\r\n<b>Your Teams: </b><blockquote>";
 echo "<tr><td colspan=\"2\" align=\"left\"><a \r\nhref=\"../../userteams.php\">View All Teams</a></td></tr>";
 echo "</table></blockquote><br>";
 
-//Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
+//Following top ten/your neighbor board provided by David Bridson, modified 
+//for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 ?>
 
@@ -218,9 +218,13 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 
 ?>
 
-<P><b>Post Processing:</b><br>
-You can help in the post processing phase of Distributed Proofreaders! After going through two rounds of proofreading, the books need to be massaged into a final e-text and you can help <a href ="../post_proofers/post_proofers.php">here</A>!<P>
-<?
+<p><b>Post Processing:</b><br>
+After going through two rounds of proofreading, the books need to be 
+massaged into a final e-text. You can help in the 
+<a href ="../post_proofers/post_proofers.php">post processing</a> phase 
+of Distributed Proofreaders!
+
+<p><?
         $rows = mysql_query("SELECT count(projectid) AS numprojects FROM projects WHERE state='".PROJ_POST_AVAILABLE."'");
         $postprojects = (mysql_result($rows,0,"numprojects"));
 
@@ -235,16 +239,22 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
         echo ".";
     }
 ?>
-<p>Want to help support this site???? We can always use $$ to buy books, software, hardware etc. By clicking on the 'Beg Button' below you can donate with your credit card or PayPal account via PayPal!!
+<p>Want to help support this site???? We can always use $$ to buy books, 
+software, hardware etc. By clicking on the 'Beg Button' below you can 
+donate with your credit card or PayPal account via PayPal!!
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="donate@gutenberg.net">
-<input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+<input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif" 
+  border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
 </form>
-<p><p>
-Want to help out the site by providing material for us to proof? Check <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">here</a> to find out how!
-<p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td></tr><tr>
-<td width = "1" bgcolor = "CCCCCC" colspan ="4">&nbsp</td></tr></table><p>
+<p>Want to <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">help 
+out the site by providing material for us to proof</a>? Find out how!
+</td><td width = "1" bgcolor = "#CCCCCC">&nbsp</td></tr><tr>
+<td width = "1" bgcolor = "#CCCCCC" colspan ="4">&nbsp</td></tr></table>
+
+<br>
+
 <table border="1" width="630">
 <tr>
   <td bgcolor="#CCCCCC"><h3>Random Rule</h3></td>
@@ -259,16 +269,17 @@ Want to help out the site by providing material for us to proof? Check <a href="
 </tr>
 </table>
 
-<p>
+<br>
 
 <?
 $tList=0;
 include_once('proof_list.inc');
 ?>
 
-<table border=1 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor='#111111' width=630>
+<table border=1 cellpadding=0 cellspacing=0 style='border-collapse: collapse' 
+bordercolor='#111111' width=630>
 <tr>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
+<td width=126 bgcolor ="#CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <?
     // If Project Manager give link back to project manager page.
 
@@ -280,7 +291,7 @@ include_once('proof_list.inc');
     }
 
 ?>
-<td width=126 bgcolor='CCCCCC' align=center>&nbsp;</td>
+<td width=126 bgcolor='#CCCCCC' align=center>&nbsp;</td>
 <?
 
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
