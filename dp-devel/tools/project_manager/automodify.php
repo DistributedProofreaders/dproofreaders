@@ -88,18 +88,16 @@ function pages_indicate_bad_project( $projectid, $round )
     $verbose = 1;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'");
   }
-  if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
   $pagesleft = 0;
-  $rownum = 0;
 
   $todaysdate = time();
 
-  while ($rownum < $numrows) {
-    $projectid = mysql_result($allprojects, $rownum, "projectid");
-    $state = mysql_result($allprojects, $rownum, "state");
-    $username = mysql_result($allprojects, $rownum, "username");
-    $nameofwork = mysql_result($allprojects, $rownum, "nameofwork");
+  while ( $project = mysql_fetch_assoc($allprojects) ) {
+    $projectid  = $project["projectid"];
+    $state      = $project["state"];
+    $username   = $project["username"];
+    $nameofwork = $project["nameofwork"];
 
     if ($trace)
     {
@@ -283,7 +281,6 @@ function pages_indicate_bad_project( $projectid, $round )
     if ($state == PROJ_PROOF_SECOND_COMPLETE) {
         sendtopost($projectid, $username, $todaysdate);
     }
-    $rownum++;
   }
 
   if ($trace) echo "<br>\n";
