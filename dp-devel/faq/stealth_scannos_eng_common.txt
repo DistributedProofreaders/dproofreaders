@@ -1,3 +1,4 @@
+1	I
 ail	all
 arc	are
 arid	and
@@ -7,9 +8,12 @@ band	hand
 bar	her
 bat	but
 be	he
+bead	head
+beads	heads
 bear	hear
 bit	hit
 bo	be
+boon	been
 borne	home
 bow	how
 bumbled	humbled
@@ -32,6 +36,7 @@ haying	having
 ho	he
 ho	who
 hut	but
+is	as
 lie	he
 lime	time
 loth	10th
@@ -52,7 +57,7 @@ tile	the
 tiling	thing
 tip	up
 tram	train
+tune	time
 u	"
 wen	well
 yon	you
-
