@@ -4,7 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-$result = mysql_query("SELECT DISTINCT(postproofer) FROM projects");
+$result = mysql_query("SELECT DISTINCT(postproofer) FROM projects WHERE postproofer is not null");
 while ($row = mysql_fetch_assoc($result)) {
 	$isPPQuery = mysql_query("SELECT postprocessor FROM users WHERE username = '".$row['postproofer']."'");
 	$isPP = mysql_result($isPPQuery, 0, "postprocessor");
