@@ -250,13 +250,19 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
                 echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
         }
 
+	$tally_name = @$_REQUEST['tally_name'];
+	if (empty($tally_name)) $tally_name = @$_REQUEST['round_id'];
+	if (empty($tally_name)) $tally_name = 'P1'; // for now
+
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
-	$site_stats = get_site_page_tally_summary();
+	$site_stats = get_site_page_tally_summary($tally_name);
 
     //Show the site statistics
+        global $page_tally_names;
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+        echo "<u>" . $page_tally_names[$tally_name] . "</u><br><br>\n";
         echo "<u>" . _("Site Statistics:") . "</u></font></center>\n";
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
@@ -294,7 +300,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	list($num_users) = mysql_fetch_row($res);
 	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
 
-	$tally_name = 'P1';
 	if ( $tally_name )
 	{
 		$tallyboard = new TallyBoard( $tally_name, 'U' );
