@@ -3,8 +3,17 @@ $relPath='../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'page_tally.php');
 
-$title = _("Miscellaneous Statistics");
+$tally_name = @$_GET['tally_name'];
+if ( empty($tally_name) )
+{
+	die("parameter 'tally_name' is unset/empty");
+}
+
+// -----------------------------------
+
+$title = sprintf( _("Miscellaneous Statistics for Round %s"), $tally_name );
 theme($title, "header");
 
 echo "<br><br><h2>$title</h2><br>\n";
@@ -29,20 +38,24 @@ show_months_with_most_days_over(9000);
 
 function show_all_time_total()
 {
+	global $tally_name;
+
 	$sub_title = _("Total Pages Proofread Since Statistics Were Kept");
 	echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_query("
-		SELECT
-			SUM(pages) as 'Total Pages Proofread So Far'
-		FROM pagestats
-	");
 
+	$site_tallyboard = new TallyBoard( $tally_name, 'S' );
+	$holder_id = 1;
+	echo $site_tallyboard->get_current_tally($holder_id);
+
+	echo "<br>\n";
 	echo "<br>\n";
 }
 
 function show_top_days( $n, $when )
 {
+	global $tally_name;
+
 	switch ( $when )
 	{
 		case 'ever':
@@ -51,7 +64,7 @@ function show_top_days( $n, $when )
 			break;
 
 		case 'this_year':
-			$where = 'WHERE year = YEAR(NOW())';
+			$where = 'WHERE {is_curr_year}';
 			$sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
 			break;
 
@@ -61,22 +74,27 @@ function show_top_days( $n, $when )
 
 	echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query("
-		SELECT
-			date as 'Date',
-			pages as 'Pages Proofread',
-			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-		FROM pagestats
-		$where
-		ORDER BY 2 DESC
-		LIMIT $n
-	");
+	dpsql_dump_themed_ranked_query(
+		select_from_site_past_tallies_and_goals(
+			$tally_name,
+			"SELECT
+				{date} as 'Date',
+				tally_delta as 'Pages Proofread',
+				IF({is_curr_month}, '******',' ') as 'This Month?'",
+			$where,
+			"",
+			"ORDER BY 2 DESC",
+			"LIMIT $n"
+		)
+	);
 
 	echo "<br>\n";
 }
 
 function show_month_sums( $which )
 {
+	global $tally_name;
+
 	switch ( $which )
 	{
 		case 'top_ten':
@@ -103,38 +121,44 @@ function show_month_sums( $which )
 
 	echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query("
-		SELECT
-			DATE_FORMAT(date,'%Y-%m') as 'Month',
-			SUM(pages) as 'Pages Proofread',
-			SUM(dailygoal) as 'Monthly Goal',
-			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-		FROM pagestats
-		WHERE  ( year < YEAR(NOW())  OR (year = YEAR(NOW()) AND month <= MONTH(NOW())))
-		GROUP BY year, month
-		ORDER BY $order
-		$limit
-	");
+	dpsql_dump_themed_ranked_query(
+		select_from_site_past_tallies_and_goals(
+			$tally_name,
+			"SELECT
+				{year_month} as 'Month',
+				SUM(tally_delta) as 'Pages Proofread',
+				SUM(goal) as 'Monthly Goal',
+				IF({is_curr_month}, '******',' ') as 'This Month?'",
+			"",
+			"GROUP BY 1",
+			"ORDER BY $order",
+			$limit
+		)
+	);
 
 	echo "<br>\n";
 }
 
 function show_months_with_most_days_over( $n )
 {
+	global $tally_name;
+
 	$sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
 	echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query("
-		SELECT
-			DATE_FORMAT(date,'%Y-%m') as 'Month',
-			count(*) as 'Number of Days',
-			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-		FROM pagestats
-		WHERE pages >= $n
-		GROUP BY year, month
-		ORDER BY 2 DESC
-		LIMIT 10
-	");
+	dpsql_dump_themed_ranked_query(
+		select_from_site_past_tallies_and_goals(
+			$tally_name,
+			"SELECT
+				{year_month} as 'Month',
+				count(*) as 'Number of Days',
+				IF({is_curr_month}, '******',' ') as 'This Month?'",
+			"WHERE tally_delta >= $n",
+			"GROUP BY 1",
+			"ORDER BY 2 DESC",
+			"LIMIT 10"
+		)
+	);
 
 	echo "<br>\n";
 }

@@ -2,33 +2,42 @@
 $relPath="./../../pinc/";
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'TallyBoard.inc');
+include_once($relPath.'page_tally.php');
 include_once('common.inc');
 new dbConnect();
+
+$tally_name = @$_GET['tally_name'];
+if (empty($tally_name))
+{
+    die("parameter 'tally_name' is unset/empty");
+}
+
+$site_tallyboard = new TallyBoard( $tally_name, 'S' );
 
 $now_timestamp = time();
 $now_assoc = getdate($now_timestamp);
 
+$curr_y = $now_assoc['year'];
+$curr_m = $now_assoc['mon'];
+
 switch ( @$_GET['timeframe'] )
 {
     case 'curr_month':
-        $year  = $now_assoc['year'];
-        $month = $now_assoc['mon'];
-        $where = "WHERE year=$year AND month=$month";
+        $start_timestamp = mktime( 0,0,0, $curr_m,   1, $curr_y );
+        $end_timestamp   = mktime( 0,0,0, $curr_m+1, 1, $curr_y );
         $title_timeframe = strftime( _('%B %Y'), $now_timestamp );
         break;
 
     case 'prev_month':
-        $month_ago_timestamp =
-            mktime( 0, 0, 0, $now_assoc['mon'] - 1, 1, $now_assoc['year'] );
-        $month_ago_assoc = getdate( $month_ago_timestamp );
-        $year  = $month_ago_assoc['year'];
-        $month = $month_ago_assoc['mon'];
-        $where = "WHERE year=$year AND month=$month";
-        $title_timeframe = strftime( _('%B %Y'), $month_ago_timestamp );
+        $start_timestamp = mktime( 0,0,0, $curr_m-1, 1, $curr_y );
+        $end_timestamp   = mktime( 0,0,0, $curr_m,   1, $curr_y );
+        $title_timeframe = strftime( _('%B %Y'), $start_timestamp );
         break;
 
     case 'all_time':
-        $where = '';
+        $start_timestamp = 0;
+        $end_timestamp   = mktime( 0,0,0, $curr_m+1, 1, $curr_y );
         $title_timeframe = _('since stats began');
         break;
 
@@ -53,12 +62,16 @@ switch ( $cumulative_or_increments )
 
 // -----------------------------------------------------------------------------
 
-$result = mysql_query("
-    SELECT date, pages, dailygoal
-    FROM pagestats
-    $where
-    ORDER BY date
-");
+$result = dpsql_query(
+    select_from_site_past_tallies_and_goals(
+        $tally_name,
+        "SELECT {date}, tally_delta, goal",
+        "WHERE $start_timestamp < timestamp AND timestamp <= $end_timestamp",
+        "",
+        "ORDER BY timestamp",
+        ""
+    )
+);
 
 list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 

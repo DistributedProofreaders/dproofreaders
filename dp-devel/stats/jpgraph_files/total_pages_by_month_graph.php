@@ -2,19 +2,29 @@
 $relPath="./../../pinc/";
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'page_tally.php');
 include_once('common.inc');
 new dbConnect();
 
+$tally_name = @$_GET['tally_name'];
+if (empty($tally_name))
+{
+    die("parameter 'tally_name' is unset/empty");
+}
 
 ///////////////////////////////////////////////////
 //Total pages by month since beginning of stats
-//query db and put results into arrays
-$result = mysql_query("
-	SELECT CONCAT(year, '-', month), SUM(pages), SUM(dailygoal)
-	FROM pagestats
-	GROUP BY year, month
-	ORDER BY year ASC, month ASC
-");
+
+$result = mysql_query(
+	select_from_site_past_tallies_and_goals(
+		$tally_name,
+		"SELECT {year_month}, SUM(tally_delta), SUM(goal)",
+		"",
+		"GROUP BY 1",
+		"ORDER BY 1",
+		""
+	)
+);
 
 list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 

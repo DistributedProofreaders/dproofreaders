@@ -294,67 +294,129 @@ function should_anonymize( $username, $user_privacy_setting )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_site_page_tally_summary()
+function get_site_page_tally_summary( $tally_name )
 // Return an object whose attributes are various useful statistics re
 // the site page tally:
 //     curr_day_{goal,actual}
 //     prev_day_{goal,actual}
 //     curr_month_{goal,actual}
-//
-// (This actually implemented with "page counts" [see defn at top of file],
-// but soon will be implemented via page tallies.)
 {
-    global $dynstats_dir;
-
-    if (file_exists("$dynstats_dir/stats.inc"))
-    {
-        include("$dynstats_dir/stats.inc");
-    }
-    if (!isset($sitestats))
-    {
-        $sitestats['daily'] = 0;
-        $sitestats['goal'] = 0;
-        $sitestats['monthly'] = 0;
-    }
-
     $site_stats = new StdClass;
-    $site_stats->curr_day_actual   = $sitestats['daily'];
-    $site_stats->curr_month_goal   = $sitestats['goal'];
-    $site_stats->curr_month_actual = $sitestats['monthly'] + $sitestats['daily'];
 
-    // Today's goal
-    $result = mysql_query("
-        SELECT dailygoal
-        FROM pagestats
-        WHERE date = '".date("Y-m-d", time())."'
-    ");
-    if (mysql_num_rows($result) > 0)
-    {
-        $site_stats->curr_day_goal = mysql_result($result, 0, "dailygoal");
-    }
-    else
-    {
-        $site_stats->curr_day_goal = 0;
-    }
+    // Goals
 
-    // Yesterday's goal and actual
-    $result = mysql_query("
-        SELECT pages, dailygoal
-        FROM pagestats
-        WHERE date = '".date("Y-m-d", (time()-86400))."'
-    ");
-    if (mysql_num_rows($result) > 0)
-    {
-        $site_stats->prev_day_goal   = mysql_result($result, 0, "dailygoal");
-        $site_stats->prev_day_actual = mysql_result($result, 0, "pages");
-    }
-    else
-    {
-        $site_stats->prev_day_goal = 0;
-        $site_stats->prev_day_actual = 0;
-    }
+    $site_stats->curr_day_goal =
+        get_site_tally_goal_summed(
+            $tally_name,
+            "date = CURRENT_DATE" );
+
+    $site_stats->prev_day_goal =
+        get_site_tally_goal_summed(
+            $tally_name,
+            "date = (CURRENT_DATE - INTERVAL 1 DAY)" );
+
+    $site_stats->curr_month_goal =
+        get_site_tally_goal_summed(
+            $tally_name,
+            "YEAR(date) = YEAR(CURRENT_DATE) AND
+            MONTH(date) = MONTH(CURRENT_DATE)" );
+
+    // Actuals
+
+    $tallyboard = new TallyBoard( $tally_name, 'S' );
+
+    $holder_id = 1;
+
+    $current_tally = $tallyboard->get_current_tally($holder_id);
+
+    $snapshot_info = $tallyboard->get_info_from_latest_snapshot($holder_id);
+
+    $site_stats->curr_day_actual =
+        $current_tally - $snapshot_info['tally_value'];
+
+    $site_stats->prev_day_actual = $snapshot_info['tally_delta'];
+
+    $today = getdate();
+    $site_stats->curr_month_actual =
+        $tallyboard->get_delta_sum( $holder_id,
+            mktime( 0,0,0, $today['mon'],   1, $today['year'] ),
+            mktime( 0,0,0, $today['mon']+1, 1, $today['year'] ) )
+        +
+        $site_stats->curr_day_actual;
 
     return $site_stats;
+}
+
+function get_site_tally_goal_summed( $tally_name, $date_condition )
+{
+    $res = mysql_query("
+        SELECT SUM(goal)
+        FROM site_tally_goals
+        WHERE tally_name = '$tally_name' AND ($date_condition)
+    ") or die(mysql_error());
+    return mysql_result($res,0);
+}
+
+// -----------------------------------------------------------------------------
+
+function select_from_site_past_tallies_and_goals(
+    $tally_name, 
+    $select,
+    $where,
+    $groupby,
+    $orderby,
+    $limit )
+// Return a string containing an SQL 'select' statement
+// dealing with site-specific rows from the past_tallies table,
+// and corresponding rows from the site_tally_goals table.
+{
+    if (empty($where))
+    {
+        $where_addition = '';
+    }
+    else
+    {
+        $where_addition =
+            preg_replace( '/^\s*WHERE\s+(.*)$/i', 'AND (\1)', $where );
+    }
+
+    $s = "
+        $select
+        FROM past_tallies
+            LEFT OUTER JOIN site_tally_goals
+            ON (past_tallies.tally_name = site_tally_goals.tally_name
+                AND {date} = site_tally_goals.date
+            )
+        WHERE
+            past_tallies.tally_name='$tally_name'
+            AND holder_type='S'
+            AND holder_id=1
+            $where_addition
+        $groupby
+        $orderby
+        $limit
+    ";
+
+    $date_expr = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y-%m-%d')";
+    $ym_expr   = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y-%m')";
+    $y_expr    = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y')";
+
+    $is_curr_month_expr = "$ym_expr = DATE_FORMAT(NOW(),'%Y-%m')";
+    $is_curr_year_expr  = "$y_expr  = YEAR(NOW())";
+
+    $s = preg_replace( '/{date}/',          $date_expr,          $s );
+    $s = preg_replace( '/{year_month}/',    $ym_expr,            $s );
+    $s = preg_replace( '/{is_curr_month}/', $is_curr_month_expr, $s );
+    $s = preg_replace( '/{is_curr_year}/',  $is_curr_year_expr,  $s );
+
+    if (0)
+    {
+        echo "<pre>\n";
+        echo $s;
+        echo "</pre>\n";
+    }
+
+    return $s;
 }
 
 // vim: sw=4 ts=4 expandtab
