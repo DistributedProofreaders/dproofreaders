@@ -15,29 +15,25 @@ echo "<p><hr width=75% align='center'><br>";
 //List the "My Checked Out Post-Processing Books"
 echo "<center><b>My Checked Out Post-Processing Books:</b></center>";
 echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
-$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language FROM projects WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_CHECKED_OUT."'");
-show_available_post($rows,PROJ_POST_CHECKED_OUT);
+show_available_post(PROJ_POST_CHECKED_OUT);
 echo "</table><br>";
 
 //List the "My Checked Out Verifying Post-Processing Books"
 echo "<center><b>My Checked Out Verifying Post-Processing Books:</b></center>";
 echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
-$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language, postproofer FROM projects WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_VERIFYING."'");
-show_available_post($rows,PROJ_POST_VERIFYING);
+show_available_post(PROJ_POST_VERIFYING);
 echo "</table><br>";
 
 //List the "Available for Post Processing Books"
 echo "<center><b>Available for Post-Processing Books:</b></center>";
 echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
-$rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre FROM projects WHERE state='".PROJ_POST_AVAILABLE."'");
-show_available_post($rows,PROJ_POST_AVAILABLE);
+show_available_post(PROJ_POST_AVAILABLE);
 echo "</table><br>";
 
 //List the "Available for Post-Processing Verification & Posting Books"
 echo "<center><b>Available for Post-Processing Verification & Posting Books:</b></center>";
 echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
-$rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre, postproofer FROM projects WHERE state='".PROJ_POST_VERIFY."'");
-show_available_post($rows,PROJ_POST_VERIFY);
+show_available_post(PROJ_POST_VERIFY);
 echo "</table><br>";
 
 theme("", "footer");
