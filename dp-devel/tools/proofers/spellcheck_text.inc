@@ -102,7 +102,7 @@ function spellcheck_text( $text_data, $projectid, $imagefile )
 			$inst_array=explode(' ',$value);
 			$sp_original=$inst_array[1];
 			$sp_offset=$inst_array[2];
-			spellNoSuggest($sp_original, $sp_offset);
+			spellSuggest($sp_original, 0, $sp_offset, '');
 		}
 		else if (strcmp($value{0},'&')==0)
 		{
@@ -133,12 +133,6 @@ function spellSuggest($text_word, $text_count, $text_offset, $text_suggest)
 	global $text_all,$text_index,$string_start,$select_count;
 
 	$text_all['end'].=escapeStringEntities(substr($text_all['start'],$string_start,($text_offset-1)-$string_start));
-
-	// escape all words
-	$text_suggest=escapeStringEntities($text_suggest);
-
-	// break word list
-	$sp_list=explode(', ',$text_suggest);
 	$text_word=escapeStringEntities($text_word);
 
 	// create html
@@ -150,9 +144,16 @@ function spellSuggest($text_word, $text_count, $text_offset, $text_suggest)
 	$text_html.="<select name='sp{$select_count}' onChange='setSpell($select_count,this.value);'>".
 		"<option value='{$text_word}' selected>{$text_word}</option>\r\n";
 	$text_html.= "<option value='sp1input'>-- Insert --</option>\r\n";
-	foreach ($sp_list as $key=>$value)
+	if ($text_count > 0)
 	{
-		$text_html.= "<option value='$value'>$value</option>\r\n";
+		// escape all words
+		$text_suggest=escapeStringEntities($text_suggest);
+		// break word list
+		$sp_list=explode(', ',$text_suggest);
+		foreach ($sp_list as $key=>$value)
+		{
+			$text_html.= "<option value='$value'>$value</option>\r\n";
+		}
 	}
 	$text_html.="</select>";
 	$select_count++;
@@ -163,32 +164,6 @@ function spellSuggest($text_word, $text_count, $text_offset, $text_suggest)
 	// advance $string_start
 	$string_start=($text_offset-1)+strlen($text_word);
 } // end spellSuggest
-
-function spellNoSuggest($text_word, $text_offset)
-{
-	global $text_all,$text_index,$string_start,$select_count;
-
-	$text_all['end'].=escapeStringEntities(substr($text_all['start'],$string_start,($text_offset-1)-$string_start));
-	$text_word=escapeStringEntities($text_word);
-
-	// create html
-	// hidden values line|offset|word length
-	$text_html="<input type='hidden' name='posit{$select_count}' value='".
-		"{$text_index}|{$text_offset}|".strlen($text_word)."'>";
-	$text_html.="<input type='hidden' name='wd{$select_count}' value='{$text_word}'>";
-	// option list
-	$text_html.="<select name='sp{$select_count}' onChange='alert(this.value);'>".
-		"<option value='{$text_word}' selected>{$text_word}</option>\r\n";
-	$text_html.= "<option value='sp1input'>-- Insert --</option>\r\n";
-	$text_html.="</select>";
-	$select_count++;
-
-	// put html in end
-	$text_all['end'].=$text_html;
-
-	// advance $string_start
-	$string_start=($text_offset-1)+strlen($text_word);
-} // end  spellNoSuggest
 
 function escapeStringEntities($text)
 {
