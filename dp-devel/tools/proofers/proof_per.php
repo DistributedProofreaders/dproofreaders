@@ -33,10 +33,14 @@ After going through two rounds of proofreading, the books need to be massaged in
 
 <? 
 if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> projects checked out."; }
+echo "<br><br>";
 }
 ?>
 
-<p>Want to <a href="<? echo $code_url ?>/faq/scan/submitting.php">help out the site by providing material for us to proof</a>? Find out how!<br><br>
+<font face="<? echo $theme['font_mainbody']; ?>"><b>Providing Content</b></font><br>
+Want to help out the site by providing material for us to proof?
+<a href="<? echo $code_url ?>/faq/scan/submitting.php">Find out how!</a>
+<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Random Rule</b></font><br>
 
