@@ -21,6 +21,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	    SELECT * FROM projects WHERE projectid = '$projectid'
 	"));
 
+        if (isset($project['special'])) {
+           $spec_code = $project['special'];
+           $spec_res = mysql_fetch_assoc(mysql_query("
+	      SELECT display_name FROM special_days WHERE spec_code = '$spec_code'
+	   "));
+           $spec_display = $spec_res['display_name'];
+        }
+
+
 	// These don't appear to be used.
 	// $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
 	// $user_id = mysql_result($phpuser, 0, "user_id");
@@ -50,8 +59,14 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$word =  _("Difficulty");
 	echo_row_a($word,      $project['difficulty'] );
 
+
 	// -------------------------------------------------------------------------
 	// Basic DP info
+
+        if (isset($spec_display)) {
+           $word = _("Special Day");
+	   echo_row_a($word,      $spec_display );
+        }
 
 	if ($proofstate == 'proj_post')
 	{
