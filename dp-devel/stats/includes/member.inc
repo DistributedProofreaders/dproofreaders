@@ -54,8 +54,27 @@ function showMbrProfile($curMbr) {
 	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo "\n";
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='avatar'></td>";
-	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'>";
+	echo "<tr>";
+	echo "<td bgcolor='".$theme['color_mainbody_bg']."' width='35%'>";
+
+	echo "<table width='100%'>";
+	echo "<tr>";
+	echo "<td align='center' height='90'>";
+	echo "<img border='0' src='$avatar' alt='avatar'>";
+	echo "</td>";
+	echo "</tr>";
+	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
+		echo "\n";
+		echo "<tr><td valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
+		messageCenter($curMbr);
+		echo "</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+
+	echo "</td>";
+
+	echo "<td bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'>";
 	echo "\n";
 
 	$xml_doc_url = $GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username'];
@@ -121,12 +140,6 @@ function showMbrProfile($curMbr) {
 
 	$t->end();
 
-	echo "</td></tr>";
-	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
-		echo "\n";
-		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
-		messageCenter($curMbr);
-	}
 	echo "</td></tr></table><p>";
 }
 
