@@ -96,29 +96,14 @@ function showTeamProfile($curTeam) {
 
 function showTeamStats($curTeam) {
 	global $theme;
+	global $teams_P_page_tallyboard;
 
-	$result = mysql_query("
-		SELECT MAX(timestamp)
-		FROM past_tallies
-		WHERE holder_type='T' AND tally_name='P'
-	");
-	$lastupdated = date("n/d/Y h:i:s A T", (mysql_result($result,0,0)-1));
+	$snapshot_info =
+		$teams_P_page_tallyboard->get_info_from_latest_snapshot( $curTeam['id'] );
 
-	$result = mysql_query("
-		SELECT tally_rank
-		FROM past_tallies
-		WHERE
-			holder_type='T'
-			AND holder_id = ".$curTeam['id']."
-			AND tally_name='P'
-		ORDER BY timestamp DESC
-		LIMIT 1
-	");
-	if (mysql_num_rows($result) > 0) {
-		$prevRank = mysql_result($result, 0, "tally_rank");
-	} else {
-		$prevRank = 0;
-	}
+	$lastupdated = date("n/d/Y h:i:s A T", ($snapshot_info['timestamp']-1));
+
+	$prevRank = $snapshot_info['tally_rank'];
 
 	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY member_count DESC");
 	$i = 1;
