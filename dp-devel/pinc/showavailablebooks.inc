@@ -7,6 +7,15 @@ include_once($relPath.'gettext_setup.inc');
 function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
 {
 
+	$flip_title = FALSE;
+	$flip_author = FALSE;
+	$flip_lang = FALSE;
+	$flip_genre = FALSE;
+	$flip_PM = FALSE;
+	$flip_PgAv = FALSE;
+	$flip_PgTot = FALSE;
+	$flip_days = FALSE;
+	
 	if ( $order == 'TitleA' )
 	{
 		$orderclause = 'nameofwork ASC';
