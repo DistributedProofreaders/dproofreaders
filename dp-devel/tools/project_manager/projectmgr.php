@@ -24,6 +24,7 @@ theme("Project Managers", "header");
 	echo "<p><center><a href='projectmgr.php'>Show Your Active Projects</a> | <a href='projectmgr.php?show=all'>Show All of Your Projects</a> | <a href='editproject.php'>Create Project</a>";
 	if ($userP['sitemanager'] == "yes") { 
 		echo " | <a href='projectmgr.php?show=site'>Show All Projects</a>"; 
+		echo " | <a href='projectmgr.php?show=search_form'>Search for Projects</a>"; 
 	}
 	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
@@ -95,6 +96,27 @@ theme("Project Managers", "header");
 		echo_page_table( $projectid );
 
         	echo "</center>";
+	} elseif ( $_GET['show'] == 'search_form' ) {
+		echo "
+		    <center>
+		    Search for projects matching the following criteria:<br>
+		    (matching is case-insensitive and unanchored)
+		    <form method=get action='projectmgr.php'>
+			<input type='hidden' name='show' value='search'>
+			<table>
+			<tr>
+			    <td>Title</td>
+			    <td><input type='text' name='title'></td>
+			</tr>
+			<tr>
+			    <td>Author</td>
+			    <td><input type='text' name='author'></td>
+			</tr>
+			</table>
+			<input type='submit' value='Search'>
+		    </form>
+		    </center>
+		";
 	} else {
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
     		echo "<tr>";
@@ -117,6 +139,16 @@ theme("Project Managers", "header");
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
         	} elseif ($_GET['show'] == "all") {
 			$condition = "username = '$pguser'";
+		} elseif ($_GET['show'] == 'search') {
+			$condition = '1';
+			if ( $_GET['title'] != '' )
+			{
+			    $condition .= " AND nameofwork LIKE '%{$_GET['title']}%'";
+			}
+			if ( $_GET['author'] != '' )
+			{
+			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
+			}
         	} else {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
