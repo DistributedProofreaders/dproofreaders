@@ -625,16 +625,18 @@ theme('Proofreading Guidelines','header');
        cellspacing="0"> <col width="128*">
   <tbody>
     <tr valign="top">
-      <td width="50%"> <p>Sample Image</p>
+      <td width="100%"> <p>Sample Image</p>
       </td>
-      <td width="50%"> <p>Correct Text</p>
+      <td width="100%"> <p>Correct Text</p>
       </td>
     </tr>
     <tr valign="top">
-      <td width="50%" align="center"><img src="side.png" alt=""
-          width="502" height="248"><br>
+      <td width="100%" align="center"><img src="side.png" alt=""
+          width="900" height="1366"><br>
       </td>
-      <td width="50%">
+    </tr>
+    <trv align="top">
+      <td width="100%">
         <p><tt>
                *[Sidenote: Burning                                                  <br>
                discs                                                                <br>
