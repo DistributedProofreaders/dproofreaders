@@ -38,4 +38,5 @@ $wgOut=new Outputpage();
 include("DifferenceEngine.php");
 DifferenceEngine::showDiff($txt[0],$txt[1],"Old text","New text");
 
+theme("", "footer");
 ?>
