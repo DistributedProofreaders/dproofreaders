@@ -2,7 +2,6 @@
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'maybe_mail.inc');
-include($relPath.'dp_main.inc');
 
     $old_date = time() - 7776000; // 90 days ago.
 

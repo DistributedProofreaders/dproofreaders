@@ -2,7 +2,6 @@
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'maybe_mail.inc');
-include($relPath.'dp_main.inc');
 
     $old_date = time() - 13176000; // 30 days less than 1/2 a year.
 
