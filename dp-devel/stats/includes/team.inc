@@ -23,7 +23,7 @@ function showTeamProfile($curTeam) {
 	}
 
 	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
-    	if (mysql_num_rows($last_post) > 0) {
+    	if ($last_post && mysql_num_rows($last_post) > 0) {
     		$last_post_date = mysql_result($last_post,0,"post_time");
     		$last_post_date = date("n/j/Y g:i:sA", $last_post_date);
     	} else {
@@ -71,7 +71,12 @@ function showTeamStats($curTeam) {
 	$lastupdated = date("n/d/Y h:i:s A T", (mysql_result($result,0,0)-1));
 
 	$result = mysql_query("SELECT rank FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY date_updated DESC LIMIT 1");
-	$prevRank = mysql_result($result, 0, "rank");
+	if (mysql_numrows($result) > 0) {
+		$prevRank = mysql_result($result, 0, "rank");
+		$hasStats = TRUE;
+	} else {
+		$hasStats = FALSE;
+	}
 
 	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY member_count DESC");
 	$i = 1;
@@ -87,9 +92,11 @@ function showTeamStats($curTeam) {
 		$i++;
 	}
 
-	$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");
-	$bestDayCount = mysql_result($result, 0, "daily_page_count");
-	$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
+	if ($hasStats) {
+		$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");	
+		$bestDayCount = mysql_result($result, 0, "daily_page_count");
+		$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
+	}
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "\n<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
