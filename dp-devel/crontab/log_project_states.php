@@ -56,9 +56,10 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 // Insert a row into project_state_stats for each of those entries.
 foreach ( $num_projects_in_state_ as $state => $num_projects )
 {
-    $insert_query =
-       "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-        VALUES ($yr, $mth, $dy, '$dte', '$state', $num_projects)";
+    $insert_query = "
+        INSERT INTO project_state_stats
+        SET year=$yr, month=$mth, day=$dy, date='$dte', state='$state', num_projects=$num_projects
+    ";
 
     if ($testing_this_script)
     {
