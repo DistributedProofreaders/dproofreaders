@@ -18,7 +18,10 @@ if (isset($_GET['order']) && $_GET['order'] == "default"){
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'
                      ORDER BY '$order' ASC");
-
+echo ("SELECT nameofwork, txtlink, checkedoutby, modifieddate
+                     FROM projects
+                     WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'
+                     ORDER BY '$order' ASC");
     $numrows = mysql_numrows($result);
     $rownum = 0;
 
