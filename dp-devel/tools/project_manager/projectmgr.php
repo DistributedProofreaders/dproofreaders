@@ -46,15 +46,15 @@ $projectinfo = new projectinfo();
             echo "<table border = \"1\">";
             printf("<tr><td colspan = \"4\"><B><font size=+1>Project Name: $name</font></B></td></tr><tr><td bgcolor=\"CCCCCC\"><b>Author:</b></td><td>$author</td>");
             printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");            printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
-            if ($sitemanager == 'yes') {
-               printf("Add All Text From projects Folder");
-            } else echo "Add All Text/Images From dpscans Account";
-            
-         
-            echo "</a><td bgcolor=\"CCCCCC\" colspan=2><a href=\"deletefile.php?project=$project\">Delete All Text</a></td></tr></table>";
+            printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
 
             if ($state == 0) {
+                printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
+                if ($sitemanager == 'yes') {
+                   printf("Add All Text From projects Folder");
+                } else echo "Add All Text/Images From dpscans Account";
+                echo "</a><td bgcolor=\"CCCCCC\" colspan=2><a href=\"deletefile.php?project=$project\">Delete All Text</a></td></tr></table>";
+
                 echo "<h3>Master Files</h3>";
 
                 //Print each row
@@ -89,7 +89,7 @@ $projectinfo = new projectinfo();
                 }
                 echo "</table>";
             } else if ($state < 10) {
-                echo "<h3>First-Round Files:</h3>";
+                echo "</table><h3>First-Round Files:</h3>";
 
                 //Print each row
                 echo "<table border=1>\n";
@@ -127,7 +127,7 @@ $projectinfo = new projectinfo();
 
                 //print out all level 3 proofed files associated with the project
 
-                echo "<h3>Second-Round Files:</h3>";
+                echo "</table><h3>Second-Round Files:</h3>";
 
                 //Print each row
                 $lastfilename = "0";
