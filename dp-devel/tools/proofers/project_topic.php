@@ -20,7 +20,6 @@ Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.<br>
 <br>
 Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
 ";
-echo $message;
 $message = addslashes($message);
 $topic_id = $row['topic_id'];
 }
