@@ -226,4 +226,26 @@ function user_can_see_BEGIN_R2()
 }
 
 
+function user_is_authors_db_manager()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager()) return TRUE;
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'authors_db_manager'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, 'value') == 'yes') { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
+
+function user_is_authors_db_editor() {
+  return user_is_PM();
+}
+
+
 ?>
