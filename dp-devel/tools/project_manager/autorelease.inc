@@ -132,9 +132,9 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '$author'";
 
                         if (mysql_num_rows(mysql_query($author_q)) > 0) {
-                                // fails the author restriction, don't consider this
-                                // candidate again until tomorrow
-                                $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
+                                // fails the author restriction, 
+				// push this back two day's worth (in terms of order, not delay!) in the queue
+                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$project'");
                                 $numAvailable--;
                         } else {
                                 // OK to release
