@@ -251,6 +251,11 @@ function showNW()
 {
 nW=window.open();
 nW.document.open();
+// SENDING PAGE-TEXT TO USER
+// We're sending it in a HTML document, so we should entity-encode its
+// HTML-special characters. In PHP, we would say
+//     htmlspecialchars($text_data,ENT_NOQUOTES)
+// What do you do in JavaScript?
 nW.document.write('<PRE>'+unescape(docRef.editform.text_data.value)+'</PRE>');
 nW.document.close()
 }
