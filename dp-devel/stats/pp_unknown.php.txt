@@ -1,0 +1,41 @@
+<?
+$relPath='../pinc/';
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'theme.inc');
+
+theme("Post-Processing Mysteries", "header");
+
+echo "<br><br><h2>Post-Processing Mysteries</h2><br>\n";
+
+echo "<br>\n";
+
+echo _("We don't know for sure who PPd these books; if you do know, or if you did, please send email
+	e-mail: ")?><a href='mailto:<? echo $general_help_email_addr ?>'><? echo $general_help_email_addr ?></a>
+	." quoting <br><br>
+
+echo "<h3>Most Prolific Post-Processors</h3>\n";
+echo "<h4>(Number of Projects Finished PPing</h4>\n";
+
+dpsql_dump_query("
+	SELECT
+		nameofwork as Title, authorsname as Author, username as Project Manager, 
+		projectid as ProjectID, from_unixtime(modifieddate) as Last Modified
+		
+		
+	FROM projects
+	WHERE (state LIKE 'proj_submit%'
+		OR state LIKE 'proj_correct%'
+		OR state LIKE 'proj_post_second%')
+		AND postproofer is not null
+");
+
+echo "<br>\n";
+
+
+
+echo "<br>\n";
+
+theme("","footer");
+?>
+
