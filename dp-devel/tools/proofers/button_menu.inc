@@ -23,8 +23,8 @@ type="text" value="<? echo $zmSize; ?>" name="zmSize" ID="zmSize" size="3" title
 src="gfx/bt10.png" border="0" alt="Set Image Zoom Percent" title="Set Image Zoom Percent"></a>&nbsp;<a href="#" onclick="doRV()"><img 
 src="gfx/bt8.png" border="0" alt="Revert to Original Document" title="Revert to Original Document"></a>&nbsp;<a href="#" onclick="udoRV()"><img 
 src="gfx/bt7.png" border="0" alt="Undo Revert" title="Undo Revert"></a>&nbsp;<a href="#" onclick="showNW()"><img 
-src="gfx/bt9.png" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a href="viewprojectcomments.php?project=<?PHP echo $project; ?>" TARGET="viewcomments"><img 
-src="gfx/bt12.png" border="0" alt="View Project Comments" title="View Project Comments"></a>&nbsp;<a href="#" onclick="cFCE()"><img 
+src="gfx/bt9.png" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a href="projects.php?project=<?PHP echo $project; ?>&amp;proofing=1" TARGET="viewcomments"><img 
+src="gfx/bt12.png" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<a href="#" onclick="cFCE()"><img 
 src="gfx/bt6.png" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;<INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" title="Change Interface Layout" src="gfx/bt<?PHP if ($orient==1) {echo "4";} else {echo "5";} ?>.png">&nbsp;<INPUT 
 TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" onclick="return(confirm('Are you sure you want to \r\n\r\nSave the Current Document?'));" src="gfx/bt3.png">&nbsp;<?PHP 

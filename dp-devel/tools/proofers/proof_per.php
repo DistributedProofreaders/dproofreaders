@@ -275,13 +275,10 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
             $projectid = mysql_result($result, $rownum2, "projectid");
             $state = mysql_result($result, $rownum2, "state");
 
-            $users = mysql_query("SELECT email FROM users WHERE username = '$username'");
-            $email = mysql_result($users, 0, "email");
-
         if (($availablepages != 0) && ($state == 2)) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
+            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=0\">Project Comments & Start Proofing</a></td>";
             echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
@@ -289,7 +286,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 
             // NOTE: Leave space before <tr> in there, needed for client.
             echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
+            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
 
@@ -331,10 +328,6 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
             $username = mysql_result($result, $rownum2, "username");
             $projectid = mysql_result($result, $rownum2, "projectid");
             $state = mysql_result($result, $rownum2, "state");
-
-            $users = mysql_query("SELECT email FROM users WHERE username = '$username' LIMIT 1");
-            $email = mysql_result($users, 0, "email");
-
             //alternate colors for each project
             if ($rownum % 2) {
                 $bgcolor = "\"#CCCCCC\"";
@@ -345,7 +338,7 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
         if (($availablepages != 0) && ($state == 12)) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
+            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=2\">Project Comments & Start Proofing</a></td>";
             echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
@@ -353,7 +346,7 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
 
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor><a href=\"mailto:$email\">$username</a></td>";
+            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
             echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
             echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
 
