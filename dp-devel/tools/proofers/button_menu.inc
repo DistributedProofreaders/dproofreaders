@@ -13,8 +13,8 @@ HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"><
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
 name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.menuframe.chFFace(this.selectedIndex)"><?PHP
   $fs=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
-  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced');
-    for ($i=0;$i<6;$i++)
+  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
+    for ($i=0;$i<7;$i++)
     {$optP="<option \r\n value=\"$i\"";
     if ($i==$fs){$optP.=" selected";}
   $optP.=">$f_s[$i]</option>";

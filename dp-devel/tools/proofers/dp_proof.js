@@ -190,6 +190,7 @@ aFnt[2]='Times New Roman';
 aFnt[3]='Arial';
 aFnt[4]='Lucida Sans Typewriter';
 aFnt[5]='monospaced';
+aFnt[6]='DPCustomMono2';
 bFnt=new Array();
 bFnt[1]='8';
 bFnt[2]='9';
