@@ -30,7 +30,8 @@ FROM users WHERE username='$userID'";
           $db_result=mysql_query($db_query);
           $uData=mysql_fetch_assoc($db_result);
           $userPrefs=implode("|",$uData)."|0";
-          setcookie("{$userID}_prefs",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
+          $cookieName=md5($userID."_prefs");
+          setcookie("$cookieName",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
 }
 
 function setCookie($userID)
@@ -42,45 +43,50 @@ function setCookie($userID)
 function setTempPrefs($tempPrefs,$userID)
 {
           $userPrefs=implode("|",$tempPrefs);
-          setcookie("{$userID}_prefs",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
+          $cookieName=md5($userID."_prefs");
+          setcookie("$cookieName",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
 }
 
+function deleteOldPrefs($userID)
+{setcookie($userID."_prefs","",time() - 86400,"/",$this->cookieDomain,0);}
 
 function getUserPrefs($userID)
-{$cPrefs=explode("|",$_COOKIE[$userID.'_prefs']);
+{
+$cookieName=md5($userID."_prefs");
+@$cPrefs=explode("|",$_COOKIE[$cookieName]);
 $uPrefs=array();
 $i=0;
-$uPrefs['u_lang']=$cPrefs[$i++];
-$uPrefs['email_updates']=$cPrefs[$i++];
-$uPrefs['project_listing']=$cPrefs[$i++];
-$uPrefs['i_prefs']=$cPrefs[$i++];
-$uPrefs['i_res']=$cPrefs[$i++];
-$uPrefs['i_type']=$cPrefs[$i++];
-$uPrefs['i_layout']=$cPrefs[$i++];
-$uPrefs['i_toolbar']=$cPrefs[$i++];
-$uPrefs['i_statusbar']=$cPrefs[$i++];
-$uPrefs['i_newwin']=$cPrefs[$i++];
-$uPrefs['v_fnts']=$cPrefs[$i++];
-$uPrefs['v_fntf']=$cPrefs[$i++];
-$uPrefs['v_zoom']=$cPrefs[$i++];
-$uPrefs['v_tframe']=$cPrefs[$i++];
-$uPrefs['v_tlines']=$cPrefs[$i++];
-$uPrefs['v_tchars']=$cPrefs[$i++];
-$uPrefs['v_tscroll']=$cPrefs[$i++];
-$uPrefs['v_twrap']=$cPrefs[$i++];
-$uPrefs['h_fnts']=$cPrefs[$i++];
-$uPrefs['h_fntf']=$cPrefs[$i++];
-$uPrefs['h_zoom']=$cPrefs[$i++];
-$uPrefs['h_tframe']=$cPrefs[$i++];
-$uPrefs['h_tlines']=$cPrefs[$i++];
-$uPrefs['h_tchars']=$cPrefs[$i++];
-$uPrefs['h_tscroll']=$cPrefs[$i++];
-$uPrefs['h_twrap']=$cPrefs[$i++];
-$uPrefs['user_id']=$cPrefs[$i++];
-$uPrefs['manager']=$cPrefs[$i++];
-$uPrefs['postprocessor']=$cPrefs[$i++];
+@$uPrefs['u_lang']=$cPrefs[$i++];
+@$uPrefs['email_updates']=$cPrefs[$i++];
+@$uPrefs['project_listing']=$cPrefs[$i++];
+@$uPrefs['i_prefs']=$cPrefs[$i++];
+@$uPrefs['i_res']=$cPrefs[$i++];
+@$uPrefs['i_type']=$cPrefs[$i++];
+@$uPrefs['i_layout']=$cPrefs[$i++];
+@$uPrefs['i_toolbar']=$cPrefs[$i++];
+@$uPrefs['i_statusbar']=$cPrefs[$i++];
+@$uPrefs['i_newwin']=$cPrefs[$i++];
+@$uPrefs['v_fnts']=$cPrefs[$i++];
+@$uPrefs['v_fntf']=$cPrefs[$i++];
+@$uPrefs['v_zoom']=$cPrefs[$i++];
+@$uPrefs['v_tframe']=$cPrefs[$i++];
+@$uPrefs['v_tlines']=$cPrefs[$i++];
+@$uPrefs['v_tchars']=$cPrefs[$i++];
+@$uPrefs['v_tscroll']=$cPrefs[$i++];
+@$uPrefs['v_twrap']=$cPrefs[$i++];
+@$uPrefs['h_fnts']=$cPrefs[$i++];
+@$uPrefs['h_fntf']=$cPrefs[$i++];
+@$uPrefs['h_zoom']=$cPrefs[$i++];
+@$uPrefs['h_tframe']=$cPrefs[$i++];
+@$uPrefs['h_tlines']=$cPrefs[$i++];
+@$uPrefs['h_tchars']=$cPrefs[$i++];
+@$uPrefs['h_tscroll']=$cPrefs[$i++];
+@$uPrefs['h_twrap']=$cPrefs[$i++];
+@$uPrefs['user_id']=$cPrefs[$i++];
+@$uPrefs['manager']=$cPrefs[$i++];
+@$uPrefs['postprocessor']=$cPrefs[$i++];
 
-$uPrefs['prefschanged']=$cPrefs[$i++];
+@$uPrefs['prefschanged']=$cPrefs[$i++];
 return $uPrefs;
 }
 function deleteCookie()
