@@ -41,7 +41,7 @@ theme('FAQ Central','header');
   <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a>
   <dd>A help-file for the Enhanced Proofreading Interface.
 
-  <dt><a href="font_sample.php">DP Custom Mono Proofing Font Sample</a>
+  <dt><a href="font_sample.php">DP Custom Proofing Font Page</a>
   <dd>Home of the DP Custom Proofing Font. Font Samples and download and installation instructions.
 
   <dt><a href="<? echo $code_url ?>/tools/proofers/for_mentors.php">Mentors Page</a>
