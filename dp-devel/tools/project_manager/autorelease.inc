@@ -31,7 +31,7 @@ function verifynew($project) {
     }
     else
     {
-        $new_state = PROJ_PROOF_FIRST_VERIFY;
+        $new_state = PROJ_PROOF_FIRST_AVAILABLE;
     }
 
 

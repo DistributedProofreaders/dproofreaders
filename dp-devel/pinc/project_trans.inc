@@ -108,7 +108,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_FIRST_WAITING_FOR_RELEASE => array(
 			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_VERIFY, // queue-jumping trick (if invoked from PM page)
+			PROJ_PROOF_FIRST_AVAILABLE, // queue-jumping trick (if invoked from PM page)
 			),
 		PROJ_PROOF_FIRST_VERIFY => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,

@@ -15,6 +15,10 @@ function get_allowed_next_project_states($state)
 				PROJ_PROOF_FIRST_WAITING_FOR_RELEASE);
 
 		case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE:
+			return array(
+				PROJ_PROOF_FIRST_UNAVAILABLE,
+				PROJ_PROOF_FIRST_AVAILABLE);
+
 		case PROJ_PROOF_FIRST_BAD_PROJECT:
 		case PROJ_PROOF_FIRST_AVAILABLE:
 			return array(
