@@ -349,8 +349,7 @@ function language_list($language) {
 }
 
 function genre_list($genre) {
-
-	$array_list = array('Art', 'Autobiography', 'Biography', 'Comedy', 'Comic Strip', 'Cooking', 'Drama', 'Essay', 'Fiction', 'Geography', 'Grammar', 'Historical', 'History', 'Humor', 'Letter', 'Linguistics', 'Math', 'Medicine', 'Mixed Form', 'Music', 'Non Fiction', 'Novel', 'Periodical', 'Poetry', 'Religious', 'Romance', 'Science', 'Satire', 'Short Story', 'Speech', 'Travel', 'Unknown');
+	$array_list = array('Art', 'Autobiography', 'Biography', 'Comedy', 'Comic Strip', 'Cooking', 'Drama', 'Essay', 'Fiction', 'Geography', 'Grammar', 'Historical', 'History', 'Humor', 'Letter', 'Linguistics', 'Math', 'Medicine', 'Mixed Form', 'Music', 'Non Fiction', 'Novel', 'Periodical', 'Philosophy', 'Poetry', 'Religious', 'Romance', 'Science', 'Satire', 'Short Story', 'Speech', 'Travel', 'Unknown');
 	echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td><select name='genre'>";
 	for ($i=0;$i<count($array_list);$i++)  {
 		echo "<option value='".encodeFormValue($array_list[$i])."'";
