@@ -387,7 +387,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		if($page_res[$prd->textdiff_column_name]) {
 			echo _("no diff");
 		} else {
-			echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
+			echo "<a href='diff.php?project=$projectid&file=$fileid&round_num=$round_num'>"._("diff")."</a>";
 		}
 	}
 	echo "</td>\n";
