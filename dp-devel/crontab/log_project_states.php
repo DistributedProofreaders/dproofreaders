@@ -68,7 +68,10 @@ $result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY 
 
 while (list ($state) = mysql_fetch_row ($result)) {
 
-	$result2 = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = '".$state."' and date = ".date('Y-m-d'));
+
+	$qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '".$state."' and date = '".date('Y-m-d')."'";
+echo $qry;
+	$result2 = mysql_query ($qry);
 
 	// no row for this state yet today
 	if ( mysql_result($result2,0) == 0) {	
