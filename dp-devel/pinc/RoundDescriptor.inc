@@ -155,27 +155,19 @@ function get_PRD_for_project_state( $project_state )
 
 function get_PRD_for_page_state( $page_state )
 {
-    global $PRD_1, $PRD_2;
-
-    switch ($page_state)
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
-        case AVAIL_FIRST:
-        case OUT_FIRST:
-        case TEMP_FIRST:
-        case SAVE_FIRST:
-        case BAD_FIRST:
-            return $PRD_1;
-
-        case AVAIL_SECOND:
-        case OUT_SECOND:
-        case TEMP_SECOND:
-        case SAVE_SECOND:
-        case BAD_SECOND:
-            return $PRD_2;
-
-        default:
-            return NULL;
+        $prd = get_PRD_for_round($rn);
+        if (   $page_state == $prd->page_avail_state
+            || $page_state == $prd->page_out_state
+            || $page_state == $prd->page_temp_state
+            || $page_state == $prd->page_save_state
+            || $page_state == $prd->page_bad_state )
+        {
+            return $prd;
+        }
     }
+    return NULL;
 }
 
 // -------------------------------------
