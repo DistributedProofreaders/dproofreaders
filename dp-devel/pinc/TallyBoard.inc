@@ -205,7 +205,7 @@ class TallyBoard
                 continue;
             }
 
-            if ($tally_value != $latest_tally)
+            if ($i == 1 || $tally_value != $latest_tally)
             {
                 $latest_rank  = $i;
                 $latest_tally = $tally_value;
