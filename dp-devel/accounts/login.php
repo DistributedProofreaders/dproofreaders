@@ -1,6 +1,6 @@
 <?
-$username = isset($HTTP_POST_VARS['username']) ? $HTTP_POST_VARS['username'] : '';
-$password = isset($HTTP_POST_VARS['password']) ? $HTTP_POST_VARS['password'] : '';
+$username = isset($HTTP_POST_VARS['userNM']) ? $HTTP_POST_VARS['userNM'] : '';
+$password = isset($HTTP_POST_VARS['userPW']) ? $HTTP_POST_VARS['userPW'] : '';
 $username = str_replace("\'", "''", $username);
 
 include '../connect.php';
