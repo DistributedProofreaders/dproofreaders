@@ -6,7 +6,6 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
-include_once('jpgraph_files/common.inc'); // get_project_status_descriptor
 new dbConnect();
 
 $title = _("Statistics Central");

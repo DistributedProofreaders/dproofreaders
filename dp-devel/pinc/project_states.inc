@@ -357,4 +357,76 @@ foreach ( $project_states_for_star_metal_ as $star_metal => $project_states )
     define( $sql_constant_name, $sql_condition );
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_project_status_descriptor( $which )
+// $which is a word denoting a possible status of a project
+// (created, proofed, PPd, or posted).
+// Return an object whose attributes hold various constants that
+// are useful for:
+// -- finding,
+// -- counting, or
+// -- plotting a graph of
+// projects having that status.
+// (Somewhat ad hoc, but useful.)
+{
+    $obj = new stdClass;
+
+    switch ( $which )
+    {
+        case 'created':
+            $obj->state_selector = "
+                state NOT LIKE 'proj_new%'
+            ";
+            $obj->color = 'green';
+            $obj->projects_Xed_title = _('Projects Created');
+            $obj->graphs_title = _('Created Projects Graphs');
+            $obj->per_day_title = _('Projects Created Each Day');
+            $obj->cumulative_title = _('Cumulative Projects Created');
+            break;
+
+        case 'proofed':
+            $obj->state_selector = "
+                state LIKE 'proj_submit%'
+                OR state LIKE 'proj_correct%'
+                OR state LIKE 'proj_post%'
+            ";
+            $obj->color = 'blue';
+            $obj->projects_Xed_title = _('Projects Proofread');
+            $obj->graphs_title = _('Proofed Projects Graphs');
+            $obj->per_day_title = _('Projects Proofed Each Day');
+            $obj->cumulative_title = _('Cumulative Projects Proofed');
+            break;
+
+        case 'PPd':
+            $obj->state_selector = "
+                state LIKE 'proj_submit%'
+                OR state LIKE 'proj_correct%'
+                OR state LIKE 'proj_post_second%'
+            ";
+            $obj->color = 'silver';
+            $obj->projects_Xed_title = _('Projects Post-Processed');
+            $obj->graphs_title = _('PPd Projects Graphs');
+            $obj->per_day_title = _('Projects Post-Processed Each Day');
+            $obj->cumulative_title = _('Cumulative Projects PPd');
+            break;
+
+        case 'posted':
+            $obj->state_selector = "
+                state LIKE 'proj_submit%'
+                OR state LIKE 'proj_correct%'
+            ";
+            $obj->color = 'gold';
+            $obj->projects_Xed_title = _('Projects Posted');
+            $obj->graphs_title = _('Posted Projects Graphs');
+            $obj->per_day_title = _('Projects Posted to PG Each Day');
+            $obj->cumulative_title = _('Cumulative Projects Posted to PG');
+            break;
+
+        default:
+            die("bad value for 'which': '$which'");
+    }
+    return $obj;
+}
+
 ?>
