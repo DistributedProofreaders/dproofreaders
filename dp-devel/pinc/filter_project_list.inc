@@ -165,7 +165,7 @@ echo "</table>\n<br>";
 
 echo "<center>";
 echo "<input type='reset' value='".
-	_("Reset New Filter to null")
+	_("Reset New Filter")
      ."'>";
 echo "<input type='submit' value='".
 	_("Apply New Filter to Projects")
@@ -179,7 +179,7 @@ echo "</form><br>";
 echo "<center>";
 echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
 echo "<br><br>";
-echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
+echo _("Resetting the filter does not apply it. To see all projects again, Reset then Apply Filter.");
 echo "</center><br><br>\n";    
 
 // $filtertype_stem (which must be initialised in enclosing file) 
