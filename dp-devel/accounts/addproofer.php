@@ -106,7 +106,6 @@ properly, please check that your browser settings are as follows:
 - javascript enabled
 - cookies accepted (at least from us at www.pgdp.net)
 - popup windows allowed (at least from us at www.pgdp.net)
-- caching set to off (or: refresh page every visit)
 
 Also, please ensure your PC clock is set to the correct date
 and time.
