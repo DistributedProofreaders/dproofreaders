@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
@@ -30,35 +31,20 @@ $result = mysql_query("
 	ORDER BY day
 ");
 
-$mynumrows = mysql_numrows($result);
-
-
-$i = 0;
-$p = 0;
+list($datax,$y_num_projects) = dpsql_fetch_columns($result);
 
 // get base level, total at beginning of 1st day of month
 	// snapshot is taken just after midnight,
 	// so day = 1 has total at beginning of month
+	// Subtract that base level from each subsequent day's value
+$datay1 = array_subtract_first_from_each($y_num_projects);
+array_shift( $datay1 );
 
-$row = mysql_fetch_assoc($result);
-$base = $row['P'];
-
-while ($row = mysql_fetch_assoc($result)) {
- 	$datay1[$i] = $row['P'] - $base; 
-	// snapshot is taken just *after* midnight,
-	// so day7 minus day1 is number done over first six days of month
-	$datax[$i] = $row['day'] - 1;
-	$i++;
-}
-
-while ($i < $maxday) {
-      $datay1[$i] = "";
-      $datax[$i] = $i + 1;
-      $i++;
-}
-
-if (empty($datay1)) {
-	$datay1[0] = 0;
+// Pad out the rest of the month
+for ( $i = count($datay1); $i < $maxday; $i++ )
+{
+	$datax[$i] = $i+1;
+	$datay1[$i] = "";
 }
 
 draw_projects_graph(

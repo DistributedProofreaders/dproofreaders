@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
@@ -30,29 +31,15 @@ $result = mysql_query("
 	ORDER BY day
 ");
 
-$mynumrows = mysql_numrows($result);
+list($datax,$y_cumulative) = dpsql_fetch_columns($result);
 
+$datay1 = array_successive_differences($y_cumulative);
 
-if ($mynumrows) {
-	$base = mysql_result($result,0 , "PC");
-	$datay1[0] = $base;
-} else {
-	$datay1[0] = 0;
-}
-$datax[0] = 1;
-$count = 1;
-
-
-while ($count <= $maxday) {
-	if ($count < $mynumrows) {
-		$total = mysql_result($result, $count, "PC");
-	       	$datay1[$count] = $total;
-		$datay1[$count-1] = $total - $datay1[$count-1];
-	} else {
-		$datay1[$count-1] = 0;
-		}
-        $datax[$count] = $count + 1;
-        $count++;
+// Pad out the rest of the month
+for ( $i = count($datay1); $i < $maxday; $i++ )
+{
+	$datax[$i] = $i+1;
+	$datay1[$i] = 0;
 }
 
 draw_projects_graph(

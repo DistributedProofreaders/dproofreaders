@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
@@ -24,31 +25,10 @@ $result = mysql_query("
 	ORDER BY date
 ");
 
-$mynumrows = mysql_numrows($result);
+list($datax,$y_cumulative) = dpsql_fetch_columns($result);
 
-
-if ($mynumrows) {
-	$base = mysql_result($result,0 , "PC");
-	$datay1[0] = $base;
-} else {
-	$datay1[0] = 0;
-}
-
-$datax[0] = mysql_result($result, 0, "date");
-$count = 1;
-
-
-while ($count < $mynumrows) {
-        $total = mysql_result($result, $count, "PC");
-        $datay1[$count] = $total;
-        $datay1[$count-1] = $total - $datay1[$count-1];
-	if ($datay1[$count-1] < 0) $datay1[$count-1] = 0;
-        $datax[$count] = mysql_result($result, $count, "date");
-        $count++;
-}
-$datay1[$count - 1] = 0;
-$datay1[$count] = 0;
-$datay1[0] = 0;
+$datay1 = array_successive_differences($y_cumulative);
+$datay1[] = 0;
 
 draw_projects_graph(
 	$datax,

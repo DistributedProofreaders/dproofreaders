@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
 new dbConnect();
@@ -70,18 +71,12 @@ $result = mysql_query("
     ORDER BY time_stamp
 ");
 
-
-$mynumrows = mysql_numrows($result);
-        $count = 0;
-        while ($count < $mynumrows) {
-        $datay[$count] = mysql_result($result, $count, $column_name);
-        $datax[$count] = mysql_result($result, $count,"T");
-            $count++;
-        }
+list($datax,$datay) = dpsql_fetch_columns($result);
 
 // calculate tick interval based on number of datapoints
 // the data is hourly, there are 168 hours in a week
 // once we have more than about 30 labels, the axis is getting too crowded
+$mynumrows = count($datay);
 if ($mynumrows < 30) {
 	$tick = 1;              // one label per hour
 } else if ($mynumrows < (30 * 168)) {

@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
@@ -24,14 +25,7 @@ $result = mysql_query("
 	ORDER BY date ASC
 ");
 
-$i = 0;
-
-
-while ($row = mysql_fetch_assoc($result)) {
-	$datay1[$i] = $row['P'];
-	$datax[$i] = $row['date'];
-	$i++;
-}
+list($datax,$datay1) = dpsql_fetch_columns($result);
 
 if (empty($datay1)) {
 	$datay1[0] = 0;

@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
@@ -36,19 +37,14 @@ foreach ( array( 'created', 'proofed', 'PPd', 'posted' ) as $which )
 		ORDER BY date ASC
 	");
 
-	$i = 0;
-	while ($row = mysql_fetch_assoc($result)) {
-		$datay[$i] = $row['P'];
-		$datax[$i] = $row['date'];
-		$i++;
-	}
-
-	if ($i > $max_num_data) {
-		$max_num_data = $i;
-	}
+	list($datax,$datay) = dpsql_fetch_columns($result);
 
 	if (empty($datay)) {
 		$datay[0] = 0;
+	}
+
+	if (count($datay) > $max_num_data) {
+		$max_num_data = count($datay);
 	}
 
 	//Create the line plot

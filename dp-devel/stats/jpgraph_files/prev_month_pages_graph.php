@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
 new dbConnect();
@@ -19,14 +20,7 @@ $result = mysql_query("
 	ORDER BY date
 ");
 
-$mynumrows = mysql_numrows($result);
-        $count = 0;
-        while ($count < $mynumrows) {
-        $datay1[$count] = mysql_result($result, $count, "pages");
-        $datay2[$count] = mysql_result($result, $count, "dailygoal");
-        $datax[$count] = mysql_result($result, $count, "date");
-            $count++;
-        }
+list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
 draw_pages_graph(
 	$datax,
