@@ -101,19 +101,19 @@ if (!empty($_GET['lang']) && $func == "create_newlang") {
 if (!empty($_GET['lang']) && $func == "translate") {
 	$translation = parse_po(file($code_dir."/locale/".$_GET['lang']."/LC_MESSAGES/messages.po"));
 	$i = 0;
-	if (!isset($translation['location'])) 
+	if (!isset($translation['location']))
 	{
 		print "\n<p>Something's wrong: I cannot find any translatable strings in the ";
 		print 'translation file. Perhaps the file is corrupt?';
 	}
 	else
 	{
-		$numOfTranslations = $translation['location'];
+		$numOfTranslations = count($translation['location']);
 
 		echo "<table align='center' border='0' cellpadding='0' cellspacing='0' width='95%'><tr><td>";
 		echo "<form action='index.php' method='post'>";
 		echo "<br><center><b>Comments</b>:<br><textarea name='comments' rows=5 cols=85>".trim($translation['comments'])."</textarea></center><br>";
-	
+
 		while ($i < $numOfTranslations) {
 			$location = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":")));
 			echo "<b><i>".trim(htmlentities($translation['msgid'][$i], ENT_NOQUOTES, "UTF-8"))."</b></i> (<a href='$code_url/$location' target='_new'>Location</a>)<br>";
@@ -121,7 +121,7 @@ if (!empty($_GET['lang']) && $func == "translate") {
 			echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".trim(htmlentities($translation['msgstr'][$i], ENT_NOQUOTES, "UTF-8"))."</textarea><br><br>";
 			$i++;
 			}
-	
+
 		echo "<input type='hidden' name='numofTranslations' value='".($numOfTranslations-1)."'>";
 		echo "<input type='hidden' name='lang' value='".$_GET['lang']."'>";
 		echo "<center><input type='submit' name='save_po' value='Save and Compile'>&nbsp;";
