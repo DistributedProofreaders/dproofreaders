@@ -66,15 +66,12 @@ class ThemedTable
             echo   "</td>";
             echo "</tr>";
         }
-
-        // If there's only 1 column, it must get the whole width of the table.
-        if ($this->n_cols == 1)
-        {
-            $this->column_widths = array( 100 );
-        }
     }
 
     function set_column_widths()
+    // Set explicit column widths.
+    // (If you don't call this method, <td> tags
+    // will be output without a 'width' attribute.)
     {
         // There should be an arg (width) for each column.
         assert( func_num_args() == $this->n_cols );
@@ -131,7 +128,16 @@ class ThemedTable
 
         for ( $c = 0; $c < $this->n_cols; $c++ )
         {
-            $width = $this->column_widths[$c];
+            if ( isset($this->column_widths) )
+            {
+                $width = $this->column_widths[$c];
+                $width_attr = "width='$width%'";
+            }
+            else
+            {
+                $width_attr = '';
+            }
+
             $cell_content = $cell_texts[$c];
 
             if ($is_header)
@@ -140,7 +146,7 @@ class ThemedTable
                 $cell_content = "<font face='$font_face' color='$font_color' size='2'>$cell_content</font>";
             }
 
-            echo "<td width='$width%'>$cell_content</td>";
+            echo "<td $width_attr>$cell_content</td>";
         }
 
         echo "</tr>";
