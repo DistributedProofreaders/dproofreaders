@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
-include($relPath.'user_is.inc');
+include_once($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
 include($relPath.'page_states.inc');
 
