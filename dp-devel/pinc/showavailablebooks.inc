@@ -109,10 +109,10 @@ function show_books_available_for_proofing( $round, $userP, $tList )
                                 $bgcolor = " bgcolor='#33CCFF'";
                         }
 
-			// Native Anerican Heritage Month "whitesmoke"
+			// Native Anerican Heritage Month 
 			if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
 			{
-				$bgcolor = " bgcolor='#F5F5F5'";
+				$bgcolor = " bgcolor='#CCCCCC'";
 			}
 
 			
