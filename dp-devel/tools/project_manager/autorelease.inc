@@ -45,10 +45,9 @@ function verifynew($project) {
        
     $path = "$projects_dir/$projectid/";
 
-    $res = mysql_query("SELECT image,master_text FROM $projectid ORDER BY image ASC");
+    $res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
     while ( $page = mysql_fetch_assoc($res) )
     {
-        $text     = $page['master_text'];
         $filename = $page['image'];
 
         if (!file_exists($path.$filename)) {
@@ -56,7 +55,8 @@ function verifynew($project) {
         } else if (filesize($path.$filename) < 100) {
             $errors .= "  $filename: image file is small (probably bad)\n";
         }
-        if ($text == "") {
+
+        if ($page['master_text_length'] == 0) {
             $errors .= "  $filename: text is empty\n";
         }
 
