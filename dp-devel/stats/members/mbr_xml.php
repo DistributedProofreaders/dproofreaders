@@ -42,7 +42,9 @@ list( $neighbors, $max_page_tally_rank ) =
 	user_get_page_tally_neighborhood(
 		$curMbr['username'], 4 );
 
-$bestDay = bestDayEver($curMbr['u_id']);
+list($bestDayCount,$bestDayTimestamp) =
+	$users_P_page_tallyboard->get_info_re_largest_delta($curMbr['u_id']);
+$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 $now = time();
 $daysInExistence = floor(($now - $curMbr['date_created'])/86400);
@@ -64,8 +66,8 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<pagescompleted>".$curMbr['current_P_page_tally']."</pagescompleted>
 			<overallrank>".$neighbors[0]->get_current_page_tally_rank()."</overallrank>
 			<bestdayever>
-				<pages>".$bestDay['count']."</pages>
-				<date>".$bestDay['time']."</date>
+				<pages>$bestDayCount</pages>
+				<date>$bestDayTime</date>
 			</bestdayever>
 			<dailyaverage>".number_format($daily_Average)."</dailyaverage>
 			<location>".xmlencode($curMbr['user_from'])."</location>
