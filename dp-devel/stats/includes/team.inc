@@ -21,6 +21,8 @@ function showTeamProfile($curTeam) {
 	$now = time();
 	$daysInExistence = number_format(floor(($now - $curTeam['created'])/86400));
 
+	if(empty($curTeam['avatar'])) { $curTeam['avatar'] = "avatar_default.png"; }
+
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td rowspan='6' align='center' width='30%' bgcolor='".$theme['color_mainbody_bg']."'>";
 	echo "<img border='0' src='".$GLOBALS['code_url']."/users/teams/avatar/".$curTeam['avatar']."' alt='".strip_tags($curTeam['teamname'])."'></td>";
