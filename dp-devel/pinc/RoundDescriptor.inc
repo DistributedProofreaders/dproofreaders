@@ -3,6 +3,8 @@ include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
 
+define('MAX_NUM_PAGE_EDITING_ROUNDS', 2);
+
 class ProofingRoundDescriptor {}
 // A container for various constants relating to a particular round of proofing.
 
