@@ -4,6 +4,7 @@
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include($relPath.'v_site.inc');
 include_once($relPath.'page_tally.php');
+include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
 $team_avatars_url = "$dyn_url/teams/avatar";
@@ -137,11 +138,7 @@ function showTeamStats($curTeam) {
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>"._("Total Pages")." <i>("._("Rank").")</i><font size='2'></font></td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['page_count']) . "</b>&nbsp;<i>(#$pageCountRank)</i>";
-			if ($prevRank > $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$pageCountRank)."'>"; }
-			elseif ($prevRank < $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($pageCountRank-$prevRank)."'>"; }
-			else { echo "&nbsp;"; }
-		echo "</td></tr>";
+	echo "<td width='40%'><b>" . number_format($curTeam['page_count']) . "</b>&nbsp;<i>(#$pageCountRank)</i>" . showChangeInRank( $prevRank, $pageCountRank ) . "</td></tr>";
 
 	$avg_pages_per_day = get_daily_average($curTeam['created'],$curTeam['page_count']);
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
