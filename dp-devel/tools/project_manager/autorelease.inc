@@ -6,6 +6,20 @@ include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'bookpages.inc');
 // include_once($relPath.'f_dpsql.inc');
 
+function autorelease()
+{
+    echo "<pre>\n";
+    echo "Starting autorelease\n";
+
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $prd = get_PRD_for_round($rn);
+        autorelease_for_round($prd);
+    }
+
+    echo "</pre>\n";
+}
+
 function attempt_to_release( $prd, $project )
 {
     $projectid = $project['projectid'];
@@ -51,14 +65,10 @@ function attempt_to_release( $prd, $project )
 
 
 
-function autorelease()
+function autorelease_for_round( $prd )
 {
-    $todaysdate = time();
-
-    echo "<pre>\n";
-    echo "Starting autorelease\n";
-
-    $prd = get_PRD_for_round(1);
+    echo "\n";
+    echo "Starting autorelease for round {$prd->round_name}...\n";
 
     // First, get the set of all authors with works in this round
     {
@@ -129,7 +139,7 @@ function autorelease()
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
-        WHERE enabled
+        WHERE enabled AND round_number={$prd->round_number}
         ORDER BY ordering
     ") or die(mysql_error());
 
@@ -277,7 +287,11 @@ function autorelease()
         echo "    Released <b>$num_projects_released</b> $q_name projects.\n";
     }
 
-    echo "</pre>\n";
+    AP_teardown($prd);
+
+    echo "\n";
+    echo "Finished round {$prd->round_name}\n";
+    echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -321,6 +335,13 @@ function AP_setup( $prd )
     {
         AP_add_project( $prd, $project['projectid'] );
     }
+}
+
+function AP_teardown( $prd )
+{
+    mysql_query("
+        DROP TABLE active_page_counts
+    ") or die(mysql_error());
 }
 
 function AP_add_project( $prd, $projectid )
