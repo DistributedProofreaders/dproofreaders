@@ -108,6 +108,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			$n_bad_words++;
 
+			// Take the length *before* passing it through html_safe.
+			$orig_word_len = strlen($orig_word);
+
 			$orig_word = html_safe($orig_word);
 
 			// create html
@@ -116,7 +119,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 				"<input
 					type='hidden'
 					name='posit{$n_bad_words}'
-					value='$orig_line_i|$orig_word_offset|".strlen($orig_word)."'
+					value='$orig_line_i|$orig_word_offset|$orig_word_len'
 				><input
 					type='hidden'
 					name='wd{$n_bad_words}'
@@ -143,7 +146,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			echo "</select>";
 
 			// Advance $orig_start
-			$orig_start = ($orig_word_offset-1)+strlen($orig_word);
+			$orig_start = ($orig_word_offset-1) + $orig_word_len;
 		}
 	}
 
