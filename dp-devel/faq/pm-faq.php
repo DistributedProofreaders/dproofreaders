@@ -77,9 +77,6 @@ and what the PMs do.
     On the main PM page (at the top) is a link to the "Create Project" page.
     After you create your project, it will be listed on your PM page.
     Each project has an "Edit Comments" link.
-    You can email <? echo $proj_comments_supplier_1; ?> or <? echo
-    $proj_comments_supplier_2; ?> for a file containing the "standard"
-    comments or make up anything you like.
     HTML is allowed in the comments including links to example pictures.
     You should be able to use any characters in the comments.
     </blockquote>
@@ -113,101 +110,37 @@ and what the PMs do.
     <ol>
 
     <li>
-    <b>Delete duplicate pages.</b>
-    <p>
-    Sometimes a page will be submitted more than once.
-    We think this is caused by the proofreader clicking "Save as 'Done' & Proof Next" more than once.
-    You can review the submitted text by clicking on the text file name.
-    Delete all but one copy of the file by clicking on the Delete link for that file.
-    </p>
-    </li>
-
-    <li>
-    <b>Check in MIA's.</b>
-    <p>
-    Sometimes a proofreader will request a page but never turn it back in.
-    To make the page availible again, first identify the missing pages.
-    You can do this by scanning down the list and comparing the index number with the file number.
-    When they get out of sync, you've got an MIA.
-    To check them back in, click the link to get your entire file list.
-    During the 1st round this is the "View Master Files" link.
-    During the 2nd round, it is the "View all level 2 files" link.
-    Find your MIA and click on "Check In".
-    Don't get too anxious when checking in MIA's.
-    If your MIA is near the bottom then a proofreader may still be working on it.
-    </p>
-    </li>
-
-    <li>
-    <b>Promote files.</b>
-    <p>
-    When a project finishes the 1st round
-    and you have deleted all duplicates
-    and all the MIA's have been checked in and proofread,
-    click on the "Promote All" link.
-    This will move your project to the second round.
-    </p>
-    </li>
-
-    <li>
     <b>Answer proofreader's questions.</b>
     <p>
-    Depending on the project, you may get a lot of question emails.
-    Please be patient with the proofreaders as many of them will be newbies.
-    If you get a lot of the same questions you may consider modifying your comments.
+    Depending on the project, you may get a lot of questions in the Project Forum thread for the project.
+    If you get a lot of the same questions you may consider modifying your project comments.
     </p>
     </li>
 
+    <li>
+    <b>Delete duplicate pages.</b>
+    <p>
+    Sometimes a page will be scanned more than once in a project. If you have duplicate pages, you can delete the duplicates by using the 'Delete' button on the Project Detail page.
+    </p>
+    </li>
+
+    <li>
+    <b>Clear effects of round.</b>
+    <p>
+    If a page has not been proofed well, you have the option of clearing the page. This will clear the effects of the round and make the page available again. It will also decrement the page count for the proofer. You should send the proofer feedback if you clear pages from your projects.
+    </p>
+    </li>
+
+    <li>
+    <b>Bad page handling.</b>
+    <p>
+    If a proofer marks a page bad in R1, the project will stall until you resolve the report. Click on the 'X' on the project details page for the project and follow the instructions on the screen.
+    </p>
+    </li>
     </ol>
 
-    We are working on a script that will automate task #2 and have talked about automating task #3.
-    Tasks 1 & 4 will probably always be done by the PM.
-    The client has features designed to help prevent duplicates and MIA's.
-    As more people start using the client you should see a reduction in their occurence.
-    </blockquote>
 </li>
 
-<li><a name='postprocess'><b>Download the output from the site and massage it into a postable e-text.</b>
-    <blockquote>
-    After all the pages have gone through both rounds of proofreading,
-    the site will stitch together the resulting page-texts
-    (with page separators)
-    and add the resulting file to the project's directory.
-
-    <p>
-    If you want to post-process the book,
-    you can download the stitched-together file by selecting <b>D/L</b> on the PM page,
-    or <b>Download Zipped Text</b> on the post-processing page.
-    Then follow the instructions in the
-    <a href='post_proof.php'>Post-Processing FAQ</a>.
-    </p>
-    <p>
-    Or you can
-    <!--
-    <font style='color:red'>
-    [somehow]
-    </font>
-    -->
-    make the project available
-    for someone else to post-process.
-    (They will find it on the post-processing page,
-    and check it out by selecting <b>Check Out Book</b>.)
-    </p>
-    </blockquote>
-</li>
-
-<li><a name='submit_to_pg'><b>Submit the finished e-text to Project Gutenberg</b></a>
-
-    <blockquote>
-    On your first few projects,
-    you probably want to send it to <? echo $PG_poster; ?> for posting.
-    (Please include your "raw" file that you downloaded from the site,
-    as this helps tremendously.)
-    He will review it, give you feedback, and submit it to PG.
-    After you are confident,
-    you can submit them on your own.
-    </blockquote>
-</li>
 </ol>
 
 <hr>
