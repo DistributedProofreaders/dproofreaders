@@ -4,90 +4,6 @@ include_once($relPath.'dp_main.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function notify($projectid, $proofstate, $pguser)
-{
-	echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>"._("Book Completed:")."</b></td><td colspan=4><a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">";
-	$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
-	if (mysql_num_rows($temp) == 0) {
-		echo _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
-	} else {
-		echo _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
-	}
-	echo "</a></td></tr>";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
-{
-	echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><font size='+1'><b>";
-	if ($wlist==0) {
-		echo _("DONE");
-	} else {
-		echo _("IN PROGRESS");
-	}
-	echo "</b></font><br>";
-	if ($wlist==0)
-	{
-		echo "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
-	}
-	else
-	{
-		echo "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
-	}
-	echo "</td>";
-	$recentNum=5;
-
-	$sql = "SELECT image, fileid, state, ";
-	$whichTime = $proofstate==PROJ_PROOF_FIRST_AVAILABLE ? "round1_time" : "round2_time";
-	$sql.=$whichTime." FROM $projectid WHERE ";
-	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {$sql.="round1_user";} else {$sql.="round2_user";}
-	$sql.="='$pguser' AND ";
-	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
-	{
-		if ($wlist==0)
-		{$sql.="state ='".SAVE_FIRST."'";}
-		else
-		{$sql.="(state ='".TEMP_FIRST."' OR state ='".OUT_FIRST."')";}
-	}
-	else
-	{
-		if ($wlist==0)
-		{$sql.="state ='".SAVE_SECOND."'";}
-		else
-		{$sql.="(state ='".TEMP_SECOND."' OR state ='".OUT_SECOND."')";}
-	}
-	$sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum";
-	$result = mysql_query($sql);
-	$rownum = 0;
-	$numrows = mysql_num_rows($result);
-
-	while (($rownum < $recentNum) && ($rownum < $numrows)) {
-		$imagefile = mysql_result($result, $rownum, "image");
-		$fileid = mysql_result($result, $rownum, "fileid");
-		$timestamp = mysql_result($result, $rownum, $whichTime);
-		$pagestate = mysql_result($result, $rownum, "state");
-		$newproject = "project=$projectid";
-		$newfileid="&amp;fileid=$fileid";
-		$newimagefile = '&amp;imagefile='.$imagefile;
-		$newproofstate = '&amp;proofstate='.$proofstate;
-		$newpagestate = '&amp;pagestate='.$pagestate;
-		$saved="&amp;saved=1";
-		$editone="&amp;editone=1";
-		if (($rownum % 5) ==0) {echo "</tr><tr>";}
-		$eURL="proof_frame.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
-		echo "<TD ALIGN=\"center\">";
-		echo "<A HREF=\"$eURL\" target=\"proofframe\">";
-		echo date("M d", $timestamp).": ".$imagefile."</a></td>\r\n";
-		$rownum++;
-	}
-
-	while (($rownum % 5) !=0) {echo "<td>&nbsp;</td>"; $rownum++;}
-	echo "</tr>";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 function echo_project_info( $projectid, $proofstate, $sub )
 {
 	global $code_url, $pguser, $userP;
@@ -224,6 +140,90 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	echo "$comments</td></tr>";
 
 	echo "</table>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function notify($projectid, $proofstate, $pguser)
+{
+	echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>"._("Book Completed:")."</b></td><td colspan=4><a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">";
+	$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
+	if (mysql_num_rows($temp) == 0) {
+		echo _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
+	} else {
+		echo _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
+	}
+	echo "</a></td></tr>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
+{
+	echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><font size='+1'><b>";
+	if ($wlist==0) {
+		echo _("DONE");
+	} else {
+		echo _("IN PROGRESS");
+	}
+	echo "</b></font><br>";
+	if ($wlist==0)
+	{
+		echo "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
+	}
+	else
+	{
+		echo "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
+	}
+	echo "</td>";
+	$recentNum=5;
+
+	$sql = "SELECT image, fileid, state, ";
+	$whichTime = $proofstate==PROJ_PROOF_FIRST_AVAILABLE ? "round1_time" : "round2_time";
+	$sql.=$whichTime." FROM $projectid WHERE ";
+	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {$sql.="round1_user";} else {$sql.="round2_user";}
+	$sql.="='$pguser' AND ";
+	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
+	{
+		if ($wlist==0)
+		{$sql.="state ='".SAVE_FIRST."'";}
+		else
+		{$sql.="(state ='".TEMP_FIRST."' OR state ='".OUT_FIRST."')";}
+	}
+	else
+	{
+		if ($wlist==0)
+		{$sql.="state ='".SAVE_SECOND."'";}
+		else
+		{$sql.="(state ='".TEMP_SECOND."' OR state ='".OUT_SECOND."')";}
+	}
+	$sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum";
+	$result = mysql_query($sql);
+	$rownum = 0;
+	$numrows = mysql_num_rows($result);
+
+	while (($rownum < $recentNum) && ($rownum < $numrows)) {
+		$imagefile = mysql_result($result, $rownum, "image");
+		$fileid = mysql_result($result, $rownum, "fileid");
+		$timestamp = mysql_result($result, $rownum, $whichTime);
+		$pagestate = mysql_result($result, $rownum, "state");
+		$newproject = "project=$projectid";
+		$newfileid="&amp;fileid=$fileid";
+		$newimagefile = '&amp;imagefile='.$imagefile;
+		$newproofstate = '&amp;proofstate='.$proofstate;
+		$newpagestate = '&amp;pagestate='.$pagestate;
+		$saved="&amp;saved=1";
+		$editone="&amp;editone=1";
+		if (($rownum % 5) ==0) {echo "</tr><tr>";}
+		$eURL="proof_frame.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
+		echo "<TD ALIGN=\"center\">";
+		echo "<A HREF=\"$eURL\" target=\"proofframe\">";
+		echo date("M d", $timestamp).": ".$imagefile."</a></td>\r\n";
+		$rownum++;
+	}
+
+	while (($rownum % 5) !=0) {echo "<td>&nbsp;</td>"; $rownum++;}
+	echo "</tr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
