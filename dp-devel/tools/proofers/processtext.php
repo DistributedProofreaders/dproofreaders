@@ -123,7 +123,7 @@ if ($tbutton==5)
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'projects.php?'.$project.$proofstate;
-  metarefresh(4,$frame1,'Save and Quit Proofing','Page Saved. Exiting proofing interface....');
+  metarefresh(1,$frame1,'Save and Quit Proofing','Page Saved. Exiting proofing interface....');
 //  $editone=isset($editone)?$editone:0;
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end button 5 quit
@@ -142,7 +142,7 @@ if ($tbutton==7)
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'projects.php?'.$project.$proofstate;
-  metarefresh(4,$frame1,'Return to Round','Page Returned to Round.  Exiting proofing interface....');
+  metarefresh(1,$frame1,'Return to Round','Page Returned to Round.  Exiting proofing interface....');
 //  $editone=isset($editone)?$editone:0;
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end return to round
