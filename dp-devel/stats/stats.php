@@ -1,8 +1,8 @@
 <?
 $relPath='./../pinc/';
 include($relPath.'v_site.inc');
-include($relPath.'project_states.inc');
 include($relPath.'connect.inc');
+include_once('./pages_proofed.inc');
 $db_Connection=new dbConnect();
 
 $stats_inc_path="$dynstats_dir/stats.inc";
@@ -40,71 +40,7 @@ $tracetime = time();
 mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('stats.php', $tracetime, 'BEGIN', 'ok to run, no lock file')");
 
-//limit to looking at projects which do not have
-//the archive flag set to 1 in order to limit run time
-// Also exclude new projects, projects in PPV, projects
-// that became checked out for PP or waiting or unavailable
-// before midnight, and posted projects.
-// The assumption is that a book won't be proofing in the morning
-// and posted to PG before midnight.
-// When we have the big table this whole level of the code
-// will become uneccessary, anyway
-
-$allProjects = mysql_query("
-	SELECT projectid FROM projects 
-	WHERE archived = '0' AND 
-		(state != '".PROJ_NEW."') AND 
-		(state != '".PROJ_SUBMIT_PG_POSTED."') AND 
- 		(state !='".PROJ_POST_SECOND_AVAILABLE."') AND 
- 		(state !='".PROJ_POST_SECOND_CHECKED_OUT."') AND 
- 		(state != '".PROJ_POST_FIRST_CHECKED_OUT."' 
- 			OR modifieddate > $midnight) AND 
- 		(state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' 
- 			OR modifieddate > $midnight) AND 
- 		(state != '".PROJ_POST_FIRST_UNAVAILABLE."' 
- 			OR modifieddate > $midnight)
- 	");
-$numProjects = mysql_num_rows($allProjects);
-
-while ($i < $numProjects) {
-        $projectID = mysql_result($allProjects, $i, "projectid");
-
-        $result1 = mysql_query("SELECT COUNT(image) FROM $projectID WHERE
-           round1_time >= $midnight AND
-           (state='save_first' OR state LIKE '%_second%')");
-
-
-        $result2 = mysql_query("SELECT COUNT(image) FROM $projectID WHERE
-           state='save_second' AND round2_time >= $midnight");
-
-        if (!$result1)
-        {
-            // Probably the project's page-table does not exist.
-            // Not sure why.
-            $pages1 =  0;
-            continue;
-        } else {
-               $row1 = mysql_fetch_row($result1);
-                $pages1 = $row1[0];
-        }
-        if (!$result2)
-        {
-            // Probably the project's page-table does not exist.
-            // Not sure why.
-            $pages2 = 0;
-            continue;
-        } else {
-               $row2 = mysql_fetch_row($result2);
-                $pages2 = $row2[0];
-        }
-        $rows = $pages1+$pages2;
-
-	mysql_free_result($result1);
-	mysql_free_result($result2);
-
-        $dailyPages = $dailyPages+$rows;
-        $i++;
-}
+$dailyPages = get_n_pages_proofed( $midnight, null, $numProjects );
 
 //echo result so we know cron job is working and to avoid timeout
 echo "Daily pages: ".number_format($dailyPages);
