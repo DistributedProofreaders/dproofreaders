@@ -23,6 +23,8 @@ if (empty($_GET['show'])) {
 	}
 }
 
+$can_see_all = user_is_a_sitemanager() || user_is_proj_facilitator();
+
 theme("Project Managers", "header");
 
 abort_if_not_manager();
@@ -45,7 +47,7 @@ abort_if_not_manager();
 			    <td><input type='text' name='author'></td>
 			</tr>
 		";
-        	if (user_is_a_sitemanager())
+        	if ($can_see_all)
 		{
 		    echo "
 			<tr>
@@ -92,7 +94,7 @@ abort_if_not_manager();
 
 		// Construct and submit the search query.
 
-        	if ($_GET['show'] == "site" && user_is_a_sitemanager()) {
+        	if ($_GET['show'] == "site" && $can_see_all) {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
         	} elseif ($_GET['show'] == "all") {
 			$condition = "username = '$pguser'";
@@ -106,7 +108,7 @@ abort_if_not_manager();
 			{
 			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
 			}
-			if (user_is_a_sitemanager())
+			if ($can_see_all)
 			{
 			    if ( $_GET['project_manager' ] != '' )
 			    {
@@ -115,7 +117,7 @@ abort_if_not_manager();
 			}
 			else
 			{
-			    // The user is a project manager, not a site admin,
+			    // The user is a project manager, not a site admin or project facilitator
 			    // so they can only see their own projects.
 			    $condition .= " AND username='$pguser'";
 			}
