@@ -188,7 +188,7 @@ function autorelease($pagesleft) {
 	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
 	$numReleased = mysql_result($rel_qry,0);
 
-	if ($beginners_projects >= $numReleased) {
+	if ($beginners_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("project", "Beginners", $projtype_sql, $beginners_projects, $numReleased, "", $todaysdate);
 	}
@@ -198,7 +198,7 @@ function autorelease($pagesleft) {
 	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
 	$numReleased = mysql_result($rel_qry,0);
 
-	if ($easy_projects >= $numReleased) {
+	if ($easy_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numreleased, "", $todaysdate);
 	}
@@ -209,11 +209,11 @@ function autorelease($pagesleft) {
 	$rel_qry = mysql_query("SELECT projectid FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
 	$numProjects = mysql_num_rows($rel_qry);
 	$i = 0;
-	while ($i <= $numProjects) {
+	while ($i < $numProjects) {
 		$numReleased = $numReleased + numpages(mysql_result($rel_qry,$i));
 		$i++;
 	}
-	if ($noneng_pagesneeded >= $numReleased) {
+	if ($noneng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numreleased, "yes", $todaysdate);
 	}	
@@ -224,11 +224,11 @@ function autorelease($pagesleft) {
 	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
 	$numProjects = mysql_num_rows($rel_qry);
 	$i = 0;
-	while ($i <= $numProjects) {
+	while ($i < $numProjects) {
 		$numReleased = $numReleased + numpages(mysql_result($rel_qry,$i));
 		$i++;
 	}
-	if ($eng_pagesneeded >= $numReleased) {
+	if ($eng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numreleased, "yes", $todaysdate);
 	}
@@ -243,7 +243,7 @@ function autorelease($pagesleft) {
 		$rel_qry = mysql_query("SELECT projectid FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') ORDER BY modifieddate ASC");
 		$numProjects = mysql_num_rows($rel_qry);
 		$i = 0;
-		while ($i <= $numProjects) {
+		while ($i < $numProjects) {
 			$numReleased = $numReleased + numpages(mysql_result($rel_qry,$i));
 			$i++;
 		}
