@@ -34,6 +34,12 @@ $page_not_completed = "
     and it will vanish from your 'My Recently Proofread' list.
 ";
 
+$truly_finish = "
+    Do NOT complete a page you haven't truly finished,
+    as the book may automatically proceed to the next round
+    with the unfinished page still undone!
+";
+
 // ----------------------------------
 
 $help = Array();
@@ -43,6 +49,7 @@ $help['Save and Quit'] = "
     Saves the current page and then quit proofing.
     This browser window will close.
     $page_completed
+    $truly_finish
 </p>
 ";
 
@@ -52,6 +59,7 @@ $help['Save and Proof Next Page'] = "
     Saves the current page and
     obtains the next available page for proofing within the project.
     $page_completed
+    $truly_finish
 </p>
 ";
 
@@ -63,6 +71,14 @@ $help['Save'] = "
     until you press either 'Save and Quit' or 'Save and Do Another',
     and will not automatically proceed to the next round.
     $page_not_completed
+</p>
+<p>
+    'Save' is intended to temporarily save your work so far
+    on a page you plan to finish later,
+    perhaps because it is so long or you are interrupted.
+    To complete a page, use the 'Save and Quit' or 'Save and Do Another'
+    buttons instead.
+    $truly_finish
 </p>
 ";
 
@@ -204,7 +220,9 @@ $help['Check for Common Errors'] = "
 
 $help['View Project Comments'] = "
 <p>
-    Displays the project comments page in a new window.
+    Opens a copy of the Project Manager's Project Comments
+    (NOT the full 'Project Comments' page)
+    in a new browser window for reference.
 ";
 
 $help['Show All Text'] = "
@@ -216,10 +234,12 @@ $help['Undo Revert'] = "
 <p>
     Undoes the Revert to Original Document function
     by restoring to the last edit before Reverting to Original Document.
+<!--
 <p>
     Also stops the Check for Common Errors cycle
     and reverts back to the last edit
     before initiating the Check for Common Errors.
+-->
 ";
 
 $help['Revert to Original Document'] = "
@@ -263,13 +283,98 @@ if ( $i_type == 0 )
 	    'Quit',
 	    'Switch to Vertical/Horizontal',
 	    'Return Page to Round',
+	    'Report Bad Page',
 	    'Spell Check'
 	)
 	as $name )
     {
-	echo "<dt><input type='button' value='$name'></dt>\n";
+	echo "<dt>";
+	if ( $name == 'Switch to Vertical/Horizontal' )
+	{
+	    echo "<input type='button' value='Switch to Vertical'> / ";
+	    echo "<input type='button' value='Switch to Horizontal'>";
+	}
+	else
+	{
+	    echo "<input type='button' value='$name'>";
+	}
+	echo "</dt>\n";
 	echo "<dd>$help[$name]</dd>\n";
     }
+
+    echo "
+    <dt>Page number</dt>
+    <dd>
+    <p>
+	This shows the index number
+	of the files on our site that contain the information
+	(scanned image and OCR text)
+	for the page in the book you are proofing.
+	It may vary from the printed page number of the book,
+	since some of the pages that get scanned
+	(such as introduction pages, some illustration pages)
+	have no ordinary page numbers in the book,
+	but still count as another page to be proofed on the site.
+	Also some books have numbered pages that are otherwise blank,
+	and sometimes these are not scanned,
+	further throwing out the correspondence
+	between the 'on site' page number and the 'printed' page number.
+	If the OCR text matches the text in the image,
+	then this is not a case of 'mismatched image/text',
+	even if the page that was scanned
+	was numbered, say, 10 in the book and
+	is numbered, say, 21 on our site.
+    </p>
+    </dd>
+
+    <dt>Proofed by:</dt>
+    <dd>
+    <p>
+	This appears only in the second round.
+	The name of the first-round proofer
+	is a link to send them a private message
+	through the site's forum system.
+	It is shown for your convenience
+	should you wish to send the first-round proofer
+	a comment or question,
+	(polite, constructive) criticism
+	or praise
+	on their proofing of this page in the first round.
+    </p>
+    </dd>
+
+    <dt>View Project Comments</dt>
+    <dd>
+    {$help['View Project Comments']}
+    </dd>
+
+    <dt>View Image</dt>
+    <dd>
+    <p>
+	Opens a copy of the png image file
+	of the page you are proofing in a new browser window.
+	In Internet Explorer,
+	if you hover your mouse over the image in this new window,
+	a 'show actual size' icon will appear in the lower right corner.
+	Clicking this will display the image in extreme close-up,
+	which can be useful sometimes.
+    </p>
+    </dd>
+
+    <dt>Image Resize:
+	<input type='button' value='50%'>
+	<input type='button' value='100%'>
+	<input type='button' value='200%'>
+    </dt>
+    <dd>
+    <p>
+	These three buttons change the zoom of
+	the image already loaded inside the main proofing browser window.
+	They can be useful in making out small, faded or blurry type
+	in the scanned images.
+    </p>
+    </dd>
+    ";
     echo "</dl>\n";
     echo "</form>\n";
 }
@@ -297,7 +402,7 @@ COLSPAN="2">
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofer's Frequently Asked Questions</A>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Document Guidelines</A><P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Proofing Guidelines</A><P>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
@@ -330,7 +435,7 @@ echo_row( 'Save', 'Save', 'bt3', '7' );
 echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
 echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15', '' );
 echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
-echo_row( 'Check for Common Errors', 'Check for Common Errors', 'bt6', '' );
+// echo_row( 'Check for Common Errors', 'Check for Common Errors', 'bt6', '' );
 echo_row( 'Run Spelling Check', 'Run Spelling Check', 'bt16', '' );
 echo_row( 'View Project Comments', 'View Project Comments', 'bt12', '' );
 echo_row( 'Show All Text', 'Show All Text', 'bt9', '' );
