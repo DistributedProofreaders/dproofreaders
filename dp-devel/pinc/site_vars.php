@@ -13,10 +13,14 @@ $siteurl=''; // <<SITE_URL>>
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
 
+$dynstats_dir = '/0/htdocs/stats'; // <<DYNSTATS_DIR>>
+$dynstats_url = 'http://www.pgdp.net/stats'; // <<DYNSTATS_URL>>
+
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url = "$forums_url/profile.php?mode=sendpassword";
 
 $uploads_dir = '<<UPLOADS_DIR>>';
+
 
 // -----------------------------------------------------------------------------
 

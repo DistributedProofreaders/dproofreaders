@@ -74,6 +74,7 @@ function html_header($siteurl, $theme, $nameofpage) {
 }
 
 function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
+	global $dynstats_dir;
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
@@ -81,7 +82,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "</td>\n";
 	// show number of projects left till 10,000
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>\n";
-	$fp = fopen($siteurl."/stats/total_count.txt", "r");
+	$fp = fopen("$dynstats_dir/total_count.txt", "r");
 	$line = fgets($fp);
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
@@ -151,6 +152,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 }
 	
 function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
+    global $dynstats_dir;
     //If logged in & either a Post Processor or Project Manager display links
 	if (isset($GLOBALS['pguser'])) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
@@ -188,7 +190,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
-	include("$siteurl/stats/stats.inc");
+	include("$dynstats_dir/stats.inc");
 	
     //Show the site statistics
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
