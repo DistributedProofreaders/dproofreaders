@@ -6,27 +6,27 @@ include_once($relPath.'theme.inc');
 
 theme("Books To Be Released", "header");
 
-if ($order == 'default'){
-       $order ='nameofwork';
-  }
+if ($order == 'default') {
+    $order ='nameofwork';
+}
 
-    //get projects that have been checked out
-    $result = mysql_query("SELECT nameofwork, txtlink, username, modifieddate, language, genre
+//get projects that have been checked out
+$result = mysql_query("SELECT nameofwork, txtlink, username, modifieddate, language, genre
                      FROM projects
                      WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
                      ORDER BY '$order' ASC");
 
-    $numrows = mysql_numrows($result);
-    $rownum = 0;
+$numrows = mysql_numrows($result);
+$rownum = 0;
 
-    echo "<html><body><table cols = \"3\" border =\"1\">";
-    echo "<td><b>Index</b></td><td><b>Name of Work</b></td>
-          <td><b><a href =\"to_be_released.php?order=username\">Project Manager</b></td>
-          <td><b><a href = \"to_be_released.php?order=modifieddate\">Date Last
-Modified</a></b></td><td><b>Language</b></td><td><b>Genre</b></td><tr>";
+echo "<html><body><table cols = \"3\" border =\"1\">";
+echo "<td><b>Index</b></td><td><b>Name of Work</b></td>
+      <td><b><a href =\"to_be_released.php?order=username\">Project Manager</b></td>
+      <td><b><a href = \"to_be_released.php?order=modifieddate\">Date Last
+      Modified</a></b></td><td><b>Language</b></td><td><b>Genre</b></td><tr>";
 
-    $index = 0;
-   while ($rownum < $numrows) {
+$index = 0;
+while ($rownum < $numrows) {
     $nameofwork = mysql_result($result, $rownum, "nameofwork");
     $username = mysql_result($result, $rownum, "username");
     $modifieddate = mysql_result($result, $rownum, "modifieddate");
@@ -39,11 +39,11 @@ Modified</a></b></td><td><b>Language</b></td><td><b>Genre</b></td><tr>";
     $year = $today['year'];
     $datestamp = "$month $mday,$year";
     $rownum++;
-    echo "<td>$rownum</td><td width
-=\"200\">$nameofwork</td><td>$username</td><td>$datestamp</td><td>$language</td><td>$genre</td><tr>";
 
-   }
+    echo "<td>$rownum</td>
+          <td width=\"200\">$nameofwork</td><td>$username</td><td>$datestamp</td><td>$language</td><td>$genre</td><tr>";
+}
 
-echo "</table></body></html>";
+echo "</table>";
 theme("","footer");
 ?>
