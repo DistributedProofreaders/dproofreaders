@@ -40,3 +40,4 @@ $sql_insert = "
 ";
 
 echo $sql_insert;
+mysql_query($sql_insert);
