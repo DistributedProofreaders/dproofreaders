@@ -32,7 +32,12 @@ if (!is_dir($projectpath))
 }
 
 header( "Content-type: application/zip");
-header( "Content-Disposition: filename={$projectid}images.zip" );
+header( "Content-Disposition: filename=\"{$projectid}images.zip\"" );
+// According to RFC 2616 (spec for HTTP 1.1), the syntax is:
+//     Content-Disposition: attachment; filename="fname.ext"
+// However, the "attachment;" caused a problem with Firefox on Windows XP:
+// rather than using the browser plugin configured for application/zip,
+// Firefox would launch the OS's registered app for .zip.
 
 passthru( "zip -q -j -o - $projectpath/*.png $projectpath/*.jpg" );
 
