@@ -13,8 +13,8 @@ if ($_GET['tid'] != 1 && ($userP['team_1'] == $_GET['tid'] || $userP['team_2'] =
     	$quitQuery.=" WHERE username='$pguser' AND u_id='".$userP['u_id']."'";
     	$teamResult=mysql_query($quitQuery);
     	mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id='".$_GET['tid']."'");
-        if (0) { $cookieC->setUserPrefs($pguser); }
-        updateSessionPreferences($pguser);
+        if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
+        else { updateSessionPreferences($pguser); }
         metarefresh(0,"../teams/tdetail.php?tid=".$_GET['tid']."",'Quit the Team','Quitting the team....');
 }  else {
 	metarefresh(3,"../teams/tdetail.php?tid=".$_GET['tid']."",'Not a member','Unable to quit team....');

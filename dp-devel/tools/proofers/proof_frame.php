@@ -4,6 +4,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_continuity.inc');
+include_once($relPath.'v_site.inc');
 
 /* $_GET from IN PROGRESS/DONE
 $project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1, $editone=1
@@ -64,8 +65,7 @@ if (isset($editone))
 $needPage=1;
 
   // 1 see if there is a cookie
-    if (0) { if (isset($_COOKIE['userPage'])) {}  }
-    if (isset($_SESSION['userPage']))
+    if (($use_cookies?isset($_COOKIE['userPage']):isset($_SESSION['userPage']))
     {
       // see if the cookie is older than 3 seconds
         $npage=$tpage->getPageCookie();
