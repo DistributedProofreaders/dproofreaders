@@ -3,6 +3,7 @@
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'v_keepmarkup.inc');
+include_once($relPath.'project_trans.inc');
 
 class processpage
 {
@@ -201,7 +202,11 @@ function isProjectDone($proofstate)
     if ($rows == 0)
     {
       $newstate = $this->getProjectRound($proofstate)==1 ? PROJ_PROOF_FIRST_VERIFY : PROJ_PROOF_SECOND_VERIFY;
-      $result = dquery("UPDATE projects SET state = '$newstate' WHERE projectid = '{$this->project}'");
+      $error_msg = project_transition( $this->project, $newstate );
+      if ($error_msg)
+      {
+        echo "$error_msg<br>\n";
+      }
     }
 }
 
