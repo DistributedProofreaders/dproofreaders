@@ -5,13 +5,13 @@ function showstartexts($etext_limit,$type) {
 $i = 1;
 
 if ($type == "bronze") {
-$state = "state='".PROJ_PROOF_FIRST_AVAILABLE."' OR state='".PROJ_PROOF_SECOND_AVAILABLE."' OR state='".PROJ_PROOF_FIRST_VERIFY."' OR state='".PROJ_PROOF_SECOND_VERIFY."'";
+$state = SQL_CONDITION_BRONZE;
 $text = " Now Proofing.</font>  The book is currently being processed through this site, sign in and start helping!!!! <br>";
 } elseif ($type == "silver") {
-$state = "state>=60 AND state<79";
+$state = SQL_CONDITION_SILVER;
 $text = " In Progress.</font>  The book has been processed through this site but not yet posted to the Project Gutenberg archive (going through final proofing/assembly).<br>";
 } elseif ($type == "gold") {
-$state = "state=79";
+$state = SQL_CONDITION_GOLD;
 $text = " Complete.</font>  The book has been processed through this site and posted to the Project Gutenberg archive.<br>";
 }
 

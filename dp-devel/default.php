@@ -83,7 +83,7 @@ echo $message;
     Site Activity from ".$datefromformat." to ".$datethruformat."</font></td><tr>";
     print $blankline."<p>\n";
 
-    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state = '79' and modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate DESC");
+    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE ".SQL_CONDITION_GOLD." and modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate DESC");
 
     $rownum = 0;
     $numgold = mysql_num_rows($result);
@@ -99,7 +99,7 @@ echo $message;
         print $tailmessage[4];
     }
 
-    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state >= 60 and state < 79 AND modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate desc");
+    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE ".SQL_CONDITION_SILVER." AND modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate desc");
 
     $rownum = 0;
     $numsilver = mysql_num_rows($result);
@@ -115,7 +115,7 @@ echo $message;
         print $tailmessage[3];
     }
 
-    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE (state = 2 OR state = 12 OR state = 8 OR state = 18) AND (modifieddate >= '$sqldatefrom' AND modifieddate <= '$sqldatethru') ORDER BY modifieddate desc");
+    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE ".SQL_CONDITION_BRONZE." AND (modifieddate >= '$sqldatefrom' AND modifieddate <= '$sqldatethru') ORDER BY modifieddate desc");
 
     $rownum = 0;
     $numbronze = mysql_num_rows($result);

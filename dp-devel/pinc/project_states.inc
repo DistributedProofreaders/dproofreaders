@@ -75,4 +75,26 @@
 
 // for complete project
   define("PROJ_COMPLETE", "project_complete");
+
+
+// Constants for use in SQL queries
+  define("SQL_CONDITION_BRONZE",
+           "(state='".PROJ_PROOF_FIRST_AVAILABLE."'"
+      . " OR state='".PROJ_PROOF_FIRST_VERIFY."'"
+      . " OR state='".PROJ_PROOF_SECOND_AVAILABLE."'"
+      . " OR state='".PROJ_PROOF_SECOND_VERIFY."'"
+      . ")");
+  define("SQL_CONDITION_SILVER",
+           "(state='".PROJ_POST_UNAVAILABLE."'"
+      . " OR state='".PROJ_POST_AVAILABLE."'"
+      . " OR state='".PROJ_POST_CHECKED_OUT."'"
+      . " OR state='".PROJ_POST_VERIFY."'"
+      . " OR state='".PROJ_POST_VERIFYING."'"
+      . " OR state='".PROJ_POST_COMPLETE."'"
+      . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
+      . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
+      . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
+      . ")");
+  define("SQL_CONDITION_GOLD",
+           "(state='".PROJ_SUBMIT_PG_POSTED."')");
 ?>

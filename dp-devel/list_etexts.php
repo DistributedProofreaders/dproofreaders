@@ -8,17 +8,17 @@ include_once($relPath.'project_states.inc');
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
 $type = "Gold";
 $status = "Completed";
-$state = "state=PROJ_SUBMIT_PG_POSTED";
+$state = SQL_CONDITION_GOLD;
 $info = "Below is the list of Gold e-texts that have passed through this site.  Gold e-texts are books that have passed through a first round proofing, second round proofing and then a post processing.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 } elseif ($_GET['x'] == "s") {
 $type = "Silver";
 $status = "In Progress";
-$state = "state=PROJ_POST_UNAVAILABLE || state=PROJ_POST_AVAILABLE || state=PROJ_POST_CHECKED_OUT || state=PROJ_POST_VERIFY || state=PROJ_POST_VERIFYING || state=PROJ_POST_COMPLETE || state=PROJ_SUBMIT_PG_UNAVAILABLE || state=PROJ_SUBMIT_PG_AVAILABLE || state=PROJ_SUBMIT_PG_POSTING";
+$state = SQL_CONDITION_SILVER;
 $info = "Below is the list of Silver e-texts that are almost finished with their proofreading life on our site.  Silver e-texts are books that have passed through a first round proofing, second round proofing and are now in the post-processing phase.  During the post-processing phase the project manager runs the e-text through some final checks to make sure they are as correct as possible.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 } elseif ($_GET['x'] == "b") {
 $type = "Bronze";
 $status = "Now Proofing";
-$state = "state='".PROJ_PROOF_FIRST_AVAILABLE."' OR state='".PROJ_PROOF_SECOND_AVAILABLE."' OR state='".PROJ_PROOF_FIRST_VERIFY."' OR state='".PROJ_PROOF_SECOND_VERIFY."'";
+$state = SQL_CONDITION_BRONZE;
 $info = "Below is the list of Bronze e-texts that are currently available for proofreading on this site.  Bronze e-texts is what most of our members see and what you can work on now by logging in.  These e-texts are either in the first round or second round proofing where you have a chance to correct any mistakes that may be found.  After the proofing phase the e-text is then passed onto the Project Manager for post-processing.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 }
 ?>
