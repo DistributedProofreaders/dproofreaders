@@ -21,7 +21,7 @@ function saveProject() {
 	if (empty($_POST['pri_language'])) { $errormsg .= "Primary Language is required.<br>"; }
 	if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
         if (!empty($_FILES['projectfiles']['name'])) { if(substr($_FILES['projectfiles']['name'], -4) != ".zip") { $errormsg .= "File type must be ZIP.<br."; } }
-	if (!empty($_FILES['projectfiles']['name'])) { $filename = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$filename")) { $errormsg .= "The name of the zip file must be unique.<br>"; } }
+	if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name of the zip file must be unique.<br>"; } }
 	if (isset($errormsg)) {
 		return $errormsg;
 		exit();
@@ -125,15 +125,15 @@ function handle_projectfiles( $projectid )
 	$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
 }
 
-function insertTextFiles($filename, $projectid) {
+function insertTextFiles($dir_name, $projectid) {
 	global $uploads_dir, $projects_dir, $pguser;
-	$r = chdir("$uploads_dir/$pguser/$filename");
+	$r = chdir("$uploads_dir/$pguser/$dir_name");
 	$now = time();
 
 	foreach (glob("*.txt") as $txt_file_name) {
 		$file_base = basename(strval($txt_file_name),'.txt');
 		$image_file_name = addslashes("$file_base.png");
-		$txt_file_path = addslashes("$uploads_dir/$pguser/$filename/$txt_file_name");
+		$txt_file_path = addslashes("$uploads_dir/$pguser/$dir_name/$txt_file_name");
 		$sql_command = "
 			INSERT INTO $projectid
 			SET
