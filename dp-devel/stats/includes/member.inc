@@ -13,6 +13,8 @@ function showMbrProfile($curMbr) {
 	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
 	$rankArray = mbrRank($curMbr['username']);
+	$currentRank = $rankArray['curMbrRank'];
+	$totalRanks = $rankArray['totalRanks'];
 	$bestDay = bestDayEver($curMbr['u_id']);
 	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
 	$highestRank = mysql_result($result, 0, "rank");
@@ -24,7 +26,7 @@ function showMbrProfile($curMbr) {
 		$daily_Average = 0;
 	}
 
-	if ($rankArray['curMbrRank'] <= $highestRank) { $highestRank = $rankArray['curMbrRank']; $highestRankDate = time(); }
+	if ($currentRank <= $highestRank) { $highestRank = $currentRank; $highestRankDate = time(); }
 
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
@@ -72,14 +74,14 @@ function showMbrProfile($curMbr) {
 	);
 	echo_tr_2_cols(
 		_("Overall Rank"),
-		number_format($rankArray['curMbrRank']) . " " . _("out of") . " " . number_format($rankArray['totalRanks'])
-		. rankPosition($rankArray['curMbrRank'], $curMbr['u_id'])
+		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
+		. rankPosition($currentRank, $curMbr['u_id'])
 	);
 	echo_tr_2_cols(
 		_("Highest Rank"),
 		number_format($highestRank)
 		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
-		. "&nbsp;" . showChangeInRank($highestRank, $rankArray['curMbrRank'])
+		. "&nbsp;" . showChangeInRank($highestRank, $currentRank)
 	);
 	echo_tr_2_cols(
 		_("Best Day Ever"),
