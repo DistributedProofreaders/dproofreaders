@@ -70,6 +70,26 @@ Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id
         //Update project_db with topic_id so it can be moved later
         $update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
 
+
+        // find out PM's preference about being signed up for notifications of replies to this thread;
+        // can't use settings object, which would be for the user following the link to create the thread, 
+        // which may not be the PM, so... go directly to the database table
+
+        $signup_res = mysql_query("SELECT value FROM usersettings WHERE username = '".$proj_mgr."' AND setting = 'auto_proj_thread'" );
+        if ($signup_res) {
+             $signup_row = mysql_fetch_assoc($signup_res);
+             $signup_pref = $signup_row['value'];
+             $sign_PM_up = ($signup_pref == 'yes');
+        } else {
+             $sign_PM_up = false;
+        }
+
+        // if the PM wanted to be signed up for notifications, do so
+
+        $do_signup = mysql_query("INSERT INTO phpbb_topics_watch (user_id, topic_id, notify_status)
+                                VALUES (". $owner . ", $topic_id, 0)");
+
+
 }
 
 // By here, either we had a topic or we've just created one, so redirect to it
