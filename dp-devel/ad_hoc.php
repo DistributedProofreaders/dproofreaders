@@ -16,7 +16,7 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
-if (1)
+if (0)
 {
 	include_once($relPath.'email_address.inc');
 
