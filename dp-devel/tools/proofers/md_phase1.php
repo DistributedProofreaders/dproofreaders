@@ -28,7 +28,7 @@ foreach($HTTP_POST_VARS as $key => $val)
     //echo "key is $key and value is $val<p>";
     if (strpos($key, 'pagenum') == 'TRUE'){
     $pagenum = str_replace("pagenum_", "", $key);
-    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = $pagenum");
+    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
     }else{
        $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
        if ($val == 'badscan' || $val == 'missing' || $val == 'sequence'){
@@ -60,7 +60,7 @@ if(isset($_POST['continue']))
     //echo "key is $key and value is $val<p>";
     if (strpos($key, 'pagenum') == 'TRUE'){
     $pagenum = str_replace("pagenum_", "", $key);
-    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = $pagenum");
+    $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
     }else{
        $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
        }
