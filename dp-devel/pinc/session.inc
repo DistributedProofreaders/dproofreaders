@@ -1,5 +1,6 @@
 <?
 include_once($relPath.'connect.inc');
+include_once($relPath.'metarefresh.inc');
 
 $db_Connection=new dbConnect();
 
