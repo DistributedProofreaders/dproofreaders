@@ -325,6 +325,14 @@ if ($sitemanager == "yes") {
                     if (($id == 10) || ($id == 18)) {
                         print "<option value=$id>$s_name\n";
                     }
+		} else if ($state == 31) {
+		    if (($id == 0) || ($id == 8)) {
+			print "<option value=$id>$s_name\n";
+		    }
+		} else if ($state == 41) {
+		    if (($id == 0) || ($id == 10) || ($id == 18)) {
+			print "<option value=$id>$s_name\n";
+		    }
                 } else if ($state == 60) {
                     if (($id == 61) || ($id == 65)) {
                         print "<option value=$id>$s_name\n";
