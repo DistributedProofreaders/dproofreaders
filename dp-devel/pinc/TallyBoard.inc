@@ -180,32 +180,6 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_ranks()
-    // Return an associative array that maps each holder's id
-    // to its rank, as detrmined by tallies.
-    {
-        $rank_of_ = array();
-
-        $result = mysql_query("
-            SELECT holder_id, tally_value
-            FROM current_tallies
-            WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND $this->rank_exclusion_kludge
-            ORDER BY tally_value DESC
-        ");
-        $ranker = new Ranker(TRUE);
-        while (list($holder_id, $tally_value) = mysql_fetch_row($result))
-        {
-            $rank_of_[$holder_id] = $ranker->next( $tally_value );
-        }
-
-        return $rank_of_;
-    }
-
-    // -------------------------------------------------------------------------
-
     function get_neighborhood(
         $target_holder_id,
         $radius,
@@ -352,7 +326,23 @@ class TallyBoard
         }
 
         // Get everyone's current rank.
-        $rank_for_ = $this->get_ranks();
+
+        $rank_for_ = array();
+
+        $result = mysql_query("
+            SELECT holder_id, tally_value
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND $this->rank_exclusion_kludge
+            ORDER BY tally_value DESC
+        ");
+        $ranker = new Ranker(TRUE);
+        while (list($holder_id, $tally_value) = mysql_fetch_row($result))
+        {
+            $rank_for_[$holder_id] = $ranker->next( $tally_value );
+        }
 
         // Get everyone's current tally.
         $result = mysql_query("
