@@ -52,6 +52,22 @@ function project_drop_pages( $projectid )
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function Pages_delete( $projectid )
+{
+    global $writeBIGtable;
+
+    $sql = "DELETE FROM $projectid";
+    mysql_query($sql);
+
+    if ($writeBIGtable)
+    {
+        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid'";
+        mysql_query($sql);
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function project_add_page(
@@ -105,6 +121,22 @@ function project_add_page(
     }
 
     return $errs;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_delete( $projectid, $fileid )
+{
+    global $writeBIGtable;
+
+    $sql = "DELETE FROM $projectid WHERE fileid = '$fileid'";
+    mysql_query($sql);
+
+    if ($writeBIGtable)
+    {
+        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND fileid = '$fileid'";
+        mysql_query($sql);
+    }
 }
 
 // -----------------------------------------------------------------------------
