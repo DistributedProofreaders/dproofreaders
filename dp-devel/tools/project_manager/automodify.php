@@ -202,6 +202,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         if ($verbose) echo "        examining $numoutrows pages in '$prd->page_out_state'\n";
 
+        $n_reclaimed = 0;
         $page_num = 0;
         $dietime = time() - 14400; // 4 Hour TTL
 
@@ -214,9 +215,13 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
             if ($timestamp <= $dietime) {
                 Page_reclaim( $projectid, $fileid, $prd->round_number );
+                $n_reclaimed++;
             }
             $page_num++;
         }
+
+        if ($verbose) echo "            $n_reclaimed pages reclaimed\n";
+
 
         // Check in MIA temp pages
 
@@ -225,6 +230,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         if ($verbose) echo "        examining $numtemprows pages in '$prd->page_temp_state'\n";
 
+        $n_reclaimed = 0;
         $page_num2 = 0;
 
         while ($page_num2 < $numtemprows) {
@@ -236,9 +242,13 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
             if ($timestamp <= $dietime) {
                 Page_reclaim( $projectid, $fileid, $prd->round_number );
+                $n_reclaimed++;
             }
             $page_num2++;
         }
+
+        if ($verbose) echo "            $n_reclaimed pages reclaimed\n";
+
 
         // Decide whether the project is finished its current round.
         if ( $state == $prd->project_available_state || $state == $prd->project_verify_state )
