@@ -36,6 +36,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 		// Decide which dictionaries to ask for.
 		$aspell_dict = '';
+		$abort = FALSE;
 		$project_language_property = mysql_result(mysql_query("
 			SELECT language FROM projects WHERE projectid='$projectid'
 			"),0);
@@ -56,13 +57,22 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 				}
 				else
 				{
-					echo "Warning: no dictionary file for language '$language'.<br>";
+					echo "Error: no dictionary file for language '$language'.<br>";
+					$abort = TRUE;
 				}
 			}
 			else
 			{
-				echo "Warning: unrecognized language '$language'.<br>";
+				echo "Error: unrecognized language '$language'.<br>";
+				$abort = TRUE;
 			}
+		}
+
+		if ($abort)
+		{
+			echo "Aborting spellcheck due to errors.<br>";
+			echo "Use either button below to return to the proofreading interface.<br>";
+			return;
 		}
 
 		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} {$aspell_dict} -H -a";
