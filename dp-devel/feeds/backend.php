@@ -1,16 +1,7 @@
 <?
 $relPath="./../pinc/";
-include($relPath.'v_site.inc');
-
-function xmlencode($data) {
-	$trans_array = array();
-	for ($i=127; $i<255; $i++) {
-		$trans_array[chr($i)] = "&#" . $i . ";";
-		}
-      	$data = strtr($data, $trans_array);
-	$data = htmlentities($data, ENT_QUOTES);
-       	return $data;
-}
+include_once($relPath.'v_site.inc');
+include_once($relPath.'xml.inc');
 
 //Try our best to make sure no browser caches the page
 header("Content-Type: text/xml");
@@ -76,7 +67,7 @@ $db_Connection=new dbConnect();
 
 		$lastupdated = date("r");
 			if (isset($_GET['type'])) {
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
+				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
@@ -91,7 +82,7 @@ $db_Connection=new dbConnect();
 				</channel>
 				</rss>";
 			} else {
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
+				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!-- Last Updated: $lastupdated -->
 				<projects xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"projects.xsd\">
 				$data
@@ -111,7 +102,7 @@ $db_Connection=new dbConnect();
 				";
 		}
 		$lastupdated = date("r");
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
+				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>

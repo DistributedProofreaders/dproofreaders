@@ -2,19 +2,10 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'xml.inc');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
-
-function xmlencode($data) {
-	$trans_array = array();
-	for ($i=127; $i<255; $i++) {
-		$trans_array[chr($i)] = "&#" . $i . ";";
-		}
-      	$data = strtr($data, $trans_array);
-	$data = htmlentities($data, ENT_QUOTES);
-       	return $data;
-}
 
 if (empty($_GET['id']) || $_GET['id'] == 1) {
 	include_once($relPath.'theme.inc');
@@ -87,7 +78,7 @@ $curTeam = mysql_fetch_assoc($result);
 	$data .= "</teammembers>";
 
 
-$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
+$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 <teamstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"teamstats.xsd\">
 $data
 </teamstats>";
