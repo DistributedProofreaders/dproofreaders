@@ -2,8 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'dp_main.inc');
 
 
 if (! user_is_a_sitemanager())
