@@ -56,10 +56,6 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
         $totalpages = (mysql_num_rows($pages));
 
-        $users = mysql_query("SELECT email, real_name FROM users WHERE username = '$username'");
-        $managersemail = mysql_result($users, 0, "email");
-        $real_name = mysql_result($users, 0, "real_name");
-
         //alternate colors for each project
         if ($rownum % 2 ) {
             $bgcolor = "\"#CCCCCC\"";
@@ -68,7 +64,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         }
  
         echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor><a href=\"mailto:$managersemail\">$username</a></td>";
+        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
 ?>
@@ -111,9 +107,6 @@ started on (usually fiction with a low page count is a good starter book) and wr
         $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
         $totalpages = (mysql_num_rows($pages));
 
-        $users = mysql_query("SELECT email, real_name FROM users WHERE username = '$username'");
-        $managersemail = mysql_result($users, 0, "email");
-
         //alternate colors for each project
         if ($rownum % 2 ) {
             $bgcolor = "\"#CCCCCC\"";
@@ -122,7 +115,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         }
 
         echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor><a href=\"mailto:$managersemail\">$username</a></td>";
+        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
 ?>
