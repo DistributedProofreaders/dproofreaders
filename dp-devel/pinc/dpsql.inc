@@ -210,4 +210,25 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	print "</td></tr></table>\n";
 }
 
+// -----------------------------------------------------------------------------
+
+function dpsql_fetch_all_keyed( $res )
+// Constructs an array with a ($key => $value) pair for each row in $res:
+// $key is the first element of the row, and $value is the rest of the row.
+//
+// (Typically, you'd use this when the first column in the result set satisfies
+// a uniqueness constraint. If that's not the case, and two rows have the same
+// value for the first element, the later one will overwrite the earlier one.
+// However, this too can be a useful behaviour.)
+{
+    $arr = array();
+    while( $row = mysql_fetch_row($res) )
+    {
+        $key = $row[0];
+        $value = array_slice( $row, 1 );
+        $arr[$key] = $value;
+    }
+    return $arr;
+}
+
 ?>
