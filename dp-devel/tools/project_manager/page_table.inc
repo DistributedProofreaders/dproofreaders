@@ -308,10 +308,24 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 
 	$R_username = $page_res[$R_user_field_name];
 
-	if ($R_username == $pguser) 
-		$cellcolorclause = "bgcolor='#FF3366'";
-	else
-		$cellcolorclause = " ";
+       // colour-code pages proofed by the user
+        if ($R_username == $pguser) {
+
+                // a page by the user but not available for editing has a reddish background
+                $cellcolorclause = "bgcolor='#FF3366'";
+
+                // a page saved as DONE by the user has a greenish background
+                if ($page_state == $R_save_state) {
+                        $cellcolorclause = "bgcolor='#99FF66'";
+                }
+
+                // a page saved as IN PROGRESS by the user has an orangey background
+                if ($page_state == $R_temp_state) {
+                        $cellcolorclause = "bgcolor='#FFCC66'";
+                }
+
+        } else
+                $cellcolorclause = " ";
 
 
 	// ------------------------------
