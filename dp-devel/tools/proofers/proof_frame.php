@@ -18,13 +18,14 @@ $project, $proofstate
 project_continuity_check($project,$proofstate,!isset($editone));
 
 if (isset($saved)) {
-	$result = mysql_query("SELECT round1_user, round2_user FROM $project WHERE fileid = '$fileid'");
-	$firstrounduser = mysql_result($result, 0, "round1_user");
-	$secondrounduser = mysql_result($result, 0, "round2_user");
-	if (($pguser != $firstrounduser) && ($pguser != $secondrounduser)) {
-		echo _("An error has occured.  Please close & relogin.");
-		exit();
-	}
+    $prd = get_PRD_for_project_state($proofstate);
+
+    $result = mysql_query("SELECT {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
+    $proofer = mysql_result($result, 0, $prd->user_column_name);
+    if ($pguser != $proofer) {
+        echo _("An error has occured.  Please close & relogin.");
+        exit();
+    }
 
 // proof single page
 
