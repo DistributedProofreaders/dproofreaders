@@ -165,7 +165,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                         }
 
 			// pink for Saint Valentine's Day
-                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
+                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) or
+				startswith( $book['comments'], 'SPECIAL: April Fool' ))
                         {
                                 $bgcolor = " bgcolor='#FF99FF'";
                         }
