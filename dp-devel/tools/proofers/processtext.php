@@ -79,7 +79,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
 //Make sure project is still available
   // only if not in a check
-  if ($tbutton <100 && $project !=0)
+  if ($tbutton <100)
   {
     $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
     $result = mysql_query($sql);
