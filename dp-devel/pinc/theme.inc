@@ -323,7 +323,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	//Show the team statistics
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Your Teams:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=1'>"._("Distributed Proofreaders")."</a></font><br>\n";
-	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id='{$userP['team_1']}' OR id='{$userP['team_2']}' OR id='{$userP['team_3']}'");
+	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 		}

@@ -70,7 +70,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 		</userinfo>";
 
 //Team info
-	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
+	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
 	echo "
 		<teaminfo>";
 	while ($row = mysql_fetch_assoc($result)) {

@@ -36,7 +36,7 @@ function page_tallies_add( $username, $amount )
     mysql_query("
         UPDATE user_teams
         SET page_count = page_count + $amount
-        WHERE id=1 OR id=$team_1 OR id=$team_2 OR id=$team_3
+        WHERE id IN (1, $team_1, $team_2, $team_3)
     ");
 }
 

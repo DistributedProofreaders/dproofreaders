@@ -276,7 +276,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 	if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
     		echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>"._("You must join the team to create it, which team space would you like to use?")."<br>";
     		echo "<select name='tteams' title='"._("Team List")."'>";
-    		$teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id = ".$userP['team_1']." || id = ".$userP['team_2']." || id = ".$userP['team_3']."");
+    		$teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
     		while ($row = mysql_fetch_assoc($teamQuery)) {
     			echo "<option value='".$row['id']."'>".unstripAllString(strip_tags($row['teamname']),1)."</option>";
     		}
