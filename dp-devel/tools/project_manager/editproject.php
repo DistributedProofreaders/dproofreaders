@@ -43,7 +43,6 @@ function saveProject() {
 	//If we are just updated an already existing project
 	if (isset($_POST['projectid'])) {
 		//Update the projects database with the updated info
-		$comments = addslashes($_POST['comments']);
 		mysql_query("
 			UPDATE projects SET
 				nameofwork='{$_POST['nameofwork']}',
@@ -51,7 +50,7 @@ function saveProject() {
 				language='$language',
 				genre='{$_POST['genre']}',
 				difficulty='{$_POST['difficulty_level']}',
-				comments='{$comments}',
+				comments='{$_POST['comments']}',
 				scannercredit='{$_POST['scannercredit']}',
 				txtlink='{$_POST['txtlink']}',
 				ziplink='{$_POST['ziplink']}',
