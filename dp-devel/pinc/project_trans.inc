@@ -10,6 +10,12 @@ function project_transition( $projectid, $new_state, $extras = array() )
 // Otherwise, return an empty string.
 //
 // This function produces no output except for debugging messages.
+//
+// This function should encapsulate the entire transition graph for project
+// states. That is, it should be the only code that modifies the 'state'
+// column of the 'projects' table.
+// It should perhaps also be the only place that modifies these columns:
+//     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
 	// error_reporting(E_ALL);
