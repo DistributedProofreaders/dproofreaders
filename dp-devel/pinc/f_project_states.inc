@@ -2,7 +2,7 @@
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_states_text.inc');
 
-function projectStateRound($state)
+function get_phase_containing_project_state($state)
 {
     $wProc='NONE';
     switch( $state )
