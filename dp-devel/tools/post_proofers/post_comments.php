@@ -156,6 +156,9 @@ echo "<form name='$projectid' method='get' action='$code_url/tools/changestate.p
 echo "<input type='hidden' name='project' value='$projectid'>\n";
 echo "<input type='hidden' name='curr_state' value='$state'>\n";
 
+// You would think it would be simpler to use an onClick for each option.
+// And it might be, and that works in Opera/Moz/FF. But not in IE, thus:
+
 echo "<select name='request' onchange=\"";
 echo "if(this.form.request[this.form.request.selectedIndex].title != '') {di=confirm(this.form.request[this.form.request.selectedIndex].title);if(di){this.form.submit();}} else {this.form.submit();}";
 echo "\">\n";
@@ -185,6 +188,14 @@ elseif ($state==PROJ_POST_SECOND_CHECKED_OUT)
     $serious_code=PROJ_POST_SECOND_AVAILABLE;
     $serious_label=_("Return to Available");
     $serious_question=_("Are you sure you want to make this book available to others to verify and lose your work?");
+
+    // Echo existing serious option now
+    echo_serious_option( $serious_code, $serious_label, $serious_question );
+
+    // New option will echo at end of block as normal
+    $serious_code=PROJ_POST_FIRST_CHECKED_OUT;
+    $serious_label=_("Return to Post-Processor");
+    $serious_question=_("Are you sure you want to return this book to the post-processor for further work?");
 }
 elseif ($state==PROJ_CORRECT_AVAILABLE)
 {

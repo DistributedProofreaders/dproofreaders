@@ -113,7 +113,7 @@ if ( $refresh_url != '' )
 // -----------------------------------------------------------------------------
 
 // X_CHECKED_OUT -> something other than X_AVAILABLE
-// Check in a checked-out project.
+// Check in a checked-out project, or return to PPer
 
 if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
     $reqd_state == PROJ_POST_SECOND_AVAILABLE)
@@ -124,6 +124,27 @@ else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
          $reqd_state == PROJ_SUBMIT_PG_POSTED)
 {
 	$refresh_url="correct/completecorr.php?project=$projectid";
+}
+// Special case for returning PPV project to PP'ers queue
+else if ($curr_state == PROJ_POST_SECOND_CHECKED_OUT &&
+         $reqd_state == PROJ_POST_FIRST_CHECKED_OUT)
+{
+	$refresh_url = "post_proofers/post_proofers.php";
+	$error_msg = project_transition( $projectid, $reqd_state );
+	if ($error_msg == '')
+	{
+		// No need to remove original upload, re-uploads now permitted
+		metarefresh(0,$refresh_url,"Project Return Sucessful",
+			"This project has been returned to the Post-Processor's checked-out Queue.");
+		return;
+	}
+	else
+	{
+		echo "$error_msg<br><br>\n";
+		metarefresh(2, $refresh_url, "Project Return Unsuccessful",
+			"Something went wrong, and this project has probably not been returned.");
+		return;
+	}
 }
 
 if ( $refresh_url != '' )

@@ -127,6 +127,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			),
 		PROJ_POST_SECOND_CHECKED_OUT => array(
 			PROJ_POST_SECOND_AVAILABLE,
+			PROJ_POST_FIRST_CHECKED_OUT,
 			PROJ_POST_COMPLETE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
@@ -246,6 +247,13 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
+	}
+	// Allow PPV to return to PPer directly
+	else if ( $current_state == PROJ_POST_SECOND_CHECKED_OUT &&
+		$new_state == PROJ_POST_FIRST_CHECKED_OUT )
+	{
+		$settings .= ", modifieddate='$now'";
+		$settings .= ", checkedoutby='{$project['postproofer']}'";
 	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
