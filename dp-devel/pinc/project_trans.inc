@@ -250,6 +250,13 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 
+		//Delete from the HEAP table all page counts
+		$result = mysql_query("SELECT COUNT(projectid) AS rowExists FROM page_counts WHERE projectid = '$projectid'");
+		$rowExists = mysql_result($result, 0, "rowExists");
+		if (!empty($rowExists)) {
+			mysql_query ("DELETE FROM page_counts WHERE projectid = '$projectid'");
+		}
+
 		//Delete the topic from forum if there is one
 		$result = mysql_query("
 			SELECT topic_id FROM projects WHERE projectid='$projectid'

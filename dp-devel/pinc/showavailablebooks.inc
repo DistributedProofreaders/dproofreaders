@@ -1,7 +1,7 @@
-<?PHP
+<?
 include_once($relPath.'tdecho.inc');
-function showbooklistheader($round)
-{
+
+function showbooklistheader($round) {
 echo "<tr>";
 tde('<b>Name&nbsp;of&nbsp;Work</b>',bgcol(1,$round));
 tde('<b>Author</b>',bgcol(1,$round) . " align=center");
@@ -12,16 +12,23 @@ tde('<b>Pages available for proofing</b>',bgcol(1,$round) . "100");
 tde('<b>Total pages in the book</b>',bgcol(1,$round) . "100");
 echo "</tr>";
 }
-function showavailablebooks($result,$state,$userP,$tList,$round)
-{
-    $numrows = mysql_num_rows($result);
-    $rownum = 0;
-    $rownum2 = 0;
+
+function showavailablebooks($result,$state,$userP,$tList,$round) {
+	global $pageCountArray;
+	$numrows = mysql_num_rows($result);
+	$rownum = 0;
+	$rownum2 = 0;
+
+	if (empty($pageCountArray)) {
+			total_pages();
+			avail_pages();
+	}
+
     while ($rownum2 < $numrows) {
            $book=dassoc($result);
             // find out how many files the project has total/available!!!!!
-            $apages = avail_pages($book['projectid']);
-            $tpages = total_pages($book['projectid']);
+            //$apages = avail_pages($book['projectid']);
+            //$tpages = total_pages($book['projectid']);
             $bgcolor=bgcol($rownum,$round);
         if (($state==AVAIL_FIRST && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
             ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE)) {
@@ -41,8 +48,8 @@ function showavailablebooks($result,$state,$userP,$tList,$round)
             tde($book['language'], bgcol($rownum, $round));
 	    tde($book['genre'], bgcol($rownum, $round));
             tde($book['username'],bgcol($rownum, $round));
-            tde($apages, bgcol($rownum, $round) . " align=center");
-            tde($tpages, bgcol($rownum, $round) . " align=center");
+            tde($pageCountArray[$book['projectid']]['avail_pages'], bgcol($rownum, $round) . " align=center");
+            tde($pageCountArray[$book['projectid']]['total_pages'], bgcol($rownum, $round) . " align=center");
         } else $rownum--;
         $rownum++;
         $rownum2++;
