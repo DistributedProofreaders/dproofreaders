@@ -226,7 +226,7 @@ function echo_row_a( $left, $right, $darken_right_background=0 )
 	echo "<tr>";
 	echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
 	echo "<td colspan='4' $right_bg>$right</td>";
-	echo "</tr>";
+	echo "</tr>\n";
 }
 
 function echo_row_b( $top, $bottom )
@@ -239,7 +239,7 @@ function echo_row_b( $top, $bottom )
 		echo "<br>$bottom";
 	}
 	echo "</td>";
-	echo "</tr>";
+	echo "</tr>\n";
 }
 
 function echo_row_c( $content )
@@ -248,7 +248,7 @@ function echo_row_c( $content )
 	echo "<td colspan=5>";
 	echo $content;
 	echo "</td>";
-	echo "</tr>";
+	echo "</tr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
