@@ -1,6 +1,5 @@
 <?
 include_once($relPath.'project_states.inc');
-include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 
