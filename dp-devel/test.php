@@ -3,9 +3,17 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
-echo "include_path = "
-ini_get('include_path');
-echo "<BR>\n";
+$ip = ini_get('include_path');
+echo "include_path = $ip<BR>\n";
+
+echo "<pre>\n";
+foreach ( split(':', $ip) as $d )
+{
+	echo "$d\n";
+	system('ls -l $d');
+	echo "<BR>\n";
+}
+echo "</pre>\n";
 
 ini_set('include_path', './pinc');
 
