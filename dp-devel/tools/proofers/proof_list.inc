@@ -20,7 +20,6 @@ if ($totalpages <= 20) {
 
 $qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'";
 $result = mysql_query($qry);
-echo $qry;
 
 if (mysql_num_rows($result) >= 1) {
 	$orderR1old = mysql_result($result, 0, "value");
@@ -30,7 +29,7 @@ if (mysql_num_rows($result) >= 1) {
 
 $qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'";
 $result = mysql_query($qry);
-echo $qry;
+
 
 if (mysql_num_rows($result) >= 1) {
 	$orderR2old = mysql_result($result, 0, "value");
