@@ -141,10 +141,10 @@ if /bin/true; then
     echo "putting it in $_CODE_DIR.new ..."
     for attempt in 1 2 3 4 last; do
         ( cd $code_dir_parent &&
-        cvs -Q -d$cvs_account:/cvsroot/dproofreaders export -r HEAD -d $code_dir_name.new dp-devel )
+        cvs -Q -d$cvs_account:/cvsroot/dproofreaders export -r $TAG -d $code_dir_name.new dp-devel )
         status=$?
         if [ $status = 0 ]; then break; fi
-        echo "'cvs export -r HEAD -d $_CODE_DIR.new dp-devel' returned $status"
+        echo "'cvs export -r $TAG -d $_CODE_DIR.new dp-devel' returned $status"
         if [ $attempt = last ]; then
             echo "so exiting"
             exit 1
@@ -152,7 +152,7 @@ if /bin/true; then
             echo "so trying again"
         fi
     done
-    # check "cvs export -r HEAD -d $_CODE_DIR.new dp-devel"
+    # check "cvs export -r $TAG -d $_CODE_DIR.new dp-devel"
 
     chgrp -R $GROUP $_CODE_DIR.new
 
