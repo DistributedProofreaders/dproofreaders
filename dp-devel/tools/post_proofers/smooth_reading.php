@@ -27,12 +27,18 @@ if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 
 
 if ($logged_in) {
+    // we show more columns when user is logged in, so we don't have room for the stats bar
+    $no_stats = 1;
+    $tcolspan = 9;
+    $showPPersF = TRUE;
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
     show_site_news_for_page("smooth_reading.php");
     random_news_item_for_page("smooth_reading.php");
 } else {
+    $showPMsF = FALSE;
+    $tcolspan = 6;
     $header_text = _("Smooth Reading Pool Preview");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
@@ -115,7 +121,7 @@ echo "\r\n<table border=1>";
 echo "\r\n<tr bgcolor='$listing_bgcolors[1]'>";
 
 $title = _('Projects Currently Available for Smooth Reading');
-echo "\n<td colspan=7><h3>$title</h3></td>";
+echo "\n<td colspan='$tcolspan'><h3>$title</h3></td>";
 
 $order = $order_new;
 
@@ -124,6 +130,7 @@ $flip_author = FALSE;
 $flip_lang = FALSE;
 $flip_genre = FALSE;
 $flip_PM = FALSE;
+$flip_PP = FALSE;
 $flip_PgTot = FALSE;
 $flip_days = FALSE;
 
@@ -165,13 +172,23 @@ elseif ( $order == 'GenreD' )
 }
 elseif ( $order == 'PMA' )
 {
-        $orderclause = 'checkedoutby ASC, nameofwork ASC';
+        $orderclause = 'projects.username ASC, nameofwork ASC';
         $flip_PM = TRUE;
 }
 elseif ( $order == 'PMD' )
 {
+        $orderclause = 'projects.username DESC, nameofwork ASC';
+}
+elseif ( $order == 'PPA' )
+{
+        $orderclause = 'checkedoutby ASC, nameofwork ASC';
+        $flip_PP = TRUE;
+}
+elseif ( $order == 'PPD' )
+{
         $orderclause = 'checkedoutby DESC, nameofwork ASC';
 }
+
 elseif ( $order == 'PgTotA' )
 {
         $orderclause = 'total_pages ASC, nameofwork ASC';
@@ -188,7 +205,7 @@ elseif ( $order == 'DaysA' )
 }
 elseif ( $order == 'DaysD' )
 {
-        $orderclause = 'modifieddate DESC, nameofwork ASC';
+        $orderclause = 'smoothread_deadline DESC, nameofwork ASC';
 }
 else
 {
@@ -245,7 +262,8 @@ $linkend = "'";
 
 $query = "
         SELECT *,
-                round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left
+                round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left,
+                projects.username as PM
         FROM projects, page_counts, phpbb_users
         WHERE
                 projects.projectid = page_counts.projectid
@@ -276,9 +294,20 @@ $word = _("Genre");
 $link = $linkbase.($flip_genre?"GenreD":"GenreA")."$linkend>";
 echo "\n<td>$link<b>$word</b></a></td>";
 
-$word = _("Post Processor");
-$link = $linkbase.($flip_PM?"PMD":"PMA")."$linkend>";
-echo "\n<td>$link<b>$word</b></a></td>";
+if ($logged_in) {
+
+    $word = _("Project Manager");
+    $link = $linkbase.($flip_PM?"PMD":"PMA")."$linkend>";
+    echo "\n<td>$link<b>$word</b></a></td>";
+
+    $word = _("Post Processor");
+    $link = $linkbase.($flip_PP?"PPD":"PPA")."$linkend>";
+    echo "\n<td>$link<b>$word</b></a></td>";
+
+    // no point sorting by this link
+    $word = _("More Info");
+    echo "\n<td><b>$word</b></td>";
+}
 
 $word = _("Total Pages");
 $link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA")."$linkend>";
@@ -298,6 +327,7 @@ if ($logged_in) {
     $userSettings = Settings::get_Settings($pguser);
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 } else {
+    // visitors get the colours
     $show_special_colors = TRUE;
 }
 
@@ -318,6 +348,9 @@ while ($rownum2 < $numrows) {
         }
 
         if (TRUE) {
+
+            $pm = $book['PM'];
+
             echo "<tr bgcolor='$bgcolor'>";
             $prid = $book['projectid'];
             $p = "$prid/$prid"."_smooth_avail.zip";
@@ -339,7 +372,12 @@ while ($rownum2 < $numrows) {
                 $genre = $book['genre'];
             }
             echo "\n<td>$genre</td>";
-            echo "\n<td><a href='$forums_url/privmsg.php?mode=post&u=".$book['user_id']."'>{$book['checkedoutby']}</a></td>";
+
+            if ($logged_in) {
+                echo "\n<td>$pm</td>";
+                echo "\n<td><a href='$forums_url/privmsg.php?mode=post&u=".$book['user_id']."'>{$book['checkedoutby']}</a></td>";
+                echo "\n<td><a href='SR_info.php?project=$prid'>"._("Project Info and Upload")."</a>";
+            } 
 
             echo "\n<td align=center>{$book['total_pages']}</td>";
 
