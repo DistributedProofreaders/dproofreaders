@@ -9,7 +9,7 @@ $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
 // get cookie
-$npage=$tpage->getPageCookie();
+$npage = getPageCookie();
 
 // set page
 $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
@@ -273,7 +273,7 @@ id="controlframe" align="center"><form
 //display page number
   $pageNum=substr($npage['image'],0,-4);
   echo "<font size=\"-1\"><b>"._("Page: $pageNum");
-    if ($tpage->getProjectRound($npage['proofstate']) == 2)
+    if (getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $username = mysql_result($result, 0, "round1_user");

@@ -10,7 +10,7 @@ $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
 // get cookie
-$npage=$tpage->getPageCookie();
+$npage = getPageCookie();
 
 // set page
 $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
@@ -26,7 +26,7 @@ if ($npage['spcheck']==2)
   {
     $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
     $npage['spcheck']=0;
-    $tpage->setTempPageCookie($npage);
+    setTempPageCookie($npage);
     $npage['text'] = implode( '', file("$aspell_temp_dir/$text_file") );
   }
 slim_header("Text Frame",TRUE,FALSE);
@@ -86,7 +86,7 @@ slim_header("Text Frame",TRUE,FALSE);
 //display page number
   $pageNum=substr($npage['image'],0,-4);
   echo "<font size=\"-1\"><b>"._("Page: $pageNum");
-    if ($tpage->getProjectRound($npage['proofstate']) == 2)
+    if (getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $username = mysql_result($result, 0, "round1_user");
