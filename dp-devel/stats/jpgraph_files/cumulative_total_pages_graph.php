@@ -21,7 +21,7 @@ $p = 0;
 $g = 0;
 
 while ($row = mysql_fetch_assoc($result)) {
-	if (substr($row['date'], -2) < $day) { $datay1[$i] = $row['pages']+$p; }
+	$datay1[$i] = $row['pages']+$p;
 	$datay2[$i] = $row['dailygoal']+$g;
 	$datax[$i] = $row['date'];
 	$p = $p+$row['pages'];
