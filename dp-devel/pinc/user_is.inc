@@ -151,8 +151,6 @@ function user_can_see_BEGIN_R2()
 	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
 	if (mysql_num_rows($result) >= 1) {
 		if (mysql_result($result, 0, "pagescompleted") >= 300) { return TRUE; }
-	} else {
-		return FALSE;
 	}
 
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'see_BEGIN_R2'");
