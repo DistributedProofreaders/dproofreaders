@@ -173,7 +173,7 @@ function showTeamMbrs($curTeam) {
 			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";
 		}
 	}
-	if ($totalAnonUsers > 1)
+	if ($totalAnonUsers > 0)
 	{
 		echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
 		echo "<td width='35%'>Anonymous users</td>";
