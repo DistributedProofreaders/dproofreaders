@@ -3,6 +3,15 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'projectinfo.inc');
 
+function notify($project, $proofstate) {
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Notify</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
+    $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."')");
+    if (mysql_numrows($temp) == 0) {
+        echo "Notify me when book complete";
+    } else "Do not notify me when book complete";
+    echo "</a></td></tr>";
+}
+
 $projectinfo = new projectinfo();
 if ($proofstate < 9) {
   $projectinfo->update_avail($project, 2);
@@ -94,7 +103,9 @@ if ($topic_id == "") {
 } else {
     echo "Discuss this project in the forum";
 }
-    echo "</a></td>";
+    echo "</a></td></tr>";
+
+    notify($project, $proofstate);
 
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td>";
     echo "</tr><tr>";
