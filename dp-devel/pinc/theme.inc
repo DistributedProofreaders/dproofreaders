@@ -343,7 +343,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			if (!isset($neighborhood['username'][$j])) { continue; }
 			echo "&nbsp;";
 			if ($i==0) echo "<b><i>";
-			echo $neighborhood['rank'][$j].".) ".$neighborhood['username'][$j]." - ".number_format($neighborhood['pages'][$j]);
+			echo $neighborhood['rank'][$j], ".) ";
+			echo $neighborhood['username'][$j], " - ";
+			echo number_format($neighborhood['pages'][$j]);
 			if ($i==0) echo "</i></b>";
 			echo "<br>\n";
 		}
