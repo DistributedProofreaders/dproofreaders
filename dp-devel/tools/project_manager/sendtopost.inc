@@ -28,7 +28,7 @@ include_once($relPath.'maybe_mail.inc');
         $projectpath = "$projects_dir/$project";
 
         // Generate images.html that links to all page-images.
-        exec ("perl images.pl $project *.png");
+	generate_images_index( $project );
 
         // Zip all page-images.
         $zippedimages = $project."images.zip";
@@ -81,6 +81,40 @@ include_once($relPath.'maybe_mail.inc');
 
     }
 
+    function generate_images_index( $project )
+    {
+	global $projects_dir;
+
+        $projectpath = "$projects_dir/$project";
+	$images_html = "$projectpath/images.html";
+
+	$s =
+	    "<HTML>\n" .
+	    "<HEAD>  <TITLE>Image Index</TITLE>  </HEAD>\n" .
+	    "<BODY>\n" .
+	    "<H1 ALIGN=CENTER>Image Index</H1>\n" .
+	    "Here are the individual images for this project:<P>\n" .
+	    "<HR>\n";
+
+	foreach( glob("$projectpath/*.png") as $png_path )
+	{
+	    $size = filesize($png_path);
+	    $png_filename = basename($png_path);
+	    $s .= "<A HREF=\"$png_filename\">\n";
+	    $s .= "  <B>$png_filename</B> <I>($size bytes)</I><P>\n";
+	}
+	$s .= "<HR>\n";
+	$s .= "<a href=\"../../tools/post_proofers/post_proofers.php?project=$project\">Back</a> to the Post Processing page.";
+	$s .= "<p>Return to your <a href=\"../../tools/proofers/proof_per.php\">personal page.</a>";
+	$s .= "</BODY>\n";
+	$s .= "</HTML>\n";
+	
+
+	( $f = fopen( $images_html, 'w' ) ) and
+	fwrite( $f, $s ) and
+	fclose($f) or
+	die( "Problems writing $images_html" );
+    }
 
     function join_proofed_text ($project, $fp) {
         // Join the round 2 page-texts of the given project,
