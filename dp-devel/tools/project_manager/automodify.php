@@ -9,6 +9,7 @@ $relPath="./../../pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+include_once($relPath.'RoundDescriptor.inc');
 include($relPath.'projectinfo.inc');
 include($relPath.'project_trans.inc');
 include_once($relPath.'bookpages.inc');
@@ -21,27 +22,16 @@ $trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
-function pages_indicate_bad_project( $projectid, $round )
+function pages_indicate_bad_project( $projectid, $prd )
 // Do the states of the project's pages (in the given round)
 // indicate that the project is bad?
 {
     global $trace;
 
-    if ($round == 1)
-    {
-        $BAD_PAGE_STATE = BAD_FIRST;
-        $AVAIL_PAGE_STATE = AVAIL_FIRST;
-    }
-    else if ($round == 2)
-    {
-        $BAD_PAGE_STATE = BAD_SECOND;
-        $AVAIL_PAGE_STATE = AVAIL_SECOND;
-    }
-
     // If it has no bad pages, it's good.
     //
     $n_bad_pages = mysql_result(mysql_query("
-        SELECT COUNT(*) FROM $projectid WHERE state = '$BAD_PAGE_STATE'
+        SELECT COUNT(*) FROM $projectid WHERE state = '$prd->page_bad_state'
         "),0);
     if ($trace) echo "n_bad_pages = $n_bad_pages\n";
     //
@@ -52,7 +42,7 @@ function pages_indicate_bad_project( $projectid, $round )
     // reported by at least 3 different users, it's bad.
     //
     $n_unique_reporters = mysql_result(mysql_query("
-        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$BAD_PAGE_STATE'
+        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$prd->page_bad_state'
         "),0);
     if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
     //
@@ -62,10 +52,10 @@ function pages_indicate_bad_project( $projectid, $round )
     // In round 2, if it has any bad pages
     // and no available pages, it's bad.
     //
-    if ($round == 2)
+    if ($prd->round_number == 2)
     {
         $n_avail_pages = mysql_result(mysql_query("
-            SELECT COUNT(*) FROM $projectid WHERE state = '$AVAIL_PAGE_STATE'
+            SELECT COUNT(*) FROM $projectid WHERE state = '$prd->page_avail_state'
             "),0);
         if ($trace) echo "n_avail_pages = $n_avail_pages\n";
         if ($n_avail_pages == 0) return TRUE;
@@ -151,37 +141,32 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         ensure_project_blurb( $project );
     }
 
-    //Bad Page Error Check
-
-    foreach (array(1,2) as $round)
+    // Decide which round the project is in
+    $prd = get_PRD_for_project_state($state);
+    if ( is_null($prd) )
     {
-        if ($round == 1)
-        {
-            $BAD_PROJECT_STATE = PROJ_PROOF_FIRST_BAD_PROJECT;
-            $AVAILABLE_PROJECT_STATE = PROJ_PROOF_FIRST_AVAILABLE;
-        }
-        else if ($round == 2)
-        {
-            $BAD_PROJECT_STATE = PROJ_PROOF_SECOND_BAD_PROJECT;
-            $AVAILABLE_PROJECT_STATE = PROJ_PROOF_SECOND_AVAILABLE;
-        }
+        echo "    automodify.php: unexpected state $state for project $projectid\n";
+        continue;
+    }
 
-        if ( ($state == $AVAILABLE_PROJECT_STATE) || ($state == $BAD_PROJECT_STATE && $one_project) )
+    //Bad Page Error Check
+    {
+        if ( ($state == $prd->project_available_state) || ($state == $prd->project_bad_state && $one_project) )
         {
-            if ( pages_indicate_bad_project( $projectid, $round ) )
+            if ( pages_indicate_bad_project( $projectid, $prd ) )
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
                 if ($trace) echo "project looks bad.\n";
-                if ($state != $BAD_PROJECT_STATE)
+                if ($state != $prd->project_bad_state)
                 {
-                    if ($trace) echo "changing its state to $BAD_PROJECT_STATE\n";
-                    $error_msg = project_transition( $projectid, $BAD_PROJECT_STATE );
+                    if ($trace) echo "changing its state to $prd->project_bad_state\n";
+                    $error_msg = project_transition( $projectid, $prd->project_bad_state );
                     if ($error_msg)
                     {
                         echo "$error_msg\n";
                     }
-                    $state = $BAD_PROJECT_STATE;
+                    $state = $prd->project_bad_state;
                 }
             }
             else
@@ -189,68 +174,24 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
                 if ($trace) echo "project looks okay.\n";
-                if ($state == $BAD_PROJECT_STATE)
+                if ($state == $prd->project_bad_state)
                 {
                     // We could change the project's state to
-                    // $AVAILABLE_PROJECT_STATE,
+                    // $prd->project_available_state,
                     // but we don't have to, because it will be set later
                     // (either to that, or some other state value).
-                    if ($trace) echo "pretending to change its state to $AVAILABLE_PROJECT_STATE\n";
-                    $state = $AVAILABLE_PROJECT_STATE;
+                    if ($trace) echo "pretending to change its state to $prd->project_available_state\n";
+                    $state = $prd->project_available_state;
                 }
             }
         }
     }
 
-    // Decide which round the project is in
-    if ($state == PROJ_PROOF_FIRST_AVAILABLE ||
-        $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
-        $state == PROJ_PROOF_FIRST_BAD_PROJECT ||
-        $state == PROJ_PROOF_FIRST_VERIFY ||
-        $state == PROJ_PROOF_FIRST_COMPLETE)
-    {
-        $page_avail_state = AVAIL_SECOND;
-        $page_out_state   = OUT_FIRST;
-        $page_temp_state  = TEMP_FIRST;
-        $page_save_state  = SAVE_FIRST;
-        $timetype = "round1_time";
-        $texttype = "round1_text";
-        $usertype = "round1_user";
-        $round_number = 1;
-        $proj_proof_available_state = PROJ_PROOF_FIRST_AVAILABLE;
-        $proj_proof_verify_state    = PROJ_PROOF_FIRST_VERIFY;
-        $proj_proof_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
-    }
-    else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
-        $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
-        $state == PROJ_PROOF_SECOND_BAD_PROJECT ||
-        $state == PROJ_PROOF_SECOND_VERIFY ||
-        $state == PROJ_PROOF_SECOND_COMPLETE)
-    {
-        $page_avail_state = AVAIL_SECOND;
-        $page_out_state   = OUT_SECOND;
-        $page_temp_state  = TEMP_SECOND;
-        $page_save_state  = SAVE_SECOND;
-        $timetype = "round2_time";
-        $texttype = "round2_text";
-        $usertype = "round2_user";
-        $round_number = 2;
-        $proj_proof_available_state = PROJ_PROOF_SECOND_AVAILABLE;
-        $proj_proof_verify_state    = PROJ_PROOF_SECOND_VERIFY;
-        $proj_proof_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
-    }
-    else
-    {
-        echo "    automodify.php: unexpected state $state for project $projectid\n";
-        continue;
-    }
-
-
     if (
         ($one_project) ||
-        ($state == $proj_proof_verify_state ) ||
-        (($state == $proj_proof_available_state) &&
-           (Project_getNumPagesInState($projectid, $page_avail_state) == 0))
+        ($state == $prd->project_verify_state) ||
+        (($state == $prd->project_available_state) &&
+           (Project_getNumPagesInState($projectid, $prd->page_avail_state) == 0))
     )
     {
 
@@ -262,10 +203,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA pages
 
-        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$page_out_state' ORDER BY image ASC");
+        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$prd->page_out_state' ORDER BY image ASC");
         if ($outtable != "") { $numoutrows = (mysql_num_rows($outtable)); } else $numoutrows = 0;
 
-        if ($verbose) echo "        examining $numoutrows pages in '$page_out_state'\n";
+        if ($verbose) echo "        examining $numoutrows pages in '$prd->page_out_state'\n";
 
         $page_num = 0;
         $dietime = time() - 14400; // 4 Hour TTL
@@ -273,53 +214,53 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         while ($page_num < $numoutrows) {
 
             $fileid = mysql_result($outtable, $page_num, "fileid");
-            $timestamp = mysql_result($outtable, $page_num, $timetype);
+            $timestamp = mysql_result($outtable, $page_num, $prd->time_column_name);
 
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                Page_reclaim( $projectid, $fileid, $round_number );
+                Page_reclaim( $projectid, $fileid, $prd->round_number );
             }
             $page_num++;
         }
 
         // Check in MIA temp pages
 
-        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$page_temp_state' ORDER BY image ASC");
+        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$prd->page_temp_state' ORDER BY image ASC");
         if ($temptable != "") { $numtemprows = (mysql_num_rows($temptable)); } else $numtemprows = 0;
 
-        if ($verbose) echo "        examining $numtemprows pages in '$page_temp_state'\n";
+        if ($verbose) echo "        examining $numtemprows pages in '$prd->page_temp_state'\n";
 
         $page_num2 = 0;
 
         while ($page_num2 < $numtemprows) {
 
             $fileid = mysql_result($temptable, $page_num2, "fileid");
-            $timestamp = mysql_result($temptable, $page_num2, $timetype);
+            $timestamp = mysql_result($temptable, $page_num2, $prd->time_column_name);
 
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                Page_reclaim( $projectid, $fileid, $round_number );
+                Page_reclaim( $projectid, $fileid, $prd->round_number );
             }
             $page_num2++;
         }
 
         // Decide whether the project is finished its current round.
-        if ( $state == $proj_proof_available_state || $state == $proj_proof_verify_state )
+        if ( $state == $prd->project_available_state || $state == $prd->project_verify_state )
         {
-            $num_done_pages  = Project_getNumPagesInState($projectid, $page_save_state);
+            $num_done_pages  = Project_getNumPagesInState($projectid, $prd->page_save_state);
             $num_total_pages = Project_getNumPages($projectid);
 
             if ($num_done_pages == $num_total_pages)
             {
-                if ($verbose) echo "    All $num_total_pages pages are in '$page_save_state'.\n";
-                $state = $proj_proof_complete_state;
+                if ($verbose) echo "    All $num_total_pages pages are in '$prd->page_save_state'.\n";
+                $state = $prd->project_complete_state;
             }
             else
             {
-                if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$page_save_state'.\n";
-                $state = $proj_proof_available_state;
+                if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$prd->page_save_state'.\n";
+                $state = $prd->project_available_state;
             }
         }
 
