@@ -4,16 +4,290 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
+
+if ( isset($_GET['i_type']) )
+{
+    $i_type = $_GET['i_type'];
+}
+else
+{
+    $i_type = $userP['i_type'];
+}
+
+// -----------------------------------------------------------------------------
+
+$page_completed = "
+    The page you were proofing is considered 'completed',
+    and will automatically proceed to the next round
+    when all other pages have also been completed.
+    A link to it will appear in the 'My Recently Completed' section
+    of the project comments page,
+    whence it can be opened for corrections if necessary.
+";
+
+$page_not_completed = "
+    A link to it will appear in
+    the 'My Recently Proofread' section of the project comments page,
+    whence it can be opened for more proofing later.
+    If not completed, eventually the system will reclaim it
+    for someone else to proof,
+    and it will vanish from your 'My Recently Proofread' list.
+";
+
+// ----------------------------------
+
+$help = Array();
+
+$help['Save and Quit'] = "
+<p>
+    Saves the current page and then quit proofing.
+    This browser window will close.
+    $page_completed
+</p>
+";
+
+$help['Save and Do Another'] = 
+$help['Save and Proof Next Page'] = "
+<p>
+    Saves the current page and
+    obtains the next available page for proofing within the project.
+    $page_completed
+</p>
+";
+
+$help['Save'] = "
+<p>
+    Saves your work so far on the current page.
+    You will be repositioned to the start of the page.
+    The current page is not considered 'completed'
+    until you press either 'Save and Quit' or 'Save and Do Another',
+    and will not automatically proceed to the next round.
+    $page_not_completed
+</p>
+";
+
+$help['Quit'] = "
+<p>
+    Closes the proofing interface <b>without saving</b> the current page.
+    To save before quitting, use the 'Save' button.
+    Note that 'Save' followed by 'Quit' is NOT equivalent to 'Save and  Quit'.
+    When you press 'Quit',
+    the page you were proofing is not considered 'completed',
+    and will not automatically proceed to the next round.
+    $page_not_completed
+    To complete a page,
+    use the 'Save and Quit' or 'Save and Do Another' buttons.
+</p>
+";
+
+$help['Report Bad Page'] = "
+<p>
+    Loads the Report Bad Page form.
+    Rarely, some damaged pages are unproofable.
+    For instance, the image may be incomplete or unreadable,
+    or the OCR text may be from a different image.
+    In these cases, where some repairs have to be made to the files
+    by the Project Manager,
+    the page can be marked 'Bad' and removed from proofing until fixed.
+    Further information
+    (including how to tell a truly bad page from a false alarm)
+    is available on the Report Bad Page form itself.
+</p>
+";
+
+$help['Return Page to Round'] =
+$help['Return Page to Current Round'] = "
+<p>
+    Abandons any changes you have made to the current page,
+    and returns it to the top of the pile of available pages for this project,
+    waiting for the next proofer
+    who requests a new page to proof from this project,
+    to whom it will go for proofing.
+    If a page seems too long or complex for you,
+    you can return it to round for someone else to do.
+    (Note if you then immediately request a new page to proof,
+    the 'someone else' may be you!
+    If you don't want to go proof a different project instead,
+    you can 'Save' the page, 'Quit' and follow the 'Start Proofing' link.
+    This will load the next available page, leaving the one you
+    wanted to skip in your 'My Recently Proofread' section.
+    When you have finished proofing for the day,
+    you can re-open it from there and press 'Return Page to Current Round'
+    to immediately make it available for someone else to proof.)
+</p>
+";
+
+$help['Spell Check'] =
+$help['Run Spelling Check'] = "
+<p>
+    Loads the Spelling Check form.
+    The OCR text is run through a spell-checker and then displayed,
+    with doubtful words rendered as
+    a drop down list of suggested corrected spellings from which you can select.
+    When done, the corrections made can be submitted (applied) or cancelled.
+</p>
+";
+
+$help['Switch to Vertical/Horizontal'] = "
+<p>
+    [Saves current page, changes interface....]
+</p>
+";
+
+$help['Help'] = "
+<p>
+    Opens this page in a new window.
+</p>
+";
+
+$help['Change Interface Layout'] = "
+<p>
+    <IMG SRC='../tools/proofers/gfx/bt4.png'
+	ALT='Change Interface Layout'
+	TITLE='Change Interface Layout'
+	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
+    When in horizontal mode,
+    clicking this button will switch you to vertical mode.
+    The document is saved during the switch.
+</p>
+<p>
+    <IMG SRC='../tools/proofers/gfx/bt5.png'
+	ALT='Change Interface Layout'
+	TITLE='Change Interface Layout'
+	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
+    When in vertical mode,
+    clicking this button will switch you to horizontal mode.
+    The document is saved during the switch.
+</p>
+";
+
+$help['Check for Common Errors'] = "
+<p>
+    Interactively searches the current text for common errors.
+<p>
+    To <b>start</b> the error checking sequence,
+    click the Check for Common Errors Button.
+    The error check messages will replace the text in the text editing area.
+<p>
+    To <b>stop</b> the error checking sequence,
+    click the Undo Revert button
+    to restore to the last edit before starting the common errors check.
+    Any changes made during the check will be lost.
+<p>
+    To <b>continue</b> the error checking process
+    after any prompt message in the text editing area,
+    click the Check for Common Errors button.
+<p>
+    If an error is found, the discovery of the error and type of error
+    will be displayed in the text editing area.
+    Click the check for common errors button to show the location of the error.
+    The error will be located at the end of the text editing area and,
+    depending upon the location of the error in the text,
+    may require you to scroll to end of the text editing area
+    to see the potential error.
+    Once you have fixed the error or determined that it is not an error,
+    click the Check for Common Errors button
+    to continue the error checking sequence.
+<p>
+    When the error checking sequence is complete,
+    click the Check for Common Errors button
+    to replace the error check messages with the text.
+    Changes made during the error checking process will be included in the text.
+    If you wish to undo any changes made during the process,
+    click the Undo Revert button
+    to restore to your last edit before starting
+    the Check for Common Errors sequence.
+<p>
+    The Check for Common Errors sequence
+    <em>does not</em> replace the need for manual proofing.
+";
+
+$help['View Project Comments'] = "
+<p>
+    Displays the project comments page in a new window.
+";
+
+$help['Show All Text'] = "
+<p>
+    Displays the currently edited text from the text area in a new window.
+";
+
+$help['Undo Revert'] = "
+<p>
+    Undoes the Revert to Original Document function
+    by restoring to the last edit before Reverting to Original Document.
+<p>
+    Also stops the Check for Common Errors cycle
+    and reverts back to the last edit
+    before initiating the Check for Common Errors.
+";
+
+$help['Revert to Original Document'] = "
+<p>
+    When working with a new page,
+    this reverts to the original, unedited document.
+    After saving an edit via the save button,
+    this will revert to the last save.
+";
+
+$help['Refresh Image'] = "
+<p>
+    ?
+";
+
+$help['Set Image Zoom Percent'] = "
+<p>
+    Type a number as a percent into the box to the left of this button
+    and then click this button to zoom the scanned image width
+    to the percent indicated.
+<p>
+    All percentages are calculated using 1000 pixels=100% width.
+<p>
+    Please, <B>do not</B> include the percent (%) sign in your number.
+";
+
+// -----------------------------------------------------------------------------
+
+if ( $i_type == 0 )
+{
+    $no_stats=1;
+    theme('Standard Proofing Interface Help','header');
+    echo "<h2>Standard Proofing Interface Help</h2>\n";
+    echo "<form>\n";
+    echo "<dl>\n";
+    foreach(
+	Array(
+	    'Save',
+	    'Save and Do Another',
+	    'Save and Quit',
+	    'Quit',
+	    'Switch to Vertical/Horizontal',
+	    'Return Page to Round',
+	    'Spell Check'
+	)
+	as $name )
+    {
+	echo "<dt><input type='button' value='$name'></dt>\n";
+	echo "<dd>$help[$name]</dd>\n";
+    }
+    echo "</dl>\n";
+    echo "</form>\n";
+}
+
+else
+{
 $no_stats=1;
-theme('Enhanced Proofing Interface Help','header');
+theme( 'Enhanced Proofing Interface Help','header');
 ?>
 
 <CENTER><DIV ALIGN="CENTER"><TABLE
-BORDER="1" WIDTH="630" CELLPADDING="6"><TR><TD COLSPAN="2" ALIGN="CENTER"><FONT SIZE="+2">Enhanced Proofing Interface Help</FONT><BR>Version 1.02<BR></TD></TR>
+BORDER="1" WIDTH="630" CELLPADDING="6"><TR><TD COLSPAN="2" ALIGN="CENTER"><FONT SIZE="+2">Enhanced Proofing Interface Help</FONT><BR>Version 1.1<BR></TD></TR>
 <TR><TD
 COLSPAN="2"><FONT SIZE="-1">
-Created:12/03/2002 &nbsp;&nbsp;&nbsp; Author: Carel Lyn Miske
-<BR>Last Updated: 12/15/2002 &nbsp;&nbsp;&nbsp; Tim Bonham</FONT></TD></TR>
+Created: 12/03/2002 &nbsp;&nbsp;&nbsp; Author: Carel Lyn Miske
+<BR>Updated: 12/15/2002 &nbsp;&nbsp;&nbsp; Tim Bonham
+<BR>Updated: 06/17/2003 &nbsp;&nbsp;&nbsp; Bill Keir
+</FONT></TD></TR>
 <TR><TD
 COLSPAN="2">
 <P><A HREF="#ibtns"><B>Button and Selection Menu</B></A>
@@ -28,131 +302,44 @@ COLSPAN="2">
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
 
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt11.png" WIDTH="26" HEIGHT="26" ALT="Help" TITLE="Help" BORDER="0"></TD><TD>
-<B>Help</B><BR>Accelerator key: <B>1</B>
-<P>Opens this page in a new window.
-</TD></TR>
+<?
 
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt1.png" WIDTH="26" HEIGHT="26" ALT="Quit without Saving" TITLE="Quit without Saving" BORDER="0"></TD><TD>
-<B>Quit</B><BR>Accelerator key: <B>9</B>
-<P>Closes the proofing interface <B>without saving</B> the current document.
-To save before quiting, use the Save button.
-</TD></TR>
+function echo_row( $name, $tooltip, $button_image_base, $accelerator )
+{
+    global $help;
+    echo "<TR><TD VALIGN='TOP'>\n";
+    foreach( explode('+', $button_image_base) as $bib )
+    {
+	echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
+	    ALT='$tooltip' TITLE='$tooltip'
+	    WIDTH='26' HEIGHT='26' BORDER='0'>\n";
+    }
+    echo "</TD><TD><B>$name</B><BR>\n";
+    if ( $accelerator != '' )
+    {
+	echo "Accelerator key: <B>$accelerator</B><br>\n";
+    }
+    echo "$help[$name]</TD></TR>\n";
+}
 
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt13.png" WIDTH="26" HEIGHT="26" ALT="Quit without Saving" TITLE="Quit without Saving" BORDER="0"></TD><TD>
-<B>Save and Quit</B>
-<P>Saves the current document and then quits, without obtaining another document for
-proofing within the project. This browser window will close.
-</TD></TR>
+echo_row( 'Help', 'Help', 'bt11', '1' );
+echo_row( 'Quit', 'Quit without Saving', 'bt1', '9' );
+echo_row( 'Save and Quit', 'Save and Quit', 'bt13', '' );
+echo_row( 'Save and Proof Next Page', 'Save and Proof Next Page', 'bt2', '8' );
+echo_row( 'Save', 'Save', 'bt3', '7' );
+echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
+echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15', '' );
+echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
+echo_row( 'Check for Common Errors', 'Check for Common Errors', 'bt6', '' );
+echo_row( 'Run Spelling Check', 'Run Spelling Check', 'bt16', '' );
+echo_row( 'View Project Comments', 'View Project Comments', 'bt12', '' );
+echo_row( 'Show All Text', 'Show All Text', 'bt9', '' );
+echo_row( 'Undo Revert', 'Undo Revert', 'bt7', '' );
+echo_row( 'Revert to Original Document', 'Revert to Original Document', 'bt8', '' );
+echo_row( 'Refresh Image', 'Refresh Image', 'bt6', '' );
+echo_row( 'Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', '' );
 
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt2.png" WIDTH="26" HEIGHT="26" ALT="Save and Proof Next Page" TITLE="Save and Proof Next Page" BORDER="0"></TD><TD>
-<B>Save and Proof Next Page</B><BR>Accelerator key: <B>8</B>
-<P>Saves the current document and obtains the next available document for proofing
-within the project.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt3.png" WIDTH="26" HEIGHT="26" ALT="Save" TITLE="Save" BORDER="0"></TD><TD>
-<B>Save</B><BR>Accelerator key: <B>7</B>
-<P>Saves the current document and reloads the same document for further proofing.
-You will be repositioned to the start of the document.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt14.png" WIDTH="26" HEIGHT="26" ALT="Report Bad Page" TITLE="Report Bad Page" BORDER="0"></TD><TD>
-<B>Report Bad Page</B><BR>Accelerator key: <B>?</B>
-<P>?
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt15.png" WIDTH="26" HEIGHT="26" ALT="Return Page to Current Round" TITLE="Return Page to Current Round" BORDER="0"></TD><TD>
-<B>Return Page to Current Round</B><BR>Accelerator key: <B>?</B>
-<P>?
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt4.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0">
-<IMG SRC="../tools/proofers/gfx/bt5.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0"></TD><TD>
-<B>Change Interface Layout</B><BR>Accelerator key: <B>6</B>
-<P><IMG SRC="../tools/proofers/gfx/bt4.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0" ALIGN="LEFT">
-When in horizontal mode, clicking this button will switch you to vertical mode.
-The document is saved during the switch.
-
-<P><IMG SRC="../tools/proofers/gfx/bt5.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0" ALIGN="LEFT">
-When in vertical mode, clicking this button will switch you to horizontal mode.
-The document is saved during the switch.
-</TD></TR>
-
-<!--
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt6.png" WIDTH="26" HEIGHT="26" ALT="Check for Common Errors" TITLE="Check for Common Errors" BORDER="0"></TD><TD>
-<B>Check for Common Errors</B>
-<BR>Interactively searches the current text for common errors.
-<P>To <b>start</b> the error checking sequence, click the Check for Common Errors Button.  The
-error check messages will replace the text in the text editing area.
-
-<P>To <b>stop</b> the error checking sequence, click the Undo Revert button to restore to the
-last edit before starting the common errors check.  Any changes made during the check
-will be lost.
-
-<P>To <b>continue</b> the error checking process after any prompt message in the text editing
-area, click the Check for Common Errors button.
-
-<P>If an error is found, the discovery of the error and type of error will be displayed
-in the text editing area. Click the check for common errors button to show the location
-of the error.  The error will be located at the end of the text editing area and, depending
-upon the location of the error in the text, may require you to scroll to end of the text
-editing area to see the potential error.  Once you have fixed the error or determined that
-it is not an error, click the Check for Common Errors button to continue the error checking
-sequence.
-
-<P>When the error checking sequence is complete, click the Check for Common Errors button
-to replace the error check messages with the text.  Changes made during the error checking
-process will be included in the text.  If you wish to undo any changes made during the
-process, click the Undo Revert button to restore to your last edit before starting the
-Check for Common Errors sequence.
-
-<P>The Check for Common Errors sequence <em>does not</em> replace the need for manual proofing.
-</TD></TR>
--->
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt16.png" WIDTH="26" HEIGHT="26" ALT="Run Spelling Check" TITLE="Run Spelling Check" BORDER="0"></TD><TD>
-<B>Run Spelling Check</B><BR>Accelerator key: <B>?</B>
-<P>?
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt12.png" WIDTH="26" HEIGHT="26" ALT="View Project Comments" TITLE="View Project Comments" BORDER="0"></TD><TD>
-<B>View Project Comments</B>
-<BR>Displays the project comments page in a new window.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt9.png" WIDTH="26" HEIGHT="26" ALT="Show All Text" TITLE="Show All Text" BORDER="0"></TD><TD>
-<B>Show All Text</B>
-<BR>Displays the currently edited text from the text area in a new window.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt7.png" WIDTH="26" HEIGHT="26" ALT="Undo Revert" TITLE="Undo Revert" BORDER="0"></TD><TD>
-<B>Undo Revert</B>
-<BR>Undoes the Revert to Original Document function by restoring to the last edit before
-Reverting to Original Document.<P>Also stops the Check for Common Errors cycle and reverts
-back to the last edit before initiating the Check for Common Errors.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt8.png" WIDTH="26" HEIGHT="26" ALT="Revert to Original Document" TITLE="Revert to Original Document" BORDER="0"></TD><TD>
-<B>Revert to Original Document</B>
-<BR>When working with a new page, this reverts to the original, unedited document.
-After saving an edit via the save button, this will revert to the last save.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt6.png" WIDTH="26" HEIGHT="26" ALT="Refresh Image" TITLE="Refresh Image" BORDER="0"></TD><TD>
-<B>Refresh Image</B><BR>Accelerator key: <B>?</B>
-<P>?
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt10.png" WIDTH="26" HEIGHT="26" ALT="Set Image Zoom Percent" TITLE="Set Image Zoom Percent" BORDER="0"></TD><TD>
-<B>Set Image Zoom Percent</B>
-<BR>Type a number as a percent into the box to the left of this button and then click this
-button to zoom the scanned image width to the percent indicated.
-
-<P>All percentages are calculated using 1000 pixels=100% width.
-
-<P>Please, <B>do not</B> include the percent (%) sign in your number.
-</TD></TR>
+?>
 
 <TR><TD><B>Font Size</B>
 <BR>Selection Menu</TD><TD>Select a point size (pt) for the current font
@@ -228,7 +415,27 @@ small text box and should be pre-selected.  Copy the text to the system clipboar
 like the tag or character to appear and then paste the text from the clipboard
 (using ctrl-v/cmd-v).
 
-</TD></TR></TABLE></DIV></CENTER></BODY></HTML>
+</TD></TR></TABLE></DIV></CENTER>
 <?
+}
+
+// -----------------------------------------------------------------------------
+
+echo "
+    <hr>
+
+    <h3>Bottom Pane</h3>
+
+    <p>
+    This is where we should describe the controls on the bottom pane:
+    <ul>
+    <li>pop-up menus for non-ASCII characters
+    <li>button to open the 'Greek-to-ASCII Transliteration' dialog
+    <li>italic and bold
+    <li>Sidenote, Illustration, Footnote, /**/, thought break, Blank Page
+    </ul>
+    </p>
+";
+
 theme('','footer');
 ?>
