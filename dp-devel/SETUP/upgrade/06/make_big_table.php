@@ -1,4 +1,4 @@
-<?php
+<?
 set_time_limit(0);
 error_reporting(0);
 
@@ -41,13 +41,13 @@ while ($row = mysql_fetch_assoc($result)) {
         */
         $result2 = mysql_query( 
                "INSERT project_pages 
-                SELECT '$projectid', `fileid` , `image` , `master_text` ,
+                SELECT '".$projectid."', `fileid` , `image` , `master_text` ,
                 `round1_text` , `round2_text` , `round1_user` , `round2_user` , 
                 `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , 
                 NULL, NULL 
-                FROM $projectid" ) ;
+                FROM ".$projectid ) ;
 
-	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result1))) {
+	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result2))) {
 		echo $row['projectid']." -- Incomplete move to project_pages table<br>";
 	} else {
 		echo $row['projectid']." -- Moved to project_pages table<br>";
@@ -55,3 +55,4 @@ while ($row = mysql_fetch_assoc($result)) {
 }
 
 echo "<br><h1><center><b>Finished!</b></center></h1><br>";
+?>
