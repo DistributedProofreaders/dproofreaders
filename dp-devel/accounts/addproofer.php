@@ -114,8 +114,8 @@ As a new user, we recommend you read over our main page
 <$code_url/> for an overview of the site,
 a selection of the works that we are working on, along
 with the books that have been completed through the site.
-The Beginning Proofers FAQ <$code_url/faq/ProoferFAQ.php>
-also provides a nice overview of the site. The Proofing
+The Beginning Proofreaders FAQ <$code_url/faq/ProoferFAQ.php>
+also provides a nice overview of the site. The Proofreading
 Guidelines <$code_url/faq/document.php> cover most formatting
 questions, and it is worth browsing through early on, but
 don't feel you have to memorize everything in it immediately -
@@ -149,11 +149,11 @@ process once you log in:
 
 - Among the contents of the Project Comments page may be some
   special instructions from the Project Manager. Please read these
-  carefully as they supersede the Proofing Guidelines, for that
+  carefully as they supersede the Proofreading Guidelines, for that
   project.
 
 - Click on the \"Start Proofreading\" link near the top of the page,
-  this will open the proofing interface.
+  this will open the proofreading interface.
 
 - Compare the text in the text box to what is in the image, making
   corrections for differences between the two and any additional
@@ -172,8 +172,8 @@ Q: What books should I start on?
 A: You can start on any that look interesting to you. As a new
    beginner, you might want to consider a book marked BEGINNERS ONLY,
    as these will be given especially close attention by experienced
-   second round proofers who will send you messages containing
-   feedback on your proofing if you make any serious errors, via
+   second round proofreaders who will send you messages containing
+   feedback on your proofreading if you make any serious errors, via
    our on-site messaging system. (Be sure to check your personal Inbox
    regularly.) After you've done a few pages of a BEGINNERS ONLY
    project, you might want to sample one of the several EASY
@@ -185,7 +185,7 @@ A: You can start on any that look interesting to you. As a new
 Q: I'm not sure how to use the interface or how I should mark
    something up.
 
-A: You can get help for the various buttons on the proofing interface
+A: You can get help for the various buttons on the proofreading interface
    by pressing the ? button near the lower right corner. If there's
    something in the image you are unsure about, you can mark it with
    a *, which is our special universal signal for the next person
@@ -203,7 +203,7 @@ A: You can get help for the various buttons on the proofing interface
    can post a question or message via the \"Reply\" button near the
    bottom of the forum screen. It's often worthwhile reading through
    the discussion on a project even if you don't have a specific
-   question, just to see what other proofers have asked and answered
+   question, just to see what other proofreaders have asked and answered
    or warned each other about. (There are also several other forums
    dedicated to various phases of our operation. You can reach them
    by following the Forums link near the right hand end of the
@@ -228,14 +228,14 @@ A: If you select a BEGINNERS ONLY project, you are more likely to
    receive some feedback. If you are making major errors on any
    project someone will let you know. If you want to increase your
    chances of receiving some feedback, you can leave a message to
-   the second round proofer at the top of the page, in square
+   the second round proofreader at the top of the page, in square
    brackets [ ] and starting with two *, such as
 
-      [** new proofer, how am I doing?]
+      [** new proofreader, how am I doing?]
  or
       [** feedback welcome!]
 
-   It's up to the individual second round proofer, but many will
+   It's up to the individual second round proofreader, but many will
    respond to such a request.
 
 
@@ -263,7 +263,7 @@ to have it reset.
 
         echo _("User")." <b>$username</b> "._("added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.");
         echo "<center>";
-        echo "<br><font size=+1>"._("Click below to sign in and start proofing!!");
+        echo "<br><font size=+1>"._("Click below to sign in and start proofreading!!");
         echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='hidden' name='userPW' value='".$userpass."'><input type='submit' value='"._("Sign In")."'></form>";
 
 	theme("", "footer");
