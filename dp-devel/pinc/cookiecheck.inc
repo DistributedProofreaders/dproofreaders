@@ -1,5 +1,6 @@
 <?
-if (0) {
+include_once($relPath.'v_site.inc');
+if ($use_cookies) {
 	include($relPath.'cookie.inc');
 	include_once($relPath.'cookiehash.php');
 

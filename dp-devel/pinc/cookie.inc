@@ -1,5 +1,6 @@
 <?PHP
-if (0) {
+include_once($relPath.'v_site.inc');
+if ($use_cookies) { 
 
 include_once($relPath.'cookiehash.php');
 class userCookie

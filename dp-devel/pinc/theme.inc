@@ -8,6 +8,7 @@ include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'session.inc');
 
+if(!$use_cookies) {
 //Let's see if the users session has already been started
 	$session_id = session_id();
 	if (empty($session_id)) {
@@ -22,10 +23,9 @@ include_once($relPath.'session.inc');
 			}
 		}
 	}
-
+} else {
 
 //Let's check to see if the user has a cookie already
-if (0) {
 	$cookieC=new userCookie();
 	$cookieSet=$cookieC->checkCookie();
 	if ($cookieSet) { $pguser=$cookieC->userID;

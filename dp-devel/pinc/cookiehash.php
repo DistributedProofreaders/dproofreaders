@@ -1,5 +1,6 @@
 <?PHP
-if (0) {
+include_once('v_site.inc');
+if ($use_cookies) {
 function getCookieHash($userID)
 {
   $hashID="akdgao7wnkezqo390akdlal";

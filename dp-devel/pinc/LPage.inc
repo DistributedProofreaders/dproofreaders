@@ -3,6 +3,7 @@
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
+include_once($relPath.'v_site.inc');
 
 class processpage
 {
@@ -110,21 +111,21 @@ function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$ed
 {
   //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
   $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
-  if (0) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
-  $_SESSION['userPage'] = $pagerefs;
+  if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
+  else { $_SESSION['userPage'] = $pagerefs; }
 }
 
 function setTempPageCookie($tempPrefs)
 {
   $pagerefs=implode("|",$tempPrefs);
-  if (0) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
-  $_SESSION['userPage'] = $pagerefs;
+  if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
+  else { $_SESSION['userPage'] = $pagerefs; }
 }
 
 function getPageCookie()
 {
-  if (0) { @$cPage=explode("|",$_COOKIE['userPage']); }
-  @$cPage=explode("|",$_SESSION['userPage']);
+  if ($use_cookies) { @$cPage=explode("|",$_COOKIE['userPage']); }
+  else { @$cPage=explode("|",$_SESSION['userPage']); }
   $uPage=array();
   $i=0;
   @$uPage['project']=$cPage[$i++];
@@ -144,8 +145,8 @@ function getPageCookie()
 }
 
 function deletePageCookie() {
-	if (0) { setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0); }
-  	$_SESSION['userPage'] = NULL;
+	if ($use_cookies) { setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0); }
+  	else { $_SESSION['userPage'] = NULL; }
 }
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)

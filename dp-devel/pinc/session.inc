@@ -1,4 +1,6 @@
 <?
+include_once($relPath.'v_site.inc');
+if(!$use_cookies) {
 include_once($relPath.'connect.inc');
 include_once($relPath.'metarefresh.inc');
 
@@ -86,4 +88,6 @@ function checkForActiveSession() {
 		exit;
 	}
 }
+
+} //if(!$use_cookies)
 ?>
