@@ -258,11 +258,11 @@ function draw_projects_graph(
 function draw_simple_bar_graph(
     $datax,
     $datay,
-	$x_label_interval,
-	$title,
-	$y_title,
-	$width, $height,
-	$cache_timeout
+    $x_label_interval,
+    $title,
+    $y_title,
+    $width, $height,
+    $cache_timeout
 )
 {
     global $jpgraph_FF, $jpgraph_FS;
