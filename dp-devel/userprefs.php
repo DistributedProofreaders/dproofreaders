@@ -7,7 +7,6 @@ include_once($relPath.'html_main.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'v_resolution.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'session.inc');
 include_once($relPath.'theme.inc');
 
 $uid = $userP['u_id'];
