@@ -26,9 +26,9 @@ while ($row = mysql_fetch_assoc($result)) {
 
 	        $result2 = mysql_query( 
         	       "INSERT project_pages 
-	                SELECT '".$projectid."', `fileid` , `image` , `master_text` ,
-        	        `round1_text` , `round2_text` , `round1_user` , `round2_user` , 
-	                `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , 
+	                SELECT '".$projectid."', fileid , image , master_text ,
+        	        round1_text , round2_text , round1_user , round2_user , 
+	                round1_time , round2_time , state , b_user , b_code , 
         	        NULL, NULL 
                 	FROM ".$projectid ) ;
 
