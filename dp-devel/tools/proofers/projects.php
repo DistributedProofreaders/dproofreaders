@@ -34,13 +34,13 @@ if (!isset($proofing)) {
 
     // Get Last Page Date Proofed By Current User
 
-    $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' AND $wname='$pguser' ORDER BY $wTime DESC LIMIT 1");
+    $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' AND $wName='$pguser' ORDER BY $wTime DESC LIMIT 1");
     if (mysql_num_rows($proofdate)!=0) {
         $my_last_page_date = mysql_result($proofdate,0,$wTime);
     } else $my_last_page_date = 0;
 
-    $project = mysql_fetch_assoc(mysql_query("SELECT modifieddate FROM projects WHERE projectid = '$project'"));
-    $comments_last_modified = $project['modifieddate'];
+    $project_comments = mysql_fetch_assoc(mysql_query("SELECT modifieddate FROM projects WHERE projectid = '$project'"));
+    $comments_last_modified = $project_comments['modifieddate'];
 
     include('./projects_menu.inc');
     $top_menu = 0;
