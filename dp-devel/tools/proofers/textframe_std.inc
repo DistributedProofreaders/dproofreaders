@@ -85,22 +85,22 @@ slim_header("Text Frame",TRUE,FALSE);
 
 //display page number
   $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><B>Page: $pageNum ";
+  echo "<font size=\"-1\"><b>"._("Page: $pageNum");
     if ($tpage->getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $username = mysql_result($result, 0, "round1_user");
       $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
       $user_id = mysql_result($result, 0, "user_id");
-      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
+      echo " - "._("Proofread by:")." <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
     }
   echo "</b></font>\n";
   echo "<BR>\n";
-  echo "View: <a href=\"projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-  echo "| <a href=\"$projects_url/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">Image</a> ";
+  echo _("View:")." <a href=\"projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1\" target=\"viewcomments\">"._("Project Comments")."</a> ";
+  echo "| <a href=\"$projects_url/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">"._("Image")."</a> ";
 ?>
 <br>
-Image Resize:
+<? echo _("Image Resize:"); ?>
 <input type="button" value="50%" onclick="resize(690)">
 <input type="button" value="100%" onclick="resize(1000)">
 <input type="button" value="200%" onclick="resize(2000)">
