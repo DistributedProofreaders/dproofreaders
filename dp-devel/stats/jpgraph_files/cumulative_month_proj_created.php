@@ -41,9 +41,9 @@ $maxday = mysql_result($result, 0, "maxday");
 
 
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as PC, day as PC FROM project_state_stats WHERE month = '$month' AND year = '$year' 
-				AND (state LIKE 'proj_submit%'
-				OR state LIKE 'proj_correct%') group by day ORDER BY day");
+$result = mysql_query("SELECT sum(num_projects) as PC, day FROM project_state_stats WHERE month = '$month' AND year = '$year' 
+				AND (state NOT LIKE 'proj_new%') 
+				group by day ORDER BY day");
 $mynumrows = mysql_numrows($result);
 
 
@@ -54,7 +54,7 @@ $p = 0;
 	// snapshot is taken just after midnight,
 	// so day = 1 has total at beginning of month
 
-$row = mysql_fetch_assoc($result));
+$row = mysql_fetch_assoc($result);
 $base = $row['PC'];
 
 while ($row = mysql_fetch_assoc($result)) {
@@ -63,6 +63,12 @@ while ($row = mysql_fetch_assoc($result)) {
 	// so day7 minus day1 is number done over first six days of month
 	$datax[$i] = $row['day'] - 1;
 	$i++;
+}
+
+while ($i < $maxday) {
+      $datay1[$i] = "";
+      $datax[$i] = $i + 1;
+      $i++;
 }
 
 if (empty($datay1)) {
@@ -82,7 +88,9 @@ $lplot1 = new LinePlot($datay1);
 $lplot1->SetColor("blue");
 $lplot1->SetWeight(1);
 $lplot1->SetLegend(_("Projects Created"));
-$lplot1->SetFillColor("green");
+
+// only add colour to the part we have data for
+$lplot1->AddArea(0,$mynumrows,LP_AREA_FILLED,"green");
 
 
 $graph->Add($lplot1); //Add the line plot to the graph
@@ -97,7 +105,7 @@ $graph->xaxis->title->Set("");
 $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set(_("Cumulative Projects Created for")." $monthVar $year"));
+$graph->title->Set(_("Cumulative Projects Created for")." $monthVar $year");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
