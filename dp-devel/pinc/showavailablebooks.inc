@@ -11,7 +11,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		// Select all projects in the list for round 1., subject to filter
 		// Put the BEGIN projects at the top.
 		$query = "
-			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
+			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
+                   (unix_timestamp() - modifieddate)/(24 * 60 * 60) as days_avail
 			FROM projects
 			WHERE
 				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
@@ -63,7 +64,13 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 
 	$word = _("Total pages in the book");
 	echo "\n<td><b>$word</b></td>";
+
+	$word = _("Days");
+	echo "\n<td><b>$word</b></td>";
+
 	echo "</tr>";
+
+
 
 	global $pageCountArray;
 	$numrows = mysql_num_rows($result);
@@ -222,6 +229,10 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 
 			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
 			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
+
+			$days_avail = $book['days_avail'] 
+			echo "\n<td>{}</td>";
+
 		}
 		else
 		{
