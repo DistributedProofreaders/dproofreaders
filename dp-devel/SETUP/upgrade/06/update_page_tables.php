@@ -1,9 +1,12 @@
 <?PHP
 $relPath = './pinc/';
+include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
 // Change format of page-state values.
+// And add columns for extra rounds.
 
 $case = "
 	CASE state
@@ -35,13 +38,42 @@ function update_table( $table_name )
 		// echo "$table_name doesn't exist\n";
 		return;
 	}
+	$existing_column_names = dpsql_fetch_all_keyed($res);
 
 	echo "$table_name: ";
 	mysql_query("
 		UPDATE $table_name
 		SET state=$case
 	") or die(mysql_error());
-	echo mysql_affected_rows(), " rows affected\n";
+	echo "State field changed on " . mysql_affected_rows(), " rows. ";
+
+	$n_columns_to_add = 0;
+	$adds_sql = "";
+	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		if ( !array_key_exists( $prd->time_column_name, $existing_column_names ) )
+		{
+			$n_columns_to_add += 3;
+			if ($adds_sql) $adds_sql .= ',';
+			$adds_sql .= "
+				ADD COLUMN {$prd->time_column_name} int(20)     NOT NULL default '0',
+				ADD COLUMN {$prd->user_column_name} varchar(25) NOT NULL default '',
+				ADD COLUMN {$prd->text_column_name} longtext    NOT NULL
+			";
+		}
+	}
+	if ( $n_columns_to_add > 0 )
+	{
+		// echo $adds_sql, "\n";
+		mysql_query("
+			ALTER TABLE $table_name
+			$adds_sql
+		") or die(mysql_error());
+	}
+	echo "Added $n_columns_to_add columns.";
+
+	echo "\n";
 }
 
 // --------------------------------------------
