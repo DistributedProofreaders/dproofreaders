@@ -117,8 +117,6 @@ function showMbrProfile($curMbr) {
 		$t->row(
 			_("Edit"),
 			"<a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a>"
-			. " | "
-			. "<a href='".$GLOBALS['forums_url']."/profile.php?mode=editprofile&u=".$curMbr['user_id']."'>"._("Profile")."</a>"
 		);
         }
 
@@ -143,7 +141,19 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 }
 
 function showBBProfile($curMbr) {
-	global $forums_url;
+	global $forums_url, $theme;
+
+        if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser'])
+	{
+		$edit_url = "$forums_url/profile.php?mode=editprofile&u=".$curMbr['user_id'];
+		$text = _('Edit');
+		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
+		$editlink = "&nbsp;[<a href='$edit_url'>$colored_text</a>]";
+        }
+	else
+	{
+		$editlink = '';
+	}
 
 	if (empty($curMbr['user_avatar']))
 	{
@@ -156,7 +166,7 @@ function showBBProfile($curMbr) {
 
 	$t = new ThemedTable(
 		2,
-		_("phpBB Profile"),
+		_("phpBB Profile") . $editlink,
 		array( 'width'=>100 )
 	);
 	$t->row(
@@ -219,8 +229,6 @@ function showBBProfile($curMbr) {
 
 	while( list( $condition, $label, $icon_filename, $url, $target ) = next($contact_data) )
 	{
-		global $theme;
-
 		if (!$condition) continue;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
