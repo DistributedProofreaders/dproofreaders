@@ -17,7 +17,7 @@ if ($testing_this_script)
 // See if this has been run once today or not
 $res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
-$X_date = mysql_fetch_array($res);
+$X_date = mysql_result($res);
 
 if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ";
