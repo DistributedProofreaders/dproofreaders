@@ -180,39 +180,34 @@ $table->end();
 // Project Graphs by Category
 
 $table = new ThemedTable(
-    3,
+    2,
     _("Project Graphs by Category"),
     array( 'width' => 99 )
 );
 
 $table->column_headers(
     '',
-    _("Track by Project"),
-    _("Track by Pages")
+    _("Track by Project")
 );
 
 $table->row(
     _("Creating"),
-    "<a href='projects_Xed_graphs.php?which=created'>" . _("Projects Created Graphs") . "</a>",
-    _("Coming Soon")
+    "<a href='projects_Xed_graphs.php?which=created'>" . _("Projects Created Graphs") . "</a>"
 );
 
 $table->row(
     _("Proofreading"),
-    "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a>",
-    _("Coming Soon")
+    "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a>"
 );
 
 $table->row(
     _("PPing"),
-    "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a>",
-    _("Coming Soon")
+    "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a>"
 );
 
 $table->row(
     _("Posting"),
-    "<a href='projects_Xed_graphs.php?which=posted'>" . _("Projects Posted Graphs") . "</a>",
-    _("Coming Soon")
+    "<a href='projects_Xed_graphs.php?which=posted'>" . _("Projects Posted Graphs") . "</a>"
 );
 
 $table->end();
