@@ -30,21 +30,10 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
-        $sql = "SELECT state FROM $project WHERE image='$imagefile' AND fileid='$fileid'";
+        $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
         $result = mysql_query($sql);
-        $rows = mysql_num_rows($result);
-        if ($rows !=0)
-        {
-            $curState = mysql_result($result,0,'state');
-            if ((getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || (getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
-            {
-                // delete from user page count
-                $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
-                $result = mysql_query($sql);
-                $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
-                $result = mysql_query($sql);
-            }
-        }
+        $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
+        $result = mysql_query($sql);
 
         $pageround = getPageRound($pagestate);
         // no need to update text, just record state change
