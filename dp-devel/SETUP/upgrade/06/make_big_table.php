@@ -8,51 +8,45 @@ $db_Connection=new dbConnect();
 
 $result = mysql_query("SELECT projectid FROM projects");
 
+$numProjs = mysql_num_rows($result);
+$numOK = 0;
+$numBad = 0;
+$numPartial = 0;
+
 while ($row = mysql_fetch_assoc($result)) {
 	$result1 = mysql_query("SELECT * FROM ".$row['projectid']."");
-	if ($result1 == FALSE || mysql_num_rows($result1) == 0) {
+        $numPages = mysql_num_rows($result1);
+	if ($result1 == FALSE || $numPages == 0) {
 		echo $row['projectid']." -- Not moved due to either missing table or 0 rows<br>";
+		$numBad++;
 	} else {
         // DAK - Keep project id for now.
 		// $projectid = substr($row['projectid'], -13);
 		$projectid = $row['projectid'];
 
-        // DAK - Replaced page iteration with single SQL command for each
-        // project table.
+	        $result2 = mysql_query( 
+        	       "INSERT project_pages 
+	                SELECT '".$projectid."', `fileid` , `image` , `master_text` ,
+        	        `round1_text` , `round2_text` , `round1_user` , `round2_user` , 
+	                `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , 
+        	        NULL, NULL 
+                	FROM ".$projectid ) ;
 
-        /*
-		while ($row1 = mysql_fetch_assoc($result1)) {
-			$result2 = mysql_query(
-                "INSERT INTO project_pages \
-               (projectid, fileid, image, master_text, round1_text, \
-               round2_text, round1_user, round2_user, round1_time,  \
-               round2_time, state, b_user, b_code)  \
-               VALUES  \
-               ('$projectid', '".$row1['fileid']."',  \
-               '".$row1['image']."',  \
-               '".mysql_escape_string($row1['master_text'])."',  \
-               '".mysql_escape_string($row1['round1_text'])."',  \
-               '".mysql_escape_string($row1['round2_text'])."',  \
-               '".$row1['round1_user']."', '".$row1['round2_user']."',  \
-               ".$row1['round1_time'].", ".$row1['round2_time'].",  \
-               '".$row1['state']."', '".$row1['b_user']."',  \
-               ".$row1['b_code'].")");
+		$pagesCopied = mysql_num_rows($result2);
+
+		if ($result2 == FALSE || $numPages != $pagesCopied) {
+			echo $row['projectid']." -- Incomplete move to project_pages table (".
+				$pagesCopied." out of ".$numPages. " pages copied)<br>";
+			$numPartial++;
+		} else {
+			echo $row['projectid']." -- Moved to project_pages table (".$pagesCopied." pages copied)<br>";
+			$numOK++;
 		}
-        */
-        $result2 = mysql_query( 
-               "INSERT project_pages 
-                SELECT '".$projectid."', `fileid` , `image` , `master_text` ,
-                `round1_text` , `round2_text` , `round1_user` , `round2_user` , 
-                `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , 
-                NULL, NULL 
-                FROM ".$projectid ) ;
-
-	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result2))) {
-		echo $row['projectid']." -- Incomplete move to project_pages table<br>";
-	} else {
-		echo $row['projectid']." -- Moved to project_pages table<br>";
 	}
 }
 
 echo "<br><h1><center><b>Finished!</b></center></h1><br>";
+echo "<br><br><br><h1><center><b>Out of ".$numProjs." projects:"<br>";
+echo $numOK." OK, ".$numPartial." partially OK and ".$numBad." bad.</b></center></h1><br>";
+
 ?>
