@@ -292,7 +292,7 @@ function echo_cells_for_round($round_num)
 			// Image Size
 			if ($show_image_size)
 			{
-				echo "<td bgcolor='$bgcolor' align='right'>$imagesize";
+				echo "<td bgcolor='$bgcolor' align='right'>$imagesize</td>";
 			}
 
 			// Master Text
