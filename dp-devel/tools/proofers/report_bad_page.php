@@ -64,7 +64,7 @@ $advisePM = 1;
 $result = mysql_query("SELECT * FROM projects WHERE projectID='".$_POST['projectname']."'");
 $PMusername = mysql_result($result,0,"username");
 $nameofwork = mysql_result($result,0,"nameofwork");
-$result = mysql_query("SELECT * FROM users WHERE username=$PMusername");
+$result = mysql_query("SELECT * FROM users WHERE username='$PMusername'");
 $PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
