@@ -18,17 +18,17 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>";
         if ($wlist==0)
-          {echo _("My Recently Completed");}
+          {echo _("DONE");}
         else
-          {echo _("My Recently Proofread");}
+          {echo _("IN PROGRESS");}
     echo "</h3>";
     if ($wlist==0)
     {
-	echo "(<b>"._("DONE")."</b> - "._("pages I've finished proofing, that are still available for correction)");
+	echo "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
     }
     else
     {
-	echo "(<b>"._("IN PROGRESS")."</b> - "._("pages I haven't yet completed)");
+	echo "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
     }
     echo "</td>";
     $recentNum=5;
