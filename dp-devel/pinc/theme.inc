@@ -294,24 +294,21 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 	
    //If it is a guest user show the past years completed projects	
         } else {
-        echo "<center><u>Completed Projects:</u></center>";
-        $thisyear = date("Y", mktime(0,0,0,date("m"),date("d"),date("Y")));
-        $lastyear = date("Y", mktime(0,0,0,date("m"),date("d"),date("Y")-1));
-	$i = 1;
-		while ($i <= 12) {
-			if ($i <= date("n")) { 
-				$displaydate = date(" F $thisyear - ", mktime(0,0,0,$i,1,$thisyear));
-				$begindate = mktime(0,0,0,$i,1,$thisyear);
-				$enddate = mktime(0,0,0,$i+1,0,$thisyear); 
-				} else {
-				$displaydate = date(" F $lastyear - ", mktime(0,0,0,$i,1,$lastyear));
-				$begindate = mktime(0,0,0,$i,1,$lastyear);
-				$enddate = mktime(0,0,0,$i+1,0,$lastyear); 
-			}
+		echo "<center><u>Completed Projects:</u></center>\n";
+
+		$thismonth = date("n");
+		$thisyear = date("Y");
+		for ( $months_ago = 11; $months_ago >= 0; $months_ago-- )
+		{
+			// midnight that begins the 1st day of this month and the next:
+			$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
+			$enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
+
+			$displaydate = date("F Y", $begindate );
+
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
 			$totalprojects = mysql_result($result,0);
-			echo $displaydate."".$totalprojects."<br>";
-			$i++;
+			echo "$displaydate - $totalprojects<br>\n";
 		}
         }	
 	echo "<br></font><center><a href='$siteurl/previous_stats.html'><font color='".$theme['color_navbar_font']."' size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>";
