@@ -1,10 +1,8 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'cookiecheck.inc');
-include($relPath.'connect.inc');
-$dbC=new dbConnect() or die ('Error: Unable to connect to database.');
-    echo "<html>";
-    echo "<title>Personal Page for $pguser</title>";
+include($relPath.'dp_main.inc');
+    echo "<html><head>";
+    echo "<title>Personal Page for $pguser</title></head><body>";
 
     echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td bgcolor = \"CCCCCC\" align = left colspan =\"3\"><font size=+1>Welcome</font><font color=\"#0000FF\" font size = +1> $pguser</font></td><td width = \"1\" bgcolor = \"CCCCCC\" colspan =\"1\">&nbsp</td><tr>";
@@ -12,7 +10,6 @@ $dbC=new dbConnect() or die ('Error: Unable to connect to database.');
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td>";
 
     echo" <b>Site Stats:</b><br>";
-//    include("/home/charlz/hourly.txt");
     include("stats/hourly.txt");  
   echo" <p><b>Your Stats:<br></b>";
 
@@ -395,5 +392,5 @@ See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">thi
 ?>
 
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
-</tr></table>
+</tr></table></body>
 </html>
