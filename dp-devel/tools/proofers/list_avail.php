@@ -3,6 +3,8 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'showavailablebooks.inc');
+include($relPath.'project_states.inc');
+include($relPath.'page_states.inc');
 
 // $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode
 // should offer link to save changes and|or restore defaults
@@ -26,8 +28,8 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     echo "<tr><td bgcolor='#CCCCCC' colspan=2><h3>Current First - Round Projects</h3></td>";
     echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR software and have not been looked at.</td></tr>";
     //Select all projects in the list for round 1
-    $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
-    showavailablebooks($result,2,$userP,1);
+    $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_FIRST."' or state = '".VERIFY_PI_FIRST."' ORDER BY modifieddate asc, nameofwork asc");
+    showavailablebooks($result,AVAIL_FIRST,$userP,1);
     echo "</table>";
   }
 
@@ -46,8 +48,8 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
         echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.";
         echo "</td></tr>";
         //Select all projects in the list for round 2 
-        $result = mysql_query("SELECT * FROM projects WHERE state = 12 OR state = 18 ORDER BY nameofwork ASC");
-        showavailablebooks($result,12,$userP,1);
+          $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_SECOND."' or state = '".VERIFY_PI_SECOND."' ORDER BY nameofwork ASC");
+          showavailablebooks($result,AVAIL_SECOND,$userP,1);
         echo "</table>";
       }
   } 

@@ -8,24 +8,24 @@
 // PI
 
   // unavailable
-  define("UNAVAIL_PI_FIRST","30");
-  define("UNAVAIL_PI_SECOND","40");
+  define("UNAVAIL_PI_FIRST","unavail_1");
+  define("UNAVAIL_PI_SECOND","unavail_2");
 
   // bad project
-  define("BAD_PI_FIRST","31");
-  define("BAD_PI_SECOND","41");
+  define("BAD_PI_FIRST","bad_1");
+  define("BAD_PI_SECOND","bad_2");
 
   // available for proofing
-  define("AVAIL_PI_FIRST","32");
-  define("AVAIL_PI_SECOND","42");
+  define("AVAIL_PI_FIRST","avail_1");
+  define("AVAIL_PI_SECOND","avail_2");
 
   // proofing round complete, but needing verification
-  define("VERIFY_PI_FIRST","38");
-  define("VERIFY_PI_SECOND","48");
+  define("VERIFY_PI_FIRST","verify_1");
+  define("VERIFY_PI_SECOND","verify_2");
 
   // proofing round complete and verified
-  define("SAVE_PI_FIRST","39");
-  define("SAVE_PI_SECOND","49");
+  define("COMPLETE_PI_FIRST","done_1");
+  define("COMPLETE_PI_SECOND","done_2");
 
   define("AVAIL_PP", "62");
   define("IN_PP", "65");

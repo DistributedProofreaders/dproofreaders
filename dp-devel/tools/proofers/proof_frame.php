@@ -22,9 +22,9 @@ if (isset($editone))
     $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
   // load the frame
   if ($userP['i_type'] != 1)
-    {include($relPath.'proof_frame_nj.inc');}
+    {include('proof_frame_nj.inc');}
   else
-    {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
+    {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading page....");}
   exit;
 }
 
@@ -32,7 +32,7 @@ if (isset($editone))
   $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
   $result = mysql_query($sql);
   $state = mysql_result($result, 0, "state");
-    if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_SECOND)))
+    if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_PI_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_PI_SECOND)))
     {
       $tpage->noPages($userP['i_newwin']);
       exit;

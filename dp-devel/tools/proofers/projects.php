@@ -12,18 +12,36 @@ function notify($project, $proofstate, $pguser) {
     echo "</a></td></tr>";
 }
 
-function recentlyproofed($project, $proofstate, $pguser,$userP) {
+function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
-    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>My Recently Proofread</h3></td>";
+    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>";
+        if ($wlist==0)
+          {echo "My Recently Completed";}
+        else
+          {echo "My Recently Proofread";}
+    echo "</h3></td>";
     $recentNum=5;
 
     $sql = "SELECT image, fileid, state, ";
-    $whichTime=$proofstate <9? "round1_time" : "round2_time";
+    $whichTime=$proofstate ==AVAIL_PI_FIRST? "round1_time" : "round2_time";
     $sql.=$whichTime." FROM $project WHERE ";
-    if ($proofstate <9) {$sql.="round1_user";} else {$sql.="round2_user";}
-    $sql.="='$pguser' AND (state ='"; 
-    if ($proofstate <9) {$sql.="9' OR state = '8";} else {$sql.="19' OR state = '18";} 
-    $sql.="') ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
+    if ($proofstate ==AVAIL_PI_FIRST) {$sql.="round1_user";} else {$sql.="round2_user";}
+    $sql.="='$pguser' AND "; 
+    if ($proofstate ==AVAIL_PI_FIRST) 
+      {
+        if ($wlist==0)
+          {$sql.="state ='".SAVE_FIRST."'";}
+        else
+          {$sql.="(state ='".TEMP_FIRST."' OR state ='".OUT_FIRST."')";}
+      }
+    else
+     {
+        if ($wlist==0)
+          {$sql.="state ='".SAVE_SECOND."'";}
+        else
+          {$sql.="(state ='".TEMP_SECOND."' OR state ='".OUT_SECOND."')";}
+      } 
+    $sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
     $result = mysql_query($sql);
     $rownum = 0;
     $numrows = mysql_num_rows($result);
@@ -58,8 +76,8 @@ function recentlyproofed($project, $proofstate, $pguser,$userP) {
 
 $projectinfo = new projectinfo();
 if ($proofstate < 9) {
-  $projectinfo->update_avail($project, 2);
-} else $projectinfo->update_avail($project,12);
+  $projectinfo->update_avail($project, AVAIL_PI_FIRST);
+} else $projectinfo->update_avail($project,AVAIL_PI_SECOND);
 
 /* $_GET $project, $proofstate, $proofing */
 
@@ -74,11 +92,11 @@ if ($proofstate < 9) {
 
 
 if (isset($proofstate)){
-   if ($proofstate < 9)
+   if ($proofstate ==AVAIL_PI_FIRST)
    {$wTime="round1_time";
-    $wState=9;}
+    $wState=SAVE_FIRST;}
    else {$wTime="round2_time";
-         $wState=19;}
+         $wState=SAVE_SECOND;}
 $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
   if (mysql_num_rows($proofdate)!=0)
      {$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; (Current Time: ".date("g:i:sA",time()).")";}
@@ -95,7 +113,7 @@ if (!isset($proofing)) {
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
-    if ($proofstate < 9) {
+    if ($proofstate ==AVAIL_PI_FIRST) {
         echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
         echo "<b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {
@@ -131,8 +149,10 @@ if (!isset($proofing)) {
     notify($project, $proofstate, $pguser);
 
     if (!isset($proofing))
-      {recentlyproofed($project, $proofstate, $pguser,$userP);}
-
+      {
+        recentlyproofed($project, $proofstate, $pguser,$userP,0);
+        recentlyproofed($project, $proofstate, $pguser,$userP,1);
+      }
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
     echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 1.22</a> for detailed project formatting directions.";
     echo "Instructions below take precedence over the guidelines:<P>";

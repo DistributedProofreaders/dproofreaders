@@ -20,8 +20,7 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
             // find out how many files the project has total/available!!!!!
             $pages=bookpages($book['projectid'],"='{$state}'");
             $bgcolor=bgcol($rownum);
-
-        if ($book['state'] == $state) {
+        if (($state==AVAIL_FIRST && $book['state'] == AVAIL_PI_FIRST) || ($state==AVAIL_SECOND && $book['state'] == AVAIL_PI_SECOND)) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
             if ($tList==0)

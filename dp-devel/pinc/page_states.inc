@@ -1,25 +1,25 @@
 <?PHP
 // unavailable
-define("UNAVAIL_FIRST","30");
-define("UNAVAIL_SECOND","40");
+define("UNAVAIL_FIRST","unavail_first");
+define("UNAVAIL_SECOND","unavail_second");
 
 // bad page
-define("BAD_FIRST","31");
-define("BAD_SECOND","41");
+define("BAD_FIRST","bad_first");
+define("BAD_SECOND","bad_second");
 
 // available
-define("AVAIL_FIRST","32");
-define("AVAIL_SECOND","42");
+define("AVAIL_FIRST","avail_first");
+define("AVAIL_SECOND","avail_second");
 
 // checked out
-define("OUT_FIRST","35");
-define("OUT_SECOND","45");
+define("OUT_FIRST","out_first");
+define("OUT_SECOND","out_second");
 
 // temp save
-define("TEMP_FIRST","36");
-define("TEMP_SECOND","46");
+define("TEMP_FIRST","temp_first");
+define("TEMP_SECOND","temp_second");
 
 // save
-define("SAVE_FIRST","39");
-define("SAVE_SECOND","49");
+define("SAVE_FIRST","save_first");
+define("SAVE_SECOND","save_second");
 ?>

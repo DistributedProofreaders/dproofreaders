@@ -1,4 +1,6 @@
 <?PHP
+include_once($relPath.'page_states.inc');
+include_once($relPath.'project_states.inc');
 
 class projectInfo
 {
@@ -27,15 +29,15 @@ class projectInfo
 
 function update_avail($project, $state) {
 
-    $this->avail1_rows = mysql_query("SELECT * FROM $project WHERE state = 2 ORDER BY image ASC");
+    $this->avail1_rows = mysql_query("SELECT * FROM $project WHERE state = '".AVAIL_FIRST."' ORDER BY image ASC");
     if ($this->avail1_rows != "") { $this->avail1_pages = (mysql_num_rows($this->avail1_rows)); } else $this->avail1_pages = 0;
 
-    $this->avail2_rows = mysql_query("SELECT * FROM $project WHERE state = 12 ORDER BY image ASC");
+    $this->avail2_rows = mysql_query("SELECT * FROM $project WHERE state = '".AVAIL_SECOND."' ORDER BY image ASC");
     if ($this->avail2_rows != "") { $this->avail2_pages = (mysql_num_rows($this->avail2_rows)); } else $this->avail2_pages = 0;
 
-    if ($state == 12) {
+    if ($state == AVAIL_PI_SECOND) {
         $this->availablepages = $this->avail2_pages;
-    } else if (($state <= 2) || ($state >= 0)) {
+    } else if ($state == AVAIL_PI_FIRST) {
         $this->availablepages = $this->avail1_pages;
     } else $this->availablepages = 0;
 }
@@ -48,16 +50,16 @@ function update_total($project, $state) {
 
 function update($project, $state) {
 
-    $this->out1_rows = mysql_query("SELECT * FROM $project WHERE state = 5 ORDER BY image ASC");
+    $this->out1_rows = mysql_query("SELECT * FROM $project WHERE state = '".OUT_FIRST."' ORDER BY image ASC");
     if ($this->out1_rows != "") { $this->out1_pages = (mysql_num_rows($this->out1_rows)); } else $this->out1_pages = 0;
 
-    $this->done1_rows = mysql_query("SELECT * FROM $project WHERE state = 9 ORDER BY image ASC");
+    $this->done1_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_FIRST."' ORDER BY image ASC");
     if ($this->done1_rows != "") { $this->done1_pages = (mysql_num_rows($this->done1_rows)); } else $this->done1_pages = 0;
 
-    $this->out2_rows = mysql_query("SELECT * FROM $project WHERE state = 15 ORDER BY image ASC");
+    $this->out2_rows = mysql_query("SELECT * FROM $project WHERE state = '".OUT_SECOND."' ORDER BY image ASC");
     if ($this->out2_rows != "") { $this->out2_pages = (mysql_num_rows($this->out2_rows)); } else $this->out2_pages = 0;
 
-    $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = 19 ORDER BY image ASC");
+    $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_SECOND."' ORDER BY image ASC");
     if ($this->done2_rows != "") { $this->done2_pages = (mysql_num_rows($this->done2_rows)); } else $this->done2_pages = 0;
 
     $this->update_avail($project, $state);
