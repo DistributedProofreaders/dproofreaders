@@ -73,19 +73,19 @@ function show_block_for_round( $round_number, $projects_filter )
 	echo "\n<a name='$round_name'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr " . bgcol(1,$round_word) . ">";
-	tde("<h3>$title</h3>", " colspan=2");
+	echo "\n<td colspan=2><h3>$title</h3></td>";
 	if ($pagescompleted < $min_num_pages_to_see_this_round)
 	{
 		$sorry = sprintf(
 			_("These projects are unavailable until you have proofread %d first round pages.  After %d pages of first round proofreading, the second round projects will be unlocked for you."),
 			$min_num_pages_to_see_this_round,
 			$min_num_pages_to_see_this_round );
-		tde($sorry, " colspan=6");
+		echo "\n<td colspan=6>$sorry</td>";
 		echo "</tr>";
 	}
 	else
 	{
-		tde($description, " colspan=6");
+		echo "\n<td colspan=6>$description</td>";
 		echo "</tr>";
 
 		if (! user_can_see_BEGIN_in_round($round_number))
