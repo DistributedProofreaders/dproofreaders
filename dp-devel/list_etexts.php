@@ -1,5 +1,7 @@
 <?php
-include("connect.php");
+$relPath="./pinc/";
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
 $type = "Gold";
@@ -42,15 +44,13 @@ echo "<a href='list_etexts.php?x=g'>Gold</a> | <a href='list_etexts.php?x=s'>Sil
 <center><? echo $info; ?></center><br>
 
 <center>
-<i>Title:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=0">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=1">desc</a> | 
-<i>Author:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=2">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=3">desc</a> | 
-<i>Submitted Date:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=4">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=5">desc</a><br></center>
+<i>Title:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=0">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=1">desc</a> | 
+<i>Author:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=2">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=3">desc</a> | 
+<i>Submitted Date:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=4">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=5">desc</a><br></center>
 <hr width="75%" align="center"><br>
 
 <?
-$sort = $_GET['sort'];
-
-if (!isset($sort)) $sort=0;
+$sort = isset($_GET['sort'])? $_GET['sort'] : 0;
 
 $sortlist[0]=" Order by nameofwork asc";
 $sortlist[1]=" Order by nameofwork desc";
@@ -78,12 +78,16 @@ $links = "<br>";
 }
 
 $moddate = $row['modifieddate'];
-$dateyear = substr($moddate, 0, 4);
+
+// deal with old date stamps else new time() stamp
+if (strlen($moddate)==8)
+{$dateyear = substr($moddate, 0, 4);
 $datemonth = substr($moddate, 4, 2);
 $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);
+$moddate = date("l, F jS, Y",$unixsec);}
+else {$moddate=date("l, F jS, Y",$moddate);}
 
 if ($type == "Gold") {
 $moddate = "Uploaded: ".$moddate;
