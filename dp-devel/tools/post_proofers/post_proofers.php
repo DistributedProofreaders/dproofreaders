@@ -31,7 +31,8 @@ echo "
 </p>
 <p>
     <b>First Time here?</b>
-    Juliet Sutherland is our Post Processing Coordinator.
+    Juliet Sutherland (JulietS) is our Post Processing Coordinator. Julie Barkley
+    (juliebarkley) maintains our PP FAQ. If this is your first time here...
     Please read the FAQ, read it again ;), select an easy work to get started on
     (usually fiction with a low page count is a good starter book; projects
     whose manager was BEGIN make excellent first projects for a new PPer)
