@@ -121,7 +121,11 @@ if ($site_supports_metadata) {
 
 // confusing list of qualifications.
 // probably allows incorporating files into project if proofing hasn't begun yet.
-if (($state == PROJ_NEW && ! $site_supports_metadata) || $state == PROJ_NEW_APPROVED || $state == PROJ_PROOF_FIRST_UNAVAILABLE || $state == PROJ_NEW_FILE_UPLOADED)
+if (
+	($state == PROJ_NEW && ! $site_supports_metadata)
+	|| $state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED
+	|| $state == PROJ_PROOF_FIRST_UNAVAILABLE
+)
 {
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";
@@ -189,7 +193,7 @@ if ($page_type == "Full") {
     // offer oppty to delete all pages if not begun proofing yet.
 	if ($can_edit) {
 		if ( $state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE
-            ||  $state == PROJ_NEW_FILE_UPLOADED)
+			|| $state == PROJ_NEW_FILE_UPLOADED)
 		{
 			echo "<br>";
 			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>"._("Delete All Text")."</a>";
