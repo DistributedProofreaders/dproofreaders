@@ -12,16 +12,8 @@ class processpage
   var $fileid='';
   var $imagefile='';
   var $pageround=NULL;
+  var $prd=NULL;
   var $initial_text='';
-  var $revert_text='';
-  var $save_text='';
-  var $checkout_state='';
-  var $return_state='';
-  var $tempsave_state='';
-  var $save_state='';
-  var $save_time='';
-  var $save_user='';
-  var $all_complete_state='';
 
 function processpage()
 {
@@ -58,40 +50,15 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->proofstate=$proofstate;
   $this->pageround=$this->getPageRound($pagestate);
 
-    if ($this->pageround==1)
-    {
-      $this->bad_page=BAD_FIRST;
-      $this->revert_text="master_text";
-      $this->save_text="round1_text";
-      $this->checkout_state=OUT_FIRST;
-      $this->return_state=AVAIL_FIRST;
-      $this->tempsave_state=TEMP_FIRST;
-      $this->save_state=SAVE_FIRST;
-      $this->save_time="round1_time";
-      $this->save_user="round1_user";
-      $this->all_complete_state=SAVE_FIRST;
-    }
-    if ($this->pageround==2)
-    {
-      $this->bad_page=BAD_SECOND;
-      $this->revert_text="round1_text";
-      $this->save_text="round2_text";
-      $this->checkout_state=OUT_SECOND;
-      $this->return_state=AVAIL_SECOND;
-      $this->tempsave_state=TEMP_SECOND;
-      $this->save_state=SAVE_SECOND;
-      $this->save_time="round2_time";
-      $this->save_user="round2_user";
-      $this->all_complete_state=SAVE_SECOND;
-    }
+  $this->prd = get_PRD_for_round( $this->pageround );
 
-  if ($pagestate==$this->return_state || $pagestate==$this->checkout_state)
+  if ($pagestate==$this->prd->avail_state || $pagestate==$this->prd->out_state)
   {
-    $this->initial_text=$this->revert_text;
+    $this->initial_text=$this->prd->prevtext_column_name;
   }
   else
   {
-    $this->initial_text=$this->save_text;
+    $this->initial_text=$this->prd->text_column_name;
   }
 }
 
@@ -214,8 +181,8 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 function getText($pagestate,$saved,$revert)
 {
   $wText=$this->initial_text;
-    if ($saved==1) {$wText=$this->save_text;}
-    if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND) {$wText=$this->revert_text;}
+    if ($saved==1) {$wText=$this->prd->text_column_name;}
+    if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND) {$wText=$this->prd->prevtext_column_name;}
   $dbQuery="SELECT $wText FROM {$this->project} WHERE fileid = '{$this->fileid}' AND image='{$this->imagefile}'";
   $result = mysql_query($dbQuery);
   $myrow = mysql_fetch_row($result);
@@ -288,15 +255,15 @@ function saveTemp($proofstate,$text_data,$pguser)
   $timestamp = time();
 
   if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+    $dbQuery="UPDATE project_pages SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
     $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery);
   }
 
-  $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+  $dbQuery="UPDATE {$this->project} SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
-  return $this->tempsave_state;
+  return $this->prd->temp_state;
 }
 
 
@@ -308,15 +275,15 @@ function reOpen($proofstate,$pguser)
   $timestamp = time();
 
   if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+    $dbQuery="UPDATE project_pages SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
     $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery);
   }
 
-  $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+  $dbQuery="UPDATE {$this->project} SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
-  return $this->tempsave_state;
+  return $this->prd->temp_state;
 }
 
 
@@ -327,20 +294,20 @@ function saveComplete($proofstate,$text_data,$pguser,$userP)
   $timestamp = time();
 
   if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
+    $dbQuery="UPDATE project_pages SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->save_state}', {$this->prd->user_column_name}='$pguser'";
     $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery) or die(mysql_error());
   }
 
-  $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
+  $dbQuery="UPDATE {$this->project} SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->save_state}', {$this->prd->user_column_name}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery) or die(mysql_error());
-  return $this->save_state;
+  return $this->prd->save_state;
 }
 
 function getRevertState()
 {
-  return $this->tempsave_state;
+  return $this->prd->temp_state;
 }
 
 function exitInterface($newwin,$editone)
@@ -366,15 +333,15 @@ function returnPage($proofstate,$pguser,$userP)
   $timestamp = time();
 
   if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
+    $dbQuery="UPDATE project_pages SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->avail_state}', {$this->prd->user_column_name}='$pguser'";
     $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery);
   }
 
-  $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
+  $dbQuery="UPDATE {$this->project} SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->avail_state}', {$this->prd->user_column_name}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery);
-  return $this->return_state;
+  return $this->prd->avail_state;
 }
 
 } // end class
