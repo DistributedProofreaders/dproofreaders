@@ -36,7 +36,7 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
 $tracetime = time();
 mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
-		VALUES ('stats.php', $tracetime, 'BEGIN', 'ok to run, no lock file'");
+		VALUES ('stats.php', $tracetime, 'BEGIN', 'ok to run, no lock file')");
 
 //limit to looking at projects which do not have
 //the archive flag set to 1 in order to limit run time
@@ -45,7 +45,7 @@ $numProjects = mysql_num_rows($allProjects);
 
 $tracetimeA = time();
 mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
-		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  $numProjects is $numProjects'");
+		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  $numProjects is $numProjects')");
 
 
 while ($i < $numProjects) {
@@ -105,7 +105,7 @@ $tracetime2 = time();
 $timetorun = $tracetime2 - $tracetime1;
 
 mysql_query("INSERT INTO job_logs (filename, timestamp, event, comments)
-		VALUES ('stats.php', $tracetime2, 'END', 'started at $tracetime, took $timetorun seconds");
+		VALUES ('stats.php', $tracetime2, 'END', 'started at $tracetime, took $timetorun seconds')");
 
 
 }
