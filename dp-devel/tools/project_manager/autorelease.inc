@@ -14,8 +14,8 @@ function numavailpages($projectid, $roundavailstate) {
         if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
 }
 
-function verifynew($project) {
-
+function attempt_to_release($project)
+{
     $projectid = $project['projectid'];
 
     $errors = project_pre_release_check( $project );
@@ -39,13 +39,13 @@ function verifynew($project) {
     if ($error_msg)
     {
         echo "$error_msg\n";
-        return 0;
+        return FALSE;
     }
 
     if ($new_state == PROJ_PROOF_FIRST_BAD_PROJECT)
     {
         // nothing else to do
-        return 0;
+        return FALSE;
     }
 
     maybe_mail_project_manager( $project,
@@ -56,8 +56,7 @@ function verifynew($project) {
     //Update the total and available pages in the HEAP table
     update_total_pages($projectid, 1);
 
-    echo "        Prepared to release project = $projectid\n";
-    return numpages($projectid);
+    return TRUE;
 }
 
 
@@ -288,7 +287,15 @@ function autorelease($pagesleft) {
 			// OK to release
 			// release the project for proofing, and keep track of
 			// its contribution to reducing our total page shortfall
-			$newpagesreleased = verifynew($project);
+			if (!attempt_to_release($project))
+			{
+			    // Something went wrong. Error messages have been output.
+			    continue;
+			}
+
+			echo "        Project released!\n";
+
+			$newpagesreleased = numpages($project['projectid']);
 			$totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
 			$num_projects_released++;
 
