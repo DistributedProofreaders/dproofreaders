@@ -129,7 +129,7 @@ function saveProject() {
 				'titlepage','division','epigraph','footnote',
 				'illustration','letter','list','math','poetry',
 				'sidenote','verse','table','appendix','afterword',
-				'biblio','colophon','endnote','epilogue','index') 
+				'biblio','colophon','endnote','epilogue','index')
 				NOT NULL default '',
 				orig_page_num VARCHAR(6) NOT NULL default ''
 			)
@@ -571,7 +571,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         echo genre_list($genre);
         echo difficulty_list($difficulty_level);
         echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".strip_tags($clearance)."'></td></tr>";
         echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>";
         echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>";
         echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>";
