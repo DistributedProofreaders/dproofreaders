@@ -139,11 +139,11 @@ function showBBProfile($username) {
 		FROM phpbb_users
 		WHERE username = '$username'
 	");
-	$curMbr = mysql_fetch_assoc($result);
+	$bb_user = mysql_fetch_object($result);
 
-        if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser'])
+        if (isset($GLOBALS['pguser']) && $bb_user->username == $GLOBALS['pguser'])
 	{
-		$edit_url = "$forums_url/profile.php?mode=editprofile&u=".$curMbr['user_id'];
+		$edit_url = "$forums_url/profile.php?mode=editprofile&u=$bb_user->user_id";
 		$text = _('Edit');
 		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
 		$editlink = "&nbsp;[<a href='$edit_url'>$colored_text</a>]";
@@ -159,13 +159,13 @@ function showBBProfile($username) {
 		array( 'width'=>100 )
 	);
 
-	if (empty($curMbr['user_avatar']))
+	if (empty($bb_user->user_avatar))
 	{
 		$rhs = '(none)';
 	}
 	else
 	{
-		$avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar'];
+		$avatar = $GLOBALS['forums_url']."/images/avatars/$bb_user->user_avatar";
 		$rhs = "<img border='0' src='$avatar' alt='avatar'>";
 	}
 	$t->row(
@@ -173,55 +173,55 @@ function showBBProfile($username) {
 		$rhs
 	);
 
-	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { $t->hr( 90 ); }
-        if (!empty($curMbr['user_from']))      { $t->row( _("Location"),   $curMbr['user_from'] ); }
-        if (!empty($curMbr['user_occ']))       { $t->row( _("Occupation"), $curMbr['user_occ'] ); }
-	if (!empty($curMbr['user_interests'])) { $t->row( _("Interests"),  $curMbr['user_interests'] ); }
-        if (!empty($curMbr['user_website']))   { $t->row( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
+	if (!empty($bb_user->user_from) || !empty($bb_user->user_occ) || !empty($bb_user->user_interests) || !empty($bb_user->user_website)) { $t->hr( 90 ); }
+        if (!empty($bb_user->user_from))      { $t->row( _("Location"),   $bb_user->user_from ); }
+        if (!empty($bb_user->user_occ))       { $t->row( _("Occupation"), $bb_user->user_occ ); }
+	if (!empty($bb_user->user_interests)) { $t->row( _("Interests"),  $bb_user->user_interests ); }
+        if (!empty($bb_user->user_website))   { $t->row( _("Website"),    "<a href='$bb_user->user_website'>".$bb_user->user_website."</a>" ); }
 
 	$t->hr( 90 );
 
 	$contact_data = array(
 		array(
-			!empty($curMbr['user_viewemail']),
+			!empty($bb_user->user_viewemail),
 			_("E-mail"),
 			"icon_email.gif",
-			"mailto:".$curMbr['user_email'],
+			"mailto:$bb_user->user_email",
 			''
 		),
 		array(
 			TRUE,
 			_("Private Message"),
 			"icon_pm.gif",
-			"$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id'],
+			"$forums_url/privmsg.php?mode=post&u=$bb_user->user_id",
 			''
 		),
 		array(
-			!empty($curMbr['user_aim']),
+			!empty($bb_user->user_aim),
 			"AIM",
 			"icon_aim.gif",
-			"aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP",
+			"aim:goim?screenname={$bb_user->user_aim}&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP",
 			''
 		),
 		array(
-			!empty($curMbr['user_msnm']),
+			!empty($bb_user->user_msnm),
 			"MSN",
 			"icon_msnm.gif",
-			"javascript:alert(\"".$curMbr['user_msnm']."\")",
+			"javascript:alert(\"$bb_user->user_msnm\")",
 			''
 		),
 		array(
-			!empty($curMbr['user_yim']),
+			!empty($bb_user->user_yim),
 			"Yahoo Message",
 			"icon_yim.gif",
-			"http://edit.yahoo.com/config/send_webmesg?.target=".$curMbr['user_yim']."&.src=pg",
+			"http://edit.yahoo.com/config/send_webmesg?.target={$bb_user->user_yim}&.src=pg",
 			"_new"
 		),
 		array(
-			!empty($curMbr['user_icq']),
+			!empty($bb_user->user_icq),
 			"ICQ",
 			"icon_icq.gif",
-			"http://wwp.icq.com/scripts/search.dll?to=".$curMbr['user_icq'],
+			"http://wwp.icq.com/scripts/search.dll?to=$bb_user->user_icq",
 		       	"_new"
 		),
 	);
@@ -233,7 +233,7 @@ function showBBProfile($username) {
 		if (!$condition) continue;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
-		$img_tag = "<img src='$icon_path' alt='$label ".$curMbr['username']."' border='0'>";
+		$img_tag = "<img src='$icon_path' alt='$label $bb_user->username' border='0'>";
 		$target_str = ( empty($target) ? '' : " target='$target'" );
 
 		$t->row(
