@@ -26,8 +26,7 @@ Projects</a></td>\n";
     $postprocessor = $userP['postprocessor'];
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
   //  if ($postprocessor == "yes") {
-        echo "<td width=126 bgcolor='#CCCCCC' align=center><a href 
-=\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
+        echo "<td width=126 bgcolor='#CCCCCC' align=center><a href =\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
     } else {
         echo "<td width=126 bgcolor='#CCCCCC' align=center>&nbsp;</td>\n";
     }
@@ -39,7 +38,9 @@ Projects</a></td>\n";
 
 /* $_GET $project, $proofstate, $proofing */
 
-    $result = mysql_query("SELECT nameofwork, authorsname, comments, username, topic_id, postcomments FROM projects WHERE 
+    $result = mysql_query("SELECT nameofwork, authorsname, comments, username, topic_id, postcomments, scannercredit, 
+clearance, postproofer
+FROM projects WHERE 
 projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
     $authorsname = mysql_result($result, 0, "authorsname");
@@ -49,6 +50,24 @@ projectid = '$project'");
     $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
     $user_id = mysql_result($phpuser, 0, "user_id");
     $postcomments = mysql_result($result, 0, "postcomments");
+    $scannercredit = mysql_result($result, 0, "scannercredit");
+    $clearance = mysql_result($result, 0, "clearance");
+    $postproofer = mysql_result($result, 0, "postproofer");
+
+
+//Look up realnames for project manager, scanner and post processor for credit line
+
+   $result = mysql_query("SELECT real_name FROM users WHERE username = '$username'");
+   $managercredit = mysql_result($result, 0, "real_name");
+
+   $result = mysql_query("SELECT real_name FROM users WHERE username = '$scannercredit'");
+   $scannercredit = mysql_result($result, 0, "real_name");
+
+   $result = mysql_query("SELECT real_name FROM users WHERE username = '$postproofer'");                                       
+   $postproofername = mysql_result($result, 0, "real_name");     
+
+   $creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
+
 
 
 include($relPath.'doctype.inc');
@@ -68,11 +87,8 @@ echo "</HEAD><BODY>";
     echo "<td colspan=4>$authorsname</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
     echo "<td colspan=4>$username</td></tr>";
-    if (isset($proofstate)) {
-        echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
-        echo "<td colspan=4>$lastproofed</td></tr>";
-    }
-
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Post Proofer</b></td>";
+    echo "<td colspan=4>$postproofer</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a 
 href=\"../proofers/project_topic.php?project=$project\">";
 
@@ -81,13 +97,19 @@ href=\"../proofers/project_topic.php?project=$project\">";
     } else {
         echo "Discuss this project";
     }
+
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Credits line so far</b></td>";
+    echo "<td colspan=4>$creditline</td></tr>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Clearance Line:</b></td>";
+    echo "<td colspan=4>$clearance</td></tr>";
+
     echo "</a></td></tr>";
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
+    echo "$postcomments</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
     echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 2.00</a> for detailed project formatting directions.";
     echo "Instructions below take precedence over the guidelines:<P>";
     echo "$comments</td></tr>";
-    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
-    echo "$postcomments</td></tr>";
     echo "</table>";
     echo "<BR>";
 
