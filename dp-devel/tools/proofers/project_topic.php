@@ -1,6 +1,5 @@
 <?
 $relPath="./../../pinc/";
-$linkPath="./../tools/proofers/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
@@ -19,7 +18,7 @@ $title = addslashes($title);
 $message =  "
 Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.<br>
 <br>
-Please <a href={$linkPath}projects.php?project=$project_id&proofing=1>review</a> the project comments before posting.
+Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
 ";
 echo $message;
 $message = addslashes($message);
