@@ -45,7 +45,7 @@ To become a PM, send an email to <a
 <ol>
 <li><a href='#create'>Create the project.</a>
 <li><a href='#release'>Release it.</a>
-<li><a href='#shepherd'>Shepherd it through proofing.</a>
+<li><a href='#shepherd'>Shepherd it through proofreading.</a>
 <li><a href='#postprocess'>Post-process it.</a>
 <li><a href='#submit_to_pg'>Submit it to Project Gutenberg.</a>
 </ol>
@@ -83,12 +83,12 @@ and what the PMs do.
     </blockquote>
 </li>
 
-<li><a name='release'><b>Release the project for proofing.</b></a>
+<li><a name='release'><b>Release the project for proofreading.</b></a>
     <blockquote>
     <p>
     This is done by toggling the "Availability" of the project on the PM's page.
     The project will be added to the site's queueing system,
-    which tries to ensure an even mix of books in proofing.
+    which tries to ensure an even mix of books in proofreading.
     </p>
     <p>
     In particular, it won't allow more than one book by the same author
@@ -114,7 +114,7 @@ and what the PMs do.
     <b>Delete duplicate pages.</b>
     <p>
     Sometimes a page will be submitted more than once.
-    We think this is caused by the proofer clicking "Save as 'Done' & Proof Next" more than once.
+    We think this is caused by the proofreader clicking "Save as 'Done' & Proof Next" more than once.
     You can review the submitted text by clicking on the text file name.
     Delete all but one copy of the file by clicking on the Delete link for that file.
     </p>
@@ -123,7 +123,7 @@ and what the PMs do.
     <li>
     <b>Check in MIA's.</b>
     <p>
-    Sometimes a proofer will request a page but never turn it back in.
+    Sometimes a proofreader will request a page but never turn it back in.
     To make the page availible again, first identify the missing pages.
     You can do this by scanning down the list and comparing the index number with the file number.
     When they get out of sync, you've got an MIA.
@@ -132,7 +132,7 @@ and what the PMs do.
     During the 2nd round, it is the "View all level 2 files" link.
     Find your MIA and click on "Check In".
     Don't get too anxious when checking in MIA's.
-    If your MIA is near the bottom then a proofer may still be working on it.
+    If your MIA is near the bottom then a proofreader may still be working on it.
     </p>
     </li>
 
@@ -141,17 +141,17 @@ and what the PMs do.
     <p>
     When a project finishes the 1st round
     and you have deleted all duplicates
-    and all the MIA's have been checked in and proofed,
+    and all the MIA's have been checked in and proofread,
     click on the "Promote All" link.
     This will move your project to the second round.
     </p>
     </li>
 
     <li>
-    <b>Answer proofer's questions.</b>
+    <b>Answer proofreader's questions.</b>
     <p>
     Depending on the project, you may get a lot of question emails.
-    Please be patient with the proofers as many of them will be newbies.
+    Please be patient with the proofreaders as many of them will be newbies.
     If you get a lot of the same questions you may consider modifying your comments.
     </p>
     </li>
@@ -167,7 +167,7 @@ and what the PMs do.
 
 <li><a name='postprocess'><b>Download the output from the site and massage it into a postable e-text.</b>
     <blockquote>
-    After all the pages have gone through both rounds of proofing,
+    After all the pages have gone through both rounds of proofreading,
     the site will stitch together the resulting page-texts
     (with page separators)
     and add the resulting file to the project's directory.
@@ -240,7 +240,7 @@ Click on the title of a project to view its details.
 The "Pages Left" column of the projects table was removed
 to speed up assembly of the PM page,
 and reduce the load on the server.
-Note that the "Pages Remaining to be Proofed" for a project
+Note that the "Pages Remaining to be Proofread" for a project
 is still available, on its Project Details page.
 </p>
 
@@ -306,6 +306,7 @@ Reorganized the remainder.
 <li>2003-07-25: jmdyck: added notes on PM pages.</li>
 <li>2004-05-24: jmdyck: minor edits to eliminate remarks in red.</li>
 <li>2004-07-25: donovan: minor edits to conform to post-process* terminology and valid html compliance.</li>
+<li>2004-07-31: donovan: minor edits to conform to proofreading* terminology.</li>
 </ul>
 
 <br>

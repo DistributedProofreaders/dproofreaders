@@ -194,7 +194,7 @@ include('../pinc/templates/comment_files/wrrn.txt');
         Notes:
       </td>
       <td bgcolor="#FFFFFF" width="*" align=left valign=top>
-        *****PUT ANY NOTES TO THE PROOFERS HERE*****
+        *****PUT ANY NOTES TO THE PROOFREADERS HERE*****
       </td>
     </tr>
     <tr>
@@ -307,7 +307,7 @@ HALF IN THE SECOND COLUMN.*****
     Notes:<br>
     &lt;/td&gt;<br>
     &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
-    *****PUT ANY NOTES TO THE PROOFERS HERE*****<br>
+    *****PUT ANY NOTES TO THE PROOFREADERS HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>

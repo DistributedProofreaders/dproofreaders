@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofing Guidelines -- Encyclopedias','header');
+theme('Proofreading Guidelines -- Encyclopedias','header');
 ?>
 
 <!--
@@ -16,8 +16,8 @@ theme('Proofing Guidelines -- Encyclopedias','header');
   </style>
         -->
 
-<h2 align="center">Proofing Guidelines -- Special Rules for Encyclopedias </h2>
-<p> These are special additions to the Proofing Guidelines for Encyclopedias.
+<h2 align="center">Proofreading Guidelines -- Special Rules for Encyclopedias </h2>
+<p> These are special additions to the Proofreading Guidelines for Encyclopedias.
     They were created because of the specialized content of these books, and the need
     for them to be very carefully and constently formatted through the whole set of volumes.
   <br>
@@ -50,10 +50,10 @@ theme('Proofing Guidelines -- Encyclopedias','header');
         wider than one column, in case part of it was misplaced.                </li>
     <li>Footnotes: Follow the standard guidelines, in out-of-context form.
     </li>
-    <li>Ligatures: Connected letters, such as "ae" in Formul&aelig;, should be proofed as shown - but do not
+    <li>Ligatures: Connected letters, such as "ae" in Formul&aelig;, should be proofread as shown - but do not
         create a ligature where the two-character equivalent is found in the original text.</li>
     <li>Illustrations: Mark as indicated in the standard guidelines, but *be sure* to position them before or
-    after a paragraph if possible. If such a break is not found on the current page, leave a **proofer's note**.
+    after a paragraph if possible. If such a break is not found on the current page, leave a **proofreader's note**.
         <tt>[Illustration: blah blah blah]</tt> and move it so it is located
         paragraphs.                                                     </li>
     <li>Author listings: The first few pages of the volume list article authors and
@@ -85,7 +85,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
         specific book in the Project Comments.
     <br>Then follow these general guidelines for Encyclopedias.
     <br>Finally, for anything not covered here, follow the standard rules in the
-        <a href="document.php">Proofing Guidelines</a>.</li>
+        <a href="document.php">Proofreading Guidelines</a>.</li>
   </ul>
 
   
@@ -104,7 +104,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
       <tbody>
         <tr valign="top"> 
           <th>Scanned text</th>
-          <th>Proofed text</th>
+          <th>Proofread text</th>
           <th>Description</th>
         </tr>
         <tr> 
@@ -137,7 +137,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
   <li>Individual greek letters used as math symbols can be replaced with the full 
     name of the letter instead of the single letter transliteration used for full 
     Greek words in text. For example, the triangle-shaped Greek character &Delta; 
-    would be proofed as <tt>[Delta]</tt>, not <tt>[Greek: D]</tt>. </li>
+    would be proofread as <tt>[Delta]</tt>, not <tt>[Greek: D]</tt>. </li>
   <li>Fractions: Simple fractions in the set {½, ¼, and ¾ should be represented 
     as shown in the original text, if not intermixed with unavailable fractions. 
     Otherwise, use the format "n/n", or "n-n/n" if greater than 1. </li>
@@ -150,7 +150,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
         Return to:
-        <a href="document.php">Proofing Guidelines</a>.
+        <a href="document.php">Proofreading Guidelines</a>.
       <br>
         <a href="..">Distributed Proofreaders home page</a>,
         &nbsp;&nbsp;&nbsp;

@@ -19,7 +19,7 @@ theme('Post-Processing FAQ','header');
 <a href="#Time">How Long Do Etexts Take?</a><br>
 <a href="#Walkthrough">Walkthrough</a><br> 
 	<ul> 
-	<li><a href="#1-5">1-5. Choose a book and prepare it for proofing.</a>
+	<li><a href="#1-5">1-5. Choose a book and prepare it for proofreading.</a>
 	<li><a href="#6">6. Format the title page.</a> 
 	<li><a href="#7">7. Scan the book and correct obvious errors.</a>
 	<li><a href="#8">8. Spell check.</a> 
@@ -46,12 +46,12 @@ theme('Post-Processing FAQ','header');
 <a href="#Spell">Spell Checkers</a><br>
 <a href="#HTML">HTML Validators</a><br>
 
-<h4><a href="#Dedicated">Dedicated Proofing Tools</a></h4>
+<h4><a href="#Dedicated">Dedicated Proofreading Tools</a></h4>
 <a href="#Guiguts">Guiguts</a>
 <a href="#Gut">The Gut* Foursome</a>
 <a href="#Extras">Other Tools</a><br> 
 <br> 
-<h3>Advanced Proofing Questions</h3>
+<h3>Advanced Proofreading Questions</h3>
 
 <h4>Special Formatting Issues</h4>
 <a href="#Footnotes">Footnotes</a><br> 
@@ -66,7 +66,7 @@ theme('Post-Processing FAQ','header');
 <a href="#Non-ASCII">Non-ASCII Characters</a><br> 
 <a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
 <h4>Extra Checks</h4>
-<a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br> 
+<a href="#Bonus">Paranoid Proofreading Checks (Stealth Scannos, etc.)</a><br> 
 <h4>Technical Questions</h4>
 <a href="#Formats">Non-ASCII Formats</a><br> 
 <a href="#Missing">Missing or Problem Images</a><br> 
@@ -89,33 +89,33 @@ I hope that it makes the task of post-processing a little less frightening!
 <p>
 This section is designed especially for the first-time post-processor.  
 It provides a walkthrough of all of the essential steps needed 
-to proof a relatively simple book.  
-For more difficult books, please see the Advanced Proofing Questions section for advice.
+to proofread a relatively simple book.  
+For more difficult books, please see the Advanced Proofreading Questions section for advice.
 </p>
 <br>
 <h4><a name="Introduction">What is post-processing, and who can post-process?</a></h4>
 
 <p>
 The purpose of post-processing is to massage an etext into a readable form.  
-In its journey through two proofing rounds, 
-the text will have been edited by perhaps hundreds of proofers.  
+In its journey through two proofreading rounds, 
+the text will have been edited by perhaps hundreds of proofreaders.  
 The post-processor must standardize the formatting of the book 
 and adjust it to comply with Project Gutenberg's requirements.  
 The post-processor must also correct as many errors as possible 
-that have survived both proofing rounds.  
+that have survived both proofreading rounds.  
 The ultimate goal of post-processing is to create a plain-text etext 
 with consistent formatting throughout, which contains as few errors as possible, 
 and which accurately reflects the intentions of the author.
 </p>
 
 <p>
-Post-processors require more experience than ordinary proofers.  
+Post-processors require more experience than ordinary proofreaders.  
 Because they are preparing the text for uploading to Project Gutenberg, 
 they are the final editors of the text.  
-Because of this, post-processing is only available for proofers 
-who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  
+Because of this, post-processing is only available for proofreaders 
+who have completed at least <b>400</b> pages in the first and/or second proofreading rounds.  
 Also, post-processors should be very familiar with the 
-<a href="document.php">Proofing Guidelines</a> before attempting to post-process.
+<a href="document.php">Proofreading Guidelines</a> before attempting to post-process.
 </p>
 <br>
 <h4><a name="Tools">What software will I need to get started?</a></h4> 
@@ -156,7 +156,7 @@ Take a look at the Post-Processing section of your Personal Page
 to see all of the works available for post-processing. 
 Projects which are marked "TRAINEE" have been set aside for new post-processors, 
 and are ideal texts with which to learn the ropes of post-processing.  
-Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofers.  
+Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofreaders.  
 These books are also relatively easy, and would make good first projects.  
 Unlike "TRAINEE" texts, however, these books may be checked out 
 by both new and experienced post-processors. 
@@ -183,7 +183,7 @@ But, if you think you can handle it, give it a try!
  
 <p>
 Check the <a href="<? echo $projects_forum_url ?>">Project Questions and Comments Forum</a> 
-for your book's title to see what proofers have been saying about it. 
+for your book's title to see what proofreaders have been saying about it. 
 Again, this might alert you of issues which might make the work 
 more difficult than you had realized.
 </p>
@@ -209,9 +209,9 @@ The time that a book will take to complete depends essentially on three factors:
 	</ul>
 
 <p>
-Some proofers can finish an easy book in only an hour or two 
+Some proofreaders can finish an easy book in only an hour or two 
 (or even less, for the especially speedy).  
-However, most proofers require longer than this to do a good job.  
+However, most proofreaders require longer than this to do a good job.  
 Some especially difficult works can take weeks (or more!) to complete.
 </p>
 
@@ -239,7 +239,7 @@ which is why it is recommended for first-time post-processors.
 It takes longer to complete the book this way 
 than if macros, global find-and-replace, and other tools are used, 
 but it gives the first-timer a feel for what they should look out for 
-by making the proofer scroll through the book several times.  
+by making the proofreader scroll through the book several times.  
 Also, the walk-through below is suitable for use on all operating systems, 
 regardless of what text editor is used or what tools are available for that operating system. 
 Once you get the hang of what post-processing is all about,
@@ -264,7 +264,7 @@ if you are so inclined.
     Make sure that the book appears in the Post-Processing list as checked out to you.
     Otherwise, someone else might check it out later and duplicate all of your hard work!<br>
 
-<li>Look for comments and questions proofers had while proofing your book 
+<li>Look for comments and questions proofreaders had while proofreading your book 
     in the <a href="<? echo $projects_forum_url ?>">Project Questions and Comments Forum</a>.<br> 
  
 <li>Download the book's images (optional) and text.
@@ -296,7 +296,7 @@ if you are so inclined.
     You will almost always run across things which obviously <i>just aren't right</i>, 
     which can be corrected at this time. 
     There are many other things that you can look for during this first pass. 
-    For instance, you may notice deviations from the proofing guidelines, 
+    For instance, you may notice deviations from the proofreading guidelines, 
     which should be corrected.  
     Here are a few examples of the sorts of things to watch for:
     <ul> 
@@ -324,7 +324,7 @@ if you are so inclined.
             and read the last few words on each page 
             and the first few words on the next page 
             to make sure that they go together; and
-	<li>pages which look like they haven't been proofed at all; 
+	<li>pages which look like they haven't been proofread at all; 
             you'll have to look carefully for errors in these areas. 
     </ul> 
  
@@ -352,7 +352,7 @@ while still remembering the page's identity.
     Mark any words that are even remotely questionable with a *, 
     or check each questionable word against the book's images as you go 
     and correct when necessary. 
-    Proofers often miss some misspellings, such as ltttle for little.  
+    Proofreaders often miss some misspellings, such as ltttle for little.  
     Books of PG vintage, especially books of poetry, 
     may also contain archaic and unusual spellings and words.
     DO NOT correct these, but only obvious typos or OCR errors.
@@ -366,7 +366,7 @@ while still remembering the page's identity.
     no single dashes that should be em-dashes, 
     and that all end-of-line hyphenation is fixed. 
 <p>
-Some proofers like to replace all hyphens with unbreaking hyphens 
+Some proofreaders like to replace all hyphens with unbreaking hyphens 
 in order to minimize the work in browsing for hyphenated words 
 split between lines at the end. 
 In Microsoft Word, the unbreaking hyphen character can be inserted 
@@ -378,12 +378,12 @@ as they are non-ASCII and do not display properly on all machines.
  
 <p>
 There are many other <a href="#Bonus">"paranoid checks"</a> 
-that proofers perform at this stage. 
+that proofreaders perform at this stage. 
 These checks are particularly useful when the book scanned badly 
 or the font was unusual, 
-since these conditions introduce a lot of errors that are difficult for proofers to spot. 
+since these conditions introduce a lot of errors that are difficult for proofreaders to spot. 
 If this is your first book, you don't need to worry about these "bonus" checks, 
-but once you learn the basics of proofing, 
+but once you learn the basics of proofreading, 
 you will want to be sure that you do a thorough job 
 and catch as many mistakes as you can, 
 and these extra checks will help you produce high quality etexts.
@@ -398,7 +398,7 @@ as it incorporates Gutcheck into its interface.
  
 <li><a name="10">Search for *.</a> 
 In addition to the asterisks that you may have inserted
-yourself to mark potential problems, proofers may have used them to mark
+yourself to mark potential problems, proofreaders may have used them to mark
 problems that they had to bring them to your attention. If you have left in
 the page markers, use them to guide you to the image containing the text
 that you are checking. Resolve all the problems and remove the asterisks
@@ -416,7 +416,7 @@ forum.<br>
  
 <p>
 Scan the book and make sure that all of the chapter headings and subheadings are there! 
-Proofers sometimes remove these accidentally. 
+Proofreaders sometimes remove these accidentally. 
 If there is a table of contents, use it as a checklist; otherwise, refer to the images. 
 If the chapters are simply numbered Chapter 1, 2, etc., 
 just make sure that there are no numbers missing.
@@ -504,9 +504,9 @@ that may have been introduced by the rewrap.
     If you are not sure what the finished text should look like, 
     download a text from <a href="http://www.gutenberg.net/">Project Gutenberg</a> 
     and skim it to get a clearer idea.
-    Some proofers believe that this is best done the next day, 
+    Some proofreaders believe that this is best done the next day, 
     when you have a fresher eye and might be more likely to spot oversights.
-    If you switched characted sets (eg. used MIDex on a Mac), switch back to ISO encoding now.<br>
+    If you switched character sets (eg. used MIDex on a Mac), switch back to ISO encoding now.<br>
 
 <li><a name="20">Zip the finished product and upload it to the site.</a> 
     <b>Make sure that the text version is saved as plain text (i.e., not as Word format, WordPerfect
@@ -668,7 +668,7 @@ tags should be in the file since anything other than CSS will confuse it (and yo
 probably easiest to cut and paste the css into the section of the form called "Validate by direct input."
 </p>
 
-<h3><a name="Dedicated">Dedicated Proofing Tools</a></h3> 
+<h3><a name="Dedicated">Dedicated Proofreading Tools</a></h3> 
 <br>
 
 <p>
@@ -708,7 +708,7 @@ such as eliminating double spaces and end-of-line blanks,
 fixing hyphenation errors, and splitting oe ligatures.  
 It is markup sensitive, 
 so that it will not ruin the formatting of poetry, block quotes, and tables.  
-This saves some time for the proofer, 
+This saves some time for the proofreader, 
 as all of its changes are ones that they would have to be made anyway.
 </p>
 
@@ -780,7 +780,7 @@ Many more useful lisp scripts are available
 Bill Keir (big_bill) has written a lisp script called 
 <a href="http://users.hunterlink.net.au/%7Embbbk/RewrapIndent.zip">RewrapIndent</a> 
 which will both rewrap and indent text automatically. 
-It honours the /*  */ tags that proofers use to mark poetry, 
+It honours the /*  */ tags that proofreaders use to mark poetry, 
 so poetry will not be rewrapped but will be automatically indented,
 and allows the addition of other tags to handle block quotes automatically if needed.
 It handles complicated cases like poetry nested inside block quotes, 
@@ -793,7 +793,7 @@ For more details see the HTML documentation inside the zip file.
 <br>
 <hr>
 <br>
-<h2>Advanced Proofing Questions</h2> 
+<h2>Advanced Proofreading Questions</h2> 
 <br> 
 <p>
 This section contains information on the more complex aspects of post-processing.  
@@ -802,7 +802,7 @@ It is designed for advanced post-processors, rather than beginners.
 
 <p>
 The formatting issues treated below are also discussed 
-in the <a href="document.php">Proofing Guidelines</a>, 
+in the <a href="document.php">Proofreading Guidelines</a>, 
 should you need information on proper markup.
 </p>
 <br> 
@@ -812,7 +812,7 @@ should you need information on proper markup.
  
 <p>
 This depends a great deal on the length of the footnotes, their frequency, 
-and on the type of text that you are proofing.
+and on the type of text that you are proofreading.
 </p>
  
 <p>
@@ -896,7 +896,7 @@ return it and post your concerns in the
 <h4>My book contains a few verses of poetry.  How should I format them?</h4> 
  
 <p>
-The proofers should have surrounded any verses of poetry with the markers /* and */. 
+The proofreaders should have surrounded any verses of poetry with the markers /* and */. 
 Remove the markers, and check against the original image to make sure 
 that the formatting is correct. 
 A quick scan should reveal if the spacing in your text and the original match.
@@ -904,8 +904,8 @@ A quick scan should reveal if the spacing in your text and the original match.
  
 <p>
 Make sure that the indentation is consistent, at least within each poem. 
-It's entirely possible that one proofer indented some lines four spaces, 
-while the proofer who got the next page indented five, 
+It's entirely possible that one proofreader indented some lines four spaces, 
+while the proofreader who got the next page indented five, 
 when the image shows the same amount of indentation. 
 </p>
 
@@ -951,7 +951,7 @@ If you have any questions, send her a message.
 <h4>What do I do with tables?</h4> 
  
 <p>
-Tables should have been marked with /* */ by the proofers, 
+Tables should have been marked with /* */ by the proofreaders, 
 but a quick scan of the book should turn any up even if they are unmarked, 
 as they are quite conspicuous.
 </p>
@@ -963,7 +963,7 @@ Adjust the spacing of the columns so that they look good on the screen
 and aren't too close together. 
 Make all of the column entries line up. 
 If you are lucky, this formatting was already done for you, 
-but not all proofers can format tables accurately 
+but not all proofreaders can format tables accurately 
 (if their display font isn't monospace, for example). 
 Watch for tables that span multiple pages, 
 as they will be unlikely to have similar formatting. 
@@ -1043,7 +1043,7 @@ rewrapping will destroy the format of the index. Be careful!
 Yes.  The list of errata at the end of the book reflect the author's intention, 
 and one of the guiding principles of etext production 
 is to preserve the author's original intent.  
-First- and second-round proofers had access to only one page of the book at a time, 
+First- and second-round proofreaders had access to only one page of the book at a time, 
 so none of the errata errors will have been corrected by them.  
 This job therefore falls to the post-processor, 
 who has access to all of the pages of the book.
@@ -1073,7 +1073,7 @@ or other texts with a non-Latin alphabet?</h4>
 If possible, the text should be transcribed into the Latin alphabet. 
 It's not a lossless process, but it's the only way to preserve these snippets in ASCII. 
 Information of the transcription process is available in the 
-<a href="document.php">Proofing Guidelines</a>.
+<a href="document.php">Proofreading Guidelines</a>.
 </p>
  
 <p>
@@ -1103,9 +1103,9 @@ It's too bad that the information will be lost, but you've done the best you cou
 How do I mark these up?</h4> 
  
 <p>
-If you are lucky, the proofer will have done some research 
+If you are lucky, the proofreader will have done some research 
 and found the meaning of the symbol for you. 
-However, often the proofer will mark the symbol with a * and leave you with the legwork.
+However, often the proofreader will mark the symbol with a * and leave you with the legwork.
 </p>
  
 <p>
@@ -1115,7 +1115,7 @@ Do not try to replicate the symbol itself in ASCII.
  
 <p>
 If you have never run across the symbol before, 
-here are a few web pages provided by proofers to help you:<br>
+here are a few web pages provided by proofreaders to help you:<br>
 
 <a href="http://www.lib.umich.edu/eebo/docs/dox/medical.html">Apothecaries'/Medical</a><br> 
 <a href="http://www.lib.umich.edu/eebo/docs/dox/alchem.html">Alchemical</a><br> 
@@ -1135,17 +1135,17 @@ Note that some symbols may have more than one meaning.
 If this is the case, try to determine the best meaning from the context of the symbol.
 </p>
 <br> 
-<h3><a name="Bonus">Paranoid Proofing Checks</a></h3> 
+<h3><a name="Bonus">Paranoid Proofreading Checks</a></h3> 
 <br> 
 <h4>I want to make sure that I do a really good job post-processing my book. 
 Are there any common errors that often make it through the checking system?</h4> 
  
 <p>
-Yes, there are a few kinds of errors which often make it through both rounds of proofing 
+Yes, there are a few kinds of errors which often make it through both rounds of proofreading 
 and into the final etext. 
 These errors fit into three categories: 
 specks that introduce punctuation, 
-errors introduced by the tags used in proofing, 
+errors introduced by the tags used in proofreading, 
 and "scannos" that can make it through a spell check.
 </p>
  
@@ -1166,7 +1166,7 @@ search for the following things:
 	</ul> 
  
 <p>
-A few errors are introduced by the HTML and other proofing markup that DP uses for proofing. 
+A few errors are introduced by the HTML and other proofreading markup that DP uses for proofreading. 
 To eliminate these, do the following:
 </p>
 	<ul> 
@@ -1374,9 +1374,9 @@ in the <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>
 <h4>Why are some projects split into different parts?</h4>
 
 <p>
-In the proofing rounds, books intended for beginners were generally split into smaller units.  
+In the proofreading rounds, books intended for beginners were generally split into smaller units.  
 This was not only to ensure a constant supply of projects for beginners, 
-but to get feedback from mentors to the proofers faster than if the books were kept in one piece.  
+but to get feedback from mentors to the proofreaders faster than if the books were kept in one piece.  
 It is encouraged, though not absolutely essential, 
 for the same post-processor to check out all of the pieces 
 of these books at the same time so that the formatting will be consistent throughout.  

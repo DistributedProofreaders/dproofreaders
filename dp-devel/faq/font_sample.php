@@ -12,7 +12,7 @@ theme(_('Custom Font Comparison'),'header');
 
 $tfont = 'Arial';
 
-// determine user's current proofing font, if any
+// determine user's current proofreading font, if any
 
 if ($userP['i_layout']==1)
 {

@@ -76,7 +76,7 @@ This is what I do, in the order I do it. Feel free to follow whatever procedure 
 
 <ol>
 
-<li>Check project comments/forum discussion for specific project requirements or for specific problems noted in the text during proofing.</li>
+<li>Check project comments/forum discussion for specific project requirements or for specific problems noted in the text during proofreading.</li>
 
 <li>Check for end-of-line spaces. </li>
 

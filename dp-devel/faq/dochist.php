@@ -5,10 +5,10 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofing Guidelines Revision History','header');
+theme('Proofreading Guidelines Revision History','header');
 ?>
 
-<h1 align="center">Proofing Guidelines Revision History</h1>
+<h1 align="center">Proofreading Guidelines Revision History</h1>
 <table width="80%" align="center">
   <tbody valign="top">
     <tr>
@@ -53,7 +53,7 @@ theme('Proofing Guidelines Revision History','header');
         <ul compact="compact">
           <li>Changes in Guidelines:                  </li>
             <ul compact="compact">
-              <li>Changed name from Document Guidelines to Proofing Guidelines.
+              <li>Changed name from Document Guidelines to Proofreading Guidelines.
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="olddoc14.html"><font size=-1 color="red">(old)</font></a>
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -105,7 +105,7 @@ theme('Proofing Guidelines Revision History','header');
               <li>Added Quote marks on each line section.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="document.php#quote_ea"><font size=-1 color="green">(new)</font></a></li>
-              <li>Added link to French version of Proofing Guidelines.
+              <li>Added link to French version of Proofreading Guidelines.
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="document.php"><font size=-1 color="green">(new)</font></a></li>
               <li>Added standard links at the bottom of this (and all Doc pages).

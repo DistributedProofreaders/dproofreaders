@@ -5,10 +5,10 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Beginning Proofers\' FAQ','header');
+theme('Beginning Proofreaders\' FAQ','header');
 ?>
 
-<h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
+<h1>Beginning Proofreaders' <br> Frequently Asked Questions (FAQ)</h1>
 <h3 align="right">Version 1.7, released May 27, 2004 </h3>
 
 <p> The purpose of this FAQ is to provide answers to common questions that new people
@@ -40,7 +40,7 @@ theme('Beginning Proofers\' FAQ','header');
         <li><a href="#10">I think I messed something up (done something wrong),
                           How can I fix it?                                    </a></li>
         <li><a href="#11">I'm having trouble on the webpage trying to ...
-                          Log in/Proof a page/Get a new page                   </a></li>
+                          Log in/Proofread a page/Get a new page                   </a></li>
       </ol>
       </td>
     </tr>
@@ -79,7 +79,7 @@ different pages.  This will significantly speed up the proofreading process.
       average 300-400 proofreaders participating each day from countries all over the
       world, and we finish 4000-7000 pages per day. That's about 4 pages every minute of
       every day!]
-  <li>The site stores that proofed page in our database for the next round.  (Each book
+  <li>The site stores that proofread page in our database for the next round.  (Each book
       goes through two rounds of proofreading, to try to catch all errors in the text.)
   <li>When all the pages in a book have been proofread, a "post-processor" does the
       finishing work of getting this book ready: combining all the pages into one big
@@ -184,7 +184,7 @@ different pages.  This will significantly speed up the proofreading process.
           Project Gutenberg archive.  Combines all the pages into one big file, deals
           with words or paragraphs split across pages, moves footnotes &amp; sidenotes
           to the proper place, and generally makes sure that all the proofreaders were
-          consistent in the way they proofed the text, and then finally sends it on to
+          consistent in the way they proofread the text, and then finally sends it on to
           Project Gutenberg.
       <li><b>Website Help</b>.  We always welcome people to help in the work of
           maintaining and improving this website. Programmers (PHP, mySQL and some Java
@@ -199,12 +199,12 @@ different pages.  This will significantly speed up the proofreading process.
 <h3><a name="5">5. How do I handle ...?  </a></h3>
 <p> There are no set "Rules" enforced by Project Gutenberg, but in order to allow the
     distributed proofreading to work, we have written up our own <a
-    href="document.php">Proofing Guidelines</a>.
+    href="document.php">Proofreading Guidelines</a>.
     Please read these and any project comments that a project manager may have provided
     before starting to proofread.  The main goal is to preserve as much formatting as
     possible, marked the same way, while making the etext readable on a computer. If you
     are a new proofreader it may be helpful to print out a copy of our 2-page summary,
-    the <a href="summary.pdf">Handy Proofing
+    the <a href="summary.pdf">Handy Proofreading
     Guide</a>, and keep it handy while proofreading. This covers the basics of
     proofreading. </p>
 <p>Also, some of our projects are marked "Beginners only".  These are books that are
@@ -215,22 +215,22 @@ different pages.  This will significantly speed up the proofreading process.
 <!--
 <ul compact>
   <li>about a question on a specific book:
-  <li>about providing material to be proofed here:
+  <li>about providing material to be proofread here:
   <li>about becoming a Project Manager for a specific book:
   <li>about helping write the code that operates this website:
   <li>about helping test the code that operates this website:
   <li>about helping update the documentation about this website:
-  <li>about problems in getting the proofing website to work:
+  <li>about problems in getting the proofreading website to work:
 </ul>
 -->
 <p> You can email DP Help at: <a href="mailto:dphelp@pgdp.net">DP Help</a></p>
 
 <p>Other Project Managers can be reached by clicking on their name on
     the Projects page. Each project has a link to the Project Manager in charge of it.</p>
-<p>Also, the "Discuss this book" link on the opening page where you start proofing the
+<p>Also, the "Discuss this book" link on the opening page where you start proofreading the
     book links to the Forum for this book.  That's the best place to contact the Project
     Manager of the book, or to ask questions about the book or ask how to handle some
-    proofing issue in the book.  </p>
+    proofreading issue in the book.  </p>
 
 <h3><a name="7">7. What is the entire process for creating an etext?  </a></h3>
 
@@ -242,7 +242,7 @@ different pages.  This will significantly speed up the proofreading process.
 
 
 <h3><a name="8">8. How can I get copies of the etexts I've worked on? </a></h3>
-<p> On the opening page where you start proofing a book there is an item "Book
+<p> On the opening page where you start proofreading a book there is an item "Book
     Completed".  Click on "Yes, I would like to be notified when this has been posted to
     Project Gutenberg." If you do that, when the book is eventually added to the Project
     Gutenberg Archive, you will receive an email notifying you and giving the link to
@@ -260,30 +260,30 @@ different pages.  This will significantly speed up the proofreading process.
 <p> <i>Don't panic.</i> We all make mistakes. If you think you made a mistake on the last few
     pages of a particular project, go back to the Project Page and note the "DONE" links.
     They reconnect to the last 5 pages you proofread for that project.
-    Click on one, and you can make corrections to your proof of that page.</p>
+    Click on one, and you can make corrections to your proofreading of that page.</p>
 
 <p> If it's earlier than one of these last 5 pages, or you are not sure that you handled
     something correctly, leave a note in the Project Forum for that book (reached from
-    the opening page where you started proofing -- click on "Discuss this Project").
+    the opening page where you started proofreading -- click on "Discuss this Project").
     Give the number of the page you were on (if you remember) and what you did. This
     lets the second round proofreader or the post-processor fix it if it was not correct.
     </p>
 
-<p> Remember that all your proofed pages will be proofed again in the 'second round' of
+<p> Remember that all your proofread pages will be proofread again in the 'second round' of
     proofreading.  Few mistakes make it by both proofreaders undetected!  <i>So just do
-    your best and don't worry.</i>  (Second-round proofing is limited to 'experienced'
-    first-round proofers [those who've proofed over 50 pages].) </p>
+    your best and don't worry.</i>  (Second-round proofreading is limited to 'experienced'
+    first-round proofreaders [those who've proofread over 50 pages].) </p>
 
 <p>Also, feel free to leave short notes in the pages as you do them, just make certain
-    to mark them with an asterisk so that the next proofer can find them.  Like this: <br>
+    to mark them with an asterisk so that the next proofreader can find them.  Like this: <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <tt>John Smyth* [**image too faint--I can't tell if it's Smythe or Smith here.] </tt></p>
 
 
-<h3><a name="11">11. I'm having trouble on the webpage trying to ... Log in/Proof a page/Get a new page </a></h3>
+<h3><a name="11">11. I'm having trouble on the webpage trying to ... Log in/Proofread a page/Get a new page </a></h3>
 <p>
     Almost all browser-related problems (not being able to log in, not seeing the
-    proofing page, not getting a fresh page to proof after you have proofed your first
+    proofreading page, not getting a fresh page to proofread after you have proofread your first
     page) can be solved by verifying that your computer is set with the correct time and date and that your 
     browser options are set the following way:
       <ol compact type="a">
@@ -320,7 +320,7 @@ different pages.  This will significantly speed up the proofreading process.
 </table>
 
 <p> The DP site attempts to cooperate with firewalls, web caches and proxies, though if you see the
-    <i>'I get the same page to proof over and over again'</i> difficulty, please email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>, including your browser details.
+    <i>'I get the same page to proofread over and over again'</i> difficulty, please email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>, including your browser details.
     </p>
 
 

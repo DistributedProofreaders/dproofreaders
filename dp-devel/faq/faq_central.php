@@ -44,8 +44,8 @@ theme('FAQ Central','header');
   <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a>
   <dd>A help-file for the Enhanced Proofreading Interface.
 
-  <dt><a href="font_sample.php">DP Custom Proofing Font Page</a>
-  <dd>Home of the DP Custom Proofing Font. Font Samples and download and installation instructions.
+  <dt><a href="font_sample.php">DP Custom Proofreading Font Page</a>
+  <dd>Home of the DP Custom Proofreading Font. Font Samples and download and installation instructions.
 
   <dt><a href="<? echo $code_url ?>/tools/proofers/for_mentors.php">Mentors Page</a>
   <dd>A page detailing currently available mentor projects.
@@ -64,7 +64,7 @@ theme('FAQ Central','header');
       manage the progress of a particular project ("book") through this site.)
 
   <dt><a href="scan/submitting.php">Submitting Material FAQ</a>
-  <dd>Overview for people who want to contribute material to be proofed on this site.
+  <dd>Overview for people who want to contribute material to be proofread on this site.
 
   <dt><a href="scan/scanfaq.php">Scanning FAQ</a>
   <dd>Basic information on scanners and how to use them, based on our experiences.

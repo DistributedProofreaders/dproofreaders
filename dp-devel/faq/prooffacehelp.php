@@ -19,20 +19,20 @@ else
 if ( $i_type == 0 )
 {
     $no_stats=1;
-    theme('Standard Proofing Interface Help','header');
+    theme('Standard Proofreading Interface Help','header');
     echo "
     <center>
-    <h2>Standard Proofing Interface Help</h2>
+    <h2>Standard Proofreading Interface Help</h2>
     </center>
     ";
 }
 else
 {
     $no_stats=1;
-    theme( 'Enhanced Proofing Interface Help','header');
+    theme( 'Enhanced Proofreading Interface Help','header');
     echo "
     <center>
-    <h2>Enhanced Proofing Interface Help</h2>
+    <h2>Enhanced Proofreading Interface Help</h2>
     Version 1.2<br>
     <br>
     <table>
@@ -62,47 +62,47 @@ Where do my pages go?
 <p>
 <b>A</b>:
 There are four possible destinations in the system
-for the pages that you proof.
+for the pages that you proofread.
 They are:
 
 <ul>
     <li>
     <b><a name=done>"DONE"</a></b>:
-    All final changes are saved, and proofing is completed.
+    All final changes are saved, and proofreading is completed.
     These pages are ready to go to the next round.
     There are links to the five most recent pages in this category
     on the Project Comments page, under the heading "DONE".
     These pages can be re-opened for corrections if necessary
     by clicking on the individual links.
     Do not mark a page "DONE" unless you have really finished correcting it,
-    or else this partially-proofed page may move to the next round
+    or else this partially-proofread page may move to the next round
     when the rest of the project does!
     </li>
     <br>
 
     <li>
     <b><a name=progr>"IN PROGRESS"</a></b>:
-    Changes made so far are saved, but proofing is not yet completed.
+    Changes made so far are saved, but proofreading is not yet completed.
     These pages are not yet ready to go the next round.
     There are links to the five most recent pages in this category
     on the Project Comments page, under the heading "IN PROGRESS".
     These pages are waiting for you to complete them;
     you can do so by clicking on the individual links
-    to re-open them and finish the proofing.
+    to re-open them and finish the proofreading.
     If you do not complete them,
-    eventually the system will reclaim them for someone else to proof.
+    eventually the system will reclaim them for someone else to proofread.
     </li>
     <br>
 
     <li>
     <b><a name=return>"RETURN TO SENDER"</a></b>
     All changes are abandoned,
-    original version of page made available for someone else to proof.
+    original version of page made available for someone else to proofread.
     This is for pages that, once you saw them,
-    you decided you didn't want to or couldn't proof,
+    you decided you didn't want to or couldn't proofread,
     but that someone else might be able to.
     Whoever next clicks on the "Start Proofing" link for this project
-    will get the page to proof.
+    will get the page to proofread.
     </li>
     <br>
 
@@ -115,7 +115,7 @@ They are:
 </ul>
 
 <p>
-When you open a page for proofing,
+When you open a page for proofreading,
 it is automatically <a href="#progr">"IN PROGRESS"</a>
 </p>
 
@@ -133,37 +133,37 @@ $help = Array();
 
 $help["Save as 'Done'"] = "
 <p>
-    <i>\"I have finished proofing this page,
+    <i>\"I have finished proofreading this page,
     it is as correct as I can make it,
     so I want to save it as <a href='#done'>DONE</a>,
-    and stop proofing for now.\"</i>
+    and stop proofreading for now.\"</i>
 </p>
 <p>
-    Save all changes, and finish proofing the current page.
+    Save all changes, and finish proofreading the current page.
     The page is now <a href='#done'>DONE</a>.
-    Stop proofing.
-    The proofing browser window will close.
+    Stop proofreading.
+    The proofreading browser window will close.
 </p>
 ";
 
 $help["Save as 'Done' & Proof Next"] = "
 <p>
-    <i>\"I have finished proofing this page,
+    <i>\"I have finished proofreading this page,
     it is as correct as I can make it,
     so I want to save it as <a href='#done'>DONE</a>,
-    and start proofing the next available page.\"</i>
+    and start proofreading the next available page.\"</i>
 </p>
 <p>
-    Save all changes, and finish proofing the current page.
+    Save all changes, and finish proofreading the current page.
     The page is now <a href='#done'>DONE</a>.
     The next available page within the project, if any,
-    will be opened for proofing.
+    will be opened for proofreading.
 </p>
 ";
 
 $help["Save as 'In Progress'"] = "
 <p>
-    <i>\"I haven't finished proofing this page,
+    <i>\"I haven't finished proofreading this page,
     but I want to save my work on it so far.\"</i>
 </p>
 <p>
@@ -178,12 +178,12 @@ $help["Save as 'In Progress'"] = "
 
 $help['Stop Proofing'] = "
 <p>
-    <i>\"I haven't finished proofing this page,
-    but I want to stop proofing for now.
-    I will finish proofing this page later.\"</i>
+    <i>\"I haven't finished proofreading this page,
+    but I want to stop proofreading for now.
+    I will finish proofreading this page later.\"</i>
 </p>
 <p>
-    Closes the proofing interface without saving the current page.
+    Closes the proofreading interface without saving the current page.
     The page will be <a href='#progr'>IN PROGRESS</a>.
     To save your most recent changes before quitting,
     use the \"Save as 'In Progress'\" button first.
@@ -196,7 +196,7 @@ $help['Stop Proofing'] = "
 
 $help['Report Bad Page'] = "
 <p>
-    <i>\"This page is damaged or flawed so badly no one could proof it.\"</i>
+    <i>\"This page is damaged or flawed so badly no one could proofread it.\"</i>
 </p>
 <p>
     Loads the Report Bad Page form.
@@ -207,7 +207,7 @@ $help['Report Bad Page'] = "
     or the OCR text may be from a different image.
     In these cases, where some repairs have to be made to the files
     by the Project Manager,
-    the page can be marked 'Bad' and removed from proofing until fixed.
+    the page can be marked 'Bad' and removed from proofreading until fixed.
     Further information
     (including how to tell a truly bad page from a false alarm)
     is available on the Report Bad Page form itself.
@@ -221,30 +221,30 @@ $help['Report Bad Page'] = "
 $help['Return Page to Round'] =
 $help['Return Page to Current Round'] = "
 <p>
-    <i>\"This page is more than I can (or want to) proof at the moment,
+    <i>\"This page is more than I can (or want to) proofread at the moment,
     but someone else may have better luck.\"</i>
 </p>
 <p>
     Abandons any changes you have made to the current page,
     and returns the original version
     to the top of the pile of available pages for this project,
-    waiting for the next proofer
-    who requests a new page to proof from this project,
-    to whom it will go for proofing.
+    waiting for the next proofreader
+    who requests a new page to proofread from this project,
+    to whom it will go for proofreading.
     (See <a href='#return'>RETURN TO SENDER</a>.)
 </p>
 <p>
     If a page seems too long or complex for you,
     you can return it to round for someone else to do.
-    (Note if you then immediately request a new page to proof,
+    (Note if you then immediately request a new page to proofread,
     the 'someone else' may be you!
-    If you don't want to go proof a different project instead,
+    If you don't want to go proofread a different project instead,
     you can \"Save as 'In Progress'\" the page, 'Stop Proofing' and follow the 'Start Proofing' link.
     This will load the next available page,
     leaving the one you wanted to skip in your 'IN PROGRESS' section.
-    When you have finished proofing for the day,
+    When you have finished proofreading for the day,
     you can re-open it from there and press 'Return Page to Current Round'
-    to immediately make it available for someone else to proof.)
+    to immediately make it available for someone else to proofread.)
 </p>
 ";
 
@@ -355,7 +355,7 @@ $help['Check for Common Errors'] = "
     the Check for Common Errors sequence.
 <p>
     The Check for Common Errors sequence
-    <em>does not</em> replace the need for manual proofing.
+    <em>does not</em> replace the need for manual proofreading.
 ";
 
 $help['View Project Comments'] = "
@@ -449,12 +449,12 @@ if ( $i_type == 0 )
 	This shows the index number
 	of the files on our site that contain the information
 	(scanned image and OCR text)
-	for the page in the book you are proofing.
+	for the page in the book you are proofreading.
 	It may vary from the printed page number of the book,
 	since some of the pages that get scanned
 	(such as introduction pages, some illustration pages)
 	have no ordinary page numbers in the book,
-	but still count as another page to be proofed on the site.
+	but still count as another page to be proofread on the site.
 	Also some books have numbered pages that are otherwise blank,
 	and sometimes these are not scanned,
 	further throwing out the correspondence
@@ -471,15 +471,15 @@ if ( $i_type == 0 )
     <dd>
     <p>
 	This appears only in the second round.
-	The name of the first-round proofer
+	The name of the first-round proofreader
 	is a link to send them a private message
 	through the site's forum system.
 	It is shown for your convenience
-	should you wish to send the first-round proofer
+	should you wish to send the first-round proofreader
 	a comment or question,
 	(polite, constructive) criticism
 	or praise
-	on their proofing of this page in the first round.
+	on their proofreading of this page in the first round.
     </p>
     </dd>
 
@@ -492,7 +492,7 @@ if ( $i_type == 0 )
     <dd>
     <p>
 	Opens a copy of the png image file
-	of the page you are proofing in a new browser window.
+	of the page you are proofreading in a new browser window.
 	In Internet Explorer,
 	if you hover your mouse over the image in this new window,
 	a 'show actual size' icon will appear in the lower right corner.
@@ -509,7 +509,7 @@ if ( $i_type == 0 )
     <dd>
     <p>
 	These three buttons change the zoom of
-	the image already loaded inside the main proofing browser window.
+	the image already loaded inside the main proofreading browser window.
 	They can be useful in making out small, faded or blurry type
 	in the scanned images.
     </p>
@@ -530,12 +530,12 @@ BORDER="1" WIDTH="630" CELLPADDING="6">
 COLSPAN="2">
 <P><A HREF="#ibtns"><B>Button and Selection Menu</B></A>
 <P><A HREF="#ikeys"><B>Accelerator Keys (accesskeys)</B></A>
-<P><A HREF="#proofing_toolbar"><B>Help for Proofing Toolbar</B></A>
+<P><A HREF="#proofing_toolbar"><B>Help for Proofreading Toolbar</B></A>
 <P><B>Additional Help Files</B>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofer's Frequently Asked Questions</A>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofreader's Frequently Asked Questions</A>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Proofing Guidelines</A><P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Proofreading Guidelines</A><P>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
@@ -581,12 +581,12 @@ echo_row( 'Set Image Zoom Percent', 'Set Image Zoom Percent', 'bt10', '' );
 
 <TR><TD><B>Font Size</B>
 <BR>Selection Menu</TD><TD>Select a point size (pt) for the current font
-from the dropdown menu to change the font size of the proofing text.
+from the dropdown menu to change the font size of the proofreading text.
 </TD></TR>
 
 <TR><TD VALIGN="TOP"><B>Font Face</B>
 <BR>Selection Menu</TD><TD>Select a named font from the dropdown menu.  If the font is
-installed on your system, the proofing text will change to the selected font.  If the
+installed on your system, the proofreading text will change to the selected font.  If the
 font is not installed on your system, your system will either automatically select a
 font in the same family or leave the current font unchanged.
 </TD></TR>
@@ -624,7 +624,7 @@ Currently, this is the only method for scrolling the image.<BR>
 <hr>
 
 <a name='proofing_toolbar'>
-<center><h3>Help for Proofing Toolbar</h3></center>
+<center><h3>Help for Proofreading Toolbar</h3></center>
 </a>
 
 
@@ -659,7 +659,7 @@ Currently, this is the only method for scrolling the image.<BR>
     or copy-and-paste it from the earlier position (if still on the same page).
 </p>
 <p>
-    Also see the Proofing Guidelines
+    Also see the Proofreading Guidelines
     for other ways of entering special characters.
 </p>
 
@@ -678,7 +678,7 @@ Currently, this is the only method for scrolling the image.<BR>
     <pre>
     [Greek: biblos]
     </pre>
-    in our proofed page.
+    in our proofread page.
 </p>
 <p>
     To make it easier to select the correct transliterated characters,
@@ -690,11 +690,11 @@ Currently, this is the only method for scrolling the image.<BR>
     All of the Greek letters in the popup box are clickable.
     Click the ones that appear in the Greek word in the image,
     and the latin transliterations appear in the text box,
-    from whence they can be cut-and-pasted into the proofed text
+    from whence they can be cut-and-pasted into the proofread text
     and surrounded with [Greek: ] tags.
 </p>
 <p>
-    For more information please see the Proofing Guidelines.
+    For more information please see the Proofreading Guidelines.
 </p>
 
 
@@ -712,20 +712,20 @@ Currently, this is the only method for scrolling the image.<BR>
     Blank Page
 </p>
 <p>
-    Along the lower line of the proofing toolbar
-    in the lower pane of the proofing interface
+    Along the lower line of the proofreading toolbar
+    in the lower pane of the proofreading interface
     are controls labelled with the common tags listed above.
     Clicking on any of these puts the corresponding tags in the left
     (and, where appropriate, right) text boxes
     immediately to the right of the i and B (italic and bold) buttons.
     From here, they can be
     dragged (Internet Explorer) or cut-and-pasted (other browsers)
-    into the appropriate places in the text you are proofing.
+    into the appropriate places in the text you are proofreading.
     They are provided as a convenience;
     if you'd really rather type the tags in by hand you are welcome to.
 </p>
 <p>
-    Note that [Blank Page] will clear any existing text in the proofing window.
+    Note that [Blank Page] will clear any existing text in the proofreading window.
 </p>
 <p>
     Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
@@ -747,7 +747,7 @@ Currently, this is the only method for scrolling the image.<BR>
     in the left and right text boxes next to them,
     whence they can be
     dragged (Internet Explorer) or cut-and-pasted (other browsers)
-    into the appropriate places in the proofing window.
+    into the appropriate places in the proofreading window.
 </p>
 <p>
     Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
@@ -762,7 +762,7 @@ Currently, this is the only method for scrolling the image.<BR>
     you can select a character (or word, or line, or paragraph)
     to be wrapped in paired tags
     (such as Sidenote, Illustration, Footnote, italic, bold)
-    before you press the tag link in the proofing toolbar,
+    before you press the tag link in the proofreading toolbar,
     to have the tags automatically positioned at the start
     and end of the selected text.
 </p>
@@ -772,7 +772,7 @@ Currently, this is the only method for scrolling the image.<BR>
     (by clicking your mouse at the start of the caption,
     and dragging the mouse to the end of the caption
     while keeping the button depressed),
-    then click on the "Illustration" link in the proofing toolbar,
+    then click on the "Illustration" link in the proofreading toolbar,
     to have the desired tags inserted at the beginning and end of the caption.
 </p>
 <p>
@@ -810,7 +810,7 @@ Currently, this is the only method for scrolling the image.<BR>
     Quit, equivalent to the 'Stop Proofing' button.
     </p>
     <p>
-    The page you are proofing is not saved,
+    The page you are proofreading is not saved,
     and is <a href='#progr'>IN PROGRESS</a>.
     </p>
 </dd>
@@ -846,7 +846,7 @@ or when using either an opening tag such as [Illustration:
 or a closing tag such as &lt;/i&gt;
 for separate insertions.
 
-<P><B>Note:</B> [Blank Page] will replace all text in the proofing text area.
+<P><B>Note:</B> [Blank Page] will replace all text in the proofreading text area.
 
 <P><B>Internet Explorer for Windows Only</B><BR>
 Place the cursor caret in the text area

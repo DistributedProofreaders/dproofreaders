@@ -211,7 +211,7 @@ theme('Proofreading Guidelines','header');
 <p> This document is written in order to reduce formatting differences when proofreading
     of one book is distributed among many proofreaders, each working on different pages
     of the book.  This helps us all do formatting <em>the same way</em>.  That makes it
-    easier for the post-processor to eventually combine all these proofed pages into
+    easier for the post-processor to eventually combine all these proofread pages into
     one e-book.</p>
 <p>
     <i>But it's not intended as any kind of a general editorial or typesetting
@@ -250,21 +250,21 @@ theme('Proofreading Guidelines','header');
 <p> Each project has a project comments page, which is loaded when you click on a
     project name from the list of projects available for proofreading on your personal page
     (which is the page that appears when you log in).  </p>
-<p> This page contains links to pages from this project that you have recently proofed.
-    (If you haven't proofed any pages yet, there will be no links shown.) These links
+<p> This page contains links to pages from this project that you have recently proofread.
+    (If you haven't proofread any pages yet, there will be no links shown.) These links
     appear under one of two headings, depending on whether you have told the system you have
     completed the proofreading on a page or not.  </p>
 
 <p> The two headings are "DONE" and "IN PROGRESS". Links to
-    the five most recently proofed pages will show under each heading. Pages linked to
+    the five most recently proofread pages will show under each heading. Pages linked to
     from "DONE" are considered complete, and will proceed automatically
     to the next round when all other pages in the project have also been completed.
     Pages linked to from "IN PROGRESS" are waiting for you to complete them;
     they will not proceed automatically to the next round (neither will they hold the
     book up indefinitely: eventually, if not completed by you, the system will reclaim
-    them, discard your changes, and make them available for someone else to proof).
+    them, discard your changes, and make them available for someone else to proofread).
     </p>
-<p> When you first load a new page to proof, by clicking on the 'Start Proofreading' link on
+<p> When you first load a new page to proofread, by clicking on the 'Start Proofreading' link on
     the project comments page, a link to the page is created under 'IN PROGRESS'.
     Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
@@ -293,7 +293,7 @@ theme('Proofreading Guidelines','header');
 <h3><a name="title_pg"><b>Front/Back Title Page</b></a> </h3>
 <p> Include all the text, just as it was printed on the page.  [Sometimes part of this
     info will have to be removed later, due to trademark restrictions (like publisher
-    name, etc.), but that will be done by the post-processor, if needed.  For proofing,
+    name, etc.), but that will be done by the post-processor, if needed.  For proofreading,
     just include it all, including the years of publication or copyright.]</p>
 <p> Put everything just as the book has it written, whether all capitals, upper &amp;
     lower case, etc.  Older books often show the first letter as a large &amp; ornate
@@ -739,7 +739,7 @@ theme('Proofreading Guidelines','header');
     of a paragraph, move the <tt>[Illustration: the-text] </tt>to either above or below
     the paragraph, based on where you can put it without it being in the middle of a
     paragraph.  If the text caption is printed on multiple lines, put it that way in
-    your proofed text.  </p>
+    your proofread text.  </p>
 <p align="left" style="margin-bottom: 0cm;"><br>
 </p>
 <table width="100%" border="1" cellpadding="4"
@@ -776,13 +776,13 @@ theme('Proofreading Guidelines','header');
 <p> <b>Footnotes are placed out-of-line</b>; that is, the text of the footnote is left
     at the bottom of the page and a tag placed where it is referenced in the text.</p>
 
-<p> During proofing, this means:</p>
+<p> During proofreading, this means:</p>
 
 <p> 1. the number, letter, *, or other character that marks a footnote location should
     be surrounded with brackets (<tt>[</tt> and <tt>]</tt>).  Sometimes footnotes
     are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;,
     etc.) that are not available in standard ASCII.  In this case, we
-    replace these with Capital letters in order (A, B, C, etc.) when proofing.
+    replace these with Capital letters in order (A, B, C, etc.) when proofreading.
     Don't leave any space before the <tt>[</tt>--keep it right next to the word
     being footnoted. (This prevents it from ending up on a separate line when the
     paragraphs are eventually re-flowed.) </p>
@@ -838,7 +838,7 @@ theme('Proofreading Guidelines','header');
       </td>
     </tr>
     <tr>
-      <th valign="top" align="left">Proofed with Out-of-Line Footnotes: </th>
+      <th valign="top" align="left">Proofread with Out-of-Line Footnotes: </th>
     </tr>
       <tr valign="top">
       <td>
@@ -866,7 +866,7 @@ theme('Proofreading Guidelines','header');
     chapter or at the end of the book, instead of on the bottom of each page. So these
     have to be done in the same manner as out-of-line footnotes:  where you find an
     endnote reference in the text, just surround it with <tt>[Footnote</tt> and <tt>]</tt>.  
-    If you are proofing one of the ending pages with the endnotes text on it,
+    If you are proofreading one of the ending pages with the endnotes text on it,
     surround the text of each note with <tt>[Footnote _: text-text-text]</tt>, putting
     the footnote number or marker where the underline is, and the actual text for
     "text-text-text".  Put a blank line after each one, so that they stay separate
@@ -874,7 +874,7 @@ theme('Proofreading Guidelines','header');
  <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p> <b>Footnotes in <a href="#poetry">Poetry</a> or <a href="#tables">Tables</a></b>
-    should be treated the same as other footnotes. Proofers should tag them and leave them
+    should be treated the same as other footnotes. Proofreaders should tag them and leave them
     at the bottom of the page; the post-processor will decide on the final placement.</p>
 
 <table width="97%" border="1"  cellpadding="4" cellspacing="0" summary="Footnotes">
@@ -882,7 +882,7 @@ theme('Proofreading Guidelines','header');
   <tbody>
     <tr>
       <th valign="top">Original Footnoted Poetry</th>
-      <th valign="top">Proofed Text</th>
+      <th valign="top">Proofread Text</th>
     </tr>
     <tr>
       <td valign="top">Mary had a little lamb<sup>1</sup>                        <br>
@@ -987,7 +987,7 @@ And everywhere that Mary went
     indicate the superscripting.
     This is common in scientific &amp; technical works, which have a lot of this.  They
     also use curly braces <tt>{</tt> and <tt>}</tt> when there are several letters
-    superscripted.  Using this method, that line would be proofed like this:
+    superscripted.  Using this method, that line would be proofread like this:
   <br> &nbsp; &nbsp; &nbsp; &nbsp;    <tt>Gen^{rl} Washington defeated L^d Cornwall's
     army.</tt> </p>
  <!-- The last is a terrible example to use and I would substitute a scientific one-->
@@ -1018,13 +1018,13 @@ And everywhere that Mary went
     
 <h3><a name="word_caps">Word in all Caps or Small Caps</a> </h3>
 <p> If a word or words in the text are printed in all capital letters (including small
-    caps), leave it that way in your proofed copy.  The exception to this is the <a
+    caps), leave it that way in your proofread copy.  The exception to this is the <a
     href="#chap_head">first word of a chapter or paragraph</a>: many old books put the
     first word of these in all caps; this should be changed to upper and lower case. </p>
     
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a> </h3>
 <p> Often the opening letter in a chapter, section, or paragraph is printed as
-    a large and ornate graphic of the letter--proof this as just the letter.</p>
+    a large and ornate graphic of the letter--proofread this as just the letter.</p>
     
 <h3><a name="eol_hyphen">End-of-line Hyphenation</a> </h3>
 <p> Where a hyphen appears at the end of a line, join the two halves of the hyphenated
@@ -1059,17 +1059,17 @@ And everywhere that Mary went
     <br>Leave these as a single hyphen, with no spaces on either side.
     <li><i>En-dashes</i>.  These are just a little longer, and are used for a
         <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
-    <br>Proof these, too, as a single hyphen.  Spaces before or after are determined by the
+    <br>Proofread these as a single hyphen, too. Spaces before or after are determined by the
         way it was done in the book; usually no spaces in number ranges, usually spaces
         around mathematical minus signs, sometimes both sides, sometimes just before.
     <li><i>Em-dashes &amp; long dashes</i>.  These serve as <b>separators</b> between
         words--sometimes for emphasis like this--or when a speaker gets a word caught in
         his throat--!
-    <br>Proof these as two hyphens. Don't leave a space before or after,
+    <br>Proofread these as two hyphens. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     <li><i>Still longer dashes</i>.  These represent <b>omitted</b> or <b>censored</b>
         words or names.
-    <br>Proof these as 4 hyphens.  When it represents a word, we leave appropriate space
+    <br>Proofread these as 4 hyphens.  When it represents a word, we leave appropriate space
         around it like it's really a word.  If it's only part of a word, then no
         spaces--join it with the rest of the word.
   </ol>
@@ -1086,7 +1086,7 @@ And everywhere that Mary went
   <tbody>
     <tr>
       <th valign="top">Original Image</th>
-      <th valign="top">Proofed Text</th>
+      <th valign="top">Proofread Text</th>
       <th valign="top">Type</th>
     </tr>
     <tr>
@@ -1160,8 +1160,8 @@ And everywhere that Mary went
 
 <h3><a name="abbrev">Abbreviations</a> </h3>
 <p> Remove all spaces in abbreviations, even if it appears that the typesetter included
-    spaces (or partial spaces) in the printed version.  For example, proof as <tt>H.M.S.
-    Pinafore</tt>, not as <tt>H.&nbsp;M.&nbsp;S.&nbsp;Pinafore</tt>.  Also proof as
+    spaces (or partial spaces) in the printed version.  For example, proofread as <tt>H.M.S.
+    Pinafore</tt>, not as <tt>H.&nbsp;M.&nbsp;S.&nbsp;Pinafore</tt>.  Also proofread as
     <tt>G.B. Shaw</tt>, not as <tt>G.&nbsp;B.&nbsp;Shaw</tt>.  (This avoids the problem
     of having the abbreviation being broken across lines when text is rewrapped on some
     e-book screens, which would be much less readable.) </p>
@@ -1197,7 +1197,7 @@ And everywhere that Mary went
 <p> Type 2), reflecting the printer's attempts to save the expense of wider paper, 
     we undo, rejoining the broken fragment of the line back with the beginning of it, 
     all on one long line. (Such a line may have to be rebroken during PPing, but that's 
-    for the PP to determine, not the proofer). </p>
+    for the PP to determine, not the proofreader). </p>
 
 <p> How do you tell type 1) (author's indenting, keep) from type 2) (printer's indenting, undo)? 
     There are some common patterns you can use. Not all will apply in all cases. </p> 
@@ -1213,10 +1213,10 @@ And everywhere that Mary went
     often do, will appear randomly, depending on the lengths of the words in the line.</p> 
 
 <p> If the poetry was centered on the printed page, don't bother trying to center lines of 
-    poetry during proofing; that won't work for an e-book viewed with many different
+    poetry during proofreading; that won't work for an e-book viewed with many different
     screen sizes. </p>
 
-<p> <b>Footnotes</b> in poetry should be treated the same as usual footnotes during proofing.
+<p> <b>Footnotes</b> in poetry should be treated the same as usual footnotes during proofreading.
     See <a href="#footnotes">footnotes</a> for details. </p>
 
 <p> <b>Line Numbers</b> in poetry should be kept.  Put them at the end of the
@@ -1285,7 +1285,7 @@ And everywhere that Mary went
     Remember that the goal is to preserve the Author's meaning, while producing a
     readable table in an e-book.  Sometimes this requires sacrificing the original
     format of the table on the printed page. Check the Project Comments and discussion
-    thread because other proofers may have settled on a specific format.</p>
+    thread because other proofreaders may have settled on a specific format.</p>
 <p> <b>Footnotes</b> in tables should go at the end of the table.  See
     <a href="#footnotes">footnotes</a> for details.
     </p>
@@ -1295,9 +1295,9 @@ And everywhere that Mary went
     often (but not always) printed more narrowly (with wider margins) or in a smaller font
     size--sometimes but not always, both.  Mark block quotations so the post-processing tools can 
     automatically indent them and rewrap them by surrounding them with <tt>/#</tt> and <tt>#/</tt>. 
-    Do not indent the text in a block quote, and, just as when proofing ordinary text, 
+    Do not indent the text in a block quote, and, just as when proofreading ordinary text, 
     leave the line breaks as they are in the image (hyphenated end-of-line words should still be rejoined) 
-    for the convenience of proofers in later rounds, or the post-processor 
+    for the convenience of proofreaders in later rounds, or the post-processor 
     (who may also want to check the text against the image). </p>
  <!-- need example image and text-->
     
@@ -1308,7 +1308,7 @@ And everywhere that Mary went
     color="red">&rdquo;</font> will have to be replaced to make it ASCII compliant.</p>
 <p> For quotes from non-English languages, use the quotation marks that are appropriate
     to that language, if they are available in the Latin-1 character set (the special 
-    characters in the drop-down lists in the proofing interface are all in Latin-1).  
+    characters in the drop-down lists in the proofreading interface are all in Latin-1).  
     For example, the quotation marks used in some German texts, 
     <font color="red"> &bdquo;</font><tt>like this</tt><font color="red">&rdquo;</font> 
     are NOT in Latin-1 but the French equivalent, guillemets,  
@@ -1335,7 +1335,7 @@ And everywhere that Mary went
     quotation, after the last paragraph; if so, leave it that way.  Sometimes that last
     paragraph of the quotation is on the next page, so you will not see any closing
     quote mark at all.  If so, leave it that way--don't add closing quote marks that
-    aren't on the page image.  (Note that this means that the proofed text for
+    aren't on the page image.  (Note that this means that the proofread text for
     multi-paragraph quotes will have more opening quotes than ending quotes.  That's
     fine, our post-processing software expects this.) </p>
 
@@ -1435,7 +1435,7 @@ image/text for an example.</p>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the end....
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
     </tt></p>
-<p>    <i>Sometimes you'll see it with the punctuation at the end; so proof it that way:</i>
+<p>    <i>Sometimes you'll see it with the punctuation at the end; so proofread it that way:</i>
     <tt>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
     </tt>
@@ -1744,7 +1744,7 @@ image/text for an example.</p>
 <p>In some projects, you will find characters with special marks either above or below
    the normal latin A..Z character.  These are called <i>diacritical marks</i>, and
    indicate special pronunciation for this character.
-   For proofing, we indicate them in our normal ASCII text by the following coding:<br>
+   For proofreading, we indicate them in our normal ASCII text by the following coding:<br>
 
 <!-- 
   diacritical mark           above  below
@@ -1763,7 +1763,7 @@ cedilla                      [,x]*  [x,]
 <table width="95%" border="6" rules="all" align="center" summary="Diacriticals">
   <tbody>
   <tr bgcolor="cornsilk">
-      <th colspan=9>Proofing symbols for Diacritical marks</th>
+      <th colspan=9>Proofreading symbols for Diacritical marks</th>
   <tr bgcolor="cornsilk">
       <th>diacritical mark</th>
       <th>sample</th>
@@ -1826,8 +1826,8 @@ cedilla                      [,x]*  [x,]
   </tbody>
 </table>
 
-<p>Be sure to include the square brackets (<tt>[ ]</tt>) around these, so the post
-   proofer knows which letter it applies to.  They will eventually replace these with
+<p>Be sure to include the square brackets (<tt>[ ]</tt>) around these, so the post-processor
+   knows which letter it applies to.  They will eventually replace these with
    whatever symbol works in each version of the text they produce, like 7-bit ASCII,
    8-bit, Unicode, html, etc.  </p>
 <p>Note that when some of these marks appear on some characters (mainly vowels) our standard
@@ -1912,7 +1912,7 @@ cedilla                      [,x]*  [x,]
   <tbody>
     <tr>
       <th valign="top">Scanned Text</th>
-      <th valign="top">Proofed Text</th>
+      <th valign="top">Proofread Text</th>
     </tr>
     <tr>
       <td valign="top">Elizabeth I, her royal Majesty the                  <br>
@@ -1970,12 +1970,12 @@ cedilla                      [,x]*  [x,]
 <p>If you run into something that isn't covered in these guidelines that you think needs
    special handling, or you run into something
    that you're not sure of, post your question in the Project Discussion thread, and put a
-   note in the proofed text explaining the problem.
-   Notes are quite helpful--they save the next proofer time by explaining what the
+   note in the proofread text explaining the problem.
+   Notes are quite helpful--they save the next proofreader time by explaining what the
    question is.  Put square brackets <tt>[</tt> and <tt>]</tt> around your note so that
    is clearly separated from the Author's text. And mark it with 2 asterisks <tt>**</tt>
-   for the next proofer.
-   This signals the next proofer to stop and examine this text
+   for the next proofreader.
+   This signals the next proofreader to stop and examine this text
    &amp; the matching image, and deal with it. (This does slow down the proofreading
    of this text, so don't do this unnecessarily.)
    </p>
@@ -2044,7 +2044,7 @@ cedilla                      [,x]*  [x,]
 <p> If an image is bad (not loading, chopped off, unable to be read), please put a post
     about this bad image in the project comments <a href="#forums">forum</a>.  Do not
     click on "Return Page to Round"; if you do, the page will be reissued to the next
-    proofer.  Instead, click on the "Report Bad Page" button so this page is
+    proofreader.  Instead, click on the "Report Bad Page" button so this page is
     'quarantined'. </p>
 <p> Note that some page images are quite big, and it's fairly common for your browser to
     have difficulty displaying them, especially if you have several windows open or are
@@ -2063,7 +2063,7 @@ cedilla                      [,x]*  [x,]
 <h3><a name="bad_text">Wrong Image for Text</a> </h3>
 <p> If there is a wrong image for the text given, please put a post about this bad image
     in the project comments <a href="#forums">forum</a>.  Do not click on "Return Page
-    to Round"; if you do, the page will be reissued to the next proofer.  Instead, click
+    to Round"; if you do, the page will be reissued to the next proofreader.  Instead, click
     on the "Report Bad Page" button so this page is 'quarantined'.  </p>
     
 <h3><a name="round1">Previous Proofreader Mistakes</a> </h3>
