@@ -7,3 +7,7 @@ cookiecheck.inc
      $cookieC  class instance use as $cookieSet->setCookie() | $cookieSet->deleteCookie()
      $cookieSet = true/false (preset from $cookieSet->checkCookie() call)
      $cookieID = the username as pulled from the pgname cookie variable
+
+dp_main.inc
+     $admin_email = administrators email
+     $admin_name = administrators name
