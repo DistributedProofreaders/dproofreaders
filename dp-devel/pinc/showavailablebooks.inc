@@ -108,23 +108,23 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	echo "<tr align=center ".bgcol(1,$round).">";
 
 	$word = _("Title");
- 	$link = $linkbase.($flip_title?"TitleA":"TitleD").">";
+ 	$link = $linkbase.($flip_title?"TitleD":"TitleA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Author");
- 	$link = $linkbase.($flip_author?"AuthorA":"AuthorD").">";
+ 	$link = $linkbase.($flip_author?"AuthorD":"AuthorA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Language");
- 	$link = $linkbase.($flip_lang?"LangA":"LangD").">";
+ 	$link = $linkbase.($flip_lang?"LangD":"LangA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Genre");
- 	$link = $linkbase.($flip_genre?"GenreA":"GenreD").">";
+ 	$link = $linkbase.($flip_genre?"GenreD":"GenreA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Project Manager");
- 	$link = $linkbase.($flip_PM?"PMA":"PMD").">";
+ 	$link = $linkbase.($flip_PM?"PMD":"PMA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Available Pages");
@@ -134,7 +134,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Days");
- 	$link = $linkbase.($flip_days?"DaysA":"DaysD").">";
+ 	$link = $linkbase.($flip_days?"DaysD":"DaysA").">";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	echo "</tr>";
