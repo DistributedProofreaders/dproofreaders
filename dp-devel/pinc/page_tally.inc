@@ -156,34 +156,8 @@ function users_get_page_tally_ranks()
 // Returns an associative array that maps each user's id
 // to his/her rank (as determined by page tallies).
 {
-    $rankArray = "";
-
-    $result = mysql_query("
-        SELECT holder_id, tally_value
-        FROM current_tallies
-        WHERE holder_type='U' AND tally_name='P'
-        ORDER BY tally_value DESC
-    ");
-    $i = 1;
-    while (list($u_id, $P_tally) = mysql_fetch_row($result))
-    {
-        if ($P_tally == 0) { $rankArray[$u_id] = 0; continue; }
-        if ($P_tally == $latest_page_tally)
-        {
-            $rankArray[$u_id] = $latest_rank;
-            $latest_rank = $latest_rank;
-        }
-        else
-        {
-            $rankArray[$u_id] = $i;
-            $latest_rank = $i;
-        }
-        $latest_page_tally = $P_tally;
-        if ($i == 1) { $latest_rank = 1; }
-        $i++;
-    }
-
-    return $rankArray;
+    global $users_P_page_tallyboard;
+    return $users_P_page_tallyboard->get_ranks();
 }
 
 // -----------------------------------------------------------------------------
@@ -433,33 +407,8 @@ function teams_get_page_tally_ranks()
 // Return an associative array that maps each team's id
 // to its rank (as determined by page tallies).
 {
-    $rankArray = "";
-
-    $result = mysql_query("
-        SELECT holder_id, tally_value
-        FROM current_tallies
-        WHERE holder_type='T' AND holder_id != 1 AND tally_name='P'
-        ORDER BY tally_value DESC
-    ");
-    $i = 1;
-    while (list($team_id, $P_tally) = mysql_fetch_row($result))
-    {
-        if ($P_tally == $latest_page_tally)
-        {
-            $rankArray[$team_id] = $latest_rank;
-            $latest_rank = $latest_rank;
-        }
-        else
-        {
-            $rankArray[$team_id] = $i;
-            $latest_rank = $i;
-        }
-        $latest_page_tally = $P_tally;
-        if ($i == 1) { $latest_rank = 1; }
-        $i++;
-    }
-
-    return $rankArray;
+    global $teams_P_page_tallyboard;
+    return $teams_P_page_tallyboard->get_ranks();
 }
 
 // -----------------------------------------------------------------------------

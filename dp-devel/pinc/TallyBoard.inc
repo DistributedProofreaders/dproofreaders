@@ -174,6 +174,52 @@ class TallyBoard
         // assert(FALSE); ?
         return NULL;
     }
+
+    // -------------------------------------------------------------------------
+
+    function get_ranks()
+    // Return an associative array that maps each holder's id
+    // to its rank, as detrmined by tallies.
+    {
+        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
+
+        $rank_of_ = array();
+
+        $result = mysql_query("
+            SELECT holder_id, tally_value
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND $kludge
+            ORDER BY tally_value DESC
+        ");
+        $i = 1;
+        while (list($holder_id, $tally_value) = mysql_fetch_row($result))
+        {
+            if ($tally_value == 0)
+            {
+                $rank_of_[$holder_id] = 0;
+                continue;
+            }
+
+            if ($tally_value == $latest_tally)
+            {
+                $rank_of_[$holder_id] = $latest_rank;
+                $latest_rank = $latest_rank;
+            }
+            else
+            {
+                $rank_of_[$holder_id] = $i;
+                $latest_rank = $i;
+            }
+            $latest_tally = $tally_value;
+            if ($i == 1) { $latest_rank = 1; }
+            $i++;
+        }
+
+        return $rank_of_;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
