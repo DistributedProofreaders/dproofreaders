@@ -108,12 +108,14 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
     //Code to display if the user is logged in
     	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     	$pguser_id = mysql_result($result, 0, "user_id");
-    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_type = 5");
+    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
     	$numofPMs = mysql_fetch_row($result);
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/phpBB2/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/phpBB2/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a> ($numofPMs[0] new)</font>&nbsp;<b>&#183;</b>&nbsp;";
+	echo "<a href='$siteurl/phpBB2/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a>";
+	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] new)"; }
+	echo "</font>&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font></td>";
 	}
