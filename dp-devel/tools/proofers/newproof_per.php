@@ -55,7 +55,7 @@ theme("Personal Page for $pguser", "header");
 		echo " <a href='".$code_url."/faq/summary.pdf>";
 		echo _("Handy Proofing Guide"); 
 		echo "</a> ";
-		echo _("(printable) and 
+		echo _("(printable) and"); 
 		echo " <a href='".$code_url."/faq/document.php>";
 		echo _("Proofing Guidelines"); 
 		echo "</a> ";
