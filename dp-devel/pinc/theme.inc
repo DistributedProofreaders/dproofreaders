@@ -115,14 +115,25 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "</td>\n";
 
     // show number of projects posted to PG from DP
-	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
-	$result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
-	$numproj = mysql_result($result,0);
+        echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
+
+        $result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+        $numproj = mysql_result($result,0);
         if ($maintenance) {
                 echo _("MAINTENANCE MODE");
                 echo "  ";
         }
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." books posted to PG from DP!</b></font>\n";
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." DP projects posted to PG!</b></font>\n";
+
+     echo "<br>";
+
+    // show number of books posted to PG from DP
+    // (takes into account that some books are processed as several projects)
+
+        $result = mysql_query( "SELECT COUNT(distinct postednum) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+        $numproj = mysql_result($result,0);
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><b>".number_format($numproj)." different books posted to PG from DP!</b></font>\n";
+
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -451,22 +462,10 @@ if ($metadata){
 		}
         echo "&nbsp;<a href='$code_url/stats/teams/tlist.php'><font face='".$theme['font_navbar']."' size='1'>"._("View all teams...")."</font></a><br>\n";
 
-        //Show the Top Ten users is user has the option set
+        // show link to replacement page for top ten
         if ($userP['u_top10']) {
-        	echo "<br><hr width='75%' align='center'><br>\n";
-        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Top Ten Proofers:") . "</u></font></center>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-		$i = 0;
-		$p = 1;
-		while ($p <= 10) {
-			if ($neighborhood['username'][$i] == $GLOBALS['pguser']) { echo "<b><i>"; }
-			echo "&nbsp;$p.) ".$neighborhood['username'][$i]." - ".number_format($neighborhood['pages'][$i])."<br>\n";
-			if ($neighborhood['username'][$i] == $GLOBALS['pguser']) { echo "</b></i>"; }
-			$i++;
-			$p++;
-			if (empty($neighborhood['username'][$i])) { break; }
-		}
-		echo "</font>";
+             echo "<br><hr width='75%' align='center'><br>\n";
+             echo "<center><a href='$code_url/stats/proof_stats.php'>Proofreading Statistics</a></center>\n";
         }
 
         //Show the Neighbor table if the user has requested so
