@@ -179,38 +179,24 @@ function Page_delete( $projectid, $fileid )
 
 function Page_modifyStartingText( $projectid, $fileid, $page_text )
 {
-    global $writeBIGtable;
-
-    $result = mysql_query("UPDATE $projectid SET master_text='$page_text' WHERE fileid='$fileid'");
-
-    if ($writeBIGtable)
-    {
-        $result = mysql_query("UPDATE project_pages SET master_text='$page_text' WHERE projectid = '$projectid' AND fileid='$fileid'");
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        master_text='$page_text'
+    " );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
 {
-    global $writeBIGtable;
-
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
-    $dbQuery="UPDATE $projectid SET state='";
-    $dbQuery.="{$prd->out_state}', {$prd->time_column_name}='$timestamp', {$prd->user_column_name}='$user'";
-    $dbQuery.=" WHERE fileid='$fileid' AND image='$image'";
-    $update = mysql_query($dbQuery);
-
-    if ($writeBIGtable)
-    {
-        $dbQuery="UPDATE project_pages SET state='";
-        $dbQuery.="{$prd->out_state}', {$prd->time_column_name}='$timestamp', {$prd->user_column_name}='$user'";
-        $dbQuery.=" WHERE projectid = '$projectid' and fileid='$fileid'";
-        $update = mysql_query($dbQuery);
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='{$prd->out_state}',
+        {$prd->time_column_name}='$timestamp',
+        {$prd->user_column_name}='$user'
+    " );
 
     return $prd->out_state;
 }
@@ -219,22 +205,16 @@ function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
 
 function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $user, $page_text )
 {
-    global $writeBIGtable;
-
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
-    $dbQuery="UPDATE $projectid SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
-    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
-    $result = mysql_query($dbQuery);
-
-    if ($writeBIGtable)
-    {
-        $dbQuery="UPDATE project_pages SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
-        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
-        $result = mysql_query($dbQuery);
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='{$prd->temp_state}',
+        {$prd->time_column_name}='$timestamp',
+        {$prd->user_column_name}='$user',
+        {$prd->text_column_name}='$page_text'
+    " );
 
     return $prd->temp_state;
 }
@@ -243,22 +223,16 @@ function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $use
 
 function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $page_text )
 {
-    global $writeBIGtable;
-
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
-    $dbQuery="UPDATE $projectid SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->save_state}', {$prd->user_column_name}='$user'";
-    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
-    $result = mysql_query($dbQuery) or die(mysql_error());
-
-    if ($writeBIGtable)
-    {
-        $dbQuery="UPDATE project_pages SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->save_state}', {$prd->user_column_name}='$user'";
-        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
-        $result = mysql_query($dbQuery) or die(mysql_error());
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='{$prd->save_state}',
+        {$prd->time_column_name}='$timestamp',
+        {$prd->user_column_name}='$user',
+        {$prd->text_column_name}='$page_text'
+    " );
 
     return $prd->save_state;
 }
@@ -267,22 +241,15 @@ function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $pa
 
 function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
 {
-    global $writeBIGtable;
-
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
-    $dbQuery="UPDATE $projectid SET {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
-    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
-    $result = mysql_query($dbQuery);
-
-    if ($writeBIGtable)
-    {
-        $dbQuery="UPDATE project_pages SET {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
-        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
-        $result = mysql_query($dbQuery);
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='{$prd->temp_state}',
+        {$prd->time_column_name}='$timestamp',
+        {$prd->user_column_name}='$user'
+    " );
 
     return $prd->temp_state;
 }
@@ -291,22 +258,15 @@ function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
 
 function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 {
-    global $writeBIGtable;
-
     $timestamp = time();
 
     $prd = get_PRD_for_round( $round_number );
 
-    $dbQuery="UPDATE $projectid SET {$prd->time_column_name}='$timestamp', state='{$prd->avail_state}', {$prd->user_column_name}='$user'";
-    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
-    $result = mysql_query($dbQuery);
-
-    if ($writeBIGtable)
-    {
-        $dbQuery="UPDATE project_pages SET {$prd->time_column_name}='$timestamp', state='{$prd->avail_state}', {$prd->user_column_name}='$user'";
-        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
-        $result = mysql_query($dbQuery);
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='{$prd->avail_state}',
+        {$prd->time_column_name}='$timestamp',
+        {$prd->user_column_name}='$user'
+    " );
 
     return $prd->avail_state;
 }
@@ -315,8 +275,6 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 
 function Page_reclaim( $projectid, $fileid, $round_number )
 {
-    global $writeBIGtable;
-
     if ( $round_number == 1 )
     {
         $newstate = AVAIL_FIRST;
@@ -328,20 +286,16 @@ function Page_reclaim( $projectid, $fileid, $round_number )
         $timetype = "round2_time";
     }
 
-    $result = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
-
-    if ($writeBIGtable)
-    {
-        $result = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state = '$newstate',
+        $timetype = ''
+    " );
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_clearRound( $projectid, $fileid, $round_number )
 {
-    global $writeBIGtable;
-
     if ( $round_number == 1 )
     {
         $text_field_name = 'round1_text';
@@ -357,33 +311,18 @@ function Page_clearRound( $projectid, $fileid, $round_number )
         $avail_page_state = AVAIL_SECOND;
     }
 
-    $result = mysql_query("
-        UPDATE $projectid
-        SET $text_field_name='',
-            $user_field_name='',
-            $time_field_name='',
-            state = '$avail_page_state'
-        WHERE fileid = '$fileid'
+    _Page_UPDATE( $projectid, $fileid, "
+        state = '$avail_page_state',
+        $time_field_name='',
+        $user_field_name='',
+        $text_field_name=''
     ");
-
-    if ($writeBIGtable) {
-        $result = mysql_query("
-            UPDATE project_pages
-            SET $text_field_name='',
-                $user_field_name='',
-                $time_field_name='',
-                state = '$avail_page_state'
-            WHERE projectid = '$projectid' AND fileid = '$fileid'
-        ");
-    }
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
 {
-    global $writeBIGtable;
-
     if ( $round_number == 1 )
     {
         $badState = 'bad_first';
@@ -395,20 +334,18 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
         $text_copier = 'round2_text=round1_text';
     }
 
-    $result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$user', b_code=$reason, $text_copier WHERE fileid='$fileid'");
-
-    if ($writeBIGtable)
-    {
-        $result = mysql_query("UPDATE project_pages SET state='$badState', b_user='$user', b_code=$reason, $text_copier WHERE projectid = '$projectid' AND fileid='$fileid'");
-    }
+    _Page_UPDATE( $projectid, $fileid, "
+        state='$badState',
+        b_user='$user',
+        b_code=$reason,
+        $text_copier
+    " );
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_eraseBadMark( $projectid, $fileid, $round_number )
 {
-    global $writeBIGtable;
-
     if ( $round_number == 1 )
     {
         $avail_state = AVAIL_FIRST;
@@ -424,11 +361,27 @@ function Page_eraseBadMark( $projectid, $fileid, $round_number )
         return;
     }
 
-    $result = mysql_query("UPDATE $projectid SET $user_column_name='', b_user='', b_code='', state='$avail_state' WHERE fileid='$fileid'");
+    _Page_UPDATE( $projectid, $fileid, "
+        state='$avail_state',
+        b_user='',
+        b_code='',
+        $user_column_name=''
+    " );
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _Page_UPDATE( $projectid, $fileid, $settings )
+{
+    global $writeBIGtable;
+
+    $sql = "UPDATE $projectid SET $settings WHERE fileid='$fileid'";
+    $res = mysql_query($sql) or die(mysql_error());
 
     if ($writeBIGtable)
     {
-        $result = mysql_query("UPDATE project_pages SET $user_column_name='', b_user='', b_code='', state='$avail_state' WHERE projectid = '$projectid' AND fileid='$fileid'");
+        $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND fileid='$fileid'";
+        $res = mysql_query($sql) or die(mysql_error());
     }
 }
 
