@@ -979,7 +979,7 @@ class User
     /**
      * Is User's Statistics Anonymous
      *
-     * <p>Anonymous means that only users with accounts can see this person's statistics.</p>
+     * <p>Anonymous means that no one (except the person) can see this person's statistics.</p>
      *
      * - returns true if user has chosen to make their statistics anonymous
      * - returns false otherwise
@@ -1004,7 +1004,7 @@ class User
     /**
      * Is User's Statistics Private
      *
-     * <p>Private means that no one can see this person's statistics.</p>
+     * <p>Private means that only logged-in users can see this person's statistics.</p>
      *
      * - returns true if user has chosen to make their statistics private
      * - returns false otherwise
