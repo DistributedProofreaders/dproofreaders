@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'tdecho.inc');
-function showavailablebooks($result,$state,$userP)
+function showavailablebooks($result,$state,$userP,$tList)
 {
 $tds="<td bgcolor=\"#CCCCCC\"";
 echo "<tr>";
@@ -24,7 +24,11 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
         if ($book['state'] == $state) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
-            $eURL="proof.php?project={$book['projectid']}&amp;proofstate={$book['state']}";
+            if ($tList==0)
+              {$eURL="proof";}
+            else
+              {$eURL="projects";}
+            $eURL.=".php?project={$book['projectid']}&amp;proofstate={$book['state']}";
               if ($userP['i_newwin']==0)
                 {$temp="<a href=\"$eURL\">";}
               else

@@ -19,4 +19,4 @@ echo $setT;
 echo $setP."\r\n</td>";
 ?>
 <td width=126 bgcolor="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
-</tr></table>
+</tr><tr><td colspan="5" align="center"><a href="list_avail.php">View Available Projects</a></td></table>

@@ -253,7 +253,7 @@ echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR softw
 
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
-    showavailablebooks($result,2,$userP);
+    showavailablebooks($result,2,$userP,0);
 echo "</table>";
 }
 ?>
@@ -271,7 +271,7 @@ echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_n
 echo "</td></tr>";
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = 12 OR state = 18 ORDER BY nameofwork ASC");
-    showavailablebooks($result,12,$userP);
+    showavailablebooks($result,12,$userP,0);
     echo "</table>\n<p>";
 }
 } 
