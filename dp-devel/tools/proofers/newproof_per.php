@@ -263,6 +263,10 @@ Legend for Special Books:
 }
 
 
+
+$tList=0;
+include_once('Tproof_list.inc');
+
 if ($pagesproofed <= 20) {
 
                 echo "<font face=" . $theme['font_mainbody'] ."><b>";
@@ -271,8 +275,6 @@ if ($pagesproofed <= 20) {
 }
 
 
-$tList=0;
-include_once('Tproof_list.inc');
 ?>
 
 <?
