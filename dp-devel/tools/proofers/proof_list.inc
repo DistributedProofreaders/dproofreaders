@@ -21,12 +21,12 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     // instead, two separate queries each sent to showavailable books
     // and header code now a sep function so can be called only once
 
-    $result = mysql_query("SELECT * FROM projects WHERE username = 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."')");
+    $result = mysql_query("SELECT * FROM projects WHERE username = 'BEGIN' || difficulty = 'beginner' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."')");
 
     showbooklistheader('first');
     showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
 
-    $result2 = mysql_query("SELECT * FROM projects WHERE username != 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc");
+    $result2 = mysql_query("SELECT * FROM projects WHERE username != 'BEGIN' && difficulty != 'beginner' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc");
 
     showavailablebooks($result2,AVAIL_FIRST,$userP,$tList,'first');
     echo "</table>\n<br>";
@@ -47,11 +47,11 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'second') . " colspan=5");
       echo "</tr>";
 
-      //Select all projects in the list for round 2 
+      //Select all projects in the list for round 2
         $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_SECOND_AVAILABLE."' or state = '".PROJ_PROOF_SECOND_VERIFY."' ORDER BY nameofwork ASC");
       showbooklistheader('second');
       showavailablebooks($result,AVAIL_SECOND,$userP,$tList,'second');
       }
   echo "</table>\n<br>";
-} 
+}
 ?>
