@@ -251,36 +251,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	if (isset($GLOBALS['pguser'])) {
 
-	//Get the personal statistics array
-	$result = mysql_query("SELECT username, pagescompleted, u_privacy FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
-	$i = 0;
-	$lastcompleted = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
-	while ($row = mysql_fetch_assoc($result)) {
-    		if ($row['username'] == $GLOBALS['pguser']) {
-        		$userindex = $i;
-    		}
-    		if ($row['pagescompleted'] == $lastcompleted) {
-        		$neighborhood['rank'][$i] = $neighborhood['rank'][$i - 1];
-    		} else {
-        		$neighborhood['rank'][$i] = $i+1;
-    		}
-		if ($row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $GLOBALS['pguser']) {
-			$neighborhood['username'][$i] = _("Anonymous");
-		} else $neighborhood['username'][$i] = $row['username'];
-    		$neighborhood['pages'][$i] = $row['pagescompleted'];
-    		$lastcompleted = $row['pagescompleted'];
-    		$i++;
-	}
-
-		if (!isset($userindex)) {
-			$userindex = $i;
-			$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
-			$neighborhood['pages'][$userindex] = 0;
-			$neighborhood['rank'][$userindex] = $userindex+1;
-			$neighborhood['totalRanks'] = $userindex+1;
-		} else {
-			$neighborhood['totalRanks'] = $neighborhood['rank'][$i-1];
-		}
+		//Get the personal statistics array
+		$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
+		$userindex = $neighborhood['curMbrIndex'];
 	}
 
     //Show site, personal, team & top ten stats.
