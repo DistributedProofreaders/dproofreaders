@@ -20,58 +20,7 @@ This one handles requests that can be done by people other than the PM.
 They should maybe be merged.
 */
 
-if ( substr($request,0,4) == 'GET_' )
-{
-	// This isn't a request for a state-change,
-	// it's just a request for some info about the project.
-
-	if ($request == 'GET_IMAGES_ZIP') {
-		$refresh_url="$projects_url/$projectid/".$projectid."images.zip";
-	} else if ($request == 'GET_IMAGES_HTML') {
-		$refresh_url="$projects_url/$projectid/images.html";
-	} else if ($request == 'GET_PROJ_DETAILS') {
-		$refresh_url="project_manager/project_detail.php?project=$projectid&type=Full";
-	} else if ($request == 'GET_COMMENTS_PROOF') {
-		$refresh_url="proofers/projects.php?project=$projectid&proofing=1";
-	} else if ($request == 'GET_COMMENTS_POST') {
-		$refresh_url="post_proofers/post_comments.php?project=$projectid";
-	} else if ($request == 'GET_TEXT_POST_1_ZIP') {
-		$refresh_url="$projects_url/$projectid/$projectid.zip";
-	} else if ($request == 'GET_TEXT_POST_2_ZIP') {
-		$refresh_url="$projects_url/$projectid/{$projectid}_second.zip";
-	} else if ($request == 'GET_TEXT_CORR_ZIP') {
-		$refresh_url="$projects_url/$projectid/{$projectid}_corrections.zip";
-	} else if ($request == 'GET_XML_POST_1_ZIP') {
-		$refresh_url="$projects_url/$projectid/{$projectid}_TEI.zip";
-
-		// For a while (2003 Feb-Aug?), sendtopost generated TEI files,
-		// but didn't zip them. We could go back and zip them all, or
-		// we can do it here, upon request.
-
-		$TEI_base = "$projects_dir/$projectid/{$projectid}_TEI";
-		$TEI_txt  = "$TEI_base.txt";
-		$TEI_zip  = "$TEI_base.zip";
-
-		if (!file_exists($TEI_zip) && file_exists($TEI_txt) )
-		{
-		    // Create the zip
-		    echo "creating the zip...";
-		    exec("zip -j $TEI_zip $TEI_txt");
-		}
-	} else {
-		echo "You requested:<br>\n";
-		echo "curr_state=$curr_state<br>\n";
-		echo "request=$request<br>\n";
-		echo "This is not supported.<br>\n";
-		return;
-	}
-	metarefresh(0,$refresh_url,"Transferring...","");
-	return;
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-// This *is* a request for a state-change.
 
 $reqd_state = $request;
 
@@ -86,13 +35,13 @@ if ($curr_state == PROJ_POST_FIRST_AVAILABLE &&
     $reqd_state == PROJ_POST_FIRST_CHECKED_OUT)
 {
 	$do_what = "do post-processing";
-	$refresh_url = "post_proofers/post_proofers.php";
+	$refresh_url = "post_proofers/post_comments.php?project=$projectid";
 }
 else if ($curr_state == PROJ_POST_SECOND_AVAILABLE &&
          $reqd_state == PROJ_POST_SECOND_CHECKED_OUT)
 {
 	$do_what = "verify post-processing";
-	$refresh_url = "post_proofers/post_proofers.php";
+	$refresh_url = "post_proofers/post_comments.php?project=$projectid";
 }
 else if ($curr_state == PROJ_CORRECT_AVAILABLE &&
          $reqd_state == PROJ_CORRECT_CHECKED_OUT)
