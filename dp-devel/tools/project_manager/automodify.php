@@ -299,7 +299,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
         else
         {
-            $next_round_state = $next_prd->project_available_state;
+            $next_round_state = $next_prd->project_waiting_state;
         }
 
         if ($verbose)
