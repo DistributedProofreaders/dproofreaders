@@ -67,7 +67,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 		list($bestDayCount,$bestDayTimestamp) =
 			$tallyboard->get_info_re_largest_delta($u_id);
-		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
 
 		if ($daysInExistence > 0) {
 				$daily_Average = $current_page_tally/$daysInExistence;

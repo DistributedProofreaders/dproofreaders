@@ -56,7 +56,7 @@ $team_id = $curTeam['id'];
 
 		list($bestDayCount, $bestDayTimestamp) =
 			$teams_tallyboard->get_info_re_largest_delta( $team_id );
-		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
 
 		$data .= "
 			<roundinfo id='$tally_name'>
