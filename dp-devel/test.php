@@ -4,6 +4,7 @@
 // for developers who don't have shell accounts on it.
 
 $relPath='./pinc/';
+include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');
 new dbConnect();
 
@@ -24,7 +25,7 @@ echo "<hr>\n";
 system("ls -l /0/htdocs");
 echo "<hr>\n";
 
-if (1)
+if (0)
 {
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
     $criterion = "modifieddate >= $project_cutoff_ts";
@@ -69,10 +70,20 @@ echo "</pre>\n";
 
 if (0)
 {
-    include($relPath.'f_dpsql.inc');
     $res = mysql_query("DESCRIBE projects")
 		or die(mysql_error());
     dpsql_dump_query_result($res);
     echo "<HR>\n";
+}
+
+if (1)
+{
+    $res = mysql_query("SELECT projectID, modifieddate FROM projects WHERE archived='1' ORDER BY modifieddate")
+	or die(mysql_error());
+    dpsql_dump_query_result($res);
+
+    $res = mysql_query("SELECT projectID, modifieddate FROM projects WHERE archived='0' ORDER BY modifieddate")
+	or die(mysql_error());
+    dpsql_dump_query_result($res);
 }
 ?>
