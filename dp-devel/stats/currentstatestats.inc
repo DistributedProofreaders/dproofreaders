@@ -6,9 +6,6 @@ include_once($relPath.'gettext_setup.inc');
 echo "<center>";
 
 
-// Not translating this file since it is not used by end-users
-
-
 // display project count progress - here for the moment, can be moved to stats bar later
 $cday = date('d'); $cmonth = date('m'); $cyear = date('Y');
 $today = date('Y-m-d');
@@ -56,12 +53,12 @@ echo "
 	  <tbody>
 	  <tr bgcolor='".$theme['color_navbar_bg']."'>
 	      <th colspan=04><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."'>"
-	."Projects this month".
+	._("Projects this month").
 		"</font></th>
-	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_created_graphs.php'>Created</a>:        <b>$created</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_proofed_graphs.php'>Proofread</a>:      <b>$FinProof</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_PPd_graphs.php'>Post-Processed</a>: <b>$FinPP</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_posted_graphs.php'>Posted to PG</a>: <b>$Posted</b></td>
+	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_created_graphs.php'>"._("Created")."</a>:        <b>$created</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_proofed_graphs.php'>"._("Proofread")."</a>:      <b>$FinProof</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_PPd_graphs.php'>"._("Post-Processed")."</a>: <b>$FinPP</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_posted_graphs.php'>"._("Posted to PG")."</a>: <b>$Posted</b></td>
 	  </tr>
 	  </tbody>
 	</table>
