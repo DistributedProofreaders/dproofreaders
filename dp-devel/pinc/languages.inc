@@ -138,7 +138,6 @@ function lang_name($langcode)
                 "hr_HR.utf8"=>"Hrvatski",
                 "it_IT.utf8"=>"Italiano",
                 "is_IS.utf8"=>"Íslenska",
-		"kajkavian"=>"Kajkavski (Kajkavian)",
                 "kl_GL.utf8"=>"Kalaallisut",
                 "kw_GB.utf8"=>"", //Cornish
                 "la"=>"Latina",
