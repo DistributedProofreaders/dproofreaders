@@ -1,7 +1,12 @@
 <?PHP
 function ptog($varNM)
-{if (isset($_POST['.$varNM.']))
-{return $_POST['.$varNM.'];}
+{if (isset($_POST[$varNM]))
+{return $_POST[$varNM];}
+else {return NULL;}}
+
+function gtog($varNM)
+{if (isset($_GET[$varNM]))
+{return $_GET[$varNM];}
 else {return NULL;}}
 
 function dquery($qstring)
