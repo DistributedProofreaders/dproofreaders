@@ -1,0 +1,59 @@
+Here's a first stab at installation instructions for the Distributed
+Proofreaders website code. This assumes you're installing from scratch.
+If you're upgrading from a previous version, things would be different ...
+
+--- Install PHP (if it isn't already).
+    
+    
+--- Install MySQL (if it isn't already).
+    In the examples in this document, we will assume it's on "localhost",
+    i.e. the same host on which you are running these commands, and the
+    same host that runs the webserver.
+
+--- Choose names for various MySQL items:
+    --- the DP database (to house the DP data);
+    --- the DP user (to handle all DP queries);
+    --- the DP user's password.
+    In the examples in this document, we will use
+        dp_db
+        dp_user
+        dp_password
+    for these three items. You may wish to choose names that are harder for
+    others to guess (especially for the password!).
+
+--- Set up MySQL to create the database and user:
+    There are various ways to do each of these.
+    We'll show how to do it using the mysql client.
+
+    --- Connect to the MySQL server as the root user, or any sufficiently
+        powerful user.
+            mysql -h localhost -u root
+
+    --- Create the database.
+            CREATE DATABASE dp_db;
+        If you have MySQL 4.1.1 or higher:
+            CREATE DATABASE dp_db CHARACTER SET UTF8;
+
+    --- Create the user.
+        (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
+            GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
+   
+    --- Exit from the mysql client.
+            quit
+
+--- Unpack the DP code.
+    ...
+
+--- Configure the DP code (with site-specific settings).
+    ...
+
+--- Create the tables of the DP database.
+        cd c/SETUP
+        php -f install_db.php
+
+--- At this point, your DP site should be functional.
+    Try visiting it via your browser.
+    Register as a new user.
+    Of course, there aren't any projects to proof yet.
+
+# vim: ts=4 sw=4 expandtab ai
