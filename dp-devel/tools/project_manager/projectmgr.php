@@ -362,24 +362,29 @@ function echo_cells_for_round($round_num)
 			SELECT projectid, nameofwork, authorsname, checkedoutby, state, username
 			FROM projects
 			WHERE $condition
-			ORDER BY state asc, nameofwork asc
+			ORDER BY nameofwork asc
 		");
         	if ($result != "") $numrows = (mysql_num_rows($result));
 
-        	$rownum = 0;
-        	while ($rownum < $numrows) {
+		$tr_num = 0;
+		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
+		{
+        	   $rownum = 0;
+        	   while ($rownum < $numrows) {
+            	     $state = mysql_result($result, $rownum, "state");
+		     if ($state == $proj_state_in_order)
+		     {
             		$name = mysql_result($result, $rownum, "nameofwork");
             		$author = mysql_result($result, $rownum, "authorsname");
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
-            		$state = mysql_result($result, $rownum, "state");
 	
         		if ($outby != "") {
                 		$tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
                 		$outbyemail = mysql_result($tempsql, 0, "email");
             		}
 
-			if ($rownum % 2 ) {
+			if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_main_bg'];
                 	} else {
                 		$bgcolor = $theme['color_navbar_bg'];
@@ -402,8 +407,12 @@ function echo_cells_for_round($round_num)
             		if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
             		if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/post.zip\">D/L</A>";
             		echo "</td></tr>\n";
-            		$rownum++;
-        	}
+
+			$tr_num++;
+		     }
+		     $rownum++;
+        	   }
+		}
 		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table>";
 	}
 
