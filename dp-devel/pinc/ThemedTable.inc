@@ -81,6 +81,14 @@ class ThemedTable
         assert( array_sum($this->column_widths) == 100 );
     }
 
+    function set_column_alignments()
+    {
+        assert( func_num_args() == $this->n_cols );
+        $this->column_alignments = func_get_args();
+
+        // Should check that they're sensible.
+    }
+
     function column_headers()
     {
         $args = func_get_args();
@@ -138,6 +146,23 @@ class ThemedTable
                 $width_attr = '';
             }
 
+            if ( isset($this->column_alignments) )
+            {
+                $alignment = $this->column_alignments[$c];
+                if (empty($alignment))
+                {
+                    $align_attr = '';
+                }
+                else
+                {
+                    $align_attr = "align='$alignment'";
+                }
+            }
+            else
+            {
+                $align_attr = '';
+            }
+
             $cell_content = $cell_texts[$c];
 
             if ($is_header)
@@ -146,7 +171,7 @@ class ThemedTable
                 $cell_content = "<font face='$font_face' color='$font_color' size='2'>$cell_content</font>";
             }
 
-            echo "<td $width_attr>$cell_content</td>";
+            echo "<td $width_attr $align_attr>$cell_content</td>";
         }
 
         echo "</tr>";
