@@ -29,12 +29,12 @@ $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>"
 
 echo "$setT";
 
-if (($top_menu) && ($my_last_page_date < $comments_last_modified)) {
-	echo _("Start Link Below<br>Project Comments");
-} else if ($projectinfo->availablepages > 0) {
-	echo "<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b>";
-} else {
+if ($projectinfo->availablepages == 0) {
 	echo _("Round Complete");
+} else if (($top_menu) && ($my_last_page_date < $comments_last_modified)) {
+	echo _("Start Link Below<br>Project Comments");
+} else {
+	echo "<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b>";
 }
 
 echo "</td>";
