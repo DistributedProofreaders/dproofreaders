@@ -1,5 +1,7 @@
 <?
 
+include 'maybe_mail.inc';
+
   // Auto-Release Project
 
 function numpages($project) {
@@ -19,7 +21,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     if (($author == "") || ($nameofwork == "") || ($language == "") || ($clearance == "")) {
         $currstate = 0;
-        mail("$email", "DP: $nameofwork has an empty field.",
+        maybe_mail("$email", "DP: $nameofwork has an empty field.",
              "This is an automated message from the Distributed Proofreaders site.\n\n".
              "$nameofwork has one of the following parameters blank:\n\n".
              "Title: $nameofwork\nAuthor: $author\nLanguage: $language\nClearance Line: $clearance\n\n".
@@ -36,19 +38,19 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
         if (!file_exists($path.$filename)) {
             $currstate = 0;
-            mail("$email", "DP: $nameofwork has missing image $filename.",
+            maybe_mail("$email", "DP: $nameofwork has missing image $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename image that is missing. Please correct, check other pages, and put back into Waiting for Release.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         } else if (filesize($path.$filename) < 100) {
             $currstate = 0;
-            mail("$email", "DP: $nameofwork has bad image $filename.",
+            maybe_mail("$email", "DP: $nameofwork has bad image $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename image with a small file size. Please correct, check other pages, and put back into Waiting for Release.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         } else if ($text == "") {
             $currstate = 0;
-            mail("$email", "DP: $nameofwork has empty text for $filename.",
+            maybe_mail("$email", "DP: $nameofwork has empty text for $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename with a small text size. Please correct, check other pages, and put back into Waiting for Release.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
