@@ -36,7 +36,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 				$right = _("This is a First-Round project, these files are output from the OCR software and have not been looked at.");
 			} else {
 				$left  = _("Second Round Project");
-				$right = _("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._("See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.");
+				$right = _("These are files that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._("See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.");
 			}
 			echo_row_a( $left, "<b>$right</b>", 1 );
 		}

@@ -31,7 +31,7 @@ echo _("Proofreading Guidelines");
 echo "</a> ";
 echo _("(for reference) provide much more detail.");
 echo "</i><br><br>\n";
-echo _("BEGINNERS ONLY projects are reserved for new proofers. After you have done 5-15 pages in total from these projects, please leave them for proofers who are newer than you. EASY projects make a good next step.");
+echo _("BEGINNERS ONLY projects are reserved for new proofreaders. After you have done 5-15 pages in total from these projects, please leave them for proofreaders who are newer than you. EASY projects make a good next step.");
 echo "<br><br>\n";
 
 
