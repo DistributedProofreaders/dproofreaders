@@ -87,10 +87,6 @@ echo "<br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 ?>
-
-
-
-//<body bgcolor="#FFFFFF">
 <p><font face="<? echo $theme['font_mainbody']; ?>">Legend for Special Books:<br><br><b><span class="orange"> Halloween </span>&nbsp; 
 <span class="green"> Ramadan </span>&nbsp;<span class="paleblue"> recent authors' birthdays </span>&nbsp;
   <span class="richblue"> TODAY's author birthdays </span>&nbsp;<br><span class="yellow"> Children's Book Week </span> 
