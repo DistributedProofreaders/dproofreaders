@@ -538,8 +538,8 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
 	if (empty($authorsname) && isset($_POST['rec'])) {  $authorsname = marc_author($rec); }
 	if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
 	if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
-	if (empty($txtlink)) { $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.txt"; }
-	if (empty($ziplink)) { $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip"; }
+	if (empty($txtlink)) { $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.txt"; }
+	if (empty($ziplink)) { $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.zip"; }
 	if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a>.</p>"; }
 	if (empty($scannercredit)) { $scannercredit = ""; }
 	if (empty($clearance)) { $clearance = ""; }
