@@ -71,6 +71,18 @@ include($relPath.'project_edit.inc');
 		$newstate = PROJ_PROOF_FIRST_BAD_PROJECT;
 		$refresh_url = '';
 	    }
+	    else if ( ! user_is_a_sitemanager() )
+	    {
+		echo "<p>";
+		echo "This option has been disabled -- ";
+		echo "project managers can no longer manually force the release of their projects.";
+		echo "</p>\n";
+		echo "<p>";
+		echo "Please contact a site admin if you think this project should be released.";
+		echo "</p>\n";
+		echo "<p>Back to <a href=\"projectmgr.php\">project manager</a> page.</p>";
+		$do_transition = FALSE;
+	    }
 	}
     }
     else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY))
