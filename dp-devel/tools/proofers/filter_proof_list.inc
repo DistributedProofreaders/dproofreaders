@@ -37,6 +37,9 @@ return $to_echo;
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
 
+    echo   _("Difficulty")."<br>";
+
+
 echo "All <input type='checkbox' name='difficulty1[]' value=''>";
 
 	echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
@@ -54,6 +57,8 @@ Hard
 
     echo   "<td>"._("Language")."</td>";
     echo   "<td>"._("Genre")."</td>";
+    echo   "<td>"._("Project Manager")."</td>";
+
     echo "\r\n</tr>";
     echo "\r\n<tr>";
 
@@ -93,15 +98,6 @@ Hard
 	    </select>
 	    </td>
 	";
-
-    echo "\r\n</tr>";
-    echo "\r\n<tr>";
-    echo   "<td>"._("Project Manager")."</td>";
-    echo   "<td>"._("Difficulty")."</td>";
-    echo "\r\n</tr>";
-    echo "\r\n<tr>";
-
-
        
 	// PM filter
 
