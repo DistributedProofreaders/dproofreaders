@@ -181,7 +181,7 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 }
 
 function showMbrNeighbors($curMbr) {
-	global $theme, $isAnonymousUsername;
+	global $theme;
 	$rankArray = mbrRank($curMbr['username']);
 	$now = time();
 
@@ -221,7 +221,7 @@ function showMbrNeighbors($curMbr) {
 	}
 
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-	echo "<td width='15%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'], 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$isAnonymousUsername</a></td><td width='28%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='29%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
+	echo "<td width='15%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'], 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>".$curMbr['username']."</a></td><td width='28%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='29%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
 
 	$i = 1;
 	while ($i <= 4) {
