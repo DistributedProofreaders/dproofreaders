@@ -29,7 +29,7 @@ function showTeamProfile($curTeam) {
     		$last_post_date = mysql_result($last_post,0,"post_time");
     		$last_post_date = date("n/j/Y g:i:sA", $last_post_date);
     	} else {
-    		$last_post_date = date("n/j/y g:i:sA", 0);
+    		$last_post_date = NULL;
     	}
 
 	$now = time();
@@ -62,7 +62,11 @@ function showTeamProfile($curTeam) {
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
 	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>"._("Forums")."</b>: <a href='";
-	echo $GLOBALS['forums_url'] . "/viewtopic.php?t=" . $curTeam['topic_id'] . "'>"._("Team Discussion")."</a> ("._("Last Post:")." $last_post_date)</font></td></tr>";
+	echo $code_url."/stats/teams/team_topic.php?team=".$curTeam['id']."'>"._("Team Discussion")."</a> ";
+	if (!is_null($last_post_date)) {
+		echo "("._("Last Post:")." $last_post_date)";
+	}
+	echo "</font></td></tr>";
 	echo "</table><p>";
 }
 
@@ -298,47 +302,6 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
   	}
 }
 
-function createThread($tname, $tinfo, $towner, $tid) {
-	//Declare variables
-	global $code_url;
-	global $teams_forum_idx;
-
-	$timeposted = time();
-	$owner = 527;
-	$title = $tname;
-	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$code_url/stats/teams/tdetail.php?tid=$tid'>$code_url/stats/teams/tdetail.php?tid=$tid</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
-	$message = addslashes($message);
-
-	$ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
-	$post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
-
-	//Add Topic into phpbb_topics
-	$insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, $teams_forum_idx, '$title', $owner, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
-	$topic_id = mysql_insert_id();
-
-	//Add Post into phpbb_posts
-	$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, $teams_forum_idx, $owner, $timeposted, '$post_ip', '', 1, 0, 1, 0, NULL, 0)");
-	$post_id = mysql_insert_id();
-
-	//Add Post Text into phpbb_posts_text
-	$insert_post_text = mysql_query("INSERT INTO phpbb_posts_text (post_id, bbcode_uid, post_subject, post_text) VALUES ($post_id, '', '$title', '$message')");
-
-	//Update phpbb_topics with post_id
-	$update_topic = mysql_query("UPDATE phpbb_topics SET topic_first_post_id=$post_id, topic_last_post_id=$post_id WHERE topic_id=$topic_id");
-
-	//Update forum post count
-	$get_count = mysql_query("SELECT forum_posts, forum_topics FROM phpbb_forums WHERE forum_id=$teams_forum_idx");
-	while($row = mysql_fetch_array($get_count)) {
-	$forum_posts = $row['forum_posts'];
-	$forum_topics = $row['forum_topics'];
-	$forum_posts++;
-	$forum_topics++;
-	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics, forum_last_post_id=$post_id WHERE forum_id=$teams_forum_idx");
-	}
-
-	//Update teams db with topic_id so it can be deleted
-	$update_project = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id='$tid'");
-}
 
 function uploadImages($preview,$tid,$type) {
 	global $team_avatars_dir, $team_icons_dir;
