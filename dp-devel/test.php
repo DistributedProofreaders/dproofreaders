@@ -28,11 +28,12 @@ if (0)
     echo "<hr>\n";
 }
 
-if (0)
+if (1)
 {
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
     $criterion = "modifieddate >= $project_cutoff_ts";
     $criterion = "archived='0'";
+    $criterion = "1";
     $res = mysql_query("SELECT projectid FROM projects WHERE $criterion")
 	    or die(mysql_error());
 
@@ -42,22 +43,23 @@ if (0)
 
 	echo $projectid;
 	echo " ";
-	$res2 = mysql_query("SELECT COUNT(*) FROM $projectid");
+	# $res2 = mysql_query("SELECT COUNT(*) FROM $projectid");
+	$res2 = mysql_query("SELECT COUNT(*), COUNT(DISTINCT(fileid)), COUNT(DISTINCT(image)) FROM $projectid");
 	if (!$res2)
 	{
 	    echo mysql_error();
 	}
 	else
 	{
-	    list($n_pages) = mysql_fetch_array($res2);
-	    echo $n_pages;
+	    list($n_pages,$n_distinct_fileid,$n_distinct_image) = mysql_fetch_array($res2);
+	    echo "$n_pages $n_distinct_fileid $n_distinct_image";
 	}
 	echo "\n";
     }
     echo "<hr>\n";
 }
 
-if (1)
+if (0)
 {
     $res = mysql_query("SELECT username FROM users") or die(mysql_error());
     while( $user_row = mysql_fetch_array($res))
