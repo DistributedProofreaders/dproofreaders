@@ -124,10 +124,13 @@ function echo_page_table( $projectid )
 		$imagename = $page_res['image'];
 		if (file_exists($path.$imagename)) {
 			$bgcolor = $row_color;
-			if ($show_image_size) $imagesize = filesize(realpath($path.$imagename));
+			$imagesize = filesize(realpath($path.$imagename));
+			if ($imagesize == 0) {
+				$bgcolor = "#FF0000";
+			}
 		} else {
 			$bgcolor = "#FF0000";
-			if ($show_image_size) $imagesize = 0;
+			if ($show_image_size) $imagesize = "X";
 		}
 		echo "<td bgcolor='$bgcolor'><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
 
