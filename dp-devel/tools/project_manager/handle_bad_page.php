@@ -76,7 +76,10 @@ if (!isset($_POST['action'])) {
         echo "<input type='hidden' name='modify' value='text'>";
         echo "<input type='hidden' name='projectid' value='$projectID'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
-	  echo "<textarea name='master_text' cols=70 rows=10>$master_text</textarea><br><br>";
+	  echo "<textarea name='master_text' cols=70 rows=10>";
+	  // SENDING PAGE-TEXT TO USER
+	  echo htmlspecialchars($master_text,ENT_NOQUOTES);
+	  echo "</textarea><br><br>";
 	  echo "<input type='submit' value='Update Original Text'></form>";
       } elseif ($_POST['modify'] == "text") {
 	  $master_text = $_POST['master_text'];
