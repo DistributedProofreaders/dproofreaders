@@ -51,8 +51,7 @@ Proofreaders?</a><br>
 <a href="#ocr">Whew! I've got the image files done. What's next?</a><br>
 <a href="#process">You're kidding me! I'm not done yet?</a><br>
 <a href="#submit">OK, I'm finished, how do I submit the project?</a><br>
-<a href="file:///C:/books/cvs/dp-devel/faq/scan/submitting.php#software">Useful
-Software</a><br>
+<a href="#software">Useful Software</a><br>
 <br>
 </p>
 <p> </p>
@@ -171,8 +170,8 @@ progress to let other people know it is reserved so as not to duplicate
 effort.<br>
 </p>
 <p>The preferred method&nbsp; for submitting clearance requests is the
-web interface at <a href="http://beryl.ils.unc.edu/copy.html">this page</a>
-(http://beryl.ils.unc.edu/copy.html). There are quite a few handy tips
+web interface at <a href="http://copy.pglaf.org">this page</a>
+(http://copy.pglaf.org). There are quite a few handy tips
 and links there also.<br>
 </p>
 <p>You probably should not invest too much time until you've received
