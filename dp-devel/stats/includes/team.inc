@@ -54,7 +54,6 @@ function showTeamStats($curTeam) {
 		$i++;
 	}
 
-	$result = mysql_query("SELECT MAX(daily_page_count) AS bestDay FROM user_teams_stats WHERE team_id = ".$curTeam['id']."");
 	$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");
 	$bestDayCount = mysql_result($result, 0, "daily_page_count");
 	$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
