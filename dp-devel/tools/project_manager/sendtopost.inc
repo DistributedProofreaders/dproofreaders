@@ -98,8 +98,7 @@ echo "got this far";
         while ($count < $mynumrows) {
             $filename = mysql_result($myresult, $count, "image");
             $text_data = mysql_result($myresult, $count, "round2_text");
-	    $text_data = str_replace("&lt;", "<", $text_data);
-	    $text_data = str_replace("&gt;", ">", $text_data);
+
             $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
             fputs($fp,$fileinfo);
             $count++;
@@ -206,8 +205,7 @@ works]</byline>\r\n");
             fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
 
             $text_data = mysql_result($myresult, $count, "round2_text");
-            $text_data = str_replace("&lt;", "<", $text_data);
-	    $text_data = str_replace("&gt;", ">", $text_data);
+
             put_page_text($text_data, $fp);
 
             $count++;
