@@ -16,8 +16,12 @@ function select_from_teams( $where_body, $other_clauses='' )
 	if ($where_body == '') $where_body = '1';
 
 	$q = "
-		SELECT *
+		SELECT
+			user_teams.*,
+			current_tallies.tally_value AS page_count
 		FROM user_teams
+			LEFT OUTER JOIN current_tallies
+			ON (holder_type='T' AND holder_id=id AND tally_name='P')
 		WHERE $where_body
 		$other_clauses
 	";

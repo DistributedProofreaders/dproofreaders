@@ -46,9 +46,9 @@ function page_tallies_add( $username, $amount )
 
     // update page tally for each team
     mysql_query("
-        UPDATE user_teams
-        SET page_count = page_count + $amount
-        WHERE id IN (1, $team_1, $team_2, $team_3)
+        UPDATE current_tallies
+        SET tally_value = tally_value + $amount
+        WHERE holder_type='T' AND holder_id IN (1, $team_1, $team_2, $team_3) AND tally_name='P'
     ");
 }
 
@@ -439,8 +439,14 @@ function team_initialize_current_page_tally( $team_id )
 // Ensure that subsequent queries about the given (new) team's
 // current page-tally will find something.
 {
-    // Don't need to do anything, because user_teams.page_count
-    // is initialized to zero when team is created.
+    mysql_query("
+        INSERT INTO current_tallies
+        SET
+            holder_type = 'T',
+            holder_id   = $team_id,
+            tally_name  = 'P',
+            tally_value = 0
+    ") or die(mysql_error());
 }
 
 // -----------------------------------------------------------------------------
@@ -450,15 +456,15 @@ function team_get_page_tally_rank( $team_id )
 // as determined by page tallies.
 {
     $result = mysql_query("
-        SELECT id
-        FROM user_teams
-        WHERE id != 1
-        ORDER BY page_count DESC
+        SELECT holder_id
+        FROM current_tallies
+        WHERE holder_type='T' AND holder_id != 1 AND tally_name='P'
+        ORDER BY tally_value DESC
     ");
     $i = 1;
     while ($row = mysql_fetch_assoc($result))
     {
-        if ($row['id'] == $team_id) { return $i; }
+        if ($row['holder_id'] == $team_id) { return $i; }
         $i++;
     }
     // assert(FALSE); ?
@@ -474,10 +480,10 @@ function teams_get_page_tally_ranks()
     $rankArray = "";
 
     $result = mysql_query("
-        SELECT id, page_count
-        FROM user_teams
-        WHERE id != 1
-        ORDER BY page_count DESC
+        SELECT holder_id, tally_value
+        FROM current_tallies
+        WHERE holder_type='T' AND holder_id != 1 AND tally_name='P'
+        ORDER BY tally_value DESC
     ");
     $i = 1;
     while (list($team_id, $P_tally) = mysql_fetch_row($result))

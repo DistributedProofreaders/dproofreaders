@@ -49,8 +49,9 @@ $max_update = mysql_result($result,0,0);
 		}
 
 		$result = mysql_query("
-			SELECT id, page_count
-			FROM user_teams
+			SELECT holder_id, tally_value
+			FROM current_tallies
+			WHERE holder_type='T' AND tally_name='P'
 		");
 		while(list($team_id, $current_P_tally) = mysql_fetch_row($result)) {
 			if ($team_id != 1) {
