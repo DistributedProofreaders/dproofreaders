@@ -27,8 +27,6 @@ function verifynew($project) {
 	//Update the total and available pages in the HEAP table
 	update_total_pages($projectid, 1);
 
-    $page_num = 0;
-
     $errors = '';
 
     $nameofwork = $project['nameofwork'];
@@ -59,8 +57,6 @@ function verifynew($project) {
         if ($page['master_text_length'] == 0) {
             $errors .= "  $filename: text is empty\n";
         }
-
-        $page_num++;
     }
 
     if ( $errors )
