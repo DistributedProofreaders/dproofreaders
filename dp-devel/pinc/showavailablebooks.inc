@@ -86,13 +86,12 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			}
 
 
-			
-			// slightly richer blue for birthday books when today IS the day
-			$bday = date('md');
-			if ( startswith( $book['comments'], 'SPECIAL: Birthday $bday' ) )
-			{
-				$bgcolor = " bgcolor='#33CCFF'";
-			}
+			 // slightly richer blue for birthday books when today IS the day
+                        $bday = date('md');
+                        if ( startswith( $book['comments'], "SPECIAL: Birthday $bday" ) )
+                        {
+                                $bgcolor = " bgcolor='#33CCFF'";
+                        }
 
 
 
