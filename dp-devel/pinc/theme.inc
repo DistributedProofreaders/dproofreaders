@@ -7,7 +7,6 @@ include_once($relPath.'udb_user.php');
 include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'session.inc');
-include_once($relPath.'gettext_setup.inc');
 
 //Let's see if the users session has already been started
 	$session_id = session_id();
@@ -39,6 +38,8 @@ if (0) {
 	$userP=$cookieC->getUserPrefs($pguser);
 }
 }
+
+include_once($relPath.'gettext_setup.inc');
 
 if(isset($userP['i_theme'])) {
 		include_once($relPath.'templates/'.$userP['i_theme'].'/theme.tpl');
@@ -320,8 +321,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	// Month's Numbers
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
-	echo "&nbsp;".date("F")."'s "._("Goal").": " . number_format($sitestats['goal'])." "._("pages")." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
-	echo "&nbsp;".date("F").": ".number_format(($sitestats['monthly']+$sitestats['daily'])) . " "._("pages")."<br>\n";
+	echo "&nbsp;".date("F")."'s "._("Goal").": " . number_format($sitestats['goal'])." "._("pages")."<br>\n";
+	echo "&nbsp;".date("F").": ".number_format(($sitestats['monthly']+$sitestats['daily'])) . " "._("pages")." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
 
 	echo "<br><hr width='75%' align='center'><br>\n";
 
