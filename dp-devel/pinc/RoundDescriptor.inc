@@ -116,5 +116,34 @@ function get_PRD_for_project_state( $project_state )
     }
 }
 
+// ---------------------------
+
+function get_PRD_for_page_state( $page_state )
+{
+    global $PRD_1, $PRD_2;
+
+    switch ($page_state)
+    {
+        case UNAVAIL_FIRST:
+        case AVAIL_FIRST:
+        case OUT_FIRST:
+        case TEMP_FIRST:
+        case SAVE_FIRST:
+        case BAD_FIRST:
+            return $PRD_1;
+
+        case UNAVAIL_SECOND:
+        case AVAIL_SECOND:
+        case OUT_SECOND:
+        case TEMP_SECOND:
+        case SAVE_SECOND:
+        case BAD_SECOND:
+            return $PRD_2;
+
+        default:
+            return NULL;
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
