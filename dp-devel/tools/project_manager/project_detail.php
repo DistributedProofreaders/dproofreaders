@@ -185,10 +185,10 @@ if ($page_type == "Full") {
 
 	if ($can_edit) {
 
-		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
+		if ( $state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
 		{
-			echo "<br><br><br>";
-			echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+			echo "<br>";
+			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>Delete All Text</a>";
 		}
 	}
 
