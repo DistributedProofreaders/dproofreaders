@@ -114,6 +114,8 @@ $exp_text .= _("Since you have the non-specific font type of $tfont selected, we
 		specific comparison images to show you; but we enocurage you to browse through the gallery of
 		comparisons to specific fonts from the links below, to see them juxtaposed with DPCustomMono2.");
 
+}
+
 $exp_text .= "</FONT></P>";
 
 echo $exp_text;
