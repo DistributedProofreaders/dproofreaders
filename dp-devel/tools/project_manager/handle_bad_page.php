@@ -51,7 +51,7 @@ echo $reason_list[$b_Code];
 echo $tr.$td2;
 echo "<strong>Originals:</strong>";
 echo $td3;
-echo "<a href='displayimage.php?project=$projectID&imagefile=$imagename' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=0' target='_new'>View Text</a>";
+echo "<a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=0' target='_new'>View Text</a>";
 echo $tr.$td2;
 echo "<strong>What to do:&nbsp;&nbsp;</strong>";
 echo $td3;
@@ -69,7 +69,7 @@ $state = $_POST['state'];
 //If the PM fixed the problem or stated the report was bad update the database to reflect
 if (($action == "fixed") || ($action == "bad")) {
 if ($state == BAD_FIRST) { $state = AVAIL_FIRST; } elseif ($state = BAD_SECOND) { $state = AVAIL_SECOND; }
-$result = mysql_query("UPDATE $projectID SET b_user='', b_code='', state=$state WHERE fileid=$fileID");
+$result = mysql_query("UPDATE $projectID SET b_user='', b_code='', state='$state' WHERE fileid=$fileID");
 }
 
 //Redirect the user back to the project detail page.
