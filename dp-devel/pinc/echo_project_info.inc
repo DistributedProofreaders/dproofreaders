@@ -55,6 +55,19 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// $user_id = mysql_result($phpuser, 0, "user_id");
 
 	// -------------------------------------------------------------------------
+	// Show SR instructions near the top if project is available for SR
+
+	if ($proofstate == 'proj_post' AND $inSR)
+	{
+		$word = _("Instructions for Smooth Reading");
+		echo_row_b($word, '' );
+		echo_row_c( $project['postcomments'] );
+		$word = _("Other Project Information");
+		echo_row_b($word, '' );
+
+	}
+
+	// -------------------------------------------------------------------------
 	// The state of the project
 
 	$right = project_states_text($project['state']);
@@ -219,9 +232,10 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	if ($proofstate == 'proj_post')
 	{
 		$word = _("Post Processor Comments");
-             if ($inSR) {	$word = _("Instructions for Smooth Reading");}
-		echo_row_b($word, '' );
-		echo_row_c( $project['postcomments'] );
+             if (!$inSR) {
+ 		    echo_row_b($word, '' );
+		    echo_row_c( $project['postcomments'] );
+             }
 	}
 
 	$comments = $project['comments'];
