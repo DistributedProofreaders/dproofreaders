@@ -8,7 +8,7 @@ include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
-theme("Create An Account", "header");
+theme("Create Account", "header");
 echo "<br>";
 
 // This function takes any error message given to it, displays it & terminates the page
@@ -16,7 +16,7 @@ echo "<br>";
 function abort_registration( $error )
 {
     echo "$error<br>\n";
-    echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
+    echo "<a href=\"addproofer.php\">Back</a>";
     theme("", "footer");
     exit;
 }
@@ -42,12 +42,12 @@ if ($password=="proofer") {
 
     if (empty($userpass) || empty($email) || empty($real_name))
     {
-        abort_registration( "You did not completely fill out the form.  Please hit back and try agian." );
+        abort_registration( "You did not completely fill out the form.  Please hit back & try again." );
     }
 
     if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
     {
-    	abort_registration("Your e-mail address is invalid.  Please hit back and correct it.");
+    	abort_registration("Your e-mail address is invalid.  Please hit back & try again.");
     }
 
 
@@ -286,9 +286,7 @@ $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 <form method="post" action="addproofer.php">
 <input type=hidden name="password" value="proofer">
 <?php
-    echo $tb.$tr.$td1;
-    echo "<b>Create A Distributed Proofreader Account</b>";
-    echo $tre.$tr.$td2."<b>Real Name:</b>";
+    echo $tb.$tr.$td2."<b>Real Name:</b>";
     echo $td3.'<input type="text" maxlength=70 name="real_name" size=20>';
     echo $tre.$tr.$td2."<b>User Name:</b>";
     echo $td3.'<input type="text" maxlength=70 name="userNM" size=20>';
@@ -298,7 +296,7 @@ $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
     echo $td3.'<input type="text" maxlength=70 name="email" size=20>';
     echo $tre.$tr.$td2."<b>E-mail Updates:</b>";
     echo $tde.$td3.'<input type="radio" name="email_updates" value="1" checked>Yes&nbsp;&nbsp;<input type="radio" name="email_updates" value="0">No';
-    echo $tre.$tr.$td1.'<input type="submit" value="Create Account">&nbsp;&nbsp;<input type="reset" value="Reset Form">';
+    echo $tre.$tr.$td1.'<input type="submit" value="Create Account">&nbsp;&nbsp;<input type="reset">';
     echo $tre.$tr.$td5;
 
     include($code_dir.'/faq/privacy.php');
