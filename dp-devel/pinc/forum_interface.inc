@@ -2,6 +2,32 @@
 include_once($relPath.'v_site.inc');
 
 
+function move_project_thread( $project_id, $to_forum_id)
+{
+
+	//Move the project thread (if there is one) to another forum
+
+	$result = mysql_query("
+		SELECT topic_id FROM projects WHERE projectid='$projectid'
+	");
+	$topic_id = mysql_result($result, 0, "topic_id");
+
+	if ($topic_id != "")  // there is a project thread
+	{
+		$result = mysql_query("
+			SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+		");
+		$from_forum_id = mysql_result($result, 0, "forum_id");  
+
+		if ($from_forum_id !=  $to_forum_id) { 
+			move_forum_thread( $topic_id, $from_forum_id, $to_forum_id);
+		}
+	}
+
+}
+
+
+
 // $topic_id can be a comma separated string of topic_ids, or a single topic number
 // $from_forum_id and $to_forum_id are the forum ids keying into phpbb_forums table
 
