@@ -101,25 +101,34 @@ if (!empty($_GET['lang']) && $func == "create_newlang") {
 if (!empty($_GET['lang']) && $func == "translate") {
 	$translation = parse_po(file($code_dir."/locale/".$_GET['lang']."/LC_MESSAGES/messages.po"));
 	$i = 0;
-
-	echo "<table align='center' border='0' cellpadding='0' cellspacing='0' width='95%'><tr><td>";
-	echo "<form action='index.php' method='post'>";
-	echo "<br><center><b>Comments</b>:<br><textarea name='comments' rows=5 cols=85>".trim($translation['comments'])."</textarea></center><br>";
-
-	while ($i < count($translation['location'])) {
-		$location = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":")));
-		echo "<b><i>".trim(htmlentities($translation['msgid'][$i], ENT_NOQUOTES, "UTF-8"))."</b></i> (<a href='$code_url/$location' target='_new'>Location</a>)<br>";
-		echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'><input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize(trim($translation['msgid'][$i])))."'>";
-		echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".trim(htmlentities($translation['msgstr'][$i], ENT_NOQUOTES, "UTF-8"))."</textarea><br><br>";
-		$i++;
+	if (!isset($translation['location'])) 
+	{
+		print "\n<p>Something's wrong: I cannot find any translatable strings in the ";
+		print 'translation file. Perhaps the file is corrupt?';
 	}
+	else
+	{
+		$numOfTranslations = $translation['location'];
 
-	echo "<input type='hidden' name='numofTranslations' value='".(count($translation['location'])-1)."'>";
-	echo "<input type='hidden' name='lang' value='".$_GET['lang']."'>";
-	echo "<center><input type='submit' name='save_po' value='Save and Compile'>&nbsp;";
-	echo "<input type='submit' name='rebuild_strings' value='Rebuild String List'></center><br>";
-	echo "</td></tr></table>";
-}
+		echo "<table align='center' border='0' cellpadding='0' cellspacing='0' width='95%'><tr><td>";
+		echo "<form action='index.php' method='post'>";
+		echo "<br><center><b>Comments</b>:<br><textarea name='comments' rows=5 cols=85>".trim($translation['comments'])."</textarea></center><br>";
+	
+		while ($i < $numOfTranslations) {
+			$location = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":")));
+			echo "<b><i>".trim(htmlentities($translation['msgid'][$i], ENT_NOQUOTES, "UTF-8"))."</b></i> (<a href='$code_url/$location' target='_new'>Location</a>)<br>";
+			echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'><input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize(trim($translation['msgid'][$i])))."'>";
+			echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".trim(htmlentities($translation['msgstr'][$i], ENT_NOQUOTES, "UTF-8"))."</textarea><br><br>";
+			$i++;
+			}
+	
+		echo "<input type='hidden' name='numofTranslations' value='".($numOfTranslations-1)."'>";
+		echo "<input type='hidden' name='lang' value='".$_GET['lang']."'>";
+		echo "<center><input type='submit' name='save_po' value='Save and Compile'>&nbsp;";
+		echo "<input type='submit' name='rebuild_strings' value='Rebuild String List'></center><br>";
+		echo "</td></tr></table>";
+		}
+	}
 
 if (isset($_POST['lang'])) {
 
