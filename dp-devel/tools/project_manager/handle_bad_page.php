@@ -20,7 +20,7 @@ $b_User = mysql_result($result,0,"b_user");
 $b_Code = mysql_result($result,0,"b_code");
 
 //Get the user id of the reporting user to be used for private messaging
-$result = mysql_query("SELECT * FROM phpbb_users WHERE username=$b_User");
+$result = mysql_query("SELECT * FROM phpbb_users WHERE username='$b_User'");
 $b_UserID = mysql_result($result,0,"user_id");
 
 //Display form
