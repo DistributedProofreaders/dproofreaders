@@ -8,7 +8,7 @@ function showProjProfile($curProj) {
 
 	$relPath="../../pinc/";
 
-	include_once($relPath.'project_states_text.inc');
+	include_once($relPath.'f_project_states.inc');
 
         $avatar = $GLOBALS['projects_url']."/".$curProj['projectid']."/001.png";
 
@@ -72,6 +72,21 @@ function activityCenter($curProj) {
 // Download Page Images
 
 	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.zip'>Download Page Images</a></font></td></tr>";
+
+// Start Proofing
+
+	if ( $proj_round == 'FIRST' || $proj_round == 'SECOND' )
+	{
+		if ( $proj_round == 'FIRST' )
+		{
+			$available_state = PROJ_PROOF_FIRST_AVAILABLE;
+		}
+		else
+		{
+			$available_state = PROJ_PROOF_SECOND_AVAILABLE;
+		}
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='../proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofing!</a></font></td></tr>\n";
+	}
 
 //	Book is Posted
 
