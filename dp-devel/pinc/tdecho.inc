@@ -27,7 +27,7 @@ function bgcol($row,$round)
 
 function tde($text,$td_controls)
 {
-	$tdt="<td $td_controls>$text</td>";
+	$tdt="\n<td $td_controls>$text</td>";
 	echo $tdt;
 }
 ?>
