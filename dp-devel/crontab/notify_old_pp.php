@@ -54,10 +54,11 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 //	            maybe_mail("$email", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 		
-		    $PPinQuestion = $checkedoutby;
+
 		    $projectslist = "";
 		    $numprojs = 0;
  	    }
+	    $PPinQuestion = $checkedoutby;
 	}
 
 	$numprojs++;
