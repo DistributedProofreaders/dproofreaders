@@ -22,7 +22,7 @@ if ($mode != "upload") {
     $post_proofer = mysql_result($result, 0, "real_name");
 
     // mark the project as completed post-processing
-    $sql = mysql_query("UPDATE projects SET state='29', modifieddate = '$todaysdate' WHERE projectid = '$project'");
+    $sql = mysql_query("UPDATE projects SET state='68', modifieddate = '$todaysdate' WHERE projectid = '$project'");
 ?>
 
 <html><head><title>Completed Post-Processing</title></head>
@@ -36,8 +36,6 @@ if ($mode != "upload") {
 
     // NOTE: Future Suggestions For This Area:
     // - Attach to P.G. submission page
-
-//    exec("perl mailcomplete.pl '$project' '$email'");
 
 } else {
     $project = $_GET['projectid'];
