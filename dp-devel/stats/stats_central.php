@@ -64,7 +64,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $inpost = mysql_query("SELECT count(*) AS numbooks FROM projects
                            WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'");
     $totalinpost = (mysql_result($inpost,0,"numbooks"));
-    echo "<td align ='left'>Books being post processed:  <a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."&order=default'>(View)</a></td><td align ='right'>$totalinpost</td><tr>";
+    echo "<td align ='left'>Books being post processed:  <a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."'>(View)</a></td><td align ='right'>$totalinpost</td><tr>";
 
 
   //get total books in verify
@@ -78,7 +78,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                    WHERE state = '".PROJ_POST_SECOND_CHECKED_OUT."'");
     $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
-    echo "<td align ='left'>Books being verified: <a href ='checkedout.php?state=".PROJ_POST_SECOND_CHECKED_OUT."&order=default'>(View)</a></td><td align ='right'>$totalverifying</td><tr>";
+    echo "<td align ='left'>Books being verified: <a href ='checkedout.php?state=".PROJ_POST_SECOND_CHECKED_OUT."'>(View)</a></td><td align ='right'>$totalverifying</td><tr>";
 
 echo "</table>";
 echo "<br>";
