@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'theme.inc');
 
 if (!isset($_POST['action'])) {
   //Get variables to use for form
@@ -28,8 +29,9 @@ if (!isset($_POST['action'])) {
     $b_UserID = mysql_result($result,0,"user_id");
 
   //Display form
-    $htmlC->startHeader("Bad Page Report");
-    $htmlC->startBody(0,1,0,0);
+    $header = _("Bad Page Report");
+    theme($header, "header");
+
     $tb=$htmlC->startTable(0,0,0,1);
     $tr=$htmlC->startTR(0,0,1);
     $td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
@@ -107,7 +109,8 @@ if (!isset($_POST['action'])) {
 	    }
       }
 
-    echo "</center></body></html>";
+    echo "</center>";
+    theme("", "footer");
 } else {
 
   //Get variables passed from form

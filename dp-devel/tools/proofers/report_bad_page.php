@@ -8,6 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'theme.inc');
 
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];
@@ -21,8 +22,8 @@ $reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Misma
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
 	$header = _("Bad Page Report");
-	$htmlC->startHeader($header);
-	$htmlC->startBody(0,1,0,0);
+	theme($header, "header");
+
 	$tb=$htmlC->startTable(0,0,0,1);
 	$tr=$htmlC->startTR(0,0,1);
 	$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
@@ -68,7 +69,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<li>Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.<br><br>";
 	echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.";
 	echo "</ul></td></tr></table></div></center></font>";
-	echo "</body></html>";
+	theme("", "footer");
 }
 else
 {

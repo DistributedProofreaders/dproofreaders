@@ -9,14 +9,12 @@ $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
 
-$title = _("Create Account");
-theme($title, "header");
-echo "<br>";
-
 // This function takes any error message given to it, displays it & terminates the page
 
 function abort_registration( $error )
 {
+    $header = _("Registration Incomplete");
+    theme($header, "header");
     echo "$error<br>\n";
     $back = _("Back");
     echo "<a href=\"addproofer.php\">".$back."</a>";
@@ -261,14 +259,14 @@ to have it reset.
         // Page shown when account is succeffully created
 
         $header = _("User")." $username "._("Added Successfully");
-        $htmlC->startHeader($header);
-        $htmlC->startBody(0, 1, 0, 0);
+	theme($header, "header");
 
         echo _("User")." <b>$username</b> "._("added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.");
         echo "<center>";
         echo "<br><font size=+1>"._("Click below to sign in and start proofing!!");
         echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='hidden' name='userPW' value='".$userpass."'><input type='submit' value='"._("Sign In")."'></form>";
-	$htmlC->closeBody(0);
+
+	theme("", "footer");
     }
 } else {
 
@@ -277,6 +275,8 @@ to have it reset.
 // When users fill the form out below, it will submit the information back
 // to this file & run the above commands.
 
+    $header = _("Create An Account");
+    theme($header, "header");
     $tb=$htmlC->startTable(0,400,0,1);
     $tr=$htmlC->startTR(0,0,1);
 
