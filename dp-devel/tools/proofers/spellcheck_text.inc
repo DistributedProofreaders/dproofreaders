@@ -12,7 +12,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 	{
 		global $aspell_temp_dir;
 		$tmp_file_name = $projectid . substr($imagefile,0,-4) . ".txt";
-		$tmp_file_path = $aspell_temp_dir . $tmp_file_name;
+		$tmp_file_path = "$aspell_temp_dir/$tmp_file_name";
 
 		$fd=fopen($tmp_file_path,"w");
 		if (!$fd)

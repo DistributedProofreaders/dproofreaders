@@ -23,7 +23,7 @@ if ($npage['spcheck']==2)
     $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
     $npage['spcheck']=0;
     $tpage->setTempPageCookie($npage);
-    $npage['text'] = implode( '', file($aspell_temp_dir.$text_file) );
+    $npage['text'] = implode( '', file("$aspell_temp_dir/$text_file") );
   }
 echo $docType."\r\n";
 ?>
