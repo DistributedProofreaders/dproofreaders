@@ -17,11 +17,11 @@ echo "
 ";
 
 chdir("$projects_dir/$projectid");
-foreach( glob("*.png") as $png_filename )
+foreach( glob("*.{png,jpg}", GLOB_BRACE) as $image_filename )
 {
-    $size = filesize($png_filename);
-    $encoded_url = "$projects_url/$projectid/" . rawurlencode($png_filename);
-    echo "<A HREF='$encoded_url'><B>$png_filename</B></A>";
+    $size = filesize($image_filename);
+    $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_filename);
+    echo "<A HREF='$encoded_url'><B>$image_filename</B></A>";
     echo " <I>($size bytes)</I><BR>\n";
 }
 
