@@ -143,20 +143,8 @@ I have several books I'd like to get on the site but don't have access
 to a scanner /<br>
 I have an image of a book but no OCR software</b><br>
 </a>
-<p> Leave a message in the "Content Provider" forum to that effect. We
-now have over 5000 members. Surely there is someone that has the
-opposite thing you do. We don't have any formal mechanism right now to
-match people up. If you do have books that you don't need back you can
-probably ship them to charlz (Charles Franks) for him to do on his
-"Super Scanner" Send him a message in the forums or an email message to
-work out logistics. If you have images that need OCR run on them, and
-can't find anyone in the forums to partner up with, contact <a
- href="mailto:juliet.sutherland@verizon.net">JulietS</a>, or one of the
- two Charles&#8217;s, <a href="mailto:Charles@Aldarondo.net">Aldarondo</a> or <a
- href="mailto:charlz@lvcablemodem.com">Charlz</a> and they will try to
-make arrangements to run OCR on them. Just be sure to have the images
-named sequentially in the correct format, as described in the scanning
-guidelines<br>
+<p> Leave a message in the "Content Provider" forum to that effect. 
+You can also use the OCR Pool. See the Content Provider Forum for more details. Ask and someone will help you.
 </p>
 <p> </p>
 <hr> <a name="10"><b>I don't have a computer; How can I help?</b><br>
@@ -177,10 +165,9 @@ a Free-GPL OCR package. Its accuracy is poor however, and is not really
  recommended at this time. (Late 2002) Hopefully, as it develops, it
 will improve. There are several commercial products that will run on
 Unix/Linux, but they tend to be VERY expensive. (several  thousand
-dollar range) Probably, your best bet is to team up with a Windows or
-Mac user, and have them do the OCR on your scans. Or make arrangements
-with JulietS, Aldarondo or charlz to have one of them run OCR on your
-scans.<br>
+dollar range) Probably, your best bet is to make use of the OCR Pool.
+See the Content Providers Forum for details.
+<br>
 </p>
 <hr> <a name="13"><b>Speaking of Linux, what scanners are supported?</b></a><br>
 <p> What you probably need to know is: What scanners are compatible with
