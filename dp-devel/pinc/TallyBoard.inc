@@ -205,18 +205,13 @@ class TallyBoard
                 continue;
             }
 
-            if ($tally_value == $latest_tally)
+            if ($tally_value != $latest_tally)
             {
-                $rank_of_[$holder_id] = $latest_rank;
-                $latest_rank = $latest_rank;
+                $latest_rank  = $i;
+                $latest_tally = $tally_value;
             }
-            else
-            {
-                $rank_of_[$holder_id] = $i;
-                $latest_rank = $i;
-            }
-            $latest_tally = $tally_value;
-            if ($i == 1) { $latest_rank = 1; }
+            $rank_of_[$holder_id] = $latest_rank;
+
             $i++;
         }
 
