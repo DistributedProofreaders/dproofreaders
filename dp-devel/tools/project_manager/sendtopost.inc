@@ -1,13 +1,16 @@
 <?
 
     function sendtopost($project, $username, $todaysdate) {
-        // Generate Joined Text File
-        $zippedimages = $project."images.zip";
         $projectpath = "../../projects/".$project;
-        
+
+        //generate index.html for project images
+        exec ("images.pl $project *.png");
+
         // zip all images for project
+        $zippedimages = $project."images.zip";
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
+        // Generate Joined Text File
         $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
 
         $count = 0;
@@ -37,9 +40,6 @@
 
         //create zip copy of file
         exec ("zip -j $projectpath/$project.zip $savepath");
-
-        //generate index.html for project images
-        exec ("images.pl $project *.png");
 
         // Decide whether to send to post-processing or have user work on it.
 
