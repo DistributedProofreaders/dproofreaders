@@ -200,28 +200,52 @@ function showTeamMbrs($curTeam) {
 	
 	echo "\n<tr bgcolor='#cccccc'>";
 
-	if ($order == "mbr") {
-		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Username")."</a></font></b></td>";
-		$orderby = "username";
-	} else {
-		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Username")."</a></font></b></td>";
-	}
+	$column_descriptors =
+		array(
+			array( 'mbr',   'username',             'asc',  _("Username"),        35 ),
+			array( 'pages', 'current_P_page_tally', 'desc', _("Pages Completed"), 35 ),
+			array( 'date',  'date_created',         'asc',  _("Date Joined DP"),  30 )
+		);
+	foreach ( $column_descriptors as $column_descriptor )
+	{
+		list( $cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text, $cd_width ) =
+			$column_descriptor;
+		if ( $cd_order == $order ) {
+			// This is the column by which we are to sort the table.
 
-	if ($order == "pages") {
-		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
-		$orderby = 'current_P_page_tally';
-	} else {
-		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=desc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
-	}
+			// So here's the db-column to ORDER BY in the SQL query.
+			$orderby = $cd_dbcolumn;
 
-	if ($order == "date") {
-		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='30%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Date Joined DP")."</font></a></b></td>";
-		$orderby = "date_created";
-	} else {
-		echo "<td width='30%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Date Joined DP")."</font></a></b></td>";
+			// Render the column-header using 'headerbar' settings.
+			$bgcolor    = $theme['color_headerbar_bg'];
+			$font_face  = $theme['font_headerbar'];
+			$font_color = $theme['color_headerbar_font'];
+
+			// And provide a link to sort by this column in the opposite direction.
+			$dir = ($direction == "asc") ? "desc" : "asc";
+
+		} else {
+			// This is a non-sorting column (for this request).
+
+			// Render the column-header using 'navbar' settings.
+			$bgcolor    = $theme['color_navbar_bg'];
+			$font_face  = $theme['font_navbar'];
+			$font_color = $theme['color_navbar_font'];
+
+			// And provide a link to sort by this column in its default direction.
+			$dir = $cd_default_dir;
+		}
+		$url = "tdetail.php?tid=".$curTeam['id']."&order=$cd_order&direction=$dir";
+
+		echo "<td width='$cd_width%' bgcolor='$bgcolor'>";
+		echo   "<b>";
+		echo     "<a href='$url'>";
+		echo       "<font face='$font_face' color='$font_color' size='2'>";
+		echo          $cd_header_text;
+		echo       "</font>";
+		echo     "</a>";
+		echo   "</b>";
+		echo "</td>";
 	}
 
 	echo "</tr>";
