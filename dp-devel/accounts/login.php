@@ -12,6 +12,7 @@ function abort_login( $error )
 {
     global $reset_password_url;
     global $site_manager_email_addr;
+    global $testing;
 
     $title = _("Login Failed");
     theme($title, "header");
