@@ -35,36 +35,31 @@ echo "<a href='$projects_url/$projectid/images.html'>";
 echo _("View Images Online");
 echo "</a>\n";
 
-echo "<li>";
-echo "<a href='$projects_url/$projectid/{$projectid}images.zip'>";
-echo _("Download Zipped Images");
-echo "</a>\n";
+function echo_download_zip( $projectid, $link_text, $discriminator )
+{
+    global $projects_url;
+
+    echo "<li>";
+    echo "<a href='$projects_url/$projectid/$projectid$discriminator.zip'>";
+    echo $link_text;
+    echo "</a>\n";
+}
+
+echo_download_zip( $projectid, _("Download Zipped Images"), 'images' );
 
 if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 {
-    echo "<li>";
-    echo "<a href='$projects_url/$projectid/$projectid.zip'>";
-    echo _("Download Zipped Text");
-    echo "</a>\n";
+    echo_download_zip( $projectid, _("Download Zipped Text"), '' );
 
-    echo "<li>";
-    echo "<a href='$projects_url/$projectid/{$projectid}_TEI.zip'>";
-    echo _("Download Zipped TEI Text");
-    echo "</a>\n";
+    echo_download_zip( $projectid, _("Download Zipped TEI Text"), '_TEI' );
 }
 elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 {
-    echo "<li>";
-    echo "<a href='$projects_url/$projectid/{$projectid}_second.zip'>";
-    echo _("Download Zipped Text");
-    echo "</a>";
+    echo_download_zip( $projectid, _("Download Zipped Text"), '_second' );
 }
 elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
 {
-    echo "<li>";
-    echo "<a href='$projects_url/$projectid/{$projectid}_corrections.zip'>";
-    echo _("Download Zipped Text");
-    echo "</a>";
+    echo_download_zip( $projectid, _("Download Zipped Text"), '_corrections' );
 }
 
 // ----------------------------------
