@@ -36,7 +36,7 @@
   }
 
   //Check to see if we are in a maintenance mode
-  isMaintenanceMode();
+  abort_if_in_maintenance_mode();
 
 
   function ptog($varNM)

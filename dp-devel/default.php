@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'showstartexts.inc');
-isMaintenanceMode();
+abort_if_in_maintenance_mode();
 theme(_("Welcome"), "header");
 $etext_limit = 10;
 

@@ -1,7 +1,7 @@
 <?PHP
 include_once($relPath.'user_is.inc');
 
-function isMaintenanceMode() {
+function abort_if_in_maintenance_mode() {
 	global $maintenance, $pguser;
 
 	if ($maintenance) {
