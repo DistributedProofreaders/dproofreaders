@@ -14,6 +14,7 @@ function show_projects_in_state($state,$table=1)
 {
 	global $pguser, $code_url, $pageCountArray;
 
+	$bgcolor = $theme['color_headerbar_bg'];
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 	{
 		$stage = 'post_1';
@@ -23,6 +24,7 @@ function show_projects_in_state($state,$table=1)
 	elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 	{
 		$stage = 'post_2';
+		$bgcolor = $theme['color_logobar_bg'];
 		$foo_Header = _("Post Processor");
 		$foo_field_name = 'postproofer';
 	}
@@ -84,7 +86,7 @@ function show_projects_in_state($state,$table=1)
 	}
 
 	$theme = $GLOBALS['theme'];
-	$tds="<td bgcolor='".$theme['color_headerbar_bg']."' align=\"center\"";
+	$tds="<td bgcolor='".$bgcolor."' align=\"center\"";
 	$tdm="<font color='".$theme['color_headerbar_font']."'>";
 	$tdc="</b></font></td>";
 	echo "
