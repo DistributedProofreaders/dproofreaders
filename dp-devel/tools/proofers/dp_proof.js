@@ -165,7 +165,7 @@ docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
-else { 
+else {
 if (cR && curSel=='')
 {cT=wOT;
 putCT(cT);}
@@ -214,8 +214,8 @@ function setText()
 //if (document.all && !ieSt)
 if (!ieSt)
 {
-ieH=docRef.editform.text_data.style.height;
-ieW=docRef.editform.text_data.style.width;
+ieH=docRef.editform.text_data.offsetHeight;
+ieW=docRef.editform.text_data.offsetWidth;
 ieSt=1;
 }}
 
@@ -304,7 +304,7 @@ switch (sdir) {
   case "right" :
    targ.scrollBy(ammt,0);
    break;
-  } 
+  }
 docRef.editform.text_data.focus();
 return true;}
 
@@ -355,7 +355,7 @@ docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
-else { 
+else {
 if (cR && curSel=='')
 {cT=wWT;
 putCT(cT);}
