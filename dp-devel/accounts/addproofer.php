@@ -2,6 +2,7 @@
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'username.inc');
+include($relPath.'email_address.inc');
 include($relPath.'maybe_mail.inc');
 include($relPath.'connect.inc');
 include($relPath.'html_main.inc');
@@ -43,18 +44,17 @@ if ($password=="proofer") {
         abort_registration( $err );
     }
 
-    if (empty($userpass) || empty($email) || empty($real_name))
+    $err = check_email_address( $email );
+    if ( $err != '' )
+    {
+        abort_registration( $err );
+    }
+
+    if (empty($userpass) || empty($real_name))
     {
         $error = _("You did not completely fill out the form.");
         abort_registration($error);
     }
-
-    if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
-    {
-        $error = _("Your e-mail address is invalid.");
-    	abort_registration($error);
-    }
-
 
     $ID = uniqid("userID");
 
