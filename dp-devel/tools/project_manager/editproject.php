@@ -41,18 +41,41 @@ function saveProject() {
 	//If we are just updated an already existing project
 	if (isset($_POST['projectid'])) {
 		//Update the projects database with the updated info
-		mysql_query("UPDATE projects SET nameofwork='".addslashes($_POST['nameofwork'])."', authorsname='".addslashes($_POST['authorsname'])."', language='$language', genre='".addslashes($_POST['genre'])."', difficulty='".addslashes($_POST['difficulty_level'])."', comments='".addslashes($_POST['comments'])."', scannercredit='".addslashes($_POST['scannercredit'])."', txtlink='".addslashes($_POST['txtlink'])."', ziplink='".addslashes($_POST['ziplink'])."', htmllink='".addslashes($_POST['htmllink'])."', postednum='".addslashes($_POST['postednum'])."', clearance='".addslashes($_POST['clearance'])."' WHERE projectid='".$_POST['projectid']."'");
+		mysql_query("
+			UPDATE projects SET
+				nameofwork='".addslashes($_POST['nameofwork'])."',
+				authorsname='".addslashes($_POST['authorsname'])."',
+				language='$language',
+				genre='".addslashes($_POST['genre'])."',
+				difficulty='".addslashes($_POST['difficulty_level'])."',
+				comments='".addslashes($_POST['comments'])."',
+				scannercredit='".addslashes($_POST['scannercredit'])."',
+				txtlink='".addslashes($_POST['txtlink'])."',
+				ziplink='".addslashes($_POST['ziplink'])."',
+				htmllink='".addslashes($_POST['htmllink'])."',
+				postednum='".addslashes($_POST['postednum'])."',
+				clearance='".addslashes($_POST['clearance'])."'
+			WHERE projectid='".$_POST['projectid']."'
+		");
 
 		$projectid = $_POST['projectid'];
 
 		handle_projectfiles($projectid);
 
 		//Update the MARC record in the database
-		$result = mysql_query("SELECT updated_array FROM marc_records WHERE projectid = '".$_POST['projectid']."'"); //Pull the current MARC record array from the database
+		$result = mysql_query("
+			SELECT updated_array
+			FROM marc_records
+			WHERE projectid = '".$_POST['projectid']."'
+		"); //Pull the current MARC record array from the database
 		$rec = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); //Get the updated_marc array field
 		$updated_array = update_marc_db($rec); //Update the MARC record array in the database
 		$updated_marc = convert_standard_marc($updated_array); //Convert the updated array to a marc
-		mysql_query("UPDATE marc_records SET updated_marc = '".base64_encode(serialize($updated_marc))."' WHERE projectid = '".$_POST['projectid']."'"); //Update the database with the updated marc
+		mysql_query("
+			UPDATE marc_records
+			SET updated_marc = '".base64_encode(serialize($updated_marc))."'
+			WHERE projectid = '".$_POST['projectid']."'
+		"); //Update the database with the updated marc
 
 		//Lastly, let's update the Dublin Core file
 		create_dc_xml_oai($_POST['projectid'], $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
@@ -63,10 +86,44 @@ function saveProject() {
 		$rec = unserialize(base64_decode($_POST['rec'])); //Decode the marc record
 
 		//Insert a new row into the projects table
-		mysql_query("INSERT INTO projects (nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance) VALUES ('".addslashes($_POST['nameofwork'])."', '".addslashes($_POST['authorsname'])."', '$language', '".addslashes($_POST['genre'])."', '".addslashes($_POST['difficulty_level'])."', '".$GLOBALS['pguser']."', '".addslashes($_POST['comments'])."', '$projectid', UNIX_TIMESTAMP(), '".addslashes($_POST['scannercredit'])."', '".PROJ_NEW."', '".addslashes($_POST['clearance'])."')");
+		mysql_query("
+			INSERT INTO projects
+				(nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance)
+			VALUES (
+				'".addslashes($_POST['nameofwork'])."',
+				'".addslashes($_POST['authorsname'])."',
+				'$language',
+				'".addslashes($_POST['genre'])."',
+				'".addslashes($_POST['difficulty_level'])."',
+				'".$GLOBALS['pguser']."',
+				'".addslashes($_POST['comments'])."',
+				'$projectid',
+				UNIX_TIMESTAMP(),
+				'".addslashes($_POST['scannercredit'])."',
+				'".PROJ_NEW."',
+				'".addslashes($_POST['clearance'])."'
+			)
+		");
 
 		//Create a table for this project
-		mysql_query("CREATE TABLE $projectid (fileid varchar(20) NOT NULL default '', UNIQUE (fileid), image varchar(8) NOT NULL default '', UNIQUE (image), master_text longtext NOT NULL, round1_text longtext NOT NULL, round2_text longtext NOT NULL, round1_user varchar(25) NOT NULL default '', round2_user varchar(25) NOT NULL default '', round1_time int(20) NOT NULL default '0', round2_time int(20) NOT NULL default '0', state VARCHAR(50) NOT NULL default '', INDEX(state), b_user VARCHAR(25) NOT NULL default '', b_code INT(1) NOT NULL default '')");
+		mysql_query("
+			CREATE TABLE $projectid (
+				fileid varchar(20) NOT NULL default '',
+				UNIQUE (fileid), image varchar(8) NOT NULL default '',
+				UNIQUE (image),
+				master_text longtext NOT NULL,
+				round1_text longtext NOT NULL,
+				round2_text longtext NOT NULL,
+				round1_user varchar(25) NOT NULL default '',
+				round2_user varchar(25) NOT NULL default '',
+				round1_time int(20) NOT NULL default '0',
+				round2_time int(20) NOT NULL default '0',
+				state VARCHAR(50) NOT NULL default '',
+				INDEX(state),
+				b_user VARCHAR(25) NOT NULL default '',
+				b_code INT(1) NOT NULL default ''
+			)
+		");
 
 		//Make a directory in the projects_dir for this project
 		mkdir("$projects_dir/$projectid", 0777);
@@ -76,14 +133,26 @@ function saveProject() {
 
 		//Add the original marc record to the database
 		$original_marc = convert_standard_marc($rec);
-		mysql_query("INSERT INTO marc_records (projectid, original_marc, original_array)  VALUES ('$projectid', '".base64_encode(serialize($original_marc))."', '".base64_encode(serialize($rec))."')");
+		mysql_query("
+			INSERT INTO marc_records
+				(projectid, original_marc, original_array)
+			VALUES (
+				'$projectid',
+				'".base64_encode(serialize($original_marc))."',
+				'".base64_encode(serialize($rec))."'
+			)
+		");
 
 		//Update the marc database with any changes we've recieved
 		$updated_array = update_marc_db($rec);
 
 		//Add the update marc record to the database
 		$updated_marc = convert_standard_marc($updated_array);
-		mysql_query("UPDATE marc_records SET updated_marc = '".base64_encode(serialize($updated_marc))."' WHERE projectid = '$projectid'");
+		mysql_query("
+			UPDATE marc_records
+			SET updated_marc = '".base64_encode(serialize($updated_marc))."'
+			WHERE projectid = '$projectid'
+		");
 
 		//Create a Dublin Core file in the projects_dir directory
 		create_dc_xml_oai($projectid, $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
