@@ -19,7 +19,7 @@ $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > 
 $activeusers = mysql_result($users,0,"numusers");
 ?>
 
-<center><i><b><? echo number_format($activeusers); ?> active users out of <? echo number_format($totalusers); ?> total users in the past twenty-four hours!</b></i></center><br>
+<center><i><b><? echo number_format($activeusers); ?> active users out of <? echo number_format($totalusers); ?> total users in the past twenty-four hours.</b></i></center><br>
 <font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b>About This Site</b></font><br>
 Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='http://www.gutenberg.net' target='_new'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002 DP became an official Project Gutenberg site, as such Distributed Proofreaders is supported by Project Gutenberg.  If you have any questions or comments regarding this site please e-mail: <a href='mailto:<? echo $general_help_email_addr ?>'><? echo $general_help_email_addr ?></a>.<br><br>
 
