@@ -63,6 +63,7 @@ $auto_email_addr = $general_help_email_addr;
 // -----------------------------------------------------------------------------
 
 $testing = '<<TESTING>>';
+$use_cookies = '<<USE_COOKIES>>';
 // $maintenance = '<<MAINTENANCE>>';
 
 // So far, the effects of setting $testing to TRUE are:
