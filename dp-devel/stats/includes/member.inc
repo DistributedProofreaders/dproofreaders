@@ -49,25 +49,13 @@ function showMbrProfile($curMbr) {
 
 	if ($currentRank <= $highestRank) { $highestRank = $currentRank; $highestRankDate = time(); }
 
-	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
-
 	echo "\n";
 	echo "<table width='99%'>";
 	echo "\n";
 	echo "<tr>";
 	echo "<td align='center' valign='top'>";
 
-	$t = new ThemedTable(
-		2,
-		_("phpBB Profile"),
-		array( 'width'=>100 )
-	);
-	$t->row(
-		_("Avatar"),
-		"<img border='0' src='$avatar' alt='avatar'>"
-	);
-	messageCenter($curMbr,$t);
-	$t->end();
+	showBBProfile($curMbr);
 
 	echo "</td>";
 
@@ -155,8 +143,20 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	return $mbrStatus;
 }
 
-function messageCenter($curMbr,$t) {
+function showBBProfile($curMbr) {
 	global $forums_url;
+
+	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
+
+	$t = new ThemedTable(
+		2,
+		_("phpBB Profile"),
+		array( 'width'=>100 )
+	);
+	$t->row(
+		_("Avatar"),
+		"<img border='0' src='$avatar' alt='avatar'>"
+	);
 
 	$t->row(
 		_('Roles'),
@@ -221,6 +221,8 @@ function messageCenter($curMbr,$t) {
 			"<a href='$url'$target_str>$img_tag</a>"
 		);
 	}
+
+	$t->end();
 }
 
 function pageCountPercentage($pagescompleted) {
