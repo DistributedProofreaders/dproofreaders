@@ -1,32 +1,32 @@
 <?
 $st_id=array();
 // 0 cannot be used
-$st_id[0]=0;
-$st_id[1]=NEW_PROJECT;
-$st_id[2]=UNAVAIL_PI_FIRST;
-$st_id[3]=WAITING_PI_FIRST;
-$st_id[4]=BAD_PI_FIRST;
-$st_id[5]=AVAIL_PI_FIRST;
-$st_id[6]=VERIFY_PI_FIRST;
-$st_id[7]=COMPLETE_PI_FIRST;
-$st_id[8]=UNAVAIL_PI_SECOND;
-$st_id[9]=WAITING_PI_SECOND;
-$st_id[10]=BAD_PI_SECOND;
-$st_id[11]=AVAIL_PI_SECOND;
-$st_id[12]=VERIFY_PI_SECOND;
-$st_id[13]=COMPLETE_PI_SECOND;
-$st_id[14]=UNAVAIL_PP;
-$st_id[15]=AVAIL_PP;
-$st_id[16]=IN_PP;
-$st_id[17]=VERIFY_PP;
-$st_id[18]=VERIFYING_PP;
-$st_id[19]=COMPLETE_PP;
-$st_id[20]=UNAVAIL_GB;
-$st_id[21]=AVAIL_GB;
-$st_id[22]=POSTING_GB;
-$st_id[23]=POSTED_GB;
-$st_id[24]=DELETE_PROJECT;
-$st_id[25]=COMPLETED_PROJECT;
+$st_id[ 0]=0;
+$st_id[ 1]=PROJ_NEW;
+$st_id[ 2]=PROJ_PROOF_FIRST_UNAVAILABLE;
+$st_id[ 3]=PROJ_PROOF_FIRST_WAITING_FOR_RELEASE;
+$st_id[ 4]=PROJ_PROOF_FIRST_BAD_PROJECT;
+$st_id[ 5]=PROJ_PROOF_FIRST_AVAILABLE;
+$st_id[ 6]=PROJ_PROOF_FIRST_VERIFY;
+$st_id[ 7]=PROJ_PROOF_FIRST_COMPLETE;
+$st_id[ 8]=PROJ_PROOF_SECOND_UNAVAILABLE;
+$st_id[ 9]=PROJ_PROOF_SECOND_WAITING_FOR_RELEASE;
+$st_id[10]=PROJ_PROOF_SECOND_BAD_PROJECT;
+$st_id[11]=PROJ_PROOF_SECOND_AVAILABLE;
+$st_id[12]=PROJ_PROOF_SECOND_VERIFY;
+$st_id[13]=PROJ_PROOF_SECOND_COMPLETE;
+$st_id[14]=PROJ_POST_UNAVAILABLE;
+$st_id[15]=PROJ_POST_AVAILABLE;
+$st_id[16]=PROJ_POST_CHECKED_OUT;
+$st_id[17]=PROJ_POST_VERIFY;
+$st_id[18]=PROJ_POST_VERIFYING;
+$st_id[19]=PROJ_POST_COMPLETE;
+$st_id[20]=PROJ_SUBMIT_PG_UNAVAILABLE;
+$st_id[21]=PROJ_SUBMIT_PG_AVAILABLE;
+$st_id[22]=PROJ_SUBMIT_PG_POSTING;
+$st_id[23]=PROJ_SUBMIT_PG_POSTED;
+$st_id[24]=PROJ_DELETE;
+$st_id[25]=PROJ_COMPLETE;
 // add more states onto the end of array, just send request
 // in correct order to stateSelect() for printing
 
@@ -54,27 +54,27 @@ function stateSelect($project_state,$print_req)
 function getSelect($state)
 {
   $st_sw=array_fill (0, 26, 0);
-  if($state==UNAVAIL_PI_FIRST)
+  if($state==PROJ_PROOF_FIRST_UNAVAILABLE)
     {$st_sw[3]=1;}
-  else if($state==WAITING_PI_FIRST || $state==BAD_PI_FIRST || $state==AVAIL_PI_FIRST)
+  else if($state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT || $state==PROJ_PROOF_FIRST_AVAILABLE)
     {$st_sw[2]=1;$st_sw[6]=1;}
-  else if($state==VERIFY_PI_FIRST)
+  else if($state==PROJ_PROOF_FIRST_VERIFY)
     {$st_sw[2]=1;}
-  else if($state==UNAVAIL_PI_SECOND)
+  else if($state==PROJ_PROOF_SECOND_UNAVAILABLE)
     {$st_sw[12]=1;}
-  else if($state==WAITING_PI_SECOND || $state==BAD_PI_SECOND || $state==AVAIL_PI_SECOND)
+  else if($state==PROJ_PROOF_SECOND_WAITING_FOR_RELEASE || $state==PROJ_PROOF_SECOND_BAD_PROJECT || $state==PROJ_PROOF_SECOND_AVAILABLE)
     {$st_sw[8]=1;$st_sw[12]=1;}
-  else if($state==UNAVAIL_PP || $state==AVAIL_PP)
+  else if($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[16]=1;}
-  else if($state==IN_PP)
+  else if($state==PROJ_POST_CHECKED_OUT)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[17]=1;$st_sw[19]=1;$st_sw[23]=1;}
-  else if($state==VERIFYING_PP)
+  else if($state==PROJ_POST_VERIFYING)
     {$st_sw[19]=1;$st_sw[23]=1;}
-  else if($state==COMPLETE_PP)
+  else if($state==PROJ_POST_COMPLETE)
     {$st_sw[20]=1;$st_sw[21]=1;$st_sw[22]=1;$st_sw[23]=1;}
-  else if($state==UNAVAIL_GB)
+  else if($state==PROJ_SUBMIT_PG_UNAVAILABLE)
     {$st_sw[21]=1;$st_sw[22]=1;}
-  else if($state==AVAIL_GB || $state==POSTING_GB)
+  else if($state==PROJ_SUBMIT_PG_AVAILABLE || $state==PROJ_SUBMIT_PG_POSTING)
     {$st_sw[20]=1;$st_sw[21]=1;$st_sw[22]=1;$st_sw[23]=1;}
   stateSelect($state,$st_sw);
 }
