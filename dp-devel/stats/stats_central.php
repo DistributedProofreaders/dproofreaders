@@ -87,7 +87,7 @@ echo "<br>\n";
 $sub_title = _("See All Waiting Queues");
 echo "<p align='center'><a href='release_queue.php'>$sub_title</a></p>\n";
 
-echo "<table border='0' align='center' width='80%' cellspacing='2' cellpadding='2'>\n";
+echo "<table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>\n";
 
 $sub_title = _("Top Proofreading Days and Months, etc");
 echo "<tr><td><a href='misc_stats1.php'>$sub_title</a></td>\n";
@@ -98,12 +98,16 @@ echo "<td><a href='user_logon_stats.php'>$sub_title</a></td></tr>\n";
 $sub_title = _("Project Management Statistics");
 echo "<tr><td><a href='pm_stats.php'>$sub_title</a></td>\n";
 
+$sub_title = _("Proofreading Statistics");
+echo "<td><a href='proof_stats.php'>$sub_title</a></td></tr>\n";
+
 $sub_title = _("Post-Processing Statistics");
-echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr>\n</table>\n";
+echo "<tr><td><a href='pp_stats.php'>$sub_title</a></td>\n";
 
 $sub_title = _("Post-Processing Verification Statistics");
-echo "<p align='center'><a href='ppv_stats.php'>$sub_title</a></p><br>\n";
+echo "<td><a href='ppv_stats.php'>$sub_title</a></td></tr>\n</table>\n";
 
+echo "<br><br>\n";
 
 echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>\n";
 echo "<tr><td>&nbsp;</td><td>";
