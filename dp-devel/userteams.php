@@ -31,6 +31,12 @@ $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 $tbe=$htmlC->closeTable(1);
 $closePage=$htmlC->closeBody(1);
 
+$tdM0=$htmlC->startTD(0,126,0,0,"center",0,0,1);
+$tdM1=$htmlC->startTD(1,126,0,0,"center",0,0,1);
+
+$menuBar='<br>'.$tb.$tre.$tdM0.'<a href="./tools/proofers/proof_per.php">Personal Page</a>'.
+         $tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM0.'<a href="./phpBB2/index.php">Forums</a>'.
+         $tre.$tbe.'<br>';
 
 function stripAllString($ttext)
   {
@@ -89,7 +95,7 @@ function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tme
 if (isset($tid))
   {
   $htmlC->startHeader("User Teams");
-  echo $beginPage;
+  echo $beginPage.$menuBar;
   $tQuery="SELECT * FROM user_teams WHERE id=$tid";
   $tResult=mysql_query($tQuery);
   $curTeam=mysql_fetch_assoc($tResult);
@@ -100,7 +106,7 @@ if (isset($tid))
   // start display
     showTeamProfile($pguser,$userP,$tstart,$curTeam['id'],$curTeam['teamname'],$curTeam['team_info'],$curTeam['avatar'],
       $curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$ownerName,0);
-    echo $closePage;
+    echo $menuBar.$closePage;
   exit;
   } // end of show team profile
 
@@ -148,7 +154,7 @@ if (isset($jtid))
       {
       // all the spaces are filled, which would the like to overwrite?
         $htmlC->startHeader("User Teams");
-        echo $beginPage;
+        echo $beginPage.$menuBar;
         echo $tb.$tr.$td12."<b>Three Team Maximum</b>";
         echo $tre.$tr.$td12a;
         echo "You have already joined three teams.<br>".
@@ -167,7 +173,7 @@ if (isset($jtid))
         echo "<b><a href=\"userteams.php?jtid=$jtid&amp;otid=3\">".mysql_result($teamR,0,'teamname')."</a></b>&nbsp;&nbsp;&nbsp;&nbsp;".
           $tre.$tr.$td12;
         echo "<br><b><a href=\"userteams.php?tid=$jtid\">Do Not Join Team</a></b>";
-        echo $tre.$tbe.$closePage;
+        echo $tre.$tbe.$menuBar.$closePage;
       }  
     else if ($joinQ=='mem')
       {
@@ -277,18 +283,18 @@ if (isset($etid) || isset($edPreview) || isset($edMake))
   if (isset($etid))
     {
     $htmlC->startHeader("User Teams");
-    echo $beginPage;
+    echo $beginPage.$menuBar;
     showEdit($userP,$tstart,unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),0,$ntid);
-    echo $closePage;
+    echo $menuBar.$closePage;
     }
   else if (isset($edPreview))
     {
     $htmlC->startHeader("User Teams");
-    echo $beginPage;
+    echo $beginPage.$menuBar;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),0,$ntid);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,$ntid,stripAllString($teamname),stripAllString($text_data),0,$curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$pguser,1);
-    echo $closePage;
+    echo $menuBar.$closePage;
     }
   else if (isset($edMake))
     {
@@ -309,18 +315,18 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
     {
     // show creation interface
     $htmlC->startHeader("User Teams");
-    echo $beginPage;
+    echo $beginPage.$menuBar;
     showEdit($userP,$tstart,"","",1,0);
-    echo $closePage;
+    echo $menuBar.$closePage;
     }
   else if (isset($mkPreview))
     {
     $htmlC->startHeader("User Teams");
-    echo $beginPage;
+    echo $beginPage.$menuBar;
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),1,0);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,0,stripAllString($teamname),stripAllString($text_data),0,0,0,time(),$pguser,$pguser,1);
-    echo $closePage;
+    echo $menuBar.$closePage;
     }
   else if (isset($mkMake))
     {
@@ -351,7 +357,7 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
 
 // show a list of teams
   $htmlC->startHeader("User Teams");
-  echo $beginPage;
+  echo $beginPage.$menuBar;
 // the teams table query
   $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE id>$tstart ORDER BY id ASC LIMIT 20";
   $tResult=mysql_query($tQuery);
@@ -411,7 +417,7 @@ echo $tde.$td10;
 if ($tRows==20)
   {echo "<strong><a href=\"userteams.php?tstart=".($tstart+20)."\">Next</a></strong>";}
 echo $tre.$tbe."<br>".$tb2.$tr.$td3."<strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong>";
-echo $tre.$tbe.$closePage;
+echo $tre.$tbe.$menuBar.$closePage;
 
 
 
