@@ -356,7 +356,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "</table>\n";
         }	
 	echo "<br></font>\n";
-	echo "<center><a href='$dynstats_url/previous_stats.html'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
+	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
     
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
