@@ -33,7 +33,7 @@ if ( !isset($_GET['type']) || $_GET['type'] == 'Summary' || $_GET['type'] == '' 
 	$other_type = "Summary";
 }
 
-// it's not clear what setting this does.
+// don't show the stats column
 $no_stats=1;
 theme("Project Details ($current_version)", "header");
 
@@ -74,7 +74,7 @@ if ($can_edit) {
     // offers/withholds other viewing options, using mucho sql.
     echo_manager_header( 'project_detail_page' );
 
-    // remind where/how to fpt projects.
+    // remind where/how to ftp projects.
         echo "
         <p>
         ".sprintf(_("Reminder for uploads:
