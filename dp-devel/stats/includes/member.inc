@@ -311,7 +311,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 	);
 	$t->row(
 		_("Overall Rank"),
-		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
+		number_format($currentRank)
 		. showChangeInRank( $latestSavedRank, $currentRank )
 	);
 	$t->row(
