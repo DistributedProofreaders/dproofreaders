@@ -308,7 +308,15 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
         update_total_pages($projectid, 1);
 
-        $second_round_state = PROJ_PROOF_SECOND_AVAILABLE;
+        if ( hold_project_between_rounds( $project ) )
+        {
+            $second_round_state = PROJ_PROOF_SECOND_UNAVAILABLE;
+        }
+        else
+        {
+            $second_round_state = PROJ_PROOF_SECOND_AVAILABLE;
+        }
+
         if ($verbose)
         {
             ensure_project_blurb( $project );
@@ -325,6 +333,13 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
+        if ( $second_round_state == PROJ_PROOF_SECOND_UNAVAILABLE )
+        {
+            $project['username'] = 'jmdyck'; // temporary hack
+            maybe_mail_project_manager(
+                $project,
+                "This project is being held between rounds 1 and 2." ); 
+        }
     }
 
     // Completed Level
@@ -352,4 +367,15 @@ else
 {
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 }
+
+// -----------------------------------------------------------------------------
+
+function hold_project_between_rounds( $project )
+{
+    return ( $project['nameofwork'] == 'Copyright Renewals 1950' );
+
+    // If holding between rounds becomes popular, we'll obviously
+    // want a more flexible way to answer this question.
+}
+
 ?>
