@@ -8,11 +8,60 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'page_ops.inc');
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function nPage_getText( $npage )
 {
-    $tpage = new processpage();
-    $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
-    return $tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
+    $pageround = getPageRound( $npage['pagestate'] );
+
+    $prd = get_PRD_for_round( $pageround );
+
+    if ( $npage['revert']==1 || $npage['pagestate']==OUT_FIRST || $npage['pagestate']==OUT_SECOND )
+    {
+        $desired_column_name = $prd->prevtext_column_name;
+    }
+    else if ( $npage['saved']==1 )
+    {
+        $desired_column_name = $prd->text_column_name;
+    }
+    else if ( $npage['pagestate']==$prd->page_avail_state || $npage['pagestate']==$prd->page_out_state )
+    {
+        $desired_column_name = $prd->prevtext_column_name;
+    }
+    else
+    {
+        $desired_column_name = $prd->text_column_name;
+    }
+
+    $q = "
+        SELECT $desired_column_name
+        FROM {$npage['project']}
+        WHERE fileid = '{$npage['fileid']}' AND image='{$npage['image']}'
+    ";
+    $res = mysql_query($q);
+    list($page_text) = mysql_fetch_row($res);
+
+    return $page_text;
+
+    // old comment:
+    //
+    // We need to protect our users against malicious HTML code.
+    // For example, see CERT Advisory CA-2000-02.
+    // But we can't throw out all tags, because we use some tags, like <i>..</i>.
+    // And we can't throw out all but the trusted tags, because there are other
+    // uses of angle-brackets that don't look like trusted tags, e.g. X < Y
+    // And really, we don't want to throw out *anything*, because there's
+    // the risk that we might throw out a big chunk of non-malicious work.
+    // So let's try this: anything that looks like it might be a nasty tag,
+    // we convert its opening angle-bracket to '&lt' and mark it with an asterisk.
+    // $page_text = preg_replace( ';<([\s/]*(SCRIPT|OBJECT|APPLET|EMBED));i', '&lt;*\1', $page_text );
+
+    // Actually, this is all moot.
+    // The value returned by this function will be sent to the client as the
+    // content of a <textarea> element (the Proofreading Page's text frame),
+    // which the browser won't interpret as HTML anyhow.
+    // (That's why we see <i> *tags* rather than seeing italicized text.)
+    // So just return the text as-is.
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -55,50 +104,6 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
   return Page_checkout( $project, $fileid, $imagefile, $round_number, $pguser );
 }
 
-function getText($pagestate,$saved,$revert)
-{
-  if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND)
-  {
-    $wText = $this->prd->prevtext_column_name;
-  }
-  else if ($saved==1)
-  {
-    $wText = $this->prd->text_column_name;
-  }
-  else if ($this->pagestate==$this->prd->page_avail_state || $this->pagestate==$this->prd->page_out_state)
-  {
-    $wText = $this->prd->prevtext_column_name;
-  }
-  else
-  {
-    $wText = $this->prd->text_column_name;
-  }
-
-  $dbQuery="SELECT $wText FROM {$this->project} WHERE fileid = '{$this->fileid}' AND image='{$this->imagefile}'";
-  $result = mysql_query($dbQuery);
-  $myrow = mysql_fetch_row($result);
-  $text_data = mysql_result($result, 0, $wText);
-
-    // We need to protect our users against malicious HTML code.
-    // For example, see CERT Advisory CA-2000-02.
-    // But we can't throw out all tags, because we use some tags, like <i>..</i>.
-    // And we can't throw out all but the trusted tags, because there are other
-    // uses of angle-brackets that don't look like trusted tags, e.g. X < Y
-    // And really, we don't want to throw out *anything*, because there's
-    // the risk that we might throw out a big chunk of non-malicious work.
-    // So let's try this: anything that looks like it might be a nasty tag,
-    // we convert its opening angle-bracket to '&lt' and mark it with an asterisk.
-    // $text_data = preg_replace( ';<([\s/]*(SCRIPT|OBJECT|APPLET|EMBED));i', '&lt;*\1', $text_data );
-
-    // Actually, this is all moot.
-    // The value returned by this function will be sent to the client as the
-    // content of a <textarea> element (the Proofreading Page's text frame),
-    // which the browser won't interpret as HTML anyhow.
-    // (That's why we see <i> *tags* rather than seeing italicized text.)
-    // So just return the text as-is.
-
-  return $text_data;
-}
 
 function addUserCount($proofstate,$pguser,$userP)
 {
