@@ -136,7 +136,9 @@ foreach ($f_f as $otherfont) {
 echo " | <a href='images/Original.gif'>"._("View original image")."</a></P><br><br>\n";
 
 
-if ($tfont != 'DPCustomMono2') {
+if (($tfont != _("Browser Default")) AND 
+	($tfont != 'DPCustomMono2') AND
+	($tfont != _("Monospaced"))) {
 
 	echo "<hr style='width: 546; text-align: left;'>";
 	echo "<P>";
