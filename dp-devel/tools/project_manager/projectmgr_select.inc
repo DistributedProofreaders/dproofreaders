@@ -39,6 +39,10 @@ function get_allowed_next_project_states($state)
 				PROJ_PROOF_SECOND_VERIFY);
 
 		case PROJ_PROOF_SECOND_WAITING_FOR_RELEASE:
+			return array(
+				PROJ_PROOF_SECOND_UNAVAILABLE,
+				PROJ_PROOF_SECOND_AVAILABLE);
+
 		case PROJ_PROOF_SECOND_BAD_PROJECT:
 		case PROJ_PROOF_SECOND_AVAILABLE:
 			return array(
