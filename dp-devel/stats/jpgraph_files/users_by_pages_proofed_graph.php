@@ -192,9 +192,9 @@ $graph->subtitle->Set(
 
 
 
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 
 // Display the graph
 $graph->Stroke();

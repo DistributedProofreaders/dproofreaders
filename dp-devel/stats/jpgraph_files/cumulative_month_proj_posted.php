@@ -110,9 +110,10 @@ $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
 $graph->title->Set(_("Cumulative Projects Posted to PG for")." $monthVar $year");
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
 $graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 

@@ -72,9 +72,9 @@ $graph->Add( $l1plot);
 $graph->title->Set("Percentage of New Users Who Went on to Proof By Month");
 
 
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 
 $graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
 
