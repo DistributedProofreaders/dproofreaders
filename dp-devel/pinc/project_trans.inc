@@ -291,20 +291,37 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// and must have been the PPer
 		if ($project['postproofer'] == '' ) {
 			$settings .= ", postproofer='{$project['checkedoutby']}'";
+		} else {
+			// if checkedoutby != postproofer, then checkedoutby must be PPVer...
+			// this assumes a project is only posted once!
+			// otherwise, maybe also test that ppverifier is null?
+			if ($project['postproofer'] != $project['checkedoutby']) {
+				$settings .= ", ppverifier='{$project['checkedoutby']}'";
+			}
 		}
 
-		// TODO: populate a new column on projects table PagesPosted that contains
+		// Populate final_pg_count column on projects table with
 		// total number of pages in project when it was posted, so we have a 
-		// permanent record of number of pages in the project
+		// permanent record of number of pages in the project; needed for
+		// PP, PM, PPV stats by page
 
-		//Delete from the HEAP table all page counts
-		$result = mysql_query("SELECT COUNT(projectid) AS rowExists FROM page_counts WHERE projectid = '$projectid'");
-		$rowExists = mysql_result($result, 0, "rowExists");
-		if (!empty($rowExists)) {
+		// Delete from the HEAP table all page counts, storing count in final_pg_count
+		// This next query can be used BOTH to determine existence of a row for the
+		// project in the HEAP table, and read the total if there is one
+
+		$result = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
+		$pgCount = mysql_result($result, 0, "total_pages");
+		if (!empty($pgCount)) {
 			mysql_query ("DELETE FROM page_counts WHERE projectid = '$projectid'");
+		} else {
+			// Try to determine number of pages directly from projectID table
+			$result = mysql_query("SELECT count(*) as total_pages FROM ".$projectID." WHERE 1");
+			$pgCount = mysql_result($result, 0, "total_pages");			
 		}
 
-		// TODO: Archive the project
+		if (!empty($pgCount)) {
+			$settings .= ", final_pg_count=$pgCount";
+		} // ELSE automail an error report to dbreq?
 
 	}
       else if ( $current_state == PROJ_SUBMIT_PG_POSTED &&
