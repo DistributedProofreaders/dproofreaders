@@ -162,7 +162,7 @@ function getText($pagestate,$saved,$revert)
 {
   $wText=$this->initial_text;
     if ($saved==1) {$wText=$this->save_text;}
-    if ($revert==1) {$wText=$this->revert_text;}
+    if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND) {$wText=$this->revert_text;}
   $dbQuery="SELECT $wText FROM {$this->project} WHERE fileid = '{$this->fileid}' AND image='{$this->imagefile}'";
   $result = mysql_query($dbQuery);
   $myrow = mysql_fetch_row($result);
