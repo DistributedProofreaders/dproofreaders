@@ -1,3 +1,3 @@
-01 * * * * /home/charlz/public_html/dproofreaders/stats/hourlystats.pl
-01 0 * * * /home/charlz/public_html/dproofreaders/stats/dailystats.pl
-05 0 * * * /home/charlz/public_html/dproofreaders/stats/statsgraph.pl
+01 * * * * <<SITE_DIR>>/stats/hourlystats.pl
+01 0 * * * <<SITE_DIR>>/stats/dailystats.pl
+05 0 * * * <<SITE_DIR>>/stats/statsgraph.pl

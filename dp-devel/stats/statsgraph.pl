@@ -108,7 +108,7 @@ close MYOUTFILE;
 ############ generate daily pages graph
 
 use GD::Graph::mixed;
-require '/home/charlz/public_html/dproofreaders/stats/save.pl';
+require '<<SITE_DIR>>/stats/save.pl';
 
 print STDERR "Processing file\n";
 
@@ -179,7 +179,7 @@ close MYOUTFILE;
 
 
 use GD::Graph::lines;
-require '/home/charlz/public_html/dproofreaders/stats/save.pl';
+require '<<SITE_DIR>>/stats/save.pl';
 open (MYOUTFILE, ">temp.txt");
 
 

@@ -3,7 +3,7 @@ use strict;
 use DBI;
 use Time::Local;
 
-my $base = "/home/charlz/public_html/dproofreaders";
+my $base = "<<SITE_DIR>>";
 # for testing:
 # my $base = "/tmp";
 

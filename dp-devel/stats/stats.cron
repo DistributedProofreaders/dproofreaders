@@ -1,5 +1,5 @@
-01 * * * * /home/charlz/public_html/dproofreaders/stats/hourlystats.pl
-01 0 * * * /home/charlz/public_html/dproofreaders/stats/dailystats.pl
-02 0 * * * /home/charlz/public_html/dproofreaders/stats/statsgraph.pl
+01 * * * * <<SITE_DIR>>/stats/hourlystats.pl
+01 0 * * * <<SITE_DIR>>/stats/dailystats.pl
+02 0 * * * <<SITE_DIR>>/stats/statsgraph.pl
 0,15,30,45 * * * * lynx -dump http://texts01.archive.org/~charlz/dproofreaders/tools/project_manager/automodify.php
 
