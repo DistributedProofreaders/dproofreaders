@@ -331,7 +331,7 @@ otO=new Array();
 otC=new Array();
 otO[0]='*';
 otC[0]='';
-otO[1]='[Footnote : ';
+otO[1]='[Footnote #: ';
 otC[1]=']';
 otO[2]='[Sidenote: ';
 otC[2]=']';
@@ -343,6 +343,8 @@ otO[5]='       *       *       *       *       *';
 otC[5]='';
 otO[6]='[Blank Page]';
 otC[6]='';
+otO[7]='/#';
+otC[7]='#/';
 
 // standard tag selection
 function iMUO(wM)
