@@ -1,5 +1,6 @@
 <?
 include($relPath.'v_site.inc');
+include($relPath.'button_defs.inc');
 
 // get bad page code
       $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
@@ -32,17 +33,16 @@ type="text" value="<?PHP
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
-?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><INPUT
-TYPE="image" name="button35" ID="button35" align="top" size="26" alt="Set Image Zoom Percent" title="Set Image Zoom Percent"
-onclick="return(showIZ());" src="gfx/bt10.png">&nbsp;<a href="#"
+?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
+echo_button(SET_IMAGE_ZOOM,'a');
+?>&nbsp;<a href="#"
 onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><img
-src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border="0" width="26" height="26"></a>&nbsp;<INPUT
-TYPE="image" name="button8" ID="button8" align="top" size="26" alt="Revert to Original Document" title="Revert to Original Document"
-onclick="return(confirm('Are you sure you want to \r\nrevert to the original text for this round?'));" src="gfx/bt8.png">&nbsp;<?PHP
+src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border="0" width="26" height="26"></a>&nbsp;<?
+echo_button(REVERT_TO_ORIGINAL,'a');
+?>&nbsp;<?PHP
   if ($npage['revert']==1 || $npage['saved']==1)
   {
-    echo "<INPUT \r\nTYPE=\"image\" name=\"button9\" ID=\"button9\" align=\"top\" size=\"26\" alt=\"Revert to Last Save\" title=\"Revert to Last Save\" ".
-    "onclick=\"return(confirm('Are you sure you want to \\r\\nrevert to your last save?'));\" src=\"gfx/bt7.png\">";
+    echo_button(REVERT_TO_LAST_SAVE,'a');
   }
   else
   {
@@ -51,20 +51,30 @@ onclick="return(confirm('Are you sure you want to \r\nrevert to the original tex
 ?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><img
 src="gfx/bt9.png" width="26" height="26" border="0" align="top" alt="Show All Text" title="Show All Text"></a>&nbsp;<a
 href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><img
-src="gfx/bt12.png" width="26" height="26" border="0" align="top" alt="Project Comments" title="Project Comments"></a>&nbsp;<INPUT
-TYPE="image" name="button10" ID="button10" align="top" size="26" alt="Run Spelling Check" title="Run Spelling Check" src="gfx/bt16.png"><?PHP
+src="gfx/bt12.png" width="26" height="26" border="0" align="top" alt="Project Comments" title="Project Comments"></a>&nbsp;<?
+echo_button(SPELL_CHECK,'a');
+?><?PHP
 /*
 temp disabled
-&nbsp;<INPUT
-TYPE="image" name="button11" ID="button11" align="top" size="26" alt="Run Common Errors Check" title="Run Common Errors Check" src="gfx/bt17.png" onclick="alert('currently disabled');return(false);">
+&nbsp;<?
+echo_button(RUN_COMMON_ERRORS_CHECK,'a');
+?>
 */
-?>&nbsp;<INPUT
-TYPE="image" accesskey="6" name="button4" ID="button4" align="top" size="26" alt="Save and Change Interface Layout" title="Save and Change Interface Layout" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" src="gfx/bt<?PHP if ($userP['i_layout']==1) {echo "5";} else {echo "4";} ?>.png">&nbsp;<INPUT
-TYPE="image" accesskey="3" name="button7" ID="button7" align="top" size="26" alt="Return Page to Current Round" title="Return Page to Current Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));" src="gfx/bt15.png">&nbsp;<? if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo "<INPUT TYPE='image' accesskey='4' name='button6' ID='button6' align='top' size='26' alt='Report Bad Page' title='Report Bad Page' src='gfx/bt14.png'>&nbsp;"; } ?><INPUT TYPE="image" accesskey="7" name="button1" ID="button1" align="top" size="26" alt="Save" title="Save as 'In Progress'" src="gfx/bt3.png">&nbsp;<?PHP
+?>&nbsp;<?
+echo_button(CHANGE_LAYOUT,'a');
+?>&nbsp;<?
+echo_button(RETURN_PAGE,'a');
+?>&nbsp;<?
+if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo_button(REPORT_BAD_PAGE,'a'); echo "&nbsp;"; }
+?><?
+echo_button(SAVE_AS_IN_PROGRESS,'a');
+?>&nbsp;<?PHP
   if($npage['editone']==0)
   {
-    echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" align=\"top\" size=\"26\" alt=\"Save and Proof Next Page\" title=\"Save as 'Done' & Proof Next Page\" src=\"gfx/bt2.png\">".'&nbsp;';
+    echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a'); echo '&nbsp;';
   }
-?><INPUT
-TYPE="image" accesskey="5" name="button5" ID="button5" align="top" size="26" alt="Save and Quit" title="Save as 'Done'" src="gfx/bt13.png">&nbsp;<INPUT
-TYPE="image" accesskey="9" name="button3" ID="button3" align="top" size="26" alt="Quit Proofing" title="Stop Proofing" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" src="gfx/bt1.png">
+?><?
+echo_button(SAVE_AS_DONE_AND_QUIT,'a');
+?>&nbsp;<?
+echo_button(QUIT,'a');
+?>
