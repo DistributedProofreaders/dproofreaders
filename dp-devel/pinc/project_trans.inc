@@ -156,7 +156,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_SECOND_WAITING_FOR_RELEASE => array(
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			PROJ_PROOF_SECOND_AVAILABLE,
-			// PROJ_PROOF_SECOND_VERIFY // misleading
 			),
 		PROJ_PROOF_SECOND_AVAILABLE => array(
 			PROJ_PROOF_SECOND_BAD_PROJECT,
