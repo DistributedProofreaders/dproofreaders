@@ -36,9 +36,6 @@ $max_update = mysql_result($result,0,0);
 		echo "<center>This script has already been run today!</center>";
 	} else {
 		//Update user_teams_stats with previous days page count; 
-		// also, since we're going round the loop anyway, let's update the
-		// teams daily average as well
-		$now = time();
 		$rankArray = teams_get_page_tally_ranks();
 
 		$result = mysql_query("
@@ -60,19 +57,6 @@ $max_update = mysql_result($result,0,0);
 					INSERT INTO user_teams_stats
 					(team_id, date_updated, daily_page_count, total_page_count, rank)
 					VALUES ($team_id, $midnight, $todaysCount, ".$row['page_count'].", $rank)
-				");
-
-				//Calculate the average daily team proofing as total pages / total days
-				$daysInExistence = number_format(floor(($now - $row['created'])/86400));
-				if ($daysInExistence > 0) {
-				        $avgCount = $row['page_count']/$daysInExistence;
-				} else {
-					$avgCount = 0;
-				}
-				$updateAvgCount = maybe_query("
-					UPDATE user_teams
-					SET daily_average = $avgCount
-					WHERE id = $team_id
 				");
 			}
 		}
