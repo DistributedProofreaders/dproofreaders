@@ -48,6 +48,25 @@ function user_is_proj_facilitator()
 	}
 }
 
+function user_is_PM()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager()) return TRUE;
+
+	if (user_is_proj_facilitator()) return TRUE;
+
+	$result = mysql_query("SELECT manager FROM users WHERE username = '$pguser'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, 'manager') == 'yes') { return TRUE; } 
+		else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
 function user_is_PP()
 {
 	global $userP, $pguser;
