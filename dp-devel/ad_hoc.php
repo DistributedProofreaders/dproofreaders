@@ -6,8 +6,8 @@
 error_reporting(E_ALL);
 
 $relPath='./pinc/';
-include($relPath.'f_dpsql.inc');
-include($relPath.'connect.inc');
+include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'connect.inc');
 new dbConnect();
 
 echo "<pre>\n";
@@ -19,6 +19,14 @@ system("date");
 echo "<BR>\n";
 
 echo "<hr>\n";
+
+if (0)
+{
+	include_once($relPath.'../locale/translators/parse_po.inc');
+	$lang = 'de';
+	$m = file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
+	var_dump(parse_po($m));
+}
 
 if (0)
 {
