@@ -47,8 +47,8 @@ $max_update = mysql_result($result,0,0);
 			FROM user_teams_stats
 			WHERE date_updated = $max_update
 		");
-		while ($row = mysql_fetch_assoc($result)) {
-			$prevDayCount[$row['team_id']] = $row['total_page_count'];
+		while (list($team_id, $prev_tally_value) = mysql_fetch_row($result)) {
+			$prevDayCount[$team_id] = $prev_tally_value;
 		}
 
 		$result = mysql_query("

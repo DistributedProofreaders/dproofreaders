@@ -51,8 +51,8 @@ $max_update = mysql_result($result,0,0);
 			FROM member_stats
 			WHERE date_updated = $max_update
 		");
-		while ($row = mysql_fetch_assoc($result)) {
-			$prevDayCount[$row['u_id']] = $row['total_pagescompleted'];
+		while (list($u_id, $prev_tally_value) = mysql_fetch_row($result)) {
+			$prevDayCount[$u_id] = $prev_tally_value;
 		}
 
 		$result = mysql_query("

@@ -19,16 +19,16 @@ if ($range != "all") {
 	$date_condition = "1";
 }
 $result = mysql_query("
-	SELECT *
+	SELECT date_updated, daily_pagescompleted
 	FROM member_stats
 	WHERE u_id='{$_GET['id']}' AND ($date_condition)
 	ORDER BY date_updated ASC
 ");
 
 $i = 0;
-while ($row = mysql_fetch_assoc($result)) {
-	$datay[$i] = $row['daily_pagescompleted'];
-        $datax[$i] = date("n/j/Y", ($row['date_updated']-86400));
+while (list($timestamp, $tally_delta) = mysql_fetch_row($result)) {
+	$datay[$i] = $tally_delta;
+        $datax[$i] = date("n/j/Y", ($timestamp-86400));
         $i++;
 }
 $graph = new Graph(600,300,"auto",180);

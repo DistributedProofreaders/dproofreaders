@@ -30,7 +30,7 @@ while ($user_row = mysql_fetch_assoc($users)) {
 	echo "attempting to repair stats for $username\n";
 
 	$userdates = mysql_query("
-		SELECT *
+		SELECT date_updated, total_pagescompleted
 		FROM member_stats
 		WHERE
 			date_updated >= 1080979200
@@ -38,14 +38,9 @@ while ($user_row = mysql_fetch_assoc($users)) {
 		ORDER by date_updated
 	");
 
-	$userdate_row = mysql_fetch_assoc($userdates);
+	list($dummy, $yester_total) = mysql_fetch_row($userdates);
 
-	$yester_total = $userdate_row['total_pagescompleted'];
-
-	while ($userdate_row = mysql_fetch_assoc($userdates)) {
-
-		$new_total = $userdate_row['total_pagescompleted'];
-		$currdate = $userdate_row['date_updated'];
+	while (list($currdate, $new_total) = mysql_fetch_row($userdates)) {
 
 		$diff = $new_total - $yester_total;
 
