@@ -120,7 +120,12 @@ function show_projects_in_state($state,$table=1)
 		tde($book['nameofwork'],  $bgcolor);
 		tde($book['authorsname'], $bgcolor);
 		tde($book['language'],    $bgcolor . " align=center");
-		tde($book['genre'],       $bgcolor . " align=center");
+
+		if ($book['difficulty'] == "easy") { $genre = "EASY ".$book['genre']; }
+            		elseif ($book['difficulty'] == "hard") { $genre = "HARD ".$book['genre']; }
+	            	else { $genre = $book['genre']; }
+
+		tde($genre,       $bgcolor . " align=center");
 		tde($tpages,              $bgcolor . " align=center");
 		tde($foo_cell,            $bgcolor . " align=center");
 
