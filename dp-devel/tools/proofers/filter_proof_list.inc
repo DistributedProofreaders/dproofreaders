@@ -48,7 +48,7 @@ if ($userP['u_plist'] == 3)
 
 
     echo "<center>";
-    echo _("Filter available ).$label." books by");
+    echo _("Filter available ").$label." books by");
     echo ":<br>
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
