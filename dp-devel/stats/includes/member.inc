@@ -63,13 +63,11 @@ function showMbrProfile($curMbr) {
 	echo "<img border='0' src='$avatar' alt='avatar'>";
 	echo "</td>";
 	echo "</tr>";
-	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
-		echo "\n";
-		echo "<tr><td valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
-		messageCenter($curMbr);
-		echo "</td>";
-		echo "</tr>";
-	}
+	echo "\n";
+	echo "<tr><td valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
+	messageCenter($curMbr);
+	echo "</td>";
+	echo "</tr>";
 	echo "</table>";
 
 	echo "</td>";
