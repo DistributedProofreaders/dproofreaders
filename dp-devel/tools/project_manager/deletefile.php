@@ -1,9 +1,8 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'v_site.inc');
 include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
 include($relPath.'project_edit.inc');
+include('page_operations.inc');
 
     $project = $_GET['project'];
     $fileid = $_GET['fileid'];
@@ -13,17 +12,7 @@ include($relPath.'project_edit.inc');
 
     if (!empty($confirm)) {
 
-	if ($writeBIGtable) {
-        	if ($fileid == '') {
-           		$sql = "DELETE FROM project_pages WHERE projectid = '$project'";
-       	 } else $sql = "DELETE FROM project_pages WHERE projectid = '$project' AND fileid = '$fileid'";
-	    mysql_query($sql);
-	} 
-
-        if ($fileid == '') {
-           $sql = "DELETE FROM $project WHERE 1";
-        } else $sql = "DELETE FROM $project WHERE fileid = '$fileid'";
-        mysql_query($sql);
+	page_delete( $project, $fileid );
 
         metarefresh(0, "project_detail.php?project=$project", "Page(s) Deleted", ""); 
     } else {
