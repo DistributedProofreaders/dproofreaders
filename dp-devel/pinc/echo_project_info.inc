@@ -34,6 +34,21 @@ function echo_project_info( $projectid, $proofstate, $sub )
            }
         }
 
+        if (isset($project['image_provider'])) {
+           $imp_code = $project['image_provider'];
+           if (strcmp($imp_code,'DP User') != 0 ) {
+                if (strncmp($imp_code,'O:',2) == 0 ) {
+                    $imp_display = substr($imp_code,2);
+                } else {
+                    $imp_res = mysql_fetch_assoc(mysql_query("
+	                     SELECT full_name, credit FROM image_providers WHERE image_provider = '$imp_code'
+	              "));
+                    $imp_display = $imp_res['full_name'];
+                    $image_credit =  $imp_res['credit'];
+                }
+            }
+        }
+
 
 	// These don't appear to be used.
 	// $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
@@ -73,6 +88,11 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	   echo_row_a($word,      $spec_display );
         }
 
+      if (isset($imp_display)) {
+         $word = _("Provider of Images");
+	   echo_row_a($word, $imp_display );
+      } 
+
 	if ($proofstate == 'proj_post')
 	{
 		$word = _("Project ID");
@@ -104,6 +124,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$postproofername = get_real_name( $project['postproofer'] );
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
+
+             if (isset($image_credit)) { $creditline = $creditline." ".$image_credit;}
 
 		$word = _("Credits line so far");
 		echo_row_a($word, $creditline );
