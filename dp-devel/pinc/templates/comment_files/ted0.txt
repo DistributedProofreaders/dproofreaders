@@ -1,6 +1,6 @@
-<p>Retain page references (not page numbers) in both the main text AND in the index, if the latter is present.  </p>
-<p>Follow the <a href="http://www.pgdp.net/c/faq/document.php">Proofing Guidelines</a>, unless directed otherwise here or in the appropriate forum.</p>
-<p>Please note any problems, observations, complains, request for guidance etc, in that forum. There, we will reach consensus and make a decision. </p>
+<p>There WILL NOT BE an illustrated version, unless otherwise noted here.  </p>
+<p>Please retain page references (like see page number x, or the page numbers in the Table of Contents or Index), not actual page numbers at the top or bottom of the page.</p>
+<p>Please note any problems, observations, complains, request for guidance etc, in that forum. There, we will reach consensus and make a decision.</p> 
 <p>You can also reach me in Jabber (I hang out there quite a bit). Instructions for Jabber are <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5497">here.</a></p>
 <p>Failing that, PM me and I will respond as soon as possible.</p>
 <p>- Ted<p>
