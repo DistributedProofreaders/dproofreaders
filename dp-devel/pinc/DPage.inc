@@ -89,6 +89,7 @@ function Pages_prepForRound( $projectid, $round_number )
     // is PROJ_PROOF_FIRST_COMPLETE to PROJ_PROOF_SECOND_AVAILABLE, and the
     // project can't go through that transition twice.
 
+    $prd = get_PRD_for_round($round_number);
     if ( $round_number == 1 )
     {
         // Yes, these queries are pointless.
@@ -97,7 +98,7 @@ function Pages_prepForRound( $projectid, $round_number )
 
         $result = mysql_query("
             UPDATE $projectid
-            SET state = '".AVAIL_FIRST."'
+            SET state = '{$prd->page_avail_state}'
             WHERE 0
         ");
 
@@ -105,20 +106,20 @@ function Pages_prepForRound( $projectid, $round_number )
         {
             $result = mysql_query("
                 UPDATE project_pages
-                SET state = '".AVAIL_FIRST."'
+                SET state = '{$prd->page_avail_state}'
                 WHERE projectid = '$projectid' AND 0
             ");
         }
     }
-    else if ( $round_number == 2 )
+    else
     {
         $timestamp = time();
 
         $result = mysql_query("
             UPDATE $projectid
             SET
-                state = '".AVAIL_SECOND."',
-                round2_time = '$timestamp'
+                state = '{$prd->page_avail_state}',
+                {$prd->time_column_name} = '$timestamp'
         ");
     
         if ($writeBIGtable)
@@ -126,8 +127,8 @@ function Pages_prepForRound( $projectid, $round_number )
             $result = mysql_query("
                 UPDATE project_pages
                 SET
-                    state = '".AVAIL_SECOND."',
-                    round2_time = '$timestamp'
+                    state = '{$prd->page_avail_state}',
+                    {$prd->time_column_name} = '$timestamp'
                 WHERE projectid = '$projectid'
             ");
         }
