@@ -406,7 +406,7 @@ if (0)
 if (0)
 {
 	// Regenerate joined text files
-	include('sendtopost.php');
+	include_once('sendtopost.php');
 	$res = dpsql_query( "
 		SELECT projectid
 		FROM projects 
@@ -440,7 +440,7 @@ if (0)
 if (0)
 {
     // For each possible project state, create a project in that state.
-    include($relPath.'project_states.inc');
+    include_once($relPath.'project_states.inc');
     dpsql_query("
 	DELETE FROM projects
 	WHERE nameofwork LIKE 'ADHOC: %'
