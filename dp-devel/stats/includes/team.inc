@@ -12,12 +12,12 @@ function showTeamProfile($curTeam) {
 	global $theme, $userP;
 	global $team_avatars_url;
 
-	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Edit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
+	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
 	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id'] && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Join</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Join")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	} elseif ($curTeam['id'] != 1 && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Quit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Quit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	} else {
 		$joinquitlink = "";
 	}
@@ -46,21 +46,21 @@ function showTeamProfile($curTeam) {
 	echo $GLOBALS['code_url'] . "/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align: middle;'></a>";
 	echo $editlink . $joinquitlink . "</center></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Created</b>: ";
+	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Created")."</b>: ";
 	echo date("m/d/Y", $curTeam['created']) . "&nbsp;($daysInExistence days)</font></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
-	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='";
+	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Leader")."</b>: <a href='";
 	echo $GLOBALS['code_url'] . "/stats/members/mdetail.php?id=" . $curTeam['owner'] . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Total Pages</b>: ";
+	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Total Pages")."</b>: ";
 	echo number_format($curTeam['page_count']) . "</font></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Description</b>: ";
+	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Description")."</b>: ";
 	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Website</b>: <a href='";
-	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>Forums</b>: <a href='";
-	echo $GLOBALS['forums_url'] . "/viewtopic.php?t=" . $curTeam['topic_id'] . "'>Team Discussion</a> (Last Post: $last_post_date)</font></td></tr>";
+	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
+	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>"._("Forums")."</b>: <a href='";
+	echo $GLOBALS['forums_url'] . "/viewtopic.php?t=" . $curTeam['topic_id'] . "'>"._("Team Discussion")."</a> (Last Post: $last_post_date)</font></td></tr>";
 	echo "</table><p>";
 }
 
@@ -93,23 +93,23 @@ function showTeamStats($curTeam) {
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "\n<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
-	echo "' color='" . $theme['color_headerbar_font']."' size='2'><b>Team Statistics</b><br><font size='1'>(Last Updated: $lastupdated)</font></font></center></td></tr>";
+	echo "' color='" . $theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics")."</b><br><font size='1'>("._("Last Updated:")." $lastupdated)</font></font></center></td></tr>";
 	echo "\n<tr><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Members <i>(Rank)</i></td>";
+	echo "<td width='60%'>"._("Members")." <i>("._("Rank").")</i></td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['member_count']) . "</b>&nbsp;<i>(#$mbrCountRank)</i></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Current Members</td>";
+	echo "<td width='60%'>"._("Current Members")."</td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['active_members']) . "</b></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Retired Members</td>";
+	echo "<td width='60%'>"._("Retired Members")."</td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Total Pages <i>(Rank)</i><font size='2'></font></td>";
+	echo "<td width='60%'>"._("Total Pages")." <i>("._("Rank").")</i><font size='2'></font></td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['page_count']) . "</b>&nbsp;<i>(#$pageCountRank)</i>";
 			if ($prevRank > $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$pageCountRank)."'>"; }
 			elseif ($prevRank < $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($pageCountRank-$prevRank)."'>"; }
@@ -117,11 +117,11 @@ function showTeamStats($curTeam) {
 		echo "</td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Avg. Pages per Day<font size='2'></font></td>";
+	echo "<td width='60%'>"._("Avg. Pages per Day")."<font size='2'></font></td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['daily_average']) . "</b></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>Most Pages Done per Day</td>";
+	echo "<td width='60%'>"._("Most Pages Done per Day")."</td>";
 	echo "<td width='40%'><b>" . number_format($bestDayCount) . "</b>&nbsp;<i>($bestDayTime)</i></b></td></tr>";
 	echo "</td></tr></table></table><p>";
 }
@@ -133,32 +133,32 @@ function showTeamMbrs($curTeam) {
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>Team Member Details</b></font></center></td></tr>";
+	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b></font></center></td></tr>";
 	echo "\n<tr><td><table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	echo "\n<tr bgcolor='#cccccc'>";
 
 	if ($order == "mbr") {
 		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>Username</a></font></b></td>";
+		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Username")."</a></font></b></td>";
 		$orderby = "username";
 	} else {
-		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>Username</a></font></b></td>";
+		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=mbr&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Username")."</a></font></b></td>";
 	}
 
 	if ($order == "pages") {
 		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>Pages Completed</a></font></b></td>";
+		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
 		$orderby = "pagescompleted";
 	} else {
-		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=desc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>Pages Completed</a></font></b></td>";
+		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=desc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
 	}
 
 	if ($order == "date") {
 		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='30%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>Date Joined DP</font></a></b></td>";
+		echo "<td width='30%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Date Joined DP")."</font></a></b></td>";
 		$orderby = "date_created";
 	} else {
-		echo "<td width='30%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>Date Joined DP</font></a></b></td>";
+		echo "<td width='30%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=date&direction=asc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Date Joined DP")."</font></a></b></td>";
 	}
 
 	echo "</tr></table>\n<table border='0' width='100%' cellspacing='2' cellpadding='0'>";
@@ -204,7 +204,7 @@ function showTeamHistory($curTeam) {
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 	echo "\n<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>Team Statistics History</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
-	echo "<p><font size='2'><a href='tdetail.php?tid=".$curTeam['id']."&range=7'>Last 7 days</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=14'>Last 14 Days</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=30'>Last 30 Days</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=60'>Last 60 Days</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=365'>Last 365 Days</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=all'>Lifetime</a></font>";
+	echo "<p><font size='2'><a href='tdetail.php?tid=".$curTeam['id']."&range=7'>"._("Last 7 days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=14'>"._("Last 14 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=30'>"._("Last 30 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=60'>"._("Last 60 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=365'>"._("Last 365 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=all'>"._("Lifetime")."</a></font>";
 	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/team_pages_history.php?tid=".$curTeam['id']."&range=$range' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
 }
@@ -237,23 +237,23 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 	if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center><font color='".$theme['color_headerbar_font']."'><b>";
-	if ($tedit != 1) { echo "Edit Team Information</b></font></td></tr>"; } else { echo "New Proofreading Team</b></font></td></tr>"; }
+	if ($tedit != 1) { echo "Edit Team Information</b></font></td></tr>"; } else { echo _("New Proofreading Team")."</b></font></td></tr>"; }
 	echo "\n<tr><td><table border='0' cellspacing='0' cellpadding='0' width='100%'>";
-	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>Team Name</b>:&nbsp;</td>";
+	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Name")."</b>:&nbsp;</td>";
 	echo "<td width='65%' align='left'><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td></tr>";
-	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>Team Webpage</b>:&nbsp;</td>";
+	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Webpage")."</b>:&nbsp;</td>";
 	echo "<td width='65%' align='left'><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td></tr>";
-	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>Team Avatar</b>:&nbsp;</td>";
+	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Avatar")."</b>:&nbsp;</td>";
 	echo "<td width='65%' align='left'><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td></tr>";
-	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>Team Icon</b>:&nbsp;</td>";
+	echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Icon")."</b>:&nbsp;</td>";
 	echo "<td width='65%' align='left'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td></tr>";
 	echo "</table></td></tr>";
-	echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>Team Description</b>&nbsp;";
+	echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>"._("Team Description")."</b>&nbsp;";
 	echo "<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea name='text_data' cols='40' rows='6'>$ttext</textarea></center><br></td></tr>";
 
 	if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
-    		echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>You must join the team to create it, which team space would you like to use?<br>";
-    		echo "<select name='tteams' title='Team List'>";
+    		echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>"._("You must join the team to create it, which team space would you like to use?")."<br>";
+    		echo "<select name='tteams' title='"._("Team List")."'>";
     		$teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id = ".$userP['team_1']." || id = ".$userP['team_2']." || id = ".$userP['team_3']."");
     		while ($row = mysql_fetch_assoc($teamQuery)) {
     			echo "<option value='".$row['id']."'>".unstripAllString(strip_tags($row['teamname']),1)."</option>";
@@ -265,15 +265,15 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
   	if($tedit == 1) {
   		echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
-  		echo "<input type='submit' name='mkPreview' value='Preview Team Display'>&nbsp;&nbsp;&nbsp;";
-  		echo "<input type='submit' name='mkMake' value='Make Team'>&nbsp;&nbsp;&nbsp;";
-  		echo "<input type='submit' name='Quit' value='Quit'>";
+  		echo "<input type='submit' name='mkPreview' value='"._("Preview Team Display")."'>&nbsp;&nbsp;&nbsp;";
+  		echo "<input type='submit' name='mkMake' value='"._("Make Team")."'>&nbsp;&nbsp;&nbsp;";
+  		echo "<input type='submit' name='Quit' value='"._("Quit")."'>";
   		echo "</center></td></tr></table></form>";
   	} else {
   		echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
-  		echo "<input type='submit' name='edPreview' value='Preview Changes'>&nbsp;&nbsp;&nbsp;";
-  		echo "<input type='submit' name='edMake' value='Save Changes'>&nbsp;&nbsp;&nbsp;";
-  		echo "<input type='submit' name='edQuit' value='Quit'>";
+  		echo "<input type='submit' name='edPreview' value='"._("Preview Changes")."'>&nbsp;&nbsp;&nbsp;";
+  		echo "<input type='submit' name='edMake' value='"._("Save Changes")."'>&nbsp;&nbsp;&nbsp;";
+  		echo "<input type='submit' name='edQuit' value='"._("Quit")."'>";
   		echo "</center></td></tr></table></form>";
   	}
 }
@@ -323,7 +323,7 @@ function uploadImages($preview,$tid,$type) {
 	if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
 		if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
 			if ($_FILES['teamavatar']['size'] > 2097152) {
-				echo "<center><br><b><font color='#ff0000'>The avatar uploaded is too large.  Please limit the file size to 2MB or less.</font></b></center>";
+				echo "<center><br><b><font color='#ff0000'>"._("The avatar uploaded is too large.  Please limit the file size to 2MB or less.")."</font></b></center>";
 				return;
 			}
 			$avatarID = uniqid("avatar_").substr($_FILES['teamavatar']['name'], -4);
@@ -342,7 +342,7 @@ function uploadImages($preview,$tid,$type) {
 	if (!empty($_FILES['teamicon']['tmp_name']) && ($type =="both" || $type == "icon")) {
 		if (strtolower(substr($_FILES['teamicon']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".gif") {
 			if ($_FILES['teamicon']['size'] > 1048576) {
-				echo "<center><br><b><font color='#ff0000'>The icon uploaded is too large.  Please limit the file size to 1MB or less.</font></b></center>";
+				echo "<center><br><b><font color='#ff0000'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</font></b></center>";
 				return;
 			}
 			$iconID = uniqid("icon_").substr($_FILES['teamicon']['name'], -4);
@@ -353,7 +353,7 @@ function uploadImages($preview,$tid,$type) {
 			}
 			$teamimages['icon'] = $iconID;
 		} else {
-			echo "<center><br><b><font color='#ff0000'>The icon uploaded must be either a JPEG, GIF, or PNG file.</font></b></center>";
+			echo "<center><br><b><font color='#ff0000'>"._("The icon uploaded must be either a JPEG, GIF, or PNG file.")."</font></b></center>";
 			return;
 		}
 	}
