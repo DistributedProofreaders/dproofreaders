@@ -26,7 +26,7 @@ $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
         $textTop=100-$userP['h_tframe']."%";
         $textLeft="1%";
       }
-echo $docType."\r\n";
+
 slim_header("Spell Check",TRUE,FALSE);
 ?>
 <SCRIPT LANGUAGE="JavaScript" SRC="dpspell.js" TYPE="text/javascript"></SCRIPT>
