@@ -6,11 +6,11 @@ $db_Connection=new dbConnect();
 
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
-$prev_midnight = $midnight - 86400;
 
 //Find out if the script has been run once already for today
 $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
-	if (mysql_result($result,0,0) == $midnight && empty($_GET['testing'])) {
+$max_update = mysql_result($result,0,0);
+	if ($max_update == $midnight && empty($_GET['testing'])) {
 		echo "<center>This script has already been run today!</center>\n";
 		mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', ".time().", 'FAIL', 'Already been run today!')");
 	} else {
@@ -37,7 +37,7 @@ $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
 		}
 
 	//Update member_stats with previous days page count
-	$result = mysql_query("SELECT u_id, total_pagescompleted FROM member_stats WHERE date_updated = $prev_midnight");
+	$result = mysql_query("SELECT u_id, total_pagescompleted FROM member_stats WHERE date_updated = $max_update");
 		while ($row = mysql_fetch_assoc($result)) {
 			$prevDayCount[$row['u_id']]['total_pagescompleted'] = $row['total_pagescompleted'];
 		}
