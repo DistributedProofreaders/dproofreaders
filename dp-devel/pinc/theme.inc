@@ -114,11 +114,17 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Distributed Proofreading</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
 	echo "</td>\n";
-	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	
     //Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
+	// If you put the form element inside the td element (which would
+	// seem to make sense), Netscape and IE both render the cell
+	// (and thus the row and the table) twice as tall as it needs to be.
+	// (Mozilla gets it right, but that's small comfort.)
+	// So instead, put the td element within the form.
+	// (Yeah, it doesn't make sense, but the browsers don't complain.)
 	echo "<form action='$siteurl/accounts/login.php' method='post'>\n";
+	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo "ID:<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 	echo "Password:<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
@@ -127,13 +133,15 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
-	echo "</form>";
+	echo "</td>\n";
+	echo "</form>\n";
 	} else {
     //Code to display if the user is logged in
     	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     	$pguser_id = mysql_result($result, 0, "user_id");
     	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
     	$numofPMs = mysql_fetch_row($result);
+	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
@@ -146,9 +154,9 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$siteurl/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
+	echo "</td>\n";
 	}
 
-	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
 }
