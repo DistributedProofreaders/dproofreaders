@@ -9,13 +9,14 @@ if ($password=="proofer") {
     $username = $_POST['userNM'];
     $userpass = $_POST['userPW'];
     $email = $_POST['email'];
+    $email_updates = $_POST['email_updates'];
 
     $ID = uniqid("userID");
 
     $todaysdate = time();
 
-    $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, emailupdates)
-                VALUES ('$ID', '$real_name', '$username', '$email','no', '$todaysdate', 'yes')");
+    $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, emailupdates, project_listing)
+                VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '1')");
 
     if (!$result) {
 
@@ -90,7 +91,8 @@ If your password doesn't work after you have activated your account, go to <http
 <td width=20>Real Name:</td><td><INPUT TYPE=text MAXLENGTH=70 NAME="real_name" SIZE=20><Br></td><tr>
 <td>Username:</td><td> <INPUT TYPE=text MAXLENGTH=70 NAME="userNM" SIZE=20></td><tr>
 <td>Password:</td><td> <Input Type=password Maxlength=70 Name="userPW" Size=10></td><tr>
-<td>E-mail address:</td><td> <Input Type=text Maxlength=70 Name="email" Size=20></td>
+<td>E-mail address:</td><td> <Input Type=text Maxlength=70 Name="email" Size=20></td><tr>
+<td>E-mail updates:</td><td> <input type=radio name=email_updates value=1 checked>Yes&nbsp;&nbsp;<input type=radio name=email_updates value=0>No</td>
 </table>
 <center><INPUT TYPE=submit VALUE="Add">  <INPUT type=reset VALUE="Reset Form"><br>
 <br>The information that you enter here will only be made<br>
