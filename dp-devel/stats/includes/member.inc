@@ -32,22 +32,71 @@ function showMbrProfile($curMbr) {
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='avatar'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Statistics")." </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Date Joined")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['date_created'])."&nbsp;($daysInExistenceString)</font></td></tr>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Last Login")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['last_login'])."&nbsp;($daysSinceLogin)</font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Total Pages")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($curMbr['pagescompleted'])." "._("pages")." (".pageCountPercentage($curMbr['pagescompleted'])._("% of total").")</font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Overall Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($rankArray['curMbrRank'])." "._("out of")." ".number_format($rankArray['totalRanks']).rankPosition($rankArray['curMbrRank'], $curMbr['u_id'])."</font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Highest Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($highestRank)."&nbsp;<i>(".date("M. jS, Y", $highestRankDate).")</i>&nbsp;".showChangeInRank($highestRank, $rankArray['curMbrRank'])."</font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Best Day Ever")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($bestDay['count'])." "._("pages")." <i>(".$bestDay['time'].")</i></font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Daily Average")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($daily_Average)." "._("pages")."</font></td></tr>";
+
+	function echo_tr_2_cols( $left, $right )
+	{
+		global $theme;
+		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+		echo   "<td width='30%' align='left' valign='top'>";
+		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		echo       "<b>$left</b>:";
+		echo     "</font>";
+		echo   "</td>";
+		echo   "<td width='70%' align='left' valign='top'>";
+		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		echo       "$right";
+		echo     "</font>";
+		echo   "</td>";
+		echo "</tr>";
+	}
+
+	echo_tr_2_cols(
+		_("Date Joined"),
+		date("m/d/Y", $curMbr['date_created']) . "&nbsp;($daysInExistenceString)"
+	);
+	echo_tr_2_cols(
+		_("Last Login"),
+		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
+	);
+	echo_tr_2_cols(
+		_("Total Pages"),
+		number_format($curMbr['pagescompleted']) . " " . _("pages")
+		. " (" . pageCountPercentage($curMbr['pagescompleted']) . _("% of total") . ")"
+	);
+	echo_tr_2_cols(
+		_("Overall Rank"),
+		number_format($rankArray['curMbrRank']) . " " . _("out of") . " " . number_format($rankArray['totalRanks'])
+		. rankPosition($rankArray['curMbrRank'], $curMbr['u_id'])
+	);
+	echo_tr_2_cols(
+		_("Highest Rank"),
+		number_format($highestRank)
+		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
+		. "&nbsp;" . showChangeInRank($highestRank, $rankArray['curMbrRank'])
+	);
+	echo_tr_2_cols(
+		_("Best Day Ever"),
+		number_format($bestDay['count']) . " " . _("pages")
+		. " <i>(" . $bestDay['time'] . ")</i>"
+	);
+	echo_tr_2_cols(
+		_("Daily Average"),
+		number_format($daily_Average) . " " . _("pages")
+	);
 
 	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
-        if (!empty($curMbr['user_from'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Location</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curMbr['user_from']."</a></font></td></tr>"; }
-        if (!empty($curMbr['user_occ'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Occupation</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curMbr['user_occ']."</a></font></td></tr>"; }
-	if (!empty($curMbr['user_interests'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Interests</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curMbr['user_interests']."</font></td></tr>"; }
-        if (!empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Website</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a></font></td></tr>"; }
+        if (!empty($curMbr['user_from']))      { echo_tr_2_cols( "Location",   $curMbr['user_from']."</a>" ); }
+        if (!empty($curMbr['user_occ']))       { echo_tr_2_cols( "Occupation", $curMbr['user_occ']."</a>" ); }
+	if (!empty($curMbr['user_interests'])) { echo_tr_2_cols( "Interests",  $curMbr['user_interests'] ); }
+        if (!empty($curMbr['user_website']))   { echo_tr_2_cols( "Website",    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
-        	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Edit</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a> | <a href='".$GLOBALS['forums_url']."/profile.php?mode=editprofile&u=".$curMbr['user_id']."'>"._("Profile")."</a></font></td></tr>";
+		echo_tr_2_cols(
+			"Edit",
+			"<a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a>"
+			. " | "
+			. "<a href='".$GLOBALS['forums_url']."/profile.php?mode=editprofile&u=".$curMbr['user_id']."'>"._("Profile")."</a>"
+		);
         }
 
 	echo "</table></td></tr>";
