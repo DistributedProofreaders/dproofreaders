@@ -31,11 +31,9 @@ $graph->SetScale("textint");
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
-// Only draw labels on every 2nd tick mark
-//$graph->xaxis->SetTextLabelInterval(91.25);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+$graph->xaxis->SetTextTickInterval(168);
 //Set Y axis
 $graph->yaxis->title->Set('Fresh Logons');
 $graph->yaxis->SetTitleMargin(45);

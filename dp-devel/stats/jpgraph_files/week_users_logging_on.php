@@ -8,13 +8,12 @@ new dbConnect();
 
 
 ///////////////////////////////////////////////////
-//Numbers of users logging on in last hour, day, week and 28 days
+//Numbers of users logging on in last week as recorded every hour
 //query db and put results into arrays
 $result = mysql_query("SELECT U_week,  time_stamp,year,month, day, hour FROM user_active_log 
 WHERE time_stamp > 1071896580 
 ORDER BY time_stamp");
 
-// over an hour
 
 $mynumrows = mysql_numrows($result);
         $count = 0;
@@ -31,11 +30,11 @@ $graph->SetScale("textint");
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
-// Only draw labels on every 2nd tick mark
-//$graph->xaxis->SetTextLabelInterval(91.25);
+// Only draw labels once a week (= 168 hours)
+$graph->xaxis->SetTextTickInterval(168);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+
 //Set Y axis
 $graph->yaxis->title->Set('Fresh Logons');
 $graph->yaxis->SetTitleMargin(45);
