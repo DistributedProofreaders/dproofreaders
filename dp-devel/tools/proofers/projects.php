@@ -20,7 +20,16 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
           {echo "My Recently Completed";}
         else
           {echo "My Recently Proofread";}
-    echo "</h3></td>";
+    echo "</h3>";
+    if ($wlist==0)
+    {
+	echo "(<b>DONE</b> - pages I've finished proofing, that are still available for correction)";
+    }
+    else
+    {
+	echo "(<b>IN PROGRESS</b> - pages I haven't yet completed)";
+    }
+    echo "</td>";
     $recentNum=5;
 
     $sql = "SELECT image, fileid, state, ";
@@ -151,7 +160,7 @@ if (!isset($proofing)) {
         recentlyproofed($project, $proofstate, $pguser,$userP,0);
         recentlyproofed($project, $proofstate, $pguser,$userP,1);
       }
-    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3>(Please check for Guideline Modifications)</td></tr><tr><td colspan=5>";
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3>(Please check below for Guideline Modifications)</td></tr><tr><td colspan=5>";
     echo "Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ";
     echo "<b>Instructions below take precedence over the guidelines</b>:<P>";
     echo "$comments</td></tr></table>";
