@@ -1037,12 +1037,9 @@ And everywhere that Mary went
 <p> Mark poetry or epigrams so the post-processor can find the poetry quicker. Insert a
     separate line with <tt>/*</tt> at the start of the poetry or epigram and a separate
     line with <tt>*/</tt> at the end. </p>
-<p> Don't bother trying to center lines of poetry, even if it was centered on the
-    printed page; that won't work for an e-book viewed with many different screen sizes.
-    Just put it all at the left margin.  (If there is some other indenting that you
-    think is needed to reflect the author's meaning, then try to duplicate the format of
-    the original.) But for most poetry, the meaning is in the words and line breaks;
-    indenting format is not critical.  </p>
+<p> Duplicate the format of any indenting relative to the left-hand margin. If the poetry 
+    was centered on the printed page, don't bother trying to center lines of poetry; 
+    that won't work for an e-book viewed with many different screen sizes. </p>
 <p> Sometimes a line of poetry doesn't fit on the printed page, and part of it is split
     onto the next line (usually indented quite a bit, and usually starts with a
     lower-case letter).  Rejoin these words back onto the end of previous line.  (Since
@@ -1060,7 +1057,7 @@ And everywhere that Mary went
       </td>
     </tr>
     <tr align="center">
-      <td width="100%" valign="top"> <img src="poetry.png" alt=""
+      <td width="100%" valign="top"> <img src="poetry_sample.png" alt=""
           width="372" height="211"> <br>
       </td>
     </tr>
@@ -1071,19 +1068,16 @@ And everywhere that Mary went
     <tr>
       <td width="100%" valign="top">
           <tt>
-                                               <br>
-          /*                                   <br>
-          Pansies, lilies, kingcups, daisies,  <br>
-          Let them live upon their praises;    <br>
-          Long as there's a sun that sets,     <br>
-          Primroses will have their glory;     <br>
-          Long as there are violets            <br>
-          They will have a place in story;     <br>
-          But for flowers my bowls to fill,    <br>
-          Give me just the daffodil.           <br>
-          */                                   <br>
-                                               <br>
-          As Wordsworth ought to have said.
+                                                 <br>
+          /*                                     <br>
+          Here lies our Sovereign Lord the King, <br>
+            Whose word no man relies on,         <br>
+          Who never said a foolish thing,        <br>
+            Nor ever did a wise one.             <br>
+          */                                     <br>
+                                                 <br>
+          The next twenty years are of such disgrace and national weakness <br>
+          that the historian hesitates to write about them. It was called the <br>
           </tt>
       </td>
     </tr>
