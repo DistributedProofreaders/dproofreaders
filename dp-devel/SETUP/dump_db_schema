@@ -5,7 +5,7 @@
 db_user=<<DB_USER>>
 db_password=<<DB_PASSWORD>>
 db_name=<<DB_NAME>>
-code_dir=<<CODE_URL>>
+code_dir=<<CODE_DIR>>
 
 connection_options="--user=$db_user --password=$db_password"
 
