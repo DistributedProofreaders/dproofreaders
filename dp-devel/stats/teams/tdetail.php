@@ -9,18 +9,14 @@ $db_Connection=new dbConnect();
 
 $result = select_from_teams("id = {$_GET['tid']}");
 $curTeam = mysql_fetch_assoc($result);
-$now = time();
 
 $stats = _("Statistics");
 
 theme($curTeam['teamname']." ".$stats, "header");
 echo "<br><center>";
-showTeamProfile($curTeam);
-if ($_GET['tid'] != 1) {
-	showTeamStats($curTeam);
-	showTeamMbrs($curTeam);
-	if (($now - $curTeam['created']) > 86400) { showTeamHistory($curTeam); } //Only show the team history if they are more than a day old
-}
+
+showTeamInformation($curTeam);
+
 echo "</center>";
 theme("", "footer");
 ?>

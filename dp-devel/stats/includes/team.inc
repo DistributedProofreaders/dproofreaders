@@ -35,6 +35,25 @@ function select_from_teams( $where_body, $other_clauses='' )
 	return $res;
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showTeamInformation($curTeam)
+{
+	showTeamProfile($curTeam);
+
+	if ($curTeam['id'] != 1)
+	{
+		showTeamStats($curTeam);
+		showTeamMbrs($curTeam);
+
+		// Only show the team history if they are more than a day old
+		$now = time();
+		if (($now - $curTeam['created']) > 86400) { showTeamHistory($curTeam); }
+	}
+}
+
+// -----------------------------------------------------------------------------
+
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
 	global $team_avatars_url;
