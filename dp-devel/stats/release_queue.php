@@ -24,6 +24,7 @@ if (!isset($_GET['name']))
 		{
 			echo "<th>project_selector</th>\n";
 			echo "<th>release_criterion</th>\n";
+			echo "<th>comment</th>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -48,6 +49,7 @@ if (!isset($_GET['name']))
 		{
 			echo "<td>{$qd['project_selector']}</td>\n";
 			echo "<td>{$qd['release_criterion']}</td>\n";
+			echo "<td>{$qd['comment']}</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -61,12 +63,14 @@ else
 		SELECT * FROM queue_defns WHERE name='$name'
 	"));
 	$project_selector = $qd['project_selector'];
+	$comment = $qd['comment'];
 
 	theme("'$name' Release Queue", "header");
 
 	if ($user_is_a_sitemanager)
 		{
-			echo "<h4>project_selector: $project_selector</h4>\n";
+			echo "<h4>project_selector: $project_selector</h4>\n\n";
+			echo "<h4>$comment</h4>\n";
 		}
 
 	dpsql_dump_query("
