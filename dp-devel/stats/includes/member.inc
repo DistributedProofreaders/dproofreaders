@@ -351,7 +351,17 @@ function showMbrTeams($curMbr) {
 		_("Active Members")
 	);
 
-	$result = select_from_teams("id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
+	global $teams_P_page_tallyboard;
+
+	list($joined_with_team_P_page_tallies,$team_P_page_tally_column) =
+		$teams_P_page_tallyboard->get_sql_joinery_for_current_tallies('id');
+
+	$result = mysql_query("
+		SELECT user_teams.*, $team_P_page_tally_column AS page_count
+		FROM user_teams $joined_with_team_P_page_tallies
+		WHERE id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})
+	") or die(mysql_error());
+
 	while ($row = mysql_fetch_assoc($result)) {
 		$url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];
 		$t->row(
