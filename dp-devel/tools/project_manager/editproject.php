@@ -255,6 +255,7 @@ function genre_list($genre) {
 }
 
 function difficulty_list($difficulty_level) {
+        global $pguser;
 	$array_list = array('Beginner', 'Easy', 'Average', 'Hard');
 	echo "<tr><td bgcolor='#CCCCCC'><b>Difficulty Level</b></td><td>";
         $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
