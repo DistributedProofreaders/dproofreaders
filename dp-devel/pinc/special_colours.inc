@@ -1,0 +1,45 @@
+
+<style type="text/css">
+<!--
+.purple {
+        background-color:#9966CC;
+}
+.orange {
+        background-color: #FF9900;
+}
+.green {
+        background-color: #00FF33;
+}
+.nicegreen {
+        background-color: #00CC99;
+}
+.paleblue {
+        background-color: #CCFFFF;
+}
+.richblue {
+        background-color: #33CCFF;
+}
+.yellow {
+        background-color: #FFFF33;
+}
+.grey {
+        background-color: #CCCCCC;
+}
+.red {
+        background-color: #FF9090;
+}
+.flyblue {
+        background-color: #0099FF;
+}
+.otherblue {
+        background-color: #99CCFF;
+}
+.gold {
+        background-color: #FFCC0E;
+}
+.scotsblue {
+        background-color: #0090FE;
+}
+-->
+</style>
+                                                
