@@ -101,6 +101,9 @@ echo "<tr><td><a href='pm_stats.php'>$sub_title</a></td>";
 $sub_title = _("Post-Processing Statistics");
 echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr></table><br>";
 
+$sub_title = _("Post-Processing Verification Statistics");
+echo "<p align='center'><a href='ppv_stats.php'>$sub_title</a></p>";
+
 
 echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>";
 echo "<tr><td>&nbsp;</td><td>";
