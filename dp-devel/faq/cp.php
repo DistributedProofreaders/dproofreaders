@@ -301,8 +301,7 @@ page images are available as single page .tifs, .gifs, or .pngs you'll
 need to download them, convert  them to .pngs, and make sure the
 filenames follow the correct format. If you have multi page images, you
 may need to split them first. With .pdf files you'll need to use one of
-the software utilities to extract the .tif (usually) images from the
-.pdf</p>
+the software utilities to extract the .tif (usually) images from the .pdf</p>
 <p><b>Note:</b> Abbyy Finereader OCR 6.0 is capable of working directly
 with .pdf files. You don't need to extract the images first. If you set
 up a batch, it will extract .tif images to the batch directory
@@ -355,21 +354,21 @@ tables, etc, it will almost certainly get the layout wrong.<br>
 <div>It is possible to draw boxes on the scanned image to show
 Finereader which pieces of text to group together. Once the boxes are
 drawn, you can tell Finereader how to order them in the OCR'd text. In
-order to draw the boxes, click on the little box icon at the top of
-the icons along the left-hand side of the window. This is usually the
+order to draw the boxes, click on the little box icon at the top of the
+icons along the left-hand side of the window. This is usually the
 default, so clicking on that icon may not be necessary. Find your
-starting point, hold down the mouse button and drag until the box is
-the right size. You can adjust the box in fine detail in the zoomed
-image at the bottom of the window. If you draw the boxes in the order
-that you want them processed then you don't have to do anything else.
-Just hit Cntrl-R and let Finereader OCR the page. Sometimes, however,
-it's not convenient to draw the boxes in the correct order. You can
-tell Finereader what order you want by clicking on the 123 icon on the
-left side of the window. Then click on the text/illustration boxes in
-the order that you want them. The numbers on the boxes will change to
+starting point, hold down the mouse button and drag until the box is the
+right size. You can adjust the box in fine detail in the zoomed image
+at the bottom of the window. If you draw the boxes in the order that
+you want them processed then you don't have to do anything else. Just
+hit Cntrl-R and let Finereader OCR the page. Sometimes, however, it's
+not convenient to draw the boxes in the correct order. You can tell
+Finereader what order you want by clicking on the 123 icon on the left
+side of the window. Then click on the text/illustration boxes in the
+order that you want them. The numbers on the boxes will change to
 reflect the final output order. Note that when Finereader is actually
-doing the OCR, it may not process the boxes in the order you
-specified, but the result will come out in the correct order.</div>
+doing the OCR, it may not process the boxes in the order you specified,
+but the result will come out in the correct order.</div>
 <div>&nbsp;</div>
 <div>When doing OCR on a long, complicated project, it works well to
 let Finereader OCR all the pages, then go through and look briefly at
@@ -377,19 +376,18 @@ each page to see if it needs manual tuning. You can move from page to
 page quite quickly by using Alt-down arrow. When you see a page that
 Finereader didn't get right, you can delete the OCR'd text only or the
 OCR'd text AND the text boxes, depending on how badly it got things
-wrong. Fix or redraw the boxes and fix the order as necessary, then
-move on to the next page. If you have Background Processing turned on,
-it will do the OCR while you are looking for the next problem page.</div>
+wrong. Fix or redraw the boxes and fix the order as necessary, then move
+on to the next page. If you have Background Processing turned on, it
+will do the OCR while you are looking for the next problem page.</div>
 <div>&nbsp;</div>
-<div>Note also that you can specify different recognition languages
-for different text boxes, but, at least in Finereader 5.0, you must
+<div>Note also that you can specify different recognition languages for
+different text boxes, but, at least in Finereader 5.0, you must
 manually change the language, and read each box in the correct order,
 making this quite time consuming.</div>
 <div>&nbsp;</div>
 For complicated projects, getting Finereader to group the text
-correctly and present it in a sensible order saves the proofers A LOT
-of time. It is WELL worth the extra time to get it right at the OCR
-stage.
+correctly and present it in a sensible order saves the proofers A LOT of
+time. It is WELL worth the extra time to get it right at the OCR stage.
 <p>When that is done, you'll need to save the text files to do further
 processing on them. Depending what tools you will use in preprocessing,
 the formats and locations you save them in will vary. To use the guiprep
@@ -397,8 +395,8 @@ the formats and locations you save them in will vary. To use the guiprep
 need to do somthing like the following :<br>
 </p>
 An excerpt from the <a
- href="http://mywebpages.comcast.net/thundergnat/guiprep.html">guiprep.plmanual</a>.
-(Included with the guiprep script)<br>
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.html">guiprep.pl
+manual</a>. (Included with the guiprep script)<br>
 <p style="margin-left: 40px;"><big><span style="font-weight: bold;">Setting
 up the text files:</span></big><br>
 <br>
@@ -472,9 +470,10 @@ Dehyphenate under the Process Text tab. It won't hurt to leave them
 checked but the script will complain that it can't find the other
 directories and/or files.<span style="font-weight: bold;"></span><br>
 <span style="font-weight: bold;"> </span></div>
-<p>If you aren't using guiprep or cleanup, just save the files into the
-"text" directory. Save as plain text, keep line breaks, use blank line
-as paragraph seperator.<br>
+<p>If you aren't using guiprep or <a
+ href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup</a>,
+just save the files into the "text" directory. Save as plain text, keep
+line breaks, use blank line as paragraph seperator.<br>
 </p>
 <hr size="3" width="100%" align="left">
 <p style="font-weight: bold;"><big><a name="process">You're kidding me!
@@ -483,7 +482,9 @@ I'm not done yet?</a></big></p>
  files.&nbsp; The tools you use will dictate how you proceed. The two
 major tools (Guiprep and PRTK) are covered here.<br>
 </p>
-<p><span style="font-weight: bold;">Guiprep / Winprep:</span><br>
+<p><span style="font-weight: bold;"><a
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
+/ <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a>:</span><br>
 </p>
 <p>Guiprep is capable of extracting italic and bold markup from the
 OCRed text. (save lots of time for proofers), removing the end-of-line
@@ -498,7 +499,8 @@ for any detailed questions.<br>
 </p>
 <p>&nbsp;A general overview of how to use it: <br>
 </p>
-<p>Open the script, a graphical user interface will pop up. Guiprep
+<p>Open the script, a graphical user interface will pop up. <a
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
 uses a tabbed screen scheme, similar functions are grouped on different
 tabs. <br>
 Step 1. Goto the Change Directory tab. Navigate to the directory
@@ -517,17 +519,23 @@ deleted. Press remove headers. Repeat as necessary.<br>
 <p>The finished files will be in a directory named "text".<br>
 </p>
 <p>Guiprep also can automatically rename your .png files and provides a
-front end to pngcrush to losslessly reduce the size of your png file
-and reduce your upload. It also has a FTP client built in which will
+front end to pngcrush to losslessly reduce the size of your png file and
+reduce your upload. It also has a FTP client built in which will
 automate a lot of the upload.<br>
 </p>
 <p>Pre-processing complete.</p>
-<p><span style="font-weight: bold;">PRTK:</span><br>
+<p><span style="font-weight: bold;"><a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>:</span><br>
 </p>
-<p>PRTK Cannot do markup extraction or dehyphenization so you'll need
-to run guiprep.pl to do extraction and cleanu.pl or guiprep to do
-dehyphenization before you proceed&nbsp; with PRTK.<br>
-To use guiprep folow the above instructions. To use cleanup.pl. you
+<p><a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
+Cannot do markup extraction or dehyphenization so you'll need to run <a
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">guiprep.pl</a>
+to do extraction and <a
+ href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup.pl</a>
+or <a href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">guiprep</a>
+to do dehyphenization before you proceed&nbsp; with PRTK.<br>
+To use guiprep, follow the above instructions. To use cleanup.pl. you
 will need to have the text files saved as stated in <span
  style="font-weight: bold;"> Using the script <span
  style="font-style: italic;">without</span> RTF Markup Extraction</span>
@@ -535,18 +543,20 @@ above. Once that is done, copy cleanup.pl into the parent directory of
 textw and textwo, then run it. It will run dehyphenization on the files
 and save them into a directory named "text", creating it if necessary.<br>
 </p>
-<p>When that is done, you are going to need to fire up PRTK and have at
-it, but before you start, PRTK can't deal very well with zero byte
-files. When it encounters one,  it tends to lock up and die a horrible
-death. So you need to make sure there are no zero byte files among your
-text files. Go to the directory where the text files are stored. Set
-your file browser view so that file  size details are shown, then sort
-the files smallest to largest. Look at the smallest text file. If it is
-greater than zero bytes you are OK. If not, open the file with a text
-editor and put SOMETHING in there. "Blank Page" is popular. (Ah! so
-THAT'S why they show up occasionally when I'm proofing pages.) Actually,
-it&#8217;s a good idea to put two lines of something in there to save
-aggravation later.<br>
+<p>When that is done, you are going to need to fire up <a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
+and have at it, but before you start, <a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
+can't deal very well with zero byte files. When it encounters one,  it
+tends to lock up and die a horrible death. So you need to make sure
+there are no zero byte files among your text files. Go to the directory
+where the text files are stored. Set your file browser view so that
+file  size details are shown, then sort the files smallest to largest.
+Look at the smallest text file. If it is greater than zero bytes you
+are OK. If not, open the file with a text editor and put SOMETHING in
+there. "Blank Page" is popular. (Ah! so THAT'S why they show up
+occasionally when I'm proofing pages.) Actually, it&#8217;s a good idea to
+put two lines of something in there to save aggravation later.<br>
 Something like:</p>
 <p> HEADER<br>
 Blank Page<br>
@@ -557,29 +567,34 @@ As long as it is no longer zero bytes. Do this for all of the zero byte
 files into the format 001.png, 002.png, 003.png.... etc. with no holes
 or skips in the sequence, in the SAME order that the book is in. You
 MUST have the leading zeros and there MUST be only digits in the file
-name. PRTK has a tool to allow you to rename your image and/or text
-files. Click on the Tools menu and go to File Renamer.  This will open
-up a somewhat terse dialog allowing you to do just that.  (Or, if you
-would prefer, use one of the other utilities available, 1-4a Renamer in
-the <a href="#software">software</a> section is very nice.) When that
-is done, do the same thing with the text files. If your book has more
-than 1000 pages, (!!) split it into two roughly equal sections and
-submit it as two different projects to go through proofing, then
-reassemble it in post processing.</p>
+name. <a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
+has a tool to allow you to rename your image and/or text files. Click on
+the Tools menu and go to File Renamer.  This will open up a somewhat
+terse dialog allowing you to do just that.  (Or, if you would prefer,
+use one of the other utilities available, <a
+ href="http://www.1-4a.com/rename">1-4a Renamer</a> in the <a
+ href="#software">software</a> section is very nice.) When that is done,
+do the same thing with the text files. If your book has more than 1000
+pages, (!!) split it into two roughly equal sections and submit it as
+two different projects to go through proofing, then reassemble it in
+post processing.</p>
 <p>You now hopefully have the image files and text files, named in the
 correct format with the corresponding numbers pointing to the same page.
  (one image, one of text) Check several pairs randomly, if they don't
 correspond, you need to figure out why and fix it before the text can be
  submitted. Make sure there are the same number of image and text files.</p>
-<p>In PRTK, open Processing-&gt;Text Batch Pre-Proofing. At the bottom
-of the dialog box, browse to or type in the directory containing the
-text files. In general, it is safe to just leave all of the default
-checkbox and radio button settings. Some foreign language or specialty
-texts may be adversely affected. You may need to experiment on copies to
- find a good set of options. Most are pretty self-explanatory. The only
-setting which really needs more explanation is the "Remove Headers"
-button. Make sure the directory setting is pointing to the correct
-directory then click on "Enter Headers".<br>
+<p>In <a
+ href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>,
+open Processing-&gt;Text Batch Pre-Proofing. At the bottom of the
+dialog box, browse to or type in the directory containing the text
+files. In general, it is safe to just leave all of the default checkbox
+and radio button settings. Some foreign language or specialty texts may
+be adversely affected. You may need to experiment on copies to  find a
+good set of options. Most are pretty self-explanatory. The only setting
+which really needs more explanation is the "Remove Headers" button.
+Make sure the directory setting is pointing to the correct directory
+then click on "Enter Headers".<br>
 Click "Read Headers" This will show the top line of every text file.
 Select the check box beside each one you want to get rid of. Usually, it
  is easier to click "Select All" then UNCHECK the ones you DON'T want to
