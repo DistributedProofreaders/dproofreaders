@@ -115,7 +115,31 @@ function get_n_pages_proofed( $start_ts, $end_ts )
     $total_n_pages_proofed = 0;
 
     // Only consider projects that have not been archived.
-    $res = mysql_query("SELECT projectid FROM projects WHERE archived='0'" )
+    // Also exclude new projects, projects in PPV, projects
+    // that became checked out for PP or waiting or unavailable
+    // before midnight, and posted projects.
+    // The assumption is that a book won't be proofing in the morning
+    // and posted to PG before midnight.
+    // When we have the big table this will be rewritten and will be able to run
+    // MUCH faster
+
+    // Note that for backfilling arbitrary dates (only to be done on a non-production server, 
+    // or when we have the big table in place, would need to rewrite so as to include all
+    // projects. Even the archive bit will lead to wrong totals if we were calculating, say,
+    // the total from a day last month.
+
+    $res = mysql_query("SELECT projectid FROM projects WHERE archived = '0' AND 
+			(state != '".PROJ_NEW."') AND 
+			(state != '".PROJ_SUBMIT_PG_POSTED."') AND 
+	 		(state !='".PROJ_POST_SECOND_AVAILABLE."') AND 
+ 			(state !='".PROJ_POST_SECOND_CHECKED_OUT."') AND 
+ 			(state != '".PROJ_POST_FIRST_CHECKED_OUT."' 
+ 				OR modifieddate > $start_ts) AND 
+	 		(state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' 
+ 				OR modifieddate > $start_ts) AND 
+	 		(state != '".PROJ_POST_FIRST_UNAVAILABLE."' 
+ 				OR modifieddate > $start_ts)
+		" )
         or die(mysql_error());
 
     while( $project_row = mysql_fetch_array($res) )
