@@ -16,6 +16,6 @@ echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" 
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="-1" />
 
-<?php if($hb) echo "\n</head>\n\n<body>\n";
+<?php if($hb) echo "\n</head>\n\n<body onLoad=\"self.focus()\">\n";
 }
 ?>
