@@ -44,7 +44,7 @@ draw_pages_graph(
 	$datay2,
 	'daily',
 	'cumulative',
-	"Cumulative Pages Completed for $monthVar $year",
+	_('Cumulative Pages Completed for Current Month'),
 	60
 );
 
