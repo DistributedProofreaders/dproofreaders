@@ -7,7 +7,7 @@ include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrProfile($curMbr) {
 	global $theme;
-	global $users_table_with_tallies;
+	global $users_P_page_tallyboard;
 
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
@@ -22,10 +22,13 @@ function showMbrProfile($curMbr) {
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
 	list($bestDayCount,$bestDayTimestamp) =
-		user_get_largest_page_tally_increment_info( $curMbr['u_id'] );
+		$users_P_page_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
+
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
-	list($highestRank, $highestRankDate) = user_get_best_page_tally_rank_info($curMbr['u_id']);
+	list($highestRank, $highestRankDate) =
+		$users_P_page_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
+
 
 	if ($daysInExistenceInteger > 0) {
 	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistenceInteger;

@@ -280,25 +280,6 @@ function should_anonymize( $username, $user_privacy_setting )
     }
 }
 
-// -----------------------------------------------------------------------------
-
-function user_get_largest_page_tally_increment_info( $u_id )
-// Return an array consisting of:
-// -- the given user's largest recorded page tally increment, and
-// -- a timestamp for which that increment was recorded.
-{
-    global $users_P_page_tallyboard;
-    return $users_P_page_tallyboard->get_info_re_largest_delta( $u_id );
-}
-
-// -----------------------------------------------------------------------------
-
-function user_get_best_page_tally_rank_info( $u_id )
-{
-    global $users_P_page_tallyboard;
-    return $users_P_page_tallyboard->get_info_re_best_rank( $u_id );
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )
