@@ -14,7 +14,7 @@ $popHelpDir='./../../faq/pophelp/project_manager/';
 include_once($relPath.'js_newpophelp.inc');
 
 function encodeFormValue($value) {
-  return htmlentities($value,ENT_QUOTES);
+  return htmlentities($value,ENT_QUOTES,"UTF-8");
 }
 
 // Because we have PHP configured with magic_quotes_gpc On,
