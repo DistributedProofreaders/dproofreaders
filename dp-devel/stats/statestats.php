@@ -30,7 +30,7 @@ echo "Today is $today, start is $start_date, descrip is $descrip  ";
 	
 
 $created = state_change_since ( "
-				state != 'project_new'
+				state not like 'project_new%'
 				",$start_date);
 
 
