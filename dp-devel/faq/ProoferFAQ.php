@@ -134,20 +134,21 @@ different pages.  This will significantly speed up the proofreading process.
     "Content Providers" Forum</a>. </p>
 
 <h3><a name="4">4. How can I help? </a></h3>
-<p> The process of creating an etext is a long one.
-<br>Distributed Proofreaders was set up to make that go faster, by letting you help the
+<p> The process of creating an etext is a long one.</p>
+
+<p>Distributed Proofreaders was set up to make that go faster, by letting you help the
     Project Managers by proofreading pages in their books. If you have not already done
     so, click on the "Register" link and make an account. This enables you to select an
     available book and <b>proofread a few pages</b>.  We encourage people to try to do
     at least "a page a day", but any work done is greatly appreciated and goes a long
     way toward assisting in creating etexts.  This is the way most people help.  </p>
 
-<p> If you really catch Distributed Proofreading fever, you may want to <b>become a Project Manager</b>.
+<p>If you really catch Distributed Proofreading fever, you may want to <b>become a Project Manager</b>.
     Project managers mainly shepherd a project ("book") through the uploading,
     proofreading and post-processing processes on this website. Sometimes they do most of
-    the tasks themselves; sometimes they coordinate others who are working on the tasks.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    If you think that being a Project Manager is for you, Read the <a href="
+    the tasks themselves; sometimes they coordinate others who are working on the tasks.</p>
+
+<p>If you think that being a Project Manager is for you, Read the <a href="
     pm-faq.php">Project Manager's FAQ</a>.  (We do
     have experienced Project Managers who will mentor you in this process.) When you
     feel ready, contact us at <a href="mailto:dphelp@pgdp.net">DP Help</a>. </p>
@@ -214,9 +215,8 @@ different pages.  This will significantly speed up the proofreading process.
     are a new proofreader it may be helpful to print out a copy of our 2-page summary,
     the <a href="summary.pdf">Handy Proofing
     Guide</a>, and keep it handy while proofreading. This covers the basics of
-    proofreading.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Also, some of our projects are marked "Beginners only".  These are books that are
+    proofreading. </p>
+<p>Also, some of our projects are marked "Beginners only".  These are books that are
     straightforward, without complex proofreading issues.  It's a good idea to choose
     one of these books when you first start proofreading. </p>
 
@@ -232,10 +232,11 @@ different pages.  This will significantly speed up the proofreading process.
   <li>about problems in getting the proofing website to work:
 </ul>
 -->
-<p> You can email DP Help at: <a href="mailto:dphelp@pgdp.net">DP Help</a><br> Other Project Managers can be reached by clicking on their name on
-    the Projects page. Each project has a link to the Project Manager in charge of it.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Also, the "Discuss this book" link on the opening page where you start proofing the
+<p> You can email DP Help at: <a href="mailto:dphelp@pgdp.net">DP Help</a></p>
+
+<p>Other Project Managers can be reached by clicking on their name on
+    the Projects page. Each project has a link to the Project Manager in charge of it.</p>
+<p>Also, the "Discuss this book" link on the opening page where you start proofing the
     book links to the Forum for this book.  That's the best place to contact the Project
     Manager of the book, or to ask questions about the book or ask how to handle some
     proofing issue in the book.  </p>
@@ -254,9 +255,8 @@ different pages.  This will significantly speed up the proofreading process.
     Completed".  Click on "Yes, I would like to be notified when this has been posted to
     Project Gutenberg." If you do that, when the book is eventually added to the Project
     Gutenberg Archive, you will receive an email notifying you and giving the link to
-    download this book.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Also, on the DP main page, there is a weekly list of links to recent books completed
+    download this book.</p>
+<p>Also, on the DP main page, there is a weekly list of links to recent books completed
     and sent to Project Gutenberg, books proofread and being post-proofed, and books
     currently in the process of proofreading. </p>
 
@@ -283,7 +283,7 @@ different pages.  This will significantly speed up the proofreading process.
     your best and don't worry.</i>  (Second-round proofing is limited to 'experienced'
     first-round proofers [those who've proofed over 50 pages].) </p>
 
-<p> Also, feel free to leave short notes in the pages as you do them, just make certain
+<p>Also, feel free to leave short notes in the pages as you do them, just make certain
     to mark them with an asterisk so that the next proofer can find them.  Like this: <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <tt>John Smyth* [**image too faint--I can't tell if it's Smythe or Smith here.] </tt></p>
@@ -299,7 +299,7 @@ different pages.  This will significantly speed up the proofreading process.
         <li>Cookies accepted/on*
         <li>Javascript enabled
         <li>Caching disabled (or Page-Refresh set to 'every time')
-      <p> Also, if in your Forum Profile (<a
+         <p>Also, if in your Forum Profile (<a
           href="<? echo $code_url; ?>/userprefs.php">located
           here</a>), "Launch in New Window" is set to "Yes", then there is
           the following additional requirement: </p>
