@@ -36,8 +36,7 @@ if (isset($saved)) {
   // as it is 'unproofreading' it; they will get it back if they save it again
   // if page comes from DONE (???)
 
-  if (($pagestate == SAVE_FIRST) ||
-      ($pagestate == SAVE_SECOND))
+  if ($pagestate == $prd->page_save_state)
   {
      // deleteUserCount assumes PageState has been set;
      // could rewrite to take extra variables instead (see earlier debugging versions)
