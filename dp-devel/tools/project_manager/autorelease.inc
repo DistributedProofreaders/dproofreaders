@@ -90,53 +90,17 @@ function autorelease()
 	// -------------------------------------------------------------------------
 
         // Release of Different types of Projects from various logical queues
-        // NB The arguments for these calls can come out of a table LATER (stage two)...
-        // For now, let's get it out and working, even with hardwired arguments
 
 	error_reporting(E_ALL);
 
-	// You can easily imagine this data coming from a DB table.
-	$queue_defns = array(
-		array(
-			// Beginners Projects
-			// Always have a certain number of pages available in round 1
-			'name' => "Beginners Only",
-			'project_selector'  => "username = 'BEGIN'",
-			'release_criterion' => "pages1 < {$GLOBALS['beginners_pagesneeded']}",
-		),
-		array(
-			// Easy English Projects
-			// Always have a certain number of projects in first round
-			'name' => "EASY English",
-			'project_selector'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
-			'release_criterion' => "projects1 < {$GLOBALS['easy_projects']} or pages1 < 500",
-		),
-		array(
-			// Non-English Projects
-			// Always have a certain number of pages spread over the two rounds
-			'name' => "Non English",
-			'project_selector'  => "language NOT LIKE 'English%'",
-			'release_criterion' => "pages1 + pages2 < {$GLOBALS['noneng_pagesneeded']}",
-		),
-		array(
-			// English Projects
-			// Always have a certain number of pages spread over the two rounds
-			'name' => "English",
-			'project_selector'  => "language LIKE 'English%'",
-			'release_criterion' => "pages1 + pages2 < {$GLOBALS['eng_pagesneeded']}",
-		),
-		array(
-			// Extra Projects
-			// Make sure we have a total of at least X pages spread out over
-			// the two rounds; if there's any room left, just release projects
-			// from the front of the queue until we have enough pages out.
-			'name' => "Extra", // Total?
-			'project_selector'  => "1",
-			'release_criterion' => "pages1 + pages2 < {$GLOBALS['pagesneeded']}",
-		),
-	);
+	$q_res = mysql_query("
+		SELECT *
+		FROM queue_defns
+		WHERE enabled
+		ORDER BY ordering
+	") or die(mysql_error());
 
-	foreach ($queue_defns as $qd)
+	while ( $qd = mysql_fetch_assoc($q_res) )
 	{
 		$q_name            = $qd['name'];
 		$project_selector  = $qd['project_selector'];
