@@ -40,6 +40,8 @@ if ($source_project_dir != $dest_project_dir)
 $n_txt_files_found = 0;
 $n_rows_inserted = 0;
 
+$now = time();
+
 echo "\n";
 echo "For each text file in\n";
 echo "    $source_project_dir\n";
@@ -70,7 +72,7 @@ foreach ( glob("$source_project_dir/*.txt") as $txt_file_path )
 			fileid      = '$file_base',
 			image       = '$image_file_name',
 			master_text = LOAD_FILE('$txt_file_path'),
-			round1_time = NOW(),
+			round1_time = $now,
 			state       = '".AVAIL_FIRST."'
 	";
 	// echo $sql_command, "\n";
