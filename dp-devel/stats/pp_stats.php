@@ -8,7 +8,7 @@ theme("Post-Processing Statistics", "header");
 
 echo "<br><br><h2>Post-Processing Statistics</h2><br>\n";
 
-echo "<a href='proj_PPd_graphs.php'>Projects PPd Graphs</a>";
+echo "<a href='proj_PPd_graphs.php'>Projects PPd Graphs</a><br>";
 
 echo "<a href='PP_unknown.php'>Books with Mystery PPers</a>";
 
