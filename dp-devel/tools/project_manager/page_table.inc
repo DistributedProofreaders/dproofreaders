@@ -78,7 +78,7 @@ function echo_page_table(
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
-			if ($rn == $latest_round_num)
+			if ($rn == $latest_round_num && $project_phase == 'PAGE_EDITING')
 			{
 				$n_cols_per_round++;
 			}
@@ -273,7 +273,8 @@ function echo_page_table(
 		// Link to proofing interface
 		if ($project_phase == 'PAGE_EDITING')
 		{
-			if ($page_res[$project_prd->user_column_name] == $pguser)  
+			if ($page_res[$project_prd->user_column_name] == $pguser
+				&& $page_state != $project_prd->page_avail_state)  
 			{
 				$url = "../proofers/proof_frame.php?";
 				$url .= "project=$projectid";
