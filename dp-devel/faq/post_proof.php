@@ -5,15 +5,15 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Post-Proofing FAQ','header');
+theme('Post-Processing FAQ','header');
 ?>
 
-<h1>Post-Proofing FAQ</h1> 
-<h5>(Version 3.6; last updated January 2, 2004)</h5> 
+<h1>Post-Processing FAQ</h1> 
+<h5>(Version 3.6; last updated July 15, 2004)</h5> 
 <br> 
 <h3>Getting Started</h3> 
  
-<a href="#Introduction">What is Post-Proofing?</a><br>
+<a href="#Introduction">What is Post-Processing?</a><br>
 <a href="#Tools">Tools</a><br> 
 <a href="#Selecting">Selecting a Book</a><br>
 <a href="#Time">How Long Do Etexts Take?</a><br>
@@ -78,8 +78,8 @@ theme('Post-Proofing FAQ','header');
 <hr> 
 
 <p>
-This FAQ is designed as a guide for post-proofers, especially new ones. 
-I hope that it makes the task of post-proofing a little less frightening!
+This FAQ is designed as a guide for post-processors, especially new ones. 
+I hope that it makes the task of post-processing a little less frightening!
 </p> 
  
 <hr> 
@@ -87,13 +87,13 @@ I hope that it makes the task of post-proofing a little less frightening!
 <h2>Getting Started</h2> 
 <br> 
 <p>
-This section is designed especially for the first-time post-proofer.  
+This section is designed especially for the first-time post-processor.  
 It provides a walkthrough of all of the essential steps needed 
 to proof a relatively simple book.  
 For more difficult books, please see the Advanced Proofing Questions section for advice.
 </p>
 <br>
-<h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4>
+<h4><a name="Introduction">What is post-processing, and who can post-process?</a></h4>
 
 <p>
 The purpose of post-processing is to massage an etext into a readable form.  
@@ -112,10 +112,10 @@ and which accurately reflects the intentions of the author.
 Post-processors require more experience than ordinary proofers.  
 Because they are preparing the text for uploading to Project Gutenberg, 
 they are the final editors of the text.  
-Because of this, post-proofing is only available for proofers 
+Because of this, post-processing is only available for proofers 
 who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  
-Also, post-proofers should be very familiar with the 
-<a href="document.php">Proofing Guidelines</a> before attempting to post-proof.
+Also, post-processors should be very familiar with the 
+<a href="document.php">Proofing Guidelines</a> before attempting to post-process.
 </p>
 <br>
 <h4><a name="Tools">What software will I need to get started?</a></h4> 
@@ -147,13 +147,13 @@ with a relatively small number of pages. Here's why:
         which means that it scans clearer and is unlikely to be riddled 
         with OCR errors and inconsistent formatting;
     <li>fiction generally lacks footnotes, tables, and other items 
-        which could be difficult for a new post-proofer to deal with; and  
+        which could be difficult for a new post-processor to deal with; and  
     <li>a low page count makes the work go faster and is easier to handle. 
 	</ul>
  
 <p>
 Take a look at the Post-Processing section of your Personal Page 
-to see all of the works available for post-proofing. 
+to see all of the works available for post-processing. 
 Projects which are marked "TRAINEE" have been set aside for new post-processors, 
 and are ideal texts with which to learn the ropes of post-processing.  
 Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofers.  
@@ -162,7 +162,7 @@ Unlike "TRAINEE" texts, however, these books may be checked out
 by both new and experienced post-processors. 
 Alternatively, pick a text with a title that is likely to be fiction. 
 "The Boy Scout Camera Club" is a good bet; "Copyright Renewals" is not. 
-These texts are often marked "EASY" and are available to all post-proofers.
+These texts are often marked "EASY" and are available to all post-processors.
 </p>
 
 <p>
@@ -205,7 +205,7 @@ The time that a book will take to complete depends essentially on three factors:
 	<ul>
 	<li>the difficulty and length of the work itself;
 	<li>the tools being used; and
-	<li>the amount of experience the post-proofer has.
+	<li>the amount of experience the post-processor has.
 	</ul>
 
 <p>
@@ -217,7 +217,7 @@ Some especially difficult works can take weeks (or more!) to complete.
 
 <p>
 Try not to feel discouraged if you take more than a day to complete an "easy" book.  
-Concentrate on learning the process of post-proofing, 
+Concentrate on learning the process of post-processing, 
 familiarizing yourself with any tools you might be using, 
 and doing a quality job, rather than on working quickly.  
 You will speed up naturally with practice.
@@ -227,30 +227,30 @@ You will speed up naturally with practice.
  
 <p>
 <b>There is no one way to post-process books.</b> 
-Every post-proofer has a different technique and uses different tools to do the job. 
+Every post-processor has a different technique and uses different tools to do the job. 
 The technique described below is the one the author personally uses,
 but there are many ways of achieving the same end result. 
 In time, you will probably develop your own technique.
 </p>
  
 <p>
-This walkthrough describes a very hands-on way of post-proofing, 
-which is why it is recommended for first-time post-proofers. 
+This walkthrough describes a very hands-on way of post-processing, 
+which is why it is recommended for first-time post-processors. 
 It takes longer to complete the book this way 
 than if macros, global find-and-replace, and other tools are used, 
 but it gives the first-timer a feel for what they should look out for 
 by making the proofer scroll through the book several times.  
 Also, the walk-through below is suitable for use on all operating systems, 
 regardless of what text editor is used or what tools are available for that operating system. 
-Once you get the hang of what post-proofing is all about,
+Once you get the hang of what post-processing is all about,
 please experiment with the <a href="#Software">software</a> available below,
-especially the <a href="#Dedicated">dedicated post-proofing tools</a>.
-You do not <i>have</i> to use and of them, but any post-proofers find them indispensable!
+especially the <a href="#Dedicated">dedicated post-processing tools</a>.
+You do not <i>have</i> to use and of them, but any post-processors find them indispensable!
 </p>
 
 <p>
 It is strongly advised that you read through the following walkthrough 
-<i>before</i> starting to post-proof. 
+<i>before</i> starting to post-process. 
 This will give you an idea of what you will be doing in advance. 
 You might also like to look for helpful <a href="#Software">software</a> first
 if you are so inclined.
@@ -366,9 +366,6 @@ while still remembering the page's identity.
     there are no em-dashes in the middle of words, 
     no single dashes that should be em-dashes, 
     and that all end-of-line hyphenation is fixed. 
-    <a href="#PRTK">PRTK</a> has a Dash Check feature which will list all words 
-    containing dashes so that you can look for oddities with ease. 
- 
 <p>
 Some proofers like to replace all hyphens with unbreaking hyphens 
 in order to minimize the work in browsing for hyphenated words 
@@ -441,8 +438,8 @@ just make sure that there are no numbers missing.
  
 <li>Remove end-of-line spaces by searching for spaces followed by returns 
     and replacing them with returns only. Again, don't do a global replace. 
-    <a href="#PRTK">PRTK</a> has a feature which will remove end-of-line spaces 
-    automatically, as does RewrapIndent.<br>
+    RewrapIndent has a feature which will remove end-of-line spaces 
+    automatically.<br>
  
 <li><a name="16">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
     Make sure that the same number of &lt;i&gt; were replaced as &lt;/i&gt;. 
@@ -482,8 +479,7 @@ This allows you to rewrap the text in blocks between tables or poems.
 Other programs may have a similar feature. 
 <a href="#Dedicated">RewrapIndent, Guiguts, and Guthammer</a> feature selective rewrapping, 
 though the user needs to learn a small amount of special markup.
-If you cannot find an easy way to rewrap around poems, 
-there is a process which you can try <a href="rewrap.html">here</a>.
+<!-- removed prtk specific reference to rewrap.html -->
 </p>
 
 <p>Make sure to remove the /* */ markup around poetry and tables after the rewrap is complete!</p>
@@ -555,7 +551,7 @@ like mismatched quotes, short lines, etc.
 Gutcheck is currently being produced for Windows and *nix systems, 
 and can be found <a href="http://gutcheck.sourceforge.net">here</a>. 
 A quick-and-dirty Mac build can be downloaded <a href="gutcheck-0-95.sit">here</a>. 
-You could also simply ask another post-proofer to run Gutcheck for you 
+You could also simply ask another post-processor to run Gutcheck for you 
 if you have trouble with it, and they can send you a list of results.
 </p>
 
@@ -571,7 +567,7 @@ will be only too happy to help you.  Just post and ask for help!
 <h4><a name="Editors">Text Editors</a></h4> 
  
 <p>
-Any text editor can be used for post-proofing, 
+Any text editor can be used for post-processing, 
 but some have tools which make them more suitable than others for the job. 
 <a href="ftp://ftp.barebones.com/pub/freeware/BBEdit_Lite_612.smi.hqx">BBEdit Lite</a> 
 is an excellent choice for Mac users. 
@@ -594,7 +590,7 @@ you will be able to run a useful <a href="#Extras">macro</a>.
  
 <p>
 You will need to be able to look at your book's scanned images 
-at some point in the post-proofing process. 
+at some point in the post-processing process. 
 You can either download them and use a third-party program to view them, 
 or view them online through a browser. 
 Any program that will display images will do.
@@ -617,7 +613,7 @@ runs on Windows, *nix, and a host of smaller operating systems.
 Many text editors do not provide a spell checking feature.  
 Instead, spell check programs are used to provide this essential function.  
 A separate spell-checking program is also useful 
-when post-proofing texts which are not in English.  
+when post-processing texts which are not in English.  
 Many post-processors do not have access to non-English spell checkers, 
 and buying add-ons for programs like Microsoft Windows can be very expensive.  
 Independent spell checkers provide dictionaries 
@@ -655,15 +651,25 @@ Ispell can be found <a href="http://fmg-www.cs.ucla.edu/geoff/ispell.html">here<
 <p>
 <a href="http://tidy.sourceforge.net/">HTML Tidy</a> is an excellent HTML validator
 which runs on a myriad of systems.  
-Files to be validated can be uploaded to <a href="http://validator.w3.org/">this website</a> 
+Files to be validated can be uploaded to <a href="http://validator.w3.org/">this website</a> [w3.org]
 or <a href="http://infohound.net/tidy/">this one</a> and validated online.
 </p>
+
+<h4><a name="CSS">CSS Validators</a></h4>
+<br>
+<p>
+CSS can be validated at <a href="http://jigsaw.w3.org/css-validator/">this website</a> [w3.org].
+Note that if you choose to upload a file for verification, only the section between the &lt;style&gt;
+tags should be in the file since anything other than CSS will confuse it (and you) terribly. It is
+probably easiest to cut and paste the css into the section of the form called "Validate by direct input."
+</p>
+
 <h3><a name="Dedicated">Dedicated Proofing Tools</a></h3> 
 <br>
 
 <p>
 There are presently two pieces of software 
-which have been specifically written by post-proofers for post-proofers.  
+which have been specifically written by post-processors for post-processors.  
 Both provide an all-in-one kit, so you can use them for all of your post-processing needs, 
 or just take advantage of some of their extra features.  
 Each program has their supporters and detractors, so give them both a try!
@@ -672,7 +678,7 @@ Each program has their supporters and detractors, so give them both a try!
 <h4><a name="Guiguts">Guiguts</a></h4>
 <p>
 Guiguts was written by thundergnat.  
-The tool is almost a complete post-proofing kit in itself. 
+The tool is almost a complete post-processing kit in itself. 
 It began as a graphical interface for gutcheck, but has evolved to become much more. 
 Among its special features are the ability to 
 automatically remove page headers while keeping track of each page's identity, 
@@ -710,7 +716,7 @@ as all of its changes are ones that they would have to be made anyway.
 
 <p>
 <b>GutAxe</b> is an interactive tool, 
-which allows the post-proofer to make more complicated changes to the text.  
+which allows the post-processor to make more complicated changes to the text.  
 It works a bit like a spell checker, 
 highlighting a "problem" area and suggesting possible solutions.  
 It scans for common "Stealth Scannos" and punctuation errors, among other things.
@@ -734,7 +740,7 @@ so they are totally undoable if something goes wrong.
 The tools can be downloaded 
 <a href="http://frankfordinstitute.bravepages.com/GutWrench.htm">here</a>.
 They have excellent documentation, 
-and include a suggested post-proofing walkthrough written especially for the Gut* tools. 
+and include a suggested post-processing walkthrough written especially for the Gut* tools. 
 </p>
 
 <a name="Extras">Other Tools</a>
@@ -766,7 +772,7 @@ It works for BBEdit (but not BBEdit Lite).
 <p>
 Garweyne has written a 
 <a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/footnotes.lsp">lisp script</a> 
-to aid post-proofers wishing to rearrange footnotes. 
+to aid post-processors wishing to rearrange footnotes. 
 A more elaborate description of the script's abilites is available at the link above. 
 Many more useful lisp scripts are available 
 <a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/dptools.el">here</a>.
@@ -786,26 +792,13 @@ that needs no special indenting, to whatever line length you choose, too.
 For more details see the HTML documentation inside the zip file.
 </p>
  
-<p><b>PRTK</b></p>
-
-<p>
-PRTK (Proofreader's Toolkit) removes the page markers for you 
-so that you needn't do it manually. 
-Its other features are of little use, and may cause more problems than they solve.  
-In particular, DO NOT use its rewrap feature. 
-Though it contains Gutcheck, the version bundled with it is very old, 
-and it is recommended that you download the latest version of Gutcheck instead.
-PRTK is available 
-<a href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">here</a>, 
-and it runs only on the Windows platform.
-</p>
 <br>
 <hr>
 <br>
 <h2>Advanced Proofing Questions</h2> 
 <br> 
 <p>
-This section contains information on the more complex aspects of post-proofing.  
+This section contains information on the more complex aspects of post-processing.  
 It is designed for advanced post-processors, rather than beginners.
 </p>
 
@@ -854,7 +847,7 @@ which makes this MUCH easier.
 
 <p>
 Footnotes in poetry are a special case worth mentioning. 
-Most post-proofers agree that the footnotes should not be simply inserted into the text 
+Most post-processors agree that the footnotes should not be simply inserted into the text 
 where they occur, as this interferes with the rhythm of the poetry. 
 Mark the place referenced by the footnote, 
 then move the footnote to its own line or to the end of the poem, 
@@ -951,7 +944,7 @@ which will need rewrapping.
  
 <p>
 <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=3561">bconstan</a> 
-has graciously offered to aid anyone who needs extra help post-proofing poetry books. 
+has graciously offered to aid anyone who needs extra help post-processing poetry books. 
 If you have any questions, send her a message.
 </p>
 <br> 
@@ -1367,13 +1360,13 @@ Please do not submit the project for Verification until the missing text has bee
 or I just don't want to do it any more!  How do I get rid of it?</h4> 
  
 <p>
-To dispose of your project and return it to the pool for another post-proofer, 
-go to your Post-Proofing page, find the title of the book which you are returning, 
+To dispose of your project and return it to the pool for another post-processor, 
+go to your Post-Processing page, find the title of the book which you are returning, 
 and select Return to Available from its drop-down menu.
-This will erase all of your changes and send it back to the pool for another post-proofer.
+This will erase all of your changes and send it back to the pool for another post-processor.
 If you have done a lot of work on it, you might be better to arrange for 
 someone else to pick up where you left off by making a post 
-in the <a href="<? echo $post_processing_forum_url ?>">Post-Proofing Forum</a>.
+in the <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>.
 </p>
 <br>
 <h3><a name="Split">Projects with Multiple Parts</a></h3>
@@ -1392,18 +1385,18 @@ The pieces should be joined together into one file for submission.
 <br>
 <h3>Post-Processing Verification</h3>
 <br>
-<h4><a name="PPV">What is Post-Proofing Verification, and who can do it?</a></h4>
+<h4><a name="PPV">What is Post-Processing Verification, and who can do it?</a></h4>
 
 <p>
-Post-proofing verification is the "second round" of post-proofing.  
-The post-proofer looks over the post-proofed etext for errors big and small, 
+Post-processing verification is the "second round" of post-processing.  
+The post-processor looks over the post-processed etext for errors big and small, 
 and submits them to Project Gutenberg.  
-They will often provide feedback to post-proofers as well, 
+They will often provide feedback to post-processors as well, 
 so that they can improve the quality of their work.
 </p>
 
 <p>
-PPV's (as they are known) need to be experienced post-proofers, 
+PPV's (as they are known) need to be experienced post-processors, 
 familiar with common problems in etexts and able to provide feedback.  
 Because of this, there is only a limited pool of people capable of PPVing.  
 Once a person has submitted a number of consistently good etexts, 
@@ -1417,19 +1410,19 @@ If you have not been given this permission, you will not be able to check out PP
 <h4>I have a question which isn't in this FAQ.</h4> 
  
 <p>
-Post-proofing involves common sense and personal judgement. 
-The only solid rule is for the post-proofer to preserve the author's intention 
+Post-processing involves common sense and personal judgement. 
+The only solid rule is for the post-processor to preserve the author's intention 
 to the best of their ability. 
 There can be more than one way to handle a particular piece of formatting, 
 and all of them can be right. 
-You, as post-proofer, have a great deal of freedom to decide 
+You, as post-processor, have a great deal of freedom to decide 
 how to handle particular formatting issues and make global format changes.
 </p>
  
 <p>
 If your common sense and personal judgement aren't helping you solve 
 some particular problem, post your question in the 
-<a href="<? echo $post_processing_forum_url ?>">Post-Proofing Forum</a>. 
+<a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>. 
 Other post-processors can then tell you how they would handle the situation. 
 Their suggestions might give you a logical answer for your text, 
 or inspire your own idea as to how to handle the issue.
@@ -1455,3 +1448,4 @@ please don't be afraid to
 <?
 theme('','footer');
 ?>
+
