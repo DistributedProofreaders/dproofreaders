@@ -39,6 +39,23 @@ if ( substr($request,0,4) == 'GET_' )
 		$refresh_url="$projects_url/$projectid/{$projectid}_second.zip";
 	} else if ($request == 'GET_TEXT_CORR_ZIP') {
 		$refresh_url="$projects_url/$projectid/{$projectid}_corrections.zip";
+	} else if ($request == 'GET_XML_POST_1_ZIP') {
+		$refresh_url="$projects_url/$projectid/{$projectid}_TEI.zip";
+
+		// For a while (2003 Feb-Aug?), sendtopost generated TEI files,
+		// but didn't zip them. We could go back and zip them all, or
+		// we can do it here, upon request.
+
+		$TEI_base = "$projects_dir/$projectid/{$projectid}_TEI";
+		$TEI_txt  = "$TEI_base.txt";
+		$TEI_zip  = "$TEI_base.zip";
+
+		if (!file_exists($TEI_zip) && file_exists($TEI_txt) )
+		{
+		    // Create the zip
+		    echo "creating the zip...";
+		    exec("zip -j $TEI_zip $TEI_txt");
+		}
 	} else {
 		echo "You requested:<br>\n";
 		echo "curr_state=$curr_state<br>\n";
