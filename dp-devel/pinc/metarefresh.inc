@@ -18,7 +18,7 @@ else
 }
 
 echo $docType."\n";
-echo "<html><head><title>$title</title>\n";
+echo "<html".lang_html_header()."><head><title>$title</title>\n";
 echo "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />\n";
 echo "</head><body>\n";

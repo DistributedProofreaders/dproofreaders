@@ -1,11 +1,14 @@
-<?php function slim_header($title,$dt=TRUE,$hb=TRUE)
+<?php 
+include_once("gettext_setup.inc");
+
+function slim_header($title,$dt=TRUE,$hb=TRUE)
 {
 global $charset;
 if($dt) { ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <?php
 } ?>
-<html>
+<html <? echo lang_html_header(); ?>>
 <head>
     <title><?php echo $title; ?></title>
     
