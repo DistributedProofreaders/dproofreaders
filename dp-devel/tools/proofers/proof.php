@@ -1,7 +1,6 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-set_magic_quotes_runtime(1);
 /* $_GET $project, $proofstate, $orient, $text_data, $fileid, $imagefile, $js,
          $saved, $editone, $lang */
 
@@ -53,11 +52,8 @@ if (!isset($saved))
             $imagefile = mysql_result($result, 0, "image");
             $dbQuery="UPDATE $project SET state='";
             if ($proofstate==12)
-            {$oText=mysql_result($result, 0, "round1_text");}
-            else {$oText=mysql_result($result, 0, "master_text");}
-            if ($proofstate==12)
-            {$dbQuery.="15', round2_time='$timestamp', round2_user='$pguser', round2_text='$oText'";}
-            else {$dbQuery.="5', round1_time='$timestamp', round1_user='$pguser', round1_text='$oText'";}
+            {$dbQuery.="15', round2_time='$timestamp', round2_user='$pguser'";}
+            else {$dbQuery.="5', round1_time='$timestamp', round1_user='$pguser'";}
             $dbQuery.="  WHERE fileid='$fileid' AND image='$imagefile'";
             $update = mysql_query($dbQuery);
         }

@@ -103,7 +103,7 @@ $curState=dresult($result,0,'state');
 $isOpen=isOpenProject($project,$proofstate);
 if (!$isOpen)
 {
-  if ($userP['i_type']==0)
+  if ($userP['i_newwin']==0)
   {
   $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
   metarefresh(4,"proof_per.php\" TARGET=\"_top\"",'Project Round Complete',$body);
@@ -152,19 +152,19 @@ $project = 'project='.$project;
 $proofstate = '&proofstate='.$proofstate;
 $lang='&lang='.$lang;
 $frame1 = 'proof.php?'.$project.$proofstate.$lang;
-if (isset($editone)){$frame1=$frame1."&editone=1";}
 metarefresh(0,$frame1,' ',' ');
 } // end save and do another button 2
 
 // if quit without saving send back to projects page
 if (isset($button3) || isset($button3_x))
 {
-if (!isset($saved))
+if (isset($saved))
+{setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid);}
+else 
   {$dbQuery="UPDATE $project SET state='";
   $dbQuery.=$proofstate < 9?"2":"12";
   $dbQuery.="' WHERE image = '$imagefile' AND fileid='$fileid'";
   $result = mysql_query($dbQuery);}
-else {setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid);}
 if ($userP['i_newwin']==0)
   {metarefresh(0,"$returnURL",' ',' ');}
   else {
