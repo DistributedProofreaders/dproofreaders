@@ -374,11 +374,14 @@ function difficulty_list($difficulty_level) {
         $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
         if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
         // only show the beginner level to the BEGIN PM or SiteAdmins
+	// don't let garvint create EASY projects
 	for ($i=0;$i<count($array_list);$i++)  {
                 if (($i > 0) || ($pguser == "BEGIN") || ($sa)) {
- 		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
-		  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
-		  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		   if (!($pguser == "garvint" && $i == 0)) {
+	 		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
+			  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
+			  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		   }
                 }
 	}
 	echo "</td></tr>";
