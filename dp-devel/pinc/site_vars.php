@@ -110,10 +110,10 @@ $maintenance = <<MAINTENANCE>>;
 
 // -----------------------------------------------------------------------------
 
-// $metadata is a flag to allow the still developing metadata functionality, links, etc
+// $site_supports_metadata is a flag to allow the still developing metadata functionality, links, etc
 // to be active or not
 
-$metadata = <<METADATA>>;
+$site_supports_metadata = <<METADATA>>;
 
 // -----------------------------------------------------------------------------
 

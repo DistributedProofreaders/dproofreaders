@@ -14,9 +14,9 @@ include_once($relPath.'bookpages.inc');
 
 theme("Image Metadata Collection", "header");
 
-if (!$metadata)
+if (!$site_supports_metadata)
 {
-	echo 'md_available.php: $metadata is false, so exiting.';
+	echo 'md_available.php: $site_supports_metadata is false, so exiting.';
 	exit();
 }
 

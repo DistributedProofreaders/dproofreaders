@@ -13,9 +13,9 @@ $badmetadata = 0;
 
 theme("Image Metadata Phase1", "header");
 
-if (!$metadata)
+if (!$site_supports_metadata)
 {
-	echo 'md_phase1.php: $metadata is false, so exiting.';
+	echo 'md_phase1.php: $site_supports_metadata is false, so exiting.';
 	exit();
 }
 

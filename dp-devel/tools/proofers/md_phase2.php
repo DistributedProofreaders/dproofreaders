@@ -6,9 +6,9 @@ include_once($relPath.'c_pages.inc');
 include($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
 
-if (!$metadata)
+if (!$site_supports_metadata)
 {
-	echo 'md_phase2.php: $metadata is false, so exiting.';
+	echo 'md_phase2.php: $site_supports_metadata is false, so exiting.';
 	exit();
 }
 

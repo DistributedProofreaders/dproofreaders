@@ -4,9 +4,9 @@ include_once($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-if (!$metadata)
+if (!$site_supports_metadata)
 {
-    echo 'genthumbs.php: $metadata is false, so exiting.';
+    echo 'genthumbs.php: $site_supports_metadata is false, so exiting.';
     exit();
 }
 

@@ -207,7 +207,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 }
 
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
-    global $dynstats_dir, $dynstats_url, $metadata;
+    global $dynstats_dir, $dynstats_url, $site_supports_metadata;
     global $PG_paypal_business_id, $PG_donation_url;
     		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
@@ -303,7 +303,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/site_admin/sitenews.php'>" . _("News Update") . "</a>";
 			$divider = 1;
 		}
-if ($metadata){
+if ($site_supports_metadata){
 
 		if (substr($_SERVER['PHP_SELF'], -16) != "md_available.php") {
 			if (isset($divider)) {

@@ -29,10 +29,10 @@
   define("PROJ_NEW", "project_new");  //did not exist, but sort of 0
 
   // You might think that this group of states should be embedded within
-  // if ($metadata) { ... }
+  // if ($site_supports_metadata) { ... }
   // Properly, they should, along with every piece of code that uses them.
   // But there are some uses out there (e.g., case arms) that would be
-  // difficult to make conditional on $metadata. So instead:
+  // difficult to make conditional on $site_supports_metadata. So instead:
   // (1) We leave those uses unconditional, and rely on the assumption
   //     that they won't trigger as long as there isn't a project in
   //     one of these states.
@@ -113,7 +113,7 @@ $PROJECT_STATES_IN_ORDER = array_merge(
     ),
 
     (
-        $metadata
+        $site_supports_metadata
         ?
         array(
             PROJ_NEW_WAITING_APPROVAL,

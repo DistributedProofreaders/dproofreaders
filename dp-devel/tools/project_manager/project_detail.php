@@ -109,7 +109,7 @@ if ($can_edit) {
 
 //if new project enable uploading of tpNv info
 // is this used anywhere?
-if ($metadata) {
+if ($site_supports_metadata) {
 	if ($state == PROJ_NEW){
         echo "<br>\n";
         echo "<form method='get' action='add_files.php'>\n";
@@ -129,7 +129,7 @@ if ($metadata) {
 
 // confusing list of qualifications.
 // probably allows incorporating files into project if proofing hasn't begun yet.
-if (($state == PROJ_NEW && ! $metadata) || $state == PROJ_NEW_APPROVED || $state == PROJ_PROOF_FIRST_UNAVAILABLE || $state == PROJ_NEW_FILE_UPLOADED)
+if (($state == PROJ_NEW && ! $site_supports_metadata) || $state == PROJ_NEW_APPROVED || $state == PROJ_PROOF_FIRST_UNAVAILABLE || $state == PROJ_NEW_FILE_UPLOADED)
 {
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";
