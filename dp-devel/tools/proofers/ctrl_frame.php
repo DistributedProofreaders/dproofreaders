@@ -52,5 +52,10 @@ href="#" onclick="mGR()" title="Greek-to-ASCII Transliteration">Greek</a>
 name="xform" id="xform" method="POST" action="processtext.php" target="_top"><a 
 href="../../faq/prooffacehelp.html" accesskey="1" target="helpNewWin"><img 
 src="gfx/bt11.png" width="26" height="26" border="0" align="top" alt="Help" title="Help"></a>&nbsp;<a 
-href="proof_per.php" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));"><img 
+href="<?PHP
+  if($userP['i_newwin']==0)
+    {echo "proof_per.php";}
+  else
+    {echo "JavaScript:window.close();";}
+?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));"><img 
 src="gfx/bt1_n.png" width="26" height="26" border="0" align="top" alt="Quit" title="Quit"></a></form></td></tr></table></body></html>
