@@ -7,7 +7,7 @@ new dbConnect();
 $no_stats=1;
 theme('Templates available for Project Comments','header');
 ?>
-
+ 
 <style TYPE="text/css">
 <!--
   tt {color: red}
@@ -40,18 +40,20 @@ specific information relating to the individual project.<br>
 <b>Both types can be plain text or HTML.</b>
 <br><br>
 
-<h2>Standard Templates</h2>
+
+
+<a name="standardtemp"><h2>Standard Templates</h2></a>
 These can be accessed by pointing to a specific file <br />
 within the comments section of the Project Comments form.<br />
 <br />
 The standard template files currently available are:<br />
-<a href="templates_catalog.php#bg1a" target="_blank">BG1a.txt</a> Beginners Only, round one, upper<br />
-<a href="templates_catalog.php#bg1b" target="_blank">BG1b.txt</a> Beginners Only, round one, lower<br />
-<a href="templates_catalog.php#bgr2" target="_blank">BGr2.txt</a> Beginners Only, round two extra<br />
-<a href="templates_catalog#diac" target="_blank">diac.txt</a> diacritical marks<br />
-<a href="templates_catalog#pgnm" target="_blank">pgnm.txt</a> preserve index page numbers<br />
-<a href="templates_catalog.php#port" target="_blank">port.txt</a> Portuguese National Library<br />
-<a href="templates_catalog.php#wrrn" target="_blank">wrrn.txt</a> Warren Commission<br />
+<a href="#bg1a">BG1a.txt</a> Beginners Only, round one, upper<br />
+<a href="#bg1b">BG1b.txt</a> Beginners Only, round one, lower<br />
+<a href="#bgr2">BGr2.txt</a> Beginners Only, round two extra<br />
+<a href="#diac">diac.txt</a> diacritical marks<br />
+<a href="#pgnm">pgnm.txt</a> preserve index page numbers<br />
+<a href="#port">port.txt</a> Portuguese National Library<br />
+<a href="#wrrn">wrrn.txt</a> Warren Commission<br />
 <br />
 <br />
 To place any one of the above samples into your comments simply include the line:<br />
@@ -64,7 +66,7 @@ please email them as a text file to <a href="mailto:dphelp@pgdp.net">dphelp@pgdp
 The filename needs to be four letters in length.
 <br>
   <br />
-<h2> Skeleton Layout Samples </h2>
+<a name="skeletontemp"><h2> Skeleton Layout Samples </h2></a>
 If you would like to use a bit more styling within your comments feel free to<br />
 create your own look OR use one of the samples below; <br />
 More samples will be made available as they are seen around the site<br />
@@ -72,8 +74,10 @@ or sent to site development for inclusion here.<br />
 <br />
 Style names are based on User ID where style was first seen:<br />
 <br />
-<strong>Cedron:</strong> <a href="templates_catalog.php#cedrlayout">Layout</a> / <a href="templates_catalog.php#cedrcode">Code</a><br />
-<strong>Cgehring:</strong> <a href="templates_catalog.php#cgehlayout">Layout</a> / <a href="templates_catalog.php#cgehcode">Code</a> 
+<strong>Cedron:</strong> <a href="#cedrlayout">Layout</a> / <a href="#cedrcode">Code</a><br />
+<strong>Cgehring:</strong> <a href="#cgehlayout">Layout</a> / <a href="#cgehcode">Code</a> 
+
+
  
 <br />
 <br />
@@ -82,6 +86,381 @@ To use these styles copy the code and paste it with your information added<br />
 into the commment window on your Project Information page.
 <br />
 <br />
+
+<br><hr><hr><br><br>
+
+
+<h1>Preview of Templates available for Project Comments</h1>
+<br>
+<br>
+
+
+<!-- BG1a.txt info -->
+<a name="bg1a"><h3>BG1a.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/BG1a.txt');
+?>
+		
+<br><hr><br>
+
+<!-- BG1b.txt info -->		
+<a name="bg1b"><h3>BG1b.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/BG1b.txt');
+?>
+
+<br><hr><br>
+
+<!-- BGr2.txt info -->
+<a name="bgr2"><h3>BGr2.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/BGr2.txt');
+?>
+
+<br><hr><br>		
+
+<!-- diac.txt info -->
+<a name="diac"><h3>diac.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/diac.txt');
+?>
+
+		
+<br><hr><br>
+
+<!-- pgnm.html info -->		
+<a name="pgnm"><h3>pgnm.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/pgnm.txt');
+?>
+
+
+<br><hr><br>
+
+<!-- port.txt info -->
+<a name="port"><h3>port.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/port.txt');
+?>
+
+
+<br><hr><br>
+
+<!-- wrrn.txt info -->
+<a name="wrrn"><h3>wrrn.txt</h3></a> <a href="#standardtemp">Back to Standard Templates</a><br>
+<?
+include('../pinc/templates/comment_files/wrrn.txt');
+?>
+
+
+<br><hr><br>		
+
+<!-- cedron.html info -->		
+
+<!-- This code was made by cedron -->
+<h3><a name="cedrlayout">Cedron's</a> <strong>LAYOUT</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br>
+<p>
+<HR><blockquote>
+<font COLOR="#000099" SIZE="+1">Project vitals : </font> 
+&nbsp;&nbsp;&nbsp;&nbsp;Publication Date: 1000 &nbsp;&nbsp; Author Lifespan: 1000-1000
+</blockquote>
+
+<HR><blockquote>
+<font COLOR="#000099" SIZE="+1">Deviations from the standard Proofing 
+Guidelines :</font>&nbsp;&nbsp; There are no exceptions to the primary 
+guidelines required for&nbsp;this&nbsp;project.
+</blockquote>
+
+<HR><blockquote>
+<font COLOR="#000099" SIZE="+1">Difficulty details :</font> AVERAGE<br>
+&nbsp;&nbsp;This page is 90% Easy, with a few difficult pages and some 
+poor OCR scanning
+</blockquote>
+
+<HR><blockquote>
+<font COLOR="#000099" SIZE="+1">What to watch for :</font> &nbsp;&nbsp; 
+Extra markings such as * . , scattered throughout the pages.
+</blockquote>
+
+<HR><br>
+
+<blockquote>
+
+<font COLOR="#9C9C63" SIZE="+2"><b> ~TITLE~ </b><br>
+By ~AUTHOR~ </font><br><br>
+<b> ~PUBLISHER, CITY, DATE~ </b><br><br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+</blockquote>
+<br>
+</p>
+<hr>
+<br>
+<br>
+<br>
+<h3><a name="cedrcode">Cedron's</a> <strong>CODE</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br>
+<p>
+&lt;p&gt;<br>
+&lt;HR&gt;&lt;blockquote&gt;<br>
+&lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Project vitals : &lt;/font&gt; 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<br>
+&lt;/blockquote&gt;
+<p>&lt;HR&gt;&lt;blockquote&gt;<br>
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Deviations from the 
+  standard Proofing Guidelines :&lt;/font&gt;&amp;nbsp;&amp;nbsp; <br>
+  &lt;/blockquote&gt;</p>
+<p>&lt;HR&gt;&lt;blockquote&gt;<br>
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Difficulty details 
+  :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
+  &lt;/blockquote&gt;</p>
+<p>&lt;HR&gt;&lt;blockquote&gt;<br>
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;What to watch for 
+  :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
+  &lt;/blockquote&gt;</p>
+<p>&lt;HR&gt;&lt;br&gt;</p>
+<p>&lt;blockquote&gt;</p>
+<p>&lt;font COLOR=&quot;#9C9C63&quot; SIZE=&quot;+2&quot;&gt;&lt;b&gt; ~TITLE~ 
+  &lt;/b&gt;&lt;br&gt;<br>
+  By ~AUTHOR~ &lt;/font&gt;&lt;br&gt;&lt;br&gt;<br>
+  &lt;b&gt; ~PUBLISHER, CITY, DATE~ 
+&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</p>
+<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</p>
+<p>&lt;/blockquote&gt;&lt;br&gt;</p>
+<p>&lt;/p&gt; </p>
+
+
+
+<br><hr><br>		
+
+
+<!-- cgehring.html info -->		
+
+<!-- This code was made by cgehring -->
+<h3><a name="cgehlayout">Cgehring's</a> <strong>LAYOUT</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br> 
+<center>
+  <table width="100%" table bgcolor="#FFFFFF" border="1" bordercolor="#111111" cellspacing="0" cellpadding="2">
+    <tr>
+      <td bgcolor="#336633" align=center colspan=2>
+        <font size="+2" color="#FFFFFF">
+          <b>
+            Special Instructions and Proofing Notes:
+          </b>
+        </font>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Special Instructions:
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT YOUR SPECIAL INSTRUCTIONS HERE*****
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Notes:
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT ANY NOTES TO THE PROOFERS HERE*****
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Copyright Information:
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT COPYRIGHT AND PRINTING INFORMATION HERE*****
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#336633" align=center colspan=2>
+        <font size="+2" color="#FFFFFF">
+          <b>
+            Author Information:
+          </b>
+        </font>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Date of Birth:
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT BIRTHDATE AND PLACE HERE*****
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Date of Death:
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT DEATHDATE AND PLACE HERE*****
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#e0e8dd" width="160" align=left valign=top>
+        Biography:
+        <br><br>
+        <img src="" alt="*****PUT THE URL OF THE ARTISTS PICTURE HERE. 
+I RECOMEND UPLOADING IT WITH YOUR OTHER PNG FILES AND CALLING IT 
+SOMETHING DESCRIPTIVE, LIKE BIO.PNG *BE SURE THAT WHATEVER YOU CALL IT, YOU 
+DO NOT HAVE A TEXT FILE THAT IS TITLED THE SAME!* THAT MEANS THAT IF YOU 
+CALL THE PNG BIO.PNG, DO NOT UPLOAD A TEXT FILE NAMED BIO.TXT*****" 
+width="150">
+      </td>
+      <td bgcolor="#FFFFFF" width="*" align=left valign=top>
+        *****PUT BIOGRAPHICAL INFORMATION HERE. I SUGGEST USING GOOGLE 
+TO FIND INFORMATION. SOMETIMES THE JACKET COVER OF THE BOOK WILL HAVE A 
+SHORT BIO AS WELL. REMEMBER, THE BOOK MAY HAVE BEEN PRINTED BEFORE THE 
+AUTHOR DIED, SO PAY SPECIAL ATTENTION TO THAT.*****
+      </td>
+    </tr>
+  </table>
+  <table width="100%" table bgcolor="#FFFFFF" border="1" bordercolor="#111111" cellspacing="0" cellpadding="2"> 
+    <tr>
+      <td bgcolor="#336633" align=center colspan=2>
+        <font size="+2" color="#FFFFFF">
+          <b>
+            Books by This Author in PG:
+          </b>
+        </font>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="FFFFFF" align=left valign=top width="50%">
+*****PUT OTHER BOOKS BY THE AUTHOR IN PG HERE. AT THE END OF EACH 
+TITLE, PUT THE &lt;br&gt; TAG.
+EXAMPLE:
+BOOK BY THE AUTHOR<br>
+ANOTHER BOOK<br>
+PUT HALF OF THE TITLES HERE,
+      </td>
+      <td bgcolor="FFFFFF" align=left valign=top width="50%">
+AND THE OTHER HALF OF THE TITLES HERE. I SUGGEST PUTTING THEM IN 
+ALPHABETICAL ORDER WITH THE FIRST HALF IN THE FIRST COLUMN, AND THE SECOND 
+HALF IN THE SECOND COLUMN.*****
+      </td>
+    </tr>
+  </table>
+<hr>
+<br>
+<br>
+<br>
+
+<h3><a name="cgehcode">Cgehring's</a><strong>CODE</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br> 
+  <p align="left">&lt;!-- This code was made by cgehring --&gt;<br>
+    &lt;center&gt;<br>
+    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; border=&quot;1&quot; 
+    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
+    &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>
+    &lt;b&gt;<br>
+    Special Instructions and Proofing Notes:<br>
+    &lt;/b&gt;<br>
+    &lt;/font&gt;<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Special Instructions:<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT YOUR SPECIAL INSTRUCTIONS HERE*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Notes:<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT ANY NOTES TO THE PROOFERS HERE*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Copyright Information:<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT COPYRIGHT AND PRINTING INFORMATION HERE*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
+    &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>
+    &lt;b&gt;<br>
+    Author Information:<br>
+    &lt;/b&gt;<br>
+    &lt;/font&gt;<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Date of Birth:<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT BIRTHDATE AND PLACE HERE*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Date of Death:<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT DEATHDATE AND PLACE HERE*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
+    Biography:<br>
+    &lt;br&gt;&lt;br&gt;<br>
+    &lt;img src=&quot;http://*****PUT THE URL OF THE ARTISTS PICTURE HERE. I RECOMEND 
+    UPLOADING IT WITH YOUR OTHER PNG FILES AND CALLING IT SOMETHING DESCRIPTIVE, 
+    LIKE BIO.PNG *BE SURE THAT WHATEVER YOU CALL IT, YOU DO NOT HAVE A TEXT FILE 
+    THAT IS TITLED THE SAME!* THAT MEANS THAT IF YOU CALL THE PNG BIO.PNG, DO 
+    NOT UPLOAD A TEXT FILE NAMED BIO.TXT*****&quot; width=&quot;150&quot;&gt;<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT BIOGRAPHICAL INFORMATION HERE. I SUGGEST USING GOOGLE TO FIND INFORMATION. 
+    SOMETIMES THE JACKET COVER OF THE BOOK WILL HAVE A SHORT BIO AS WELL. REMEMBER, 
+    THE BOOK MAY HAVE BEEN PRINTED BEFORE THE AUTHOR DIED, SO PAY SPECIAL ATTENTION 
+    TO THAT.*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;/table&gt;<br>
+    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; border=&quot;1&quot; 
+    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt; 
+    <br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
+    &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>
+    &lt;b&gt;<br>
+    Books by This Author in PG:<br>
+    &lt;/b&gt;<br>
+    &lt;/font&gt;<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;tr&gt;<br>
+    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top width=&quot;50%&quot;&gt;<br>
+    *****PUT OTHER BOOKS BY THE AUTHOR IN PG HERE. AT THE END OF EACH TITLE, PUT 
+    THE &amp;lt;br&amp;gt; TAG.<br>
+    EXAMPLE:<br>
+    BOOK BY THE AUTHOR&lt;br&gt;<br>
+    ANOTHER BOOK&lt;br&gt;<br>
+    PUT HALF OF THE TITLES HERE,<br>
+    &lt;/td&gt;<br>
+    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top width=&quot;50%&quot;&gt;<br>
+    AND THE OTHER HALF OF THE TITLES HERE. I SUGGEST PUTTING THEM IN ALPHABETICAL 
+    ORDER WITH THE FIRST HALF IN THE FIRST COLUMN, AND THE SECOND HALF IN THE 
+    SECOND COLUMN.*****<br>
+    &lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;/table&gt;<br>
+    &lt;/center&gt; </p>
+</center> 
+<br>
+<br>
 
 
 <?
