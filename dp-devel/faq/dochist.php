@@ -26,6 +26,32 @@ theme('Proofreading Guidelines Revision History','header');
       </td>
     </tr>
     <tr>
+      <td>09/01/2004 </td>
+      <td>Ver.&nbsp;1.7 </td>
+      <td>The DP Community</td>
+      <td>
+        <h3>Formatting changes</h3>
+        <ul compact="compact">
+                <li>Terminology standardised.</li>
+                <li>The tables &amp; examples have all been resized to (hopefully) make it easier for people to read with lower resolution screens.</li>
+                <li>The Abbreviation section is now called Initials.</li>
+                <li>Some of the layout of the rules have been changed so that we can automatically generate the random rules from the Guideline document.</li>
+                <li>A section has been added for drama guidelines
+</li>
+                <li>A section has been added for major divisions in the text.</li>
+                <li>The character map tables have been updated to include all Latin-1 characters.</li>
+        </ul>
+        <h3>Guideline changes</h3>
+        <ul compact="compact">
+                <li>Page number references within the text are to be kept throughout a project including the Table of Contents.</li>
+                <li>Pages which start with a new paragraph get a blank line at the top to mark the new paragraph.</li>
+                <li>We now mark-up all italics, including scholarly abbreviations.</li>
+                <li>We now mark superscripts with ^</li>
+                <li>A section has been added for subscripts - they are marked with _{}</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>05/05/2004 </td>
       <td>Ver.&nbsp;1.65 </td>
       <td>The DP Community</td>
@@ -307,11 +333,8 @@ theme('Proofreading Guidelines Revision History','header');
       </td>
     </tr>
     <tr>
-      <td colspan="4">If you have any updates to this document, either update the
-          Sourceforge CVS tree, or send them to Aldarondo via PM or email.  (Please
-          don't make suggestions for someone else to change.  Just go ahead and make the
-          changes yourself, and then send in the revised document, with a note about
-          what you've changed.) </td>
+      <td colspan="4">If you have any suggestions about how the Proofreading Guidelines can be improved,
+      please post in the Documentation forum.</td>
     </tr>
   </tbody>
 </table>
