@@ -55,7 +55,7 @@ $allProjects = mysql_query("
 		(state != '".PROJ_SUBMIT_PG_POSTED."') AND 
  		(state !='".PROJ_POST_SECOND_AVAILABLE."') AND 
  		(state !='".PROJ_POST_SECOND_CHECKED_OUT."') AND 
- 		(state != '".PROJ_POST_SECOND_CHECKED_OUT."' 
+ 		(state != '".PROJ_POST_FIRST_CHECKED_OUT."' 
  			OR modifieddate > $midnight) AND 
  		(state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' 
  			OR modifieddate > $midnight) AND 
