@@ -64,6 +64,10 @@ $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
 $site_manager_email_addr = $general_help_email_addr;
 $auto_email_addr = $general_help_email_addr;
 
+// for faq/quiz
+// email address to send feedback
+$quizemail = '<<QUIZEMAIL>>';
+
 // -----------------------------------------------------------------------------
 
 // So far, the effects of setting $testing to TRUE are:
