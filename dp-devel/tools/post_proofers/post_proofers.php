@@ -5,7 +5,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'show_projects_in_state.inc');
-include($relPath.'user_is.inc');
+include_once($relPath.'user_is.inc');
 theme("Post Processing", "header");
 
 echo "
