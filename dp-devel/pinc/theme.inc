@@ -347,7 +347,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
     //Should be the last thing displayed in the right hand column
 	echo "<br><br><center><input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='donate@gutenberg.net'>\n";
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='image' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></center>\n";
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>The Project Gutenberg Literary Archive Foundation (</font><a href='http://www.gutenberg.net/donation.html' target='_new'><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>PGLAF</a>) is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541</font></center></form>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>The Project Gutenberg Literary Archive Foundation (<a href='http://www.gutenberg.net/donation.html' target='_new'>PGLAF</a>) is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541</font></center></form>\n";
 }
 
 function html_footer($siteurl, $theme, $theme_name) {
