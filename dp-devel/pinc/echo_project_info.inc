@@ -247,10 +247,10 @@ function echo_row_a( $left, $right, $darken_right_background=0 )
 	echo "</tr>\n";
 }
 
-function echo_row_b( $top, $bottom )
+function echo_row_b( $top, $bottom, $bgcolor = 'CCCCCC' )
 {
 	echo "<tr>";
-	echo "<td colspan='5' bgcolor='CCCCCC' align='center'>";
+	echo "<td colspan='5' bgcolor='$bgcolor' align='center'>";
 	echo "<font size='+1'><b>$top</b></font>";
 	if ($bottom)
 	{
@@ -303,13 +303,15 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 		$top = _("DONE");
 		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofreading, that are still available for correction)");
 		$state_condition = "state='{$prd->page_save_state}'";
+             $bg_color = '99FF66';
 	} else {
 		$top = _("IN PROGRESS");
 		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
 		$state_condition = "(state='{$prd->page_temp_state}' OR state='{$prd->page_out_state}')";
+             $bg_color = 'FFCC66';
 	}
 
-	echo_row_b( $top, $bottom );
+	echo_row_b( $top, $bottom, $bg_color );
 
 	$recentNum=5;
 
