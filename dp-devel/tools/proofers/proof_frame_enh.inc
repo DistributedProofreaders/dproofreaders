@@ -94,7 +94,7 @@ A:active {
   <?PHP
     echo "width:".($imageWidth-3)."%;\r\n";
   ?>
-  height:25px:
+  height:25px;
   z-index:3;
   }
 #imagevert {
