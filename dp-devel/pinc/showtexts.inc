@@ -1,10 +1,17 @@
 <?
+$relPath="../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
+include($relPath.'bookpages.inc');
 
 function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $show_total) {
-
+	global $pageCountArray;
 	global $code_url;
+
+	if (empty($pageCountArray)) {
+			total_pages();
+			avail_pages();
+	}
 
 	$i = 1;
 
@@ -67,8 +74,8 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 			echo "$moddate<br>";
 			echo "$links</font><br><br>";
 		} else {
-			$totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
-			echo mysql_result($totalpages,0)." pages; $moddate</font><br><br>";
+			$totalpages = $pageCountArray[$row['projectid']]['total_pages'];
+			echo "$totalpages pages; $moddate</font><br><br>";
 		}
 		$i++;
 	}
