@@ -53,29 +53,29 @@ function user_is_post_proof_verifier()
 
 function user_is_PM_of($project)
 {
-	global $pguser;
+    global $pguser;
 
-	if (!isset($pguser)) return FALSE;
+    if (!isset($pguser)) return FALSE;
 
-	if (user_is_a_sitemanager()) return TRUE;
+    if (user_is_a_sitemanager()) return TRUE;
 
-	$result = mysql_query("SELECT username FROM projects WHERE projectid = '$project'");
-	if (mysql_num_rows($result) == 0) return FALSE;
+    $result = mysql_query("SELECT username FROM projects WHERE projectid = '$project'");
+    if (mysql_num_rows($result) == 0) return FALSE;
     return (mysql_result($result, 0, "username") == $pguser);
 }
 
 function user_is_PP_of($project)
 {
-	global $pguser;
+    global $pguser;
 
-	if (!isset($pguser)) return FALSE;
-	if (user_is_a_sitemanager()) return TRUE;
+    if (!isset($pguser)) return FALSE;
+    if (user_is_a_sitemanager()) return TRUE;
 
-	$result = mysql_query("SELECT checkedoutby FROM projects
+    $result = mysql_query("SELECT checkedoutby FROM projects
                            WHERE projectid = '$project'
                             AND state IN ('proj_post_first_checked_out',
                                             'proj_post_second_checked_out')");
-	if (mysql_num_rows($result) == 0) return FALSE;
+    if (mysql_num_rows($result) == 0) return FALSE;
     return (mysql_result($result, 0, "username") == $pguser);
 }
 
@@ -84,16 +84,16 @@ function user_is_PPV_of($project)
     if(user_is_a_sitemanager()) return True;
     if(!user_is_post_proof_verifier()) return False;
 
-	// Note that if someone with PPV-ability is PPing a project,
-	// they can (and probably will) directly post to PG,
-	// with no explicit PPV phase. Thus, they are effectively
-	// both the PPer and PPVer of the project.
-	$result = mysql_query("SELECT checkedoutby FROM projects
+    // Note that if someone with PPV-ability is PPing a project,
+    // they can (and probably will) directly post to PG,
+    // with no explicit PPV phase. Thus, they are effectively
+    // both the PPer and PPVer of the project.
+    $result = mysql_query("SELECT checkedoutby FROM projects
                            WHERE projectid = '$project'
                             AND state IN ('proj_post_first_checked_out',
                                             'proj_post_second_checked_out')");
-	if (mysql_num_rows($result) == 0) return FALSE;
-	return (mysql_result($result, 0, "checkedoutby") == $pguser);
+    if (mysql_num_rows($result) == 0) return FALSE;
+    return (mysql_result($result, 0, "checkedoutby") == $pguser);
 }
 
 function user_is_site_news_editor()
@@ -126,7 +126,8 @@ function user_can_see_BEGIN_in_round($round_number)
 function user_is_authors_db_manager()
 {
     global $userSettings;
-	return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
+    return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
