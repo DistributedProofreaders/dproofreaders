@@ -21,7 +21,7 @@ include_once($relPath.'f_project_states.inc');
     if (($sitemanager != 'yes') && ($pguser != $username)) {
         echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
-    } else if (($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST') && ($pagestate == SAVE_FIRST)) {
+    } else if (($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST') && ($pagestate == SAVE_FIRST)) {
         $result = mysql_query("UPDATE $project SET round1_text = '', round1_user = '', round1_time = '', state = '".AVAIL_FIRST."' WHERE fileid = '$fileid'");
         metarefresh(0, "projectmgr.php?project=$project", "Page Checked In (1)", "");
 
