@@ -6,14 +6,26 @@ include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
 
 
-function echo_page_table( $projectid, $show_image_size)
+function echo_page_table(
+	$projectid,
+	$show_image_size,
+	$disable_editing = FALSE,
+	$pages_of_interest = NULL )
 {
-	global $theme, $projects_dir;
+	global $theme, $projects_dir, $code_url;
 
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
 	// want PPers able to see names
 	$can_see_names = ($can_edit || user_is_PP_of( $projectid));
+
+	if ( $disable_editing )
+	{
+		// Although the user may be allowed to edit the project,
+		// this particular page should not let them do so.
+		$can_edit = FALSE;
+		// But they still get to see names.
+	}
 
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
@@ -24,6 +36,12 @@ function echo_page_table( $projectid, $show_image_size)
 
 	$upload_colspan = 2 + $show_image_size;
 
+	if ( $can_edit )
+	{
+		echo "<form method='get' action='$code_url/tools/project_manager/edit_pages.php'>\n";
+		echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+	}
+
 	echo "<table border=1>\n";
 
 	$n_cols_per_round = 3; // Diff, Date, Text
@@ -33,6 +51,10 @@ function echo_page_table( $projectid, $show_image_size)
 	// Top header row
 	{
 		echo "<tr>\n";
+		if ($can_edit)
+		{
+			echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
+		}
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
@@ -51,6 +73,10 @@ function echo_page_table( $projectid, $show_image_size)
 		$td_start = "<td align='center'><font color='{$theme['color_headerbar_font']}'>";
 		$td_end   = "</font></td>\n";
 
+		if ($can_edit)
+		{
+			echo "{$td_start}X{$td_end}";
+		}
 		echo "{$td_start}I{$td_end}";
 
 		echo "{$td_start}"._("Image")."{$td_end}";
@@ -128,6 +154,20 @@ function echo_page_table( $projectid, $show_image_size)
 
 		$fileid = $page_res['fileid'];
 
+		if ( is_null($pages_of_interest) )
+		{
+			// All pages are of interest.
+		}
+		else if ( array_key_exists( $fileid, $pages_of_interest ) )
+		{
+			// This is a page of interest.
+		}
+		else
+		{
+			// This is not a page of interest.
+			continue;
+		}
+
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
 		} else {
@@ -135,6 +175,13 @@ function echo_page_table( $projectid, $show_image_size)
 		}
 
 		echo "<tr bgcolor='$row_color'>";
+
+		// --------------------------------------------
+		// Selector
+		if ( $can_edit )
+		{
+			echo "<td><input type='checkbox' name='selected_pages[$fileid]'></td>\n";
+		}
 
 		// --------------------------------------------
 		// Index
@@ -199,13 +246,29 @@ function echo_page_table( $projectid, $show_image_size)
 			// Delete
 			if ($show_delete)
 			{
-				echo "<td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td>\n";
+				echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=delete'>Delete</a></td>\n";
 			}
 		}
 
 		echo "</tr>";
 	}
 	echo "</table>";
+
+	if ( $can_edit )
+	{
+		echo "<br>\n";
+		echo _("For each selected page:") . "\n";
+		echo "<select name='operation'>\n";
+		// echo "  <option value='bad'   >" . _("Mark as bad") . "</option>\n";
+		echo "  <option value='clear' >" . _("Clear effects of current round") . "</option>\n";
+		echo "  <option value='delete'>" . _("Delete") . "</option>\n";
+		echo "</select>\n";
+		echo "<input type='submit' value='" . _("Go") . "'>\n";
+		echo "</form>\n";
+
+		// We can't easily do a multipage mark-as-bad,
+		// because it requires a per-page reason.
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -324,7 +387,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// Clear
 
 	if ($can_edit) {
-		// Anticipate the tests in checkin.php:
+		// Anticipate the tests in page_clear()
 		if (
 			$round_num == 1 &&
 			$page_state == SAVE_FIRST &&
@@ -335,11 +398,11 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			($inRound=='SECOND')
 		)
 		{
-			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>"._("Clear")."</a></td>";
+			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=cleat'>"._("Clear")."</a></td>";
 		}
 		else
 		{
-			// checkin.php won't let anything happen
+			// page_clear() won't let anything happen
 			echo "<td></td>";
 		}
 	}
