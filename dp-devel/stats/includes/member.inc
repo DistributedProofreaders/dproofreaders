@@ -146,6 +146,8 @@ function rankPosition($rank, $u_id) {
 		} else {
 			$rankPos = "&nbsp;";
 		}
+	} else {
+		$rankPos = "&nbsp;";
 	}
 
 	return $rankPos;
