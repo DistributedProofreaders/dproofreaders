@@ -105,13 +105,17 @@ if ($one_project) {
 
 } else {
     $verbose = 1;
-    $condition = "
-           state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-        OR state = '".PROJ_PROOF_FIRST_COMPLETE."'
-        OR state = '".PROJ_PROOF_FIRST_BAD_PROJECT."'
-        OR state = '".PROJ_PROOF_SECOND_AVAILABLE."'
-        OR state = '".PROJ_PROOF_SECOND_COMPLETE."'
-    ";
+
+    $condition = "0";
+    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $prd = get_PRD_for_round($rn);
+        $condition .= "
+            OR state = '{$prd->project_available_state}'
+            OR state = '{$prd->project_complete_state}'
+            OR state = '{$prd->project_bad_state}'
+        ";
+    }
 
     // log tracetimes
     $tracetime = time();
@@ -282,44 +286,50 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
 
     // Promote Level
-    if ($state == PROJ_PROOF_FIRST_COMPLETE) {
+    if ($state == $prd->project_complete_state
+        && $prd->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
+    {
+        $next_prd = get_PRD_for_round( 1 + $prd->round_number );
+
         project_update_page_counts( $projectid );
 
         if ( hold_project_between_rounds( $project ) )
         {
-            $second_round_state = PROJ_PROOF_SECOND_UNAVAILABLE;
+            $next_round_state = $next_prd->project_unavailable_state;
         }
         else
         {
-            $second_round_state = PROJ_PROOF_SECOND_AVAILABLE;
+            $next_round_state = $next_prd->project_available_state;
         }
 
         if ($verbose)
         {
             ensure_project_blurb( $project );
-            echo "    Promoting \"$nameofwork\" to $second_round_state\n";
+            echo "    Promoting \"$nameofwork\" to $next_round_state\n";
         }
 
-        $error_msg = project_transition( $projectid, $second_round_state );
+        $error_msg = project_transition( $projectid, $next_round_state );
         if ($error_msg)
         {
             echo "$error_msg\n";
             continue;
         }
 
-        Pages_prepForRound( $projectid, 2 );
+        Pages_prepForRound( $projectid, $next_prd->round_number );
 
-        if ( $second_round_state == PROJ_PROOF_SECOND_UNAVAILABLE )
+        if ( $next_round_state == $next_prd->project_unavailable_state )
         {
             maybe_mail_project_manager(
                 $project,
-                "This project is being held between rounds 1 and 2.",
+                "This project is being held between rounds $prd->round_number and $next_prd->round_number.",
                 "DP Project Held Between Rounds"); 
         }
     }
 
     // Completed Level
-    if ($state == PROJ_PROOF_SECOND_COMPLETE) {
+    if ($state == $prd->project_complete_state
+        && $prd->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
+    {
         sendtopost($projectid, $username);
     }
 }
