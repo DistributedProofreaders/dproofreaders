@@ -343,12 +343,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             continue;
         }
 
-        $timestamp = time();
-	
-	if ($writeBIGtable) {
-		$updatefile = mysql_query("UPDATE project_pages SET state = '".AVAIL_SECOND."', round2_time = '$timestamp' WHERE projectid = '$projectid' ");
-	}
-        $updatefile = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
+        Pages_prepForRound( $projectid, 2 );
 
         if ( $second_round_state == PROJ_PROOF_SECOND_UNAVAILABLE )
         {
