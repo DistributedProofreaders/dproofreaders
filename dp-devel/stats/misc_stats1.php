@@ -14,7 +14,7 @@ echo "<br>\n";
 $sub_title = _("Total Pages Proofread Since Statistics Were Kept");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_query("
+dpsql_dump_themed_query("
 	SELECT
 		SUM(pages) as 'Total Pages Proofread So Far'
 	FROM pagestats
@@ -23,7 +23,7 @@ dpsql_dump_query("
 $sub_title = _("Top Ten Best Proofreading Months");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		month as 'Month',
 		year as 'Year',
@@ -41,7 +41,7 @@ echo "<br>\n";
 $sub_title = _("Top Thirty Best Proofreading Days Ever");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		date as 'Date',
 		pages as 'Pages Proofread',
@@ -56,7 +56,7 @@ echo "<br>\n";
 $sub_title = _("Top Ten Proofreading Days This Year");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		date as 'Date',
 		pages as 'Pages Proofread',
@@ -73,7 +73,7 @@ echo "<br>\n";
 $sub_title = _("Historical Log of Total Pages Proofread Per Month");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -91,7 +91,7 @@ echo "<br>\n";
 $sub_title = _("Total Pages Proofread Per Month");
 echo "<h3></h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -109,7 +109,7 @@ echo "<br>\n";
 $sub_title = _("Months with most days over 5,000 pages");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -127,7 +127,7 @@ echo "<br>\n";
 $sub_title = _("Months with most days over 6,000 pages");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -145,7 +145,7 @@ echo "<br>\n";
 $sub_title = _("Months with most days over 7,000 pages");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -163,7 +163,7 @@ echo "<br>\n";
 $sub_title = _("Months with most days over 8,000 pages");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
@@ -181,7 +181,7 @@ echo "<br>\n";
 $sub_title = _("Months with most days over 9,000 pages");
 echo "<h3>$sub_title</h3>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',

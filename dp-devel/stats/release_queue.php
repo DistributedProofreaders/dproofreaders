@@ -11,8 +11,8 @@ $user_is_a_sitemanager = user_is_a_sitemanager();
 
 if (!isset($_GET['name']))
 {
-
-	theme("Release Queues", "header");
+	$title = _("Release Queues");
+	theme($title,'header');
 	echo "<table border=1>\n";
 
 	{
@@ -66,7 +66,8 @@ else
 	$project_selector = $qd['project_selector'];
 	$comment = $qd['comment'];
 
-	theme("'$name' Release Queue", "header");
+	$title = "$name " . _("Release Queue");
+	theme($title,'header');
 
 	if ($user_is_a_sitemanager)
 		{
@@ -78,7 +79,7 @@ else
         $comments_url2 = mysql_escape_string("'>");
         $comments_url3 = mysql_escape_string("</a>");
 
-	dpsql_dump_query("
+	dpsql_dump_themed_query("
 		SELECT
 
  			concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3')  as 'Name of Work',

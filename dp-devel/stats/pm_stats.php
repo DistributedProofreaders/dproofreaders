@@ -4,15 +4,16 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'theme.inc');
 
-theme("Project Manager Statistics", "header");
+$title = _("Project Manager Statistics");
+theme($title,'header');
 
-echo "<br><br><h2>Project Manager Statistics</h2><br>\n";
+echo "<br><h2>$title</h2>\n";
 
 echo "<br>\n";
 
-echo "<h3>Number of Distinct Project Managers</h3>\n";
+echo "<h3>" . _("Number of Distinct Project Managers") . "</h3>\n";
 
-dpsql_dump_query("
+dpsql_dump_themed_query("
 	SELECT
 		count(distinct username) as 'Different PMs'
 	FROM projects
@@ -20,12 +21,10 @@ dpsql_dump_query("
 
 echo "<br>\n";
 
+echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
+echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 
-
-echo "<h3>Most Prolific Project Managers</h3>\n";
-echo "<h4>(Number of Projects Created)</h4>\n";
-
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		username as 'PM',
 		count(*) as 'Projects Created'
@@ -39,10 +38,10 @@ dpsql_dump_ranked_query("
 echo "<br>\n";
 
 
-echo "<h3>Most Prolific Project Managers</h3>\n";
-echo "<h4>(Number of Projects Posted to PG)</h4>\n";
+echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
+echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
-dpsql_dump_ranked_query("
+dpsql_dump_themed_ranked_query("
 	SELECT
 		username as 'PM',
 		count(*) as 'Projects Posted to PG'
