@@ -2,8 +2,9 @@
 
 function bgcol($row,$round)
 {
-	$bgcolor_odd = '#CCCCCC'; // darker grey
-	$bgcolor_even = '#999999'; // lighter grey
+	$theme = $GLOBALS['theme'];
+	$bgcolor_odd = $theme['color_mainbody_bg'];
+	$bgcolor_even = $theme['color_navbar_bg'];
 	if ($round == 'first')
 	{
 		$bgcolor_odd = '#FFF8DC'; // cornsilk
