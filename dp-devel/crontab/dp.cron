@@ -1,4 +1,3 @@
-01 * * * *  lynx -dump http://beryl.ils.unc.edu/~bfish/total_count.txt > <<DYNSTATS_DIR>>/total_count.txt
 01 * * * * now=`date +\%Y-\%m-\%d_\%H:\%M:\%S`; cd <<CODE_DIR>>/tools/project_manager; /usr/local/bin/php automodify.php > <<DYNSTATS_DIR>>/automodify_logs/$now.txt
 02,17,32,47 * * * * lynx -dump <<CODE_URL>>/stats/stats.php
 01 0 * * * lynx -dump <<CODE_URL>>/stats/update_daily_page_counts.php
@@ -6,6 +5,10 @@
 01 0 * * * lynx -dump <<CODE_URL>>/stats/mbrstats.php
 07 0 * * * lynx -dump <<CODE_URL>>/crontab/archive_projects.php
 50 0 * * * lynx -dump <<CODE_URL>>/crontab/clean_tmp.php
-20 0 1 * * lynx -dump <<CODE_URL>>/crontab/inactivate_users.php
-35 0 1 * * lynx -dump <<CODE_URL>>/crontab/notify_users.php
-50 0 1 * * lynx -dump <<CODE_URL>>/crontab/notify_old_pp.php
+20 4 1 * * lynx -dump <<CODE_URL>>/crontab/inactivate_users.php
+35 4 1 * * lynx -dump <<CODE_URL>>/crontab/notify_users.php
+50 4 1 * * lynx -dump <<CODE_URL>>/crontab/notify_old_pp.php
+45 23 * * * lynx -dump <<CODE_URL>>/crontab/update_birthday_queues.php
+06 * * * * lynx -dump <<CODE_URL>>/crontab/update_user_counts.php
+05 * * * * lynx -dump <<CODE_URL>>/crontab/log_project_states.php
+04 4 7,14,21,28 * * lynx -dump <<CODE_URL>>/crontab/update_ppers.php
