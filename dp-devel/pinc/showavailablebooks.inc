@@ -1,4 +1,5 @@
 <?
+include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
@@ -448,12 +449,6 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 		$rownum2++;
 	}
 
-}
-
-function startswith( $subject, $prefix )
-// Return TRUE iff $subject starts with $prefix.
-{
-	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 }
 
 ?>

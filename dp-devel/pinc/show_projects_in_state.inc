@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'gettext_setup.inc');
@@ -301,12 +302,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	{
 		echo "</table>\n";
 	}
-}
-
-function startswith( $subject, $prefix )
-// Return TRUE iff $subject starts with $prefix.
-{
-	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 }
 
 ?>

@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
@@ -378,13 +379,6 @@ abort_if_not_manager();
 		}
 		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table>";
 	}
-
-
-function startswith( $subject, $prefix )
-// Return TRUE iff $subject starts with $prefix.
-{
-	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
-}
 
 echo "<br>";
 theme("","footer");

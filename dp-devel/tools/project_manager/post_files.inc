@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'RoundDescriptor.inc');
@@ -304,13 +305,6 @@ function mark_up_poetry_line($m)
     $i = strlen($indent);
     $attr = ( $i > 0 ? " rend='indent($i)'" : "" );
     return "$nl<l$attr>$words</l>$cr";
-}
-
-function startswith( $subject, $prefix )
-// Return TRUE iff $subject starts with $prefix.
-{
-    return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
-
 }
 
 // -----------------------------------------------------------------------------

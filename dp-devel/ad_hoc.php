@@ -186,13 +186,10 @@ if (0)
     echo "<hr>\n";
 }
 
-function startswith( $str, $pre )
-{
-    return ( substr( $str, 0, strlen($pre) ) == $pre );
-}
-
 if (0)
 {
+    include_once($relPath.'misc.inc');
+
     if (0)
     {
 	$project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
