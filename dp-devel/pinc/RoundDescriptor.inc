@@ -11,7 +11,7 @@ class ProofingRoundDescriptor {}
 
 $PRD_1 = new ProofingRoundDescriptor;
 $PRD_1->round_number = 1;
-$PRD_1->round_id = 'R1';
+$PRD_1->round_id = 'P1';
 $PRD_1->project_unavailable_state = PROJ_PROOF_FIRST_UNAVAILABLE;
 $PRD_1->project_waiting_state   = PROJ_PROOF_FIRST_WAITING_FOR_RELEASE;
 $PRD_1->project_bad_state       = PROJ_PROOF_FIRST_BAD_PROJECT;
@@ -38,7 +38,7 @@ $PRD_1->other_rounds_with_visible_usernames = array();
 
 $PRD_2 = new ProofingRoundDescriptor;
 $PRD_2->round_number = 2;
-$PRD_2->round_id = 'R2';
+$PRD_2->round_id = 'P2';
 $PRD_2->project_unavailable_state = PROJ_PROOF_SECOND_UNAVAILABLE;
 $PRD_2->project_waiting_state   = PROJ_PROOF_SECOND_WAITING_FOR_RELEASE;
 $PRD_2->project_bad_state       = PROJ_PROOF_SECOND_BAD_PROJECT;
