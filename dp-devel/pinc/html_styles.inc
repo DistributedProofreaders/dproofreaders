@@ -1,0 +1,83 @@
+<?PHP
+class htmlStyles
+{
+// set unused vars to NULL as 0 will still render the attribute="0"
+
+// BODY
+// onload can be set in the specific function
+var $body = array(
+'BACKGROUND'=>NULL,
+'BGCOLOR'=>"#FFFFFF",
+'TEXT'=>"#000000",
+'LINK'=>"#000099",
+'VLINK'=>"#990000",
+'ALINK'=>"#009900",
+'STYLE'=>NULL,
+'CLASS'=>NULL
+);
+
+// TABLE
+//width can be set in the specific function
+var $table = array(
+'ID'=>NULL,
+'BGCOLOR'=>"#FFFFFF",
+'BORDER'=>"1",
+'BORDERCOLOR'=>"#111111",
+'CELLSPACING'=>"0",
+'CELLPADDING'=>"0",
+'STYLE'=>"BORDER-COLLAPSE: collapse",
+'CLASS'=>NULL
+);
+
+//TR's
+// 0 goes with the default style TD, 1 goes with 'light' TD, 2 goes with 'dark' TD
+
+var $tr = array(
+0 => array(
+'ID'=>NULL,
+'STYLE'=>NULL,
+'CLASS'=>NULL
+),
+
+1 => array(
+'ID'=>NULL,
+'STYLE'=>NULL,
+'CLASS'=>NULL
+),
+
+2 => array(
+'ID'=>NULL,
+'STYLE'=>NULL,
+'CLASS'=>NULL
+)
+);
+
+
+// TD's
+// 0 is default style TD, 1 is 'light' TD, 2 is 'dark' TD
+// rowspan and/or colspan must be set in the specific function
+
+var $td = array(
+0 => array(
+'ID'=>NULL,
+'BGCOLOR'=>NULL,
+'STYLE'=>NULL,
+'CLASS'=>NULL
+),
+
+1 => array(
+'ID'=>NULL,
+'BGCOLOR'=>"#CCCCCC",
+'STYLE'=>NULL,
+'CLASS'=>NULL
+),
+
+2 => array(
+'ID'=>NULL,
+'BGCOLOR'=>"#9999CC",
+'STYLE'=>NULL,
+'CLASS'=>NULL
+),
+);
+}
+?>
