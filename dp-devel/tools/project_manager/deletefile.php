@@ -1,19 +1,9 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
-
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\">"; 
-} else {
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 
     $project = $_GET['project'];
     $fileid = $_GET['fileid'];
-
-    //connect to database
-    include '../../connect.php';
 
     $sql = mysql_query("SELECT username FROM projects WHERE projectid = '$project' LIMIT 1");
     $username = mysql_result($sql, 0, "username");
@@ -29,5 +19,4 @@ if ($good_login != 1) {
 
         echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php?project=$project\"></head><body></body></html>"; 
     }
-}
 ?>

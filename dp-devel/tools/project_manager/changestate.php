@@ -1,27 +1,13 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=accounts/signin.php\">";
-} else {
-
-    //create date stamp
-    $year  = date("Y");
-    $month = date("m");
-    $day = date("d");
-    $todaysdate = $year.$month.$day;
+    $todaysdate = time();
 
     // Get Passed parameters to code
     $projectid = $_GET['project'];
     $newstate = $_GET['state'];
     $always = $_GET['always'];
-
-    // Connect to database
-    include '../../connect.php';
 
     // Get more information about the project
     $sql = mysql_query("SELECT state, username FROM projects WHERE projectid = '$projectid'");
@@ -96,5 +82,4 @@ if ($good_login != 1) {
         echo "<P><B>NOTE:</B> The choice you made is one that should not be chosen quickly. If you do not know what it will do, it is best to keep things the way they are.";
         print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
     }
-}
 ?>

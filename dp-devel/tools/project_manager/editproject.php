@@ -1,19 +1,8 @@
 <?
-if ($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\">"; 
-} else {
-
-    //create date stamp
-    $year  = date("Y");
-    $month = date("m");
-    $day = date("d");
-    $todaysdate = $year.$month.$day;
+    $todaysdate = time();
 
     $projectid = $_POST['project'];
     $NameofWork = $_POST['NameofWork'];
@@ -30,8 +19,6 @@ if ($good_login != 1) {
     $button1 = $_POST['button1'];
     $button2 = $_POST['button2'];
     $button3 = $_POST['button3'];
-
-    include '../../connect.php';
 
     if (($button3 != "") && ($action == "new")) {
         $projectid = uniqid("projectID");
@@ -155,6 +142,5 @@ a change and hit \"Save and Preview\" this will page refresh to display your cha
 </body></html>
 <?
     }
-}
 ?>
 

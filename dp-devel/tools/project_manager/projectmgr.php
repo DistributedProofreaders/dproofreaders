@@ -1,16 +1,7 @@
 <?
-if($_COOKIE['pguser']) {
-    // can only come from a cookie, forged or otherwise
-    $good_login = 1;
-    $pguser = $_COOKIE['pguser'];
-}
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
 
-if ($good_login != 1) {
-    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=../../accounts/signin.php\">"; 
-} else {
-
-    ///connect to database
-    include '../../connect.php';
     include 'pm_globals.php';
 
     echo "<title>Project Managers Page</title>";
@@ -357,5 +348,4 @@ if ($sitemanager == "yes") {
 </body>
 <?
     }
-}
 ?>

@@ -4,9 +4,10 @@
 //   - Promote Level: If a project is ready to be promoted, it sends it to round 2
 //   - Complete Project: If a project has completed round 2, it sends it to post-processing or assign to the project manager
 //   - Release Projects: If there are not enough projects available to end users, it will release projects waiting to be released
+$relPath="./../../pinc/";
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 
-  ///connect to database
-  include '../../connect.php';
   include 'autorelease.php';
   include 'sendtopost.php';
   include 'pm_globals.php';
@@ -17,11 +18,7 @@
   $pagesleft = 0;
   $rownum = 0;
 
-  //create date stamp
-  $year  = date("Y");
-  $month = date("m");
-  $day = date("d");
-  $todaysdate = $year.$month.$day;
+  $todaysdate = time();
 
   while ($rownum < $numrows) {
 
