@@ -146,12 +146,71 @@ function messageCenter($curMbr) {
 
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 	echo "<tr><td align='center' colspan='2'>".showMbrStatus($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
-	if (!empty($curMbr['user_viewemail'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>"._("E-mail:")."</font></td><td align='left'><a href='mailto:".$curMbr['email']."'><img src='$forums_url/templates/subSilver/images/lang_english/icon_email.gif' alt='E-mail ".$curMbr['username']."' border='0'></a></td></tr>"; }
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>Private Message:</font></td><td align='left'><a href='$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id']."'><img src='$forums_url/templates/subSilver/images/lang_english/icon_pm.gif' alt='"._("Private Message")." ".$curMbr['username']."' border='0'></a></td></tr>";
-	if (!empty($curMbr['user_aim'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>AIM:</font></td><td align='left'><a href='aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP'><img src='$forums_url/templates/subSilver/images/lang_english/icon_aim.gif' alt='AIM ".$curMbr['username']."' border='0'></a></td></tr>"; }
-	if (!empty($curMbr['user_msnm'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>MSN:</font></td><td align='left'><a href='javascript:alert(\"".$curMbr['user_msnm']."\")'><img src='$forums_url/templates/subSilver/images/lang_english/icon_msnm.gif' alt='MSN ".$curMbr['username']."' border='0'></a></td></tr>"; }
-	if (!empty($curMbr['user_yim'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>Yahoo:</font></td><td align='left'><a href='http://edit.yahoo.com/config/send_webmesg?.target=".$curMbr['user_yim']."&.src=pg' target='_new'><img src='$forums_url/templates/subSilver/images/lang_english/icon_yim.gif' alt='Yahoo Message ".$curMbr['username']."' border='0'></a></td></tr>"; }
-	if (!empty($curMbr['user_icq'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>ICQ:</font></td><td align='left'><a href='http://wwp.icq.com/scripts/search.dll?to=".$curMbr['user_icq']."' target='_new'><img src='$forums_url/templates/subSilver/images/lang_english/icon_icq.gif' alt='ICQ ".$curMbr['username']."' border='0'></a></td></tr>"; }
+
+	function echo_tr_mc( $label, $icon_filename, $url, $target='' )
+	{
+		global $theme, $forums_url, $curMbr;
+		
+		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
+		$target_str = ( empty($target) ? '' : " target='$target'" );
+
+		echo "<tr>";
+		echo   "<td align='left'>";
+		echo     "<font face='".$theme['font_mainbody']."' size='2'>";
+		echo       "$label:";
+		echo     "</font>";
+		echo   "</td>";
+		echo   "<td align='left'>";
+		echo     "<a href='$url'$target_str>";
+		echo       "<img src='$icon_path' alt='$label ".$curMbr['username']."' border='0'>";
+		echo     "</a>";
+		echo   "</td>";
+		echo "</tr>";
+		echo "\n";
+	}
+
+	if (!empty($curMbr['user_viewemail'])) {
+		echo_tr_mc(
+			_("E-mail"),
+			"icon_email.gif",
+			"mailto:".$curMbr['email']
+		);
+	}
+	echo_tr_mc(
+			_("Private Message"),
+			"icon_pm.gif",
+			"$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id']
+		);
+	if (!empty($curMbr['user_aim'])) {
+		echo_tr_mc(
+			"AIM",
+			"icon_aim.gif",
+			"aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP"
+		);
+	}
+	if (!empty($curMbr['user_msnm'])) {
+		echo_tr_mc(
+			"MSN",
+			"icon_msnm.gif",
+			"javascript:alert(\"".$curMbr['user_msnm']."\")"
+		);
+	}
+	if (!empty($curMbr['user_yim'])) {
+		echo_tr_mc(
+			"Yahoo Message",
+			"icon_yim.gif",
+			"http://edit.yahoo.com/config/send_webmesg?.target=".$curMbr['user_yim']."&.src=pg",
+			"_new"
+		);
+	}
+	if (!empty($curMbr['user_icq'])) {
+		echo_tr_mc(
+			"ICQ",
+			"icon_icq.gif",
+			"http://wwp.icq.com/scripts/search.dll?to=".$curMbr['user_icq'],
+		       	"_new"
+		);
+	}
 	echo "</table>";
 }
 
