@@ -1,19 +1,10 @@
 <?
+$relPath='../pinc/';
+include_once($relPath.'connect.inc');
+new dbConnect();
+
 //Declare all variables
 $db_schema = "db_schema.sql";
-$db_host = "localhost";
-$db_user = "";
-$db_pass = "";
-$db_name = "dproofreaders";
-
-//Connect to the sql database
-$db = mysql_connect($db_host,$db_user,$db_pass);
-
-//Create the new database
-$createdb = mysql_query("CREATE DATABASE $db_name CHARACTER SET UTF8");
-
-//Select the newly created database
-mysql_select_db($db_name,$db) or die ("Unable to select database.");
 
 //Create a string out of the database schema file
 $db_schema = file($db_schema);
@@ -36,6 +27,5 @@ $result = mysql_query("$lines");
 echo mysql_error() . "\n";
 }
 
-//Let the user know the db was created
-echo $db_name." has been created with the default structure and data.";
+echo "Tables have been created.";
 ?> 
