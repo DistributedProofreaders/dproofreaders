@@ -3,6 +3,9 @@ class userCookie
 {
      var $cookieDomain="";
 
+function userCookie()
+{$this->cookieDomain=(substr_count($_SERVER['SERVER_NAME'], ".")) > 0? $_SERVER['SERVER_NAME'] : "";}
+
 function checkCookie()
      {
      if (@$_COOKIE['pguser'])
