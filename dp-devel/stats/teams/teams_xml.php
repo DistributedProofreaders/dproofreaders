@@ -63,7 +63,8 @@ $curTeam = mysql_fetch_assoc($result);
 //Team members portion of $data
 	$data .= "<teammembers>";
 	$mbrQuery = mysql_query("
-		SELECT username, $user_P_page_tally_column, date_created, u_id, u_privacy
+		SELECT username, date_created, u_id, u_privacy,
+			$user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
 		WHERE {$curTeam['id']} IN (team_1, team_2, team_3)
 		ORDER BY username ASC
@@ -74,7 +75,7 @@ $curTeam = mysql_fetch_assoc($result);
 		{
 			$data .= "<member id=\"".$curMbr['u_id']."\">
 				<username>".xmlencode($curMbr['username'])."</username>
-				<pagescompleted>".$curMbr[$user_P_page_tally_column]."</pagescompleted>
+				<pagescompleted>".$curMbr['current_P_page_tally']."</pagescompleted>
 				<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			</member>
 			";

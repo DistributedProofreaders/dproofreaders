@@ -216,7 +216,8 @@ function user_get_page_tally_neighborhood( $username, $radius )
     // with the possible exception of the target user.
 
     $result = mysql_query("
-        SELECT username, date_created, u_id, $user_P_page_tally_column, u_privacy
+        SELECT username, date_created, u_id, u_privacy,
+            $user_P_page_tally_column AS current_P_page_tally
         FROM $users_table_with_tallies
         WHERE $user_P_page_tally_column > 0 OR username='$username'
         ORDER BY $user_P_page_tally_column DESC
@@ -253,13 +254,13 @@ function user_get_page_tally_neighborhood( $username, $radius )
 
     $neighbors = array();
     $i = 0;
-    $latest_page_tally = -1000; // A value that the first $row[$user_P_page_tally_column] will not be equal to.
+    $latest_page_tally = -1000; // A value that the first $row['current_P_page_tally'] will not be equal to.
     $latest_rank = NULL;
     while ($row = mysql_fetch_assoc($result))
     {
-        if ($row[$user_P_page_tally_column] != $latest_page_tally)
+        if ($row['current_P_page_tally'] != $latest_page_tally)
         {
-            $latest_page_tally = $row[$user_P_page_tally_column];
+            $latest_page_tally = $row['current_P_page_tally'];
             $latest_rank = $i+1;
         }
 
@@ -288,7 +289,7 @@ function user_get_page_tally_neighborhood( $username, $radius )
                     $neighbor_username,
                     $neighbor_date_joined,
                     $row['u_id'],
-                    $row[$user_P_page_tally_column],
+                    $row['current_P_page_tally'],
                     $latest_rank
                 );
         }

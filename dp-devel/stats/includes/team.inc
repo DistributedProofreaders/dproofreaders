@@ -204,7 +204,7 @@ function showTeamMbrs($curTeam) {
 	if ($order == "pages") {
 		if ($direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td width='35%' bgcolor='".$theme['color_headerbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=$newdirection'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
-		$orderby = $user_P_page_tally_column;
+		$orderby = 'current_P_page_tally';
 	} else {
 		echo "<td width='35%' bgcolor='".$theme['color_navbar_bg']."'><b><a href='tdetail.php?tid=".$curTeam['id']."&order=pages&direction=desc'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>"._("Pages Completed")."</a></font></b></td>";
 	}
@@ -219,7 +219,7 @@ function showTeamMbrs($curTeam) {
 
 	echo "</tr></table>\n<table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	$mbrQuery = mysql_query("
-		SELECT *
+		SELECT *, $user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
 		WHERE {$_GET['tid']} IN (team_1, team_2, team_3)
 		ORDER BY $orderby $direction
@@ -231,19 +231,19 @@ function showTeamMbrs($curTeam) {
 		if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS)
 		{
 			$totalAnonUsers++;
-			$totalPagesAnonUsers += $curMbr[$user_P_page_tally_column];
+			$totalPagesAnonUsers += $curMbr['current_P_page_tally'];
 		}
 		elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($GLOBALS['pguser']))
 		{
 			$totalAnonUsers++;
-			$totalPagesAnonUsers += $curMbr[$user_P_page_tally_column];
+			$totalPagesAnonUsers += $curMbr['current_P_page_tally'];
 		}
 		else
 		{
 			$username = $curMbr['username'];
 			echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
 			echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'] . "'>$username</a></td>";
-			echo "<td width='35%'>" . number_format($curMbr[$user_P_page_tally_column]) . "</td>";
+			echo "<td width='35%'>" . number_format($curMbr['current_P_page_tally']) . "</td>";
 			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";
 		}
 	}

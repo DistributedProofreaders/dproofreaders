@@ -16,7 +16,7 @@ if (empty($id)) {
 }
 
 $result = mysql_query("
-	SELECT *
+	SELECT *, $user_P_page_tally_column AS current_P_page_tally
 	FROM $users_table_with_tallies
 	WHERE u_id = '$id'
 ");
@@ -56,7 +56,7 @@ if (is_null($brushoff)) {
 	$now = time();
 	showMbrProfile($curMbr);
 	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-	if ($curMbr[$user_P_page_tally_column] > 0) { showMbrNeighbors($curMbr); }
+	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 } else {
 	echo "<p>$brushoff</p>";

@@ -22,7 +22,8 @@ if (!empty($_GET['mstart'])) { $mstart = $_GET['mstart']; } else { $mstart = 0; 
 
 if (!empty($_REQUEST['uname'])) {
 	$mResult = mysql_query("
-		SELECT u_id, username, date_created, $user_P_page_tally_column, u_privacy
+		SELECT u_id, username, date_created, u_privacy,
+			$user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
 		WHERE username LIKE '%".$_REQUEST['uname']."%'
 		ORDER BY $order $direction
@@ -33,7 +34,8 @@ if (!empty($_REQUEST['uname'])) {
 	$uname = "uname=".$_REQUEST['uname']."&";
 } else {
 	$mResult=mysql_query("
-		SELECT u_id, username, date_created, $user_P_page_tally_column, u_privacy
+		SELECT u_id, username, date_created, u_privacy,
+			$user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
 		ORDER BY $order $direction
 		LIMIT $mstart,20
@@ -56,8 +58,8 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></b></td>";
 	if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>"._("Date Joined DP")."</a></b></td>";
-	if ($order == $user_P_page_tally_column && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='25%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=$user_P_page_tally_column&direction=$newdirection'>"._("Total Pages Completed")."</a></b></td>";
+	if ($order == "current_P_page_tally" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+		echo "<td width='25%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=current_P_page_tally&direction=$newdirection'>"._("Total Pages Completed")."</a></b></td>";
 	echo "<td width='23%' align='center'><b>"._("Options")."</b></td>";
 echo "</tr>";
 if (!empty($mRows)) {
@@ -73,7 +75,7 @@ if (!empty($mRows)) {
 			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
 			echo "<td width='25%'>".$row['username']."</td>";
 			echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
-			echo "<td width='25%' align='center'>".number_format($row[$user_P_page_tally_column])."</td>";
+			echo "<td width='25%' align='center'>".number_format($row['current_P_page_tally'])."</td>";
 			echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$forums_url/privmsg.php?mode=post&u=".mysql_result($phpbbID, 0, "user_id")."'>"._("PM")."</a></b></td>";
 
 		} else {
@@ -82,7 +84,7 @@ if (!empty($mRows)) {
 			echo "<td width='5%' align='center'><b>---</b></td>";
 			echo "<td width='25%'>Anonymous</td>";
 			echo "<td width='22%' align='center'>---</td>";
-			echo "<td width='25%' align='center'>".number_format($row[$user_P_page_tally_column])."</td>";
+			echo "<td width='25%' align='center'>".number_format($row['current_P_page_tally'])."</td>";
 			echo "<td width='23%' align='center'>None</td>";
 
 		}

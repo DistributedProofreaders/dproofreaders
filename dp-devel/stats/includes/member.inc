@@ -6,7 +6,7 @@ include_once($relPath.'page_tally.php');
 
 function showMbrProfile($curMbr) {
 	global $theme;
-	global $users_table_with_tallies, $user_P_page_tally_column;
+	global $users_table_with_tallies;
 
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
@@ -25,7 +25,7 @@ function showMbrProfile($curMbr) {
 	list($highestRank, $highestRankDate) = user_get_best_page_tally_rank_info($curMbr['u_id']);
 
 	if ($daysInExistenceInteger > 0) {
-	        $daily_Average = $curMbr[$user_P_page_tally_column]/$daysInExistenceInteger;
+	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistenceInteger;
 	} else {
 		$daily_Average = 0;
 	}
@@ -73,8 +73,8 @@ function showMbrProfile($curMbr) {
 	);
 	echo_tr_2_cols(
 		_("Total Pages"),
-		number_format($curMbr[$user_P_page_tally_column]) . " " . _("pages")
-		. " (" . pageCountPercentage($curMbr[$user_P_page_tally_column]) . _("% of total") . ")"
+		number_format($curMbr['current_P_page_tally']) . " " . _("pages")
+		. " (" . pageCountPercentage($curMbr['current_P_page_tally']) . _("% of total") . ")"
 	);
 	echo_tr_2_cols(
 		_("Overall Rank"),
@@ -145,10 +145,9 @@ function bestDayEver($u_id) {
 
 function messageCenter($curMbr) {
 	global $forums_url, $theme;
-	global $user_P_page_tally_column;
 
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-	echo "<tr><td align='center' colspan='2'>".showMbrStatus($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr[$user_P_page_tally_column])."</td></tr>";
+	echo "<tr><td align='center' colspan='2'>".showMbrStatus($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
 	if (!empty($curMbr['user_viewemail'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>"._("E-mail:")."</font></td><td align='left'><a href='mailto:".$curMbr['email']."'><img src='$forums_url/templates/subSilver/images/lang_english/icon_email.gif' alt='E-mail ".$curMbr['username']."' border='0'></a></td></tr>"; }
 	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>Private Message:</font></td><td align='left'><a href='$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id']."'><img src='$forums_url/templates/subSilver/images/lang_english/icon_pm.gif' alt='"._("Private Message")." ".$curMbr['username']."' border='0'></a></td></tr>";
 	if (!empty($curMbr['user_aim'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>AIM:</font></td><td align='left'><a href='aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP'><img src='$forums_url/templates/subSilver/images/lang_english/icon_aim.gif' alt='AIM ".$curMbr['username']."' border='0'></a></td></tr>"; }
