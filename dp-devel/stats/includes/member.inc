@@ -11,6 +11,8 @@ function showMbrInformation( $curMbr, $tally_name )
 	showXmlButton($curMbr['username']);
 	showMbrProfile($curMbr);
 
+	showMbrTallySelector( $curMbr['u_id'], $tally_name );
+
 	if ( !is_null($tally_name) )
 	{
 		showMbrPageStats($curMbr, $tally_name);
@@ -216,6 +218,50 @@ function showForumProfile($username) {
 	}
 
 	$t->end();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showMbrTallySelector( $u_id, $tally_name )
+{
+	global $page_tally_names;
+
+	$choices = '';
+	foreach ( $page_tally_names as $t_name => $t_gerund )
+	{
+		if (!empty($choices))
+		{
+			$choices .= " | ";
+		}
+
+		$text = $t_gerund;
+		if ($t_name != $tally_name)
+		{
+			$text = "<a href='mdetail.php?id=$u_id&amp;tally_name=$t_name'>$text</a>";
+		}
+		$choices .= $text;
+	}
+	echo "\n";
+	echo "<center>";
+	echo "<p>";
+	echo _("Display user stats for various activities:") . ' ' . $choices;
+	echo "</p>";
+	echo "</center>";
+
+	echo "\n";
+	echo "<hr width='95%'>";
+
+	if ( is_null($tally_name) ) return;
+
+	$gerund = $page_tally_names[$tally_name];
+	echo "\n";
+	echo "<center>";
+	echo "<p>";
+	echo $gerund;
+	echo "<br>";
+	echo "(Below, 'pages' refers to 'pages saved-as-done in a $tally_name round'.)";
+	echo "</p>";
+	echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
