@@ -693,7 +693,7 @@ For example, a lisp or perl script will need a lisp or perl interpreter to work,
 ActivePerl, available <a href="http://www.activestate.com/Products/ActivePerl/">here</a>,
 and Clisp, available <a href="http://clisp.sourceforge.net/">here</a>, both for free.
 If you need help getting them to work, or your platform isn't supported by these,
-ask on the <a href="<? $post_processing_forum_url >?">Post-Processing Forum</a> for help;
+ask on the <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a> for help;
 almost certainly someone will be able to assist you!
 </p>
  
