@@ -10,7 +10,7 @@ $htmlEnd="</BODY></HTML>";
 $noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
 extract($_POST);
 
-if (isset($userNM) && isset($userPW))
+if (!empty($userNM) && !empty($userPW))
 {
 // $userNM = str_replace("\'", "''", $userNM);
 
