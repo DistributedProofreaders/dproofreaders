@@ -14,8 +14,8 @@ $project_gutenberg['template_creator'] = "Joseph Gruber (USFJoseph)";
 $project_gutenberg['body_bgcolor'] = "#cccccc";
 $project_gutenberg['body_text'] = "#000000";
 $project_gutenberg['body_link'] = "#0000ff";
-$project_gutenberg['body_vlink'] = "#0000ff";
-$project_gutenberg['body_alink'] = "#0000ff";
+$project_gutenberg['body_vlink'] = "#990099";
+$project_gutenberg['body_alink'] = "#ff0000";
 
 $project_gutenberg['image_logo'] = "/graphics/logo.gif";
 $project_gutenberg['image_curve_right'] = "/graphics/r_curve.gif";
