@@ -10,10 +10,11 @@ while ($row = mysql_fetch_assoc($result)) {
 	$isPP = mysql_result($isPPQuery, 0, "postprocessor");
 	if ($isPP != "yes") {
 		$updatePPQuery = mysql_query("UPDATE users SET postprocessor = 'yes' WHERE username = '".$row['postproofer']."'");
+		echo "Added: ".$row['postproofer']."<br>";
 	}
 }
 
-echo "<center>Update of Post Processors Complete!</center>";
+echo "<br><center>Update of Post Processors Complete!</center>";
 
 ?>
 
