@@ -75,7 +75,7 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			// green for Ramadan
 			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' ) )
 			{
-				$bgcolor = " bgcolor='green'";
+				$bgcolor = " bgcolor='#00FF33'";
 			}
 
 
