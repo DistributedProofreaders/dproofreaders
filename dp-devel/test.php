@@ -20,28 +20,33 @@ system("ls -l /0/htdocs");
 echo "</pre>\n";
 echo "<hr>\n";
 
-$ip = ini_get('include_path');
-echo "include_path = $ip<BR>\n";
+$relPath='./pinc/';
+include($relPath.'connect.inc');
+new dbConnect();
+
+$project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
+$res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
+        or die(mysql_error());
 
 echo "<pre>\n";
-foreach ( split(':', $ip) as $d )
+while( $project_row = mysql_fetch_array($res) )
 {
-	echo "$d\n";
-	system("ls -l $d");
-	echo "<BR>\n";
+    list($projectid) = $project_row;
+
+    echo $projectid;
+    echo " ";
+    $res2 = mysql_query("SELECT COUNT(*) FROM $projectid");
+    if (!res2)
+    {
+	echo mysql_error();
+    }
+    else
+    {
+	list($n_pages) = mysql_fetch_array($res2);
+	echo $n_pages;
+    }
+    echo "\n";
 }
 echo "</pre>\n";
-
-ini_set('include_path', './pinc');
-
-include('v_site.inc');
-echo "site_dir = $site_dir<BR>\n";
-
-include('txt/v_ereg_latin1.inc');
-echo "regLatin1 = $regLatin1<BR>\n";
-
-echo "<pre>\n";
-include('txt/readme.txt');
-echo "</pre>\n";
-
+echo "<hr>\n";
 ?>
