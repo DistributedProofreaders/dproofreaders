@@ -37,8 +37,21 @@ return $to_echo;
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
 
+echo "All <input type='checkbox' name='difficulty1[]' value=''>";
+
+	echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
+echo 'Easy
+<input type="checkbox" name="difficulty1[]" value="easy">
+Average
+<input type="checkbox" name="difficulty1[]" value="average"> 
+Hard
+<input type="checkbox" name="difficulty1[]" value="hard">';
+
+
+
     echo "\r\n<table border=1 width=630>";
     echo "\r\n<tr>";
+
     echo   "<td>"._("Language")."</td>";
     echo   "<td>"._("Genre")."</td>";
     echo "\r\n</tr>";
@@ -83,7 +96,7 @@ return $to_echo;
 
     echo "\r\n</tr>";
     echo "\r\n<tr>";
-    echo   "<td>"._("Project Manager"."</td>";
+    echo   "<td>"._("Project Manager")."</td>";
     echo   "<td>"._("Difficulty")."</td>";
     echo "\r\n</tr>";
     echo "\r\n<tr>";
@@ -105,19 +118,6 @@ return $to_echo;
 	";
 
 
-	// DIFFICULTY filter (hard coded so we can easily control the order properly)
-
- 	echo "
-	    <td>
-	    <select name='difficulty1[]' size=5 multiple>
-		<option value=''>All</option>
-		<option value='beginner'>Beginners</option>
-		<option value='easy'>Easy</option>
-		<option value='average'>Average</option>
-		<option value='hard'>Hard</option>
-	    </select>
-	    </td>
-	";
 
 
 
