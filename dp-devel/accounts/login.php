@@ -132,18 +132,7 @@ if (!empty($destination))
 }
 else
 {
-    // isn't this the same as the manager field in users?
-    //        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
-    // needs to be included in user.inc, if not....
-
-    if ($u_row['manager']=='yes')
-    {
-        $url = "../tools/project_manager/projectmgr.php";
-    }
-    else
-    {
-        $url = "../activity_hub.php";
-    }
+    $url = "../activity_hub.php";
 }
 $title = _("Sign In");
 metarefresh(1,$url,$title,"");
