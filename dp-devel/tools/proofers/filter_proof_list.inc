@@ -1,6 +1,8 @@
 <?
 
-function build_selectlist( $states, $field)
+global $array_of_langs, $array_of_genres , $array_of_PMs, $array_of_diffs;
+
+function build_selectlist( $states, $field, $array)
 {
 
 	$to_echo = "";
@@ -12,12 +14,14 @@ function build_selectlist( $states, $field)
 		";
 
 	$result = mysql_query($query);
-
+	
+	$i = 0;
 	while ($a_res = mysql_fetch_row($result))
 	{
 	    $val = $a_res[0];	
 	    $to_echo .= "<option value='$val'>";
 	    $to_echo .= $val;
+	    $array[$i] = $val;	
 	    $to_echo .= "</option>\n";
 	}
 
@@ -80,7 +84,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All languages</option>
 	";
 
-	echo build_selectlist( $state_sql, "language");
+	echo build_selectlist( $state_sql, "language", $array_of_langs);
 
 	echo "
 	    </select>
@@ -95,7 +99,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All genres</option>
 	";
 
-	echo build_selectlist( $state_sql, "genre");
+	echo build_selectlist( $state_sql, "genre", $array_of_genres);
 	echo "
 	    </select>
 	    </td>
@@ -110,7 +114,7 @@ if ($userP['u_plist'] == 3)
 		<option value=''>All Project Managers</option>
 	";
 
-	echo build_selectlist( $state_sql, "username");
+	echo build_selectlist( $state_sql, "username", $array_of_PMs);
 	echo "
 	    </select>
 	    </td>
@@ -131,16 +135,18 @@ if ($userP['u_plist'] == 3)
 	    </td>
 	";
 
+	$array_of_diffs = array('beginner','easy','average','hard');
+
 
     echo "</tr>";
     echo "</table>\n<br>";
 
     echo "<input type='submit' value='Apply Filter to Projects'>";
-    echo "<input type='reset' value='Reset Filter to none'>";
+    echo "<input type='reset' value='Reset Filter to null'>";
     echo "</form><br>";
     echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
     echo "<br><br>";
-    echo _("Restting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
+    echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
     echo "</center><br><br>\n";
 
 ?>
