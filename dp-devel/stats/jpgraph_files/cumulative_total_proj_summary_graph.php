@@ -67,24 +67,24 @@ while ($row = mysql_fetch_assoc($resultCreated)) {
 	$i++;
 }
 
-$i = 0
+$i = 0;
 
 while ($row = mysql_fetch_assoc($resultProofed)) {
 	$datay2[$i] = $row['P'];
 	$i++;
 }
 
-$i = 0
+$i = 0;
 
 while ($row = mysql_fetch_assoc($resultPPd)) {
 	$datay3[$i] = $row['P'];
 	$i++;
 }
 
-$i = 0
+$i = 0;
 
 while ($row = mysql_fetch_assoc($resultPosted)) {
-	$datay3[$i] = $row['P'];
+	$datay4[$i] = $row['P'];
 	$i++;
 }
 
@@ -165,12 +165,12 @@ $graph->yaxis->title->Set(_('Projects'));
 $graph->yaxis->SetTitleMargin(45);
 
 
-$graph->title->Set(_("Total Projects Created"));
+$graph->title->Set(_("Total Projects Created, Proofed, PPd and Posted"));
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
-$graph->legend->Pos(0.5,0.5,"right" ,"top"); //Align the legend
+$graph->legend->Pos(0.1,0.1,"right" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();
