@@ -64,7 +64,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$word = _("Project ID");
 		echo_row_a($word,     $project['projectid'] );
 		$word = _("Clearance Line");
-		echo_row_a(, $project['clearance'] );
+		echo_row_a($word, $project['clearance'] );
 	}
 
 	// -------------------------------------------------------------------------
