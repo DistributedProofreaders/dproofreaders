@@ -357,7 +357,81 @@ function language_list($language) {
 }
 
 function genre_list($genre) {
-	$array_list = array('Art', 'Autobiography', 'Biography', 'Comedy', 'Comic Strip', 'Cooking', 'Drama', 'Essay', 'Fiction', 'Geography', 'Grammar', 'Historical', 'History', 'Humor', 'Letter', 'Linguistics', 'Math', 'Medicine', 'Mixed Form', 'Music', 'Non Fiction', 'Novel', 'Periodical', 'Philosophy', 'Poetry', 'Religious', 'Romance', 'Science', 'Satire', 'Short Story', 'Speech', 'Travel', 'Unknown');
+	$array_list = array( 
+			    'Other', 
+			    'Adventure', 
+			    'Agriculture', 
+			    'Art', 
+			    'Animals', 
+			    'Anthropology', 
+			    'Architecture', 
+			    'Astronomy', 
+			    'Autobiography', 
+			    'Bibliography', 
+			    'Biography', 
+			    'Biology', 
+			    'Business', 
+			    'Chemistry', 
+			    'Collection', 
+			    'Cooking', 
+			    'Correspondence', 
+			    'Crafts', 
+			    'Diary', 
+			    'Dictionary', 
+			    'Drama', 
+			    'Economics', 
+			    'Education', 
+			    'Encyclopedia', 
+			    'Essay', 
+			    'Folklore', 
+			    'Geology', 
+			    'Grammar', 
+			    'Health', 
+			    'History', 
+			    'Historical Fiction', 
+			    'Horror', 
+			    'Horticulture', 
+			    'Humor', 
+			    'Instructional', 
+			    'Juvenile', 
+			    'Law', 
+			    'Linguistics', 
+			    'Literature', 
+			    'Mathematics', 
+			    'Medicine', 
+			    'Military', 
+			    'Mixed Form', 
+			    'Music', 
+			    'Musicology', 
+			    'Mystery', 
+			    'Mythology', 
+			    'Nature', 
+			    'Natural Science', 
+			    'Non-Fiction', 
+			    'Periodical', 
+			    'Philosophy', 
+			    'Physics', 
+			    'Poetry', 
+			    'Political Science', 
+			    'Psychology', 
+			    'Recreation', 
+			    'Religious', 
+			    'Reference', 
+			    'Romance', 
+			    'Satire', 
+			    'Science', 
+			    'Science Fiction', 
+			    'Short Story', 
+			    'Sociology', 
+			    'Speech', 
+			    'Spirituality', 
+			    'Sports', 
+			    'Technology', 
+			    'Travel', 
+			    'Veterinary', 
+			    'Western', 
+			    'Zoology' 
+			);
 	echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td><select name='genre'>";
 	for ($i=0;$i<count($array_list);$i++)  {
 		echo "<option value='".encodeFormValue($array_list[$i])."'";
@@ -377,7 +451,7 @@ function difficulty_list($difficulty_level) {
 	// don't let garvint create EASY projects
 	for ($i=0;$i<count($array_list);$i++)  {
                 if (($i > 0) || ($pguser == "BEGIN") || ($sa)) {
-		   if (!($pguser == "garvint" && $i == 0)) {
+		   if (!($pguser == "garvint" && $i == 1)) {
 	 		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
 			  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
 			  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
