@@ -23,7 +23,7 @@ if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ";
     if (! $testing_this_script)
     {
-	echo "switching to testing mode <br><br>";
+        echo "switching to testing mode <br><br>";
         echo "<pre>", $EOL;
         $testing_this_script = TRUE;
     }
@@ -43,7 +43,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-	VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."', '". $state."', $num_projects)";
+        VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."', '". $state."', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -58,40 +58,40 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
 // add rows for those states which have no projects today
 
-                // (the following query assumes states are not ever 'retired';
-                // if in the future they are, a where clause explicitly excluding them will work 
-                // in the short term, until eventually (after all states have shown again
-                // at least once) this can be replaced with a where clause based on
-                // date > some_date)
+// (the following query assumes states are not ever 'retired';
+// if in the future they are, a where clause explicitly excluding them will work
+// in the short term, until eventually (after all states have shown again
+// at least once) this can be replaced with a where clause based on
+// date > some_date)
 
 $result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY state");
 
 while (list ($state) = mysql_fetch_row ($result)) {
 
 
-	$qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '".$state."' and date = '".date('Y-m-d')."'";
-echo $qry;
-	$result2 = mysql_query ($qry);
+    $qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '".$state."' and date = '".date('Y-m-d')."'";
+    echo $qry;
+    $result2 = mysql_query ($qry);
 
-$cnt = mysql_result($result2,0,'cnt');
-echo $cnt;
-	// no row for this state yet today
-	if (( $cnt) == '0') {	
+    $cnt = mysql_result($result2,0,'cnt');
+    echo $cnt;
+    // no row for this state yet today
+    if (( $cnt) == '0') {
 
-           $insert_query =
-              "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."','". $state."', 0)";
-	
+        $insert_query =
+            "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
+            VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."','". $state."', 0)";
+
         if ($testing_this_script)
-          {
-             echo $insert_query, $EOL;
-          }
-          else
-          {
-             echo $insert_query, $EOL;
-             mysql_query($insert_query) or die(mysql_error());
-          }
+        {
+            echo $insert_query, $EOL;
         }
+        else
+        {
+            echo $insert_query, $EOL;
+            mysql_query($insert_query) or die(mysql_error());
+        }
+    }
 }
 
 if ($testing_this_script)
@@ -99,4 +99,5 @@ if ($testing_this_script)
     echo "</pre>", $EOL;
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
