@@ -13,6 +13,7 @@ $team_icons_url   = "$dyn_url/teams/icon";
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
 	global $team_avatars_url;
+	global $code_url;
 
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
