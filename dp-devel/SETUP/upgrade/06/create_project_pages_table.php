@@ -9,8 +9,8 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
     $prd = get_PRD_for_round($rn);
     $items_for_rounds .= "
-        {$prd->time_column_name}   int( 20 )     NOT NULL default '0' KEY,
-        {$prd->user_column_name}   varchar( 25 ) NOT NULL default ''  KEY,
+        {$prd->time_column_name}   int( 20 )     NOT NULL default '0',
+        {$prd->user_column_name}   varchar( 25 ) NOT NULL default '',
         {$prd->text_column_name}   longtext      NOT NULL,
         KEY {$prd->time_column_name} ( {$prd->time_column_name} ),
         KEY {$prd->user_column_name} ( {$prd->user_column_name} ),
