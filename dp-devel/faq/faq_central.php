@@ -76,7 +76,7 @@ theme('FAQ Central','header');
   <dt> &nbsp;
 
   <dd> &nbsp;
-  <dt><a href="<? echo $code_url ?>/tasks.php">Task Centre</a>
+  <dt><a href="<? echo $code_url ?>/tasks.php">Task Center</a>
   <dd>Here you will find a list of feature requests and bugs. You may add tasks after searching to see that the issue isn't already there.
 
   <dt> &nbsp;
