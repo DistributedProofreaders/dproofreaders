@@ -18,7 +18,7 @@ At the moment we have 5 parts, all directed to beginners. Each part might take a
 This is still a preliminary version, feedback is highly welcome. Please post it <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=8539">here</a>.</p>
 <p>
 <a href="./1/tut.php">Start with step 1 in tutorial</a><br>
-<a href="./1/main.php">Start with step 1 in quiz</a></p>
+<a href="./generic/main.php?type=step1">Start with step 1 in quiz</a></p>
 <p>If you have already done some parts and want to reenter, choose your entry point here:<br>
 <a href="./2/tut.php">part 2</a> (paragraphs, hyphens, dashes)<br>
 <a href="./3/tut.php">part 3</a> (chapter headers, punctuation)<br>
