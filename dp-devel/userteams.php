@@ -424,7 +424,7 @@ if ($tRows==20)
 echo $tre.$tbe."<br>".$tb2.$tr.$td3."<strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong>";
 echo $tre.$tbe.$menuBar.$closePage;
 
-function createThread(tname, $tinfo, $owner, $tid) {
+function createThread($tname, $tinfo, $owner, $tid) {
 	//Declare variables
 	$timeposted = time();
 	$post_ip = $_SERVER['REMOTE_ADDR'];
