@@ -159,9 +159,9 @@ of December 1818 with
 Schopenhauer had
 meanwhile proceeded in
 September to Italy, where he revised the
-final proofs.
-[Illustration: High art.]
-So far as the reception of the work was
+final proofs.\n
+[Illustration: High art.]\n
+So far as the reception of the work was\n
 [Footnote A: Wallace, p. 108.]</textarea>
 <p>
 <a href='../2/tut.php' target='_top'>next step of tutorial</a><br>
