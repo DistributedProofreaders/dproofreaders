@@ -253,6 +253,18 @@ function saveTemp($proofstate,$text_data,$pguser)
   return $this->tempsave_state;
 }
 
+
+// when a page is reopened from MRC, no need to update text, just record state change
+function reOpen($proofstate,$pguser)
+{
+  $timestamp = time();
+  $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->tempsave_state}', {$this->save_user}='$pguser'";
+  $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
+  $result = dquery($dbQuery);
+  return $this->tempsave_state;
+}
+
+
 function saveComplete($proofstate,$text_data,$pguser,$userP)
 {
   $this->addUserCount($proofstate,$pguser,$userP);
