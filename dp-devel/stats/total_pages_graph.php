@@ -1,7 +1,7 @@
 <?
-include ("jpgraph-1.12.1/src/jpgraph.php");
-include ("jpgraph-1.12.1/src/jpgraph_bar.php");
-$relPath="c/pinc/";
+include ("../../jpgraph-1.12.1/src/jpgraph.php");
+include ("../../jpgraph-1.12.1/src/jpgraph_bar.php");
+$relPath="./../pinc/";
 include($relPath.'connect.inc');
 new dbConnect();
 
