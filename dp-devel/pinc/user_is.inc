@@ -1,22 +1,33 @@
 <?
 // $Id$
 
-// This file is for functions that ascertain various things about the user?
-// (capabilities, roles)
+// This file provides settings (mostly permissions) for the logged-on user.
 
 include_once($relPath.'page_tally.php');
 include_once($relPath.'SettingsClass.inc');
 
-// $pguser might change (e.g., from unset to set) between the time that
-// this file is loaded and the time that a user_is_* function is called
-// (and conceivably, between calls to user_is_* functions).
-// So rather than creating one Settings object (using $pguser) in a
-// top-level statement, create it/them as needed by calls to user_is_*
-// functions.
-//
+// The Settings object used internally in this module is now hidden
+// in a static variable in a function for the purpose,
+// instead of global. If the code somewhere else wants one, they can
+// make their own.
+
+// For each invocation of every function, we verify that the Settings
+// available match the current user as identified by $pguser. If not,
+// we query for new settings that do (if a non-null username is provided.)
+
+// This function reuturns the Settings object for $pguser.
+// It should work properly (by returning appropriate null-type values) if
+// the user is not logged on.
+
 function get_pguser_settings()
 {
-    return new Settings();
+    // if this is hidden here, only this function can make it.
+    static $mysettings;
+    global $pguser;
+
+    if(!isset($mysettings) || $mysettings->IsActiveUser())
+        $mysettings = new Settings($pguser);
+    return $mysettings;
 }
 
 // -----------------------------------------------------------------------------
@@ -42,6 +53,7 @@ function user_is_proj_facilitator()
 function user_is_PM()
 {
     $userSettings = get_pguser_settings();
+
     return user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("manager");
@@ -67,9 +79,7 @@ function user_is_PM_of($project)
     global $pguser;
 
     if (!isset($pguser)) return FALSE;
-
     if (user_is_a_sitemanager()) return TRUE;
-
     $result = mysql_query("SELECT username FROM projects WHERE projectid = '$project'");
     if (mysql_num_rows($result) == 0) return FALSE;
     return (mysql_result($result, 0, "username") == $pguser);
