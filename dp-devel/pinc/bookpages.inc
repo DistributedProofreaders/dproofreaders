@@ -12,12 +12,12 @@ function total_pages($project)
   // todo: populate and use a table when project has been posted
   $dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $project");
   if ($dbQ != "") { $total = mysql_result($dbQ,0,"totalpages"); } else $total = -1;
-  return $total
+  return $total;
 }
 function avail_pages($project)
 {
    static $last_updated = 1059740561;
-   static $avail_array[projectIDseed] = -1;
+   static $avail_array = array("projectIDseed" => -1);
    $now = time();
    // if array hasn't had a general refresh in last half hour, do so now
    if (($now - $last_updated) > 1800) {
