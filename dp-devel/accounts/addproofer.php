@@ -194,8 +194,8 @@ A: You can get help for the various buttons on the proofing interface
    particular is a great place to get your feet wet, browse and start 
    to get a sense of the community of proofreaders here, to make 
    suggestions or to ask general questions. You can learn a lot just 
-   by following some of the discussions. We strongly encourage 
-   everyone to participate in the Forums!)
+   by following some of the discussions. ***We strongly encourage 
+   everyone to participate in the Forums!***)
 
 Q: How do I know if I'm doing OK?
 
