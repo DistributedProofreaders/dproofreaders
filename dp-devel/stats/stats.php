@@ -28,12 +28,12 @@ $numProjects = mysql_num_rows($allProjects);
 while ($i < $numProjects) {
         $projectID = mysql_result($allProjects, $i, "projectid");
 
-        $result1 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE
+        $result1 = mysql_query("SELECT COUNT(image) FROM $projectID WHERE
            round1_time >= $midnight AND
            (state='save_first' OR state LIKE '%_second%')");
 
 
-        $result2 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE
+        $result2 = mysql_query("SELECT COUNT(image) FROM $projectID WHERE
            state='save_second' AND round2_time >= $midnight");
 
         $row1 = mysql_fetch_row($result1);
