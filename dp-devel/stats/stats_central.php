@@ -86,7 +86,7 @@ echo "<br>";
 
 echo "<a href='misc_stats1.php'>Miscellaneous Stats (Top Proofing Days and Months, etc)</a><br><br>";
 
-echo "<a href='../tools/project_manager/release_queue.php'>See All Waiting Queues</a><br><br>";
+echo "<a href='release_queue.php'>See All Waiting Queues</a><br><br>";
 
 
 
