@@ -180,6 +180,9 @@ echo ""
 ~dphelp/bin/diff_rq $_CODE_DIR $_CODE_DIR.new
 echo ""
 
+echo "NOTE: using TAG = $TAG"
+echo ""
+
 if [ $SHIFT_TO_LIVE = yes ]; then
     # fine
     :
