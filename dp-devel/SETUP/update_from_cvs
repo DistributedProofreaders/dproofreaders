@@ -106,16 +106,16 @@ if /bin/true; then
         cvs_account=:pserver:anonymous@$cvs_server
         # This is delayed from the ssh CVS server by up to 5 hours.
     else
-        case $USER in
-            charlz)   sf_userid=charlz       ;;
-            jgruber)  sf_userid=usfjoseph    ;;
-            mdyck)    sf_userid=jmdyck       ;;
-            bkeir)    sf_userid=big_bill_boy ;;
-            pourlean) sf_userid=pourlean     ;;
-            dkretz)   sf_userid=dkretz       ;;
-            donovan)  sf_userid=donovang     ;;
-            *)        sf_userid=UNKNOWN      ;;
-        esac
+        sf_userid=`cat ~/.sourceforge_id 2>/dev/null`
+        if [ "$sf_userid" = "" ]; then
+            echo -n "Please enter your SourceForge user id: "
+            read sf_userid
+            echo "(Saving that to ~/.sourceforge_id)"
+            echo $sf_userid > ~/.sourceforge_id
+        else
+            echo "~/.sourceforge_id says you are $sf_userid at SourceForge"
+            echo "(If this is incorrect, please abort and edit the file.)"
+        fi
         cvs_account=:ext:$sf_userid@$cvs_server
         export CVS_RSH=ssh
     fi
