@@ -114,7 +114,7 @@ $graph = new Graph(640,400,"auto",360);
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
 $graph->SetShadow(); //Add a drop shadow
-$graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom
+$graph->img->SetMargin(30,70,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom
 $graph->img->SetAntiAliasing(); 
 
 
@@ -161,7 +161,9 @@ $graph->xaxis->title->Set("");
 $graph->xaxis->SetTextTickInterval(91.25);
 
 //Set Y axis
-$graph->yaxis->title->Set(_('Projects'));
+//$graph->yaxis->title->Set(_('Projects'));
+$graph->yaxis->SetPos("max");
+$graph->yaxis->SetLabelSide(SIDE_RIGHT);
 $graph->yaxis->SetTitleMargin(45);
 
 
