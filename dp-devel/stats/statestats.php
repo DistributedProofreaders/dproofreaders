@@ -34,7 +34,7 @@ $created = state_change_since ( "
 				",$start_date);
 
 
-echo "br"
+
 echo "<b>$created</b>._("projects have been created")." $descrip<br>";
 
 $FinProof = state_change_since ( "
@@ -44,7 +44,7 @@ $FinProof = state_change_since ( "
 			",$start_date);
 
 
-echo "br"
+
 echo "<b>$FinProof</b>._("projects have finished proofing")." $descrip<br>";
 
 
@@ -55,7 +55,7 @@ $FinPP = state_change_since ( "
 	",$start_date);
 
 
-echo "br"
+
 echo "<b>$FinPP</b>._("projects have finished PPing")." $descrip<br>";
 
 
