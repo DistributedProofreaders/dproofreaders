@@ -130,7 +130,7 @@ else
 			}
 
 			// let them know file uploaded and send back to pp page
-			$msg = _("File uploaded");
+			$msg = _("File uploaded. Thank you!");
 			metarefresh(1, $back_url, $msg, $msg);
 		}
 	}
