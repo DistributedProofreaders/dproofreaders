@@ -8,6 +8,11 @@ include($relPath.'showstartexts.inc');
 theme(_("Welcome"), "header");
 $etext_limit = 10;
 
+	//Update last login date
+	if (isset($pguser)) {
+		$result = mysql_query("UPDATE users SET last_login = '".time()."' WHERE username = '$pguser'");
+	}
+
 $real_site_url = 'http://www.pgdp.net';
 if ($code_url != "$real_site_url/c" )
 {
