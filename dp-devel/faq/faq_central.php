@@ -71,7 +71,7 @@ theme('FAQ Central','header');
       on this site (combining all the pages, making them consistent, fixing problems,
       and submitting it to the Project Gutenberg archive.)
 
-  <dt><a href="http://beryl.ils.unc.edu/~jtinsley/gutfaq.htm">Project Gutenberg FAQ</a>
+  <dt><a href="http://www.gutenberg.net/faq/gutfaq.htm">Project Gutenberg FAQ</a>
   <dd>The <i>massive</i> FAQ from our parent site,
       <a href="http://www.gutenberg.net/">Project Gutenberg</a>
 
