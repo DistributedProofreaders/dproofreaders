@@ -52,15 +52,6 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->pageround=$this->getPageRound($pagestate);
 
   $this->prd = get_PRD_for_round( $this->pageround );
-
-  if ($pagestate==$this->prd->avail_state || $pagestate==$this->prd->out_state)
-  {
-    $this->initial_text=$this->prd->prevtext_column_name;
-  }
-  else
-  {
-    $this->initial_text=$this->prd->text_column_name;
-  }
 }
 
 function noPages($newwin, $begin_threshold = 0)
@@ -162,6 +153,14 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 
 function getText($pagestate,$saved,$revert)
 {
+  if ($this->pagestate==$this->prd->avail_state || $this->pagestate==$this->prd->out_state)
+  {
+    $this->initial_text=$this->prd->prevtext_column_name;
+  }
+  else
+  {
+    $this->initial_text=$this->prd->text_column_name;
+  }
   $wText=$this->initial_text;
     if ($saved==1) {$wText=$this->prd->text_column_name;}
     if ($revert==1 || $pagestate==OUT_FIRST || $pagestate==OUT_SECOND) {$wText=$this->prd->prevtext_column_name;}
