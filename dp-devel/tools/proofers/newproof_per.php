@@ -114,7 +114,7 @@ theme("Personal Page for $pguser", "header");
                 echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>";
                 echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
                 echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
-                echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>\n>";
+                echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>\n";
         }
 
 
