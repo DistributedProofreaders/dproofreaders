@@ -36,7 +36,7 @@ $hr = date('H');
 
 $sql_insert = "
 	INSERT INTO user_active_log ( year, month, day, hour,  time_stamp,  U_lasthour ,  U_day,  U_week, U_4wks)
-        VALUES  ($yr, $mth, $day, $hr, $now, $Users_lasthour, $Users_24h, $Users_lastweek, $Users_last28d)
+        VALUES  ($yr, $mth, $day, $hr, UNIXTIMESTAMP(), $Users_lasthour, $Users_24h, $Users_lastweek, $Users_last28d)
 ";
 
 echo $sql_insert;
