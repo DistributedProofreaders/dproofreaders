@@ -46,20 +46,19 @@ while ($i < $numProjects) {
         $dailyPages = $dailyPages+$rows;
         $i++;
 }
-$dailyPages = number_format($dailyPages);
 
 //echo result so we know cron job is working and to avoid timeout
-echo "Daily pages: $dailyPages";
+echo "Daily pages: ".number_format($dailyPages);
 
 $result = mysql_query("SELECT SUM(pages) AS monthlypages FROM pagestats WHERE month=".$today['mon']." AND year=".$today['year']."");
-$monthlyPages = number_format(mysql_result($result, 0, "monthlypages"));
+$monthlyPages = mysql_result($result, 0, "monthlypages");
 
 //Let's only update the monthly goal if it is the first day of the month and it is
 //between 0000 hours and 0300 hours (to allow for cron job delays).  Always update the monthly
 //goal if override_goal has been set
 if (($today['mday'] == 1 && ($today['hours'] >= 0 && $today['hours'] <= 3)) || $_GET['override_goal'] == 1) {
 $result = mysql_query("SELECT SUM(dailygoal) AS monthlygoal FROM pagestats WHERE year=".$today['year']." AND month=".$today['mon']."");
-$monthlyGoal = number_format(mysql_result($result, 0, "monthlygoal"));
+$monthlyGoal = mysql_result($result, 0, "monthlygoal");
 $updateMonthlyGoal = 1;
 }
 
