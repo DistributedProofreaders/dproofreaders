@@ -117,7 +117,7 @@ abort_if_not_manager();
 			    // so they can only see their own projects.
 			    $condition .= " AND username='$pguser'";
 			}
-			if ( count($_GET['state']) > 0 )
+			if ( isset($_GET['state']) && count($_GET['state']) > 0 )
 			{
 			    $condition .= " AND (0";
 			    foreach( $_GET['state'] as $state )
@@ -141,8 +141,15 @@ abort_if_not_manager();
 			FROM projects
 			WHERE $condition
 			ORDER BY nameofwork asc
-		");
-        	if ($result != "") $numrows = mysql_num_rows($result); else $numrows = 0;
+		") or die(mysql_error());
+
+		$numrows = mysql_num_rows($result);
+		if ( $numrows == 0 )
+		{
+		    echo "<b>No projects matched the search criteria.</b>";
+		    theme("","footer");
+		    return;
+		}
 
 		// -------------------------------------------------------------
 
