@@ -106,94 +106,32 @@ dpsql_dump_themed_ranked_query("
 
 echo "<br>\n";
 
-$sub_title = _("Months with most days over 5,000 pages");
-echo "<h3>$sub_title</h3>\n";
+show_months_with_most_days_over(5000);
+show_months_with_most_days_over(6000);
+show_months_with_most_days_over(7000);
+show_months_with_most_days_over(8000);
+show_months_with_most_days_over(9000);
 
-dpsql_dump_themed_ranked_query("
-	SELECT
-		year as 'Year',
-		month as 'Month',
-		count(*) as 'Number of Days',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE pages >= 5000
-	GROUP BY year, month
-	ORDER BY 3 DESC
-	LIMIT 10
-");
+function show_months_with_most_days_over( $n )
+{
+	$sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
+	echo "<h3>$sub_title</h3>\n";
 
-echo "<br>\n";
+	dpsql_dump_themed_ranked_query("
+		SELECT
+			year as 'Year',
+			month as 'Month',
+			count(*) as 'Number of Days',
+			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
+		FROM pagestats
+		WHERE pages >= $n
+		GROUP BY year, month
+		ORDER BY 3 DESC
+		LIMIT 10
+	");
 
-$sub_title = _("Months with most days over 6,000 pages");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		year as 'Year',
-		month as 'Month',
-		count(*) as 'Number of Days',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE pages >= 6000
-	GROUP BY year, month
-	ORDER BY 3 DESC
-	LIMIT 10
-");
-
-echo "<br>\n";
-
-$sub_title = _("Months with most days over 7,000 pages");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		year as 'Year',
-		month as 'Month',
-		count(*) as 'Number of Days',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE pages >= 7000
-	GROUP BY year, month
-	ORDER BY 3 DESC
-	LIMIT 10
-");
-
-echo "<br>\n";
-
-$sub_title = _("Months with most days over 8,000 pages");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		year as 'Year',
-		month as 'Month',
-		count(*) as 'Number of Days',
-		IF (MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE pages >= 8000
-	GROUP BY year, month
-	ORDER BY 3 DESC
-	LIMIT 10
-");
-
-echo "<br>\n";
-
-$sub_title = _("Months with most days over 9,000 pages");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		year as 'Year',
-		month as 'Month',
-		count(*) as 'Number of Days',
-		IF (MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE pages >= 9000
-	GROUP BY year, month
-	ORDER BY 3 DESC
-	LIMIT 10
-");
-echo "<br>\n";
+	echo "<br>\n";
+}
 
 theme("","footer");
 ?>
