@@ -367,7 +367,7 @@ function showTeamMbrs($curTeam, $tally_name) {
 			// And provide a link to sort by this column in its default direction.
 			$dir = $cd_default_dir;
 		}
-		$url = "tdetail.php?tid=".$curTeam['id']."&order=$cd_order&direction=$dir";
+		$url = "tdetail.php?tid=".$curTeam['id']."&tally_name=$tally_name&order=$cd_order&direction=$dir";
 
 		$header_content_[] = "<a href='$url'>$cd_header_text</a>$dir_indicator";
 	}
