@@ -3,6 +3,7 @@ $relPath='../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'theme.inc');
 
 $title = _("Most Requested Books");
@@ -17,6 +18,20 @@ $comments_url1 = mysql_escape_string("<a href='".$code_url."/tools/proofers/proj
 $comments_url2 = mysql_escape_string("'>");
 $comments_url3 = mysql_escape_string("</a>");
 
+// Looking at the other two queries, you might expect the first one to use
+// SQL_CONDITION_BRONZE. However, that would exclude the WAITING_FOR_RELEASE
+// states, which we apparently want to include here.
+// Instead, custom-build a project-state condition that includes the
+// WAITING and AVAILABLE states from each round.
+$state_condition = '0';
+for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+{
+    $prd = get_PRD_for_round($rn);
+    $state_condition .= "
+        OR state='{$prd->project_waiting_state}'
+        OR state='{$prd->project_available_state}'
+    ";
+}
 dpsql_dump_themed_ranked_query("
     SELECT
         CONCAT('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') AS 'Title', 
@@ -27,18 +42,11 @@ dpsql_dump_themed_ranked_query("
     FROM usersettings, projects 
     WHERE value = projectid 
         AND setting = 'posted_notice' 
-        AND (state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
-          OR state = '".PROJ_PROOF_SECOND_WAITING_FOR_RELEASE."'
-          OR state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-          OR state = '".PROJ_PROOF_SECOND_AVAILABLE."'
-        )
+        AND ($state_condition)
     GROUP BY value 
     ORDER BY 'Notification Requests' DESC 
     LIMIT 50
 ");
-// Looking at the other two queries, you might expect this one to use
-// SQL_CONDITION_BRONZE. However, that would exclude the WAITING_FOR_RELEASE
-// states, which we apparently want to include here.
 
 echo "<br>\n";
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books In Post-Processing") . "</h2><br>\n";
