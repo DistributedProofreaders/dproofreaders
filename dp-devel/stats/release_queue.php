@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+$no_stats=0;
 
 $user_is_a_sitemanager = user_is_a_sitemanager();
 
