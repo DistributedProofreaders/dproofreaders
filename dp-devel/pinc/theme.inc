@@ -250,13 +250,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
                 echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
         }
 
-	if (isset($GLOBALS['pguser'])) {
-
-		//Get the personal statistics array
-		$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
-		$userindex = $neighborhood['curMbrIndex'];
-	}
-
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
@@ -301,6 +294,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //If the user is logged in show personal & team stats
 	if (isset($GLOBALS['pguser'])) {
     //Show the personal statistics
+
+	//Get the personal statistics array
+	$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
+	$userindex = $neighborhood['curMbrIndex'];
+
 	//get rank
 	$rankname = user_page_tally_get_interval_title(
 		$neighborhood['pages'][$userindex] );
