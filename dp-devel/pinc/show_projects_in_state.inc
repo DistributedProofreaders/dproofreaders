@@ -1,8 +1,9 @@
 <?PHP
-include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'special_colors.inc');
 
 if ( empty($pageCountArray) )
 {
@@ -236,6 +237,12 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	$u_id = mysql_result($userid_q, 0, "u_id");
 	$show_email = user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417;
 
+	// Determine whether to use special colors or not
+	// (this does not affect the alternating between two
+	// background colors) in the project listing.
+	$userSettings = Settings::get_Settings($pguser);
+	$show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+
 	$numrow = mysql_numrows($result);
 	for ( $rownum = 0; $rownum < $numrow; $rownum++ )
 	{
@@ -254,13 +261,14 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 			$bgcolor = " bgcolor='$bgcolor_even'";
 		}
 
-		// experimental!
-
-		// pink for Saint Valentine's Day
-                if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
-                {
-                	$bgcolor = " bgcolor='#FF99FF'";
-                }
+		// Special colours for special books of various types
+		if ($show_special_colors)
+		{
+			$special_color = get_special_color_for_project($book);
+			if (!is_null($special_color)) {
+				$bgcolor = " bgcolor='$special_color'";
+			}
+		}
 
 
 		$foo_username = $book[$foo_field_name];

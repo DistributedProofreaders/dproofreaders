@@ -3,6 +3,8 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'special_colors.inc');
 
 function show_block_for_round( $round_number, $projects_filter )
 {
@@ -268,6 +270,13 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 	echo "</tr>";
 
+	// Determine whether to use special colors or not
+	// (this does not affect the alternating between two
+	// background colors) in the project listing.
+	global $pguser;
+	$userSettings = Settings::get_Settings($pguser);
+	$show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
 	$rownum2 = 0;
@@ -277,135 +286,13 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 		$bgcolor = $prd->listing_bgcolors[$rownum % 2];
 
 		// Special colours for special books of various types
-		if (1)
+		if ($show_special_colors)
 		{
-
-
-                       // will be nice one day to get all the following out of a table perhaps?
-
-                        // default Special colour (will be over-ridden by any specific matches below)
-
-                        if ( startswith( $book['comments'], 'SPECIAL:' ) )
-                        {
-                                $bgcolor = '#FFFF66'; // fadedyellow
-                        }
-
-                        // Halloween colors for Halloween projects!
-                        if ( startswith( $book['comments'], 'Halloween' ) )
-                        {
-                                $bgcolor = 'orange'; // #FF9900
-                        }
-                        // Wanted to do orange-on-black, too,
-                        // but couldn't figure out how to make link-text orange,
-                        // and it was pretty unreadable as is on a black background.
-
-                        // green for Ramadan, St Patrick
-                        if ( startswith( $book['comments'], 'SPECIAL: Ramadan' )
-                              or startswith( $book['comments'], 'SPECIAL: St. Pat') )
-                        {
-                                $bgcolor = '#00FF00';
-                        }
-                        // mid green for India & George Sand
-                        if (  startswith( $book['comments'], 'SPECIAL: India') 
-			       or ($book['username'] == 'PM-Sand') )
-                        {
-                                $bgcolor = '#33FF99';
-                        }
-
-                        // khaki for Boer War
-                        if (startswith( $book['comments'], 'SPECIAL: Boer'))
-                        {
-                                $bgcolor = '#D7CDA4';
-                        }
-
-                        // blue for Burns' night (Scotland)
-                        if (startswith( $book['comments'], 'SPECIAL: Burns'))
-                        {
-                                $bgcolor = '#99CCFF';
-                        }
-
-                        // poppy red for Armistice Day, pale red for Christmas
-                        if ( startswith( $book['comments'], 'SPECIAL: Nov 11' ) or
-                                startswith( $book['comments'], 'SPECIAL: CHRISTMAS' ) or
-                                startswith( $book['comments'], 'SPECIAL: Christmas' ) or
-                                startswith( $book['comments'], 'SPECIAL: WWI' ) or
-                                startswith( $book['comments'], 'SPECIAL: Ides' ))
-                        {
-                                $bgcolor = '#FF9090';
-                        }
-
-                        // Earth blue for Earth Day
-                        if ( startswith( $book['comments'], 'SPECIAL: Earth' ) or
-				startswith( $book['comments'], 'SPECIAL: DP-5000' ))
-                        {
-                                $bgcolor = '#669CFF';
-                        }
-
-                        // very light blue for birthday books still avaialble after the day
-                        if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
-                        {
-                                $bgcolor = '#CCFFFF';
-                        }
-
-
-                         // slightly richer blue for birthday books when today IS the day
-                        $bday = date('md');
-                        if ( startswith( $book['comments'], "SPECIAL: Birthday $bday" ) )
-                        {
-                                $bgcolor = '#33CCFF';
-                        }
-
-                        // grey for Native American Heritage Month
-                        if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
-                        {
-                                $bgcolor = '#CCCCCC';
-                        }
-
-
-                        // green for World Health Day
-                        if ( startswith( $book['comments'], 'SPECIAL: Health' ) )
-                        {
-                                $bgcolor = '#00FF00';
-                        }
-
-                        // yellow for Children's Book Week - actually Blue so as not to clash with other special
-                        if ( startswith( $book['comments'], 'SPECIAL: CBW' )
-                                OR startswith( $book['comments'], 'SPECIAL: ChBook'))
-                        {
-                                $bgcolor = '#0099FF';
-                                //$bgcolor = '#FFFF33';
-                        }
-
-                               // nice green for Abolition of Slavery
-                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )
-                                OR startswith( $book['comments'], 'SPECIAL: IWD'))
-                        {
-                                $bgcolor = '#00CC99';
-                        }
-
-                       // blue for Wright Bros
-                        if ( startswith( $book['comments'], 'SPECIAL: FLY100' ) )
-                        {
-                                $bgcolor = '#0099FF';
-                        }
-
-                       // middle grey for Black History Month (and Slave Narratives - temp)
-                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ))
-                        {
-                                $bgcolor = '#D6D6D6';
-                        }
-
-                        // pink for Saint Valentine's Day
-                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) or
-                             startswith( $book['comments'], 'SPECIAL: April Fool') )
-                        {
-                                $bgcolor = '#FF99FF';
-                        }
-
-
-			// purple:    #9966CC
-			// gold:      #FFCC0E
-			// scotsblue: #0090FE
+			$special_color = get_special_color_for_project($book);
+			if (!is_null($special_color))
+			{
+				$bgcolor = $special_color;
+			}
 		}
 
 		if (TRUE)
