@@ -165,57 +165,6 @@ else
     }
     echo "</table>\n";
 
-    echo "<p>Info for individual pages:</p>\n";
-
-    // fileid, image, master_text, state
-    // round1_text, round1_user, round1_time
-    // round2_text, round2_user, round2_time
-
-    echo "
-	<table border=1>
-	<tr>
-	    <th colspan='3'>upload</th>
-	    <th>&nbsp;</th>
-	    <th colspan='3'>round 1</th>
-	    <th colspan='3'>round 2</th>
-	</tr>
-	<tr>
-	    <th>image</th>
-	    <th>fileid</th>
-	    <th>master_text</th>
-	    <th>state</th>
-	    <th>user</th>
-	    <th>time (GMT)</th>
-	    <th>text</th>
-	    <th>user</th>
-	    <th>time (GMT)</th>
-	    <th>text</th>
-	</tr>
-    ";
-    $query = "SELECT image, fileid, state, round1_user, round1_time, round2_user, round2_time FROM $projectid ORDER BY image ASC";
-    $pages_res = mysql_query($query) or die(mysql_error());
-    while ( $page_res = mysql_fetch_array( $pages_res, MYSQL_ASSOC ) )
-    {
-	$round1_date = format_time( $page_res['round1_time'] );
-	$round2_date = format_time( $page_res['round2_time'] );
-
-        echo "<tr>\n";
-        echo "  <td><a href='$projects_url/$projectid/{$page_res['image']}'>{$page_res['image']}</a></td>\n";
-        echo "  <td>{$page_res['fileid']}</td>\n";
-        echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=master'>text</a>\n";
-        echo "  <td>{$page_res['state']}</td>\n";
-        echo "  <td>{$page_res['round1_user']}</td>\n";
-        echo "  <td>{$round1_date}</td>\n";
-        echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=round1'>text</a>\n";
-        echo "  <td>{$page_res['round2_user']}</td>\n";
-        echo "  <td>{$round2_date}</td>\n";
-        echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=round2'>text</a>\n";
-        echo "</tr>\n";
-    }
-    echo "</table>\n";
-
-    $nameofwork  = $project_res['nameofwork'];
-
     echo "</body>\n";
     echo "</html>\n";
 }
