@@ -7,122 +7,9 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once('common.inc');
 
 new dbConnect();
-
-//Create cumulative projects created per day graph for all days 
-// since state stats started being recorded up to yesterday
-
-$day = date("d");
-$year  = date("Y");
-$month = date("m");
-$monthVar = date("F");
-$today = $year."-".$month."-".$day;
-
-$state_selector = "
-	(state NOT LIKE 'proj_new%')
-";
-
-//query db and put results into arrays
-$resultCreated = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
-
-
-$state_selector = "
-	(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%'
-		OR state LIKE 'proj_post%')
-";
-
-
-
-//query db and put results into arrays
-$resultProofed = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
-
-
-$state_selector = "
-	(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%'
-		OR state LIKE 'proj_post_second%')
-";
-
-
-//query db and put results into arrays
-$resultPPd = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
-
-
-$state_selector = "
-	(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%')
-";
-
-//query db and put results into arrays
-$resultPosted = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
-
-$i = 0;
-
-$max_num_data = 0;
-
-while ($row = mysql_fetch_assoc($resultCreated)) {
-	$datay1[$i] = $row['P'];
-	$datax[$i] = $row['date'];
-	$i++;
-}
-
-if ($i > $max_num_data) {
-	$max_num_data = $i;
-}
-
-$i = 0;
-
-while ($row = mysql_fetch_assoc($resultProofed)) {
-	$datay2[$i] = $row['P'];
-	$i++;
-}
-
-if ($i > $max_num_data) {
-	$max_num_data = $i;
-}
-
-$i = 0;
-
-while ($row = mysql_fetch_assoc($resultPPd)) {
-	$datay3[$i] = $row['P'];
-	$i++;
-}
-
-if ($i > $max_num_data) {
-	$max_num_data = $i;
-}
-
-$i = 0;
-
-while ($row = mysql_fetch_assoc($resultPosted)) {
-	$datay4[$i] = $row['P'];
-	$i++;
-}
-
-if ($i > $max_num_data) {
-	$max_num_data = $i;
-}
-
-
-if (empty($datay1)) {
-	$datay1[0] = 0;
-}
-
-if (empty($datay2)) {
-	$datay2[0] = 0;
-}
-
-if (empty($datay3)) {
-	$datay3[0] = 0;
-}
-
-if (empty($datay4)) {
-	$datay4[0] = 0;
-}
-
-
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
@@ -134,41 +21,44 @@ $graph->img->SetMargin(30,70,20,100); //Adjust the margin a bit to make more roo
 $graph->img->SetAntiAliasing(); 
 
 
-//Create the line plot
-$lplot1 = new LinePlot($datay1);
-$lplot1->SetColor("green");
-$lplot1->SetLegend(_("Total Projects Created"));
-$lplot1->SetWeight(1);
-$lplot1->SetFillColor("green");
+$max_num_data = 0;
 
+foreach ( array( 'created', 'proofed', 'PPd', 'posted' ) as $which )
+{
+	$psd = get_project_status_descriptor($which);
 
-//Create the line plot
-$lplot2 = new LinePlot($datay2);
-$lplot2->SetColor("blue");
-$lplot2->SetLegend(_("Total Projects Proofed"));
-$lplot2->SetWeight(1);
-$lplot2->SetFillColor("blue");
+	//query db and put results into arrays
+	$result = mysql_query("
+		SELECT date, SUM(num_projects) as P
+		FROM project_state_stats
+		WHERE $psd->state_selector
+		GROUP BY DATE
+		ORDER BY date ASC
+	");
 
-//Create the line plot
-$lplot3 = new LinePlot($datay3);
-$lplot3->SetColor("silver");
-$lplot3->SetLegend(_("Total Projects PPd"));
-$lplot3->SetWeight(1);
-$lplot3->SetFillColor("silver");
+	$i = 0;
+	while ($row = mysql_fetch_assoc($result)) {
+		$datay[$i] = $row['P'];
+		$datax[$i] = $row['date'];
+		$i++;
+	}
 
-//Create the line plot
-$lplot4 = new LinePlot($datay4);
-$lplot4->SetColor("gold");
-$lplot4->SetLegend(_("Total Projects Posted"));
-$lplot4->SetWeight(1);
-$lplot4->SetFillColor("gold");
+	if ($i > $max_num_data) {
+		$max_num_data = $i;
+	}
 
+	if (empty($datay)) {
+		$datay[0] = 0;
+	}
 
-
-$graph->Add($lplot1); 
-$graph->Add($lplot2); 
-$graph->Add($lplot3); 
-$graph->Add($lplot4); 
+	//Create the line plot
+	$lplot =& new LinePlot($datay);
+	$lplot->SetColor($psd->color);
+	$lplot->SetLegend($psd->cumulative_title);
+	$lplot->SetWeight(1);
+	$lplot->SetFillColor($psd->color);
+	$graph->Add($lplot); 
+}
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
@@ -209,5 +99,3 @@ $graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
 // Display the graph
 $graph->Stroke();
 ?>
-
-
