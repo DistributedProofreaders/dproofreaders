@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'project_edit.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr_select.inc');
 include_once($relPath.'f_project_states.inc');
@@ -47,20 +48,16 @@ theme("Project Managers", "header");
 //then display an error stating so.
 	if (isset($_GET['project'])) {
 		$project = $_GET['project'];
+
+		abort_if_cant_edit_project( $project );
+
 		$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '".$_GET['project']."'");
         	$manager = mysql_result($result, 0, "username");
         	$state = mysql_result($result, 0, "state");
         	$name = mysql_result($result, 0, "nameofwork");
         	$author = mysql_result($result, 0, "authorsname");
         	$language = mysql_result($result, 0, "language");
-		
-		if (($manager != $pguser) && ($userP['sitemanager'] != 'yes')) {
-            		echo "<P>You are not listed as a project manager for this project. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
-            		echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
-            		theme("","footer");
-            		exit();
-        	}
-        	
+
         	$projectinfo->update($_GET['project'], $state);
 	
 		echo "<center><table border=1>";

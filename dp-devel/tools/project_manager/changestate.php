@@ -4,6 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
+include($relPath.'project_edit.inc');
 
     $todaysdate = time();
 
@@ -13,13 +14,8 @@ include($relPath.'project_states.inc');
     $always = $_GET['always'];
 
     // Get more information about the project
-    $sql = mysql_query("SELECT state, username FROM projects WHERE projectid = '$projectid'");
+    $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
     $oldstate = mysql_result($sql, 0, "state");
-    $username = mysql_result($sql, 0, "username");
-
-    // Get more information about the project manager
-    $sql = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
-    $sitemanager = mysql_result($sql, 0, "sitemanager");
 
     // If it was in "Unavailable No Round"
     if ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE) {
@@ -31,11 +27,9 @@ include($relPath.'project_states.inc');
         }
     }
 
-    // Checks the user's permissions to make changes
-    if (($sitemanager != 'yes') && ($pguser != $username)) {
-        echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.";
-        echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
-    } else if ($newstate == PROJ_DELETE) {
+    abort_if_cant_edit_project( $projectid );
+
+    if ($newstate == PROJ_DELETE) {
         // Allows a user to delete a project as a last-case scenario
         if ($always == 'yes') {
             $sql = "DROP TABLE $projectid";
