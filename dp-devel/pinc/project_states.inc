@@ -52,58 +52,58 @@
 // PROOF
 
   // unavailable
-  define("PROJ_PROOF_FIRST_UNAVAILABLE","unavail_1"); // 0
-  define("PROJ_PROOF_SECOND_UNAVAILABLE","unavail_2"); // 10
+  define("PROJ_PROOF_FIRST_UNAVAILABLE","unavail_1");
+  define("PROJ_PROOF_SECOND_UNAVAILABLE","unavail_2");
 
   // waiting for release
-  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE","waiting_1"); // 1
-  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE","waiting_2"); // 11
+  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE","waiting_1");
+  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE","waiting_2");
 
   // bad project
-  define("PROJ_PROOF_FIRST_BAD_PROJECT","bad_1"); // 31
-  define("PROJ_PROOF_SECOND_BAD_PROJECT","bad_2"); // 41
+  define("PROJ_PROOF_FIRST_BAD_PROJECT","bad_1");
+  define("PROJ_PROOF_SECOND_BAD_PROJECT","bad_2");
 
   // available for proofreading
-  define("PROJ_PROOF_FIRST_AVAILABLE","avail_1"); // 2
-  define("PROJ_PROOF_SECOND_AVAILABLE","avail_2"); // 12
+  define("PROJ_PROOF_FIRST_AVAILABLE","avail_1");
+  define("PROJ_PROOF_SECOND_AVAILABLE","avail_2");
 
   // proofreading round complete, but needing verification
-  define("PROJ_PROOF_FIRST_VERIFY","verify_1"); // 8
-  define("PROJ_PROOF_SECOND_VERIFY","verify_2"); // 18
+  define("PROJ_PROOF_FIRST_VERIFY","verify_1");
+  define("PROJ_PROOF_SECOND_VERIFY","verify_2");
 
   // proofreading round complete and verified
-  define("PROJ_PROOF_FIRST_COMPLETE","done_1"); // 9
-  define("PROJ_PROOF_SECOND_COMPLETE","done_2"); // 19
+  define("PROJ_PROOF_FIRST_COMPLETE","done_1");
+  define("PROJ_PROOF_SECOND_COMPLETE","done_2");
 
 
 // POST
-  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable"); // 60
-  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_first_available"); // 61
-//  define("AVAIL_PP", "62");  this is not the same as db
-  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_first_checked_out"); // 65
+  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable");
+  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_first_available");
 
-  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_second_available"); // this is not in db
+  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_first_checked_out");
 
-  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_second_checked_out"); // 67
-  define("PROJ_POST_COMPLETE", "proj_post_complete"); // 69
+  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_second_available");
+
+  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_second_checked_out");
+  define("PROJ_POST_COMPLETE", "proj_post_complete");
 
 
 
 // SUBMIT (was GB)
-  define("PROJ_SUBMIT_PG_UNAVAILABLE", "proj_submit_pgunavailable"); // 70
-  define("PROJ_SUBMIT_PG_AVAILABLE", "proj_submit_pgavailable"); // 71
-  define("PROJ_SUBMIT_PG_POSTING", "proj_submit_pgposting"); // 75
-  define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted"); // 79
+  define("PROJ_SUBMIT_PG_UNAVAILABLE", "proj_submit_pgunavailable");
+  define("PROJ_SUBMIT_PG_AVAILABLE", "proj_submit_pgavailable");
+  define("PROJ_SUBMIT_PG_POSTING", "proj_submit_pgposting");
+  define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted");
 
 // CORRECT
   define("PROJ_CORRECT_AVAILABLE", "proj_correct_available");
   define("PROJ_CORRECT_CHECKED_OUT", "proj_correct_checked_out");
 
 // for the 'deletion' of a project
-  define("PROJ_DELETE", "project_delete"); // 99
+  define("PROJ_DELETE", "project_delete");
 
 // for complete project
-  define("PROJ_COMPLETE", "project_complete"); // 100??
+  define("PROJ_COMPLETE", "project_complete");
 
 // -----------------------------------------------------------------------------
 
