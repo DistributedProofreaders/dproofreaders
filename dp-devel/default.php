@@ -3,6 +3,7 @@ $relPath="./pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();

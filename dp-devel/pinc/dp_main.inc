@@ -3,6 +3,7 @@
   include_once($relPath.'connect.inc');
   include_once($relPath.'dpsession.inc');
   include_once($relPath.'metarefresh.inc');
+  include_once($relPath.'maintenance_mode.inc');
 
   //global db vars
   $db_Connection=new dbConnect();
