@@ -94,7 +94,7 @@ $pages = bookpages($projectid, "!=0");
 $totalpages = $pages['total'];
 }
 
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
+echo "<a name='".$row['projectid']."'><font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br></a>";
 
 if ($type != "Gold") echo "$totalpages pages; ";
 
