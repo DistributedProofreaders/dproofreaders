@@ -1,9 +1,8 @@
 <?
 $relPath="./../../pinc/";
-$linkPath="./../../tools/proofers/";
+$linkPath="./../tools/proofers/";
 include($relPath.'dp_main.inc');
 
-if ($_GET['action'] == "c") {
 //Declare variables
 $timeposted = time();
 $user_id = $_GET['user_id'];
@@ -53,18 +52,4 @@ header("Location: $redirect_url");
 } else {
 $redirect_url = "../../phpBB2/viewtopic.php?t=$topic_id";
 header("Location: $redirect_url"); 
-}
-} elseif ($_GET['action'] == "d") {
-$topic_id = $_GET['topic_id'];
-$i = 0;
-$post_list = mysql_query("SELECT * FROM phpbb_posts WHERE topic_id=$topic_id");
-while($row = mysql_fetch_array($post_list) ) {
-$postid = $row['post_id'];
-$i++;
-$delete_post_text = mysql_query("DELETE FROM phpbb_posts_text WHERE post_id=$postid");
-}
-$delete_post = mysql_query("DELETE FROM phpbb_posts WHERE topic_id=$topic_id");
-$delete_topic = mysql_query("DELETE FROM phpbb_topics WHERE topic_id=$topic_id");
-} else {
-echo "An error has occured.  Please close this window and notify <a href='mailto:$admin_email?subject=project_topic.php has created an error'>$admin_name</a>.";
 }
