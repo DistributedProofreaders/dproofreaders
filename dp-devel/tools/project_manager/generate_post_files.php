@@ -5,6 +5,12 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 include_once('./post_files.inc');
 
+if (!user_is_a_sitemanager())
+{
+    echo _('You are not authorized to invoke this script.');
+    exit;
+}
+
 set_time_limit(0);
 
 $dbConnection = new dbConnect();
