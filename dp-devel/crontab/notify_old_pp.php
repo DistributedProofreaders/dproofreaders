@@ -58,11 +58,10 @@ If you no longer wish to have some or all of these books assigned to you please 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		    }
 
-//	            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+	            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
-// test
-  maybe_mail("big_bill_boy2@yahoo.com.au", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
-
+		// in lieu of a local log			
+		    maybe_mail("big_bill_boy2@yahoo.com.au", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
 
 		    $projectslist = "";
 		    $displayprojectslist = "";
