@@ -1027,29 +1027,6 @@ class User
     }
 
     /**
-     * Does User Name Need to be name's or names'
-     *
-     * <p>This function is used when showing member statistics (stats/member/*).</p>
-     *
-     * - returns "s" if the username does not end with "s"
-     * - returns "" otherwise
-     */
-
-    /*
-       function _needsApostrophe()
-       {
-       if ((substr($this->userName(), -1) != "s")
-       ||  {
-       $needsApostrophe = "s";
-       } else {
-       $needsApostrophe = "";
-       }
-
-       return $needsApostrophe;
-       }
-     */
-
-    /**
      * Date User Account was Created
      */
 
