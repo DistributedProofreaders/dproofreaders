@@ -23,9 +23,26 @@ else
 	$source_area = $uploads_dir;
 }
 
+if ( $_GET['source_dir'] == '' )
+{
+	$source_dir = $projectid;
+}
+else
+{
+	$source_dir = $_GET['source_dir'];
+	// Prevent sneaky parent-link tricks.
+	if ( ereg( '\.\.', $source_dir ) )
+	{
+		echo "Source directory '$source_dir' is not acceptable.";
+		echo "<hr>\n";
+		echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
+		return;
+	}
+}
+
 echo "<pre>\n";
 
-$source_project_dir = "$source_area/$projectid";
+$source_project_dir = "$source_area/$source_dir";
 $dest_project_dir   = "$projects_dir/$projectid";
 
 if ($source_project_dir != $dest_project_dir)
