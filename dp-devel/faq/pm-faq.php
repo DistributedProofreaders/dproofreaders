@@ -23,9 +23,11 @@ from the point of view of a Project Manager (PM).
 <p>
 PMs are welcome to do the prep work on their project,
 or they can choose to manage a project that someone else has prepared.
+<!--
 <font style='color:red'>
 [How do they see what's available to be claimed?]
 </font>
+-->
 </p>
 
 <p>
@@ -167,21 +169,21 @@ and what the PMs do.
     the site will stitch together the resulting page-texts
     (with page separators)
     and add the resulting file to the project's directory.
-    You can download this file by selecting <b>D/L</b> on the PM page,
-    or <b>Download Zipped Text</b> on the post-processing page.
 
     <p>
     If you want to post-process the book,
-    <font style='color:red'>
-    [you would have said so earlier].
-    </font>
-    Follow the instructions in the
+    you can download the stitched-together file by selecting <b>D/L</b> on the PM page,
+    or <b>Download Zipped Text</b> on the post-processing page.
+    Then follow the instructions in the
     <a href='post_proof.php'>Post-Proofing FAQ</a>.
 
+    <p>
     Or you can
+    <!--
     <font style='color:red'>
     [somehow]
     </font>
+    -->
     make the project available
     for someone else to post-process.
     (They will find it on the post-processing page,
@@ -298,6 +300,7 @@ until a proper "Are You Sure?" prompt is implemented.
 Reorganized the remainder.
 (It still needs updating, but that should be easier now.)
 <li>2003-07-25: jmdyck: added notes on PM pages.
+<li>2004-05-24: jmdyck: minor edits to eliminate remarks in red.
 </ul>
 
 <br>
