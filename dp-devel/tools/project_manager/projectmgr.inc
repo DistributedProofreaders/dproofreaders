@@ -20,9 +20,9 @@ function abort_if_not_manager()
 	}
 }
 
-function echo_manager_header()
+function echo_manager_header( $which )
 {
-	global $userP, $forums_url;
+	global $userP, $forums_url, $code_url;
 
 	echo "<p>";
 	echo "<center>";
@@ -52,11 +52,15 @@ function echo_manager_header()
 	echo "
 		<p>
 		<font size=-1>
-		Comments on this page?
-		Please visit
-		<a href='$forums_url/viewtopic.php?t=2793'>this forum topic</a>.
+		Visit the 
+		<a href='$code_url/faq/pm-faq.php#$which'>help section</a>
+		or
+		<a href='$forums_url/viewtopic.php?t=2793'>forum topic</a>
+		for this page.
 		</font>
+		</p>
 	";
+
 }
 
 ?>
