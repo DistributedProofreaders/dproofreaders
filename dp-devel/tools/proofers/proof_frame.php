@@ -29,6 +29,10 @@ $tpage=new processpage();
 if (isset($editone))
 {
 
+  // set the cookie
+    $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
+
+
   // plug user page count cheat - if they reopen a saved page, subtract it from their count
   // as it is 'unproofing' it; they will get it back if they save it again
 
@@ -39,8 +43,6 @@ if (isset($editone))
      $tpage->deleteUserCount($proofstate, $pguser,$userP);
   }
 
-  // set the cookie
-    $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
   // load the frame
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
