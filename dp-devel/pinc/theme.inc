@@ -340,7 +340,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "&nbsp;";
 			if ($rel_posn==0) echo "<b><i>";
 			echo $neighbor->get_current_page_tally_rank(), ".) ";
-			echo $neighbor->get_username(), " - ";
+			$neighbor_name = $neighbor->get_username();
+			echo ( is_null($neighbor_name) ? _('Anonymous') : $neighbor_name) , " - ";
 			echo number_format($neighbor->get_current_page_tally());
 			if ($rel_posn==0) echo "</i></b>";
 			echo "<br>\n";
