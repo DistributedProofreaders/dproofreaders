@@ -26,6 +26,10 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     tde("These files are output from the OCR software and have not been looked at.", bgcol(1,'first') . " colspan=5");
     echo "</tr>";
 
+    if (! user_can_see_BEGIN_R1()) {
+         $RFilter = $RFilter . " AND difficulty != 'beginner' ";
+    }
+
     show_books_available_for_proofing( 'first', $userP, $tList, $RFilter );
 
     echo "</table>\n<br>";
