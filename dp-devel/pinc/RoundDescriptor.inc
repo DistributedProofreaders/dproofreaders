@@ -15,7 +15,6 @@ $PRD_1->project_bad_state       = PROJ_PROOF_FIRST_BAD_PROJECT;
 $PRD_1->project_available_state = PROJ_PROOF_FIRST_AVAILABLE;
 $PRD_1->project_verify_state    = PROJ_PROOF_FIRST_VERIFY;
 $PRD_1->project_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
-$PRD_1->page_unavail_state = UNAVAIL_FIRST;
 $PRD_1->page_avail_state   = AVAIL_FIRST;
 $PRD_1->page_out_state     = OUT_FIRST;
 $PRD_1->page_temp_state    = TEMP_FIRST;
@@ -36,7 +35,6 @@ $PRD_2->project_bad_state       = PROJ_PROOF_SECOND_BAD_PROJECT;
 $PRD_2->project_available_state = PROJ_PROOF_SECOND_AVAILABLE;
 $PRD_2->project_verify_state    = PROJ_PROOF_SECOND_VERIFY;
 $PRD_2->project_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
-$PRD_2->page_unavail_state = UNAVAIL_SECOND;
 $PRD_2->page_avail_state   = AVAIL_SECOND;
 $PRD_2->page_out_state     = OUT_SECOND;
 $PRD_2->page_temp_state    = TEMP_SECOND;
@@ -57,11 +55,11 @@ $PRD_2->other_rounds_with_visible_usernames = array( $PRD_1 );
 // two instances.
 
 // Alternatively, I could have simply defined $PRD_1 and $PRD_2 as arrays,
-// e.g. $PRD_1 = array( 'page_unavail_state' => UNAVAIL_FIRST, ... );
+// e.g. $PRD_1 = array( 'page_avail_state' => AVAIL_FIRST, ... );
 // but then the accesses would have been like
-//     $prd['page_unavail_state'],
+//     $prd['page_avail_state'],
 // which I find somewhat less readable than
-//     $prd->page_unavail_state
+//     $prd->page_avail_state
 
 // Although $PRD_1 and $PRD_2 are variables, they should be treated as
 // constants; thus the all-uppercase names.
@@ -126,7 +124,6 @@ function get_PRD_for_page_state( $page_state )
 
     switch ($page_state)
     {
-        case UNAVAIL_FIRST:
         case AVAIL_FIRST:
         case OUT_FIRST:
         case TEMP_FIRST:
@@ -134,7 +131,6 @@ function get_PRD_for_page_state( $page_state )
         case BAD_FIRST:
             return $PRD_1;
 
-        case UNAVAIL_SECOND:
         case AVAIL_SECOND:
         case OUT_SECOND:
         case TEMP_SECOND:

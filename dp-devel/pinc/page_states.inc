@@ -1,7 +1,4 @@
 <?PHP
-// unavailable
-define("UNAVAIL_FIRST","unavail_first"); // 0
-define("UNAVAIL_SECOND","unavail_second"); // 10
 
 // bad page
 define("BAD_FIRST","bad_first"); // 31
@@ -26,14 +23,12 @@ define("SAVE_SECOND","save_second"); // 19
 // -----------------------------------------------------------------------------
 
 $PAGE_STATES_IN_ORDER = array(
-    UNAVAIL_FIRST,
     AVAIL_FIRST,
     OUT_FIRST,
     TEMP_FIRST,
     SAVE_FIRST,
     BAD_FIRST,
 
-    UNAVAIL_SECOND,
     AVAIL_SECOND,
     OUT_SECOND,
     TEMP_SECOND,

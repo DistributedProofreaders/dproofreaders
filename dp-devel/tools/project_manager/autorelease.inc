@@ -331,7 +331,6 @@ function AP_add_project( $projectid )
         SELECT
             '$projectid',
         SUM(
-            state = '".UNAVAIL_FIRST."' OR
 				    state = '".BAD_FIRST."' OR
             state = '".AVAIL_FIRST."' OR
             state = '".OUT_FIRST."' OR

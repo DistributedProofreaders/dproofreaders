@@ -71,21 +71,34 @@ function Pages_delete( $projectid )
 
 // -----------------------------------------------------------------------------
 
-// A comment would be appreciated explaining the reason for the "WHERE state=" clause.
-// What would happen to pages that were NOT in state UNAVAIL_FIRST and therefore would
-// be prohibited from becoming available? And if it's not possible for them to be in
-// any other state then the constraint shouldn't be fed to the query optimizer.
-
 function Pages_prepForRound( $projectid, $round_number )
 {
     global $writeBIGtable;
 
+    // When prepping for round 2, we just mark all pages as AVAIL_SECOND.
+    // So when prepping for round 1, why don't we just mark all pages as AVAIL_FIRST?
+    //
+    // I suspect the reason is that, for round 1, this function is called
+    // when the project goes from PROJ_PROOF_FIRST_WAITING_FOR_RELEASE to
+    // PROJ_PROOF_FIRST_AVAILABLE, and it can go through this transition
+    // more than once (via PROJ_PROOF_FIRST_UNAVAILABLE). After the first
+    // time, it can have some pages that have already been worked on, and
+    // we don't want the transition to put such pages back to AVAIL_FIRST.
+    //
+    // The problem doesn't arise for second round because there, the transition
+    // is PROJ_PROOF_FIRST_COMPLETE to PROJ_PROOF_SECOND_AVAILABLE, and the
+    // project can't go through that transition twice.
+
     if ( $round_number == 1 )
     {
+        // Yes, these queries are pointless.
+        // They have been for quite a while.
+        // But I leave them here as a reminder, of sorts.
+
         $result = mysql_query("
             UPDATE $projectid
             SET state = '".AVAIL_FIRST."'
-            WHERE state = '".UNAVAIL_FIRST."'
+            WHERE 0
         ");
 
         if ($writeBIGtable)
@@ -93,7 +106,7 @@ function Pages_prepForRound( $projectid, $round_number )
             $result = mysql_query("
                 UPDATE project_pages
                 SET state = '".AVAIL_FIRST."'
-                WHERE projectid = '$projectid' AND state = '".UNAVAIL_FIRST."'
+                WHERE projectid = '$projectid' AND 0
             ");
         }
     }
