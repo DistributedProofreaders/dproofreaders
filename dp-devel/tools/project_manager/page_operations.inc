@@ -3,6 +3,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc');
+include_once($relPath.'page_ops.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -33,8 +34,6 @@ function page_delete( $projectid, $fileid )
 
 function page_clear( $projectid, $fileid )
 {
-    global $writeBIGtable;
-
     // echo "page_clear( $projectid, $fileid )<br>\n";
 
     $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
@@ -45,20 +44,14 @@ function page_clear( $projectid, $fileid )
     if ($inRound == 'NEW' || $inRound == 'PR' || $inRound == 'FIRST')
     {
         $round_number = 1;
-        $text_field_name = 'round1_text';
         $user_field_name = 'round1_user';
-        $time_field_name = 'round1_time';
         $saved_page_state = SAVE_FIRST;
-        $avail_page_state = AVAIL_FIRST;
     }
     else if ($inRound == 'SECOND')
     {
         $round_number = 2;
-        $text_field_name = 'round2_text';
         $user_field_name = 'round2_user';
-        $time_field_name = 'round2_time';
         $saved_page_state = SAVE_SECOND;
-        $avail_page_state = AVAIL_SECOND;
     }
     else
     {
@@ -123,25 +116,7 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // now clear the page
 
-    if ($writeBIGtable) {
-        $result = mysql_query("
-            UPDATE project_pages
-            SET $text_field_name='',
-                $user_field_name='',
-                $time_field_name='',
-                state = '$avail_page_state'
-            WHERE projectid = '$projectid' AND fileid = '$fileid'
-        ");
-    }
-
-    $result = mysql_query("
-        UPDATE $projectid
-        SET $text_field_name='',
-            $user_field_name='',
-            $time_field_name='',
-            state = '$avail_page_state'
-        WHERE fileid = '$fileid'
-    ");
+    Page_clearRound( $projectid, $fileid, $round_number );
 }
 
 ?>
