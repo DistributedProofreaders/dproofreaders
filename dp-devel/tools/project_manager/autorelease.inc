@@ -67,6 +67,8 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     $todaysdate = time();
 
+    $result = mysql_query("UPDATE projects SET state = '$currstate', modifieddate = '$todaysdate' WHERE projectid = '$project'");
+
     if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
          print "Prepared to release project = $project<BR>";
          return numpages($project);
