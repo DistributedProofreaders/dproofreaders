@@ -82,7 +82,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     echo "<td align ='left'>Books being verified:</td><td align ='right'>$totalverifying</td><tr>";
 
 echo "</table>";
-echo "<br>;"
+echo "<br>";
 
 echo "<a href='misc_stats1.php'>Miscellaneous Stats (Top Proofing Days and Months, etc)</a><br><br>";
 
