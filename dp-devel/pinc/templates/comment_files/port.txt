@@ -1,0 +1,14 @@
+<p>Please keep the original spelling. The OCR software has incorrectly "updated" some of the words.</p>
+
+<p>Use the new guidelines for footnotes. Mark them as [1], [2], ... in the text. In the place of the page where you find the footnote text write [Footnote 1: text of footnote]</p>
+
+<hr />
+
+<p>Por favor conserve a ortografia original. O software de reconhecimento de caracters "actualizou" incorrectamente algumas palavras.</p>
+
+<p>Use as novas regras para revisão de notas de rodapé. Marque-as como [1], [2], ... no texto. No local onde está o texto da nota de rodapé escreva [Footnote 1: texto da nota de rodapé]</p>
+
+<hr />
+
+<p>Images and OCR supplied by the <a href="http://www.bn.pt/">National Library of Portugal</a>'s Digital National Library project.</p>
+
