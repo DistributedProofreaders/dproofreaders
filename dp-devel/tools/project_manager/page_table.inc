@@ -249,7 +249,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$R_username = $page_res[$R_user_field_name];
 
 	if ($R_username == $pguser) 
-		$cellcolorclause = "bgcolor='#880000'";
+		$cellcolorclause = "bgcolor='#FF3366'";
 	else
 		$cellcolorclause = " ";
 
@@ -261,7 +261,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	if($page_res[$R_diff_field_name]) {
 		echo _("no diff");
 	} else {
-		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num' target='_blank'>"._("diff")."</a>";
+		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
 	}
 
 	echo "</td>\n";
