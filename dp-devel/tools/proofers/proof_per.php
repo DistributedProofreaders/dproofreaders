@@ -19,6 +19,7 @@ theme("Personal Page for $pguser", "header");
 	echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
 	echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
 	echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>";
+?>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Brand New Proofers"); ?></b></font><br>
 <? echo _("BEGINNERS ONLY projects are reserved for brand new proofers; after you have done between 5 to 15 pages total from these BEGINNERS ONLY projects, though, please move on to other projects. EASY projects are available for everyone, but make a great second step for beginners, too."); ?>
@@ -29,6 +30,7 @@ theme("Personal Page for $pguser", "header");
  <a href="<? echo $code_url ?>/faq/scan/submitting.php"><? echo _("Find out how!"); ?></a>
 <br><br>
 
+<?
 	// If Post Processor give link to post processing page.
     	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
     	$postprocessorpages = mysql_result($result,0);
