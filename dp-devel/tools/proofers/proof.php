@@ -31,7 +31,7 @@ $dbC=new dbConnect();
         $timestamp = time();
         //find page to be proofed.
           $dbQuery="SELECT fileid, image FROM $project WHERE state='";
-          if ($prooflevel==1) {$dbQuery.="12' AND round1_user != '$pguser'";}
+          if ($prooflevel==2) {$dbQuery.="12' AND round1_user != '$pguser'";}
           else {$dbQuery.="2'";}
           $dbQuery.=" ORDER BY image ASC";
         $result=mysql_query($dbQuery);
@@ -44,7 +44,7 @@ $dbC=new dbConnect();
         } else {
             $fileid = mysql_result($result, 0, "fileid");
             $dbQuery="UPDATE $project SET state='";
-            if ($prooflevel==1)
+            if ($prooflevel==2)
             {$dbQuery.="15' round2_time='$timestamp' round2_user='$pguser'";}
             else {$dbQuery.="5' round1_time='$timestamp' round1_user='$pguser'";}
             $dbQuery.="  WHERE fileid='$fileid'";
