@@ -8,10 +8,6 @@ require_once "Profileclass.inc" ;
 /**
  * User Class.
  *
- * <p>Liberally scavenged from "user_is.inc". All the heavy lifting was developed
- * there by mdyck and big_bill - I simply rearranged it a bit into a class for
- * my own convenenience (and that of the hard-working database server.)</p>
- *
  * <p>This class should probably be responsible for knowing if this user is logged in or
  * not based on whether logIn() has succeeded and logOut() has not subsequently occurred.
  * Hence the var $logged_in for the purpose.</p>
@@ -43,6 +39,7 @@ require_once "Profileclass.inc" ;
 
 class User
 {
+    var $subject;       // the usename for which we want to instantiate this instance
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;      // This is for the records from usersettings for this user.
@@ -51,7 +48,7 @@ class User
     var $logged_in;     // boolean = True when they are and False when they're not.
     var $teams;
     var $neighbors;
-    var $topten ;
+    var $ten;
 
     /**
      * Class Initializer
@@ -63,17 +60,31 @@ class User
      * or wherever it is.</p>
      */
 
-    function User($username)
+    // optional parameter username - if empty use $pguser
+    function User($username = 0)
     {
-        $username = trim($userName) ;
-        $password = trim($password) ; 
+        global $pguser ;
+        // if null username submitted but there is $pguser, use it.
+        // ($this->subject is the username of the User of concern here,
+        // whether logged on for theselves, or being administered.
+        // using $pguser is the quickanddirty way to hitchhike on the
+        // existing security.
 
-        if(! $this->_isValidUser()) {
-            $this->_queryPhpbb_Users();
-            $this->_querySettings();
+        if(!($this->subject = $username))
+        {
+            $this->subject = $pguser ;
         }
+        assert($pguser) ;
+        assert($this->subject);
 
-        $this->logged_in = ($this->logIn($password) == '' );
+        // temporary comment out validuser etc. - work on it later.
+        // if(! $this->_isValidUser()) {
+        $this->_queryPhpbb_Users();
+        $this->_querySettings();
+        // }
+
+        // switching logged-in-ness to be the presence of GLOBAL['username'];
+        // $this->logged_in = ($this->logIn($password) == '' );
         
         // And now we have a configured user!
     }
@@ -166,7 +177,8 @@ class User
 
     function isLoggedIn()
     {
-        return $this->logged_in;
+        return (isset($GLOBALS['pguser'])) ;
+        // return $this->logged_in;
     }
 
     /**
@@ -294,7 +306,7 @@ class User
 
     function realName()
     {
-        return $this->_rowVal('real_name');
+        return $this->_rowVal('u.real_name');
     }
 
     /**
@@ -306,7 +318,18 @@ class User
 
     function updatesEmailed()
     {
-        return ($this->_rowVal('email_updates') == 1);
+        return ($this->_rowVal('u.email_updates') == 1);
+    }
+
+
+
+    /**
+     * pagecount for the user
+     */
+
+    function pageCount()
+    {
+        return $this->_rowVal('u.pagescompleted') ;
     }
 
     /**
@@ -315,7 +338,7 @@ class User
 
     function enableEmailUpdates()
     {
-        $this->_setRowVal('email_updates', 1);
+        $this->_setRowVal('u.email_updates', 1);
     }
 
     /**
@@ -324,7 +347,7 @@ class User
 
     function disableEmailUpdates()
     {
-        $this->_setRowVal('email_updates', 0);
+        $this->_setRowVal('u.email_updates', 0);
     }
 
     /**
@@ -333,7 +356,8 @@ class User
 
     function userName()
     {
-        return $this->users_phpbb['username'];
+        // return $this->users_phpbb['username'];
+        return $this->_rowVal['username'];
     }
 
     /**
@@ -415,7 +439,7 @@ class User
 
     function emailAddress()
     {
-        return $this->_rowVal('email');
+        return $this->_rowVal('u.email');
     }
 
     /**
@@ -517,7 +541,7 @@ class User
 
     function align()
     {
-        return $this->_rowVal('u_align') ;   
+        return $this->_rowVal('u.u_align') ;   
     }
 
     /**
@@ -545,7 +569,7 @@ class User
 
     function theme()
     {
-        return $this->_rowVal('i_theme');
+        return $this->_rowVal('u.i_theme');
     }
 
     /**
@@ -557,7 +581,7 @@ class User
 
     function setTheme($name)
     {
-        $this->_setRowVal('i_theme');
+        $this->_setRowVal('u.i_theme');
     }
 
     /**
@@ -629,12 +653,15 @@ class User
 
     function topTen()
     {
-        return $this->topTen ;
+        if( ! $this->ten )
+            $this->_queryTopTen();
+        assert( $this->ten ) ;
+        return $this->ten ;
     }
 
     function wantsTopTen()
     {
-        return $this->_rowVal('u_top10') ;
+        return ($this->_rowVal('u.u_top10')>0) ;
     }
 
 /*
@@ -700,13 +727,13 @@ class User
 
     function rank()
     {
-        return $this->users_phpbb['rank'] ;
+        return $this->users_phpbb['u.rank'] ;
     }
 
 
     function wantsNeighbors()
     {
-        return $this->_rowVal('u_neigh') ;
+        return $this->_rowVal('u.u_neigh') ;
     }
 
     function _queryTopTen()
@@ -772,36 +799,43 @@ class User
     function _getNeighbors($count)
     {
         $sql = "SELECT u.username,
-                       CASE u_privacy
+                       CASE u.u_privacy
                            WHEN 1 THEN u.username
                            ELSE 'Anonymous'
                            END AS neighborname,
                        u.pagescompleted AS pages,
-                       u.u_privacy, as privacy
+                       u.u_privacy as privacy
                 FROM users AS u
                 INNER JOIN users AS u_me
-                WHERE u_me.username = '$user->userName()'
+                WHERE u_me.username = '$this->userName()'
                     AND u.pagescompleted >= u_me.pagescompleted
                 ORDER BY u.pagescompleted
                 LIMIT 10" ;
 
+        print $sql ;
         $result = mysql_query( $sql ) ;
+        assert( $result );
         while( $row = mysql_fetch_assoc( $result ) ) {
             $this->neighbors[$row['username']] = $row ;
         } 
         mysql_free_result( $result ) ;
 
         $sql = "SELECT u.username,
-                       u.pagescompleted,
-                       u.u_privacy
+                       CASE u.u_privacy
+                           WHEN 1 THEN u.username
+                           ELSE 'Anonymous'
+                           END AS neighborname,
+                       u.pagescompleted AS pages,
+                       u.u_privacy AS privacy
                 FROM users AS u
                 INNER JOIN users AS u_me
-                WHERE u_me.username = '$user->userName()
+                WHERE u_me.username = '$this->userName()'
                     AND u.pagescompleted < u_me.pagescompleted
                     AND u.pagescompleted > 0
                 ORDER BY u.pagescompleted DESC
                 LIMIT 10" ;
         $result = mysql_query( $sql ) ;
+        assert( $result ) ;
         while( $row = mysql_fetch_assoc( $result ) ) {
             $this->neighbors[$row['username']] = $row ;
         } 
@@ -978,7 +1012,7 @@ class User
 
     function dateCreated()
     {
-        return $this->_rowVal('date_created');
+        return $this->_rowVal('u.date_created');
     }
 
     /**
@@ -1932,7 +1966,7 @@ class User
             $sql = "SELECT COUNT(1) AS PMcount
                     FROM phpbb_privmsgs
                     WHERE
-                    privmsgs_to_userid = $pguser_id
+                    privmsgs_to_userid = '$this->userId()'
                          && privmsgs_type IN (1, 5)";
             $result = mysql_query($sql);
             $PM_count = mysql_result($result, 0);
