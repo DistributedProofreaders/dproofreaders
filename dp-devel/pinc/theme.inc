@@ -129,7 +129,9 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		");
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
-		echo number_format($numproj)." DP projects posted to PG!";
+		echo sprintf(
+			_('%d DP projects posted to PG!'),
+			number_format($numproj));
 		echo "</b></font>\n";
 		echo "<br>";
 	}
@@ -145,7 +147,9 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		");
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><b>";
-		echo number_format($numproj)." different books posted to PG from DP!";
+		echo sprintf(
+			_('%d different books posted to PG from DP!'),
+			number_format($numproj));
 		echo "</b></font>\n";
 	}
 
