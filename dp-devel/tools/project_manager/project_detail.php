@@ -188,18 +188,6 @@ if ($page_type == "Full") {
 
     // second arg. indicates to show size of image files.
 	echo_page_table($projectid, 1);
-
-      // -----------------------------------------------------------------------------
-
-    // offer oppty to delete all pages if not begun proofing yet.
-	if ($can_edit) {
-		if ( $state == PROJ_NEW || $state == PROJ_P1_UNAVAILABLE
-			|| ($site_supports_metadata && $state == PROJ_NEW_FILE_UPLOADED) )
-		{
-			echo "<br>";
-			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>"._("Delete All Text")."</a>";
-		}
-	}
 }
 
 echo '<br>' . $link_to_other_version;
