@@ -1,6 +1,5 @@
 <?
 include_once($relPath.'project_states.inc');
-include_once($relPath.'page_states.inc');
 include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 
@@ -21,7 +20,6 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 				modifieddate DESC,
 				nameofwork ASC
 		";
-		$state = AVAIL_FIRST;
 	}
 	else if ( $round == 'second' )
 	{
@@ -35,7 +33,6 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			ORDER BY
 				nameofwork ASC
 		";
-		$state = AVAIL_SECOND;
 	}
 
 	$result = mysql_query($query);
@@ -62,8 +59,8 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 	while ($rownum2 < $numrows) {
 		$book=dassoc($result);
 		$bgcolor=bgcol($rownum,$round);
-		if (($state==AVAIL_FIRST && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
-		    ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
+		if (($round == 'first'  && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
+		    ($round == 'second' && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
 		{
 			echo "<tr>";
 			if ($tList==0)
