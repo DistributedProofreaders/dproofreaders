@@ -174,7 +174,6 @@ if(wM==1)
 {docRef.editform.text_data.value=wOT;}
 }}
 
-
 // start of general interface functions
 function mGR()
 {
@@ -303,7 +302,6 @@ function iMUO(wM)
 {
 if (inProof==1)
 {
-wTag=mUO[wM];
 wOT=otO[wM];
 wCT=otC[wM];
 wWT=wOT;

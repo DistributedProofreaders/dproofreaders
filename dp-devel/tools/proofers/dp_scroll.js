@@ -218,14 +218,20 @@ if (top.proofframe.imageframe.document.scanimage)
   }
 }
 
+function focusText()
+{
+if (isLded && inProof)
+  {docRef.editform.text_data.focus();}
+}
+
 function ldAll(wFace)
 {
   frameRef=top.proofframe.document;
   isLded=1;
   inProof=1;
   inFace=wFace;
-  cRef=document.charform;
-  markRef=document.tagform;
+  cRef=document.markform;
+  markRef=document.markform;
   if(wFace==1)
     {
       docRef=top.proofframe.document;

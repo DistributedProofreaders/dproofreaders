@@ -28,7 +28,7 @@ echo $docType."\r\n";
 <html><head><TITLE>Text Frame</TITLE></head><body 
 onload="top.menuframe.ldAll(0)"><center><form name="editform" 
 method="post" action="processtext.php" target="proofframe">
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 <!--
 function resize(newsize)
 {
