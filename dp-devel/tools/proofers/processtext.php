@@ -103,7 +103,8 @@ if (!$isOpen)
 // buttons which save
 if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4))
 {
-addUserCount($project,$prooflevel,$fileid,$pguser);
+if (!isset($saved))
+{addUserCount($project,$prooflevel,$fileid,$pguser);}
 savePage($project,$prooflevel,$fileid,$text_data,$pguser);
 isProjectDone($project,$prooflevel);
 } // end save page
