@@ -288,5 +288,70 @@ function should_anonymize( $username, $user_privacy_setting )
     }
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_site_page_tally_summary()
+// Return an object whose attributes are various useful statistics re
+// the site page tally:
+//     curr_day_{goal,actual}
+//     prev_day_{goal,actual}
+//     curr_month_{goal,actual}
+//
+// (This actually implemented with "page counts" [see defn at top of file],
+// but soon will be implemented via page tallies.)
+{
+    global $dynstats_dir;
+
+    if (file_exists("$dynstats_dir/stats.inc"))
+    {
+        include("$dynstats_dir/stats.inc");
+    }
+    if (!isset($sitestats))
+    {
+        $sitestats['daily'] = 0;
+        $sitestats['goal'] = 0;
+        $sitestats['monthly'] = 0;
+    }
+
+    $site_stats = new StdClass;
+    $site_stats->curr_day_actual   = $sitestats['daily'];
+    $site_stats->curr_month_goal   = $sitestats['goal'];
+    $site_stats->curr_month_actual = $sitestats['monthly'] + $sitestats['daily'];
+
+    // Today's goal
+    $result = mysql_query("
+        SELECT dailygoal
+        FROM pagestats
+        WHERE date = '".date("Y-m-d", time())."'
+    ");
+    if (mysql_num_rows($result) > 0)
+    {
+        $site_stats->curr_day_goal = mysql_result($result, 0, "dailygoal");
+    }
+    else
+    {
+        $site_stats->curr_day_goal = 0;
+    }
+
+    // Yesterday's goal and actual
+    $result = mysql_query("
+        SELECT pages, dailygoal
+        FROM pagestats
+        WHERE date = '".date("Y-m-d", (time()-86400))."'
+    ");
+    if (mysql_num_rows($result) > 0)
+    {
+        $site_stats->prev_day_goal   = mysql_result($result, 0, "dailygoal");
+        $site_stats->prev_day_actual = mysql_result($result, 0, "pages");
+    }
+    else
+    {
+        $site_stats->prev_day_goal = 0;
+        $site_stats->prev_day_actual = 0;
+    }
+
+    return $site_stats;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

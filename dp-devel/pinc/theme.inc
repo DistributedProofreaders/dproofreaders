@@ -253,44 +253,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
-	if (file_exists("$dynstats_dir/stats.inc")) { include("$dynstats_dir/stats.inc"); }
-	if (!isset($sitestats))
-	{
-		$sitestats['daily'] = 0;
-		$sitestats['goal'] = 0;
-		$sitestats['monthly'] = 0;
-	}
-
-	$site_stats = new StdClass;
-	$site_stats->curr_day_actual   = $sitestats['daily'];
-	$site_stats->curr_month_goal   = $sitestats['goal'];
-	$site_stats->curr_month_actual = $sitestats['monthly'] + $sitestats['daily'];
-
-	// Today's goal
-	$result = mysql_query("
-		SELECT dailygoal
-		FROM pagestats
-		WHERE date = '".date("Y-m-d", time())."'
-	");
-	if (mysql_num_rows($result) > 0) {
-		$site_stats->curr_day_goal = mysql_result($result, 0, "dailygoal");
-	} else {
-		$site_stats->curr_day_goal = 0;
-	}
-
-	// Yesterday's goal and actual
-	$result = mysql_query("
-		SELECT pages, dailygoal
-		FROM pagestats
-		WHERE date = '".date("Y-m-d", (time()-86400))."'
-	");
-	if (mysql_num_rows($result) > 0) {
-		$site_stats->prev_day_goal   = mysql_result($result, 0, "dailygoal");
-		$site_stats->prev_day_actual = mysql_result($result, 0, "pages");
-	} else {
-		$site_stats->prev_day_goal = 0;
-		$site_stats->prev_day_actual = 0;
-	}
+	$site_stats = get_site_page_tally_summary();
 
     //Show the site statistics
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
