@@ -290,7 +290,6 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$t->row(
 		_("Total Pages"),
 		number_format($vitals->current_tally) . " " . _("pages")
-		. " (" . pageCountPercentage($vitals->current_tally) . _("% of total") . ")"
 	);
 	$t->row(
 		_("Overall Rank"),
@@ -314,17 +313,6 @@ function showMbrPageStats( $curMbr, $tally_name )
 	);
 
 	$t->end();
-}
-
-function pageCountPercentage($pagescompleted) {
-	$result = mysql_query("SELECT SUM(pages) AS total_pagescompleted FROM pagestats");
-	$total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
-	if ($total_pagescompleted == 0)
-	    $percentTotal = number_format(0,2);
-	else
-	    $percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
-	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
-	return $percentTotal;
 }
 
 function showMbrNeighbors($curMbr, $tally_name) {

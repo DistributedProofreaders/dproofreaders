@@ -2121,30 +2121,6 @@ class User
         return $best;
     }
 
-    /**
-     * Total Percentage User Has Proofread of All Pages Proofread
-     *
-     * <p>As our site grows, this percentage will need to grow or be removed due to most
-     * users will end up being in the 0.01 or lower category.</p>
-     */
-
-    /* I suggest it's time to quit table-scanning our largest table for a meaningless stat.
-       function pageCountPercentage()
-       {
-       $sql = "SELECT SUM(pages)
-       AS total_pagescompleted
-       FROM pagestats";
-       $result = mysql_query($sql);
-       $total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
-       $percentTotal = number_format( $this->pagesCompleted()
-       / $this->total_pagescompleted * 100), 2);
-       if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) {
-       $percentTotal = 0.01;
-       }
-       return $percentTotal;
-       }
-     */
-
     function teams()
     {
         if( ! $this->_teams )
