@@ -298,11 +298,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	//Get the personal statistics array
 	$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
 	$neighbors = user_get_page_tally_neighbors($neighborhood, $userP['u_neigh']);
-	$userindex = $neighborhood['curMbrIndex'];
+	$usern = $neighbors[0];
 
 	//get rank
 	$rankname = user_page_tally_get_interval_title(
-		$neighborhood['pages'][$userindex] );
+		$usern->get_current_page_tally() );
 
 	// Get userid for personal stats link
 	$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
@@ -310,9 +310,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
-	echo number_format($neighborhood['pages'][$userindex])."<br>\n";
+	echo number_format($usern->get_current_page_tally())."<br>\n";
 	echo "&nbsp;" . _("Current Position: ");
-	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['totalRanks'])."<br>\n";
+	echo number_format($usern->get_current_page_tally_rank())."/".number_format($neighborhood['totalRanks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
 	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
