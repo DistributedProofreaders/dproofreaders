@@ -35,11 +35,13 @@ if (empty($datay1)) {
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",1);
+$graph = new Graph(640,400,"auto",3600);
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
 $graph->SetShadow(); //Add a drop shadow
 $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom
+$graph->img->SetAntiAliasing(); 
+
 
 //Create the bar plot
 $lplot1 = new LinePlot($datay1);
