@@ -31,5 +31,31 @@ $result = mysql_query("SELECT MAX(date_updated) FROM user_teams_stats");
 				$updateAvgCount = mysql_query("UPDATE user_teams SET daily_average = $avgCount WHERE id = ".$row['id']."");
 			}
 		}
+	//Update the page count rank for the previous day
+	$result = mysql_query("SELECT id, page_count FROM user_teams WHERE id != 1 && page_count > 0 ORDER BY page_count DESC");
+		$i = 1;
+		$rankArray = "";
+
+		while ($row = mysql_fetch_assoc($result)) {
+			$team_id = $row['id'];
+			if ($row['page_count'] == $lastcompleted) {
+				$rankArray['rank'][$team_id] = $lastrank;
+				$lastrank = $lastrank;
+    			} else {
+    				$rankArray['rank'][$team_id] = $i;
+    				$lastrank = $i;
+   			}
+    			$lastcompleted = $row['page_count'];
+    			if ($i == 1) { $lastrank = 1; }
+    			$i++;
+		}
+
+	$result = mysql_query("SELECT id FROM user_teams");
+		while($row = mysql_fetch_assoc($result)) {
+			if ($row['id'] != 1) {
+				$team_id = $row['id'];
+				$updateRank = mysql_query("UPDATE user_teams_stats SET rank = ".$rankArray['rank'][$team_id]." WHERE team_id = ".$row['id']." && date_updated = $midnight");
+			}
+		}
 	}
 ?>
