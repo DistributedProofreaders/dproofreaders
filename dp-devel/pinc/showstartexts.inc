@@ -19,11 +19,14 @@ $maxrows=$etext_limit<=$rows?$etext_limit:$rows;
   for ($i=1;$i<=$maxrows;$i++)
     {
     $book=mysql_fetch_assoc($starresult);
-    $pages=bookpages($book['projectid'],'>=0');
     $moddate = date("l, F jS, Y",$book['modifieddate']);
     echo "<font face=\"Verdana\" size=\"1\" color=\"#444444\"><b>$i) \"{$book['nameofwork']}\"</b></font>".
-    "<font face=\"Verdana\" size=\"1\">, {$book['authorsname']}<br>".
-    "{$pages['total']} pages; $moddate</font><br><br>";
+    "<font face=\"Verdana\" size=\"1\">, {$book['authorsname']}<br>";
+    if ($type != 'gold') {
+      $pages=bookpages($book['projectid'],'>=0');
+      echo "{$pages['total']} pages; ";
+    }
+    echo "$moddate</font><br><br>";
     }
   if ($rows > $etext_limit)
   {echo "<font face=\"Verdana\" size=\"1\">--<a href=\"list_etexts.php?x=".substr($type,0,1)."\">See more $type e-texts</a></font><br><br>";}
