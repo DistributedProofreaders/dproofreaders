@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'connect.inc');
+include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 
@@ -20,11 +21,12 @@ if ($password=="proofer") {
                 VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '3')");
 
     if (!$result) {
-
+        $htmlC->startHeader("User name already exists...");
+        $htmlC->startBody(0,1,0,0);
         echo "That user name already exists, please try another.<br>";
         echo "<center>";
         echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
-        echo "</center>";
+        echo "</center></body></html>";
         exit;
     } else {
         // create profile
@@ -52,9 +54,9 @@ user_viewemail)
 
         mail($email, "Welcome to the Distributed Proofreader's Site!",
              "Hello $real_name,\n\n".
-"I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg (http://www.gutenberg.net/).\n\n".
+"I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg <http://www.gutenberg.net/>.\n\n".
 
-"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Frequently Asked Questions <http://texts01.archive.org/dp/faq/ProoferFAQ.html> lists most user's initial questions, so be sure to read it over too.\n\n".
+"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Document Guidelines <http://texts01.archive.org/dp/faq/document.html> covers most formatting questions, so be sure to read it over too.\n\n".
 
 "Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
 
@@ -63,8 +65,6 @@ user_viewemail)
 "- Click on the title you want to work on.\n\n".
 
 "- It will show you a listing of items to note when working on a project, these will stay fairly consistent on all projects. They will be available later, so do not worry about remembering them all.\n\n".
-
-"- Click on \"Interface Preferences\" and for now just hit the \"Save Preferences\" button unless there is something specific you understand and want to change.\n\n".
 
 "- Click on \"Start Proofreading\".".
 
@@ -79,41 +79,58 @@ The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is 
 If your password doesn't work, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
 "From: dphelp@texts01.archive.org\r\nReply-To: dphelp@texts01.archive.org\r\n");
 
+        $htmlC->startHeader("User $username Added Successfully");
+        $htmlC->startBody(0, 1, 0, 0);
         print "User <b>$username</b> added successfully. Please verify your account by following the link provided in the e-mail being sent to you.";
         echo "<center>";
         echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
         echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
-        echo "</center>";
+        echo "</center></body></html>";
     }
 } else {
+    $htmlC->startHeader("Create An Account");
+    $htmlC->startBody(0,1,0,0);
+    $tb=$htmlC->startTable(0,400,0,1);
+    $tr=$htmlC->startTR(0,0,1);
+
+$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
+$td2=$htmlC->startTD(1,0,0,0,"center",0,0,1);
+$td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
+$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
+$td5=$htmlC->startTD(0,0,2,0,"left",0,0,1);
 ?>
-<html>
-<head><title>User Admin Page: Create a proofreader account</title></head>
-<body bgcolor=#ffffff>
-<table bgcolor=#000000 valign=top align=center border=0><tr><td bgcolor=#000000>
-<table cellpadding=4 bgcolor=#ffffff cellspacing=2 border=0>
-<Tr><th>Create a proofreader account</th></tr><tr><td>
-<FORM METHOD="post" ACTION="addproofer.php">
-<Input Type=hidden Name="password" value = "proofer">
-<table border=0>
-<td width=20>Real Name:</td><td><INPUT TYPE=text MAXLENGTH=70 NAME="real_name" SIZE=20><Br></td><tr>
-<td>Username:</td><td> <INPUT TYPE=text MAXLENGTH=70 NAME="userNM" SIZE=20></td><tr>
-<td>Password:</td><td> <Input Type=password Maxlength=70 Name="userPW" Size=10></td><tr>
-<td>E-mail address:</td><td> <Input Type=text Maxlength=70 Name="email" Size=20></td><tr>
-<td>E-mail updates:</td><td> <input type=radio name=email_updates value=1 checked>Yes&nbsp;&nbsp;<input type=radio name=email_updates value=0>No</td>
-</table>
-<center><INPUT TYPE=submit VALUE="Add">  <INPUT type=reset VALUE="Reset Form"><br>
-<br>The information that you enter here will only be made<br>
-available to the project manager(s) for whom you have proofread.
-<br>This will allow the project manager to provide feedback to<br>
-each proofer such as thanks, pointers on how to proof better, etc.<br>
-It will also send you an e-mail with a link to activate your account.
-<br><br><a href = "../default.php">Back</a> to the main page.</center>
-</form>
-</tr></td></table></tr></td></table>
-</body>
-</html>
+<form method="post" action="addproofer.php">
+<input type=hidden name="password" value="proofer">
+<?php
+    echo $tb.$tr.$td1;
+    echo "<b>Create A Distributed Proofreader Account<b>";
+    echo $tr.$td2."<b>Real Name:</b>";
+    echo $td3.'<input type="text" maxlength=70 name="real_name" size=20>';
+    echo $tr.$td2."<b>User Name:</b>";
+    echo $td3.'<input type="text" maxlength=70 name="userNM" size=20>';
+    echo $tr.$td2."<b>Password:</b>";
+    echo $td3.'<input type="password" maxlength=70 name="userPW" size=20>';
+    echo $tr.$td2."<b>E-mail Address:</b>";
+    echo $td3.'<input type="text" maxlength=70 name="email" size=20>';
+    echo $tr.$td2."<b>E-mail Updates:</b>";
+    echo $td3.'<input type="radio" name="email_updates" value="1" checked>Yes&nbsp;&nbsp;<input type="radio" name="email_updates" value="0">No';
+    echo $tr.$td1.'<input type="submit" value="Create Account">&nbsp;&nbsp;<input type="reset" value="Reset Form">';
+    echo $tr.$td5;
+?>
+<center><font size=+2>Privacy Statement:</font></center>
+<p><font size=+1>Usage of information:</font></p>
+<p>This information will allow the project managers to provide feedback to you directly or have users send to you a message via the phpBB forum. An introductory e-mail will also be sent to you.</p>
+<p><font size=+1>Removal of information:</font>
+<p>Requests to remove the information beforehand can be sent to the web site manager or will be removed based on it's age.</p>
+<p><font size=+1>Access of information:</font></p>
+<p>Only the web site manager will have full access to the information in this form. Project managers will have access to e-mail you directly if needed. Any public information you fill out in the phpBB forum or profile will be accessible to other users.</p>
+<p><font size=+1>Tracking information:</font></p>
+<p>The only tracking information we collect at this time is the number of pages you have completed, the date your account was created, and your last login date. Only the pages completed out of the three will be available to end users, the rest is for statistical purposes and removal of old accounts by the web site managers.</p>
+<?php
+    echo $tr.$td4;
+?>
+<a href="../default.php"><b>Home</b></a></td>
+</form></tr></table></body></html>
 <?
 }
 ?>
-
