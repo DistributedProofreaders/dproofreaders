@@ -219,12 +219,10 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 <p><font color='#FF0000'><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again.</B></font>
 <P><b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
 <?
-
     // If Post Processor give link to post processing page.
     $postprocessor = $userP['postprocessor'];
     $postprocessorpages = $totalpages;
     if ($postprocessor == "yes" || $postprocessorpages >= 400) {
-//if ($postprocessor == "yes"){
 
 ?>
 
@@ -245,7 +243,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
         echo ".";
     }
 ?>
-<p>Want to help support this site????  We can always use $$ to buy books, software, hardware etc. By clicking on the 'Beg Button' below you can donate with your credit card or PayPal account via PayPal!!
+<p>Want to help support this site???? We can always use $$ to buy books, software, hardware etc. By clicking on the 'Beg Button' below you can donate with your credit card or PayPal account via PayPal!!
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="charlz@lvcablemodem.com">
@@ -254,7 +252,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <p><p>
 Want to help out the site by providing material for us to proof? Check <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">here</a> to find out how!
 <p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td></tr><tr>
-<td width = "1" bgcolor = "CCCCCC" colspan ="4">&nbsp</td></tr></table><p><p>
+<td width = "1" bgcolor = "CCCCCC" colspan ="4">&nbsp</td></tr></table><p>
 <table border="1" width="630">
 <tr>
   <td bgcolor="#CCCCCC"><h3>Random Rule</h3></td>
@@ -269,7 +267,7 @@ Want to help out the site by providing material for us to proof? Check <a href="
 </tr>
 </table>
 
-<p><p>
+<p>
 
 <?
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3) {
@@ -278,7 +276,7 @@ echo "<tr><td bgcolor='#CCCCCC' colspan=2><h3>Current First - Round Projects</h3
 echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR software and have not been looked at.</td></tr>";
 
     //Select all projects in the list for round 1
-    $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_FIRST."' or state = '".VERIFY_PI_FIRST."' ORDER BY modifieddate asc, nameofwork asc");
+    $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_FIRST."' or state = '".VERIFY_PI_FIRST."' ORDER BY modifieddate desc, nameofwork asc");
     showavailablebooks($result,AVAIL_FIRST,$userP,0);
 echo "</table>";
 }
