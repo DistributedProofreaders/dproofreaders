@@ -48,19 +48,15 @@ The edited text file is then submitted back to the site via the same webpage tha
 <p>Once all pages for a particular book have been processed the Project Manager joins the pieces, properly formats them into a PG E-Text and
 submits it to the PG archive.
 <p></td><tr>
+
 <?
-//THIS CODE IS NOT WORKING YET!
-//PLEASE DO NOT ACTIVATE!!
-//$result = mysql_query("SELECT * FROM news ORDER BY uid DESC LIMIT 1");
-//$date_posted = mysql_result($result,0,"date_posted");
-//$message = mysql_result($result,0,"message");
-//
-//THANK YOU! USFJoseph
+$result = mysql_query("SELECT * FROM news ORDER BY uid DESC LIMIT 1");
+$date_posted = date("l F jS, Y", mysql_result($result,0,"date_posted"));
+$message = mysql_result($result,0,"message");
+echo "<td bgcolor='#cccccc'></td><td bgcolor='#cccccc' align='left'><font size='+1'>Update: $date_posted</font></td></tr>";
+echo "<td bgcolor='#cccccc'></td><td>";
+echo $message;
 ?>
-<td bgcolor=CCCCCC></td><td bgcolor=CCCCCC align=left><font size="+1">Update: Saturday December 14th</font></td><tr>
-<td bgcolor=CCCCCC></td><td>
-I deleted Charlz' message here by accident, the stats are now working, sorry about the troubles!
-<P>Charles Aldarondo
 
 <br>You can view the financial statement for this site <a href="finance.html">here.</a>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
