@@ -17,11 +17,11 @@ $PRD_1->project_waiting_state   = PROJ_PROOF_FIRST_WAITING_FOR_RELEASE;
 $PRD_1->project_bad_state       = PROJ_PROOF_FIRST_BAD_PROJECT;
 $PRD_1->project_available_state = PROJ_PROOF_FIRST_AVAILABLE;
 $PRD_1->project_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
-$PRD_1->page_avail_state   = "avail_first";
-$PRD_1->page_out_state     = "out_first";
-$PRD_1->page_temp_state    = "temp_first";
-$PRD_1->page_save_state    = "save_first"; 
-$PRD_1->page_bad_state     = "bad_first";
+$PRD_1->page_avail_state   = "P1.page_avail";
+$PRD_1->page_out_state     = "P1.page_out";
+$PRD_1->page_temp_state    = "P1.page_temp";
+$PRD_1->page_save_state    = "P1.page_saved"; 
+$PRD_1->page_bad_state     = "P1.page_bad";
 $PRD_1->time_column_name     = 'round1_time';
 $PRD_1->text_column_name     = 'round1_text';
 $PRD_1->user_column_name     = 'round1_user';
@@ -44,11 +44,11 @@ $PRD_2->project_waiting_state   = PROJ_PROOF_SECOND_WAITING_FOR_RELEASE;
 $PRD_2->project_bad_state       = PROJ_PROOF_SECOND_BAD_PROJECT;
 $PRD_2->project_available_state = PROJ_PROOF_SECOND_AVAILABLE;
 $PRD_2->project_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
-$PRD_2->page_avail_state   = "avail_second";
-$PRD_2->page_out_state     = "out_second";
-$PRD_2->page_temp_state    = "temp_second";
-$PRD_2->page_save_state    = "save_second";
-$PRD_2->page_bad_state     = "bad_second";
+$PRD_2->page_avail_state   = "P2.page_avail";
+$PRD_2->page_out_state     = "P2.page_out";
+$PRD_2->page_temp_state    = "P2.page_temp";
+$PRD_2->page_save_state    = "P2.page_saved";
+$PRD_2->page_bad_state     = "P2.page_bad";
 $PRD_2->time_column_name     = 'round2_time';
 $PRD_2->text_column_name     = 'round2_text';
 $PRD_2->user_column_name     = 'round2_user';
@@ -70,7 +70,7 @@ $PRD_2->other_rounds_with_visible_usernames = array( $PRD_1 );
 // two instances.
 
 // Alternatively, I could have simply defined $PRD_1 and $PRD_2 as arrays,
-// e.g. $PRD_1 = array( 'page_avail_state' => "avail_first", ... );
+// e.g. $PRD_1 = array( 'page_avail_state' => "P1.page_avail", ... );
 // but then the accesses would have been like
 //     $prd['page_avail_state'],
 // which I find somewhat less readable than
