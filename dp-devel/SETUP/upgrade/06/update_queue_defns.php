@@ -14,6 +14,7 @@ $res = mysql_query("
 	FROM queue_defns
 ") or die(mysql_error());
 
+$n_rc_updated = 0;
 while( list($name,$release_criterion) = mysql_fetch_row($res) )
 {
 	if ( !preg_match( '/(pages|projects)[12]/', $release_criterion ) )
@@ -39,7 +40,20 @@ while( list($name,$release_criterion) = mysql_fetch_row($res) )
 		SET release_criterion='$rc'
 		WHERE name='$name'
 	") or die(mysql_error());
+	$n_rc_updated++;
 }
+echo "$n_rc_updated release_criterion values updated\n";
+
+// -------------------------------------------------------------------
+
+// Add queue_defns.round_number column
+
+mysql_query("
+	ALTER TABLE queue_defns
+	ADD COLUMN round_number TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 FIRST
+") or dir(mysql_error());
+
+// -------------------------------------------------------------------
 
 echo "done.\n";
 echo "</pre>\n";
