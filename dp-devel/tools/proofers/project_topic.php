@@ -1,6 +1,5 @@
 <?
 $relPath="./../../pinc/";
-$linkPath="./../../tools/proofers/";
 include($relPath.'dp_main.inc');
 
 if ($_GET['action'] == "c") {
@@ -14,7 +13,7 @@ $post_ip = $_SERVER['REMOTE_ADDR'];
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
 $title = $row['nameofwork'];
-$message =  "Discussion of ".$row['nameofwork']." by ".$row['authorsname']."<br><br>Click <a href='".$linkPath."projects.php?project=$project_id&prooflevel=0'> here to view the project comments.";
+$message =  "Discussion of ".$row['nameofwork']." by ".$row['authorsname']."";
 $topic_id = $row['topic_id'];
 }
 
