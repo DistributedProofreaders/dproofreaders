@@ -6,7 +6,10 @@ include($relPath.'bookpages.inc');
 include($relPath.'showavailablebooks.inc');
 include($relPath.'project_states.inc');
 include($relPath.'page_states.inc');
+if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
+
+
 
 	//Display News Updates
 	$result = mysql_query("SELECT * FROM news ORDER BY uid DESC LIMIT 1");
