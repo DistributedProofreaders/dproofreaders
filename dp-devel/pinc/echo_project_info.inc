@@ -62,7 +62,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	{
 		$word = _("Instructions for Smooth Reading");
 		echo_row_b($word, '' );
-		echo_row_c( $project['postcomments'] );
+		echo_row_c( htmlspecialchars($project['postcomments']) );
 		$word = _("Other Project Information");
 		echo_row_b($word, '' );
 
@@ -231,7 +231,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 		$word = _("Post Processor Comments");
              if (!$inSR) {
  		    echo_row_b($word, '' );
-		    echo_row_c( $project['postcomments'] );
+		    echo_row_c( htmlspecialchars($project['postcomments']) );
              }
 	}
 
