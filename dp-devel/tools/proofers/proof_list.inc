@@ -102,9 +102,9 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
     echo "\r\n<table border=1>";
     echo "\r\n<tr>";
     tde("<h3>"._("Current Second - Round Projects")."</h3>", bgcol(1,'second') . " colspan=2");
-    if ($totalpages < 50)
+    if ($totalpages < 100)
       {
-      tde(_("Second round projects are unavailable until you have proofread more than 50 first round pages.  After 50 pages of first round proofreading, the second round projects will be unlocked for you."), bgcol(1,'second') . " colspan=6");
+      tde(_("Second round projects are unavailable until you have proofread more than 100 first round pages.  After 100 pages of first round proofreading, the second round projects will be unlocked for you."), bgcol(1,'second') . " colspan=6");
       echo "</tr>";
       }
     else

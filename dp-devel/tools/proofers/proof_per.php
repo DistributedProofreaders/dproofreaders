@@ -27,7 +27,7 @@ theme(_("Personal Page for $pguser"), "header");
 
 	// Unread messages
 
-        if ($pagesproofed <= 100) {
+        if ($pagesproofed <= 300) {
 		$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     		$pguser_id = mysql_result($result, 0, "user_id");
     	
@@ -209,7 +209,7 @@ theme(_("Personal Page for $pguser"), "header");
 
         if ($pagesproofed >= 15) {
 
-                if ($pagesproofed < 80) {
+                if ($pagesproofed < 200) {
 
 			echo _("New Proofreaders:");
                         echo " <a href='$forums_url/viewtopic.php?t=6651'>";
@@ -219,9 +219,9 @@ theme(_("Personal Page for $pguser"), "header");
 		}
 	}
 
-        if ($pagesproofed >= 40) {
+        if ($pagesproofed >= 90) {
 
-                if ($pagesproofed < 50) {
+                if ($pagesproofed < 100) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Soon you will be able to see the books in Second Round. ");
 			echo _("Every page that is proofread in First Round is proofread again, by someone else, in Second Round, to check for any errors that may have been missed.");
@@ -232,10 +232,10 @@ theme(_("Personal Page for $pguser"), "header");
         }
 
 
-        if ($pagesproofed >= 50) {
-                if ($pagesproofed < 75) {
+        if ($pagesproofed >= 100) {
+                if ($pagesproofed < 150) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
-                        echo _("Now that you have proofread 50 pages you can see the books in Second Round. ");
+                        echo _("Now that you have proofread 100 pages you can see the books in Second Round. ");
 			echo _("Every page that is proofread in First Round is proofread again, by someone else, in Second Round, to check for any errors that may have been missed.");
 			echo "<br>";
 			echo _("(This explanatory line will eventually vanish.)");
