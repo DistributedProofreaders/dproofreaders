@@ -103,8 +103,8 @@ include_once($relPath.'maybe_mail.inc');
         //
         $carriagereturn = chr(13);
         $linefeed = chr(10);
-        $indicator1 = "-----File:";
-        $indicator2 = "---\";
+        $indicator1 = "-----File: ";
+        $indicator2 = "---\\";
         $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
         $pagebreak2 = $carriagereturn.$linefeed;
 
@@ -119,9 +119,9 @@ include_once($relPath.'maybe_mail.inc');
             $dashes_todo = 78 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
             $dashes = "";
             for ($i = 1; $i <= $dashes_todo; $i++) {
-               $dashes += "-";
+               $dashes .= "-";
             }
-	    $separator = $pagebreak1.$filename.$indicator2.$round1_user."\".$round2_user."\".$dashes.$pagebreak2;
+	    $separator = $pagebreak1.$filename.$indicator2.$round1_user."\\".$round2_user."\\".$dashes.$pagebreak2;
             $fileinfo = $separator.$text_data;
             // SENDING PAGE-TEXT TO USER
             // It's a text-file, so no encoding is necessary.
