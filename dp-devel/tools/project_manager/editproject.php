@@ -85,14 +85,17 @@ if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
         while ($rownum < $numrows) {
             $username = mysql_result($result, $rownum, "username");
             $temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
-            $email = mysql_result($temp, 0, "email");
+            $email = mysql_result($temp, 0, "user_email");
 
             mail($email, "$NameofWork Posted to Project Gutenberg",
 "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
 --\n
 Distributed Proofreaders\nhttp://texts01.archive.org/dp/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
              "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+            $rownum++;
         }
+        $del = mysql_query("DELETE FROM usersettings WHERE value = '$project' AND setting = 'posted_notice'");
+
 }
 
 
