@@ -5,6 +5,13 @@ $result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguse
 $totalpages = mysql_result($result,0);
 
 
+if ($totalpages >= 10) {
+    echo "<p><font face='{$theme['font_mainbody']}'>\n";
+    include('special_legend.php');
+    echo "</font></p><br>\n";
+}
+
+
 if ($totalpages <= 20) {
 
         echo "<font face=" . $theme['font_mainbody'] ."><b>";

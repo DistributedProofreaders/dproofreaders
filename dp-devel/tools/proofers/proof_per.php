@@ -243,20 +243,6 @@ theme(_("Personal Page for $pguser"), "header");
                 }
         }
 
-if ($pagesproofed >= 10) {
-?>
-
-<p><font face="<? echo $theme['font_mainbody']; ?>">
-
-<? include('special_legend.php'); ?>
-
-</font>
-</p>
-<br>
-
-<?
-}
-
 include_once('proof_list.inc');
 
 theme("", "footer");
