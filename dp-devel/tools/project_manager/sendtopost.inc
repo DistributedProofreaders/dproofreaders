@@ -39,8 +39,7 @@
         exec ("zip -j $projectpath/$project.zip $savepath");
 
         //generate index.html for project images
-// COMMENTED OUT UNTIL ADDED TO SOURCE TREE
-//        exec ("/home/charlz/bin/images.pl $project *.png");
+        exec ("images.pl $project *.png");
 
         // Decide whether to send to post-processing or have user work on it.
 
@@ -69,5 +68,6 @@
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         }
     }
+
 
 ?>
