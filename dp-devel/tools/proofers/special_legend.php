@@ -1,13 +1,13 @@
 
 Legend for Special Books:
 <br><br><b>
-<span class="khaki">Boer War Anniversary</span>&nbsp;
+<span style="background-color: #D7CDA4">Boer War Anniversary</span>&nbsp;
 <br>
-<span class="red">WWI Anniversary</span>&nbsp;
-<span class="midgreen">George Sand Anniversary</span>&nbsp;
+<span style="background-color: #FF9090">WWI Anniversary</span>&nbsp;
+<span style="background-color: #33FF99">George Sand Anniversary</span>&nbsp;
 <br>
-<span class="paleblue"> Authors with recent birthdays </span>&nbsp;
-<span class="richblue"> Authors with birthdays today </span>&nbsp;
+<span style="background-color: #CCFFFF"> Authors with recent birthdays </span>&nbsp;
+<span style="background-color: #33CCFF"> Authors with birthdays today </span>&nbsp;
 <br>
-<span class="fadedyellow"> Other Special </span>
+<span style="background-color: #FFFF66"> Other Special </span>
 </b>
