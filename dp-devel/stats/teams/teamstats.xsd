@@ -23,6 +23,15 @@
         <xs:element ref="totalmembers" minOccurs="1" maxOccurs="1" />
         <xs:element ref="currentmembers" minOccurs="1" maxOccurs="1" />
         <xs:element ref="retiredmembers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="roundinfo" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="roundinfo">
+    <xs:complexType>
+      <xs:sequence>
         <xs:element ref="totalpages" minOccurs="1" maxOccurs="1" />
         <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
         <xs:element ref="avgpagesday" minOccurs="1" maxOccurs="1" />

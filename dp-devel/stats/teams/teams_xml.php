@@ -49,20 +49,27 @@ $team_id = $curTeam['id'];
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
 
-	$pageCount = $teams_P_page_tallyboard->get_current_tally( $team_id );
-	$pageCountRank = $teams_P_page_tallyboard->get_rank( $team_id );
+	foreach ( $page_tally_names as $tally_name => $gerund )
+	{
+		$teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 
-	$avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
+		$pageCount = $teams_tallyboard->get_current_tally( $team_id );
+		$pageCountRank = $teams_tallyboard->get_rank( $team_id );
 
-	list($bestDayCount, $bestDayTimestamp) =
-		$teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+		$avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
 
-	$data .= "
-			<totalpages>$pageCount</totalpages>
-			<rank>".$pageCountRank."/".$totalTeams."</rank>
-			<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
-			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>";
+		list($bestDayCount, $bestDayTimestamp) =
+			$teams_tallyboard->get_info_re_largest_delta( $team_id );
+		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+
+		$data .= "
+			<roundinfo id='$tally_name'>
+				<totalpages>$pageCount</totalpages>
+				<rank>".$pageCountRank."/".$totalTeams."</rank>
+				<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
+				<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
+			</roundinfo>";
+	}
 
 	$data .= "
 		</teaminfo>
