@@ -1,17 +1,16 @@
 <?PHP
 include_once($relPath.'tdecho.inc');
-function showavailablebooks($result,$state,$userP,$tList)
+function showavailablebooks($result,$state,$userP,$tList,$round)
 {
-$tds="<td bgcolor=\"#CCCCCC\"";
 echo "<tr>";
-$tdc="</b></td>";
-echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
-"$tds align=\"center\"><b>Author$tdc".
-"$tds width=\"70\" align=\"center\"><b>Language$tdc".
-"$tds width=\"70\" align=\"center\"><b>Genre$tdc".
-"$tds width=\"60\" align=\"center\"><b>Project<BR>Manager$tdc".
-"$tds width=\"100\" align=\"center\"><b>Pages available for proofing$tdc".
-"$tds width=\"100\" align=\"center\"><b>Total pages in the book$tdc</tr>";
+tde('<b>Name&nbsp;of&nbsp;Work</b>',bgcol(1,$round));
+tde('<b>Author</b>',bgcol(1,$round) . " align=center");
+tde('<b>Language</b>',bgcol(1,$round) . " width=70");
+tde('<b>Genre</b>',bgcol(1,$round) . "70");
+tde('<b>Project<BR>Manager</b>',bgcol(1,$round) . "60");
+tde('<b>Pages available for proofing</b>',bgcol(1,$round) . "100");
+tde('<b>Total pages in the book</b>',bgcol(1,$round) . "100");
+echo "</tr>";
     $numrows = mysql_num_rows($result);
     $rownum = 0;
     $rownum2 = 0;
@@ -19,7 +18,7 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
            $book=dassoc($result);
             // find out how many files the project has total/available!!!!!
             $pages=bookpages($book['projectid'],"='{$state}'");
-            $bgcolor=bgcol($rownum);
+            $bgcolor=bgcol($rownum,$round);
         if (($state==AVAIL_FIRST && $book['state'] == AVAIL_PI_FIRST) || ($state==AVAIL_SECOND && $book['state'] == AVAIL_PI_SECOND)) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
@@ -33,13 +32,13 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
               else
                 {$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
             $temp.="{$book['nameofwork']}</a>";
-            tde($temp,$rownum,0);
-            tde($book['authorsname'],$rownum,0);
-            tde($book['language'],$rownum,0);
-	    tde($book['genre'],$rownum,0);
-            tde($book['username'],$rownum,0);
-            tde($pages['available'],$rownum,1);
-            tde($pages['total'],$rownum,1);
+            tde($temp, bgcol($rownum, $round));
+            tde($book['authorsname'], bgcol($rownum, $round));
+            tde($book['language'], bgcol($rownum, $round));
+	    tde($book['genre'], bgcol($rownum, $round));
+            tde($book['username'],bgcol($rownum, $round));
+            tde($pages['available'], bgcol($rownum, $round) . " align=center");
+            tde($pages['total'], bgcol($rownum, $round) . " align=center");
         } else $rownum--;
         $rownum++;
         $rownum2++;
