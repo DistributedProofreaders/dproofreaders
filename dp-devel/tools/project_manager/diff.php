@@ -22,9 +22,10 @@ $round=$_GET['round'];
 
 $prd = get_PRD_for_round($round);
 
-$res = mysql_query("SELECT $prd->prevtext_column_name, $prd->text_column_name FROM $projectid WHERE fileid='$fileid'");
+$res = mysql_query("SELECT $prd->prevtext_column_name, $prd->text_column_name, image FROM $projectid WHERE fileid='$fileid'");
 
 $txt=mysql_fetch_row($res);
+$image_name = $txt[2];
 
 class OutputPage {
 	function addHTML($text) {
@@ -42,8 +43,8 @@ include("DifferenceEngine.php");
 DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
-	_("Old text") . ": $fileid",
-	_("New text") . ": $fileid"
+	_("Old text") . ": $image_name",
+	_("New text") . ": $image_name"
 );
 
 theme("", "footer");
