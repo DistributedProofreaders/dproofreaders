@@ -56,6 +56,7 @@ function checkLogin($userID,$userPW)
           if (!$this->checkResult($db_result)) {return 0;}
           // set cookie
           $cookieC=new userCookie();
+          $userID = mysql_result($db_result,0,'username');
           $cookieSet=$cookieC->setCookie($userID);
           return 1;
           }
