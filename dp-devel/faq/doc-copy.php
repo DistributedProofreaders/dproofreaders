@@ -75,7 +75,10 @@ and also some common guidelines.
 
   <ul>
     <li>Leave 2 blank lines before each author's name.                          </li>
-    <li>CAPITALIZE the Authors entire name (first line of a main entry).
+    <li>On the first line of a main entry,
+	reproduce the capitalization that appears in the image.
+	(We used to ask proofers to capitalize the author's entire name,
+	but that guideline was withdrawn.)
     <br>If the name runs over onto the next line (due to narrow columns), join
         it back together so it's all on one line.                               </li>
     <li>Do NOT leave a blank line after the author's name.                      </li>
