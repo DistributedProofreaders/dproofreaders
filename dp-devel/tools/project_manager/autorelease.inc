@@ -10,7 +10,7 @@ function autorelease($pagesleft) {
     if (mysql_num_rows($result) > 0) {
       $project = mysql_result($result, 0, "projectid");
 
-      $level0rows = mysql_query("SELECT fileid FROM $project WHERE prooflevel = '0' ORDER BY Image_Filename ASC");
+      $level0rows = mysql_query("SELECT fileid FROM $project");
       if ($level0rows != "") { $level0pages = (mysql_num_rows($level0rows)); } else $level0pages = 0;
 
       $result = mysql_query("UPDATE projects SET state = 8, modifieddate = '$todaysdate' WHERE projectid = '$project'");

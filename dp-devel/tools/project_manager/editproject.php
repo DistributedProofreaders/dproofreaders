@@ -37,16 +37,19 @@ if ($good_login != 1) {
         $projectid = uniqid("projectID");
 
         $sql = mysql_query("CREATE TABLE $projectid (
-Image_Filename varchar(7) NOT NULL default '',
-prooflevel tinyint(1) NOT NULL default '0',
-checkedout tinytext NOT NULL,
-text_data longtext NOT NULL,
-fileid varchar(20) NOT NULL default '',
-proofedby varchar(25) NOT NULL,
-timestamp int(20) NOT NULL default '')",$db);
+  fileid varchar(20) NOT NULL default '',
+  image varchar(8) NOT NULL default '',
+  master_text longtext NOT NULL,
+  round1_text longtext NOT NULL,
+  round2_text longtext NOT NULL,
+  round1_user varchar(25) NOT NULL default '',
+  round2_user varchar(25) NOT NULL default '',
+  round1_time int(20) NOT NULL default '0',
+  round2_time int(20) NOT NULL default '0',
+  state tinyint(3) unsigned NOT NULL default '0')",$db);
 
-        mkdir ("/home/charlz/public_html/dproofreaders/projects/$projectid", 0777);
-        chmod ("/home/charlz/public_html/dproofreaders/projects/$projectid", 0777);
+        mkdir ("../../projects/$projectid", 0777);
+        chmod ("../../projects/$projectid", 0777);
 
         //update main projects table with new project info
         $sql = "INSERT INTO projects (NameofWork, AuthorsName, Language, username, comments, projectid, scannercredit, state, 
@@ -88,6 +91,7 @@ modifieddate, clearance) VALUES ('$NameofWork','$AuthorsName','$Language','$pgus
         }
         if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
         if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.zip";
+        if ($Language == "") $Language = "English";
 ?>
 <html>
 

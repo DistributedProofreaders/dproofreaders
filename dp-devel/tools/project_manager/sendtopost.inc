@@ -3,12 +3,12 @@
     function sendtopost($project, $username, $todaysdate) {
         // Generate Joined Text File
         $zippedimages = $project."images.zip";
-        $projectpath = "../../projects".$project;
+        $projectpath = "../../projects/".$project;
         
         // zip all images for project
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
-        $myresult = mysql_query("SELECT Image_filename, text_data FROM $project WHERE prooflevel = '3' ORDER BY Image_Filename");
+        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY Image_Filename");
 
         $count = 0;
         $mynumrows = mysql_numrows($myresult);
@@ -24,8 +24,8 @@
         $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
 
         while ($count < $mynumrows) {
-            $filename = mysql_result($myresult, $count, "Image_filename");
-            $text_data = mysql_result($myresult, $count, "text_data");
+            $filename = mysql_result($myresult, $count, "image");
+            $text_data = mysql_result($myresult, $count, "round2_text");
 
             $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
             fputs($fp,$fileinfo);
@@ -39,7 +39,8 @@
         exec ("zip -j $projectpath/$project.zip $savepath");
 
         //generate index.html for project images
-        exec ("/home/charlz/bin/images.pl $project *.png");
+// COMMENTED OUT UNTIL ADDED TO SOURCE TREE
+//        exec ("/home/charlz/bin/images.pl $project *.png");
 
         // Decide whether to send to post-processing or have user work on it.
 

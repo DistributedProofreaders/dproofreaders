@@ -11,6 +11,7 @@ if ($good_login != 1) {
 
     ///connect to database
     include '../../connect.php';
+    include 'pm_globals.php';
 
     echo "<title>Project Managers Page</title>";
 
@@ -39,16 +40,7 @@ if ($good_login != 1) {
             echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
         } else {
 
-            $availablepages = 0;
-            // find out how many files are available for proofing for each project!!!!!
-            $rows = mysql_query("SELECT fileid FROM $project WHERE checkedout = 'no'");
-            if ($rows != "") { $availablepages = (mysql_num_rows ($rows)); }
-
-            $availablepage = 0;
-            // find out how many files the project has total!!!!
-            $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$project'");
-            $level0rows = mysql_query("SELECT * FROM $project WHERE prooflevel = '0' ");
-            if ($level0rows != "") { $totalpages = (mysql_num_rows($level0rows)); }
+            update_globals($project, $state);
 
             //link bar at top of page
 
@@ -62,18 +54,9 @@ if ($good_login != 1) {
 
             echo "<table border = \"1\">";
             printf("<tr><td colspan = \"4\"><B><font size=+1>Project Name: $name</font></B></td></tr><tr><td bgcolor=\"CCCCCC\"><b>Author:</b></td><td>$author</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$totalpages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
+            printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
             printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$availablepages</td></tr>");
             echo "</table>";
-
-            $level2rows = 0;
-            $level2rows = mysql_query("SELECT * FROM $project WHERE prooflevel = 3 ORDER BY image_filename");
-            if ($level2rows != "") { $level2pages = (mysql_num_rows($level2rows)); }
-
-             //print out all level 1 proofed files associated with the project
-            $level1pages = 0;
-            $level1rows = mysql_query("SELECT * FROM $project WHERE prooflevel = '1' ORDER BY image_filename");
-            if ($level1pages != "") { $level1pages = (mysql_num_rows($level1rows)); }
 
             if ($state == 0) {
                 echo "<h3>Master Files</h3>";
@@ -84,28 +67,19 @@ if ($good_login != 1) {
                 echo "</tr>\n";
                 echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Master Text</td><td>Date Uploaded</td><td>Delete</td></tr>\n";
                 $counter = 1; // for index.. need to make adjustable
-                $lastfilename = "0";
                 $rownum = 0;
-                $numrows = 0;
-                if ($level0rows != "") { $numrows = mysql_num_rows($level0rows); }
 
-                while ($rownum < $numrows) {
-                    $imagename = mysql_result($level0rows, $rownum, "Image_Filename");
-                    $date = mysql_result($level0rows, $rownum, "timestamp");
+                while ($rownum < $total_rows) {
+                    $imagename = mysql_result($level0rows, $rownum, "image");
+                    $date = mysql_result($level0rows, $rownum, "round1_time");
                     $fileid = mysql_result($level0rows, $rownum, "fileid");
 
-                    //change bg color for duplicate file names
-                    if ($imagename == $lastfilename) {
-                        $bgcolor = "#FF6666";
-                    } else {
-                        $bgcolor = "#FFFFFF";
-                    }
+                    $bgcolor = "#FFFFFF";
 
                     $date_txt = date("M j h:i A", $date);
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid>View</a></td><td>$date_txt</td><td><a href=deletefile.php?project=$project&file=$imagename>Delete</a></td></tr>\n");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td></tr>\n");
 
                     $counter++;
-                    $lastfilename = $imagename;
                     $rownum++;
                 }
                 echo "</table>";
@@ -116,21 +90,19 @@ if ($good_login != 1) {
                 echo "<table border=1>\n";
 
                 echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Round 1 Text</td><td>Date Uploaded</td><td>Proofed By</td><td>Master Text</td><td>Check In</td></tr>\n";
+                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Round 1 Text</td><td>Date Uploaded</td><td>Proofed By</td><td>Master Text</td><td>Delete</td></tr>\n";
                 $counter = 1; // for index.. need to make adjustable
-                $lastfilename = "0";
                 $rownum = 0;
-                $numrows = 0;
-                if ($level1rows != "") { $numrows = mysql_num_rows($level1rows); }
 
-                while ($rownum < $numrows) {
-                    $imagename = mysql_result($level1rows, $rownum, "Image_Filename");
-                    $date = mysql_result($level1rows, $rownum, "timestamp");
-                    $name = mysql_result($level1rows, $rownum, "proofedby");
-                    $fileid = mysql_result($level1rows, $rownum, "fileid");
+                while ($rownum < $done1_pages) {
+                    $imagename = mysql_result($done1_rows, $rownum, "image");
+                    $date = mysql_result($done1_rows, $rownum, "round1_time");
+                    $name = mysql_result($done1_rows, $rownum, "round1_user");
+                    $fileid = mysql_result($done1_rows, $rownum, "fileid");
+
+                    $bgcolor = "#FFFFFF";
 
                     $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$name'");
-                    // NOTE: if statement for old projects, remove if portion when all have moved through the new site
                     if (mysql_num_rows($users) == 0) {
                         $real_name = $name;
 			$email = "";
@@ -138,22 +110,11 @@ if ($good_login != 1) {
                         $email = mysql_result($users, 0, "email");
                         $real_name = mysql_result($users, 0, "real_name");
                     }
-
-                    //change bg color for duplicate file names
-                    if ($imagename == $lastfilename) {
-                        $bgcolor = "#FF6666"; 
-                    } else {
-                        $bgcolor = "#FFFFFF"; 
-                    }
-
-                    $result = mysql_query("SELECT fileid FROM $project WHERE Image_Filename = '$imagename' AND prooflevel = 0");
-                    $oldfileid = mysql_result($result, 0, "fileid");
                     $date_txt = date("M j h:i A" , $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$oldfileid>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&prooflevel=1>Delete</a></td></tr>\n");
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td></tr>\n");
 
                     $counter++;
-                    $lastfilename = $imagename;
                     $rownum++;
                 }
                 echo "</table>";
@@ -169,45 +130,33 @@ if ($good_login != 1) {
                 echo "<table border=1>\n";
 
                 echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td>";
-                if ($state < 20) echo "<td>Check In</td>";
+                if ($state < 20) echo "<td>Delete</td>";
                 echo "</tr>\n";
 
                 $counter = 1;
                 $rownum = 0;
-                $numrows = 0;
-                if ($level2rows != "") { $numrows = mysql_num_rows($level2rows); }
 
-                while ($rownum < $numrows) {
-                    $imagename = mysql_result($level2rows, $rownum, "Image_Filename");
-                    $date = mysql_result($level2rows, $rownum, "timestamp");
-                    $name = mysql_result($level2rows, $rownum, "proofedby");
-                    $fileid = mysql_result($level2rows, $rownum, "fileid");
+                while ($rownum < $done2_pages) {
+                    $imagename = mysql_result($done2_rows, $rownum, "image");
+                    $date = mysql_result($done2_rows, $rownum, "round2_time");
+                    $round2_user = mysql_result($done2_rows, $rownum, "round2_user");
+                    $round1_user = mysql_result($done2_rows, $rownum, "round1_user");
+                    $fileid = mysql_result($done2_rows, $rownum, "fileid");
 
-                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$name'");
-                    // NOTE: if statement for old projects, remove if portion when all have moved through the new site
+                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round2_user'");
                     if (mysql_num_rows($users) == 0) {
-                        $real_name = $name;
+                        $real_name = $round2_user;
 			$email = "";
                     } else {
                         $email = mysql_result($users, 0, "email");
                         $real_name = mysql_result($users, 0, "real_name");
                     }
 
-                    //change bg color for duplicate file names
-                    if ($imagename == $lastfilename) {
-                        $bgcolor = "#FF6666"; 
-                    } else {
-                        $bgcolor = "#FFFFFF"; 
-                    }
+                    $bgcolor = "#FFFFFF";
 
-                    $result = mysql_query("SELECT fileid, proofedby FROM $project WHERE Image_Filename = '$imagename' AND prooflevel = 1");
-                    $oldfileid = mysql_result($result, 0, "fileid");
-                    $oldproofedby = mysql_result($result, 0, "proofedby");
-
-                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$oldproofedby'");
-                    // NOTE: if statement for old projects, remove if portion when all have moved through the new site
+                    $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round1_user'");
                     if (mysql_num_rows($users) == 0) {
-                        $oldreal_name = $oldproofedby;
+                        $oldreal_name = $round1_user;
                         $oldemail = "";
                     } else {
                         $oldemail = mysql_result($users, 0, "email");
@@ -215,9 +164,9 @@ if ($good_login != 1) {
                     }
                     $date_txt = date("M j h:i A", $date);
 
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</a></td>");
-                    printf("<td><a href=downloadproofed.php?project=$project&fileid=$oldfileid>View</a></td><td><a href=mailto:$oldemail>$oldreal_name</A></td>");
-                    if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&prooflevel=3>Check In</a></td>"); }
+                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=19>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</a></td>");
+                    printf("<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>$oldreal_name</A></td>");
+                    if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
                     printf("</tr>\n");
 
                     $counter++;
@@ -319,11 +268,9 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                 $bgcolor = "\"#999999\"";
             }
 
-            $numpages = 0;
-            $sql = mysql_query("SELECT fileid FROM $projectid WHERE checkedout = 'no'");
-            if ($sql != "") $numpages = mysql_num_rows($sql);
+            update_avail_globals($project, $state);
 
-            print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$numpages</td><td align=\"center\">";
+            print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$availablepages</td><td align=\"center\">";
             if ($show == 'site') {
                 print mysql_result($result, $rownum, "username");
             } else if ($outby != "") {

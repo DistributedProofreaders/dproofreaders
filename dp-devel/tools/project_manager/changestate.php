@@ -35,8 +35,8 @@ if ($good_login != 1) {
     // If it was in "Unavailable No Round"
     if ($oldstate == 0) {
         // Check to see if there are pages. Project shouldn't be released if it has no pages in it.
-        $result = mysql_query("SELECT fileid FROM $projectid WHERE prooflevel = 0");
-        if ((mysql_num_rows($result) == 0) && ($newstate != 42)) {
+        $result = mysql_query("SELECT fileid FROM $projectid");
+        if ((mysql_num_rows($result) == 0) && ($newstate == 8)) {
             echo "<P>Project must have pages to be proofread in order to be taken out of unavailable no round. Back to <a href=\"projectmgr.php\">project manager</a> page.";
             die();
         }
