@@ -85,7 +85,7 @@ interfered in other people's business. He might now
 well have wanted to show his public spirit by handing
 him over to the police. The newspaper in his
 hand! Of course. He had read his description there,
-and identified him.
+and identified him.\n
 Charles now found himself conjecturing how the
 man would set about carrying out his task of pub-*
 </textarea>
