@@ -79,24 +79,26 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 
 //Neighbor info portion of $data
+	$curMbr_i = $rankArray['curMbrIndex'];
 	$data .= "<neighborinfo>";
 	$i = 4;
-	if ($rankArray['rank'][$rankArray['curMbrIndex']] <= 4) { $i = $rankArray['rank'][$rankArray['curMbrIndex']]-1; }
+	if ($rankArray['rank'][$curMbr_i] <= 4) { $i = $rankArray['rank'][$curMbr_i]-1; }
 	while (!empty($i)) {
-		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$rankArray['username'][$rankArray['curMbrIndex']-$i]."'");
+		$j = $curMbr_i-$i;
+		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
 
 		$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$rankArray['curMbrIndex']-$i]."</rank>
-			<username>".xmlencode($rankArray['username'][$rankArray['curMbrIndex']-$i])."</username>
+			<rank>".$rankArray['rank'][$j]."</rank>
+			<username>".xmlencode($rankArray['username'][$j])."</username>
 			<datejoined>".date("m/d/Y", @mysql_result($result, 0, "date_created"))."</datejoined>
-			<pagescompleted>".$rankArray['pages'][$rankArray['curMbrIndex']-$i]."</pagescompleted>
+			<pagescompleted>".$rankArray['pages'][$j]."</pagescompleted>
 		</neighbor>
 		";
 		$i--;
 	}
 
 	$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$rankArray['curMbrIndex']]."</rank>
+			<rank>".$rankArray['rank'][$curMbr_i]."</rank>
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<pagescompleted>".$curMbr['pagescompleted']."</pagescompleted>
@@ -105,14 +107,15 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 	$i = 1;
 	while ($i <= 4) {
-		if (empty($rankArray['rank'][$rankArray['curMbrIndex']+$i])) { break; }
-		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '".$rankArray['username'][$rankArray['curMbrIndex']+$i]."'");
+		$j = $curMbr_i+$i;
+		if (empty($rankArray['rank'][$j])) { break; }
+		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
 
 		$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$rankArray['curMbrIndex']+$i]."</rank>
-			<username>".xmlencode($rankArray['username'][$rankArray['curMbrIndex']+$i])."</username>
+			<rank>".$rankArray['rank'][$j]."</rank>
+			<username>".xmlencode($rankArray['username'][$j])."</username>
 			<datejoined>".date("m/d/Y", mysql_result($result, 0, "date_created"))."</datejoined>
-			<pagescompleted>".$rankArray['pages'][$rankArray['curMbrIndex']+$i]."</pagescompleted>
+			<pagescompleted>".$rankArray['pages'][$j]."</pagescompleted>
 		</neighbor>
 		";
 		$i++;
