@@ -48,7 +48,7 @@ mUC[38]=gCC(205);mUC[39]=gCC(237);mUC[40]=gCC(198);mUC[41]=gCC(230);
 
 // fancy check for selection
 function chkRange()
-{return (!docRef.editform.text_data.createTextRange + !docRef.editform.text_data.caretPos)? false:true;}
+{if (cnSel){return (!docRef.editform.text_data.createTextRange + !docRef.editform.text_data.caretPos)? false:true;}else {return false;}}
 
 //fancy places text cT at caret position
 function putCT(cT)

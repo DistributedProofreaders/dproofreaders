@@ -15,28 +15,14 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
 
 echo $docType."\r\n";
 ?>
-<html><head><TITLE>Text Frame</TITLE></head><body><center><form method="post" action="processtext.php" target="proofframe">
+<html><head><TITLE>Text Frame</TITLE></head><body 
+onload="top.menuframe.ldAll(0)"><center><form name="editform" 
+method="post" action="processtext.php" target="proofframe">
 <script language="JavaScript">
 <!--
 function resize(newsize)
 {
   parent.imageframe.document.scanimage.width=newsize;
-}
-function mNA()
-{
-// additional character window
-winURL='morenonascii.php';
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=460,height=240,top=200,left=200'";
-asciiWin=window.open(winURL,"nonasciiWin",newFeatures);
-asciiWin.focus();
-}
-function mGR()
-{
-// greek character window
-winURL='greek2ascii.php';
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=620,height=200,top=180,left=180'";
-greekWin=window.open(winURL,"grasciiWin",newFeatures);
-greekWin.focus();
 }
 //-->
 </script>
@@ -85,10 +71,7 @@ TYPE="submit" accesskey="4" name="button6" ID="button6" value="Report Bad Page" 
   echo "</b></font>";
   echo "<BR>";
   echo "View: <a href=\"projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-  echo "Characters: ";
-  echo "<a href=\"#\" onclick=\"mNA()\">Latin-1</a> ";
-  echo "<a href=\"#\" onclick=\"mGR()\">Greek</a> ";
-  echo "<a href=\"../../projects/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">Image</a> ";
+  echo "| <a href=\"../../projects/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">Image</a> ";
 ?>
 <br>
  Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)">

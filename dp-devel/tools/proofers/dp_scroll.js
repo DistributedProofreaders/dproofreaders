@@ -232,7 +232,9 @@ function ldAll(wFace)
     }
   else
     {
-      cnSel=false;
+      docRef=top.proofframe.textframe.document;
+      cnSel=docRef.selection? true : false;
+//      cnSel=false;
       //doBU();
     }
 }
