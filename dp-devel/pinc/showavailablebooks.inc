@@ -59,8 +59,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	if ($pagescompleted < $min_num_pages_to_see_this_round)
 	{
 		$sorry = sprintf(
-			_("These projects are unavailable until you have proofread %d first round pages.  After %d pages of first round proofreading, the second round projects will be unlocked for you."),
-			$min_num_pages_to_see_this_round,
+			_("These projects are unavailable until you have proofread %d pages."),
 			$min_num_pages_to_see_this_round );
 		echo "\n<td colspan=6>$sorry</td>";
 		echo "</tr>";
