@@ -6,6 +6,9 @@ function showTeamProfile($curTeam) {
 
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Edit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
+	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$curTeam['createdby']."'");
+	$createdbyID = mysql_result($result, 0, "user_id");
+
 	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id']) {
 		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Join</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	} elseif ($curTeam['id'] != 1) {
@@ -24,7 +27,7 @@ function showTeamProfile($curTeam) {
 	echo "<img border='0' src='".$GLOBALS['code_url']."/users/teams/avatar/".$curTeam['avatar']."' alt='".strip_tags($curTeam['teamname'])."'></td>";
 	echo "<td align='left' width='70%' valign='top'><center><font color='".$theme['color_headerbar_font']."'><b>".stripslashes($curTeam['teamname'])."</b></font>".$editlink.$joinquitlink."</center></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Created</b>: ".date("m/d/Y", $curTeam['created'])."&nbsp;($daysInExistence days)</font></td></tr>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: ".$curTeam['createdby']."</font>&nbsp;<a href='".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=".$curTeam['owner']."'><img src='".$GLOBALS['forums_url']."/templates/subSilver/images/lang_english/icon_pm.gif' width='59' height='18' align='absbottom' border='0' alt='Private Message ".$curTeam['createdby']."'></a></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$createdbyID'>".$curTeam['createdby']."</font></a></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Total Pages</b>: ".number_format($curTeam['page_count'])."</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Description</b>: ".stripslashes($curTeam['team_info'])."</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Website</b>: <a href='".$curTeam['webpage']."' target='_new'>".$curTeam['webpage']."</a><br><b>Forums</b>: <a href='".$GLOBALS['forums_url']."/viewtopic.php?t=".$curTeam['topic_id']."'>Team Discussion</a> (Last Post: $last_post_date)</font></td></tr>";
