@@ -140,6 +140,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
 			),
 		PROJ_PROOF_SECOND_WAITING_FOR_RELEASE => array(
+			PROJ_PROOF_SECOND_BAD_PROJECT,
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			PROJ_PROOF_SECOND_AVAILABLE,
 			),
