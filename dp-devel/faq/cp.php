@@ -11,7 +11,7 @@ theme('Scanning and Submitting Guidelines','header');
   <meta name="author" content="thundergnat">
 
 <h1>Scanning, Preprocessing &amp; Submitting Guidelines</h1>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./scanfaq.php">Scanning
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanfaq.php">Scanning
 FAQ</a></p>
 <hr size="3" width="100%" align="left">
 <p>So you've reached the rank of "Proofer Extraordinaire" and figured
@@ -25,17 +25,19 @@ ask:&nbsp;&nbsp;"Just how do I submit a text to Distributed Proofreaders
  anyway?" </p>
 <p>These Guidelines are here to try to help you through the process.</p>
 
-<font style='color: red'>
 <p>
 Note that you don't necessarily have to all these steps yourself.
 It's quite possible to do some steps and hand off your results
 to someone else.
+<!--
+<font style='color: red'>
 [But we need to describe how you find that "someone else".]
+</font>
+-->
 You can also elect to manage the project once the necessary files have
 been uploaded to the DP server.
 See the <a href='../pm-faq.php'>Project's Manager's FAQ</a> for details.
 </p>
-</font>
 
 <hr size="3" width="100%" align="left"> <a href="./scanfaq.php">Frequently
 asked Questions</a>&nbsp; -&nbsp; (separate page) Some common questions
@@ -44,9 +46,7 @@ that are related to scanning, OCR, etc. that are not covered here.<br>
 <a href="#what">What kinds of books do you want for Distributed
 Proofreaders?</a><br>
 <a href="#where">Where do I get a book to process?</a><br>
-<font style='color: red'>
 <a href="#clearance">How do I ensure that the book is eligible?</a><br>
-</font>
 <a href="#scan">OK, I have my book, I have my clearance line; Now what?</a><br>
 <a href="#ocr">Whew! I've got the image files done. What's next?</a><br>
 <a href="#process">You're kidding me! I'm not done yet?</a><br>
@@ -84,11 +84,13 @@ see if a book is already on there.</p>
  href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's
 In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
-<font style='color: red'>
 If you find your book listed but the clearance date is over a year old
 then it is probably OK to go ahead and do it.
+<!--
+<font style='color: red'>
 [Really? -JMD]
 </font>
+-->
 </p>
 <p>You might want to stick with a shorter fictional work for the first
 project you submit. Remember, after the book goes through the proofing
@@ -121,7 +123,6 @@ away!) used book shops, friends, schools, you name it, there's books
 there. It is better to have a book that you will have access to for the
 whole time the project is being worked on so you can refer back to it if
  problems turn up in the scans. (Happens depressingly often)</p>
-<font style='color: red'>
 <p>
 (You probably won't find many eligible books
 in the circulating (borrowable) collection of your local library,
@@ -130,7 +131,6 @@ Even if they do, be careful,
 because the scanning process can be a little rough on the book
 and it may get damaged.)
 </p>
-</font>
 <p>There are also many on-line sites devoted to used books if you are
 trying to find a particular one:</p>
 <p><a href="http://www.abebooks.com/">Advanced Book Exchange</a><br>
@@ -160,11 +160,9 @@ If you <i>do</i> go this route, is considered good form to credit the
 source of the scan when the text is submitted to Project Gutenberg.<br>
 <br>
 
-<font style='color: red'>
 <hr size="3" width="100%" align="left">
 <p><big><a name="clearance"><b>How do I ensure that the book is eligible?</b></a></big></p>
 <p> </p>
-</font>
 <p>Once you have found a book that you think might be a good candidate,
  the first thing you should do is get a <span style="font-weight: bold;">clearance
 line</span>. This is an approval, if you will, of the book for the
@@ -252,7 +250,6 @@ your scanner has, (automatic document feeder or not) and your personal
 preferences, (acknowledge each scan or have a timed pause between.)
 Obviously, other packages will be different; your best bet is to check
 the help files that came with your specific package.</p>
-<font style='color: red'>
 <p>
 If the scanner bed will accomodate it,
 scan 'two-up' images (two book pages per image),
@@ -261,7 +258,6 @@ Try to keep the book in the same place on the scanner for each scan
 (say, tight into a corner).
 That will make it easier to do the cropping and splitting.
 </p>
-</font>
 
 <p>
 Crop the images, if necessary, to minimize black borders around the
@@ -277,7 +273,6 @@ process. Ideally, what you want is some white space around the text, but
 </p>
 
 <p>
-<font style='color: red'>
 If you have two-up images, split them into individual (one-up) page images.
 Generally there are two easy ways to get one-up images from two-up images:
 <ul>
@@ -289,7 +284,6 @@ Generally there are two easy ways to get one-up images from two-up images:
     If you kept the book in the same place on the scanner for each scan,
     PRTK can easily split the images.
 </ul>
-</font>
 If there&#8217;s any question, it&#8217;s best to test a few scans.
 </p>
 
@@ -495,12 +489,9 @@ directories and/or files.<span style="font-weight: bold;"></span><br>
  href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup</a>,
 just save the files into the "text" directory. Save as plain text, keep
 line breaks, use blank line as paragraph separator.
-<font style='color: red'>
 (If your OCR program does not have this option,
 PRTK has a tool to assist you with inserting this line.)
 If you are using Finereader for your scanning/OCR, Robert has a set of saved settings that you may find useful.
-
-</font>
 </p>
 <hr size="3" width="100%" align="left">
 <p style="font-weight: bold;"><big><a name="process">You're kidding me!
@@ -677,9 +668,7 @@ software:</span><br>
 [Win32, Mac]  - <i>Current Version 6.0</i> - OCR
 software.&nbsp;&nbsp;&nbsp; Very nice. :-)&nbsp;&nbsp;&nbsp;Quite
 expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-) <br>
-<font style='color: red'>
 Robert Rowe has a set of saved settings for it that you may find useful.
-</font>
 </p>
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
 and is still available (though not directly from Abbyy software) and
@@ -716,13 +705,11 @@ Equilvalent functionality in guiprep.pl.<br>
  href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">Proofreaders
 Toolkit</a> or PRTK. <i>Free</i> [Win32] A nice collection of tools
 specifically geared towards proofreading, bundled into one package.
-<font style='color: red'>
 Developed specifically for DP by Robert Rowe.
 For those without access to a computer running Windows,
 feel free to
 <a href="mailto:robert_rowe@yahoo.com">email Robert</a> for assistance.
 He has volunteered to run your project through PRTK for you.
-</font>
 </p>
 <blockquote><font size="-1"> Becoming a little dated. No longer being
 maintained. Some parts of it are tricky to use, some parts are
