@@ -201,14 +201,14 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_SUBMIT_PG_POSTED,
 			),
 		PROJ_SUBMIT_PG_POSTED => array(
-			PROJ_CORRECT_VERIFY,
+			PROJ_CORRECT_AVAILABLE,
 			),
 
-		PROJ_CORRECT_VERIFY => array(
-			PROJ_CORRECT_VERIFYING,
+		PROJ_CORRECT_AVAILABLE => array(
+			PROJ_CORRECT_CHECKED_OUT,
 			),
-		PROJ_CORRECT_VERIFYING => array(
-			PROJ_CORRECT_VERIFY,
+		PROJ_CORRECT_CHECKED_OUT => array(
+			PROJ_CORRECT_AVAILABLE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
 
@@ -336,7 +336,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	}
       else if ( $current_state == PROJ_SUBMIT_PG_POSTED &&
-		$new_state == PROJ_CORRECT_VERIFY)
+		$new_state == PROJ_CORRECT_AVAILABLE)
 	{
 		if ( $extras['correctedby'] == '' )
 		{
@@ -345,8 +345,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", correctedby='{$extras['correctedby']}'";
 	}
-	else if ( $current_state == PROJ_CORRECT_VERIFY &&
-		$new_state == PROJ_CORRECT_VERIFYING )
+	else if ( $current_state == PROJ_CORRECT_AVAILABLE &&
+		$new_state == PROJ_CORRECT_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
 		{
@@ -355,8 +355,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
 	}
-	else if ( $current_state == PROJ_CORRECT_VERIFYING &&
-		$new_state == PROJ_CORRECT_VERIFY )
+	else if ( $current_state == PROJ_CORRECT_CHECKED_OUT &&
+		$new_state == PROJ_CORRECT_AVAILABLE )
 	{
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";

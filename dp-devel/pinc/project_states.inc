@@ -74,8 +74,8 @@
   define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted"); // 79
 
 // CORRECT
-  define("PROJ_CORRECT_VERIFY", "proj_correct_verify");
-  define("PROJ_CORRECT_VERIFYING", "proj_correct_verifying");
+  define("PROJ_CORRECT_AVAILABLE", "proj_correct_verify");
+  define("PROJ_CORRECT_CHECKED_OUT", "proj_correct_verifying");
 
 // for the 'deletion' of a project
   define("PROJ_DELETE", "project_delete"); // 99
@@ -114,8 +114,8 @@ $PROJECT_STATES_IN_ORDER = array(
     PROJ_SUBMIT_PG_POSTING,
     PROJ_SUBMIT_PG_POSTED,
 
-    PROJ_CORRECT_VERIFY,
-    PROJ_CORRECT_VERIFYING,
+    PROJ_CORRECT_AVAILABLE,
+    PROJ_CORRECT_CHECKED_OUT,
 
     PROJ_COMPLETE,
     PROJ_DELETE
@@ -143,8 +143,8 @@ $PROJECT_STATES_IN_ORDER = array(
       . ")");
   define("SQL_CONDITION_GOLD",
            "(state='".PROJ_SUBMIT_PG_POSTED."'"
-      . " OR state='".PROJ_CORRECT_VERIFY."'"
-      . " OR state='".PROJ_CORRECT_VERIFYING."'"
+      . " OR state='".PROJ_CORRECT_AVAILABLE."'"
+      . " OR state='".PROJ_CORRECT_CHECKED_OUT."'"
 	. ")");
   define("SQL_CONDITION_ALL",
 	   "(state='".PROJ_PROOF_FIRST_UNAVAILABLE."'"
@@ -169,8 +169,8 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
       . " OR state='".PROJ_SUBMIT_PG_POSTED."'"
-      . " OR state='".PROJ_CORRECT_VERIFY."'"
-      . " OR state='".PROJ_CORRECT_VERIFYING."'"
+      . " OR state='".PROJ_CORRECT_AVAILABLE."'"
+      . " OR state='".PROJ_CORRECT_CHECKED_OUT."'"
       . " OR state='".PROJ_COMPLETE."'"
       . " OR state='".PROJ_NEW."'"
       . ")")

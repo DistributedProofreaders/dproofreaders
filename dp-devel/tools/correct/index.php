@@ -28,11 +28,11 @@ echo "
 ";
 
 echo "<center><b>Books I Have Checked Out to Verify Corrections:</b></center>";
-show_available_corr(PROJ_CORRECT_VERIFYING);
+show_available_corr(PROJ_CORRECT_CHECKED_OUT);
 echo "<br>";
 
 echo "<center><b>Books Available with Corrections:</b></center>";
-show_available_corr(PROJ_CORRECT_VERIFY);
+show_available_corr(PROJ_CORRECT_AVAILABLE);
 echo "<br>";
 
 theme("", "footer");
