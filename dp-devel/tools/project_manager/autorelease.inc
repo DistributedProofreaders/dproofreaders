@@ -139,8 +139,13 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         }
 
         // set of candidates for release
-        $avail_result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql ORDER BY modifieddate ASC");
-        if (mysql_num_rows($avail_result) == 0)
+        $waiting_res = mysql_query("
+            SELECT *
+            FROM projects
+            WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql
+            ORDER BY modifieddate ASC
+        ");
+        if (mysql_num_rows($waiting_res) == 0)
         {
             echo "Could have released some $projtype_desc projects, but none were waiting!<br>";
             // email someone?
@@ -154,7 +159,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         // NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
         // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
-        while ( $project = mysql_fetch_assoc($avail_result) ) {
+        while ( $project = mysql_fetch_assoc($waiting_res) ) {
 
                 echo "considering project \"{$project['nameofwork']}\"...<br>\n";
 
