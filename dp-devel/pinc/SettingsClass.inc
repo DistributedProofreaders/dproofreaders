@@ -65,7 +65,7 @@ function ExecSQL($sql)
 
 class Settings
 {
-    var $setting_array;
+    var $settings_array;
     var $username;
 
     function Settings($name = Null)
