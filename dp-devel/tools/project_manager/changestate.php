@@ -66,6 +66,13 @@ include($relPath.'dp_main.inc');
 	}
 	$delete_post = mysql_query("DELETE FROM phpbb_posts WHERE topic_id=$topic_id");
 	$delete_topic = mysql_query("DELETE FROM phpbb_topics WHERE topic_id=$topic_id");
+	$get_count = mysql_query("SELECT forum_posts, forum_topics FROM phpbb_forums WHERE forum_id=2");
+	$forum_posts = mysql_result($get_count, 0, "forum_posts");
+	$forum_topics = mysql_result($get_count, 0, "forum_topics");
+	$forum_topics = $forum_topics-1;
+	$forum_posts = $forum_posts-$i;
+	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics WHERE forum_id=2");
+
 
         // TODO: Change Modified Date to New Date
 
