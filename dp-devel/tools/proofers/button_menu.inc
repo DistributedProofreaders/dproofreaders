@@ -24,7 +24,7 @@ value="16">16pt</option><option
 value="18">18pt</option><option 
 value="20">20pt</option></select>&nbsp;<input 
 type="text" value="<? echo $zmSize; ?>" name="zmSize" ID="zmSize" size="3" title="Input Zoom %"><INPUT 
-TYPE="image" name="button5" ID="button5" title="Set Image Zoom Percent" onclick="return(showIZ())" src="gfx/bt10.png">&nbsp;<a 
+TYPE="image" name="button35" ID="button35" title="Set Image Zoom Percent" onclick="return(showIZ())" src="gfx/bt10.png">&nbsp;<a 
 href="#" onclick="doRV()"><img 
 src="gfx/bt8.png" border="0" alt="Revert to Original Document" title="Revert to Original Document"></a>&nbsp;<a href="#" onclick="udoRV()"><img 
 src="gfx/bt7.png" border="0" alt="Undo Revert" title="Undo Revert"></a>&nbsp;<a href="#" onclick="showNW()"><img 
@@ -36,6 +36,7 @@ TYPE="image" accesskey="6" name="button4" ID="button4" title="Save and Change In
 TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" src="gfx/bt3.png">&nbsp;<?PHP 
 if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" title=\"Save and Proof Next Page\" src=\"gfx/bt2.png\">".'&nbsp;';}
 ?><INPUT 
-TYPE="image" accesskey="9" name="button3" ID="button3" title="Quit without Saving" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Without Saving\r\nthe Current Document?'));" src="gfx/bt1.png">&nbsp;<a 
+TYPE="image" accesskey="5" name="button5" ID="button5" title="Save and Quit" src="gfx/bt13.png">&nbsp;<INPUT 
+TYPE="image" accesskey="9" name="button3" ID="button3" title="Quit" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));" src="gfx/bt1.png">&nbsp;<a 
 href="../../faq/prooffacehelp.html" accesskey="1" target="helpNewWin"><img 
 src="gfx/bt11.png" border="" alt="Help" TITLE="Help"></a>

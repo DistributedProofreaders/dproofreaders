@@ -101,7 +101,7 @@ if (!$isOpen)
 }
 // see which button they pressed
 // buttons which save
-if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4))
+if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4) || isset($button5_x) || isset($button5))
 {
 if (!isset($saved))
 {addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);}
@@ -164,4 +164,19 @@ if ($js==0)
   echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
   echo "</BODY></HTML>";}
 } // end button 3 quit
+
+// if save and quit send back to projects page
+if (isset($button5) || isset($button5_x))
+{
+setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
+if ($js==0)
+  {metarefresh(0,'proof_per.php',' ',' ');}
+  else {
+  include($relPath.'doctype.inc');
+  echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
+?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="proof_per.php";window.close();</SCRIPT><?PHP
+  echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
+  echo "</BODY></HTML>";}
+} // end button 5 quit
+
 ?>

@@ -9,7 +9,7 @@ function resize(newsize)
 </script>
 <?
     if ($orient == "vert") {?>
-<textarea name="text_data" COLS="65" ROWS="30" WRAP="no"><?  } else {?>
+<textarea name="text_data" COLS="65" ROWS="42" WRAP="no"><?  } else {?>
 <textarea name="text_data" COLS="65" ROWS="6" WRAP="no"><?  }
 
 // depends on prooflevel
@@ -51,7 +51,8 @@ if (isset($saved)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$saved\" name=\
 <INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($orient=="vert") {echo "Horizontal";} else {echo "Vertical";} ?>"> 
 <INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save"> <?PHP 
 if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save and Proof Next Page\"> ";}
-?><INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Without Saving\r\nthe Current Document?'));" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
+?><INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save and Quit">
+<INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
 <?
 //display page number
 echo "<B>Page Number: $pageNum ";
