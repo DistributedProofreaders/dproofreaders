@@ -220,6 +220,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $texttype = "round1_text";
         $usertype = "round1_user";
         $round_number = 1;
+        $proj_proof_available_state = PROJ_PROOF_FIRST_AVAILABLE;
+        $proj_proof_verify_state    = PROJ_PROOF_FIRST_VERIFY;
+        $proj_proof_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
+        $page_save_state = SAVE_FIRST;
     }
     else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
         $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
@@ -235,13 +239,23 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $texttype = "round2_text";
         $usertype = "round2_user";
         $round_number = 2;
+        $proj_proof_available_state = PROJ_PROOF_SECOND_AVAILABLE;
+        $proj_proof_verify_state    = PROJ_PROOF_SECOND_VERIFY;
+        $proj_proof_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
+        $page_save_state = SAVE_SECOND;
+    }
+    else
+    {
+        echo "    automodify.php: unexpected state $state for project $projectid\n";
+        continue;
     }
 
 
-    if (($state == PROJ_PROOF_FIRST_VERIFY) ||
-        ($state == PROJ_PROOF_SECOND_VERIFY) || ($one_project) ||
-        (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) ||
-        (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0)))
+    if (
+        ($one_project) ||
+        ($state == $proj_proof_verify_state ) ||
+        (($state == $proj_proof_available_state) && ($projectinfo->availablepages == 0))
+    )
     {
 
         if ($verbose)
@@ -283,16 +297,22 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             $page_num2++;
         }
 
-        $projectinfo->update($projectid, $state);
+        // Decide whether the project is finished its current round.
+        if ( $state == $proj_proof_available_state || $state == $proj_proof_verify_state )
+        {
+            $num_done_pages  = Project_getNumPagesInState($projectid, $page_save_state);
+            $num_total_pages = Project_getNumPages($projectid);
 
-        if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_VERIFY)) {
-
-            if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_FIRST_COMPLETE; } else $state = PROJ_PROOF_FIRST_AVAILABLE;
-
-        } else if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == PROJ_PROOF_SECOND_VERIFY)) {
-
-            if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_SECOND_COMPLETE; } else $state = PROJ_PROOF_SECOND_AVAILABLE;
-
+            if ($num_done_pages == $num_total_pages)
+            {
+                if ($verbose) echo "    All $num_total_pages pages are in '$page_save_state'.\n";
+                $state = $proj_proof_complete_state;
+            }
+            else
+            {
+                if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$page_save_state'.\n";
+                $state = $proj_proof_available_state;
+            }
         }
 
         project_update_page_counts( $projectid );
