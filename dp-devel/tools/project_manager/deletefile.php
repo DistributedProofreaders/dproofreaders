@@ -12,6 +12,14 @@ include($relPath.'project_edit.inc');
     abort_if_cant_edit_project( $project );
 
     if (!empty($confirm)) {
+
+	if ($writeBIGtable) {
+        	if ($fileid == '') {
+           		$sql = "DELETE FROM project_pages WHERE projectid = '$project'";
+       	 } else $sql = "DELETE FROM project_pages WHERE projectid = '$project' AND fileid = '$fileid'";
+	    mysql_query($sql);
+	} 
+
         if ($fileid == '') {
            $sql = "DELETE FROM $project WHERE 1";
         } else $sql = "DELETE FROM $project WHERE fileid = '$fileid'";
