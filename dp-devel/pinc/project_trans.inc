@@ -20,6 +20,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 //     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
+	global $writeBIGtable;
 	// error_reporting(E_ALL);
 
 	$res = mysql_query("
@@ -429,6 +430,15 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		// Releasing the project.
 		// Update the corresponding projectID* table.
+
+		if ($writeBIGtable) {
+  			$result = mysql_query("
+				UPDATE project_pages
+				SET state = '".AVAIL_FIRST."'
+				WHERE projectid = '$projectid' AND state = '".UNAVAIL_FIRST."'
+			");
+		}
+
 		$result = mysql_query("
 			UPDATE $projectid
 			SET state = '".AVAIL_FIRST."'
