@@ -1558,7 +1558,7 @@ image/text for an example.</p>
     proofing when you have finished the transliteration. </p>
 <ul compact>
   <li> Greek:
-       <a href="http://www.gutenberg.net/vol/greek.html">Greek to ASCII Primer</a> (from
+       <a href="http://www.promo.net/pg/vol/greek.html">Greek to ASCII Primer</a> (from
        Project Gutenberg) Or see the "Greek" pop-up tool in the proofing interface.
   </li>
   <li> Cyrillic:
