@@ -30,7 +30,7 @@ echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' widt
 list_projects( $state, "ORDER BY modifieddate DESC", "LIMIT $etext_limit" );
 
 if ($total > $etext_limit) {
-echo "<font face='Verdana' size='1'>--<a href='list_etexts.php?x=".substr($type,0,1)."'>"._("See more...")."</a></font><br><br>";
+echo "<font face='Verdana' size='1'>--<a href='list_etexts.php?x=".substr($type,0,1)."&sort=5'>"._("See more...")."</a></font><br><br>";
 }
 
 }
