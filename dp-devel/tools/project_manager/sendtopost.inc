@@ -141,7 +141,7 @@ include_once($relPath.'maybe_mail.inc');
         $myresult = mysql_query("SELECT image, round1_user, round2_user, round2_text FROM $project ORDER BY image");
         while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
         {
-            $dashes_todo = 78 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
+            $dashes_todo = 74 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
             $dashes = "";
             for ($i = 1; $i <= $dashes_todo; $i++) {
                $dashes .= "-";
