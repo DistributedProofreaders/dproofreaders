@@ -52,14 +52,19 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 
 	$lang = $_POST['lang'];
-	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
+
+	// This can be removed when UTF-8 is enabled throughout the site.
+	// It makes sure that the .po file is UTF-8
+	exec("iconv -f iso-8859-1 -t utf8 < $dyn_locales_dir/$lang/LC_MESSAGES/messages.po > $dyn_locales_dir/$lang/LC_MESSAGES/temp.po");
+
+	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po"));
 
 	chdir($code_dir);
 	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C -L PHP");
 
 	$i=4;
-	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
-	$po_file = fopen("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po", "w");
+	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po");
+	$po_file = fopen("$dyn_locales_dir/$lang/LC_MESSAGES/temp.po", "w");
 	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
 	while ($i < count($lines)) {
 		fputs($po_file, $lines[$i]);
