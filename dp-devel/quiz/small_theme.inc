@@ -16,17 +16,21 @@ echo "</tr>";
 echo "</table>";
 // close table, and for some weird reason, start a new table
 
+$font_face  = $theme['font_headerbar'];
+$font_color = $theme['color_headerbar_font'];
+$bgcolor    = $theme['color_headerbar_bg'];
+
 echo "<table cellspacing=0 cellpadding=0 width='100%'>"; 
 echo "<tr>";
-echo "<td width='20%' align='left' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+echo "<td width='20%' align='left' bgcolor='$bgcolor'>\n";
 echo "<a href='$code_url/default.php' target='_top'>\n";
-echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
-echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> &#187;  Proofreading Quiz</font>\n";
+echo "<font face='$font_face' size='1' color='$font_color'>DP</font></a>\n";
+echo "<font face='$font_face' size='1' color='$font_color'> &#187;  Proofreading Quiz</font>\n";
 echo "</td>\n";
-echo "<td /* width='50%' */ align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-echo "<a href='$code_url/tools/proofers/proof_per.php' target='_top'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Personal Page") . "</font></a>";
-echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>&nbsp;<b>&#183;</b>&nbsp;</font>";
-echo "<a href='$code_url/faq/document.php' target='_top'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Proofreading Guidelines") . "</font></a>";
+echo "<td /* width='50%' */ align='right' bgcolor='$bgcolor'>\n";
+echo "<a href='$code_url/tools/proofers/proof_per.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Personal Page") . "</font></a>";
+echo "<font face='$font_face' size='1' color='$font_color'>&nbsp;<b>&#183;</b>&nbsp;</font>";
+echo "<a href='$code_url/faq/document.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Proofreading Guidelines") . "</font></a>";
 echo "</td>";
 echo "</tr>";
 echo "</table>"; 
