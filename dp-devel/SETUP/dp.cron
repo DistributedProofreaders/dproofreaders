@@ -1,6 +1,4 @@
 # multiple times per hour:
-00,15,30,45 1-23 * * * lynx -dump http://127.0.0.1/c/stats/stats.php > /dev/null
-      30,45    0 * * * lynx -dump http://127.0.0.1/c/stats/stats.php > /dev/null
 10,25,40,55 1-23 * * * now=`date +\%Y-\%m-\%d_\%H:\%M:\%S`; cd <<CODE_DIR>>/tools/project_manager; /usr/local/bin/php automodify.php > <<DYN_DIR>>/stats/automodify_logs/$now.txt
    25,40       0 * * * now=`date +\%Y-\%m-\%d_\%H:\%M:\%S`; cd <<CODE_DIR>>/tools/project_manager; /usr/local/bin/php automodify.php > <<DYN_DIR>>/stats/automodify_logs/$now.txt
 
@@ -11,16 +9,15 @@
 
 # daily:
 01  0 * * * lynx -dump http://127.0.0.1/c/crontab/take_tally_snapshots.php
-01  0 * * * lynx -dump http://127.0.0.1/c/stats/update_daily_page_counts.php
 01  0 * * * lynx -dump http://127.0.0.1/c/crontab/log_project_states.php
 10  0 * * * lynx -dump http://127.0.0.1/c/crontab/archive_projects.php
 15  0 * * * /home/dpadmin/mysql_backup.pl
 50  0 * * * lynx -dump http://127.0.0.1/c/crontab/clean_tmp.php > /dev/null
+55  0 * * * lynx -dump http://127.0.0.1/c/crontab/extend_site_tally_goals.php
 45 23 * * * lynx -dump http://127.0.0.1/c/crontab/update_birthday_queues.php
 
 # weekly (ish):
 04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/crontab/update_ppers.php
-04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/stats/fill_pagestats.php
 
 # monthly:
 20 0 1 * * lynx -dump http://127.0.0.1/c/crontab/inactivate_users.php
