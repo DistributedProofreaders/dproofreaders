@@ -196,7 +196,7 @@ echo $tde.$td3;
 echo "<a href='$reset_password_url'>"._("Reset Password")."</a>";
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('password');\">?</a>&nbsp;</b>";
 echo $tde.$td2;
-echo "<strong>"._("Show Statusbar:")."</strong>";
+echo "<strong>"._("Show Status Bar:")."</strong>";
 echo $tde.$td3;
 radio_select('i_statusbar', $userP['i_statusbar'], 1, _("Yes"));
 radio_select('i_statusbar', $userP['i_statusbar'], 0, _("No"));
@@ -228,7 +228,7 @@ while ($row = mysql_fetch_array($result)) {
 echo "</select>";
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('theme');\">?</a>&nbsp;</b>";
 echo $tde.$td2;
-echo "<strong>"._("Stats Bar Alignment:")."</strong>";
+echo "<strong>"._("Statistics Bar Alignment:")."</strong>";
 echo $tde.$td3;
 radio_select('u_align', $userP['u_align'], 1, _("Left"));
 radio_select('u_align', $userP['u_align'], 0, _("Right"));
