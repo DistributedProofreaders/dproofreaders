@@ -215,7 +215,7 @@ be followed.<br>
 (Shown as "C:\" &nbsp;in this example, choose a place comfortable for
 you.) Make two directories: "Batch" and "Projects".<br>
 </p>
-<p>Every time you start a new batch in ABBYY, it automatically
+<p>Every time you start a new batch in FineReader, it automatically
 generates a directory where it stores raw image and text data, named
 with a batch name that you specify. Save this under the "Batch"
 directory <br>
@@ -223,7 +223,7 @@ directory <br>
 <p>Under the "Projects" directory make another directory. Name this
 with the same name as the "Batch" name used in FineReader. Under that
 directory make several more directories: "pngs", "textw" and "textwo" .
-These are where you will save the images and text files from ABBYY.
+These are where you will save the images and text files from FineReader.
 "Textw" stands for text with line breaks and "textwo" stands for text
 without line breaks. These will be explained more later.<br>
 </p>
@@ -235,11 +235,11 @@ without line breaks. These will be explained more later.<br>
   <br>
   <br>
 </blockquote>
-Some people like to put the batch from ABBYY in the same directory as
+Some people like to put the batch from FineReader in the same directory as
 the png and text directories to keep track of them easier. That is fine
 too if you prefer it that way. Personal preference and comfort comes
 into this a lot.<br>
-<p>&nbsp;When your batch directory is set up, in ABBYY, Select
+<p>&nbsp;When your batch directory is set up, in FineReader, Select
 File-&gt;Scan Multiple images (Ctrl+Shift+K) to start scanning the book.
 From here the procedure will vary greatly depending on what features
 your scanner has, (automatic document feeder or not) and your personal
@@ -343,7 +343,7 @@ are more than happy to OCR images on your behalf.
 <p>Assuming you DO have OCR software...</p>
 <p>If you used FineReader for the scanning, you've already set up a
 batch and the images are already there.</p>
-<p> If not, open up ABBYY FineReader OCR. Click on File-&gt;New Batch, (Ctrl+N).
+<p> If not, open up FineReader. Click on File-&gt;New Batch, (Ctrl+N).
  and name it appropriately. Click File-&gt;Open Image,(Ctrl+O). Select
 all of the images and click on&nbsp; "Open". You might want to open just
  one or two at first to be sure everything is working, then do the rest.
@@ -354,8 +354,8 @@ Depending on how many files you have, the format the images are in and
 how fast your computer is, it will take several seconds to several hours
  to load all of the images. </p>
 When all of the image files are read, check the images in the batch
-window. If they are out of order, under ABBYY 6.0 you can renumber the
-images under the "Batch Processing" menu. In ABBYY 5.0 this is
+window. If they are out of order, under FineReader 6.0 you can renumber the
+images under the "Batch Processing" menu. In FineReader 5.0 this is
 non-trivial. Better to start in the right order.
 <p> Check settings under "Tools--&gt;Options". Select the correct
 language for the text. Hit (Ctrl-shift-R) or the "read all" icon, to
@@ -429,7 +429,7 @@ directory named "PROJECT", under the project directory you will need two
 directories "textw" and "textwo". "textw" stands for "text with line
 breaks" and "textwo" stands for "text without line breaks". <br>
 <br>
-In ABBYY after all of your images are loaded and OCRed, select&nbsp;
+In FineReader after all of your images are loaded and OCRed, select&nbsp;
 File =&gt; Save Text As;&nbsp; A dialog box will pop up. <br>
 </p>
 <div style="margin-left: 40px;"> <br>
