@@ -3,12 +3,12 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include($relPath.'projectinfo.inc');
 
-function notify($project, $proofstate) {
+function notify($project, $proofstate, $pguser) {
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Notify</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
-    $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."')");
-    if (mysql_numrows($temp) == 0) {
+    $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
+    if (mysql_num_rows($temp) == 0) {
         echo "Notify me when book complete";
-    } else "Do not notify me when book complete";
+    } else echo "Do not notify me when book complete";
     echo "</a></td></tr>";
 }
 
@@ -67,7 +67,7 @@ if (!isset($proofing))
 ?>
 
 <br>
-Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
+Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.22</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 
 <P><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
@@ -81,7 +81,7 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
 else {
 ?>
 <br>
-Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.20</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
+Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines 1.22</a> for detailed project formatting comments. <BR>Instructions in Project Comments below take precedence over the guidelines.
 <table border=1 width=630>
 <?PHP
 }
@@ -105,7 +105,7 @@ if ($topic_id == "") {
 }
     echo "</a></td></tr>";
 
-    notify($project, $proofstate);
+    notify($project, $proofstate, $pguser);
 
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td>";
     echo "</tr><tr>";
