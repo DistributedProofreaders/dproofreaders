@@ -231,15 +231,18 @@ function showMbrNeighbors($curMbr) {
 		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBALS['pguser']) ||
 		    ($privacy_enabled == PRIVACY_PUBLIC)) {
 
-			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
-			echo $username;
-			echo "</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
+			$username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a>";
+			$day_html = date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i>";
 
 		} else {
-			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'>";
-			echo "Anonymous";
-			echo "</td><td width='28%'>--/--/-- <i>(--- "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
+			$username_html = "Anonymous";
+			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
+		echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td>";
+		echo "<td width='28%'>$username_html</td>";
+		echo "<td width='28%'>$day_html</td>";
+		echo "<td width='29%'>$pagescompleted</td>";
+		echo "</tr>";
 	}
 
 	echo "</td></tr></table></table><p>";
