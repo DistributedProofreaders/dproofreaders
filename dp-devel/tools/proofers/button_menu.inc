@@ -3,6 +3,13 @@ include($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc');
 include($relPath.'button_defs.inc');
 
+?>
+<script language="javascript">
+function disableEnterKey() { 
+	if (window.event.keyCode == 13) window.event.keyCode = 0;
+}
+</script>
+<?
 // get bad page code
       $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $b_code = mysql_result($result, 0, "b_code");
@@ -39,7 +46,7 @@ type="text" value="<?PHP
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
-?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
+?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %" onKeyPress="disableEnterKey()"><?
 
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";
