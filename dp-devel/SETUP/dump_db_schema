@@ -52,7 +52,7 @@ tables=`get_table_names`
 
 if true; then
     mysqldump $connection_options \
-        --no-data --quote-names \
+        --no-data --quote-names --add-drop-table=FALSE \
         $db_name $tables |
     # Make it look more like the dump from phpMyAdmin:
     sed '
