@@ -28,13 +28,13 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	");
 	if (mysql_num_rows($res) == 0)
 	{
-	    return "$projectid: no such project";
+	    return "$projectid: "._("no such project");
 	}
 
 	$project = mysql_fetch_array($res);
 	$current_state = $project['state'];
 
-	$transition_str = "$projectid: transition from $current_state to $new_state";
+	$transition_str = "$projectid: "._("transition from")." $current_state "._("to")." $new_state";
 	if ($testing)
 	{
 		$indent = '    ';
@@ -62,7 +62,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// No attendant processing.
 		if ($testing)
 		{
-			echo "{$indent}$transition_str: succeeds trivially{$eol}";
+			echo "{$indent}$transition_str: "._("succeeds trivially")."{$eol}";
 		}
 		return '';
 	}
@@ -83,7 +83,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 		if ($testing)
 		{
-			echo "{$indent}$transition_str: success{$eol}";
+			echo "{$indent}$transition_str: "._("success")."{$eol}";
 		}
 
 		return '';
@@ -229,7 +229,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	if ( ! in_array( $new_state, $transition_graph[$current_state] ) )
 	{
 		// Requested transition is illegal.
-		return "$transition_str is illegal";
+		return "$transition_str "._("is illegal");
 	}
 
 	// -------------------------------------------------------------------------
@@ -244,7 +244,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$errors = project_pre_release_check( $project );
 		if ($errors)
 		{
-			return "$transition_str: disallowed because of project problems:\n<pre>\n$errors</pre>";
+			return "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
 		}
 		$settings .= ", modifieddate='$now'";
 	}
@@ -452,10 +452,10 @@ function project_pre_release_check( $project )
 	$language   = $project['language'];
 	$clearance  = $project['clearance'];
 
-	if ($nameofwork == '') $errors .= "  The 'Title' field is blank.\n";
-	if ($author == '')     $errors .= "  The 'Author' field is blank.\n";
-	if ($language == '')   $errors .= "  The 'Language' field is blank.\n";
-	if ($clearance == '')  $errors .= "  The 'Clearance' field is blank.\n";
+	if ($nameofwork == '') $errors .= "  "._("The 'Title' field is blank.")."\n";
+	if ($author == '')     $errors .= "  "._("The 'Author' field is blank.")."\n";
+	if ($language == '')   $errors .= "  "._("The 'Language' field is blank.")."\n";
+	if ($clearance == '')  $errors .= "  "._("The 'Clearance' field is blank.")."\n";
 
 	if ($errors) $errors .= "\n";
 
@@ -463,12 +463,12 @@ function project_pre_release_check( $project )
 
 	if (!$res)
 	{
-		$errors .= "  There is no page-table.\n";
+		$errors .= "  "._("There is no page-table.")."\n";
 		return $errors;
 	}
 	
 
-	if (mysql_num_rows($res) == 0) $errors .= "  There are no pages.\n";
+	if (mysql_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
 
 	while ( $page = mysql_fetch_assoc($res) )
 	{
@@ -476,13 +476,13 @@ function project_pre_release_check( $project )
 		$filepath = "$projects_dir/$projectid/$filename";
 
 		if (!file_exists($filepath)) {
-			$errors .= "  $filename: image file is missing\n";
+			$errors .= "  $filename: "._("image file is missing")."\n";
 		} else if (filesize($filepath) < 100) {
-			$errors .= "  $filename: image file is small (probably bad)\n";
+			$errors .= "  $filename: "._("image file is small and probably bad")."\n";
 		}
 
 		if ($page['master_text_length'] == 0) {
-			$errors .= "  $filename: text is empty\n";
+			$errors .= "  $filename: "._("text is empty")."\n";
 		}
 	}
 
@@ -509,17 +509,17 @@ function maybe_mail_project_manager( $project, $info )
 	$username   = $project['username'];
 
 	$body =
-"This is an automated message from the Distributed Proofreaders site.
+_("This is an automated message from the Distributed Proofreaders site.")."
 
-Regarding:
+"._("Regarding").":
 \"$nameofwork\"
   ($projectid)
   $code_url/tools/project_manager/project_detail.php?project=$projectid
 
 $info
 
-Thank You!
-Distributed Proofreaders
+"._("Thank You!")."
+"._("Distributed Proofreaders")."
 ";
 
 	$email_addr = mysql_result(mysql_query("

@@ -51,26 +51,20 @@ function abort_if_cant_edit_project( $projectid )
     {
         echo "
             <P>
-            There appears to be no such project ($projectid).
+            "._("There appears to be no such project")." ($projectid).
             <P>
-            If this message is an error,
-            contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.
-            <P>
-            Back to <a href=\"projectmgr.php\">project manager</a> page.
-        ";
+            "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
+            <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
     }
     else if ( $result == USER_CANNOT_EDIT_PROJECT )
     {
         echo "
             <P>
-            You ($pguser) are not allowed to change this project ($projectid).
+            "._("You are not allowed to change this project")." ($projectid).
             <P>
-            If this message is an error,
-            contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.
-            <P>
-            Back to <a href=\"projectmgr.php\">project manager</a> page.
-        ";
+            "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
+            <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
     }
     else if ( $result == USER_CAN_EDIT_PROJECT )
