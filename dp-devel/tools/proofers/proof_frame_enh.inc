@@ -259,12 +259,30 @@ id="controlframe" align="center"><form
 ?></td></tr><tr><td
   id="tdtext"
   valign="top"><?PHP
-// display text area
+  // settings for horizontal or vertical interface
   if ($userP['i_layout']==1)
-    {$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
-  else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
+  {
+    $tcols = $userP['v_tchars'];
+    $trows = $userP['v_tlines'];
+    $twrap = $userP['v_twrap'];
+    $tfont = $userP['v_fntf'];
+  }
+  else 
+  {
+    $tcols = $userP['h_tchars'];
+    $trows = $userP['h_tlines'];
+    $twrap = $userP['h_twrap'];
+    $tfont = $userP['h_fntf'];
+  }
+  // General settings
   $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
-  echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\"$twrap>";
+  // display text area
+  echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\" $twrap";
+  if ($tfont != '') 
+  { 
+    echo ' style="font-family: ' . $tfont . '"'; 
+  }
+  echo ">";
   // SENDING PAGE-TEXT TO USER
   // We're sending it in an HTML document, so encode special characters.
   echo htmlspecialchars($npage['text'],ENT_NOQUOTES);

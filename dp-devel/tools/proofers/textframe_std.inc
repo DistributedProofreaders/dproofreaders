@@ -43,11 +43,30 @@ echo $docType."\r\n";
 </script>
 <?
 // display text area
-    if ($userP['i_layout']==1)
-    {$tcols=$userP['v_tchars'];$trows=$userP['v_tlines'];$twrap=$userP['v_twrap'];}
-    else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
-  $twrap=$twrap==1? '': " wrap=\"off\"";
-  echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
+  // choose horizontal or vertical settings
+  if ($userP['i_layout']==1)
+  {
+    $tcols = $userP['v_tchars'];
+    $trows = $userP['v_tlines'];
+    $twrap = $userP['v_twrap'];
+    $tfont = $userP['v_fntf'];
+  }
+  else 
+  {
+    $tcols = $userP['h_tchars'];
+    $trows = $userP['h_tlines'];
+    $twrap = $userP['h_twrap'];
+    $tfont = $userP['h_fntf'];
+  }
+  // choose general settings
+  $twrap = $twrap==1? '': " wrap=\"off\"";
+  // write the textarea
+  echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\" $twrap";
+  if ($tfont != '') 
+  { 
+    echo ' style="font-family: ' . $tfont . '"'; 
+  }
+  echo ">";
   // SENDING PAGE-TEXT TO USER
   // We're sending it in an HTML document, so encode special characters.
   echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
