@@ -162,7 +162,7 @@ function showTeamMbrs($curTeam) {
 		if (!empty($curMbr['u_privacy']))
 		{
 			$totalAnonUsers++;
-			$totalPagesAnonUsers += number_format($curMbr['pagescompleted']);
+			$totalPagesAnonUsers += $curMbr['pagescompleted'];
 		}
 		else
 		{
@@ -177,7 +177,7 @@ function showTeamMbrs($curTeam) {
 	{
 		echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
 		echo "<td width='35%'>Anonymous users</td>";
-		echo "<td width='35%'>" . $totalPagesAnonUsers . "</td>";
+		echo "<td width='35%'>" . number_format($totalPagesAnonUsers) . "</td>";
 		echo "<td width='30%'>&nbsp;</td></tr>";
 	}
 	echo "</td></tr></table></table><p>";
