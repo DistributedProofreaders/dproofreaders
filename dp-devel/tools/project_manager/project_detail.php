@@ -34,10 +34,14 @@ if ( !isset($_GET['type']) || $_GET['type'] == 'Summary' || $_GET['type'] == '' 
 	$other_type = "Summary";
 }
 
+// it's not clear what setting this does.
 $no_stats=1;
 theme("Project Details ($current_version)", "header");
 
 $projectid = $_GET['project'];
+
+// the following exits if the user is neither PP nor project manager of this project.
+// nor a project mgr (doesn't need to be this project) nor several other kinds of manager.
 if (! user_is_PP_of( $projectid)) {
 	abort_if_not_manager();
 }
@@ -45,9 +49,12 @@ if (! user_is_PP_of( $projectid)) {
 # insert url into $link_to_other_version
 $link_to_other_version = sprintf($link_to_other_version, "project_detail.php?project=$projectid&type=$other_type");
 
+// project is readonly except for PM of project, site managers,
+// and facilitators (plus hidden identies therein)
 $can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator() );
 
-
+// exit unless PM of project, or sitemanager, or facilitor, or a position hidden therein.
+// Note that PP of project is redundant - then can_edit would be true anyway.
 if (!$can_edit && ! user_is_PP_of( $projectid))
 {
 	echo "
@@ -59,51 +66,50 @@ if (!$can_edit && ! user_is_PP_of( $projectid))
 	exit();
 }
 
-
-
 // test
 //$can_edit = FALSE;
 
 if ($can_edit) {
 
-echo_manager_header( 'project_detail_page' );
+    // this is in projectmgr.inc.
+    // offers/withholds other viewing options, using mucho sql.
+    echo_manager_header( 'project_detail_page' );
 
-echo "
-<p>
-Reminder for uploads:
-host=<b>$uploads_host</b>
-account=<b>$uploads_account</b>
-password=<b>$uploads_password</b>
-</p>
-";
-
+    // remind where/how to fpt projects.
+    echo "
+        <p>
+        Reminder for uploads:
+        host=<b>$uploads_host</b>
+        account=<b>$uploads_account</b>
+        password=<b>$uploads_password</b>
+        </p>
+        ";
 }
 
-
-
-
+// get state of project to giv to projectinfo, which already has plenty
+// enough queries on projects to have gotten it for itself.
 $result = mysql_query("SELECT state FROM projects WHERE projectid='$projectid'");
 $state = mysql_result($result, 0);
 
+// Appears to do a whole bunch of SQL queries.
+// Not sure where it's even used.
 $projectinfo->update($projectid, $state);
 
 echo "<center>";
-
 echo $link_to_other_version . '<br><br>';
 
+// displays project header info, like proj manager, page counts, etc.
+// Many queries.
 echo_project_info( $projectid, 'proj_post', 0 );
 
-
+// if user has access, offer to edit project.
 if ($can_edit) {
-
 	echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
-
 }
 
 //if new project enable uploading of tpNv info
-
+// is this used anywhere?
 if ($metadata) {
-
 	if ($state == PROJ_NEW){
         echo "<br>\n";
         echo "<form method='get' action='add_files.php'>\n";
@@ -121,6 +127,8 @@ if ($metadata) {
       }       
 }
 
+// confusing list of qualifications.
+// probably allows incorporating files into project if proofing hasn't begun yet.
 if (($state == PROJ_NEW && ! $metadata) || $state == PROJ_NEW_APPROVED || $state == PROJ_PROOF_FIRST_UNAVAILABLE || $state == PROJ_NEW_FILE_UPLOADED)
 {
 	echo "<br>\n";
@@ -143,6 +151,8 @@ if (($state == PROJ_NEW && ! $metadata) || $state == PROJ_NEW_APPROVED || $state
 	echo "<br>\n";
 	echo "</form>\n";
 
+    // isn't that helpful.
+    // no clue what this is for - not referenced in this module.
 	$something = 0;
 }
 elseif ( $state == PROJ_PROOF_FIRST_AVAILABLE
@@ -162,6 +172,7 @@ else
 
 echo "<h3>Page Summary</h3>\n";
 
+// page counts by state.
 $res = mysql_query( "SELECT count(*) AS total_num_pages FROM $projectid" );
 $total_num_pages = mysql_result($res,0,'total_num_pages');
 
@@ -191,21 +202,23 @@ echo "</table>\n";
 // only show full page table details in "Full" mode
 
 if ($page_type == "Full") {
-        include_once('detail_legend.inc');
-	echo "N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab."."<br>\n";
+    include_once('detail_legend.inc');
+	echo _("N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.")."<br>\n";
+
+    // second arg. indicates to show size of image files.
 	echo_page_table($projectid, 1);
 
       // -----------------------------------------------------------------------------
 
+    // offer oppty to delete all pages if not begun proofing yet.
 	if ($can_edit) {
-
-		if ( $state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
+		if ( $state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE
+            ||  $state == PROJ_NEW_FILE_UPLOADED)
 		{
 			echo "<br>";
 			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>Delete All Text</a>";
 		}
 	}
-
 }
 
 echo '<br>' . $link_to_other_version;
