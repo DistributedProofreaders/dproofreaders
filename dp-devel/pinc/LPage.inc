@@ -87,7 +87,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
     {
         // Page comes from DONE.
         // When it was saved, the user's page-count was incremented.
-        // Now they 'unsaving' it, so descrement their page-count.
+        // Now they 'unsaving' it, so decrement their page-count.
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
@@ -96,9 +96,8 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
         $result = mysql_query($sql);
 
-        $pageround = getPageRound($pagestate);
         // no need to update text, just record state change
-        Page_reopen( $project, $fileid, $imagefile, $pageround, $pguser );
+        Page_reopen( $project, $fileid, $imagefile, $prd->round_number, $pguser );
     }
 
     $saved = 1;
@@ -110,9 +109,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 
 function nPage_getText( $npage )
 {
-    $pageround = getPageRound( $npage['pagestate'] );
-
-    $prd = get_PRD_for_round( $pageround );
+    $prd = get_PRD_for_page_state( $npage['pagestate'] );
 
     if ( $npage['revert']==1 || $npage['pagestate']==$prd->page_out_state )
     {
@@ -183,9 +180,9 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->imagefile=$imagefile;
   $this->pagestate=$pagestate;
   $this->proofstate=$proofstate;
-  $this->pageround=getPageRound($pagestate);
 
-  $this->prd = get_PRD_for_round( $this->pageround );
+  $this->prd = get_PRD_for_page_state($pagestate);
+  $this->pageround = $this->prd->round_number;
 }
 
 function addUserCount($pguser,$userP)
@@ -250,22 +247,6 @@ function returnPage($pguser,$userP)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Functions that used to be in the 'processpage' class, but didn't need to be.
-
-function getPageRound( $state )
-{
-  if ($state==AVAIL_FIRST  || $state==OUT_FIRST || $state==TEMP_FIRST || $state==SAVE_FIRST)
-  {
-    return 1;
-  }
-  else if ($state==AVAIL_SECOND  || $state==OUT_SECOND || $state==TEMP_SECOND || $state==SAVE_SECOND)
-  {
-    return 2;
-  }
-  else
-  {
-    return 0;
-  }
-}
 
 function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
 {
