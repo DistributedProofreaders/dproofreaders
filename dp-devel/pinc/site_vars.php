@@ -58,8 +58,8 @@ $auto_email_addr = $general_help_email_addr;
 $pagesneeded = 20000; //Total pages available for proofing at one time
 $noneng_pagesneeded = 6000; //Total pages of Non English pages out of $pagesneeded
 $eng_pagesneeded = 12000; //Total pages of English pages out of $pagesneeded
-$beginners_projects = 2; //Minimum number of beginners projects available in first round at one time
-$easy_projects = 3; //Minimum number of easy projects available in first round at one time
+$beginners_projects = 1; //Minimum number of beginners projects available in first round at one time
+$easy_projects = 5; //Minimum number of easy projects available in first round at one time
 
 // -----------------------------------------------------------------------------
 
