@@ -5,7 +5,7 @@ $cookieSet=$cookieC->checkCookie();
 if ($cookieSet)
      {$cookieID=$cookieC->userID;}
 else {
-     include('doctype.inc');
+     include($relPath.'doctype.inc');
      echo $docType."\r\n";
      echo "<HTML><HEAD><TITLE>Please Login</TITLE>\r\n";
      echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=";
