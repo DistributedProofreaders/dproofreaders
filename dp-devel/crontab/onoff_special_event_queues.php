@@ -144,7 +144,7 @@ while ($rownum < $numrows)
 
 // any SPECIAL queues to close today?
 
-$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day" and enable = 1;
+$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day and enable = 1";
 echo $specials_query, $EOL;
 $close_these = mysql_query($specials_query) or die(mysql_error());
 $numrows = mysql_num_rows($close_these);
