@@ -15,9 +15,6 @@ $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npa
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
 
-// get available pages available for proofing
-$result = mysql_query("SELECT avail_pages FROM page_counts WHERE projectid = '".$npage['project']."'");
-$avail_pages = mysql_result($result, 0, "avail_pages");
 
 // set image and text height and width
   if ($userP['i_layout']=='1')
@@ -298,7 +295,7 @@ id="controlframe" align="center"><form
   valign="top"><?PHP
 //display page number
   $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><B>Page Number: $pageNum ($avail_pages pages remaining)";
+  echo "<font size=\"-1\"><B>Page Number: $pageNum ";
     if ($tpage->getProjectRound($npage['proofstate']) == 2)
     {
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
