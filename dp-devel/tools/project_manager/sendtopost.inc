@@ -80,7 +80,7 @@ include_once($relPath.'maybe_mail.inc');
             echo "$error_msg<br>\n";
             return;
         }
-        maybe_mail_project_manager( $project, $body_blurb );
+        maybe_mail_project_manager( $project, $body_blurb, "DP Post-Processing Started");
 
     }
 

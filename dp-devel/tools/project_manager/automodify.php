@@ -337,7 +337,8 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         {
             maybe_mail_project_manager(
                 $project,
-                "This project is being held between rounds 1 and 2." ); 
+                "This project is being held between rounds 1 and 2.",
+		"DP Project Stuck"); 
         }
     }
 

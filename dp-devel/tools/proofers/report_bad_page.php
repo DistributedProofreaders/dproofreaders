@@ -139,7 +139,7 @@ the project will be automatically shut down.";
 	}
 
 	//Send the email to the PM
-	maybe_mail_project_manager($projectid, $message);
+	maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 
 	//Redirect the user to either continue proofing if project is still open or back to their personal page
 	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {

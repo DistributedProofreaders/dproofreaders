@@ -16,7 +16,8 @@ function attempt_to_release($project)
 	maybe_mail_project_manager( $project, 
             "Some errors have been found:\n".
             "$errors\n".
-            "Please correct the errors and put the project back into Waiting for Release."
+            "Please correct the errors and put the project back into Waiting for Release.",
+	    "DP Errors Before Release"
 	);
         $new_state = PROJ_PROOF_FIRST_BAD_PROJECT;
     }
@@ -47,7 +48,8 @@ function attempt_to_release($project)
     }
 
     maybe_mail_project_manager( $project,
-	"This project has just become available for first-round proofing." );
+	"This project has just become available for first-round proofreading.",
+	"DP Proofreading Started");
 
     return TRUE;
 }
