@@ -32,7 +32,7 @@ $datax = array();
 $datay = array();
 foreach ( $deltas as $timestamp => $tally_delta )
 {
-    $datax[] = date("n/j/Y", ($timestamp-86400));
+    $datax[] = date("n/j/Y", ($timestamp-1));
     $datay[] = $tally_delta;
 }
 
