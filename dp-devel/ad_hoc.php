@@ -45,7 +45,7 @@ if (0)
 	$res = dpsql_query( "
 		SELECT projectid
 		FROM projects 
-		WHERE state='".POST_AVAILABLE."' or state='".POST_CHECKED_OUT
+		WHERE state='".POST_AVAILABLE."' or state='".POST_CHECKED_OUT."'
 	" );
 	while ( list($projectid) = mysql_fetch_something($res) )
 	{
