@@ -1,23 +1,22 @@
 <?
 $relPath = "../../pinc/";
 include($relPath.'db_datestamp.inc');
-include('pm_globals.php');
+include($relPath.'projectinfo.inc');
 
   // Auto-Release Project
 
-global $level0pages;
-
 function numpages($project) {
   $level0rows = mysql_query("SELECT fileid FROM $project");
-  if ($level0rows != "") { $level0pages = (mysql_num_rows($level0rows)); } else $level0pages = 0;
+  if ($level0rows != "") { return (mysql_num_rows($level0rows)); } else return 0;
 }
 
 function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
 
     $currstate = 8;
     $result = mysql_query("UPDATE $project SET state = 2 WHERE 1");
+    $projectinfo = new projectinfo();
 
-    update_globals($project, $state);
+    $projectinfo->update($project, $state);
 
     $page_num = 0;
 
@@ -33,10 +32,10 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     $path = "../../projects/".$project."/";
 
-    while (($page_num < $avail1_pages) && ($currstate == 8)) {
-        $fileid = mysql_result($avail1_rows, $page_num, "fileid");
-        $text = mysql_result($avail1_rows, $page_num, "master_text");
-        $filename = mysql_result($avail1_rows, $page_num, "image");
+    while (($page_num < $projectinfo->avail1_pages) && ($currstate == 8)) {
+        $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");
+        $text = mysql_result($projectinfo->avail1_rows, $page_num, "master_text");
+        $filename = mysql_result($projectinfo->avail1_rows, $page_num, "image");
 
         if (!file_exists($path.$filename)) {
             $currstate = 0;
@@ -64,8 +63,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     $result = mysql_query("UPDATE projects SET state = $currstate, modifieddate = '$todaysdate' WHERE projectid = '$project'");
 
     if ($currstate == 8) {
-        numpages($project);
-        $pagesleft += (2 * $level0pages);
+        $pagesleft += (2 * numpages($project));
         print "Released project = $project<BR>";
     }
 }
@@ -73,7 +71,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 function autorelease($pagesleft) {
 
   $todaysdate = new db_datestamp();
-  $pagesneeded = 15000;
+  $pagesneeded = 20000;
   
   // NON-English Books
 

@@ -1,8 +1,8 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-
-    include 'pm_globals.php';
+include($relPath.'projectinfo.inc');
+$projectinfo = new projectinfo();
 
     echo "<title>Project Managers Page</title>";
 
@@ -31,7 +31,7 @@ include($relPath.'dp_main.inc');
             echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
         } else {
 
-            update_globals($project, $state);
+            $projectinfo->update($project, $state);
 
             //link bar at top of page
 
@@ -45,8 +45,8 @@ include($relPath.'dp_main.inc');
 
             echo "<table border = \"1\">";
             printf("<tr><td colspan = \"4\"><B><font size=+1>Project Name: $name</font></B></td></tr><tr><td bgcolor=\"CCCCCC\"><b>Author:</b></td><td>$author</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$availablepages</td></tr>");
+            printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
+            printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
             echo "</table>";
 
             if ($state == 0) {
@@ -60,10 +60,10 @@ include($relPath.'dp_main.inc');
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
-                while ($rownum < $total_rows) {
-                    $imagename = mysql_result($level0rows, $rownum, "image");
-                    $date = mysql_result($level0rows, $rownum, "round1_time");
-                    $fileid = mysql_result($level0rows, $rownum, "fileid");
+                while ($rownum < $projectinfo->total_rows) {
+                    $imagename = mysql_result($projectinfo->level0rows, $rownum, "image");
+                    $date = mysql_result($projectinfo->level0rows, $rownum, "round1_time");
+                    $fileid = mysql_result($projectinfo->level0rows, $rownum, "fileid");
 
                     $bgcolor = "#FFFFFF";
 
@@ -85,11 +85,11 @@ include($relPath.'dp_main.inc');
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
-                while ($rownum < $done1_pages) {
-                    $imagename = mysql_result($done1_rows, $rownum, "image");
-                    $date = mysql_result($done1_rows, $rownum, "round1_time");
-                    $name = mysql_result($done1_rows, $rownum, "round1_user");
-                    $fileid = mysql_result($done1_rows, $rownum, "fileid");
+                while ($rownum < $projectinfo->done1_pages) {
+                    $imagename = mysql_result($projectinfo->done1_rows, $rownum, "image");
+                    $date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
+                    $name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
+                    $fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
 
                     $bgcolor = "#FFFFFF";
 
@@ -127,12 +127,12 @@ include($relPath.'dp_main.inc');
                 $counter = 1;
                 $rownum = 0;
 
-                while ($rownum < $done2_pages) {
-                    $imagename = mysql_result($done2_rows, $rownum, "image");
-                    $date = mysql_result($done2_rows, $rownum, "round2_time");
-                    $round2_user = mysql_result($done2_rows, $rownum, "round2_user");
-                    $round1_user = mysql_result($done2_rows, $rownum, "round1_user");
-                    $fileid = mysql_result($done2_rows, $rownum, "fileid");
+                while ($rownum < $projectinfo->done2_pages) {
+                    $imagename = mysql_result($projectinfo->done2_rows, $rownum, "image");
+                    $date = mysql_result($projectinfo->done2_rows, $rownum, "round2_time");
+                    $round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
+                    $round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
+                    $fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
 
                     $users = mysql_query("SELECT real_name, email FROM users WHERE username = '$round2_user'");
                     if (mysql_num_rows($users) == 0) {
@@ -259,9 +259,9 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                 $bgcolor = "\"#999999\"";
             }
 
-            update_avail_globals($project, $state);
+            $projectinfo->update_avail($projectid, $state);
 
-            print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$availablepages</td><td align=\"center\">";
+            print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$projectinfo->availablepages</td><td align=\"center\">";
             if ($show == 'site') {
                 print mysql_result($result, $rownum, "username");
             } else if ($outby != "") {

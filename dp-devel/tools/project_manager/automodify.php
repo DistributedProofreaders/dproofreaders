@@ -5,12 +5,15 @@
 //   - Complete Project: If a project has completed round 2, it sends it to post-processing or assign to the project manager
 //   - Release Projects: If there are not enough projects available to end users, it will release projects waiting to be released
 $relPath="./../../pinc/";
+
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+include($relPath.'globals.php');
+$projectinfo = new projectinfo();
+
   include 'autorelease.php';
   include 'sendtopost.php';
-  include 'pm_globals.php';
 
   $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = 2 OR state = 8 OR state = 12 OR state = 18 OR state = 9 OR state = 19 OR state = 15");
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
@@ -27,7 +30,7 @@ $db_Connection=new dbConnect();
     $username = mysql_result($allprojects, $rownum, "username");
     $nameofwork = mysql_result($allprojects, $rownum, "nameofwork");
 
-    update_globals($project, $state);
+    $projectinfo->update($project, $state);
 
     // Error checking
     if (($state == 12) || ($state == 15)) {
@@ -37,8 +40,8 @@ $db_Connection=new dbConnect();
             $state = 10;
             mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
         }
-        $pagesleft += $avail2_pages;
-        $availablepages = $avail2_pages;
+        $pagesleft += $projectinfo->avail2_pages;
+        $projectinfo->availablepages = $projectinfo->avail2_pages;
 
     } else if ($state == 2) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != 2 AND state != 5 AND state != 8 AND state != 9");
@@ -47,25 +50,25 @@ $db_Connection=new dbConnect();
             $state = 0;
             mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
         }
-        $pagesleft += ($total_pages + $avail1_pages);
-        $availablepages = $avail1_pages;
+        $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
+        $projectinfo->availablepages = $projectinfo->avail1_pages;
 
     }
 
-    update_globals($project, $state);
+    $projectinfo->update($project, $state);
 
     // Decide which round the project is in
     if ($state < 10) {
-      $outtable = $out1_rows;
-      $numoutrows = $out1_pages;
+      $outtable = $projectinfo->out1_rows;
+      $numoutrows = $projectinfo->out1_pages;
       $timetype = "round1_time";
       $texttype = "round1_text";
       $usertype = "round1_user";
       $newstate = 2;
 
     } else if ($state < 20) {
-      $outtable = $out2_rows;
-      $numoutrows = $out2_pages;
+      $outtable = $projectinfo->out2_rows;
+      $numoutrows = $projectinfo->out2_pages;
       $timetype = "round2_time";
       $texttype = "round2_text";
       $usertype = "round2_user";
@@ -74,8 +77,8 @@ $db_Connection=new dbConnect();
     }
 
     if (($state == 8) || ($state == 18) ||
-        (($state == 2) && ($availablepages == 0)) || 
-        (($state == 12) && ($availablepages == 0))) {
+        (($state == 2) && ($projectinfo->availablepages == 0)) || 
+        (($state == 12) && ($projectinfo->availablepages == 0))) {
 
         echo "Found \"$nameofwork\" to verify = $project<BR>";
 
@@ -96,15 +99,15 @@ $db_Connection=new dbConnect();
             $page_num++;
         }
 
-        update_globals($project, $state);
+        $projectinfo->update($project, $state);
 
         if (($state == 2) || ($state == 8)) {
 
-            if ($availablepages == 0) { $state = 9; } else $state = 2;
+            if ($projectinfo->availablepages == 0) { $state = 9; } else $state = 2;
 
         } else if (($state == 12) || ($state == 18)) {
 
-            if ($availablepages == 0) { $state = 19; } else $state = 12;
+            if ($projectinfo->availablepages == 0) { $state = 19; } else $state = 12;
         }
 
         $sql = "UPDATE projects SET state = $state WHERE projectid = '$project'";
@@ -113,7 +116,7 @@ $db_Connection=new dbConnect();
     }
 
     // Promote Level
-    if (($state == 9) && ($avail1_pages == 0)) {
+    if (($state == 9) && ($projectinfo->avail1_pages == 0)) {
 
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $project SET state = 12, round2_time = '$timestamp'");
