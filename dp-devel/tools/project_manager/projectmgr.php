@@ -88,34 +88,8 @@ abort_if_not_manager();
 	} else {
 		echo_manager_header('project_listings_page');
 
-		$show_pages_left = 0;
+		// Construct and submit the search query.
 
-		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
-
-		function echo_header_cell( $width, $text )
-		{
-		    global $theme;
-		    echo "<td width='$width' align='center' bgcolor='{$theme['color_headerbar_bg']}'>";
-		    echo "<font color='{$theme['color_headerbar_font']}'>";
-		    echo "<b>$text</b>";
-		    echo "</font>";
-		    echo "</td>";
-		}
-
-
-    		echo "<tr>";
-      		echo_header_cell( 175, "Title" );
-      		echo_header_cell( 100, "Author" );
-		if ( $show_pages_left )
-		{
-		    echo_header_cell( 50, "Left" );
-		}
-      		echo_header_cell(  75, ($_GET['show'] == "site" ? "PM" : "Owner" ) );
-      		echo_header_cell( 180, "Project Status" );
-      		echo_header_cell(  50, "Options" );
-      		echo "</tr>";
-
-        	$numrows = 0;
         	if ($_GET['show'] == "site" && user_is_a_sitemanager()) {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
         	} elseif ($_GET['show'] == "all") {
@@ -168,7 +142,37 @@ abort_if_not_manager();
 			WHERE $condition
 			ORDER BY nameofwork asc
 		");
-        	if ($result != "") $numrows = (mysql_num_rows($result));
+        	if ($result != "") $numrows = mysql_num_rows($result); else $numrows = 0;
+
+		// -------------------------------------------------------------
+
+		// Present the results of the search query.
+
+		$show_pages_left = 0;
+
+		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+
+		function echo_header_cell( $width, $text )
+		{
+		    global $theme;
+		    echo "<td width='$width' align='center' bgcolor='{$theme['color_headerbar_bg']}'>";
+		    echo "<font color='{$theme['color_headerbar_font']}'>";
+		    echo "<b>$text</b>";
+		    echo "</font>";
+		    echo "</td>";
+		}
+
+    		echo "<tr>";
+      		echo_header_cell( 175, "Title" );
+      		echo_header_cell( 100, "Author" );
+		if ( $show_pages_left )
+		{
+		    echo_header_cell( 50, "Left" );
+		}
+      		echo_header_cell(  75, ($_GET['show'] == "site" ? "PM" : "Owner" ) );
+      		echo_header_cell( 180, "Project Status" );
+      		echo_header_cell(  50, "Options" );
+      		echo "</tr>";
 
 		$tr_num = 0;
 		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
