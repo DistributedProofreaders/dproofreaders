@@ -1,7 +1,24 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
-include_once($relPath.'connect.inc');
+
+// This include setup is highly unusual but neccesary because of mixing of
+// phpBB2's and DP's database setup
+
+function get_phpbb2_ver()
+{
+global $forums_dir;
+
+define('IN_PHPBB', true);
+$phpbb_root_path=$forums_dir."/";
+$phpEx="php";
+include_once($forums_dir."/common.php");
+
+return "2".$board_config['version'];
+}
+
+$phpbb2_ver=get_phpbb2_ver();
+
 include_once($relPath.'theme.inc');
 include_once($relPath.'languages.inc');
 include('faq_data.inc');
@@ -52,7 +69,7 @@ echo "<tr><td>";
 echo "<a href='http://www.phpbb.com'>phpBB</a>";
 echo "</td><td>";
 
-echo get_phpbb2_ver();
+echo $phpbb2_ver;
 
 echo "</td></tr>\n";
 echo "</table>";
@@ -158,17 +175,5 @@ foreach($dicts as $k=>$v)
 echo "</table>\n<br>\n";
 
 theme("","footer");
-
-function get_phpbb2_ver()
-{
-global $forums_dir;
-
-define('IN_PHPBB', true);
-$phpbb_root_path=$forums_dir."/";
-$phpEx="php";
-include_once($forums_dir."/common.php");
-
-return "2".$board_config['version'];
-}
 
 ?>
