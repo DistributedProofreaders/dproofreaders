@@ -298,9 +298,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Personal Statistics:</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;Total Pages: ";
-	echo $neighborhood['pages'][$userindex]."<br>\n";
+	echo number_format($neighborhood['pages'][$userindex])."<br>\n";
 	echo "&nbsp;Current Position: ";
-	echo $neighborhood['rank'][$userindex]."/".$neighborhood['rank'][$i-1]."<br>\n";
+	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['rank'][$i-1])."<br>\n";
 	echo "&nbsp;Current Rank: ";
 	echo "$rankname<br></font>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
