@@ -40,7 +40,7 @@ if ($password=="proofer") {
         abort_registration( "You did not completely fill out the form.  Please hit back and try agian." );
     }
 
-    if (!ereg("^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
+    if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
     {
     	abort_registration("Your e-mail address is invalid.  Please hit back and correct it.");
     }
