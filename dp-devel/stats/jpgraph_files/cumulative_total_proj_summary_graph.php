@@ -170,7 +170,7 @@ $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
-$graph->legend->Pos(0.1,0.1,"left" ,"top"); //Align the legend
+$graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();
