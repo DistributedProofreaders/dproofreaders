@@ -14,7 +14,6 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
     $numrows = mysql_num_rows($result);
     $rownum = 0;
     $rownum2 = 0;
-    $prooflevel=$state==12?'2':'0';
     while ($rownum2 < $numrows) {
            $book=dassoc($result);
             // find out how many files the project has total/available!!!!!
@@ -24,7 +23,7 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
         if ($book['state'] == $state) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
-            $temp = "<A HREF=\"projects.php?project=".$book['projectid']."&amp;prooflevel=$prooflevel\">".$book['nameofwork']."</a>";
+            $temp = "<A HREF=\"projects.php?project={$book['projectid']}&amp;proofstate={$book['state']}\">{$book['nameofwork']}</a>";
             tde($temp,$rownum,0);
             tde($book['authorsname'],$rownum,0);
             tde($book['language'],$rownum,0);
