@@ -1,4 +1,5 @@
 <?
+$relPath="./../pinc/";
 include($relPath.'v_site.inc');
 
 function xmlencode($data) {
