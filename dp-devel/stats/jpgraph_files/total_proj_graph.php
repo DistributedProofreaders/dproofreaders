@@ -10,55 +10,16 @@ new dbConnect();
 
 //Create "projects Xed per day" graph for all known history
 
-switch ( $_GET['which'] )
-{
-	case 'created':
-		$state_condition = "
-			state NOT LIKE 'proj_new%'
-		";
-		$fill_color = 'green';
-		$title = _("Projects Created Each Day Since Stats Began");
-		break;
+$psd = get_project_status_descriptor( $_GET['which'] );
 
-	case 'proofed':
-		$state_condition = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post%'
-		";
-		$fill_color = 'blue';
-		$title = _("Projects Proofed Each Day Since Stats Began");
-		break;
-
-	case 'PPd':
-		$state_condition = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post_second%'
-		";
-		$fill_color = 'silver';
-		$title = _("Projects Post-Processed Each Day Since Stats Began");
-		break;
-
-	case 'posted':
-		$state_condition = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-		";
-		$fill_color = 'gold';
-		$title = _("Projects Posted Each Day Since Stats Began");
-		break;
-
-	default:
-		die( "bad value for 'which'" );
-}
+$timeframe = _('since stats began');
 
 
 //query db and put results into arrays
 $result = mysql_query("
 	SELECT date, SUM(num_projects) AS PC
 	FROM project_state_stats
-	WHERE $state_condition
+	WHERE $psd->state_selector
 	GROUP BY date
 	ORDER BY date
 ");
@@ -93,8 +54,8 @@ draw_projects_graph(
 	$datax,
 	$datay1,
 	'increments',
-	$fill_color,
-	$title,
+	$psd->color,
+	"$psd->per_day_title ($timeframe)",
 	300
 );
 

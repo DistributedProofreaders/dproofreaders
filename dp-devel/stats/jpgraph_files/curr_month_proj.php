@@ -10,58 +10,14 @@ new dbConnect();
 
 // Create "projects Xed per day" graph for current month
 
-$which = $_GET['which'];
-
-switch ( $which )
-{
-	case 'created':
-		$state_selector = "
-			state NOT LIKE 'proj_new%'
-		";
-		$color = 'green';
-		$title = _('Projects Created Per Day for');
-		break;
-
-	case 'proofed':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post%'
-		";
-		$color = 'blue';
-		$title = _('Projects Proofed Per Day for');
-		break;
-
-	case 'PPd':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post_second%'
-		";
-		$color = 'silver';
-		$title = _('Projects PPd Per Day for');
-		break;
-
-	case 'posted':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-		";
-		$color = 'gold';
-		$title = _('Projects Posted Per Day for');
-		break;
-
-	default:
-		die("bad value for 'which'");
-}
+$psd = get_project_status_descriptor( $_GET['which'] );
 
 $todaysTimeStamp = time();
 
-$day = date("d", $todaysTimeStamp);
 $year  = date("Y", $todaysTimeStamp);
 $month = date("m", $todaysTimeStamp);
 $monthVar = _(date("F", $todaysTimeStamp));
-$today = $year."-".$month."-".$day;
+$timeframe = "$monthVar $year";
 
 // number of days this month - note that unlike project_state_stats, 
 // which gets a row added for each new day just after midnight,
@@ -73,7 +29,7 @@ $maxday = mysql_result($result, 0, "maxday");
 $result = mysql_query("
 	SELECT day, SUM(num_projects) AS PC
 	FROM project_state_stats
-	WHERE month = '$month' AND year = '$year' AND ($state_selector)
+	WHERE month = '$month' AND year = '$year' AND ($psd->state_selector)
 	GROUP BY day
 	ORDER BY day
 ");
@@ -107,8 +63,8 @@ draw_projects_graph(
 	$datax,
 	$datay1,
 	'increments',
-	$color,
-	"$title $monthVar $year",
+	$psd->color,
+	"$psd->per_day_title ($timeframe)",
 	300
 );
 

@@ -11,60 +11,15 @@ new dbConnect();
 // Create "cumulative projects Xed per day" graph for all days 
 // since state stats started being recorded up to yesterday
 
-switch ( $_GET['which'] )
-{
-	case 'created':
-		$state_selector = "
-			state NOT LIKE 'proj_new%'
-		";
-		$color = 'green';
-		$title = _('Total Projects Created');
-		break;
+$psd = get_project_status_descriptor( $_GET['which'] );
 
-	case 'proofed':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post%'
-		";
-		$color = 'blue';
-		$title = _('Total Projects Proofed');
-		break;
-
-	case 'PPd':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-			OR state LIKE 'proj_post_second%'
-		";
-		$color = 'silver';
-		$title = _('Total Projects PPd');
-		break;
-
-	case 'posted':
-		$state_selector = "
-			state LIKE 'proj_submit%'
-			OR state LIKE 'proj_correct%'
-		";
-		$color = 'gold';
-		$title = _('Total Projects Posted to PG');
-		break;
-
-	default:
-		die("bad value for 'which'");
-}
-
-$day = date("d");
-$year  = date("Y");
-$month = date("m");
-$monthVar = date("F");
-$today = $year."-".$month."-".$day;
+$timeframe = _('since stats began');
 
 //query db and put results into arrays
 $result = mysql_query("
 	SELECT date, SUM(num_projects) AS P
 	FROM project_state_stats
-	WHERE $state_selector
+	WHERE $psd->state_selector
 	GROUP BY date
 	ORDER BY date ASC
 ");
@@ -86,8 +41,8 @@ draw_projects_graph(
 	$datax,
 	$datay1,
 	'cumulative',
-	$color,
-	$title,
+	$psd->color,
+	"$psd->cumulative_title ($timeframe)",
 	360
 );
 
