@@ -27,7 +27,7 @@ echo_manager_header();
 	<hr width='50%'>
 	<p>
 	Note the new <b>Search Your Projects</b> link above. Try it out!
-	
+
 	<hr width='50%'>
 	<p>
 	There is a new way to upload files to the site without needing anyone to help you:
@@ -204,7 +204,7 @@ echo_manager_header();
             		$author = mysql_result($result, $rownum, "authorsname");
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
-	
+
 			if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_main_bg'];
                 	} else {
@@ -228,7 +228,7 @@ echo_manager_header();
 
 			// Owner
 			echo "<td align=\"center\">";
-            		if ($show == 'site') {
+            		if ($_GET['show'] == 'site') {
                 		print mysql_result($result, $rownum, "username");
             		} else if ($outby != "") {
 				// Maybe we should get this info via a
