@@ -10,6 +10,32 @@ include_once($relPath.'page_ops.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function get_available_page( $project, $proofstate, $pguser )
+{
+    $npage = getAvailablePage( $project, $proofstate, $pguser );
+
+    // check to see if the user has exceeded the R1 BEGIN quota for this project
+    if ($npage['TooManyBegin'] == 1) 
+    {
+        $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
+        return $err;
+    }
+
+    // check to see if project is open
+    if ($npage['isopen'] == 0)
+    {
+        $err = _("No more files available for proofreading for this round of the project.");
+        return $err;
+    }
+
+    $tpage = new processpage();
+    $pagestate = $tpage->checkOutPage( $project, $proofstate, $pguser, $npage['fileid'], $npage['image'] );
+
+    setPageCookie( $project, $proofstate, $npage['fileid'], $npage['image'], $pagestate, 0, 0, 0, 0, 0, 0 );
+}
+
+// -----------------------------------------------------------------------------
+
 function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser, $userP )
 {
     $prd = get_PRD_for_project_state($proofstate);
