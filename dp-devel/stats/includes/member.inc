@@ -172,10 +172,24 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 	} elseif ($currentRank == $prevRank) {
 		// No change in rank.
 		$rankPos = "&nbsp;";
-	} elseif ($currentRank < $prevRank) {
-		$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
-	} elseif ($currentRank > $prevRank) {
-		$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
+	} else {
+		// A change in rank! We will highlight it.
+		if ($currentRank < $prevRank) {
+			// The user's rank number has decreased.
+			// (i.e., their rank has improved; they have moved 'up' the chart).
+			$color = 'green';
+			$arrow = 'up';
+			$sign  = '+';
+			$abs   = $prevRank - $currentRank;
+		} else {
+			// The user's rank number has increased.
+			// (i.e., their rank has worsened; they have moved 'down' the chart).
+			$color = 'red';
+			$arrow = 'down';
+			$sign  = '-';
+			$abs   = $currentRank - $prevRank;
+		}
+		$rankPos = "&nbsp;<font color='$color'>(<img src='".$GLOBALS['code_url']."/graphics/$arrow.gif' border='0' alt='$sign$abs'>&nbsp;".number_format($abs).")</font>";
 	}
 
 	return $rankPos;
