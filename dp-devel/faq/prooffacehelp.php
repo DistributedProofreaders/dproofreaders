@@ -39,7 +39,7 @@ else
     <tr><td>Created</td><td>12/03/2002</td><td>Author: Carel Lyn Miske</td></tr>
     <tr><td>Updated</td><td>12/15/2002</td><td>Tim Bonham</td></tr>
     <tr><td>Updated</td><td>06/17/2003</td><td>Bill Keir</td></tr>
-    <tr><td>Updated</td><td>06/22/2003</td><td>Bill Keir</td></tr>
+    <tr><td>Updated</td><td>06/23/2003</td><td>Bill Keir</td></tr>
     </table>
     </center>
     ";
@@ -270,14 +270,15 @@ $help['Run Spelling Check'] = "
 
 $help['Switch to Vertical/Horizontal'] = "
 <p>
-    <i>\"I'd rather the image was above / to the left of the text.\"</i>
+    <i>\"I'd rather the image was to the left of / above the text.\"</i>
 </p>
 <p>
-    Toggles your interface layout between horizontal
-    (scanned image of page ABOVE the OCR text you are correcting)
-    and vertical
-    (scanned image of page to the LEFT of the OCR text you are correcting)
-    modes.
+    Toggles your interface layout between
+    vertical mode
+    (scanned image of page appears to the LEFT of the OCR text you are correcting)
+    and
+    horizontal mode
+    (scanned image of page appears ABOVE the OCR text you are correcting).
     On the way, it performs a 'SAVE'.
     The page is <a href='#progr'>IN PROGRESS</a>.
 </p>
@@ -291,13 +292,16 @@ $help['Help'] = "
 
 $help['Change Interface Layout'] = "
 <p>
+    <i>\"I'd rather the image was to the left of / above the text.\"</i>
+</p>
+<p>
     <IMG SRC='../tools/proofers/gfx/bt4.png'
 	ALT='Change Interface Layout'
 	TITLE='Change Interface Layout'
 	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
     When in horizontal mode,
-    clicking this button will switch you to vertical mode.
-    The document is saved during the switch.
+    clicking this button will switch you to vertical mode
+    (scanned image of page appears to the LEFT of the OCR text you are correcting).
 </p>
 <p>
     <IMG SRC='../tools/proofers/gfx/bt5.png'
@@ -305,8 +309,12 @@ $help['Change Interface Layout'] = "
 	TITLE='Change Interface Layout'
 	WIDTH='26' HEIGHT='26' BORDER='0' ALIGN='LEFT'>
     When in vertical mode,
-    clicking this button will switch you to horizontal mode.
-    The document is saved during the switch.
+    clicking this button will switch you to horizontal mode
+    (scanned image of page appears ABOVE the OCR text you are correcting).
+</p>
+<p>
+    On the way, it performs a 'SAVE'.
+    The page is <a href='#progr'>IN PROGRESS</a>.
 </p>
 ";
 
@@ -385,7 +393,10 @@ $help['Revert to Original Document'] = "
 
 $help['Refresh Image'] = "
 <p>
-    ?
+    Reloads the image file of the scanned page.
+    Useful if the image 'gets stuck'
+    and doesn't load completely the first time;
+    sometimes it makes an apparently 'missing' image 'reappear'.
 ";
 
 $help['Set Image Zoom Percent'] = "
@@ -520,6 +531,7 @@ BORDER="1" WIDTH="630" CELLPADDING="6">
 COLSPAN="2">
 <P><A HREF="#ibtns"><B>Button and Selection Menu</B></A>
 <P><A HREF="#ikeys"><B>Accelerator Keys (accesskeys)</B></A>
+<P><A HREF="#proofing_toolbar"><B>Help for Proofing Toolbar</B></A>
 <P><B>Additional Help Files</B>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofer's Frequently Asked Questions</A>
@@ -612,7 +624,9 @@ Currently, this is the only method for scrolling the image.<BR>
 
 <hr>
 
+<a name='proofing_toolbar'>
 <center><h3>Help for Proofing Toolbar</h3></center>
+</a>
 
 
 <h4>Special Character Dropdowns</h4>
@@ -858,10 +872,10 @@ and then paste the text from the clipboard (using ctrl-v/cmd-v).
     If you have suggestions for how this documentation can be improved,
     or find an error in it,
     or can make a clarification,
-    please post a message in the
-    <a href='<? echo $general_forum_url; ?>'>General Forum</a>.
+    please post a message in
+    <a href='<? echo $forums_url; ?>/viewtopic.php?t=2739'>this forum topic</a>.
 </p>
-
+<br>
 <?
 theme('','footer');
 ?>
