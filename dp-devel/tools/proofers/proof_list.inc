@@ -70,8 +70,6 @@ while ($a_res = mysql_fetch_row($result))
 
 $array_of_diffs = array('beginner','easy','average','hard');
 
-foreach($array_of_langs as $value) {print $value;}
-
 
 include_once('filter_proof_list.inc');
 
