@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'project_states.inc');
 include($relPath.'maybe_mail.inc');
 
     $old_date = time() - 7776000; // 90 days ago.
@@ -8,7 +9,7 @@ include($relPath.'maybe_mail.inc');
     //get projects that have been checked out longer than old_date
     $result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate
                      FROM projects
-                     WHERE state = 'proj_post_checkedout' AND modifieddate <= $old_date");
+                     WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date");
 
     $numrows = mysql_num_rows($result);
     $rownum = 0;
