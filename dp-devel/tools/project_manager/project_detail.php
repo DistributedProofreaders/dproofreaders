@@ -107,9 +107,39 @@ else
 	$something = 2;
 }
 
+// -----------------------------------------------------------------------------
+
+echo "<h3>Page Summary</h3>\n";
+
+$res = mysql_query( "SELECT count(*) AS total_num_pages FROM $projectid" );
+$total_num_pages = mysql_result($res,0,'total_num_pages');
+
+// This could be made faster (by doing one SQL query outside the loop)
+// but I'm not sure the savings would be noticeable.
+echo "<table border=0>\n";
+foreach ($PAGE_STATES_IN_ORDER as $page_state)
+{
+	$res = mysql_query( "
+		SELECT count(*) AS num_pages
+		FROM $projectid
+		WHERE state='$page_state'
+	");
+	$num_pages = mysql_result($res,0,'num_pages');
+	if ( $num_pages != 0 )
+	{
+		echo "<tr><td align='right'>$num_pages</td><td>in $page_state</td></tr>\n";
+	}
+}
+echo "<tr><td colspan='2'><hr></td></tr>\n";
+echo "<tr><td align='right'>$total_num_pages</td><td align='center'>pages total</td></tr>\n";
+echo "</table>\n";
+
+// -----------------------------------------------------------------------------
 
 echo "<h3>Per-Page Info</h3>\n";
 echo_page_table( $projectid );
+
+// -----------------------------------------------------------------------------
 
 if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 {
