@@ -6,6 +6,4 @@ var $username='';
 var $password='';
 var $dbname='';
 }
-
-$siteurl = '';
 ?>
