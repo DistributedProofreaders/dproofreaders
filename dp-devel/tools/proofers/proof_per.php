@@ -273,18 +273,18 @@ echo "</table>";
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "\n<table border=1 width=630>";
 echo "<br><tr>";
-tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'first') . " colspan=2");
+tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'second') . " colspan=2");
 if ($totalpages < 50) {
-tde("Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.", bgcol(1,'first') . " colspan=5");
-echo "</tr></table>\n<p>";
+tde("Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.", bgcol(1,'second') . " colspan=5");
+echo "</tr>";
 } else {
-tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'first') . " colspan=5");
+tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'second') . " colspan=5");
 echo "</tr>";
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_SECOND."' or state = '".VERIFY_PI_SECOND."' ORDER BY nameofwork ASC");
     showavailablebooks($result,AVAIL_SECOND,$userP,0,'second');
-    echo "</table>\n<p>";
 }
+echo "</table>\n<p>";
 } 
 ?>
 
