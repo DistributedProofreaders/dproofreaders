@@ -12,7 +12,7 @@ function echo_page_table( $projectid, $show_image_size)
 
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
-      // want PPers able to see names
+	// want PPers able to see names
 	$can_see_names = ($can_edit || user_is_PP_of( $projectid));
 
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
@@ -216,8 +216,6 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$projectid, $inRound, $can_edit, $can_see_names)
 {
 	global $userP, $forums_url, $pguser;
-
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager()  || user_is_proj_facilitator() );
 
 	// test
 	//$can_edit = FALSE;
