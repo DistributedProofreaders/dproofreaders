@@ -5,7 +5,8 @@ function showMbrProfile($curMbr) {
 	global $theme, $isAnonymousUsername, $needsApostrophe;
 
 	$now = time();
-	$daysInExistence = number_format(floor(($now - $curMbr['date_created'])/86400))._(" days");
+	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
+	$daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
 	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
 	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
@@ -15,8 +16,8 @@ function showMbrProfile($curMbr) {
 	$highestRank = mysql_result($result, 0, "rank");
 	$highestRankDate = mysql_result($result, 0, "date_updated");
 
-	if ($daysInExistence > 0) {
-	        $daily_Average = $curMbr['pagescompleted']/$daysInExistence;
+	if ($daysInExistenceInteger > 0) {
+	        $daily_Average = $curMbr['pagescompleted']/$daysInExistenceInteger;
 	} else {
 		$daily_Average = 0;
 	}
@@ -29,7 +30,7 @@ function showMbrProfile($curMbr) {
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='$isAnonymousUsername'$needsApostrophe'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe Statistics </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Date Joined")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['date_created'])."&nbsp;($daysInExistence)</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Date Joined")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['date_created'])."&nbsp;($daysInExistenceString)</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Last Login")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['last_login'])."&nbsp;($daysSinceLogin)</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Total Pages")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($curMbr['pagescompleted'])." "._("pages")." (".pageCountPercentage($curMbr['pagescompleted'])._("% of total").")</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Overall Rank")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($rankArray['curMbrRank'])." "._("out of")." ".number_format($rankArray['totalRanks']).rankPosition($rankArray['curMbrRank'], $curMbr['u_id'], 0)."</font></td></tr>";
@@ -102,7 +103,9 @@ function messageCenter($curMbr) {
 function pageCountPercentage($pagescompleted) {
 	$result = mysql_query("SELECT SUM(pages) AS total_pagescompleted FROM pagestats");
 	$total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
+
 	$percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
+
 	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
 	return $percentTotal;
 }
