@@ -1,18 +1,33 @@
 <?PHP
 // Localization setup
+$locales=array(
+	"en"=>"en_EN",
+	"en-us"=>"en_EN",
+        "es"=>"es_ES.utf8",
+	"nl"=>"nl_NL.utf8",
+	"pt"=>"pt_PT",
+	"sr"=>"sr_YU.utf8@cyrillic"
+);
 
 // Try to extract the interface language from user preferences
 if (isset($userP)){
     $intlang = $userP['u_intlang'];
 } else {
-    // Set default interface language to language passed with URL or English if it's not specified
- define ("lang", '');
-    if (!isset($lang) && isset($_GET['lang'])) {
-        $intlang = $_GET['lang'];
-    } elseif (!isset($lang) && !isset($_GET['lang'])) {
-    	$intlang = "en_EN";
-    }
-
+    	if (!isset($_GET['lang'])) {
+		$langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		$intlang = "";
+		foreach($langs as $i) {
+			$i = explode(";",$i);
+			$i = trim($i[0]);
+			if($locales[$i] || $locales[substr($i,0,5)] || $locales[substr($i,0,2)]) {
+				$intlang=$locales[$i];
+				break;
+			}
+		}
+		if (!$intlang) { $intlang = "en_EN"; }
+	} else {
+		$intlang = $_GET['lang'];
+	}
 }
 
 $locale = setlocale(LC_ALL, $intlang);
