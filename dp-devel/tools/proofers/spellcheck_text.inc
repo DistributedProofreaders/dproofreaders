@@ -42,89 +42,72 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		$asr_text = `$aspell_command`;
 		$asr_text = str_replace(array("\r","\n"),array('',"[lf]"),$asr_text);
 		$asr_lines = explode("[lf]",$asr_text);
-		$asr_n_lines = count($asr_lines);
 	}
 
-	//pretty return to show newline [nl] vs ok lines [ok]
-	// discard 0 as it is just the identifier
-	$asr_line_i=1;
-	$asrm_lines=array();
-	$asrm_line_i=0;
-	$check_ok=1;
-
-	while($asr_line_i < $asr_n_lines-2)
-	{
-		if(strcmp($asr_lines[$asr_line_i]{0},'&')==0 || strcmp($asr_lines[$asr_line_i]{0},'#')==0)
-		{
-			// incorrect
-			$asrm_lines[$asrm_line_i]=$asr_lines[$asr_line_i];
-			$check_ok=0;
-		}
-		else 
-		{
-			// correct
-			if ($check_ok==1)
-			{
-				$asrm_lines[$asrm_line_i]="[ok]";
-			}
-			else
-			{
-				$asrm_lines[$asrm_line_i]="[nl]";
-				$check_ok=1;
-			}
-		}
-		$asrm_line_i++;
-		$asr_line_i++;
-	} // end line up arrays
-
-	// print text with html
 	echo "<pre>";
-	foreach($asrm_lines as $asrm_line)
+
+	$orig_line_i = 0;
+	$orig_start  = 0;
+
+	// $asr_lines[0] is the identification line, so start at 1.
+	for ( $i = 1; $i < count($asr_lines); $i++ )
 	{
-		if (strcmp($asrm_line,"[ok]")==0)
+		$asr_line = $asr_lines[$i];
+		if ( $asr_line == '' )
 		{
-			// print text as is
-			$orig_start = 0;
+			// aspell outputs a blank line
+			// after it has finished with the current input line.
+
+			// Flush any remaining original-text on this line.
 			flush_orig( 1000000 );
-			echo "<BR>\n";
+
+			// Put a line-break in the output.
+			echo "\n\n";
+			// (A single '\n' would do, but it makes the lines too squished.)
+
+			// And proceed to the next original-line.
 			$orig_line_i++;
-		}
-		else if (strcmp($asrm_line,"[nl]")==0)
-		{
-			// new line
-			flush_orig( 1000000 );
-			echo "<BR>\n";
 			$orig_start = 0;
-			$orig_line_i++;
-		}
-		else if (strcmp($asrm_line{0},'#')==0)
-		{
-			// format==# original offset
-			$asrm_fields = explode(' ',$asrm_line);
-			$orig_word        = $asrm_fields[1];
-			$orig_word_offset = $asrm_fields[2];
-			flush_orig( $orig_word_offset );
-			spellSuggest($orig_word, 0, $orig_word_offset, '');
-		}
-		else if (strcmp($asrm_line{0},'&')==0)
-		{
-			// format==& original count offset: word, word, ....
-			$sug_array = explode(":",$asrm_line);
-			$asrm_fields = explode(' ',$sug_array[0]);
-			// instructions
-			$orig_word        = $asrm_fields[1];
-			$n_suggs          = $asrm_fields[2];
-			$orig_word_offset = $asrm_fields[3];
-			$suggs_str        = trim($sug_array[1]);
-			flush_orig( $orig_word_offset );
-			spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str);
 		}
 		else
 		{
-			echo "Error Processing Aspell return data<BR>\n";
+			$asr_flag = $asr_line{0};
+			// Because aspell was invoked in "terse" mode,
+			// $asr_flag must be one of & ? #
+
+			if ( $asr_flag == '&' || $asr_flag == '?' )
+			{
+				// format:
+				//     &  <original>  <count>  <offset>: <miss>, <miss>, ..., <guess>, ...
+				//     ?  <original>     0     <offset>: <guess>, <guess>, ...
+
+				$sug_array = explode(":",$asr_line);
+				$asr_fields = explode(' ',$sug_array[0]);
+				$orig_word        = $asr_fields[1];
+				$n_suggs          = $asr_fields[2];
+				$orig_word_offset = $asr_fields[3];
+				$suggs_str        = trim($sug_array[1]);
+			}
+			else if ( $asr_flag == '#' )
+			{
+				// format:
+				//     # <original> <offset>
+				$asr_fields = explode(' ',$asr_line);
+				$orig_word        = $asr_fields[1];
+				$orig_word_offset = $asr_fields[2];
+				$n_suggs          = 0;
+				$suggs_str        = '';
+			}
+			else
+			{
+				echo "unexpected aspell flag: '$asr_flag'<BR>\n";
+				return;
+			}
+			flush_orig( $orig_word_offset );
+			spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str);
 		}
-	} // end display text for spelling
-	flush_orig( 1000000 );
+	}
+
 	echo "</pre>";
 
 	echo "<input type='hidden' name='sptotal' value='$n_bad_words'>";
