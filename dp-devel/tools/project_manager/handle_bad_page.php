@@ -18,7 +18,7 @@ if (!isset($_POST['action'])) {
   }
 
   //Find out information about the bad page report
-    $result = mysql_query("SELECT * FROM $projectID WHERE fileid=$fileID");
+    $result = mysql_query("SELECT * FROM $projectID WHERE fileid='$fileID'");
     $imageName = mysql_result($result,0,"image");
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
