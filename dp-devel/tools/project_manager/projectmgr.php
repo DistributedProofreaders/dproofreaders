@@ -6,47 +6,18 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 $projectinfo = new projectinfo();
+include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
 include_once('page_table.inc');
 
 if (isset($_GET['project'])) { $no_stats=1; }
 theme("Project Managers", "header");
 
-//If they are not a manager let them know with a link back to the Personal Page
-	if ($userP['manager'] != "yes") {
-		echo "<P>You are not listed as a project manager. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
-        	echo "<P>Back to <A HREF=\"../../default.php\">home page</A>";
-        	theme("","footer");
-        	exit();
-	}
+abort_if_not_manager();
+echo_manager_header();
 
-//Display the introduction & links bar
-	echo "<p><center>";
-	echo "<a href='projectmgr.php'>Show Your Active Projects</a>";
-	echo " | ";
-	echo "<a href='projectmgr.php?show=all'>Show All of Your Projects</a>";
-	echo " | ";
-	echo "<a href='editproject.php'>Create Project</a>";
-	echo " | ";
-	if ($userP['sitemanager'] == "yes") { 
-		echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
-		echo " | ";
-		echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
-	}
-	else
-	{
-		echo "<b><a href='projectmgr.php?show=search_form'>Search Your Projects</a></b>"; 
-	}
-	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
 ?>
-	<p>
-	<font size=-1>
-	Comments on this page?
-	Please visit
-	<a href='<? echo $forums_url; ?>/viewtopic.php?t=2793'>this forum topic</a>.
-	</font>
-
 	<p><b>Project Manager Notice:</b><br>
 
 	<p>
