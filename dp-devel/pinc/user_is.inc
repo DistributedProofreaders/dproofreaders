@@ -48,6 +48,24 @@ function user_is_proj_facilitator()
 	}
 }
 
+function user_is_PP()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager()) return TRUE;
+
+	$result = mysql_query("SELECT postprocessor, pagescompleted FROM users WHERE username = '$pguser'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "postprocessor") == $pguser) { return TRUE; } 
+		elseif (mysql_result($result, 0, "pagescompleted") >= 400) { return TRUE; } 
+		else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
 function user_is_post_proof_verifier()
 {
 	global $userP, $pguser;
