@@ -28,7 +28,7 @@ if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
     setcookie("language",$intlang,time()+31536000,"/");
 } else if (isset($userP)  && $userP['u_intlang']){
     $intlang = $userP['u_intlang'];
-} else if ($_COOKIE['language']) {
+} else if (isset($_COOKIE['language']) && $_COOKIE['language']) {
     $intlang=$_COOKIE['language'];
 } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
     $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
