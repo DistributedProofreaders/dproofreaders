@@ -17,11 +17,12 @@ else
     $sec = $seconds;
 }
 
-echo $docType."\r\n";
-echo "<HTML><HEAD><TITLE>$title</TITLE>\r\n";
-echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"$sec ;URL=$url\">\r\n";
-echo "</HEAD><BODY>\r\n";
-echo $body, "\r\n";
+echo $docType."\n";
+echo "<html><head><title>$title</title>\n";
+echo "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">\n";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />\n";
+echo "</head><body>\n";
+echo $body, "\n";
 
 if ($testing)
 {
@@ -34,6 +35,6 @@ or if you want this page inserted into your browser history,
 	echo "</i>";
 }
 
-echo "</BODY></HTML>";
+echo "</body></html>";
 }
 ?>
