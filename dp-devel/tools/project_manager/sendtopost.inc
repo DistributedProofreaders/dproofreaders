@@ -80,10 +80,10 @@ include_once($relPath.'maybe_mail.inc');
 
         $projectpath = "$projects_dir/$project";
 
-        // Make a zip all page-images.
+        // Make a zip all page-images (and any other images).
         // (for "Download Zipped Images")
         $zippedimages = "{$project}images.zip";
-        exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
+        exec ("zip -j $projectpath/$zippedimages $projectpath/*.png $projectpath/*.jpg");
 
         // Generate comments html file.
         $comments_path = "$projectpath/{$project}_comments.html";
