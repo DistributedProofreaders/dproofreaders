@@ -38,7 +38,8 @@ If you're upgrading from a previous version, things would be different ...
 
     --- Create the user.
         (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
-            GRANT ALL ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
+            GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
+            GRANT FILE ON *.*     TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the mysql client.
             quit
