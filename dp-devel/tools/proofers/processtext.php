@@ -62,7 +62,7 @@ $dbQuery.=" WHERE fileid='$fileid'";
 $result = dquery($dbQuery);
 }
 
-function setSaveComplete()
+function setSaveComplete($project,$prooflevel,$fileid,$pguser)
 {
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
@@ -133,7 +133,7 @@ metarefresh(0,$frame1,' ',' ');
 // save and do another send back to proof.php for a new page
 if (isset($button2) || isset($button2_x))
 {
-setSaveComplete();
+setSaveComplete($project,$prooflevel,$fileid,$pguser);
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
 $newjs='&js='.$js;
@@ -153,7 +153,7 @@ if (!isset($saved))
   $dbQuery.=$prooflevel==2?"12":"2";
   $dbQuery.="' WHERE image = '$imagefile'";
   $result = mysql_query($dbQuery);}
-else {setSaveComplete();}
+else {setSaveComplete($project,$prooflevel,$fileid,$pguser);}
 if ($js==0)
   {metarefresh(0,'proof_per.php',' ',' ');}
   else {
