@@ -29,8 +29,8 @@ theme('Proofing Guidelines','header');
 <h4>Proofing Guidelines in <a href="doc-fr.html">French</font></a> /
     Directives de Formatage en <a href="doc-fr.html">Fran&ccedil;aise</font></a></h4>
  ** Temporary redirect:  -->
-<h4>Proofing Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</font></a> /
-    Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</font></a></h4>
+<h4>Proofing Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</a> /
+    Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</a></h4>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
     <tr>
@@ -262,7 +262,7 @@ theme('Proofing Guidelines','header');
     Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
     proofing on a page by pressing either
-    the "Save as 'Done'" or the "Save as 'Done' & Proof Next" buttons.
+    the "Save as 'Done'" or the "Save as 'Done' &amp; Proof Next" buttons.
     Pressing either of these buttons moves the link to the page from
     the "IN PROGRESS" section to the "DONE" section. This is
     the only way you can mark pages as complete and make sure your work will get through
@@ -430,7 +430,7 @@ theme('Proofing Guidelines','header');
     </tr>
     <tr align="center">
       <td width="100%" valign="top"> <img src="foot.png" alt=""
-          width="694" height="1068"><br>
+          width="546" height="936"><br>
       </td>
     </tr>
     <tr>
@@ -530,7 +530,7 @@ theme('Proofing Guidelines','header');
     </tr>
     <tr align="center">
       <td width="100%" valign="top"> <img src="chap1.png" alt=""
-          width="768" height="1040"><br>
+          width="584" height="816"><br>
       </td>
     </tr>
     <tr>
@@ -699,7 +699,7 @@ theme('Proofing Guidelines','header');
 <p> If a footnote or endnote is referenced in the text but does not appear on that page,
     keep the footnote/endnote number or marker and surround it with with brackets
     (<tt>[</tt> and <tt>]</tt>) and put a <tt>*</tt> next to it so the post-proofer can
-    find it. (This is common in scientific & technical books, where footnotes are often
+    find it. (This is common in scientific &amp; technical books, where footnotes are often
     grouped at the end of chapters.)
 <p><b>Out-of-Line Footnotes:</b>
     For these, Surround the footnote number, *, or other character that marks a footnote
@@ -724,8 +724,8 @@ theme('Proofing Guidelines','header');
           Both were of the aristocratic                                          <br>
           (Patrician) class, and were quite wealthy.                             <br>
      <hr align="left" width="50%" noshade size=2>
-     <font size=-1><sup>1</sup> Gaius Julius Caesar.                             <br>
-     <font size=-1><sup>2</sup> Marcus Tullius Cicero. </font>
+     <font size=-1><sup>1</sup> Gaius Julius Caesar.</font>                      <br>
+     <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
       </td>
     </tr>
     <tr>
@@ -748,18 +748,19 @@ theme('Proofing Guidelines','header');
     <tr>
       <th valign="top" align="left">Proofed with Out-of-Line Footnotes: </th>
     </tr>
-      <td valign="top">
+      <tr valign="top">
+      <td>
         <tt>
           The principal persons involved
           in this argument were Caesar[1],
           former military                                                        <br>
           leader and Imperator, and the orator Cicero[2].
           Both were of the aristocratic                                          <br>
-          (Patrician) class, and were quite wealthy.
+          (Patrician) class, and were quite wealthy.</tt>
      <hr align="left" width="50%" noshade size=2>
-          [Footnote 1: Gaius Julius Caesar]                                      <br>
+          <tt>[Footnote 1: Gaius Julius Caesar]                                      <br>
                                                                                  <br>
-          [Footnote 2: Marcus Tullius Cicero]
+          [Footnote 2: Marcus Tullius Cicero]</tt>
       </td>
     </tr>
   </tbody>
@@ -855,7 +856,7 @@ theme('Proofing Guidelines','header');
   <br>
     (Note: either lower-case <tt>&lt;b&gt;</tt> or upper-case <tt>&lt;B&gt;</tt> is
     OK, whichever you prefer.) </p>
-  <br>
+  <p>
     Previously, we used to change bold text into all capitals.  We no longer do it that
     way, unless the Project Manager specifies that method in the <a
     href="#comments">Project Comments</a>. </p>
@@ -1627,7 +1628,7 @@ image/text for an example.</p>
                        &nbsp;&nbsp;birth of,                               <br>
                        &nbsp;&nbsp;christening,                            <br>
                        &nbsp;&nbsp;death and burial,                       <br>
-                       Ethelred II, the Unready                            </td>
+                       Ethelred II, the Unready                            </tt></td>
     </tr>
   </tbody>
 </table>
