@@ -16,6 +16,60 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
+if (1)
+{
+    // For each possible project state, create a project in that state.
+    include($relPath.'project_states.inc');
+    $state_constant_names = array(
+	'PROJ_NEW',
+
+	'PROJ_PROOF_FIRST_BAD_PROJECT',
+	'PROJ_PROOF_FIRST_UNAVAILABLE',
+	'PROJ_PROOF_FIRST_WAITING_FOR_RELEASE',
+	'PROJ_PROOF_FIRST_AVAILABLE',
+	'PROJ_PROOF_FIRST_VERIFY',
+	'PROJ_PROOF_FIRST_COMPLETE',
+
+	'PROJ_PROOF_SECOND_BAD_PROJECT',
+	'PROJ_PROOF_SECOND_UNAVAILABLE',
+	'PROJ_PROOF_SECOND_WAITING_FOR_RELEASE',
+	'PROJ_PROOF_SECOND_AVAILABLE',
+	'PROJ_PROOF_SECOND_VERIFY',
+	'PROJ_PROOF_SECOND_COMPLETE',
+
+	'PROJ_POST_FIRST_UNAVAILABLE',
+	'PROJ_POST_FIRST_AVAILABLE',
+	'PROJ_POST_FIRST_CHECKED_OUT',
+	'PROJ_POST_SECOND_AVAILABLE',
+	'PROJ_POST_SECOND_CHECKED_OUT',
+	'PROJ_POST_COMPLETE',
+
+	'PROJ_SUBMIT_PG_UNAVAILABLE',
+	'PROJ_SUBMIT_PG_AVAILABLE',
+	'PROJ_SUBMIT_PG_POSTING',
+	'PROJ_SUBMIT_PG_POSTED',
+
+	'PROJ_CORRECT_AVAILABLE',
+	'PROJ_CORRECT_CHECKED_OUT',
+
+	'PROJ_COMPLETE',
+	'PROJ_DELETE',
+    );
+    $i = 0;
+    foreach( $state_constant_names as $state_constant_name )
+    {
+	$i += 1;
+	$state_value = constant($state_constant_name);
+	mysql_query("
+	    INSERT INTO projects
+	    SET
+		projectid='jmd_$i',
+		nameofwork='$state_constant_name',
+		state='$state_value'
+	") or die(mysql_error());
+    }
+}
+
 if (0)
 {
     system("pwd");
