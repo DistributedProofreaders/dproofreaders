@@ -77,7 +77,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-	echo "<img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo'>\n";
+	echo "<a href='$siteurl'><img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a>\n";
 	echo "</td>\n";
 	// show number of projects left till 10,000
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>\n";
