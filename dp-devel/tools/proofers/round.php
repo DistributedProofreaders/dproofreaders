@@ -124,7 +124,9 @@ if (!isset($RFilter)) { $RFilter = ""; }
 // special colours legend
 // Don't display if the user has selected the
 // setting "Show Special Colors: No".
-if (!$userSettings->get_boolean('hide_special_colors'))
+// Regardless of the preference, don't display
+// the legend to newbies.
+if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
     echo "<p><font face='{$theme['font_mainbody']}'>\n";
