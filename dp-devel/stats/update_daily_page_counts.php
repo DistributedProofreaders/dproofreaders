@@ -42,14 +42,14 @@ if ($testing_this_script)
     }
     else
     {
-	echo "Using 2003-06-20 instead", $EOL;
-	$X_year  = 2003;
-	$X_month = 06;
+	echo "Using 2004-06-20 instead", $EOL;
+	$X_year  = 2004;
+	$X_month = 6;
 	$X_day   = 20;
     }
 
-    echo "And pretending that today is 2003-07-03.", $EOL;
-    $today_start_ts = mktime(0,0,0, 7,3,2003);
+    // echo "And pretending that today is 2003-07-03.", $EOL;
+    // $today_start_ts = mktime(0,0,0, 7,3,2003);
 }
 
 $tracetime = time();
