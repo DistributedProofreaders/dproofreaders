@@ -47,6 +47,7 @@ if (!empty($_GET['lang']) && $func == "translate") {
 			echo "<b><i>".trim(htmlentities($translation['msgid'][$i], ENT_NOQUOTES, "UTF-8"))."</b></i> (<a href='$code_url/$location' target='_new'>Location</a>)<br>";
 			echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'><input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize(trim($translation['msgid'][$i])))."'>";
 			echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".trim(htmlentities($translation['msgstr'][$i], ENT_NOQUOTES, "UTF-8"))."</textarea><br><br>";
+			echo "\n";
 			$i++;
 			}
 
