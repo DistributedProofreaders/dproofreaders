@@ -7,6 +7,8 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'f_dpsql.inc');
 new dbConnect();
 
+header('Content-type: text/plain');
+
 // -----------------------------------------------
 // Create 'current_tallies' table.
 
@@ -63,8 +65,75 @@ dpsql_query("
 // DROP COLUMN page_count
 
 // -----------------------------------------------
+// Delete team #1 (team of the whole),
+// but save its data first, just in case.
 
-echo "Done!";
+$res = dpsql_query("
+    SELECT *
+    FROM user_teams
+    WHERE id=1
+") or die("Aborting.");
+
+if ( mysql_num_rows($res) == 0 )
+{
+    echo "No team #1 entry in user_teams, which is unusual.\n";
+}
+else
+{
+    $info = '';
+    foreach ( mysql_fetch_assoc($res) as $key => $value )
+    {
+        $info .= "$key: $value\n";
+    }
+
+    echo "This script is about to delete the team #1 entry from user_teams\n";
+    echo "(because the teams code would no longer treat it as a special case).\n";
+    echo "Here is data from the entry:\n";
+    echo "\n";
+    echo $info;
+    echo "\n";
+    echo "The page_count has already been copied into the current_tallies table.\n";
+    echo "In case there's anything else useful in the above data, we're going to write\n";
+    echo "it to a file (which should appear in the directory containing this script).\n";
+    echo "...\n";
+
+    $time = strftime('%Y%m%d_%H%M%S');
+    $filename = "team_1_data_$time.txt";
+
+    $fp = fopen($filename, 'w');
+    if (!$fp)
+    {
+        die("Failed to open $filename, so aborting");
+    }
+    $n = fwrite($fp, $info);
+    if (!$n)
+    {
+        die("Failed to write to $filename, so aborting");
+    }
+    $r = fclose($fp);
+    if (!$r)
+    {
+        die("Failed to close $filename, so aborting");
+    }
+
+    echo "The data appears to have been successfully saved in $filename.\n";
+    echo "\n";
+    echo "Proceeding to delete the row...\n";
+
+    dpsql_query("
+        DELETE
+        FROM user_teams
+        WHERE id=1
+    ") or die("Aborting.");
+    echo "\n";
+
+    echo "Deleted.\n";
+    echo "Maybe save this page too, just in case.\n";
+    echo "\n";
+}
+
+
+echo "Script done!";
 
 // vim: sw=4 ts=4 expandtab
 ?>
