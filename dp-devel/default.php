@@ -50,10 +50,9 @@ submits it to the PG archive.
 
 <td bgcolor=CCCCCC></td><td bgcolor=CCCCCC align=left><font size="+1">Update: Saturday November 16th</font></td><tr>
 <td bgcolor=CCCCCC></td><td>
-I have finally had a chance to update the finance page.. we have received almost $675 in donations! The site is now actually $127.47 in <b> the black.</b> Big Thanks!! to everyone who donated.
-<p>I am still buried in email and scanning.  Charles F.
-<p>Want to help support this site????  We can always use $$ to buy books, software, hardware etc. By clicking on the 'Beg Button' below you can donate with your credit card or PayPal account via PayPal!!<br>
-You can view the financial statement for this site <a href="finance.html">here.</a>
+<B>This is a test site site, not the real site. Visit http://texts01.archive.org/dp/ for the real site.
+
+<br>You can view the financial statement for this site <a href="finance.html">here.</a>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="charlz@lvcablemodem.com">
