@@ -68,10 +68,10 @@ $result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY 
 
 while (list ($state) = mysql_fetch_row ($result)) {
 
-	$result = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = $state and date = date('Y-m-d')");
+	$result2 = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = $state and date = date('Y-m-d')");
 
 	// no row for this state yet today
-	if ( ! mysql_result($result,0)) {	
+	if ( ! mysql_result($result2,0)) {	
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
