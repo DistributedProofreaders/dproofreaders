@@ -16,8 +16,7 @@ echo "<br>\n";
 
 echo _("We don't know for sure who PPd these books; if you do know, or if you did, please send email
 	e-mail: ")."<a href='mailto:$general_help_email_addr'>$general_help_email_addr</a> "
-	._("quoting the other information in the row, including the project ID. 
-	If you were the PPer and want no credit, please let us know and we will assign it to 'Anon.', thanks!")."<br><br>";
+	._("quoting the other information in the row, including the project ID. Thanks!")."<br><br>";
 
 	
 //get projects that have been PPd but we don't know by whom
