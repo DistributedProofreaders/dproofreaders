@@ -32,7 +32,7 @@ $graph->SetScale("textint");
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
 // Only draw labels once a week ( = 168 hours)
-//$graph->xaxis->SetTextLabelInterval(168);
+$graph->xaxis->SetTextLabelInterval(168);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 
