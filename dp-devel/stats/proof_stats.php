@@ -54,7 +54,7 @@ else
 {
 
 	// hide names of users who don't want unlogged on people to see their names
-	$proofreader_expr = "IF(u_privacy > ".PRIVACY_PUBLIC.",'Anonymous', username)";
+	$proofreader_expr = "IF(u_privacy != ".PRIVACY_PUBLIC.",'Anonymous', username)";
 }
 dpsql_dump_themed_ranked_query("
 	SELECT
