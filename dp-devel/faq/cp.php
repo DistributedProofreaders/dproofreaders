@@ -7,9 +7,8 @@ new dbConnect();
 $no_stats=1;
 theme('Scanning and Submitting Guidelines','header');
 ?>
-
   <meta name="Author" content="Stephen Schulze">
-  <meta name="author" content="thubdergnat">
+  <meta name="author" content="thundergnat">
 
 <h1>Scanning, Preprocessing &amp; Submitting Guidelines</h1>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./scanfaq.php">Scanning
@@ -255,12 +254,12 @@ the png and text directories to keep track of them easier. That is fine
 too if you prefer it that way. Personal preferance and comfort comes
 into this a lot.<br>
 <p>&nbsp;When your batch directory is set up, in Abbyy, Select
-File-&gt;Scan Multiple images (Ctrl+Shift+K) to start scanning the
-book. From here the procedure will vary greatly depending on what
-features your scanner has, (automatic document feeder or not) and your
-personal preferences, (acknowledge each scan or have a timed pause
-between.) Obviously, other packages will be different; your best bet is
-to check the help files that came with your specific package.</p>
+File-&gt;Scan Multiple images (Ctrl+Shift+K) to start scanning the book.
+From here the procedure will vary greatly depending on what features
+your scanner has, (automatic document feeder or not) and your personal
+preferences, (acknowledge each scan or have a timed pause between.)
+Obviously, other packages will be different; your best bet is to check
+the help files that came with your specific package.</p>
 Some OCR packages may need to have the images split into two separate
 pages. (see <a href="#software">software</a> section) Finereader can do
 this automatically as long as there is some white space between the
@@ -275,18 +274,19 @@ down till there is no or very little margin around the text, this can
 affect recognition and can cause difficulties during the proofing
 process. Ideally, what you want is some white space around the text, but
  no black. When you save your image files, save them as black and white
-images, not color or grayscale;&nbsp; you probably want ".tif" or
-".png" format image files. Later you'll NEED ".png" format files, so if
-your OCR software can handle them it might be better to use them now.
-Avoid saving them as jpegs (lossy format) or .bmp bitmaps (huge files).
-Under Finereader, to save all the image files at once, select them all
+images, not color or grayscale;&nbsp; you probably want ".tif" or ".png"
+format image files. Later you'll NEED ".png" format files, so if your
+OCR software can handle them it might be better to use them now. Avoid
+saving them as jpegs (lossy format) or .bmp bitmaps (huge files). Under
+Finereader, to save all the image files at once, select them all
 first,(click in the thumbnail window and press Ctrl-A) then choose
 File-&gt;Save Images (F12), and be sure to give the images a name since
 it doesn&#8217;t insert the batch name automatically. It will save them in a
 series with the specified name, a hyphen, and a four digit counter.
 (Book1 - 0001.png, Book1 - 0002.png... etc.) Save them to the
-"Projects\Book1\pngs" directory.
-<p><b>VERY IMPORTANT! </b>- Make sure the files are named in an order
+"Projects\Book1\pngs" directory.<br>
+<br>
+<b>VERY IMPORTANT! </b>- Make sure the files are named in an order
 that is sequential and alphabetically ordered. (Automatic under
 Finereader-as long as they were loaded in the correct order.) If your
 package allows it, your best bet is to name the files "001.png (or
@@ -295,19 +295,22 @@ rename them later in the preprocessing section. It will name them
 sequentially but not in the exact format we need.) This will make it
 easier to keep the order straight and avoid gaps and holes in the naming
  system. (And besides, you'll need to get them into this format later
-anyway.)</p>
-<p><span style="font-weight: bold;">For e-texts/.pdf files</span>, you
-want to end up in the same place. If the page images are available as
-single page .tifs, .gifs, or .pngs you'll need to download them, convert
- them to .pngs, and make sure the filenames follow the correct format.
-If you have multi page images, you may need to split them first. With
-.pdf files you'll need to use one of the software utilities to extract
-the .tif (usually) images from the .pdf</p>
+anyway.)<br>
+<p>For e-texts/.pdf files, you want to end up in the same place. If the
+page images are available as single page .tifs, .gifs, or .pngs you'll
+need to download them, convert  them to .pngs, and make sure the
+filenames follow the correct format. If you have multi page images, you
+may need to split them first. With .pdf files you'll need to use one of
+the software utilities to extract the .tif (usually) images from the
+.pdf</p>
 <p><b>Note:</b> Abbyy Finereader OCR 6.0 is capable of working directly
 with .pdf files. You don't need to extract the images first. If you set
 up a batch, it will extract .tif images to the batch directory
 automatically as it is loading the .pdf files. These can then be
-converted to .pngs for later use. </p>
+converted to .pngs for later use.<br>
+</p>
+<div><br>
+</div>
 <hr size="3" width="100%" align="left">
 <p style="font-weight: bold;"><big><a name="ocr">Whew! I've got the
 image files done. What's next?</a></big></p>
@@ -341,14 +344,61 @@ language for the text. Hit (Ctrl-shift-R) or the "read all" icon, to
 initiate the OCR sequence, then go away for another (usually shorter)
 break. There is also an option under the "Process" menu to perform
 background processing, which allows you to minimize the window and do
-other things while waiting.</p>
+other things while waiting.<br>
+</p>
+<div>For complex or "busy" pages of text and illustrations, some extra
+work may be necessary. ABBYY Finereader tries to analyze the layout of a
+page as it does the OCR. For simple, two-column pages it usually gets
+the layout right, but if the columns are broken up by illustrations,
+tables, etc, it will almost certainly get the layout wrong.<br>
+&nbsp;</div>
+<div>It is possible to draw boxes on the scanned image to show
+Finereader which pieces of text to group together. Once the boxes are
+drawn, you can tell Finereader how to order them in the OCR'd text. In
+order to draw the boxes, click on the little box icon at the top of
+the icons along the left-hand side of the window. This is usually the
+default, so clicking on that icon may not be necessary. Find your
+starting point, hold down the mouse button and drag until the box is
+the right size. You can adjust the box in fine detail in the zoomed
+image at the bottom of the window. If you draw the boxes in the order
+that you want them processed then you don't have to do anything else.
+Just hit Cntrl-R and let Finereader OCR the page. Sometimes, however,
+it's not convenient to draw the boxes in the correct order. You can
+tell Finereader what order you want by clicking on the 123 icon on the
+left side of the window. Then click on the text/illustration boxes in
+the order that you want them. The numbers on the boxes will change to
+reflect the final output order. Note that when Finereader is actually
+doing the OCR, it may not process the boxes in the order you
+specified, but the result will come out in the correct order.</div>
+<div>&nbsp;</div>
+<div>When doing OCR on a long, complicated project, it works well to
+let Finereader OCR all the pages, then go through and look briefly at
+each page to see if it needs manual tuning. You can move from page to
+page quite quickly by using Alt-down arrow. When you see a page that
+Finereader didn't get right, you can delete the OCR'd text only or the
+OCR'd text AND the text boxes, depending on how badly it got things
+wrong. Fix or redraw the boxes and fix the order as necessary, then
+move on to the next page. If you have Background Processing turned on,
+it will do the OCR while you are looking for the next problem page.</div>
+<div>&nbsp;</div>
+<div>Note also that you can specify different recognition languages
+for different text boxes, but, at least in Finereader 5.0, you must
+manually change the language, and read each box in the correct order,
+making this quite time consuming.</div>
+<div>&nbsp;</div>
+For complicated projects, getting Finereader to group the text
+correctly and present it in a sensible order saves the proofers A LOT
+of time. It is WELL worth the extra time to get it right at the OCR
+stage.
 <p>When that is done, you'll need to save the text files to do further
 processing on them. Depending what tools you will use in preprocessing,
-the formats and locations you save them in will vary. To use the
-guiprep / winprep script (highly recommended) or the cleanup script,
-you will need to do somthing like the following :<br>
+the formats and locations you save them in will vary. To use the guiprep
+/ winprep script (highly recommended) or the cleanup script, you will
+need to do somthing like the following :<br>
 </p>
-An excerpt from the guiprep.pl manual. (Included with the script)<br>
+An excerpt from the <a
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.html">guiprep.plmanual</a>.
+(Included with the guiprep script)<br>
 <p style="margin-left: 40px;"><big><span style="font-weight: bold;">Setting
 up the text files:</span></big><br>
 <br>
@@ -422,7 +472,9 @@ Dehyphenate under the Process Text tab. It won't hurt to leave them
 checked but the script will complain that it can't find the other
 directories and/or files.<span style="font-weight: bold;"></span><br>
 <span style="font-weight: bold;"> </span></div>
-<p><br>
+<p>If you aren't using guiprep or cleanup, just save the files into the
+"text" directory. Save as plain text, keep line breaks, use blank line
+as paragraph seperator.<br>
 </p>
 <hr size="3" width="100%" align="left">
 <p style="font-weight: bold;"><big><a name="process">You're kidding me!
@@ -439,9 +491,10 @@ hyphens and rejoining the broken words, filtering out many, many
 scanning errors, renaming the files in the format need by Distributed
 Proofreaders and checking for zero byte files, all automatically. It
 also provides an interactive mechanism for header removal which is more
-stable and user friendly than PRTKs. The manual included with the
-script is quite comprehensive and should be consulted for any detailed
-questions.<br>
+stable and user friendly than PRTKs. The <a
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.html">manual</a>
+included with the script is quite comprehensive and should be consulted
+for any detailed questions.<br>
 </p>
 <p>&nbsp;A general overview of how to use it: <br>
 </p>
@@ -451,28 +504,23 @@ tabs. <br>
 Step 1. Goto the Change Directory tab. Navigate to the directory
 containing the textw and textwo (or text) directories. <br>
 Step 2. Goto the Select options tab. Select the appropriate options for
-your text. The defaults are probably fine for most texts. Exceptions
-and caveats are discussed in the manual. <br>
+your text. The defaults are probably fine for most texts. Exceptions and
+caveats are discussed in the manual. <br>
 Step 3. Go to the Process Text tab. Select which functions you want to
-perform; extract, dehyphenate...etc. Press the Do All Selected button
-or just press the buttons to run each function individually. A status
-box will display progress and error messages if they occur.<br>
+perform; extract, dehyphenate...etc. Press the Do All Selected button or
+just press the buttons to run each function individually. A status box
+will display progress and error messages if they occur.<br>
 Step 4. Go to the header removal page. Press Get Headers to get a list
 of the headers from the files. Select the headers you want to be
 deleted. Press remove headers. Repeat as necessary.<br>
 </p>
-<p>The finished file will be in a directory named "text".<br>
+<p>The finished files will be in a directory named "text".<br>
 </p>
-<p>If you haven't already, you are going to need to rename the image
-files into the format "001.png, 002.png, 003.png.... etc. with no holes
-or skips in the sequence, in the SAME order that the book is in. You
-MUST have the leading zeros and there MUST be only the digits in the
-file name. (There are several utilities available, 1-4a Renamer in the <a
- href="file:///C:/books/cvs/dp-devel/faq/scan/submitting.php#software">software</a>
-section is very nice.) If your book has more than 1000 pages, (!!) you
-may want to split it into two roughly equal sections and submit it as
-two different projects to go through proofing, then reassemble it in
-post processing.</p>
+<p>Guiprep also can automatically rename your .png files and provides a
+front end to pngcrush to losslessly reduce the size of your png file
+and reduce your upload. It also has a FTP client built in which will
+automate a lot of the upload.<br>
+</p>
 <p>Pre-processing complete.</p>
 <p><span style="font-weight: bold;">PRTK:</span><br>
 </p>
@@ -496,9 +544,9 @@ your file browser view so that file  size details are shown, then sort
 the files smallest to largest. Look at the smallest text file. If it is
 greater than zero bytes you are OK. If not, open the file with a text
 editor and put SOMETHING in there. "Blank Page" is popular. (Ah! so
-THAT'S why they show up occasionally when I'm proofing pages.)
-Actually, it&#8217;s a good idea to put two lines of something in there to
-save aggravation later.<br>
+THAT'S why they show up occasionally when I'm proofing pages.) Actually,
+it&#8217;s a good idea to put two lines of something in there to save
+aggravation later.<br>
 Something like:</p>
 <p> HEADER<br>
 Blank Page<br>
@@ -506,18 +554,18 @@ Blank Page<br>
 As long as it is no longer zero bytes. Do this for all of the zero byte
  .txt files  then save them as plain text.
 <p>If you haven't already, you are going to need to rename the image
-files into the format "001.png, 002.png, 003.png.... etc. with no holes
+files into the format 001.png, 002.png, 003.png.... etc. with no holes
 or skips in the sequence, in the SAME order that the book is in. You
-MUST have the leading zeros and there MUST be only the 3 characters
-(digits) in the file name. PRTK has a tool to allow you to rename your
-image and/or text files. Click on the Tools menu and go to File Renamer.
- This will open up a somewhat terse dialog allowing you to do just that.
- (Or, if you would prefer, use one of the other utilities available,
-1-4a Renamer in the <a href="#software">software</a> section is very
-nice.) When that is done, do the same thing with the text files. If your
-book has more than 1000 pages, (!!) split it into two roughly equal
-sections and submit it as two different projects to go through
-proofing, then reassemble it in post processing.</p>
+MUST have the leading zeros and there MUST be only digits in the file
+name. PRTK has a tool to allow you to rename your image and/or text
+files. Click on the Tools menu and go to File Renamer.  This will open
+up a somewhat terse dialog allowing you to do just that.  (Or, if you
+would prefer, use one of the other utilities available, 1-4a Renamer in
+the <a href="#software">software</a> section is very nice.) When that
+is done, do the same thing with the text files. If your book has more
+than 1000 pages, (!!) split it into two roughly equal sections and
+submit it as two different projects to go through proofing, then
+reassemble it in post processing.</p>
 <p>You now hopefully have the image files and text files, named in the
 correct format with the corresponding numbers pointing to the same page.
  (one image, one of text) Check several pairs randomly, if they don't
@@ -545,20 +593,23 @@ project?</b></a></big></p>
 <p>If this is your first time submitting a project and/or you are not a
  project manager,&nbsp; send an email or private message to <a
  href="mailto:juliet.sutherland@verizon.net">JulietS</a>, that includes
-the  author, title, etc and, ideally, the clearance line and any
-comments you may want included on the project page. &nbsp;Make sure you
-include your name and a contact email address (if different from the
-sending address). They will contact you with an FTP address where you
-can upload  the image and text files. Upload all of the .png and .txt
-files you generated earlier into that directory. When that is done,
-email back to the person who contacted you. Alternately, if you
-anticipate having several projects, you may want to send a message to <a
+the author, title, etc and, ideally, the clearance line and any comments
+you may want included on the project page. &nbsp;Make sure you include
+your name and a contact email address (if different from the sending
+address). They will contact you with an FTP address and directoryname
+where you can upload  the image and text files. Use an FTP client to
+upload all of the .png and .txt files you generated earlier into that
+directory. (There are a few free FTP clients listed in the sofware
+section, or,&nbsp; the guiprep toolkit has an FTP client built in that
+will automate some of the process) When that is done, email back to the
+person who contacted you. Alternately, if you anticipate having several
+projects, you may want to send a message to <a
  href="mailto:juliet.sutherland@verizon.net">JulietS</a>&nbsp; and ask
-to be made a project manager. This will open up access to some of
-the project creation and control features. The same general procedures
-are used once you are a project manager, you just need to create your
-own project pages and set up your own upload directories, details are
-given on the project managers page.<br>
+to be made a project manager. This will open up access to some of the
+project creation and control features. The same general procedures are
+used once you are a project manager, you just need to create your own
+project pages and set up your own upload directories, details are given
+on the project managers page.<br>
 <br>
 At this point it is probably safe to delete the batch directory used by
  Finereader under the "Batch" directory. You could always regenerate it
@@ -597,16 +648,16 @@ processing tools:</span><br>
 <p><br>
 <a href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
 / <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a> <span
- style="font-style: italic;">Free</span> [Perl - Win32, Unix] A tool set
+ style="font-style: italic;">Free</span> [Perl - Win32] A tool set
 modelled after PRTK but specifically geared toward pre-processing text
 files for use by Distributed proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.<br>
 </p>
-<p style="margin-left: 40px;"><small>Thse two utilities share the same
-code. Use guiprep if you have perl on your system (Windows or Linux).
-Only use Winprep (Windows only) if you don't have perl. It is <span
- style="font-weight: bold;">MUCH</span> larger for the exact same
-program since it essentially includes a perl interpreter.</small><br>
+<p style="margin-left: 40px;"><small>Thse two utilities
+(guiprep/winprep) share the same code. Use guiprep if you have perl on
+your system. Only use Winprep (Windows only) if you don't have perl. It
+is <span style="font-weight: bold;">MUCH</span> larger for the exact
+same program since it essentially includes a perl interpreter.</small><br>
 </p>
 <p><br>
 <a
@@ -639,6 +690,9 @@ Image viewing and manipulation:</span><br>
 [Win32] - Nice general purpose image manipulation and conversion
 software.<br>
 </p>
+<p><a href="http://www.xnview.com/">XnView</a> <span
+ style="font-style: italic;">Free</span> [Win32] - Nice general purpose
+image manipulation and conversion software. </p>
 <p><a href="http://www.firehand.com/Ember/index.html">Firehand Ember</a> <span
  style="font-style: italic;">Shareware</span> [Win32] - Another nice
 image viewing and conversion program. <br>
@@ -705,4 +759,3 @@ use FTP client. Free for-non commercial use.<br>
 <?
 theme('','footer');
 ?>
-
