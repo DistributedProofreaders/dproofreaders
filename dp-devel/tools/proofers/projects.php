@@ -108,9 +108,9 @@ if ($topic_id == "") {
      $whichTime=$prooflevel==2? "round2_time" : "round1_time";
      $sql.=$whichTime." FROM $project WHERE ";
      if ($prooflevel==2) {$sql.="round2_user";} else {$sql.="round1_user";}
-     $sql.="='$pguser' AND state !='";
-     if ($prooflevel==2) {$sql.="12";} else {$sql.="2";}
-     $sql.="' ORDER BY ".$whichTime." DESC";
+     $sql.="='$pguser' AND (state =='";
+     if ($prooflevel==2) {$sql.="19' OR state == '18";} else {$sql.="9 OR state == '8";}
+     $sql.="') ORDER BY ".$whichTime." DESC";
     $result = mysql_query($sql);
     $rownum = 0;
     $numrows = mysql_num_rows($result);
