@@ -213,6 +213,7 @@ function showTeamStats($curTeam) {
 
 	$prevRank = $snapshot_info['tally_rank'];
 
+	$pageCount = $teams_tallyboard->get_current_tally( $team_id );
 	$pageCountRank = $teams_tallyboard->get_rank($team_id);
 
 	list($bestDayCount, $bestDayTimestamp) =
@@ -233,12 +234,12 @@ function showTeamStats($curTeam) {
 	$t->row(
 		_("Total Pages")
 			. " <i>("._("Rank").")</i>",
-		"<b>" . number_format($curTeam['page_count']) . "</b>"
+		"<b>" . number_format($pageCount) . "</b>"
 			. "&nbsp;<i>(#$pageCountRank)</i>"
 			. showChangeInRank( $prevRank, $pageCountRank )
 	);
 
-	$avg_pages_per_day = get_daily_average($curTeam['created'],$curTeam['page_count']);
+	$avg_pages_per_day = get_daily_average($curTeam['created'],$pageCount);
 	$t->row(
 		_("Avg. Pages per Day"),
 		"<b>" . number_format($avg_pages_per_day,1) . "</b>"
