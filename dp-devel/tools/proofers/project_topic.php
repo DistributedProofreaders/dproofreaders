@@ -1,17 +1,24 @@
 <?
-if($_GET['action'] == "c") {
+$relPath="./../../pinc/";
+include($relPath.'dp_main.inc');
+
+if ($_GET['action'] == "c") {
 //Declare variables
 $timeposted = time();
 $user_id = $_GET['user_id'];
-$project_id = $_GET['project_id'];
+$project_id = $_GET['project'];
 $post_ip = $_SERVER['REMOTE_ADDR'];
 
 //Get info about project
-$result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE projectid=$project_id");
+$result = mysql_query("SELECT nameofwork, authorsname, topic_id FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
 $title = $row['nameofwork'];
 $message =  "Discussion of ".$row['nameofwork']." by ".$row['authorsname']."";
+$topic_id = $row['topic_id'];
+}
 
+//Determine if there is an existing topic or not
+if($topic_id == "") {
 //Add Topic into phpbb_topics
 $insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, 2, '$title', $user_id, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
 $topic_id = mysql_insert_id();
@@ -37,10 +44,26 @@ $update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, f
 }
 
 //Update project_db with topic_id so it can be deleted
-$update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid=$project_id
+$update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
+
+//Redirect to the topic
+$redirect_url = "../../phpBB2/viewtopic.php?t=$topic_id";
+header("Location: $redirect_url"); 
+} else {
+$redirect_url = "../../phpBB2/viewtopic.php?t=$topic_id";
+header("Location: $redirect_url"); 
 }
 } elseif ($_GET['action'] == "d") {
-echo "Delete Topic";
+$topic_id = $_GET['topic_id'];
+$i = 0;
+$post_list = mysql_query("SELECT * FROM phpbb_posts WHERE topic_id=$topic_id");
+while($row = mysql_fetch_array($post_list) ) {
+$postid = $row['post_id'];
+$i++;
+$delete_post_text = mysql_query("DELETE FROM phpbb_posts_text WHERE post_id=$postid");
+}
+$delete_post = mysql_query("DELETE FROM phpbb_posts WHERE topic_id=$topic_id");
+$delete_topic = mysql_query("DELETE FROM phpbb_topics WHERE topic_id=$topic_id");
 } else {
 echo "An error has occured.  Please close this window and notify <a href='mailto:$admin_email?subject=project_topic.php has created an error'>$admin_name</a>.";
 }
