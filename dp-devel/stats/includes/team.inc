@@ -116,10 +116,8 @@ function showTeamStats($curTeam) {
 	");
 	if (mysql_num_rows($result) > 0) {
 		$prevRank = mysql_result($result, 0, "tally_rank");
-		$hasStats = TRUE;
 	} else {
 		$prevRank = 0;
-		$hasStats = FALSE;
 	}
 
 	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY member_count DESC");
@@ -131,14 +129,9 @@ function showTeamStats($curTeam) {
 
 	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
 
-	if ($hasStats) {
-		list($bestDayCount, $bestDayTimestamp) =
-			team_get_largest_page_tally_increment_info($curTeam['id']);
-		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
-	} else {
-			$bestDayCount = 0;
-			$bestDayTime = date("M. jS, Y");
-	}
+	list($bestDayCount, $bestDayTimestamp) =
+		team_get_largest_page_tally_increment_info($curTeam['id']);
+	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "\n<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
