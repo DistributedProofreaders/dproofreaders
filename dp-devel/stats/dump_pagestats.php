@@ -3,13 +3,27 @@ $relPath='../pinc/';
 include($relPath.'connect.inc');
 $db_Connection = new dbConnect();
 
-function dump_table( $table_name )
+function dpsql_query( $query )
 {
-	$result = mysql_query( "SELECT * FROM $table_name" );
-	dump_query_result( $result );
+	$result = mysql_query( $query );
+	if (!$result)
+	{
+		print "The following mysql query:<br>\n";
+		print $query . "<br>\n";
+		print "raised the following error:<br>\n";
+		print mysql_error(); "<br>\n";
+		print "<br>\n";
+	}
+	return $result;
 }
 
-function dump_query_result( $result )
+function dpsql_dump_table( $table_name )
+{
+	$result = dpsql_query( "SELECT * FROM $table_name" );
+	dpsql_dump_query_result( $result );
+}
+
+function dpsql_dump_query_result( $result )
 {
 	$n_cols = mysql_num_fields($result);
 
@@ -41,6 +55,6 @@ function dump_query_result( $result )
 	print "</table>\n";
 }
 
-dump_table( "pagestats" );
+dpsql_dump_table( "pagestats" );
 
 ?>
