@@ -16,7 +16,14 @@ $projects_url = "$siteurl/projects";   // '<<PROJECTS_URL>>';
 $forums_url = "$siteurl/phpBB2"; // <<FORUMS_URL>>
 $reset_password_url = "$forums_url/profile.php?mode=sendpassword";
 
-$admin_email='';
-$admin_name='';
+// -----------------------------------------------------------------------------
+
+$no_reply_email_addr = 'no-reply@texts01.archive.org'; // <<NO_REPLY_EMAIL_ADDR>>
+
+$general_help_email_addr = 'dphelp@texts01.archive.org'; // <<GENERAL_HELP_EMAIL_ADDR>>
+$site_manager_email_addr = $general_help_email_addr;
+$auto_email_addr = $general_help_email_addr;
+
+// -----------------------------------------------------------------------------
 
 ?>
