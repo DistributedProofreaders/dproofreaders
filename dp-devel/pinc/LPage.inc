@@ -1,7 +1,6 @@
 <?PHP
 
 include_once($relPath.'dpsession.inc');
-include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'v_site.inc');

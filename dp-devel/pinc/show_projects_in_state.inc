@@ -1,5 +1,4 @@
 <?PHP
-include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'gettext_setup.inc');

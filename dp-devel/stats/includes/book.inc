@@ -56,7 +56,6 @@ function activityCenter($curProj) {
 
 	$relPath="../../pinc/";
 
-	include_once($relPath.'page_states.inc');
 	include_once($relPath.'project_states.inc');
 
 	$projectid = $curProj['projectid'];

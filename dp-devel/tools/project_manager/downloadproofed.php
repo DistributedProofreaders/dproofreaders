@@ -1,7 +1,6 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-include_once($relPath.'page_states.inc');
 include_once($relPath.'RoundDescriptor.inc');
 
     $project = $_GET['project'];
