@@ -36,6 +36,9 @@ dpsql_dump_themed_ranked_query("
     ORDER BY 'Notification Requests' DESC 
     LIMIT 50
 ");
+// Looking at the other two queries, you might expect this one to use
+// SQL_CONDITION_BRONZE. However, that would exclude the WAITING_FOR_RELEASE
+// states, which we apparently want to include here.
 
 echo "<br>\n";
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books In Post-Processing") . "</h2><br>\n";
@@ -52,7 +55,7 @@ dpsql_dump_themed_ranked_query("
     FROM usersettings, projects 
     WHERE value = projectid 
         AND setting = 'posted_notice' 
-        AND (state = 'proj_post_first_unavailable' OR state = 'proj_post_first_available' OR state = 'proj_post_first_checked_out' OR state = 'proj_post_second_available' OR state = 'proj_post_second_checked_out' OR state = 'proj_post_complete')
+        AND ".SQL_CONDITION_SILVER."
     GROUP BY value 
     ORDER BY 'Notification Requests' DESC 
     LIMIT 50
@@ -70,7 +73,7 @@ dpsql_dump_themed_ranked_query("
         language AS 'Language',
         int_level AS 'Notification Requests' 
     FROM projects 
-    WHERE (state = 'proj_submit_pgunavailable' OR state = 'proj_submit_pgavailable' OR state = 'proj_submit_pgposting' OR state = 'proj_submit_pgposted' OR state = 'proj_correct_checked_out' OR state = 'proj_correct_available')
+    WHERE ".SQL_CONDITION_GOLD."
         AND int_level !=0
     ORDER BY 'Notification Requests' DESC 
     LIMIT 50
