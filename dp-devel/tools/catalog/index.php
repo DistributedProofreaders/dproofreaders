@@ -18,38 +18,7 @@ include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'f_project_states.inc');
 
-$proj_states=array(
-    PROJ_NEW,
-    PROJ_PROOF_FIRST_UNAVAILABLE,
-    PROJ_PROOF_FIRST_WAITING_FOR_RELEASE,
-    PROJ_PROOF_FIRST_AVAILABLE,
-    PROJ_PROOF_FIRST_BAD_PROJECT,
-    PROJ_PROOF_FIRST_VERIFY,
-    PROJ_PROOF_FIRST_COMPLETE,
-
-    PROJ_PROOF_SECOND_UNAVAILABLE,
-    PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
-    PROJ_PROOF_SECOND_AVAILABLE,
-    PROJ_PROOF_SECOND_BAD_PROJECT,
-    PROJ_PROOF_SECOND_VERIFY,
-    PROJ_PROOF_SECOND_COMPLETE,
-
-    PROJ_POST_UNAVAILABLE,
-    PROJ_POST_AVAILABLE,
-    PROJ_POST_CHECKED_OUT,
-    PROJ_POST_VERIFY,
-    PROJ_POST_VERIFYING,
-    PROJ_POST_COMPLETE,
-
-    PROJ_SUBMIT_PG_UNAVAILABLE,
-    PROJ_SUBMIT_PG_AVAILABLE,
-    PROJ_SUBMIT_PG_POSTING,
-    PROJ_SUBMIT_PG_POSTED,
-
-    PROJ_DELETE,
-    PROJ_COMPLETE );
-
-foreach ( $proj_states as $proj_state )
+foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 {
     echo "<h3>";
     echo project_states_text($proj_state);
