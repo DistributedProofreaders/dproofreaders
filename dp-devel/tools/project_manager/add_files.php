@@ -58,6 +58,7 @@ if ($isZipFile == 1) {
 	}
 
 	exec("unzip -o -j ".$source_project_dir.".zip -d $source_project_dir");
+	unlink($source_project_dir.".zip");
 }
 
 // Rather than performing commands from an arbitrary location,
