@@ -4,8 +4,63 @@ include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 
-function show_books_available_for_proofing( $round, $userP, $tList, $where_filter = " " )
+function show_books_available_for_proofing( $round, $userP, $tList, $where_filter = " ", $order = "DaysD" )
 {
+
+	if ( $order == 'TitleA' )
+	{
+		$orderclause = 'nameofwork ASC';
+	}
+	elseif ( $order == 'TitleD' )
+	{
+		$orderclause = 'nameofwork DESC';
+	}
+	elseif ( $order == 'AuthorA' )
+	{
+		$orderclause = 'authorsname ASC, nameofwork ASC';
+	}	
+	elseif ( $order == 'AuthorD' )
+	{
+		$orderclause = 'authorsname DESC, nameofwork ASC';
+	}
+	elseif ( $order == 'LangA' )
+	{
+		$orderclause = 'language ASC, nameofwork ASC';
+	}
+	elseif ( $order == 'LangD' )
+	{
+		$orderclause = 'language DESC, nameofwork ASC';
+	}
+	elseif ( $order == 'GenreA' )
+	{
+		$orderclause = 'genre ASC, nameofwork ASC';
+	}
+	elseif ( $order == 'GenreD' )
+	{
+		$orderclause = 'genre DESC, nameofwork ASC';
+	}
+	elseif ( $order == 'PMA' )
+	{
+		$orderclause = 'username ASC, nameofwork ASC';
+	}
+	elseif ( $order == 'PMD' )
+	{
+		$orderclause = 'username DESC, nameofwork ASC';
+	}
+	elseif ( $order == 'DaysA' )
+	{
+		$orderclause = 'days ASC, nameofwork ASC';
+	}
+	elseif ( $order == 'DaysD' )
+	{
+		$orderclause = 'days DESC, nameofwork ASC';
+	}
+	else
+	{
+		echo "showavailablebooks.inc: bad order value: '$order'";
+		exit;
+	}
+
 	if ( $round == 'first' )
 	{
 		// Select all projects in the list for round 1., subject to filter
@@ -19,9 +74,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				state = '".PROJ_PROOF_FIRST_VERIFY."') "
 				.$where_filter."
 			ORDER BY
-				is_beginner DESC,
-				modifieddate DESC,
-				nameofwork ASC
+				is_beginner DESC, "
+				. $orderclause."	
 		";
 	}
 	else if ( $round == 'second' )
@@ -36,9 +90,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				state = '".PROJ_PROOF_SECOND_VERIFY."') "
 				.$where_filter."
 			ORDER BY
-				is_beginner DESC,
-				modifieddate DESC,
-				nameofwork ASC
+				is_beginner DESC, "
+				.$orderclause."
 		";
 	}
 
