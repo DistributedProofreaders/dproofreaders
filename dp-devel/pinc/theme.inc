@@ -95,10 +95,6 @@ function html_header($code_url, $theme, $nameofpage) {
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
-	if (isset($nameofpage) && startswith($nameofpage, 'Personal Page'))
-	{
-		include($relPath.'special_colours.inc');
-	}
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
 	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
 	echo "</head>\n\n";
