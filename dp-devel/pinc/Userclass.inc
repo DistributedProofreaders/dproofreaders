@@ -553,7 +553,7 @@ class User
 
     function align()
     {
-        return $this->_rowVal('u.u_align') ;   
+        return $this->_rowVal('u_align') ;   
     }
 
     /**
@@ -674,7 +674,7 @@ class User
 
     function wantsTopTen()
     {
-        return ($this->_rowVal('u.u_top10')>0) ;
+        return ($this->_rowVal('u_top10')) ;
     }
 
     /**
@@ -726,7 +726,7 @@ class User
 
     function wantsNeighbors()
     {
-        return $this->_rowVal('u.u_neigh') ;
+        return $this->_rowVal('u_neigh') ;
     }
 
     function _queryTopTen()
@@ -2026,7 +2026,6 @@ LIMIT 10
 
     function _queryStats()
     {
-        assert( $this->userName() ) ;
         $sql = "SELECT
                     AVG(daily_pagescompleted) AS avgCount,
                     MAX(daily_pagescompleted) as maxCount
@@ -2043,7 +2042,7 @@ LIMIT 10
                 SELECT
                     COUNT(1) AS membercount,
                     SUM(
-                        CASE WHEN u.pagescompleted <= ume.pagescompleted
+                        CASE WHEN u.pagescompleted >= ume.pagescompleted
                         THEN 1 ELSE 0 END) AS rank
                 FROM users AS u, users AS ume
                 WHERE u.pagescompleted > 0
@@ -2088,7 +2087,7 @@ LIMIT 10
     function memberCount()
     {
         $this->_maybeQueryStats() ;
-        return ( $i = $this->stats['memberCount'] ) ? i : 0 ;
+        return $this->stats['membercount'] ;
     }
 
     /**
