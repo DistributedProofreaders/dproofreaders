@@ -2,10 +2,11 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'bookpages.inc');
 // include_once($relPath.'f_dpsql.inc');
 
-function attempt_to_release($project)
+function attempt_to_release( $prd, $project )
 {
     $projectid = $project['projectid'];
 
@@ -19,11 +20,11 @@ function attempt_to_release($project)
             "Please correct the errors and put the project back into Waiting for Release.",
 	          "DP Errors Before Release"
 	      );
-        $new_state = PROJ_PROOF_FIRST_BAD_PROJECT;
+        $new_state = $prd->project_bad_state;
     }
     else
     {
-        $new_state = PROJ_PROOF_FIRST_AVAILABLE;
+        $new_state = $prd->project_available_state;
     }
 
 
@@ -34,14 +35,14 @@ function attempt_to_release($project)
         return FALSE;
     }
 
-    if ($new_state == PROJ_PROOF_FIRST_BAD_PROJECT)
+    if ($new_state == $prd->project_bad_state)
     {
         // nothing else to do
         return FALSE;
     }
 
     maybe_mail_project_manager( $project,
-	      "This project has just become available for first-round proofreading.",
+	      "This project has just become available for work in round {$prd->round_name}.",
 	      "DP Proofreading Started");
 
     return TRUE;
@@ -57,47 +58,49 @@ function autorelease()
     echo "<pre>\n";
     echo "Starting autorelease\n";
 
-    // First, get the set of all authors with works in first round
+    $prd = get_PRD_for_round(1);
+
+    // First, get the set of all authors with works in this round
     {
-		    $first_round_authors = array();
+		    $this_round_authors = array();
 		    $author_res =
 			    mysql_query("
 				    SELECT authorsname
 				    FROM projects
-				    WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+				    WHERE state = '{$prd->project_available_state}'
 				    ORDER BY authorsname
 			    ") or die(mysql_error());
         while ( $author_row = mysql_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
-            $first_round_authors[$author]++;
+            $this_round_authors[$author]++;
         }
 		    echo "\n";
-		    echo "    List of authors in first round:\n";
-		    foreach ( $first_round_authors as $author => $one )
+		    echo "    List of authors in this round:\n";
+		    foreach ( $this_round_authors as $author => $one )
 		    {
             echo "        $author\n";
         }
     }
 
-    // Next, get the set of all PMs with works in first round
+    // Next, get the set of all PMs with works in this round
     {
-        $first_round_pms = array();
+        $this_round_pms = array();
         $pm_res =
           mysql_query("
 				    SELECT username
 				    FROM projects
-				    WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+				    WHERE state = '{$prd->project_available_state}'
 				    ORDER BY username
           ") or die(mysql_error());
         while ( $pm_row = mysql_fetch_assoc($pm_res) )
         {
             $pm = $pm_row['username'];
-            $first_round_pms[$pm]++;
+            $this_round_pms[$pm]++;
         }
         echo "\n";
-        echo "    List of pms in first round:\n";
-        foreach ( $first_round_pms as $pm => $one )
+        echo "    List of pms in this round:\n";
+        foreach ( $this_round_pms as $pm => $one )
         {
             echo "        $pm\n";
         }
@@ -115,7 +118,7 @@ function autorelease()
 
     // -------------------------------------------------------------------------
 
-    AP_setup();
+    AP_setup($prd);
 
     // -------------------------------------------------------------------------
 
@@ -142,7 +145,7 @@ function autorelease()
         // $q_name       human readable string describing this type of project
         // $project_selector        portion of WHERE clause that defines this type of project
         // $release_criterion   logical expression involving 'projects' and 'pages':
-	//                      the number of projects of this type in round 1,
+	//                      the number of projects of this type in this round,
 	//                      and their total number of unproofed pages.
 
         echo "\n";
@@ -152,7 +155,7 @@ function autorelease()
         echo "    release if: $release_criterion\n";
 
         // Does the $release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria( $project_selector, $release_criterion ) )
+        if (! AP_evaluate_criteria( $prd, $project_selector, $release_criterion ) )
         {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
@@ -164,7 +167,7 @@ function autorelease()
         $waiting_res = mysql_query("
             SELECT *
             FROM projects
-            WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND ($project_selector)
+            WHERE state = '{$prd->project_waiting_state}' AND ($project_selector)
             ORDER BY modifieddate ASC
         ");
 
@@ -199,26 +202,26 @@ function autorelease()
             else
             {
                 // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
-                // Otherwise we only allow one book by the author to be available in first round
+                // Otherwise we only allow one book by the author to be available in this round
 
                 // TODO: Add a flag to some queues that all have identical authors that allows
                 // a queue-defined limit of identical authors - eg some of the periodicals that have short
                 // issues
 
-                if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
-                    (array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
+                if ((($authorsname == 'Anonymous') && ($this_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Unknown') && ($this_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Various') && ($this_round_authors[$authorsname] > 3)) ||
+                    (array_key_exists($authorsname, $this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
                 {
-                    echo "        Its author, $authorsname, already has a project(s) in first round.\n";
+                    echo "        Its author, $authorsname, already has a project(s) in this round.\n";
                     continue;
                 }
 
-                // If a PM has more than 10 books already in round 1, their books should be skipped
+                // If a PM has more than 10 books already in this round, their books should be skipped
 
-                if ((array_key_exists($pm, $first_round_pms)) && ($first_round_pms[$pm] > 10))
+                if ((array_key_exists($pm, $this_round_pms)) && ($this_round_pms[$pm] > 10))
                 {
-                    echo "        The PM, $pm, already has $first_round_pms[$pm] projects in first round.\n";
+                    echo "        The PM, $pm, already has $this_round_pms[$pm] projects in this round.\n";
                     continue;
                 }
 
@@ -235,7 +238,7 @@ function autorelease()
             // OK to release
             // release the project for proofreading, and keep track of
             // its contribution to reducing our total page shortfall
-            if (!attempt_to_release($project))
+            if (!attempt_to_release($prd, $project))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -245,10 +248,10 @@ function autorelease()
 
 
 		  // special authors (anon, etc) have to have their counts incremented
-		  if (array_key_exists($authorsname, $first_round_authors)) {
-                $first_round_authors[$authorsname] = $first_round_authors[$authorsname] + 1;
+		  if (array_key_exists($authorsname, $this_round_authors)) {
+                $this_round_authors[$authorsname] = $this_round_authors[$authorsname] + 1;
 		  } else {
-                $first_round_authors[$authorsname] = 1;
+                $this_round_authors[$authorsname] = 1;
 		  }
 
 
@@ -262,9 +265,9 @@ function autorelease()
             // (The release of this project will affect the release-ability
             // of other projects in this category, and possibly of projects
             // in other categories.)
-            AP_add_project( $project['projectid'] );
+            AP_add_project( $prd, $project['projectid'] );
 
-            if (! AP_evaluate_criteria( $project_selector, $release_criterion ) )
+            if (! AP_evaluate_criteria( $prd, $project_selector, $release_criterion ) )
             {
                 echo "    The release criterion now fails, so no further projects released in this category.\n";
                 break;
@@ -279,12 +282,12 @@ function autorelease()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function AP_setup()
+function AP_setup( $prd )
 // Set up temporary table active_page_counts,
-// containing a row for each project in round 1.
+// containing a row for each project in this round.
 // fields:
 //     projectid
-//     pages = number of pages yet to receive 1st proofreading
+//     pages = number of pages yet to receive proofreading in this round
 //
 // This table is similar to page_counts,
 // but contains slightly different information.
@@ -310,39 +313,34 @@ function AP_setup()
         mysql_query("
         SELECT projectid
         FROM projects
-	WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-		") or die(mysql_error());
+        WHERE state = '{$prd->project_available_state}'
+    ") or die(mysql_error());
 
     // Run through them and fill up the table.
     while( $project = mysql_fetch_assoc($projects_res) )
     {
-        AP_add_project( $project['projectid'] );
+        AP_add_project( $prd, $project['projectid'] );
     }
 }
 
-function AP_add_project( $projectid )
+function AP_add_project( $prd, $projectid )
 {
     mysql_query("
         INSERT INTO active_page_counts
         SELECT
             '$projectid',
-        SUM(
-				    state = '".BAD_FIRST."' OR
-            state = '".AVAIL_FIRST."' OR
-            state = '".OUT_FIRST."' OR
-            state = '".TEMP_FIRST."'
-        ) as pages
+            SUM( state != '{$prd->page_save_state}' ) as pages
         FROM $projectid
     ") or die(mysql_error());
 }
 
-function AP_evaluate_criteria( $project_selector, $release_criterion )
+function AP_evaluate_criteria( $prd, $project_selector, $release_criterion )
 {
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
     $res = mysql_query("
         SELECT
-        SUM(projects.state='".PROJ_PROOF_FIRST_AVAILABLE."') as projects,
+        SUM(projects.state='{$prd->project_available_state}') as projects,
         SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $project_selector
