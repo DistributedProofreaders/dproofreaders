@@ -21,6 +21,7 @@ $versions_array = array(1 => "pgdp.net (Live)", 2 => "texts01 (Beta)", 3 => "CVS
 $tasks_close_array = array(1 => "Not a Bug", 2 => "Won't Fix", 3 => "Won't Implement", 4 => "Works for Me", 5 => "Duplicate", 6 => "Deferred", 7 => "Fixed", 8 => "Implemented");
 $percent_complete_array = array(0 => "0%", 10 => "10%", 20 => "20%", 30 => "30%", 40 => "40%", 50 => "50%", 60 => "60%", 70 => "70%", 80 => "80%", 90 => "90%", 100 => "100%");
 $task_assignees_array = array();
+$order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
 echo "<br><div align='center'><table border='0' cellpadding='0' cellspacing='0' width='98%'><tr><td>\n";
 TaskHeader();
@@ -49,14 +50,14 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 			$result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
 			if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
 			$result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".mysql_insert_id().")");
-			$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 ORDER BY task_severity ASC, date_opened ASC, task_type ASC");
+			$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 			ShowTasks($result);
 		} else {
 			NotificationMail($_POST['task_id'], "There has been an edit made to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
 			$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
 			$u_id = mysql_result($result, 0, "u_id");
 			$result = mysql_query("UPDATE tasks SET task_summary = '".addslashes($_POST['task_summary'])."', task_type = ".$_POST['task_type'].", task_category = ".$_POST['task_category'].", task_status = ".$_POST['task_status'].", task_assignee = ".$_POST['task_assignee'].", task_severity = ".$_POST['task_severity'].", task_priority = ".$_POST['task_priority'].", task_os = ".$_POST['task_os'].", task_browser = ".$_POST['task_browser'].", task_version = ".$_POST['task_version'].", task_details = '".htmlentities($_POST['task_details'], ENT_QUOTES)."', date_edited = ".time().", edited_by = $u_id, percent_complete = ".$_POST['percent_complete']." WHERE task_id = ".$_POST['task_id']."");
-			$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 ORDER BY task_severity ASC, date_opened ASC, task_type ASC");
+			$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 			ShowTasks($result);
 		}
 	}
@@ -66,7 +67,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	if ($_POST['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_POST['task_assignee']; }
 	if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }	if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
 	if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
-	$sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_assignee AND $task_category AND $task_status AND $task_version ORDER BY task_severity ASC, date_opened ASC, task_type ASC";
+	$sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_assignee AND $task_category AND $task_status AND $task_version $order_by";
 
 	$result = mysql_query($sql_query);
 	ShowTasks($result);
@@ -81,7 +82,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
 	$u_id = mysql_result($result, 0, "u_id");
 	$result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = ".time().", closed_by = $u_id, closed_reason = ".$_POST['task_close_reason'].", date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['task_id']."");
-	$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 ORDER BY task_severity ASC, date_opened ASC, task_type ASC");
+	$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 	ShowTasks($result);
 } elseif (isset($_POST['new_comment'])) {
 	if (!empty($_POST['task_comment'])) {
@@ -109,16 +110,14 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$relatedtasks_array = base64_encode(serialize($relatedtasks_array));
 		$result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = ".$_POST['new_relatedtask']."");
 		NotificationMail($_POST['new_relatedtask'], "This task had a related task added to it by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
-		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 ORDER BY task_severity ASC, date_opened ASC, task_type ASC");
+		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 		ShowTasks($result);
 	} else {
 		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related task id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
 	}
 } else {
 	if (isset($_GET['orderby']) && isset($_GET['direction'])) {
-		$order = $_GET['orderby']." ".$_GET['direction'];
-	} else {
-		$order = "task_severity ASC, date_opened ASC, task_type ASC";
+		$order_by = $_GET['orderby']." ".$_GET['direction'];
 	}
 
 	if (isset($_GET['search_text'])) {
@@ -134,7 +133,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$criteria = "date_closed = 0";
 	}
 
-	$result = mysql_query("SELECT * FROM tasks WHERE $criteria ORDER BY $order");
+	$result = mysql_query("SELECT * FROM tasks WHERE $criteria ORDER BY $order_by");
 	ShowTasks($result);
 }
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
@@ -261,7 +260,7 @@ function ShowTasks($sql_result) {
 	echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_type")."'>Task Type</a></font></b></td>\n";
 	echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_severity")."'>Severity</a></font></b></td>\n";
 	echo "<td width='50%'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></font></b></td>\n";
-	echo "<td><center><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_opened")."'>Date Opened</a></font></b></center></td>\n";
+	echo "<td><center><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></font></b></center></td>\n";
 	echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_status")."'>Status</a></font></b></td>\n";
 	echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("percent_complete")."'>Progress</a></font></b></td></tr>\n";
 
@@ -272,7 +271,7 @@ function ShowTasks($sql_result) {
 			echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_array[$row['task_type']]."</font></td>\n";
 			echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$severity_array[$row['task_severity']]."</font></td>\n";
 			echo "<td width='50%'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></font></td>\n";
-			echo "<td><center><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_opened'])."</font></center></td>\n";
+			echo "<td><center><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_edited'])."</font></center></td>\n";
 			echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td>\n";
 			echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'><img src='$code_url/graphics/task_percentages/small_".$row['percent_complete'].".png' width='50' height='8' alt='".$row['percent_complete']."% Complete'></font></td></tr>\n";
 		}
