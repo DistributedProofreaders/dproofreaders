@@ -10,362 +10,291 @@ include_once('projectmgr_select.inc');
 include_once($relPath.'f_project_states.inc');
 theme("Project Managers", "header");
 
-	echo "<br><br>";
-    $project = isset($_GET['project'])?$_GET['project']:0;
-    $show = isset($_GET['show'])?$_GET['show']:null;
+//If they are not a manager let them know with a link back to the Personal Page
+	if ($userP['manager'] != "yes") {
+		echo "<P>You are not listed as a project manager. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
+        	echo "<P>Back to <A HREF=\"../../default.php\">home page</A>";
+        	exit();
+	}
 
-    $users = mysql_query("SELECT manager, sitemanager FROM users WHERE username = '$pguser'");
-    $manager = mysql_result($users, 0, "manager");
-    $sitemanager = mysql_result($users, 0, "sitemanager");
-
-    if ($manager == 'no') {
-        echo "<P>You are not listed as a project manager. Please contact the <a href=\"mailto:$site_manager_email_addr\">site manager</A> about resolving this problem.";
-        echo "<P>Back to <A HREF=\"../../default.php\">home page</A>";
-    } else if ($project) {
-        //if they have selected a project print out the detailed info for that project
-
-        $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$project'");
-        $manager = mysql_result($result, 0, "username");
-        $state = mysql_result($result, 0, "state");
-        $name = mysql_result($result, 0, "nameofwork");
-        $author = mysql_result($result, 0, "authorsname");
-        $language = mysql_result($result, 0, "language");
-
-        if (($manager != $pguser) && ($sitemanager != 'yes')) {
-            echo "<P>You are not listed as a project manager for this project. Please contact the <a href=\"mailto:$site_manager_email_addr\">site manager</A> about resolving this problem.";
-            echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
-        } else {
-
-            $projectinfo->update($project, $state);
-
-            //link bar at top of page
-
-            echo "<table border=1 width=630 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111><tr>";
-            echo "<td width=126 align=center bgcolor = \"CCCCCC\"><a href=\"projectmgr.php\">Back</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href = \"editproject.php\">Create Project</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href =\"../proofers/proof_per.php\">Proofread Project</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href =\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href = \"../logout.php\">Logout</a></td>";
-            echo "</tr></table><BR><BR>";
-
-            echo "<table border = \"1\">";
-            printf("<tr><td colspan = \"4\"><b><font size=+1>Project Name: $name</font></b> ($project)</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Author:</b></td><td>$author</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
-            printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
-
-            if ($state == PROJ_NEW || $state==PROJ_PROOF_FIRST_UNAVAILABLE) {
-                printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
-                if ($sitemanager == 'yes') {
-                   printf("Add All Text From projects Folder");
-                } else echo "Add All Text/Images From dpscans Account";
-                echo "</a><td bgcolor=\"CCCCCC\" colspan=2><a href=\"deletefile.php?project=$project\">Delete All Text</a></td></tr></table>";
-
-                echo "<h3>Master Files</h3>";
-
-                //Print each row
-                echo "<table border=1>\n";
-
-                echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Size</td><td>Master Text</td><td>Size</td><td>Date Uploaded</td><td>Delete</td><td>Bad Page</td></tr>\n";
-                $counter = 1; // for index.. need to make adjustable
-                $rownum = 0;
-
-                $path = "$projects_dir/$project/";
-
-                while ($rownum < $projectinfo->total_pages) {
-                    $imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
-                    $date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
-                    $fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
-                    $master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
-		    $page_state = mysql_result($projectinfo->total_rows, $rownum, "state");
-
-                    if (file_exists($path.$imagename)) {
-                       $imagesize = filesize(realpath($path.$imagename));
-                       $bgcolor = "#FFFFFF";
-                    } else {
-                       $imagesize = 0;
-                       $bgcolor = "#FF0000";
-                    }
-
-                    $date_txt = date("M j h:i A", $date);
-                    printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
-
-		     if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
-		    } else { 	                
-		       printf("&nbsp;</td></tr>\n"); 
-		    } 
-
-                    $counter++;
-                    $rownum++;
-                }
-                echo "</table>";
-            } else if (
-                    $state == PROJ_PROOF_FIRST_AVAILABLE ||
-                    $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
-                    $state == PROJ_PROOF_FIRST_BAD_PROJECT ||
-                    $state == PROJ_PROOF_FIRST_VERIFY ||
-                    $state == PROJ_PROOF_FIRST_COMPLETE) {
-                echo "</table><h3>First-Round Files:</h3>";
-
-                //Print each row
-                echo "<table border=1>\n";
-
-                echo "</tr>\n";
-                echo "<tr bgcolor=\"CCCCCC\"><td width = \"4\">Index</td><td>Image</td><td>Round 1 Text</td><td>Date Uploaded</td><td>Proofed By</td><td>Master Text</td><td>Delete</td><td>Bad Page</td></tr>\n";
-                $counter = 1; // for index.. need to make adjustable
-                $rownum = 0;
-
-                while ($rownum < $projectinfo->done1_pages) {
-                    $imagename = mysql_result($projectinfo->done1_rows, $rownum, "image");
-                    $date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
-                    $name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
-                    $fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
-		    $page_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
-
-                    $bgcolor = "#FFFFFF";
-
-                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$name'");
-                    if (mysql_num_rows($users) == 0) {
-                        $real_name = $name;
-			$email = "";
-                        $pagescompleted = 0;
-                    } else {
-                        $email = mysql_result($users, 0, "email");
-                        $real_name = mysql_result($users, 0, "real_name");
-                        $pagescompleted = mysql_result($users, 0, "pagescompleted");
-                    }
-                    $date_txt = date("M j h:i A" , $date);
-
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
-                    if ($sitemanager == "yes") { printf("$real_name"); } else printf("$name");
-                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>");
-
-		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
-		    } else { 	                
-		       printf("&nbsp;</td></tr>\n"); 
-		    } 
-
-                    $counter++;
-                    $rownum++;
-                }
-                echo "</table>";
-            } else {
-
-                //print out all level 3 proofed files associated with the project
-
-                echo "</table><h3>Second-Round Files:</h3>";
-
-                //Print each row
-                $lastfilename = "0";
-
-                echo "<table border=1>\n";
-
-                echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td><td>Master Text</td>";
-                $inRound=projectStateRound($state);
-                if ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') echo "<td>Delete</td>";
-                echo "<td>Bad Page</td></tr>\n";
-
-                $counter = 1;
-                $rownum = 0;
-
-                while ($rownum < $projectinfo->done2_pages) {
-                    $imagename = mysql_result($projectinfo->done2_rows, $rownum, "image");
-                    $date = mysql_result($projectinfo->done2_rows, $rownum, "round2_time");
-                    $round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
-                    $round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
-                    $fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
-		    $page_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
-
-                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round2_user'");
-                    if (mysql_num_rows($users) == 0) {
-                        $real_name = $round2_user;
-			$email = "";
-                        $pagescompleted = 0;
-                    } else {
-                        $email = mysql_result($users, 0, "email");
-                        $real_name = mysql_result($users, 0, "real_name");
-                        $pagescompleted = mysql_result($users, 0, "pagescompleted");
-                    }
-
-                    $bgcolor = "#FFFFFF";
-
-                    $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round1_user'");
-                    if (mysql_num_rows($users) == 0) {
-                        $oldreal_name = $round1_user;
-                        $oldemail = "";
-                        $oldpagescompleted = 0;
-                    } else {
-                        $oldemail = mysql_result($users, 0, "email");
-                        $oldreal_name = mysql_result($users, 0, "real_name");
-                        $oldpagescompleted = mysql_result($users, 0, "pagescompleted");
-                    }
-                    $date_txt = date("M j h:i A", $date);
-
-                    printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>");
-                    if ($sitemanager == "yes") { printf("$real_name"); } else printf("$round2_user");
-                    printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>");
-                    if ($sitemanager == "yes") { printf("$oldreal_name"); } else printf("$round1_user");
-                    printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>");
-
-                    $roundID=projectStateRound($state);
-                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"); } else { printf("<td>&nbsp;</td>"); }
-                    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
-		    } else { 	                
-		        printf("<td>&nbsp;</td></tr>\n"); 
-		    } 
-
-                    $counter++;
-                    $lastfilename = $imagename;
-                    $rownum++;
-                }
-                echo "</table>";
-            }
-
-            //link bar at bottom of detailed project page
-
-            echo "<BR><BR><table border=1 width=630 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111><tr>";
-            echo "<td width=126 align=center bgcolor = \"CCCCCC\"><a href=\"projectmgr.php\">Back</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href = \"editproject.php\">Create Project</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href =\"../proofers/proof_per.php\">Proofread Project</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href =\"../post_proofers/post_proofers.php\">Post-Processing</a></td>";
-            echo "<td width=126 bgcolor = \"CCCCCC\" align=center><a href = \"../logout.php\">Logout</a></td>";
-            echo "</tr></table>";
-        }
-    } else {
-        // Listing of Projects
+//Display the introduction & links bar
+	echo "<p><center><a href='projectmgr.php?show=all'>Show Your Projects</a> | <a href='editproject.php'>Create Project</a>";
+	if ($userP['sitemanager'] == "yes") { 
+		echo " | <a href='projectmgr.php?show=site'>Show All Projects</a>"; 
+	}
+	echo "</center><br>";
+	if (!isset($_GET['project']) || $_GET['show'] == "all") {
 ?>
-<body>
+	<p><b>Project Manager Notice:</b><br>There is a new way to upload files to the site without needing anyone to help you:
+	<ol>
+		<li>FTP to texts01.archive.org with username dpscans and password image$
+		<li>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
+		<li>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
+		<li>Click on the title of the book to view it's details.
+		<li>Click on the link at the top titled "Add Images And Text From dpscans Account".
+		<li>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
+	</ol>
+	<p>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
+	<p>If you want the projects to go to post-processing automatically, e-mail Charles Aldarondo <a HREF="mailto:Charles@Aldarondo.net">Charles@Aldarondo.net</a>.<br><br>
+	<hr width="75%" align="center"><br>
 
-<div align="left">
-<table border=1 width=630 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111><tr>
-<td width=126 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=all">Show All Projects</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="editproject.php">Create Project</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../proofers/proof_per.php">Proofread Project</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../post_proofers/post_proofers.php">Post-Processing</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td></tr>
-<?
-if ($sitemanager == "yes") {
-    if ($show == "site") {?>
-<tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php">Project Manager</a></td>
-<?  } else { ?>
-<tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=site">Site Manager</a></td>
-<?  } ?>
-<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
-<?
-} else { ?>
-<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
 }
-?>
-</tr></table>
-<table border=1 width=630 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111>
-<tr><td colspan=6 bgcolor=999999>&nbsp;</td></tr><tr><td colspan=6>
-<B>Project Manager Notice:</B>
-<P>There is a new way to upload files to the site without needing anyone to help you:
-<OL>
-<LI>FTP to texts01.archive.org with username dpscans and password image$
-<LI>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
-<LI>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
-<LI>Click on the title of the book to view it's details.
-<LI>Click on the link at the top titled "Add Images And Text From dpscans Account".
-<LI>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
-</OL>
 
-<P>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
+//If they have selected a specific project first see if they are the PM for it
+//and if they are display the details of that project.  If they are not the PM
+//then display an error stating so.
+	if (isset($_GET['project'])) {
+		$project = $_GET['project'];
+		$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '".$_GET['project']."'");
+        	$manager = mysql_result($result, 0, "username");
+        	$state = mysql_result($result, 0, "state");
+        	$name = mysql_result($result, 0, "nameofwork");
+        	$author = mysql_result($result, 0, "authorsname");
+        	$language = mysql_result($result, 0, "language");
+		
+		if (($manager != $pguser) && ($userP['sitemanager'] != 'yes')) {
+            		echo "<P>You are not listed as a project manager for this project. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
+            		echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
+            		exit();
+        	}
+        	
+        	$projectinfo->update($_GET['project'], $state);
+	
+		echo "<center><table border=1>";
+		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name</font></b> <font color='".$theme['color_headerbar_font']."'>(".$_GET['project'].")</font></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
+	
+		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE) {
+			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_file.php?project=".$_GET['project']."'>";
+			if ($userP['sitemanager'] == "yes") {
+				echo "Add All Text From projects Folder"; } else { echo "Add All Text/Images from dpscans Account";
+			}
+			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='delete_file.php?project=".$_GET['project']."'>Delete All Text</a></td></tr></table>";
+			echo "<h3>Master Files</h3>";
+			echo "<table border=1></tr>";
+			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
+                	$counter = 1;
+                	$rownum = 0;
+                	$path = "$projects_dir/$project/";
+			while ($rownum < $projectinfo->total_pages) {
+				$imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
+				$date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
+				$fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
+                    		$master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
+		    		$page_state = mysql_result($projectinfo->total_rows, $rownum, "state");
+                    		if (file_exists($path.$imagename)) {
+                       			$imagesize = filesize(realpath($path.$imagename));
+                       			$bgcolor = "#FFFFFF";
+                    		} else {
+                       			$imagesize = 0;
+                       			$bgcolor = "#FF0000";
+                    		}
+                    		if ($rownum % 2 ) {
+                			$trcolor = $theme['color_main_bg'];
+                		} else {
+                			$trcolor = $theme['color_navbar_bg'];
+            			}
+                    		$date_txt = date("M j h:i A", $date);
+                    		echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='$bgcolor'><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td bgcolor=$bgcolor>$imagesize<td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=".$_GET['project']."&fileid=$fileid>Delete</a></td><td>";
+		     		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+		     			echo "<center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>";
+		     		} else {
+		     			echo "&nbsp;</td></tr>";
+		     		}
+                    		$counter++;
+                    		$rownum++;
+                	}
+			echo "</table>";
+		} elseif ($state == PROJ_PROOF_FIRST_AVAILABLE || $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state == PROJ_PROOF_FIRST_BAD_PROJECT || $state == PROJ_PROOF_FIRST_VERIFY || $state == PROJ_PROOF_FIRST_COMPLETE) {
+			echo "</table><h3>First-Round Files:</h3>";
+                	echo "<table border=1></tr>";
+                	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
+                	$counter = 1;
+                	$rownum = 0;
+                	while ($rownum < $projectinfo->done1_pages) {
+                    		$imagename = mysql_result($projectinfo->done1_rows, $rownum, "image");
+                    		$date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
+                    		$name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
+                    		$fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
+		    		$page_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
+				$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$name'");
+				if (mysql_num_rows($users) == 0) {
+                        		$real_name = $name;
+					$email = "";
+                        		$pagescompleted = 0;
+                    		} else {
+                        		$email = mysql_result($users, 0, "email");
+                        		$real_name = mysql_result($users, 0, "real_name");
+                        		$pagescompleted = mysql_result($users, 0, "pagescompleted");
+                    		}
+                    		if ($rownum % 2 ) {
+                			$trcolor = $theme['color_main_bg'];
+                		} else {
+                			$trcolor = $theme['color_navbar_bg'];
+            			}
+                    	$date_txt = date("M j h:i A" , $date);
+                    	echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
+                    	if ($userP['sitemanager'] == "yes") { 
+                    		echo $real_name; 
+                    	} else { 
+                    		echo $name; 
+                    	}
+                    	echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>";
+			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+		       		echo "<center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>"; 
+		    	} else { 	                
+		       		echo "&nbsp;</td></tr>"; 
+		    	} 
+			$counter++;
+                    	$rownum++;
+                	}
+			echo "</table>";
+		} else {
+                	echo "</table><h3>Second-Round Files:</h3>";
+                	$lastfilename = "0";
+                	echo "<table border=1>\n";
+                	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 2 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 2 Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td>";
+                	$inRound=projectStateRound($state);
+	        	if ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') {
+	        		echo "<td><font color='".$theme['color_headerbar_font']."'>Delete</font></td>";
+	        	}
+        		echo "<td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>\n";
+			$counter = 1;
+                	$rownum = 0;
+	                while ($rownum < $projectinfo->done2_pages) {
+        	        	$imagename = mysql_result($projectinfo->done2_rows, $rownum, "image");
+                	    	$date = mysql_result($projectinfo->done2_rows, $rownum, "round2_time");
+                    		$round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
+                    		$round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
+                    		$fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
+		    		$page_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
+                    		$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round2_user'");
+                    		if (mysql_num_rows($users) == 0) {
+                        		$real_name = $round2_user;
+					$email = "";
+                        		$pagescompleted = 0;
+                    		} else {
+                        		$email = mysql_result($users, 0, "email");
+                        		$real_name = mysql_result($users, 0, "real_name");
+                        		$pagescompleted = mysql_result($users, 0, "pagescompleted");
+                    		}
+				$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round1_user'");
+                    		if (mysql_num_rows($users) == 0) {
+                        		$oldreal_name = $round1_user;
+                        		$oldemail = "";
+                        		$oldpagescompleted = 0;
+                    		} else {
+                        		$oldemail = mysql_result($users, 0, "email");
+                        		$oldreal_name = mysql_result($users, 0, "real_name");
+                        		$oldpagescompleted = mysql_result($users, 0, "pagescompleted");
+                    		}
+                    		if ($rownum % 2 ) {
+                			$trcolor = $theme['color_main_bg'];
+                		} else {
+                			$trcolor = $theme['color_navbar_bg'];
+            			}
+                    		$date_txt = date("M j h:i A", $date);
+	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='#ffffff'><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
+                    		if ($userP['sitemanager'] == "yes") { 
+                    			echo $real_name; 
+                    		} else { 
+                    			echo $round2_user;
+                    		}
+                    		echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>";
+                    		if ($userP['sitemanager'] == "yes") {
+                    			echo $oldreal_name; 
+                    		} else { 
+                    			echo $round1_user; 
+                    		}
+                    		echo "</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>";
+		 		$roundID=projectStateRound($state);
+                    		if ($roundID=='FIRST' || $roundID=='SECOND') {
+                    			echo "<td><a href=checkin.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"; 
+                    		} else { 
+                    			echo "<td>&nbsp;</td>";
+                    		}
+                    		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+		        		echo "<td><center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>";
+		    		} else { 	                
+		        		echo "<td>&nbsp;</td></tr>";
+		    		} 
+				$counter++;
+        			$lastfilename = $imagename;
+        			$rownum++;
+			}
+			echo "</table>";
+        	}
+        	echo "</center>";
+	} else {
+		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+    		echo "<tr>";
+      		echo "<td width='175' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Title</b></font></td>";
+      		echo "<td width='100' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Author</b></font></td>";
+      		echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Left</b></font></td>";
+      		echo "<td width='75' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>";
+	        if ($_GET['show'] == "site") {
+			echo "PM";
+        	} else {
+        		echo "Owner";
+        	}
+		echo "</b></font></td>";
+      		echo "<td width='180' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Project Status</b></font></td>";
+      		echo "<td width='50' align='center' bgcolor='".$theme['color_headerbar_bg']."'><font color='".$theme['color_headerbar_font']."'><b>Options</b></font></td>";
+      		echo "</tr>";
 
-<P>If you want the projects to go to post-processing automatically, e-mail Charles Aldarondo <a HREF="mailto:Charles@Aldarondo.net">Charles@Aldarondo.net</A>.
-</td></tr>
-    <tr>
-      <td width="175" align="center" bgcolor="#C0C0C0"><b>Title</b></td>
-      <td width="100" align="center" bgcolor="#C0C0C0"><b>Author</b></td>
-      <td width="50" align="center" bgcolor="#C0C0C0"><b>Left</b></td>
-      <td width="75" align="center" bgcolor="#C0C0C0"><b>
-<?
-        if ($show == 'site') {
-            echo "PM";
-        } else echo "Owner";
-?>
-</b></td>
-      <td width="180" align="center" bgcolor="#C0C0C0"><b>Project Status</b></td>
-      <td width="50" align="center" bgcolor="#C0C0C0"><b>Options</b></td>
-    </tr>
+        	$numrows = 0;
+        	if ($_GET['show'] == "site" && $userP['sitemanager'] == "yes") {
+            		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' ORDER BY state asc, nameofwork asc");
+        	} elseif ($_GET['show'] == "all") {
+            		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
+        	} else {
+        		$result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
+        	}
+        	if ($result != "") $numrows = (mysql_num_rows($result));
 
-<? 
-        $numrows = 0;
-        if (($show == "site") && ($sitemanager == "yes")) {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' ORDER BY state asc, nameofwork asc");
-        } elseif ($show == 'all') {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
-        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
-        if ($result != "") $numrows = (mysql_num_rows($result));
+        	$rownum = 0;
+        	while ($rownum < $numrows) {
+            		$name = mysql_result($result, $rownum, "nameofwork");
+            		$author = mysql_result($result, $rownum, "authorsname");
+            		$projectid = mysql_result($result, $rownum, "projectid");
+            		$outby = mysql_result($result, $rownum, "checkedoutby");
+            		$state = mysql_result($result, $rownum, "state");
+	
+        		if ($outby != "") {
+                		$tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
+                		$outbyemail = mysql_result($tempsql, 0, "email");
+            		}
 
-        $rownum = 0;
-        while ($rownum < $numrows) {
-            $name = mysql_result($result, $rownum, "nameofwork");
-            $author = mysql_result($result, $rownum, "authorsname");
-            $projectid = mysql_result($result, $rownum, "projectid");
-            $outby = mysql_result($result, $rownum, "checkedoutby");
-            $state = mysql_result($result, $rownum, "state");
+			if ($rownum % 2 ) {
+                		$bgcolor = $theme['color_main_bg'];
+                	} else {
+                		$bgcolor = $theme['color_navbar_bg'];
+            		}
 
-            if ($outby != "") {
-                $tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
-                $outbyemail = mysql_result($tempsql, 0, "email");
-            }
+			$projectinfo->update_avail($projectid, $state);
 
-            //alternate colors for each project
-            if ($rownum % 2 ) {
-                $bgcolor = "\"#CCCCCC\"";
-            } else {
-                $bgcolor = "\"#999999\"";
-            }
+            		print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$projectinfo->availablepages</td><td align=\"center\">";
+            		if ($show == 'site') {
+                		print mysql_result($result, $rownum, "username");
+            		} else if ($outby != "") {
+                		print "<a href=mailto:$outbyemail>$outby</a>";
+            		}
 
-            $projectinfo->update_avail($projectid, $state);
+			print "</td><td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
+            		getSelect($state);
+            		echo "</select></form></td><td align=center>";
 
-            print "<tr bgcolor=$bgcolor><td><a href=\"projectmgr.php?project=$projectid\">$name</a></td><td>$author</td><td align=\"center\">$projectinfo->availablepages</td><td align=\"center\">";
-            if ($show == 'site') {
-                print mysql_result($result, $rownum, "username");
-            } else if ($outby != "") {
-                print "<a href=mailto:$outbyemail>$outby</a>";
-            }
+			print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
+            		if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+            		if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/post.zip\">D/L</A>";
+            		echo "</td></tr>\n";
+            		$rownum++;
+        	}
+		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table>";
+	}
 
-            print "</td><td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
-            getSelect($state);
-            echo "</select></form></td><td align=center>";
-
-            print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
-            if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
-            if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/post.zip\">D/L</A>";
-            echo "</td></tr>\n";
-            //increment row number for background color change
-            $rownum++;
-        }
-?>
-<tr><td colspan=6 bgcolor=999999>&nbsp;</td></tr></table>
-<table width=630 border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111><tr>
-<td width=126 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=all">Show All Projects</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="editproject.php">Create Project</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../proofers/proof_per.php">Proofread Project</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../post_proofers/post_proofers.php">Post-Processing</a></td>
-<td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
-<?
-if ($sitemanager == "yes") {
-    if ($show == "site") {?>
-<tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php">Project Manager</a></td>
-<?  } else { ?>
-<tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=site">Site Manager</a></td>
-<?  } ?>
-<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
-<?
-} else { ?>
-<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
-<?
-}
-?>
-</tr></table></div>
-<?
-    }
-    theme("", "footer");
+echo "<br>";
+theme("","footer");
 ?>
