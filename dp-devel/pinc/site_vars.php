@@ -21,8 +21,7 @@ $dynstats_url = "$dyn_url/stats";
 
 $dyn_locales_dir = "$dyn_dir/locale";
 
-$xmlfeeds_dir = '<<XMLFEEDS_DIR>>';
-$xmlfeeds_url = '<<XMLFEEDS_URL>>';
+$xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
