@@ -1,6 +1,6 @@
 <?php
 
-include_once($pinc.'theme.inc');
+include_once($relPath.'theme.inc');
 
 /* This file contains one function: echo_stylesheet_for_tabs() .
  *
@@ -40,12 +40,12 @@ include_once($pinc.'theme.inc');
 // -- martinag
 
 function echo_stylesheet_for_tabs() {
-  global $theme, $theme_name;
+  global $theme, $theme_name, $code_url;
 
   $image_path = $code_url . "pinc/templates/$theme_name/graphics";
   $tabs = $theme['tabs'];
 
-  if ($tabs['use_default_graphics']) {
+  if (isset($tabs['use_default_graphics']) && $tabs['use_default_graphics']) {
     $image_path = $code_url . "pinc/templates/default_graphics";
     $tabs['padding-left'] = '4px';
     $tabs['background-position'] = 'bottom';
