@@ -7,8 +7,6 @@ $EOL = "\n";
 $testing_this_script=$_GET['mytesting'];
 
 
-// script assumes the table has at least one row in it
-
 if ($testing_this_script)
 {
     echo "<pre>", $EOL;
@@ -17,7 +15,7 @@ if ($testing_this_script)
 // See if this has been run once today or not
 $res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
-$X_date = mysql_result($res,0);
+$X_date = mysql_result($res,0); // If table is empty, this returns NULL.
 echo $X_date;
 if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ";
