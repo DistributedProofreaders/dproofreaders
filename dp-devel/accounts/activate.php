@@ -76,6 +76,7 @@ if (!$result) {
 }
 $this_uid = mysql_result($result, 0);
 
+user_initialize_current_page_tally($this_uid);
 user_initialize_page_tally_history($this_uid);
 
 // Send them an introduction e-mail
