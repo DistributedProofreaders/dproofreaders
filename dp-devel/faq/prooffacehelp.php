@@ -26,7 +26,7 @@ COLSPAN="2">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="document.php">Document Guidelines</A><P>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
-<P><A NAME="#ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
+<P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
 
 <TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt11.png" WIDTH="26" HEIGHT="26" ALT="Help" TITLE="Help" BORDER="0"></TD><TD>
 <B>Help</B><BR>Accelerator key: <B>1</B>
@@ -148,7 +148,7 @@ font in the same family or leave the current font unchanged.
 
 
 <TR><TD ALIGN="CENTER" COLSPAN="2">
-<P><A NAME="#ikeys"> </A> <P><FONT SIZE="+1">Accelerator Keys (accesskeys)</FONT><P></TD></TR>
+<P><A NAME="ikeys"> </A> <P><FONT SIZE="+1">Accelerator Keys (accesskeys)</FONT><P></TD></TR>
 <TR>
 <TD VALIGN="TOP" COLSPAN="2">
 Several of the commonly used interface buttons have been assigned an accesskey value.
@@ -170,7 +170,7 @@ Currently, this is the only method for scrolling the image.<BR>
 </TD></TR>
 
 <TR><TD ALIGN="CENTER" COLSPAN="2">
-<P><A NAME="#itags"> </A><P><FONT SIZE="+1">Tags and Extended Character Displays</FONT><P></TD></TR><TR>
+<P><A NAME="itags"> </A><P><FONT SIZE="+1">Tags and Extended Character Displays</FONT><P></TD></TR><TR>
 <TD VALIGN="TOP"><B>Open Tags</B></TD><TD>
 Tags which have an opening and a closing tag such as [Footnote: ], &lt;i&gt;&lt;/i&gt;,
 and [Illustration: ].
