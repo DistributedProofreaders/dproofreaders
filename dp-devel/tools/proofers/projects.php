@@ -1,6 +1,13 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include($relPath.'projectinfo.inc');
+
+$projectinfo = new projectinfo();
+if ($prooflevel == 0) {
+  $projectinfo->update_avail($project, 2);
+} else $projectinfo->update_avail($project,12);
+
 /* $_GET $project, $prooflevel, $proofing */
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username, topic_id FROM projects WHERE projectid = '$project'");
@@ -74,24 +81,72 @@ else {
 }
 
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Name of Work</b></td>";
-    echo "<td>$nameofwork</td></tr>";
+    echo "<td colspan=4>$nameofwork</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Author</b></td>";
-    echo "<td>$authorsname</td></tr>";
+    echo "<td colspan=4>$authorsname</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
-    echo "<td>$username</td></tr>";
+    echo "<td colspan=4>$username</td></tr>";
 if (isset($prooflevel))
 {    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
-    echo "<td>$lastproofed</td></tr>";}
+    echo "<td colspan=4>$lastproofed</td></tr>";}
+    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td></tr>";
+    echo "<tr><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td></tr><tr>";
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
+
+    $sql = "SELECT image, fileid, ";
+     $whichTime=$prooflevel==2? "round2_time" : "round1_time";
+     $sql.=$whichTime." FROM $project WHERE ";
+     if ($prooflevel==2) {$sql.="round2_user";} else {$sql.="round1_user";}
+     $sql.="='$pguser' AND state !='";
+     if ($prooflevel==2) {$sql.="12";} else {$sql.="2";}
+     $sql.="' ORDER BY ".$whichTime." DESC";
+    $result = mysql_query($sql);
+    $rownum = 0;
+    $numrows = mysql_num_rows($result);
+    while (($rownum < 5) && ($rownum < $numrows)) {
+        $imagefile = mysql_result($result, $rownum, "image");
+        $fileid = mysql_result($result, $rownum, "fileid");
+        $timestamp = mysql_result($result, $rownum, $whichTime);
+$newproject = "project=$project";
+$newfileid="&amp;fileid=$fileid";
+$newimagefile = '&amp;imagefile='.$imagefile;
+$newprooflevel = '&amp;prooflevel='.$prooflevel;
+$orientVert = "&amp;orient=vert";
+$orientHrzn = "&amp;orient=hrzn";
+$saved="&amp;saved=1";
+$jsOn="&amp;js=1";
+$jsOff="&amp;js=0";
+$editone="&amp;editone=1";
+
+$btnVertNo="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientVert.$jsOff.$saved.$editone;
+$btnHrznNo="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientHrzn.$jsOff.$saved.$editone;
+$btnVertYes="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientVert.$jsOn.$saved.$editone;
+$btnHrznYes="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$orientHrzn.$jsOn.$saved.$editone;
+        echo "<TD ALIGN=\"center\">".date("M d", $timestamp)." - ".$imagefile."<BR>";
+echo "<A HREF=\"$btnVertNo\">";
+echo "<IMG SRC=\"gfx/bt4.png\" TITLE=\"Vertical Standard Proofing\" ALT=\"Vertical Standard Proofing\" BORDER=\"0\"></A>";
+echo "<A HREF=\"$btnHrznNo\">";
+echo "<IMG SRC=\"gfx/bt5.png\" TITLE=\"Horizontal Standard Proofing\" ALT=\"Horizontal Standard Proofing\" BORDER=\"0\"></A>&nbsp;&nbsp;&nbsp;";
+echo "<A HREF=\"#\" onclick=\"newProofWin('$btnVertYes')\">";
+echo "<IMG SRC=\"gfx/bt4.png\" TITLE=\"Vertical Enhanced Proofing\" ALT=\"Vertical Enhanced Proofing\" BORDER=\"0\"></A>";
+echo "<A HREF=\"#\" onclick=\"newProofWin('$btnHrznYes')\">";
+echo "<IMG SRC=\"gfx/bt5.png\" TITLE=\"Horizontal Enhanced Proofing\" ALT=\"Horizontal Enhanced Proofing\" BORDER=\"0\"></A>";
+echo "</TD>";
+        $rownum++;
+    }
+
+// should be some check to see if the td's=5 and fill in blank ones for proper html before:
+    echo "</tr>";
+
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
 
 if ($topic_id == "") {
-    echo "<td><a href=\"project_topic.php?project=$project\">Start a discussion about this project in the forum</td></tr>";
+    echo "Start a discussion about this project in the forum";
 } else {
-    echo "<td><a href=\"project_topic.php?project=$project\">Discuss this project in the forum</td></tr>";
+    echo "Discuss this project in the forum";
 }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" colspan=2 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=2>$comments</td></tr></table>";
+    echo "</a></td></tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";
     echo "<BR>";
 
 if (!isset($proofing))
