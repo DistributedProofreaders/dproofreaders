@@ -1,3 +1,7 @@
+<?
+$relPath='../../pinc/';
+include($relPath.'v_site.inc');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -209,7 +213,7 @@ source of the images<br>
 </p>
 <p>There is a larger list of possible scan source sites in the Content
 Providers Forum under the topic <a class="maintitle"
- href="../../phpBB2/viewtopic.php?t=798&amp;start=0&amp;postdays=0&amp;postorder=asc&amp;highlight=">"Where
+ href="<? echo $forums_url ?>/viewtopic.php?t=798&amp;start=0&amp;postdays=0&amp;postorder=asc&amp;highlight=">"Where
 to find scanned images online"</a></p>
 Please follow the individual site guidelines regarding acceptable use
 and protocol. We don't want to be bad neighbors.<br>

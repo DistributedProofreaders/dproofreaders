@@ -1,3 +1,7 @@
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
 <head>
@@ -94,7 +98,7 @@
 <p>Scroll through the <i>whole</i> text to see if there are any difficulties, like footnotes, poetry, foreign languages, dialects, and tables in it.  T
  his way, you will know what you will be dealing with before you commit to the project.  If you see any of these items, you would be wise to choose a different project.  But, if you think you can handle it, give it a try!</p>
 
-<p>Check the <a href="../phpBB2/viewforum.php?f=2">Project Questions and Comments Forum</a> for your book's title to see what proofers have been saying about it.  Again, this might alert you of issues which might make the work more difficult than you had realized.</p>
+<p>Check the <a href="<? echo $forums_url ?>/viewforum.php?f=2">Project Questions and Comments Forum</a> for your book's title to see what proofers have been saying about it.  Again, this might alert you of issues which might make the work more difficult than you had realized.</p>
 
 <p>When you have found a work that you want to do, check it out by going to its Book Options scrollbar and selecting Check Out Book.  The book is now yours!</p>
 <br>
@@ -110,7 +114,7 @@
 <ol>
 <li><a name="1-5">Choose a book and sign it out.</a><br>
 
-<li>Look for comments and questions proofers had while proofing your book in the <a href="../phpBB2/viewforum.php?f=2">Project Questions and Comments Forum</a>.<br>
+<li>Look for comments and questions proofers had while proofing your book in the <a href="<? echo $forums_url ?>/viewforum.php?f=2">Project Questions and Comments Forum</a>.<br>
 
 <li>Download the book's images (optional) and text.<br>
 
@@ -264,13 +268,13 @@
 <p>If the text was scanned with the intention of just converting it to ASCII, email the Project Manager and ask for advice.  If you are willing and able and the scans are available, they may ask you to do an HTML version and provide good quality scans for the missing images.  Alternately, they may decide that the project doesn't really need the images and 
  explain their opinion.</p>
 
-<p>If the text really should be produced in a version that will allow future readers to view the images, and you are unable or unwilling to do the work to put it in such a version, return it and post your concerns in the <a href="../phpBB2/viewforum.php?f=3">Post-Processing Forum</a>.</p>
+<p>If the text really should be produced in a version that will allow future readers to view the images, and you are unable or unwilling to do the work to put it in such a version, return it and post your concerns in the <a href="<? echo $forums_url ?>/viewforum.php?f=3">Post-Processing Forum</a>.</p>
 <br>
 <h3><a name="Sidenotes">Sidenotes</a></h3>
 <br>
 <h4>These [Sidenote] tags seem redundant!</h4>
 
-<p>In most cases, sidenotes add a bit of summary or description to the text, but, in very rare cases, the sidenotes add nothing to the book and will be an annoyance rather than a help.  If your book fits this mold, consider leaving out the sidenotes.  BUT, think long and hard about this, as it is altering the text of the original.  Email the Project Manager and/or post in the <a href="../phpBB2/viewforum.php?f=3">Forums</a> for a second opinion before taking this step.</p>
+<p>In most cases, sidenotes add a bit of summary or description to the text, but, in very rare cases, the sidenotes add nothing to the book and will be an annoyance rather than a help.  If your book fits this mold, consider leaving out the sidenotes.  BUT, think long and hard about this, as it is altering the text of the original.  Email the Project Manager and/or post in the <a href="<? echo $forums_url ?>/viewforum.php?f=3">Forums</a> for a second opinion before taking this step.</p>
 <br>
 <h3><a name="Poetry">Poetry</a></
  h3>
@@ -290,7 +294,7 @@
 
 <p>Books which are entirely comprised of poetry do not need to have their lines rewrapped (watch the Gutcheck output for overly long lines, though).  However, the book may contain an introduction or other prose section which will need rewrapping.</p>
 
-<p><a href="../phpBB2/privmsg.php?mode=post&amp;u=3561">bconstan</a> has graciously offered to aid anyone who needs extra help post-proofing poetry books.  If you have any questions, send her a message.</p>
+<p><a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=3561">bconstan</a> has graciously offered to aid anyone who needs extra help post-proofing poetry books.  If you have any questions, send her a message.</p>
 <br>
 <h3><a name="Indexes">Indexes</a></h3>
 <br>
@@ -337,7 +341,7 @@
 <p>If possible, the text should be transcribed into the Latin alphabet.  It's not a lossless process, but it's the only way to preserve these snippets in ASCII.  Information of the transcription process is available in the <a href="document.php">Document Guidelines</a>.</p>
 
 <p>Many languages, like Arabic and Hebrew, are difficult to transcribe without an intimate knowledge of the language.  If your text contains snippet
- s of such a language and you don't have the knowledge to transcribe it yourself, try posting in the <a href="../phpBB2/viewforum.php?f=3">Forums</a> to find someone to team up with for transcription.</p>
+ s of such a language and you don't have the knowledge to transcribe it yourself, try posting in the <a href="<? echo $forums_url ?>/viewforum.php?f=3">Forums</a> to find someone to team up with for transcription.</p>
 
 <p>If you cannot transcribe the language, and you can't find anyone else who is capable of doing it for you, mark its presence with [Arabic] (for Arabic), and delete any OCR garbage that may have been left in the text.  It's too bad that the information will be lost, but you've done the best you could.</p>
 <br>
@@ -357,7 +361,7 @@
 <a href="http://www.symbols.com/graphicsearch.html">Graphic Search for Symbols</a>
 </p>
 
-<p>This section has room to grow.  If you find any other good links, please <a href="../phpBB2/privmsg.php?mode=post&amp;u=1674">PM me</a>.</p>
+<p>This section has room to grow.  If you find any other good links, please <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.</p>
 
 <p>Note that some symbols may have more than one meaning.  If this is the case, try to determine the best meaning from the context of the symbol.</p>
 <br>
@@ -448,7 +452,7 @@
 	<li>cat, for eat.
 	</ul>
 	
-<p>A more complete, and constantly growing list is maintained by <a href="../phpBB2/privmsg.php?mode=post&amp;u=6141">big_bill</a>.  If you have found a "stealth scanno" which isn't on his lists, send it to him.</p>
+<p>A more complete, and constantly growing list is maintained by <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=6141">big_bill</a>.  If you have found a "stealth scanno" which isn't on his lists, send it to him.</p>
 
 <p>The latest version (presently 1.1) of big_bill's lists can be found here:</p>
 <a href="stealth_scannos_eng_common.txt">Common English Scannos</a><br>
@@ -487,9 +491,9 @@
 
 <p>Post-proofing involves common sense and personal judgement.  The only solid rule is for the post-proofer to preserve the author's intention to the best of their ability.  There can be more than one way to handle a particular piece of formatting, and all of them can be right.  You, as post-proofer, have a great deal of freedom to decide how to handle particular formatting issues and make global format changes.</p>
 
-<p>If your common sense and personal judgement aren't helping you solve some particular problem, post your question in the <a href="../phpBB2/viewforum.php?f=3">Forums</a>.  Other po
+<p>If your common sense and personal judgement aren't helping you solve some particular problem, post your question in the <a href="<? echo $forums_url ?>/viewforum.php?f=3">Forums</a>.  Other po
  st-processors can then tell you how they would handle the situation.  Their suggestions might give you a logical answer for your text, or inspire your own idea as to how to handle the issue.</p>
 
-<p>If you think that something should be added to the FAQ, <a href="../phpBB2/privmsg.php?mode=post&amp;u=1674">PM me</a>.  If it's a general or common enough question, I'll add it.</p>
+<p>If you think that something should be added to the FAQ, <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.  If it's a general or common enough question, I'll add it.</p>
 </body>
 </html>

@@ -1,3 +1,7 @@
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -41,7 +45,7 @@
   <dt><a href="document.php">Document Guidelines</a>
   <dd>Details of the guidelines we use for proofing.
 
-  <dt><a href="../phpBB2/faq.php">Forums FAQ</a>
+  <dt><a href="<? echo $forums_url ?>/faq.php">Forums FAQ</a>
   <dd>Information on using the Forum software (our "bulletin board" system for
       communication between all the people working on a book: the proofreaders, the
       Project Manager, and the Post-Processor.  The place to ask your questions about a
