@@ -1,60 +1,106 @@
 <?
-$relPath='./../../pinc/';
+/*
+    Test version of for_mentors.php.  Displays information useful to Mentors
+    (i.e. those who are second-round proofing projects with difficulty = "BEGINNER")
+
+    ************************************
+*/
+$relPath='../..//pinc/';
+// to establish logon
 include_once($relPath.'dp_main.inc');
+// for dpsql_dump_query
 include_once($relPath.'f_dpsql.inc');
+// for page marginalia
 include_once($relPath.'theme.inc');
+// for PROJ_ declarations
 include_once($relPath.'project_states.inc');
 
-
-theme(_("For Mentors"), "header");
-
-echo "<br><br><h2>"._("For Mentors")."</h2><br>\n";
-
-echo "<br>\n";
-
-
-// MENTORS ONLY books available in Round 2
-
-
-echo "<h3>"._("Currently Available MENTORS ONLY projects")."</h3><br><br>\n";
-echo _("Listed oldest first, so please start at the top")."<br><br>\n";
-
-$result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects WHERE difficulty = 'beginner' AND (
-			state='".PROJ_PROOF_SECOND_AVAILABLE."' || state='".PROJ_PROOF_SECOND_VERIFY."')
-			ORDER BY modifieddate ASC");
-
-while ($row =  mysql_fetch_array($result)) 
+function project_sql()
 {
+    return 
+        "SELECT
+            projectid,
+            nameofwork,
+            authorsname
+        FROM
+            projects
+        WHERE
+            difficulty = 'BEGINNER'
+        AND
+			( state='".PROJ_PROOF_SECOND_AVAILABLE."'
+           OR state='".PROJ_PROOF_SECOND_VERIFY."')
+        ORDER BY
+            modifieddate ASC" ;
+}
 
-echo "<b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>"._("Number of pages by each proofreader")."<br><br>"; 
+function page_summary_sql($projectid)
+{
+    global $forums_url ;
 
-dpsql_dump_query("
-	SELECT
-		round1_user as '"._("Proofreader")."', count(image) as '"._("Pages done in this project")."'
-	FROM ".$row['projectid']." 
-	GROUP BY 1
-	ORDER BY 1
-");
+    return "SELECT 
+                    CASE WHEN u.u_privacy > 0 THEN 'Anonymous'
+                    ELSE CONCAT('<a href=\"" . $forums_url 
+                        . "/profile.php?mode=viewprofile&u=', bbu.user_id,
+                        '\">',u.username,'</a>') END AS " . _("Proofreader") . ",
+                    COUNT(1) AS '" . _("Pages this project") . "',
+                    CASE WHEN u.u_privacy > 0 THEN '' ELSE
+                    u.pagescompleted END AS '" . _("Total Pages") . "',
+                    CASE WHEN u.u_privacy > 0 THEN '' ELSE
+                    DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') END AS Joined
+            FROM $projectid  AS p
+            INNER JOIN users AS u ON p.round1_user = u.username
+            INNER JOIN phpbb_users AS bbu ON u.u_id = bbu.user_id
+            GROUP BY p.round1_user" ;
+}
 
-echo "<br><br><b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>"._("Which proofreader did which page")."<br><br>";
-
-dpsql_dump_query("
-	SELECT
-		SUBSTRING_INDEX(image,'.',1) as '"._("Page")."', round1_user as '"._("Proofreader")."'
-	FROM ".$row['projectid']." 
-	ORDER BY 1
-");
-
-
-echo "<br><br><br><hr>\n";
-
+function page_list_sql($projectid)
+{
+    return "
+    SELECT
+            p.fileid AS '" . _('Page') . "',
+            CASE WHEN u.u_privacy=1 THEN 'Anonymous'
+                    ELSE p.round1_user END
+                AS " . _('Proofreader') . "
+    FROM $projectid AS p
+    INNER JOIN users AS u ON p.round1_user = u.username
+    ORDER BY fileid " ;
 }
 
 
+// Collect the data.
+
+// Project selection. ****************************************************************
+
+// Collect the projects to report.
+// Hold the result in an array
+// and release the database locks.
 
 
+    // Page header. **********************************************************************
 
+    // Display page header.
 
-theme("","footer");
+    theme(_("For Mentors"), "header");
+    // echo "<hr><h3>" . _("TEST VERSION") . "</h3>"  ;
+    echo "<h2>" . _("Second Round pages available to Mentors") . "</h2>";
+    echo "<br>" . _("Listed oldest project first.") . "<br>";
+
+    $result = mysql_query(project_sql()) ;
+    while ($proj =  mysql_fetch_object($result))
+    {
+        // Display project summary info
+        echo "<br>" ;
+        echo "<b>$proj->nameofwork by $proj->authorsname</b>" ;
+        echo "<br>" ;
+
+        dpsql_dump_query(page_summary_sql($proj->projectid));
+
+        echo "<br>" ;
+        echo _('Which proofreader did each page...') ;
+
+        dpsql_dump_query(page_list_sql($proj->projectid));
+    }
+
+    echo "<br><br><br><hr>\n";
+    theme("","footer");
 ?>
-
