@@ -31,7 +31,7 @@ $rankArray = mbrRank($curMbr['username']);
 $bestDay = bestDayEver($curMbr['u_id']);
 
 $now = time();
-$daysInExistence = number_format(floor(($now - $curMbr['date_created'])/86400));
+$daysInExistence = floor(($now - $curMbr['date_created'])/86400);
 if ($daysInExistence > 0) {
 	        $daily_Average = $curMbr['pagescompleted']/$daysInExistence;
 } else {
