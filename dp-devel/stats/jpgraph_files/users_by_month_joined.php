@@ -11,41 +11,31 @@ new dbConnect();
 ///////////////////////////////////////////////////
 //Numbers of users logging on in last hour, day, week and 28 days
 //query db and put results into arrays
-$result1 = mysql_query("
+$result = mysql_query("
 	SELECT
 		FROM_UNIXTIME(date_created, '%Y-%m')
 		  AS month,
 		count(*)
-		  AS num_who_joined
-	FROM users 
-	GROUP BY month
-	ORDER BY month
-");
-
-$result2 = mysql_query("
-	SELECT
-		FROM_UNIXTIME(date_created, '%Y-%m')
-		  AS month,
-		count(*)
+		  AS num_who_joined,
+		SUM(pagescompleted > 0)
 		  AS num_who_proofed
 	FROM users 
-	WHERE pagescompleted > 0 
 	GROUP BY month
 	ORDER BY month
 ");
 
 
-$mynumrows = mysql_numrows($result1);
+$mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
-        $data1y[$count] = mysql_result($result1, $count,"num_who_joined");
-        $datax[$count] = mysql_result($result1, $count,"month");
+        $data1y[$count] = mysql_result($result, $count,"num_who_joined");
+        $datax[$count] = mysql_result($result, $count,"month");
             $count++;
         }
 
         $count = 0;
         while ($count < $mynumrows) {
-        $data2y[$count] = mysql_result($result2, $count,"num_who_proofed");
+        $data2y[$count] = mysql_result($result, $count,"num_who_proofed");
             $count++;
         }
 
