@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'echo_project_info.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 $projectinfo = new projectinfo();
@@ -29,21 +30,14 @@ password=<b>$uploads_password</b>
 </p>
 ";
 
-$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
-
-$manager = mysql_result($result, 0, "username");
-$state = mysql_result($result, 0, "state");
-$name = mysql_result($result, 0, "nameofwork");
-$author = mysql_result($result, 0, "authorsname");
-$language = mysql_result($result, 0, "language");
+$result = mysql_query("SELECT state FROM projects WHERE projectid='$projectid'");
+$state = mysql_result($result, 0);
 
 $projectinfo->update($projectid, $state);
 
-echo "<center><table border=1>";
-echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name </b>(</font><a href='editproject.php?project=$projectid'><font color='".$theme['color_headerbar_font']."'>$projectid</a>)</font></td></tr>";
-echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
-echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
-echo "</table>";
+echo "<center>";
+
+echo_project_info( $projectid, 'proj_post', 0 );
 
 if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 {
