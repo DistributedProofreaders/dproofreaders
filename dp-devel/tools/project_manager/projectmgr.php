@@ -44,7 +44,7 @@ echo_manager_header();
 	<hr width="75%" align="center"><br>
 
 <?
-	if ( $_GET['show'] == 'search_form' ) {
+	if ( $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
 		echo "
 		    <center>
 		    Search for projects matching the following criteria:<br>
