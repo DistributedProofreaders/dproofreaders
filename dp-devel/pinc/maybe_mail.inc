@@ -1,19 +1,16 @@
 <?
-    function maybe_mail( $to, $subject, $message, $additional_headers )
-	// If this is the real DP site, send mail.
-	// Otherwise, just report what would have been sent.
-    {
-        $HOSTNAME_OF_REAL_SITE = "texts01.archive.org";
+include($relPath.'v_site.inc');
 
-        $hostname = $_ENV["HOSTNAME"];
-        if ( $hostname == $HOSTNAME_OF_REAL_SITE )
+    function maybe_mail( $to, $subject, $message, $additional_headers )
+    // If this is for real, send the message.
+    // If we're testing, just report what would have been sent.
+    {
+        global $testing;
+
+        if ( $testing )
         {
-            mail( $to, $subject, $message, $additional_headers );
-        }
-        else
-        {
-            echo '<p>$_ENV["HOSTNAME"] == ' . $hostname . "\n";
-            echo "<p>If it had been $HOSTNAME_OF_REAL_SITE, the following mail would have been sent:\n";
+            echo "\n<hr>\n";
+            echo "\$testing is $testing. If it were FALSE, the following mail would have been sent:\n";
             echo "<pre>\n";
             echo "To: $to\n";
             echo "Subject: $subject\n";
@@ -21,6 +18,11 @@
             echo "\n";
             echo "$message\n";
             echo "</pre>\n";
+            echo "<hr>\n";
+        }
+        else
+        {
+            mail( $to, $subject, $message, $additional_headers );
         }
     }
 
