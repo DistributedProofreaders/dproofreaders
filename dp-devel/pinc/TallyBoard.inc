@@ -197,7 +197,9 @@ class TallyBoard
         $i = 1;
         while (list($holder_id, $tally_value) = mysql_fetch_row($result))
         {
-            if ($tally_value == 0)
+            // A tally of zero or less yields the special rank of zero.
+            // (Think of it as a null rank.)
+            if ($tally_value <= 0)
             {
                 $rank_of_[$holder_id] = 0;
                 continue;
