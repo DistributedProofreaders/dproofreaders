@@ -15,7 +15,95 @@ if (!user_is_PP()) {
 	exit();
 }
 
+// there are up to 4 potential sort orders for this page:
+// one each for *Ch*ecked out PP and PPV, and for the pools of available PP and PPV
+
+// read saved sort orders from user_settings table 
+
+$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'ChPPorder'";
+$result = mysql_query($qry);
+
+if (mysql_num_rows($result) >= 1) {
+	$orderChPPold = mysql_result($result, 0, "value");
+} else {
+	$orderChPPold = 'DaysD';
+}
+
+$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'ChPPVorder'";
+$result = mysql_query($qry);
+
+
+if (mysql_num_rows($result) >= 1) {
+	$orderChPPVold = mysql_result($result, 0, "value");
+} else {
+	$orderChPPVold = 'DaysD';
+}
+
+$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'PPorder'";
+$result = mysql_query($qry);
+
+if (mysql_num_rows($result) >= 1) {
+	$orderPPold = mysql_result($result, 0, "value");
+} else {
+	$orderPPold = 'DaysD';
+}
+
+$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'PPVorder'";
+$result = mysql_query($qry);
+
+
+if (mysql_num_rows($result) >= 1) {
+	$orderPPVold = mysql_result($result, 0, "value");
+} else {
+	$orderPPVold = 'DaysD';
+}
+
+
+// read new sort order from url, if any
+
+$orderChPP = (isset($_GET['orderChPP']) ? $_GET['orderChPP'] : $orderChPPold );
+$orderChPPV = (isset($_GET['orderChPPV']) ? $_GET['orderChPPV'] : $orderChPPVold );
+$orderPP = (isset($_GET['orderPP']) ? $_GET['orderPP'] : $orderPPold );
+$orderPPV = (isset($_GET['orderPPV']) ? $_GET['orderPPV'] : $orderPPVold );
+
+// if orders have changed, save them to database
+
+if ($orderChPP != $orderChPPold) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'ChPPorder'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'ChPPorder', '$orderChPP') ");
+}
+
+if ($orderChPPV != $orderChPPVold) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'ChPPVorder'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'ChPPVorder', '$orderChPPV') ");
+}
+
+if ($orderPP != $orderPPold) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'PPorder'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'PPorder', '$orderPP') ");
+}
+
+if ($orderPPV != $orderPPVold) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'PPVorder'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'PPVorder', '$orderPPV') ");
+}
+
+
 $isPPV = user_is_post_proof_verifier();
+
+
+echo "
+<br>
+<p><font color=red>
+The display of texts available for (and checked out for) post-processing and verification has changed. 
+The options which were presented before in a pulldown menu are now available on a new project-specific page. 
+This new page is available by clicking on the title of the text you are interested in. 
+(We strongly recommend you right-click and open this project-specific page in a new window or tab.) 
+The new page lets you see the project comments and check the project in or out as well as download the associated text and image files without having to wait for the main post-processing page to reload after each action. 
+</font>
+</p>
+";
+
 
 if (!$isPPV) {
 echo "
@@ -62,13 +150,13 @@ echo "
 }
 
 echo "<hr width=75% align='center'><center><b>Books I Have Checked Out for Post Processing:</b></center>";
-show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT);
+show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT, 1, " ", $orderChPP);
 echo "<br>";
 
 if ($isPPV) {
 
 echo "<center><b>Books I Have Checked Out for Verifying Post Processing:</b></center>";
-show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT);
+show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT, 1, " ", $orderChPPV);
 echo "<br>";
 }
 
@@ -76,7 +164,7 @@ echo "<br><hr><br><br>";
 include('filter_PP_list.inc');
 
 echo "<center><b>Books Available for Post Processing:</b></center>";
-show_projects_in_state(PROJ_POST_FIRST_AVAILABLE, 1, $RFilter);
+show_projects_in_state(PROJ_POST_FIRST_AVAILABLE, 1, $RFilter, $orderPP);
 echo "<br>";
 
 if ($isPPV) {
@@ -85,7 +173,7 @@ echo "<br><hr><br><br>";
 include('filter_PPV_list.inc');
 
 echo "<center><b>Books Available for Post Processing Verification & Posting:</b></center>";
-show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter);
+show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter, $orderPPV);
 echo "<br>";
 }
 
