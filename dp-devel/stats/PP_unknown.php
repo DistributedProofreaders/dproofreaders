@@ -26,11 +26,10 @@ $result = mysql_query("	SELECT nameofwork, authorsname, username,
 			FROM projects WHERE state in ('"
 				.PROJ_POST_SECOND_AVAILABLE."','"
 				.PROJ_POST_SECOND_CHECKED_OUT."','"
-				.PROJ_POST_SECOND_CHECKED_OUT."','"
 				.PROJ_SUBMIT_PG_POSTED."','"
 				.PROJ_CORRECT_AVAILABLE."','"
-				.PROJ_CORRECT_CHECKED_OUT.")
-			AND postproofer = '' 
+				.PROJ_CORRECT_CHECKED_OUT."')
+			AND postproofer = 'No Known PPer' 
 			ORDER BY '$order' ASC");
 
 $numrows = mysql_numrows($result);
