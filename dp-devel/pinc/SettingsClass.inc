@@ -60,19 +60,27 @@ function ExecSQL($sql)
 
 class Settings
 {
+    var $username;
     var $setting_array;
 
-    function Settings()
+    function Settings($name = Null)
     {
         global $pguser;
 
-        if(!isset($pguser))
-            return;
+        if(isset($name))
+            $this->username = $name;
+        else
+        {
+            if(!isset($pguser))
+                return;
+            $this->username = $pguser;
+        }
+
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
         $sql = "SELECT *
             FROM usersettings
-            WHERE username = '$username'";
+            WHERE username = '$this->username'";
 
         $result = mysql_query($sql);
 
@@ -87,10 +95,9 @@ class Settings
     // create/update a row with Value set to 'yes'
     function set_true($settingCode)
     {
-        global $pguser;
         ExecSQL("REPLACE INTO usersettings
                 SET value = 'yes',
-                    username = '$pguser',
+                    username = '$this->username',
                     setting = '$settingcode'");
         $this->settings_array[$settingCode] = 'yes';
     }
@@ -98,9 +105,8 @@ class Settings
     // delete any existing row.
     function set_false($settingCode)
     {
-        global $pguser;
         ExecSQL("DELETE FROM usersettings 
-                WHERE username = '$pguser' AND setting = '$settingCode'");
+                WHERE username = '$this->username' AND setting = '$settingCode'");
         unset($this->settings_array[$settingCode]);
     }
 
@@ -125,7 +131,6 @@ class Settings
     // If $value is not equivalent to PHP Null, set Value to $value.
     function set_value($settingCode, $value, $default = True)
     {
-        global $pguser;
         if(!$value)
             $value = $default;
 
@@ -136,7 +141,7 @@ class Settings
         {
             ExecSQL("REPLACE usersettings
                     SET value = '$value',
-                    username = '$pguser', 
+                    username = '$this->username', 
                     setting = '$settingCode'");
             $this->settings_array[$settingCode] = $value;
         }
