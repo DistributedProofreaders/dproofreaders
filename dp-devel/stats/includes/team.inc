@@ -435,7 +435,7 @@ function showTeamHistory($curTeam, $tally_name) {
 			($d == 'all')
 			? _('Lifetime')
 			: sprintf( _('Last %d Days'), $d );
-		$choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&range=$d'>$text</a>";
+		$choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&tally_name=$tally_name&range=$d'>$text</a>";
 	}
 	$choices_str = join( $choices, ' | ' );
 
