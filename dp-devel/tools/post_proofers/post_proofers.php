@@ -41,23 +41,19 @@ echo "
 </p>
 ";
 
-//List the "My Checked Out Post-Processing Books"
-echo "<center><b>My Checked Out Post-Processing Books:</b></center>";
+echo "<center><b>Books I Have Checked Out for Post-Processing:</b></center>";
 show_available_post(PROJ_POST_CHECKED_OUT);
 echo "<br>";
 
-//List the "My Checked Out Verifying Post-Processing Books"
-echo "<center><b>My Checked Out Verifying Post-Processing Books:</b></center>";
+echo "<center><b>Books I Have Checked Out for Verifying Post-Processing:</b></center>";
 show_available_post(PROJ_POST_VERIFYING);
 echo "<br>";
 
-//List the "Available for Post Processing Books"
-echo "<center><b>Available for Post-Processing Books:</b></center>";
+echo "<center><b>Books Available for Post-Processing:</b></center>";
 show_available_post(PROJ_POST_AVAILABLE);
 echo "<br>";
 
-//List the "Available for Post-Processing Verification & Posting Books"
-echo "<center><b>Available for Post-Processing Verification & Posting Books:</b></center>";
+echo "<center><b>Books Available for Post-Processing Verification & Posting:</b></center>";
 show_available_post(PROJ_POST_VERIFY);
 echo "<br>";
 
