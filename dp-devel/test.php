@@ -24,10 +24,12 @@ echo "<hr>\n";
 system("ls -l /0/htdocs");
 echo "<hr>\n";
 
-if (0)
+if (1)
 {
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
-    $res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
+    $criterion = "modifieddate >= $project_cutoff_ts";
+    $criterion = "archived='0'";
+    $res = mysql_query("SELECT projectid FROM projects WHERE $criterion")
 	    or die(mysql_error());
 
     while( $project_row = mysql_fetch_array($res) )
@@ -65,7 +67,7 @@ if (0)
 
 echo "</pre>\n";
 
-if (1)
+if (0)
 {
     include($relPath.'f_dpsql.inc');
     $res = mysql_query("DESCRIBE projects")
