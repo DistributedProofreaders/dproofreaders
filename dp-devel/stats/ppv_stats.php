@@ -10,19 +10,6 @@ echo "<br><br><h2>Post-Processing Verification Statistics</h2><br>\n";
 
 echo "<br>\n";
 
-echo "<h3>Number of Distinct Post-Processing Verifiers</h3>\n";
-
-dpsql_dump_query("
-	SELECT
-		count(distinct username) as 'Different PPVers'
-	FROM usersettings
-	WHERE setting = 'post_proof_verifier' and value = 'yes' 
-");
-
-echo "<br>\n";
-
-
-
 echo "<h3>Post-Processing Verifiers</h3>\n";
 echo "<h4>(Number of Projects Posted to PG</h4>\n";
 
