@@ -14,7 +14,7 @@ include($relPath.'connect.inc');
 new dbConnect();
 
 $EOL = "\n";
-$testing_this_script=FALSE;
+$testing_this_script=$_GET['testing'];
 
 if ($testing_this_script)
 {
@@ -33,7 +33,7 @@ if ($testing_this_script)
     echo 'Last counted date was ', $X_date, $EOL;
     echo 'Backing up a few days', $EOL;
 
-    $X_day -= 3;
+    $X_day -= 4;
 }
 
 // Get a timestamp for the most recent midnight (local time).
