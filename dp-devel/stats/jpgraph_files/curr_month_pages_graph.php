@@ -8,9 +8,11 @@ new dbConnect();
 $year  = date("Y");
 $month = date("m");
 
+$date_format = _('%Y-%m-%d');
+
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT date, pages, dailygoal
+	SELECT DATE_FORMAT(date,'$date_format') AS fdate, pages, dailygoal
 	FROM pagestats
 	WHERE month = '$month' AND year = '$year'
 	ORDER BY date
@@ -21,7 +23,7 @@ $mynumrows = mysql_numrows($result);
         while ($count < $mynumrows) {
         $datay1[$count] = mysql_result($result, $count, "pages");
         $datay2[$count] = mysql_result($result, $count, "dailygoal");
-        $datax[$count] = strftime(_("%Y-%m-%d"),strtotime(mysql_result($result, $count, "date")));
+        $datax[$count] = mysql_result($result, $count, "fdate");
             $count++;
         }
 
