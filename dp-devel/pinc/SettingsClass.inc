@@ -207,5 +207,29 @@ class Settings
     {
         return count($this->settings_array);
     }
+
+    // Get an object for this $username. If such an object has
+    // already been created, return it. By using this function only
+    // and not the constructor, there will only be one object
+    // around for each user, and no problems will arise with
+    // setting/getting the same settings at various places.
+    // If the name is not set, null is returned.
+    function get_Settings($username)
+    {
+        if (!isset($username))
+          return Null;
+
+        static $Settings_for_ = array();
+        if (array_key_exists($username, $Settings_for_))
+        {
+            return $Settings_for_[$username];
+        }
+        else
+        {
+            $settings = new Settings($username);
+            $Settings_for_[$username] = $settings;
+            return $settings;
+        }
+    }
 }
 ?>
