@@ -210,6 +210,7 @@ function echo_cells_for_round($round_num)
 		// Top header row
 		{
 			echo "<tr>\n";
+			echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 			echo "    <td align='center' colspan='$upload_colspan'>Upload</td>\n";
 			echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 			echo "    <td align='center' colspan='4'>Round 1</td>\n";
@@ -223,6 +224,8 @@ function echo_cells_for_round($round_num)
 
 			$td_start = "<td align='center'><font color='{$theme['color_headerbar_font']}'>";
 			$td_end   = "</font></td>\n";
+
+			echo "{$td_start}I{$td_end}";
 
 			echo "{$td_start}Image{$td_end}";
 			if ($show_image_size)
@@ -274,6 +277,11 @@ function echo_cells_for_round($round_num)
 				$row_color = $theme['color_navbar_bg'];
 			}
 			echo "<tr bgcolor='$row_color'>";
+
+			// --------------------------------------------
+			// Index
+			$index = $rownum+1;
+			echo "<td align='right'>$index</td>\n";
 
 			// --------------------------------------------
 			// Upload Block
