@@ -19,6 +19,8 @@ $dynstats_url = '<<DYNSTATS_URL>>';
 $xmlfeeds_dir = '<<XMLFEEDS_DIR>>';
 $xmlfeeds_url = '<<XMLFEEDS_URL>>';
 
+$jpgraph_dir = '<<JPGRAPH_DIR>>';
+
 $forums_dir = '<<FORUMS_DIR>>';
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
