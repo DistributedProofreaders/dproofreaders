@@ -80,12 +80,8 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 {
     $total_n_pages_proofed = 0;
 
-    // Only consider projects that have been modified after Jan 1, 2003
-    // (i.e. on or after 2003-01-02 00:00:00 UTC).
-    // Older projects have a different table structure.
-    $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
-
-    $res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
+    // Only consider projects that have not been archived.
+    $res = mysql_query("SELECT projectid FROM projects WHERE archived='0'" )
         or die(mysql_error());
 
     while( $project_row = mysql_fetch_array($res) )
