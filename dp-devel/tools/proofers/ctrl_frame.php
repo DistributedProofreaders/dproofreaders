@@ -54,10 +54,27 @@ A:active {
   }
 -->
 </style><a
-href="#" accesskey="=" onfocus="focusText()"></a><form
-name="markform" id="markform" onsubmit="return(false);" action="ctrl_frame.php"><table cellpadding="0" cellspacing="0"
-align="center" width="<?PHP echo $menuWidth; ?>" border="0"><tr><td valign="top"><select
-name="tCharsA" ID="tCharsA" title="A" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	href="#"
+	accesskey="="
+	onfocus="focusText()"
+></a><form
+	name="markform"
+	id="markform"
+	onsubmit="return(false);"
+	action="ctrl_frame.php"
+><table
+	cellpadding="0"
+	cellspacing="0"
+	align="center"
+	width="<?PHP echo $menuWidth; ?>"
+	border="0"
+><tr><td valign="top"><select
+	name="tCharsA"
+	ID="tCharsA"
+	title="A"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+>
 <option value="0">A</option>
 <option value="0">--</option>
 <option value="33">&#192;</option>
@@ -75,7 +92,12 @@ name="tCharsA" ID="tCharsA" title="A" onchange="if (this.options[selectedIndex].
 <option value="39">&#198;</option>
 <option value="71">&#230;</option>
 </select><select
-name="tCharsE" ID="tCharsE" title="E" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	name="tCharsE"
+	ID="tCharsE"
+	title="E"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+>
 <option value="0">E</option>
 <option value="0">--</option>
 <option value="41">&#200;</option>
@@ -87,7 +109,12 @@ name="tCharsE" ID="tCharsE" title="E" onchange="if (this.options[selectedIndex].
 <option value="44">&#203;</option>
 <option value="76">&#235;</option>
 </select><select
-name="tCharsI" ID="tCharsI" title="I" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	name="tCharsI"
+	ID="tCharsI"
+	title="I"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+>
 <option value="0">I</option>
 <option value="0">--</option>
 <option value="45">&#204;</option>
@@ -99,7 +126,12 @@ name="tCharsI" ID="tCharsI" title="I" onchange="if (this.options[selectedIndex].
 <option value="48">&#207;</option>
 <option value="80">&#239;</option>
 </select><select
-name="tCharsO" ID="tCharsO" title="O" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	name="tCharsO"
+	ID="tCharsO"
+	title="O"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+>
 <option value="0">O</option>
 <option value="0">-</option>
 <option value="51">&#210;</option>
@@ -115,7 +147,12 @@ name="tCharsO" ID="tCharsO" title="O" onchange="if (this.options[selectedIndex].
 <option value="57">&#216;</option>
 <option value="89">&#248;</option>
 </select><select
-name="tCharsU" ID="tCharsU" title="U" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	name="tCharsU"
+	ID="tCharsU"
+	title="U"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+class="dropchars"
+>
 <option value="0">U</option>
 <option value="0">--</option>
 <option value="58">&#217;</option>
@@ -128,7 +165,12 @@ name="tCharsU" ID="tCharsU" title="U" onchange="if (this.options[selectedIndex].
 <option value="93">&#252;</option>
 <option value="22">&#181;</option>
 </select><select
-name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}" class="dropchars">
+	name="tCharsM"
+	ID="tCharsM"
+	title="More"
+	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+>
 <option value="0">+</option>
 <option value="97">&#036;</option>
 <option value="3">&#162;</option>
@@ -198,16 +240,67 @@ name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedInde
 <option value="56">&#215;</option>
 <option value="88">&#247;</option>
 </select><INPUT
-TYPE="text" VALUE="" accesskey="\" name="markBoxChar" class="dropnormal" size="1" onclick="this.select()"><a
-href="#" onclick="mGR()" title="Greek-to-ASCII Transliteration"><img
-src="gfx/tags/greek.png" width="62" height="22" border="0" align="top" alt="Greek Transliteration" title="<? echo _("Open Greek Transliteration Window"); ?>"></a></td><td
-valign="top" align="center"><INPUT
-accesskey="[" TYPE="text" VALUE="" name="markBox" class="dropnormal" size="9" onclick="this.select();"><INPUT
-accesskey="]" TYPE="text" VALUE="" name="markBoxEnd" class="dropnormal" size="9" onclick="this.select()"><a
-href="#" onclick="iMU(21)"><img
-src="gfx/tags/italic.png" width="22" height="22" border="0" align="top" title="<? echo _("Italics"); ?>" alt="<? echo _("Italics"); ?>"></a><a
-href="#" onclick="iMU(22)"><img
-src="gfx/tags/bold.png" width="22" height="22" border="0" align="top" title="<? echo _("Bold"); ?>" alt="<? echo _("Bold"); ?>"></a><?PHP
+	TYPE="text"
+	VALUE=""
+	accesskey="\"
+	name="markBoxChar"
+	class="dropnormal"
+	size="1"
+	onclick="this.select()"
+><a
+	href="#"
+	onclick="mGR()"
+	title="Greek-to-ASCII Transliteration"
+><img
+	src="gfx/tags/greek.png"
+	width="62"
+	height="22"
+	border="0"
+	align="top"
+	alt="Greek Transliteration"
+	title="<? echo _("Open Greek Transliteration Window"); ?>"
+></a></td><td
+	valign="top"
+	align="center"
+><INPUT
+	accesskey="["
+	TYPE="text"
+	VALUE=""
+	name="markBox"
+	class="dropnormal"
+	size="9"
+	onclick="this.select();"
+><INPUT
+	accesskey="]"
+	TYPE="text"
+	VALUE=""
+	name="markBoxEnd"
+	class="dropnormal"
+	size="9"
+	onclick="this.select()"
+><a
+	href="#"
+	onclick="iMU(21)"
+><img
+	src="gfx/tags/italic.png"
+	width="22"
+	height="22"
+	border="0"
+	align="top"
+	title="<? echo _("Italics"); ?>"
+	alt="<? echo _("Italics"); ?>"
+></a><a
+	href="#"
+	onclick="iMU(22)"
+><img
+	src="gfx/tags/bold.png"
+	width="22"
+	height="22"
+	border="0"
+	align="top"
+	title="<? echo _("Bold"); ?>"
+	alt="<? echo _("Bold"); ?>"
+></a><?PHP
 
 
 /* temp disabled
@@ -223,17 +316,40 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 */
 
 ?></td><td
-align="right" valign="top"><a
-href="../../faq/prooffacehelp.php" accesskey="1" target="helpNewWin"><img
-src="gfx/tags/help.png" width="18" height="18" border="0" align="top" alt="<? echo _("Help"); ?>" title="<? echo _("Help"); ?>"></a><a
-href="<?PHP
+	align="right"
+	valign="top"><a
+	href="../../faq/prooffacehelp.php"
+	accesskey="1"
+	target="helpNewWin"
+><img
+	src="gfx/tags/help.png"
+	width="18"
+	height="18"
+	border="0"
+	align="top"
+	alt="<? echo _("Help"); ?>"
+	title="<? echo _("Help"); ?>"
+></a><a
+	href="<?PHP
   if($userP['i_newwin']==0)
     {echo "proof_per.php";}
   else
     {echo "JavaScript:window.close();";}
-?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"><img
-src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="<? echo _("Exit"); ?>" title="<? echo _("Exit"); ?>"></a></td></tr><tr><td
-valign="top" colspan="3" align="center">
+?>"
+	target="_top"
+	onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"
+	><img
+	src="gfx/tags/exit.png"
+	width="18"
+	height="18"
+	border="0"
+	align="top"
+	alt="<? echo _("Exit"); ?>"
+	title="<? echo _("Exit"); ?>"
+></a></td></tr><tr><td
+	valign="top"
+	colspan="3"
+	align="center">
 <?PHP include('ptags.inc'); ?>
 <br>
 <font size="-1">
