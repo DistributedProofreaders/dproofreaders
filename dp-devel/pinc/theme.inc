@@ -351,6 +351,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			if ($neighborhood['username'][$i] == $GLOBALS['pguser']) { echo "</b></i>"; }
 			$i++;
 			$p++;
+			if (empty($neighborhood['username'][$i])) { break; }
 		}
         }
 
@@ -371,10 +372,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		$i = 1;
 		if ($neighborhood['pages'][$userindex] != 0) {
 		while ($i <= $userP['u_neigh']) {
+			if (empty($neighborhood['username'][$userindex+$i])) { break; }
 			echo "&nbsp;".$neighborhood['rank'][$userindex+$i].".) ".$neighborhood['username'][$userindex+$i]." - ".number_format($neighborhood['pages'][$userindex+$i])."<br>\n";
 			$i++;
 		}
-	}
+		}
 	}
 
    //If it is a guest user show the past years completed projects
