@@ -1,0 +1,10 @@
+Please mark Small Caps as < sc > < /sc > (spaces added for display purposes).<br>
+Please use the block quote markers /# and #/ around the body of letters (in the Letters to the Editor section) and /* */ around the signatures, preserving relative spacing as much as possible.
+<p>
+There are some pages of advertisements at the beginning and end of most issues. Many of these ads repeat from one issue to the next. Please check the uber-project thread to see if the ad on your page has been posted there. If it has, you can just copy the text from the thread, but be sure to check against the image for any subtle changes. If it hasn't been posted, please proof it carefully and then post it.
+<p>
+These issues are from 1897. This is "A Weekly Magazine for Boys and Girls". The LoC search shows that it was published from 1896-1903. I have all of 1897, except for January, plus a few issues from 1898.
+<p>
+The post-processor must make an illustrated html version. High-quality, cropped versions of the illustrations will be found in the images zip file. There are only 2-3 illustrations per issue, along with a couple of variations of the masthead.
+<p>
+Have fun!
