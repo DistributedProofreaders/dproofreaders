@@ -7,11 +7,7 @@ new dbConnect();
 $no_stats=1;
 theme('Proofing Guidelines -- Encyclopedias','header');
 ?>
-  <style TYPE="text/css">
-<!--
-  tt {color: red}
-        -->
-  </style>
+
 <!--
   <style>
                 @page { size: 21.59cm 27.94cm; margin-left: 3.18cm; margin-right: 3.18cm; margin-top: 2.54cm; margin-bottom: 2.54cm }

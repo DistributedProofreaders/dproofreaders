@@ -85,6 +85,7 @@ function theme ($nameofpage, $location) {
 }
 
 function html_header($code_url, $theme, $nameofpage) {
+	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
       echo "<html>\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
@@ -94,11 +95,14 @@ function html_header($code_url, $theme, $nameofpage) {
 	{
 		include($relPath.'special_colours.inc');
 	}
-	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n</head>\n\n";
+	echo "\n<META http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
+	echo "\n<link type='text/css' rel='Stylesheet' href='";
+	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
+	echo "</head>\n\n";
 	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text']; 
 	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink']; 
 	echo "' alink='" . $theme['body_alink']; 
-	echo "' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n\n";
+	echo "' topmargin='0' leftmargin='0' marginheight='0' marginwidth='0'>\n\n";
 }
 
 function html_logobar($code_url, $theme, $nameofpage, $theme_name) {

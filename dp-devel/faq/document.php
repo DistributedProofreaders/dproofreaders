@@ -8,11 +8,6 @@ $no_stats=1;
 theme('Proofreading Guidelines','header');
 ?>
 
-  <style TYPE="text/css">
-<!--
-  tt {color: red}
-        -->
-  </style>
 <!--
 
   <style>

@@ -17,9 +17,9 @@ $state = SQL_CONDITION_GOLD;
 $text = " " . _("Complete.") . "</font>  " . _("These books have been processed through our site and posted to the Project Gutenberg archive.");
 $text .= "
 	<a href='$code_url/feeds/backend.php?content=posted'>
-		<img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
-	<a href='$code_url/feeds/backend.php?content=posted&type=rss'>
-		<img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
+		<img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle' alt='[XML]'></a>
+	<a href='$code_url/feeds/backend.php?content=posted&amp;type=rss'>
+		<img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle' alt='[RSS]'></a>
 	<br>";
 }
 
@@ -43,7 +43,7 @@ if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>" 
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>" . _("html version") . "</a>, ";
 
 if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>" . _("submit corrections") . "</a>";
+	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&amp;stage=correct'>" . _("submit corrections") . "</a>";
 } else {
 	$links=$links._("under review");
 }

@@ -8,15 +8,6 @@ $no_stats=1;
 theme('Beginning Proofers\' FAQ','header');
 ?>
 
-<!--
-        -->
-
-  <style TYPE="text/css">
-<!--
-  tt {color: red}
-        -->
-  </style>
-
 <h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
 <h3 align="right">Version 1.7, released May 27, 2004 </h3>
 
@@ -307,7 +298,7 @@ different pages.  This will significantly speed up the proofreading process.
     Setting these options correctly solves most problems accessing or using the site.
     For specific examples of setting these options for various browsers, check the latest
     info on the DPWiki post, available by
-    <a href="<? echo $forums_url; ?>/viewtopic.php?p=17984&highlight=#17984">clicking here.</a>
+    <a href="<? echo $forums_url; ?>/viewtopic.php?p=17984&amp;highlight=#17984">clicking here.</a>
 
 <table border=1 rules="none" width="75%" align="center">
   <tr><td colspan=2> * <i>Security note:</i> for security and privacy reasons, many people have some of
