@@ -42,8 +42,6 @@
   define("PROJ_POST_SECOND_AVAILABLE_TEXT", "Verify Post-Processing");
   define("PROJ_POST_SECOND_CHECKED_OUT_TEXT", "Verifying Post-Processing");
   define("PROJ_POST_COMPLETE_TEXT", "Completed Post-Processing");
-  define("PROJ_POST_AVAIL_SECOND_TEXT", "Available for 2nd round of PP");
-  define("PROJ_POST_CHECKEDOUT_SECOND_TEXT", "Checkedout for 2nd round PP");
 
 
 // GB
