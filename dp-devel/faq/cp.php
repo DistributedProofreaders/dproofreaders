@@ -61,8 +61,8 @@ Distributed Proofreaders?</b></a></big></p>
 <p>What kinds of books do you have? :-)</p>
 <p>Seriously, there are really few restrictions on what kind of text
 you can contribute to DP. The biggest, and probably most important is: The
-book MUST be either in the Public Domain OR the copyright must have
-expired. In general this tends to mean books that were written before
+book MUST be in the public domain (i.e., the copyright must have
+expired). In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
 it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
@@ -70,8 +70,10 @@ on <a href="http://www.gutenberg.net/howto/copyright-howto">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
  href="http://digital.library.upenn.edu/books/okbooks.html">this</a>
 page.<br>
-<a href="http://catalog.loc.gov">The Library of Congress Catalog</a> is
-a great place to check publishing dates of books published in the U.S.</p>
+<a href="http://catalog.loc.gov">The Library of Congress Online Catalog</a> and
+<a href="http://blpc.bl.uk/">The British Library Public Catalogue</a>
+are great places to check publishing dates of books.</p>
+
 <p>The book should not already be on the Project Gutenberg site. This
 site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
@@ -97,13 +99,21 @@ It is probably better to avoid books which contain a lot of illustrations,
 maps, charts, tables and pictures for your first project.
 </p>
 
-<p>Non-English language texts are fine too, within reason. Keep in mind
-that PGDP uses Latin-1, not Unicode, so if the language contains a LOT
-of non-ASCII characters, the project will probably be better handled at
-<a href="http://dp.rastko.net/">DP-EU</a>
+<p>Non-English language texts are fine too,
+though keep in mind that at the moment PGDP uses Latin-1, not Unicode.
+Texts in most western European languages and a few others
+(e.g. English, French, German, Latin (sans length marks),
+Italian, Spanish, Swedish, Dutch, Swahilli)
+are usually appropriate for PGDP.
+However, texts with many characters outside Latin-1
+are probably better handled at
+<a href="http://dp.rastko.net/">DP-EU</a>,
 which uses Unicode. The procedures for preparing texts are the same
 for both sites, but permission to be a PM must be obtained separately
 from the administrators of each site.
+If you have a query about whether a text in a non-English language is appropriate for DP,
+please post a question to the
+<a href="<? echo $forums_url; ?>/viewforum.php?f=9">Providing Content Forum</a>.
 </p>
 
 <p> It is helpful, though not strictly necessary that you understand the
@@ -120,12 +130,11 @@ there. It is better to have a book that you will have access to for the
 whole time the project is being worked on so you can refer back to it if
  problems turn up in the scans. (Happens depressingly often)</p>
 <p>
-(You probably won't find many eligible books
+You may find many eligible books
 in the circulating (borrowable) collection of your local library,
-because most won't let you check out their old books.
-Even if they do, be careful,
-because the scanning process can be a little rough on the book
-and it may get damaged.)
+but do be careful,
+because the scanning process can be a little rough on books
+and they may get damaged.
 </p>
 <p>There are also many on-line sites devoted to used books if you are
 trying to find a particular one:</p>
@@ -137,8 +146,12 @@ and that old standby;<br>
 <a href="http://half.ebay.com/products/books/">Half.com / Ebay</a><br>
 to name just a few.<br>
 </p>
-<p>There are also many sites which have books available online as .pdf
-or image files which can be downloaded and OCRed. University libraries
+<p>There are also many sites which have books available online as PDF
+or image files which can be downloaded and OCRed.
+(Note that some PDF files do not contain actual page images,
+but instead contain text resulting from OCR or retyping.
+Since DP needs page images, we can't use those PDF files for DP.)
+University libraries
 and historical societies seem to be rich sources. This is especially
 helpful if you don't have access to a scanner or physical books. There <span
  style="font-style: italic;">are</span> drawbacks: they are usually a
@@ -278,7 +291,7 @@ Generally there are two easy ways to get one-up images from two-up images:
     there is some white space between the pages.)
 <li>Use an external program.
 </ul>
-If there are any question, it's best to test a few scans.
+If there are any questions, it's best to test a few scans.
 </p>
 
 <p>
@@ -317,6 +330,13 @@ up a batch, it will extract .tif images to the batch directory
 automatically as it is loading the .pdf files. These can then be
 converted to .pngs for later use.<br>
 </p>
+
+<p>
+For more help with ABBYY FineReader,
+please see our
+<a href="<? echo $forums_url; ?>/viewtopic.php?t=5293">FineReader Tips and Tricks forum topic</a>.
+</p>
+
 <div><br>
 </div>
 <hr size="3" width="100%" align="left">
@@ -410,7 +430,7 @@ time. It is WELL worth the extra time to get it right at the OCR stage.
 <p>When that is done, you'll need to save the text files to do further
 processing on them. Depending what tools you will use in preprocessing,
 the formats and locations you save them in will vary. To use the guiprep
-/ winprep script (highly recommended) you will
+script (highly recommended) you will
 need to do something like the following :<br>
 </p>
 An excerpt from the <a
@@ -501,8 +521,8 @@ I'm not done yet?</a></big></p>
 major tool (Guiprep) is covered here.<br>
 </p>
 <p><span style="font-weight: bold;"><a
- href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
-/ <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a>:</span><br>
+ href="http://mywebpages.comcast.net/thundergnat/guiprep.html">Guiprep / Winprep</a>
+:</span><br>
 </p>
 <p>Guiprep is capable of extracting italic and bold markup from the
 OCRed text. (save lots of time for proofreaders), removing the end-of-line
@@ -510,15 +530,15 @@ hyphens and rejoining the broken words, filtering out many, many
 scanning errors, renaming the files in the format need by Distributed
 Proofreaders and checking for zero byte files, all automatically. It
 also provides an interactive mechanism for header removal which is very
-stable and user friendly. The <a
- href="http://mywebpages.comcast.net/thundergnat/guiprep.html">manual</a>
+stable and user friendly. The
+manual
 included with the script is quite comprehensive and should be consulted
 for any detailed questions.<br>
 </p>
 <p>&nbsp;A general overview of how to use it: <br>
 </p>
-<p>Open the script, a graphical user interface will pop up. <a
- href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
+<p>Open the script, a graphical user interface will pop up.
+Guiprep
 uses a tabbed screen scheme, similar functions are grouped on different
 tabs. <br>
 Step 1. Goto the Change Directory tab. Navigate to the directory
@@ -555,10 +575,12 @@ your name and a contact email address (if different from the sending
 address). She will contact you with an FTP address and directoryname
 where you can upload  the image and text files. Use an FTP client to
 upload all of the .png and .txt files you generated earlier into that
-directory. (There are a few free FTP clients listed in the software
+directory.
+You can also upload a single .zip file of all the .png &amp; .txt files.
+(There are a few free FTP clients listed in the software
 section, or,&nbsp; the guiprep toolkit has an FTP client built in that
-will automate some of the process) When that is done, email back to the
-person who contacted you. Alternately, if you anticipate having several
+will automate some of the process.)
+Alternately, if you anticipate having several
 projects, you may want to send a message to <a
  href="mailto:juliet.sutherland@verizon.net">JulietS</a>&nbsp; and ask
 to be made a project manager. This will open up access to some of the
@@ -614,17 +636,10 @@ specifically geared toward pre-processing text
 files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.
 See also <a href="<? echo $forums_url; ?>/viewtopic.php?t=2237">this forum topic</a>.
+Guiprep requires perl.
+Please see the guiprep manual for more infomation
+about obtaining a perl interpreter for your system.
 </p>
-<p style="margin-left: 40px;"><small>These two utilities
-(guiprep/winprep) share the same code. Use guiprep if you have perl on
-your system. Only use Winprep (Windows only) if you don't have perl. It
-is <span style="font-weight: bold;">MUCH</span> larger for the exact
-same program since it essentially includes a perl interpreter.</small><br>
-</p>
-
-<p><a href="http://gutcheck.sourceforge.net/">Gutcheck</a> <i>Free-GPL</i>
-[Dos/Win, Unix] Gutenberg text checking program. Needed to check
-compliance of text to Gutenberg standards. </p>
 
 <span style="font-weight: bold; font-style: italic;"><br>
 Image viewing and manipulation:</span><br>
@@ -641,6 +656,13 @@ image manipulation and conversion software. </p>
 <p><a href="http://www.firehand.com/Ember/index.html">Firehand Ember</a> <span
  style="font-style: italic;">Shareware</span> [Win32] - Another nice
 image viewing and conversion program. <br>
+</p>
+
+<p><a href="http://netpbm.sourceforge.net/">netpbm</a>
+<i>Free</i>
+[Win32, Unix] -
+A toolkit for manipulation of graphic images,
+including conversion of images between a variety of different formats.
 </p>
 
 <p><br>
