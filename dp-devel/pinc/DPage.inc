@@ -28,7 +28,7 @@ function project_allow_pages( $projectid )
         CREATE TABLE $projectid
         (
             fileid        varchar(20) NOT NULL default '', UNIQUE (fileid),
-            image         varchar(8)  NOT NULL default '', UNIQUE (image),
+            image         varchar(12) NOT NULL default '', UNIQUE (image),
             master_text   longtext    NOT NULL,
             $columns_for_rounds
             state         VARCHAR(50) NOT NULL default '', INDEX(state),

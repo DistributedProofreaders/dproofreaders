@@ -384,7 +384,7 @@ class BeginProjects EXTENDS Projects
              nameofwork varchar(128) NOT NULL ,
              language varchar(64) NOT NULL ,
              fileid varchar( 20 ) NULL ,
-             image varchar( 8 ) NULL ,
+             image varchar( 12 ) NULL ,
              master_text longtext NULL ,
              round1_text longtext NULL ,
              round2_text longtext NULL ,

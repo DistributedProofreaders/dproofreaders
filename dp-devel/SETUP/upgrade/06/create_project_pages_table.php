@@ -21,7 +21,7 @@ $sql = "
     CREATE TABLE project_pages (
         projectid     varchar( 25 ) NOT NULL default '',
         fileid        varchar( 20 ) NOT NULL default '',
-        image         varchar( 8 )  NOT NULL default '',
+        image         varchar( 12 ) NOT NULL default '',
         master_text   longtext      NOT NULL,
         $items_for_rounds
         state         varchar( 50 ) NOT NULL default '',
