@@ -209,7 +209,21 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 
 
-	$linkbase = "<a href='?order{$prd->round_id}=";
+	$order_param = "order{$prd->round_id}";
+
+	// The originating request may have query-string settings (other than
+	// for $order_param). We should preserve those, and just append the
+	// setting for $order_param.
+	$other_settings = '';
+	foreach ( $_GET as $name => $value )
+	{
+		if ( $name != $order_param )
+		{
+			$other_settings .= "$name=$value&amp;";
+		}
+	}
+
+	$linkbase = "<a href='?{$other_settings}{$order_param}=";
 	$linkend = "#{$prd->round_id}'";
 
 	// Always put the BEGIN projects at the top.
