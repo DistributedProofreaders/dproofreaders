@@ -30,6 +30,8 @@ $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['us
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 $rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
+$neighbors = user_get_page_tally_neighbors($rankArray, 4);
+
 $bestDay = bestDayEver($curMbr['u_id']);
 
 $now = time();
@@ -81,7 +83,6 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 //Neighbor info portion of $data
 	$data .= "<neighborinfo>";
-	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$neighbor->get_username()."'");
