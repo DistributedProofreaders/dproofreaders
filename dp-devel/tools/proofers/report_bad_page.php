@@ -7,6 +7,7 @@ include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'gettext_setup.inc');
 
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];

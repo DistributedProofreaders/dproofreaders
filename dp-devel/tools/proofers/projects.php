@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'projectinfo.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'echo_project_info.inc');
+include_once($relPath.'gettext_setup.inc');
 
 $projectinfo = new projectinfo();
 if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
