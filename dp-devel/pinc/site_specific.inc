@@ -21,7 +21,7 @@ a>.";
         echo "</p>";
         echo "<p>";
         echo "To leave feedback or report bugs regarding this TEST site, ";
-        echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=3767'>
+        echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=12226'>
 this forum topic</a> on the real site.";
 
         echo "</p>";
