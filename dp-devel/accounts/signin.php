@@ -31,7 +31,7 @@ echo "<STRONG>"._("Password")."</STRONG>";
 echo $tde.$td3;
 echo '<INPUT TYPE="password" NAME="userPW" SIZE="12" MAXSIZE="50">';
 echo $tre.$tr.$td1;
-echo "<INPUT TYPE="submit" VALUE='"._("Sign In")."'>";
+echo "<INPUT TYPE='submit' VALUE='"._("Sign In")."'>";
 echo $tre.$tr.$td5;
 echo "<B>"._("Note").":</B>"._("User Name & Password are case sensitive.<BR>Make sure your caps lock is not on.");
 echo $tre.$tr.$td4;
