@@ -163,10 +163,10 @@ if /bin/true; then
     chgrp -R $GROUP $_CODE_DIR.new
 
     # ------------------------------------------------------------------------------
-    # Make everything group-writeable, so that anyone in the group
+    # Make everything user+group-writeable, so that anyone in the group
     # can delete it (which they need to do to install a new one).
 
-    chmod -R g+w $_CODE_DIR.new
+    chmod -R ug+w $_CODE_DIR.new
 
     # Remove all 'other' permissions on the SETUP directory,
     # to prevent it being served over the web.
