@@ -1,0 +1,111 @@
+<?
+$password = $_POST['password'];
+if ($password=="proofer") {
+    $real_name = $_POST['real_name'];
+    $username = $_POST['username'];
+    $userpass = $_POST['userpass'];
+    $email = $_POST['email'];
+
+    $ID = uniqid("userID");
+
+    include '../connect.php';
+
+    // calculate date
+    $year  = date("Y");
+    $month = date("m");
+    $day = date("d");
+    $todaysdate = $year.$month.$day;
+
+    $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, emailupdates)
+                VALUES ('$ID', '$real_name', '$username', '$email','no', '$todaysdate', 'yes')");
+
+    if (!$result) {
+
+        echo "That user name already exists, please try another.<br>";
+        echo "<center>";
+        echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
+        echo "</center>";
+        exit;
+    } else {
+
+        //code from php forums bb_register.php 
+        $passwd = md5($userpass);
+        $sql = "SELECT max(user_id) AS total FROM phpbb_users";
+        if(!$r = mysql_query($sql, $db))
+            die("Error connecting to the database.");
+        list($total) = mysql_fetch_array($r);
+        $currtime = time();
+
+        $total += 1;
+        $sql = "INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_email, user_password, 
+user_viewemail) 
+                            VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
+
+        $result = mysql_query($sql);
+
+        mail($email, "Welcome to the Distributed Proofreader's Site!",
+             "Hello $real_name,\n\n".
+"I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg (http://www.gutenberg.net/).\n\n".
+
+"In order to activate your account, go to <http://texts01.archive.org/dp/accounts/activate.php?username=$username&password=$passwd&magic=$currtime> and it will log you in for your first time.\n\n".
+
+"As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Frequently Asked Questions <http://texts01.archive.org/dp/faq/ProoferFAQ.html> lists most users initial questions, so be sure to read it over too.\n\n".
+
+"Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
+
+"- Select a book in the second-round that you would like to read a little bit on. We recommend your first page being a second-round page since most of the errors will be fixed already and you will be able to see what an almost finished page looks like.\n\n".
+
+"- Click on the \"Read Project Comments and Start Proofing\" link below the book you want to work on.\n\n".
+
+"- It will show you a listing of items to note when working on a project, these will stay fairly consistent on all projects. They will be available later, so do not worry about remembering them all.\n\n".
+
+"- Click on \"Vertical Proofing\" if you are set at a higher resolution or \"Horizontal Proofing\" if you are not. This just decides whether the image and text are vertically or horizontally aligned.\n\n".
+
+"- Compare the text in the text box to what is in the image, making corrections for differences between the two and any additional items described in the comments. You can pull the comments back up by clicking on the link below the text box.\n\n".
+
+"- Once you are finished with this page, click on either \"Save and Quit\" or \"Save and Do Another\"\n\n".
+
+"That is all there is to completing your first page. If you have specific questions on a book, you can either e-mail the project manager by clicking on their name for the project or posting a message in the forum. Remember every page you do gets the books done quicker. I hope that you enjoy the proofreading available and that you will continue to use our site.\n\n".
+
+"Thanks,\n
+Charles Franks\n\nPS - Your user name, in case you forget is $username and make sure to activate your account first.
+If your password doesn't work after you have activated your account, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
+"From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+
+        print "User <b>$username</b> added sucessfully. Please verify your account by following the link provided in the e-mail just sent to you.!";
+        echo "<center>";
+        echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
+        echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
+        echo "</center>";
+    }
+} else {
+?>
+<html>
+<head><title>User Admin Page: Create a proofreader account</title></head>
+<body bgcolor=#ffffff>
+<table bgcolor=#000000 valign=top align=center border=0><tr><td bgcolor=#000000>
+<table cellpadding=4 bgcolor=#ffffff cellspacing=2 border=0>
+<Tr><th>Create a proofreader account</th></tr><tr><td>
+<FORM METHOD="post" ACTION="addproofer.php">
+<Input Type=hidden Name="password" value = "proofer">
+<table border=0>
+<td width=20>Real Name:</td><td><INPUT TYPE=text MAXLENGTH=70 NAME="real_name" SIZE=20><Br></td><tr>
+<td>Username:</td><td> <INPUT TYPE=text MAXLENGTH=70 NAME="username" SIZE=20></td><tr>
+<td>Password:</td><td> <Input Type=password Maxlength=70 Name="userpass" Size=10></td><tr>
+<td>E-mail address:</td><td> <Input Type=text Maxlength=70 Name="email" Size=20></td>
+</table>
+<center><INPUT TYPE=submit VALUE="Add">  <INPUT type=reset VALUE="Reset Form"><br>
+<br>The information that you enter here will only be made<br>
+available to the project manager(s) for whom you have proofread.
+<br>This will allow the project manager to provide feedback to<br>
+each proofer such as thanks, pointers on how to proof better, etc.<br>
+It will also send you an e-mail with a link to activate your account>.
+<br><br><a href = "../default.php">Back</a> to the main page.</center>
+</form>
+</tr></td></table></tr></td></table>
+</body>
+</html>
+<?
+}
+?>
+
