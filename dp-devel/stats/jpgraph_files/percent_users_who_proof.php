@@ -25,6 +25,11 @@ $result = mysql_query("
 	ORDER BY month
 ");
 
+// If there was a month when nobody joined,
+// then the results will not include a row for that month.
+// This may lead to a misleading graph,
+// depending on its style.
+
 while ( $row = mysql_fetch_object($result) )
 {
         $datax[]  = $row->month;
