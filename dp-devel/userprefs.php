@@ -1,6 +1,7 @@
 <?
 $relPath="./pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
 include($relPath.'doctype.inc');
@@ -17,7 +18,6 @@ if (isset($swProfile))
     // get profile from database
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE id='$user_id' AND username='$pguser'");
     $cookieC->setUserPrefs($pguser);
-    include_once($relPath.'metarefresh.inc');
     $eURL="userprefs.php";
     if (isset($project) && isset($proofstate))
       {$eURL.="?project=$project&proofstate=$proofstate";}
@@ -50,22 +50,29 @@ if ($db_value == $i) { echo " SELECTED"; }
 echo ">$array_list[$i]</option>";
 } echo "</select>"; }
 
+if (isset($project) && isset($proofstate))
+{
+    $eURL = "tools/proofers/projects.php?project=$project&proofstate=$proofstate";
+}
+else
+{
+    $eURL = "tools/proofers/proof_per.php";
+}
+
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
 {
-if (isset($project) && isset($proofstate))
-{echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
-exit;}
+metarefresh(0, $eURL, "Quit", "");
+exit;
+}
 
 // restore cookie values from db
 if (isset($restorec))
 {
 $cookieC->setUserPrefs($pguser);
-if (isset($project) && isset($proofstate))
-{echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
-exit;}
+metarefresh(0, $eURL, "Restore", "");
+exit;
+}
 
 if (@$_POST["insertdb"] == "") {
 theme("Personal Preferences", "header");
@@ -376,9 +383,6 @@ $result = mysql_query($users_query);
 echo mysql_error();
 $cookieC->setUserPrefs($pguser);
 
-if (isset($project) && isset($proofstate))
-{echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&proofstate=$proofstate\"></head><body></body></html>"; }
-else {echo "$docType<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
-
+metarefresh(0, $eURL, "Save", "");
 }
 ?>

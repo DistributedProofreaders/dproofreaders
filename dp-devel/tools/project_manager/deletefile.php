@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 
     $project = $_GET['project'];
@@ -21,6 +22,6 @@ include($relPath.'dp_main.inc');
         } else $sql = "DELETE FROM $project WHERE fileid = '$fileid'";
         mysql_query($sql);
 
-        echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php?project=$project\"></head><body></body></html>"; 
+        metarefresh(0, "projectmgr.php?project=$project", "Page(s) Deleted", ""); 
     }
 ?>
