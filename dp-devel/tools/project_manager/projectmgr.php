@@ -29,6 +29,8 @@ theme("Project Managers", "header");
 
 abort_if_not_manager();
 
+
+
 	if ( !isset($_GET['show']) || $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
 		echo_manager_header('project_search_page');
 
@@ -302,22 +304,28 @@ abort_if_not_manager();
 			echo "</td>\n";
 
 			// Project Status
-			echo "
-			    <td valign=center>
-				<form
-				    name='$projectid'
-				    method='get'
-				    action='changestate.php'>
-				    <input
-					type='hidden'
-					name='project'
-					value='$projectid'>
-				    <select
-					name='state'
-					onchange='this.form.submit()'>
-			";
-            		getSelect($state);
-            		echo "</select></form></td>\n";
+
+			if (user_is_a_sitemanager() or user_is_PM_of($projectid)) {
+
+				echo "
+				    <td valign=center>
+					<form
+					    name='$projectid'
+					    method='get'
+					    action='changestate.php'>
+					    <input
+						type='hidden'
+						name='project'
+						value='$projectid'>
+					    <select
+						name='state'
+						onchange='this.form.submit()'>
+				";
+	            		getSelect($state);
+	            		echo "</select></form></td>\n";	
+			} else {
+				echo "<td valign=center>$state</td>\n";	
+			}
 
 			// Options
 			echo "<td align=center>";
