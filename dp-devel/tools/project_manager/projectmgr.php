@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
@@ -252,10 +253,10 @@ if ($sitemanager == "yes") {
 <?  } else { ?>
 <tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=site">Site Manager</a></td>
 <?  } ?>
-<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="../../phpBB2/index.php">Forums</a></td>
+<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
 } else { ?>
-<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="../../phpBB2/index.php">Forums</a></td>
+<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
 }
 ?>
@@ -356,10 +357,10 @@ if ($sitemanager == "yes") {
 <?  } else { ?>
 <tr><td colspan=2 align=center bgcolor ="CCCCCC"><a href ="projectmgr.php?show=site">Site Manager</a></td>
 <?  } ?>
-<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="../../phpBB2/index.php">Forums</a></td>
+<td colspan=3 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
 } else { ?>
-<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="../../phpBB2/index.php">Forums</a></td>
+<tr><td colspan=6 align=center bgcolor ="CCCCCC"><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
 }
 ?>

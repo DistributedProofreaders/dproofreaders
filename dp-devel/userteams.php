@@ -1,5 +1,6 @@
 <?
 $relPath="./pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
 
@@ -36,7 +37,7 @@ $tdM0=$htmlC->startTD(0,126,0,0,"center",0,0,1);
 $tdM1=$htmlC->startTD(1,126,0,0,"center",0,0,1);
 
 $menuBar='<br>'.$tb.$tr.$tdM0.'<a href="./tools/proofers/proof_per.php">Personal Page</a>'.
-         $tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM0.'<a href="./phpBB2/index.php">Forums</a>'.
+         $tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM1.' '.$tde.$tdM0."<a href='$forums_url/index.php'>Forums</a>".
          $tre.$tbe.'<br>';
 
 function stripAllString($ttext)

@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 $linkPath="./../tools/proofers/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
 //Declare variables
@@ -49,9 +50,9 @@ $update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, f
 $update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
 
 //Redirect to the topic
-$redirect_url = "../../phpBB2/viewtopic.php?t=$topic_id";
+$redirect_url = "$forums_url/viewtopic.php?t=$topic_id";
 header("Location: $redirect_url"); 
 } else {
-$redirect_url = "../../phpBB2/viewtopic.php?t=$topic_id";
+$redirect_url = "$forums_url/viewtopic.php?t=$topic_id";
 header("Location: $redirect_url"); 
 }

@@ -5,7 +5,7 @@
   else
     {echo "<a href =\"#\" onclick=\"top.window.opener.location='proof_per.php';top.window.close()\">";}
 ?>Personal Page</a></td>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="../../phpBB2/index.php" target="forumwin">Forums</a></td>
+<td width=126 bgcolor="CCCCCC" align=center><a href ="<? echo $forums_url ?>/index.php" target="forumwin">Forums</a></td>
 <?
   $setT="<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\">";
   $setU="project=".$project."&amp;proofstate=".$proofstate;

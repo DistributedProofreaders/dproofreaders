@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'v_site.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
 $tpage=new processpage();
@@ -277,7 +278,7 @@ id="controlframe" align="center"><form
       $username = mysql_result($result, 0, "round1_user");
       $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
       $user_id = mysql_result($result, 0, "user_id");   
-      echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
+      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
     }
   echo "</b></font>";
 ?></td></tr></table></form></div></body></html>

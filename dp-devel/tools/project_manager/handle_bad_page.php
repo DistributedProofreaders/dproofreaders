@@ -1,6 +1,6 @@
 <?
 $relPath="./../../pinc/";
-$phpBBPath="./../../phpBB2/";
+include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
@@ -47,7 +47,7 @@ if (!isset($_POST['action'])) {
     echo $tr.$td2;
     echo "<strong>Username:</strong>";
     echo $td3;
-    echo "$b_User (<a href='".$phpBBPath."privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)";
+    echo "$b_User (<a href='$forums_url/privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)";
     echo $tr.$td2;
     echo "<strong>Reason:</strong>";
     echo $td3;

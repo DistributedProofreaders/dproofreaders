@@ -9,7 +9,7 @@ include($relPath.'dp_main.inc');
 <table border=1 cellpadding=0 cellspacing=0 style='border-collapse: collapse' 
 bordercolor='#111111' width=630>
 <tr>
-<td width=126 bgcolor ="#CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
+<td width=126 bgcolor ="#CCCCCC" align=center><a href ="<? echo $forums_url ?>/index.php">Forums</a></td>
 <?
     // If Project Manager give link back to project manager page.
 
