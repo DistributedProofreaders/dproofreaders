@@ -31,21 +31,21 @@ return $to_echo;
 
 
     echo "<center>";
-    echo _("Filter available ").$label._(" books by");
-    echo "</center><br>\n";    
-    echo ":<br>
+    echo _("Filter available ").$label._(" books by").":";
+    echo "</center>\n";    
+    echo "<br>
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
 
     echo "\r\n<table border=1 width=630>";
     echo "\r\n<tr>";
 
-    echo _("Difficulty")." : ";
-    echo _("All")."<input type='checkbox' name='difficulty1[]' value=''>";
+    echo "<td>"._("Difficulty")."</td>";
+    echo "<td>"._("All")."<input type='checkbox' name='difficulty1[]' value=''>";
     echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
     echo _("Easy").'<input type="checkbox" name="difficulty1[]" value="easy">';
     echo _("Average").'<input type="checkbox" name="difficulty1[]" value="average">'; 
-    echo _("Hard").'<input type="checkbox" name="difficulty1[]" value="hard">';
+    echo _("Hard").'<input type="checkbox" name="difficulty1[]" value="hard"></td>';
 
     echo "\r\n</tr>";
     echo "\r\n<tr>";
