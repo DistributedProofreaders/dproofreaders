@@ -39,10 +39,11 @@ for ( $d = 1; ; $d++ )
 {
     // Consider the day (Y) that is $d days after $X_date.
     $Y_start_ts = mktime(0,0,0,$X_month, $X_day+$d, $X_year);
+    $Y_date = date('Y-m-d', $Y_start_ts );
     if ($trace)
     {
         echo $EOL;
-        echo 'Considering ', date('Y m d', $Y_start_ts), ':', $EOL;
+        echo 'Considering ', $Y_date, ':', $EOL;
     }
 
     // If Y is today (or later), we're done.
@@ -58,6 +59,11 @@ for ( $d = 1; ; $d++ )
     $Y_end_ts = mktime(0,0,0,$X_month,$X_day+$d+1,$X_year);
 
     $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts );
+
+    if ($trace)
+    {
+        echo "update pagestats: $Y_date $total_n_pages_proofed", $EOL;
+    }
 }
 
 if ($trace)
@@ -72,7 +78,7 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 
     if ($trace)
     {
-        echo 'Looking for all pages proofed between ', $EOL;
+        echo '    Looking for all pages proofed between ', $EOL;
         echo '    ', date('r',$start_ts), ' and', $EOL;
         echo '    ', date('r',$end_ts), $EOL;
         echo '    ....', $EOL;
@@ -127,7 +133,7 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 
     if ($trace)
     {
-        echo "total: $total_n_pages_proofed", $EOL;
+        echo "    total: $total_n_pages_proofed", $EOL;
     }
 
     return $total_n_pages_proofed;
