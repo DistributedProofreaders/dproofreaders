@@ -59,7 +59,6 @@ dpsql_dump_ranked_query("
 		AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
-	LIMIT 100
 ");
 
 echo "<br>\n";
@@ -78,7 +77,6 @@ dpsql_dump_ranked_query("
 	AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
-	LIMIT 100
 ");
 
 echo "<br>\n";
