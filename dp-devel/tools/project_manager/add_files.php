@@ -35,7 +35,7 @@ else
 	{
 		echo "Source directory '$source_dir' is not acceptable.";
 		echo "<hr>\n";
-		echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
+		echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
 		return;
 	}
 }
@@ -58,7 +58,7 @@ if ( !$r )
 {
 	echo "Directory '$source_project_dir' does not exist, or is inaccessible.\n";
 	echo "<hr>\n";
-	echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
+	echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
 	return;
 }
 
@@ -130,6 +130,6 @@ echo "$n_rows_inserted rows inserted into table.\n";
 
 echo "</pre>\n";
 echo "<hr>\n";
-echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
+echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
 
 ?>

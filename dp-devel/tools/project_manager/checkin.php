@@ -33,7 +33,7 @@ include($relPath.'project_edit.inc');
 	$new_state = AVAIL_SECOND;
 
     } else {
-        print "File can not be checked back in due to the project not currently being available or available in a different state. Go <a href=\"projectmgr.php?project=$project\">back</a>.";
+        print "File can not be checked back in due to the project not currently being available or available in a different state. Go <a href=\"project_detail.php?project=$project\">back</a>.";
 	exit;
     }
 
@@ -45,6 +45,6 @@ include($relPath.'project_edit.inc');
 	    state='$new_state'
 	WHERE fileid = '$fileid'
     ");
-    metarefresh(0, "projectmgr.php?project=$project", "Page Checked In ($round_number)", "");
+    metarefresh(0, "project_detail.php?project=$project", "Page Checked In ($round_number)", "");
 ?>
 

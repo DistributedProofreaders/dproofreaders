@@ -16,6 +16,6 @@ include($relPath.'project_edit.inc');
         } else $sql = "DELETE FROM $project WHERE fileid = '$fileid'";
         mysql_query($sql);
 
-        metarefresh(0, "projectmgr.php?project=$project", "Page(s) Deleted", ""); 
+        metarefresh(0, "project_detail.php?project=$project", "Page(s) Deleted", ""); 
     }
 ?>
