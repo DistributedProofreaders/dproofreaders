@@ -65,7 +65,7 @@ if (isset($editone))
 $needPage=1;
 
   // 1 see if there is a cookie
-    if (($use_cookies?isset($_COOKIE['userPage']):isset($_SESSION['userPage']))
+    if (($use_cookies?isset($_COOKIE['userPage']):isset($_SESSION['userPage'])))
     {
       // see if the cookie is older than 3 seconds
         $npage=$tpage->getPageCookie();
