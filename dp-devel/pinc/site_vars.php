@@ -58,8 +58,8 @@ $auto_email_addr = $general_help_email_addr;
 
 // -----------------------------------------------------------------------------
 
-$testing = <<TESTING>>;
-$maintenance = <<MAINTENANCE>>;
+$testing = '<<TESTING>>';
+$maintenance = '<<MAINTENANCE>>';
 // So far, the effects of setting $testing to TRUE are:
 // (1) It prevents email messages from being sent. Instead, the site shows a
 //     copy of the message that would have been sent. See pinc/maybe_mail.inc.
