@@ -55,7 +55,7 @@ var $tr = array(
 
 // TD's
 // 0 is default style TD, 1 is 'light' TD, 2 is 'dark' TD
-// rowspan and/or colspan must be set in the specific function
+// width, rowspan and/or colspan must be set in the specific function
 
 var $td = array(
 0 => array(
