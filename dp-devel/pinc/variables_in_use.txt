@@ -4,15 +4,15 @@ doctype.inc
      $docType = standard <DOCTYPE> header
 
 cookiecheck.inc
-     $cookieC  class instance use as $cookieSet->setCookie() | $cookieSet->deleteCookie()
-     $cookieSet = true/false (preset from $cookieSet->checkCookie() call)
+     $cookieC  class instance use as $cookieC->setCookie() | $cookieC->deleteCookie()
+     $cookieSet = true/false (preset from $cookieC->checkCookie() call)
      $cookieID = the username as pulled from the pgname cookie variable
 
 dp_main.inc
      $admin_email = administrators email
      $admin_name = administrators name
-     $cookieC class instance use as $cookieSet->setCookie() | $cookieSet->deleteCookie()
-     $cookieSet= true/false (preset from $cookieSet->checkCookie() call)
+     $cookieC class instance use as $cookieC->setCookie() | $cookieC->deleteCookie()
+     $cookieSet= true/false (preset from $cookieC->checkCookie() call)
      $cookieID = the username as pulled from the pgname cookie variable
      $pguser = same as $cookieID, but for compatability with existing scripts
      $db_Connect = class instance of the database connection.  Should do a true or die()
