@@ -27,6 +27,17 @@
 
 // for the initial creation of a project
   define("PROJ_NEW", "project_new");  //did not exist, but sort of 0
+
+  // You might think that this group of states should be embedded within
+  // if ($metadata) { ... }
+  // Properly, they should, along with every piece of code that uses them.
+  // But there are some uses out there (e.g., case arms) that would be
+  // difficult to make conditional on $metadata. So instead:
+  // (1) We leave those uses unconditional, and rely on the assumption
+  //     that they won't trigger as long as there isn't a project in
+  //     one of these states.
+  // (2) We leave these defines here, so those uses do not raise errors.
+  //
   define("PROJ_NEW_WAITING_APPROVAL", "project_new_waiting_app");
   define("PROJ_NEW_UNAPPROVED", "project_new_unapp");
   define("PROJ_NEW_APPROVED", "project_new_app");
@@ -96,49 +107,62 @@
 
 // -----------------------------------------------------------------------------
 
-$PROJECT_STATES_IN_ORDER = array(
-    PROJ_NEW,
-    PROJ_NEW_WAITING_APPROVAL,
-    PROJ_NEW_UNAPPROVED,
-    PROJ_NEW_APPROVED,
-    PROJ_NEW_FILE_UPLOADED,
-    PROJ_NEW_METADATA_FIRST,
-    PROJ_NEW_METADATA_BAD,
-    PROJ_NEW_METADATA_SECOND,
-    PROJ_NEW_PREPROCESSING,
-    PROJ_NEW_PENDING_PM,
+$PROJECT_STATES_IN_ORDER = array_merge(
+    array(
+        PROJ_NEW
+    ),
 
-    PROJ_PROOF_FIRST_BAD_PROJECT,
-    PROJ_PROOF_FIRST_UNAVAILABLE,
-    PROJ_PROOF_FIRST_WAITING_FOR_RELEASE,
-    PROJ_PROOF_FIRST_AVAILABLE,
-    PROJ_PROOF_FIRST_VERIFY,
-    PROJ_PROOF_FIRST_COMPLETE,
+    (
+        $metadata
+        ?
+        array(
+            PROJ_NEW_WAITING_APPROVAL,
+            PROJ_NEW_UNAPPROVED,
+            PROJ_NEW_APPROVED,
+            PROJ_NEW_FILE_UPLOADED,
+            PROJ_NEW_METADATA_FIRST,
+            PROJ_NEW_METADATA_BAD,
+            PROJ_NEW_METADATA_SECOND,
+            PROJ_NEW_PREPROCESSING,
+            PROJ_NEW_PENDING_PM
+        )
+        :
+        array()
+    ),
 
-    PROJ_PROOF_SECOND_BAD_PROJECT,
-    PROJ_PROOF_SECOND_UNAVAILABLE,
-    PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
-    PROJ_PROOF_SECOND_AVAILABLE,
-    PROJ_PROOF_SECOND_VERIFY,
-    PROJ_PROOF_SECOND_COMPLETE,
+    array(
+        PROJ_PROOF_FIRST_BAD_PROJECT,
+        PROJ_PROOF_FIRST_UNAVAILABLE,
+        PROJ_PROOF_FIRST_WAITING_FOR_RELEASE,
+        PROJ_PROOF_FIRST_AVAILABLE,
+        PROJ_PROOF_FIRST_VERIFY,
+        PROJ_PROOF_FIRST_COMPLETE,
 
-    PROJ_POST_FIRST_UNAVAILABLE,
-    PROJ_POST_FIRST_AVAILABLE,
-    PROJ_POST_FIRST_CHECKED_OUT,
-    PROJ_POST_SECOND_AVAILABLE,
-    PROJ_POST_SECOND_CHECKED_OUT,
-    PROJ_POST_COMPLETE,
+        PROJ_PROOF_SECOND_BAD_PROJECT,
+        PROJ_PROOF_SECOND_UNAVAILABLE,
+        PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
+        PROJ_PROOF_SECOND_AVAILABLE,
+        PROJ_PROOF_SECOND_VERIFY,
+        PROJ_PROOF_SECOND_COMPLETE,
 
-    PROJ_SUBMIT_PG_UNAVAILABLE,
-    PROJ_SUBMIT_PG_AVAILABLE,
-    PROJ_SUBMIT_PG_POSTING,
-    PROJ_SUBMIT_PG_POSTED,
+        PROJ_POST_FIRST_UNAVAILABLE,
+        PROJ_POST_FIRST_AVAILABLE,
+        PROJ_POST_FIRST_CHECKED_OUT,
+        PROJ_POST_SECOND_AVAILABLE,
+        PROJ_POST_SECOND_CHECKED_OUT,
+        PROJ_POST_COMPLETE,
 
-    PROJ_CORRECT_AVAILABLE,
-    PROJ_CORRECT_CHECKED_OUT,
+        PROJ_SUBMIT_PG_UNAVAILABLE,
+        PROJ_SUBMIT_PG_AVAILABLE,
+        PROJ_SUBMIT_PG_POSTING,
+        PROJ_SUBMIT_PG_POSTED,
 
-    PROJ_COMPLETE,
-    PROJ_DELETE
+        PROJ_CORRECT_AVAILABLE,
+        PROJ_CORRECT_CHECKED_OUT,
+
+        PROJ_COMPLETE,
+        PROJ_DELETE
+    )
 );
 
 // -----------------------------------------------------------------------------
