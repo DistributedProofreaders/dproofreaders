@@ -2,7 +2,7 @@
 // $Id$
 
 include_once($relPath.'page_tally.php');
-include_once($relPath.'settingsclass.inc');
+include_once($relPath.'SettingsClass.inc');
 
 global $settings;
 

@@ -129,7 +129,7 @@ class Settings
         if(!$value)
             $value = $default;
 
-        if(!$value)
+        if(!$value) {
             $this->set_false($settingCode);
         }
         else
