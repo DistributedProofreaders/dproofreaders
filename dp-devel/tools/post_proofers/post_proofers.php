@@ -49,7 +49,7 @@ $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scanne
 <tr><td colspan="7" align="center" bgcolor="999999"><B>My Checked Out Verifying Post-Processing Books</B></td></tr>
 <?
    //list all verifying post processing books the user has checked out
-$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language
+$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language, postproofer
                      FROM projects
                      WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_VERIFYING."'");
     showavailableverify($rows,PROJ_POST_VERIFYING);
@@ -69,7 +69,7 @@ $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scanne
 <tr><td colspan="7" align="center" bgcolor="999999"><B>Books Available for Post-Processing Verification and Posting</B></td></tr>
 <?
     // list projects which are available for post proofing verification
-    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre 
+    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre, postproofer
                          FROM projects 
                          WHERE state='".PROJ_POST_VERIFY."'");
     showavailableverify($rows,PROJ_POST_VERIFY);
