@@ -20,7 +20,7 @@ $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"U_lasthour");
-        $datax[$count] = date('Y-M-d',mysql_result($result, $count,"time_stamp"));
+        $datax[$count] = date('Y-M-d H',mysql_result($result, $count,"time_stamp"));
             $count++;
         }
 
