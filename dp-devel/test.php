@@ -18,6 +18,22 @@ echo "<hr>\n";
 
 if (0)
 {
+	include_once($relPath.'email_address.inc');
+
+	$f_in = fopen( '../email_addrs', 'r' );
+	$f_out = fopen( '../email_addrs.new', 'w' );
+	while ( $a = fgetcsv( $f_in, 1024, "\t", '' ) )
+	{
+		list($date_created,$email_addr) = $a;
+		$err = check_email_address($email_addr);
+		fwrite($f_out, "$date_created\t$email_addr\t$err\n" );
+	}
+	fclose($f_in);
+	fclose($f_out);
+}
+
+if (1)
+{
     // For each possible project state, create a project in that state.
     include($relPath.'project_states.inc');
     $state_constant_names = array(
@@ -25,7 +41,7 @@ if (0)
 	'PROJ_NEW_WAITING_APPROVAL',
 	'PROJ_NEW_UNAPPROVED',
 	'PROJ_NEW_APPROVED',
-	'PROJ_NEW_FILE_UPLOAD',
+	'PROJ_NEW_FILE_UPLOADED',
 	'PROJ_NEW_METADATA_FIRST',
 	'PROJ_NEW_METADATA_BAD',
 	'PROJ_NEW_METADATA_SECOND',
