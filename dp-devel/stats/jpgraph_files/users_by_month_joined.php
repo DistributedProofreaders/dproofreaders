@@ -12,13 +12,23 @@ new dbConnect();
 //Numbers of users logging on in last hour, day, week and 28 days
 //query db and put results into arrays
 $result1 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as Month, count(*) as Joined FROM users 
+	SELECT
+		FROM_UNIXTIME(date_created, '%Y-%m')
+		  AS Month,
+		count(*)
+		  AS Joined
+	FROM users 
 	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
 	ORDER BY FROM_UNIXTIME(date_created, '%Y-%m')
 ");
 
 $result2 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as Month, count(*) as EverProofed FROM users 
+	SELECT
+		FROM_UNIXTIME(date_created, '%Y-%m')
+		  AS Month,
+		count(*)
+		  AS EverProofed
+	FROM users 
 	WHERE pagescompleted > 0 
 	GROUP BY FROM_UNIXTIME(date_created, '%Y-%m')
 	ORDER BY FROM_UNIXTIME(date_created, '%Y-%m')
