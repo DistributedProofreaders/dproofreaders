@@ -160,9 +160,9 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"            <projectDesc>\r\n");
         fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],\r\n");
         fputs($fp,"                and the Online Distributed Proofreading Team at\r\n");
-        fputs($fp,"                <$code_url>.\r\n");
+        fputs($fp,"                &lt;$code_url&gt;.\r\n");
         fputs($fp,"                Page-images available at\r\n");
-        fputs($fp,"                <$projects_url/$project/\r\n");
+        fputs($fp,"                &lt;$projects_url/$project/&gt;\r\n");
         fputs($fp,"            </projectDesc>\r\n");
         fputs($fp,"        </encodingDesc>\r\n");
         fputs($fp,"    </teiHeader>\r\n");
@@ -300,7 +300,7 @@ include_once($relPath.'maybe_mail.inc');
         $s = preg_replace( '/(\n *)([^ ].*) *(\r)/', '\1<l>\2</l>\3', $s );
 
         // And put the whole thing in an <lg> element.
-        return "\r\n\r\n<lg>$s</lg>\r\n\r\n";
+        return "\r\n\r\n<!-- poem -->$s<!-- poem -->\r\n\r\n";
     }
 
     function startswith( $subject, $prefix )
