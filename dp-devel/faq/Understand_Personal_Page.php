@@ -50,7 +50,7 @@ h1,h2,h3,h4,h5,h6 {color:#A82C28}
 
 <ul>
 <li><a href="#section10">Personal Message and Update</a></li>
-<li><a href="#section11">For Brand-New Proofers</a></li>
+<li><a href="#section11">For Brand-New Proofreaders</a></li>
 <li><a href="#section12">Providing Content</a></li>
 <li><a href="#section13">Post-Processing</a></li>
 <li><a href="#section14">Random Rule</a></li>
@@ -58,7 +58,7 @@ h1,h2,h3,h4,h5,h6 {color:#A82C28}
 
 <li><a href="#section15">Books for Everyone</a></li>
 <li><a href="#section16">How are We Going?</a></li>
-<li><a href="#section17">Where To from Here? (Let's Proof!)</a></li>
+<li><a href="#section17">Where To from Here? (Let's Proofread!)</a></li>
 </ul><br>
 <br>
 <hr>
@@ -184,7 +184,7 @@ In any case, I can always <b>edit</b> my post afterwards if I want.<br>
 
 <br>
 
-[Please note that in some of the forums (e.g. the Project forum created for each book proofed) you can't create a New Topic, only Reply. 
+[Please note that in some of the forums (e.g. the Project forum created for each book proofread) you can't create a New Topic, only Reply. 
 This helps keep things on track.]<br>
 
 <br>
@@ -289,7 +289,7 @@ In the <i>top</i> half:<br><br>
 
 <li>you can choose from several <b>languages</b> used in the proofreading <b>interface</b></li>
 
-<li>you can choose if your <b>statistics</b> (how many pages you proof etc.) are seen by other DPers or not</li>
+<li>you can choose if your <b>statistics</b> (how many pages you proofread etc.) are seen by other DPers or not</li>
 
 </ul><br>
 
@@ -322,7 +322,7 @@ Again, you want to experiment and suit yourself.</li>
 
 <li>Do you want to be able to see the <b>statusbar</b> from your browser, below the interface?</li>
 
-<li>Do you want the <b>top ten</b> proofers listed on your Personal Page?</li>
+<li>Do you want the <b>top ten</b> proofreaders listed on your Personal Page?</li>
 
 <li>Do you want the <b>status bar</b> on your Personal Page, to run down the <b>left</b> or <b>right</b> side?</li>
 
@@ -435,7 +435,7 @@ which is, uh, where you log out. You. Nobody else. <b>Log out here.</b>
 <br>
 
 The main part of your Personal Page is changing all the time. 
-Every time you log on, there will be news, helpful info, and new things to proof! Let's start at the top:
+Every time you log on, there will be news, helpful info, and new things to proofread! Let's start at the top:
 
 <br>
 
@@ -462,12 +462,12 @@ Keep an eye on this!<br>
 
 
 
-<h3><a name="section11">For Brand-New Proofers</a></h3>
+<h3><a name="section11">For Brand-New Proofreaders</a></h3>
 
 <br>
 
 Next, a welcome and reminder for new people. 
-We treasure each and every proofer we have, and we want you to enjoy being part of DP. <br>
+We treasure each and every proofreader we have, and we want you to enjoy being part of DP. <br>
 
 <br>
 
@@ -484,13 +484,13 @@ Everybody finds their own comfort level here, but we all start at the beginning!
 
 <br>
 
-Can you see this on your page? If not, we will put it in a bit later on, after you've proofed some more pages, 
+Can you see this on your page? If not, we will put it in a bit later on, after you've proofread some more pages, 
 for example, so as not to confuse you with too much stuff on the page, at once. 
 If you wish to skip these upcoming details now, please go to <a href="#section15">the Book List.</a><br>
 
 <br>
 
-Content providers are our chefs! They cook up tasty texts for us to proof. 
+Content providers are our chefs! They cook up tasty texts for us to proofread. 
 They work particularly hard to make sure we have an interesting range of different types of books, 
 with something, we hope, for everyone.<br>
 
@@ -514,7 +514,7 @@ We all grow and change, and choose what suits us best.
 
 <br>
 
-Again, if you can't see this, it will show up after 400 pages proofed.<br>
+Again, if you can't see this, it will show up after 400 pages proofread.<br>
 
 <br>
 
@@ -540,7 +540,7 @@ We value any and all effort you feel able to give, and post-processing is anothe
 
 <br>
 
-This, too, will pop up as a development of your Personal Page after you have proofed a few pages.<br>
+This, too, will pop up as a development of your Personal Page after you have proofread a few pages.<br>
 
 <br>
 
@@ -552,7 +552,7 @@ you may think that you can't remember all the Proofreading Guidelines, but, day 
 
 You may this very useful. 
 You will have the printed <a href="<? echo "$code_url"; ?>/faq/summary.pdf">Handy Guide</a>, 
-which summarizes the Guidelines (keep that beside you as you proof!), 
+which summarizes the Guidelines (keep that beside you as you proofread!), 
 and also the whole <a href="<? echo "$code_url"; ?>/faq/document.php">Guidelines</a> saved (somewhere), 
 but this little Random Rule may help you remember things much better.<br>
 
@@ -593,7 +593,7 @@ the state of the <i>original</i> book (faded? damaged?) and the <i>complexity</i
 (strange print? lots of footnotes? multiple columns?).
 
 
-They are rated from <b>Beginners Only</b> (for very new proofers only) through <b>Easy</b> to <b>Hard</b> 
+They are rated from <b>Beginners Only</b> (for very new proofreaders only) through <b>Easy</b> to <b>Hard</b> 
 with helpful comments. 
 <b>Easy</b> books are usually straight text, novels or non-fiction, very few or no footnotes, no hassles.
 If a book doesn't show a difficulty, it's "average".<br>
@@ -620,13 +620,13 @@ and the <b>total pages</b> in that book.<br>
 When you click on the <b>title</b> of a book, the <b>proofreading interface</b> pops up in front of you 
 like something out of a trap-door (but friendly!). 
 You can stop change your mind and <b>stop proofreading</b>, 
-<b>save</b> proofed pages and <b>go on</b> proofreading, start and stop whenever suits you. 
+<b>save</b> proofread pages and <b>go on</b> proofreading, start and stop whenever suits you. 
 This is <i>your DP.</i><br>
 
 <br>
 
 Can you see a second list of books (<b>Second Round</b>)? 
-Again, we're trying not to overload you with detail, and will introduce this list a bit later on, after 50 pages proofed. 
+Again, we're trying not to overload you with detail, and will introduce this list a bit later on, after 50 pages proofread. 
 The second list of books is those which have already been through Round One. 
 But they should be perfect now? I hear you protest. Um, yeah. 
 That would be nice, but the <a href="<? echo "$forums_url"; ?>/viewtopic.php?t=1563">scannos</a> 
@@ -687,7 +687,7 @@ Next floor... your <b>Personal Statistics!</b>.<br>
 
 Where <b>you're</b> up to! 
 It's fun making your personal goals, as well, and this tells you your total, your rank out of everybody at DP, 
-and what sort of proofer you are! 
+and what sort of proofreader you are! 
 (Psst! Please keep your magic rank-name secret, so everybody gets happy surprises when they pass another level. 
 If you tell, you may find yourself promoted to <i>Dungeon-Sweeper</i>...).<br>
 
@@ -727,7 +727,7 @@ Down, down....<br>
 
 <br>
 
-You can choose to have the <b>Top Ten Proofers</b> listed here, if you like. 
+You can choose to have the <b>Top Ten Proofreaders</b> listed here, if you like. 
 Some of those guys are <i>hot!</i> (Could be you, one day...)<br>
 
 <br>
@@ -775,7 +775,7 @@ look, we just need the money. Please. Every little bit helps, just as every sing
 
 
 
-<h2><a name="section17">Where to from here? (Let's Proof!)</a></h2>
+<h2><a name="section17">Where to from here? (Let's Proofread!)</a></h2>
 
 <br>
 
