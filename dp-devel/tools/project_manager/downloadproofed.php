@@ -20,6 +20,6 @@ include_once($relPath.'page_states.inc');
     header('Content-type: text/plain');
     // SENDING PAGE-TEXT TO USER
     // It's a text/plain document, so no encoding is necessary.
-    echo $decodetext;
+    echo $data;
 
 ?> 
