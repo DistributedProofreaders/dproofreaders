@@ -124,7 +124,7 @@ you are unsure of how to handle something. You may find that the
 shorter, printable Handy Guide <$code_url/faq/summary.pdf>
 offers a useful introduction to the most common of our standards,
 and it may be worth keeping a printed copy by the computer (or an
-online copy open in another window) as you proof.
+online copy open in another window) as you proofread.
 
 Once you understand the work being done through this site,
 the best thing to do is get started! Here's a step-by-step
@@ -242,7 +242,7 @@ A: If you select a BEGINNERS ONLY project, you are more likely to
 Remember, every page you do helps make these books available to
 the world, for free, forever, more rapidly. We hope that you will
 continue to use our site, and that you enjoy your time on our site.
-We're delighted to have you join us, as each page we proof is
+We're delighted to have you join us, as each page we proofread is
 another small step closer to building the greatest library in history!
 
 Thanks,
