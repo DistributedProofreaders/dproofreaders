@@ -30,8 +30,8 @@ if (($content != "posted") & ($content != "proofing") & ($content != "news")) { 
 if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir."/".$content."_rss.xml"; } else { $xmlfile = $xmlfeeds_dir."/".$content.".xml"; }
 
 //If the file does not exist let's create it and then set the refresh delay to now so it updates
-if (!file_exists($xmlfile)) { 
-	touch($xmlfile); 
+if (!file_exists($xmlfile)) {
+	touch($xmlfile);
 	$refreshdelay = time()+100;
 	}
 
@@ -44,7 +44,7 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
 $db_Connection=new dbConnect();
-	
+
 	if ($content == "posted") {
 	$result = mysql_query("SELECT * FROM projects WHERE state='".PROJ_SUBMIT_PG_POSTED."' ORDER BY modifieddate DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
@@ -52,7 +52,7 @@ $db_Connection=new dbConnect();
 			if (isset($_GET['type'])) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-				<link>$code_url/list_etexts.php?x=g#".$row['projectid']."</link>
+				<link>$code_url/list_etexts.php?x=g".xmlencode("&")."sort=5#".$row['projectid']."</link>
 				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
 				</item>
 				";
@@ -67,7 +67,7 @@ $db_Connection=new dbConnect();
 				<text>".xmlencode($row['txtlink'])."</text>
 				<zip>".xmlencode($row['ziplink'])."</zip>
 				<html>".xmlencode($row['htmllink'])."</html>
-				<library>$code_url/list_etexts.php?x=g#".$row['projectid']."</library>
+				<library>$code_url/list_etexts.php?x=g".xmlencode("&")."sort=5#".$row['projectid']."</library>
 				</links>
 				</project>
 				";
@@ -98,7 +98,7 @@ $db_Connection=new dbConnect();
 				</projects>";
 			}
 	}
-	
+
 	if ($content == "news") {
 	$result = mysql_query("SELECT * FROM news ORDER BY date_posted DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
