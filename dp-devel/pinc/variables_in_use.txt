@@ -11,3 +11,14 @@ cookiecheck.inc
 dp_main.inc
      $admin_email = administrators email
      $admin_name = administrators name
+     $cookieC class instance use as $cookieSet->setCookie() | $cookieSet->deleteCookie()
+     $cookieSet= true/false (preset from $cookieSet->checkCookie() call)
+     $cookieID = the username as pulled from the pgname cookie variable
+     $pguser = same as $cookieID, but for compatability with existing scripts
+     $db_Connect = class instance of the database connection.  Should do a true or die()
+                   test on this variable for pages which rely on a database connection.
+     $db_link = the database link returned by the connection
+
+ *** NOTE:  Pages which include dp_main.inc have all $_GET and $_POST variables autoglobal.
+            $_GET variables are extracted first and $_POST variables are extracted secondly.
+            So, $_POST variables will overwrite $_GET variables with the same name.
