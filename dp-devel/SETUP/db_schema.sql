@@ -75,17 +75,34 @@ CREATE TABLE `news` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `pages`
+#
+CREATE TABLE pages (
+`pageId` int( 11 ) NOT NULL AUTO_INCREMENT ,
+`projectid` varchar( 25 ) NOT NULL default '',
+`pageCode` varchar( 20 ) NOT NULL default '',
+`origPageCode` varchar( 20 ) ,
+`stateCode` varchar( 50 ) NOT NULL default '',
+`insertTime` int( 20 ) NOT NULL,
+`metadata` set( 'frontmatter', 'backmatter', 'division', 'verse',
+'poetry', 'letter', 'toc', 'footnote', 'sidenote', 'epigraph', 'table',
+'list', 'math', 'drawing', 'badscan', 'blank', 'illustration', 'missing',
+'drawing' ),
+PRIMARY KEY ( `pageId` ) ,
+UNIQUE KEY `alternatekey` ( `projectid` , `pageCode` )
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+
+#
 # Table structure for table `page_counts`
 #
 # Creation:
 # Last update:
 #
-
 CREATE TABLE `page_counts` (
   `projectid` char(22) NOT NULL default '',
   `total_pages` smallint(4) unsigned NOT NULL default '0',
   `avail_pages` smallint(4) unsigned NOT NULL default '0',
-  UNIQUE KEY `projectid` (`projectid`)
+  PRIMARY KEY `projectid` (`projectid`)
 ) TYPE=HEAP DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -107,7 +124,27 @@ CREATE TABLE `pagestats` (
   PRIMARY KEY  (`date`),
   KEY `yearmonth` (`year`,`month`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
+#` --------------------------------------------------------
+
+#
+# Table structure for table `pageTasks`
+#
+CREATE TABLE `dp_db`.`pageTasks` (
+`pageTaskId` int( 20 ) NOT NULL AUTO_INCREMENT ,
+`pageId` int( 20 ) NOT NULL default '0',
+`sequenceNumber` int( 8 ) NOT NULL default '1',
+`taskCode` varchar( 64 ) NOT NULL default '',
+`userName` varchar( 25 ) default NULL ,
+`checkoutTime` int( 20 ) default NULL ,
+`saveTempTime` int( 20 ) default NULL ,
+`saveCompleteTime` int( 20 ) default NULL ,
+`turnBackTime` int( 20 ) default NULL ,
+`taskStateCode` enum( 'AVAILABLE', 'CHECKED_OUT', 'COMPLETED', 'ON_HOLD' ) NOT NULL default 'AVAILABLE',
+PRIMARY KEY ( `pageTaskId` ) ,
+KEY `userName` ( `userName` ) ,
+KEY `pageId` ( `pageId` )
+) TYPE = MYISAM  DEFAULT CHARSET=latin1;
+
 
 #
 # Table structure for table `phpbb_forums`
@@ -304,39 +341,6 @@ CREATE TABLE `phpbb_users` (
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
-#
-# Table structure for table `project_pages`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `project_pages` (
-  `projectid` varchar(25) NOT NULL default '',
-  `fileid` varchar(20) NOT NULL default '',
-  `image` varchar(8) NOT NULL default '',
-  `master_text` longtext NOT NULL,
-  `round1_text` longtext NOT NULL,
-  `round2_text` longtext NOT NULL,
-  `round1_user` varchar(25) NOT NULL default '',
-  `round2_user` varchar(25) NOT NULL default '',
-  `round1_time` int(20) NOT NULL default '0',
-  `round2_time` int(20) NOT NULL default '0',
-  `state` varchar(50) NOT NULL default '',
-  `b_user` varchar(25) NOT NULL default '',
-  `b_code` int(1) NOT NULL default '0',
-  `metadata` set('frontmatter','backmatter','division','verse','poetry','letter','toc','footnote','sidenote','epigraph','table','list','math','drawing','badscan','blank','illustration','missing','drawing') NOT NULL default '',
-  `orig_page_num` varchar(6) NOT NULL default '',
-  PRIMARY KEY  (`projectid`,`fileid`),
-  KEY `round1_user` (`round1_user`),
-  KEY `round2_user` (`round2_user`),
-  KEY `round1_time` (`round1_time`),
-  KEY `round2_time` (`round2_time`),
-  KEY `projectid_state` (`projectid`,`state`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
 # Table structure for table `project_state_stats`
 #
 # Creation:
@@ -390,6 +394,9 @@ CREATE TABLE `projects` (
   `postproofer` varchar(255) NOT NULL default '',
   `postcomments` text NOT NULL,
   PRIMARY KEY  (`projectid`),
+  KEY `username` (`username`)
+  KEY `checkedoutby` (`checkedoutby`)
+  KEY `postproofer` (`postproofer`)
   KEY `state` (`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -454,6 +461,7 @@ CREATE TABLE `sessions` (
 CREATE TABLE `stats_hourly_pages_completed` (
   `sample_time` varchar(20) NOT NULL default '',
   `pages_completed` mediumint(7) NOT NULL default '0'
+  PRIMARY KEY (`sample_time`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -486,7 +494,7 @@ CREATE TABLE `tasks` (
   `edited_by` mediumint(9) NOT NULL default '0',
   `percent_complete` tinyint(3) NOT NULL default '0',
   `related_tasks` mediumtext NOT NULL,
-  KEY `task_id` (`task_id`)
+  PRIMARY KEY `task_id` (`task_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -539,7 +547,7 @@ CREATE TABLE `user_active_log` (
   `U_week` mediumint(7) unsigned NOT NULL default '0',
   `U_4wks` mediumint(7) unsigned NOT NULL default '0',
   `comments` varchar(255) default NULL,
-  KEY `timestamp_ndx` (`time_stamp`)
+  PRIMARY KEY `timestamp_ndx` (`time_stamp`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -677,7 +685,6 @@ CREATE TABLE `users` (
   `team_3` int(10) unsigned NOT NULL default '0',
   `task_priority` int(4) NOT NULL default '0',
   PRIMARY KEY  (`username`),
-  UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
   KEY `pages_index` (`pagescompleted`)
@@ -692,10 +699,12 @@ CREATE TABLE `users` (
 #
 
 CREATE TABLE `usersettings` (
+  `usersettingsid` int(10) unsigned NOT NULL auto_increment,
   `username` varchar(25) NOT NULL default '',
   `setting` varchar(25) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
-  FULLTEXT KEY `setting` (`setting`)
+  PRIMARY KEY (`usersettingsid`),
+  KEY userrname (username)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
