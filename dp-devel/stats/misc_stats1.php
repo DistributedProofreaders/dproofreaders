@@ -22,37 +22,8 @@ dpsql_dump_themed_query("
 
 show_month_sums( 'top_ten' );
 
-$sub_title = _("Top Thirty Best Proofreading Days Ever");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		date as 'Date',
-		pages as 'Pages Proofread',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	ORDER BY 2 DESC
-	LIMIT 30
-");
-
-echo "<br>\n";
-
-$sub_title = _("Top Ten Proofreading Days This Year");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_ranked_query("
-	SELECT
-		date as 'Date',
-		pages as 'Pages Proofread',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
-	FROM pagestats
-	WHERE year = YEAR(NOW())
-	ORDER BY 2 DESC
-	LIMIT 10
-");
-
-
-echo "<br>\n";
+show_top_days( 30, 'ever' );
+show_top_days( 10, 'this_year' );
 
 show_month_sums( 'all_chron' );
 show_month_sums( 'all_by_pages' );
@@ -64,6 +35,40 @@ show_months_with_most_days_over(8000);
 show_months_with_most_days_over(9000);
 
 // -----------------------------------------------------------------------------
+
+function show_top_days( $n, $when )
+{
+	switch ( $when )
+	{
+		case 'ever':
+			$where = '';
+			$sub_title = sprintf( _('Top %d Proofreading Days Ever'), $n );
+			break;
+
+		case 'this_year':
+			$where = 'WHERE year = YEAR(NOW())';
+			$sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
+			break;
+
+		default:
+			die( "bad value for 'when': '$when'" );
+	}
+
+	echo "<h3>$sub_title</h3>\n";
+
+	dpsql_dump_themed_ranked_query("
+		SELECT
+			date as 'Date',
+			pages as 'Pages Proofread',
+			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
+		FROM pagestats
+		$where
+		ORDER BY 2 DESC
+		LIMIT $n
+	");
+
+	echo "<br>\n";
+}
 
 function show_month_sums( $which )
 {
