@@ -1,17 +1,19 @@
 <?
 include_once($relPath.'showavailablebooks.inc');
 
-include_once('filter_proof_list.inc');
-
 $result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
 $totalpages = mysql_result($result,0);
 
 
 if ($totalpages <= 20) {
 
-                echo "<font face=" . $theme['font_mainbody'] ."><b>";
-                echo _("Click on the name of a book in the list below to start proofing.");
-                echo "</b></font><br><br>\n";
+        echo "<font face=" . $theme['font_mainbody'] ."><b>";
+        echo _("Click on the name of a book in the list below to start proofing.");
+        echo "</b></font><br><br>\n";
+} else {
+
+	include_once('filter_proof_list.inc');
+
 }
 
 
