@@ -264,10 +264,7 @@ function showNW_safe(str)
 // because we want the browser to interpret them (but nothing else) as markup.
 {
     return html_safe(str)
-	.replace(/&lt;i&gt;/ig, '<i>')
-	.replace(/&lt;\/i&gt;/ig, '</i>')
-	.replace(/&lt;b&gt;/ig, '<b>')
-	.replace(/&lt;\/b&gt;/ig, '</b>')
+	.replace(/&lt;(\/?)(i|b)&gt;/ig, '<$1$2>')
 }
 
 function html_safe(str)
