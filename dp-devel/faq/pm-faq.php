@@ -29,8 +29,8 @@ or they can choose to manage a project that someone else has prepared.
 </p>
 
 <p>
-To become a PM, 
-<a href="mailto:charlz@lvcablemodem.com">email Charlz</a>.
+To become a PM, send an email to <a
+ href="mailto:juliet.sutherland@verizon.net">JulietS</a>. 
 </p>
 
 <hr>
