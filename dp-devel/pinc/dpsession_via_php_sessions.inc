@@ -4,6 +4,11 @@ include_once($relPath.'connect.inc');
 
 $db_Connection=new dbConnect();
 
+ini_set( 'session.name',            'DP_Session' );
+ini_set( 'session.use_cookies',     1 );
+ini_set( 'session.cookie_domain',   '' ); // A sensible value will be used.
+ini_set( 'session.cookie_lifetime', 86400 );
+
 // -----------------------------------------------------------------------------
 
 function dpsession_begin( $userID )
