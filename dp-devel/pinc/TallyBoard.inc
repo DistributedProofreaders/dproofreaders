@@ -415,6 +415,29 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    function get_info_from_latest_snapshot( $holder_id )
+    // Return an associative array of information about the given holder
+    // from the latest snapshot. Keys are:
+    //     'timestamp'
+    //     'tally_delta'
+    //     'tally_value'
+    //     'tally_rank'
+    {
+        $result = mysql_query("
+            SELECT timestamp, tally_delta, tally_value, tally_rank
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = $holder_id
+            ORDER BY timestamp DESC
+            LIMIT 1
+        ") or die(mysql_error());
+        return mysql_fetch_assoc($result);
+    }
+
+    // -------------------------------------------------------------------------
+
     function get_info_re_largest_delta( $holder_id )
     // Return an array consisting of:
     // -- the given holder's largest recorded delta on this TallyBoard, and
