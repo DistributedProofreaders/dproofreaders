@@ -9,11 +9,11 @@ $i_r= $i_resolutions;
 $wSize=explode("x",$i_r[$userP['i_res']*1]);
 $menuWidth=$wSize[0]<=800?'99%':'820';
 
+$utf8_site=!strcasecmp($charset,"UTF-8");
+
 include($relPath.'slim_header.inc');
-slim_header("Control Frame");
+slim_header("Control Frame",TRUE,FALSE);
 ?>
-<script language="JavaScript" src="dp_proof.js" type="text/javascript"></script>
-<script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <style type="text/css">
 <!--
 body {
@@ -53,7 +53,12 @@ A:active {
 //#EEDFCC;
   }
 -->
-</style><a
+</style>
+</head>
+<body>
+<script language="JavaScript" src="dp_proof.js?1.33.1" type="text/javascript"></script>
+<script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
+<a
 	href="#"
 	accesskey="="
 	onfocus="focusText()"
@@ -68,178 +73,214 @@ A:active {
 	align="center"
 	width="<?PHP echo $menuWidth; ?>"
 	border="0"
-><tr><td valign="top"><select
+><tr><td
+	valign="top"
+	rowspan="2"
+><table
+	border="0"
+	cellpadding="0"
+	cellspacing="0"
+><tr><td><select
 	name="tCharsA"
 	ID="tCharsA"
 	title="A"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">A</option>
 <option value="0">--</option>
-<option value="33">&#192;</option>
-<option value="65">&#224;</option>
-<option value="34">&#193;</option>
-<option value="66">&#225;</option>
-<option value="35">&#194;</option>
-<option value="67">&#226;</option>
-<option value="36">&#195;</option>
-<option value="68">&#227;</option>
-<option value="37">&#196;</option>
-<option value="69">&#228;</option>
-<option value="38">&#197;</option>
-<option value="70">&#229;</option>
-<option value="39">&#198;</option>
-<option value="71">&#230;</option>
-</select><select
+<option value="192">&#192;</option>
+<option value="224">&#224;</option>
+<option value="193">&#193;</option>
+<option value="225">&#225;</option>
+<option value="194">&#194;</option>
+<option value="226">&#226;</option>
+<option value="195">&#195;</option>
+<option value="227">&#227;</option>
+<option value="196">&#196;</option>
+<option value="228">&#228;</option>
+<option value="197">&#197;</option>
+<option value="229">&#229;</option>
+<option value="198">&#198;</option>
+<option value="230">&#230;</option>
+<? if($utf8_site) { ?>
+<option value="256">&#256;</option>
+<option value="257">&#257;</option>
+<option value="258">&#258;</option>
+<option value="259">&#259;</option>
+<option value="260">&#260;</option>
+<option value="261">&#261;</option>
+<? } ?>
+</select></td><td><select
 	name="tCharsE"
 	ID="tCharsE"
 	title="E"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">E</option>
 <option value="0">--</option>
-<option value="41">&#200;</option>
-<option value="73">&#232;</option>
-<option value="42">&#201;</option>
-<option value="74">&#233;</option>
-<option value="43">&#202;</option>
-<option value="75">&#234;</option>
-<option value="44">&#203;</option>
-<option value="76">&#235;</option>
-</select><select
+<option value="200">&#200;</option>
+<option value="232">&#232;</option>
+<option value="201">&#201;</option>
+<option value="233">&#233;</option>
+<option value="202">&#202;</option>
+<option value="234">&#234;</option>
+<option value="203">&#203;</option>
+<option value="235">&#235;</option>
+<? if($utf8_site) { ?>
+<option value="274">&#274;</option>
+<option value="275">&#275;</option>
+<option value="276">&#276;</option>
+<option value="277">&#277;</option>
+<option value="278">&#278;</option>
+<option value="279">&#279;</option>
+<option value="280">&#280;</option>
+<option value="281">&#281;</option>
+<option value="282">&#282;</option>
+<option value="283">&#283;</option>
+<? } ?>
+</select></td><td><select
 	name="tCharsI"
 	ID="tCharsI"
 	title="I"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">I</option>
 <option value="0">--</option>
-<option value="45">&#204;</option>
-<option value="77">&#236;</option>
-<option value="46">&#205;</option>
-<option value="78">&#237;</option>
-<option value="47">&#206;</option>
-<option value="79">&#238;</option>
-<option value="48">&#207;</option>
-<option value="80">&#239;</option>
-</select><select
+<option value="204">&#204;</option>
+<option value="236">&#236;</option>
+<option value="205">&#205;</option>
+<option value="237">&#237;</option>
+<option value="206">&#206;</option>
+<option value="238">&#238;</option>
+<option value="207">&#207;</option>
+<option value="239">&#239;</option>
+<? if($utf8_site) { ?>
+<option value="296">&#296;</option>
+<option value="297">&#297;</option>
+<option value="298">&#298;</option>
+<option value="299">&#299;</option>
+<option value="300">&#300;</option>
+<option value="301">&#301;</option>
+<option value="302">&#302;</option>
+<option value="303">&#303;</option>
+<option value="304">&#304;</option>
+<option value="305">&#305;</option>
+<? } ?>
+</select></td><td><select
 	name="tCharsO"
 	ID="tCharsO"
 	title="O"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">O</option>
 <option value="0">-</option>
-<option value="51">&#210;</option>
-<option value="83">&#242;</option>
-<option value="52">&#211;</option>
-<option value="84">&#243;</option>
-<option value="53">&#212;</option>
-<option value="85">&#244;</option>
-<option value="54">&#213;</option>
-<option value="86">&#245;</option>
-<option value="55">&#214;</option>
-<option value="87">&#246;</option>
-<option value="57">&#216;</option>
-<option value="89">&#248;</option>
-</select><select
+<option value="210">&#210;</option>
+<option value="242">&#242;</option>
+<option value="211">&#211;</option>
+<option value="243">&#243;</option>
+<option value="212">&#212;</option>
+<option value="244">&#244;</option>
+<option value="213">&#213;</option>
+<option value="245">&#245;</option>
+<option value="214">&#214;</option>
+<option value="246">&#246;</option>
+<option value="216">&#216;</option>
+<option value="248">&#248;</option>
+<option value="338">&#338;</option>
+<option value="339">&#339;</option>
+</select></td><td><select
 	name="tCharsU"
 	ID="tCharsU"
 	title="U"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 class="dropchars"
 >
 <option value="0">U</option>
 <option value="0">--</option>
-<option value="58">&#217;</option>
-<option value="90">&#249;</option>
-<option value="59">&#218;</option>
-<option value="91">&#250;</option>
-<option value="60">&#219;</option>
-<option value="92">&#251;</option>
-<option value="61">&#220;</option>
-<option value="93">&#252;</option>
-<option value="22">&#181;</option>
-</select><select
+<option value="217">&#217;</option>
+<option value="249">&#249;</option>
+<option value="218">&#218;</option>
+<option value="250">&#250;</option>
+<option value="219">&#219;</option>
+<option value="251">&#251;</option>
+<option value="220">&#220;</option>
+<option value="252">&#252;</option>
+<option value="181">&#181;</option>
+</select></td><td><select
 	name="tCharsM"
 	ID="tCharsM"
 	title="More"
-	onchange="if (this.options[selectedIndex].value !=0){iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">+</option>
-<option value="97">&#036;</option>
-<option value="3">&#162;</option>
-<option value="4">&#163;</option>
-<option value="5">&#164;</option>
-<option value="6">&#165;</option>
+<option value="0">--</option>
+<option value="036">&#036;</option>
+<option value="162">&#162;</option>
+<option value="163">&#163;</option>
+<option value="164">&#164;</option>
+<option value="165">&#165;</option>
 
-<option value="2">&#161;</option>
-<option value="32">&#191;</option>
+<option value="161">&#161;</option>
+<option value="191">&#191;</option>
 
-<option value="10">&#169;</option>
-<option value="15">&#174;</option>
+<option value="169">&#169;</option>
+<option value="174">&#174;</option>
 <option value="0">--</option>
 
-<option value="63">&#222;</option>
-<option value="95">&#254;</option>
-<option value="64">&#223;</option>
+<option value="171">&#171;</option>
+<option value="187">&#187;</option>
+<? if($utf8_site) { ?>
+<option value="8222">&#8222;</option>
+<option value="8220">&#8220;</option>
+<? } ?>
+<option value="0">--</option>
+
+<option value="222">&#222;</option>
+<option value="254">&#254;</option>
+<option value="223">&#223;</option>
 <option value="0">--</option>
 
 <option value="0">Y</option>
 <option value="0">--</option>
-<option value="62">&#221;</option>
-<option value="94">&#253;</option>
-<option value="96">&#255;</option>
-<option value="0">--</option>
-
-<option value="0">C</option>
-<option value="0">--</option>
-<option value="40">&#199;</option>
-<option value="72">&#231;</option>
-<option value="0">--</option>
-
-<option value="0">D</option>
-<option value="0">--</option>
-<option value="49">&#208;</option>
-<option value="81">&#240;</option>
+<option value="221">&#221;</option>
+<option value="253">&#253;</option>
+<option value="255">&#255;</option>
 <option value="0">--</option>
 
 <option value="0">N</option>
 <option value="0">--</option>
-<option value="50">&#209;</option>
-<option value="82">&#241;</option>
+<option value="209">&#209;</option>
+<option value="241">&#241;</option>
 <option value="0">--</option>
 
-<option value="7">&#166;</option>
-<option value="8">&#167;</option>
-<option value="9">&#168;</option>
-<option value="11">&#170;</option>
-<option value="12">&#171;</option>
-<option value="13">&#172;</option>
-<option value="14">&#173;</option>
-<option value="16">&#175;</option>
-<option value="17">&#176;</option>
-<option value="18">&#177;</option>
-<option value="19">&#178;</option>
-<option value="20">&#179;</option>
-<option value="21">&#180;</option>
-<option value="23">&#182;</option>
-<option value="24">&#183;</option>
-<option value="25">&#184;</option>
-<option value="26">&#185;</option>
-<option value="27">&#186;</option>
-<option value="28">&#187;</option>
-<option value="29">&#188;</option>
-<option value="30">&#189;</option>
-<option value="31">&#190;</option>
-<option value="56">&#215;</option>
-<option value="88">&#247;</option>
-</select><INPUT
+<option value="166">&#166;</option>
+<option value="167">&#167;</option>
+<option value="168">&#168;</option>
+<option value="170">&#170;</option>
+<option value="172">&#172;</option>
+<option value="173">&#173;</option>
+<option value="175">&#175;</option>
+<option value="176">&#176;</option>
+<option value="177">&#177;</option>
+<option value="178">&#178;</option>
+<option value="179">&#179;</option>
+<option value="180">&#180;</option>
+<option value="182">&#182;</option>
+<option value="183">&#183;</option>
+<option value="184">&#184;</option>
+<option value="185">&#185;</option>
+<option value="186">&#186;</option>
+<option value="188">&#188;</option>
+<option value="189">&#189;</option>
+<option value="190">&#190;</option>
+<option value="215">&#215;</option>
+<option value="247">&#247;</option>
+</select></td><td rowspan="2"><input
 	TYPE="text"
 	VALUE=""
 	accesskey="\"
@@ -247,7 +288,7 @@ class="dropchars"
 	class="dropnormal"
 	size="1"
 	onclick="this.select()"
-><a
+><br><a
 	href="#"
 	onclick="mGR()"
 	title="Greek-to-ASCII Transliteration"
@@ -259,7 +300,190 @@ class="dropchars"
 	align="top"
 	alt="Greek Transliteration"
 	title="<? echo _("Open Greek Transliteration Window"); ?>"
-></a></td><td
+></a></td></tr><tr><td><select
+	name="tCharsC"
+	ID="tCharsC"
+	title="C"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">C</option>
+<option value="0">--</option>
+<option value="199">&#199;</option>
+<option value="231">&#231;</option>
+<option value="262">&#262;</option>
+<option value="263">&#263;</option>
+<option value="264">&#264;</option>
+<option value="265">&#265;</option>
+<option value="266">&#266;</option>
+<option value="267">&#267;</option>
+<option value="268">&#268;</option>
+<option value="269">&#269;</option>
+<option value="390">&#390;</option>
+<option value="391">&#391;</option>
+</select></td><td><select
+	name="tCharsD"
+	ID="tCharsD"
+	title="D"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">D</option>
+<option value="0">--</option>
+<option value="208">&#208;</option>
+<option value="240">&#240;</option>
+<option value="270">&#270;</option>
+<option value="271">&#271;</option>
+<option value="272">&#272;</option>
+<option value="273">&#273;</option>
+<option value="393">&#393;</option>
+<option value="394">&#394;</option>
+</select></td><td><select
+	name="tCharsS"
+	ID="tCharsS"
+	title="S"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">ST</option>
+<option value="0">--</option>
+<option value="346">&#346;</option>
+<option value="347">&#347;</option>
+<option value="348">&#348;</option>
+<option value="349">&#349;</option>
+<option value="350">&#350;</option>
+<option value="351">&#351;</option>
+<option value="352">&#352;</option>
+<option value="353">&#353;</option>
+<option value="354">&#354;</option>
+<option value="355">&#355;</option>
+<option value="356">&#356;</option>
+<option value="357">&#357;</option>
+<option value="358">&#358;</option>
+<option value="359">&#359;</option>
+</select></td><td><select
+	name="tCharsZ"
+	ID="tCharsZ"
+	title="Z"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">Z</option>
+<option value="0">--</option>
+<option value="377">&#377;</option>
+<option value="378">&#378;</option>
+<option value="379">&#379;</option>
+<option value="380">&#380;</option>
+<option value="381">&#381;</option>
+<option value="382">&#382;</option>
+</select></td><td><select
+	name="tCharsCyr"
+	ID="tCharsCyr"
+	title="Cyrillic"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">&#1035;</option>
+<option value="0">--</option>
+<option value="1026">&#1026;</option>
+<option value="1106">&#1106;</option>
+<option value="1027">&#1027;</option>
+<option value="1107">&#1107;</option>
+<option value="1024">&#1024;</option>
+<option value="1104">&#1104;</option>
+<option value="1025">&#1025;</option>
+<option value="1105">&#1105;</option>
+<option value="1028">&#1028;</option>
+<option value="1108">&#1108;</option>
+<option value="1029">&#1029;</option>
+<option value="1109">&#1109;</option>
+<option value="1037">&#1037;</option>
+<option value="1117">&#1117;</option>
+<option value="1030">&#1030;</option>
+<option value="1110">&#1110;</option>
+<option value="1031">&#1031;</option>
+<option value="1111">&#1111;</option>
+<option value="1049">&#1049;</option>
+<option value="1081">&#1081;</option>
+<option value="1032">&#1032;</option>
+<option value="1112">&#1112;</option>
+<option value="1033">&#1033;</option>
+<option value="1113">&#1113;</option>
+<option value="1034">&#1034;</option>
+<option value="1114">&#1114;</option>
+<option value="1035">&#1035;</option>
+<option value="1115">&#1115;</option>
+<option value="1036">&#1036;</option>
+<option value="1116">&#1116;</option>
+<option value="1038">&#1038;</option>
+<option value="1118">&#1118;</option>
+<option value="1039">&#1039;</option>
+<option value="1119">&#1119;</option>
+<option value="1065">&#1065;</option>
+<option value="1097">&#1097;</option>
+<option value="1066">&#1066;</option>
+<option value="1098">&#1098;</option>
+<option value="1067">&#1067;</option>
+<option value="1099">&#1099;</option>
+<option value="1068">&#1068;</option>
+<option value="1100">&#1100;</option>
+<option value="1069">&#1069;</option>
+<option value="1101">&#1101;</option>
+<option value="1070">&#1070;</option>
+<option value="1102">&#1102;</option>
+<option value="1071">&#1071;</option>
+<option value="1103">&#1103;</option>
+</select></td><td><select
+	name="tCharsOCyr"
+	ID="tCharsOCyr"
+	title="OldCyrillic"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">&#1122;</option>
+<option value="0">--</option>
+<option value="1120">&#1120;</option>
+<option value="1121">&#1121;</option>
+<option value="1122">&#1122;</option>
+<option value="1123">&#1123;</option>
+<option value="1124">&#1124;</option>
+<option value="1125">&#1125;</option>
+<option value="1126">&#1126;</option>
+<option value="1127">&#1127;</option>
+<option value="1128">&#1128;</option>
+<option value="1129">&#1129;</option>
+<option value="1130">&#1130;</option>
+<option value="1131">&#1131;</option>
+<option value="1132">&#1132;</option>
+<option value="1133">&#1133;</option>
+<option value="1134">&#1134;</option>
+<option value="1135">&#1135;</option>
+<option value="1136">&#1136;</option>
+<option value="1137">&#1137;</option>
+<option value="1138">&#1138;</option>
+<option value="1139">&#1139;</option>
+<option value="1140">&#1140;</option>
+<option value="1141">&#1141;</option>
+<option value="1142">&#1142;</option>
+<option value="1143">&#1143;</option>
+<option value="1144">&#1144;</option>
+<option value="1145">&#1145;</option>
+<option value="1146">&#1146;</option>
+<option value="1147">&#1147;</option>
+<option value="1148">&#1148;</option>
+<option value="1149">&#1149;</option>
+<option value="1150">&#1150;</option>
+<option value="1151">&#1151;</option>
+<option value="1152">&#1152;</option>
+<option value="1153">&#1153;</option>
+<option value="1154">&#1154;</option>
+</select></td></tr></table></td><td
 	valign="top"
 	align="center"
 ><INPUT
@@ -280,7 +504,8 @@ class="dropchars"
 	onclick="this.select()"
 ><a
 	href="#"
-	onclick="iMU(21)"
+	onclick="new_iMU('<i>','</i>')"
+	accesskey="i"
 ><img
 	src="gfx/tags/italic.png"
 	width="22"
@@ -291,7 +516,8 @@ class="dropchars"
 	alt="<? echo _("Italics"); ?>"
 ></a><a
 	href="#"
-	onclick="iMU(22)"
+	onclick="new_iMU('<b>','</b>')"
+	accesskey="b"
 ><img
 	src="gfx/tags/bold.png"
 	width="22"
@@ -322,7 +548,7 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 echo "<b><font color='red'>"._("HELP")."---></font></b>";
 ?>
       <a
-	href="../../faq/prooffacehelp.php"
+	href="../../faq/<? echo lang_dir(); ?>prooffacehelp.php"
 	accesskey="1"
 	target="helpNewWin"
 ><img
@@ -338,7 +564,7 @@ echo "<b><font color='red'>"._("HELP")."---></font></b>";
   if($userP['i_newwin']==0)
     {echo "$code_url/activity_hub.php";}
   else
-    {echo "JavaScript:window.close();";}
+    {echo "JavaScript:window.parent.close();";}
 ?>"
 	target="_top"
 	onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"
@@ -352,7 +578,7 @@ echo "<b><font color='red'>"._("HELP")."---></font></b>";
 	title="<? echo _("Exit"); ?>"
 ></a></td></tr><tr><td
 	valign="top"
-	colspan="3"
+	colspan="2"
 	align="center">
 <?PHP 
 echo "<font size=-1><i>"._("Markup shortcuts").":</i> </font>";
@@ -362,7 +588,7 @@ include('ptags.inc');
 <font size="-1">
 <? 
 echo "<i>"._("Reference Information").":</i> ";
-echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/document.php' target='_blank'>". _('Proofreading Guidelines')."</a>] ";
+echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."document.php' target='_blank'>". _('Proofreading Guidelines')."</a>] ";
 echo "<i>"._("Proofreading Diagrams:")."</i>"; ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
