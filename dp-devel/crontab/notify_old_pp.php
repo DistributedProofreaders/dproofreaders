@@ -39,8 +39,7 @@ $db_Connection=new dbConnect();
 			
 		    echo $PPinQuestion . "\n" . $projectslist ."<br><br>\n\n";
 
-		    $message = "This is an automated message.\n\n".
-"Our database indicates that you have had ". ($numprojs == 1) ? "a project" : "several projects" . " checked out for more than 90 days:\n\n" 
+		    $message = "This is an automated message.\n\nOur database indicates that you have had ". ($numprojs == 1) ? "a project" : "several projects" . " checked out for more than 90 days:\n\n" 
 . $projectslist . "\n\n 
 If you wish to continue working on ". ($numprojs == 1) ? "this project" : "some or all of these projects" . " and/or need help please 
 forward this email with a brief description of the status to dphelp@pgdp.net.\n\n
