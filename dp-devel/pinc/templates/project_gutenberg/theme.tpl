@@ -39,4 +39,10 @@ $project_gutenberg['font_headerbar'] = "verdana, helvetica, sans-serif";
 $project_gutenberg['font_mainbody'] = "verdana, helvetica, sans-serif";
 $project_gutenberg['font_navbar'] = "verdana, helvetica, sans-serif";
 $project_gutenberg['font_copyright'] = "verdana, helvetica, sans-serif";
+
+$project_gutenberg['tabs'] = array(
+    'background' => '#e0e8dd',
+    'background-position' => 'top',
+    'padding-left' => '9px',
+);
 ?>

@@ -39,4 +39,21 @@ $classic_grey['font_headerbar'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_mainbody'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_navbar'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_copyright'] = "verdana, helvetica, sans-serif";
+
+$classic_grey['tabs'] = array(
+    // These values are used by pinc/tabs.inc to
+    // make a list appear as tabs.
+    // Images named 'tabs_left.png', 'tabs_left_on.png',
+    // 'tabs_bg.png', 'tabs_right.png.png', 'tabs_right_on.png'
+    // in the graphics-folder will be used.
+    'background' => '#ffffff',
+    'background-position' => 'bottom',
+    'padding-left' => '5px',
+    //
+    // If you provide a key 'use_default_graphics' with a TRUE value,
+    // a default tab-layout will be used. You can still specify
+    // a background-color using a 'background'-key. If you don't,
+    // the $theme['color_navbar_bg']-value will be used.
+    // 'use_default_graphics' => true,
+);
 ?>

@@ -39,4 +39,10 @@ $royal_blues['font_headerbar'] = "verdana, arial";
 $royal_blues['font_mainbody'] = "verdana, arial";
 $royal_blues['font_navbar'] = "verdana, arial";
 $royal_blues['font_copyright'] = "verdana, arial";
+
+$royal_blues['tabs'] = array(
+    'background' => '#ffffff',
+    'background-position' => 'bottom',
+    'padding-left' => '19px',
+);
 ?>

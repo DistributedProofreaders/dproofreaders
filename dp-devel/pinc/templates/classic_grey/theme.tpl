@@ -39,4 +39,10 @@ $classic_grey['font_headerbar'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_mainbody'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_navbar'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_copyright'] = "verdana, helvetica, sans-serif";
+
+$classic_grey['tabs'] = array(
+    'background' => '#cccccc',
+    'background-position' => 'bottom',
+    'padding-left' => '5px',
+);
 ?>
