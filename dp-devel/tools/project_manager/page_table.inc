@@ -141,7 +141,7 @@ function echo_page_table(
 	{
 		$prd = get_PRD_for_round($rn);
 		$fields_to_get .= ",
-			REPLACE($prd->prevtext_column_name,'\r\n','\n')=REPLACE($prd->text_column_name,'\r\n','\n') AS $prd->textdiff_column_name,
+			BINARY REPLACE($prd->prevtext_column_name,'\r\n','\n')=REPLACE($prd->text_column_name,'\r\n','\n') AS $prd->textdiff_column_name,
 			$prd->time_column_name,
 			$prd->user_column_name,
 			length($prd->text_column_name)
