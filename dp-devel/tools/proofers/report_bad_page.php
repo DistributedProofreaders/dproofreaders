@@ -96,6 +96,10 @@ else
 	} else {
 		$text_copier = 'round2_text=round1_text';
 	}
+	if ($writeBIGtable) {
+		$result = mysql_query("UPDATE project_pages SET state='$badState', b_user='$pguser', b_code=$reason, $text_copier WHERE projectid = '$projectid' AND fileid='$fileid'");
+	}
+
 	$result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser', b_code=$reason, $text_copier WHERE fileid='$fileid'");
 
 	//Find out how many pages have been marked bad
