@@ -9,7 +9,7 @@ $title = _("Details of Special Days/Weeks/Months");
 theme($title, "header");
 
 echo "<br><h2>$title</h2>\n";
-echo "The Name column shows what the colour looks like with a link on top, the Comment with ordinary text"<br><br>;
+echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text")."<br><br>";
 dpsql_dump_query("
         SELECT
                       concat('<span style=\"background-color: #',
