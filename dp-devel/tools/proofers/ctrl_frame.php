@@ -200,14 +200,14 @@ name="tCharsM" ID="tCharsM" title="More" onchange="if (this.options[selectedInde
 </select><INPUT
 TYPE="text" VALUE="" accesskey="\" name="markBoxChar" class="dropnormal" size="1" onclick="this.select()"><a
 href="#" onclick="mGR()" title="Greek-to-ASCII Transliteration"><img
-src="gfx/tags/greek.png" width="62" height="22" border="0" align="top" alt="Greek Transliteration" title="Open Greek Transliteration Window"></a></td><td
+src="gfx/tags/greek.png" width="62" height="22" border="0" align="top" alt="Greek Transliteration" title="<? echo _("Open Greek Transliteration Window"); ?>"></a></td><td
 valign="top" align="center"><INPUT
 accesskey="[" TYPE="text" VALUE="" name="markBox" class="dropnormal" size="9" onclick="this.select();"><INPUT
 accesskey="]" TYPE="text" VALUE="" name="markBoxEnd" class="dropnormal" size="9" onclick="this.select()"><a
 href="#" onclick="iMU(21)"><img
-src="gfx/tags/italic.png" width="22" height="22" border="0" align="top" title="italics" alt="italics"></a><a
+src="gfx/tags/italic.png" width="22" height="22" border="0" align="top" title="<? echo _("Italics"); ?>" alt="<? echo _("Italics"); ?>"></a><a
 href="#" onclick="iMU(22)"><img
-src="gfx/tags/bold.png" width="22" height="22" border="0" align="top" title="bold" alt="bold"></a><?PHP
+src="gfx/tags/bold.png" width="22" height="22" border="0" align="top" title="<? echo _("Bold"); ?>" alt="<? echo _("Bold"); ?>"></a><?PHP
 
 
 /* temp disabled
@@ -225,20 +225,20 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 ?></td><td
 align="right" valign="top"><a
 href="../../faq/prooffacehelp.php" accesskey="1" target="helpNewWin"><img
-src="gfx/tags/help.png" width="18" height="18" border="0" align="top" alt="Help" title="Help"></a><a
+src="gfx/tags/help.png" width="18" height="18" border="0" align="top" alt="<? echo _("Help"); ?>" title="<? echo _("Help"); ?>"></a><a
 href="<?PHP
   if($userP['i_newwin']==0)
     {echo "proof_per.php";}
   else
     {echo "JavaScript:window.close();";}
-?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"><img
-src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="Exit" title="Exit"></a></td></tr><tr><td
+?>" target="_top" onclick="return(confirm('<? echo _("Are you sure you want to \r\n\r\nExit the Interface?"); ?>'));"><img
+src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="<? echo _("Exit"); ?>" title="<? echo _("Exit"); ?>"></a></td></tr><tr><td
 valign="top" colspan="3" align="center"><?PHP
 include('ptags.inc');
 ?>
-<br>Proofreading Diagrams: [<a href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_new'>High Res</a>] 
-[<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_new'>Medium Res</a>] 
-[<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_new'>Low Res</a>]</font>
+<br><? echo _("Proofreading Diagrams:"); ?> [<a href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_new'><? echo _("High Res"); ?></a>] 
+[<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_new'><? echo _("Medium Res"); ?></a>] 
+[<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_new'><? echo _("Low Res"); ?></a>]</font>
 </td>
 </tr>
 </table>
