@@ -4,36 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-?>
-<style type="text/css">
-<!--
-.purple {
-        background-color:#9966CC;
-}
-.orange {
-        background-color: #FF9900;
-}
-.green {
-        background-color: #00FF33;
-}
-.paleblue {
-        background-color: #CCFFFF;
-}
-.richblue {
-        background-color: #33CCFF;
-}
-.yellow {
-        background-color: #FFFF33;
-}
-.grey {
-        background-color: #CCCCCC;
-}
-.red {
-        background-color: #FF0000;
-}
--->
-</style>
-<?
+include_once($relPath.'special_colours.inc');
 
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
@@ -42,8 +13,15 @@ theme("Personal Page for $pguser", "header");
         $result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
         $pagesproofed = mysql_result($result,0);
 
-        // DEMO VERSION allows people to simulate different page counts via parameter in URL
-        // $pagesproofed =  isset($_GET['numofpages'])?$_GET['numofpages']:0;
+        // DEMO VERSION allows people to simulate different page counts via parameter in URL,
+	// so long as less than their actual number of pages
+        if (isset($_GET['numofpages']))
+	{
+		if ($_GET['numofpages'] < $pagesproofed)
+		{
+        	   $pagesproofed =  $_GET['numofpages'];
+		}
+	}
 
         echo '<br>';
 
@@ -243,20 +221,12 @@ if ($pagesproofed >= 10) {
 ?>
 <p>
 <font face="<? echo $theme['font_mainbody']; ?>">
-Legend for Special Books:
-<br><br><b>
-<span class="paleblue"> Authors with recent birthdays </span>&nbsp;
-<span class="richblue"> Authors with birthdays today </span>&nbsp;
-<br>
-<span class="flyblue"> Wright Flight Anniversary </span>&nbsp;
-<span class="orange"> Halloween </span>&nbsp;
-<span class="purple"> Other Special </span>
-</b></font>
+
+<? include('special_legend.php'); ?>
+
+</font>
 </p>
 <br>
-
-
-
 <?
 }
 
