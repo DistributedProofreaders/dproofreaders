@@ -11,6 +11,20 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function get_number_of_days_in_current_month()
+{
+    // note that unlike project_state_stats, 
+    // which gets a row added for each new day just after midnight,
+    // pagestats is prepopulated with rows for the whole month
+    $year  = date("Y");
+    $month = date("m");
+    $result = mysql_query("SELECT max(day) as maxday FROM pagestats WHERE month = '$month' AND year = '$year'");
+    return mysql_result($result, 0, "maxday");
+}
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function get_project_status_descriptor( $which )
 // $which is a word denoting a possible status of a project
 // (created, proofed, PPd, or posted).

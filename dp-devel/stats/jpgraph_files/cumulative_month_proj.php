@@ -19,12 +19,7 @@ $month = date("m", $todaysTimeStamp);
 $monthVar = _(date("F", $todaysTimeStamp));
 $timeframe = "$monthVar $year";
 
-
-// number of days this month - note that unlike project_state_stats, 
-// which gets a row added for each new day just after midnight,
-// pagestats is prepopulated with rows for the whole month
-$result = mysql_query("SELECT max(day) as maxday FROM pagestats WHERE month = '$month' AND year = '$year'");
-$maxday = mysql_result($result, 0, "maxday");
+$maxday = get_number_of_days_in_current_month();
 
 //query db and put results into arrays
 $result = mysql_query("
