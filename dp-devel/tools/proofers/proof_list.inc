@@ -84,7 +84,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     tde(_("These pages are output from the OCR software and have not been looked at."), bgcol(1,'first') . " colspan=6");
     echo "</tr>";
 
-    if (! user_can_see_BEGIN_R1()) {
+    if (! user_can_see_BEGIN_in_round(1)) {
          $extra =  " AND difficulty != 'beginner' ";
     } else {
 	$extra = " ";
@@ -112,7 +112,7 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       tde(_("These are pages that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed."), bgcol(1,'second') . " colspan=6");
       echo "</tr>";
 
-      if (! user_can_see_BEGIN_R2()) {
+      if (! user_can_see_BEGIN_in_round(2)) {
          $RFilter = $RFilter . " AND difficulty != 'beginner' ";
       }
 
