@@ -17,15 +17,16 @@ if ($curMbr['u_privacy'] != 1 || $curMbr['username'] == $pguser) {
 	$isAnonymousUsername = $curMbr['username'];
 	if (substr($curMbr['username'], -1) != "s") { $needsApostrophe = "s"; } else { $needsApostrophe = ""; }
 } else {
-	$isAnonymousUsername = "Anonymous";
+	$isAnonymousUsername = _("Anonymous");
 	$needsApostrophe = "";
 }
 
-theme("$isAnonymousUsername'$needsApostrophe Statistics", "header");
+$desc = "$isAnonymousUsername'$needsApostrophe "._("Statistics");
+theme($desc, "header");
 
 echo "<br><center>";
 if (!empty($curMbr['u_id'])) {
-	if ($isAnonymousUsername == "Anonymous" && $curMbr['username'] != $pguser) {
+	if ($isAnonymousUsername == _("Anonymous") && $curMbr['username'] != $pguser) {
 		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
 	} elseif ($curMbr['u_privacy'] == 2) {
 		if (!isset($pguser)) {
