@@ -329,7 +329,7 @@ at the same place though the path you take may be different.<br>
 </p>
 <p>If you don't have an OCR package,
 you can take advantage of the DP
-<a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=4957">OCR Pool</a>.
+<a href="<? echo $forums_url; ?>/viewtopic.php?t=4957">OCR Pool</a>.
 Other DP volunteers who do have OCR packages
 are more than happy to OCR images on your behalf.
 </p>
@@ -594,7 +594,7 @@ software:</span><br>
 software.&nbsp;&nbsp;&nbsp; Very nice. :-)&nbsp;&nbsp;&nbsp;Quite
 expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-)
 &nbsp;&nbsp;&nbsp;
-See our <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5293">Finereader Tips and Tricks forum topic</a>.
+See our <a href="<? echo $forums_url; ?>/viewtopic.php?t=5293">Finereader Tips and Tricks forum topic</a>.
 </p>
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
 and is still available (though not directly from Abbyy software) and
@@ -613,7 +613,7 @@ processing tools:</span><br>
 specifically geared toward pre-processing text
 files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.
-See also <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=2237">this forum topic</a>.
+See also <a href="<? echo $forums_url; ?>/viewtopic.php?t=2237">this forum topic</a>.
 </p>
 <p style="margin-left: 40px;"><small>These two utilities
 (guiprep/winprep) share the same code. Use guiprep if you have perl on
