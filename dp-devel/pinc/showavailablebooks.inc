@@ -31,10 +31,10 @@ function showavailablebooks($result,$state,$userP,$tList,$round) {
             ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE)) {
             echo "<tr>";
             if ($tList==0)
-              {$eURL="proof";}
+              {$eURL="proof.php";}
             else
-              {$eURL="projects";}
-            $eURL.=".php?project={$book['projectid']}&amp;proofstate={$book['state']}";
+              {$eURL="projects.php";}
+            $eURL.="?project={$book['projectid']}&amp;proofstate={$book['state']}";
               if ($userP['i_newwin']==0)
                 {$temp="<a href=\"$eURL\">";}
               else
