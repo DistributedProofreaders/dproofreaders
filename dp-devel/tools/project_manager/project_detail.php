@@ -78,8 +78,17 @@ if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 	echo "<form method='get' action='add_files.php'>\n";
 	echo "<input type='hidden' name='project' value='$projectid'>\n";
 	if ($userP['sitemanager'] == "yes") {
-		echo "Add Text From projects Folder";
-		echo "<input type='hidden' name='source_dir' value=''>\n";
+		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
+		if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+			echo "Add Text From projects Folder";
+			echo "<input type='hidden' name='source_dir' value=''>\n";
+		} else {
+		echo "Add Text+Images from $uploads_account Account";
+		echo "<br>\n";
+		echo "directory: ";
+		echo "<input type='text' name='source_dir'>";
+		echo " (defaults to $projectid )";
+		}			
 	} else {
 		echo "Add Text+Images from $uploads_account Account";
 		echo "<br>\n";

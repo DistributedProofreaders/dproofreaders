@@ -62,12 +62,15 @@ echo_manager_header();
 		";
         	if ($userP['sitemanager'] == "yes")
 		{
-		    echo "
-			<tr>
-			    <td>Project Manager</td>
-			    <td><input type='text' name='project_manager'></td>
-			</tr>
-		    ";
+			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
+			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+		    		echo "
+					<tr>
+			    		<td>Project Manager</td>
+			    		<td><input type='text' name='project_manager'></td>
+					</tr>
+		    		";
+		    	}
 		}
 		// In the <select> tag, we set the name attribute to 'state[]'.
 		// I'm pretty sure this doesn't mean anything to HTML/HTTP,
@@ -126,7 +129,12 @@ echo_manager_header();
 
         	$numrows = 0;
         	if ($_GET['show'] == "site" && $userP['sitemanager'] == "yes") {
-			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
+        		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
+			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+				$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
+			} else {
+				$condition = "username = '$pguser'";
+			}
         	} elseif ($_GET['show'] == "all") {
 			$condition = "username = '$pguser'";
 		} elseif ($_GET['show'] == 'search') {
@@ -141,10 +149,15 @@ echo_manager_header();
 			}
 			if ($userP['sitemanager'] == "yes")
 			{
-			    if ( $_GET['project_manager' ] != '' )
-			    {
-				$condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
-			    }
+				$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
+				if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
+			    		if ( $_GET['project_manager' ] != '' )
+			    		{
+						$condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
+			    		}
+			    	} else {
+			    		$condition .= " AND username='$pguser'";
+			    	}
 			}
 			else
 			{
