@@ -53,7 +53,7 @@ echo "$moddate<br>";
 echo "$links</font><br><br>";
 } else {
 $totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
-echo mysql_result($totalpages,0)." "._("pages")."; $moddate</font><br><br>";
+if ($totalpages && mysql_num_rows($totalpages) > 0) { echo mysql_result($totalpages,0)." "._("pages")."; $moddate</font><br><br>"; }
 }
 $i++;
 }
