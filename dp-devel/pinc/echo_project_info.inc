@@ -1,6 +1,7 @@
 <?
 include_once($relPath.'v_site.inc');
 include_once($relPath.'pg.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'f_project_states.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'authors.inc');
@@ -10,6 +11,8 @@ include_once($relPath.'authors.inc');
 function echo_project_info( $projectid, $proofstate, $sub )
 {
 	global $code_url, $pguser, $userP;
+
+	$prd = get_PRD_for_project_state($proofstate);
 
 	echo "<table border=1 width=630>";
 
@@ -27,11 +30,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$right = project_states_text($project['state']);
 	if ($proofstate != 'proj_post')
 	{
-		if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-			$extra = _("The page-texts are output from the OCR software and have not been looked at.");
-		} else {
-			$extra = _("The page-texts have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.");
-		}
+		$extra = $prd->description;
 		$right = "$right ($extra)";
 	}
 	echo_row_a( _("Project State"), $right );
@@ -94,14 +93,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate != 'proj_post')
 	{
-		if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-			$wTime="round1_time"; $wState=SAVE_FIRST;
-		} else {
-			$wTime="round2_time"; $wState=SAVE_SECOND;
-		}
-		$proofdate=mysql_query("SELECT $wTime FROM $projectid WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
+		$proofdate = mysql_query("
+			SELECT {$prd->time_column_name}
+		       	FROM $projectid
+		       	WHERE state='{$prd->page_save_state}'
+		       	ORDER BY {$prd->time_column_name} DESC
+		       	LIMIT 1
+		");
 		if (mysql_num_rows($proofdate)!=0) {
-			$lastproofed=strftime(_("%A, %B %e, %Y at %X"),mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".strftime(_("%X"),time()).")";
+			$lastproofed=strftime(_("%A, %B %e, %Y at %X"),mysql_result($proofdate,0,$prd->time_column_name))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".strftime(_("%X"),time()).")";
 		} else {
 			$lastproofed=_("Project has not been proofread in this round.");
 		}
@@ -300,31 +300,16 @@ function get_real_name( $login_name )
 
 function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 {
-	if ($proofstate == PROJ_PROOF_FIRST_AVAILABLE)
-	{
-		$user_field = "round1_user";
-		$time_field = "round1_time";
-		$save_state = SAVE_FIRST;
-		$temp_state = TEMP_FIRST;
-		$out_state  = OUT_FIRST;
-	}
-	else
-	{
-		$user_field = "round2_user";
-		$time_field = "round2_time";
-		$save_state = SAVE_SECOND;
-		$temp_state = TEMP_SECOND;
-		$out_state  = OUT_SECOND;
-	}
+	$prd = get_PRD_for_project_state($proofstate);
 
 	if ($wlist==0) {
 		$top = _("DONE");
 		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofreading, that are still available for correction)");
-		$state_condition = "state='$save_state'";
+		$state_condition = "state='{$prd->page_save_state}'";
 	} else {
 		$top = _("IN PROGRESS");
 		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
-		$state_condition = "(state='$temp_state' OR state='$out_state')";
+		$state_condition = "(state='{$prd->page_temp_state}' OR state='{$prd->page_out_state}')";
 	}
 
 	echo_row_b( $top, $bottom );
@@ -332,10 +317,10 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 	$recentNum=5;
 
 	$sql = "
-		SELECT image, fileid, state, $time_field
+		SELECT image, fileid, state, {$prd->time_column_name}
 		FROM $projectid
-		WHERE $user_field='$pguser' AND $state_condition
-		ORDER BY $time_field DESC
+		WHERE {$prd->user_column_name}='$pguser' AND $state_condition
+		ORDER BY {$prd->time_column_name} DESC
 		LIMIT $recentNum
 	";
 	$result = mysql_query($sql);
@@ -345,7 +330,7 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 	while (($rownum < $recentNum) && ($rownum < $numrows)) {
 		$imagefile = mysql_result($result, $rownum, "image");
 		$fileid = mysql_result($result, $rownum, "fileid");
-		$timestamp = mysql_result($result, $rownum, $time_field);
+		$timestamp = mysql_result($result, $rownum, $prd->time_column_name);
 		$pagestate = mysql_result($result, $rownum, "state");
 		$newproject = "project=$projectid";
 		$newfileid="&amp;fileid=$fileid";
