@@ -134,4 +134,123 @@ function draw_pages_graph(
     $graph->Stroke();
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function draw_projects_graph(
+    $x_dates,
+    $y_num_projects,
+    $cumulative_or_increments,
+    $color,
+    $title,
+    $cache_timeout
+)
+// Draw various kinds of 'number of projects vs. time' graphs.
+{
+    global $jpgraph_FF, $jpgraph_FS;
+
+    $n_datapoints = count($x_dates);
+    /*
+    if ( count($y_num_projects) != $n_datapoints )
+    {
+        echo "$n_datapoints X values, but ". count($y_num_projects) ." Y values.<br>";
+        die('aborting');
+    }
+    */
+
+    assert( $cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments' );
+
+    // Calculate tick interval based on number of datapoints
+    // Once we have more than about 30 labels, the axis is getting too crowded
+    // $x_frequency == 'daily'
+    {
+        if ($n_datapoints <= 31 ) {
+                $x_text_tick_interval = 1;            // one label per day
+        } else if ($n_datapoints < (30 * 7)) {
+                $x_text_tick_interval = 7;            // one label per week
+        } else if ($n_datapoints < (30 * 7 * 4)) {
+                $x_text_tick_interval = 7 * 4;        // one label per 4 weeks (pseudo-month)
+        } else if ($n_datapoints < (30 * 7 * 13)) {
+                $x_text_tick_interval = 7 * 13;       // one label per quarter
+        } else {
+                $x_text_tick_interval = 7  * 52;       // one label per year
+        }
+    }
+
+    // Create the graph. These two calls are always required
+    // Last value controls how long the graph is cached for in minutes
+    $graph = new Graph(640,400,"auto",$cache_timeout);
+    $graph->SetScale("textint");
+
+    // Set background to white
+    $graph->SetMarginColor('white');
+
+    // Add a drop shadow
+    $graph->SetShadow();
+
+    // Adjust the margin a bit to make more room for titles
+    // left, right, top, bottom
+    $graph->img->SetMargin(70,30,20,100);
+
+    // Set title
+    $graph->title->Set($title);
+    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+
+    // Set X axis
+    $graph->xaxis->SetTickLabels($x_dates);
+    $graph->xaxis->SetLabelAngle(90);
+    $graph->xaxis->title->Set("");
+    $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->xaxis->SetTextTickInterval($x_text_tick_interval);
+
+    // Set Y axis
+    $graph->yaxis->title->Set(_('Projects'));
+    $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->yaxis->SetTitleMargin(45);
+
+    // Create the plot
+    if ( $cumulative_or_increments == 'increments' )
+    {
+        //Create the bar plot
+        $plot = new BarPlot($y_num_projects);
+        $plot->SetFillColor($color);
+    }
+    else if ( $cumulative_or_increments == 'cumulative' )
+    {
+        //Create the line plot
+        $plot = new LinePlot($y_num_projects);
+        $plot->SetColor($color);
+        $plot->SetWeight(1);
+
+        // Only add colour to the part that we have data for.
+
+        // This should work:
+        // $plot->SetFillColor($color);
+        // Unfortunately, that has a bug that is triggered by the
+        // "cumulative projects Xed in the current month" graphs.
+        // The y-values for future days are the empty string
+        // (the code for "don't plot"), but SetFillColor behaves
+        // as if the last y-value were an explicit zero.
+        // So instead...
+
+        for ( $i = count($y_num_projects)-1; $i >= 0; $i-- )
+        {
+            if ( $y_num_projects[$i] !== '' )
+            {
+                break;
+            }
+        }
+        $plot->AddArea(0,$i,LP_AREA_FILLED,$color);
+
+        $graph->img->SetAntiAliasing(); 
+    }
+    else
+    {
+        assert( FALSE );
+    }
+    $graph->Add($plot);
+
+    // Display the graph
+    $graph->Stroke();
+}
+
 ?>

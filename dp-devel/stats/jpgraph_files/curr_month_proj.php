@@ -1,12 +1,10 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_bar.php');
-include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once('common.inc');
 
 new dbConnect();
 
@@ -100,38 +98,13 @@ while ($count <= $maxday) {
         $count++;
 }
 
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",300);
-$graph->SetScale("textint");
-$graph->SetMarginColor('white'); //Set background to white
-$graph->SetShadow(); //Add a drop shadow
-$graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom
-
-//Create the bar plot
-$bplot = new BarPlot($datay1);
-$bplot->SetFillColor($color);
-
-$graph->Add($bplot); //Add the bar plot to the graph
-
-//set X axis
-$graph->xaxis->SetTickLabels($datax);
-$graph->xaxis->SetLabelAngle(90);
-$graph->xaxis->title->Set("");
-
-//Set Y axis
-$graph->yaxis->title->Set(_("Projects"));
-$graph->yaxis->SetTitleMargin(45);
-
-$graph->title->Set("$title $monthVar $year");
-$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-
-
-// Display the graph
-$graph->Stroke();
+draw_projects_graph(
+	$datax,
+	$datay1,
+	'increments',
+	$color,
+	"$title $monthVar $year",
+	300
+);
 
 ?>
-
-
