@@ -394,9 +394,9 @@ CREATE TABLE `projects` (
   `postproofer` varchar(255) NOT NULL default '',
   `postcomments` text NOT NULL,
   PRIMARY KEY  (`projectid`),
-  KEY `username` (`username`)
-  KEY `checkedoutby` (`checkedoutby`)
-  KEY `postproofer` (`postproofer`)
+  KEY `username` (`username`),
+  KEY `checkedoutby` (`checkedoutby`(50)),
+  KEY `postproofer` (`postproofer`),
   KEY `state` (`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -460,7 +460,7 @@ CREATE TABLE `sessions` (
 
 CREATE TABLE `stats_hourly_pages_completed` (
   `sample_time` varchar(20) NOT NULL default '',
-  `pages_completed` mediumint(7) NOT NULL default '0'
+  `pages_completed` mediumint(7) NOT NULL default '0',
   PRIMARY KEY (`sample_time`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
