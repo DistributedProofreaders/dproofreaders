@@ -3,17 +3,26 @@ Proofreaders website code. This assumes you're installing from scratch.
 If you're upgrading from a previous version, things would be different ...
 
 --- Install PHP (if it isn't already).
-    
+        You should have GD and YAZ support.
+        GD is required for jpgraph.
+        YAZ is optional for the project creation code.
+
+--- Install aspell (if it isn't already).
+        The code uses aspell for the spellchecker in the proofreading interface.
+        Note that for aspell 0.50 you may have to symlink the .dat files due to
+        some filename inconsistencies. For example, iso8859-1.dat should have a
+        symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
+        You might not need to do this if you are using aspell 0.60 or higher.
     
 --- Install MySQL (if it isn't already).
-    In the examples in this document, we will assume it's on "localhost",
-    i.e. the same host on which you are running these commands, and the
-    same host that runs the webserver.
+        In the examples in this document, we will assume it's on "localhost",
+        i.e. the same host on which you are running these commands, and the
+        same host that runs the webserver.
 
 --- Choose names for various MySQL items:
-    --- the DP database (to house the DP data);
-    --- the DP user (to handle all DP queries);
-    --- the DP user's password.
+        --- the DP database (to house the DP data);
+        --- the DP user (to handle all DP queries);
+        --- the DP user's password.
     Don't pick a password that contains an apostrophe (single-quote),
     as it confuses the code.
     In the examples in this document, we will use
@@ -24,8 +33,8 @@ If you're upgrading from a previous version, things would be different ...
     others to guess (especially for the password!).
 
 --- Set up MySQL to create the database and user:
-    There are various ways to do each of these.
-    We'll show how to do it using the mysql client.
+        There are various ways to do each of these.
+        We'll show how to do it using the mysql client.
 
     --- Connect to the MySQL server as the root user, or any sufficiently
         powerful user.
@@ -35,7 +44,8 @@ If you're upgrading from a previous version, things would be different ...
             CREATE DATABASE dp_db;
         If you have MySQL 4.1.1 or higher:
             CREATE DATABASE dp_db CHARACTER SET UTF8;
-        Note that you can have UTF-8 enabled on the site even though you have older MySQL version which doesn't support it.
+        Note that you can have UTF-8 enabled on the site even though you have older
+        MySQL version which doesn't support it.
 
     --- Create the user.
         (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
@@ -43,38 +53,130 @@ If you're upgrading from a previous version, things would be different ...
             GRANT FILE ON *.*     TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the mysql client.
-            quit
+            quit;
 
---- Install phpbb.
-        (Details from pourlean?)
+--- Install and configure phpBB.
+        phpBB2 is most easily installed in your document root as phpbb2/
         In .../phpBB2/config.php, set db vars with values chosen above.
 
+--- Create phpBB forum categories and forums.
+
+    (pourlean to fill in more details)
+
+    Currently, Distributed Proofreaders is set up with the following
+    forum categories and forums:
+        For Beginners
+            -- Common Site Q&A
+            -- Common Proofing Q&A
+        Site
+            -- General
+            -- Future Features
+            -- Promotion
+            -- Documentation
+            -- Site-Related Polls
+        Activities
+            -- Providing Content
+            -- Managing Projects
+            -- Mentoring
+            -- Post-Processing
+        Projects
+            -- Project Questions and Comments
+            -- UberProjects
+            -- Archive of Posted Projects
+            -- (restricted) Projects Waiting
+            -- (restricted) Projects Available
+        Community
+            -- DP Culture and History
+            -- Team Talk
+            -- Fun Polls
+            -- Project Gutenberg
+            -- Everything Else (except DP)
+        Helpful Software
+            -- Windows
+            -- Mac
+            -- *nix
+            -- Cross-Platform
+            -- Tool Development
+
+        You should create the following forums at minimum:
+            Project Questions and Comments
+            Archive of Posted Projects
+            (restricted view) Projects Waiting
+            (restricted view) Projects Available
+            Team Talk
+        The DP code depends on these forums to be present for automatically-generated
+        threads when projects and teams are created. You will need the phpBB forum id
+        numbers to put into the site-configuration for the DP code.
+
+--- Install phpMyAdmin.
+        While not required, it makes administering the database much easier.
+        Follow the installation instructions included with phpMyAdmin.
+
+--- Install jpgraph.
+        The statistics code depends on jpgraph for graph generation.
+        Follow the installation instructions included with jpgraph.
+        The simplest place to install jpgraph is in your document root.
+        You will need the location of the jpgraph installation to put into the
+        site-configuration for the DP code.
+
 --- Unpack the DP code.
-    ...
+        In your document root, unpack the DP code.
+        This expands into a directory named 'c'.
+
+--- Create other directories.
+
+        /tmp/sp_check
+
+        projects
+
+        d
+        d/stats
+        d/stats/automodify_logs
+        (You also need to put some stuff in d...)
+
+        c/teams
+        c/teams/icon
+        c/teams/avatar
 
 --- Configure the DP code (with site-specific settings).
         Make an editable copy of c/SETUP/configuration.sh,
         and put it outside your webserver's document hierarchy.
         (Or move out the whole SETUP directory, at the end of this step.)
-        Modify your copy of configuration.sh as appropriate.  (Any further
-        help you need should be in the file itself rather than here.)
-        Run
-            ./configure path-to-config.sh path-to-code-dir
+        Modify your copy of configuration.sh as appropriate.
+        (Any further help you need should be in the file itself rather than here.)
+        Run c/SETUP/configure path-to-modified-configuration.sh path-to-code-dir
+        The configure script will use your modified configuration.sh to update
+        the DP code with your site-specific settings.
 
 --- Create the tables of the DP database.
         cd c/SETUP
         php -f install_db.php
-
---- Create other directories
-        projects
-        d
-        (You also need to put some stuff in d...)
+        Since you have already installed phpBB, you may get warnings/errors about
+        duplicate tables.
 
 --- At this point, your DP site should be functional.
-    Try visiting it via your browser.
-    Register as a new user.
-    Of course, there aren't any projects to proofread yet.
+        Try visiting it via your browser.
+        Register as a new user.
+        Of course, there aren't any projects to proofread yet.
 
---- Define queues...
+--- Define a site administrator.
+        The code is based on users having particular roles. To manage these,
+        a site administrator is needed. Assuming you are administering the
+        site and have registered yourself as a new user, sign into mysql (or
+        use the phpMyAdmin interface) to set sitemanager = "yes" for the
+        username you registered as.
+
+        From the mysql command line, this would be:
+
+        mysql> UPDATE users SET sitemanager = "yes" WHERE username = "your_username";
+
+--- Define project queues...
+
+--- Install the modified dp.cron.
+    The dp.cron contains entries for various processes necessary for site
+    statistics and project archiving, as well as managing the project release
+    queues, various user notifications, and the like.
+    Check that the values inserted by the DP configuration script are correct,
+    then install the crontab onto your system as an appropriate user.
 
 # vim: ts=4 sw=4 expandtab ai
