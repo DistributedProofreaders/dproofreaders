@@ -24,13 +24,6 @@ function attempt_to_release($project)
     else
     {
         $new_state = PROJ_PROOF_FIRST_AVAILABLE;
-
-        // hack to track EASY releases
-        if ($project['difficulty'] == 'easy') 
-        { 
-           maybe_mail( "dp_easy@yahoo.com", $project['nameofwork'], "Released", "From: autorelease" );
-
-        }
     }
 
 
