@@ -83,19 +83,8 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 
 function noPages($newwin)
 {
-  if ($newwin==0)
-  {
-    $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project page in 4 seconds.";
-    metarefresh(4,"proof_per.php",'Project Round Complete',$body);
-  }
-  else
-  {
-    include($relPath.'doctype.inc');
-    echo "$docType\r\n<HTML><HEAD><TITLE>Project Round Complete</TITLE></HEAD><BODY>";
-    echo "No more files available for proofing in this round of the project.<BR>";
-    echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
-    echo "</BODY></HTML>";
-  }
+    $body="No more files available for proofing for this round of the project.<BR> You will be taken back to the project listing page in 4 seconds.";
+    metarefresh(4,"list_avail.php",'Project Round Complete',$body);
 }
 
 function getAvailablePage($project,$proofstate,$pguser)
