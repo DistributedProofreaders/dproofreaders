@@ -83,15 +83,25 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 echo "</table>";
 echo "<br>";
 
-$sub_title = _("Top Proofreading Days and Months, etc");
-echo "<a href='misc_stats1.php'>$sub_title</a><br><br>";
+
 
 $sub_title = _("See All Waiting Queues");
-echo "<a href='release_queue.php'>$sub_title</a><br><br>";
+echo "<p align='center'><a href='release_queue.php'>$sub_title</a></p><br><br>";
+
+echo "<table border='0' align='center' width='80%' cellspacing='2' cellpadding='2'>";
+
+$sub_title = _("Top Proofreading Days and Months, etc");
+echo "<tr><td><a href='misc_stats1.php'>$sub_title</a></td>";
 
 $sub_title = _("User Logon Statistics");
-echo "<a href='user_logon_stats.php'>$sub_title</a><br><br>";
-echo "<br><br>";
+echo "<td><a href='user_logon_stats.php'>$sub_title</a></td></tr>";
+
+$sub_title = _("Project Management Statistics");
+echo "<tr><td><a href='pm_stats.php'>$sub_title</a></td>";
+
+$sub_title = _("Post-Processing Statistics");
+echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr></table><br>";
+
 
 echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>";
 echo "<tr><td>&nbsp;</td><td>";
