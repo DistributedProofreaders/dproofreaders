@@ -11,12 +11,14 @@ $post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_s
 $owner = 527;
 
 //Get info about project
-$result = mysql_query("SELECT nameofwork, authorsname, topic_id FROM projects WHERE projectid='$project_id'");
+$result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
 $title = "Discussion: ".$row['nameofwork']."";
 $title = addslashes($title);
 $message =  "
 Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.<br>
+<br>
+The Project Manager is {$row['authorsname']}.<br>
 <br>
 Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
 ";
