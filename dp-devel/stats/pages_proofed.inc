@@ -59,52 +59,42 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
         // page finished in R1 may have since progressed to R2
 
         $end_constraint1 = (is_null($end_ts) ? "" : "AND round1_time < $end_ts");
-        $result1 = mysql_query("
-            SELECT COUNT(*)
-            FROM $projectid
-            WHERE
-                (state='save_first' OR state LIKE '%_second%')
-                AND round1_time >= $start_ts
-                $end_constraint1
-        ");
-
-        if (!$result1)
-        {
-            // Probably the project's page-table does not exist.
-            // Not sure why.
-            $pages1 = 0;
-            continue;
-        } else {
-            $row1 = mysql_fetch_row($result1);
-            $pages1 = $row1[0];
-        }
-
-
         $end_constraint2 = (is_null($end_ts) ? "" : "AND round2_time < $end_ts");
-        $result2 = mysql_query("
-            SELECT COUNT(*)
-            FROM $projectid
-            WHERE
-                state='save_second'
-                AND round2_time >= $start_ts
-                $end_constraint2
-        ");
 
-        if (!$result2)
+        $result = mysql_query("
+            SELECT
+                SUM(
+                    (
+                        (state='save_first' OR state LIKE '%_second%')
+                        AND round1_time >= $start_ts
+                        $end_constraint1
+                    )
+                    +
+                    (
+                        state='save_second'
+                        AND round2_time >= $start_ts
+                        $end_constraint2
+                    )
+                )
+            FROM $projectid
+        ");
+        // The phrasing of this query relies on the fact that
+        // MySQL implements TRUE and FALSE as 1 and 0 respectively,
+        // so it's meaningful to add two boolean expressions.
+        // (If we were using an SQL processor that didn't do this,
+        // we would have to use the IF() function or a CASE expr.)
+
+        if (!$result)
         {
             // Probably the project's page-table does not exist.
             // Not sure why.
-            $pages2 = 0;
+            $n_pages_proofed = 0;
             continue;
         } else {
-            $row2 = mysql_fetch_row($result2);
-            $pages2 = $row2[0];
+            list($n_pages_proofed) = mysql_fetch_row($result);
         }
 
-        $n_pages_proofed = $pages1 + $pages2;
-
-        mysql_free_result($result1);
-        mysql_free_result($result2);
+        mysql_free_result($result);
 
         $total_n_pages_proofed += $n_pages_proofed;
     }
