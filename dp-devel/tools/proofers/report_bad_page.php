@@ -36,7 +36,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input type='hidden' name='submitted' value='true'>";
 	echo $tb;
 	echo $tr.$td1;
-	echo "<B>Submit a Bad Page Report</B>";
+	echo "<B><font color='#ffffff'>Submit a Bad Page Report</font></B>";
 	echo $tr.$td2;
 	echo "<strong>Reason:</strong>";
 	echo $td3;
@@ -57,14 +57,14 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<B>Note:</B>If this report causes a project to be marked<br> bad you will be redirected to your personal page.";
 	echo "</td></tr></table></form></div>";
 	echo $tb.$tr.$td6;
-	echo "<center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
+	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
 	echo "<ul>";
 	echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
 	echo "<li>Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.<br><br>";
 	echo "<li>Occasionally, you may come across a page that has <i>many</i> mistakes in the optical character recognition (OCR) that some many thing it is a bad page that needs to be re-ocred.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.<br><br>";
 	echo "<li>Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.<br><br>";
 	echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.";
-	echo "</ul></td></tr></table></div></center>";
+	echo "</ul></td></tr></table></div></center></font>";
 	echo "</body></html>";
 }
 else
@@ -110,7 +110,7 @@ else
 				return;
 			}
 			$project_is_bad = TRUE;
-		} 
+		}
 	}
 
 
@@ -135,10 +135,10 @@ the project will be automatically shut down.";
 	}
 
 	//Send the email to the PM
-	maybe_mail_project_manager($projectid, $message); 
+	maybe_mail_project_manager($projectid, $message);
 
 	//Redirect the user to either continue proofing if project is still open or back to their personal page
-	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) { 
+	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
 		$frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
 		metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
 	} else {
