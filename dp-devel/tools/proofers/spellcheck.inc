@@ -62,6 +62,7 @@ body {
   color:#000000;
   background-color:#CDCDC1;
   text-align:center;
+  overflow:auto;
   }
 A:link {
   color:#000000;
@@ -121,6 +122,7 @@ A:active {
   clip:rect(0px, 100%, 100%, 0px);
   z-index:2;
   text-align:center;
+  overflow:auto;
   }
 #imagedisplay {
   position:absolute;
@@ -150,6 +152,7 @@ A:active {
   background-color:#CDCDC1;
   text-align:center;
   z-index:6;
+  overflow:auto;
   }
 #allframe { 
   position:absolute;
@@ -160,6 +163,7 @@ A:active {
   background-color:#CDCDC1;
   text-align:center;
   z-index:6;
+  overflow:auto;
   }
 #tbtext {
   border:1px solid #000000;
