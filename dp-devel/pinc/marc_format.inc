@@ -74,8 +74,7 @@ function marc_date($rec) {
 
 function marc_language($rec) {
 	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
-	  $marc_008 = trim($marc_008);
-    	$marc_language = substr($marc_008, 35, 3);
+   	$marc_language = substr($marc_008, 35, 3);
     	$marc_language = convert_short_lang($marc_language);
     	return $marc_language;
 }
@@ -83,7 +82,6 @@ function marc_language($rec) {
 function marc_literary_form($rec) {
 	global $literary_form_array;
 	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
-	  $marc_008 = trim($marc_008);
     	$marc_literary_form = substr($marc_008, 33, 1);
     	$marc_literary_form = $literary_form_array[$marc_literary_form];
     	return $marc_literary_form;
@@ -214,12 +212,12 @@ function update_marc_db($rec) {
 			$curr_lang = $lang_list[$i]['lang_code'];
 		}
 	}
-	$marc_008 = trim($rec[marc_key_search($rec,"008","")][1]);
+	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
 	$rec[marc_key_search($rec,"008","")][1] = substr($marc_008, 0, 35)."$curr_lang".substr($marc_008, 38);
 
 	//Update the Genre
 	$key = array_search($_POST['genre'], $literary_form_array);
-	$marc_008 = trim($rec[marc_key_search($rec,"008","")][1]);
+	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
 	$rec[marc_key_search($rec,"008","")][1] = substr($marc_008, 0, 33)."$key".substr($marc_008, 34);
 
 	//Update the marc_records database with the updated marc record
@@ -241,7 +239,7 @@ function convert_standard_marc($rec) {
 
 			while (substr($rec[$tag+$i][0], 0, 7) == $tag_value[0] && strlen($rec[$tag+$i][0]) != 7) {
 				if (count($rec[$tag+$i]) == 1) {
-					if (strlen($rec[$tag+$i]) == 12) { $length++; } else { $length = $length + 2; }
+					if (strlen($rec[$tag+$i][0]) == 12) { $length++; } else { $length = $length + 2; }
 				} elseif (count($rec[$tag+$i]) == 2) {
 					if (!preg_match("/^\(3,...\)\(3,@\)$/", $rec[$tag+$i][0])) { $length = $length + 2; }
 				}
