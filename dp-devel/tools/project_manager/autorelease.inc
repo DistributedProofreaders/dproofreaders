@@ -203,103 +203,111 @@ function autorelease($pagesleft) {
         // NB The arguments for these calls can come out of a table LATER (stage two)...
         // For now, let's get it out and working, even with hardwired arguments
 
-        //Beginners Projects - always have a certain number of pages available in R1
-	$numReleased = 0;
-        $projtype_sql = "username = 'BEGIN'";
-        $rel_qry = mysql_query("SELECT projectid FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'  AND $projtype_sql ORDER BY modifieddate ASC");
-        $numProjects = mysql_num_rows($rel_qry);
-	$i = 0;
-        // how many page still available for proofing, in R1, from each BEGIN project?
-        while ($i < $numProjects) {
-                $proj = mysql_result($rel_qry,$i,0);
-                $numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);
-                $i++;
-        }
-        if ($beginners_pagesneeded > $numReleased) {
-                $pagesneeded = $pagesneeded -
-                        release_projects("pages", "Beginners Only", $projtype_sql , $beginners_pagesneeded, $numReleased, "", $todaysdate);
-        }   else echo "Enough Beginners Only pages ($numReleased) in R1 already, no releases through the BEGIN Queue\n";
+	error_reporting(E_ALL);
 
+	// You can easily imagine this data coming from a DB table.
+	$categories = array(
+		array(
+			// Beginners Projects
+			// Always have a certain number of pages available in round 1
+			'projtype_desc' => "Beginners Only",
+			'projtype_sql'  => "username = 'BEGIN'",
+			'count2ndRnd'   => "",
+			'track_by'      => "page",
+			'target'        => $beginners_pagesneeded,
+		),
+		array(
+			// Easy English Projects
+			// Always have a certain number of projects in first round
+			'projtype_desc' => "EASY English",
+			'projtype_sql'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
+			'count2ndRnd'   => "",
+			'track_by'      => "project",
+			'target'        => $easy_projects,
+		),
+		array(
+			// Non-English Projects
+			// Always have a certain number of pages spread over the two rounds
+			'projtype_desc' => "Non English",
+			'projtype_sql'  => "language NOT LIKE 'English%'",
+			'count2ndRnd'   => "yes",
+			'track_by'      => "page",
+			'target'        => $noneng_pagesneeded,
+		),
+		array(
+			// English Projects
+			// Always have a certain number of pages spread over the two rounds
+			'projtype_desc' => "English",
+			'projtype_sql'  => "language LIKE 'English%'",
+			'count2ndRnd'   => "yes",
+			'track_by'      => "page",
+			'target'        => $eng_pagesneeded,
+		),
+		array(
+			// Extra Projects
+			// Make sure we have a total of at least X pages spread out over
+			// the two rounds; if there's any room left, just release projects
+			// from the front of the queue until we have enough pages out.
+			'projtype_desc' => "Extra", // Total?
+			'projtype_sql'  => "1",
+			'count2ndRnd'   => "yes",
+			'track_by'      => "page",
+			'target'        => $GLOBALS['pagesneeded'],
+		),
+	);
 
-        //Easy English Projects - always have a certain number of projects in first round
-        $projtype_sql = "genre LIKE 'EASY%' && language LIKE 'English%'";
-        $rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
-        $numReleased = mysql_result($rel_qry,0);
+	foreach ($categories as $cat)
+	{
+		$projtype_desc = $cat['projtype_desc'];
+		$projtype_sql  = $cat['projtype_sql'];
+		$count2ndRnd   = $cat['count2ndRnd'];
+		$track_by      = $cat['track_by'];
+		$target        = $cat['target'];
 
-        if ($easy_projects > $numReleased) {
-                $pagesneeded = $pagesneeded -
-                        release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numReleased, "", $todaysdate);
-        }   else echo "Enough EASY English projects  ($numReleased) already, no releases through the EASY English Queue\n";
+		if ($count2ndRnd == 'yes')
+		{
+			$which_rounds_sql = "(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')";
+		}
+		else
+		{
+			$which_rounds_sql = "state = '".PROJ_PROOF_FIRST_AVAILABLE."'";
+		}
 
+		if ($track_by == 'project')
+		{
+			$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE $which_rounds_sql AND $projtype_sql ORDER BY modifieddate ASC");
+			$numReleased = mysql_result($rel_qry,0);
+		}
+		else if ($track_by == 'page')
+		{
+			$rel_qry = mysql_query("SELECT projectid, state FROM projects WHERE $which_rounds_sql AND $projtype_sql ORDER BY modifieddate ASC");
+			$numProjects = mysql_num_rows($rel_qry);
+			$numReleased = 0;
+			$i = 0;
+			while ($i < $numProjects) {
+				$proj = mysql_result($rel_qry,$i,0);
+				if ($count2ndRnd == 'yes')
+				{
+					if (mysql_result($rel_qry,$i,1) == PROJ_PROOF_FIRST_AVAILABLE) {
+						$numReleased = $numReleased + numpages($proj) + numavailpages($proj, AVAIL_FIRST);
+					} else {
+						$numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
+					}
+				}
+				else
+				{
+					$numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);
+				}
+				$i++;
+			}
+		}
 
-        //Non-English Projects - always have a certain number of pages spread over the two rounds
-        $numReleased = 0;
-        $projtype_sql = "language NOT LIKE 'English%'";
-        $rel_qry = mysql_query("SELECT projectid, state FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
-        $numProjects = mysql_num_rows($rel_qry);
-        $i = 0;
-        // how many page still available for proofing, total, from each (nonEng) project?
-        while ($i < $numProjects) {
-                $proj = mysql_result($rel_qry,$i,0);
-                if (mysql_result($rel_qry,$i,1) == PROJ_PROOF_FIRST_AVAILABLE) {
-                        // first round, add contribution of second round too
-                        $numReleased = $numReleased + numpages($proj) + numavailpages($proj, AVAIL_FIRST);
-                } else {
-                        $numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
-                }
-                $i++;
-        }
-        if ($noneng_pagesneeded > $numReleased) {
-                $pagesneeded = $pagesneeded -
-                        release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numReleased, "yes", $todaysdate);
-        }   else echo "Enough Non English pages ($numReleased) already, no releases through the Non English Queue\n";
+		if ($target > $numReleased) {
+			$pagesneeded = $pagesneeded -
+				release_projects($track_by, $projtype_desc, $projtype_sql, $target, $numReleased, $count2ndRnd, $todaysdate);
+		} else echo "Enough $projtype_desc {$track_by}s ($numReleased) already, no releases through the $projtype_desc Queue\n";
+	}
 
-
-        //English Projects - always have a certain number of pages spread over the two rounds
-        $numReleased = 0;
-        $projtype_sql = "language LIKE 'English%'";
-        $rel_qry = mysql_query("SELECT projectid,state FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') AND $projtype_sql ORDER BY modifieddate ASC");
-        $numProjects = mysql_num_rows($rel_qry);
-        $i = 0;
-        // how many page still available for proofing, total, from each (Eng) project?
-        while ($i < $numProjects) {
-                $proj = mysql_result($rel_qry,$i,0);
-                if (mysql_result($rel_qry,$i,1) == PROJ_PROOF_FIRST_AVAILABLE) {
-                        $numReleased = $numReleased + numpages($proj) + numavailpages($proj, AVAIL_FIRST);
-                } else {
-                        $numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
-                }
-                $i++;
-        }
-        if ($eng_pagesneeded > $numReleased) {
-                $pagesneeded = $pagesneeded -
-                        release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numReleased, "yes", $todaysdate);
-        }   else echo "Enough English pages ($numReleased) already, no releases through the English Queue\n";
-
-
-        //Extra Projects - make sure we have a total of at least X pages spread out over the two rounds;
-        // if there's any room left, just release projects from the front of the queue until we have
-        // enough pages out
-
-        if ($pagesneeded > 0) {
-                $numReleased = 0;
-                $rel_qry = mysql_query("SELECT projectid, state FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') ORDER BY modifieddate ASC");
-                $numProjects = mysql_num_rows($rel_qry);
-                $i = 0;
-                // how many page still available for proofing, total, from each project?
-                while ($i < $numProjects) {
-                        $proj = mysql_result($rel_qry,$i,0);
-                        if (mysql_result($rel_qry,$i,1) == PROJ_PROOF_FIRST_AVAILABLE) {
-                                $numReleased = $numReleased + numpages($proj) + numavailpages($proj, AVAIL_FIRST);
-                        } else {
-                                $numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
-                        }
-                        $i++;
-                }
-                release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numReleased, "yes", $todaysdate);
-        }   else {
-               echo "Enough total pages  already, no extra releases\n";
-       }
         echo "</pre>\n";
 }
 ?>
