@@ -86,7 +86,7 @@ function declare_project_states_for_round(
     declare_project_state(
         "PROJ_{$constant_name_part}_BAD_PROJECT",
         "bad_{$round_number}",
-        sprintf( _("Bad %s Project"), $round_name ),
+        "$round_name: " . _("Bad Project"),
         $projects_forum_idx,
         'PAGE_EDITING',
         ''
@@ -94,7 +94,7 @@ function declare_project_states_for_round(
     declare_project_state(
         "PROJ_{$constant_name_part}_UNAVAILABLE",
         "unavail_{$round_number}",
-        sprintf( _("Unavailable %s"), $round_name ),
+        "$round_name: " . _("Unavailable"),
         ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
         ''
@@ -102,7 +102,7 @@ function declare_project_states_for_round(
     declare_project_state(
         "PROJ_{$constant_name_part}_WAITING_FOR_RELEASE",
         "waiting_{$round_number}",
-        sprintf( _("Waiting for %s Release"), $round_name ),
+        "$round_name: " . _("Waiting for Release"),
         ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
         ''
@@ -110,7 +110,7 @@ function declare_project_states_for_round(
     declare_project_state(
         "PROJ_{$constant_name_part}_AVAILABLE",
         "avail_{$round_number}",
-        sprintf( _("Available for %s"), $round_name ),
+        "$round_name: " . _("Available"),
         $projects_forum_idx,
         'PAGE_EDITING',
         'BRONZE'
@@ -118,7 +118,7 @@ function declare_project_states_for_round(
     declare_project_state(
         "PROJ_{$constant_name_part}_COMPLETE",
         "done_{$round_number}",
-        sprintf( _("Completed %s"), $round_name ),
+        "$round_name: " . _("Completed"),
         $projects_forum_idx,
         'PAGE_EDITING',
         ''
