@@ -205,6 +205,7 @@ aFnt[3]='Arial';
 aFnt[4]='Lucida Sans Typewriter';
 aFnt[5]='monospaced';
 aFnt[6]='DPCustomMono2';
+aFnt[7]='Courier';	// re-added per Task 400
 
 // Font Size Selection values
 bFnt=new Array();
