@@ -2,6 +2,7 @@
 $relPath="./../pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
+$db_link=$db_Connection->db_lk;
 
 $password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
@@ -26,7 +27,14 @@ if ($password=="proofer") {
         echo "</center>";
         exit;
     } else {
-
+        // create profile
+        $profileString="INSERT INTO user_profiles SET u_ref='".mysql_insert_id($db_link)."'";
+        $makeProfile=mysql_query($profileString);
+        // add ref to profile
+        $refString="UPDATE users SET u_profile='".mysql_insert_id($db_link)."' WHERE id='$ID' AND username='$username'";
+        $makeRef=mysql_query($refString);
+        // join the all users team
+        mysql_query("UPDATE user_teams SET member_count=member_count+1 WHERE id='1'");
         //code from php forums bb_register.php 
         $passwd = md5($userpass);
         $sql = "SELECT max(user_id) AS total FROM phpbb_users";
@@ -56,9 +64,9 @@ user_viewemail)
 
 "- It will show you a listing of items to note when working on a project, these will stay fairly consistent on all projects. They will be available later, so do not worry about remembering them all.\n\n".
 
-"- Click on \"Interface Preferences\” and for now just hit the \“Save Preferences\” button unless there is something specific you understand and want to change.\n\n".
+"- Click on \"Interface Preferences\" and for now just hit the \"Save Preferences\" button unless there is something specific you understand and want to change.\n\n".
 
-"- Click on \“Start Proofreading\”.".
+"- Click on \"Start Proofreading\".".
 
 "- Compare the text in the text box to what is in the image, making corrections for differences between the two and any additional items described in the comments. You can pull the comments back up by clicking on the link below the text box.\n\n".
 
