@@ -6,6 +6,7 @@ include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 
+if ($_POST['action'] == "") {
 //Get variables from projectmgr.php to use for form
 $reason_list = array('','Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
 $projectID = $_GET['projectid'];
@@ -16,15 +17,13 @@ $result = mysql_query("SELECT * FROM $projectID WHERE fileid=$fileID");
 $imageName = mysql_result($result,0,"image");
 $state = mysql_result($result,0,"state");
 $b_User = mysql_result($result,0,"b_user");
-$b_code = mysql_result($result,0,"b_code");
-if ($state == 31) { $state = 9; } elseif ($state == 41) { $state = 19; }
+$b_Code = mysql_result($result,0,"b_code");
 
 //Get the user id of the reporting user to be used for private messaging
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username=$b_User");
 $b_UserID = mysql_result($result,0,"user_id");
 
 //Display form
-if ($action == "") {
 $htmlC->startHeader("Bad Page Report");
 $htmlC->startBody(0,1,0,0);
 $tb=$htmlC->startTable(0,0,0,1);
@@ -44,15 +43,15 @@ echo "<B>Bad Page Report</B>";
 echo $tr.$td2;
 echo "<strong>Username:</strong>";
 echo $td3;
-echo "$b_user (<a href='".$phpBBPath."privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)";
+echo "$b_User (<a href='".$phpBBPath."privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)";
 echo $tr.$td2;
 echo "<strong>Reason:</strong>";
 echo $td3;
-echo $reason_list[$b_code];
+echo $reason_list[$b_Code];
 echo $tr.$td2;
-echo "<strong>Info:</strong>";
+echo "<strong>Originals:</strong>";
 echo $td3;
-echo "<a href='displayimage.php?project=$projectID&imagefile=$imagename' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=$state' target='_new'>View Text</a>";
+echo "<a href='displayimage.php?project=$projectID&imagefile=$imagename' target='_new'>View Image</a> | <a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=0' target='_new'>View Text</a>";
 echo $tr.$td2;
 echo "<strong>What to do:&nbsp;&nbsp;</strong>";
 echo $td3;
