@@ -1,11 +1,11 @@
 <?
-echo "<META NAME=\"ROBOTS\" CONTENT=\"NOARCHIVE\">";
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
+echo "<META NAME=\"ROBOTS\" CONTENT=\"NOARCHIVE\">";
 $db_Connection=new dbConnect();
 
 $result = mysql_query("SELECT * FROM users WHERE u_id = ".$_GET['id']."");
