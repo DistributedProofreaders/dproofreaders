@@ -1,3 +1,4 @@
+// New version
 // start of code by Carel
 
 docRef=null;
@@ -33,7 +34,13 @@ cRef.tCharsE.selectedIndex=0;
 cRef.tCharsI.selectedIndex=0;
 cRef.tCharsO.selectedIndex=0;
 cRef.tCharsU.selectedIndex=0;
-cRef.tCharsM.selectedIndex=0;}
+cRef.tCharsM.selectedIndex=0;
+cRef.tCharsC.selectedIndex=0;
+cRef.tCharsD.selectedIndex=0;
+cRef.tCharsS.selectedIndex=0;
+cRef.tCharsZ.selectedIndex=0;
+cRef.tCharsCyr.selectedIndex=0;
+cRef.tCharsOCyr.selectedIndex=0;}
 else if (wBox=='start')
 {markRef.markBox.focus();
 markRef.markBox.select();
@@ -131,7 +138,7 @@ function iMUc(wM)
 {
  if (inProof==1)
  {
-cRef.markBoxChar.value=mUC[wM];
+cRef.markBoxChar.value=String.fromCharCode(wM);//mUC[wM];
 cR=chkRange();
 
 //plain
@@ -140,51 +147,84 @@ if (!cnSel || !cR)
 
 //fancy
 if (cR)
-{cT=mUC[wM];
+{cT=String.fromCharCode(wM);//mUC[wM];
 putCT(cT);}
  }
+}
+
+function new_iMUc(wM)
+{
+cRef.tCharsA.selectedIndex=0;
+cRef.tCharsE.selectedIndex=0;
+cRef.tCharsI.selectedIndex=0;
+cRef.tCharsO.selectedIndex=0;
+cRef.tCharsU.selectedIndex=0;
+cRef.tCharsM.selectedIndex=0;
+cRef.tCharsC.selectedIndex=0;
+cRef.tCharsD.selectedIndex=0;
+cRef.tCharsS.selectedIndex=0;
+cRef.tCharsZ.selectedIndex=0;
+cRef.tCharsCyr.selectedIndex=0;
+cRef.tCharsOCyr.selectedIndex=0;
+
+cRef.markBoxChar.value=String.fromCharCode(wM);
+insertTags(String.fromCharCode(wM),'','');
 }
 
 // standard tag selection
 function iMU(wM)
 {
-if (inProof==1)
-{
-wTag=mUO[wM];
-wOT='<'+wTag+'>';
-wCT='';
-if (wM > 19)
-{wCT='</'+wTag+'>';}
+if (inProof==1) {
+	wTag=mUO[wM];
+	wOT='<'+wTag+'>';
+	wCT='';
 
-markRef.markBox.value=wOT;
-markRef.markBoxEnd.value=wCT;
-//markRef.ttagsMore.selectedIndex=0;
-cR=chkRange();
-
-//plain
-if (!cnSel || !cR)
-{selBox('old');}
-
-//fancy
-if (curSel != '' && docRef.selection.createRange().text == curSel)
-	{
-	docRef.editform.text_data.focus();
-	docRef.selection.createRange().text=wOT + curSel + wCT;
-	curCaret='';
-	curSel='';
-	docRef.editform.text_data.focus();
+	if (wM > 19) {
+		wCT='</'+wTag+'>';
 	}
-else { 
-	if (cR && curSel=='')
-	{
-	cT=wOT;
-	putCT(cT);
+
+	markRef.markBox.value=wOT;
+	markRef.markBoxEnd.value=wCT;
+	//markRef.ttagsMore.selectedIndex=0;
+	cR=chkRange();
+
+	//plain
+	if (!cnSel || !cR) {
+		selBox('old');
+	}
+
+	getCurSel();
+	//fancy
+	if (docRef.editform.text_data.selectionEnd && (docRef.editform.text_data.selectionEnd - docRef.editform.text_data.selectionStart > 0)) {
+		mozWrap(docRef.editform.text_data, wOT, wCT);
+		//this block based on phpBB2
+	} else if (curSel != '' && docRef.selection.createRange().text == curSel) {
+		docRef.editform.text_data.focus();
+		docRef.selection.createRange().text=wOT + curSel + wCT;
+		curCaret='';
+		curSel='';
+		docRef.editform.text_data.focus();
+	} else { 
+		if (cR && curSel=='') {
+			cT=wOT;
+			putCT(cT);
+		}
+	}
+
+	if(wM==1) {
+		docRef.editform.text_data.value=wOT;
 	}
 }
 
-if(wM==1)
-{docRef.editform.text_data.value=wOT;}
-}}
+}
+
+function new_iMU(wOT,wCT)
+{
+markRef.markBox.value=wOT;
+markRef.markBoxEnd.value=wCT;
+
+insertTags(wOT,wCT,'');
+}
 
 // start of general interface functions
 
@@ -378,46 +418,60 @@ otC[8]=']';
 // standard tag selection
 function iMUO(wM)
 {
-if (inProof==1)
-{
-wOT=otO[wM];
-wCT=otC[wM];
-wWT=wOT;
+if (inProof==1) {
+	wOT=otO[wM];
+	wCT=otC[wM];
+	wWT=wOT;
 
-if (wM > 19)
-{wCT=otC[wM-20];wOT='';wWT=wCT;}
+	if (wM > 19) {
+		wCT=otC[wM-20];wOT='';wWT=wCT;
+	}
 
 
-markRef.markBox.value=wOT;
-markRef.markBoxEnd.value=wCT;
-cR=chkRange();
+	markRef.markBox.value=wOT;
+	markRef.markBoxEnd.value=wCT;
+	cR=chkRange();
 
-//plain
-if (!cnSel || !cR)
-{if (wM > 19){selBox('oldE');} else {selBox('oldS');}}
+	//plain
+	if (!cnSel || !cR) {
+		if (wM > 19) {
+			selBox('oldE');
+		} else {
+			selBox('oldS');
+		}
+	}
 
-//fancy
-if (curSel != '' && docRef.selection.createRange().text == curSel)
-{docRef.editform.text_data.focus();
-if ((wM==4) || (wM==7))
-{
-    docRef.selection.createRange().text=wOT + '\n' + curSel + '\n' + wCT;
+	getCurSel();
+	//fancy
+	if (docRef.editform.text_data.selectionEnd && (docRef.editform.text_data.selectionEnd - docRef.editform.text_data.selectionStart > 0)) {
+		mozWrap(docRef.editform.text_data, wOT, wCT);
+		//this block based on phpBB2
+	} else if (curSel != '' && docRef.selection.createRange().text == curSel) {
+		docRef.editform.text_data.focus();
+
+		if ((wM==4) || (wM==7))
+		{
+			docRef.selection.createRange().text=wOT + '\n' + curSel + '\n' + wCT;
+		} else {
+			docRef.selection.createRange().text=wOT + curSel + wCT;
+		}
+
+		curCaret='';
+		curSel='';
+		docRef.editform.text_data.focus();
+	} else { 
+		if (cR && curSel=='') {
+			cT=wWT;
+			putCT(cT);
+		}
+	}
+
+	if(wM==6) {
+		docRef.editform.text_data.value=wOT;
+	}
 }
-else
-{
-    docRef.selection.createRange().text=wOT + curSel + wCT;
+
 }
-curCaret='';
-curSel='';
-docRef.editform.text_data.focus();}
-else { 
-if (cR && curSel=='')
-{cT=wWT;
-putCT(cT);}
-     }
-if(wM==6)
-{docRef.editform.text_data.value=wOT;}
-}}
 
 
 function doBU()
@@ -430,3 +484,90 @@ if (frameRef.scanimage) {
 
 // a required var
 isLded2=0;
+
+// From http://www.massless.org/mozedit/
+function mozWrap(txtarea, open, close)
+{
+	var selLength = txtarea.textLength;
+	var selStart = txtarea.selectionStart;
+	var selEnd = txtarea.selectionEnd;
+	if (selEnd == 1 || selEnd == 2)
+		selEnd = selLength;
+
+	var s1 = (txtarea.value).substring(0,selStart);
+	var s2 = (txtarea.value).substring(selStart, selEnd)
+	var s3 = (txtarea.value).substring(selEnd, selLength);
+	txtarea.value = s1 + open + s2 + close + s3;
+	return;
+}
+
+// Following is taken from Wikipedia's wikibits.js:
+
+var clientPC = navigator.userAgent.toLowerCase(); // Get client info
+var is_gecko = ((clientPC.indexOf('gecko')!=-1) && (clientPC.indexOf('spoofer')==-1)
+                && (clientPC.indexOf('khtml') == -1) && (clientPC.indexOf('netscape/7.0')==-1));
+var is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spoofer')==-1));
+
+// apply tagOpen/tagClose to selection in textarea,
+// use sampleText instead of selection if there is none
+// copied and adapted from phpBB
+function insertTags(tagOpen, tagClose, sampleText) {
+	var txtarea = docRef.editform.text_data;
+	// IE
+	if(docRef.selection  && !is_gecko) {
+		var theSelection = docRef.selection.createRange().text;
+		if(!theSelection) { theSelection=sampleText;}
+		txtarea.focus();
+		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
+			theSelection = theSelection.substring(0, theSelection.length - 1);
+			docRef.selection.createRange().text = tagOpen + theSelection + tagClose + " ";
+		} else {
+			docRef.selection.createRange().text = tagOpen + theSelection + tagClose;
+		}
+
+	// Mozilla
+	} else if(txtarea.selectionStart || txtarea.selectionStart == '0') {
+ 		var startPos = txtarea.selectionStart;
+		var endPos = txtarea.selectionEnd;
+		var scrollTop=txtarea.scrollTop;
+		var myText = (txtarea.value).substring(startPos, endPos);
+		if(!myText) { myText=sampleText;}
+		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
+			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
+		} else {
+			subst = tagOpen + myText + tagClose;
+		}
+		txtarea.value = txtarea.value.substring(0, startPos) + subst +
+		  txtarea.value.substring(endPos, txtarea.value.length);
+		txtarea.focus();
+
+		var cPos=startPos+(tagOpen.length+myText.length+tagClose.length);
+		txtarea.selectionStart=cPos;
+		txtarea.selectionEnd=cPos;
+		txtarea.scrollTop=scrollTop;
+
+	// All others
+	} else {
+		var copy_alertText=alertText;
+		var re1=new RegExp("\\$1","g");
+		var re2=new RegExp("\\$2","g");
+		copy_alertText=copy_alertText.replace(re1,sampleText);
+		copy_alertText=copy_alertText.replace(re2,tagOpen+sampleText+tagClose);
+		var text;
+		if (sampleText) {
+			text=prompt(copy_alertText);
+		} else {
+			text="";
+		}
+		if(!text) { text=sampleText;}
+		text=tagOpen+text+tagClose;
+		docRef.infoform.infobox.value=text;
+		// in Safari this causes scrolling
+		if(!is_safari) {
+			txtarea.focus();
+		}
+		noOverwrite=true;
+	}
+	// reposition cursor if possible
+	if (txtarea.createTextRange) txtarea.caretPos = docRef.selection.createRange().duplicate();
+}
