@@ -111,7 +111,7 @@ dpsql_dump_ranked_query("
 	WHERE pages >= 5000
 	GROUP BY year, month
 	HAVING count(*) > 7
-	ORDER BY 2 DESC
+	ORDER BY 3 DESC
 	LIMIT 10
 ");
 
@@ -129,7 +129,7 @@ dpsql_dump_ranked_query("
 	WHERE pages >= 6000
 	GROUP BY year, month
 	HAVING count(*) > 7
-	ORDER BY 2 DESC
+	ORDER BY 3 DESC
 	LIMIT 10
 ");
 
@@ -147,7 +147,7 @@ dpsql_dump_ranked_query("
 	WHERE pages >= 7000
 	GROUP BY year, month
 	HAVING count(*) > 7
-	ORDER BY 2 DESC
+	ORDER BY 3 DESC
 	LIMIT 10
 ");
 
@@ -165,7 +165,7 @@ dpsql_dump_ranked_query("
 	WHERE pages >= 7000
 	GROUP BY year, month
 	HAVING count(*) > 0
-	ORDER BY 2 DESC
+	ORDER BY 3 DESC
 	LIMIT 10
 ");
 
