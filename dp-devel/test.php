@@ -24,6 +24,13 @@ echo "<hr>\n";
 system("ls -l /0/htdocs");
 echo "<hr>\n";
 
+$res = mysql_query("DESCRIBE projects")
+	    or die(mysql_error());
+while( $project_row = mysql_fetch_array($res) )
+{
+    echo $project_row, "\n";
+}
+
 if (0)
 {
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
