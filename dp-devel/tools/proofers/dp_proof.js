@@ -16,6 +16,9 @@ extC=' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßàáâãäåæçèé
 // image width
 iW='1000';
 
+// image actual width
+cW='0';
+
 function selBox(wBox)
 {
 if (wBox=='char')
@@ -239,13 +242,31 @@ fixText();}}
 function showAllText()
 {alert(docRef.editform.text_data.value);}
 
-function showIZ()
+function calcSize(sF)
 {
 nP=docRef.editform.zmSize.value;
-zP=Math.round(iW*(nP/100));
+zP=Math.round(sF*(nP/100));
 reSize(zP)
 docRef.editform.zmSize.value=nP;
 return false;
+}
+
+function showIZ()
+{
+  calcSize(iW);
+}
+
+function showActual()
+{
+  calcSize(cW);
+  docRef.editform.zmSize.value = cW/10;
+}
+
+function loadImageSize()
+{
+  tmpim = new Image();
+  tmpim.src = frameRef.scanimage.src;
+  cW = tmpim.width;
 }
 
 function showNW()

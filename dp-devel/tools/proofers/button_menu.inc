@@ -36,6 +36,7 @@ type="text" value="<?PHP
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
 
 echo_button(SET_IMAGE_ZOOM,'a');
+echo_button(SET_IMAGE_ACTUAL,'a');
 
 ?>&nbsp;<a href="#"
 onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>&nbsp;<?

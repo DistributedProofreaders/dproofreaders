@@ -160,6 +160,17 @@ function echo_button( $button_id, $which_interface )
 			);
 			break;
 
+		case SET_IMAGE_ACTUAL:
+			$attrs = array(
+				'name'      => "button36",
+				$label      => _("Zoom to Actual Size"),
+				'title'     => _("Zoom to Actual Size"),
+				'src'       => "gfx/bt18.png",
+				'onclick'   => "return(showActual());",
+                                'onload'    => "return(loadImageSize());",
+			);
+			break;
+
 		case SPELL_CHECK:
 			$attrs = array(
 				'name'      => "button10",
