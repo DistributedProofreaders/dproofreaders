@@ -351,7 +351,20 @@ theme("Project Managers", "header");
 			echo "</td>\n";
 
 			// Project Status
-			echo "<td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
+			echo "
+			    <td valign=center>
+				<form
+				    name='$projectid'
+				    method='get'
+				    action='changestate.php'>
+				    <input
+					type='hidden'
+					name='project'
+					value='$projectid'>
+				    <select
+					name='state'
+					onchange='this.form.submit()'>
+			";
             		getSelect($state);
             		echo "</select></form></td>\n";
 
