@@ -194,7 +194,7 @@ function autorelease($pagesleft) {
 	echo "$easy_projects EASY projects<BR>";
 	echo "$noneng_pagesneeded nonEnglish pages minimum<BR>";
 	echo "$eng_pagesneeded English pages minimum<BR>";
-	echo "$pagesneeded total pages minimum<BR><BR><BR>";
+	echo "$GLOBALS['pagesneeded'] total pages minimum<BR><BR><BR>";
 
 
         // Release of Different types of Projects from various logical queues
