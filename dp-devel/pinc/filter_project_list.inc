@@ -3,6 +3,24 @@
 
 include_once('select_list.inc');
 
+// by default, filters are shown for Language, Genre, PM and Special Day, 
+// and hidden for PPers;
+// these defaults can be overridden by setting appropriate values for 
+// the associated variables, below, in the enclosing file
+
+if (!isset($showLangF)) {$showLangF = TRUE;}
+if (!isset($showGenreF)) {$showGenreF = TRUE;}
+if (!isset($showPMsF)) {$showPMsF = TRUE;}
+if (!isset($showDiffF)) {$showDiffF = TRUE;}
+if (!isset($showSpecialF)) {$showSpecialF = TRUE;}
+
+if (!isset($showPPersF)) {$showPPersF = FALSE;}
+
+
+// if no filters enabled, don't show any
+
+if ($showLangF OR $showGenreF OR $showPMsF OR $showDiffF OR $showSpecialF OR $showPPersF) {
+
 
 // arrays to hold legal filter values (determined from database)
 // as some protection against "injection of SQL in URL" attacks
@@ -12,49 +30,71 @@ $array_of_genres = array();
 $array_of_PMs = array();
 $array_of_diffs = array();
 $array_of_specials = array();
+$array_of_PPers = array();
+
 
 // get legal languages
 
-$query = "
-	SELECT distinct language FROM projects	WHERE $state_sql ORDER BY language
-	";
-$result = mysql_query($query);
-$i = 0;
-while ($a_res = @mysql_fetch_row($result))
-{
-    $val = $a_res[0];	
-    $array_of_langs[$i] = $val;
-    $i++;
+if ($showLangF) {
+    $query = "
+    	    SELECT distinct language FROM projects	WHERE $state_sql ORDER BY language
+	    ";
+    $result = mysql_query($query);
+    $i = 0;
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        $val = $a_res[0];	
+        $array_of_langs[$i] = $val;
+        $i++;
+    }
 }
-
 
 // get legal genres
 
-$query = "
-	SELECT distinct genre FROM projects	WHERE $state_sql ORDER BY genre
-	";
-$result = mysql_query($query);
-$i = 0;
-while ($a_res = @mysql_fetch_row($result))
-{
-    $val = $a_res[0];	
-    $array_of_genres[$i] = $val;
-    $i++;
+if ($showGenreF) {
+    $query = "
+	    SELECT distinct genre FROM projects	WHERE $state_sql ORDER BY genre
+    	    ";
+    $result = mysql_query($query);
+    $i = 0;
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        $val = $a_res[0];	
+        $array_of_genres[$i] = $val;
+        $i++;
+    }
 }
 
 
 // get legal PMs
+if ($showPMsF) {
+    $query = "
+	    SELECT distinct username FROM projects	WHERE $state_sql ORDER BY username
+	    ";
+    $result = mysql_query($query);
+    $i = 0;
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        $val = $a_res[0];	
+        $array_of_PMs[$i] = $val;
+        $i++;
+    }
+}
 
-$query = "
-	SELECT distinct username FROM projects	WHERE $state_sql ORDER BY username
-	";
-$result = mysql_query($query);
-$i = 0;
-while ($a_res = @mysql_fetch_row($result))
-{
-    $val = $a_res[0];	
-    $array_of_PMs[$i] = $val;
-    $i++;
+// get legal PPers
+
+if ($showPPersF) {
+    $query = "
+	    SELECT distinct checkedoutby FROM projects	WHERE $state_sql ORDER BY checkedoutby
+   	    ";
+    $result = mysql_query($query);
+    $i = 0;
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        $val = $a_res[0];	
+        $array_of_PPers[$i] = $val;
+        $i++;
+    }
 }
 
 
@@ -63,28 +103,27 @@ while ($a_res = @mysql_fetch_row($result))
 // slightly different array structure, as we want to display one value and filter on another
 
 // note this query does not include Birthday or Otherday Specials
-
-$query = "
-        SELECT  DISTINCT special, display_name
-        FROM projects, special_days
-        WHERE projects.special = special_days.spec_code AND $state_sql ORDER BY display_name
-	";
-$result = mysql_query($query);
-while ($a_res = @mysql_fetch_row($result))
-{
-    $spec_code = $a_res[0];	
-    $val = $a_res[1];	
-    $array_of_specials[$spec_code] = $val;
+if ($showSpecialF) {
+    $query = "
+            SELECT  DISTINCT special, display_name
+            FROM projects, special_days
+            WHERE projects.special = special_days.spec_code AND $state_sql ORDER BY display_name
+   	    ";
+    $result = mysql_query($query);
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        $spec_code = $a_res[0];	
+        $val = $a_res[1];	
+        $array_of_specials[$spec_code] = $val;
+    }
 }
-
 
 // legal difficulties 
 
 // TO DO: take into account visibility of beginner?
-
-$array_of_diffs = array('beginner','easy','average','hard');
-
-
+if ($showDiffF) {
+    $array_of_diffs = array('beginner','easy','average','hard');
+}
 
 // build and show the filter selection section
 
@@ -97,30 +136,31 @@ echo "<br>
 
 
 // checkboxes for selection of difficulty
+if ($showDiffF) {
+    echo "\r\n<table border=1>";
+    echo "\r\n<tr>";
+
+    echo "<td>"._("Difficulty")."</td>";
+    echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._("All")." <input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo _("Easy").' <input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
+    echo _("Hard").' <input type="checkbox" name="difficulty1[]" value="hard"></td>';
+
+    echo "\r\n</tr>";
+    echo "</table>\n";
+}
+
+// drop down multiselect listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
 
 echo "\r\n<table border=1>";
 echo "\r\n<tr>";
 
-echo "<td>"._("Difficulty")."</td>";
-echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._("All")." <input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-echo _("Easy").' <input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
-echo _("Hard").' <input type="checkbox" name="difficulty1[]" value="hard"></td>';
-
-echo "\r\n</tr>";
-echo "</table>\n";
-
-
-// drop down multiselect listboxes for Language, Genre and PM
-
-echo "\r\n<table border=1>";
-echo "\r\n<tr>";
-
-echo   "<td>"._("Language")."</td>";
-echo   "<td>"._("Genre")."</td>";
-echo   "<td>"._("Project Manager")."</td>";
-echo   "<td>"._("Special Days")."</td>";
+if ($showLangF) {echo   "<td>"._("Language")."</td>";}
+if ($showGenreF) {echo   "<td>"._("Genre")."</td>";}
+if ($showPMsF) {echo   "<td>"._("Project Manager")."</td>";}
+if ($showPPersF) {echo   "<td>"._("Post Processor")."</td>";}
+if ($showSpecialF) {echo   "<td>"._("Special Days")."</td>";}
 
 echo "\r\n</tr>";
 echo "\r\n<tr>";
@@ -135,67 +175,91 @@ echo "\r\n<tr>";
 
 // LANGUAGE filter
 
-echo "
-    <td>
-    <select name='language1[]' size=5 multiple>
-	<option value=''>"._("All languages")."</option>
-";
+if ($showLangF) {
+    echo "
+        <td>
+        <select name='language1[]' size=5 multiple>
+	    <option value=''>"._("All languages")."</option>
+    ";
 
-echo build_selectlist( $state_sql, "language", $array_of_langs);
+    echo build_selectlist( $state_sql, "language", $array_of_langs);
 
-echo "
-    </select>
-    </td>
-";
-
+    echo "
+        </select>
+        </td>
+   ";
+}
 
 
 // GENRE filter
 
-echo "
-    <td>
-    <select name='genre1[]' size=5  multiple>
-	<option value=''>"._("All genres")."</option>
-";
+if ($showGenreF) {
+    echo "
+        <td>
+        <select name='genre1[]' size=5  multiple>
+	    <option value=''>"._("All genres")."</option>
+    ";
 
-echo build_selectlist( $state_sql, "genre", $array_of_genres);
-echo "
-    </select>
-    </td>
-";
+    echo build_selectlist( $state_sql, "genre", $array_of_genres);
+    echo "
+        </select>
+        </td>
+    ";
+}
+
        
 // PM filter
 
-echo "
-    <td>
-    <select name='PM1[]' size=5 multiple>
-	<option value=''>"._("All PMs")."</option>
-";
+if ($showPMsF) {
+    echo "
+        <td>
+        <select name='PM1[]' size=5 multiple>
+	    <option value=''>"._("All PMs")."</option>
+    ";
 
-echo build_selectlist( $state_sql, "username", $array_of_PMs);
-echo "
-    </select>
-    </td>
-";
+    echo build_selectlist( $state_sql, "username", $array_of_PMs);
+    echo "
+        </select>
+        </td>
+    ";
+}
+
+
+// PP filter
+
+if ($showPPersF) {
+    echo "
+        <td>
+        <select name='PP1[]' size=5 multiple>
+	    <option value=''>"._("All PPers")."</option>
+    ";
+
+    echo build_selectlist( $state_sql, "checkedoutby", $array_of_PPers);
+    echo "
+        </select>
+        </td>
+    ";
+}
 
 
 
 // SPECIAL Days filter
 
-echo "
-    <td>
-    <select name='special1[]' size=5  multiple>
-	<option value=''>"._("All Special Days")."</option>
-";
+if ($showSpecialF) {
+    echo "
+        <td>
+        <select name='special1[]' size=5  multiple>
+	    <option value=''>"._("All Special Days")."</option>
+    ";
 
-foreach ($array_of_specials as $key => $display) {
-    echo "<option value='$key'>$display</option>\n";
+    foreach ($array_of_specials as $key => $display) {
+        echo "<option value='$key'>$display</option>\n";
+    }
+    echo "
+        </select>
+        </td>
+   ";
 }
-echo "
-    </select>
-    </td>
-";
-
 
 echo "</tr>";
 echo "</table>\n<br>";
@@ -325,6 +389,31 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 	    $condition1 .= ")";
 	}
 
+
+	// construct PP clause of new filter
+
+	if ( isset($_POST['PP1']) && count($_POST['PP1']) > 0 )
+	{
+	    $condition1 .= " AND (0";
+	    $display_filter .= "<br>PPs=";
+	    foreach( $_POST['PP1'] as $PP )
+	    {
+		if ( $PP == '' )
+		{
+		    $condition1 .= " OR 1";
+		}
+		else
+		{
+		    if (!in_array($PP, $array_of_PPers )) { echo "UHOH" & exit(); }
+		    $condition1 .= " OR checkedoutby='$PP'";
+                    $display_filter .= $PP." ";
+		    $show_df = TRUE;
+		}
+	    }
+	    $condition1 .= ")";
+	}
+
+
 	// construct Special day clause of new filter
         // note that for specials we use key for matching but display value
 
@@ -385,12 +474,9 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 	//we delete and insert rather than UPDATE and "if no rows affected", INSERT, since the
 	//no rows affected isn't reliable
 
-
-
 	// _internal filter is database-readable SQL for WHERE clause in queries
 	// _display filter is human readable summary for reporting current filter to user
 
-	
 
 	// remove old filter values (if any) from table and add news ones
 
@@ -422,9 +508,10 @@ if ((isset($show_df) && $show_df) || (isset($display_filter) && $display_filter)
 	echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
 }
 
-
 // $RFilter is now set to new filter value 
 // for passing to a project listing function in enclosing file
 
+
+} // end if any filters enabled
 
 ?>
