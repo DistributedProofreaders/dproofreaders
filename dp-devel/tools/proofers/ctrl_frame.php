@@ -236,7 +236,7 @@ src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="<? ec
 valign="top" colspan="3" align="center">
 <?PHP include('ptags.inc'); ?>
 <br>
-<font size=-1>
+<font size="-1">
 <? echo _("Proofreading Diagrams:"); ?> [<a href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
