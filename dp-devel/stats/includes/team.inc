@@ -126,11 +126,9 @@ function showTeamStats($curTeam) {
 
 	function echo_tr( $left, $right )
 	{
-		global $theme;
+		global $rollover_highlight_attrs;
 		echo "\n";
-		echo "<tr bgcolor='" . $theme['color_navbar_bg'] . "' ";
-		echo "onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' ";
-		echo  "onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
+		echo "<tr $rollover_highlight_attrs>";
 		echo "<td width='60%'>$left</td>";
 		echo "<td width='40%'>$right</td>";
 		echo "</tr>";
@@ -175,6 +173,7 @@ function showTeamStats($curTeam) {
 function showTeamMbrs($curTeam) {
 	global $theme, $code_url;
 	global $users_table_with_tallies, $user_P_page_tally_column;
+	global $rollover_highlight_attrs;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
@@ -239,7 +238,7 @@ function showTeamMbrs($curTeam) {
 		else
 		{
 			$username = $curMbr['username'];
-			echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
+			echo "\n<tr $rollover_highlight_attrs>";
 			echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'] . "'>$username</a></td>";
 			echo "<td width='35%'>" . number_format($curMbr['current_P_page_tally']) . "</td>";
 			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";

@@ -278,12 +278,10 @@ function echo_tr_headerbar( $blurb, $colspan=1 )
 
 function start_tr_with_rollover_highlight()
 {
-	global $theme;
+	global $rollover_highlight_attrs;
 	echo "\n";
 	echo "<tr";
-	echo " bgcolor='" . $theme['color_navbar_bg'] . "'";
-	echo " onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"'";
-	echo  " onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']   . "\"'";
+	echo " $rollover_highlight_attrs";
 	echo ">";
 }
 
