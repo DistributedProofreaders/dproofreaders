@@ -59,7 +59,7 @@ if (!$uP)
 // The login is successful!
 
 // Log into phpBB2
-if ($forums_dir != "<<FORUMS_DIR>>" && !empty($forums_dir)) {
+if (is_dir($forums_dir)) {
 	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$userNM'");
 	$user_id = mysql_result($result, 0, "user_id");
 	define('IN_PHPBB', true);
