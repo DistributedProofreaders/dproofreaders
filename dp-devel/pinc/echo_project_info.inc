@@ -31,7 +31,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 	else
 	{
-		if ($sub)
+		if (TRUE)
 		{
 			if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
 				$left  = _("First Round Project");
