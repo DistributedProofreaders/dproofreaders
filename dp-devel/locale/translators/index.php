@@ -13,7 +13,7 @@ if (isset($_GET['func'])) { $func = $_GET['func']; } else { $func = ""; }
 
 if (empty($_REQUEST['lang']) && empty($func)) {
 	echo "<center><b><i><font size='+2'>"._("Translation Center")."</font></i></b></center><br>";
-	echo _("We currently have the following languages available for translation.  These languages are based upon the ISO-639 list and if you do not see a language you would like to proof available please click <a href='new_lang.php?func=newlang'>here</a>.");
+	echo _("We currently have the following languages available for translation.  These languages are based upon the ISO-639 list and if you do not see a language you would like to proofread available please click <a href='new_lang.php?func=newlang'>here</a>.");
 	echo "<br><br><center>"._("Please click the <i>Translate</i> link next to the language you would like to translate to begin:")."</center><br><br>";
 
 	$dir = opendir($dyn_locales_dir);
