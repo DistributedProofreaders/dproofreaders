@@ -15,8 +15,8 @@ $projectinfo = new projectinfo();
 include($relPath.'project_trans.inc');
 include_once($relPath.'bookpages.inc');
 
-  include('autorelease.php');
-  include('sendtopost.php');
+include('autorelease.php');
+include('sendtopost.php');
 
 $trace = FALSE;
 
@@ -79,21 +79,21 @@ function pages_indicate_bad_project( $projectid, $round )
 
 // -----------------------------------------------------------------------------
 
-  $one_project = isset($_GET['project'])?$_GET['project']:0;
+$one_project = isset($_GET['project'])?$_GET['project']:0;
 
-  if ($one_project) {
+if ($one_project) {
     $verbose = 0;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
-  } else {
+} else {
     $verbose = 1;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'");
-  }
+}
 
-  $pagesleft = 0;
+$pagesleft = 0;
 
-  $todaysdate = time();
+$todaysdate = time();
 
-  while ( $project = mysql_fetch_assoc($allprojects) ) {
+while ( $project = mysql_fetch_assoc($allprojects) ) {
     $projectid  = $project["projectid"];
     $state      = $project["state"];
     $username   = $project["username"];
@@ -108,7 +108,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
     $projectinfo->update($projectid, $state);
 
-//Bad Page Error Check
+    //Bad Page Error Check
 
     foreach (array(1,2) as $round)
     {
@@ -167,37 +167,39 @@ function pages_indicate_bad_project( $projectid, $round )
         $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
         $state == PROJ_PROOF_FIRST_BAD_PROJECT ||
         $state == PROJ_PROOF_FIRST_VERIFY ||
-        $state == PROJ_PROOF_FIRST_COMPLETE) {
-      $outtable = $projectinfo->out1_rows;
-      $numoutrows = $projectinfo->out1_pages;
-      $temptable = $projectinfo->temp1_rows;
-      $numtemprows = $projectinfo->temp1_pages;
-      $timetype = "round1_time";
-      $texttype = "round1_text";
-      $usertype = "round1_user";
-      $newstate = AVAIL_FIRST;
-
-    } else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
+        $state == PROJ_PROOF_FIRST_COMPLETE)
+    {
+        $outtable = $projectinfo->out1_rows;
+        $numoutrows = $projectinfo->out1_pages;
+        $temptable = $projectinfo->temp1_rows;
+        $numtemprows = $projectinfo->temp1_pages;
+        $timetype = "round1_time";
+        $texttype = "round1_text";
+        $usertype = "round1_user";
+        $newstate = AVAIL_FIRST;
+    }
+    else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
         $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
         $state == PROJ_PROOF_SECOND_BAD_PROJECT ||
         $state == PROJ_PROOF_SECOND_VERIFY ||
-        $state == PROJ_PROOF_SECOND_COMPLETE) {
-      $outtable = $projectinfo->out2_rows;
-      $numoutrows = $projectinfo->out2_pages;
-      $temptable = $projectinfo->temp2_rows;
-      $numtemprows = $projectinfo->temp2_pages;
-      $timetype = "round2_time";
-      $texttype = "round2_text";
-      $usertype = "round2_user";
-      $newstate = AVAIL_SECOND;
-
+        $state == PROJ_PROOF_SECOND_COMPLETE)
+    {
+        $outtable = $projectinfo->out2_rows;
+        $numoutrows = $projectinfo->out2_pages;
+        $temptable = $projectinfo->temp2_rows;
+        $numtemprows = $projectinfo->temp2_pages;
+        $timetype = "round2_time";
+        $texttype = "round2_text";
+        $usertype = "round2_user";
+        $newstate = AVAIL_SECOND;
     }
 
 
     if (($state == PROJ_PROOF_FIRST_VERIFY) ||
         ($state == PROJ_PROOF_SECOND_VERIFY) || ($one_project) ||
         (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) ||
-        (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
+        (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0)))
+    {
 
         if ($verbose) echo "Found \"$nameofwork\" to verify = $projectid<BR>\n";
 
@@ -213,7 +215,7 @@ function pages_indicate_bad_project( $projectid, $round )
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                  $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num++;
         }
@@ -229,7 +231,7 @@ function pages_indicate_bad_project( $projectid, $round )
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                  $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num2++;
         }
@@ -246,22 +248,22 @@ function pages_indicate_bad_project( $projectid, $round )
 
         }
 
-		update_total_pages($projectid, "");
-        	update_avail_pages($projectid, " = '".$newstate."'");
+        update_total_pages($projectid, "");
+        update_avail_pages($projectid, " = '".$newstate."'");
 
         if ($verbose) echo "New state = $state<P>\n";
         $error_msg = project_transition( $projectid, $state );
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
-	    continue;
+            continue;
         }
-      }
+    }
 
 
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
-	update_total_pages($projectid, 1);
+        update_total_pages($projectid, 1);
 
         if ($verbose) echo "Found project to promote = $projectid<BR>\n";
 
@@ -269,7 +271,7 @@ function pages_indicate_bad_project( $projectid, $round )
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
-	    continue;
+            continue;
         }
 
         $timestamp = time();
@@ -281,15 +283,18 @@ function pages_indicate_bad_project( $projectid, $round )
     if ($state == PROJ_PROOF_SECOND_COMPLETE) {
         sendtopost($projectid, $username, $todaysdate);
     }
-  }
+}
 
-  if ($trace) echo "<br>\n";
+if ($trace) echo "<br>\n";
 
-  if ($verbose) echo "Total pages available = $pagesleft<BR>\n";
+if ($verbose) echo "Total pages available = $pagesleft<BR>\n";
 
-  if (!$one_project) { autorelease(); }
-
-  else {
-  	 echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
-  	 }
+if (!$one_project)
+{
+    autorelease();
+}
+else
+{
+    echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+}
 ?>
