@@ -8,7 +8,11 @@ $timeposted = time();
 $project_id = $_GET['project'];
 $ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
 $post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
+
+// raz
 $owner = 527;
+
+
 
 //Get info about project
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
@@ -24,10 +28,20 @@ Please review the <a href='$code_url/tools/proofers/projects.php?project=$projec
 ";
 $message = addslashes($message);
 $topic_id = $row['topic_id'];
+
+// determine forums ID of PM
+
+$id_result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$row['username']."'");
+$id_row = mysql_fetch_array($id_result);
+$owner = $id_row[0];
+
 }
 
 //Determine if there is an existing topic or not
 if(($topic_id == "") || ($topic_id == 0)) {
+
+
+
 //Add Topic into phpbb_topics
 $insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, 2, '$title', $owner, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
 $topic_id = mysql_insert_id();
