@@ -29,14 +29,14 @@ theme("Personal Page for $pguser", "header");
 ?>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Post Processing</b></font><br>
-After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the <a href ="$siteurl/tools/post_proofers/post_proofers.php">post processing</a> phase of Distributed Proofreaders!  Currently there are <b><? echo $numprojects; ?></b> projects waiting.
+After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the <a href ="<? echo $siteurl ?>/tools/post_proofers/post_proofers.php">post processing</a> phase of Distributed Proofreaders!  Currently there are <b><? echo $numprojects; ?></b> projects waiting.
 
 <? 
 if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> projects checked out."; }
 }
 ?>
 
-<p>Want to <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">help out the site by providing material for us to proof</a>? Find out how!<br><br>
+<p>Want to <a href="<? echo $siteurl ?>/faq/scan/submitting.htm">help out the site by providing material for us to proof</a>? Find out how!<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Random Rule</b></font><br>
 
@@ -48,7 +48,7 @@ if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> project
     	$rule = mysql_fetch_assoc($result);
     	echo "<i>".$rule['subject']."</i><br>";
     	echo "".$rule['rule']."<br><br>";
-    	echo "See the <a href='$siteurl/faq/document.html#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='http://$siteurl/faq/document.html'>Document Guidelines</a><br><br>";
+    	echo "See the <a href='$siteurl/faq/document.html#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$siteurl/faq/document.html'>Document Guidelines</a><br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 
