@@ -9,6 +9,8 @@ include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
 
+$tally_name = array_get( $_GET, 'tally_name', null );
+
 $id = array_get( $_GET, 'id', '' );
 if (empty($id)) {
 	echo "mdetail.php: missing or empty 'id' parameter";
@@ -51,7 +53,7 @@ echo "<br><center>";
 echo "<h1>$desc</h1>";
 
 if (is_null($brushoff)) {
-	showMbrInformation( $curMbr );
+	showMbrInformation( $curMbr, $tally_name );
 } else {
 	echo "<p>$brushoff</p>";
 }

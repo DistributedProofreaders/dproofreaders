@@ -6,15 +6,22 @@ include_once($relPath.'page_tally.php');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
-function showMbrInformation( $curMbr ) {
-	$now = time();
+function showMbrInformation( $curMbr, $tally_name )
+{
 	showXmlButton($curMbr['username']);
 	showMbrProfile($curMbr);
-	$tally_name = 'P';
-	showMbrPageStats($curMbr, $tally_name);
-	showMbrTeams($curMbr, $tally_name);
-	showMbrNeighbors($curMbr, $tally_name);
-	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr, $tally_name); }
+
+	if ( !is_null($tally_name) )
+	{
+		showMbrPageStats($curMbr, $tally_name);
+		showMbrTeams($curMbr, $tally_name);
+		showMbrNeighbors($curMbr, $tally_name);
+		$now = time();
+		if (($now - $curMbr['date_created']) > 86400)
+		{
+			showMbrHistory($curMbr, $tally_name);
+		}
+	}
 }
 
 function showXmlButton( $username )
