@@ -242,24 +242,19 @@ fixText();}}
 function showAllText()
 {alert(docRef.editform.text_data.value);}
 
-function calcSize(sF)
+function showIZ()
 {
 nP=docRef.editform.zmSize.value;
-zP=Math.round(sF*(nP/100));
+zP=Math.round(iW*(nP/100));
 reSize(zP)
 docRef.editform.zmSize.value=nP;
 return false;
 }
 
-function showIZ()
-{
-  calcSize(iW);
-}
-
 function showActual()
 {
-  calcSize(cW);
   docRef.editform.zmSize.value = cW/10;
+  showIZ();
 }
 
 function loadImageSize()
