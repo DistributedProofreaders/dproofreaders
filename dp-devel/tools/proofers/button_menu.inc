@@ -1,8 +1,8 @@
 <A 
-HREF="#" accesskey="," onfocus="dSI('left')"></A><A 
-HREF="#" accesskey="." onfocus="dSI('right')"></A><A 
-HREF="#" accesskey="'" onfocus="dSI('up')"></A><A 
-HREF="#" accesskey="/" onfocus="dSI('down')"></A><select 
+HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left')"></A><A 
+HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A 
+HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"></A><A 
+HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select 
 name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.menuframe.chFFace(this.selectedIndex)"><?PHP
   $fs=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
   $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced');
