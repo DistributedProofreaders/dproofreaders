@@ -25,7 +25,7 @@ echo "</tr><tr><td align='center'><a href='$code_url/stats/members/mbr_list.php'
 //General site stats with links to view the queue's
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
-echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'] . "' color='" . $theme['color_headerbar_font'] . "'><b>" . _("General Site Statistics") . "</b></font></center></td></tr>";
+echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font color='" . $theme['color_headerbar_font'] . "'><b>" . _("General Site Statistics") . "</b></font></center></td></tr>";
 echo "<tr><td bgcolor=" . $theme['color_navbar_bg'] . ">";
 echo "<table border='0' cellspacing='0' cellpadding='2' width='60%' align='center'>";
 
@@ -94,7 +94,7 @@ echo "<br>\n";
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
 echo "<table border='0' cellspacing='0' cellpadding='2' width='100%'>";
-echo "<tr><td colspan='2' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'] . "' color='" . $theme['color_headerbar_font'] . "'><b>" . _("Miscellaneous Statistics") . "</b></font></center></td></tr>";
+echo "<tr><td colspan='2' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font color='" . $theme['color_headerbar_font'] . "'><b>" . _("Miscellaneous Statistics") . "</b></font></center></td></tr>";
 
 $sub_title = _("See All Waiting Queues");
 echo $begin_themed_row;
@@ -130,7 +130,7 @@ echo "<br>\n";
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
 echo "<table border='0' cellspacing='0' cellpadding='2' width='100%'>";
-echo "<tr><td colspan='3' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'] . "' color='" . $theme['color_headerbar_font'] . "'><b>" . _("Project Graphs by Category") . "</b></font></center></td></tr>";
+echo "<tr><td colspan='3' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font color='" . $theme['color_headerbar_font'] . "'><b>" . _("Project Graphs by Category") . "</b></font></center></td></tr>";
 
 echo $begin_themed_row;
 echo "<td>&nbsp;</td><td><b><i><u>";
@@ -183,7 +183,7 @@ echo "</td></tr></table>\n";
 echo "<br>\n";
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
-echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'><b>"._("Total Projects Created, Proofread, Post-Processed and Posted")."</b></font></center></td></tr>";
+echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>"._("Total Projects Created, Proofread, Post-Processed and Posted")."</b></font></center></td></tr>";
 echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_total_proj_summary_graph.php\" alt=\""._("Total Projects Created, Proofed, PPd and Posted")."\"></center><br>";
 echo "</td></tr>\n";
