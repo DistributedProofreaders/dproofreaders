@@ -71,8 +71,8 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
 
         // give site admin and news editors a link to add/edit/show/hide/delete and otherwise manage news items for this page
         if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
-            echo "<hr width='30%'>\n";
             echo "<center>";
+            echo "<hr width='30%'>\n";
             echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
             echo "</center>";
         }

@@ -44,7 +44,8 @@ if ($pagesproofed <= 300)
     $numofPMs = (int) mysql_result($result, 0, "num");
     if ($numofPMs > 0)
     {
-        echo "<hr width='75%'>\n";
+        
+        echo "<center><hr width='75%'></center>\n";
 
         echo "<br><br><font color='red' size=3><b>";
         echo _("You have received a private message in your Inbox!");
@@ -64,7 +65,7 @@ welcome_see_beginner_forum( $pagesproofed );
 // Site News
 if ($pagesproofed >= 20)
 {
-    echo "<hr width='75%'>\n";
+    echo "<center><hr width='75%'>\n";
 
     if ($pagesproofed < 40)
     {
@@ -78,6 +79,7 @@ if ($pagesproofed >= 20)
     show_site_news_for_page("activity_hub.php");
     random_news_item_for_page("activity_hub.php");
     include("./stats/currentstatestats.php");
+    echo "<center>\n";
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
