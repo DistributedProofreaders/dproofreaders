@@ -51,8 +51,6 @@ if (!$auth) {
 			elseif (substr($lines[$i], 1, 12) == "projects_url") { fputs($v_site_file, "\$projects_url = '".$_POST['projects_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "dyn_dir") { fputs($v_site_file, "\$dyn_dir = '".$_POST['dyn_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 12) == "dyn_url") { fputs($v_site_file, "\$dyn_url = '".$_POST['dyn_url']."';\n"); }
-			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_dir") { fputs($v_site_file, "\$xmlfeeds_dir = '".$_POST['xmlfeeds_dir']."';\n"); }
-			elseif (substr($lines[$i], 1, 12) == "xmlfeeds_url") { fputs($v_site_file, "\$xmlfeeds_url = '".$_POST['xmlfeeds_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_dir") { fputs($v_site_file, "\$forums_dir = '".$_POST['forums_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_url") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 18) == "reset_password_url") { fputs($v_site_file, "\$reset_password_url = \"".$_POST['reset_password_url']."\";\n"); }
@@ -101,8 +99,6 @@ if (!$auth) {
 	echo "<tr><td align='right' width='30%' valign='top'>Projects URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='projects_url' value='$projects_url'></td></tr>";
 	echo "<tr><td align='right' width='30%' valign='top'>Dynamics Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='dyn_dir' value='$dyn_dir'></td></tr>";
 	echo "<tr><td align='right' width='30%' valign='top'>Dynamics URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='dyn_url' value='$dyn_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>XML Feeds Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='xmlfeeds_dir' value='$xmlfeeds_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>XML Feeds URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='xmlfeeds_url' value='$xmlfeeds_url'></td></tr>";
 	echo "</center></table>";
 
 	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
