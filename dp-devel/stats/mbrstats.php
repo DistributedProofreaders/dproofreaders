@@ -5,7 +5,23 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+header('Content-type: text/plain');
+
 $testing = array_get($_GET, 'testing', FALSE);
+
+function maybe_query( $query )
+{
+	global $testing;
+	if ($testing)
+	{
+		echo "$query\n";
+		return TRUE;
+	}
+	else
+	{
+		return mysql_query( $query );
+	}
+}
 
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
@@ -15,10 +31,10 @@ $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
 $max_update = mysql_result($result,0,0);
 	if ($max_update == $midnight && !$testing) {
 		echo "<center>This script has already been run today!</center>\n";
-		mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', ".time().", 'FAIL', 'Already been run today!')");
+		maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', ".time().", 'FAIL', 'Already been run today!')");
 	} else {
 		$tracetime=time();
-		mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', $tracetime, 'BEGIN', 'Started generating member statistics for $midnight')");
+		maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', $tracetime, 'BEGIN', 'Started generating member statistics for $midnight')");
 		//Update the page count rank for the previous day
 		$result = mysql_query("SELECT u_id, pagescompleted FROM users ORDER BY pagescompleted DESC");
 		$rankArray = "";
@@ -48,10 +64,10 @@ $max_update = mysql_result($result,0,0);
 	$result = mysql_query("SELECT u_id, pagescompleted FROM users");
 		while($row = mysql_fetch_assoc($result)) {
 			$todaysCount = $row['pagescompleted'] - $prevDayCount[$row['u_id']]['total_pagescompleted'];
-			$updateCount = mysql_query("INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank) VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray['rank'][$row['u_id']].")");
+			$updateCount = maybe_query("INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank) VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray['rank'][$row['u_id']].")");
 		}
 		$tracetimea = time();
 		$tooktime = $tracetimea - $tracetime;
-		mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', $tracetimea, 'END', 'Started at $tracetime, took $tooktime seconds total')");
+		maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', $tracetimea, 'END', 'Started at $tracetime, took $tooktime seconds total')");
 	}
 ?>
