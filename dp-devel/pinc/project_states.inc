@@ -57,7 +57,7 @@
   define("PROJ_POST_UNAVAILABLE", "proj_post_unavailable");
   define("PROJ_POST_AVAILABLE", "proj_post_available");
 //  define("AVAIL_PP", "62");  this is not the same as db
-  define("PROJ_POST_CHECKED_OUT", "Proj_post_checkedout");
+  define("PROJ_POST_CHECKED_OUT", "proj_post_checkedout");
 
   define("PROJ_POST_VERIFY", "proj_post_verify"); // this is not in db 
 
