@@ -512,7 +512,8 @@ function maybe_mail_project_manager( $project, $info )
 	$nameofwork = $project['nameofwork'];
 	$username   = $project['username'];
 
-	$body =
+	$body 
+_("Hello")." $username,\n".
 _("This is an automated message from the Distributed Proofreaders site.")."
 
 "._("Regarding").":
