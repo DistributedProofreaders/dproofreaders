@@ -88,3 +88,5 @@ function phpbb_lang($langcode) {
 	
 	return $phpbblangs[$langcode];
 }
+
+?>
