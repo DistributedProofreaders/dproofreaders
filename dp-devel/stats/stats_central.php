@@ -71,7 +71,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $verifybooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                 WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'");
     $totalverify = (mysql_result($verifybooks,0,"numbooks"));
-    echo "<td align ='left'>Books waiting to be verified:</td><td align ='right'>$totalverify</td><tr>";
+    echo "<td align ='left'>Books waiting to be verified: < a href ='PPV_avail.php'>(View)</a></td><td align ='right'>$totalverify</td><tr>";
 
 
   //get total books in verifying
