@@ -73,7 +73,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	}
 
 	while ($rownum2 < $numrows) {
-		$book=dassoc($result);
+		$book=mysql_fetch_assoc($result);
 		$bgcolor=bgcol($rownum,$round);
 
 		// Special colours for special books of various types
