@@ -10,7 +10,9 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
+include_once($relPath.'SettingsClass.inc');
 
+$userSettings = Settings::get_Settings($pguser);
 
 $round_id = array_get( $_GET, 'round_id', NULL );
 if (is_null($round_id))
@@ -115,6 +117,9 @@ if (!isset($RFilter)) { $RFilter = ""; }
 
 
 // special colours legend
+// Don't display if the user has selected the
+// setting "Show Special Colors: No".
+if (!$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
     echo "<p><font face='{$theme['font_mainbody']}'>\n";
