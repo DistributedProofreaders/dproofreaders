@@ -1,10 +1,7 @@
 <?PHP
 
-// Download a dynamically-generated zip of the
+// Download a generated-on-demand zip of the
 // image files in a given project directory.
-//
-// (By generating it on-the-fly, we don't need it
-// taking up space in the filesytstem.)
 
 $relPath='../pinc/';
 include_once($relPath.'misc.inc');
@@ -23,6 +20,15 @@ if (strpos($projectid,'/') !== FALSE )
     exit;
 }
 
+$zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";
+$zipfile_url  = "$dyn_url/download_tmp/{$projectid}_images.zip";
+
+if (file_exists($zipfile_path))
+{
+    header( "Location: $zipfile_url" );
+    exit;
+}
+
 $projectpath = "$projects_dir/$projectid";
 
 if (!is_dir($projectpath))
@@ -31,15 +37,19 @@ if (!is_dir($projectpath))
     exit;
 }
 
-header( "Content-type: application/zip");
-header( "Content-Disposition: filename=\"{$projectid}images.zip\"" );
-// According to RFC 2616 (spec for HTTP 1.1), the syntax is:
-//     Content-Disposition: attachment; filename="fname.ext"
-// However, the "attachment;" caused a problem with Firefox on Windows XP:
-// rather than using the browser plugin configured for application/zip,
-// Firefox would launch the OS's registered app for .zip.
+mkdir_recursive( dirname($zipfile_path), 0777 );
 
-passthru( "zip -q -j -o - $projectpath/*.png $projectpath/*.jpg" );
+exec(
+    "zip -q -j -o $zipfile_path $projectpath/*.png $projectpath/*.jpg",
+    $output,
+    $return_code );
+if ($return_code != 0)
+{
+    echo "download_images.php: the zip command failed.";
+    exit;
+}
+
+header( "Location: $zipfile_url", TRUE, 201 );
 
 // vim: sw=4 ts=4 expandtab
 ?>
