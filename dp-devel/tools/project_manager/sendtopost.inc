@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 
-//    function sendtopost($project, $username, $todaysdate) {
+    function sendtopost($project, $username, $todaysdate) {
         // Prepare a project for post-processing.
         //
         // $project: the unique id of the project.
@@ -67,18 +67,18 @@ echo "got this far";
         if ($send_to_post == "yes") {
             $sql = "UPDATE projects SET state='".PROJ_POST_AVAILABLE."', modifieddate = '$todaysdate' WHERE projectid = '$project'";
             $result = mysql_query($sql);
-            mail("$email", "DP: $nameofwork Sent To Post-Processing",
+            maybe_mail("$email", "DP: $nameofwork Sent To Post-Processing",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
                  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         } else {
             $result = mysql_query("UPDATE projects SET state = '".PROJ_POST_CHECKED_OUT."', modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
-            mail("$email", "DP: $nameofwork Ready For You To Post-Process",
+            maybe_mail("$email", "DP: $nameofwork Ready For You To Post-Process",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",
                  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
-//    }
+    }
 
 
     function join_proofed_text ($project, $fp) {
