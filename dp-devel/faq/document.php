@@ -23,7 +23,7 @@ theme('Proofreading Guidelines','header');
         -->
     
 <h1 align="center">Proofreading Guidelines</h1>
-<h3 align="center">Version 1.65, released Apr 10, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.65, released May 4, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
     
 <!-- Real version:
@@ -1836,7 +1836,7 @@ cedilla                      [,x]*  [x,]
    proofer knows which letter it applies to.  They will eventually replace these with
    whatever symbol works in each version of the text they produce, like 7-bit ASCII,
    8-bit, Unicode, html, etc.  </p>
-<p>Note that when soem of these marks appear on some characters (mainly vowels) our standard
+<p>Note that when some of these marks appear on some characters (mainly vowels) our standard
    Latin-1 character set already includes that character, with the marking.  So in that
    case, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
    drop down lists in the proofreading interface. </p>
