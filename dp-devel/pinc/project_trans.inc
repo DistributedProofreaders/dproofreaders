@@ -95,7 +95,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_FIRST_AVAILABLE => array(
 			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
-			// PROJ_PROOF_FIRST_VERIFY // misleading
+			PROJ_PROOF_FIRST_VERIFY, // misleading (but valid via c_pages)
 			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_COMPLETE => array(
@@ -122,7 +122,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_SECOND_AVAILABLE => array(
 			PROJ_PROOF_SECOND_BAD_PROJECT,
 			PROJ_PROOF_SECOND_UNAVAILABLE,
-			// PROJ_PROOF_SECOND_VERIFY // misleading
+			PROJ_PROOF_SECOND_VERIFY, // misleading (but valid via c_pages)
 			PROJ_PROOF_SECOND_COMPLETE,
 			),
 		PROJ_PROOF_SECOND_COMPLETE => array(
