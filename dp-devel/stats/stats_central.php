@@ -178,18 +178,18 @@ foreach ( $page_tally_names as $tally_name => $tally_title )
 $table->end();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// Project Graphs by Category
+// Projects by Status
 
 $table = new ThemedTable(
     3,
-    _("Project Graphs by Category"),
+    _("Projects by Status"),
     array( 'width' => 99 )
 );
 
 $table->column_headers(
     '',
     _('Number So Far'),
-    _("Track by Project")
+    _('Graphed Over Time')
 );
 
 foreach ( array('created','proofed','PPd','posted') as $which )
