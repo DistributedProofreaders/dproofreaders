@@ -257,7 +257,6 @@ if ($pagesproofed >= 10) {
 <?
 }
 
-$tList=0;
 include_once('proof_list.inc');
 
 theme("", "footer");

@@ -4,7 +4,7 @@ include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 
-function show_books_available_for_proofing( $round, $userP, $tList, $where_filter = " ", $order = "DaysD" )
+function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
 {
 
 	if ( $order == 'TitleA' )
@@ -308,10 +308,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		    ($round == 'second' && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
 		{
 			echo "<tr $bgcolor>";
-			if ($tList==0)
-				{$eURL="proof.php";}
-			else
-				{$eURL="projects.php";}
+			$eURL="proof.php";
 			$eURL.="?project={$book['projectid']}&amp;proofstate={$book['state']}";
 			if ($userP['i_newwin']==0)
 				{$temp="<a href=\"$eURL\">";}

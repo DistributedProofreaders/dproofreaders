@@ -76,7 +76,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     }
 
 
-    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter . $extra, $orderR1);
+    show_books_available_for_proofing( 'first', $userP, $RFilter . $extra, $orderR1);
 
     echo "</table>\n<br>";
   }
@@ -100,7 +100,7 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
          $RFilter = $RFilter . " AND difficulty != 'beginner' ";
       }
 
-      show_books_available_for_proofing( 'second', $userP, $tList, $RFilter, $orderR2 );
+      show_books_available_for_proofing( 'second', $userP, $RFilter, $orderR2 );
       }
   echo "</table>\n<br>";
 }
