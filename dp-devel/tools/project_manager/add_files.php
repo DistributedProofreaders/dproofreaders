@@ -17,7 +17,7 @@ include($relPath.'dp_main.inc');
     } else {
         if ($sitemanager == 'yes') {
             $string = "perl add_files.pl $project $projects_dir/";
-        } else $string = "perl add_files.pl $project /home/dpscans/";
+        } else $string = "perl add_files.pl $project $uploads_dir/";
         exec($string);
         echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php?project=$project\"></head><body></body></html>";
     }
