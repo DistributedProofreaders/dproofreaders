@@ -68,7 +68,7 @@ else {
 if (!isset($proofing))
   {echo "<tr><td bgcolor = \"CCCCCC\"><h3>Project Comments</h3></td><td>$comments</td></tr></table>";}
 else {echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
-      echo "<td><a href=\"project_topic.php?projectid=$project&amp;user_id=$user_id&amp;action=c\">Discuss this Project in the Forum</td></tr>";
+      echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id&amp;action=c\">Discuss this Project in the Forum</td></tr>";
       echo "<tr><td bgcolor = \"CCCCCC\" colspan=\"2\" align=\"center\"><h3>Project Comments</h3></td></tr><tr><td colspan=\"2\">$comments</td></tr></table>";
       echo"<p><p><b> This information has been opened in a separate browser window, feel free to leave it open for reference or close it.</b>";
      }
