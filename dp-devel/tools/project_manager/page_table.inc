@@ -292,6 +292,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_user_field_name = 'round1_user';
 		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
+		$R_temp_state = TEMP_FIRST;
 	}
 	elseif ($round_num == 2)
 	{
@@ -300,6 +301,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_user_field_name = 'round2_user';
 		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
+		$R_temp_state = TEMP_SECOND;
 	}
 	else
 	{
