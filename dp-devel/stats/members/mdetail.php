@@ -29,13 +29,11 @@ $now = time();
 
 if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $pguser) {
 	$isAnonymousUsername = $curMbr['username'];
-	if (substr($curMbr['username'], -1) != "s") { $needsApostrophe = "s"; } else { $needsApostrophe = ""; }
 } else {
 	$isAnonymousUsername = _("Anonymous");
-	$needsApostrophe = "";
 }
 
-$desc = "$isAnonymousUsername'$needsApostrophe "._("Statistics");
+$desc = sprintf( _("Details for user '%s'"), $isAnonymousUsername );
 theme($desc, "header");
 
 echo "<br><center>";
