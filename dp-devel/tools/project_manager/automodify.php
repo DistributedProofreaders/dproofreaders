@@ -44,7 +44,7 @@ function pages_indicate_bad_project( $projectid, $round )
     $n_bad_pages = mysql_result(mysql_query("
         SELECT COUNT(*) FROM $projectid WHERE state = '$BAD_PAGE_STATE'
         "),0);
-    if ($trace) echo "n_bad_pages = $n_bad_pages<br>\n";
+    if ($trace) echo "n_bad_pages = $n_bad_pages\n";
     //
     if ($n_bad_pages == 0) return FALSE;
 
@@ -55,7 +55,7 @@ function pages_indicate_bad_project( $projectid, $round )
     $n_unique_reporters = mysql_result(mysql_query("
         SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$BAD_PAGE_STATE'
         "),0);
-    if ($trace) echo "n_unique_reporters = $n_unique_reporters<br>\n";
+    if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
     //
     if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
 
@@ -68,7 +68,7 @@ function pages_indicate_bad_project( $projectid, $round )
         $n_avail_pages = mysql_result(mysql_query("
             SELECT COUNT(*) FROM $projectid WHERE state = '$AVAIL_PAGE_STATE'
             "),0);
-        if ($trace) echo "n_avail_pages = $n_avail_pages<br>\n";
+        if ($trace) echo "n_avail_pages = $n_avail_pages\n";
         if ($n_avail_pages == 0) return TRUE;
     }
 
@@ -78,6 +78,28 @@ function pages_indicate_bad_project( $projectid, $round )
 }
 
 // -----------------------------------------------------------------------------
+
+$have_echoed_blurb_for_this_project = 0;
+
+function ensure_project_blurb( $project )
+{
+    global $have_echoed_blurb_for_this_project;
+
+    if ( !$have_echoed_blurb_for_this_project )
+    {
+        echo "\n";
+        echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
+        echo "projectid  = {$project['projectid']}\n";
+        echo "nameofwork = \"{$project['nameofwork']}\"\n";
+        echo "state      = {$project['state']}\n";
+        echo "\n";
+        $have_echoed_blurb_for_this_project = 1;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+echo "<pre>\n";
 
 $one_project = isset($_GET['project'])?$_GET['project']:0;
 
@@ -107,6 +129,8 @@ $pagesleft = 0;
 $todaysdate = time();
 
 while ( $project = mysql_fetch_assoc($allprojects) ) {
+    $have_echoed_blurb_for_this_project = 0;
+
     $projectid  = $project["projectid"];
     $state      = $project["state"];
     $username   = $project["username"];
@@ -114,9 +138,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     if ($trace)
     {
-        echo "<br>\n";
-        echo "projectid = $projectid<br>\n";
-        echo "state     = $state<br>\n";
+        ensure_project_blurb( $project );
     }
 
     $projectinfo->update($projectid, $state);
@@ -142,14 +164,14 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
-                if ($trace) echo "project looks bad.<br>\n";
+                if ($trace) echo "project looks bad.\n";
                 if ($state != $BAD_PROJECT_STATE)
                 {
-                    if ($trace) echo "changing its state to $BAD_PROJECT_STATE<br>\n";
+                    if ($trace) echo "changing its state to $BAD_PROJECT_STATE\n";
                     $error_msg = project_transition( $projectid, $BAD_PROJECT_STATE );
                     if ($error_msg)
                     {
-                        echo "$error_msg<br>\n";
+                        echo "$error_msg\n";
                     }
                     $state = $BAD_PROJECT_STATE;
                 }
@@ -158,14 +180,14 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
-                if ($trace) echo "project looks okay.<br>\n";
+                if ($trace) echo "project looks okay.\n";
                 if ($state == $BAD_PROJECT_STATE)
                 {
                     // We could change the project's state to
                     // $AVAILABLE_PROJECT_STATE,
                     // but we don't have to, because it will be set later
                     // (either to that, or some other state value).
-                    if ($trace) echo "pretending to change its state to $AVAILABLE_PROJECT_STATE<br>\n";
+                    if ($trace) echo "pretending to change its state to $AVAILABLE_PROJECT_STATE\n";
                     $state = $AVAILABLE_PROJECT_STATE;
                 }
             }
@@ -214,7 +236,11 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0)))
     {
 
-        if ($verbose) echo "Found \"$nameofwork\" to verify = $projectid<BR>\n";
+        if ($verbose)
+        {
+            ensure_project_blurb( $project );
+            echo "    Reclaiming any MIA pages\n";
+        }
 
         // Check in MIA pages
         $page_num = 0;
@@ -264,11 +290,15 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         update_total_pages($projectid, "");
         update_avail_pages($projectid, " = '".$newstate."'");
 
-        if ($verbose) echo "New state = $state<P>\n";
+        if ($verbose)
+        {
+            ensure_project_blurb( $project );
+            echo "    Advancing \"$nameofwork\" to $state\n";
+        }
         $error_msg = project_transition( $projectid, $state );
         if ($error_msg)
         {
-            echo "$error_msg<br>\n";
+            echo "$error_msg\n";
             continue;
         }
     }
@@ -278,12 +308,17 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
         update_total_pages($projectid, 1);
 
-        if ($verbose) echo "Found project to promote = $projectid<BR>\n";
+        $second_round_state = PROJ_PROOF_SECOND_AVAILABLE;
+        if ($verbose)
+        {
+            ensure_project_blurb( $project );
+            echo "    Promoting \"$nameofwork\" to $second_round_state\n";
+        }
 
-        $error_msg = project_transition( $projectid, PROJ_PROOF_SECOND_AVAILABLE );
+        $error_msg = project_transition( $projectid, $second_round_state );
         if ($error_msg)
         {
-            echo "$error_msg<br>\n";
+            echo "$error_msg\n";
             continue;
         }
 
@@ -298,9 +333,16 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     }
 }
 
-if ($trace) echo "<br>\n";
+if ($trace) echo "\n";
 
-if ($verbose) echo "Total pages available = $pagesleft<BR>\n";
+if ($verbose)
+{
+    echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
+    echo "\n";
+    echo "Total pages available = $pagesleft\n";
+}
+
+echo "</pre>\n";
 
 if (!$one_project)
 {
