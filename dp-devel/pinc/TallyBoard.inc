@@ -476,6 +476,35 @@ class TallyBoard
         return mysql_fetch_row($result);
     }
 
+    // -------------------------------------------------------------------------
+
+    function get_deltas( $holder_id, $min_timestamp )
+    // Return all tally deltas recorded for the given holder
+    // since $min_timestamp.
+    // Specifically, the result is an array of key => value pairs,
+    // where key is the ascribed time of a snapshot,
+    // and value is the tally delta recorded for that time.
+    // (The items are sorted by timestamp.)
+    {
+        $result = mysql_query("
+            SELECT timestamp, tally_delta
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = '$holder_id'
+                AND timestamp  >= $min_timestamp
+            ORDER BY timestamp ASC
+        ") or die(mysql_error());
+
+        $delta_at_ = array();
+        while( list($timestamp, $tally_delta) = mysql_fetch_row($result) )
+        {
+            $delta_at_[$timestamp] = $tally_delta;
+        }
+        return $delta_at_;
+    }
+
 }
 
 // vim: sw=4 ts=4 expandtab

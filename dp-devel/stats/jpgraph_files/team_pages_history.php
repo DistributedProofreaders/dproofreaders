@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
+include_once($relPath.'page_tally.php');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
@@ -14,23 +15,14 @@ if ($_GET['range'] == 7 || $_GET['range'] == 14 || $_GET['range'] == 30 || $_GET
 
 if ($range != "all") {
 	$range = time() - ($range * 86400);
-	$date_condition = "timestamp >= $range";
 } else {
-	$date_condition = "1";
+	$range = 0;
 }
-$result = mysql_query("
-	SELECT timestamp, tally_delta
-	FROM past_tallies
-	WHERE
-		($date_condition)
-		AND holder_type='T'
-		AND holder_id={$_GET['tid']}
-		AND tally_name='P'
-	ORDER BY timestamp ASC
-");
+
+$deltas = $teams_P_page_tallyboard->get_deltas( $_GET['tid'], $range );
 
 $i = 0;
-while (list($timestamp, $tally_delta) = mysql_fetch_row($result)) {
+foreach ( $deltas as $timestamp => $tally_delta ) {
 	$datay[$i] = $tally_delta;
         $datax[$i] = date("n/j/Y", ($timestamp-86400));
         $i++;
