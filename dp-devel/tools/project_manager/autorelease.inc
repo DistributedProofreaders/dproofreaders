@@ -93,7 +93,7 @@ function verifynew($project) {
     $error_msg = project_transition( $projectid, $new_state );
     if ($error_msg)
     {
-        echo "$error_msg<br>\n";
+        echo "$error_msg\n";
         return 0;
     }
 
@@ -108,7 +108,7 @@ function verifynew($project) {
     //Update the total and available pages in the HEAP table
     update_total_pages($projectid, 1);
 
-    print "Prepared to release project = $projectid<BR>";
+    echo "  Prepared to release project = $projectid\n";
     return numpages($projectid);
 }
 
@@ -125,7 +125,8 @@ function verifynew($project) {
 
 function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $released, $count2ndRnd, $todaysdate)
 {
-        echo "<br>Considering $projtype_desc projects...<br>\n";
+	echo "\n";
+        echo "Considering $projtype_desc projects...\n";
 
         $newpagesreleased = 0;
         $totalnewreleased = 0;
@@ -134,7 +135,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         // if there's enough out there already, don't bother
         if ($released > $target)
         {
-            echo "We're currently exceeding ($released) the target for this category ($target).<br>\n";
+            echo "We're currently exceeding ($released) the target for this category ($target).\n";
             return 0;
         }
 
@@ -147,7 +148,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         ");
         if (mysql_num_rows($waiting_res) == 0)
         {
-            echo "Could have released some $projtype_desc projects, but none were waiting!<br>";
+            echo "Could have released some $projtype_desc projects, but none were waiting!\n";
             // email someone?
             return 0;
         }
@@ -161,7 +162,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
         while ( $project = mysql_fetch_assoc($waiting_res) ) {
 
-                echo "considering project \"{$project['nameofwork']}\"...<br>\n";
+                echo "  considering project \"{$project['nameofwork']}\"...\n";
 
                 // check the date
                 if ($project['modifieddate'] == $todaysdate) {
@@ -214,7 +215,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 }
         }
 
-        echo "<br>Prepared <b>$numReleased</b> $projtype_desc projects for release<br>";
+        echo "Prepared <b>$numReleased</b> $projtype_desc projects for release\n";
         return $totalnewreleased;
 }
 
@@ -228,12 +229,14 @@ function autorelease($pagesleft) {
         $easy_projects = $GLOBALS['easy_projects'];
 
 
-	echo "Starting autorelease<BR>Current thresholds/targets are:<BR>";
-	echo "$beginners_pagesneeded pages for Beginners Only<BR>";
-	echo "$easy_projects EASY projects<BR>";
-	echo "$noneng_pagesneeded nonEnglish pages minimum<BR>";
-	echo "$eng_pagesneeded English pages minimum<BR>";
-	//echo "$GLOBALS['pagesneeded'] total pages minimum<BR><BR><BR>";
+	echo "<pre>\n";
+	echo "Starting autorelease\n";
+	echo "Current thresholds/targets are:\n";
+	echo "$beginners_pagesneeded pages for Beginners Only\n";
+	echo "$easy_projects EASY projects\n";
+	echo "$noneng_pagesneeded nonEnglish pages minimum\n";
+	echo "$eng_pagesneeded English pages minimum\n";
+	//echo "$GLOBALS['pagesneeded'] total pages minimum\n\n\n";
 
 
         // Release of Different types of Projects from various logical queues
@@ -255,7 +258,7 @@ function autorelease($pagesleft) {
         if ($beginners_pagesneeded > $numReleased) {
                 $pagesneeded = $pagesneeded -
                         release_projects("pages", "Beginners Only", $projtype_sql , $beginners_pagesneeded, $numReleased, "", $todaysdate);
-        }   else echo "Enough Beginners Only pages ($numReleased) in R1 already, no releases through the BEGIN Queue<BR>";
+        }   else echo "Enough Beginners Only pages ($numReleased) in R1 already, no releases through the BEGIN Queue\n";
 
 
         //Easy English Projects - always have a certain number of projects in first round
@@ -266,7 +269,7 @@ function autorelease($pagesleft) {
         if ($easy_projects > $numReleased) {
                 $pagesneeded = $pagesneeded -
                         release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numReleased, "", $todaysdate);
-        }   else echo "Enough EASY English projects  ($numReleased) already, no releases through the EASY English Queue<BR>";
+        }   else echo "Enough EASY English projects  ($numReleased) already, no releases through the EASY English Queue\n";
 
 
         //Non-English Projects - always have a certain number of pages spread over the two rounds
@@ -289,7 +292,7 @@ function autorelease($pagesleft) {
         if ($noneng_pagesneeded > $numReleased) {
                 $pagesneeded = $pagesneeded -
                         release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numReleased, "yes", $todaysdate);
-        }   else echo "Enough Non English pages ($numReleased) already, no releases through the Non English Queue<BR>";
+        }   else echo "Enough Non English pages ($numReleased) already, no releases through the Non English Queue\n";
 
 
         //English Projects - always have a certain number of pages spread over the two rounds
@@ -311,7 +314,7 @@ function autorelease($pagesleft) {
         if ($eng_pagesneeded > $numReleased) {
                 $pagesneeded = $pagesneeded -
                         release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numReleased, "yes", $todaysdate);
-        }   else echo "Enough English pages ($numReleased) already, no releases through the English Queue<BR>";
+        }   else echo "Enough English pages ($numReleased) already, no releases through the English Queue\n";
 
 
         //Extra Projects - make sure we have a total of at least X pages spread out over the two rounds;
@@ -335,7 +338,8 @@ function autorelease($pagesleft) {
                 }
                 release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numReleased, "yes", $todaysdate);
         }   else {
-               echo "Enough total pages  already, no extra releases<BR>";
+               echo "Enough total pages  already, no extra releases\n";
        }
+        echo "</pre>\n";
 }
 ?>
