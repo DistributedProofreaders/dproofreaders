@@ -32,6 +32,7 @@ readfile($xmlfile);
 } else {
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
 $db_Connection=new dbConnect();
@@ -55,9 +56,7 @@ $db_Connection=new dbConnect();
 				<posteddate>".$posteddate."</posteddate>
 				<genre>".xmlencode($row['genre'])."</genre>
 				<links>
-				<text>".xmlencode($row['txtlink'])."</text>
-				<zip>".xmlencode($row['ziplink'])."</zip>
-				<html>".xmlencode($row['htmllink'])."</html>
+				<PG_catalog>".get_pg_catalog_url_for_etext($row['postednum'])."</PG_catalog>
 				<library>$code_url/list_etexts.php?x=g".xmlencode("&")."sort=5#".$row['projectid']."</library>
 				</links>
 				</project>
