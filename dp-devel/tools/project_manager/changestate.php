@@ -6,6 +6,7 @@ include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'project_trans.inc');
 include($relPath.'project_edit.inc');
+include_once($relPath.'maybe_mail.inc');
 
     // Get Passed parameters to code
     $projectid = $_GET['project'];
@@ -86,6 +87,12 @@ include($relPath.'project_edit.inc');
 		echo "<p>Back to <a href=\"projectmgr.php\">project manager</a> page.</p>";
 		$do_transition = FALSE;
 	    }
+            else
+            {
+                maybe_mail_project_manager( $project,
+             	   "This project has been manually released by $pguser and has just become available for first-round proofreading.",
+                   "DP Proofreading Started (Manual Release)");
+            }
 	}
     }
     else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY))
