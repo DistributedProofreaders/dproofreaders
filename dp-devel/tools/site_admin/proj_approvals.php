@@ -4,9 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'projectinfo.inc');
 //include_once($relPath.'project_edit.inc');
-//$projectinfo = new projectinfo();
 //include_once('projectmgr.inc');
 //include_once('page_table.inc');
 
