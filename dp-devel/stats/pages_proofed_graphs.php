@@ -11,11 +11,11 @@ echo "<center><h1><i>Pages Proofed Graphs</i></h1></center>";
 
 echo "<br><br>";
 
-echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=increments&timeframe=curr_month\"></center><br>";
+echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=cumulative&timeframe=curr_month\"></center><br>";
+echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=increments&timeframe=all_time\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_pages_by_month_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_total_pages_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/pages_daily.php?cori=cumulative&timeframe=all_time\"></center><br>";
 
 theme('','footer');
 ?>

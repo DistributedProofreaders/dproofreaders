@@ -57,14 +57,14 @@ if (0)
 			array( 'created', 'proofed', 'PPd', 'posted' )
 		),
 
-		array(
-			'cumulative_month_pages.php',
-			'cumulative_total_pages_graph.php',
-			'curr_month_pages_graph.php',
-			'prev_month_pages_graph.php',
-			'total_pages_by_month_graph.php',
-			'total_pages_graph.php',
+		all_possible_concatenations(
+			'pages_daily.php',
+			'?cori=', array( 'cumulative', 'increments' ),
+			'&timeframe=', array( 'curr_month', 'prev_month', 'all_time' )
+		),
 
+		array(
+			'total_pages_by_month_graph.php',
 			'average_hour_users_logging_on.php',
 			'percent_users_who_proof.php',
 		),
