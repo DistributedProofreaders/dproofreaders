@@ -16,8 +16,10 @@ echo "
     and they now need to be massaged into a final e-text.
     Once you have checked out and downloaded a book
     it will remain checked out to you until you check it back in. 
-    When you do so, choose Upload for Verification from the
-    drop-down list for that project.
+    When you have finished your work on the book, choose Upload 
+    for Verification from the drop-down list for that project. If
+    you have several files to submit for a single project (say 
+    a text and HTML version), zip them up together first.
 </p>
 <p>
     Here is a <a href='$code_url/faq/post_proof.php'><b>Post Proof FAQ</b></a>
