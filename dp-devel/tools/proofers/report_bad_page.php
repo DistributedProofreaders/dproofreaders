@@ -43,20 +43,31 @@ echo "<input type='submit' VALUE='Submit Report'>";
 echo $tr.$td5;
 echo "<B>Note:</B>If this report causes a project to be marked<br> bad you will be redirected to your personal page.";
 echo "</td></tr></table></form></div>";
-echo "<br><br>";
 echo $tb.$tr.$td6;
 echo "<center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
 echo "<ul>";
 echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
 echo "<li>Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.<br><br>";
 echo "<li>Occasionally, you may come across a page that has <i>many</i> mistakes in the optical character recognition (OCR) that some many thing it is a bad page that needs to be re-ocred.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.<br><br>";
-echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Back on your browser and then hit \"Return to Current Round\".  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting adding pages back to the project that aren't bad.";
+echo "<li>Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forum_url/viewtopic.php?t=1659'>here</a>.<br><br>";
+echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Back on your browser and then hit \"Return to Current Round\".  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.";
 echo "</ul></td></tr></table></div></center>";
 echo "</body></html>";
 } else {
 
+//See if they filled in a reason.  If not tell them to go back
+if ($_POST['reason'] == 0) {
+	include_once($relPath.'theme.inc');
+	theme("Incomplete Form!", "header");
+	echo "<br><center>You have not completely filled out this form!  Please hit the <a href='javascript:history.back()'>back</a> button on your browser & fill out all fields.</center>";
+	theme("","footer");
+	exit();
+}
+
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
+$result = mysql_query("SELECT master_text FROM ".$_POST['projectname']." WHERE fileid='".$_POST['fileid']."'");
+$master_text = mysql_result($result, 0, "master_text");
+$result = mysql_query("UPDATE ".$_POST['projectname']." SET round1_user='$pguser', round1_text='$master_text', state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
 
 //Find out how many pages have been marked bad
 $totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'"));
@@ -83,10 +94,10 @@ $PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
 if ($advisePM == 1) {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].") has been shut down.  This is due to at least 10 users, with at least 3 unique users, reporting errors or problems with this project.  Please visit the Project Manager page to view a list of your bad projects and make any necessary changes.  You will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
+$message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].") has been shut down.\nThis is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.\nPlease visit the Project Manager page to view a list of your bad projects and make any necessary changes.\nYou will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Project Shut Down";
 } else {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThere has been a page marked as bad in the project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].").  Please visit the Project Manager page to view the reason it was marked as bad by the user.  You will then be able to make any needed changes and put the page back up for proofing.  If 10 pages are marked bad by at least 3 unique users the project will be automatically shut down.\n\nThank You!\nDistributed Proofreaders";
+$message = "*****This is an automated email*****\n\n------------------------------------\n\nThere has been a page marked as bad in the project you are managing, $nameofwork (Project ID: ".$_POST['projectname'].").\nPlease visit the Project Manager page to view the reason it was marked as bad by the user.\nYou will then be able to make any needed changes and put the page back up for proofing.\nIf 10 pages are marked bad by at least 3 unique users the project will be automatically shut down.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Page Marked as Bad";
 }
 
