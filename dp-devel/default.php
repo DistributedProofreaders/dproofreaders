@@ -1,12 +1,12 @@
 <?php
 $relPath="./pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'pg.inc');
+include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();
-include($relPath.'showstartexts.inc');
+include_once($relPath.'showstartexts.inc');
 isMaintenanceMode();
 theme(_("Welcome"), "header");
 $etext_limit = 10;
