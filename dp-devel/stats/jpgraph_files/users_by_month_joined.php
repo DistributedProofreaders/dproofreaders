@@ -30,20 +30,12 @@ $mynumrows = mysql_numrows($result);
         while ($count < $mynumrows) {
         $data1y[$count] = mysql_result($result, $count,"num_who_joined");
         $datax[$count] = mysql_result($result, $count,"month");
-            $count++;
-        }
-
-        $count = 0;
-        while ($count < $mynumrows) {
         $data2y[$count] = mysql_result($result, $count,"num_who_proofed");
+	$data3y[$count] = 100.0 * $data2y[$count]/ $data1y[$count];
             $count++;
         }
 
-        $count = 0;
-        while ($count < $mynumrows) {
-	        $data3y[$count] = 100.0 * $data2y[$count]/ $data1y[$count];
-            $count++;
-        }
+
 
 
 // Create the graph. These two calls are always required
