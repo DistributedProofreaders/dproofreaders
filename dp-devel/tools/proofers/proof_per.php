@@ -10,7 +10,7 @@ include($relPath.'showavailablebooks.inc');
     echo "\n<html><head>";
     echo "\n<title>Personal Page for $pguser</title></head><body>";
     echo "\n <table border=0 cellspacing=0 width=630>";
-    echo "\n <td width=1 bgcolor='#CCCCCC'>&nbsp;</td>";
+    echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td>";
     echo "\n <td bgcolor='#CCCCCC' align=left colspan=2><font size='+1'>Welcome</font><font color='#0000FF' font size='+1'> $pguser</font></td></tr>";
     echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td><td>";
     echo "\n <b>Site Stats:</b><br>";
