@@ -8,10 +8,10 @@ include($relPath.'show_projects_in_state.inc');
 include_once($relPath.'user_is.inc');
 
 
-theme("Post Processing", "header");
+theme(_("Post Processing"), "header");
 
 if (!user_is_PP()) {
-	echo "You're not recorded as a PPer. If you feel this is an error, please contact site administration.";
+	echo _("You're not recorded as a post processor. If you feel this is an error, please contact the site administration.");
 	exit();
 }
 
@@ -149,13 +149,13 @@ echo "
 ";
 }
 
-echo "<hr width=75% align='center'><center><b>Books I Have Checked Out for Post Processing:</b></center>";
+echo "<hr width=75% align='center'><center><b>"._("Books I Have Checked Out for Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_CHECKED_OUT, 1, " ", $orderChPP);
 echo "<br>";
 
 if ($isPPV) {
 
-echo "<center><b>Books I Have Checked Out for Verifying Post Processing:</b></center>";
+echo "<center><b>"._("Books I Have Checked Out for Verifying Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT, 1, " ", $orderChPPV);
 echo "<br>";
 }
@@ -163,7 +163,7 @@ echo "<br>";
 echo "<br><hr><br><br>";
 include('filter_PP_list.inc');
 
-echo "<center><b>Books Available for Post Processing:</b></center>";
+echo "<center><b>"._("Books Available for Post Processing:")."</b></center>";
 show_projects_in_state(PROJ_POST_FIRST_AVAILABLE, 1, $RFilter, $orderPP);
 echo "<br>";
 
@@ -172,7 +172,7 @@ if ($isPPV) {
 echo "<br><hr><br><br>";
 include('filter_PPV_list.inc');
 
-echo "<center><b>Books Available for Post Processing Verification & Posting:</b></center>";
+echo "<center><b>"._("Books Available for Post Processing Verification & Posting:")."</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter, $orderPPV);
 echo "<br>";
 }
