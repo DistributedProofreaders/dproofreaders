@@ -81,35 +81,11 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 //Neighbor info portion of $data
 	$curMbr_i = $rankArray['curMbrIndex'];
 	$data .= "<neighborinfo>";
-	$i = 4;
-	if ($rankArray['rank'][$curMbr_i] <= 4) { $i = $rankArray['rank'][$curMbr_i]-1; }
-	while (!empty($i)) {
-		$j = $curMbr_i-$i;
-		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
-
-		$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$j]."</rank>
-			<username>".xmlencode($rankArray['username'][$j])."</username>
-			<datejoined>".date("m/d/Y", @mysql_result($result, 0, "date_created"))."</datejoined>
-			<pagescompleted>".$rankArray['pages'][$j]."</pagescompleted>
-		</neighbor>
-		";
-		$i--;
-	}
-
-	$data .= "<neighbor>
-			<rank>".$rankArray['rank'][$curMbr_i]."</rank>
-			<username>".xmlencode($curMbr['username'])."</username>
-			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
-			<pagescompleted>".$curMbr['pagescompleted']."</pagescompleted>
-		</neighbor>
-		";
-
-	$i = 1;
-	while ($i <= 4) {
+	for ( $i = -4; $i <= 4; $i++ )
+       	{
 		$j = $curMbr_i+$i;
-		if (empty($rankArray['rank'][$j])) { break; }
-		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
+		if (!isset($rankArray['rank'][$j])) { continue; }
+		$result = mysql_query("SELECT date_created FROM users WHERE username = '".$rankArray['username'][$j]."'");
 
 		$data .= "<neighbor>
 			<rank>".$rankArray['rank'][$j]."</rank>
@@ -118,7 +94,6 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<pagescompleted>".$rankArray['pages'][$j]."</pagescompleted>
 		</neighbor>
 		";
-		$i++;
 	}
 
 
