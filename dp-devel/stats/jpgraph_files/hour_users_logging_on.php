@@ -10,14 +10,14 @@ new dbConnect();
 ///////////////////////////////////////////////////
 //Numbers of users logging on in last hour
 //query db and put results into arrays
-$result = mysql_query("SELECT U_lasthour,timestamp,year,month, day, hour FROM user_active_log 
-WHERE timestamp > 1071896580 
-ORDER BY timestamp");
+$result = mysql_query("SELECT U_lasthour,time_stamp,year,month, day, hour FROM user_active_log 
+WHERE time_stamp > 1071896580 
+ORDER BY time_stamp");
 $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"pages");
-        $datax[$count] = mysql_result($result, $count,"timestamp");
+        $datax[$count] = mysql_result($result, $count,"time_stamp");
             $count++;
         }
 
@@ -53,7 +53,7 @@ $bplot = new BarPlot($datay);
 $graph->Add($bplot);
 
 // Setup the title
-$graph->title->Set("Number of users logged in per hour");
+$graph->title->Set("Number of users newly logged in each hour");
 
 
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
