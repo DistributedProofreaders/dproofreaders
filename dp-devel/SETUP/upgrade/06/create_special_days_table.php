@@ -11,12 +11,6 @@ new dbConnect();
 // Create 'special_days' table.
 
 dpsql_query("
-    # --------------------------------------------------------
-
-#
-# Table structure for table `special_days`
-#
-
 CREATE TABLE special_days (
   spec_code varchar(20) NOT NULL default '',
   display_name varchar(80) NOT NULL default '',
