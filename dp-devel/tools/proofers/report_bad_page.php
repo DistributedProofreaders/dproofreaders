@@ -19,7 +19,8 @@ $fileid     = $_POST['fileid'];
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
 	$reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
-	$htmlC->startHeader(_("Bad Page Report"));
+	$header = _("Bad Page Report");
+	$htmlC->startHeader($header);
 	$htmlC->startBody(0,1,0,0);
 	$tb=$htmlC->startTable(0,0,0,1);
 	$tr=$htmlC->startTR(0,0,1);
