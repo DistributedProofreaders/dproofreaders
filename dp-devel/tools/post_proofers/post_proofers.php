@@ -34,18 +34,48 @@ steps that we normally take to post proof an etext. There is a <a href="http://t
 <b>First Time here?</b>  Juliet Sutherland is our Post Processing Coordinator. Please read the FAQ, select an easy work to get 
 started on (usually fiction with a low page count is a good starter book) and write <a href = 
 "mailto:juliet.sutherland@verizon.net"> Juliet</a> with any questions/comments.<p></td></tr>
+
+
 <tr><td colspan="7" align="center" bgcolor="999999"><B>My Checked Out Post-Processing Books</B></td></tr>
 <?
-$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language FROM projects WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_CHECKED_OUT."'");
-showavailablepost($rows,PROJ_POST_AVAILABLE);
-?>
-<tr><td colspan="7" align="center" bgcolor="999999"><B>Available Post-Processing Books</B></td></tr>
-<?
-
-    // list projects which are available for post proofing
-    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre FROM projects WHERE state='".PROJ_POST_AVAILABLE."'");
+   //list all first post processing books the user has checked out
+$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language 
+                     FROM projects 
+                     WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_CHECKED_OUT."'");
     showavailablepost($rows,PROJ_POST_CHECKED_OUT);
 ?>
+
+
+<tr><td colspan="7" align="center" bgcolor="999999"><B>My Checked Out Verifying Post-Processing Books</B></td></tr>
+<?
+   //list all verifying post processing books the user has checked out
+$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language
+                     FROM projects
+                     WHERE checkedoutby = '$pguser' AND state='".PROJ_POST_VERIFYING."'");
+    showavailableverify($rows,PROJ_POST_VERIFYING);
+?>
+
+
+<tr><td colspan="7" align="center" bgcolor="999999"><B>Available Post-Processing Books</B></td></tr>
+<?
+    // list projects which are available for first post proofing
+    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre 
+                         FROM projects 
+                         WHERE state='".PROJ_POST_AVAILABLE."'");
+    showavailablepost($rows,PROJ_POST_AVAILABLE);
+?>
+
+
+<tr><td colspan="7" align="center" bgcolor="999999"><B>Books Available for Post-Processing Verification and Posting</B></td></tr>
+<?
+    // list projects which are available for post proofing verification
+    $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language, genre 
+                         FROM projects 
+                         WHERE state='".PROJ_POST_VERIFY."'");
+    showavailableverify($rows,PROJ_POST_VERIFY);
+?>
+
+
 <tr><td bgcolor="#999999" colspan="7">&nbsp;</td></tr></table>
 <P><table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111 width=630><tr>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
