@@ -91,9 +91,23 @@ if ($password=="proofer") {
             VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
         $result = mysql_query($sql);
 
+	// Add row to member_stats at registration to eliminate zero-day php/mysql errors on stats page (Task 472)
+	// First we have to dig out the auto-incremented users.u_id that was just created.
+	$sql = "SELECT u_id FROM users WHERE id='$ID'";
+	$result = mysql_query($sql);
+	if (!$result) {
+            die("Error connecting to the database.");
+	}
+	$this_uid = mysql_result($result, 0);
+
+	$sql = "INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
+	    VALUES ('$this_uid', " . $currtime . ", 0 , 0 , '$total')";
+        $result = mysql_query($sql);
+
         // Send them an introduction e-mail
         $welcome = _("Welcome to the Distributed Proofreaders' Site!");
         maybe_mail($email, $welcome, "
+
 Hello $real_name,
 
 We want to first thank you for registering on our site. That is the
@@ -256,7 +270,7 @@ to have it reset.
             ",
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
-        // Page shown when account is succeffully created
+        // Page shown when account is successully created
 
         $header = _("User")." $username "._("Added Successfully");
 	theme($header, "header");
@@ -303,3 +317,5 @@ to have it reset.
 }
 theme("", "footer");
 ?>
+
+
