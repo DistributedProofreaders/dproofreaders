@@ -61,7 +61,7 @@
 //  define("AVAIL_PP", "62");  this is not the same as db
   define("PROJ_POST_CHECKED_OUT", "65");
 
-  define(PROJ_POST_VERIFY", "67"); // this is not in db 
+  define("PROJ_POST_VERIFY", "67"); // this is not in db 
 
   define("PROJ_POST_VERIFYING", "68");
   define("PROJ_POST_COMPLETE", "69");
