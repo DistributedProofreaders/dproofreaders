@@ -8,7 +8,6 @@ function checkCookie()
      if (@$_COOKIE['pguser'])
           {
           // can only come from a cookie, forged or otherwise
-          $this->good_login = 1;
           $this->userID = $_COOKIE['pguser'];
           return 1;
           }
