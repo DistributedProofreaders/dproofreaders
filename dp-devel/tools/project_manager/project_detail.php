@@ -107,7 +107,7 @@ if ($site_supports_metadata) {
         echo "<form method='get' action='add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
         echo "<input type='hidden' name='tpnv' value='1'>\n";
-        echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>",$uploads_account));
+        echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
         echo "<br>\n";
                 echo _("directory: ");
                 echo "<input type='text' name='source_dir'>";
