@@ -293,8 +293,7 @@ function showMbrNeighbors($curMbr) {
 		$privacy_enabled = mysql_result($result, 0, "u_privacy");
 		$pagescompleted = number_format($rankArray['pages'][$j]);
 
-		echo "\n";
-		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
+		start_tr_with_rollover_highlight();
 
 		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
 		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBALS['pguser']) ||
@@ -326,8 +325,8 @@ function showMbrTeams($curMbr) {
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
 	while ($row = mysql_fetch_assoc($result)) {
-		echo "\n";
-		echo "<tr  onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"' bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
+		start_tr_with_rollover_highlight();
+		echo "<td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
 	}
 	echo "</td></tr></table></table><p>";
 }
@@ -361,6 +360,17 @@ function echo_tr_headerbar( $blurb, $colspan=1 )
 	echo "</center>";
 	echo "</td>";
 	echo "</tr>";
+}
+
+function start_tr_with_rollover_highlight()
+{
+	global $theme;
+	echo "\n";
+	echo "<tr";
+	echo " bgcolor='" . $theme['color_navbar_bg'] . "'";
+	echo " onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"'";
+	echo  " onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']   . "\"'";
+	echo ">";
 }
 
 ?>
