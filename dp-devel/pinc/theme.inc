@@ -284,6 +284,23 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:"))." ".number_format($sitestatsgoal).($sitestatsgoal?(" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)"):"")."<br>\n"; }
 	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
+	echo "<br>\n";
+
+	$res = mysql_query("SELECT COUNT(*) FROM users" );
+	list($num_users) = mysql_fetch_row($res);
+	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
+
+	$tally_name = 'P';
+	if ( $tally_name )
+	{
+		$tallyboard = new TallyBoard( $tally_name, 'U' );
+		$num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
+		echo '&nbsp;',
+			sprintf(
+				_('%s users with at least 1 page'),
+				number_format($num_positive_users) ),
+			"<br>\n";
+	}
 
 	echo "<br></font>\n";
 	echo "<center><font size='2'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
@@ -298,7 +315,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	//Get the personal statistics array
 	list($neighbors, $max_page_tally_rank) =
 		user_get_page_tally_neighborhood(
-			'P', $GLOBALS['pguser'], $userP['u_neigh']);
+			$tally_name, $GLOBALS['pguser'], $userP['u_neigh']);
 	$usern = $neighbors[0];
 
 	//get rank
@@ -313,7 +330,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
 	echo number_format($usern->get_current_page_tally())."<br>\n";
 	echo "&nbsp;" . _("Current Position: ");
-	echo number_format($usern->get_current_page_tally_rank())."/".number_format($max_page_tally_rank)."<br>\n";
+	echo number_format($usern->get_current_page_tally_rank())."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
 	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
