@@ -59,6 +59,20 @@ if ($orderR2 != $orderR2old) {
 	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'R2order', '$orderR2') ");
 }
 
+// print warning if neither round is shown
+$pref_url = "{$GLOBALS['code_url']}/userprefs.php";
+
+if ($userP['u_plist'] == 0) {
+    echo "<font size=+2><center>";
+    printf(_("You have chosen not to see available texts from either of the proofreading rounds.<br> To see available texts, adjust the \"Show Projects From\" setting on <a href=%s>your preferences page</a>."), $pref_url);
+    echo "</center></font><br><br>";
+}
+
+if ($userP['u_plist'] == 2 && $totalpages < 50) {
+    echo "<font size=+2><center>";
+    printf(_("You have chosen not to see first round projects.<br> To see first round projects, adjust the \"Show Projects From\" setting on <a href=%s>your preferences page</a>."), $pref_url);
+    echo "</center></font><br><br>";
+}
 
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
