@@ -115,6 +115,7 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
 if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
 if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.zip";
 if ($Language == "") $Language = "English";
+if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines</a>.</p>";
 ?>
 
 <html>
@@ -130,6 +131,12 @@ if ($Language == "") $Language = "English";
 <? } ?>
 
 <table border="1">
+<? if(isset($project)) { ?>
+<tr>
+<td bgcolor="#CCCCCC"><b>Project ID</b></td>
+<td><? print $project; ?></td>
+</tr>
+<? } ?>
 <tr>
 <td bgcolor="#CCCCCC"><b>Name of Work</b></td>
 <td><input type ="text" size="67" name="NameofWork" value="<? echo encodeFormValue($NameofWork) ?>"></td>
@@ -197,7 +204,7 @@ in the posted message.
 <tr>
 <tr>
 <td bgcolor="#CCCCCC"><h3>Project Comments</h3></td>
-<td><? echo stripslashes($comments) ?></td>
+<td><? echo stripslashes($comments); ?></td>
 </tr>
 </table>
 
