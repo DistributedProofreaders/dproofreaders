@@ -23,7 +23,7 @@ if (!file_exists($xmlfile)) {
 	}
 
 //Determine if the feed needs to be updated.  If not display feed to user
-if (filemtime($xmlfile) > $refreshdelay) {
+if (filemtime($xmlfile) == $refreshdelay) {
 readfile($xmlfile);
 } else {
 $relPath="./../pinc/";
@@ -76,9 +76,8 @@ $db_Connection=new dbConnect();
 				</rss>";
 			} else {
 				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
-				<!DOCTYPE projects SYSTEM \"$siteurl/feeds/projects.dtd\">
 				<!-- Last Updated: $lastupdated -->
-				<projects>
+				<projects xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"projects.xsd\">
 				$data
 				</projects>";
 			}
