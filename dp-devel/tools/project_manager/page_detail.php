@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'echo_project_info.inc');
+include_once('page_table.inc');
 
 theme("Project Details", "header");
 
