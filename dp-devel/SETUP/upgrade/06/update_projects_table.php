@@ -8,7 +8,8 @@ $result = mysql_query("ALTER TABLE `projects` ADD `final_page_count` SMALLINT( 4
 $result = mysql_query("ALTER TABLE `projects` ADD `ppverifier` VARCHAR( 25 )") or die(mysql_error());
 $result = mysql_query("ALTER TABLE `projects` ADD `special` VARCHAR( 20 ) AFTER `projectid`") or die(mysql_error());
 $result = mysql_query("ALTER TABLE `projects` ADD `image_provider` VARCHAR( 10 )") or die(mysql_error());
+$result = mysql_query("ALTER TABLE `projects` ADD `smoothread_deadline` INT( 20 ) DEFAULT '0' NOT NULL") or die(mysql_error());
 $result = mysql_query("ALTER TABLE `projects` ADD INDEX ( `special` )") or die(mysql_error());
 
-echo "<center><p>Addition of `final_page_count`, `special`, `ppverifier` and `image_provider` fields to `projects` table complete!";
+echo "<center><p>Addition of `final_page_count`, `special`, `ppverifier`, `image_provider` and `smoothread_deadline` fields to `projects` table complete!";
 ?>
