@@ -17,10 +17,13 @@ include_once($relPath.'page_states.inc');
         $data = mysql_result($result, 0, "round2_text");
     } else $data = "ERROR: Incorrect state parameter = ".$state." passed to script downloadproofed.php";
 
+    //decode html entities
+     $decodetext = html_entity_decode($data);
+
     // Send the page as plain-text.
     // Partly because it might possibly contain malicious HTML code, but
     // mainly because the client shouldn't be interpreting it as HTML anyhow.
     header('Content-type: text/plain');
-    echo $data;
+    echo $decodetext;
 
 ?> 
