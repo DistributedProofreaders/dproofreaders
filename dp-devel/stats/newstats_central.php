@@ -94,13 +94,23 @@ echo "<a href='user_logon_stats.php'>$sub_title</a><br><br>";
 echo "<br><br>";
 
 echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>";
-echo "<tr><td>";
+echo "<tr><td>&nbsp;</td><td>";
+echo _("Track by Project");
+echo "</td><td>";
+echo _("Track by Pages");
+echo "</td></tr><tr><td>";
+
+echo _("Creating");
+echo "</td><td>";
 
 $sub_title = _("Projects Created Graphs");
 echo "<a href='proj_created_graphs.php'>$sub_title</a><br><br>";
-echo "</td><td>N/A</td></tr>";
+echo "</td><td>Coming soon</td></tr>";
 
 echo "<tr><td>";
+echo _("Proofreading");
+echo "</td><td>";
+
 $sub_title = _("Projects Proofed Graphs");
 echo "<a href='proj_proofed_graphs.php'>$sub_title</a><br><br>";
 echo "</td><td>";
@@ -108,15 +118,22 @@ $sub_title = _("Pages Proofed Graphs");
 echo "<a href='pages_proofed_graphs.php'>$sub_title</a><br><br>";
 echo "</td></tr>";
 
-echo "<tr><td>";
-$sub_title = _("Projects PPd Graphs");
-echo "<a href='proj_PPd_graphs.php'>$sub_title</a><br><br>";
-echo "</td><td>N/A</td></tr>";
 
 echo "<tr><td>";
+echo _("PPing");
+echo "</td><td>";
+
+$sub_title = _("Projects PPd Graphs");
+echo "<a href='proj_PPd_graphs.php'>$sub_title</a><br><br>";
+echo "</td><td>Coming soon</td></tr>";
+
+echo "<tr><td>";
+echo _("Posting");
+echo "</td><td>";
+
 $sub_title = _("Projects Posted Graphs");
 echo "<a href='proj_posted_graphs.php'>$sub_title</a><br><br>";
-echo "</td><td>N/A</td></tr></table><br>";
+echo "</td><td>Coming soon</td></tr></table><br>";
 
 echo "<center><img src=\"jpgraph_files/cumulative_total_proj_summary_graph.php\"></center><br>";
 echo "<br><br>";
