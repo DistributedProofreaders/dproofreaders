@@ -117,7 +117,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	}
 	else
 	{
-		$line = "-1"; 
+		$line = "-1";
 	}
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
@@ -166,8 +166,11 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
     	$pguser_id = mysql_result($result, 0, "user_id");
     	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
     	$numofPMs = mysql_fetch_row($result);
+    	$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+    	$datecreated = mysql_result($result, 0, "date_created");
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
+	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
 	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>";
@@ -303,6 +306,15 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if ($neighborhood['pages'][$userindex] >= 20001) {
 	 $rankname = "Super Proofer";
 	}
+	if ($neighborhood['pages'][$userindex] >= 30001) {
+	 $rankname = "Profound Proofer";
+	}
+	if ($neighborhood['pages'][$userindex] >= 40001) {
+	 $rankname = "Priceless Proofer";
+	}
+	if ($neighborhood['pages'][$userindex] >= 50001) {
+	 $rankname = "Prime Proofer";
+	}
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Personal Statistics:</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;Total Pages: ";
@@ -384,9 +396,17 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<br></font>\n";
 	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
 
+	if (!empty($userP)) {
+		echo "<br><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><center><u>Key Help Documents:</u></center></font>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>Frequently Asked Questions</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>Proofing Guidelines</a> (<a href='$code_url/faq/summary.pdf'>Summary</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>Tips & How-To's</a></font><br>\n";
+	}
+
+
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
-	echo "<br><br><center>";
+	echo "<br><center>";
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
 <input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='donate@gutenberg.net'>\n";
 echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></center>\n";
