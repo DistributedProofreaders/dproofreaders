@@ -40,6 +40,9 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
 echo $docType."\r\n";
 ?>
 <html><head><title>Proofreading Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
