@@ -1,4 +1,6 @@
 <?php
+include_once($relPath.'v_resolution.inc');
+
 $p_l= array('no rounds','first round','second round','both rounds');
 $u_l= array('English','French','German','Spanish', 'Italian', 'Portuguese');
 $i_r= $i_resolutions;
