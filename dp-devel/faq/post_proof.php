@@ -397,7 +397,7 @@ as it incorporates Gutcheck into its interface.
 </p>
  
 <li><a name="10">Search for *.</a> 
-Search for *. In addition to the asterisks that you may have inserted
+In addition to the asterisks that you may have inserted
 yourself to mark potential problems, proofers may have used them to mark
 problems that they had to bring them to your attention. If you have left in
 the page markers, use them to guide you to the image containing the text
