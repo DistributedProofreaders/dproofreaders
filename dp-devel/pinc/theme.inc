@@ -310,7 +310,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
 
 	echo "<br></font>\n";
-	echo "<center><font size='1'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
+	echo "<center><font size='2'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
 
 	echo "</font><br><hr width='75%' align='center'><br>\n";
 
@@ -406,7 +406,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
-	echo "<center><font size='1'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
+	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
 	echo "<" . "!-- " . $userP['u_id'] . " -->";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
@@ -417,13 +417,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 		}
-        echo "<center><font size='1'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
-
-        // show link to replacement page for top ten
-//        if ($userP['u_top10']) {
-//             echo "<br><hr width='75%' align='center'><br>\n";
-//             echo "<center><a href='$code_url/stats/proof_stats.php'>Proofreading Statistics</a></center>\n";
-//        }
+        echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
 
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
