@@ -61,17 +61,19 @@ $graph->Add($lplot2); //Add the bar pages completed plot to the graph
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
+$graph->xaxis->SetTextTickInterval(91.25);
 
 //Set Y axis
 $graph->yaxis->title->Set('Pages');
 $graph->yaxis->SetTitleMargin(45);
+
 
 $graph->title->Set("Cumulative Pages Completed Since Stats Started");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
-$graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
+$graph->legend->Pos(0.85,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();
