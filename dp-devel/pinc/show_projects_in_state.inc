@@ -137,17 +137,17 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 			$foo_cell = $book[$foo_field_name];
 		}
 
-		tde($book['nameofwork'],  $bgcolor);
-		tde($book['authorsname'], $bgcolor);
-		tde($book['language'],    $bgcolor . " align=center");
+		echo "\n<td $bgcolor>$book['nameofwork']</td>";
+		echo "\n<td $bgcolor>$book['authorsname']</td>";
+		echo "\n<td $bgcolor align=center>$book['language']</td>";
 
 		if ($book['difficulty'] == "easy") { $genre = _("EASY")." ".$book['genre']; }
             		elseif ($book['difficulty'] == "hard") { $genre = _("HARD")." ".$book['genre']; }
 	            	else { $genre = $book['genre']; }
 
-		tde($genre,       $bgcolor . " align=center");
-		tde($tpages,              $bgcolor . " align=center");
-		tde($foo_cell,            $bgcolor . " align=center");
+		echo "\n<td $bgcolor align=center>$genre</td>";
+		echo "\n<td $bgcolor align=center>$tpages</td>";
+		echo "\n<td $bgcolor align=center>$foo_cell</td>";
 
 		echo "<td $bgcolor>\n";
 		echo "<form name=\"{$book['projectid']}\" method=\"get\" action=\"$code_url/tools/changestate.php\">";
