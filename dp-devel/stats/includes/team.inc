@@ -259,7 +259,7 @@ function showTeamStats($curTeam, $tally_name) {
 
 	$lastupdated = date("n/d/Y h:i:s A T", ($vitals->latest_snapshot_timestamp-1));
 
-	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-86400));
+	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
 	$t = new ThemedTable(
 		2,

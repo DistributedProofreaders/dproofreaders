@@ -273,7 +273,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 
-	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-86400));
+	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
 	if ($daysInExistenceInteger > 0) {
 	        $daily_Average = $vitals->current_tally/$daysInExistenceInteger;
@@ -300,7 +300,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$t->row(
 		_("Highest Rank"),
 		number_format($vitals->best_rank)
-		. "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp) . ")</i>"
+		. "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp-1) . ")</i>"
 		. "&nbsp;" . showChangeInRank($vitals->best_rank, $vitals->current_rank)
 	);
 	$t->row(
