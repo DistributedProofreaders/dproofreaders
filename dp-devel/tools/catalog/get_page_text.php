@@ -21,6 +21,8 @@ else
 {
     $row = mysql_fetch_array( $rows );
     header('Content-type: text/plain');
+    // SENDING PAGE-TEXT TO USER
+    // but it's a text/plain document, so we don't need to encode anything.
     echo $row[$column];
 }
 
