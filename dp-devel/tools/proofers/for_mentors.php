@@ -24,7 +24,7 @@ $result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects W
 while ($row =  mysql_fetch_array($result)) 
 {
 
-echo "<b>".$row['nameofwork']." by ".$row['authorsname']."</b> - Number of pages by each proofer<br><br>"; 
+echo "<b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>Number of pages by each proofer<br><br>"; 
 
 dpsql_dump_query("
 	SELECT
@@ -34,7 +34,7 @@ dpsql_dump_query("
 	ORDER BY 1
 ");
 
-echo "<br><br><b>".$row['nameofwork']." by ".$row['authorsname']."</b> - Which proofer did which page<br><br>"; 
+echo "<br><br><b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>Which proofer did which page<br><br>"; 
 
 dpsql_dump_query("
 	SELECT
