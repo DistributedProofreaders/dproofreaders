@@ -122,7 +122,7 @@ if (!isset($_POST['action'])) {
         $result = mysql_query("UPDATE $projectID SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE fileid=$fileID");
     } elseif ($state = BAD_SECOND) {
 	if ($writeBIGtable) {
-	        $result = mysql_query("UPDATE project_pages SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE project_pages = '$projectID' AND fileid=$fileID");
+	        $result = mysql_query("UPDATE project_pages SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE projectid = '$projectID' AND fileid=$fileID");
 	}
         $result = mysql_query("UPDATE $projectID SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE fileid=$fileID");
     }
