@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'v_keepmarkup.inc');
+include_once($relPath.'project_continuity.inc');
 
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
@@ -81,15 +82,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
   // only if not in a check
   if ($tbutton <100)
   {
-    $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
-    $result = mysql_query($sql);
-    $state = mysql_result($result, 0, "state");
-      if ((($proofstate == PROJ_PROOF_FIRST_AVAILABLE) && ($state != AVAIL_FIRST)) ||
-          (($proofstate == PROJ_PROOF_SECOND_AVAILABLE) && ($state != AVAIL_SECOND)))
-      {
-        $tpage->noPages($userP['i_newwin']);
-        exit;
-      } // end project open check
+    project_continuity_check($project,$proofstate,FALSE);
   }
 
 // BUTTON CODE

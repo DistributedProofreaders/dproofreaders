@@ -3,6 +3,18 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'project_continuity.inc');
+
+/* $_GET from "My Recently Completed/Proofread"
+$project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1, $editone=1
+*/
+
+/* $_GET from "Start Proofing" etc.
+$project, $proofstate
+*/
+
+//Make sure project is still in same state.
+project_continuity_check($project,$proofstate,!isset($editone));
 
 if (isset($saved)) {
 	$result = mysql_query("SELECT round1_user, round2_user FROM $project WHERE fileid = $fileid");
@@ -13,14 +25,6 @@ if (isset($saved)) {
 		exit();
 	}
 }
-
-/* $_GET from recently done
-$project, $fileid, $imagefile, $proofstate, $pagestate, $editone
-*/
-
-/* $_GET from start proofing
-$project, $proofstate
-*/
 
 $tpage=new processpage();
 //$tpage->deletePageCookie();
@@ -55,17 +59,6 @@ if (isset($editone))
   exit;
 }
 
-
-//Make sure project is still available
-  $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
-  $result = mysql_query($sql);
-  $state = mysql_result($result, 0, "state");
-    if ((($proofstate == PROJ_PROOF_FIRST_AVAILABLE)  && ($state != PROJ_PROOF_FIRST_AVAILABLE)) ||
-        (($proofstate == PROJ_PROOF_SECOND_AVAILABLE) && ($state != PROJ_PROOF_SECOND_AVAILABLE)))
-    {
-      $tpage->noPages($userP['i_newwin']);
-      exit;
-    } // end project open check
 
 // see if they need a new page or not
 $needPage=1;
