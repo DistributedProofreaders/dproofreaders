@@ -320,7 +320,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
 			$totalprojects = mysql_result($result,0);
-			echo "$displaydate - $totalprojects<br>\n";
+			echo "&nbsp;$displaydate - $totalprojects<br>\n";
 		}
         }	
 	echo "<br></font>\n";
