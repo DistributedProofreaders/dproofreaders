@@ -218,8 +218,8 @@ function setText()
 //if (document.all && !ieSt)
 if (!ieSt)
 {
-ieH=docRef.editform.text_data.offsetHeight;
-ieW=docRef.editform.text_data.offsetWidth;
+ieW=docRef.editform.text_data.style.width;
+ieH=docRef.editform.text_data.style.height;
 ieSt=1;
 }}
 
