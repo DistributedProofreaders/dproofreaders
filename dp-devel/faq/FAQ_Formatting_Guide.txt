@@ -1,0 +1,761 @@
+DP FAQ Formatting Guide
+
+version 0.11 by Bill Keir
+
+18 Sept 2003
+
+
+NB:       READ, OPEN AND SAVE 
+             THIS FILE AS 
+              ***TEXT***
+             NOT AS HTML!
+
+View it in a text editor, not a web
+browser or fancy word processor. It discusses
+HTML tags and uses examples of them and 
+we want you to be able to see them as they
+really are. :) 
+
+For full effect, do NOT rewrap this text 
+file, leave line wrap OFF, and scroll 
+sideways when you have to, as necessary. This 
+suggestion is not a whim, but has a point
+that will hopefully become clear before
+you have read it all. :D
+
+
+
+
+Just as we have guidelines on proofing a page
+or post-processing a project at DP, describing
+what to do and how the finished product should 
+look, so we now are creating guidelines on
+writing a FAQ for use on DP.  
+
+This initial version covers 
+
+
+Internal Formatting 
+
+The Impact of PHP
+
+and
+
+The Impact of CVS
+
+
+
+=====================
+=INTERNAL FORMATTING=
+=====================
+
+
+
+Our FAQ files will be viewed in several 
+different types of programs for several 
+different purposes. These different 
+types of programs have different ways 
+of dealing with the contents of the file. 
+Ideally we will be able to able to set 
+the files up so that they work well with 
+all the different programs at once.
+
+The different types of program include:
+
+
+Web browsers
+============
+
+So users can read the FAQ - this is of 
+course the main purpose of the file! 
+
+
+Text editors
+============
+
+So you and I and other people (if we are 
+hit by buses, or if there is a small typo 
+found that could be corrected by anybody, 
+etc) can edit, maintain and improve the 
+file over time. (HTML editors are a 
+variation of this, but almost always 
+contain a web browser and a text editor 
+combined. You get the preview of the web 
+page in the web browser part, and can 
+edit the HTML code directly in the text 
+editor part. Sometimes you can also edit inside 
+the 'browser' part, but you don't NEED to.)
+
+
+"CVS"
+=====
+
+Our code version control system, so the site 
+developers can keep track of what changes 
+were made to the file when and by who, and, 
+if necessary, obtain any particular version 
+of it, either current or historical. This
+allows the co-ordination and management of 
+many different people working on many different
+documents, which means the workload need
+not settle on a few.
+
+
+
+
+The main way these programs differ in how 
+they deal with a FAQ file is that Web browsers 
+will read it only in terms of the HTML code 
+inside it. In HTML whitespace is largely 
+ignored. ("Whitespace" includes spaces, tabs, 
+end-of-line characters and similar 'non-visible' 
+characters.) A web browser pays attention to 
+*A* space between words, but it does not 
+distinguish between one space and, say, seven 
+spaces; it does not distinguish between end-of-line 
+characters, spaces, tabs or other whitespace at all 
+(unless they are enclosed in the "preformatted 
+text" tags <pre> and </pre>), counting all of
+these as equivalent to a single space. 
+
+So, the following are equivalent to a web browser:
+
+<p>This is       
+                      a         sentence with
+lots
+
+
+of			  white 
+
+
+
+
+    space in my text 
+editor</p>
+
+and
+
+<p>This is a sentence with lots of white space 
+in my text editor</p>
+
+Both will show up on the web page as the same 
+paragraph, though they look very different 
+while reading the html as text (like you do 
+in a text editor).
+
+Text editors (and CVS), on the other hand,
+WILL pay close attention to whitespace. In fact 
+CVS goes a step further, and sees the whole 
+file as a collection of individual lines. 
+Given that the file will show up the 
+same way in the web browser if all we change 
+is whitespace (outside of any <pre> </pre> tags), 
+we are free to add whitespace to make it 
+convenient for both text editors and CVS 
+to work with the file, without affecting the
+presentation of the final product at all.
+
+
+
+
+Here is a section of a FAQ formatted as text in three 
+different ways. Although all three look very different
+in a text editor, all three will render exactly the
+same way inside a web browser.
+
+
+
+
+Sample Format #1 
+================
+
+-----------------------------------------------
+Good for browsers, bad for text editors and CVS
+-----------------------------------------------
+
+
+
+<BEGIN SAMPLE #1>
+
+<a href="#Tables">Tables</a><br><a href="#Sidenotes">Sidenotes</a><br><a href="#Headings">Headings and Subheadings</a><br><a href="#Indexes">Indexes</a><br><a href="#Errata">Errata Pages</a><br><h4>Symbols and Scripts</h4><a href="#Non-ASCII">Non-ASCII Characters</a><br><a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br><h4>Extra Checks</h4><a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br><h4>Technical Questions</h4><a href="#Formats">Non-ASCII Formats</a><br><a href="#Missing">Missing or Problem Images</a><br><a href="#Returning">Returning a Project</a><br><a href="#Beginner">BEGINNER and MENTOR projects</a><br><a href="#PPV">Post-Processing Verification</a><a href="#Other">Other Questions, and Suggestions for the FAQ</a><br><br><hr><p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-proofing a little less frightening!</p><hr><br><h2>Getting Started</h2><br><p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofing Questions section for advice.</p><br><h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4><p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p><p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-proofing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofing Guidelines</a> before attempting to post-proof.</p><br><h4><a name="Tools">What software will I need to get started?</a></h4><p>The requirements for software are minimal:</p><ul><li>a <a href="#Editors">text editor</a>,<li>a program capable of opening <a href="#Images">images</a>,<li>a spell checker, and <li><a href="#Gutcheck">Gutcheck</a>. </ul> <p>There are other useful <a href="#Extras">programs</a> available which are nice to have, but not essential. Take a look and see if any of them would be of use to you.</p><br> 
+
+<END SAMPLE #1>
+
+
+
+Comments
+--------
+
+This sample has had white space removed. This makes
+it bad for text editors even if line wrap is "on" (an 
+option in many text editors to artificially wrap the 
+text to the width of the window, only). If line wrap
+is off, it's worse. If you are reading this
+file in a text editor, switch line wrap off if you
+can. This sample text which will appear in a 
+web browser as several paragraphs can be seen above
+formatted as three very, very long lines (or perhaps 
+only one, even longer, depending on your text editor). 
+It makes no difference to the web browser, but makes it
+difficult to see where you are or to find a particular
+spot when editing in a text editor.
+
+
+
+
+Sample Format #2
+================
+
+-----------------------------------------------
+Good for browsers and text editors, bad for CVS
+-----------------------------------------------
+
+
+
+<BEGIN SAMPLE #2>
+
+<a href="#Tables">Tables</a><br>
+<a href="#Sidenotes">Sidenotes</a><br> 
+<a href="#Headings">Headings and Subheadings</a><br>
+<a href="#Indexes">Indexes</a><br> 
+<a href="#Errata">Errata Pages</a><br>
+
+<h4>Symbols and Scripts</h4>
+<a href="#Non-ASCII">Non-ASCII Characters</a><br> 
+<a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
+
+<h4>Extra Checks</h4>
+<a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br> 
+
+<h4>Technical Questions</h4>
+<a href="#Formats">Non-ASCII Formats</a><br> 
+<a href="#Missing">Missing or Problem Images</a><br> 
+<a href="#Returning">Returning a Project</a><br>
+<a href="#Beginner">BEGINNER and MENTOR projects</a><br>
+<a href="#PPV">Post-Processing Verification</a>
+<a href="#Other">Other Questions, and Suggestions for the FAQ</a><br> 
+<br> 
+<hr> 
+
+<p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-proofing a little less frightening!</p> 
+ 
+<hr> 
+<br>
+<h2>Getting Started</h2> 
+<br> 
+<p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofing Questions section for advice.</p>
+<br>
+<h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4>
+
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+
+<p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-proofing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofing Guidelines</a> before attempting to post-proof.</p>
+<br>
+<h4><a name="Tools">What software will I need to get started?</a></h4> 
+ 
+<p>The requirements for software are minimal:</p> 
+	<ul> 
+	<li>a <a href="#Editors">text editor</a>,
+	<li>a program capable of opening <a href="#Images">images</a>,
+	<li>a spell checker, and 
+	<li><a href="#Gutcheck">Gutcheck</a>. 
+	</ul> 
+ 
+<p>There are other useful <a href="#Extras">programs</a> available which are nice to have, but not essential. Take a look and see if any of them would be of use to you.</p> 
+<br> 
+
+<END SAMPLE #2>
+
+Comments
+--------
+
+This sample has lots of useful whitespace - useful 
+to a text editor, that is, as the web browser will
+render it exactly the same as it does sample 1! 
+However, for a human being editing this text in a 
+text editor (with line wrap switched on), this is MUCH 
+easier. The individual paragraphs and list items are
+separated, it's much easier to find a particular spot
+and see 'where you are' at all times. 
+
+However if you switch line wrap off you will see that
+the individual paragraphs are presented as single lines;
+there is no 'hard return' or end-of-line character 
+to force an end-of-line within a paragraph. The paragraph
+starting "The purpose of post-processing..." is over 600
+characters long, and the one after that over 450.
+
+If the person editing the file had to work in a 
+text editor that did NOT have a line wrap mode, 
+lines of this length would make it awkward to do so. 
+If the page threshold for PPing changes from 400 
+to 500 pages, there'd be much scrolling back and 
+forth sideways to locate the correct part of the text.
+
+Such long lines are what makes this format
+bad for CVS. CVS has no 'line wrap' mode,
+it sees the file purely as a collection of lines, each
+ended by a hard-return end-of-line character. One
+of the most useful functions of CVS is to show
+the differences between different versions of
+a file. It does this by reporting each line
+that has changed. If 400 had been changed to 500
+in the example above, and a report on the differences
+between the before and after version was requested
+by someone else, it would report the whole 450
+character one-line paragraph as having been changed.
+
+As a further example, how easy is it to spot the change
+made between the first and second copy of this? (For
+best simulation of the situation facing the developer 
+using CVS, make sure your line wrap is OFF before you 
+try to find the change in the two following lines)
+
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+
+
+
+
+Just as we added whitespace to Sample 1 and 
+made it friendly to text editors as well as
+web browsers, so we can add a little more whitespace
+to Sample 2 and make it friendly to CVS as well
+as text editors and web browsers. Thus, 
+Sample 3...
+
+
+
+
+
+Sample Format #3
+================
+
+---------------------------------------
+Good for browsers, text editors and CVS
+---------------------------------------
+
+
+<BEGIN SAMPLE #3>
+
+<a href="#Tables">Tables</a><br>
+<a href="#Sidenotes">Sidenotes</a><br> 
+<a href="#Headings">Headings and Subheadings</a><br>
+<a href="#Indexes">Indexes</a><br> 
+<a href="#Errata">Errata Pages</a><br>
+
+<h4>Symbols and Scripts</h4>
+<a href="#Non-ASCII">Non-ASCII Characters</a><br> 
+<a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
+
+<h4>Extra Checks</h4>
+<a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br> 
+
+<h4>Technical Questions</h4>
+<a href="#Formats">Non-ASCII Formats</a><br> 
+<a href="#Missing">Missing or Problem Images</a><br> 
+<a href="#Returning">Returning a Project</a><br>
+<a href="#Beginner">BEGINNER and MENTOR projects</a><br>
+<a href="#PPV">Post-Processing Verification</a>
+<a href="#Other">Other Questions, and Suggestions for the FAQ</a><br> 
+<br> 
+<hr> 
+
+<p>
+This FAQ is designed as a guide for post-proofers, especially new ones.
+I hope that it makes the task of post-proofing a little less frightening!
+</p> 
+ 
+<hr> 
+<br>
+<h2>Getting Started</h2> 
+<br> 
+<p>
+This section is designed especially for the first-time post-proofer. 
+It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.
+For more difficult books, please see the Advanced Proofing Questions section for advice.
+</p>
+<br>
+<h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4>
+
+<p>
+The purpose of post-processing is to massage an etext into a readable form. 
+In its journey through two proofing rounds,
+the text will have been edited by perhaps hundreds of proofers. 
+The post-processor must standardize the formatting of the book
+and adjust it to comply with Project's Gutenberg's requirements. 
+The post-processor must also correct as many errors as possible
+that have survived both proofing rounds. 
+The ultimate goal of post-processing is to create a plain-text etext
+with consistent formatting throughout, which contains as few errors as possible,
+and which accurately reflects the intentions of the author.
+</p>
+
+<p>
+Post-processors require more experience than ordinary proofers.
+Because they are preparing the text for uploading to Project Gutenberg,
+they are the final editors of the text. 
+Because of this, post-proofing is only available for proofers who have completed at least
+<b>400</b> pages in the first and/or second proofing rounds. 
+Also, post-proofers should be very familiar with the
+<a href="document.php">Proofing Guidelines</a> before attempting to post-proof.
+</p>
+<br>
+<h4><a name="Tools">What software will I need to get started?</a></h4> 
+ 
+<p>
+The requirements for software are minimal:
+</p> 
+	<ul> 
+	<li>a <a href="#Editors">text editor</a>,
+	<li>a program capable of opening <a href="#Images">images</a>,
+	<li>a spell checker, and 
+	<li><a href="#Gutcheck">Gutcheck</a>. 
+	</ul> 
+ 
+<p>
+There are other useful <a href="#Extras">programs</a> available which are nice to have,
+but not essential.
+Take a look and see if any of them would be of use to you.
+</p> 
+<br> 
+
+<END SAMPLE #3>
+
+
+Comments
+--------
+
+This maybe doesn't look quite as nice, especially 
+if you are viewing it in a text editor with
+line wrap on and a window too narrow. Turn line wrap
+OFF and make the window as wide as possible. The paragraphs
+may look a little weird in the text editor, but they are
+not THAT different: the only real changes between samples 
+2 and 3 are 
+
+1. 
+
+No line goes for more than about 80 characters 
+without a hard-return end-of-line character.
+
+and 
+
+2. 
+
+<p> and </p> tags get a line of their own
+
+
+To a web browser, though, this Sample will show 
+up exactly the same as Samples 1 or 2. The separate 
+lines in each paragraph will flow together just as 
+nicely as if the extra whitespace wasn't there - 
+from a web browser's perspective, it's all just single 
+spaces! And it's in a web browser that the readers 
+will be reading the FAQ, after all.
+
+
+The reasons for these changes:
+==============================
+
+
+1. Limit on line length
+-----------------------
+
+This is what makes this format so friendly 
+for CVS. When asked to report the differences 
+between versions when the same change was 
+made as in the second example above, 
+it will show:
+
+
+
+and adjust it to comply with Project's Gutenberg's requirements. 
+
+and adjust it to comply with Project Gutenberg's requirements. 
+
+
+
+Rather easier to spot exactly what is different 
+between the two versions now! Each line is tracked
+separately by CVS, and making the lines bite-size
+in terms of processing by the human brain is
+a great improvement.
+
+When a whole sentence fits under 80 characters, 
+that's a great natural candidate for a line by itself.
+The question is, where do you break lines that
+are over 80 characters long? There is no exact 
+science, but after a ; or a , or lacking them,
+after the end of some grammatical component of
+a sentence, all make good candidates for forcing 
+a line break. Have a look at how it was done in 
+Sample 3 above and you will see samples of most
+of these.
+
+One way to look at this is to imagine
+you are preparing an etext to be read on a screen
+that is under 80 characters wide. Soft wrap does 
+not count, each line must have been ended by having
+had the ENTER key explicitly pressed. To see
+the text as CVS will see it, turn line wrap OFF,
+and edit the file that way.
+
+
+2. <p> and </p> tags get a line of their own
+--------------------------------------------
+
+This is a minor point, but it means that if 
+lines are added to the start or end of 
+a paragraph later, only the new text itself will
+be reported as a change; it won't look like
+a new paragraph was created (unless one was).
+It's perhaps really only worth the effort if the 
+paragraph extends over more than one line.
+
+
+
+If you want to put MORE whitespace in, to make it 
+easier for you to organise the FAQ and see the 
+different sections, feel free. The key to
+making it CVS-friendly is keeping the length
+of the lines down. 
+
+
+
+
+
+
+===================
+=THE IMPACT OF PHP=
+===================
+
+In the good old days, our FAQs were 100% 
+written in HTML. All that showed up on the 
+screen in the web browser was the rendering 
+of the HTML code you typed in. Now we have 
+moved to PHP, which sounds like it might be 
+a big change, but really only means now our FAQs 
+are 99.9% written in HTML, and some things 
+show up on the screen in the web browser that
+you might think you didn't put there.
+
+To quote Michael Dyck:
+
+"(1) With .html documents, the file that reaches the
+browser is pretty much the same as the file sitting on
+the server. So if you View Source or Save Page in your
+browser, you'll get something pretty close to what's on
+the server. But this is not true with .php files. So if
+you want to change something, you should start with an
+(up-to-date) copy of the .php file on the server, and
+not a 'Save' of the document that reaches your browser.
+
+"(2) If you don't understand the stuff between the <? ?>
+marks, that's okay, just leave it alone. (One problem
+here is that if you view a .php file in an HTML
+browser, links like
+    <a href="<? echo $projects_forum_url ?>">foo</a>
+aren't going to work.) If you add something (usually a
+URL) that would be better expressed as a <??>, a more
+PHP-knowledgeable person can take care of rephrasing
+it."
+
+
+<a href="<? echo $projects_forum_url ?>">  
+is what we use for the project forums URL, instead
+of something like <a href="http://www,pgdp.net/phpBB2/viewforum.php?f=2">.
+This anchor will never need changing, even if the site 
+moves and the forums are renamed or moved, you can always 
+just cut-n-paste this string for the project 
+forums URL and it will work. It will work 
+whether or not you are 100% sure why, so 
+don't worry if it seems a little mysterious.
+
+Similar PHP forum URL substitutions exist for
+the General Forum and the PP Forum.
+
+$general_forum_url         = "$forums_url/viewforum.php?f=1";
+$projects_forum_url        = "$forums_url/viewforum.php?f=2";
+$post_processing_forum_url = "$forums_url/viewforum.php?f=3";
+
+If you want to add URLs to posts or forums, you
+can  add them in either form, and I can change
+them if necessary before committing the file 
+to CVS (a necessary prelude to rolling it out
+on site). When you are making changes or 
+creating later versions of the FAQ, though,
+please do not change any of the <? echo $blah ?>
+style links back to the http://www.pgdp.net/phpbb2/ 
+style, as I will then only have to change them 
+back again to php style myself before the FAQ
+can be rolled out. It's only for on site urls 
+that point to a directory other than the FAQ 
+directory that will need this treatment, by the
+way. URLs to completely different sites can
+and should remain as is, and also links to
+other files in the FAQ directory can remain
+the same (these are links that just feature
+a file name, like document.php for the Proofing
+Guidelines).
+
+
+One of the things PHP has done for us in FAQs 
+is allow all of them to appear with the
+standard site header. This is done by starting
+the FAQ file with a snippet of PHP code like:
+
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Post-Proofing FAQ','header');
+?>
+
+
+The only thing that should be changed in
+here is the title of the document in the
+line that starts 'theme'.
+
+This is what Michael was talking about above,
+that the file on the server (which contains
+just that little snippet of PHP code) can
+look different from the file sent to the web
+browser. That little snippet of PHP is executed
+when the page is loaded from the server by 
+a web browser, and sends, not itself, but 
+instead the following HTML, to the browser:
+
+
+(NB The details of this lump of code, follwoing,
+ are not important; it's just the definition 
+of our standard header. The point is that although
+this HTML code shows up in the web browser,
+it is not actually in the FAQ file)
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head><link rel='shortcut icon' href='http://www.pgdp.net/c/favicon.ico'>
+<title>DP -- Post-Proofing FAQ</title>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+
+<body bgcolor='#cccccc' text='#000000' link='#0000ff' vlink='#0000ff' alink='#0000ff' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>
+<table width='100%' cellSpacing=0 cellPadding=0 border=0>
+
+<tr>
+<td width='50%' bgcolor='#e0e8dd'>
+<a href='http://www.pgdp.net/c'>
+<imgsrc='http://www.pgdp.net/c/pinc/templates/project_gutenberg/graphics/logo.gif' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a></td>
+<td width='50%' bgcolor='#e0e8dd' align='center' valign='middle'>
+<font color='#000000' face='verdana, helvetica, sans-serif' size='2'>1,038 books left till number 10,000 is posted to PG!</font></td>
+</tr>
+</table>
+<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='#336633'>
+<tr>
+<td width='10' align='left' bgcolor='#336633'>&nbsp;</td>
+<td width='50%' align='left' valign='middle' bgcolor='#336633'>
+<a href='http://www.pgdp.net/c/default.php'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>DP</font></a>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'> È Post-Proofing FAQ</font>
+</td>
+<td width='50%' align='right' bgcolor='#336633'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>
+<a href='http://www.pgdp.net/c/faq/faq_central.php'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>Help</font></a>&nbsp;
+<b>&#183;</b>&nbsp;<a href='http://www.pgdp.net/phpBB2/'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>Forums</font></a>&nbsp;
+<b>&#183;</b>&nbsp;<a href='http://www.pgdp.net/phpBB2/privmsg.php?folder=inbox'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>Inbox</a></font>&nbsp;
+<b>&#183;</b>&nbsp;<a href='http://www.pgdp.net/c/userprefs.php'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>Preferences</font></a>&nbsp;
+<b>&#183;</b>&nbsp;<a href='http://www.pgdp.net/c/tools/logout.php'>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>Log Out</font></a>&nbsp;
+</font></td>
+</tr>
+</table>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+<tr>
+<td align='left' valign='top' width='5' bgcolor='#ffffff'>&nbsp;</td>
+<td align='left' valign='top' width='100%' bgcolor='#ffffff'>
+
+
+
+
+This is the HTML that defines our standard site header.
+There are links in it to the forums, and FAQ central, and your inbox, etc. 
+But someone who has selected a different theme will see a 
+slightly different version, with different colours. PHP
+produces customised HTML code on the fly, which is why
+we can start our FAQs with
+
+<?
+$relPath='../pinc/';
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+$no_stats=1;
+theme('Post-Proofing FAQ','header');
+?>
+
+and have them show up in the browsers as if all
+the above huge lump of HTML code was in there 
+at the start, but personalised for each user's taste 
+in colours and styles.
+
+This is why grabbing the version of the FAQ file
+out of your browser (by saving it as HTML, for 
+instance) will NOT produce the desired result: 
+a copy of the file that can be edited to
+produce an updated version of the FAQ.
+
+This ties in with CVS, which brings us to:
+
+
+
+
+===================
+=THE IMPACT OF CVS=
+===================
+
+
+CVS owns the master copies of all the code,
+and all the files on site. This includes
+the FAQs. The one true copy is the one in CVS.
+(Actually, there are many copies in CVS, one
+for each different committed version of
+each file. Whichever one is on the live site
+is also in CVS, but it is CVS's copy of that
+current version that is the "one true master copy"
+from which all others are derived.)
+
+This system allows everyone to get to the
+"one true master copies", directly or indirectly,
+at any time.
+
+A file being in CVS means many people can make
+many small changes or corrections, and they are
+all included in the latest copy. Whether you are
+going to produce a major upgrade or merely fix a
+single typo, it is from a copy of the one true
+master copy in CVS that you should/must start.
+Any FAQ maintainers who do not have (or want?)
+direct CVS access can ask anyone who does to
+send them the latest copy of a file to start work
+on. If the changes are small (on the level of a typo
+or a few lines, or even "add this paragraph here"),
+then you can email the description and content of 
+the changes to me and I will make them for you.
+
+
+
+
+Questions? Comments? Suggestions?
+
+Please get in touch!
