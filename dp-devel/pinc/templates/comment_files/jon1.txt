@@ -1,0 +1,20 @@
+<p>
+<b>To the post-processor:</b>
+An HTML edition of this is required. We don't yet have any set standards for
+HTML, although these are being developed. In the mean time, make sure that
+whatever you produce satisfied the following:
+<ul>
+<li>Please make sure that the HTML validates to at least XHTML 1.0
+transitional.
+<li>Anchors should be made named 'pageXXX', enabling the reader to jump
+straight to a particular page.
+<li>If the project has an index, then this index should be formatted as a
+nested list, and the page numbers listed should be linked to the page anchors
+you've already created.
+<li>Edition and printing information should be retained.
+<li>Please check the list of images (follow the 'View Images Online' link on
+the post-processing page). Any illustrations will have been scanned in
+seperately in grayscale or colour, and will generally have been named
+<tt>imageXX.png</tt>. These images should be incorporated into the final HTML
+edition.
+</ul>

@@ -1,0 +1,7 @@
+<p>
+<b>To the post-processor:</b>
+An HTML edition of this is required. Information about the HTML style you
+should follow will be given on the <a
+href="http://www.pgdp.net/phpBB2/viewtopic.php?t=9190">overall discussion
+thread for this project</a>. Please note that you should be comfortable with
+manipulating images.
