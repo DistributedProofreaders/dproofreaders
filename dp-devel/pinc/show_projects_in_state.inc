@@ -172,6 +172,7 @@ function show_projects_in_state($state,$table=1)
 		if ($stage == 'post_1')
 		{
 			echo_option( 'GET_TEXT_POST_1_ZIP', 'Download Zipped Text' );
+			echo_option( 'GET_XML_POST_1_ZIP',  'Download Zipped TEI Text' );
 			echo_option( 'GET_COMMENTS_POST', 'View Project Comments' );
 		}
 		elseif ($stage == 'post_2')
