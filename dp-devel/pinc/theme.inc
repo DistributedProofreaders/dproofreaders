@@ -90,11 +90,11 @@ function html_header($code_url, $theme, $nameofpage) {
 	echo "<title>DP";
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
-      if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page')
-      {
-        	include($relPath.'special_colours.inc');
-      }
-	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n</head>\n\n";
+	if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page')
+	{
+		include($relPath.'special_colours.inc');
+	}
+	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n</head>\n\n";
 	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text']; 
 	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink']; 
 	echo "' alink='" . $theme['body_alink']; 
