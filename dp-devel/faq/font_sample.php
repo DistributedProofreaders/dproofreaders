@@ -8,21 +8,23 @@ new dbConnect();
 $no_stats=1;
 theme(_('Custom Font Comparison'),'header');
 
+// if they're not logged in use arial
 
-// determine user's current proofing font
+$tfont = 'Arial';
+
+// determine user's current proofing font, if any
 
 if ($userP['i_layout']==1)
 {
         $tfonti = $userP['v_fntf'];
         $tfont = $f_f[$tfonti];
-} elsif ($userP['i_layout']==0) {
-       	$tfonti = $userP['h_fntf'];
-       	$tfont = $f_f[$tfonti];	
-} else {
-	$tfont = 'Arial';
+}  else if ((count($userP) > 0) and ($userP['i_layout']==0)) {
+        $tfonti = $userP['h_fntf'];
+        $tfont = $f_f[$tfonti];
 }
 
 $cfont = $tfont;
+
 
 // get font variable from url, if any
 
@@ -102,7 +104,7 @@ if ($DPCM) {
 
 $exp_text .= _("If DpCustomMono2 is displayed correctly in this paragraph, 
 	then please browse through the gallery of font comparisons below 
-	to remind yourself why its so useful.")." ";
+	to remind yourself why it's so useful.")." ";
 
 } 
 
@@ -131,7 +133,7 @@ foreach ($f_f as $otherfont) {
 }
 
 
-echo " | <a href='images/Original.gif'>"._("View original image")."</a></P>\n";
+echo " | <a href='images/Original.gif'>"._("View original image")."</a></P><br><br>\n";
 
 
 if ($tfont != 'DPCustomMono2') {
