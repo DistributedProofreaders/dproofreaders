@@ -16,7 +16,7 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 	echo _("We currently have the following languages available for translation.  These languages are based upon the ISO-639 list and if you do not see a language you would like to proof available please click <a href='new_lang.php?func=newlang'>here</a>.");
 	echo "<br><br><center>"._("Please click the <i>Translate</i> link next to the language you would like to translate to begin:")."</center><br><br>";
 
-	$dir = opendir($code_dir."/locale/");
+	$dir = opendir($dyn_locales_dir);
 	echo "<table border='0' cellspacing='3' cellpadding='' width='100%'><ul>";
  	while (false !== ($file = readdir($dir))) {
  		if ($file != "." && $file != ".." && $file != "CVS" && $file != "translators") {
@@ -28,7 +28,7 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 
 if (!empty($_GET['lang']) && $func == "translate") {
 	$lang = $_GET['lang'];
-	$translation = parse_po(file($code_dir."/locale/$lang/LC_MESSAGES/messages.po"));
+	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
 	$i = 0;
 	if (!isset($translation['location']))
 	{

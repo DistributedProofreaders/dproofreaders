@@ -11,7 +11,7 @@ theme(_("Translation Center"), "header");
 if (isset($_GET['func'])) { $func = $_GET['func']; } else { $func = ""; }
 
 if (empty($_GET['lang']) && $func == "newlang") {
-	$dir = opendir($code_dir."/locale/");
+	$dir = opendir($dyn_locales_dir);
 	$i = 0;
 	while (false != ($file = readdir($dir))) {
 		if ($file != "." && $file != ".." & $file != "CVS" && $file != "translators") {
@@ -31,13 +31,13 @@ if (empty($_GET['lang']) && $func == "newlang") {
 
 if (!empty($_GET['lang']) && $func == "create_newlang") {
 	$lang = $_GET['lang'];
-	mkdir($code_dir."/locale/$lang", 0755);
-	mkdir($code_dir."/locale/$lang/LC_MESSAGES/", 0755);
+	mkdir("$dyn_locales_dir/$lang", 0755);
+	mkdir("$dyn_locales_dir/$lang/LC_MESSAGES/", 0755);
 
 	chdir($code_dir);
 	exec("xgettext `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
 
-	chdir($code_dir."/locale/$lang/LC_MESSAGES/");
+	chdir("$dyn_locales_dir/$lang/LC_MESSAGES/");
 	exec("msgfmt messages.po -o messages.mo");
 
 	metarefresh(0, "index.php?func=translate&lang=$lang", "", "");

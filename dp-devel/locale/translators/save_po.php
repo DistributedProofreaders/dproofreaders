@@ -12,7 +12,7 @@ theme(_("Translation Center"), "header");
 if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
 	$lang = $_POST['lang'];
-	chdir($code_dir."/locale/$lang/LC_MESSAGES/");
+	chdir("$dyn_locales_dir/$lang/LC_MESSAGES/");
 	$result = mysql_query("SELECT real_name, email FROM users WHERE username = '$pguser'");
 	$real_name = mysql_result($result, 0, "real_name");
 	$email_addr = mysql_result($result, 0, "email");
@@ -52,14 +52,14 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 
 	$lang = $_POST['lang'];
-	$translation = parse_po(file($code_dir."/locale/$lang/LC_MESSAGES/messages.po"));
+	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
 
 	chdir($code_dir);
 	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
 
 	$i=4;
-	$lines = file($code_dir."/locale/$lang/LC_MESSAGES/messages.po");
-	$po_file = fopen($code_dir."/locale/$lang/LC_MESSAGES/messages.po", "w");
+	$lines = file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
+	$po_file = fopen("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po", "w");
 	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
 	while ($i < count($lines)) {
 		fputs($po_file, $lines[$i]);

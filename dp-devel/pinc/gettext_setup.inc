@@ -21,7 +21,7 @@ $locale = setlocale(LC_ALL, $intlang);
 $gettext_domain = 'messages';
 if ( function_exists('bindtextdomain') )
 {
-    bindtextdomain($gettext_domain, $code_dir . "/locale");
+    bindtextdomain($gettext_domain, $dyn_locales_dir);
     textdomain($gettext_domain);
     bind_textdomain_codeset ($gettext_domain, "UTF-8");
 }
