@@ -133,10 +133,10 @@ $help = Array();
 
 $help['Save and Quit'] = "
 <p>
-    \"I have finished proofing this page,
+    <i>\"I have finished proofing this page,
     it is as correct as I can make it,
     so I want to save it as <a href='#done'>DONE</a>,
-    and stop proofing for now.\"
+    and stop proofing for now.\"</i>
 </p>
 <p>
     Save all changes, and finish proofing the current page.
@@ -149,10 +149,10 @@ $help['Save and Quit'] = "
 $help['Save and Do Another'] = 
 $help['Save and Proof Next Page'] = "
 <p>
-    \"I have finished proofing this page,
+    <i>\"I have finished proofing this page,
     it is as correct as I can make it,
     so I want to save it as <a href='#done'>DONE</a>,
-    and start proofing the next available page.\"
+    and start proofing the next available page.\"</i>
 </p>
 <p>
     Save all changes, and finish proofing the current page.
@@ -164,8 +164,8 @@ $help['Save and Proof Next Page'] = "
 
 $help['Save'] = "
 <p>
-    \"I haven't finished proofing this page,
-    but I want to save my work on it so far.\"
+    <i>\"I haven't finished proofing this page,
+    but I want to save my work on it so far.\"</i>
 </p>
 <p>
     Save changes to the current page.
@@ -179,9 +179,9 @@ $help['Save'] = "
 
 $help['Quit'] = "
 <p>
-    \"I haven't finished proofing this page,
+    <i>\"I haven't finished proofing this page,
     but I want to stop proofing for now.
-    I will finish proofing this page later.\"
+    I will finish proofing this page later.\"</i>
 </p>
 <p>
     Closes the proofing interface without saving the current page.
@@ -197,7 +197,7 @@ $help['Quit'] = "
 
 $help['Report Bad Page'] = "
 <p>
-    \"This page is damaged or flawed so badly no one could proof it.\"
+    <i>\"This page is damaged or flawed so badly no one could proof it.\"</i>
 </p>
 <p>
     Loads the Report Bad Page form.
@@ -222,8 +222,8 @@ $help['Report Bad Page'] = "
 $help['Return Page to Round'] =
 $help['Return Page to Current Round'] = "
 <p>
-    \"This page is more than I can (or want to) proof at the moment,
-    but someone else may have better luck.\"
+    <i>\"This page is more than I can (or want to) proof at the moment,
+    but someone else may have better luck.\"</i>
 </p>
 <p>
     Abandons any changes you have made to the current page,
@@ -252,7 +252,7 @@ $help['Return Page to Current Round'] = "
 $help['Spell Check'] =
 $help['Run Spelling Check'] = "
 <p>
-    \"I want to check this page with the automatic spell checker.\"
+    <i>\"I want to check this page with the automatic spell checker.\"</i>
 </p>
 <p>
     Loads the Spelling Check form.
@@ -270,7 +270,7 @@ $help['Run Spelling Check'] = "
 
 $help['Switch to Vertical/Horizontal'] = "
 <p>
-    \"I'd rather the image was above / to the left of the text.\"
+    <i>\"I'd rather the image was above / to the left of the text.\"</i>
 </p>
 <p>
     Toggles your interface layout between horizontal
@@ -714,6 +714,9 @@ Currently, this is the only method for scrolling the image.<BR>
 <p>
     Note that [Blank Page] will clear any existing text in the proofing window.
 </p>
+<p>
+    Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
+</p>
 
 
 <h4>Italics and Bold tag buttons</h4>
@@ -733,6 +736,44 @@ Currently, this is the only method for scrolling the image.<BR>
     dragged (Internet Explorer) or cut-and-pasted (other browsers)
     into the appropriate places in the proofing window.
 </p>
+<p>
+    Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
+</p>
+
+
+<h4><a name='tagtip'>Tag Insertion Tip</a></h4>
+
+<p>
+    The following will not work in all browsers,
+    but can be a time-saver in those in which it does:
+    you can select a character (or word, or line, or paragraph)
+    to be wrapped in paired tags
+    (such as Sidenote, Illustration, Footnote, italic, bold)
+    before you press the tag link in the proofing toolbar,
+    to have the tags automatically positioned at the start
+    and end of the selected text.
+</p>
+<p>
+    For example, if the caption for an illustration is in your page,
+    you can select the caption in the text box
+    (by clicking your mouse at the start of the caption,
+    and dragging the mouse to the end of the caption
+    while keeping the button depressed),
+    then click on the "Illustration" link in the proofing toolbar,
+    to have the desired tags inserted at the beginning and end of the caption.
+</p>
+<p>
+    In cases where a common tag is singular
+    (such as the 'thought break' row of asterisks),
+    you can select, say, a space character in the text
+    where you want the tag to be added,
+    and it will be positioned there when you click the tag link.
+</p>
+<p>
+    Remember, this may not work in all browsers.
+</p>
+
+
 
 <dl>
 <dt>
@@ -810,6 +851,16 @@ Position the cursor in the text area
 where you would like the tag or character to appear
 and then paste the text from the clipboard (using ctrl-v/cmd-v).
 -->
+
+<hr>
+
+<p>
+    If you have suggestions for how this documentation can be improved,
+    or find an error in it,
+    or can make a clarification,
+    please post a message in the
+    <a href='<? echo $general_forum_url; ?>'>General Forum</a>.
+</p>
 
 <?
 theme('','footer');
