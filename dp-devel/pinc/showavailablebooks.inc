@@ -73,9 +73,9 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			else
 				{$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
 			$temp.="{$book['nameofwork']}</a>";
-			tde($temp, bgcol($rownum, $round));
-			tde($book['authorsname'], bgcol($rownum, $round));
-			tde($book['language'], bgcol($rownum, $round));
+			tde($temp, $bgcolor);
+			tde($book['authorsname'], $bgcolor);
+			tde($book['language'], $bgcolor);
 			if ($book['difficulty'] == "beginner")
 			{
 				if  ($round == "first") 
@@ -95,10 +95,10 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			{
 				$genre = $book['genre'];
 			}
-			tde($genre, bgcol($rownum, $round));
-			tde($book['username'],bgcol($rownum, $round));
-			tde($pageCountArray[$book['projectid']]['avail_pages'], bgcol($rownum, $round) . " align=center");
-			tde($pageCountArray[$book['projectid']]['total_pages'], bgcol($rownum, $round) . " align=center");
+			tde($genre, $bgcolor);
+			tde($book['username'],$bgcolor);
+			tde($pageCountArray[$book['projectid']]['avail_pages'], $bgcolor . " align=center");
+			tde($pageCountArray[$book['projectid']]['total_pages'], $bgcolor . " align=center");
 		}
 		else
 		{
