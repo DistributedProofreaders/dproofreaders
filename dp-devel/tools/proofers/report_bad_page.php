@@ -5,6 +5,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 
 $projectid  = $_POST['projectname'];
@@ -93,9 +94,15 @@ if ($totalBad >= 10) {
 	$uniqueBadPages = mysql_result($result,0);
 	if ($uniqueBadPages >= 3) {
 		if($badState==BAD_FIRST) {
-			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='$projectid'");
+			$new_state = PROJ_PROOF_FIRST_BAD_PROJECT;
 		} else {
-			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='$projectid'");
+			$new_state = PROJ_PROOF_SECOND_BAD_PROJECT;
+		}
+		$error_msg = project_transition( $projectid, $new_state );
+		if ($error_msg)
+		{
+			echo "$error_msg<br>\n";
+			return;
 		}
 		$project_is_bad = TRUE;
 	} 
