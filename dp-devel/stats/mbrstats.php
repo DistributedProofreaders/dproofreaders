@@ -52,7 +52,10 @@ $max_update = mysql_result($result,0,0);
 			$prevDayCount[$row['u_id']] = $row['total_pagescompleted'];
 		}
 
-		$result = mysql_query("SELECT u_id, pagescompleted FROM users");
+		$result = mysql_query("
+			SELECT u_id, pagescompleted
+			FROM users
+		");
 		while($row = mysql_fetch_assoc($result)) {
 			$u_id = $row['u_id'];
 			$rank = $rankArray[$u_id];

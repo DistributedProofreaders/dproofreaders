@@ -48,7 +48,10 @@ $max_update = mysql_result($result,0,0);
 			$prevDayCount[$row['team_id']] = $row['total_page_count'];
 		}
 
-		$result = mysql_query("SELECT id, page_count FROM user_teams");
+		$result = mysql_query("
+			SELECT id, page_count
+			FROM user_teams
+		");
 		while($row = mysql_fetch_assoc($result)) {
 			$team_id = $row['id'];
 			if ($team_id != 1) {
