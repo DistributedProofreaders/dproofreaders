@@ -195,25 +195,10 @@ class TallyBoard
                 AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
         ");
-        $i = 1;
+        $ranker = new Ranker(TRUE);
         while (list($holder_id, $tally_value) = mysql_fetch_row($result))
         {
-            // A tally of zero or less yields the special rank of zero.
-            // (Think of it as a null rank.)
-            if ($tally_value <= 0)
-            {
-                $rank_of_[$holder_id] = 0;
-                continue;
-            }
-
-            if ($i == 1 || $tally_value != $latest_tally)
-            {
-                $latest_rank  = $i;
-                $latest_tally = $tally_value;
-            }
-            $rank_of_[$holder_id] = $latest_rank;
-
-            $i++;
+            $rank_of_[$holder_id] = $ranker->next( $tally_value );
         }
 
         return $rank_of_;
@@ -302,15 +287,10 @@ class TallyBoard
 
         $neighbors = array();
         $r = 1;
-        $latest_tally = -1000; // A value that the first $row[$tally_alias] will not be equal to.
-        $latest_rank = NULL;
+        $ranker = new Ranker(FALSE);
         while ($row = mysql_fetch_assoc($result))
         {
-            if ( $row[$tally_alias] != $latest_tally )
-            {
-                $latest_tally = $row[$tally_alias];
-                $latest_rank = $r;
-            }
+            $latest_rank = $ranker->next( $row[$tally_alias] );
 
             $rel_posn = $r - $target_holder_r;
             if ( abs($rel_posn) <= $radius )
@@ -504,6 +484,66 @@ class TallyBoard
         return $delta_at_;
     }
 
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Given a descending sequence of values,
+// an object of this class will yield their sequence of ranks.
+
+class Ranker
+{
+    function Ranker( $zero_begets_zero )
+    // If $zero_begets_zero is TRUE,
+    // a value of zero or less will yield the special rank of zero.
+    // (Think of it as a null rank.)
+    {
+        $this->zero_begets_zero = $zero_begets_zero;
+
+        $this->n = 0;
+        // Counts the number of calls to 'next',
+        // and thus the position of each item in the sequence,
+        // and is thus the first approximation to each item's rank.
+    }
+
+    function next( $value )
+    {
+        $this->n++;
+
+        // The sequence of values supplied to the 'next' function
+        // must be non-increasing
+        // (i.e., each value must be less than or equal to the previous).
+        //
+        if ( $this->n == 1 )
+        {
+            // First call to 'next', no previous value.
+            assert( !isset($this->prev_value) );
+        }
+        else
+        {
+            assert( $value <= $this->prev_value );
+        }
+
+        if ( $this->zero_begets_zero && $value <= 0 )
+        {
+            $rank = 0;
+        }
+        else if ( $this->n == 1 || $value != $this->prev_value )
+        {
+            // new rank
+            $rank = $this->n;
+        }
+        else
+        {
+            // same rank as previous
+            $rank = $this->prev_rank;
+        }
+
+        $this->prev_value = $value;
+        $this->prev_rank  = $rank;
+
+        return $rank;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
