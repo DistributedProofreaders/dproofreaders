@@ -384,7 +384,7 @@ CREATE TABLE `projects` (
   `txtlink` varchar(200) default NULL,
   `ziplink` varchar(200) default NULL,
   `htmllink` varchar(200) default NULL,
-  `postednum` smallint(5) unsigned NOT NULL default '6000',
+  `postednum` smallint(5) unsigned NOT NULL default '0',
   `clearance` text NOT NULL,
   `year` varchar(4) NOT NULL default '',
   `topic_id` int(10) default NULL,
