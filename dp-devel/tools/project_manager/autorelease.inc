@@ -132,7 +132,11 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         $numReleased = 0;
 
         // if there's enough out there already, don't bother
-        if ($target < $released) return 0;
+        if ($released > $target)
+        {
+            echo "We're currently exceeding ($released) the target for this category ($target).<br>\n";
+            return 0;
+        }
 
         // set of candidates for release
         $avail_result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql ORDER BY modifieddate ASC");
