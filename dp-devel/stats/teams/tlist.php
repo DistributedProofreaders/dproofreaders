@@ -40,9 +40,9 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>ID</a></b></td>";
 	if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>Team Name</a></b></td>";
-	if ($order == "member_count" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+	if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>Total Members</a></b></td>";
-	if ($order == "page_count" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+	if ($order == "page_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=page_count&direction=$newdirection'>Page Count</a></b></td>";
 	echo "<td align='center'><b>Options</b></td>";
 echo "</tr>";
