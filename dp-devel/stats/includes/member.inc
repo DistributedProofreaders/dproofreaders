@@ -228,13 +228,28 @@ function showMbrNeighbors($curMbr) {
 		if (empty($rankArray['rank'][$rankArray['curMbrIndex']+$i])) { break; }
 		$rank = $rankArray['rank'][$rankArray['curMbrIndex']+$i];
 		$username = $rankArray['username'][$rankArray['curMbrIndex']+$i];
-		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '$username'");
+		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
 		$u_id = mysql_result($result, 0, "u_id");
 		$date_created = mysql_result($result, 0, "date_created");
+		$privacy_enabled = mysql_result($result, 0, "u_privacy");
 		$pagescompleted = number_format($rankArray['pages'][$rankArray['curMbrIndex']+$i]);
 
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." days)</i></td><td width='29%'>$pagescompleted</td></tr>";
+
+		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
+		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBALS['pguser']) ||
+		    ($privacy_enabled == PRIVACY_PUBLIC)) {
+
+			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
+			echo $username;
+			echo "</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." days)</i></td><td width='29%'>$pagescompleted</td></tr>";
+
+		} else {
+			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'>";
+			echo "Anonymous";
+			echo "</td><td width='28%'>--/--/-- <i>(--- "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
+		}
+
 		$i++;
 	}
 
