@@ -12,22 +12,20 @@ $locales=array(
 // Try to extract the interface language from user preferences
 if (isset($userP)){
     $intlang = $userP['u_intlang'];
+} else if (isset($_GET['lang'])) {
+    $intlang = $_GET['lang'];
 } else {
-    	if (!isset($_GET['lang'])) {
-		$langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-		$intlang = "";
-		foreach($langs as $i) {
-			$i = explode(";",$i);
-			$i = trim($i[0]);
-			if($locales[$i] || $locales[substr($i,0,5)] || $locales[substr($i,0,2)]) {
-				$intlang=$locales[$i];
-				break;
-			}
-		}
-		if (!$intlang) { $intlang = "en_EN"; }
-	} else {
-		$intlang = $_GET['lang'];
-	}
+    $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    $intlang = "";
+    foreach($langs as $i) {
+        $i = explode(";",$i);
+        $i = trim($i[0]);
+        if($locales[$i] || $locales[substr($i,0,5)] || $locales[substr($i,0,2)]) {
+            $intlang=$locales[$i];
+            break;
+        }
+    }
+    if (!$intlang) { $intlang = "en_EN"; }
 }
 
 $locale = setlocale(LC_ALL, $intlang);
