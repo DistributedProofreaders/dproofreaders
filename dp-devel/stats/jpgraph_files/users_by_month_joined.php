@@ -9,8 +9,10 @@ new dbConnect();
 
 
 ///////////////////////////////////////////////////
-//Numbers of users logging on in last hour, day, week and 28 days
-//query db and put results into arrays
+// For each month (in which at least one person joined),
+// get the number who joined,
+// and the number who have since proofed at least one page.
+//
 $result = mysql_query("
 	SELECT
 		FROM_UNIXTIME(date_created, '%Y-%m')
