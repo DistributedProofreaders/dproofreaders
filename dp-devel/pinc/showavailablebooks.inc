@@ -4,6 +4,102 @@ include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 
+function show_block_for_round( $round_number, $projects_filter )
+{
+	global $pguser, $userP;
+
+	if ($round_number == 1 )
+	{
+		$round_name = 'R1';
+		$round_word = 'first';
+		$title = _("Current First - Round Projects");
+		$description = _("These pages are output from the OCR software and have not been looked at.");
+		$min_num_pages_to_see_this_round = -20;
+	}
+	else if ( $round_number == 2 )
+	{
+		$round_name = 'R2';
+		$round_word = 'second';
+		$title = _("Current Second - Round Projects");
+		$description = _("These are pages that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.");
+		$min_num_pages_to_see_this_round = 100;
+	}
+	else
+	{
+		assert( FALSE );
+	}
+
+	$setting = "{$round_name}order";
+
+	// read saved sort orders from user_settings table 
+	$result = mysql_query("
+		SELECT value
+		FROM usersettings
+		WHERE username = '$pguser' AND setting = '$setting'"
+	);
+	if (mysql_num_rows($result) >= 1)
+	{
+		$order_old = mysql_result($result, 0, "value");
+	}
+	else
+	{
+		$order_old = 'DaysD';
+	}
+
+	// read new sort order from url, if any
+	$url_param = "order{$round_name}";
+	$order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
+
+	// if orders have changed, save them to database
+	if ($order_new != $order_old)
+	{
+		$result = mysql_query("
+			DELETE FROM usersettings
+			WHERE username = '$pguser' AND setting = '$setting'
+		");
+		$result = mysql_query("
+			INSERT INTO usersettings
+			VALUES ('$pguser', '$setting', '$order_new')
+		");
+	}
+
+	$result = mysql_query("
+		SELECT pagescompleted
+		FROM users
+		WHERE username = '$pguser'
+	");
+	$pagescompleted = mysql_result($result,0);
+
+	echo "\n<a name='$round_name'></a>";
+	echo "\r\n<table border=1>";
+	echo "\r\n<tr>";
+	tde("<h3>$title</h3>", bgcol(1,$round_word) . " colspan=2");
+	if ($pagescompleted < $min_num_pages_to_see_this_round)
+	{
+		$sorry = sprintf(
+			_("These projects are unavailable until you have proofread %d first round pages.  After %d pages of first round proofreading, the second round projects will be unlocked for you."),
+			$min_num_pages_to_see_this_round,
+			$min_num_pages_to_see_this_round );
+		tde($sorry, bgcol(1,$round_word) . " colspan=6");
+		echo "</tr>";
+	}
+	else
+	{
+		tde($description, bgcol(1,$round_word) . " colspan=6");
+		echo "</tr>";
+
+		if (! user_can_see_BEGIN_in_round($round_number))
+		{
+			$projects_filter .= " AND difficulty != 'beginner' ";
+		}
+
+		show_books_available_for_proofing( $round_word, $userP, $projects_filter, $order_new );
+	}
+	echo "</table>\n<br>";
+}
+
+// -----------------------------------------------------------------------------
+
 function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
 {
 
