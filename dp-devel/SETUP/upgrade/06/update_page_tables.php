@@ -21,6 +21,31 @@ $case = "
 	END
 ";
 
+function update_table( $table_name )
+{
+	global $case;
+
+	// First check whether the table exists.
+	$res = mysql_query("
+		DESCRIBE $table_name
+	");
+	if (!$res)
+	{
+		// table doesn't exist (has been archived).
+		// echo "$table_name doesn't exist\n";
+		return;
+	}
+
+	echo "$table_name: ";
+	mysql_query("
+		UPDATE $table_name
+		SET state=$case
+	") or die(mysql_error());
+	echo mysql_affected_rows(), " rows affected\n";
+}
+
+// --------------------------------------------
+
 echo "<pre>\n";
 
 $project_res = mysql_query("
@@ -30,32 +55,11 @@ $project_res = mysql_query("
 
 while ( list($projectid) = mysql_fetch_row($project_res) )
 {
-	// First check whether the page-table exists.
-	$res = mysql_query("
-		DESCRIBE $projectid
-	");
-	if (!$res)
-	{
-		// page-table doesn't exist (has been archived).
-		// echo "$projectid doesn't exist\n";
-		continue;
-	}
-
-	echo "$projectid: ";
-	mysql_query("
-		UPDATE $projectid
-		SET state=$case
-	") or die(mysql_error());
-	echo mysql_affected_rows(), " rows affected\n";
+	update_table( $projectid );
 }
 
 // project_pages too
-echo "and project_pages: ";
-mysql_query("
-	UPDATE project_pages
-	SET state=$case
-") or die(mysql_error());
-echo mysql_affected_rows(), " rows affected\n";
+update_table( 'project_pages' );
 
 echo "done.\n";
 echo "</pre>\n";
