@@ -66,7 +66,7 @@ function theme ($nameofpage, $location) {
 function html_header($siteurl, $theme, $nameofpage) {
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
         echo "<html><head><link rel='shortcut icon' href='/dp/favicon.ico'>\n";
-	echo "<title>Distributed Proofreaders";
+	echo "<title>DP";
         if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
 	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"></head>\n";
@@ -101,7 +101,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 
     //Create the name of the page
     	if (isset($GLOBALS['pguser'])) { echo "<a href='$siteurl/tools/proofers/proof_per.php'>\n"; } else { echo "<a href='$siteurl/default.php'>\n"; }
-	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Distributed Proofreading</font></a>\n";
+	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
 	echo "</td>\n";
 	
