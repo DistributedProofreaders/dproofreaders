@@ -86,6 +86,7 @@ $result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser'
 //Find out how many pages have been marked bad
 $totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
 
+$project_is_bad = FALSE;
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
 	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$badState'");
@@ -96,7 +97,7 @@ if ($totalBad >= 10) {
 		} else {
 			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='$projectid'");
 		}
-		$advisePM = 1;
+		$project_is_bad = TRUE;
 	} 
 }
 
@@ -108,7 +109,7 @@ $result = mysql_query("SELECT * FROM users WHERE username='$PMusername'");
 $PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
-if ($advisePM == 1) {
+if ($project_is_bad) {
 $message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: $projectid) has been shut down.\nThis is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.\nPlease visit the Project Manager page to view a list of your bad projects and make any necessary changes.\nYou will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
 $subject = "Project Shut Down";
 } else {
@@ -120,7 +121,7 @@ $subject = "Page Marked as Bad";
 maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
-if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
+if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) { 
   $frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
   metarefresh(0,$frame1,'Bad Page Report','Continuing Proofing....');
 } else {
