@@ -29,6 +29,9 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     echo "<tr><td align ='left'>Proofers active in the last 7 days:</td><td align ='right'> $totalusers</td><tr>";
 
 
+// TO DO Use the state name constants instead of the actual state names in all queries below!
+
+
   //get total books posted  in the last 7 days
 
     $books = mysql_query("SELECT count(*) AS numbooks FROM projects
@@ -52,28 +55,28 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 
   //get total books waiting to be post processed
     $waitingpost = mysql_query("SELECT count(*) AS numbooks FROM projects
-                                WHERE state = 'proj_post_available'");
+                                WHERE state = 'proj_post_first_available'");
     $totalwaitingpost = (mysql_result($waitingpost,0,"numbooks"));
     echo "<td align ='left'>Books waiting for post processing:</td><td align ='right'>$totalwaitingpost</td><tr>";
 
 
   //get total books being post processed
     $inpost = mysql_query("SELECT count(*) AS numbooks FROM projects
-                           WHERE state = 'proj_post_checkedout'");
+                           WHERE state = 'proj_post_first_checked_out'");
     $totalinpost = (mysql_result($inpost,0,"numbooks"));
     echo "<td align ='left'>Books being post processed:  <a href ='pp_checkedout.php?order=default'>(View)</a></td><td align ='right'>$totalinpost</td><tr>";
 
 
   //get total books in verify
     $verifybooks = mysql_query("SELECT count(*) AS numbooks FROM projects
-                                WHERE state = 'proj_post_verify'");
+                                WHERE state = 'proj_post_second_available'");
     $totalverify = (mysql_result($verifybooks,0,"numbooks"));
     echo "<td align ='left'>Books waiting to be verified:</td><td align ='right'>$totalverify</td><tr>";
 
 
   //get total books in verifying
     $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
-                                   WHERE state = 'proj_post_verifying'");
+                                   WHERE state = 'proj_post_second_checked_out'");
     $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
     echo "<td align ='left'>Books being verified:</td><td align ='right'>$totalverifying</td><tr>";
 
