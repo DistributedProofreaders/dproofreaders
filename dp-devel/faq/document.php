@@ -15,7 +15,7 @@ theme('Proofreading Guidelines','header');
      There are now HTML comments interspersed in this document which are/will be
      used by a script which automagically slices out the Random Rule text for the
      database. It does this by copying:
-	1) All text from one h_3 to the next h_3 
+	1) All text from one h_3 to the next h_3
 		-OR-
 	2) All text from h_3 to the END_RR comment line.
 
@@ -111,7 +111,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
         <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
         <li><a href="#d_chars">Characters with Diacritical marks</a></li>
-        <li><a href="#f_chars">Non-English Characters</a></li>
+        <li><a href="#f_chars">Non-Latin Characters</a></li>
         <li><a href="#fract_s">Fractions</a></li>
         <li><a href="#page_ref">Page References "(See Pg. 123)"</a></li>
         <li><a href="#bk_index">Indexes</a></li>
@@ -1891,9 +1891,12 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
           For OS 9 and lower this is on the Apple Menu,<br>
           For OS X through 10.2, this is located the in Applications, Utilities folder<br>
           For OS X 10.3 and higher, this is in the Input Menu as "Keyboard Viewer."</li>
-      <li>Linux: Various, depending on your desktop environment. For KDE, try KCharSelect.</li>
+      <li>Linux: Various, depending on your desktop environment.<br>
+          For KDE, try KCharSelect (in the Utilities submenu of the start menu).</li>
       </ul>
   </li>
+  <li>An on-line program, such as <a
+   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
   <li> Keyboard shortcuts.<br>
        Tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> which list these shortcuts are in the Proofreading Guidelines.</li>
   <li> Switching to a keyboard layout or locale which supports "deadkey" accents.
@@ -2416,11 +2419,11 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 
-<h3><a name="f_chars">Non-English Characters</a></h3>
-<p>Some projects contain text printed in non-English characters; that is, characters
-   other than the Latin A...Z characters, for example Greek, Cyrillic (used in Russian
-   &amp; other Slavic languages), Hebrew, or Arabic characters.
-</p>
+<h3><a name="f_chars">Non-Latin Characters</a></h3>
+<p>There are projects which contain text printed in non-Latin characters; that is, characters
+   other than the Latin A...Z characters, for example Greek, Cyrillic (used in 
+   Russian, Slavic and other languages), Hebrew, or Arabic characters.
+</p><? if(strcasecmp($charset,"UTF-8")) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
    each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
    transliteration tool is provided in the proofing interface to make this task much easier.
@@ -2459,6 +2462,25 @@ cedilla                      [,x]   [x,]
       have yet chosen a standard method.
   </li>
 </ul>
+<? } else { ?>
+<p>These characters should be entered in the text just as Latin characters are.
+   (<b>WITHOUT transliteration!</b>)
+</p>
+<p>If a document is written entirely in a non-Latin script, it is the best to install a
+   keyboard driver which supports the language. Consult your operating system manual for
+   instructions on how to do that.
+</p>
+<p>If the script appears only occasionaly, you may use a separate program to enter it.
+   See <a href="#a_chars">above</a> for some of the programs.
+</p>
+<p>If you are uncertain about a character or an accent, mark it with an <tt>*</tt> to
+   bring it to the attention of the second round proofreader or the post-processor.
+</p>
+<p>For scripts which cannot be so easily entered, such as Arabic, surround the text
+   with appropriate markers: <tt>[Arabic:&nbsp;**]</tt> and leave it as scanned.
+   Include the <tt>**</tt> so the post-processor can address it later.
+</p>
+<? } ?>
 
 <h3><a name="fract_s">Fractions</a></h3>
 <p>Proofread <b>fractions</b> as follows: <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
