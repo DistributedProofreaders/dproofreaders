@@ -22,11 +22,11 @@ echo "<br><br>\n\n";
 
 echo "<i>";
 echo _("The");
-echo " <a href='".$code_url."'/faq/summary.pdf>";
+echo " <a href='".$code_url."/faq/summary.pdf'>";
 echo _("Handy Proofing Guide");
 echo "</a> ";
 echo _("(printable) and");
-echo " <a href='".$code_url."'/faq/document.php>";
+echo " <a href='".$code_url."/faq/document.php'>";
 echo _("Proofing Guidelines");
 echo "</a> ";
 echo _("(for reference) provide much more detail.");
