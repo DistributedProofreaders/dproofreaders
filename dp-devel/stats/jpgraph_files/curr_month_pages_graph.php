@@ -28,13 +28,13 @@ $year  = date("Y");
 $month = date("m");
 
 //query db and put results into arrays
-$result = mysql_query("SELECT pages,date,dailygoal FROM pagestats WHERE month = '$month' AND year = '$year'");
+$result = mysql_query("SELECT pages,date,dailygoal FROM pagestats WHERE month = '$month' AND year = '$year' ORDER BY date");
 $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay1[$count] = mysql_result($result, $count, "pages");
         $datay2[$count] = mysql_result($result, $count, "dailygoal");
-        $datax[$count] = mysql_result($result, $count, "date");
+        $datax[$count] = strftime(_("%Y-%m-%d"),strtotime(mysql_result($result, $count, "date")));
             $count++;
         }
 
@@ -48,13 +48,13 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the bar plot
 $bplot = new BarPlot($datay1);
-$bplot->SetLegend("Pages Completed");
+$bplot->SetLegend(_("Pages Completed"));
 
 //Create the linear goal plot
 $lplot=new LinePlot($datay2);
 $lplot->SetColor("lime");
 $lplot->SetWeight(1);
-$lplot->SetLegend("Daily Goal");
+$lplot->SetLegend(_("Daily Goal"));
 
 $graph->Add($lplot); //Add the linear goal plot to the graph
 $graph->Add($bplot); //Add the bar pages completed plot to the graph
@@ -65,10 +65,10 @@ $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 
 //Set Y axis
-$graph->yaxis->title->Set('Pages');
+$graph->yaxis->title->Set(_("Pages"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set("Pages Done Per Day for Current Month");
+$graph->title->Set(_("Pages Done Per Day for Current Month"));
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
