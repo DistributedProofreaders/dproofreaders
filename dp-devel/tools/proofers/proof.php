@@ -72,7 +72,8 @@ if ($js)
 $fntF=isset($fntF)? $fntF:'0';
 $fntS=isset($fntS)? $fntS:'0';
 $sTags=isset($sTags)? $sTags:'1';
-$zmSize=isset($zmSize)? $zmSize:'100';
+if (!isset($zmSize))
+{$zmSize=$orient=='vert'?'59':76;}
 $prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
 $frame3=$frame3.$prefTags;
 }

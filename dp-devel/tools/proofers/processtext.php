@@ -105,7 +105,7 @@ $project = 'project='.$project;
 $fileid = '&fileid='.$fileid;
 $imagefile = '&imagefile='.$imagefile;
 $prooflevel = '&prooflevel='.$prooflevel;
-$js='&js='.$js;
+$newjs='&js='.$js;
 $lang='&lang='.$lang;
 $saved='&saved=1';
   if (@$button4 != "" || isset($button4_x))
@@ -113,7 +113,7 @@ $saved='&saved=1';
   $orient=$orient=='vert'? $orient='hrzn':$orient='vert';
   } // end change layout button 4
 $orient = '&orient='.$orient;
-$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$orient.$lang.$js.$saved;
+$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$orient.$lang.$newjs.$saved;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
 metarefresh(0,$frame1,' ',' ');
@@ -124,10 +124,10 @@ if (isset($button2) || isset($button2_x))
 {
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
-$js='&js='.$js;
+$newjs='&js='.$js;
 $lang='&lang='.$lang;
 $orient = '&orient='.$orient;
-$frame1 = 'proof.php?'.$project.$prooflevel.$orient.$lang.$js;
+$frame1 = 'proof.php?'.$project.$prooflevel.$orient.$lang.$newjs;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
   if ($js==1) {$frame1=$frame1.$prefTags;}
 metarefresh(0,$frame1,' ',' ');
