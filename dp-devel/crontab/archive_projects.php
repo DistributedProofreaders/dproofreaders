@@ -8,7 +8,9 @@ $db_Connection=new dbConnect();
 //this module sets projects as archived which have been posted more than 3 days
 //this limits the number of projects that the stats code must look at
 
-$old_date = time() - 259200; // 3 days ago.
+$n_days_ago = 3;
+
+$old_date = time() - ($n_days_ago * 24 * 60 * 60);
 
 $result = mysql_query ("
     UPDATE `projects`
