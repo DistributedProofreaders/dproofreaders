@@ -354,13 +354,16 @@ echo "<b><font color='red'>"._("HELP")."---></font></b>";
 	valign="top"
 	colspan="3"
 	align="center">
-<?PHP include('ptags.inc'); ?>
+<?PHP 
+echo "<font size=-1><i>"._("Markup shortcuts").":</i> </font>";
+include('ptags.inc'); 
+?>
 <br>
 <font size="-1">
 <? 
-echo _("Reference Information").": ";
+echo "<i>"._("Reference Information").":</i> ";
 echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/document.php' target='_blank'>". _('Proofreading Guidelines')."</a>] ";
-echo _("Proofreading Diagrams:"); ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
+echo "<i>"._("Proofreading Diagrams:")."</i>"; ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
 </td>
