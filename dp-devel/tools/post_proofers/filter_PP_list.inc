@@ -5,7 +5,7 @@ $relPath="./../../pinc/";
 
 $action_page = 'post_proofers.php';
 $label = _("Post-Processing");
-$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."') ";
+$state_sql = " (state = '".PROJ_POST_FIRST_AVAILABLE."') ";
 $filtertype_stem = "avail_PP";
 
 // add the filter code
