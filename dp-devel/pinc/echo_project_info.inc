@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'f_project_states.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'authors.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -194,6 +195,22 @@ function echo_project_info( $projectid, $proofstate, $sub )
 			$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
 			$comments .= file_get_contents($code_url."/pinc/templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
 			$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
+			$i++;
+		}
+	}
+
+	// insert biographies instead of [biography=123]-markup
+	$biography_count = substr_count($comments, '[biography=');
+	if (!empty($biography_count)) {
+		$i = 1;
+		while ($i <= $biography_count) {
+			$comments_backup = $comments;
+			// where the [biography=123] starts and ends
+			$pos = strpos($comments_backup, '[biography=');
+                        $pos2 = strpos($comments_backup, ']', $pos);
+			$comments = substr($comments_backup, 0, $pos).'<br>';
+			$comments .= get_biography(substr($comments_backup, $pos+11, $pos2-$pos-11));
+			$comments .= '<br>'.substr($comments_backup, $pos2+1);
 			$i++;
 		}
 	}
