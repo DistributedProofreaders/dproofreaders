@@ -17,9 +17,16 @@ $pages_are_available = ( $num_pages_available > 0 );
 include($relPath.'slim_header.inc');
 slim_header(_("Project Comments"));
 
-if (!isset($proofing) && $userP['i_newwin']==1)
-{include($relPath.'js_newwin.inc');}
-if (!isset($proofing)) {
+if (!isset($proofing))
+{
+    // The user arrived here in the usual way, e.g. by clicking on a project
+    // name in the list of projects available for proofing.
+
+    if ($userP['i_newwin']==1)
+    {
+        include($relPath.'js_newwin.inc');
+    }
+
     $top_menu = 1;
 
     // Get Last Page Date Proofed By Current User
@@ -48,16 +55,24 @@ if (!isset($proofing)) {
     echo "</i>";
     echo "<br>";
     echo "<br>";
-}
 
-    echo_project_info( $project, $proofstate, !isset($proofing) );
+    echo_project_info( $project, $proofstate, TRUE );
     echo "<BR>";
 
-    if (!isset($proofing)) {
-        include('./projects_menu.inc');
-    } else {
-        echo"<p><p><b> "._("This information has been opened in a separate browser window, feel free to leave it open for reference or close it.")."</b>";
-    }
+    include('./projects_menu.inc');
+}
+else
+{
+    // The user arrived here by clicking on "View Project Comments"
+    // in the proofing interface.
 
-    echo "</BODY></HTML>";
+    echo_project_info( $project, $proofstate, FALSE );
+    echo "<BR>";
+
+    echo "<p><p><b>";
+    echo _("This information has been opened in a separate browser window, feel free to leave it open for reference or close it.");
+    echo "</b>";
+}
+
+echo "</BODY></HTML>";
 ?>
