@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'username.inc');
 include($relPath.'maybe_mail.inc');
 include($relPath.'connect.inc');
 include($relPath.'html_main.inc');
@@ -10,6 +11,16 @@ include($relPath.'theme.inc');
 theme("Create An Account", "header");
 echo "<br>";
 
+function abort_registration( $error )
+{
+    global $htmlC;
+    $htmlC->startBody(0,1,0,0);
+    echo "$error<br>\n";
+    echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
+    $htmlC->closeBody(0);
+    exit;
+}
+
 $password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
     $real_name = $_POST['real_name'];
@@ -17,6 +28,19 @@ if ($password=="proofer") {
     $userpass = $_POST['userPW'];
     $email = $_POST['email'];
     $email_updates = $_POST['email_updates'];
+
+    // Do some validity-checks.
+
+    $err = check_username( $username );
+    if ( $err != '' )
+    {
+        abort_registration( $err );
+    }
+
+    if ($userpass == '')
+    {
+        abort_registration( "You did not supply a Password" );
+    }
 
     $ID = uniqid("userID");
 
@@ -26,12 +50,9 @@ if ($password=="proofer") {
                 VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '3')");
 
     if (!$result) {
-        $htmlC->startHeader("User name already exists...");
-        $htmlC->startBody(0,1,0,0);
-        echo "That user name already exists, please try another.<br>";
-        echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
-	$htmlC->closeBody(0);
-        exit;
+        abort_registration(
+            "That user name already exists, please try another." );
+
     } else {
         // create profile
         $profileString="INSERT INTO user_profiles SET u_ref='".mysql_insert_id($db_link)."'";
