@@ -34,18 +34,26 @@ if(($topic_id == "") || ($topic_id == 0))
         $tname = $row['teamname'];
         $towner_name = $row['createdby'];
         $towner_id = $row['owner'];
-	$state = $row['state'];
+        $tinfo = $row['team_info'];
 
-	$message = "Team Name: $tname<br>Created By: $towner_name<br>Info: $tinfo<br>Team Page: <a href='$code_url/stats/teams/tdetail.php?tid=$tid'>$code_url/stats/teams/tdetail.php?tid=$team_id</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
+        $message = "
+Team Name: $tname
+Created By: $towner_name
+Info: $tinfo
+Team Page: [url]".$code_url."/stats/teams/tdetail.php?tid=".$team_id."[/url]
+Use this area to have a discussion with your fellow teammates! :-D
 
-	// determine appropriate forum to create thread in
+";
+
+
+	// appropriate forum to create thread in
 	$forum_id = $teams_forum_idx;
 
         $post_subject = $tname;
 
         // determine signature preference of owner
 
-        $id_result = mysql_query("SELECT user_id, user_attachsig FROM phpbb_users WHERE username = '".$townername."'");
+        $id_result = mysql_query("SELECT user_id, user_attachsig FROM phpbb_users WHERE username = '".$towner_name."'");
         $id_row = mysql_fetch_array($id_result);
 
         $owner = $id_row['user_id'];
@@ -64,7 +72,7 @@ if(($topic_id == "") || ($topic_id == 0))
         $topic_id = $post_result['topic_id'];
 
         //Update user_teams with topic_id so it won't be created again
-        $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=team_id");
+        $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
 
 }
 
