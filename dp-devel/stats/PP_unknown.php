@@ -14,7 +14,7 @@ if ($order == 'default') {
 $ok_orders = array("nameofwork","authorsname","username","projectid","modifieddate");
 
 if (! in_array ($order, $ok_orders)) {
-	echo "Uh oh!" & exit();
+	$order = 'nameofwork';
 }
 
 echo "<br><br><h2>Post-Processing Mysteries</h2><br>\n";
