@@ -56,8 +56,8 @@ function savePage($project,$prooflevel,$fileid,$text_data,$pguser)
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
   if ($prooflevel==2)
-  {$dbQuery.="18', round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
-  else {$dbQuery.="8', round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
+  {$dbQuery.="19', round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
+  else {$dbQuery.="9', round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
 $dbQuery.=" WHERE fileid='$fileid'";
 $result = dquery($dbQuery);
 }
