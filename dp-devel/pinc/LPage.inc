@@ -11,6 +11,7 @@ class processpage
   var $project='';
   var $fileid='';
   var $imagefile='';
+  var $pageround=NULL;
   var $initial_text='';
   var $revert_text='';
   var $save_text='';
@@ -55,7 +56,9 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->imagefile=$imagefile;
   $this->pagestate=$pagestate;
   $this->proofstate=$proofstate;
-    if ($this->getPageRound($pagestate)==1)
+  $this->pageround=$this->getPageRound($pagestate);
+
+    if ($this->pageround==1)
     {
       $this->bad_page=BAD_FIRST;
       $this->revert_text="master_text";
@@ -67,10 +70,8 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
       $this->save_time="round1_time";
       $this->save_user="round1_user";
       $this->all_complete_state=SAVE_FIRST;
-        if ($pagestate==AVAIL_FIRST || $pagestate==OUT_FIRST) {$this->initial_text="master_text";}
-        else {$this->initial_text="round1_text";}
     }
-    if ($this->getPageRound($pagestate)==2)
+    if ($this->pageround==2)
     {
       $this->bad_page=BAD_SECOND;
       $this->revert_text="round1_text";
@@ -82,9 +83,16 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
       $this->save_time="round2_time";
       $this->save_user="round2_user";
       $this->all_complete_state=SAVE_SECOND;
-        if ($pagestate==AVAIL_SECOND || $pagestate==OUT_SECOND) {$this->initial_text="round1_text";}
-        else {$this->initial_text="round2_text";}
     }
+
+  if ($pagestate==$this->return_state || $pagestate==$this->checkout_state)
+  {
+    $this->initial_text=$this->revert_text;
+  }
+  else
+  {
+    $this->initial_text=$this->save_text;
+  }
 }
 
 function noPages($newwin, $begin_threshold = 0)
