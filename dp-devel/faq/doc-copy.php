@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofing Guidelines -- Copyright Renewal Books','header');
+theme('Proofreading Guidelines -- Copyright Renewal Books','header');
 ?>
 
   <style TYPE="text/css">
@@ -22,8 +22,8 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
   </style>
         -->
 
-<h2 align="center">Proofing Guidelines -- Special Rules for Copyright Renewal Books</h2>
-<p> These are special additions to the Proofing Guidelines for Copyright Renewal books.
+<h2 align="center">Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
+<p> These are special additions to the Proofreading Guidelines for Copyright Renewal books.
     They were created because of the specialized content of these books, and the need
     for them to be very consistently formatted to be useful to readers.</p>
 <p> Those 'readers' for these books are mainly researchers, trying to determine if
@@ -208,7 +208,7 @@ R554718.
         specific book in the Project Comments.
     <li>Then follow these general guidelines for Copyright Renewals.
     <li>Finally, for anything not covered here, follow the standard rules in the
-        <a href="document.php">Proofing Guidelines</a>.
+        <a href="document.php">Proofreading Guidelines</a>.
 	(Although really, if you find yourself going there to resolve a question,
 	you'd probably be better off asking in the project's discussion topic.)
     </li>
@@ -218,7 +218,7 @@ R554718.
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
         Return to:
-        <a href="document.php">Proofing Guidelines</a>.
+        <a href="document.php">Proofreading Guidelines</a>.
       <br>
         <a href="..">Distributed Proofreaders home page</a>,
         &nbsp;&nbsp;&nbsp;

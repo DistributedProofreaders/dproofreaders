@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofing Guidelines','header');
+theme('Proofreading Guidelines','header');
 ?>
 
   <style TYPE="text/css">
@@ -21,15 +21,15 @@ theme('Proofing Guidelines','header');
   </style>
         -->
 
-<h1 align="center">Proofing Guidelines</h1>
-<h3 align="center">Version 1.53, released Sep 13, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h1 align="center">Proofreading Guidelines</h1>
+<h3 align="center">Version 1.54, released Feb 13, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <!-- Real version:
-<h4>Proofing Guidelines in <a href="doc-fr.html">French</font></a> /
+<h4>Proofreading Guidelines in <a href="doc-fr.html">French</font></a> /
     Directives de Formatage en <a href="doc-fr.html">Fran&ccedil;aise</font></a></h4>
  ** Temporary redirect:  -->
-<h4>Proofing Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</a> /
+<h4>Proofreading Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</a> /
     Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</a></h4>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
@@ -69,7 +69,7 @@ theme('Proofing Guidelines','header');
             <li><a href="#blank_pg">Blank Page</a>                      </li>
             <li><a href="#page_hf">Page Headers/Footers</a>             </li>
             <li><a href="#chap_head">Chapter Headers</a>                </li>
-            <li><a href="#para_side">Paragraph Side-Descriptions (SideNotes)</a></li>
+            <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
             <li><a href="#para_space">Paragraph Spacing</a>             </li>
             <li><a href="#mult_col">Multiple Columns</a>                </li>
             <li><a href="#illust">Illustrations</a>                     </li>
@@ -203,13 +203,13 @@ theme('Proofing Guidelines','header');
 <p> The <a href="summary.pdf">Summary of Guidelines</a> is a short, 2-page
     printer-friendly (.pdf) document that summarizes the main points of these
     Guidelines, and gives examples of how to proofread.  Beginning Proofreaders are
-    encouraged to print out this document and keep it handy while proofing.
+    encouraged to print out this document and keep it handy while proofreading.
 
 <h3><a name="about">About This Document</a> </h3>
 <p> This document is written in order to reduce formatting differences when proofreading
     of one book is distributed among many proofreaders, each working on different pages
     of the book.  This helps us all do formatting <em>the same way</em>.  That makes it
-    easier for the post-proofreader to eventually combine all these proofed pages into
+    easier for the post-processor to eventually combine all these proofed pages into
     one e-book.
   <br>
     <i>But it's not intended as any kind of a general editorial or typesetting
@@ -223,9 +223,9 @@ theme('Proofing Guidelines','header');
     <!-- Send 'em where???? -->
 
 <h3><a name="comments">Project Comments</a> </h3>
-<p> On the interface page where you start proofing pages, there is a section called
+<p> On the interface page where you start proofreading pages, there is a section called
     "Project Comments" containing info specific to that project (book). <em>Read these
-    before you start proofing pages!</em> If the Project Manager wants you to format
+    before you start proofreading pages!</em> If the Project Manager wants you to format
     something in this book different than the general rules in these Guidelines, that
     will be noted here.  Instructions in the Project Comments <em>overide</em> the rules
     in these Guidelines, so follow them.  (This is also where the Project Manager gives
@@ -233,7 +233,7 @@ theme('Proofing Guidelines','header');
     from, etc.) </p>
 
 <h3><a name="forums">Forum/Discuss this Project</a> </h3>
-<p> On the interface page where you start proofing pages, on the line "Forum", there is
+<p> On the interface page where you start proofreading pages, on the line "Forum", there is
     a link titled "Discuss this Project".  Clicking on that link will take you to a
     forum for this specific project. That is the place to ask questions about this book,
     inform the Project Manager about problems, etc.  Using this Forum is the recommended
@@ -242,12 +242,12 @@ theme('Proofing Guidelines','header');
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a> </h3>
 <p> Each project has a project comments page, which is loaded when you click on a
-    project name from the list of projects available for proofing on your personal page
+    project name from the list of projects available for proofreading on your personal page
     (which is the page that appears when you log in).  </p>
 <p> This page contains links to pages from this project that you have recently proofed.
     (If you haven't proofed any pages yet, there will be no links shown.) These links
     appear under one of two headings, depending on if you have told the system you have
-    completed the proofing on a page or not.  </p>
+    completed the proofreading on a page or not.  </p>
 <p> The two headings are "DONE" and "IN PROGRESS". Links to
     the five most recently proofed pages will show under each heading. Pages linked to
     from "DONE" are considered complete, and will proceed automatically
@@ -257,19 +257,19 @@ theme('Proofing Guidelines','header');
     book up indefinitely: eventually, if not completed by you, the system will reclaim
     them, discard your changes, and make them available for someone else to proof).
     </p>
-<p> When you first load a new page to proof, by clicking on the 'Start Proofing' link on
+<p> When you first load a new page to proof, by clicking on the 'Start Proofreading' link on
     the project comments page, a link to the page is created under 'IN PROGRESS'.
     Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
-    proofing on a page by pressing either
+    proofreading on a page by pressing either
     the "Save as 'Done'" or the "Save as 'Done' &amp; Proof Next" buttons.
     Pressing either of these buttons moves the link to the page from
     the "IN PROGRESS" section to the "DONE" section. This is
     the only way you can mark pages as complete and make sure your work will get through
     to the next round. Until you press one of those two buttons, the page is
-    'incomplete', even if you press the "Stop Proofing" button.  </p>
+    'incomplete', even if you press the "Stop Proofreading" button.  </p>
 <p> Pages listed under either "DONE" or "IN PROGRESS"  are
-    available to you for to make proofing corrections or to finish proofing.  Just click
+    available to make proofreading corrections or to finish proofreading.  Just click
     on the link to the page.  So if you discover that you made a mistake on a page, or
     marked something incorrectly, you can click on that page here and re-open it to fix
     the error. (If it's already gone by, then use the  <a href="#forums">project
@@ -318,6 +318,7 @@ theme('Proofing Guidelines','header');
       <p>BY <br>
          GEORGE BARR McCUTCHEON <br>
       </p>
+	<p>1917</p>
       </td>
     </tr>
   </tbody>
@@ -577,12 +578,12 @@ theme('Proofing Guidelines','header');
   </tbody>
 </table>
 
-<h3><a name="para_side">Paragraph Side-Descriptions (SideNotes)</a> </h3>
+<h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a> </h3>
 <p> Some books will have short descriptions of the paragraph along the side of the text.
     Move these "Sidenotes" to just above the paragraph that they belong to, surrounded
     with <tt>[Sidenote: the-description-text]</tt>.  If the paragraph began on a
-    previous page, put the Sidenote at the top of the page and mark it with <tt>*</tt>
-    so that the post-proofreader can see that it belongs on the previous page.  Like
+    previous page, put the sidenote at the top of the page and mark it with <tt>*</tt>
+    so that the post-processor can see that it belongs on the previous page.  Like
     this: <tt>*[Sidenote: the-description-text]</tt>. If there are multiple sidenotes
     for a single paragraph, put them one after another at the start of the paragraph,
     each on their own line.</p>
@@ -625,7 +626,7 @@ theme('Proofing Guidelines','header');
 <p> Do not indent the start of paragraphs; instead put a blank line between paragraphs.
     See the <a href="#chap_head">Chapter Headers</a> image/text for an example. (But if
     all paragraphs are already indented, don't bother removing those spaces--that can be
-    done automatically in post-proofing.) </p>
+    done automatically in post-processing.) </p>
 
 <h3><a name="mult_col">Multiple Columns</a> </h3>
 <p> Break up multiple-column text into a single column.  Place the left-most column
@@ -684,7 +685,7 @@ theme('Proofing Guidelines','header');
     For these, Surround the footnote number, *, or other character that marks a footnote
     location with brackets (<tt>[</tt> and <tt>]</tt>).  Don't leave any space before
     the <tt>[</tt>--keep it right next to the word being footnoted.  Then at the bottom
-    of the page, where the text for that footnote it, surround it with <tt>[Footnote _:
+    of the page, where the text for that footnote is, surround it with <tt>[Footnote _:
     ]</tt>, keeping the footnote number or marker where the underline is.  </p>
 <!--
     See the <a href="#page_hf">Page Headers/Footers</a>
@@ -708,7 +709,7 @@ theme('Proofing Guidelines','header');
     brings it to the attention of the post-processor.  </p>
 <p> If a footnote or endnote is referenced in the text but does not appear on that page,
     keep the footnote/endnote number or marker and surround it with with brackets
-    (<tt>[</tt> and <tt>]</tt>) and put a <tt>*</tt> next to it so the post-proofer can
+    (<tt>[</tt> and <tt>]</tt>) and put a <tt>*</tt> next to it so the post-processor can
     find it. (This is common in scientific &amp; technical books, where footnotes are often
     grouped at the end of chapters.)
 
@@ -768,7 +769,7 @@ theme('Proofing Guidelines','header');
 </table>
 <p> <b>Endnotes</b> are just footnotes that have been located together at the end of a
     chapter or at the end of the book, instead of on the bottom of each page.  If you
-    are proofing a page with endnotes on it, surround the text of the note with
+    are proofreading a page with endnotes on it, surround the text of the note with
     <tt>[Footnote _: ]</tt>, keeping the footnote number or marker where the underline
     is.  Put a blank line after each one, so that they stay separate paragraphs when the
     text is reflowed in post-processing. </p>
@@ -814,9 +815,9 @@ And everywhere that Mary went
 <p> Text that is italicized should have <tt>&lt;i&gt;</tt> inserted at the start and
     <tt>&lt;/i&gt;</tt> inserted at the end of the italics. (Note the "/" in the closing
     symbol.) If the italics start at the top of a page, place a <tt>*</tt> in front of
-    the <tt>&lt;i&gt;</tt> so that the post-proofreader can see if there was more on the
+    the <tt>&lt;i&gt;</tt> so that the post-processor can see if there was more on the
     previous page. If the italics go to the bottom of a page, place a <tt>*</tt> after
-    the <tt>&lt;/i&gt;</tt> so that the post-proofreader can see if there is more on the
+    the <tt>&lt;/i&gt;</tt> so that the post-processor can see if there is more on the
     next page.
   <br>
     (Note: either lower-case <tt>&lt;i&gt;</tt> or upper-case <tt>&lt;I&gt;</tt> is
@@ -919,7 +920,7 @@ And everywhere that Mary went
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a> </h3>
 <p> Leave the hyphen at the end of the last line, but mark it with a <tt>*</tt> after
-    the hyphen so the post-proofer will notice it. On pages that start with part of a
+    the hyphen so the post-processor will notice it. On pages that start with part of a
     word from the previous page, place a <tt>*</tt> before the word.</p>
 
 <h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a> </h3>
@@ -1147,7 +1148,7 @@ And everywhere that Mary went
     quote mark at all.  If so, leave it that way -- don't add closing quote marks that
     aren't on the page image.  (Note that this means that the proofed text for
     multi-paragraph quotes will have more opening quotes than ending quotes.  That's
-    fine, our post-proofing software expects this.) </p>
+    fine, our post-processing software expects this.) </p>
 
 <h3><a name="period_s">Periods Between Sentences</a> </h3>
 <p> Single space after periods (not two spaces). But don't bother to remove double
@@ -1188,7 +1189,7 @@ And everywhere that Mary went
 
 <h3><a name="extra_sp">Extra spaces or tabs between Words</a> </h3>
 <p> Extra spaces between words are a common OCR error.  You don't need to bother
-    removing those spaces--that can be done automatically in post-proofing.  Same with
+    removing those spaces--that can be done automatically in post-processing.  Same with
     tab characters instead of spaces--those too can be fixed automatically.  But extra
     spaces around punctuation, em-dashes, quote marks, etc. do need to be removed when
     they seperate the symbol from the word.  For example, in <b>A
@@ -1217,7 +1218,7 @@ end of the line of text.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>
 <br>
 Text starts up again.</tt><br>
-(The enhanced proofing interface has this separator available to cut
+(The enhanced proofreading interface has this separator available to cut
 &amp; paste.) <br> See the <a href="#page_hf">Page Headers/Footers</a>
 image/text for an example.</p>
 
@@ -1246,7 +1247,7 @@ image/text for an example.</p>
   <li>you can use the character map program
      (Start: Run: charmap) to select an individual letter, and then cut &amp; paste.
   </li>
-  <li>if using the enhanced proofing interface, the <i>more</i> tag creates a pop-up
+  <li>if using the enhanced proofreading interface, the <i>more</i> tag creates a pop-up
       window containing these characters, which you can then cut &amp; paste.
   </li>
   <li>or you can type the Alt+NumberPad shortcut codes for these characters.
@@ -1396,7 +1397,7 @@ image/text for an example.</p>
       reference to see how to type that character, or you can cut &amp; paste it from
       here to the document.
   </li>
-  <li>if using the enhanced proofing interface, the
+  <li>if using the enhanced proofreading interface, the
       <i>more</i> tag creates a pop-up window containing these characters, which you can
       then cut &amp; paste.
   <li>or you can type the Apple Opt- shortcut codes for these characters.
@@ -1541,10 +1542,10 @@ image/text for an example.</p>
     A...Z characters, for example <b>Greek</b>, <b>Cyrillic</b> (used in Russian &amp;
     other Slavic languages), <b>Hebrew</b>, or <b>Arabic</b> characters, there are two
     ways to deal with these. </p>
-<p> The simplest way is just to mark it, and leave it for the post-proofer to deal with.
+<p> The simplest way is just to mark it, and leave it for the post-processor to deal with.
     To do this, just surround the text with <tt>[Greek: **]</tt>, <tt>[Cyrillic:
     **]</tt>, <tt>[Hebrew: **]</tt>, or <tt>[Arabic: **]</tt> and leave it as scanned.
-    Include the <tt>**</tt> so the post-proofer can deal with it later. </p>
+    Include the <tt>**</tt> so the post-processor can deal with it later. </p>
 <p> The second method is more work, but provides a more accurate text. This involves
     converting each character of the foreign text into the equivalent ASCII Latin
     letter(s). The result should still be enclosed in <tt>[Greek: ]</tt> etc. tags. For
@@ -1555,11 +1556,11 @@ image/text for an example.</p>
     screen to make it pop-up, then you can click on the Greek characters to have their
     standard transliterations automatically appear in the text box, ready to be
     transferred (manually by you, using cut-n-paste) back to the page you are
-    proofing when you have finished the transliteration. </p>
+    proofreading when you have finished the transliteration. </p>
 <ul compact>
   <li> Greek:
        <a href="http://www.promo.net/pg/vol/greek.html">Greek to ASCII Primer</a> (from
-       Project Gutenberg) Or see the "Greek" pop-up tool in the proofing interface.
+       Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li> Cyrillic:
        <a href="http://www.history.uiuc.edu/steinb/translit/translit.htm">Transliteration Table</a>
@@ -1650,8 +1651,8 @@ image/text for an example.</p>
     change this to a normal word (first letter only capitalized). </p>
 
 <h3><a name="trail_s">Trailing Space at End-of-line</a> </h3>
-<p> Don't bother putting spaces at the ends of lines of text. Waste of your time for
-    something that we can take care of automatically later. Similarly don't waste time
+<p> Do not bother putting spaces at the ends of lines of text. It is a waste of your time for
+    something that we can take care of automatically later. Similarly do not waste your time
     taking out extra spaces at the ends of lines.</p>
 
 <h3><a name="play_n">Play Actor Names/Stage Notes</a> </h3>
@@ -1665,7 +1666,7 @@ image/text for an example.</p>
    special handling, or you run into something
    that you're not sure of, put an asterisk (<tt>*</tt>) next to it
    in your proofed text.  This signals the next proofer to stop and examine this text
-   &amp; the matching image, and deal with it. (This does slow down the proofing
+   &amp; the matching image, and deal with it. (This does slow down the proofreading
    of this text, so don't do this unneccessarily.)
    </p>
 <p>You can also put a <tt>[**Note: I'm not sure...]</tt> there explaining the problem.
@@ -1744,7 +1745,7 @@ image/text for an example.</p>
     have difficulty displaying them, especially if you have several windows open or are
     using an older computer.  Before reporting this as a bad page, try clicking on the
     "Image" line on the bottom of the page to bring up just the image in a new window.
-    If that brings up a good image, then the problem is probably in your browser of
+    If that brings up a good image, then the problem is probably in your browser or
     system.  </p>
 <p> It's fairly common for the image to be good, but the OCR scan is missing the first
     line or two of the text.  Please just type in the missing line(s).  If nearly all of
@@ -1765,7 +1766,7 @@ image/text for an example.</p>
     can send them a message by clicking on their name. That will allow you to send them
     a private forum message. <em>Please be nice!</em> These are people volunteering
     their help, usually trying their best.  The point of the message should be to inform
-    them of the correct way to do proofing, rather than criticize them as incompetent,
+    them of the correct way to do proofreading, rather than criticize them as incompetent,
     careless, etc. <br> (If the previous proofreader did an outstanding job, you can
     also send them a message about that.) </p>
 
@@ -1780,7 +1781,7 @@ image/text for an example.</p>
 
 <h3><a name="f_errors">Factual Errors in Texts</a> </h3>
 <p> In general, don't correct factual errors in the author's book.  Many of the books we
-    are proofing have statements of fact in them that we no longer accept as accurate.
+    are proofreading have statements of fact in them that we no longer accept as accurate.
     Leave them as the author wrote them. </p>
 <p> A possible exception is in technical or scientific books, where a known formula or
     equation may be given incorrectly.  (Especially if it is shown correctly on other

@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofing Guidelines -- Poetry','header');
+theme('Proofreading Guidelines -- Poetry','header');
 ?>
 
   <style TYPE="text/css">
@@ -21,8 +21,8 @@ theme('Proofing Guidelines -- Poetry','header');
   </style>
         -->
 
-<h2 align="center">Proofing Guidelines -- Special Rules for Poetry </h2>
-<p> These are special additions to the Proofing Guidelines for Poetry.
+<h2 align="center">Proofreading Guidelines -- Special Rules for Poetry </h2>
+<p> These are special additions to the Proofreading Guidelines for Poetry.
     They were created because poetry is rather specialized, and is often printed
     differently than the prose works that make up much of our proofreading.  So
     we wanted to expand on the poetry guidelines here.
@@ -70,7 +70,7 @@ theme('Proofing Guidelines -- Poetry','header');
         specific book in the Project Comments.
     <br>Then follow these general guidelines for Poetry.
     <br>Finally, for anything not covered here, follow the standard rules in the
-        <a href="document.php">Proofing Guidelines</a>.</li>
+        <a href="document.php">Proofreading Guidelines</a>.</li>
   </ul>
 
 <p>
@@ -122,7 +122,7 @@ theme('Proofing Guidelines -- Poetry','header');
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
         Return to:
-        <a href="document.php">Proofing Guidelines</a>.
+        <a href="document.php">Proofreading Guidelines</a>.
       <br>
         <a href="..">Distributed Proofreaders home page</a>,
         &nbsp;&nbsp;&nbsp;
