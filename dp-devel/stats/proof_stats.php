@@ -12,7 +12,7 @@ theme($title, 'header');
 
 echo "<br><h2>" . _("Proofreading Statistics") . "</h2>\n";
 
-echo "<a href='proj_proofed_graphs.php'>" . _("Projects Proofread Graphs") . "</a><br>";
+echo "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a><br>";
 
 echo "<br>\n";
 

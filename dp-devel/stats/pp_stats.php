@@ -9,7 +9,7 @@ theme($title,'header');
 
 echo "<br><br><h2>$title</h2><br>\n";
 
-echo "<a href='proj_PPd_graphs.php'>" . _("Projects PPd Graphs") . "</a><br>";
+echo "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a><br>";
 
 echo "<a href='PP_unknown.php'>" . _("Books with Mystery PPers") . "</a>";
 

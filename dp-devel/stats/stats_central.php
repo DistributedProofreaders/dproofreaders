@@ -176,25 +176,25 @@ $table->column_headers(
 
 $table->row(
     _("Creating"),
-    "<a href='proj_created_graphs.php'>" . _("Projects Created Graphs") . "</a>",
+    "<a href='projects_Xed_graphs.php?which=created'>" . _("Projects Created Graphs") . "</a>",
     _("Coming Soon")
 );
 
 $table->row(
     _("Proofreading"),
-    "<a href='proj_proofed_graphs.php'>" . _("Projects Proofread Graphs") . "</a>",
+    "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a>",
     "<a href='pages_proofed_graphs.php'>" . _("Pages Proofread Graphs") . "</a>"
 );
 
 $table->row(
     _("PPing"),
-    "<a href='proj_PPd_graphs.php'>" . _("Projects PPd Graphs") . "</a>",
+    "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a>",
     _("Coming Soon")
 );
 
 $table->row(
     _("Posting"),
-    "<a href='proj_posted_graphs.php'>" . _("Projects Posted Graphs") . "</a>",
+    "<a href='projects_Xed_graphs.php?which=posted'>" . _("Projects Posted Graphs") . "</a>",
     _("Coming Soon")
 );
 
