@@ -1,6 +1,8 @@
 <?
 $relPath="./../pinc/";
-include($relPath.'dp_main.inc');
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 
 //this module sets users inactive who have not logged into the site in 6 months
 

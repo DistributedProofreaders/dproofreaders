@@ -1,9 +1,10 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
-include($relPath.'dp_main.inc');
+include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
 include($relPath.'maybe_mail.inc');
+$db_Connection=new dbConnect();
 
     $old_date = time() - 7776000; // 90 days ago.
 

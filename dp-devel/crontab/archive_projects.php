@@ -1,6 +1,8 @@
 <?
 $relPath="./../pinc/";
-include($relPath.'dp_main.inc');
+include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 
 //this module sets projects as archived which have been posted more than 3 days
 //this limits the number of projects that the stats code must look at
