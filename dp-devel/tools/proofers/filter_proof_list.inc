@@ -18,7 +18,7 @@ function build_selectlist( $states, $field)
 	    $val = $a_res[0];	
 	    $to_echo .= "<option value='$val'>";
 	    $to_echo .= $val;
-	    $to_echo .="</option>\n";
+	    $to_echo .= "</option>\n";
 	}
 
 return $to_echo;
@@ -84,6 +84,9 @@ if ($userP['u_plist'] == 3)
 
 	echo "
 	    </select>
+
+	echo build_selectlist( $state_sql, "language");
+
 	    </td>
 	";
 
