@@ -31,7 +31,19 @@ var $table = array(
 'CELLPADDING'=>"0",
 'STYLE'=>"BORDER-COLLAPSE: collapse",
 'CLASS'=>NULL
+),
+
+1=> array(
+'ID'=>NULL,
+'BGCOLOR'=>"#FFFFFF",
+'BORDER'=>"1",
+'BORDERCOLOR'=>"#111111",
+'CELLSPACING'=>"0",
+'CELLPADDING'=>"5",
+'STYLE'=>"BORDER-COLLAPSE: collapse",
+'CLASS'=>NULL
 )
+
 );
 
 //TR's
