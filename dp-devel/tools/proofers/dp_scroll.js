@@ -1,6 +1,6 @@
 imgX=0;
 imgY=0;
-frameRef=top.proofframe.document;
+frameRef=null;
 imgWin=null;
 imgblock=null;
 imgWinstyle=null;
@@ -220,6 +220,7 @@ if (top.proofframe.imageframe.document.scanimage)
 
 function ldAll(wFace)
 {
+  frameRef=top.proofframe.document;
   isLded=1;
   inProof=1;
   inFace=wFace;
@@ -234,6 +235,7 @@ function ldAll(wFace)
     {
       docRef=top.proofframe.textframe.document;
       cnSel=docRef.selection? true : false;
+      if (window.opera) {cnSel=false;}
 //      cnSel=false;
       //doBU();
     }

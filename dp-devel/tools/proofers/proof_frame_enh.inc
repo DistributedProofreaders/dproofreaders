@@ -233,7 +233,7 @@ border="0" width="<?PHP
   $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
 ?>"></div></div><div 
-id="controlframe"><form 
+id="controlframe" align="center"><form 
       name="editform" id="editform" 
       method="POST" 
       action="processtext.php"><?PHP

@@ -21,7 +21,7 @@ function getCurSel()
 {if (cnSel){curSel=docRef.selection.createRange().text;}}
 
 function getCurCaret()
-{docRef.editform.text_data.caretPos=docRef.selection.createRange().duplicate();}
+{if (cnSel){docRef.editform.text_data.caretPos=docRef.selection.createRange().duplicate();}}
 
 // gets character code from numeric value cC
 function gCC(cC)
