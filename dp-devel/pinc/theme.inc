@@ -280,7 +280,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$siteurl/userteams.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 			}
-        echo "&nbsp;<a href='$siteurl/userteams.php'><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
+        echo "&nbsp;<a href='$siteurl/userteams.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
         
         //Show the Top Ten users is user has the option set
         if ($userP['u_top10']) {
@@ -330,17 +330,17 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 			$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
 			$enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
 
-			$displaydate = date("F Y", $begindate );
+			$displaydate = date("M Y", $begindate );
 
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
 			$totalprojects = mysql_result($result,0);
 			//echo "&nbsp;$displaydate - $totalprojects<br>\n";
-			echo "<tr><td width='50%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate</font></td><td width='50%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>$totalprojects&nbsp;</font></td></tr>\n";
+			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate - </font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>$totalprojects&nbsp;</font></td></tr>\n";
 		}
 		echo "</table>\n";
         }	
 	echo "<br></font>\n";
-	echo "<center><a href='$siteurl/previous_stats.html'><font color='".$theme['color_navbar_font']."' size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
+	echo "<center><a href='$siteurl/previous_stats.html'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
     
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
