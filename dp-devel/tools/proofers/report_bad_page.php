@@ -32,6 +32,16 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
 	$td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 	$td6=$htmlC->startTD(2,0,2,0,"left",0,0,1);
+
+	echo $tb.$tr.$td6;
+	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
+	echo "<ul>";
+	echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
+	echo "<li>Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.<br><br>";
+	echo "<li>Occasionally, you may come across a page that has <i>many</i> mistakes in the optical character recognition (OCR) that some many thing it is a bad page that needs to be re-ocred.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.<br><br>";
+	echo "<li>Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.<br><br>";
+	echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.";
+	echo "</ul></td></tr></table></div></center></font>";
 	echo "<form action='badpage.php' method='post'>";
 	echo "<input type='hidden' name='fileid' value='$fileid'>";
 	echo "<input type='hidden' name='projectname' value='$projectid'>";
@@ -56,19 +66,10 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
 	echo $tr.$td1;
 	echo "<input type='submit' value='"._("Submit Report")."'>";
-	echo "<input type='button' value='"._("Cancel").' onclick='javascript:history.go(-1)'>";
+	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
 	echo $tr.$td5;
 	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to your personal page.");
 	echo "</td></tr></table></form></div>";
-	echo $tb.$tr.$td6;
-	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
-	echo "<ul>";
-	echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
-	echo "<li>Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.<br><br>";
-	echo "<li>Occasionally, you may come across a page that has <i>many</i> mistakes in the optical character recognition (OCR) that some many thing it is a bad page that needs to be re-ocred.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.<br><br>";
-	echo "<li>Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.<br><br>";
-	echo "<li>If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information above.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.";
-	echo "</ul></td></tr></table></div></center></font>";
 	theme("", "footer");
 }
 else
