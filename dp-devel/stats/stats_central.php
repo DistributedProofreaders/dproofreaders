@@ -17,6 +17,7 @@ echo "<br><h2>" . _("Statistics Central") . "</h2>";
 show_site_news_for_page("stats_central.php");
 random_news_item_for_page("stats_central.php");
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //Member/team stats searches and listings
 
 echo "<table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>\n";
@@ -26,6 +27,7 @@ echo "<td align='right'><form action='$code_url/stats/teams/tlist.php' method='p
 echo "<font color='".$theme['color_headerbar_font']."'><input type='text' name='tname' size='20'>&nbsp;<input type='submit' value='"._("Team Search")."'></font></form></td>\n";
 echo "</tr><tr><td align='center'><a href='$code_url/stats/members/mbr_list.php'>"._("Member List")."</a></td><td align='center'><a href='$code_url/stats/teams/tlist.php'>"._("Team List")."</a></td></tr></table>\n<br>\n";
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
@@ -95,6 +97,8 @@ echo "</table>\n";
 echo "</td></tr></table>\n";
 echo "<br>\n";
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Miscellaneous Statistics
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
 echo "<table border='0' cellspacing='0' cellpadding='2' width='100%'>";
@@ -131,6 +135,9 @@ echo "<td><a href='ppv_stats.php'>$sub_title</a></td></tr>\n";
 echo "</table>\n";
 echo "</td></tr></table>\n";
 echo "<br>\n";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Project Graphs by Category
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'><tr><td>\n";
 echo "<table border='0' cellspacing='0' cellpadding='2' width='100%'>";
@@ -185,6 +192,9 @@ echo "</td><td>"._("Coming Soon")."</td></tr>\n";
 echo "</table>\n";
 echo "</td></tr></table>\n";
 echo "<br>\n";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Total Projects Created, Proofread, Post-Processed and Posted
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>"._("Total Projects Created, Proofread, Post-Processed and Posted")."</b></font></center></td></tr>";
