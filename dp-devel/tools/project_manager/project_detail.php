@@ -46,16 +46,18 @@ if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";
 	echo "<input type='hidden' name='project' value='$projectid'>\n";
-	if (user_is_a_sitemanager()) {
-		echo "Add Text From projects Folder";
-		echo "<input type='hidden' name='source_dir' value=''>\n";
-	} else {
+	//Used to be different how a SA would load projects.  Changed due to no reason of having this anymore
+	//but left just in case we need it in the future.
+	//if (user_is_a_sitemanager()) {
+	//	echo "Add Text From projects Folder";
+	//	echo "<input type='hidden' name='source_dir' value=''>\n";
+	//} else {
 		echo "Add Text+Images from $uploads_account Account";
 		echo "<br>\n";
 		echo "directory: ";
 		echo "<input type='text' name='source_dir'>";
 		echo " (defaults to $projectid )";
-	}
+	//}
 	echo "<br>\n";
 	echo "<input type='submit' value='Add'>";
 	echo "<br>\n";
