@@ -35,12 +35,14 @@ function project_sql()
 
 function page_summary_sql($projectid)
 {
-    global $forums_url ;
+    global $forums_url;
+    global $dynstats_url;
 
     return "SELECT 
                     CASE WHEN u.u_privacy > 0 THEN 'Anonymous'
-                    ELSE CONCAT('<a href=\"" . $forums_url 
-                        . "/profile.php?mode=viewprofile&u=', bbu.user_id,
+                    ELSE CONCAT('<a href=\""
+                        // . $forums_url . "/profile.php?mode=viewprofile&u=', bbu.user_id,
+                        .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
                         '\">',u.username,'</a>') END AS " . _("Proofreader") . ",
                     COUNT(1) AS '" . _("Pages this project") . "',
                     CASE WHEN u.u_privacy > 0 THEN '' ELSE
@@ -92,6 +94,7 @@ function page_list_sql($projectid)
         echo "<br>" ;
         echo "<b>$proj->nameofwork by $proj->authorsname</b>" ;
         echo "<br>" ;
+        print $dynstats_url;
 
         dpsql_dump_query(page_summary_sql($proj->projectid));
 
