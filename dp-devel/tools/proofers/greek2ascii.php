@@ -21,6 +21,8 @@ function clearBox() {
 function addChar(myChar) {
 	document.greek.textbox.value += myChar;
 	document.greek.textbox.focus();
+	// Following line is Opera focus+highlight workaround
+	document.greek.textbox.value += '';
 }
 //-->
 </script>
