@@ -18,9 +18,9 @@ $zmSize=isset($zmSize)? $zmSize:'100';
 $prefTags="&fntF=$fntF&fntS=$fntS&sTags=$sTags&zmSize=$zmSize";
 }
 
-function addUserCount($project,$prooflevel,$fileid,$pguser)
+function addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid)
 {
-$sql = "SELECT state FROM $project WHERE fileid='$fileid'";
+$sql = "SELECT state FROM $project WHERE image='$imagefile' AND fileid='$fileid'";
 $result=dquery($sql);
 $rows=nrows($result);
   if ($rows !=0)
@@ -51,25 +51,25 @@ $rows=nrows($result);
   }
 }
 
-function savePage($project,$prooflevel,$fileid,$text_data,$pguser)
+function savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid)
 {
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
   if ($prooflevel==2)
   {$dbQuery.="15', round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
   else {$dbQuery.="5', round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
-$dbQuery.=" WHERE fileid='$fileid'";
+$dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
 }
 
-function setSaveComplete($project,$prooflevel,$fileid,$pguser)
+function setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid)
 {
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
   if ($prooflevel==2)
   {$dbQuery.="19', round2_time='$timestamp', round2_user='$pguser'";}
   else {$dbQuery.="9', round1_time='$timestamp', round1_user='$pguser'";}
-$dbQuery.=" WHERE fileid='$fileid'";
+$dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
 }
 
@@ -104,8 +104,8 @@ if (!$isOpen)
 if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4))
 {
 if (!isset($saved))
-{addUserCount($project,$prooflevel,$fileid,$pguser);}
-savePage($project,$prooflevel,$fileid,$text_data,$pguser);
+{addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);}
+savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid);
 isProjectDone($project,$prooflevel);
 } // end save page
 
@@ -134,7 +134,7 @@ metarefresh(0,$frame1,' ',' ');
 // save and do another send back to proof.php for a new page
 if (isset($button2) || isset($button2_x))
 {
-setSaveComplete($project,$prooflevel,$fileid,$pguser);
+setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
 $newjs='&js='.$js;
@@ -152,9 +152,9 @@ if (isset($button3) || isset($button3_x))
 if (!isset($saved))
   {$dbQuery="UPDATE $project SET state='";
   $dbQuery.=$prooflevel==2?"12":"2";
-  $dbQuery.="' WHERE image = '$imagefile'";
+  $dbQuery.="' WHERE image = '$imagefile' AND fileid='$fileid'";
   $result = mysql_query($dbQuery);}
-else {setSaveComplete($project,$prooflevel,$fileid,$pguser);}
+else {setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);}
 if ($js==0)
   {metarefresh(0,'proof_per.php',' ',' ');}
   else {

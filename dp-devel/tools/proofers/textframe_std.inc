@@ -23,7 +23,7 @@ else {
   {$wText="round2_text";}
   else {$wText="round1_text";}
 }
-$dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
+$dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$imagefile'";
     $result = mysql_query($dbQuery);
     $myrow = mysql_fetch_row($result);
     $text_data = mysql_result($result, 0, $wText);
@@ -56,7 +56,7 @@ if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save 
 //display page number
 echo "<B>Page Number: $pageNum ";
     if ($prooflevel != 0) {
-        $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile'");
+        $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile' AND fileid='$fileid'");
         $username = mysql_result($result, 0, "round1_user");
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
         $user_id = mysql_result($result, 0, "user_id");   
