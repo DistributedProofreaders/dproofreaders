@@ -1,6 +1,6 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
+include_once($relPath.'dp_main.inc');
 
 //Get variables from POST form
 $projectID = $_POST['projectname'];
