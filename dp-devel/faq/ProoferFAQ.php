@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -53,7 +54,7 @@ theme('Beginning Proofreaders\' FAQ','header');
 
 <h3><a name="1">1. What is Distributed Proofreaders? </a></h3>
 Distributed Proofreaders is an effort to support <a href="
-http://www.gutenberg.net">Project Gutenberg</a>, and a recognized affiliated site of
+<? echo $PG_home_url; ?>">Project Gutenberg</a>, and a recognized affiliated site of
 Project Gutenberg.  The basic concept is that our website software allows several
 proofreaders to be working on the same book at the same time, each proofreading on
 different pages.  This will significantly speed up the proofreading process.
@@ -99,8 +100,8 @@ different pages.  This will significantly speed up the proofreading process.
     appealed to the greatest number of people possible. Due to copyright laws, it is
     only legal to do this with older books (in gerneral, copyrighted before 1923). As a
     result, Project Gutenberg is mostly comprised of the "Classics." </p>
-<p> You can read more about the history of Project Gutenberg at: <a
-    href="http://www.gutenberg.net/history.html">www.gutenberg.net/history.html</a></p>
+<p> You can read more about the history of Project Gutenberg <a
+    href="<? echo $PG_history_url; ?>">here</a></p>
 
 <h3><a name="3">3. Why do we pick the books that we do? </a></h3>
 <p> The Project Managers pick whatever books we can find. Due to US
@@ -111,9 +112,9 @@ different pages.  This will significantly speed up the proofreading process.
     price.  </p>
 
 <p> Before selecting a book to convert to an etext, we check
-    <a href="http://www.ibiblio.org/gutenberg/GUTINDEX.ALL">Project Gutenberg's list</a>
+    <a href="<? echo $PG_gutindex_url; ?>">Project Gutenberg's list</a>
     (to make certain that it hasn't already been done) and we check
-    <a href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's In-Progress List</a>
+    <a href="<? echo $PG_in_progress_url; ?>">David's In-Progress List</a>
     (to make certain that it isn't being done by someone else). </p>
 
 <p> In summary, <i>we do whatever books people provide to us (that we legally can).</i>
@@ -146,7 +147,7 @@ different pages.  This will significantly speed up the proofreading process.
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
       <input type="hidden" name="cmd" value="_xclick">
-      <input type="hidden" name="business" value="donate@gutenberg.net">
+      <input type="hidden" name="business" value="<? echo $PG_paypal_business_id; ?>">
       <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif"
       align="right" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
     </form>
@@ -252,8 +253,8 @@ different pages.  This will significantly speed up the proofreading process.
     currently in the process of proofreading. </p>
 
 <h3><a name="9">9. How can I get copies of other Gutenberg etexts? </a></h3>
-<p> You can go to the Project Gutenberg site <a
-    href="http://www.gutenberg.net">www.gutenberg.net</a> and get copies of any etext in
+<p> You can go to Project Gutenberg's <a
+    href="<? echo $PG_catalog_url; ?>">online catalog</a> and get copies of any etext in
     the library, including the ones done through Distributed Proofreaders. </p>
 
 <h3><a name="10">10. I think I messed something up (done something wrong), How can I fix it? </a></h3>
@@ -340,7 +341,7 @@ different pages.  This will significantly speed up the proofreading process.
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
     </td>
 </tr>

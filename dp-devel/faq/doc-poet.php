@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -116,7 +117,7 @@ theme('Proofreading Guidelines -- Poetry','header');
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
     </td>
 </tr>

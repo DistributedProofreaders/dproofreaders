@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -36,7 +37,7 @@ theme('Proofreading Guidelines -- Encyclopedias','header');
     <li>Article titles: Leave in UPPER CASE like the original printed form. Do not mark them as boldface.</li>
     <li>Greek: Please transliterate and place in square brackets with the word
         "Greek:".  Translate each Greek character into the matching Latin
-        letter using the <a href="http://gutenberg.net/howto/greek/"> PG
+        letter using the <a href="<? echo $PG_greek_howto_url; ?>"> PG
         Greek transliteration guidelines</a>.  Example: <tt>like a fish [Greek:
         ichthus]</tt>.                                                          </li>
     <li>Sidenotes: Place at beginning of the paragraph, without a blank line following. If there are additional
@@ -156,7 +157,7 @@ theme('Proofreading Guidelines -- Encyclopedias','header');
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
     </td>
 </tr>

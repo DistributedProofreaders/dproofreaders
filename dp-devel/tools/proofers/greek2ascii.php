@@ -1,6 +1,7 @@
 <?PHP
 $relPath="./../../pinc/";
 include($relPath.'doctype.inc');
+include($relPath.'pg.inc');
 echo $docType. "\r\n";
 ?>
 <html>
@@ -100,7 +101,7 @@ begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.
 <tr>
 <td colspan="3">
 Please read the Project Gutenberg 
-<a href="http://gutenberg.net/howto/greek/" target="_new">
+<a href="<? echo $PG_greek_howto_url; ?>" target="_new">
 Greek HOWTO</a> for more information.
 <br>
 <a href="#" onclick="window.close()"><b>Close</b></a>

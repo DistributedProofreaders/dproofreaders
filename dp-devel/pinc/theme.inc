@@ -2,6 +2,7 @@
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'v_site.inc');
+include_once($relPath.'pg.inc');
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
@@ -207,6 +208,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url, $metadata;
+    global $PG_paypal_business_id, $PG_donation_url;
     		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
                 <script language="JavaScript"><!--
@@ -529,9 +531,9 @@ if ($metadata){
     //Should be the last thing displayed in the right hand column
 	echo "<br><center>";
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
-<input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='donate@gutenberg.net'>\n";
+<input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
 echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='http://gutenberg.net/donate.shtml' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
 }
 
 function html_footer($code_url, $theme, $theme_name) {

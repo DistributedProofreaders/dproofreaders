@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'username.inc');
 include($relPath.'email_address.inc');
 include($relPath.'maybe_mail.inc');
@@ -112,7 +113,7 @@ Hello $real_name,
 
 We want to first thank you for registering on our site. That is the
 first step in helping us proofread books for Project Gutenberg
-<http://www.gutenberg.net>.
+<$PG_home_url>.
 
 To make sure you will be able to access and use our web site
 properly, please check that your browser settings are as follows:

@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -502,7 +503,7 @@ that may have been introduced by the rewrap.
  
 <li><a name="19">Give the whole thing a quick eyeball to make sure that all is well.</a>  
     If you are not sure what the finished text should look like, 
-    download a text from <a href="http://www.gutenberg.net/">Project Gutenberg</a> 
+    download a text from <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a> 
     and skim it to get a clearer idea.
     Some proofreaders believe that this is best done the next day, 
     when you have a fresher eye and might be more likely to spot oversights.
@@ -1289,7 +1290,7 @@ or find a partner to do it for you.
 </p>
 
 <p>There are several requirements for HTML. 
-First, be sure to read the <a href="http://gutenberg.net/faq/gutfaq.htm#H.1">PG HTML FAQ</a> and follow all the
+First, be sure to read the <a href="<? echo $PG_html_faq_url; ?>">PG HTML FAQ</a> and follow all the
 requirements. Before submitting your HTML for PPV, please do the following:<br>
 Validate the HTML at <a href="http://validator.w3.org/">http://validator.w3.org</a>; 
 validate the CSS, if any, at <a href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator</a>; 
@@ -1336,7 +1337,7 @@ or give you a scan for a missing page.
  
 <p>
 If they don't have the text, 
-join <a href="http://www.gutenberg.net/howto/subscribe-howto">gutvol-d</a> 
+join <a href="<? echo $PG_mailing_lists_url; ?>">gutvol-d</a> 
 and post a message asking for help. 
 Give the name and author of the book which you are working on, 
 what you will require as help 

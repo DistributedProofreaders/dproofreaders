@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -2345,7 +2346,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Greek: <a href="http://gutenberg.net/howto/greek/">Greek HOWTO</a> (from
+  <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
       Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
@@ -2356,7 +2357,7 @@ cedilla                      [,x]   [x,]
   <li>Hebrew and Arabic:
       Not recommended unless you are fluent. There are significant
       difficulties transliterating these languages and neither <a href="..">Distributed
-      Proofreaders</a> nor <a href="http://www.gutenberg.net/">Project Gutenberg</a>
+      Proofreaders</a> nor <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>
       have yet chosen a standard method.
   </li>
 </ul>
@@ -2721,7 +2722,7 @@ cedilla                      [,x]   [x,]
      &nbsp;&nbsp;&nbsp;
      <a href="faq_central.php">DP FAQ Central page</a>,
      &nbsp;&nbsp;&nbsp;
-     <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+     <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
      </font>
   </td>
 </tr>

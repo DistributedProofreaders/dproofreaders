@@ -1,6 +1,7 @@
 <?
 $relPath='../pinc/';
 include_once($relPath.'v_site.inc');
+include_once($relPath.'pg.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 new dbConnect();
@@ -87,9 +88,9 @@ theme('FAQ Central','header');
   <dt> &nbsp;
   <dd> &nbsp;
 
-  <dt><a href="http://www.gutenberg.net/faq/gutfaq.htm">Project Gutenberg FAQ</a>
+  <dt><a href="<? echo $PG_faq_url; ?>">Project Gutenberg FAQ</a>
   <dd>The <i>massive</i> FAQ from our parent site,
-      <a href="http://www.gutenberg.net/">Project Gutenberg</a>.
+      <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>.
 
   <dt><a href="privacy.php">DP Privacy Policy</a>
   <dd>A link to the Distributed Proofreading Privacy Policy that you saw when you
@@ -105,7 +106,7 @@ theme('FAQ Central','header');
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
+        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
 
     </td>

@@ -1,6 +1,7 @@
 <?
 $relPath='../../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -66,7 +67,7 @@ expired). In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
 it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
-on <a href="http://www.gutenberg.net/howto/copyright-howto">this</a> page.&nbsp;
+on <a href="<? echo $PG_copyright_howto_url; ?>">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
  href="http://digital.library.upenn.edu/books/okbooks.html">this</a>
 page.<br>
@@ -79,10 +80,10 @@ site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
 A different <span style="font-style: italic;">version</span> of an
 existing book is OK though. You can check the <a
- href="http://www.gutenberg.net/catalog/">Project Gutenberg search page</a> to
+ href="<? echo $PG_catalog_url; ?>">Project Gutenberg online catalog</a> to
 see if a book is already on there.</p>
 <p>There is also a site called <a
- href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's
+ href="<? echo $PG_in_progress_url; ?>">David's
 In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
 If you find your book listed but the clearance date is over a few years old
