@@ -36,16 +36,15 @@ function project_pre_release_check( $project )
 
     if ($errors) $errors .= "\n";
        
-    $path = "$projects_dir/$projectid/";
-
     $res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
     while ( $page = mysql_fetch_assoc($res) )
     {
         $filename = $page['image'];
+        $filepath = "$projects_dir/$projectid/$filename";
 
-        if (!file_exists($path.$filename)) {
+        if (!file_exists($filepath)) {
             $errors .= "  $filename: image file is missing\n";
-        } else if (filesize($path.$filename) < 100) {
+        } else if (filesize($filepath) < 100) {
             $errors .= "  $filename: image file is small (probably bad)\n";
         }
 
