@@ -89,7 +89,7 @@ function theme ($nameofpage, $location) {
 function html_header($code_url, $theme, $nameofpage) {
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-      echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
+	echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
@@ -176,8 +176,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
     	$pguser_id = mysql_result($result, 0, "user_id");
     	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
     	$numofPMs = mysql_fetch_row($result);
-    	$result = mysql_query("SELECT date_created, u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-    	$u_id = mysql_result($result, 0, "u_id");
+    	$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     	$datecreated = mysql_result($result, 0, "date_created");
 	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
@@ -196,8 +195,6 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("My Preferences") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("My Statistics") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Log Out") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	}
@@ -209,6 +206,9 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url, $site_supports_metadata;
     global $PG_paypal_business_id, $PG_donation_url;
+    // Get userid for personal stats link
+    $result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+    $u_id = mysql_result($result, 0, "u_id");
     		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
                 <script language="JavaScript"><!--
@@ -359,7 +359,10 @@ if ($site_supports_metadata){
 	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:"))." ".number_format($sitestatsgoal).($sitestatsgoal?(" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)"):"")."<br>\n"; }
 	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:"))." ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
 
-       echo "</font><br><hr width='75%' align='center'><br>\n";
+	echo "<br></font>\n";
+	echo "<center><font size='1'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
+
+	echo "</font><br><hr width='75%' align='center'><br>\n";
 
 
     //If the user is logged in show personal & team stats
@@ -450,6 +453,7 @@ if ($site_supports_metadata){
 	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
+	echo "<center><font size='1'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
 	echo "<" . "!-- " . $userP['u_id'] . " -->";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
@@ -460,13 +464,13 @@ if ($site_supports_metadata){
 		while($row = mysql_fetch_assoc($teamRes)) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 		}
-        echo "&nbsp;<a href='$code_url/stats/teams/tlist.php'><font face='".$theme['font_navbar']."' size='1'>"._("View all teams...")."</font></a><br>\n";
+        echo "<center><font size='1'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
 
         // show link to replacement page for top ten
-        if ($userP['u_top10']) {
-             echo "<br><hr width='75%' align='center'><br>\n";
-             echo "<center><a href='$code_url/stats/proof_stats.php'>Proofreading Statistics</a></center>\n";
-        }
+//        if ($userP['u_top10']) {
+//             echo "<br><hr width='75%' align='center'><br>\n";
+//             echo "<center><a href='$code_url/stats/proof_stats.php'>Proofreading Statistics</a></center>\n";
+//        }
 
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
@@ -514,13 +518,12 @@ if ($site_supports_metadata){
 		}
 		echo "</table>\n";
         }
-	echo "<br></font>\n";
-	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>" . _("See more statistics here...") . "</font></a></center>\n";
 
 	if (!empty($userP)) {
-		echo "<br><center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>"._("Key Help Documents:")."</u></font></center>\n";
+		echo "<br><hr width='75%' align='center'><br>\n";
+		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>"._("Key Help Documents:")."</u></font></center>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("Summary")."</a>)</font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
 	}
