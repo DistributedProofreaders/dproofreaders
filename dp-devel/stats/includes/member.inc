@@ -38,7 +38,7 @@ function showMbrProfile($curMbr) {
         if (!empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Website</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a></font></td></tr>"; }
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
-        	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Edit</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$GLOBALS['code_url']."/userprefs.php'>Preferences</a> | <a href='".$GLOBALS['forums_url']."/profile.php?mode=viewprofile&u=".$curMbr['user_id']."'>Profile</a></font></td></tr>";
+        	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Edit</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$GLOBALS['code_url']."/userprefs.php'>Preferences</a> | <a href='".$GLOBALS['forums_url']."/profile.php?mode=editprofile&u=".$curMbr['user_id']."'>Profile</a></font></td></tr>";
         }
 
 	echo "</table></td></tr>";
