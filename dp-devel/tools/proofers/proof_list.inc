@@ -187,11 +187,9 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 
 	$RFilter = " AND ".$condition1;
 
-	if ($show_df) {
-		echo "<center>"._("Currently filtered by:")."<b> $display_filter </b></center><br><br>\n";
-	} else {
-		echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
-	}
+
+
+
 
 	// save or update filter to usersettings here (since they've potentially changed)
 
@@ -213,7 +211,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 
 
 	$query = "
-		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '$Rfilter')
+		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '$RFilter')
 		";
 	$result = mysql_query($query);
 echo $query;
@@ -226,6 +224,11 @@ echo $query;
 
 }
 
+if ($show_df || $display_filter) {
+	echo "<center>"._("Currently filtered by:")."<b> $display_filter </b></center><br><br>\n";
+} else {
+	echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
+}
 
 
 
