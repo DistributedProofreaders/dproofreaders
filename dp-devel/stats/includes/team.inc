@@ -39,6 +39,11 @@ function showTeamProfile($curTeam) {
 	global $team_avatars_url;
 	global $code_url;
 
+	$xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=" . $curTeam['id'];
+	$xml_img_url = "$code_url/graphics/xml.gif";
+	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align: middle;'>";
+	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
+
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
 	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id'] && !empty($userP)) {
@@ -72,26 +77,33 @@ function showTeamProfile($curTeam) {
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='100%'>";
 	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'] . "'>";
 	echo "<td align='left' valign='top'><center><font color='" . $theme['color_headerbar_font'];
-	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b></font>&nbsp;<a href='";
-	echo $GLOBALS['code_url'] . "/stats/teams/teams_xml.php?id=" . $curTeam['id'] . "'><img src='";
-	echo $GLOBALS['code_url'] . "/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align: middle;'></a>";
+	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b></font>&nbsp;";
+	echo $xml_button;
 	echo $editlink . $joinquitlink . "</center></td></tr>";
+
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Created")."</b>: ";
 	echo date("m/d/Y", $curTeam['created']) . "&nbsp;($daysInExistence "._("days").")</font></td></tr>";
+
+	$owner_url = "$code_url/stats/members/mdetail.php?id=" . $curTeam['owner'];
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Leader")."</b>: <a href='";
-	echo $GLOBALS['code_url'] . "/stats/members/mdetail.php?id=" . $curTeam['owner'] . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
+	echo $owner_url . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
+
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Total Pages")."</b>: ";
 	echo number_format($curTeam['page_count']) . "</font></td></tr>";
+
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Description")."</b>: ";
 	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
+
+	$webpage = $curTeam['webpage'];
+	$topic_url = "$code_url/stats/teams/team_topic.php?team=".$curTeam['id'];
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
-	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>"._("Forums")."</b>: <a href='";
-	echo $code_url."/stats/teams/team_topic.php?team=".$curTeam['id']."'>"._("Team Discussion")."</a> ";
+	echo "$webpage' target='_new'>$webpage</a><br><b>"._("Forums")."</b>: <a href='";
+	echo "$topic_url'>"._("Team Discussion")."</a> ";
 	if (!is_null($last_post_date)) {
 		echo "("._("Last Post:")." $last_post_date)";
 	}
@@ -283,8 +295,9 @@ function showTeamMbrs($curTeam) {
 		else
 		{
 			$username = $curMbr['username'];
+			$member_url = "$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'];
 			echo "\n<tr $rollover_highlight_attrs>";
-			echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'] . "'>$username</a></td>";
+			echo "<td width='35%'><a href='$member_url'>$username</a></td>";
 			echo "<td width='35%'>" . number_format($curMbr['current_P_page_tally']) . "</td>";
 			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";
 		}
@@ -304,11 +317,25 @@ function showTeamMbrs($curTeam) {
 function showTeamHistory($curTeam) {
 	global $theme;
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
+
+	$choices = array();
+	foreach ( array( 7, 14, 30, 60, 365, 'all' ) as $d )
+	{
+		$text =
+			($d == 'all')
+			? _('Lifetime')
+			: sprintf( _('Last %d Days'), $d );
+		$choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&range=$d'>$text</a>";
+	}
+	$choices_str = join( $choices, ' | ' );
+
+	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range";
+
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 	echo "\n<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics History")."</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
-	echo "<p><font size='2'><a href='tdetail.php?tid=".$curTeam['id']."&range=7'>"._("Last 7 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=14'>"._("Last 14 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=30'>"._("Last 30 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=60'>"._("Last 60 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=365'>"._("Last 365 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=all'>"._("Lifetime")."</a></font>";
-	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range' width='600' height='300'></center><br></td></tr>";
+	echo "<p><font size='2'>$choices_str</font>";
+	echo "<p><img src='$image_url' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
 }
 
