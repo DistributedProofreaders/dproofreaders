@@ -136,8 +136,7 @@ BENNETT, MARIE MARGUERITE                                        <br>
 
 <h3>mid-1973 to 1977</h3>
   <ul>
-    <li> Leave a blank line between each entry.
-         (Two blank lines is fine, too.)
+    <li> Leave two blank lines between each entry.
     </li>
     <li> Reproduce the capitalization that appears in the image.
     </li>
