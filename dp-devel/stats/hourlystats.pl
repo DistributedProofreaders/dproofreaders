@@ -1,149 +1,70 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
+use strict;
 use DBI;
-#use strict;
-use Time::localtime;
+use Time::Local;
 
 open (OUTFILE, ">/home/charlz/public_html/dproofreaders/stats/hourly.txt");
 open (HOURLYOUT, ">/home/charlz/public_html/dproofreaders/hourpages.txt");
 open (MONTHLYOUT, ">/home/charlz/public_html/dproofreaders/monthpages.txt");
 
+my $dsn = "DBI:mysql:dproofreaders:localhost";
+my $db_user = "";
+my $db_pass = "";
 
-my ($dsn)= "DBI:mysql:dproofreaders:localhost";
-my ($newdsn)= "DBI:mysql:dproofreaders:localhost";
-my ($user_name) = "";
-my ($password) = "";
-my ($newpassword) = "";
-my ($dbh, $sth);
-my (@ary);
-my ($numrows) = 0;
-my ($todaysdate, $stats);
-my ($mydbh,$mysth);
-my ($project,$year,$month,$day,@monthlypages);
-my ($pages);
-my ($query);
-my ($count) = 0;
+my ($min, $hour, $day, $month, $year) = (localtime)[1..5];
+my $midnight = timelocal(0, 0, 0, $day, $month, $year);
 
+my $dbh = DBI->connect($dsn, $db_user, $db_pass, {RaiseError => 1});
 
-
-$year = localtime->year() + 1900;
-#printf "Year is %s\n", $year;
-
-
-$month = (localtime->mon()) +1;
-if ($month <=9){
-$month = "0" . $month;
-}
-#printf "month is %s\n", $month;
-
-
-$day = localtime->mday();
-if ($day <= 9){
-$day = "0" . $day;
-}
-
-$hour = localtime->hour();
-
-$minutes = localtime->min();
-
-if ($minutes <=9){
-$minutes ="0". $minutes;
-}
-
-#printf "Time is %s:%s\n", $hour, $minutes;
-
-$colon = chr(58);
-
-$mytime = $hour.$colon.$minutes;
-$todaysdate = $year.$month.$day;
-#print "todays date", $todaysdate,"\n";
-
-
-#connect to database
-$dbh = DBI ->connect ($dsn, $user_name, $password, {RaiseError => 1});
-
-
-#get all project id's
-$sth = $dbh->prepare ("SELECT projectid FROM projects WHERE state != '30'");
-#$sth = $dbh->prepare ("SELECT projectid FROM projects WHERE state = '2'");
+my $sth = $dbh->prepare("SELECT projectid FROM projects WHERE state != 30");
 $sth->execute();
 
-# read results and cleanup
-while (@ary = $sth->fetchrow_array ())
-{
-#   print join ("\t", @ary), "\n";
+my $total_pages = 0;
 
-#during daylight savings
-#$currenttime = time() - 25200;
-#$startofday = ($currenttime - ($currenttime % 86400)) + 25200; 
-#during standard time
-$currenttime = time() - 28800;
-$startofday = ($currenttime - ($currenttime % 86400)) + 28800;
+while (my $project = $sth->fetchrow_array()) {
+  my $query = qq{
+    SELECT SUM(CASE WHEN round1_time >= $midnight 
+                         AND state > 5
+                    THEN 1 ELSE 0 END
+               + 
+               CASE WHEN round2_time >= $midnight 
+                         AND state > 15
+                    THEN 1 ELSE 0 END)
+    FROM $project
+  };
 
-$startofyesterday = ($startofday - 86400); 
+  my $sth2 = $dbh->prepare($query); 
+  $sth2->execute();
 
-#print "currenttime is $currenttime\n";
-#print "startofday is $startofday\n";
+  my $pages = $sth2->fetchrow_array();
+  $total_pages += $pages;
 
-#    $mydbh = DBI ->connect ($dsn, $user_name, $password, {RaiseError => 1});
-#   $mysth = $mydbh->prepare ("SELECT image_filename FROM projectID3a31bd77c4d16 WHERE date_uploaded = '20010116' AND prooflevel != '0' AND prooflevel != '2' ");
-    $query = "SELECT SUM(CASE WHEN round1_time >= $startofday 
-                         THEN 1 ELSE 0 END
-                         + 
-                         CASE WHEN round2_time >= $startofday 
-                         THEN 1 ELSE 0 END)
-              FROM @ary";
-
-    $mysth = $dbh->prepare($query); 
-    $mysth->execute();
-
-    $count = $mysth->fetchrow_array;
-    $numrows += $count;
-
-    $mysth->finish();
-
-#print ("my project is:\n", $project);
-
+  $sth2->finish();
 }
      
-$sth->finish ();
+print OUTFILE (
+  "Pages completed today: $total_pages as of $hour:$min Pacific Time today<br>"
+);
 
-#print ("number of rows",$numrows);
+print HOURLYOUT $total_pages;
 
+$sth = $dbh->prepare(qq{
+  SELECT SUM(pages) 
+  FROM pagestats 
+  WHERE MONTH(date) = MONTH(CURDATE()) 
+    AND YEAR(date) = YEAR(CURDATE())
+});
 
+$sth->execute();
 
-# write info out to file
-print OUTFILE ("Pages completed today: ",$numrows, " as of ", $mytime, " Pacific Time today<br>");
-print HOURLYOUT ($numrows);
+my $pages = $sth->fetchrow_array();
 
-$dbh->disconnect ();
+$sth->finish();
+$dbh->disconnect();
 
-
-#get total pages for the month
-#connect to database
-$dbh = DBI ->connect ($newdsn, $user_name, $password, {RaiseError => 1});
-$mysth = $dbh->prepare ("SELECT SUM(pages) FROM pagestats WHERE month = $month AND year = $year");
-$mysth->execute();
-
-
-while (@pageary = $mysth->fetchrow_array())
-{
-$monthlypages = @pageary[0];
-print OUTFILE ("Pages completed this month: ", $monthlypages,"\n");
-print MONTHLYOUT ($monthlypages);
-}
-
-
-# write info out to file
-
-$mysth->finish ();
-$dbh->disconnect ();
-
-
-
+print OUTFILE "Pages completed this month: $pages\n";
+print MONTHLYOUT $pages;
 
 close OUTFILE;
 close MONTHLYOUT;
 close HOURLYOUT;
-
-exit(0);
-
