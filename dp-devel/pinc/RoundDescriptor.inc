@@ -104,7 +104,7 @@ class ProofingRoundDescriptor
     }
 }
 
-$PRD_1 = new ProofingRoundDescriptor(
+$P1 = new ProofingRoundDescriptor(
     'P1',
     -20,
     _("Current First - Round Projects"),
@@ -116,7 +116,7 @@ $PRD_1 = new ProofingRoundDescriptor(
     array()
 );
 
-$PRD_2 = new ProofingRoundDescriptor(
+$P2 = new ProofingRoundDescriptor(
     'P2',
     100,
     _("Current Second - Round Projects"),
@@ -128,8 +128,7 @@ $PRD_2 = new ProofingRoundDescriptor(
     array( 'P1' )
 );
 
-// Although $PRD_1 and $PRD_2 are variables, they should be treated as
-// constants; thus the all-uppercase names.
+// Although $P1 and $P2 are variables, they should be treated as constants.
 
 // ---------------------------
 
