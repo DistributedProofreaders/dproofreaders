@@ -5,6 +5,11 @@ include($relPath.'theme.inc');
 
 theme('Project Information', 'header');
 
+if (!user_is_PP()) {
+	echo "You're not recorded as a PPer. If you feel this is an error, please contact site administration.";
+	exit();
+}
+
 /* $_GET $projectid, $proofstate, $proofing */
 
 $projectid = $_GET['project'];

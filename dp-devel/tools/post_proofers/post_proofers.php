@@ -10,6 +10,11 @@ include_once($relPath.'user_is.inc');
 
 theme("Post Processing", "header");
 
+if (!user_is_PP()) {
+	echo "You're not recorded as a PPer. If you feel this is an error, please contact site administration.";
+	exit();
+}
+
 $isPPV = user_is_post_proof_verifier();
 
 if (!$isPPV) {
