@@ -20,6 +20,8 @@ echo "<br>\n";
 
 include_once('detail_legend.inc');
 
+echo "N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab."."<br>\n";
+
 echo_page_table( $project, $show_image);
 
 ?>
