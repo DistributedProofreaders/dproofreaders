@@ -16,6 +16,8 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'theme.inc');
 // for PROJ_ declarations
 include_once($relPath.'project_states.inc');
+// for $users_P_page_tallyboard
+include_once($relPath.'page_tally.php');
 
 function project_sql()
 {
@@ -38,6 +40,10 @@ function page_summary_sql($projectid)
 {
     global $forums_url;
     global $dynstats_url;
+    global $users_P_page_tallyboard;
+
+    list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
+	    $users_P_page_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
     return "SELECT 
                 CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
@@ -46,12 +52,12 @@ function page_summary_sql($projectid)
                     '\">',u.username,'</a>')
                 END AS " . _("Proofreader") . ",
                 COUNT(1) AS '" . _("Pages this project") . "',
-                ct.tally_value AS '" . _("Total Pages") . "',
+                $user_P_page_tally_column AS '" . _("Total Pages") . "',
                 DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
             FROM $projectid  AS p
                 INNER JOIN users AS u ON p.round1_user = u.username
                 INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
-		LEFT OUTER JOIN current_tallies AS ct ON (ct.holder_type='U' AND ct.holder_id=u.u_id AND ct.tally_name='P')
+		$joined_with_user_P_page_tallies
             GROUP BY p.round1_user" ;
 }
 
