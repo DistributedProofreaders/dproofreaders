@@ -3,8 +3,6 @@ $relPath="./../../pinc/";
 
 // initialise variables to values for "proofing"
 
-$action_page = 'proof_per.php';
-
 if ($userP['u_plist'] == 1) 
 {
 	$state_sql = " (state = '".PROJ_P1_AVAILABLE."') ";
