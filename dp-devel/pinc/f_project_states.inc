@@ -11,6 +11,12 @@ function projectStateRound($state)
             $wProc = 'NEW' ;
             break ;
 
+        /*
+        case ? :
+            $wProc = 'PR' ;
+            break ;
+        */
+
         case PROJ_PROOF_FIRST_UNAVAILABLE :
         case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE :
         case PROJ_PROOF_FIRST_BAD_PROJECT :
@@ -50,31 +56,6 @@ function projectStateRound($state)
             break ;
     }
     return $wProc;
-
-
-
-        /*
-        if ($state==PROJ_NEW)
-        {$wProc='NEW';}
-        //  for the pre-processing
-        //    else if ($state==)
-        //      {$wProc='PR';}
-        else if ($state==PROJ_PROOF_FIRST_UNAVAILABLE || $state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT
-        || $state==PROJ_PROOF_FIRST_AVAILABLE   || $state==PROJ_PROOF_FIRST_VERIFY              || $state==PROJ_PROOF_FIRST_COMPLETE)
-        {$wProc='FIRST';}
-        else if ($state==PROJ_PROOF_SECOND_UNAVAILABLE || $state==PROJ_PROOF_SECOND_WAITING_FOR_RELEASE || $state==PROJ_PROOF_SECOND_BAD_PROJECT
-        || $state==PROJ_PROOF_SECOND_AVAILABLE   || $state==PROJ_PROOF_SECOND_VERIFY              || $state==PROJ_PROOF_SECOND_COMPLETE)
-        {$wProc='SECOND';}
-        else if ($state==PROJ_POST_FIRST_UNAVAILABLE   || $state==PROJ_POST_FIRST_AVAILABLE             || $state==PROJ_POST_FIRST_CHECKED_OUT
-        || $state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT             || $state==PROJ_POST_COMPLETE)
-        {$wProc='PP';}
-        else if ($state==PROJ_SUBMIT_PG_UNAVAILABLE || $state==PROJ_SUBMIT_PG_AVAILABLE                 || $state==PROJ_SUBMIT_PG_POSTING
-        || $state==PROJ_SUBMIT_PG_POSTED)
-        {$wProc='GB';}
-        else if ($state==PROJ_COMPLETE)
-        {$wProc='COMPLETE';}
-        return $wProc;
-      */
 }
 
 // hmmm...this is php after all - why isn't this an associative array?
