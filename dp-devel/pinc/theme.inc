@@ -28,22 +28,40 @@ function theme ($nameofpage, $location) {
 	$siteurl = $GLOBALS['siteurl'];
 	$theme_name = $GLOBALS['theme_name'];
 	$theme = $GLOBALS['theme'];
-						
-	if ($statsbar_align == 1) { 
-		if ($location == "header") {
-			html_header($siteurl, $theme, $nameofpage);
-			html_logobar($siteurl, $theme, $nameofpage, $theme_name);
-			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
-			echo "<tr>\n";
-			echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
-			html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
-			echo "</td>\n";
-			echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-			echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-		} elseif ($location == "footer") {
-			echo "</td></tr></table>\n";			
-			html_footer($siteurl, $theme, $theme_name);
-		}	
+		
+	if (!isset($GLOBALS['no_stats'])) { 
+		if ($statsbar_align == 1) { 
+			if ($location == "header") {
+				html_header($siteurl, $theme, $nameofpage);
+				html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+				echo "<tr>\n";
+				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
+				html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
+				echo "</td>\n";
+				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+			} elseif ($location == "footer") {
+				echo "</td></tr></table>\n";			
+				html_footer($siteurl, $theme, $theme_name);
+			}	
+		} else {
+			if ($location == "header") {
+				html_header($siteurl, $theme, $nameofpage);
+				html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+				echo "<tr>\n";
+				echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
+				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+			} elseif ($location == "footer") {
+				echo "</td>\n";
+				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
+				html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
+				echo "</td></tr></table>\n";
+				html_footer($siteurl, $theme, $theme_name);
+			}
+		}
 	} else {
 		if ($location == "header") {
 			html_header($siteurl, $theme, $nameofpage);
@@ -51,16 +69,12 @@ function theme ($nameofpage, $location) {
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-			echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+			echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 		} elseif ($location == "footer") {
-			echo "</td>\n";
-			echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-			echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
-			html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
 			echo "</td></tr></table>\n";
 			html_footer($siteurl, $theme, $theme_name);
 		}
-	}
+	}	
 }
 
 function html_header($siteurl, $theme, $nameofpage) {
