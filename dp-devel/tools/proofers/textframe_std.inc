@@ -31,7 +31,9 @@ if ($npage['spcheck']==2)
 echo $docType."\r\n";
 ?>
 <html>
-<head><TITLE>Text Frame</TITLE></head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<TITLE>Text Frame</TITLE></head>
 <body onload="top.menuframe.ldAll(0)">
 <center>
 <form name="editform" method="post" action="processtext.php" target="proofframe">
