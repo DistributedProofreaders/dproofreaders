@@ -46,13 +46,11 @@ user_viewemail)
              "Hello $real_name,\n\n".
 "I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg (http://www.gutenberg.net/).\n\n".
 
-"In order to activate your account, go to <http://texts01.archive.org/dp/accounts/activate.php?username=$username&password=$passwd&magic=$currtime> and it will log you in for your first time.\n\n".
-
 "As a new user, I recommend you read over our main page <http://texts01.archive.org/dp/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Frequently Asked Questions <http://texts01.archive.org/dp/faq/ProoferFAQ.html> lists most user's initial questions, so be sure to read it over too.\n\n".
 
 "Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
 
-"- Select a book that you would like to read a little bit on. Each book goes through two rounds of proofreading, you will be starting in the first round so that someone can check your work and e-mail you about any major mistakes.\n\n".
+"- Select a book that you would like to read a little bit on. Each book goes through two rounds of proofreading, you will be starting in the first round so that someone can check your work and e-mail you about any major mistakes. Second round will be available to you later on.\n\n".
 
 "- Click on the title you want to work on.\n\n".
 
@@ -69,8 +67,8 @@ user_viewemail)
 "That is all there is to completing your first page. If you have specific questions on a book, you can post a message in the forum. Remember every page you do gets these books done quicker. I hope that you enjoy the proofreading available and that you will continue to use our site.\n\n".
 
 "Thanks,\n
-The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username and make sure to activate your account first.
-If your password doesn't work after you have activated your account, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
+The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username.
+If your password doesn't work, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
 
         print "User <b>$username</b> added successfully. Please verify your account by following the link provided in the e-mail being sent to you.";
