@@ -242,7 +242,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 	}
 	else if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
-		in_array( $new_state, array(PROJ_PROOF_FIRST_BAD_PROJECT,PROJ_PROOF_FIRST_VERIFY) ) )
+		in_array( $new_state, array(PROJ_PROOF_FIRST_BAD_PROJECT,PROJ_PROOF_FIRST_AVAILABLE) ) )
 	{
 		$settings .= ", modifieddate='$now'";
 	}
