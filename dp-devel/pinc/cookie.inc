@@ -29,7 +29,7 @@ id, manager, pagescompleted, postprocessor
 FROM users WHERE username='$userID'";
           $db_result=mysql_query($db_query);
           $uData=mysql_fetch_assoc($db_result);
-          $userPrefs=implode("|",$uData);
+          $userPrefs=implode("|",$uData)."|0";
           setcookie("{$userID}_prefs",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
 }
 
@@ -38,6 +38,13 @@ function setCookie($userID)
           setcookie("pguser",$userID,time()+86400,"/",$this->cookieDomain,0);
           $this->setUserPrefs($userID);
      }
+
+function setTempPrefs($tempPrefs,$userID)
+{
+          $userPrefs=implode("|",$tempPrefs);
+          setcookie("{$userID}_prefs",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
+}
+
 
 function getUserPrefs($userID)
 {$cPrefs=explode("|",$_COOKIE[$userID.'_prefs']);
@@ -73,6 +80,8 @@ $uPrefs['user_id']=$cPrefs[$i++];
 $uPrefs['manager']=$cPrefs[$i++];
 $uPrefs['pagescompleted']=$cPrefs[$i++];
 $uPrefs['postprocessor']=$cPrefs[$i++];
+
+$uPrefs['prefschanged']=$cPrefs[$i++];
 return $uPrefs;
 }
 function deleteCookie()
