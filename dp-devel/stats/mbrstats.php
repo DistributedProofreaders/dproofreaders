@@ -31,7 +31,10 @@ $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
 //Find out if the script has been run once already for today
-$result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
+$result = mysql_query("
+	SELECT MAX(date_updated)
+	FROM member_stats
+");
 $max_update = mysql_result($result,0,0);
 	if ($max_update == $midnight && !$testing) {
 		echo "<center>This script has already been run today!</center>\n";

@@ -94,10 +94,19 @@ function showTeamProfile($curTeam) {
 function showTeamStats($curTeam) {
 	global $theme;
 
-	$result = mysql_query("SELECT MAX(date_updated) FROM user_teams_stats");
+	$result = mysql_query("
+		SELECT MAX(date_updated)
+		FROM user_teams_stats
+	");
 	$lastupdated = date("n/d/Y h:i:s A T", (mysql_result($result,0,0)-1));
 
-	$result = mysql_query("SELECT rank FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY date_updated DESC LIMIT 1");
+	$result = mysql_query("
+		SELECT rank
+		FROM user_teams_stats
+		WHERE team_id = ".$curTeam['id']."
+		ORDER BY date_updated DESC
+		LIMIT 1
+	");
 	if (mysql_num_rows($result) > 0) {
 		$prevRank = mysql_result($result, 0, "rank");
 		$hasStats = TRUE;

@@ -374,7 +374,10 @@ function user_initialize_page_tally_history( $u_id )
     // timestamp used by the periodic snapshot script (mbrstats.php). (If we
     // use a more recent timestamp, we'll mislead the next run of that script.)
 
-    $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
+    $result = mysql_query("
+        SELECT MAX(date_updated)
+        FROM member_stats
+    ");
     $latest_time_in_table = mysql_result($result,0,0);
 
     if (!is_null($latest_time_in_table))
