@@ -95,7 +95,7 @@ if ($tbutton==1 || $tbutton==4 || $tbutton==8 || $tbutton==9)
 
 if ($tbutton==2)
 {
-  $tpage->saveComplete($proofstate,$text_data,$pguser);
+  $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'proof_frame.php?'.$project.$proofstate;
@@ -116,7 +116,7 @@ if ($tbutton==3)
 // save and quit send back to projects page
 if ($tbutton==5)
 {
-  $tpage->saveComplete($proofstate,$text_data,$pguser);
+  $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'projects.php?'.$project.$proofstate;
@@ -135,7 +135,7 @@ include('badpage.php');
 // return page to current round
 if ($tbutton==7)
 {
-  $tpage->returnPage($proofstate,$pguser);
+  $tpage->returnPage($proofstate,$pguser,$userP);
   $project = 'project='.$project;
   $proofstate = '&amp;proofstate='.$proofstate;
   $frame1 = 'projects.php?'.$project.$proofstate;

@@ -195,7 +195,7 @@ function isProjectDone($proofstate)
     }
 }
 
-function addUserCount($proofstate,$pguser)
+function addUserCount($proofstate,$pguser,$userP)
 {
   $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result=dquery($sql);
@@ -208,11 +208,13 @@ function addUserCount($proofstate,$pguser)
           // add to user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
           $result = mysql_query($sql);
+          $sql = "UPDATE user_teams SET page_count = page_count+1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
+          $result = mysql_query($sql);
         }
     }
 }
 
-function deleteUserCount($proofstate,$pguser)
+function deleteUserCount($proofstate,$pguser,$userP)
 {
   $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result=dquery($sql);
@@ -224,6 +226,8 @@ function deleteUserCount($proofstate,$pguser)
         {
           // delete from user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
+          $result = mysql_query($sql);
+          $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
           $result = mysql_query($sql);
         }
     }
@@ -238,9 +242,9 @@ function saveTemp($proofstate,$text_data,$pguser)
   return $this->tempsave_state;
 }
 
-function saveComplete($proofstate,$text_data,$pguser)
+function saveComplete($proofstate,$text_data,$pguser,$userP)
 {
-  $this->addUserCount($proofstate,$pguser);
+  $this->addUserCount($proofstate,$pguser,$userP);
   $timestamp = time();
   $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
@@ -270,9 +274,9 @@ function exitInterface($newwin,$editone)
       }
 }
 
-function returnPage($proofstate,$pguser)
+function returnPage($proofstate,$pguser,$userP)
 {
-  $this->deleteUserCount($proofstate,$pguser);
+  $this->deleteUserCount($proofstate,$pguser,$userP);
   $timestamp = time();
   $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
