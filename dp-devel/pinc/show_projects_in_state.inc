@@ -22,8 +22,10 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 		$foo_field_name = 'username';
   		if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
 			$linkbase = "<a href=post_proofers.php?orderChPP=";
+                        $linkend  = '#ChPP>';
 		} else {
 			$linkbase = "<a href=post_proofers.php?orderPP=";
+                        $linkend  = '#PP>';
 		}
 	}
 	elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
@@ -34,8 +36,10 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 		$foo_field_name = 'postproofer';
   		if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
 			$linkbase = "<a href=post_proofers.php?orderChPPV=";
+                        $linkend  = '#ChPPV>';
 		} else {
 			$linkbase = "<a href=post_proofers.php?orderPPV=";
+                        $linkend  = '#PPV>';
 		}
 
 	}
@@ -46,6 +50,7 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 		$foo_field_name = 'correctedby';
 		// no sorting in CORRECT mode yet
 		$linkbase = " ";
+		$linkend  = " ";
 	}
 	else
 	{
@@ -185,31 +190,31 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	echo "<tr>";
 
 	$word = _("Title");
- 	$link = $linkbase.($flip_title?"TitleD":"TitleA").">";
+ 	$link = $linkbase.($flip_title?"TitleD":"TitleA").$linkend;
 	echo "$tds width=\"185\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Author");
- 	$link = $linkbase.($flip_author?"AuthorD":"AuthorA").">";
+ 	$link = $linkbase.($flip_author?"AuthorD":"AuthorA").$linkend;
 	echo	"$tds width=\"95\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Language");
- 	$link = $linkbase.($flip_lang?"LangD":"LangA").">";
+ 	$link = $linkbase.($flip_lang?"LangD":"LangA").$linkend;
 	echo	"$tds width=\"85\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Genre");
- 	$link = $linkbase.($flip_genre?"GenreD":"GenreA").">";
+ 	$link = $linkbase.($flip_genre?"GenreD":"GenreA").$linkend;
 	echo "$tds width=\"85\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Pages");
- 	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").">";
+ 	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").$linkend;
 	echo	"$tds width=\"45\">$link$tdm<b>$word$tdc\n";
 
 	$word = $foo_Header;
- 	$link = $linkbase.($flip_Person?"PersonD":"PersonA").">";
+ 	$link = $linkbase.($flip_Person?"PersonD":"PersonA").$linkend;
 	echo "$tds width=\"70\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Days");
- 	$link = $linkbase.($flip_days?"DaysD":"DaysA").">";
+ 	$link = $linkbase.($flip_days?"DaysD":"DaysA").$linkend;
 	echo "$tds width=\"35\">$link$tdm<b>$word$tdc\n";
 
 	echo "</tr>";
