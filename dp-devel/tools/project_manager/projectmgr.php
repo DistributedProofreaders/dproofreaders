@@ -35,33 +35,40 @@ function echo_cells_for_round($round_num)
 	$R_time = mysql_result($res, $rownum, $R_time_field_name);
 	if ($R_time == 0)
 	{
-	    $R_time_str = '';
+		$R_time_str = '';
 	}
 	else
 	{
-	    $R_time_str = date("M j H:i", $R_time);
+		$R_time_str = date("M j H:i", $R_time);
 	}
 	echo "<td>$R_time_str</td>\n";
 
 	$R_username = mysql_result($res, $rownum, $R_user_field_name);
-	$R_ures = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$R_username'");
-	if (mysql_num_rows($R_ures) == 0) {
-		$R_real_name = $R_username;
-		$R_email = "";
-		$R_pages_completed = 0;
-	} else {
-		$R_real_name = mysql_result($R_ures, 0, "real_name");
-		$R_email = mysql_result($R_ures, 0, "email");
-		$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
+	if ($R_username == '')
+	{
+		echo "<td></td>\n";
 	}
+	else
+	{
+		$R_ures = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$R_username'");
+		if (mysql_num_rows($R_ures) == 0) {
+			$R_real_name = $R_username;
+			$R_email = "";
+			$R_pages_completed = 0;
+		} else {
+			$R_real_name = mysql_result($R_ures, 0, "real_name");
+			$R_email = mysql_result($R_ures, 0, "email");
+			$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
+		}
 
-	if ($userP['sitemanager'] == "yes") {
-		$R_display_name = $R_real_name;
-	} else {
-		$R_display_name = $R_username;
+		if ($userP['sitemanager'] == "yes") {
+			$R_display_name = $R_real_name;
+		} else {
+			$R_display_name = $R_username;
+		}
+
+		echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
 	}
-
-	echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
 
 	echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>Text</a></td>\n";
 
