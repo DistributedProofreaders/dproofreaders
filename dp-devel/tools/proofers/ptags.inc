@@ -1,18 +1,12 @@
 <font size="-1"><a
-href="#" onclick="iMUO(8)" title="[Greek:">[Greek: </a>&nbsp;| <a
-href="#" onclick="iMUO(28)" title="]">]</a> | <a
-href="#" onclick="iMUO(2)" title="[Sidenote:">[Sidenote: </a>&nbsp;| <a
-href="#" onclick="iMUO(22)" title="]">]</a> | <a
-href="#" onclick="iMUO(3)" title="[Illustration:">[Illustration: </a>&nbsp;| <a
-href="#" onclick="iMUO(23)" title="]">]</a> | <a
-href="#" onclick="iMUO(0)" title="*">*</a> | <a
-href="#" onclick="iMUO(1)" title="[Footnote #:">[Footnote #: </a>&nbsp;| <a
-href="#" onclick="iMUO(21)" title="]">]</a> | <a
-href="#" onclick="iMUO(4)" title="<? echo _("Start poetry/table"); ?>">/*</a> | <a
-href="#" onclick="iMUO(24)" title="<? echo _("End poetry/table"); ?>">*/</a> | <a
-href="#" onclick="iMUO(7)" title="<? echo _("Start block quote"); ?>">/#</a> | <a
-href="#" onclick="iMUO(27)" title="<? echo _("End block quote"); ?>">#/</a> | <a
-href="#" onclick="iMUO(5)" title="*  *  *  *  *">*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*</a> | <a
+href="#" onclick="new_iMU('[Greek:',']')" title="[Greek:">[Greek: ]</a>&nbsp;| <a
+href="#" onclick="new_iMU('[Sidenote:',']')" title="[Sidenote:">[Sidenote: ]</a>&nbsp;| <a
+href="#" onclick="new_iMU('[Illustration:',']')" title="[Illustration:">[Illustration: ]</a>&nbsp;| <a
+href="#" onclick="new_iMU('*','')" title="*">*</a> | <a
+href="#" onclick="new_iMU('[Footnote #:',']')" title="[Footnote #:">[Footnote #: ]</a>&nbsp;| <a
+href="#" onclick="new_iMU('/*','*/')" title="<? echo _("Start poetry/table"); ?>">/* */</a> | <a
+href="#" onclick="new_iMU('/#','#/')" title="<? echo _("Start block quote"); ?>">/# #/</a> | <a
+href="#" onclick="new_iMU('*  *  *  *  *','')" title="*  *  *  *  *">*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*</a> | <a
 href="#" onclick="iMUO(6)" title="[Blank Page]">[Blank Page]</a>
 </font>
 
