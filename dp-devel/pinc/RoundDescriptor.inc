@@ -10,6 +10,7 @@ class ProofingRoundDescriptor {}
 
 $PRD_1 = new ProofingRoundDescriptor;
 $PRD_1->round_number = 1;
+$PRD_1->round_name = 'R1';
 $PRD_1->project_unavailable_state = PROJ_PROOF_FIRST_UNAVAILABLE;
 $PRD_1->project_waiting_state   = PROJ_PROOF_FIRST_WAITING_FOR_RELEASE;
 $PRD_1->project_bad_state       = PROJ_PROOF_FIRST_BAD_PROJECT;
@@ -25,11 +26,18 @@ $PRD_1->text_column_name     = 'round1_text';
 $PRD_1->user_column_name     = 'round1_user';
 $PRD_1->prevtext_column_name = 'master_text';
 $PRD_1->textdiff_column_name = 'round1_diff'; // a computed column
+$PRD_1->minimum_user_pages = -20;
+$PRD_1->title = _("Current First - Round Projects");
 $PRD_1->description = _("The page-texts are the output from OCR software and have not been looked at.");
+$PRD_1->listing_bgcolors = array(
+    0 => '#FFE4B5', // mocassin
+    1 => '#FFF8DC', // cornsilk
+);
 $PRD_1->other_rounds_with_visible_usernames = array();
 
 $PRD_2 = new ProofingRoundDescriptor;
 $PRD_2->round_number = 2;
+$PRD_2->round_name = 'R2';
 $PRD_2->project_unavailable_state = PROJ_PROOF_SECOND_UNAVAILABLE;
 $PRD_2->project_waiting_state   = PROJ_PROOF_SECOND_WAITING_FOR_RELEASE;
 $PRD_2->project_bad_state       = PROJ_PROOF_SECOND_BAD_PROJECT;
@@ -45,7 +53,13 @@ $PRD_2->text_column_name     = 'round2_text';
 $PRD_2->user_column_name     = 'round2_user';
 $PRD_2->prevtext_column_name = 'round1_text';
 $PRD_2->textdiff_column_name = 'round2_diff'; // a computed column
+$PRD_2->minimum_user_pages = 100;
+$PRD_2->title = _("Current Second - Round Projects");
 $PRD_2->description = _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed.");
+$PRD_2->listing_bgcolors = array(
+    0 => '#DDA0DD', // plum
+    1 => '#D8BFD8', // thistle
+);
 $PRD_2->other_rounds_with_visible_usernames = array( $PRD_1 );
 
 // Yes, the usual way to do the above would be to declare the class with a
