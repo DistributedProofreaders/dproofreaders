@@ -24,7 +24,8 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
         if ($book['state'] == $state) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
-            tde("<A HREF=\"projects.php?project={$book['projectid']}&amp;prooflevel=$prooflevel\">$book['nameofwork']</a>,$rownum,0);
+            $temp = "<A HREF=\"projects.php?project=".$book['projectid']."&amp;prooflevel=$prooflevel\">".$book['nameofwork']."</a>";
+            tde($temp,$rownum,0);
             tde($book['authorsname'],$rownum,0);
             tde($book['language'],$rownum,0);
             tde($book['username'],$rownum,0);
