@@ -17,7 +17,7 @@ $tasks_status_array = array(1 => "New", 2 => "Accepted", 3 => "Duplicate", 4 => 
 $search_results_array = array("20", "40", "60", "80", "100");
 $os_array = array(0 => "All", 1 => "Windows 3.1", 2 => "Windows 95", 3 => "Windows 98", 4 => "Windows ME", 5 => "Windows 2000", 6 => "Windows NT", 7 => "Windows XP", 8 => "Mac System 7", 9 => "Mac System 7.5", 10 => "Mac System 7.6.1", 11 => "Mac System 8.0", 12 => "Mac System 8.5", 13 => "Mac System 8.6", 14 => "Mac System 9.x", 15 => "MacOS X", 16 => "Linux", 17 => "BSDI", 18 => "FreeBSD", 19 => "NetBSD", 20 => "OpenBSD", 21 => "BeOS", 22 => "HP-UX", 23 => "IRIX", 24 => "Neutrino", 25 => "OpenVMS", 26 => "OS/2", 27 => "OSF/1", 28 => "Solaris", 29 => "SunOS", 99 => "Other");
 $browser_array = array(0 => "All", 1 => "Internet Explorer 6.x", 2 => "Netscape 6.x", 3 => "Internet Explorer 5.x", 4 => "Netscape 7.x", 5 => "Netscape 3.x", 6 => "Netscape 4.x", 7 => "Opera", 8 => "Netscape 5.x", 9 => "Internet Explorer 4.x", 10 => "Lynx", 11 => "Avant Browser", 12 => "Netscape 2.x", 13 => "Slimbrowser", 14 => "Interarchy", 15 => "Straw", 16 => "MSN TV", 17 => "Mozilla 1.4", 18 => "Mozilla 1.5", 19 => "Mozilla 1.6", 20 => "Mozilla Firebird 0.6", 22 => "Mozilla Firebird 0.7", 23 => "Mozilla 1.1", 24 => "Mozilla 1.2", 25 => "Mozilla 1.3", 26 => "Safari", 27 => "Galeon", 28 => "Konquerer", 29 => "Internet Explorer 3.x");
-$versions_array = array(1 => "pgdp.net (Live)", 2 => "texts01 (Beta)", 3 => "CVS");
+$versions_array = array(1 => "pgdp.net (Live)", 4 => "dp.rastko.net (Live)", 2 => "texts01 (Beta)", 3 => "CVS");
 $tasks_close_array = array(1 => "Not a Bug", 2 => "Won't Fix", 3 => "Won't Implement", 4 => "Works for Me", 5 => "Duplicate", 6 => "Deferred", 7 => "Fixed", 8 => "Implemented");
 $percent_complete_array = array(0 => "0%", 10 => "10%", 20 => "20%", 30 => "30%", 40 => "40%", 50 => "50%", 60 => "60%", 70 => "70%", 80 => "80%", 90 => "90%", 100 => "100%");
 $task_assignees_array = array();
@@ -445,7 +445,7 @@ function TaskComments($tid) {
 			$usernameQuery = mysql_query("SELECT username FROM users WHERE u_id = ".$row['u_id']."");
 			$comment_username = mysql_result($usernameQuery, 0, "username");
 			echo "<b><font face='Verdana' color='#000000' style='font-size: 11px'>Comment by $comment_username - ".date("l, d M Y, g:ia", $row['comment_date'])."</font></b><br>";
-			echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br($row['comment'])."</font><br><br><hr width='80%' align='center'>";
+			echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['comment']))."</font><br><br><hr width='80%' align='center'>";
 		}
 		echo  "</td></tr></table>";
 	}
@@ -469,7 +469,7 @@ function NotificationMail($tid, $message) {
 			  "You had requested to be let known when task #$tid was updated.  "
 			   ."$message"
 			   ."\n"
-			   ."You can see task #$tid by visiting http://www.pgdp.net/c/tasks.php?f=detail&tid=$tid."
+			   ."You can see task #$tid by visiting $code_url/tasks.php?f=detail&tid=$tid."
 			   ."\n"
 			   ."\n"
 			   ."--"
