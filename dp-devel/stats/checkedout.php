@@ -49,9 +49,6 @@ $result = mysql_query("
 	$orderclause
 ");
 
-$numrows = mysql_numrows($result);
-$rownum = 0;
-
 echo "<table border='1'>";
 echo "
 	<tr>
@@ -63,26 +60,23 @@ echo "
 	</tr>
 ";
 
-$index = 0;
-
-while ($rownum < $numrows)
+$rownum = 0;
+while ( $project = mysql_fetch_object( $result ) )
 {
-	$nameofwork = mysql_result($result, $rownum, "nameofwork");
-	$checkedoutby = mysql_result($result, $rownum, "checkedoutby");
-	$modifieddate = mysql_result($result, $rownum, "modifieddate");
+	$rownum++;
 
 	//get users last login date
 	$userresult = mysql_query("
 		SELECT last_login
 		FROM users
-		WHERE username = '$checkedoutby'
+		WHERE username = '$project->checkedoutby'
 	");
 
 	$lastlogin = mysql_result($userresult,0,"last_login");
 
 
 	//calc last modified date for project
-	$today = getdate($modifieddate);
+	$today = getdate($project->modifieddate);
 	$month = $today['month'];
 	$mday = $today['mday'];
 	$year = $today['year'];
@@ -95,12 +89,11 @@ while ($rownum < $numrows)
 	$year = $today['year'];
 	$lastlogindate = "$month $mday, $year";
 
-	$rownum++;
 	echo "
 		<tr>
 		<td>$rownum</td>
-		<td width='200'>$nameofwork</td>
-		<td>$checkedoutby</td>
+		<td width='200'>$project->nameofwork</td>
+		<td>$project->checkedoutby</td>
 		<td>$datestamp</td>
 		<td>$lastlogindate</td>
 		</tr>
