@@ -294,6 +294,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_save_state = SAVE_FIRST;
 		$R_temp_state = TEMP_FIRST;
 		$R_out_state = OUT_FIRST;
+		$R_avail_state = AVAIL_FIRST;
 	}
 	elseif ($round_num == 2)
 	{
@@ -304,6 +305,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_save_state = SAVE_SECOND;
 		$R_temp_state = TEMP_SECOND;
 		$R_out_state = OUT_SECOND;
+		$R_avail_state = AVAIL_SECOND;
 	}
 	else
 	{
@@ -336,12 +338,13 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// Diff
 
 	echo "<td align='center'>";
-	if($page_res[$R_diff_field_name]) {
-		echo _("no diff");
-	} else {
-		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
+	if ($page_state != $R_avail_state) {
+		if($page_res[$R_diff_field_name]) {
+			echo _("no diff");
+		} else {
+			echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
+		}
 	}
-
 	echo "</td>\n";
 
 
@@ -428,4 +431,3 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 }
 
 ?>
-
