@@ -254,7 +254,7 @@ function pages_indicate_bad_project( $projectid, $round )
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
-	    return;
+	    continue;
         }
       }
 
@@ -269,7 +269,7 @@ function pages_indicate_bad_project( $projectid, $round )
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
-	    return;
+	    continue;
         }
 
         $timestamp = time();
