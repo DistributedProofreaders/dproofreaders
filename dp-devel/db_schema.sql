@@ -1,34 +1,89 @@
-# phpMyAdmin MySQL-Dump
-# version 2.5.0
-# http://www.phpmyadmin.net/ (download page)
+# phpMyAdmin SQL Dump
+# version 2.5.3
+# http://www.phpmyadmin.net
 #
 # Host: josephgruber.com
-# Generation Time: Jul 05, 2003 at 07:43 AM
-# Server version: 4.0.12
-# PHP Version: 4.3.3RC1
+# Generation Time: Oct 04, 2003 at 09:45 AM
+# Server version: 4.1.0
+# PHP Version: 4.3.3
+#
 # Database : `dproofreaders`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `marc_records`
+#
+
+CREATE TABLE `marc_records` (
+  `projectid` varchar(22) NOT NULL default '',
+  `original_marc` text NOT NULL,
+  `updated_marc` text NOT NULL,
+  `original_array` text NOT NULL,
+  `updated_array` text NOT NULL
+) TYPE=MyISAM CHARSET=latin1;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `member_stats`
+#
+
+CREATE TABLE `member_stats` (
+  `u_id` varchar(6) NOT NULL default '',
+  `date_updated` int(11) NOT NULL default '0',
+  `total_pagescompleted` mediumint(9) NOT NULL default '0',
+  `daily_pagescompleted` mediumint(9) NOT NULL default '0',
+  `rank` mediumint(9) NOT NULL default '0',
+  KEY `u_id` (`u_id`)
+) TYPE=MyISAM CHARSET=latin1;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `news`
 #
-# Creation: May 26, 2003 at 07:39 PM
-# Last update: Jun 12, 2003 at 09:33 PM
-#
 
 CREATE TABLE `news` (
   `uid` int(11) NOT NULL auto_increment,
-  `date_posted` int(20) NOT NULL default '0',
+  `date_posted` varchar(10) NOT NULL default '',
   `message` text NOT NULL,
   KEY `uid` (`uid`)
-) TYPE=MyISAM AUTO_INCREMENT=13 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=34 ;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `page_counts`
+#
+
+CREATE TABLE `page_counts` (
+  `projectid` char(22) NOT NULL default '',
+  `total_pages` smallint(4) unsigned NOT NULL default '0',
+  `avail_pages` smallint(4) unsigned NOT NULL default '0',
+  UNIQUE KEY `projectid` (`projectid`)
+) TYPE=HEAP CHARSET=latin1;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `pagestats`
+#
+
+CREATE TABLE `pagestats` (
+  `year` smallint(4) NOT NULL default '0',
+  `month` tinyint(2) NOT NULL default '0',
+  `day` tinyint(2) NOT NULL default '0',
+  `date` date NOT NULL default '0000-00-00',
+  `pages` int(12) NOT NULL default '0',
+  `dailygoal` int(12) NOT NULL default '0'
+) TYPE=MyISAM CHARSET=latin1;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `phpbb_users`
-#
-# Creation: May 26, 2003 at 07:53 PM
-# Last update: May 26, 2003 at 07:59 PM
 #
 
 CREATE TABLE `phpbb_users` (
@@ -42,7 +97,7 @@ CREATE TABLE `phpbb_users` (
   `user_regdate` int(11) NOT NULL default '0',
   `user_level` tinyint(4) default '0',
   `user_posts` mediumint(8) unsigned NOT NULL default '0',
-  `user_timezone` decimal(5,2) NOT NULL default '0.00',
+  `user_timezone` decimal(4,2) NOT NULL default '0.00',
   `user_style` tinyint(4) default NULL,
   `user_lang` varchar(255) default NULL,
   `user_dateformat` varchar(14) NOT NULL default 'd M Y H:i',
@@ -59,7 +114,7 @@ CREATE TABLE `phpbb_users` (
   `user_allow_pm` tinyint(1) NOT NULL default '1',
   `user_allow_viewonline` tinyint(1) NOT NULL default '1',
   `user_notify` tinyint(1) NOT NULL default '1',
-  `user_notify_pm` tinyint(1) NOT NULL default '0',
+  `user_notify_pm` tinyint(1) NOT NULL default '1',
   `user_popup_pm` tinyint(1) NOT NULL default '0',
   `user_rank` int(11) default '0',
   `user_avatar` varchar(100) default NULL,
@@ -79,28 +134,26 @@ CREATE TABLE `phpbb_users` (
   `user_newpasswd` varchar(32) default NULL,
   PRIMARY KEY  (`user_id`),
   KEY `user_session_time` (`user_session_time`)
-) TYPE=MyISAM;
+) TYPE=MyISAM CHARSET=latin1;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `projects`
-#
-# Creation: Jul 03, 2003 at 08:11 PM
-# Last update: Jul 03, 2003 at 08:14 PM
 #
 
 CREATE TABLE `projects` (
   `nameofwork` varchar(255) NOT NULL default '',
   `authorsname` varchar(255) NOT NULL default '',
   `language` varchar(255) NOT NULL default '',
-  `genre` varchar(50) NOT NULL default 'General Fiction',
   `username` varchar(255) NOT NULL default '',
   `comments` text NOT NULL,
   `projectid` text NOT NULL,
   `checkedoutby` text NOT NULL,
+  `correctedby` varchar(25) NOT NULL default '',
   `modifieddate` int(20) NOT NULL default '0',
   `scannercredit` tinytext NOT NULL,
-  `state` varchar(50) NOT NULL default 'waiting_1',
+  `state` varchar(50) default NULL,
   `txtlink` varchar(200) default NULL,
   `ziplink` varchar(200) default NULL,
   `htmllink` varchar(200) default NULL,
@@ -110,17 +163,34 @@ CREATE TABLE `projects` (
   `topic_id` int(10) default NULL,
   `updated` tinyint(1) NOT NULL default '1',
   `int_level` int(11) NOT NULL default '0',
+  `genre` varchar(50) NOT NULL default '',
+  `difficulty` varchar(20) NOT NULL default 'average',
   `archived` tinyint(1) NOT NULL default '0',
   `postproofer` varchar(255) NOT NULL default '',
   `postcomments` text NOT NULL
-) TYPE=MyISAM;
+) TYPE=MyISAM CHARSET=latin1;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `queue_defns`
+#
+
+CREATE TABLE `queue_defns` (
+  `ordering` tinyint(3) NOT NULL default '0',
+  `enabled` tinyint(1) NOT NULL default '0',
+  `name` varchar(30) NOT NULL default '',
+  `project_selector` text NOT NULL,
+  `release_criterion` text NOT NULL,
+  `comment` text,
+  UNIQUE KEY `ordering` (`ordering`),
+  UNIQUE KEY `name` (`name`)
+) TYPE=MyISAM CHARSET=latin1;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `rules`
-#
-# Creation: Jul 05, 2003 at 07:42 AM
-# Last update: Jul 05, 2003 at 07:42 AM
 #
 
 CREATE TABLE `rules` (
@@ -129,14 +199,12 @@ CREATE TABLE `rules` (
   `subject` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=38 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=58 ;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `themes`
-#
-# Creation: May 26, 2003 at 07:45 PM
-# Last update: Jun 30, 2003 at 05:03 PM
 #
 
 CREATE TABLE `themes` (
@@ -145,14 +213,12 @@ CREATE TABLE `themes` (
   `unixname` varchar(100) NOT NULL default '',
   `created_by` varchar(25) NOT NULL default '',
   KEY `theme_id` (`theme_id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=4 ;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `user_profiles`
-#
-# Creation: May 26, 2003 at 07:45 PM
-# Last update: May 26, 2003 at 07:45 PM
 #
 
 CREATE TABLE `user_profiles` (
@@ -183,37 +249,51 @@ CREATE TABLE `user_profiles` (
   `h_twrap` tinyint(1) default '1',
   PRIMARY KEY  (`id`),
   KEY `u_ref` (`u_ref`)
-) TYPE=MyISAM AUTO_INCREMENT=11238 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=16691 ;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `user_teams`
-#
-# Creation: May 26, 2003 at 07:46 PM
-# Last update: Jun 24, 2003 at 07:55 PM
 #
 
 CREATE TABLE `user_teams` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `teamname` varchar(50) NOT NULL default 'default',
   `team_info` text NOT NULL,
+  `webpage` varchar(255) NOT NULL default 'http://www.pgdp.net',
   `createdby` varchar(25) NOT NULL default '',
   `owner` int(10) unsigned NOT NULL default '0',
   `created` int(20) NOT NULL default '0',
   `member_count` int(20) NOT NULL default '0',
+  `active_members` int(11) NOT NULL default '0',
   `page_count` int(20) NOT NULL default '0',
+  `daily_average` int(11) NOT NULL default '0',
   `avatar` varchar(25) NOT NULL default 'avatar_default.png',
   `icon` varchar(25) NOT NULL default 'icon_default.png',
   `topic_id` int(10) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=107 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=200 ;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `user_teams_stats`
+#
+
+CREATE TABLE `user_teams_stats` (
+  `team_id` int(10) unsigned NOT NULL default '0',
+  `date_updated` int(11) NOT NULL default '0',
+  `daily_page_count` int(11) NOT NULL default '0',
+  `total_page_count` int(11) NOT NULL default '0',
+  `rank` smallint(6) NOT NULL default '0',
+  KEY `team_id` (`team_id`)
+) TYPE=MyISAM CHARSET=latin1;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `users`
-#
-# Creation: May 26, 2003 at 07:46 PM
-# Last update: Jul 04, 2003 at 04:21 AM
 #
 
 CREATE TABLE `users` (
@@ -237,23 +317,23 @@ CREATE TABLE `users` (
   `u_align` tinyint(1) NOT NULL default '0',
   `i_prefs` tinyint(1) default '0',
   `i_theme` varchar(100) NOT NULL default 'project_gutenberg',
+  `i_pmdefault` smallint(1) NOT NULL default '2',
   `u_id` int(10) unsigned NOT NULL auto_increment,
   `u_profile` int(10) unsigned NOT NULL default '0',
+  `u_intlang` varchar(5) default 'en_EN',
+  `u_privacy` tinyint(1) default '0',
   `team_1` int(10) unsigned NOT NULL default '0',
   `team_2` int(10) unsigned NOT NULL default '0',
   `team_3` int(10) unsigned NOT NULL default '0',
-  `u_intlang` varchar(5) default 'en_EN',
   PRIMARY KEY  (`username`),
   UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`)
-) TYPE=MyISAM AUTO_INCREMENT=10808 ;
+) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=15796 ;
+
 # --------------------------------------------------------
 
 #
 # Table structure for table `usersettings`
-#
-# Creation: May 26, 2003 at 07:47 PM
-# Last update: May 26, 2003 at 07:47 PM
 #
 
 CREATE TABLE `usersettings` (
@@ -261,4 +341,4 @@ CREATE TABLE `usersettings` (
   `setting` varchar(25) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
   FULLTEXT KEY `setting` (`setting`)
-) TYPE=MyISAM;
+) TYPE=MyISAM CHARSET=latin1;
