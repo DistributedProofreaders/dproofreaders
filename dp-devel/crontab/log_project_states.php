@@ -1,3 +1,4 @@
+<?
 $relPath='../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
@@ -89,3 +90,4 @@ if ($testing_this_script)
     echo "</pre>", $EOL;
 }
 
+?>
