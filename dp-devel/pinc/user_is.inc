@@ -17,4 +17,17 @@ function user_is_a_sitemanager()
 	return (mysql_result($res,0,"sitemanager") == "yes");
 }
 
+function user_is_taskcenter_mgr() {
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'task_center_mgr'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
 ?>
