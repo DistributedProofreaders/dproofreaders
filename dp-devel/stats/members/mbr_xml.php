@@ -24,6 +24,10 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
+echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
+echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
+	
+
 $result = mysql_query("SELECT * FROM users WHERE username = '".$_GET['username']."' LIMIT 1");
 $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
@@ -43,14 +47,12 @@ if ($daysInExistence > 0) {
 		$daily_Average = 0;
 }
 
-	
 
-$data = '';
-
-//User info portion of $data
+//User info
 if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 {
-	$data = "<userinfo id=\"".$curMbr['u_id']."\">
+	echo "
+		<userinfo id=\"".$curMbr['u_id']."\">
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
@@ -65,49 +67,42 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
 			<interests>".xmlencode($curMbr['user_interests'])."</interests>
 			<website>".xmlencode($curMbr['user_website'])."</website>
-		</userinfo>
-	";
+		</userinfo>";
 
-//Team info portion of $data
+//Team info
 	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
-	$data .= "<teaminfo>";
+	echo "
+		<teaminfo>";
 	while ($row = mysql_fetch_assoc($result)) {
-		$data .= "<team>
-		<name>".xmlencode($row['teamname'])."</name>
-		<pagescompleted>".$row['page_count']."</pagescompleted>
-		<activemembers>".$row['active_members']."</activemembers>
-		</team>
-		";
+		echo "
+			<team>
+			<name>".xmlencode($row['teamname'])."</name>
+			<pagescompleted>".$row['page_count']."</pagescompleted>
+			<activemembers>".$row['active_members']."</activemembers>
+			</team>";
 	}
-	$data .= "</teaminfo>";
+	echo "
+		</teaminfo>";
 
 
-//Neighbor info portion of $data
-	$data .= "<neighborinfo>";
+//Neighbor info
+	echo "
+		<neighborinfo>";
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
-		$data .= "<neighbor>
-			<rank>".$neighbor->get_current_page_tally_rank()."</rank>
-			<username>".xmlencode($neighbor->get_username())."</username>
-			<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>
-			<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
-		</neighbor>
-		";
+		echo "
+			<neighbor>
+				<rank>".$neighbor->get_current_page_tally_rank()."</rank>
+				<username>".xmlencode($neighbor->get_username())."</username>
+				<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>
+				<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
+			</neighbor>";
 	}
-
-
-	$data .= "</neighborinfo>
-	";
-}
-else
-{
-	$data = '';
+	echo "
+		</neighborinfo>";
 }
 
-$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">
-$data
+echo "
 </memberstats>";
 
-echo $xmlpage;
 ?>
