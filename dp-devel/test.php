@@ -16,14 +16,17 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
-system("pwd");
-echo "\n";
-system("ls -l .");
-echo "<hr>\n";
+if (0)
+{
+    system("pwd");
+    echo "\n";
+    system("ls -l .");
+    echo "<hr>\n";
 
-system("ls -l /0/htdocs");
-echo "\n";
-echo "<hr>\n";
+    system("ls -l /0/htdocs");
+    echo "\n";
+    echo "<hr>\n";
+}
 
 if (0)
 {
@@ -54,7 +57,7 @@ if (0)
     echo "<hr>\n";
 }
 
-if (0)
+if (1)
 {
     $res = mysql_query("SELECT username FROM users") or die(mysql_error());
     while( $user_row = mysql_fetch_array($res))
