@@ -66,11 +66,13 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
 if (isset($saved)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$saved\" name=\"saved\">";}
 ?>
-<INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>"> 
 <INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save"> <?PHP 
 if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save and Proof Next Page\"> ";}
 ?><INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save and Quit">
 <INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
+<INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>"> <INPUT 
+TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));"> <INPUT 
+TYPE="submit" accesskey="4" name="button6" ID="button6" value="Report Bad Page" onclick="return(confirm('Are you sure you want to \r\nreport this page as bad?'));"><BR>
 <?
 //display page number
 echo "<B>Page Number: $pageNum ";
