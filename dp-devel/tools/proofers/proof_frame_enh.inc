@@ -57,6 +57,8 @@ function getCurCaret()
 function showIZ()
 {top.menuframe.showIZ();
 return false;}
+function showActual()
+{ return top.menuframe.showActual(); }
 // -->
 </script>
 <style type="text/css">
