@@ -47,7 +47,7 @@ echo "<td bgcolor='#CCCCCC' align='center'>";
 if (empty($userP['i_newwin'])) {
 	echo "<a href='../logout.php'>";
 } else {
-	echo "<a href='#' onclick=\"top.window.opener.location='../logout.php';top.window.close();\">";
+	echo "<a href='../logout.php' onclick=\"top.window.opener.location='../logout.php';top.window.close();\">";
 }
 
 echo _("Logout")."</a></td>";
