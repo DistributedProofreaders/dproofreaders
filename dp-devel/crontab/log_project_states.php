@@ -38,7 +38,7 @@ $result = mysql_query ("SELECT state, count(*) FROM projects GROUP BY state ORDE
 while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
-       "INSERT INTO project_page_stats (year, month, day , date , state ,  num_projects)
+       "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
 	VALUES ($X_year,$X_month,$X_day, $X_date, $state, $num_projects)";
 
     if ($testing_this_script)
@@ -60,7 +60,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
                 // at least once) this can be replaced with a where clause based on
                 // date > some_date)
 
-$result = mysql_query ("SELECT distinct state FROM project_page_stats ORDER BY state");
+$result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY state");
 
 while (list ($state) = mysql_fetch_row ($result)) {
 
@@ -70,7 +70,7 @@ while (list ($state) = mysql_fetch_row ($result)) {
 	if (! mysql_fetch_row ($result)) {	
 
            $insert_query =
-              "INSERT INTO project_page_stats (year, month, day , date , state ,  num_projects)
+              "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
                VALUES ($X_year,$X_month,$X_day, $X_date, $state, 0)";
 	
           if ($testing_this_script)
