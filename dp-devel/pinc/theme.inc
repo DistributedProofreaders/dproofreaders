@@ -277,9 +277,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
 			$neighborhood['pages'][$userindex] = 0;
 			$neighborhood['rank'][$userindex] = $userindex+1;
-			$neighborhood['total_ranks'] = $userindex+1;
+			$neighborhood['totalRanks'] = $userindex+1;
 		} else {
-			$neighborhood['total_ranks'] = $neighborhood['rank'][$i-1];
+			$neighborhood['totalRanks'] = $neighborhood['rank'][$i-1];
 		}
 	}
 
@@ -339,7 +339,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
 	echo number_format($neighborhood['pages'][$userindex])."<br>\n";
 	echo "&nbsp;" . _("Current Position: ");
-	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
+	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['totalRanks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
 	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
