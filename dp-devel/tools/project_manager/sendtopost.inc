@@ -20,6 +20,8 @@ include_once($relPath.'maybe_mail.inc');
         // -- Join all the page texts and put them in a file,
         //    and make a zip of that file.
         //    (for "Download Zipped Text")
+        // -- (Experimental) Join all the page texts in a TEIXLITE file
+        //    and make a zip of that file (for "Download Zipped TEI text")
         // -- Send mail to the project manager, notifying him/her that the
         //    project is ready for post-processing.
 
@@ -186,8 +188,8 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"                <availability>Public Domain</availability>\r\n");
         fputs($fp,"            </publicationStmt>\r\n");
         fputs($fp,"            <sourceDesc>\r\n");
-        fputs($fp,"                (Project Gutenberg doesn't like to be specific\r\n");
-        fputs($fp,"                as to particular source edition.)\r\n");
+        fputs($fp,"                <p>(Project Gutenberg doesn't like to be specific\r\n");
+        fputs($fp,"                as to particular source edition.)</p>\r\n");
         fputs($fp,"            </sourceDesc>\r\n");
         fputs($fp,"        </fileDesc>\r\n");
         fputs($fp,"        <encodingDesc>\r\n");
@@ -211,9 +213,9 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"<titlePart type='main'>LOST ON THE MOON</titlePart>\r\n");
         fputs($fp,"<titlePart>OR</titlePart>\r\n");
         fputs($fp,"<titlePart type='alt'>IN QUEST OF THE FIELD OF DIAMONDS</titlePart>\r\n");
-        fputs($fp,"<byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other works]</byline>\r\n");
         fputs($fp,"<docDate>1911</docDate>\r\n");
         fputs($fp,"</docTitle>\r\n");
+        fputs($fp,"<byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other works]</byline>\r\n");
         fputs($fp," -->\r\n");
         fputs($fp,"</titlePage>\r\n");
         fputs($fp,"<div type='contents'>\r\n");
