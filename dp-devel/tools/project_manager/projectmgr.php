@@ -69,11 +69,11 @@ theme("Project Managers", "header");
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
 	
 		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE) {
-			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_file.php?project=".$_GET['project']."'>";
+			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_files.php?project=".$_GET['project']."'>";
 			if ($userP['sitemanager'] == "yes") {
 				echo "Add All Text From projects Folder"; } else { echo "Add All Text/Images from dpscans Account";
 			}
-			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='delete_file.php?project=".$_GET['project']."'>Delete All Text</a></td></tr></table>";
+			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=".$_GET['project']."'>Delete All Text</a></td></tr></table>";
 			echo "<h3>Master Files</h3>";
 			echo "<table border=1></tr>";
 			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
