@@ -40,7 +40,7 @@ if (!is_dir($projectpath))
 mkdir_recursive( dirname($zipfile_path), 0777 );
 
 exec(
-    "zip -q -j -o $zipfile_path $projectpath/*.png $projectpath/*.jpg",
+    "zip -q -j $zipfile_path $projectpath/*.png $projectpath/*.jpg",
     $output,
     $return_code );
 if ($return_code != 0)
