@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-12 17:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: default.php:21 default.php:22
+msgid " active users out of "
+msgstr " utilizadores activos de um total de "
+
+#: default.php:21 default.php:22
+msgid " total users in the past twenty-four hours."
+msgstr " nas últimas vinte e quatro horas."
+
+#: default.php:22 default.php:24
+msgid "About This Site"
+msgstr "Sobre o Projecto"
+
+#: default.php:23 default.php:25
+msgid ""
+"Distributed Proofreaders was founded in 2000 by Charles Franks to support "
+"the digitization of Public Domain books. Originally conceived to assist <a "
+"href='http://www.gutenberg.net' target='_new'>Project Gutenberg</a> (PG), "
+"Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, "
+"Distributed Proofreaders became an official Project Gutenberg site and as "
+"such is supported by Project Gutenberg. If you have any questions or "
+"comments regarding this site please e-mail: "
+msgstr ""
+"O Distributed Proofreaders foi fundado em 2000 por Charles Franks para "
+"suportar a digitalização de livros no Domínio Público. Originalmente "
+"concebido para assistir o <a href='http://www.gutenberg.net' "
+"target='_new'>Project Gutenberg</a> (PG), o Distributed Proofreaders (DP) é, "
+"actualmente, a maior fonte de e-books do PG. Em 2002, o Distributed "
+"Proofreaders tornou-se parte do <em>site</em> do Projecto Gutenberg e, como "
+"tal, é suportado pelo Projecto Gutenberg. Se tiver alguma questão ou "
+"comentários sobre este <em>site</em>, envie uma mensagem para: "
