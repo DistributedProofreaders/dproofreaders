@@ -25,7 +25,7 @@ function startHeader($docTitle)
      echo $docType."\r\n";
      echo "<html><head><LINK REL=\"SHORTCUT ICON\" HREF=\"$code_url/favicon.ico\"><title>".$docTitle."</title>\r\n";
      //add language, etc. meta tags here
-     echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">";
+     echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">";
      $this->headO=1;
      // this is left unclosed so that you can add scripts, etc to your page
      }

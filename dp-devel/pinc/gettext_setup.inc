@@ -1,13 +1,17 @@
 <?PHP
-// Localisation setup
+// Localization setup
 
 // Try to extract the interface language from user preferences
 if (isset($userP)){
     $intlang = $userP['u_intlang'];
 } else {
-    // Set default interface language to English if it's not specified
+    // Set default interface language to language passed with URL or English if it's not specified
+ define (lang, '');
     if (!isset($lang)) {
-	$intlang = "en_EN";
+        $intlang = $_GET['lang'];
+    if ($intlang == ''){
+        $intlang  = "en_EN";
+    }
     }
 }
 
@@ -19,6 +23,7 @@ if ( function_exists('bindtextdomain') )
 {
     bindtextdomain($gettext_domain, $code_dir . "/locale");
     textdomain($gettext_domain);
+    bind_textdomain_codeset ($gettext_domain, "UTF-8");
 }
 
 ?>

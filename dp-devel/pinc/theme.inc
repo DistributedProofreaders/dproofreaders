@@ -101,7 +101,7 @@ function html_header($code_url, $theme, $nameofpage) {
 	echo "<title>DP";
         if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
-	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"></head>\n";
+	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>\n";
 	echo "<body bgcolor='".$theme['body_bgcolor']."' text='".$theme['body_text']."' link='".$theme['body_link']."' vlink='".$theme['body_vlink']."' alink='".$theme['body_alink']."' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n";
 }
 

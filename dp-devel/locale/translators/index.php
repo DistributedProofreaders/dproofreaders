@@ -137,7 +137,7 @@ if (isset($_POST['lang'])) {
 		$result = mysql_query("SELECT real_name, email FROM users WHERE username = '$pguser'");
 		$real_name = mysql_result($result, 0, "real_name");
 		$email_addr = mysql_result($result, 0, "email");
-		  $po_file = fopen("messages.po.new", "w");
+		  $po_file = fopen("messages.po", "w");
 		  fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
 		  fputs($po_file, "msgid \"\"\n");
 		  fputs($po_file, "msgstr \"\"\n");
@@ -155,15 +155,14 @@ if (isset($_POST['lang'])) {
 			  $translation_location = unserialize(base64_decode($_POST['location_'.$i]));
 			  $translation_msgid = unserialize(base64_decode($_POST['msgid_'.$i]));
 			  $translation_msgstr = str_replace("\n", "\"\n\"", $_POST['msgstr_'.$i]);
+                    $translation_msgstr = stripslashes($translation_msgstr);
+ 
 			  fputs($po_file, $translation_location);
 			  fputs($po_file, "msgid \"$translation_msgid\"\n");
 			  fputs($po_file, "msgstr \"$translation_msgstr\"\n\n");
 			  $i++;
 		  }
 		  fclose($po_file);
-
-		exec("recode ISO8859-1..UTF8 < messages.po.new > messages.po");
-		unlink("messages.po.new");
 
 		exec("msgfmt messages.po -o messages.mo");
 
