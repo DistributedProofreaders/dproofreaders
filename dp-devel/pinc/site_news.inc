@@ -45,23 +45,23 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
             $news = mysql_fetch_assoc($result);
 
             if ($show_header) {
-                echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><font size=4><b>";
+                echo "<font size='2' face='" . $theme['font_mainbody'] . "'><center><font size=4><b>";
                 echo $news_type." "._(" News")."</font><br>"._("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
                 echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("Recent News Items")."</a>)";
 
                 // this commented out until fuller rollout
- 
+
                 // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
                 // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
- 
+
                 echo "</b></font><br>";
             } else {
                 echo "<center>";
             }
 
-            echo "<br><font size=2 face=";
+            echo "<br><font size='2' face='";
 
-            echo $theme['font_mainbody'] . ">";
+            echo $theme['font_mainbody'] . "'>";
             echo $news['message'];
             while  ($news = mysql_fetch_assoc($result)) {
                 echo "<br><br>".$news['message'];
