@@ -23,10 +23,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
         if (isset($project['special'])) {
            $spec_code = $project['special'];
-           $spec_res = mysql_fetch_assoc(mysql_query("
-	      SELECT display_name FROM special_days WHERE spec_code = '$spec_code'
-	   "));
-           $spec_display = $spec_res['display_name'];
+           if ((strncmp($spec_code,'Birthday',8) == 0 ) or
+               (strncmp($spec_code,'Otherday',8) == 0 )) {
+               $spec_display = $spec_code;
+           } else {
+               $spec_res = mysql_fetch_assoc(mysql_query("
+	          SELECT display_name FROM special_days WHERE spec_code = '$spec_code'
+	       "));
+               $spec_display = $spec_res['display_name'];
+           }
         }
 
 
