@@ -16,7 +16,8 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     echo "</tr>";
 
     //Select all projects in the list for round 1
-    $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."' ORDER BY modifieddate desc, nameofwork asc");
+    // now puts the BEGIN projects at the top
+    $result = mysql_query("SELECT * FROM projects WHERE username = '"BEGIN"' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc UNION SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."' ORDER BY modifieddate desc, nameofwork asc");
     showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
     echo "</table>\n<br>";
   }
