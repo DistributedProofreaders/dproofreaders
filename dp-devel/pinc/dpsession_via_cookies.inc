@@ -1,5 +1,8 @@
 <?
 include_once($relPath.'v_site.inc');
+include_once($relPath.'connect.inc');
+
+$db_Connection=new dbConnect();
 
 $server_name = ( isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "" );
 define( 'COOKIE_DOMAIN', substr_count($server_name, ".") > 0 ?  $server_name : "" );
