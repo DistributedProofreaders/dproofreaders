@@ -4,6 +4,9 @@ include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 
+$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
+$totalpages = mysql_result($result,0);
+
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
     echo "\r\n<table border=1 width=630>";
