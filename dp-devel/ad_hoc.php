@@ -20,6 +20,19 @@ echo "<hr>\n";
 
 if (0)
 {
+	include_once($relPath.'../stats/pages_proofed.inc');
+	$start_ts = mktime(0,0,0,10,16,2004);
+	$end_ts   = mktime(0,0,0,10,17,2004);
+	$before_t = time();
+	$n_pages = get_n_pages_proofed( $start_ts, $end_ts, $n_projects );
+	$after_t = time();
+	$elapsed_t = $after_t - $before_t;
+
+	echo "n_pages = $n_pages, n_projects = $n_projects, elapsed_t = $elapsed_t seconds\n";
+}
+
+if (0)
+{
 	// Regenerate page counts for projects in Post.
 	include_once($relPath.'bookpages.inc');
 	$res = mysql_query("
