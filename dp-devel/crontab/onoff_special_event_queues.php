@@ -30,6 +30,20 @@ $today = date('md');
 $tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+1,date("Y")));
 
 
+// if run in last half hour of day, use tomorrow's dates  -
+// this allows the queue to be redefined in time for the birthday books to come out
+// at midnight or soon after
+if (date('H') == "23") {
+  if ((int)date('i') > 29) {
+     $today = $tomorrow;
+     $tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+2,date("Y")));
+  }
+}
+
+
+
+
+
 $Qdefn = 'comments like "SPECIAL: Birthday '.$today.'%"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 250";
