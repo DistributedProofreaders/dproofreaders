@@ -1,7 +1,9 @@
 <?PHP
 $relPath="./../pinc/";
 include($relPath.'html_main.inc');
-$signin = _("Sign In")
+include_once($relPath.'theme.inc');
+
+$signin = _("Sign In");
 $htmlC->startHeader($signin);
 $htmlC->startBody(0,1,0,0);
 $tb=$htmlC->startTable(0,0,0,1);

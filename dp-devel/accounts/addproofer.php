@@ -8,7 +8,9 @@ include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
-theme("Create Account", "header");
+
+$title = _("Create Account");
+theme($title, "header");
 echo "<br>";
 
 // This function takes any error message given to it, displays it & terminates the page
