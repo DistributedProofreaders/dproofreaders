@@ -76,7 +76,7 @@ include($relPath.'project_edit.inc');
     // now clear the page
 
 
-    (if $writeBIGtable) {
+    if ($writeBIGtable) {
 	    $result = mysql_query("
 		UPDATE project_pages
 		SET $text_field_name='',
