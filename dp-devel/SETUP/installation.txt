@@ -14,6 +14,8 @@ If you're upgrading from a previous version, things would be different ...
     --- the DP database (to house the DP data);
     --- the DP user (to handle all DP queries);
     --- the DP user's password.
+    Don't pick a password that contains an apostrophe (single-quote),
+    as it confuses the code.
     In the examples in this document, we will use
         dp_db
         dp_user
@@ -41,19 +43,36 @@ If you're upgrading from a previous version, things would be different ...
     --- Exit from the mysql client.
             quit
 
+--- Install phpbb.
+        (Details from pourlean?)
+        In .../phpBB2/config.php, set db vars with values chosen above.
+
 --- Unpack the DP code.
     ...
 
 --- Configure the DP code (with site-specific settings).
-    ...
+        Make an editable copy of c/SETUP/configuration.sh,
+        and put it outside your webserver's document hierarchy.
+        (Or move out the whole SETUP directory, at the end of this step.)
+        Modify your copy of configuration.sh as appropriate.  (Any further
+        help you need should be in the file itself rather than here.)
+        Run
+            ./configure path-to-config.sh path-to-code-dir
 
 --- Create the tables of the DP database.
         cd c/SETUP
         php -f install_db.php
 
+--- Create other directories
+        projects
+        d
+        (You also need to put some stuff in d...)
+
 --- At this point, your DP site should be functional.
     Try visiting it via your browser.
     Register as a new user.
     Of course, there aren't any projects to proof yet.
+
+--- Define queues...
 
 # vim: ts=4 sw=4 expandtab ai
