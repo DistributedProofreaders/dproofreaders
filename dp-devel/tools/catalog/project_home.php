@@ -5,6 +5,19 @@ include($relPath.'dp_main.inc');
 include($relPath.'page_states.inc');
 include($relPath.'f_project_states.inc');
 
+function format_time( $time_sse )
+// $time_sse (expressed in seconds since epoch)
+{
+    if ($time_sse == 0)
+    {
+	return '';
+    }
+    else
+    {
+	return gmdate( 'Y-m-d H:i:s', $time_sse );
+    }
+}
+
 $page_states = array(
     UNAVAIL_FIRST,
     AVAIL_FIRST,
@@ -48,6 +61,10 @@ else
     echo "<table border=1>\n";
     foreach ($project_res as $key => $value)
     {
+	if ($key == 'modifieddate')
+	{
+	    $value = format_time($value);
+	}
         echo "<tr><td>$key</td><td>$value</td></tr>\n";
     }
     echo "<tr><td>Project Directory</td><td><a href='$projects_url/$projectid'>here</a></td></tr>\n";
@@ -143,7 +160,7 @@ else
         $num_pages = mysql_result($res,0,'num_pages');
         if ( $num_pages != 0 )
         {
-            echo "<tr><td>$page_state</td><td>$num_pages</td></tr>\n";
+            echo "<tr><td>$num_pages</td><td>$page_state</td></tr>\n";
         }
     }
     echo "</table>\n";
@@ -154,33 +171,44 @@ else
     // round1_text, round1_user, round1_time
     // round2_text, round2_user, round2_time
 
-    echo "<table border=1>\n";
-    echo "<tr>\n";
-    echo "  <th>image</th>\n";
-    echo "  <th>fileid</th>\n";
-    echo "  <th>state</th>\n";
-    echo "  <th>master_text</th>\n";
-    echo "  <th>round1_user</th>\n";
-    echo "  <th>round1_time</th>\n";
-    echo "  <th>round1_text</th>\n";
-    echo "  <th>round2_user</th>\n";
-    echo "  <th>round2_time</th>\n";
-    echo "  <th>round2_text</th>\n";
-    echo "</tr>\n";
+    echo "
+	<table border=1>
+	<tr>
+	    <th colspan='3'>upload</th>
+	    <th>&nbsp;</th>
+	    <th colspan='3'>round 1</th>
+	    <th colspan='3'>round 2</th>
+	</tr>
+	<tr>
+	    <th>image</th>
+	    <th>fileid</th>
+	    <th>master_text</th>
+	    <th>state</th>
+	    <th>user</th>
+	    <th>time (GMT)</th>
+	    <th>text</th>
+	    <th>user</th>
+	    <th>time (GMT)</th>
+	    <th>text</th>
+	</tr>
+    ";
     $query = "SELECT image, fileid, state, round1_user, round1_time, round2_user, round2_time FROM $projectid ORDER BY image ASC";
     $pages_res = mysql_query($query) or die(mysql_error());
     while ( $page_res = mysql_fetch_array( $pages_res, MYSQL_ASSOC ) )
     {
+	$round1_date = format_time( $page_res['round1_time'] );
+	$round2_date = format_time( $page_res['round2_time'] );
+
         echo "<tr>\n";
         echo "  <td><a href='$projects_url/$projectid/{$page_res['image']}'>{$page_res['image']}</a></td>\n";
         echo "  <td>{$page_res['fileid']}</td>\n";
-        echo "  <td>{$page_res['state']}</td>\n";
         echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=master'>text</a>\n";
+        echo "  <td>{$page_res['state']}</td>\n";
         echo "  <td>{$page_res['round1_user']}</td>\n";
-        echo "  <td>{$page_res['round1_time']}</td>\n";
+        echo "  <td>{$round1_date}</td>\n";
         echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=round1'>text</a>\n";
         echo "  <td>{$page_res['round2_user']}</td>\n";
-        echo "  <td>{$page_res['round2_time']}</td>\n";
+        echo "  <td>{$round2_date}</td>\n";
         echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=round2'>text</a>\n";
         echo "</tr>\n";
     }
