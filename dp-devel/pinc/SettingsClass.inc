@@ -11,6 +11,8 @@
  This class rovides access to user settings.
      ******
      Implementation: Initially limited to those stored in the usersettings table.
+                     Subsequently expanded to cover "manager", "postprocessor",
+                     and "sitemanager" from the "users" table. 
      ******
 
  There are three setting types:
@@ -29,7 +31,7 @@
      ******
 
 2. Value settings. Non-empty string settings.
- Example: R1order (sort order of project listing) Example value: "GenreA"
+ Example: R1order (sort order of project listing) Example value: "GenreA" (Genre Ascending)
      ******
     Implementation:
         Setting:
@@ -39,7 +41,7 @@
                 value provided (or its PHP auto-conversion-string if other data type.)
         Getting:
             Will provide exactly what's in the value column. (Note this may result
-            in something-in-something-else-out if PHP auto-conversion took place.)
+            in something-in/something-else-out if PHP auto-conversion took place.)
      ******
 
 3. Boolean-string-settings (for want of a better name.) These are cases where a record
@@ -49,10 +51,11 @@ Example setting: posted_notice, value "projectID3dfe7f4b3c2ca"
     Implementation:
         Setting and Getting: Set and get exactly what's provided.
 
-Later....
-Added read-only access to the three booleans from the "user" table (sitemanager, manager,
-and postprocessor), since I could initialize them from the same query. Can add update
-capability if needed.
+12/30/04 (DAK) Removed last vestige of a preference for/default of the logged on user.
+               The constructor now requires a username argument. (There is still a
+               reference to $pguser in the function that returns whether the subject
+               user is also the logged-on user, and another to verify that *someone* is
+               logged on.)
 */
         
 
@@ -65,21 +68,22 @@ function ExecSQL($sql)
 
 class Settings
 {
+    // assoc. array containing all user setting name/value pairs.
     var $settings_array = array();
+    // username of subject user.
     var $username;
 
-    function Settings($name = Null)
+    function Settings($name)
     {
         global $pguser;
-
         // don't let them do anything if not logged in.
-        if(!isset($pguser)) return;
+        // But they get back a "null-value-filled" object.
+        if(!isset($pguser) || !$name)
+        {
+            return;
+        }
 
-        // if an override username provided, use it.
-        if($name != Null)
-            $this->username = $name;
-        else
-            $this->username = $pguser;
+        $this->username = $name;
 
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
@@ -109,12 +113,15 @@ class Settings
                     $this->settings_array['postprocessor'] = 'yes';
             }
             // now continue to add values from usersettings table.
-            $this->settings_array[$row['setting']] = $row['value'];
+            // This could be null values if the outer join matched nothing
+            // so check there is something in the "setting" column.
+            if($row[setting])
+                $this->settings_array[$row['setting']] = $row['value'];
         }
         mysql_free_result($result);
     }
 
-    // if $settingCode from "users" table, can't set it here. 
+    // check if this is an updateable setting in this context.
     function _isSettable($settingCode)
     {
         switch($settingCode)
@@ -128,7 +135,21 @@ class Settings
         }
     }
 
-    // create/update a row with Value set to 'yes'
+    // I could require the $pguser value to be an argument, but this
+    // is less likely to be faked.
+    function IsActiveUser()
+    {
+        global $pguser;
+        return $this->username == $pguser;
+    }
+
+    // whom do I describe?
+    function UserName()
+    {
+        return $this->username ? $this->username : "[none]";
+    }
+
+    // Setting to True
     function set_true($settingCode)
     {
         if(!$this->_isSettable($settingCode)) return;
@@ -140,7 +161,7 @@ class Settings
         $this->settings_array[$settingCode] = 'yes';
     }
 
-    // delete any existing row.
+    // Setting to False
     function set_false($settingCode)
     {
         if(!$this->_isSettable($settingCode)) return;
@@ -150,7 +171,7 @@ class Settings
     }
 
     // Either set_true (if $boolval == True, by any php interpretation,
-    // otherwise set_false (i.e. delete).
+    // otherwise set_false (i.e. in the usersettings table anyway, delete).
     function set_boolean($settingCode, $boolval)
     {
         if(!$this->_isSettable($settingCode)) return;
@@ -160,14 +181,14 @@ class Settings
             $this->set_false($settingCode);
     }
 
-    // Return True iff a row exists and its value is 'yes'. Otherwise, False.
+    // Return True iff a row exists and its value is 'yes'. Otherwise, return False.
     function get_boolean($settingCode)
     {
         if (!array_key_exists($settingCode, $this->settings_array)) return False;
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
 
-    // If $value and $default are both equivalent to PHP Null, set_false (i.e. delete.)
+    // If $value and $default are both equivalent to PHP Null, set_false.
     // If $value equivalent to PHP Null and $default is not, set Value to $default.
     // If $value is not equivalent to PHP Null, set Value to $value.
     function set_value($settingCode, $value, $default = Null)
@@ -195,7 +216,7 @@ class Settings
     // If no record exists, return Null.
     // If Value column maps to PHP Null equivalent, return $default (even if Null.)
     // Otherwise return what's in the Value column.
-    // Note: if setting is really boolean, this will NOT return True, but 'yes'.
+    // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
     function get_value($settingCode, $default = Null)
     {
         if (!array_key_exists($settingCode, $this->settings_array)) return null;
