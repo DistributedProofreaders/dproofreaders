@@ -18,7 +18,7 @@ $title = addslashes($title);
 $message =  "
 Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.<br>
 <br>
-The Project Manager is {$row['authorsname']}.<br>
+The Project Manager is {$row['username']}.<br>
 <br>
 Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
 ";
