@@ -171,8 +171,11 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 }
         }
 
-        // todo : if $numavailable = 0, email someone!
-        echo "<br>Released <b>$numReleased</b> $projtype_desc Projects<br>";
+        // if $numavailable == 0, email someone!
+        if ($numavailable == 0)
+		echo "<BR>Would like to have released some $projtype_desc projects, but none were waiting!<br>"; 
+	else
+	        echo "<br>Prepared <b>$numReleased</b> $projtype_desc projects for release<br>";
         return $totalnewreleased;
 }
 
@@ -185,13 +188,22 @@ function autorelease($pagesleft) {
         $beginners_projects = $GLOBALS['beginners_projects'];
         $easy_projects = $GLOBALS['easy_projects'];
 
+
+	echo "Starting autorelease<BR>Current thresholds/targets are:<BR>";
+	echo "$beginners_projects projects for Beginners Only<BR>";
+	echo "$easy_projects EASY projects<BR>";
+	echo "$noneng_pagesneeded nonEnglish pages minimum<BR>";
+	echo "$eng_pagesneeded English pages minimum<BR>";
+	echo "$pagesneeded total pages minimum<BR><BR><BR>";
+
+
         // Release of Different types of Projects from various logical queues
         // NB The arguments for these calls can come out of a table LATER (stage two)...
         // For now, let's get it out and working, even with hardwired arguments
 
         //Beginners Projects - always have a certain number of projects in first round
         $projtype_sql = "username = 'BEGIN'";
-        $rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
+        $rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'  AND $projtype_sql ORDER BY modifieddate ASC");
         $numReleased = mysql_result($rel_qry,0);
 
         if ($beginners_projects > $numReleased) {
