@@ -159,7 +159,7 @@ A: You can start on any that look interesting to you. As a new
    project, you might want to sample one of the several EASY 
    projects usually available. (Don't be afraid to try any project; 
    if you run into a page you decide you'd rather not do, you can 
-   always press the \"Return Page to Round"\ button and let someone 
+   always press the \"Return Page to Round\" button and let someone 
    else tackle it.)
 
 Q: I'm not sure how to use the interface or how I should mark 
@@ -180,7 +180,7 @@ A: You can get help for the various buttons on the proofing interface
    in the forum thread reserved for it by following the link 
    labelled \"Discuss this project\" that appears on the Project 
    Comments page. Each project has a forum thread of its own; you 
-   can post a question or message via the "Reply" button near the 
+   can post a question or message via the \"Reply\" button near the 
    bottom of the forum screen. It's often worthwhile reading through 
    the discussion on a prohect even if you don't have a specific 
    question, just to see what other proofers have asked and answered 
