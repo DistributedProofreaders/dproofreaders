@@ -94,8 +94,18 @@ abort_if_not_manager();
 			    </select>
 			    </td>
 			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<table width='100%'>
+					<tr>
+						<td align='left'><input type='submit' value='"._("Search")."'></td>
+						<td align='right'><input type='reset' value='"._("Clear form")."'></td>
+					</tr>
+					</table>
+				</td>
+			</tr>
 			</table>
-			<input type='submit' value='"._("Search")."'>
 		    </form>
 		    "._("Matching [except for State] is case-insensitive and unanchored;<br>
 		    so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.<br>
