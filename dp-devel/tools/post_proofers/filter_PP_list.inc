@@ -10,5 +10,5 @@ $filtertype_stem = "avail_PP";
 
 // add the filter code
 
-include_once($relPath.'filter_project_list.inc');
+include($relPath.'filter_project_list.inc');
 ?>
