@@ -12,6 +12,7 @@ include_once($relPath.'theme.inc');
 if ($stage == 'post_1')
 {
 	$what = _("Post-Processed File");
+      $for_what = _("for Verification");
 	$indicator = "_second";
 	$new_state = PROJ_POST_SECOND_AVAILABLE;
 	$extras = array();
@@ -22,12 +23,25 @@ if ($stage == 'post_1')
 else if ($stage == 'correct')
 {
 	$what = _("Corrected Edition");
+      $for_what = _("for Verification");
 	$indicator = "_corrections";
 	$new_state = PROJ_CORRECT_AVAILABLE;
 	$extras = array( 'correctedby' => $pguser );
 	$back_url = "$code_url/list_etexts.php?x=g";
 	$back_blurb = _("Back to Gold List");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.	This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
+}
+else if ($stage == 'smooth_avail')
+{
+	$what = _("File Ready for Smooth Reading");
+      $for_what = "";
+	$indicator = "_smooth_avail";
+	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
+	$extras = array();
+	$back_url = "$code_url/tools/post_proofers/post_comments.php?project=$project";
+	$back_blurb = _("Back to Project Information Page");
+	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+      $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
 else
 {
@@ -45,10 +59,11 @@ if (!isset($action))
 	echo "<FORM ACTION='upload_text.php' METHOD='POST' ENCTYPE='multipart/form-data'>";
 	echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
 	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
-	echo "<B><font color='#ffffff'>"._("Upload $what for Verification")."</font></B>";
+	echo "<B><font color='#ffffff'>"._("Upload $what $for_what")."</font></B>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
 	echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
+	echo "<INPUT TYPE='hidden' NAME='weeks' VALUE='$weeks'>";
 	echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
 	echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='25165824'>";
 	echo "<tr><td bgcolor='#e0e8dd' align='center'>";
@@ -56,9 +71,13 @@ if (!isset($action))
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
 	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-	echo "<STRONG>"._("Leave Comments:")."</STRONG>";
-	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-	echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
+      if ($stage != 'smooth_avail') {
+          echo "<STRONG>"._("Leave Comments:")."</STRONG>";
+      } else {
+          echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
+      }
+      echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
+      echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
 	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
 	echo "<INPUT TYPE='submit' VALUE='Upload'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
@@ -128,6 +147,17 @@ else
 			{
 				echo "$error_msg<br>\n";
 			}
+
+                   // special handling for smooth reading, which does not involve a state change
+                   // but still needs some changes recorded in project table
+                   if ($stage == 'smooth_avail') {
+                      $qry =  mysql_query("
+                          UPDATE projects SET smoothread_deadline = $deadline,  postcomments = '$postcomments'
+                          WHERE projectid = '$project'
+                      ");
+
+                   }
+
 
 			// let them know file uploaded and send back to pp page
 			$msg = _("File uploaded. Thank you!");
