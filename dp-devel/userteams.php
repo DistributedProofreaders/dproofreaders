@@ -365,7 +365,15 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   $htmlC->startHeader("User Teams");
   echo $beginPage.$menuBar;
 // the teams table query
-  $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY id ASC LIMIT $tstart,20";
+
+     //default order is by id
+     if ($order ==''){
+     $order ="ID";
+     }
+
+    $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order ASC LIMIT $tstart,20";
+
+
   $tResult=mysql_query($tQuery);
   $tRows=mysql_num_rows($tResult);
   $cellCount=0;
@@ -373,8 +381,8 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
 $td_ar=array($td2,$td3,$td6a,$td6);
 
   echo $tb.$tr.$td7."<b>User Teams</b>".$tre.$tr;
-  $teamRow="$td2<b>Icon</b>$tde$td2<b>ID</b>$tde$td6a<b>Team Name</b>".
-    "$tde$td2<b>Total Members</b>$tde$td2<b>Page Count</b>$tde$td2<b>Options</b>";
+  $teamRow="$td2<b>Icon</b>$tde$td2<b><a href =\"userteams.php?order=id&direction=ASC\">ID</a></b>$tde$td6a<b><a href =\"userteams.php?order=teamname\">Team Name</a></b>"."$tde$td2<b><a href =\"userteams.php?order=member_count&direction=DESC\">Total Members</a></b>$tde$td2<b><a href=\"userteams.php?order=page_count&direction=DESC\">Page Count</a></b>$tde$td2<b>Options</b>";
+
   echo $teamRow;
   if ($tRows!=0)
   {
@@ -417,11 +425,11 @@ $td_ar=array($td2,$td3,$td6a,$td6);
 echo $tre.$tr.$td9;
 // show back if needed
 if ($tstart!=0)
-  {echo "<strong><a href=\"userteams.php?tstart=".($tstart-20)."\">Previous</a></strong>";}
+  {echo "<strong><a href=\"userteams.php?order=$order&direction=$direction&tstart=".($tstart-20)."\">Previous</a></strong>";}
 
 echo $tde.$td10;
 if ($tRows==20)
-  {echo "<strong><a href=\"userteams.php?tstart=".($tstart+20)."\">Next</a></strong>";}
+  {echo "<strong><a href=\"userteams.php?order=$order&direction=$direction&tstart=".($tstart+20)."\">Next</a></strong>";}
 echo $tre.$tbe."<br>".$tb2.$tr.$td3."<strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong>";
 echo $tre.$tbe.$menuBar.$closePage;
 
