@@ -25,6 +25,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	global $projects_forum_idx;
 	global $pp_projects_forum_idx;
 	global $posted_projects_forum_idx;
+	global $site_supports_metadata;
 
 	// error_reporting(E_ALL);
 
@@ -104,10 +105,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_PROOF_FIRST_UNAVAILABLE
 			),
 
-		PROJ_NEW_FILE_UPLOADED => array(
-			PROJ_NEW_METADATA_FIRST
-			),
-
 		PROJ_POST_FIRST_UNAVAILABLE => array(
 			PROJ_POST_FIRST_AVAILABLE,
 			PROJ_POST_FIRST_CHECKED_OUT,
@@ -151,6 +148,15 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			),
 
 	);
+
+	if ( $site_supports_metadata )
+	{
+		$transition_graph[ PROJ_NEW_FILE_UPLOADED ] = array(
+			PROJ_NEW_METADATA_FIRST
+			);
+		// Yes, you'd need more than just that.
+		// This is just a start, or a reminder, I guess.
+	}
 
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
