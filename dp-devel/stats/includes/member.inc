@@ -246,23 +246,19 @@ function showMbrNeighbors($curMbr) {
 
 	list( $neighbors, $max_page_tally_rank ) =
 		user_get_page_tally_neighborhood(
-			$curMbr['username'], 4, FALSE );
+			$curMbr['username'], 4, TRUE );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$rank = $neighbor->get_current_page_tally_rank();
 		$username = $neighbor->get_username();
-		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
-		$u_id = mysql_result($result, 0, "u_id");
-		$date_created = mysql_result($result, 0, "date_created");
-		$privacy_enabled = mysql_result($result, 0, "u_privacy");
+		$u_id = $neighbor->get_u_id();
+		$date_created = $neighbor->get_date_joined();
 		$latestSavedRank = user_get_latest_saved_page_tally_rank($u_id);
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
 		start_tr_with_rollover_highlight();
 
-		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
-		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBALS['pguser']) ||
-		    ($privacy_enabled == PRIVACY_PUBLIC)) {
+		if (!$neighbor->is_anonymized()) {
 
 			$username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a>";
 			$day_html = date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i>";
