@@ -5,7 +5,7 @@ function echoFont($txt,$size,$color,$face,$return)
   $tag.=$size?" size=\"$size\"":'';
   $tag.=$color?" color=\"$color\"":'';
   $tag.=$face?" face=\"$face\"":'';
-  $tag.=">";
+  $tag.=">$txt</font>";
   if ($return) {return $tag;} else {echo $tag;}
 }
 
@@ -102,7 +102,7 @@ function fillSelectFromSQL($result,$txt_field,$value_field,$select_value,$id,$ex
   echoSelect($txt_array,$value_array,$select_value,$id,$extraTags,$return);
 }
 
-function echoInputText($txt,$value,$size,$id,$extraTags,$return)
+function echoInputText($value,$size,$id,$extraTags,$return)
 {
   $tag="<input \r\ntype=\"text\"";
   $tag.=$id?" id=\"$id\" name=\"$id\"":'';
