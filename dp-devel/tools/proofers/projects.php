@@ -117,7 +117,7 @@ echo "</HEAD><BODY>";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
-<br><center><i>Please scroll down and read the Project Comments for any special instructions before proofing!</i></center><br>
+<br><i>Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!</i><br>
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
