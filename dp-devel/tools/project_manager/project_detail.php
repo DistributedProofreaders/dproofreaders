@@ -11,23 +11,39 @@ $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('page_table.inc');
 
+// About versions: Full vs. Summary
+// $link_to_other_version is a message about what version this is and a link to the other one
+// $current_version is _('Summary version') or _('Full version') and is displayed to the user
+//   (only in the document title at the time I write this)
+// $page_type is 'Summary' or 'Full' and used by code in checking
+//   what to display on this page
+// $other_type is 'Summary' or 'Full' and used by code as
+//   a parameter in the link to the other version
 
 if ( !isset($_GET['type']) || $_GET['type'] == 'Summary' || $_GET['type'] == '' ) {
+	$link_to_other_version = _('This is the Summary Version of the Project Details page for this project.<br>'.
+		'Also available is the <a href="%1$s">Full Version</a>.');
+	$current_version = _('Summary version');
 	$page_type = "Summary";
 	$other_type = "Full";
 } else {
+	$link_to_other_version = _('This is the Full Version of the Project Details page for this project.<br>'.
+		'Also available is the <a href="%1$s">Summary Version</a>.');
+	$current_version = _('Full version');
 	$page_type = "Full";
 	$other_type = "Summary";
 }
 
 $no_stats=1;
-theme("Project Details ($page_type version)", "header");
+theme("Project Details ($current_version)", "header");
 
 $projectid = $_GET['project'];
 if (! user_is_PP_of( $projectid)) {
 	abort_if_not_manager();
 }
 
+# insert url into $link_to_other_version
+$link_to_other_version = sprintf($link_to_other_version, "project_detail.php?project=$projectid&type=$other_type");
 
 $can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator() );
 
@@ -73,10 +89,7 @@ $projectinfo->update($projectid, $state);
 
 echo "<center>";
 
-
-echo "This is the $page_type Version of the Project Details page for this project."."<br>";
-echo "Also available is the "."<a href='project_detail.php?project=$projectid&type=$other_type'>".
-	"$other_type Version"."</a>.<br><br>";
+echo $link_to_other_version . '<br><br>';
 
 echo_project_info( $projectid, 'proj_post', 0 );
 
@@ -194,6 +207,8 @@ if ($page_type == "Full") {
 	}
 
 }
+
+echo '<br>' . $link_to_other_version;
 
 echo "</center>";
 
