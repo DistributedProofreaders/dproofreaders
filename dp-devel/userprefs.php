@@ -14,7 +14,7 @@ $f_f= array('Browser Default','Courier','Times','Arial','Lucida','Monospaced');
 $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 
 if (@$_POST["insertdb"] == "") {
-$result=mysql_query("SELECT * FROM users WHERE id='$uid'");
+$result=mysql_query("SELECT real_name, email FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
 $email_updates = $userP['email_updates'];
@@ -278,7 +278,7 @@ v_tlines='$v_tlines', v_tchars='$v_tchars', v_twrap='$v_twrap',
 h_fntf='$h_fntf', h_fnts='$h_fnts', h_zoom='$h_zoom', h_tframe='$h_tframe', h_tscroll='$h_tscroll', 
 h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'
 , i_prefs='1' 
-WHERE id='$user_id'");
+WHERE id='$user_id' AND username='$pguser'");
 echo mysql_error();
 $cookieC->setUserPrefs($pguser);
 }
