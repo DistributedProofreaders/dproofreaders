@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'bookpages.inc');
 
 function numpages($project) {
         $level0rows = mysql_query("SELECT COUNT(fileid) FROM $project");
@@ -22,6 +23,9 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     $projectinfo = new projectinfo();
 
     $projectinfo->update($project, $state);
+
+	//Update the total and available pages in the HEAP table
+	update_total_pages($project, 1);
 
     $page_num = 0;
 
@@ -135,7 +139,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                                 state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '$author'";
 
                         if (mysql_num_rows(mysql_query($author_q)) > 0) {
-                                // fails the author restriction, 
+                                // fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
                                 $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$project'");
                                 $numAvailable--;
@@ -176,7 +180,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
         // if $numavailable == 0, email someone!
         if ($numavailable == 0)
-		echo "<BR>Would like to have released some $projtype_desc projects, but none were waiting!<br>"; 
+		echo "<BR>Would like to have released some $projtype_desc projects, but none were waiting!<br>";
 	else
 	        echo "<br>Prepared <b>$numReleased</b> $projtype_desc projects for release<br>";
         return $totalnewreleased;
@@ -213,7 +217,7 @@ function autorelease($pagesleft) {
         // how many page still available for proofing, in R1, from each BEGIN project?
         while ($i < $numProjects) {
                 $proj = mysql_result($rel_qry,$i,0);
-                $numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);               
+                $numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);
                 $i++;
         }
         if ($beginners_pagesneeded > $numReleased) {

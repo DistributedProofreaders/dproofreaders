@@ -13,6 +13,7 @@ include($relPath.'projectinfo.inc');
 $projectinfo = new projectinfo();
 
 include($relPath.'project_trans.inc');
+include_once($relPath.'bookpages.inc');
 
   include('autorelease.php');
   include('sendtopost.php');
@@ -79,7 +80,7 @@ function pages_indicate_bad_project( $projectid, $round )
 // -----------------------------------------------------------------------------
 
   $one_project = isset($_GET['project'])?$_GET['project']:0;
-  
+
   if ($one_project) {
     $verbose = 0;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
@@ -193,11 +194,11 @@ function pages_indicate_bad_project( $projectid, $round )
       $newstate = AVAIL_SECOND;
 
     }
-    
+
 
     if (($state == PROJ_PROOF_FIRST_VERIFY) ||
         ($state == PROJ_PROOF_SECOND_VERIFY) || ($one_project) ||
-        (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) || 
+        (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) ||
         (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
 
         if ($verbose) echo "Found \"$nameofwork\" to verify = $project<BR>";
@@ -240,11 +241,15 @@ function pages_indicate_bad_project( $projectid, $round )
         if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_VERIFY)) {
 
             if ($projectinfo->done1_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_FIRST_COMPLETE; } else $state = PROJ_PROOF_FIRST_AVAILABLE;
-            
+
         } else if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == PROJ_PROOF_SECOND_VERIFY)) {
 
             if ($projectinfo->done2_pages == $projectinfo->total_pages) { $state = PROJ_PROOF_SECOND_COMPLETE; } else $state = PROJ_PROOF_SECOND_AVAILABLE;
 
+        }
+
+        if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_SECOND_AVAILABLE)) {
+        	update_avail_pages($project, $newstate);
         }
 
         if ($verbose) echo "New state = $state<P>";
@@ -259,6 +264,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
+	update_total_pages($project, 1);
 
         if ($verbose) echo "Found project to promote = $project<BR>";
 
@@ -282,12 +288,12 @@ function pages_indicate_bad_project( $projectid, $round )
   }
 
   if ($trace) echo "<br>\n";
-  
+
   if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
 
   if (!$one_project) { autorelease($pagesleft); }
-  
+
   else {
-  	 echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">"; 
+  	 echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
   	 }
 ?>

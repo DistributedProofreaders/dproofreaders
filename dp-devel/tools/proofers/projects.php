@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'projectinfo.inc');
+include_once($relPath.'bookpages.inc');
 
 function notify($project, $proofstate, $pguser) {
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Book Completed:</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
@@ -36,8 +37,8 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
     $whichTime = $proofstate==PROJ_PROOF_FIRST_AVAILABLE ? "round1_time" : "round2_time";
     $sql.=$whichTime." FROM $project WHERE ";
     if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {$sql.="round1_user";} else {$sql.="round2_user";}
-    $sql.="='$pguser' AND "; 
-    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) 
+    $sql.="='$pguser' AND ";
+    if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
       {
         if ($wlist==0)
           {$sql.="state ='".SAVE_FIRST."'";}
@@ -50,8 +51,8 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
           {$sql.="state ='".SAVE_SECOND."'";}
         else
           {$sql.="(state ='".TEMP_SECOND."' OR state ='".OUT_SECOND."')";}
-      } 
-    $sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
+      }
+    $sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum";
     $result = mysql_query($sql);
     $rownum = 0;
     $numrows = mysql_num_rows($result);
@@ -83,8 +84,13 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
 $projectinfo = new projectinfo();
 if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-  $projectinfo->update_avail($project, PROJ_PROOF_FIRST_AVAILABLE);
-} else $projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
+	update_avail_pages($project, " = '".AVAIL_FIRST."'");
+	$projectinfo->update_avail($project, PROJ_PROOF_FIRST_AVAILABLE);
+} else {
+	update_avail_pages($project, " = '".AVAIL_SECOND."'");
+	$projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
+}
+
 
 /* $_GET $project, $proofstate, $proofing */
 
@@ -144,7 +150,7 @@ if (!isset($proofing)) {
         echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
         echo "<td colspan=4>$lastproofed</td></tr>";
     }
-    
+
     if (!empty($topic_id)) {
     	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
     	$last_post_date = mysql_result($last_post,0,"post_time");
