@@ -90,7 +90,7 @@ function html_header($code_url, $theme, $nameofpage) {
 	echo "<title>DP";
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
-      if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page'))
+      if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page')
       {
         	include($relPath.'special_colours.inc');
       }
