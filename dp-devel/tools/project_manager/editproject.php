@@ -628,7 +628,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
    if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
         if (empty($checkedoutby)) { $checkedoutby = ""; }
-   if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>"; }
+   if (empty($comments)) { $comments = "<p>".sprintf(_("Refer to the %sProofreading Guidelines%s."),"<a href=\"$code_url/faq/document.php\">","</a>")."</p>"; }
    if (empty($scannercredit)) { $scannercredit = ""; }
    if (empty($clearance)) { $clearance = ""; }
    if (empty($postednum)) { $postednum = ""; }
