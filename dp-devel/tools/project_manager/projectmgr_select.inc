@@ -27,6 +27,7 @@ function get_allowed_next_project_states($state)
 
 		case PROJ_PROOF_SECOND_UNAVAILABLE:
 			return array(
+				PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
 				PROJ_PROOF_SECOND_VERIFY);
 
 		case PROJ_PROOF_SECOND_WAITING_FOR_RELEASE:
