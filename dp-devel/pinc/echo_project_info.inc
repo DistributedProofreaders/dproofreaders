@@ -85,8 +85,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		echo_row_a( "Credits line so far", $creditline );
 		echo_row_a( "Clearance Line:", $project['clearance'] );
 
-		echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
-		echo "{$project['postcomments']}</td></tr>";
+		echo_row_b( "Post Processor Comments", '' );
+		echo "<tr><td colspan=5>{$project['postcomments']}</td></tr>";
 	}
 	else
 	{
@@ -118,7 +118,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		}
 	}
 
-	echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><font size='+1'><b>"._("Project Comments")."</b></font><br>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
+	echo_row_b( _("Project Comments"), "("._("Please check below for Guideline Modifications").")" );
+	echo "<tr><td colspan=5>";
 	echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
 	echo "<b>"._("Instructions below take precedence over the guidelines").":</b><P>";
 	echo "$comments</td></tr>";
@@ -143,6 +144,20 @@ function echo_row_a( $left, $right, $darken_right_background=0 )
 	echo "<td colspan='4' $right_bg>$right</td>";
 	echo "</tr>";
 }
+
+function echo_row_b( $top, $bottom )
+{
+	echo "<tr>";
+	echo "<td colspan='5' bgcolor='CCCCCC' align='center'>";
+	echo "<font size='+1'><b>$top</b></font>";
+	if ($bottom)
+	{
+		echo "<br>$bottom";
+	}
+	echo "</td>";
+	echo "</tr>";
+}
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -171,22 +186,14 @@ function get_real_name( $login_name )
 
 function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 {
-	echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><font size='+1'><b>";
 	if ($wlist==0) {
-		echo _("DONE");
+		$top = _("DONE");
+		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
 	} else {
-		echo _("IN PROGRESS");
+		$top = _("IN PROGRESS");
+		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
 	}
-	echo "</b></font><br>";
-	if ($wlist==0)
-	{
-		echo "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
-	}
-	else
-	{
-		echo "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
-	}
-	echo "</td>";
+	echo_row_b( $top, $bottom );
 	$recentNum=5;
 
 	$sql = "SELECT image, fileid, state, ";
