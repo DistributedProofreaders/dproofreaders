@@ -294,12 +294,16 @@ name="spcorrects" action="processtext.php" method="POST"><table
         <input
             type="submit"
             name="spcorrect"
-            value="Submit Corrections">
+            value="Submit Corrections"
+            title="Keep spelling corrections and return to proofing this page"
+        >
         &nbsp;&nbsp;&nbsp;
         <input
             type="submit"
             name="spexit"
-            value="Quit">
+            value="Quit Spell Check"
+            title="Abandon spelling corrections and return to proofing this page"
+        >
     </td>
 </tr>
 </table>
