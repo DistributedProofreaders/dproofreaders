@@ -325,11 +325,10 @@ function showTeamMbrs($curTeam) {
 
 	list( $joined_with_user_tallies, $user_tally_column ) =
 		$users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
-	$users_table_with_tallies = "users $joined_with_user_tallies";
 
 	$mbrQuery = mysql_query("
 		SELECT *, $user_tally_column AS current_tally
-		FROM $users_table_with_tallies
+		FROM users $joined_with_user_tallies
 		WHERE {$_GET['tid']} IN (team_1, team_2, team_3)
 		ORDER BY $orderby $direction
 	");
