@@ -8,6 +8,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'page_ops.inc');
 
 $no_stats=1;
 $projectid  = $_POST['projectname'];
@@ -81,15 +82,11 @@ else
 
 	//Update the page the user was working on to reflect a bad page.
 	if ($badState == "bad_first") {
-		$text_copier = 'round1_text=master_text';
+		$round_number = 1;
 	} else {
-		$text_copier = 'round2_text=round1_text';
+		$round_number = 2;
 	}
-	if ($writeBIGtable) {
-		$result = mysql_query("UPDATE project_pages SET state='$badState', b_user='$pguser', b_code=$reason, $text_copier WHERE projectid = '$projectid' AND fileid='$fileid'");
-	}
-
-	$result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser', b_code=$reason, $text_copier WHERE fileid='$fileid'");
+	Page_markAsBad( $projectid, $fileid, $imagefile, $round_number, $pguser, $reason );
 
 	//Find out how many pages have been marked bad
 	$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
