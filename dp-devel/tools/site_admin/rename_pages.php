@@ -81,6 +81,7 @@ switch ( $submit_button )
         echo "<hr>";
         echo "Otherwise, for each page that you wish to rename, type in the new fileid.\n";
         echo "('.png' will automatically be appended to obtain the new image name.)\n";
+        echo "Please note that <b>leading zeroes are significant</b>.\n";
         echo "Leave a box blank if you don't want to rename that page.\n";
         echo "\n";
 
