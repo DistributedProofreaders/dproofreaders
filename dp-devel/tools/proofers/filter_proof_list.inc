@@ -25,6 +25,9 @@ function build_selectlist( $states, $field, &$array)
 	    $to_echo .= "</option>\n";
 	}
 
+
+
+
 return $to_echo;
 
 }
@@ -148,6 +151,9 @@ if ($userP['u_plist'] == 3)
     echo "<br><br>";
     echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
     echo "</center><br><br>\n";
+
+echo $array_of_langs. $array_of_genres . $array_of_PMs. $array_of_diffs;
+
 
 ?>
 
