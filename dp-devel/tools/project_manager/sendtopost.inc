@@ -18,10 +18,11 @@ include_once('./post_files.inc');
 
         // if reserved for a PPer, check it out to them
         $reserved = 0;
-        $result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project'");
+        $result = mysql_query("SELECT checkedoutby,nameofwork FROM projects WHERE projectid = '$project'");
         if (mysql_num_rows($result) > 0 && mysql_result($result,0) != '') {
             $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-            $PPer = mysql_result($result,0);
+            $PPer = mysql_result($result,0,"checkedoutby");
+            $title = mysql_result($result,0,"nameofwork");
             $reserved = 1;
             $extras = array( 'checkedoutby' => $PPer );
             $body_blurb =
@@ -63,10 +64,13 @@ include_once('./post_files.inc');
                 $email_addr = mysql_result(mysql_query("
                         SELECT email FROM users WHERE username = '$PPer'
                 "),0);
-                $body_blurb = "A project you had made a reservation to Post-Process has finished proofreading\n".
-                        "and will soon appear in your list of checked out projects.\n";
+                $body_blurb = "Hello $PPer,\n\n".
+                              "The project \"$title\", which is reserved for you to Post-Process,\n".
+                              "is now ready for you to work on, and should shortly appear in your list\n".
+                              "of checked out projects.\n".
+                              "\nThanks!\nDistributed Proofreaders\n";
 
-                maybe_mail( $email_addr, "Reserved book finished proofreading", $body_blurb,
+                maybe_mail( $email_addr, "DP: Reserved book available for Post-Processing", $body_blurb,
                         "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
 
