@@ -14,6 +14,8 @@ new dbConnect();
 // Find any projects in those states and move them to
 // an appropriate state that still exists.
 
+// Also, the proofing-round state values have changed format.
+
 $case = "
 	CASE state
 		WHEN 'verify_1'                  THEN '".PROJ_PROOF_FIRST_AVAILABLE."'
@@ -21,6 +23,18 @@ $case = "
 		WHEN 'proj_submit_pgunavailable' THEN '".PROJ_POST_COMPLETE."'
 		WHEN 'proj_submit_pgavailable'   THEN '".PROJ_POST_COMPLETE."'
 		WHEN 'proj_submit_pgposting'     THEN '".PROJ_POST_COMPLETE."'
+
+		WHEN 'bad_1'                     THEN '".PROJ_PROOF_FIRST_BAD_PROJECT."'
+		WHEN 'unavail_1'                 THEN '".PROJ_PROOF_FIRST_UNAVAILABLE."'
+		WHEN 'waiting_1'                 THEN '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
+		WHEN 'avail_1'                   THEN '".PROJ_PROOF_FIRST_AVAILABLE."'
+		WHEN 'done_1'                    THEN '".PROJ_PROOF_FIRST_COMPLETE."'
+		WHEN 'bad_2'                     THEN '".PROJ_PROOF_SECOND_BAD_PROJECT."'
+		WHEN 'unavail_2'                 THEN '".PROJ_PROOF_SECOND_UNAVAILABLE."'
+		WHEN 'waiting_2'                 THEN '".PROJ_PROOF_SECOND_WAITING_FOR_RELEASE."'
+		WHEN 'avail_2'                   THEN '".PROJ_PROOF_SECOND_AVAILABLE."'
+		WHEN 'done_2'                    THEN '".PROJ_PROOF_SECOND_COMPLETE."'
+
 		ELSE state
 	END
 ";
