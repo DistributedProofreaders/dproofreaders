@@ -216,6 +216,13 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
     if (!isset($userindex))
     {
+        // Either the target user doesn't appear in the 'users' table
+        // (which shouldn't normally happen), or it appears with
+        // pagescompleted <= 0 (or null, I suppose).
+        //
+        // Assume that pagescompleted = 0 (which you'd think would be a safe
+        // assumption), and pretend that the target user is the only such user.
+
         $userindex = $i;
         $rankArray['username'][$userindex] = $username;
         $rankArray['pages'][$userindex] = 0;
@@ -224,6 +231,9 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
     }
     else
     {
+        // The target user appears in the 'users' table, with pagescompleted > 0.
+        // Pretend that there are no users with pagescompleted <= 0.
+
         $max_current_rank = $rankArray['rank'][$i-1];
     }
 
