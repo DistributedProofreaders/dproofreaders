@@ -17,7 +17,7 @@ include_once($relPath.'page_states.inc');
         $data = mysql_result($result, 0, "round2_text");
     } else $data = "ERROR: Incorrect state parameter = ".$state." passed to script downloadproofed.php";
 
-    header('Content-type: text/plain');
+    header('Content-type: text/plain; charset=UTF-8');
     // SENDING PAGE-TEXT TO USER
     // It's a text/plain document, so no encoding is necessary.
     echo $data;
