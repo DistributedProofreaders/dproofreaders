@@ -52,6 +52,24 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	{
 		$orderclause = 'username DESC, nameofwork ASC';
 	}
+	elseif ( $order == 'PgAvA' )
+	{
+		$orderclause = 'avail_pages ASC, nameofwork ASC';
+		$flip_PgAv = TRUE;
+	}
+	elseif ( $order == 'PgAvD' )
+	{
+		$orderclause = 'avail_pages DESC, nameofwork ASC';
+	}
+	elseif ( $order == 'PgTotA' )
+	{
+		$orderclause = 'total_pages ASC, nameofwork ASC';
+		$flip_PgTot = TRUE;
+	}
+	elseif ( $order == 'PgTotD' )
+	{
+		$orderclause = 'total_pages DESC, nameofwork ASC';
+	}
 	elseif ( $order == 'DaysA' )
 	{
 		$orderclause = 'days_avail ASC, nameofwork ASC';
@@ -166,10 +184,12 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Available Pages");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_PgAv?"PgAvD":"PgAvA").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Total Pages");
-	echo "\n<td><b>$word</b></td>";
+ 	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").">";
+	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Days");
  	$link = $linkbase.($flip_days?"DaysD":"DaysA").">";
