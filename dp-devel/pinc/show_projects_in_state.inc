@@ -107,11 +107,11 @@ function show_projects_in_state($state,$table=1)
 		$tpages = $pageCountArray[$book['projectid']]['total_pages'];
 
 		$foo_username = $book[$foo_field_name];
-		$users = mysql_query("SELECT email FROM users WHERE username = '$foo_username'");
+		$users = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$foo_username'");
 		if ( mysql_num_rows($users) > 0 )
 		{
-			$foo_email = mysql_result($users, 0, "email");
-			$foo_cell = "<A HREF=\"mailto: $foo_email\">".$book[$foo_field_name]."</A>";
+			$foo_userid = mysql_result($users, 0, "user_id");
+			$foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$foo_field_name]."</A>";
 		}
 		else
 		{
