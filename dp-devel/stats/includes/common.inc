@@ -5,6 +5,20 @@ include_once($relPath.'v_site.inc'); // $code_url
 
 // -----------------------------------------------------------------------------
 
+$_normal_color    = $theme['color_navbar_bg'];
+$_highlight_color = $theme['color_mainbody_bg'];
+
+$rollover_highlight_attrs =
+    "bgcolor='$_normal_color'"
+    . " onmouseover='javascript:style.background=\"$_highlight_color\"'"
+    .  " onmouseout='javascript:style.background=\"$_normal_color\"'"
+;
+
+unset($_normal_color);
+unset($_highlight_color);
+
+// -----------------------------------------------------------------------------
+
 function showChangeInRank( $previous_rank, $current_rank )
 // Return a snippet of HTML that visually conveys
 // the change in rank between $previous_rank and $current_rank.
