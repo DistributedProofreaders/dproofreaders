@@ -59,31 +59,25 @@ for ($pagescompleted_i = 0; $pagescompleted_i <= $maxpages; $pagescompleted_i++ 
 $numrows = mysql_numrows($result);
 
 
-$pagescompleted_i = 0;
 $row_num = 0;
 
 
 // consider in turn each possible pagescompleted value...
-while ($pagescompleted_i <= $maxpages) {
+while ($row_num < $numrows) {
 
-    // if for the current pagescompleted value ($pagescompleted_i) a 
-    // corresponding value exists for pagescompleted, add the n_* values to the array of Y-axis data;
-    // else no users in that result set have done that number of pages,
-    // so leave the Y-axis data at 0 for that number of pagescompleted
+    // for the current pagescompleted value,
+    // add the n_* values to the array of Y-axis data;
 
 
-    if ($row_num < $numrows) {
-	if (mysql_result($result, $row_num,"pagescompleted") == $pagescompleted_i) {
+	$pagescompleted_i = mysql_result($result, $row_num,"pagescompleted");
+	if ($pagescompleted_i >= 0)
+	{
 	   $datayAll[$pagescompleted_i] = mysql_result($result, $row_num,"n_all");
 	   $datay90[$pagescompleted_i] = mysql_result($result, $row_num,"n_90d");
 	   $datay28[$pagescompleted_i] = mysql_result($result, $row_num,"n_28d");
 	   $datay7[$pagescompleted_i] = mysql_result($result, $row_num,"n_7d");
-	   $row_num++;
 	}
-    }
-
-
-    $pagescompleted_i++;
+	$row_num++;
 }
 
 
