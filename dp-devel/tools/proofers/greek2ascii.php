@@ -24,18 +24,23 @@ function addChar(myChar) {
 }
 //-->
 </script>
+<style type="text/css">
+p.info {
+	font-size: 12px;
+	}
+</style>
 </head>
 
 <body>
 
-<table border="0" cellspacing="1" cellpadding="1">
-<tr><td colspan="3" align="center" valign="top">
+<table border="0" cellspacing="1" cellpadding="1" width="620">
+<tr><td colspan="2" align="center" valign="top">
 <b>Greek-to-ASCII Transliteration</b>
 </td>
 </tr>
 
 <tr>
-<td colspan="3">
+<td colspan="2">
 <img Src="gfx/greek.png" height="80" width="600" usemap="#charmap" border="0">
 </td>
 </tr>
@@ -43,27 +48,30 @@ function addChar(myChar) {
 <tr>
 <td valign="top">
 <form name="greek" action="none">
-<input type="text" name="textbox" length="65" size="65">
+<input type="text" name="textbox" length="80" size="72">
 </td>
 <td align="right" valign="top">
-<input type="button" value="Clear" onClick="clearBox();">
-</td>
-<td>
-<input type="button" value="Close" onClick="window.close();">
+<input type=button value="Clear" onClick="clearBox();">
 </td>
 </form>
 </tr>
 
 <tr>
 <td colspan="3">
-<small>Use Copy and Paste to Insert Characters into Proofing Window.</small>
+<p class="info">
+Diacritical marks may be ignored except for the rough-breathing mark,
+denoted as <IMG SRC="gfx/greekrough.png" height="12" width="10"> above the
+letter.<br>
+For these, put an 'h' before the letter <emp>unless</emp> the word
+begins with 'r', in which case the 'h' goes <emp>after</emp> the 'r'.
+</p>
 </td>
 </tr>
 
 <tr>
 <td colspan="3">
 For further information, see the Project Gutenberg 
-<A HREF="http://www.gutenberg.net/vol/greek.html" target="_new">
+<a HREF="http://www.gutenberg.net/vol/greek.html" target="_new">
 Greek-ASCII Primer</a>.
 </td>
 </tr>
