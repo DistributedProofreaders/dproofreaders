@@ -584,7 +584,7 @@ theme('Proofing Guidelines','header');
     previous page, put the Sidenote at the top of the page and mark it with <tt>*</tt>
     so that the post-proofreader can see that it belongs on the previous page.  Like
     this: <tt>*[Sidenote: the-description-text]</tt>. If there are multiple sidenotes
-    for a single paragraph, put them one after another at the start of the paragraph, 
+    for a single paragraph, put them one after another at the start of the paragraph,
     each on their own line.</p>
 <table width="100%" border="1"  cellpadding="4"
        cellspacing="0"> <col width="128*">
@@ -1200,7 +1200,7 @@ theme('Proofing Guidelines','header');
 
 <h3><a name="line_no">Line Numbers</a> </h3>
 <p> These are numbers in the margin for each line -- common in some poetry books.
-    Since the text of poetry will not be reformatted in the e-book version, line 
+    Since the text of poetry will not be reformatted in the e-book version, line
     numbers should be kept. In ordinary text, that will be reformatted, they should be removed.</p>
 <!-- We need an example image and text for this. -->
 
