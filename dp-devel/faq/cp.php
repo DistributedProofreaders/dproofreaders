@@ -177,49 +177,6 @@ web interface at <a href="http://beryl.ils.unc.edu/copy.html">this page</a>
 (http://beryl.ils.unc.edu/copy.html). There are quite a few handy tips
 and links there also.<br>
 </p>
-<p>If you can't use that, there are still some older methods available,
-depreciated, but still serviceable in a pinch.<br>
-</p>
-<p>To quote the <a
- href="http://www.gutenberg.net/vol/wannabe.html#Copyright_research">Project
-Gutenberg FAQ</a></p>
-<blockquote>
-  <table border="5" cellspacing="0" cellpadding="5" width="400">
-    <tbody>
-      <tr>
-        <td>
-        <h3>How do I get copyright clearance?</h3>
-        <p>As of January, 2002, there are two ways to submit a text for
- clearance. </p>
-        <p><strong>To submit by paper mail,</strong> photocopy the front
- and back of   the title page, even if the back is blank, write your
-e-mail address on it,   and send the photocopies to:</p>
-        <p>MICHAEL STERN HART<br>
-405 WEST ELM STREET<br>
-URBANA, IL 61801-3231 USA</p>
-        <p>This is called Title Page &amp; Verso, or TP&amp;V for
-short, and is   needed for copyright research. A colored envelope is
-best, to make sure your   letter is easily recognized as TP&amp;V.</p>
-        <p>E-mail Michael <a href="mailto:hart@pobox.com">hart@pobox.com</a>
-when you   send them, so he knows they're on the way. It's a good idea
-to check back   with him by e-mail after a week or so if you haven't
-heard from him.</p>
-        <p><strong>To submit by e-mail,</strong> scan the front and back
- of the title   page, even if the back is blank, make sure that the
-print is legible, and   e-mail the images to <a
- href="mailto:gbnewby@ils.unc.edu">Greg Newby</a> as   TIFF, JPEG or GIF
- in medium resolution. </p>
-        <p>Whichever method you use, you should expect to get an e-mail
- back after   about a week, with one line containing the Author, Title,
-your name and date   with the word "OK" at the end. This means that your
- text has been   cleared. If you don't get any response, e-mail to check
- that your TP&amp;V   was received OK. If the word at the end of the
-line is not "OK",   then your text is not eligible. </p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</blockquote>
 <p>You probably should not invest too much time until you've received
 your clearance line. </p>
 <hr size="3" width="100%" align="left">
