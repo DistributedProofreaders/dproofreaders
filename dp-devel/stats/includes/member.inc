@@ -2,6 +2,7 @@
 //A file full of member statistic functions
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
+include_once($relPath.'page_tally.php');
 
 function showMbrProfile($curMbr) {
 	global $theme;

@@ -8,6 +8,7 @@ include_once($relPath.'pg.inc');
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'page_tally.php');
 
 $user_is_logged_in = dpsession_resume();
 
