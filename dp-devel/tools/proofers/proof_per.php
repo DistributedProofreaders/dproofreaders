@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
