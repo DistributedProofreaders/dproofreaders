@@ -73,7 +73,7 @@ function getSelect($state)
   else if($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[16]=1;}
   else if($state==PROJ_POST_CHECKED_OUT)
-    {$st_sw[14]=1;$st_sw[15]=1;$st_sw[17]=1;$st_sw[19]=1;$st_sw[23]=1;}
+    {$st_sw[14]=1;$st_sw[15]=1;$st_sw[18]=1;$st_sw[19]=1;$st_sw[23]=1;}
   else if($state==PROJ_POST_VERIFYING || $state==PROJ_POST_VERIFY)
     {$st_sw[19]=1;$st_sw[23]=1;}
   else if($state==PROJ_POST_COMPLETE)
