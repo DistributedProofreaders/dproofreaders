@@ -18,7 +18,7 @@ $info = "Below is the list of Silver e-texts that are almost finished with their
 } elseif ($_GET['x'] == "b") {
 $type = "Bronze";
 $status = "Now Proofing";
-$state = "state='".AVAIL_PI_FIRST."' OR state='".AVAIL_PI_SECOND."' OR state='".VERIFY_PI_FIRST."' OR state='".VERIFY_PI_SECOND."'";
+$state = "state='".PROJ_PROOF_FIRST_AVAILABLE."' OR state='".PROJ_PROOF_SECOND_AVAILABLE."' OR state='".PROJ_PROOF_FIRST_VERIFY."' OR state='".PROJ_PROOF_SECOND_VERIFY."'";
 $info = "Below is the list of Bronze e-texts that are currently available for proofreading on this site.  Bronze e-texts is what most of our members see and what you can work on now by logging in.  These e-texts are either in the first round or second round proofing where you have a chance to correct any mistakes that may be found.  After the proofing phase the e-text is then passed onto the Project Manager for post-processing.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 }
 ?>
