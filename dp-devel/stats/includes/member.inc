@@ -7,8 +7,6 @@ include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr ) {
-	$result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
-	$curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 	$now = time();
 	showMbrProfile($curMbr);
 	showMbrTeams($curMbr);
@@ -55,7 +53,7 @@ function showMbrProfile($curMbr) {
 	echo "<tr>";
 	echo "<td align='center' valign='top'>";
 
-	showBBProfile($curMbr);
+	showBBProfile($curMbr['username']);
 
 	echo "</td>";
 
@@ -133,8 +131,15 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	return $mbrStatus;
 }
 
-function showBBProfile($curMbr) {
+function showBBProfile($username) {
 	global $forums_url, $theme;
+
+	$result = mysql_query("
+		SELECT *
+		FROM phpbb_users
+		WHERE username = '$username'
+	");
+	$curMbr = mysql_fetch_assoc($result);
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser'])
 	{
@@ -181,7 +186,7 @@ function showBBProfile($curMbr) {
 			!empty($curMbr['user_viewemail']),
 			_("E-mail"),
 			"icon_email.gif",
-			"mailto:".$curMbr['email'],
+			"mailto:".$curMbr['user_email'],
 			''
 		),
 		array(
