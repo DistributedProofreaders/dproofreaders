@@ -10,6 +10,7 @@ function showMbrInformation( $curMbr ) {
 	$now = time();
 	showXmlButton($curMbr['username']);
 	showMbrProfile($curMbr);
+	showMbrPageStats($curMbr);
 	showMbrTeams($curMbr);
 	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
@@ -28,37 +29,6 @@ function showXmlButton( $username )
 }
 
 function showMbrProfile($curMbr) {
-	global $theme;
-	global $users_P_page_tallyboard;
-
-	$now = time();
-	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
-	$daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
-	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
-	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
-
-	list( $neighbors, $totalRanks ) =
-		user_get_page_tally_neighborhood(
-			$curMbr['username'], 0 );
-	$currentRank = $neighbors[0]->get_current_page_tally_rank();
-	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
-
-	list($bestDayCount,$bestDayTimestamp) =
-		$users_P_page_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
-
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
-
-	list($highestRank, $highestRankDate) =
-		$users_P_page_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
-
-
-	if ($daysInExistenceInteger > 0) {
-	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistenceInteger;
-	} else {
-		$daily_Average = 0;
-	}
-
-	if ($currentRank <= $highestRank) { $highestRank = $currentRank; $highestRankDate = time(); }
 
 	echo "\n";
 	echo "<table width='99%'>";
@@ -71,11 +41,23 @@ function showMbrProfile($curMbr) {
 	echo "</td>";
 
 	echo "<td align='center' valign='top'>";
-	echo "\n";
+
+	showMbrDpProfile($curMbr);
+
+	echo "</td></tr></table><p>";
+}
+
+function showMbrDpProfile( $curMbr )
+{
+	$now = time();
+	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
+	$daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
+	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
+	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
 	$t = new ThemedTable(
 		2, 
-		_("Statistics"),
+		_("DP Profile"),
 		array( 'width'=>100 )
 	);
 	$t->set_column_widths( 30, 70 );
@@ -88,31 +70,6 @@ function showMbrProfile($curMbr) {
 		_("Last Login"),
 		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
 	);
-	$t->row(
-		_("Total Pages"),
-		number_format($curMbr['current_P_page_tally']) . " " . _("pages")
-		. " (" . pageCountPercentage($curMbr['current_P_page_tally']) . _("% of total") . ")"
-	);
-	$t->row(
-		_("Overall Rank"),
-		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
-		. showChangeInRank( $latestSavedRank, $currentRank )
-	);
-	$t->row(
-		_("Highest Rank"),
-		number_format($highestRank)
-		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
-		. "&nbsp;" . showChangeInRank($highestRank, $currentRank)
-	);
-	$t->row(
-		_("Best Day Ever"),
-		number_format($bestDayCount) . " " . _("pages")
-		. " <i>(" . $bestDayTime . ")</i>"
-	);
-	$t->row(
-		_("Daily Average"),
-		number_format($daily_Average) . " " . _("pages")
-	);
 
 	$t->row(
 		_('Roles'),
@@ -120,8 +77,6 @@ function showMbrProfile($curMbr) {
 	);
 
 	$t->end();
-
-	echo "</td></tr></table><p>";
 }
 
 function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
@@ -249,6 +204,73 @@ function showBBProfile($username) {
 			"<a href='$url'$target_str>$img_tag</a>"
 		);
 	}
+
+	$t->end();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showMbrPageStats( $curMbr )
+{
+	global $users_P_page_tallyboard;
+
+	$now = time();
+	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
+
+	list( $neighbors, $totalRanks ) =
+		user_get_page_tally_neighborhood(
+			$curMbr['username'], 0 );
+	$currentRank = $neighbors[0]->get_current_page_tally_rank();
+	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
+
+	list($bestDayCount,$bestDayTimestamp) =
+		$users_P_page_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
+
+	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+
+	list($highestRank, $highestRankDate) =
+		$users_P_page_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
+
+
+	if ($daysInExistenceInteger > 0) {
+	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistenceInteger;
+	} else {
+		$daily_Average = 0;
+	}
+
+	if ($currentRank <= $highestRank) { $highestRank = $currentRank; $highestRankDate = time(); }
+
+	$t = new ThemedTable(
+		2, 
+		_("Page Statistics"),
+		array( 'width'=>100 )
+	);
+
+	$t->row(
+		_("Total Pages"),
+		number_format($curMbr['current_P_page_tally']) . " " . _("pages")
+		. " (" . pageCountPercentage($curMbr['current_P_page_tally']) . _("% of total") . ")"
+	);
+	$t->row(
+		_("Overall Rank"),
+		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
+		. showChangeInRank( $latestSavedRank, $currentRank )
+	);
+	$t->row(
+		_("Highest Rank"),
+		number_format($highestRank)
+		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
+		. "&nbsp;" . showChangeInRank($highestRank, $currentRank)
+	);
+	$t->row(
+		_("Best Day Ever"),
+		number_format($bestDayCount) . " " . _("pages")
+		. " <i>(" . $bestDayTime . ")</i>"
+	);
+	$t->row(
+		_("Daily Average"),
+		number_format($daily_Average) . " " . _("pages")
+	);
 
 	$t->end();
 }
