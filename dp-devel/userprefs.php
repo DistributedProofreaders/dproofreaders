@@ -82,6 +82,10 @@ $array = implode('|', $u_l);
 dropdown_select('u_lang', $userP['u_lang'], $array);
 echo "</td></tr>";
 
+echo "<tr><td width='21%'>Password:</td><td width='79%'>";
+echo "<a href='http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword'>Reset Password</a>";
+echo "</td></tr>";
+
 echo "<tr><td colspan=\"2\" align=\"center\">Interface Preferences</td></tr>";
 
 echo "<tr><td width='21%'>Screen Resolution:</td><td width='79%'>";
