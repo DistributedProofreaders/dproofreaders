@@ -17,6 +17,38 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 //
 // (Takes about ?? seconds.)
 {
+    // Construct the guts of the query that we'll be posing for each project.
+
+    $end_constraint1 = (is_null($end_ts) ? "" : "AND round1_time < $end_ts");
+    $end_constraint2 = (is_null($end_ts) ? "" : "AND round2_time < $end_ts");
+
+    // An SQL expression that, for a given page, yields the number of
+    // 'proofings' that the page achieved within the time constraints.
+    // Note that a page finished in R1 may have since progressed to R2,
+    // and may even be finished in R2.
+    $n_proofings_for_page = "
+        (
+            (state='save_first' OR state LIKE '%_second%')
+            AND round1_time >= $start_ts
+            $end_constraint1
+        )
+        +
+        (
+            state='save_second'
+            AND round2_time >= $start_ts
+            $end_constraint2
+        )
+    ";
+    // The phrasing of this expression relies on the fact that
+    // MySQL implements TRUE and FALSE as 1 and 0 respectively,
+    // so it's meaningful to add two boolean expressions.
+    // (If we were using an SQL processor that didn't do this,
+    // we would have to use the IF() function or a CASE expr.)
+
+    // echo $n_proofings_for_page, "\n";
+
+    // -------------------------------------------------------------------------
+
     $total_n_pages_proofed = 0;
 
     // Only consider projects that have not been archived.
@@ -56,33 +88,7 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
     {
         list($projectid) = $project_row;
 
-        // page finished in R1 may have since progressed to R2
-
-        $end_constraint1 = (is_null($end_ts) ? "" : "AND round1_time < $end_ts");
-        $end_constraint2 = (is_null($end_ts) ? "" : "AND round2_time < $end_ts");
-
-        $result = mysql_query("
-            SELECT
-                SUM(
-                    (
-                        (state='save_first' OR state LIKE '%_second%')
-                        AND round1_time >= $start_ts
-                        $end_constraint1
-                    )
-                    +
-                    (
-                        state='save_second'
-                        AND round2_time >= $start_ts
-                        $end_constraint2
-                    )
-                )
-            FROM $projectid
-        ");
-        // The phrasing of this query relies on the fact that
-        // MySQL implements TRUE and FALSE as 1 and 0 respectively,
-        // so it's meaningful to add two boolean expressions.
-        // (If we were using an SQL processor that didn't do this,
-        // we would have to use the IF() function or a CASE expr.)
+        $result = mysql_query("SELECT SUM($n_proofings_for_page) FROM $projectid");
 
         if (!$result)
         {
