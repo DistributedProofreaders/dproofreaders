@@ -71,9 +71,6 @@ function saveProject() {
                 difficulty='{$_POST['difficulty_level']}',
                 comments='{$_POST['comments']}',
                 scannercredit='{$_POST['scannercredit']}',
-                txtlink='{$_POST['txtlink']}',
-                ziplink='{$_POST['ziplink']}',
-                htmllink='{$_POST['htmllink']}',
                 postednum='{$_POST['postednum']}',
                 clearance='{$_POST['clearance']}'
             WHERE projectid='{$_POST['projectid']}'
@@ -619,9 +616,6 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
                 $checkedoutby = mysql_result($result, 0, "checkedoutby");
         $language = mysql_result($result, 0, "language");
         $scannercredit = mysql_result($result, 0, "scannercredit");
-        $txtlink = mysql_result($result, 0, "txtlink");
-        $htmllink = mysql_result($result, 0, "htmllink");
-        $ziplink = mysql_result($result, 0, "ziplink");
         $comments = mysql_result($result, 0, "comments");
         $clearance = mysql_result($result, 0, "clearance");
         $postednum = mysql_result($result, 0, "postednum");
@@ -634,12 +628,9 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
    if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
         if (empty($checkedoutby)) { $checkedoutby = ""; }
-   if (empty($txtlink)) { $txtlink = ""; }
-   if (empty($ziplink)) { $ziplink = ""; }
    if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>"; }
    if (empty($scannercredit)) { $scannercredit = ""; }
    if (empty($clearance)) { $clearance = ""; }
-   if (empty($htmllink)) { $htmllink = ""; }
    if (empty($postednum)) { $postednum = ""; }
    if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
@@ -659,9 +650,6 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         echo "<tr><td bgcolor='#CCCCCC'><b>PPer/PPVer</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
         if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
         echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>\n";
