@@ -62,18 +62,50 @@ $auto_email_addr = $general_help_email_addr;
 
 // -----------------------------------------------------------------------------
 
-$testing = '<<TESTING>>';
-$use_cookies = '<<USE_COOKIES>>';
-$maintenance = '<<MAINTENANCE>>';
-$metadata = '<<METADATA>>';
-$charset = '<<CHARSET>>';
-
 // So far, the effects of setting $testing to TRUE are:
 // (1) It prevents email messages from being sent. Instead, the site shows a
 //     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 // (2) metarefresh delays by 15 seconds.
 
+$testing = '<<TESTING>>';
+
 // -----------------------------------------------------------------------------
+
+// If $use_cookies is true, cookies are used to track user preferences, etc; if false, sessions
+
+$use_cookies = '<<USE_COOKIES>>';
+
+// -----------------------------------------------------------------------------
+
+// so far maintenance = TRUE prevents the front page from loading
+// (displaying a 'back soon' message) for anyone but admins;
+// but bookmarks to interior pages are still live for everyone
+
+$maintenance = '<<MAINTENANCE>>';
+
+// -----------------------------------------------------------------------------
+
+// $metadata is a flag to allow the still developing metadata functionality, links, etc
+// to be active or not
+
+$metadata = '<<METADATA>>';
+
+// -----------------------------------------------------------------------------
+
+// $charset will hopefully one day apply to all relevant pages on site and can be
+// changed at this one central place
+
+$charset = '<<CHARSET>>';
+
+// -----------------------------------------------------------------------------
+
+// for staged transition to all in one project_pages table
+
+$writeBIGtable = '<<WRITEBIGTABLE>>';
+$readBIGtable = '<<READBIGTABLE>>';
+
+// -----------------------------------------------------------------------------
+
 
 // If the gettext extension is compiled into PHP, then the function named '_'
 // (an alias for 'gettext') will be defined.
