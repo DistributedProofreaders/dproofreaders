@@ -5,16 +5,14 @@ $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c
 function marc_key_search($rec, $tag, $subfield) {
 	foreach ($rec as $key => $value) {
 		if (!empty($subfield)) {
-			if (preg_match("/^\(3,$tag\)\(3,[012[:space:]]+\)\(3,$subfield\)$/", $value[0])) {
+			if (preg_match("/^\(3,$tag\)\(3,[0123456789[:space:]]+\)\(3,$subfield\)$/", $value[0])) {
 				return $key;
 			}
 		} else {
-			if (preg_match("/^\(3,$tag\)\(3,[012@[:space:]]+\)$/", $value[0])) {
+			if (preg_match("/^\(3,$tag\)\(3,[0123456789@[:space:]]+\)$/", $value[0])) {
 				return $key;
 			}
 		}
-
-
 	}
 }
 
