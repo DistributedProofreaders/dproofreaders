@@ -504,7 +504,7 @@ that may have been introduced by the rewrap.
  
 <li><a name="19">Give the whole thing a quick eyeball to make sure that all is well.</a>  
     If you are not sure what the finished text should look like, 
-    download a text from <a href="http://www.promo.net/pg">Project Gutenberg</a> 
+    download a text from <a href="http://www.gutenberg.net/">Project Gutenberg</a> 
     and skim it to get a clearer idea.
     Some proofers believe that this is best done the next day, 
     when you have a fresher eye and might be more likely to spot oversights.
@@ -1343,7 +1343,7 @@ or give you a scan for a missing page.
  
 <p>
 If they don't have the text, 
-join <a href="http://www.promo.net/pg/subs.html">gutvot-d</a> 
+join <a href="http://www.gutenberg.net/howto/subscribe-howto">gutvol-d</a> 
 and post a message asking for help. 
 Give the name and author of the book which you are working on, 
 what you will require as help 
