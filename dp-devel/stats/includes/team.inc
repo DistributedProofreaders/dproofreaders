@@ -10,17 +10,6 @@ $team_avatars_url = "$dyn_url/teams/avatar";
 $team_icons_dir   = "$dyn_dir/teams/icon";
 $team_icons_url   = "$dyn_url/teams/icon";
 
-// PHPBB includes (from the standard installation)
-define('IN_PHPBB', true);
-$phpbb_root_path = $forums_dir.'/';
-include($phpbb_root_path . 'extension.inc');
-include($phpbb_root_path . 'common.'.$phpEx);
-include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
-include($phpbb_root_path . 'includes/functions_post.'.$phpEx);
-
-// include the custom PHPBB file
-include($relPath . 'functions_insert_post.'.$phpEx);
-
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
 	global $team_avatars_url;
