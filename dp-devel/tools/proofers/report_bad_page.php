@@ -64,11 +64,11 @@ $totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectID WHERE state='".
 if ($totalBad >= 10) {
 $uniqueBadPages = mysql_query("SELECT COUNT(DISTINCT(reporting_user)) FROM $projectID WHERE state='".BAD_FIRST."' OR '".BAD_SECOND."'");
 if ($uniqueBadPages >= 3) {
-if($badstate==BAD_FIRST)
-{$badProject=BAD_PI_FIRST;}
-else
-{$badProject=BAD_PI_SECOND;}
-$result = mysql_query("UPDATE projects SET state='".$badProject."' WHERE projectid=$projectID");
+if($badstate==BAD_FIRST) {
+$result = mysql_query("UPDATE projects SET state='".BAD_PI_FIRST."' WHERE projectid=$projectID");
+} else {
+$result = mysql_query("UPDATE projects SET state='".BAD_PI_SECOND."' WHERE projectid=$projectID");
+}
 $advisePM = 1;
 } }
 
