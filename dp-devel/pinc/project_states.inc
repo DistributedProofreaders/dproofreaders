@@ -55,14 +55,14 @@
 
 
 // POST
-  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_unavailable"); // 60
-  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_available"); // 61
+  define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable"); // 60
+  define("PROJ_POST_FIRST_AVAILABLE", "proj_post_first_available"); // 61
 //  define("AVAIL_PP", "62");  this is not the same as db
-  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_checkedout"); // 65
+  define("PROJ_POST_FIRST_CHECKED_OUT", "proj_post_first_checked_out"); // 65
 
-  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_verify"); // this is not in db
+  define("PROJ_POST_SECOND_AVAILABLE", "proj_post_second_available"); // this is not in db
 
-  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_verifying"); // 67
+  define("PROJ_POST_SECOND_CHECKED_OUT", "proj_post_second_checked_out"); // 67
   define("PROJ_POST_COMPLETE", "proj_post_complete"); // 69
 
 
@@ -74,8 +74,8 @@
   define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted"); // 79
 
 // CORRECT
-  define("PROJ_CORRECT_AVAILABLE", "proj_correct_verify");
-  define("PROJ_CORRECT_CHECKED_OUT", "proj_correct_verifying");
+  define("PROJ_CORRECT_AVAILABLE", "proj_correct_available");
+  define("PROJ_CORRECT_CHECKED_OUT", "proj_correct_checked_out");
 
 // for the 'deletion' of a project
   define("PROJ_DELETE", "project_delete"); // 99
