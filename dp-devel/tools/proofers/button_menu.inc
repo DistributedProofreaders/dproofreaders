@@ -1,7 +1,7 @@
 <?
-include($relPath.'v_site.inc');
+include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc');
-include($relPath.'button_defs.inc');
+include_once($relPath.'button_defs.inc');
 include_once('page_misc.inc');
 
 ?>
