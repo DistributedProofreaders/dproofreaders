@@ -8,7 +8,7 @@
 //     $proofstate
 
 echo "<table border='1' width='630'><tr>";
-echo "<td width='126' bgcolor='CCCCCC' align='center'>";
+echo "<td bgcolor='CCCCCC' align='center'>";
 
 if (empty($userP['i_newwin'])) {
 	echo "<a href='proof_per.php' target='_top'>";
@@ -17,14 +17,14 @@ if (empty($userP['i_newwin'])) {
 }
 
 echo _("Personal Page")."</a></td>";
-echo "<td width='126' bgcolor='CCCCCC' align='center'><a href='$forums_url/index.php' target='forumwin'>"._("Forums")."</a></td>";
+echo "<td bgcolor='CCCCCC' align='center'><a href='$forums_url/index.php' target='forumwin'>"._("Forums")."</a></td>";
 
-$setT = "<td width='252' bgcolor='#CCCCCC' align='center'>";
+$setT = "<td bgcolor='#CCCCCC' align='center'>";
 $setU = "project=$project&amp;proofstate=$proofstate";
 $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
 
 echo $setT.$setP."\r\n</td>";
-echo "<td width='126' bgcolor='#CCCCCC' align='center'>";
+echo "<td bgcolor='#CCCCCC' align='center'>";
 
 if (empty($userP['i_newwin'])) {
 	echo "<a href='../logout.php'>";
