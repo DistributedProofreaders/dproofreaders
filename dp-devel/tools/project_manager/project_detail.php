@@ -41,7 +41,24 @@ echo_project_info( $projectid, 'proj_post', 0 );
 
 echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
 
-if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
+//if new project enable uploading of tpNv info
+if ($state == PROJ_NEW){
+       echo "<br>\n";
+        echo "<form method='get' action='add_files.php'>\n";
+        echo "<input type='hidden' name='project' value='$projectid'>\n";
+        echo "<input type='hidden' name='tpnv' value='1'>\n";
+        echo "<b>Add Title Page and Verso from $uploads_account Account</b>";
+        echo "<br>\n";
+                echo "directory: ";
+                echo "<input type='text' name='source_dir'>";
+                echo " (defaults to $projectid/tpnv)";
+        echo "<br>\n";
+        echo "<input type='submit' value='Add'>";
+        echo "<br>\n";
+        echo "</form>\n";
+}       
+
+if ($state == PROJ_NEW_FILE_UPLOAD || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 {
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";

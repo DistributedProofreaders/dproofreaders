@@ -15,6 +15,8 @@
   CORRECT=Correcting Edition
 
   rounds:
+  NEW
+  METADATA COLLECTION (MD)
   FIRST
   SECOND
 */
@@ -25,6 +27,15 @@
 
 // for the initial creation of a project
   define("PROJ_NEW", "project_new");  //did not exist, but sort of 0
+  define("PROJ_NEW_WAITING_APPROVAL", "project_new_waiting_app");
+  define("PROJ_NEW_UNAPPROVED", "project_new_unapp");
+  define("PROJ_NEW_APPROVED", "project_new_app");
+  define("PROJ_NEW_FILE_UPLOAD", "project_new_upload");
+  define("PROJ_NEW_METADATA_FIRST", "project_md_first");
+  define("PROJ_NEW_METADATA_BAD", "project_md_bad");
+  define("PROJ_NEW_METADATA_SECOND", "project_md_second");
+  define("PROJ_NEW_PREPROCESSING", "project_new_preprocess");
+  define("PROJ_NEW_PENDING_PM", "project_new_pend_pm");
 
 
 // PROOF
@@ -87,6 +98,15 @@
 
 $PROJECT_STATES_IN_ORDER = array(
     PROJ_NEW,
+    PROJ_NEW_WAITING_APPROVAL,
+    PROJ_NEW_UNAPPROVED,
+    PROJ_NEW_APPROVED,
+    PROJ_NEW_FILE_UPLOAD,
+    PROJ_NEW_METADATA_FIRST,
+    PROJ_NEW_METADATA_BAD,
+    PROJ_NEW_METADATA_SECOND,
+    PROJ_NEW_PREPROCESSING,
+    PROJ_NEW_PENDING_PM,
 
     PROJ_PROOF_FIRST_BAD_PROJECT,
     PROJ_PROOF_FIRST_UNAVAILABLE,
@@ -173,6 +193,15 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_CORRECT_CHECKED_OUT."'"
       . " OR state='".PROJ_COMPLETE."'"
       . " OR state='".PROJ_NEW."'"
+      . " OR state='".PROJ_NEW_WAITING_APPROVAL."'"
+      . " OR state='".PROJ_NEW_UNAPPROVED."'"
+      . " OR state='".PROJ_NEW_APPROVED."'"
+      . " OR state='".PROJ_NEW_FILE_UPLOAD."'"
+      . " OR state='".PROJ_NEW_METADATA_FIRST."'"
+      . " OR state='".PROJ_NEW_METADATA_BAD."'"
+      . " OR state='".PROJ_NEW_METADATA_SECOND."'"
+      . " OR state='".PROJ_NEW_PREPROCESSING."'"
+      . " OR state='".PROJ_NEW_PENDING_PM."'"
       . ")")
 
 ?>

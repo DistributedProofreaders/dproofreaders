@@ -26,7 +26,16 @@ else
 
 if ( $_GET['source_dir'] == '' )
 {
-	$source_dir = $projectid;
+     //if they are uploading tpnv files then get them from /tpnv 
+     if ($_GET['tpnv'] =='1')
+     {
+         $source_dir = "$projectid/tpnv";
+         $source_area = $uploads_dir;
+     }
+     else
+     {
+	   $source_dir = $projectid;
+     }
 }
 else
 {
@@ -49,7 +58,21 @@ if (substr($source_dir, -4) == ".zip") {
 echo "<pre>\n";
 
 $source_project_dir = "$source_area/$source_dir";
-$dest_project_dir   = "$projects_dir/$projectid";
+
+//if they are uploading tpnv files then put them in /tpnv 
+if ($_GET['tpnv'] =='1')
+{
+      $dest_project_dir = "$projects_dir/$projectid/tpnv";
+             if (!file_exists($dest_project_dir)) { 
+                mkdir("$dest_project_dir", 0777);
+                chmod("$dest_project_dir", 0777);
+             }
+}
+else
+{
+      $dest_project_dir   = "$projects_dir/$projectid";
+}
+
 
 if ($isZipFile == 1) {
 	if (!file_exists($source_project_dir)) {
@@ -79,6 +102,7 @@ if ( !$r )
 }
 
 
+
 if ($source_project_dir != $dest_project_dir)
 {
 	echo "copying page-images from\n";
@@ -88,6 +112,8 @@ if ($source_project_dir != $dest_project_dir)
 	system("cp *.png $dest_project_dir");
 }
 
+if ($_GET['tpnv'] !='1')
+{
 $n_txt_files_found = 0;
 $n_rows_inserted = 0;
 
@@ -143,6 +169,13 @@ foreach ( glob("*.txt") as $txt_file_name )
 echo "\n";
 echo "$n_txt_files_found text-files found.\n";
 echo "$n_rows_inserted rows inserted into table.\n";
+}
+
+//if uploaded tpnv files set project to project_new_waiting_app
+if ($_GET['tpnv'] =='1')
+{
+$result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
+}
 
 echo "</pre>\n";
 echo "<hr>\n";
