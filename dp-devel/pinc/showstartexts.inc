@@ -26,7 +26,7 @@ echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' widt
 while ($row = mysql_fetch_array($result)) {
 $moddate = date("l, F jS, Y",$row['modifieddate']);
 echo "<font face='Verdana' size='1' color='#444444'><b>$i) \"".$row['nameofwork']."\"</b></font>";
-echo "<font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
+echo "<font face='Verdana' size='1'>, ".$row['authorsname']." (".$row['language'].")<br>";
 
 if ($type == "gold") {
 $links="";
