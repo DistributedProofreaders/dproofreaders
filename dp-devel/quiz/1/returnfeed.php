@@ -135,6 +135,8 @@ else {
 echo "<h2>Problem with quiz file</h2>";
 echo "The checking script did not return a known value. Please use the link below to send an automated email about this. The value returned was: $feedb."; }
  
+// OK, now make sure they haven't done it right before telling them to correct it 
+if ($feedb != "ok") {
 // correct that text, dude
 echo "<p>";
 echo "Try to correct that, press 'restart' to restart or have a look at the <a target='_top' href='./tut.php'>tutorial part</a> again.";
