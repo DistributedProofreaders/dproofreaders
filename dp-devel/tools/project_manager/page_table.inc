@@ -5,7 +5,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
 
-
 function echo_page_table(
 	$projectid,
 	$show_image_size,
@@ -13,7 +12,7 @@ function echo_page_table(
 	$pages_of_interest = NULL )
 {
 	global $theme, $projects_dir, $code_url;
-
+	
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
 	// want PPers able to see names
@@ -114,7 +113,7 @@ function echo_page_table(
 				echo "{$td_start}"._("Clear")."{$td_end}";
 			}
 		}
-		if ($can_edit) echo "{$td_start}"._("Bad")."{$td_end}";
+		if ($can_edit) echo "{$td_start}"._("Bad/Fix")."{$td_end}";
 
 		if ($show_delete)
 		{
@@ -237,9 +236,9 @@ function echo_page_table(
 			// Bad Page
 			echo "<td>";
 			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center>";
+				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a></center>";
 			} else {
-				echo "&nbsp;";
+				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
 			}
 			echo "</td>\n";
 
@@ -269,6 +268,7 @@ function echo_page_table(
 		// We can't easily do a multipage mark-as-bad,
 		// because it requires a per-page reason.
 	}
+
 }
 
 // -----------------------------------------------------------------------------
@@ -439,5 +439,6 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	echo "\n";
 }
+
 
 ?>
