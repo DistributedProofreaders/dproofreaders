@@ -3,6 +3,15 @@ include_once($relPath.'project_states.inc');
 
 function get_n_pages_proofed( $start_ts, $end_ts )
 // Return the total number of pages proofed between the two timestamps.
+// (Specifically, pages that (appear to) have been saved-as-done at some time t,
+// where $start_ts <= t < $end_ts.)
+//
+// If $end_ts is null, the t < $end_ts constraint is dropped.
+// The caller could achieve the same effect by passing in a sufficiently
+// large value for $end_ts, but instead, this feature:
+// -- relieves the caller from having to determine such a value, and
+// -- potentially improves query performance.
+//
 // (Takes about ?? seconds.)
 {
     $total_n_pages_proofed = 0;
@@ -44,13 +53,14 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 
         // page finished in R1 may have since progressed to R2
 
+        $end_constraint1 = (is_null($end_ts) ? "" : "AND round1_time < $end_ts");
         $result1 = mysql_query("
             SELECT COUNT(*)
             FROM $projectid
             WHERE
                 (state='save_first' OR state LIKE '%_second%')
                 AND round1_time >= $start_ts
-                AND round1_time <  $end_ts
+                $end_constraint1
         ");
 
         if (!$result1)
@@ -65,13 +75,14 @@ function get_n_pages_proofed( $start_ts, $end_ts )
         }
 
 
+        $end_constraint2 = (is_null($end_ts) ? "" : "AND round2_time < $end_ts");
         $result2 = mysql_query("
             SELECT COUNT(*)
             FROM $projectid
             WHERE
                 state='save_second'
                 AND round2_time >= $start_ts
-                AND round2_time <  $end_ts
+                $end_constraint2
         ");
 
         if (!$result2)
