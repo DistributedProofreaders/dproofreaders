@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
-include_once($relPath.'user.inc');
+include_once($relPath.'dpsession.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
 
@@ -35,7 +35,11 @@ function abort_login( $error )
     exit();
 }
 
-extract($_POST);
+// -----------------------------------------------------------------------------
+
+$userNM = $_POST['userNM'];
+$userPW = $_POST['userPW'];
+$destination = ( isset($_GET['destination']) ? $_GET['destination'] : '' );
 
 $err = check_username($userNM);
 if ($err != '')
@@ -50,22 +54,37 @@ if ($userPW == '')
     abort_login($error);
 }
 
-$userC=new db_udb();
-
-$uC=$userC->checkLogin($userNM,$userPW);
-if (!$uC)
+// Look for user in 'phpbb_users' table.
+$digested_password = MD5($userPW);
+$q = "
+    SELECT * FROM phpbb_users
+    WHERE username='$userNM' AND user_password='$digested_password'
+";
+$bb_res = mysql_query($q) or die(mysql_error());
+if (mysql_num_rows($bb_res)==0)
 {
    abort_login(_("Username or password is incorrect."));
 }
 
-$uP=$userC->getUserPrefs($userNM);
-if (!$uP)
+dpsession_begin( $userNM );
+
+// Look for user in 'users' table.
+$q = "SELECT * FROM users WHERE username='$userNM'";
+$u_res = mysql_query($q) or die(mysql_error());
+if (mysql_num_rows($u_res)==0)
 {
     $error = _("Username or password is incorrect.");
     abort_login($error);
 }
 
 // The login is successful!
+
+$u_row = mysql_fetch_assoc($u_res);
+
+// Update last_login timestamp.
+$now = time();
+$q = "UPDATE users SET last_login='$now' WHERE username='$userNM'";
+mysql_query($q) or die(mysql_error());
 
 // Log into phpBB2
 if (is_dir($forums_dir)) {
@@ -93,7 +112,7 @@ else
     //        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
     // needs to be included in user.inc, if not....
 
-    if ($userC->manager=='yes')
+    if ($u_row['manager']=='yes')
     {
         $url = "../tools/project_manager/projectmgr.php";
     }
