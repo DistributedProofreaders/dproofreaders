@@ -6,9 +6,21 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'metarefresh.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
+
+echo "PM Default: ".$userP['i_pmdefault'];
+if (empty($_GET['show'])) {
+	if ($userP['i_pmdefault'] == 0) {
+		metarefresh(0,"projectmgr.php?show=all","","");
+		exit();
+	} elseif ($userP['i_pmdefault'] == 1) {
+		metarefresh(0,"projectmgr.php?show=user_active","", "");
+		exit();
+	}
+}
 
 theme("Project Managers", "header");
 
