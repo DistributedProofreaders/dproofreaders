@@ -224,7 +224,7 @@ function echo_page_table(
 		$page_state = $page_res['state'];
 		echo "<td>$page_state</td>\n";
 
-		if($page_state==AVAIL_FIRST || $page_state==AVAIL_SECOND)
+		if (page_state_is_an_avail_state($page_state))
 			$avail_pages.="$index,";
 
 		// --------------------------------------------
@@ -475,6 +475,19 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 }
 
 // -----------------------------------------------------------------------------
+
+function page_state_is_an_avail_state($page_state)
+{
+	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		if ( $page_state == $prd->page_avail_state )
+		{
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
 
 function page_state_is_a_bad_state($page_state)
 {
