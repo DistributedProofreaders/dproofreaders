@@ -8,8 +8,13 @@ new dbConnect();
 ///////////////////////////////////////////////////
 //Total pages by month since beginning of stats
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(pages) as sumpages,year,month FROM pagestats GROUP BY year, month ORDER BY
-year ASC, month ASC");
+$result = mysql_query("
+	SELECT year, month, SUM(pages) AS sumpages
+	FROM pagestats
+	GROUP BY year, month
+	ORDER BY year ASC, month ASC
+");
+
 $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {

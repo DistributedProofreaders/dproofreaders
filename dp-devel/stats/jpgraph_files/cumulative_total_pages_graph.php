@@ -12,7 +12,12 @@ $monthVar = date("F");
 $today = $year."-".$month."-".$day;
 
 //query db and put results into arrays
-$result = mysql_query("SELECT pages,date, dailygoal FROM pagestats ORDER BY date ASC");
+$result = mysql_query("
+	SELECT date, pages, dailygoal
+	FROM pagestats
+	ORDER BY date ASC
+");
+
 $mynumrows = mysql_numrows($result);
 $i = 0;
 $p = 0;

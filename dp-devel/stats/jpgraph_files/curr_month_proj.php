@@ -70,9 +70,14 @@ $result = mysql_query("SELECT max(day) as maxday FROM pagestats WHERE month = '$
 $maxday = mysql_result($result, 0, "maxday");
 
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as PC, day FROM project_state_stats WHERE month = '$month' AND year = '$year' 
-				AND ($state_selector)
-				group by day ORDER BY day");
+$result = mysql_query("
+	SELECT day, SUM(num_projects) AS PC
+	FROM project_state_stats
+	WHERE month = '$month' AND year = '$year' AND ($state_selector)
+	GROUP BY day
+	ORDER BY day
+");
+
 $mynumrows = mysql_numrows($result);
 
 

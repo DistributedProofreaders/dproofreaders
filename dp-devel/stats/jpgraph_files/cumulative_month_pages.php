@@ -14,7 +14,13 @@ $monthVar = date("F", $todaysTimeStamp);
 $today = $year."-".$month."-".$day;
 
 //query db and put results into arrays
-$result = mysql_query("SELECT pages,date,dailygoal FROM pagestats WHERE month = '$month' AND year = '$year' ORDER BY date ASC");
+$result = mysql_query("
+	SELECT date, pages, dailygoal
+	FROM pagestats
+	WHERE month = '$month' AND year = '$year'
+	ORDER BY date ASC
+");
+
 $i = 0;
 $p = 0;
 $g = 0;

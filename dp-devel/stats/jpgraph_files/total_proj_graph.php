@@ -55,9 +55,14 @@ switch ( $_GET['which'] )
 
 
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as PC, date  FROM project_state_stats WHERE  
-			$state_condition
-			group by date ORDER BY date");
+$result = mysql_query("
+	SELECT date, SUM(num_projects) AS PC
+	FROM project_state_stats
+	WHERE $state_condition
+	GROUP BY date
+	ORDER BY date
+");
+
 $mynumrows = mysql_numrows($result);
 
 

@@ -12,7 +12,12 @@ $year  = date("Y");
 $month = date("m") - 1;
 
 //query db and put results into arrays
-$result = mysql_query("SELECT pages,date,dailygoal FROM pagestats WHERE month = '$month' AND year = '$year'");
+$result = mysql_query("
+	SELECT date, pages, dailygoal
+	FROM pagestats
+	WHERE month = '$month' AND year = '$year'
+");
+
 $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {

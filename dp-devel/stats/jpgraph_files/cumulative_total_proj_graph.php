@@ -61,7 +61,14 @@ $monthVar = date("F");
 $today = $year."-".$month."-".$day;
 
 //query db and put results into arrays
-$result = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
+$result = mysql_query("
+	SELECT date, SUM(num_projects) AS P
+	FROM project_state_stats
+	WHERE $state_selector
+	GROUP BY date
+	ORDER BY date ASC
+");
+
 $i = 0;
 
 
