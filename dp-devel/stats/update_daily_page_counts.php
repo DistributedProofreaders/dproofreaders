@@ -14,7 +14,7 @@ include($relPath.'connect.inc');
 new dbConnect();
 
 $EOL = "\n";
-$testing_this_script=TRUE;
+$testing_this_script=FALSE;
 
 if ($testing_this_script)
 {
@@ -55,9 +55,17 @@ for ( $d = 1; ; $d++ )
 
     $total_n_pages_proofed = get_n_pages_proofed( $Y_start_ts, $Y_end_ts );
 
+    $update_query =
+       "UPDATE pagestats SET pages=$total_n_pages_proofed WHERE date='$Y_date'";
+
     if ($testing_this_script)
     {
-        echo "count for $Y_date is $total_n_pages_proofed", $EOL;
+        echo $update_query, $EOL;
+    }
+    else
+    {
+        echo $update_query, $EOL;
+        mysql_query($update_query) or die(mysql_error());
     }
 }
 
@@ -68,6 +76,7 @@ if ($testing_this_script)
 
 function get_n_pages_proofed( $start_ts, $end_ts )
 // Return the total number of pages proofed between the two timestamps.
+// (Takes about 30 seconds.)
 {
     $total_n_pages_proofed = 0;
 
