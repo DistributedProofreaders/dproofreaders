@@ -28,12 +28,29 @@ $jpgraph_dir = '<<JPGRAPH_DIR>>';
 $forums_dir = '<<FORUMS_DIR>>';
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
-$general_forum_url         = "$forums_url/viewforum.php?f=1";
-$projects_forum_url        = "$forums_url/viewforum.php?f=2";
-$post_processing_forum_url = "$forums_url/viewforum.php?f=3";
-$content_providing_forum_url 	= "$forums_url/viewforum.php?f=9";
-$beginners_site_forum_url 	= "$forums_url/viewforum.php?f=18";
-$beginners_proofing_forum_url 	= "$forums_url/viewforum.php?f=19";
+
+
+$general_forum_idx                = '<<FORUMS_GENERAL_IDX>>';
+$beginners_site_forum_idx         = '<<FORUMS_BEGIN_SITE_IDX>>';
+$beginners_proofing_forum_idx     = '<<FORUMS_BEGIN_PROOF_IDX>>';
+$waiting_projects_forum_idx       = '<<FORUMS_PROJECT_WAITING_IDX>>';
+$projects_forum_idx               = '<<FORUMS_PROJECT_AVAIL_IDX>>';
+$pp_projects_forum_idx            = '<<FORUMS_PROJECT_PP_IDX>>';
+$posted_projects_forum_idx        = '<<FORUMS_PROJECT_POSTED_IDX>>';
+$content_providing_forum_idx      = '<<FORUMS_CONTENT_PROVIDERS_IDX>>';
+$post_processing_forum_idx        = '<<FORUMS_POST_PROCESSORS_IDX>>';
+
+
+$general_forum_url                = "$forums_url/viewforum.php?f=$general_forum_idx";
+$waiting_projects_forum_url       = "$forums_url/viewforum.php?f=$waiting_projects_forum_idx";
+$projects_forum_url               = "$forums_url/viewforum.php?f=$projects_forum_idx";
+$pp_projects_forum_url            = "$forums_url/viewforum.php?f=$pp_projects_forum_idx";
+$posted_projects_forum_url        = "$forums_url/viewforum.php?f=$posted_projects_forum_idx";
+$post_processing_forum_url        = "$forums_url/viewforum.php?f=$post_processing_forum_idx";
+$content_providing_forum_url   	  = "$forums_url/viewforum.php?f=$content_providing_forum_idx";
+$beginners_site_forum_url 	  = "$forums_url/viewforum.php?f=$beginners_site_forum_idx";
+$beginners_proofing_forum_url     = "$forums_url/viewforum.php?f=$beginners_proofing_forum_idx";
+
 
 
 $uploads_dir = '<<UPLOADS_DIR>>';
