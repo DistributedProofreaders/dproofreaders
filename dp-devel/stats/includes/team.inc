@@ -123,32 +123,52 @@ function showTeamStats($curTeam) {
 	echo "\n<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
 	echo "' color='" . $theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics")."</b><br><font size='1'>("._("Last Updated:")." $lastupdated)</font></font></center></td></tr>";
 	echo "\n<tr><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Members")." <i>("._("Rank").")</i></td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['member_count']) . "</b>&nbsp;<i>(#$mbrCountRank)</i></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Current Members")."</td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['active_members']) . "</b></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Retired Members")."</td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Total Pages")." <i>("._("Rank").")</i><font size='2'></font></td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['page_count']) . "</b>&nbsp;<i>(#$pageCountRank)</i>" . showChangeInRank( $prevRank, $pageCountRank ) . "</td></tr>";
+
+	function echo_tr( $left, $right )
+	{
+		global $theme;
+		echo "\n";
+		echo "<tr bgcolor='" . $theme['color_navbar_bg'] . "' ";
+		echo "onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' ";
+		echo  "onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
+		echo "<td width='60%'>$left</td>";
+		echo "<td width='40%'>$right</td>";
+		echo "</tr>";
+	}
+
+	echo_tr(
+		_("Members")
+			. " <i>("._("Rank").")</i>",
+		"<b>" . number_format($curTeam['member_count']) . "</b>"
+			. "&nbsp;<i>(#$mbrCountRank)</i>"
+	);
+	echo_tr(
+		_("Current Members"),
+		"<b>" . number_format($curTeam['active_members']) . "</b>"
+	);
+	echo_tr(
+		_("Retired Members"),
+		"<b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b>"
+	);
+	echo_tr(
+		_("Total Pages")
+			. " <i>("._("Rank").")</i>",
+		"<b>" . number_format($curTeam['page_count']) . "</b>"
+			. "&nbsp;<i>(#$pageCountRank)</i>"
+			. showChangeInRank( $prevRank, $pageCountRank )
+	);
 
 	$avg_pages_per_day = get_daily_average($curTeam['created'],$curTeam['page_count']);
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Avg. Pages per Day")."<font size='2'></font></td>";
-	echo "<td width='40%'><b>" . number_format($avg_pages_per_day,1) . "</b></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
-	echo $theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
-	echo "<td width='60%'>"._("Most Pages Done per Day")."</td>";
-	echo "<td width='40%'><b>" . number_format($bestDayCount) . "</b>&nbsp;<i>($bestDayTime)</i></b></td></tr>";
+	echo_tr(
+		_("Avg. Pages per Day"),
+		"<b>" . number_format($avg_pages_per_day,1) . "</b>"
+	);
+	echo_tr(
+		_("Most Pages Done per Day"),
+		"<b>" . number_format($bestDayCount) . "</b>"
+			. "&nbsp;<i>($bestDayTime)</i></b>"
+	);
+
 	echo "</td></tr></table></table><p>";
 }
 
