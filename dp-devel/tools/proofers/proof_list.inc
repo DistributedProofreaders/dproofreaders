@@ -22,7 +22,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= " AND (0";
 	    foreach( $_GET['language1'] as $lang )
 	    {
-		if (!inarray($array_of_langs, $lang )) { echo "UHOH" & exit(); }
+		if (!in_array($array_of_langs, $lang )) { echo "UHOH" & exit(); }
 
 		if ( $lang == '' )
 		{
@@ -41,7 +41,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= " AND (0";
 	    foreach( $_GET['genre1'] as $genre )
 	    {
-		if (!inarray($array_of_genres, $genre )) { echo "UHOH" &  exit(); }
+		if (!in_array($array_of_genres, $genre )) { echo "UHOH" &  exit(); }
 
 		if ( $genre == '' )
 		{
@@ -61,7 +61,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    foreach( $_GET['PM1'] as $PM )
 	    {
 
-		if (!inarray($array_of_PMs, $PM )) { echo "UHOH" & exit(); }
+		if (!in_array($array_of_PMs, $PM )) { echo "UHOH" & exit(); }
 
 		if ( $PM == '' )
 		{
@@ -81,7 +81,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= " AND (0";
 	    foreach( $_GET['difficulty1'] as $diff )
 	    {
-		if (!inarray($array_of_diffs, $diff )) { echo "UHOH" & exit(); }
+		if (!in_array($array_of_diffs, $diff )) { echo "UHOH" & exit(); }
 
 		if ( $diff == '' )
 		{
