@@ -71,6 +71,7 @@ function autorelease()
 				FROM projects
 				WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
 				   OR state = '".PROJ_PROOF_FIRST_VERIFY."'
+				ORDER BY authorsname
 			") or die(mysql_error());
 		while ( $author_row = mysql_fetch_assoc($author_res) )
 		{
