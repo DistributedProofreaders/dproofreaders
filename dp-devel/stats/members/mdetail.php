@@ -16,8 +16,8 @@ if (empty($id)) {
 }
 
 $result = mysql_query("
-	SELECT *, $user_P_page_tally_column AS current_P_page_tally
-	FROM $users_table_with_tallies
+	SELECT *
+	FROM users
 	WHERE u_id = '$id'
 ");
 
