@@ -260,7 +260,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		$sitestats['goal'] = 0;
 		$sitestats['monthly'] = 0;
 	}
-	$sitestatsgoal = $sitestats['goal'];
+
+	$site_stats = new StdClass;
+	$site_stats->curr_day_actual   = $sitestats['daily'];
+	$site_stats->curr_month_goal   = $sitestats['goal'];
+	$site_stats->curr_month_actual = $sitestats['monthly'] + $sitestats['daily'];
 
 	// Today's goal
 	$result = mysql_query("
@@ -269,9 +273,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		WHERE date = '".date("Y-m-d", time())."'
 	");
 	if (mysql_num_rows($result) > 0) {
-		$todaysGoal = mysql_result($result, 0, "dailygoal");
+		$site_stats->curr_day_goal = mysql_result($result, 0, "dailygoal");
 	} else {
-		$todaysGoal = 0;
+		$site_stats->curr_day_goal = 0;
 	}
 
 	// Yesterday's goal and actual
@@ -281,11 +285,11 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		WHERE date = '".date("Y-m-d", (time()-86400))."'
 	");
 	if (mysql_num_rows($result) > 0) {
-		$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
-		$yesterdaysTotal = mysql_result($result, 0, "pages");
+		$site_stats->prev_day_goal   = mysql_result($result, 0, "dailygoal");
+		$site_stats->prev_day_actual = mysql_result($result, 0, "pages");
 	} else {
-		$yesterdaysGoal = 0;
-		$yesterdaysTotal = 0;
+		$site_stats->prev_day_goal = 0;
+		$site_stats->prev_day_actual = 0;
 	}
 
     //Show the site statistics
@@ -296,30 +300,30 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
         // Today's Numbers
 	echo "&nbsp;"._("Today's Goal:")." "
-		. number_format($todaysGoal)
+		. number_format($site_stats->curr_day_goal)
 		. "<br>\n";
 	echo "&nbsp;"._("Today's Total:")." "
-		. number_format($sitestats['daily'])
+		. number_format($site_stats->curr_day_actual)
 		. " (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	echo "&nbsp;"._("Yesterday's Goal:")." "
-		. number_format($yesterdaysGoal)
+		. number_format($site_stats->prev_day_goal)
 		. "<br>\n";
 	echo "&nbsp;"._("Yesterday's Total:")." "
-		. number_format($yesterdaysTotal)
+		. number_format($site_stats->prev_day_actual)
 		. "<br><br>\n";
 
 	// Month's Numbers
 	echo "&nbsp;".strftime(_("%B's Goal:"))." "
-		. number_format($sitestatsgoal)
-		. ($sitestatsgoal
-			? (" (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)")
+		. number_format($site_stats->curr_month_goal)
+		. ($site_stats->curr_month_goal
+			? (" (" . number_format(($site_stats->curr_month_actual/$site_stats->curr_month_goal)*100, 2) . "%)")
 			: ""
 		)
 		. "<br>\n";
 	echo "&nbsp;".strftime(_("%B's Total:"))." "
-		. number_format(($sitestats['monthly']+$sitestats['daily']))
+		. number_format($site_stats->curr_month_actual)
 		. "<br>\n";
 	echo "<br>\n";
 
