@@ -28,16 +28,28 @@ list($X_date) = mysql_fetch_array($res);
 
 list($X_year,$X_month,$X_day) = explode('-',$X_date);
 
+// Get a timestamp for the most recent midnight (local time).
+$today_start_ts = mktime(0,0,0);
+
 if ($testing_this_script)
 {
     echo 'Last counted date was ', $X_date, $EOL;
-    echo 'Backing up a few days', $EOL;
+    if (0)
+    {
+	echo 'Backing up a few days', $EOL;
+	$X_day -= 4;
+    }
+    else
+    {
+	echo "Using 2003-06-20 instead", $EOL;
+	$X_year  = 2003;
+	$X_month = 06;
+	$X_day   = 20;
+    }
 
-    $X_day -= 4;
+    echo "And pretending that today is 2003-07-03.", $EOL;
+    $today_start_ts = mktime(0,0,0, 7,3,2003);
 }
-
-// Get a timestamp for the most recent midnight (local time).
-$today_start_ts = mktime(0,0,0);
 
 for ( $d = 1; ; $d++ )
 {
