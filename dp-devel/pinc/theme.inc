@@ -88,7 +88,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>";
 	
 	//get number of projects left till 10,000
-	$fp = fopen($siteurl."/stats/total_count.txt", r);
+	$fp = fopen($siteurl."/stats/total_count.txt", "r");
 	$line = fgets($fp);
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
