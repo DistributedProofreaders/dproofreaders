@@ -49,7 +49,7 @@ If you no longer wish to have this text assigned to you please visit the
 Distributed Proofreaders website Post Processing section and select Return 
 to Available for this book, or forward this email to dphelp@pgdp.net and 
 state that you would no longer like to have the book in question assigned to you so 
-that we may return it to available.\n\n 
+that we may return it to the available pool for someone else to work on.\n\n 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		    } else {
 			$message = "This is an automated message.\n\n
@@ -61,15 +61,15 @@ If you no longer wish to have some or all of these texts assigned to you please 
 Distributed Proofreaders website Post Processing section and select Return 
 to Available for the books in question or forward this email to dphelp@pgdp.net and 
 state that you would no longer like to have the books in question assigned to you so 
-that we may return them to available.\n\n 
+that we may return them to the available pool for someone else to work on.\n\n 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		    }
 
 //	            maybe_mail("$email", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 // test
-//  maybe_mail("big_bill_boy2@yahoo.com.au", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
-echo $message;
+  maybe_mail("big_bill_boy2@yahoo.com.au", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
+
 
 		    $projectslist = "";
 		    $numprojs = 0;
