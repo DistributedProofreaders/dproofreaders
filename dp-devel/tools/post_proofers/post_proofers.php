@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
@@ -11,7 +12,7 @@ echo "<br>";
 
 
 <table border="1" width="630" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111">
-<tr><td width="126" align="center" bgcolor="#cccccc"><a href="http://texts01.archive.org/dp/phpBB2/index.php">Forums</a></td>
+<tr><td width="126" align="center" bgcolor="#cccccc"><a href="<? echo $siteurl ?>/phpBB2/index.php">Forums</a></td>
 <td width="126" align="center" bgcolor="#cccccc"><?
     $result = mysql_query("SELECT manager FROM users WHERE username = '$pguser'");
     $manager = mysql_result($result, 0, "manager");
@@ -30,8 +31,8 @@ echo "<br>";
 
 <P>This is the post processing section. The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text. Once you have checked out and downloaded a book it will remain checked out to you until you check it back in. <b>The Completed Post-Processing feature is currently disabled until it gets fully developed. E-mail the project manager with the completed project for now.</b>
 
-<p>Here is a <a href="http://texts01.archive.org/dp/faq/post_proof.html"><b>Post Proof FAQ</b></a> that details all of the 
-steps that we normally take to post proof an etext. There is a <a href="http://texts01.archive.org/dp/phpBB2/viewforum.php?f=3">forum</a> to post all your questions. If no books are listed that means no work is currently available, please check back later!
+<p>Here is a <a href="<? echo $siteurl ?>/faq/post_proof.html"><b>Post Proof FAQ</b></a> that details all of the 
+steps that we normally take to post proof an etext. There is a <a href="<? echo $siteurl ?>/phpBB2/viewforum.php?f=3">forum</a> to post all your questions. If no books are listed that means no work is currently available, please check back later!
 <p>
 <b>First Time here?</b>  Juliet Sutherland is our Post Processing Coordinator. Please read the FAQ, select an easy work to get 
 started on (usually fiction with a low page count is a good starter book) and write <a href = 
