@@ -63,7 +63,7 @@ function getSelect($state)
   else if($state==UNAVAIL_PI_SECOND)
     {$st_sw[12]=1;}
   else if($state==WAITING_PI_SECOND || $state==BAD_PI_SECOND || $state==AVAIL_PI_SECOND)
-    {$st_sw[9]=1;$st_sw[10]=1;$st_sw[11]=1;}
+    {$st_sw[8]=1;$st_sw[12]=1;}
   else if($state==UNAVAIL_PP || $state==AVAIL_PP)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[16]=1;}
   else if($state==IN_PP)

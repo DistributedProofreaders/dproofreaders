@@ -19,10 +19,10 @@ include($relPath.'dp_main.inc');
     $sitemanager = mysql_result($sql, 0, "sitemanager");
 
     // If it was in "Unavailable No Round"
-    if ($oldstate == 0) {
+    if ($oldstate == PROJ_NEW) {
         // Check to see if there are pages. Project shouldn't be released if it has no pages in it.
         $result = mysql_query("SELECT fileid FROM $projectid");
-        if ((mysql_num_rows($result) == 0) && ($newstate == 8)) {
+        if ((mysql_num_rows($result) == 0) && ($newstate == PROJ_PROOF_FIRST_VERIFY)) {
             echo "<P>Project must have pages to be proofread in order to be taken out of unavailable no round. Back to <a href=\"projectmgr.php\">project manager</a> page.";
             die();
         }
@@ -32,7 +32,7 @@ include($relPath.'dp_main.inc');
     if (($sitemanager != 'yes') && ($pguser != $username)) {
         echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"charlz@lvcablemodem.com\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
-    } else if ($newstate == 99) {
+    } else if ($newstate == PROJ_DELETE) {
         // Allows a user to delete a project as a last-case scenario
         if ($always == 'yes') {
             $sql = "DROP TABLE $projectid";
@@ -50,9 +50,9 @@ include($relPath.'dp_main.inc');
             echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
             print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
         }
-    } else if ($newstate == 79) {
+    } else if ($newstate == PROJ_SUBMIT_PG_POSTED) {
         // Changing a state to "Posted to Project Gutenberg"
-        $sql = mysql_query("UPDATE projects SET state = $newstate WHERE projectid = '$projectid'");
+        $sql = mysql_query("UPDATE projects SET state = '$newstate' WHERE projectid = '$projectid'");
 	
 	//Delete the topic from forum if there is one
 	$result = mysql_query("SELECT topic_id FROM projects WHERE projectid='$projectid'");
@@ -82,25 +82,25 @@ if ($topic_id == "") {
 
         // TODO: Archive the project
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid&posted=1\">";
-    } else if (($newstate == 0) || ($newstate == 10) || ($newstate == 65) || ($always == 'yes') ||
-        ($oldstate == 0) || ($oldstate == 1) || ($oldstate == 10) || ($oldstate == 65)) {
+    } else if (($newstate == PROJ_NEW) || ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE) || ($newstate == PROJ_POST_CHECKED_OUT) || ($always == 'yes') ||
+        ($oldstate == PROJ_NEW) || ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE) || ($oldstate == PROJ_PROOF_SECOND_UNAVAIL) || ($oldstate == PROJ_POST_CHECKED_OUT)) {
 
         // The above are valid changes that can be made to a project
 
-        $sql = mysql_query("UPDATE projects SET state = $newstate WHERE projectid = '$projectid'");
+        $sql = mysql_query("UPDATE projects SET state = '$newstate' WHERE projectid = '$projectid'");
 
-        if ($newstate == 1) $sql = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
-        if (($newstate == 61) || ($newstate == 60)) $sql = mysql_query("UPDATE projects SET checkedoutby = '' WHERE projectid = '$projectid'");
-        if ($newstate == 65) $sql = mysql_query("UPDATE projects SET checkedoutby = '$pguser' WHERE projectid = '$projectid'");
+        if ($newstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE) $sql = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
+        if (($newstate == PROJ_POST_AVAILABLE) || ($newstate == PROJ_POST_UNAVAILABLE)) $sql = mysql_query("UPDATE projects SET checkedoutby = '' WHERE projectid = '$projectid'");
+        if ($newstate == PROJ_POST_CHECKED_OUT) $sql = mysql_query("UPDATE projects SET checkedoutby = '$pguser' WHERE projectid = '$projectid'");
 
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 
-    } else if (($newstate == 8) || ($newstate == 18)) {
+    } else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY)) {
 
         // Allows a user to change a project to be checked, but should not be something they do.
 
         echo "<P><B>NOTE:</B> Changing a projects state to verify for the current round is not needed. Once the last available page is done, this will be changed automatically now. After it has been changed to verify for the current round, the auto-cleanup script will check the validity and will demote it back down to being available and will make the missing pages available again.";
-        print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>(Click if you are changing a bad project), otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
     } else {
 
         // This option should never appear if they follow the options on the page, only for those that know what they are doing...
