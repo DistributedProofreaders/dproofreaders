@@ -56,8 +56,8 @@ echo "
 		"</font></th>
 	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Created").":        <b>$created</b></td>
 	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Proofread").":      <b>$FinProof</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg'].">"._("Post-Processed").": <b>$FinPP</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg'].">"._("Posted to PG").": <b>$Posted</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Post-Processed").": <b>$FinPP</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Posted to PG").": <b>$Posted</b></td>
 	  </tr>
 	  </tbody>
 	</table>
