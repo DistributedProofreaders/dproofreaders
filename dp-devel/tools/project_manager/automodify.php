@@ -12,6 +12,8 @@ $db_Connection=new dbConnect();
 include($relPath.'projectinfo.inc');
 $projectinfo = new projectinfo();
 
+include($relPath.'project_trans.inc');
+
   include('autorelease.php');
   include('sendtopost.php');
 
@@ -132,7 +134,11 @@ function pages_indicate_bad_project( $projectid, $round )
                 if ($state != $BAD_PROJECT_STATE)
                 {
                     if ($trace) echo "changing its state to $BAD_PROJECT_STATE<br>\n";
-                    $result = mysql_query("UPDATE projects SET state = '$BAD_PROJECT_STATE' WHERE projectid = '$project'");
+                    $error_msg = project_transition( $project, $BAD_PROJECT_STATE );
+                    if ($error_msg)
+                    {
+                        echo "$error_msg<br>\n";
+                    }
                     $state = $BAD_PROJECT_STATE;
                 }
             }
