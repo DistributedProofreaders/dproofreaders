@@ -195,7 +195,7 @@ if ($tbutton==102)
           $correct_text=implode("\r\n",$text_array);
           if ($fd=fopen($text_dir.$text_file,"w"))
             {fwrite($fd,stripslashes($correct_text));}
-        include ('proof_frame_nj.inc');
+        include('proof_frame_nj.inc');
       }
 } // end exit spelling corrections
 ?>
