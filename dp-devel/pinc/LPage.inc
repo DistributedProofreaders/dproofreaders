@@ -302,7 +302,7 @@ function exitInterface($newwin,$editone)
     else
       {
         include($relPath.'doctype.inc');
-        echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
+        echo "$docType\r\n<HTML><BODY>";
         echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
         echo "window.close();</SCRIPT>";
         echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here to close the proofreading window.")."</A>";
