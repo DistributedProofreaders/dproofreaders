@@ -1,10 +1,7 @@
 <?
 $relPath="./../../pinc/";
-include_once($relPath.'v_site.inc');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_line.php');
-include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
+include_once('common.inc');
 new dbConnect();
 
 //Create pages per day graph for all pages done since stats started
@@ -34,70 +31,14 @@ if (empty($datay1)) {
 	$datay1[0] = 0;
 }
 
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",3600);
-$graph->SetScale("textint");
-$graph->SetMarginColor('white'); //Set background to white
-$graph->SetShadow(); //Add a drop shadow
-$graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom
-$graph->img->SetAntiAliasing(); 
+draw_pages_graph(
+	$datax,
+	$datay1,
+	$datay2,
+	'daily',
+	'cumulative',
+	'Cumulative Pages Completed Since Stats Started',
+	3600
+);
 
-
-//Create the bar plot
-$lplot1 = new LinePlot($datay1);
-$lplot1->SetColor("blue");
-$lplot1->SetWeight(1);
-$lplot1->SetLegend("Total Pages Completed");
-$lplot1->SetFillColor("blue");
-
-//Create the linear goal plot
-$lplot2=new LinePlot($datay2);
-$lplot2->SetColor("limegreen");
-$lplot2->SetWeight(2);
-$lplot2->SetLegend("Cumulative Goal");
-
-$graph->Add($lplot1); //Add the linear goal plot to the graph
-$graph->Add($lplot2); //Add the bar pages completed plot to the graph
-
-//set X axis
-$graph->xaxis->SetTickLabels($datax);
-$graph->xaxis->SetLabelAngle(90);
-$graph->xaxis->title->Set("");
-
-
-// calculate tick interval based on number of datapoints
-// the data is daily, there are 7 days in a week
-// once we have more than about 30 labels, the axis is getting too crowded
-if ($mynumrows < 30 ) {
-        $tick = 1;            // one label per day
-} else if ($mynumrows < (30 * 7)) {
-        $tick = 7;            // one label per week
-} else if ($mynumrows < (30 * 7 * 4)) {
-        $tick = 7 * 4;        // one label per 4 weeks (pseudo-month)
-} else if ($mynumrows < (30 * 7 * 13)) {
-        $tick = 7 * 13;       // one label per quarter
-} else {
-        $tick = 7  * 52;       // one label per year
-}
-$graph->xaxis->SetTextTickInterval($tick);
-
-$graph->xaxis->SetTextTickInterval(91.25);
-
-//Set Y axis
-$graph->yaxis->title->Set('Pages');
-$graph->yaxis->SetTitleMargin(45);
-
-
-$graph->title->Set("Cumulative Pages Completed Since Stats Started");
-$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
-
-$graph->legend->Pos(0.5,0.5,"right" ,"top"); //Align the legend
-
-// Display the graph
-$graph->Stroke();
 ?>
-
