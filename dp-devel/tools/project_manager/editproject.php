@@ -318,6 +318,10 @@ function query_format() {
 	return $fullquery;
 }
 
+// End of function definitions
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 	theme("Search Results", "header");
 	if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
@@ -394,7 +398,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
         echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"editproject.php\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
         yaz_close($id);
         theme("", "footer");
-} elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || (isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
+}
+
+// -----------------------------------------------------------------------------
+
+elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || (isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
 	if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
 	if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
@@ -464,7 +472,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 		previewProject($nameofwork, $authorsname, $comments);
 	}
         theme("", "footer");
-} elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
+}
+
+// -----------------------------------------------------------------------------
+
+elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
 	$errorMsg = saveProject($_POST);
 	if (empty($errorMsg)) {
 		if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", "Save and Quit", ""); }
@@ -474,7 +486,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 		echo "<br><center><h3><font color='#ff0000'>$errorMsg</font></h3></center>";
 		theme("", "footer");
 	}
-} else {
+}
+
+// -----------------------------------------------------------------------------
+
+else {
 	theme("Create a Project", "header");
 	if (!function_exists('yaz_connect')) {
 		echo "<br><center><b>PHP is not compiled with YAZ support.  Please do so and try again.</b></center><br>";
