@@ -54,7 +54,6 @@ theme('FAQ Central','header');
       about a book.)
 
   <dt> &nbsp;
-
   <dd> &nbsp;
 
   <dt><a href="pm-faq.php">Project Manager's FAQ</a>
@@ -74,13 +73,15 @@ theme('FAQ Central','header');
       and submitting it to the Project Gutenberg archive.)
 
   <dt> &nbsp;
-
   <dd> &nbsp;
+
   <dt><a href="<? echo $code_url ?>/tasks.php">Task Center</a>
   <dd>Here you will find a list of feature requests and bugs. You may add tasks after searching to see that the issue isn't already there.
 
-  <dt> &nbsp;
+  <dt><a href="http://www.pgdp.net/mailman/listinfo">Mailing Lists for Users</a>
+  <dd>Here you will find information about the email lists DP has available for users.
 
+  <dt> &nbsp;
   <dd> &nbsp;
 
   <dt><a href="http://www.gutenberg.net/faq/gutfaq.htm">Project Gutenberg FAQ</a>
