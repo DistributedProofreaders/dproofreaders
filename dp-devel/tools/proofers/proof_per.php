@@ -256,13 +256,15 @@ Want to help out the site by providing material for us to proof? Check <a href="
 
 <?
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3) {
-echo "<table border=1 width=630>";
-echo "<tr><td bgcolor='#CCCCCC' colspan=2><h3>Current First - Round Projects</h3></td>";
-echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR software and have not been looked at.</td></tr>";
+echo "\n<table border=1 width=630>";
+echo "\n<tr>";
+tde("<h3>Current First - Round Projects</h3>", bgcol(1,'first') . " colspan=2");
+tde("These files are output from the OCR software and have not been looked at.", bgcol(1,'first') . " colspan=5");
+echo "</tr>";
 
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_FIRST."' or state = '".VERIFY_PI_FIRST."' ORDER BY modifieddate desc, nameofwork asc");
-    showavailablebooks($result,AVAIL_FIRST,$userP,0);
+    showavailablebooks($result,AVAIL_FIRST,$userP,0,'first');
 echo "</table>";
 }
 ?>
@@ -270,17 +272,17 @@ echo "</table>";
 <?
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "\n<table border=1 width=630>";
-echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
+echo "<br><tr>"
+tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'first') . " colspan=2");
 if ($totalpages < 50) {
-echo "<td bgcolor='#cccccc' colspan=5>Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.";
-echo "</td></tr></table>\n<p>";
+tde("Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.", bgcol(1,'first') . " colspan=5");
+echo "</tr></table>\n<p>";
 } else {
-echo "<td bgcolor='CCCCCC' colspan=5>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";
-echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.";
-echo "</td></tr>";
+tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'first') . " colspan=5");
+echo "</tr>";
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = '".AVAIL_PI_SECOND."' or state = '".VERIFY_PI_SECOND."' ORDER BY nameofwork ASC");
-    showavailablebooks($result,AVAIL_SECOND,$userP,0);
+    showavailablebooks($result,AVAIL_SECOND,$userP,0,'second');
     echo "</table>\n<p>";
 }
 } 
