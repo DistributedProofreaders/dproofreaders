@@ -90,7 +90,6 @@ $graph->img->SetAntiAliasing();
 //Create the line plot
 $lplot1 = new LinePlot($datay1);
 $lplot1->SetColor($color);
-$lplot1->SetLegend($title);
 $lplot1->SetWeight(1);
 $lplot1->SetFillColor($color);
 
@@ -127,9 +126,7 @@ $graph->title->Set($title);
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
-$graph->legend->Pos(0.5,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();

@@ -20,7 +20,6 @@ switch ( $which )
 		$state_selector = "
 			state NOT LIKE 'proj_new%'
 		";
-		$legend = _('Projects Created');
 		$color = 'green';
 		$title = _('Projects Created Per Day for');
 		break;
@@ -31,7 +30,6 @@ switch ( $which )
 			OR state LIKE 'proj_correct%'
 			OR state LIKE 'proj_post%'
 		";
-		$legend = _('Projects Proofed');
 		$color = 'blue';
 		$title = _('Projects Proofed Per Day for');
 		break;
@@ -42,7 +40,6 @@ switch ( $which )
 			OR state LIKE 'proj_correct%'
 			OR state LIKE 'proj_post_second%'
 		";
-		$legend = _('Projects PPd');
 		$color = 'silver';
 		$title = _('Projects PPd Per Day for');
 		break;
@@ -52,7 +49,6 @@ switch ( $which )
 			state LIKE 'proj_submit%'
 			OR state LIKE 'proj_correct%'
 		";
-		$legend = _('Projects Posted');
 		$color = 'gold';
 		$title = _('Projects Posted Per Day for');
 		break;
@@ -114,7 +110,6 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the bar plot
 $bplot = new BarPlot($datay1);
-$bplot->SetLegend($legend);
 $bplot->SetFillColor($color);
 
 $graph->Add($bplot); //Add the bar plot to the graph
@@ -132,9 +127,7 @@ $graph->title->Set("$title $monthVar $year");
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
-$graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();

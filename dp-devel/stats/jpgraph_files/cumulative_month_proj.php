@@ -20,7 +20,6 @@ switch ( $which )
 			state NOT LIKE 'proj_new%'
 		";
 		$color = 'green';
-		$legend = _('Projects Created');
 		$title = _('Cumulative Projects Created for');
 		break;
 
@@ -31,7 +30,6 @@ switch ( $which )
 			OR state LIKE 'proj_post%'
 		";
 		$color = 'blue';
-		$legend = _('Projects Proofed');
 		$title = _('Cumulative Projects Proofed for');
 		break;
 
@@ -42,7 +40,6 @@ switch ( $which )
 			OR state LIKE 'proj_post_second%'
 		";
 		$color = 'silver';
-		$legend = _('Projects PPd');
 		$title = _('Cumulative Projects PPd for');
 		break;
 
@@ -52,7 +49,6 @@ switch ( $which )
 			OR state LIKE 'proj_correct%'
 		";
 		$color = 'gold';
-		$legend = _('Projects Posted');
 		$title = _('Cumulative Projects Posted to PG for');
 		break;
 
@@ -122,7 +118,6 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 $lplot1 = new LinePlot($datay1);
 $lplot1->SetColor($color);
 $lplot1->SetWeight(1);
-$lplot1->SetLegend($legend);
 
 // only add colour to the part we have data for
 $lplot1->AddArea(0,$mynumrows,LP_AREA_FILLED,$color);
@@ -144,9 +139,7 @@ $graph->title->Set("$title $monthVar $year");
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
-$graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 $graph->Stroke();
