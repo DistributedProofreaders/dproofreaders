@@ -5,7 +5,7 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme(_('Proofing Tutorial and Interactive Quiz -- Step 3'),'header');
+theme(_('Proofreading Tutorial and Interactive Quiz -- Step 3'),'header');
 ?>
 <h2>Part 3</h2>
 

@@ -13,7 +13,7 @@ html_header($code_url, $theme, '');
  echo "<tr><td width='20%' align='left' bgcolor='".$theme['color_headerbar_bg']."'>\n";
  echo "<a href='$code_url/default.php' target='_top'>\n";
  echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
- echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> &#187;  Proofing Quiz</font>\n";
+ echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> &#187;  Proofreading Quiz</font>\n";
  echo "</td>\n";
  echo "<td /* width='50%' */ align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
  echo "<a href='$code_url/tools/proofers/proof_per.php' target='_top'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Personal Page") . "</font></a>";
@@ -65,7 +65,7 @@ echo "You have not or incorrectly marked the block quotation in the text. Enclos
 // nopindent
 elseif ($feedb == 'nopindent') {
 echo "<h2>Poetry line(s) not indented</h2>";
-echo "The poems in the text have relative indentation. Try to represent that in the proofed text.";
+echo "The poems in the text have relative indentation. Try to represent that in the proofreaded text.";
 }
 // The user forgot the poetry
 elseif ($feedb == 'nopoetry') {
@@ -109,7 +109,7 @@ elseif ($feedb == 'ok') {
 echo "<h2>Quiz successfully solved</h2>";
 echo "
 Congratulations, no errors found!<p>
-That's it for now! These 5 parts covered the most important things to watch out for in proofing. When in doubt you should always consult the <a href='$code_url/faq/document.php' target='_top'>Proofing Guidelines</a> or ask in the forums if that doesn't help.</p>
+That's it for now! These 5 parts covered the most important things to watch out for in proofreading. When in doubt you should always consult the <a href='$code_url/faq/document.php' target='_top'>Proofreading Guidelines</a> or ask in the forums if that doesn't help.</p>
 <p>
 You'll find books to proofread on your <a href='$code_url/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$code_url/faq/quiz/start.php' target='_top'>return to the start of the quiz</a>.";
 }

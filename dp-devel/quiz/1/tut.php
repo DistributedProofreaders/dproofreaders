@@ -5,12 +5,12 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme(_('Proofing Tutorial and Interactive Quiz -- Step 1'),'header');
+theme(_('Proofreading Tutorial and Interactive Quiz -- Step 1'),'header');
 ?>
 <h1>Tutorial</h1>
 <h2>Intro</h2>
 <p>
-In this tutorial you will be presented extracts from the proofing guidelines. After each part you will be led to a quiz page, where you can try out the newly learned rules.</p>
+In this tutorial you will be presented extracts from the Proofreading Guidelines. After each part you will be led to a quiz page, where you can try out the newly learned rules.</p>
 <p>
 Don't be alarmed by the number of changes you'll have to apply in the quizzes. On normal 
 easy texts the rate of things to correct is usually much lower than that.

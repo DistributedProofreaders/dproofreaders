@@ -5,7 +5,7 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme(_('Proofing Tutorial and Interactive Quiz -- Step 2'),'header');
+theme(_('Proofreading Tutorial and Interactive Quiz -- Step 2'),'header');
 ?>
 <h2>Part 2</h2>
 
@@ -26,7 +26,7 @@ theme(_('Proofing Tutorial and Interactive Quiz -- Step 2'),'header');
     
 <p>
 <i>Em-dashes & long dashes</i>. These serve as separators between words--sometimes for emphasis like this--or when a speaker gets a word caught in his throat--! 
-Proof these as two hyphens. Don't leave a space before or after, even if it looks like there was a space in the original book image. 
+Proofread these as two hyphens. Don't leave a space before or after, even if it looks like there was a space in the original book image. 
 <br>
 Note: If a dash appears at the start or end of a line of your OCR'd text, join it with the other line so that there are no spaces or line breaks around it. Only if the author used a dash to start or end the paragraph or line of poetry or dialog should you leave it at the start or end of a line. 
 </p>

@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc'); ?>
 <html>
 <head>
 <meta name="generator" content="HTML Tidy, see www.w3.org">
-<title>DP -- Proofing Quiz</title>
+<title>DP -- Proofreading Quiz</title>
 <META http-equiv="Content-Type" content="text/html; charset=<? echo "$charset";?>">
 </head>
 <frameset cols="60%,*">

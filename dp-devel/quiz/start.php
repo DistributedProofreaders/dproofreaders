@@ -4,11 +4,11 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
-theme(_('Proofing Tutorial and Interactive Quiz'),'header');
+theme(_('Proofreading Tutorial and Interactive Quiz'),'header');
 ?>
 <body bgcolor='#ffffff'>
-<h1>Proofing Tutorial and Interactive Quiz</h1>
-<p>Welcome to DP's proofing tutorial/quiz! As the title indicates you can use this in two different ways. If you are not yet familiar with the proofing guidelines you should use it as a tutorial. You can do so by using the 'next step in tutorial' links.</p>
+<h1>Proofreading Tutorial and Interactive Quiz</h1>
+<p>Welcome to DP's proofreading tutorial/quiz! As the title indicates you can use this in two different ways. If you are not yet familiar with the Proofreading Guidelines you should use it as a tutorial. You can do so by using the 'next step in tutorial' links.</p>
 <p>
 If you already know the guidelines you can use it as a quiz only, just for fun or to confirm your knowledge. Do this by using the 'next step in quiz' links.</p>
 <p>
