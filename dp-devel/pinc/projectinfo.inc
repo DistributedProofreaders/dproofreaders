@@ -16,6 +16,12 @@ class projectInfo
   var $done2_rows;
   var $done2_pages;
 
+  var $temp1_rows;
+  var $temp1_pages;
+
+  var $temp2_rows;
+  var $temp2_pages;
+
   var $out1_rows;
   var $out1_pages;
 
@@ -53,11 +59,17 @@ function update($project, $state) {
     $this->out1_rows = mysql_query("SELECT * FROM $project WHERE state = '".OUT_FIRST."' ORDER BY image ASC");
     if ($this->out1_rows != "") { $this->out1_pages = (mysql_num_rows($this->out1_rows)); } else $this->out1_pages = 0;
 
+    $this->temp1_rows = mysql_query("SELECT * FROM $project WHERE state = '".TEMP_FIRST."' ORDER BY image ASC");
+    if ($this->temp1_rows != "") { $this->temp1_pages = (mysql_num_rows($this->temp1_rows)); } else $this->temp1_pages = 0;
+
     $this->done1_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_FIRST."' ORDER BY image ASC");
     if ($this->done1_rows != "") { $this->done1_pages = (mysql_num_rows($this->done1_rows)); } else $this->done1_pages = 0;
 
     $this->out2_rows = mysql_query("SELECT * FROM $project WHERE state = '".OUT_SECOND."' ORDER BY image ASC");
     if ($this->out2_rows != "") { $this->out2_pages = (mysql_num_rows($this->out2_rows)); } else $this->out2_pages = 0;
+
+    $this->temp2_rows = mysql_query("SELECT * FROM $project WHERE state = '".TEMP_SECOND."' ORDER BY image ASC");
+    if ($this->temp2_rows != "") { $this->temp2_pages = (mysql_num_rows($this->temp2_rows)); } else $this->temp2_pages = 0;
 
     $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = '".SAVE_SECOND."' ORDER BY image ASC");
     if ($this->done2_rows != "") { $this->done2_pages = (mysql_num_rows($this->done2_rows)); } else $this->done2_pages = 0;
