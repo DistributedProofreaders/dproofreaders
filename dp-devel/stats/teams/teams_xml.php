@@ -49,16 +49,17 @@ $team_id = $curTeam['id'];
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
 
+	$pageCount = $teams_P_page_tallyboard->get_current_tally( $team_id );
 	$pageCountRank = $teams_P_page_tallyboard->get_rank( $team_id );
 
-	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
+	$avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
 
 	list($bestDayCount, $bestDayTimestamp) =
 		$teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	$data .= "
-			<totalpages>".$curTeam['page_count']."</totalpages>
+			<totalpages>$pageCount</totalpages>
 			<rank>".$pageCountRank."/".$totalTeams."</rank>
 			<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
 			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>";
