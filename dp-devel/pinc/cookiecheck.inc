@@ -9,9 +9,8 @@ else {
      echo $docType."\r\n";
      echo "<HTML><HEAD><TITLE>Please Login</TITLE>\r\n";
      echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=";
-     include($relPath.'metabaseurl.inc');
-     echo $baseURL."accounts/signin.php\">";
-     echo "</HEAD><BODY><A HREF=\"".$baseURL."accounts/signin.php\">Please sign in.</A>".
+     echo $relPath."../accounts/signin.php\">";
+     echo "</HEAD><BODY><A HREF=\"".$relPath."../accounts/signin.php\">Please sign in.</A>".
      "</BODY></HTML>";
      exit;
      }
