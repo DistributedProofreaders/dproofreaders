@@ -10,7 +10,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	if ( $order == 'TitleA' )
 	{
 		$orderclause = 'nameofwork ASC';
-		$flip_title = FALSE;
+		$flip_title = TRUE;
 	}
 	elseif ( $order == 'TitleD' )
 	{
@@ -19,47 +19,47 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	elseif ( $order == 'AuthorA' )
 	{
 		$orderclause = 'authorsname ASC, nameofwork ASC';
+		$flip_author = TRUE;
 	}	
 	elseif ( $order == 'AuthorD' )
 	{
 		$orderclause = 'authorsname DESC, nameofwork ASC';
-		$flip_author = TRUE;
 	}
 	elseif ( $order == 'LangA' )
 	{
 		$orderclause = 'language ASC, nameofwork ASC';
+		$flip_lang = TRUE;
 	}
 	elseif ( $order == 'LangD' )
 	{
 		$orderclause = 'language DESC, nameofwork ASC';
-		$flip_lang = TRUE;
 	}
 	elseif ( $order == 'GenreA' )
 	{
 		$orderclause = 'genre ASC, nameofwork ASC';
+		$flip_genre = TRUE;
 	}
 	elseif ( $order == 'GenreD' )
 	{
 		$orderclause = 'genre DESC, nameofwork ASC';
-		$flip_genre = TRUE;
 	}
 	elseif ( $order == 'PMA' )
 	{
 		$orderclause = 'username ASC, nameofwork ASC';
+		$flip_PM = TRUE;
 	}
 	elseif ( $order == 'PMD' )
 	{
 		$orderclause = 'username DESC, nameofwork ASC';
-		$flip_PM = TRUE;
 	}
 	elseif ( $order == 'DaysA' )
 	{
 		$orderclause = 'days_avail ASC, nameofwork ASC';
+		$flip_days = TRUE;
 	}
 	elseif ( $order == 'DaysD' )
 	{
 		$orderclause = 'days_avail DESC, nameofwork ASC';
-		$flip_days = TRUE;
 	}
 	else
 	{
