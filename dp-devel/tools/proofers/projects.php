@@ -6,11 +6,11 @@ include($relPath.'projectinfo.inc');
 include_once($relPath.'bookpages.inc');
 
 function notify($project, $proofstate, $pguser) {
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Book Completed:</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>"._("Book Completed:")."</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
     $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
     if (mysql_num_rows($temp) == 0) {
-        echo "Yes, I would like to be notified when this has been posted to Project Gutenberg.";
-    } else echo "No, I would like to not be notified when this has been posted to Project Gutenberg.";
+        echo _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
+    } else echo _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
     echo "</a></td></tr>";
 }
 
@@ -18,17 +18,17 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
     echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>";
         if ($wlist==0)
-          {echo "My Recently Completed";}
+          {echo _("My Recently Completed");}
         else
-          {echo "My Recently Proofread";}
+          {echo _("My Recently Proofread");}
     echo "</h3>";
     if ($wlist==0)
     {
-	echo "(<b>DONE</b> - pages I've finished proofing, that are still available for correction)";
+	echo "(<b>"._("DONE")."</b> - "._("pages I've finished proofing, that are still available for correction)");
     }
     else
     {
-	echo "(<b>IN PROGRESS</b> - pages I haven't yet completed)";
+	echo "(<b>"._("IN PROGRESS")."</b> - "._("pages I haven't yet completed)");
     }
     echo "</td>";
     $recentNum=5;
@@ -112,27 +112,27 @@ if (isset($proofstate)){
          $wState=SAVE_SECOND;}
 $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
   if (mysql_num_rows($proofdate)!=0)
-     {$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; (Current Time: ".date("g:i:sA",time()).")";}
-  else {$lastproofed="Project has not been proofread in this round.";}
+     {$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".date("g:i:sA",time()).")";}
+  else {$lastproofed=_("Project has not been proofread in this round.");}
 }
 include($relPath.'doctype.inc');
-echo "$docType\r\n<HTML><HEAD><TITLE> Project Comments</TITLE>";
+echo "$docType\r\n<HTML><HEAD><TITLE> "._("Project Comments")."</TITLE>";
 if (!isset($proofing) && $userP['i_newwin']==1)
 {include($relPath.'js_newwin.inc');}
 echo "</HEAD><BODY>";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
-<br><i>Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!</i><br>
+<br><i><? _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofing!"); ?></i><br>
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
     if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-        echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
-        echo "<b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
+        echo _("First Round Project")."</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
+        echo "<b>"._("This is a First-Round project, these files are output from the OCR software and have not been looked at.")."</b></td></tr>";
     } else {
-        echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
-        echo "<b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
+        echo _("Second Round Project")."</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
+        echo "<b>"._("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._(See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.")."</b></td>";
     }
 } else {
 ?>
@@ -140,14 +140,14 @@ if (!isset($proofing)) {
 <?PHP
 }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Title</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Title")."</b></td>";
     echo "<td colspan=4>$nameofwork</td></tr>";
-    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Author</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Author")."</b></td>";
     echo "<td colspan=4>$authorsname</td></tr>";
-    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Project Manager")."</b></td>";
     echo "<td colspan=4>$username</td></tr>";
     if (isset($proofstate)) {
-        echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
+        echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Last Proofread")."</b></td>";
         echo "<td colspan=4>$lastproofed</td></tr>";
     }
 
@@ -159,12 +159,12 @@ if (!isset($proofing)) {
     	echo "<td colspan=4>$last_post_date</td></tr>";
     }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>"._("Forum")."</b></td><td colspan=4><a href=\"project_topic.php?project=$project\">";
 
     if ($topic_id == "") {
-        echo "Start a discussion about this project";
+        echo _("Start a discussion about this project");
     } else {
-        echo "Discuss this project";
+        echo _("Discuss this project");
     }
     echo "</a></td></tr>";
 
@@ -175,16 +175,16 @@ if (!isset($proofing)) {
         recentlyproofed($project, $proofstate, $pguser,$userP,0);
         recentlyproofed($project, $proofstate, $pguser,$userP,1);
       }
-    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3>(Please check below for Guideline Modifications)</td></tr><tr><td colspan=5>";
-    echo "Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ";
-    echo "<b>Instructions below take precedence over the guidelines</b>:<P>";
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>"._("Project Comments")."</h3>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
+    echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
+    echo "<b>"._("Instructions below take precedence over the guidelines"); ?></b>:<P>";
     echo "$comments</td></tr></table>";
     echo "<BR>";
 
     if (!isset($proofing)) {
         include('./projects_menu.inc');
     } else {
-        echo"<p><p><b> This information has been opened in a separate browser window, feel free to leave it open for reference or close it.</b>";
+        echo"<p><p><b> "._("This information has been opened in a separate browser window, feel free to leave it open for reference or close it.")."</b>";
     }
 ?>
 </BODY></HTML>

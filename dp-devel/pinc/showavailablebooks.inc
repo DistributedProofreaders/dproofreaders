@@ -4,13 +4,13 @@ include_once($relPath.'bookpages.inc');
 
 function showbooklistheader($round) {
 echo "<tr>";
-tde('<b>Name&nbsp;of&nbsp;Work</b>',bgcol(1,$round));
-tde('<b>Author</b>',bgcol(1,$round) . " align=center");
-tde('<b>Language</b>',bgcol(1,$round) . " width=70");
-tde('<b>Genre</b>',bgcol(1,$round) . "70");
-tde('<b>Project<BR>Manager</b>',bgcol(1,$round) . "60");
-tde('<b>Pages available for proofing</b>',bgcol(1,$round) . "100");
-tde('<b>Total pages in the book</b>',bgcol(1,$round) . "100");
+tde('<b>'._("Name&nbsp;of&nbsp;Work").'</b>',bgcol(1,$round));
+tde('<b>'._("Author").'</b>',bgcol(1,$round) . " align=center");
+tde('<b>'._("Language").'</b>',bgcol(1,$round) . " width=70");
+tde('<b>'._("Genre").'</b>',bgcol(1,$round) . "70");
+tde('<b>'._("Project<BR>Manager").'</b>',bgcol(1,$round) . "60");
+tde('<b>'._("Pages available for proofing").'</b>',bgcol(1,$round) . "100");
+tde('<b>'._("Total pages in the book").'</b>',bgcol(1,$round) . "100");
 echo "</tr>";
 }
 
