@@ -12,7 +12,7 @@ theme('Project Manager\'s Guide','header');
 
 <p>
 The
-<a href="scan/submitting.php">Scanning, Preprocessing & Submitting Guidelines</a>
+<a href="scan/submitting.php">Content Provider's FAQ</a>
 describe the life of a Distributed Proofreaders project
 up to the point at which the image files and text files
 have been uploaded to the DP server.
@@ -299,7 +299,7 @@ until a proper "Are You Sure?" prompt is implemented.
     <a href="mailto:robert_rowe@yahoo.com">robert_rowe@yahoo.com</a></li>
 <li>2002-06-02: Updated</li>
 <li>2003-07-25: jmdyck: eliminated overlap with the
-<a href='scan/submitting.php'>Prep Guidelines</a> and the
+<a href='scan/submitting.php'>Content Provider's FAQ</a> and the
 <a href='post_proof.php'>Post-Processing FAQ</a>.
 Reorganized the remainder.
 (It still needs updating, but that should be easier now.)</li>
