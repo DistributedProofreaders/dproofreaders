@@ -6,9 +6,8 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 
-theme('Stats Central','header');
-echo "<center><h1><i>Stats Central</i></h1></center>";
-
+$title = _("Statistics Central");
+theme($title,'header');
 //Member/team stats
 
 echo "<table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>";
@@ -84,11 +83,14 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 echo "</table>";
 echo "<br>";
 
-echo "<a href='misc_stats1.php'>Miscellaneous Stats (Top Proofing Days and Months, etc)</a><br><br>";
+$sub_title = _("Miscellaneous Statistics (Top Proofreading Days and Months, etc)");
+echo "<a href='misc_stats1.php'>$sub_title</a><br><br>";
 
-echo "<a href='release_queue.php'>See All Waiting Queues</a><br><br>";
+$sub_title = _("See All Waiting Queues");
+echo "<a href='release_queue.php'>$sub_title</a><br><br>";
 
-echo "<a href='user_logon_stats.php'>User Logon Stats</a><br><br>";
+$sub_title = _("User Logon Statistics");
+echo "<a href='user_logon_stats.php'>$sub_title</a><br><br>";
 
 echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";

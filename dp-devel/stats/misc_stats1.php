@@ -4,28 +4,30 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'theme.inc');
 
-theme("Miscellaneous Statistics", "header");
+$title = _("Miscellaneous Statistics");
+theme($title, "header");
 
-echo "<br><br><h2>Miscellaneous Statistics</h2><br>\n";
+echo "<br><br><h2>$title</h2><br>\n";
 
 echo "<br>\n";
 
-echo "<h3>Total Pages Proofed Since Statistics were Kept</h3>\n";
+$sub_title = _("Total Pages Proofread Since Statistics Were Kept");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_query("
 	SELECT
-		SUM(pages) as 'Total Pages Proofed So Far'
+		SUM(pages) as 'Total Pages Proofread So Far'
 	FROM pagestats
 ");
 
-
-echo "<h3>Top Ten Best Proofing Months</h3>\n";
+$sub_title = _("Top Ten Best Proofreading Months");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
 		month as 'Month',
 		year as 'Year',
-		SUM(pages) as 'Pages Proofed',
+		SUM(pages) as 'Pages Proofread',
 		SUM(dailygoal) as 'Monthly Goal',
 		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 	FROM pagestats
@@ -36,12 +38,13 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Top Thirty Best Proofing Days Ever</h3>\n";
+$sub_title = _("Top Thirty Best Proofreading Days Ever");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
 		date as 'Date',
-		pages as 'Pages Proofed',
+		pages as 'Pages Proofread',
 		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 	FROM pagestats
 	ORDER BY 2 DESC
@@ -50,12 +53,13 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Top Ten Proofing Days This Year</h3>\n";
+$sub_title = _("Top Ten Proofreading Days This Year");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
 		date as 'Date',
-		pages as 'Pages Proofed',
+		pages as 'Pages Proofread',
 		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 	FROM pagestats
 	WHERE year = YEAR(NOW())
@@ -66,13 +70,14 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Historical Log of Total Pages Proofed Per Month</h3>\n";
+$sub_title = _("Historical Log of Total Pages Proofread Per Month");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
 		year as 'Year',
 		month as 'Month',
-		sum(pages) as 'Pages Proofed',
+		sum(pages) as 'Pages Proofread',
 		sum(dailygoal) as 'Monthly Goal'
 	FROM pagestats
 	WHERE  ( year < YEAR(NOW())  OR (year = YEAR(NOW()) AND month <= MONTH(NOW())))
@@ -83,7 +88,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Total Pages Proofed Per Month</h3>\n";
+$sub_title = _("Total Pages Proofread Per Month");
+echo "<h3></h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -100,7 +106,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Months with most days over 5,000 pages</h3>\n";
+$sub_title = _("Months with most days over 5,000 pages");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -117,7 +124,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Months with most days over 6,000 pages</h3>\n";
+$sub_title = _("Months with most days over 6,000 pages");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -134,7 +142,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Months with most days over 7,000 pages</h3>\n";
+$sub_title = _("Months with most days over 7,000 pages");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -151,7 +160,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Months with most days over 8,000 pages</h3>\n";
+$sub_title = _("Months with most days over 8,000 pages");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT
@@ -168,7 +178,8 @@ dpsql_dump_ranked_query("
 
 echo "<br>\n";
 
-echo "<h3>Months with most days over 9,000 pages</h3>\n";
+$sub_title = _("Months with most days over 9,000 pages");
+echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_ranked_query("
 	SELECT

@@ -44,7 +44,7 @@ $FinProof = state_change_since ( "
 
 
 
-echo "<b>$FinProof</b> "._("projects have finished proofing")." $descrip<br>";
+echo "<b>$FinProof</b> "._("projects have finished proofreading")." $descrip<br>";
 
 
 $FinPP = state_change_since ( "
