@@ -279,6 +279,10 @@ echo "</table>";
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
 echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
+if ($totalpages < 50) {
+echo "<td bgcolor='#cccccc' colspan=4>Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.";
+echo "</td></tr></table>\n<p>";
+} else {
 echo "<td bgcolor='CCCCCC' colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";
 echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.";
 echo "</td></tr>";
@@ -287,6 +291,8 @@ echo "</td></tr>";
     showavailablebooks($result,12);
     echo "</table>\n<p>";
 }
+} 
+
 
 echo "<table border=1 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111 width=630>";
 ?>
