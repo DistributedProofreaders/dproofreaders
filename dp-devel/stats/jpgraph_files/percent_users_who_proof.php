@@ -1,10 +1,8 @@
 <?
 $relPath="./../../pinc/";
-include_once($relPath.'v_site.inc');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.php');
+include_once('common.inc');
 new dbConnect();
 
 
@@ -37,55 +35,14 @@ while ( $row = mysql_fetch_object($result) )
         $data1y[] = 100 *  $row->num_who_proofed / $row->num_who_joined;
 }
 
-
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",900);
-$graph->SetScale("textint",0,100);
-
-//set X axis
-$graph->xaxis->SetTickLabels($datax);
-$graph->xaxis->SetLabelAngle(90);
-$graph->xaxis->title->Set("");
-
-//Set Y axis
-$graph->yaxis->title->Set('% of newly Joined Users who Proofed');
-$graph->yaxis->SetTitleMargin(45);
-
-//Set background to white
-$graph->SetMarginColor('white');
-
-// Add a drop shadow
-$graph->SetShadow();
-
-// Adjust the margin a bit to make more room for titles
-//left, right , top, bottom
-
-$graph->img->SetMargin(70,30,20,100);
-
-
- // Create the line plot
-$l1plot = new LinePlot ($data1y);
-$l1plot ->SetFillColor ("lightseagreen");
-
-
-// ...and add it to the graPH
-$graph->Add( $l1plot);
-
-
-// Setup the title
-$graph->title->Set("Percentage of New Users Who Went on to Proof By Month");
-
-
-$graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-
-$graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
-
-// Display the graph
-$graph->Stroke();
-
+draw_simple_bar_graph(
+	$datax,
+	$data1y,
+	1,
+	'Percentage of New Users Who Went on to Proof By Month',
+	'% of newly Joined Users who Proofed',
+	640, 400,
+	900
+);
 
 ?>
-

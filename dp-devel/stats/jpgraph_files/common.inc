@@ -253,4 +253,63 @@ function draw_projects_graph(
     $graph->Stroke();
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function draw_simple_bar_graph(
+    $datax,
+    $datay,
+	$x_label_interval,
+	$title,
+	$y_title,
+	$width, $height,
+	$cache_timeout
+)
+{
+    global $jpgraph_FF, $jpgraph_FS;
+
+    // Create the graph. These two calls are always required
+    // Last value controls how long the graph is cached for in minutes
+    $graph = new Graph($width,$height,"auto",$cache_timeout);
+    $graph->SetScale("textint");
+
+    // Set background to white
+    $graph->SetMarginColor('white');
+
+    // Add a drop shadow
+    $graph->SetShadow();
+
+    // Adjust the margin a bit to make more room for titles
+    // left, right, top, bottom
+    $graph->img->SetMargin(70,30,20,100);
+
+    // Set title
+    $graph->title->Set($title);
+    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+
+    // Set X axis
+    $graph->xaxis->SetTickLabels($datax);
+    $graph->xaxis->SetLabelAngle(90);
+    $graph->xaxis->title->Set("");
+    $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->xaxis->SetTextTickInterval($x_label_interval);
+
+    // Set Y axis
+    $graph->yaxis->title->Set($y_title);
+    $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->yaxis->SetTitleMargin(45);
+
+    // Create a bar plot
+    $plot = new BarPlot($datay);
+    if ( count($datax) > 60 )
+    {
+        // The bar outlines will overwhelm the bar interiors
+        // turning the graph black. So turn off the bar outlines:
+        $plot->SetColor("lightblue");
+    }
+    $graph->Add($plot);
+
+    // Display the graph
+    $graph->Stroke();
+}
+
 ?>
