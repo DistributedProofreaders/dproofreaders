@@ -30,6 +30,14 @@ if ( $_GET['source_dir'] == '' )
 else
 {
 	$source_dir = $_GET['source_dir'];
+	// Disallow apostrophes, as that's how we quote the dir name.
+	if ( ereg( "'", $source_dir ) )
+	{
+		echo "Source directory name \"$source_dir\" contains an apostrophe, which is not allowed.";
+		echo "<hr>\n";
+		echo "Return to <a href='projectmgr.php?project=$projectid'>Project Page</a>.\n";
+		return;
+	}
 	// Prevent sneaky parent-link tricks.
 	if ( ereg( '\.\.', $source_dir ) )
 	{
@@ -51,7 +59,7 @@ if ($source_project_dir != $dest_project_dir)
 	echo "    $source_project_dir\n";
 	echo "to\n";
 	echo "    $dest_project_dir\n";
-	system("cp $source_project_dir/*.png $dest_project_dir");
+	system("cp '$source_project_dir'/*.png $dest_project_dir");
 }
 
 $n_txt_files_found = 0;
@@ -63,7 +71,7 @@ echo "\n";
 echo "For each text file in\n";
 echo "    $source_project_dir\n";
 echo "adding a row to the $projectid table...\n";
-foreach ( glob("$source_project_dir/*.txt") as $txt_file_path )
+foreach ( glob("'$source_project_dir'/*.txt") as $txt_file_path )
 {
 	$n_txt_files_found++;
 
