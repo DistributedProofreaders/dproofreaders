@@ -74,12 +74,12 @@ if ($can_edit) {
     echo_manager_header( 'project_detail_page' );
 
     // remind where/how to fpt projects.
-    echo "
+        echo "
         <p>
-        Reminder for uploads:
-        host=<b>$uploads_host</b>
-        account=<b>$uploads_account</b>
-        password=<b>$uploads_password</b>
+        ".sprintf(_("Reminder for uploads:
+        host=<b>%s</b>
+        account=<b>%s</b>
+        password=<b>%s</b>"),$uploads_host,$uploads_account,$uploads_password)."
         </p>
         ";
 }
@@ -96,7 +96,7 @@ echo_project_info( $projectid, 'proj_post', 0 );
 
 // if user has access, offer to edit project.
 if ($can_edit) {
-	echo "<p><a href='editproject.php?project=$projectid'>Edit the above information</a></p>";
+	echo "<p><a href='editproject.php?project=$projectid'>"._("Edit the above information")."</a></p>";
 }
 
 //if new project enable uploading of tpNv info
@@ -107,11 +107,11 @@ if ($site_supports_metadata) {
         echo "<form method='get' action='add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
         echo "<input type='hidden' name='tpnv' value='1'>\n";
-        echo "<b>Add Title Page and Verso from $uploads_account Account</b>";
+        echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>",$uploads_account));
         echo "<br>\n";
-                echo "directory: ";
+                echo _("directory: ");
                 echo "<input type='text' name='source_dir'>";
-                echo " (defaults to $projectid/tpnv)";
+                echo sprintf(_(" (defaults to %s)")."$projectid/tpnv");
         echo "<br>\n";
         echo "<input type='submit' value='Add'>";
         echo "<br>\n";
@@ -132,11 +132,11 @@ if (($state == PROJ_NEW && ! $site_supports_metadata) || $state == PROJ_NEW_APPR
 	//	echo "Add Text From projects Folder";
 	//	echo "<input type='hidden' name='source_dir' value=''>\n";
 	//} else {
-		echo "Add Text+Images from $uploads_account Account";
+		echo sprintf(_("Add Text+Images from %s Account"),$uploads_account);
 		echo "<br>\n";
-		echo "directory: ";
+		echo _("directory: ");
 		echo "<input type='text' name='source_dir'>";
-		echo " (defaults to $projectid )";
+		echo sprintf(_(" (defaults to %s )"),$projectid);
 	//}
 	echo "<br>\n";
 	echo "<input type='submit' value='Add'>";
@@ -162,7 +162,7 @@ else
 
 // -----------------------------------------------------------------------------
 
-echo "<h3>Page Summary</h3>\n";
+echo "<h3>"._("Page Summary")."</h3>\n";
 
 // page counts by state.
 $res = mysql_query( "SELECT count(*) AS total_num_pages FROM $projectid" );
@@ -181,11 +181,11 @@ foreach ($PAGE_STATES_IN_ORDER as $page_state)
 	$num_pages = mysql_result($res,0,'num_pages');
 	if ( $num_pages != 0 )
 	{
-		echo "<tr><td align='right'>$num_pages</td><td>in $page_state</td></tr>\n";
+		echo "<tr><td align='right'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
 	}
 }
 echo "<tr><td colspan='2'><hr></td></tr>\n";
-echo "<tr><td align='right'>$total_num_pages</td><td align='center'>pages total</td></tr>\n";
+echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("pages total")."</td></tr>\n";
 echo "</table>\n";
 
 // -----------------------------------------------------------------------------
@@ -194,7 +194,7 @@ echo "</table>\n";
 // only show full page table details in "Full" mode
 
 if ($page_type == "Full") {
-    include_once('detail_legend.inc');
+	include_once('detail_legend.inc');
 	echo _("N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.")."<br>\n";
 
     // second arg. indicates to show size of image files.
@@ -208,7 +208,7 @@ if ($page_type == "Full") {
             ||  $state == PROJ_NEW_FILE_UPLOADED)
 		{
 			echo "<br>";
-			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>Delete All Text</a>";
+			echo "<a href='edit_pages.php?projectid=$projectid&selected_pages=ALL&operation=delete'>"._("Delete All Text")."</a>";
 		}
 	}
 }

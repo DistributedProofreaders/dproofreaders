@@ -634,26 +634,29 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (empty($postednum)) { $postednum = ""; }
    if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
-   theme("Create a Project", "header");
+   theme(_("Create a Project"), "header");
    echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
    if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
    if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
    if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
    echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
-   echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a New Project</font></b></center></td></tr>\n";
-   if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>Project ID</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>\n"; }
-        echo "<tr><td bgcolor='#CCCCCC'><b>Name of Work</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Author's Name</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
+   echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font></b></center></td></tr>\n";
+   if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>\n"; }
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
         echo language_list($language);
         echo genre_list($genre);
         echo difficulty_list($difficulty_level);
-        echo "<tr><td bgcolor='#CCCCCC'><b>PPer/PPVer</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
-        if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
-        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' value='Save and Preview'><input type='button' value='Quit Without Saving' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Text File URL")."</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Zip File URL")."</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("HTML File URL")."</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
+        if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Files")."</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
+        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
    echo "</table>";
 
    if(isset($_POST['saveAndPreview'])) {
@@ -667,10 +670,10 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
 elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
    $errorMsg = saveProject($_POST);
    if (empty($errorMsg)) {
-        if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", "Save and Quit", ""); }
-        if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", "Save and Go To Project", ""); }
+        if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", _("Save and Quit"), ""); }
+        if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", _("Save and Go To Project"), ""); }
    } else {
-        theme("Project Error!", "header");
+        theme(_("Project Error!"), "header");
         echo "<br><center><h3><font color='#ff0000'>$errorMsg</font></h3></center>";
         theme("", "footer");
    }
