@@ -24,7 +24,7 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 	elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 	{
 		$stage = 'post_2';
-		$bgcolor = $theme['color_logobar_bg'];
+		$bgcolor = '#66ccff';
 		$foo_Header = _("Post Processor");
 		$foo_field_name = 'postproofer';
 	}
@@ -87,7 +87,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 		";
 	}
 
-	$theme = $GLOBALS['theme'];
 	$tds="<td bgcolor='".$bgcolor."' align=\"center\"";
 	$tdm="<font color='".$theme['color_headerbar_font']."'>";
 	$tdc="</b></font></td>";
