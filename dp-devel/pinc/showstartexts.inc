@@ -1,6 +1,8 @@
 <?
+include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 function showstartexts($etext_limit,$type) {
+global $siteurl;
 
 $i = 1;
 
@@ -18,7 +20,7 @@ $text = " Complete.</font>  These books have been processed through our site and
 $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
 $result = mysql_query("SELECT * FROM projects WHERE $state ORDER BY modifieddate DESC LIMIT $etext_limit");
 
-echo "<img src='web_graphics/".$type."_star.jpg' border='0' height='38' width='40' alt='$type star'> = <font face='Verdana' size='4'>".number_format($total)." $text";
+echo "<img src='$siteurl/graphics/{$type}_star.jpg' border='0' height='38' width='40' alt='$type star'> = <font face='Verdana' size='4'>".number_format($total)." $text";
 
 while ($row = mysql_fetch_array($result)) {
 $moddate = date("l, F jS, Y",$row['modifieddate']);
