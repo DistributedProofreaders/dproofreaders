@@ -135,18 +135,18 @@ function users_get_page_tally_ranks()
     {
         $user_id = $row['u_id'];
         if ($row['pagescompleted'] == 0) { $rankArray[$user_id] = 0; continue; }
-        if ($row['pagescompleted'] == $lastcompleted)
+        if ($row['pagescompleted'] == $latest_page_tally)
         {
-            $rankArray[$user_id] = $lastrank;
-            $lastrank = $lastrank;
+            $rankArray[$user_id] = $latest_rank;
+            $latest_rank = $latest_rank;
         }
         else
         {
             $rankArray[$user_id] = $i;
-            $lastrank = $i;
+            $latest_rank = $i;
         }
-        $lastcompleted = $row['pagescompleted'];
-        if ($i == 1) { $lastrank = 1; }
+        $latest_page_tally = $row['pagescompleted'];
+        if ($i == 1) { $latest_rank = 1; }
         $i++;
     }
 
@@ -188,7 +188,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
         ORDER BY pagescompleted DESC
     ");
     $i = 0;
-    $lastcompleted = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
+    $latest_page_tally = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
     while ($row = mysql_fetch_assoc($result))
     {
         if ($row['username'] == $username)
@@ -196,7 +196,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
             $userindex = $i;
         }
 
-        if ($row['pagescompleted'] == $lastcompleted)
+        if ($row['pagescompleted'] == $latest_page_tally)
         {
             $rankArray['rank'][$i] = $rankArray['rank'][$i - 1];
         }
@@ -214,7 +214,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
             $rankArray['username'][$i] = $row['username'];
         }
         $rankArray['pages'][$i] = $row['pagescompleted'];
-        $lastcompleted = $row['pagescompleted'];
+        $latest_page_tally = $row['pagescompleted'];
         $i++;
     }
 
@@ -300,18 +300,18 @@ function teams_get_page_tally_ranks()
     while ($row = mysql_fetch_assoc($result))
     {
         $team_id = $row['id'];
-        if ($row['page_count'] == $lastcompleted)
+        if ($row['page_count'] == $latest_page_tally)
         {
-            $rankArray[$team_id] = $lastrank;
-            $lastrank = $lastrank;
+            $rankArray[$team_id] = $latest_rank;
+            $latest_rank = $latest_rank;
         }
         else
         {
             $rankArray[$team_id] = $i;
-            $lastrank = $i;
+            $latest_rank = $i;
         }
-        $lastcompleted = $row['page_count'];
-        if ($i == 1) { $lastrank = 1; }
+        $latest_page_tally = $row['page_count'];
+        if ($i == 1) { $latest_rank = 1; }
         $i++;
     }
 
