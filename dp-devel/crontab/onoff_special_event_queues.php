@@ -13,6 +13,10 @@
 // queues for the next two days. (The future days are view-only, helpful for management, but do 
 // not release books)
 
+// SPECIAL DAY queues are those that open on specific days only. They are defined in the 
+// 'special_days' table. This script also opens and closes these queues based upon the dates
+// stored in those tables.
+
 $relPath='../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
@@ -105,6 +109,66 @@ else
         echo $update_query, $EOL;
         mysql_query($update_query) or die(mysql_error());
     }
+
+
+// any SPECIAL queues to open today?
+
+$check_month = substr($today, 0, 2);
+$check_day = substr($today,2);
+
+$specials_query = "SELECT spec_code FROM special_days WHERE open_month = $check_month and open_day = $check_day";
+echo $specials_query, $EOL;
+$open_these = mysql_query($specials_query) or die(mysql_error());
+$numrows = mysql_num_rows($open_these);
+$rownum = 0;
+while ($rownum < $numrows) 
+{
+	$to_open=mysql_fetch_assoc($open_these);
+	$selector = "%special = '".$to_open['spec_code']."'%";
+	$update_query =
+		"UPDATE queue_defns SET enabled = 1 WHERE  project_selector like \"$selector\"";
+
+	if ($testing_this_script)
+	    {
+        	echo $update_query, $EOL;
+	    }
+	else
+	    {	
+        	echo $update_query, $EOL;
+	        mysql_query($update_query) or die(mysql_error());
+	    }
+
+	$rownum++;
+}
+
+
+// any SPECIAL queues to close today?
+
+$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day";
+echo $specials_query, $EOL;
+$close_these = mysql_query($specials_query) or die(mysql_error());
+$numrows = mysql_num_rows($close_these);
+$rownum = 0;
+while ($rownum < $numrows) 
+{
+	$to_close=mysql_fetch_assoc($close_these);
+	$selector = "%special = '".$to_close['spec_code']."'%";
+	$update_query =
+		"UPDATE queue_defns SET enabled = 0 WHERE  project_selector like \"$selector\"";
+
+	if ($testing_this_script)
+	    {
+        	echo $update_query, $EOL;
+	    }
+	else
+	    {	
+        	echo $update_query, $EOL;
+	        mysql_query($update_query) or die(mysql_error());
+	    }
+
+	$rownum++;
+
+}
 
 
 if ($testing_this_script)
