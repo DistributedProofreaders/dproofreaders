@@ -155,6 +155,13 @@ function users_get_page_tally_ranks()
 
 // -----------------------------------------------------------------------------
 
+function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy )
+{
+    $rankArray = get_user_page_tally_rank_array( $username, $consider_privacy );
+    $neighbors = user_get_page_tally_neighbors( $rankArray, $radius );
+    return array( $neighbors, $rankArray['totalRanks'] );
+}
+
 function get_user_page_tally_rank_array( $username, $consider_privacy )
 // Return an array of information about page-tally ranks for users,
 // biased toward $username.

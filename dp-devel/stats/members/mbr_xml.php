@@ -29,8 +29,9 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
-$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
-$neighbors = user_get_page_tally_neighbors($rankArray, 4);
+list( $neighbors, $max_page_tally_rank ) =
+	user_get_page_tally_neighborhood(
+		$curMbr['username'], 4, FALSE );
 
 $bestDay = bestDayEver($curMbr['u_id']);
 

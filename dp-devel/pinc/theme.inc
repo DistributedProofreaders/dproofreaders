@@ -296,9 +296,9 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the personal statistics
 
 	//Get the personal statistics array
-	$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
-	$max_page_tally_rank = $neighborhood['totalRanks'];
-	$neighbors = user_get_page_tally_neighbors($neighborhood, $userP['u_neigh']);
+	list($neighbors, $max_page_tally_rank) =
+		user_get_page_tally_neighborhood(
+			$GLOBALS['pguser'], $userP['u_neigh'], TRUE);
 	$usern = $neighbors[0];
 
 	//get rank

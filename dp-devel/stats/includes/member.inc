@@ -13,10 +13,10 @@ function showMbrProfile($curMbr) {
 	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
 	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
-	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
-	$neighbors = user_get_page_tally_neighbors( $rankArray, 0 );
+	list( $neighbors, $totalRanks ) =
+		user_get_page_tally_neighborhood(
+			$curMbr['username'], 0, FALSE );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
-	$totalRanks = $rankArray['totalRanks'];
 
 	$bestDay = bestDayEver($curMbr['u_id']);
 	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
@@ -247,8 +247,9 @@ function showMbrNeighbors($curMbr) {
 	echo_td( 29, _("Overall Pages Completed") );
 	echo "</tr>";
 
-	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
-	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
+	list( $neighbors, $max_page_tally_rank ) =
+		user_get_page_tally_neighborhood(
+			$curMbr['username'], 4, FALSE );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$rank = $neighbor->get_current_page_tally_rank();
