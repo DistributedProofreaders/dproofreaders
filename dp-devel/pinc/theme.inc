@@ -146,7 +146,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 			WHERE state like 'proj_submit%' or state like 'proj_correct%'
 		");
 		$numproj = mysql_result($result,0);
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><b>";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
 		echo sprintf(
 			_('%d titles preserved for the world!'),
 			number_format($numproj));
