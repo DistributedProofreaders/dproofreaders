@@ -222,7 +222,7 @@ class UserTest extends PHPUnit_TestCase
     /**
      * Test E-mail Address
      *
-     * <p></p>
+     * <p>Provides a bunch of bad e-mail addresses and sees if the class finds them bad.</p>
      */
 
     function testEmailAddress()
@@ -251,52 +251,123 @@ class UserTest extends PHPUnit_TestCase
 
         $this->assertTrue((!$invalidEmail1) && (!$invalidEmail2) && (!$invalidEmail3) &&
                           (!$invalidEmail4) && (!$invalidEmail5) && (!$invalidEmail6) &&
-                          ($duplicateValidUser->emailAddress() == "Charles Aldarondo"));
+                          ($duplicateValidUser->emailAddress() == "dphelp@pgdp.net"));
 
     }
 
     /**
      * Theme Test
      *
-     * <p></p>
+     * <p>Attempts to get list of all themes, set a valid user to that theme, save &
+     * see if their theme really is that theme.</p>
      */
 
     function testTheme()
     {
+        $allThemes = $this->validUser->allThemes();
+        $index = 0;
+        while ($allThemes[$index] != "") {
+            $this->validUser->setTheme($allThemes[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
 
+            $this->assertEquals($allThemes[$index], $duplicateValidUser->theme(),
+                                "setTheme(".$allThemes[$index].")");
+            $index++;
+        }
     }
 
     /**
      * Profile Test
      *
-     * <p></p>
+     * <p>Attempts to get list of all profiles, set a valid user to that profile, save &
+     * see if their profile really is that profile.</p>
      */
 
     function testProfile()
     {
+        $allProfiles = $this->validUser->allProfiles();
+        $index = 0;
+        while ($allProfiles[$index] != "") {
+            $this->validUser->setProfile($allProfiles[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
 
+            $this->assertEquals($allProfiles[$index], $duplicateValidUser->profile(),
+                                "setProfile(".$allProfiles[$index].")");
+            $index++;
+        }
+
+        $this->validUser->createProfile("@home");
+        $this->assertTrue($this->validUser->isValidProfile("@home"));
+
+        $this->validUser->deleteProfile("@home");
+        $this->assertFalse($this->validUser->isValidProfile("@home"));        
     }
 
     /**
      * Proofreading Show Rounds 1 & 2 Test
      *
-     * <p></p>
+     * <p>Attempts 4 Different Configurations (R1, R2, Both, None) of showing projects
+     * on the Personal Proofreading Page.</p>
      */
 
     function testShowRound()
     {
+        $this->validUser->disableShowingR1();
+        $this->validUser->disableShowingR2();
+        $this->validUser->enableShowingR1();
+        $this->validUser->saveUser();
+        $duplicateValidUser = new User($this->validUserName);
+        $this->assertTrue(($duplicateValidUser->isShowingR1()) &&
+                         (!$duplicateValidUser->isShowingR2()));
 
+        $this->validUser->disableShowingR1();
+        $this->validUser->disableShowingR2();
+        $this->validUser->enableShowingR2();
+        $this->validUser->saveUser();
+        $duplicateValidUser = new User($this->validUserName);
+        $this->assertTrue((!$duplicateValidUser->isShowingR1()) &&
+                           ($duplicateValidUser->isShowingR2()));
+
+        $this->validUser->disableShowingR1();
+        $this->validUser->disableShowingR2();
+        $this->validUser->enableShowingR2();
+        $this->validUser->enableShowingR1();
+        $this->validUser->saveUser();
+        $duplicateValidUser = new User($this->validUserName);
+        $this->assertTrue(($duplicateValidUser->isShowingR1()) &&
+                          ($duplicateValidUser->isShowingR2()));
+
+        $this->validUser->enableShowingR2();
+        $this->validUser->enableShowingR1();
+        $this->validUser->disableShowingR1();
+        $this->validUser->disableShowingR2();
+        $this->validUser->saveUser();
+        $duplicateValidUser = new User($this->validUserName);
+        $this->assertTrue((!$duplicateValidUser->isShowingR1()) &&
+                          (!$duplicateValidUser->isShowingR2()));
     }
 
     /**
      * Site-wide Language Test
      *
-     * <p></p>
+     * <p>Tries out all the languages by setting and reading the user's language.</p>
      */
 
     function testLanguage()
     {
+        $allLanguages = $this->validUser->allLanguages();
+        $index = 0;
+        while ($allLanguages[$index] != "") {
+            $this->validUser->setLanguage($allLanguages[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
 
+            $this->assertEquals($allLanguages[$index], $duplicateValidUser->language(),
+                                "setLanguage(".$allLanguages[$index].")");
+            $index++;
+        }
     }
 
     /**
@@ -318,7 +389,17 @@ class UserTest extends PHPUnit_TestCase
 
     function testInterfaceLanguage()
     {
+        $allInterfaceLanguages = $this->validUser->allInterfaceLanguages();
+        $index = 0;
+        while ($allInterfaceLanguages[$index] != "") {
+            $this->validUser->setInterfaceLanguage($allInterfaceLanguages[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
 
+            $this->assertEquals($allInterfaceLanguages[$index], $duplicateValidUser->interfaceLanguage(),
+                                "setInterfaceLanguage(".$allInterfaceLanguages[$index].")");
+            $index++;
+        }
     }
 
     /**
@@ -420,22 +501,91 @@ class UserTest extends PHPUnit_TestCase
     /**
      * Proofreading Font Face Test
      *
-     * <p></p>
+     * <p>Attempts all font faces in the active, horiziontal, and vertical preferences.</p>
      */
 
     function testFontFace()
     {
+        $allFontFaces = $this->validUser->allFontFaces();
+        $index = 0;
+        while ($allFontFaces[$index] != "") {
+            $this->validUser->setActiveFontFace($allFontFaces[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
 
+            $this->assertEquals($allFontFaces[$index], $duplicateValidUser->activeFontFace(),
+                                "setActiveFontFace(".$allFontFaces[$index].")");
+            $index++;
+        }
+
+        $index = 0;
+        while ($allFontFaces[$index] != "") {
+            $this->validUser->setHoriziontalFontFace($allFontFaces[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
+
+            $this->assertEquals($allFontFaces[$index], $duplicateValidUser->horiziontalFontFace(),
+                                "setHoriziontalFontFace(".$allFontFaces[$index].")");
+            $index++;
+        }
+
+        $index = 0;
+        while ($allFontFaces[$index] != "") {
+            $this->validUser->setVerticalFontFace($allFontFaces[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
+
+            $this->assertEquals($allFontFaces[$index], $duplicateValidUser->verticalFontFace(),
+                                "setVerticalFontFace(".$allFontFaces[$index].")");
+            $index++;
+        }
+
+        $this->assertFalse($this->validUser->isValidFontFace("blah"));
     }
 
     /**
      * Proofreading Font Size Test
      *
-     * <p></p>
+     * <p>Attempts all font sizes in the active, horiziontal, and vertical preferences.</p>
      */
 
     function testFontSize()
     {
+        $allFontSizes = $this->validUser->allFontSizes();
+        $index = 0;
+        while ($allFontSizes[$index] != "") {
+            $this->validUser->setActiveFontSize($allFontSizes[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
+
+            $this->assertEquals($allFontSizes[$index], $duplicateValidUser->activeFontSize(),
+                                "setActiveFontSize(".$allFontSizes[$index].")");
+            $index++;
+        }
+
+        $index = 0;
+        while ($allFontSizes[$index] != "") {
+            $this->validUser->setHoriziontalFontSize($allFontSizes[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
+
+            $this->assertEquals($allFontSizes[$index], $duplicateValidUser->horiziontalFontSize(),
+                                "setHoriziontalFontSize(".$allFontSizes[$index].")");
+            $index++;
+        }
+
+        $index = 0;
+        while ($allFontSizes[$index] != "") {
+            $this->validUser->setVerticalFontSize($allFontSizes[$index]);
+            $this->validUser->saveUser();
+            $duplicateValidUser = new User($validUserName);
+
+            $this->assertEquals($allFontSizes[$index], $duplicateValidUser->verticalFontSize(),
+                                "setVerticalFontSize(".$allFontSizes[$index].")");
+            $index++;
+        }
+
+        $this->assertFalse($this->validUser->isValidFontSize("blah"));
 
     }
 
