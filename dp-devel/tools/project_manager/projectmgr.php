@@ -7,6 +7,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'iso_lang_list.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
@@ -25,7 +26,7 @@ if (empty($_GET['show'])) {
 
 $can_see_all = user_is_a_sitemanager() || user_is_proj_facilitator();
 
-theme("Project Managers", "header");
+theme(_("Project Managers"), "header");
 
 abort_if_not_manager();
 
@@ -36,24 +37,36 @@ abort_if_not_manager();
 
 		echo "
 		    <center>
-		    Search for projects matching the following criteria:<br>
+		    "._("Search for projects matching the following criteria:")."<br>
 		    <form method=get action='projectmgr.php'>
 			<input type='hidden' name='show' value='search'>
 			<table>
 			<tr>
-			    <td>Title</td>
+			    <td>"._("Title")."</td>
 			    <td><input type='text' name='title'></td>
 			</tr>
 			<tr>
-			    <td>Author</td>
+			    <td>"._("Author")."</td>
 			    <td><input type='text' name='author'></td>
+			</tr>
+			<tr>
+			    <td>"._("Language")."</td>
+			    <td>
+			        <select name='language'>
+			            <option value='' selected>"._("Any")."</option>
+		";
+		foreach($lang_list as $k=>$v)
+			echo "<option value='{$v['lang_name']}'>{$v['lang_name']}</option>\n";
+		echo "
+			        </select>
+			    </td>
 			</tr>
 		";
         	if ($can_see_all)
 		{
 		    echo "
 			<tr>
-			    <td>Project Manager</td>
+			    <td>"._("Project Manager")."</td>
 			    <td><input type='text' name='project_manager'></td>
 			</tr>
 		    ";
@@ -66,7 +79,7 @@ abort_if_not_manager();
 		// all selected values.
 		echo "
 			<tr>
-			    <td>State</td>
+			    <td>"._("State")."</td>
 			    <td>
 			    <select name='state[]' multiple>
 				<option value=''>any state</option>
@@ -82,13 +95,13 @@ abort_if_not_manager();
 			    </td>
 			</tr>
 			</table>
-			<input type='submit' value='Search'>
+			<input type='submit' value='"._("Search")."'>
 		    </form>
-		    Matching [except for State] is case-insensitive and unanchored;<br>
+		    "._("Matching [except for State] is case-insensitive and unanchored;<br>
 		    so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.<br>
 		    <br>
 		    If desired, you should be able to select<br>
-		    multiple values for State (e.g., by holding down Ctrl).
+		    multiple values for State (e.g., by holding down Ctrl).")."
 		    </center>
 		";
 	} else {
@@ -109,6 +122,10 @@ abort_if_not_manager();
 			if ( $_GET['author'] != '' )
 			{
 			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
+			}
+			if ( $_GET['language'] != '' )
+			{
+			    $condition .= " AND language LIKE '%{$_GET['language']}%'";
 			}
 			if ($can_see_all)
 			{
@@ -152,7 +169,7 @@ abort_if_not_manager();
 		$numrows = mysql_num_rows($result);
 		if ( $numrows == 0 )
 		{
-		    echo "<b>No projects matched the search criteria.</b>";
+		    echo _("<b>No projects matched the search criteria.</b>");
 		    theme("","footer");
 		    return;
 		}
@@ -180,7 +197,7 @@ abort_if_not_manager();
 			$projectids_str = implode( ',', $projectids );
 
 			echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
-			echo "Move all <b>$curr_blurb</b> projects on this page to <b>$new_blurb</b>";
+			echo _("Move all")." <b>$curr_blurb</b> "._("projects on this page to")." <b>$new_blurb</b>";
 			echo "</a>";
 			echo "<br>";
 			echo "<br>";
@@ -210,20 +227,20 @@ abort_if_not_manager();
 		}
 
     		echo "<tr>";
-      		echo_header_cell( 175, "Title" );
-      		echo_header_cell( 100, "Author" );
-      		echo_header_cell( 25, "Diff." );
+      		echo_header_cell( 175, _("Title") );
+      		echo_header_cell( 100, _("Author") );
+      		echo_header_cell( 25, _("Diff.") );
 		if ( $show_pages_left )
 		{
-		    echo_header_cell( 50, "Left" );
+		    echo_header_cell( 50, _("Left") );
 		}
 		if ( $show_pages_total )
 		{
-		    echo_header_cell( 50, "Total" );
+		    echo_header_cell( 50, _("Total") );
 		}
-      		echo_header_cell(  75, ($_GET['show'] == "site" ? "PM" : "Owner" ) );
-      		echo_header_cell( 180, "Project Status" );
-      		echo_header_cell(  50, "Options" );
+      		echo_header_cell(  75, ($_GET['show'] == "site" ? _("PM") : _("Owner") ) );
+      		echo_header_cell( 180, _("Project Status") );
+      		echo_header_cell(  50, _("Options") );
       		echo "</tr>";
 
 		$tr_num = 0;
