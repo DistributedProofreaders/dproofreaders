@@ -52,22 +52,24 @@ user_viewemail)
 
 "Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
 
-"- Select a book in the second-round that you would like to read a little bit on. We recommend your first page being a second-round page since most of the errors will be fixed already and you will be able to see what an almost finished page looks like.\n\n".
+"- Select a book that you would like to read a little bit on. Each book goes through two rounds of proofreading, you will be starting in the first round so that someone can check your work and e-mail you about any major mistakes.\n\n".
 
-"- Click on the \"Read Project Comments and Start Proofing\" link below the book you want to work on.\n\n".
+"- Click on the title you want to work on.\n\n".
 
 "- It will show you a listing of items to note when working on a project, these will stay fairly consistent on all projects. They will be available later, so do not worry about remembering them all.\n\n".
 
-"- Click on \"Vertical Proofing\" if you are set at a higher resolution or \"Horizontal Proofing\" if you are not. This just decides whether the image and text are vertically or horizontally aligned.\n\n".
+"- Click on \"Interface Preferences\” and for now just hit the \“Save Preferences\” button unless there is something specific you understand and want to change.\n\n".
+
+"- Click on \“Start Proofreading\”.".
 
 "- Compare the text in the text box to what is in the image, making corrections for differences between the two and any additional items described in the comments. You can pull the comments back up by clicking on the link below the text box.\n\n".
 
 "- Once you are finished with this page, click on either \"Save and Quit\" or \"Save and Do Another\"\n\n".
 
-"That is all there is to completing your first page. If you have specific questions on a book, you can either e-mail the project manager by clicking on their name for the project or posting a message in the forum. Remember every page you do gets the books done quicker. I hope that you enjoy the proofreading available and that you will continue to use our site.\n\n".
+"That is all there is to completing your first page. If you have specific questions on a book, you can post a message in the forum. Remember every page you do gets these books done quicker. I hope that you enjoy the proofreading available and that you will continue to use our site.\n\n".
 
 "Thanks,\n
-Charles Franks\n\nPS - Your user name, in case you forget is $username and make sure to activate your account first.
+The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username and make sure to activate your account first.
 If your password doesn't work after you have activated your account, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
 
