@@ -42,7 +42,7 @@ if ($mode != "upload") {
     $project = $_GET['projectid'];
 	if ($file != "none") {
 		if ((substr($file, -4) == ".zip") && (ereg("[^A-Za-z0-9.]", $file)) {    		
-        		copy ($file, "/home/charlz/dproofreaders/projects/$project/post.zip");
+        		copy ($file, "$projects_dir/$project/post.zip");
         		echo "Project has been uploaded. Back to <a href=\"post_proofers.php\">Post-Processing</a>.";
 		} else {
 			echo "Invalid File";
