@@ -50,7 +50,9 @@ theme("Personal Page for $pguser", "header");
 	// Unread messages
 
         if ($pagesproofed <= 100) {
-
+		$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+    		$pguser_id = mysql_result($result, 0, "user_id");
+    	
 	    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
 		if (mysql_num_rows($result) >= 1) {
     			$numofPMs = mysql_fetch_row($result);
