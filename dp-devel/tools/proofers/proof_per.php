@@ -54,8 +54,8 @@ include($relPath.'showavailablebooks.inc');
     echo "Your Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
 
     //get total number of users
-    $users = mysql_query("SELECT manager FROM users WHERE pagescompleted >=1");
-    $totalusers = (mysql_num_rows($users));
+    $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
+    $totalusers = (mysql_result($users,0,"numusers"));
 
     $pagessql = "SELECT username, pagescompleted FROM users ORDER BY pagescompleted DESC";
     $pages = mysql_query($pagessql);
