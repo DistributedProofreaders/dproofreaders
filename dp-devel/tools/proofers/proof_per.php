@@ -80,7 +80,7 @@ include($relPath.'showavailablebooks.inc');
 
     echo "Total users who completed at least 1 page:<font color=\"#0000FF\"><b> $totalusers</b></font><br><P>";
 
-//Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks
+//Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 ?>
 
 <b>Top 10 Proofers:</b>
@@ -89,7 +89,7 @@ include($relPath.'showavailablebooks.inc');
 <TABLE border=1 cellspacing=0 cellpadding=0>
 
 <?
-    $pagessql = "SELECT username, Pagescompleted FROM users ORDER BY pagescompleted DESC";
+    $pagessql = "SELECT username,pagescompleted FROM users ORDER BY pagescompleted DESC";
     $pages = mysql_query($pagessql);
 
     $numrows = mysql_num_rows($pages);
@@ -97,7 +97,7 @@ include($relPath.'showavailablebooks.inc');
 
     while ($i < $numrows) {
         $username = mysql_result($pages, $i, "username");
-        $pagescompleted = mysql_result($pages, $i, "Pagescompleted");
+        $pagescompleted = mysql_result($pages, $i, "pagescompleted");
 
         if ($username == $pguser) {
             $userindex = $i;
@@ -131,7 +131,7 @@ include($relPath.'showavailablebooks.inc');
     while ($i < $numrows) {
         // If ranking is in top ten or is current user or immediate
         // neighbour, print line in table
-        if(($rankings[$i] < 11) || (($i >= $userindex - $show_neighbors) && ($i <= $userindex + $show_neighbors))) {
+        if(($rankings[$i] < 11) || (($i >= $userindex - $show_neighbors) && ($i <= $userindex + $show_neighbors)) && $printedblankline) {
             echo "<TR";
             if ($userindex == $i) {
                 // Highlight current user (#C0C0C0 is grey)
@@ -156,6 +156,14 @@ include($relPath.'showavailablebooks.inc');
         // necessary
 
         if (($rankings[$userindex-2]>10) && ($rankings[$i]==11) && ($printedblankline == FALSE)) {
+
+            // If the user has 0 pages done, or they are in the top 10, don't
+            // print the neighbor's table (just break!)
+            $display_neighbors = true;
+            if ( $totalpages == 0 ) {
+               $display_neighbors = false;
+               break;
+            }
             echo "<TR><TD colspan=3><BR></TD></TR><TR><TD colspan=3><b>Your Neighborhood:<b><BR></TD></TR>\n";
             $printedblankline = TRUE;
         }
@@ -163,6 +171,8 @@ include($relPath.'showavailablebooks.inc');
 ?>
 
 </TABLE>
+
+<? if ( $display_neighbors ) { ?>
 <form method="get" action="<? print $_SERVER['PHP_SELF']; ?>">
 <p>Show <select name="show_neighbors">
 <?
@@ -178,6 +188,7 @@ for ( $i=1; $i <= 10; $i++ ) {
 </select>
 neighbors <input type="submit" name="go" value="Go" /></p>
 </form>
+<? } ?>
 </blockquote>
 <p>
 <p>
