@@ -65,7 +65,7 @@ $first = 1;
 
 foreach ($f_f as $otherfont) {
 
-        if ($otherfont != $tfont) AND ($otherfont != _("Browser Default")) AND ($otherfont != 'DPCustomMono2') {
+        if (($otherfont != $tfont) AND ($otherfont != _("Browser Default")) AND ($otherfont != 'DPCustomMono2')) {
                 if (! $first) {
                         echo " | ";
                 } else {
