@@ -339,7 +339,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	}
 
 	$R1Filter = " AND ".$condition1;
-echo $R1Filter;
+
 
 }
 
