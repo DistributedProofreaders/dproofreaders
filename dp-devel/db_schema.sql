@@ -1,12 +1,24 @@
 # phpMyAdmin MySQL-Dump
-# version 2.3.2
+# version 2.3.3pl1
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: josephgruber.com
-# Generation Time: Nov 26, 2002 at 11:35 AM
-# Server version: 3.23.53
-# PHP Version: 4.2.4-dev
+# Generation Time: Mar 17, 2003 at 12:47 PM
+# Server version: 4.00.10
+# PHP Version: 4.3.0
 # Database : `dproofreaders`
+# --------------------------------------------------------
+
+#
+# Table structure for table `news`
+#
+
+CREATE TABLE news (
+  uid int(11) NOT NULL auto_increment,
+  date_posted varchar(10) NOT NULL default '',
+  message text NOT NULL,
+  KEY uid (uid)
+) TYPE=MyISAM;
 # --------------------------------------------------------
 
 #
@@ -90,15 +102,20 @@ CREATE TABLE projects (
   comments text NOT NULL,
   projectid text NOT NULL,
   checkedoutby text NOT NULL,
-  modifieddate text NOT NULL,
+  modifieddate int(20) NOT NULL default '0',
   scannercredit tinytext NOT NULL,
-  state tinyint(3) unsigned NOT NULL default '0',
+  state varchar(50) default NULL,
   txtlink varchar(200) default NULL,
   ziplink varchar(200) default NULL,
   htmllink varchar(200) default NULL,
   postednum smallint(5) unsigned NOT NULL default '6000',
   clearance varchar(200) NOT NULL default '',
-  year varchar(4) NOT NULL default ''
+  year varchar(4) NOT NULL default '',
+  topic_id int(10) default NULL,
+  updated tinyint(1) NOT NULL default '1',
+  int_level int(11) NOT NULL default '0',
+  genre varchar(50) NOT NULL default '',
+  archived tinyint(1) NOT NULL default '0'
 ) TYPE=MyISAM;
 # --------------------------------------------------------
 
@@ -129,24 +146,56 @@ CREATE TABLE rules (
 # --------------------------------------------------------
 
 #
-# Table structure for table `states`
+# Table structure for table `user_profiles`
 #
 
-CREATE TABLE states (
-  id tinyint(3) unsigned NOT NULL default '0',
-  name tinytext NOT NULL
-) TYPE=MyISAM COMMENT='States that a project or a page can be in';
+CREATE TABLE user_profiles (
+  id int(10) unsigned NOT NULL auto_increment,
+  u_ref int(10) unsigned NOT NULL default '0',
+  profilename varchar(30) NOT NULL default 'default',
+  i_res tinyint(1) default '1',
+  i_type tinyint(1) default '0',
+  i_layout tinyint(1) default '0',
+  i_toolbar tinyint(1) default '0',
+  i_statusbar tinyint(1) default '0',
+  i_newwin tinyint(1) default '1',
+  v_fnts tinyint(2) default '0',
+  v_fntf tinyint(1) default '0',
+  v_zoom smallint(3) default '59',
+  v_tframe tinyint(2) default '50',
+  v_tlines tinyint(2) default '40',
+  v_tchars tinyint(2) default '65',
+  v_tscroll tinyint(1) default '1',
+  v_twrap tinyint(1) default '1',
+  h_fnts tinyint(2) default '0',
+  h_fntf tinyint(1) default '0',
+  h_zoom smallint(3) default '76',
+  h_tframe tinyint(2) default '35',
+  h_tlines tinyint(2) default '6',
+  h_tchars tinyint(2) default '70',
+  h_tscroll tinyint(1) default '1',
+  h_twrap tinyint(1) default '1',
+  PRIMARY KEY  (id),
+  KEY u_ref (u_ref)
+) TYPE=MyISAM;
 # --------------------------------------------------------
 
 #
-# Table structure for table `tempstats`
+# Table structure for table `user_teams`
 #
 
-CREATE TABLE tempstats (
-  date date NOT NULL default '0000-00-00',
-  goal int(12) NOT NULL default '0',
-  prevmonth int(12) NOT NULL default '0',
-  currmonth int(12) NOT NULL default '0'
+CREATE TABLE user_teams (
+  id int(10) unsigned NOT NULL auto_increment,
+  teamname varchar(50) NOT NULL default 'default',
+  team_info text NOT NULL,
+  createdby varchar(25) NOT NULL default '',
+  owner int(10) unsigned NOT NULL default '0',
+  created int(20) NOT NULL default '0',
+  member_count int(20) NOT NULL default '0',
+  page_count int(20) NOT NULL default '0',
+  avatar varchar(25) NOT NULL default 'avatar_default.png',
+  icon varchar(25) NOT NULL default 'icon_default.png',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 # --------------------------------------------------------
 
@@ -160,25 +209,24 @@ CREATE TABLE users (
   username varchar(25) NOT NULL default '',
   email varchar(50) NOT NULL default '',
   manager varchar(5) NOT NULL default '',
-  date_created varchar(8) NOT NULL default '',
-  last_login varchar(8) NOT NULL default '',
+  date_created int(20) NOT NULL default '0',
+  last_login int(20) NOT NULL default '0',
   emailupdates varchar(4) NOT NULL default '',
   pagescompleted mediumint(8) default '0',
   postprocessor tinytext NOT NULL,
   sitemanager tinytext NOT NULL,
   active tinytext NOT NULL,
+  u_lang tinyint(1) default '0',
+  email_updates tinyint(1) default '1',
+  u_plist tinyint(1) default '3',
+  i_prefs tinyint(1) default '0',
+  u_top10 tinyint(1) NOT NULL default '1',
+  u_neigh tinyint(1) NOT NULL default '5',
+  u_id int(10) unsigned NOT NULL auto_increment,
+  u_profile int(10) unsigned NOT NULL default '0',
+  team_1 int(10) unsigned NOT NULL default '0',
+  team_2 int(10) unsigned NOT NULL default '0',
+  team_3 int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (username),
-  UNIQUE KEY username (username)
+  KEY u_id (u_id)
 ) TYPE=MyISAM;
-# --------------------------------------------------------
-
-#
-# Table structure for table `usersettings`
-#
-
-CREATE TABLE usersettings (
-  username varchar(25) NOT NULL default '',
-  setting varchar(25) NOT NULL default '',
-  value varchar(25) NOT NULL default ''
-) TYPE=MyISAM;
-
