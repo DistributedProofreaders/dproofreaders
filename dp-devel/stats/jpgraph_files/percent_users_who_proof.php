@@ -36,7 +36,7 @@ $mynumrows = mysql_numrows($result1);
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
 $graph = new Graph(640,400,"auto",900);
-$graph->SetScale("textint");
+$graph->SetScale("textint",0,100);
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
@@ -62,6 +62,7 @@ $graph->img->SetMargin(70,30,20,100);
  // Create the line plot
 $l1plot = new LinePlot ($data1y);
 $l1plot ->SetFillColor ("aquamarine");
+
 
 // ...and add it to the graPH
 $graph->Add( $l1plot);
