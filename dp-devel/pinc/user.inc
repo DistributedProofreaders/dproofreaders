@@ -13,23 +13,63 @@ function db_udb()
 }
 
 function checkSafe($uInfo,$chktype)
-     {
+{
+     if ($chktype == 1) {
+
+    $username_max_len = 25;
+    // This is the length of the 'username' field in the 'users' table.
+
+    if ( $username == '' )
+    {
+	$this->error = _("You did not supply a User Name (ID).");
+        return 0;
+    }
+
+    if ( strlen($username) > $username_max_len )
+    {
+	$this->error = _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
+        return 0;
+    }
+
+    if ( ereg( "[^-a-zA-Z0-9@._ ]", $username) )
+    {
+	$this->error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
+        return 0;
+    }
+
+    // In order to prevent one class of impersonations,
+    // any space character in $username must have a non-space on either side.
+    // Thus, no leading or trailing spaces, and no adjacent spaces.
+
+    if ( trim($username) != $username )
+    {
+	$this->error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
+        return 0;
+    }
+
+    if ( ereg( "  ", $username ) )
+    {
+	$this->error = _("Your User Name contains adjacent space characters, which is not allowed.");
+        return 0;
+    }
+     }
      /*
        insert regular expression check to validate/security check
        user name (1) and password (2) form data
      */
      return 1;
-      }
+}
 
 function checkUID($userID)
-     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1))
+      {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1))
           {return 1;}
       else {return 0;}
-     }
+      }
+
 function checkUPW($userPW)
      {if (strcmp($userPW,$_POST['userPW'])==0 && $this->checkSafe($userPW,2))
           {return 1;}
-     else {return 0;}
+     else {$this->error=_("Invalid Sign In"); return 0;}
      }
 
 function checkQuery($db_result)
@@ -63,7 +103,7 @@ function checkLogin($userID,$userPW)
 	  startSession($userID);
           return 1;
           }
-     else {$this->error=_("Invalid Sign In"); return 0;}
+     else {return 0;}
      }
 
 function getQueryResult($userID)
