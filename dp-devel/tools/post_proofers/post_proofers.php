@@ -9,7 +9,7 @@ include_once($relPath.'user_is.inc');
 
 theme("Post Processing", "header");
 
-$isPPV = user_is_proj_facilitator();
+$isPPV = user_is_post_proof_verifier();
 
 if (!$isPPV) {
 echo "
