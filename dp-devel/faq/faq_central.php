@@ -1,5 +1,5 @@
 <?
-$relPath='./../pinc/';
+$relPath='../pinc/';
 include($relPath.'v_site.inc');
 if (!isset($_COOKIE['pguser'])) { include($relPath.'connect.inc'); } else { include($relPath.'dp_main.inc'); }
 include($relPath.'theme.inc');
@@ -9,7 +9,7 @@ theme('FAQ Central','header');
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.5, released June 6, 2003 </h3>
+<h3 align="right">Version 1.5, released June 19, 2003 </h3>
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
    files about the Distributed Proofreaders website.</p>
@@ -74,10 +74,6 @@ theme('FAQ Central','header');
       rather than anywhere on the official PG site -- but useful anyway.)
 
 </dl>
-<!--
-<h2 align="center">End of <br>
-FAQ Central</h2>
--->
 <table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
@@ -91,22 +87,6 @@ FAQ Central</h2>
     </td>
 </tr>
 </table>
-
-<!--
-<table border="0" cellspacing="0" width="100%">
-  <tbody>
-    <tr>
-      <td bgcolor="silver">&nbsp;</td>
-    </tr>
-  </tbody>
-</table>
-Return to
-<a href="..">Distributed Proofreaders home page</a>,
-&nbsp;&nbsp;&nbsp;
-<a href="faq_central.php">DP FAQ Central page</a>,
-&nbsp;&nbsp;&nbsp;
-<a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
--->
 
 <?
 theme('','footer');
