@@ -196,7 +196,9 @@ function show_projects_in_state($state,$table=1)
 			echo_option( 'GET_TEXT_POST_1_ZIP', 'Download Zipped Text' );
 			echo_option( 'GET_XML_POST_1_ZIP',  'Download Zipped TEI Text' );
 			echo_option( 'GET_COMMENTS_POST', 'View Project Comments' );
-                        echo_option( 'GET_PROJ_DETAILS', 'View Project Details' );
+			if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
+	                        echo_option( 'GET_PROJ_DETAILS', 'View Project Details' );
+			}
 		}
 		elseif ($stage == 'post_2')
 		{
