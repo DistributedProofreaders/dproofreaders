@@ -109,46 +109,48 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   exit;
 } // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 
-if ($tbutton==B_SAVE_AND_DO_ANOTHER)
-{
-  $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
-  $project = 'project='.$project;
-  $proofstate = '&amp;proofstate='.$proofstate;
-  $frame1 = 'proof_frame.php?'.$project.$proofstate;
-  metarefresh(0,$frame1,'Save and Do Next Page','Page saved.');
-} // end B_SAVE_AND_DO_ANOTHER
+// =============================================================================
 
-if ($tbutton==B_QUIT)
+if ($tbutton==B_SAVE_AND_DO_ANOTHER || $tbutton==B_SAVE_AND_QUIT)
 {
-  $project = 'project='.$project;
-  $proofstate = '&amp;proofstate='.$proofstate;
-  $frame1 = 'projects.php?'.$project.$proofstate;
-  metarefresh(0,$frame1,'Quit Proofing','Exiting proofing interface....');
-//  $editone=isset($editone)?$editone:0;
-//  $tpage->exitInterface($userP['i_newwin'],$editone);
+	$tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
+}
+else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
+{
+	$tpage->returnPage($proofstate,$pguser,$userP);
 }
 
-if ($tbutton==B_SAVE_AND_QUIT)
+if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 {
-  $tpage->saveComplete($proofstate,$text_data,$pguser,$userP);
-  $project = 'project='.$project;
-  $proofstate = '&amp;proofstate='.$proofstate;
-  $frame1 = 'projects.php?'.$project.$proofstate;
-  metarefresh(1,$frame1,'Save and Quit Proofing','Page Saved. Exiting proofing for current project....');
-//  $editone=isset($editone)?$editone:0;
-//  $tpage->exitInterface($userP['i_newwin'],$editone);
-} // end B_SAVE_AND_QUIT
+	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
+	metarefresh(1,$url,'Save and Do Next Page','Page saved.');
+}
+else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAGE_TO_ROUND)
+{
+	if ($tbutton==B_QUIT)
+	{
+		$title='Quit Proofing';
+		$body='';
+	}
+	else if ($tbutton==B_SAVE_AND_QUIT)
+	{
+		$title='Save and Quit Proofing';
+		$body='Page Saved. ';
+	}
+	else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
+	{
+		$title='Return to Round';
+		$body='Page Returned to Round. ';
+	}
+	$body .= 'Exiting proofing interface....';
+	$url = "projects.php?project=$project&amp;proofstate=$proofstate";
+	metarefresh(1,$url,$title,$body);
 
-if ($tbutton==B_RETURN_PAGE_TO_ROUND)
-{
-  $tpage->returnPage($proofstate,$pguser,$userP);
-  $project = 'project='.$project;
-  $proofstate = '&amp;proofstate='.$proofstate;
-  $frame1 = 'projects.php?'.$project.$proofstate;
-  metarefresh(1,$frame1,'Return to Round','Page Returned to Round.  Exiting proofing interface....');
-//  $editone=isset($editone)?$editone:0;
-//  $tpage->exitInterface($userP['i_newwin'],$editone);
-} // end B_RETURN_PAGE_TO_ROUND
+	// $editone=isset($editone)?$editone:0;
+	// $tpage->exitInterface($userP['i_newwin'],$editone);
+}
+
+// =============================================================================
 
 if ($tbutton==B_REPORT_BAD_PAGE)
 {
