@@ -143,19 +143,36 @@ $table->row(
 );
 
 $table->row(
-    "<a href='misc_stats1.php'>" . _("Top Proofreading Days and Months, etc") . "</a>",
-    "<a href='user_logon_stats.php'>" . _("User Logon Statistics") . "</a>"
-);
-
-$table->row(
-    "<a href='pm_stats.php'>" . _("Project Management Statistics") . "</a>",
-    "<a href='proof_stats.php'>" . _("Proofreading Statistics") . "</a>"
+    "<a href='user_logon_stats.php'>" . _("User Logon Statistics") . "</a>",
+    "<a href='pm_stats.php'>" . _("Project Management Statistics") . "</a>"
 );
 
 $table->row(
     "<a href='pp_stats.php'>" . _("Post-Processing Statistics") . "</a>",
     "<a href='ppv_stats.php'>" . _("Post-Processing Verification Statistics") . "</a>"
 );
+
+$table->end();
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Pages in Rounds
+
+$table = new ThemedTable(
+    4,
+    _("Pages in Rounds"),
+    array( 'width' => 99 )
+);
+
+foreach ( $page_tally_names as $tally_name => $tally_title )
+{
+    $qs = "tally_name=$tally_name";
+    $table->row(
+        $tally_name,
+        "<a href='pages_proofed_graphs.php?$qs'>" . _("Pages Proofread Graphs") . "</a>",
+        "<a href='misc_stats1.php?$qs'>" . _("Top Proofreading Days and Months, etc") . "</a>",
+        "<a href='proof_stats.php?$qs'>" . _("Top Proofreaders") . "</a>"
+    );
+}
 
 $table->end();
 
@@ -183,7 +200,7 @@ $table->row(
 $table->row(
     _("Proofreading"),
     "<a href='projects_Xed_graphs.php?which=proofed'>" . _("Projects Proofread Graphs") . "</a>",
-    "<a href='pages_proofed_graphs.php'>" . _("Pages Proofread Graphs") . "</a>"
+    _("Coming Soon")
 );
 
 $table->row(
