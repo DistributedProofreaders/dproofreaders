@@ -90,6 +90,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
 		$u_id = mysql_result($result, 0, "u_id");
 		$result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES (".$_POST['new_comment'].", $u_id, ".time().", '".addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES))."')");
+		$result = mysql_query("UPDATE tasks SET date_edited = ".time().", edited_by = $u_id, WHERE task_id = ".$_POST['new_comment']);
 		TaskDetails($_POST['new_comment']);
 	} else {
 		echo "<center><b><font color='red'>You must supply a comment before clicking Add Comment</font></b></center>";
