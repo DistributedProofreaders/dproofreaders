@@ -214,12 +214,12 @@ if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 <P><b>Post Processing:</b><br>
 You can help in the post processing phase of Distributed Proofreaders! After going through two rounds of proofreading, the books need to be massaged into a final e-text and you can help <a href ="../post_proofers/post_proofers.php">here</A>!<P>
 <?
-        $rows = mysql_query("SELECT count(projectid) AS numprojects FROM projects WHERE state=61");
+        $rows = mysql_query("SELECT count(projectid) AS numprojects FROM projects WHERE state='".PROJ_POST_AVAILABLE."'");
         $postprojects = (mysql_result($rows,0,"numprojects"));
 
         echo "Currently there are <b> $postprojects </b> projects waiting";
 
-        $rows = mysql_query("SELECT count(projectid) AS yourprojects FROM projects WHERE checkedoutby = '$pguser' and state=65");
+        $rows = mysql_query("SELECT count(projectid) AS yourprojects FROM projects WHERE state='".PROJ_POST_CHECKED_OUT."' and checkedoutby = '$pguser'");
         $postprojects = (mysql_result($rows,0,yourprojects));
 
         if ($postprojects > 0) {
