@@ -606,7 +606,7 @@ description in the <A HREF="#ibtns"><B>Button and Selection Menu</B></A> area.
 
 
 <P><B>Internet Explorer Only</B><BR>
-The currently displayed mage may be scrolled using the following accelerator keys:<BR>
+The currently displayed image may be scrolled using the following accelerator keys:<BR>
 <FONT SIZE="+2"><B>'</B></FONT> up<BR>
 <FONT SIZE="+2"><B>/</B></FONT> down<BR>
 <FONT SIZE="+2"><B>,</B></FONT> left<BR>
