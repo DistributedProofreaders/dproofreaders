@@ -49,11 +49,11 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	}
 	elseif ( $order == 'DaysA' )
 	{
-		$orderclause = 'days ASC, nameofwork ASC';
+		$orderclause = 'days_avail ASC, nameofwork ASC';
 	}
 	elseif ( $order == 'DaysD' )
 	{
-		$orderclause = 'days DESC, nameofwork ASC';
+		$orderclause = 'days_avail DESC, nameofwork ASC';
 	}
 	else
 	{
