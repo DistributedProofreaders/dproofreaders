@@ -97,15 +97,67 @@ and what the PMs do.
 </li>
 
 <li><a name='shepherd'><b>Shepherd the project through the site.</b></a>
+
     <blockquote>
-    There are 4 main tasks you will need to perform to assure your project runs smoothly through the site. All these tasks are done via the Project Page using the links provided.<br><br>
+    <p>
+    There are 4 main tasks you will need to perform to assure your project runs smoothly through the site.
+    All these tasks are done via the Project Page using the links provided.
+    </p>
 
-    1. <b>Delete duplicate pages.</b> Sometimes a page will be submitted more than once. We think this is caused by the proofer clicking "Save and Do Another" more than once. You can review the submitted text by clicking on the text file name. Delete all but one copy of the file by clicking on the Delete link for that file.<br><br>
-    2. <b>Check in MIA's.</b> Sometimes a proofer will request a page but never turn it back in. To make the page availible again, first identify the missing pages. You can do this by scanning down the list and comparing the index number with the file number. When they get out of sync, you've got an MIA. To check them back in, click the link to get your entire file list. During the 1st round this is the "View Master Files" link. During the 2nd round, it is the "View all level 2 files" link. Find your MIA and click on "Check In". Don't get too anxious when checking in MIA's. If your MIA is near the bottom then a proofer may still be working on it.<br><br>
-    3. <b>Promote files.</b> When a project finishes the 1st round and you have deleted all duplicates and all the MIA's have been checked in and proofed, click on the "Promote All" link. This will move your project to the second round.<br><br>
-    4. <b>Answer proofer's questions.</b> Depending on the project, you may get a lot of question emails. Please be patient with the proofers as many of them will be newbies. If you get a lot of the same questions you may consider modifying your comments.<br><br>
+    <ol>
 
-    We are working on a script that will automate task #2 and have talked about automating task #3. Tasks 1 & 4 will probably always be done by the PM. The client has features designed to help prevent duplicates and MIA's. As more people start using the client you should see a reduction in their occurence.
+    <li>
+    <b>Delete duplicate pages.</b>
+    <p>
+    Sometimes a page will be submitted more than once.
+    We think this is caused by the proofer clicking "Save and Do Another" more than once.
+    You can review the submitted text by clicking on the text file name.
+    Delete all but one copy of the file by clicking on the Delete link for that file.
+    </p>
+    </li>
+
+    <li>
+    <b>Check in MIA's.</b>
+    <p>
+    Sometimes a proofer will request a page but never turn it back in.
+    To make the page availible again, first identify the missing pages.
+    You can do this by scanning down the list and comparing the index number with the file number.
+    When they get out of sync, you've got an MIA.
+    To check them back in, click the link to get your entire file list.
+    During the 1st round this is the "View Master Files" link.
+    During the 2nd round, it is the "View all level 2 files" link.
+    Find your MIA and click on "Check In".
+    Don't get too anxious when checking in MIA's.
+    If your MIA is near the bottom then a proofer may still be working on it.
+    </p>
+    </li>
+
+    <li>
+    <b>Promote files.</b>
+    <p>
+    When a project finishes the 1st round
+    and you have deleted all duplicates
+    and all the MIA's have been checked in and proofed,
+    click on the "Promote All" link.
+    This will move your project to the second round.
+    </p>
+    </li>
+
+    <li>
+    <b>Answer proofer's questions.</b>
+    <p>
+    Depending on the project, you may get a lot of question emails.
+    Please be patient with the proofers as many of them will be newbies.
+    If you get a lot of the same questions you may consider modifying your comments.
+    </p>
+    </li>
+
+    </ol>
+
+    We are working on a script that will automate task #2 and have talked about automating task #3.
+    Tasks 1 & 4 will probably always be done by the PM.
+    The client has features designed to help prevent duplicates and MIA's.
+    As more people start using the client you should see a reduction in their occurence.
     </blockquote>
 </li>
 
