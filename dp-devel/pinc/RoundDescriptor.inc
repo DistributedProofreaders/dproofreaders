@@ -26,8 +26,6 @@ class ProofingRoundDescriptor
         $minimum_user_pages,
             // The minimum number of pages that a user must complete
             // in order to be allowed to participate in this round.
-        $title,
-            // A title that appears above the list of projects in this round.
         $description,
             // A sentence or two explaining what happens in this round.
         $listing_bgcolors,
@@ -47,7 +45,6 @@ class ProofingRoundDescriptor
         $this->round_id           = $round_id;
         $this->round_name         = $round_name;
         $this->minimum_user_pages = $minimum_user_pages;
-        $this->title              = $title;
         $this->description        = $description;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
@@ -111,7 +108,6 @@ $P1 = new ProofingRoundDescriptor(
     'P1',
     _('Proofreading Round 1'),
     -20,
-    _("Current First - Round Projects"),
     _("The page-texts are the output from OCR software and have not been looked at."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -124,7 +120,6 @@ $P2 = new ProofingRoundDescriptor(
     'P2',
     _('Proofreading Round 2'),
     100,
-    _("Current Second - Round Projects"),
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     array(
         0 => '#DDA0DD', // plum
