@@ -337,13 +337,13 @@ otO[2]='[Sidenote: ';
 otC[2]=']';
 otO[3]='[Illustration: ';
 otC[3]=']';
-otO[4]='/*';
+otO[4]='/*'; // This index number is relied upon below
 otC[4]='*/';
 otO[5]='       *       *       *       *       *';
 otC[5]='';
 otO[6]='[Blank Page]';
 otC[6]='';
-otO[7]='/#';
+otO[7]='/#'; // This index number is relied upon below
 otC[7]='#/';
 
 // standard tag selection
@@ -370,7 +370,14 @@ if (!cnSel || !cR)
 //fancy
 if (curSel != '' && docRef.selection.createRange().text == curSel)
 {docRef.editform.text_data.focus();
-docRef.selection.createRange().text=wOT + curSel + wCT;
+if ((wM==4) || (wM==7))
+{
+    docRef.selection.createRange().text=wOT + '\n' + curSel + '\n' + wCT;
+}
+else
+{
+    docRef.selection.createRange().text=wOT + curSel + wCT;
+}
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
