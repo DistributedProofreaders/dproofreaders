@@ -80,6 +80,22 @@ if (mysql_num_rows($u_res)==0)
 
 $u_row = mysql_fetch_assoc($u_res);
 
+// Note that phpbb_users.username and users.username are non-BINARY varchar,
+// so the SQL comparison "username='$userNM'" is evaluated case-insensitively.
+// This means that the user may have just logged in by typing a username
+// that's case-different from the username that they registered with.
+// That is, $userNM may be case-different from $u_row['username'].
+// (E.g., I registered as 'jmdyck', but I can login as 'JMDyck'.)
+//
+// However, some places in the PHP code do case-sensitive comparisons of
+// usernames (e.g., the code that determines whether the user is entitled
+// to pull a particular page out of DONE or IN-PROGRESS). For those places,
+// it's important that we always use the same form of the username. Following
+// the principle of least surprise, we use the form used at registration time,
+// i.e. the form stored in the users table.
+//
+$userNM = $u_row['username'];
+
 // Update last_login timestamp.
 $now = time();
 $q = "UPDATE users SET last_login='$now' WHERE username='$userNM'";
