@@ -54,7 +54,9 @@ function show_block_for_round( $round_number, $projects_filter )
 	echo "\n<a name='{$prd->round_id}'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr bgcolor='{$prd->listing_bgcolors[1]}'>";
-	echo "\n<td colspan=2><h3>{$prd->title}</h3></td>";
+
+	$title = _('Projects Currently Available');
+	echo "\n<td colspan=2><h3>$title</h3></td>";
 
 	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
 	if ($pagescompleted < $min_num_pages_to_see_this_round)
