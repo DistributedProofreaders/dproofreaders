@@ -144,7 +144,7 @@ unlink ($filename);
 $tracetimea = time();
 $tooktime = $tracetimea - $tracetime;
 $qrytext = "INSERT INTO job_logs (filename, tracetime, event, comments)
-                VALUES ('stats.php', $tracetimea, 'END', 'started at $tracetimea, took $tooktime seconds total')";
+                VALUES ('stats.php', $tracetimea, 'END', 'started at $tracetime, took $tooktime seconds total')";
 $resultA = mysql_query($qrytext);
 
 
