@@ -67,7 +67,7 @@ echo $exp_text;
 
 $exp_text ="
         <P>
-        <FONT FACE='DPCustomMono2, $tfont'>"'
+        <FONT FACE='DPCustomMono2, $tfont'>";
 
 if ($DPCM) {
 
