@@ -97,6 +97,7 @@ function project_transition( $projectid, $new_state )
 			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_COMPLETE => array(
+			PROJ_PROOF_SECOND_AVAILABLE,
 			),
 
 		PROJ_PROOF_SECOND_UNAVAILABLE => array(
