@@ -148,7 +148,7 @@ process once you login:
   up by clicking on the link below the text box.
 
 - Once you are finished with this page, click on either
-  \"Save and Quit\" or \"Save and Do Another\"
+  \"Save as 'Done'\" or \"Save as 'Done' & Proof Next\"
 
 That is all there is to completing your first page.
 

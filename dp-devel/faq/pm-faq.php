@@ -110,7 +110,7 @@ and what the PMs do.
     <b>Delete duplicate pages.</b>
     <p>
     Sometimes a page will be submitted more than once.
-    We think this is caused by the proofer clicking "Save and Do Another" more than once.
+    We think this is caused by the proofer clicking "Save as 'Done' & Proof Next" more than once.
     You can review the submitted text by clicking on the text file name.
     Delete all but one copy of the file by clicking on the Delete link for that file.
     </p>

@@ -259,14 +259,15 @@ theme('Proofing Guidelines','header');
     </p>
 <p> When you first load a new page to proof, by clicking on the 'Start Proofing' link on
     the project comments page, a link to the page is created under 'My Recently
-    Proofread'. Each time you press the "Save" button, this link is updated to point to
+    Proofread'. Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
-    proofing on a page by pressing either the "Save and Quit" or the "Save and Do
-    Another" buttons. Pressing either of these buttons moves the link to the page from
+    proofing on a page by pressing either
+    the "Save as 'Done'" or the "Save as 'Done' & Proof Next" buttons.
+    Pressing either of these buttons moves the link to the page from
     the "My Recently Proofread" section to the "My Recently Completed" section. This is
     the only way you can mark pages as complete and make sure your work will get through
     to the next round. Until you press one of those two buttons, the page is
-    'incomplete', even if you press the "Quit" button.  </p>
+    'incomplete', even if you press the "Stop Proofing" button.  </p>
 <p> Pages listed under either "My Recently Completed" or "My Recently Proofed"  are
     available to you for to make proofing corrections or to finish proofing.  Just click
     on the link to the page.  So if you discover that you made a mistake on a page, or
