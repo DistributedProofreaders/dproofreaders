@@ -29,94 +29,46 @@ $maxpages = mysql_result($result0, 0,"maxpages");
 
 
 //query db and put results into arrays
-$resultAll = mysql_query("
-	SELECT pagescompleted, count(*) as NumUsers FROM users
+$result = mysql_query("
+	SELECT
+		pagescompleted,
+		COUNT(*)                         AS n_all,
+		SUM(last_login > $t_90_days_ago) AS n_90d,
+		SUM(last_login > $t_28_days_ago) AS n_28d,
+		SUM(last_login > $t_7_days_ago)  AS n_7d
+	FROM users
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");
 
 
-$result90 = mysql_query("
-	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $t_90_days_ago
-	GROUP BY pagescompleted
-	ORDER BY pagescompleted ASC
-");
-
-$result28 = mysql_query("
-	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $t_28_days_ago
-	GROUP BY pagescompleted
-	ORDER BY pagescompleted ASC
-");
-
-
-$result7 = mysql_query("
-	SELECT pagescompleted, count(*) as NumUsers FROM users
-	WHERE last_login > $t_7_days_ago
-	GROUP BY pagescompleted
-	ORDER BY pagescompleted ASC
-");
-
-
-$numrowsAll = mysql_numrows($resultAll);
-$numrows90 = mysql_numrows($result90);
-$numrows28 = mysql_numrows($result28);
-$numrows7 = mysql_numrows($result7);
+$numrows = mysql_numrows($result);
 
 
 $count = 0;
-$countAll = 0;
-$count90 = 0;
-$count28 = 0;
-$count7 = 0;
+$row_num = 0;
 
 
 // consider in turn each possible pagescompleted value...
 while ($count < $maxpages) {
 
-    // ... for each of our four data sets, 
     // if for the current pagescompleted value ($count) a 
-    // corresponding value exists for NumUsers, add it to the array of Y-axis data
-    // for that result set;
+    // corresponding value exists for pagescompleted, add the n_* values to the array of Y-axis data;
     // else no users in that result set have done that number of pages,
     // so set the Y-axis data to 0 for that number of pagescompleted
 
 
-    // track how many values we've looked at and recorded from this data set
-    // so as not to run out of bounds
-    if ($countAll < $numrowsAll) {
-	if (mysql_result($resultAll, $countAll,"pagescompleted") == $count) {
-           $datayAll[$count] = mysql_result($resultAll, $countAll,"NumUsers");	
-	   $countAll++;
+    if ($row_num < $numrows) {
+	if (mysql_result($result, $row_num,"pagescompleted") == $count) {
+	   $datayAll[$count] = mysql_result($result, $row_num,"n_all");
+	   $datay90[$count] = mysql_result($result, $row_num,"n_90d");
+	   $datay28[$count] = mysql_result($result, $row_num,"n_28d");
+	   $datay7[$count] = mysql_result($result, $row_num,"n_7d");
+	   $row_num++;
 	} else {
 	   $datayAll[$count] = 0;
-	}
-    }
-
-    if ($count90 < $numrows90) {
-	if (mysql_result($result90, $count90,"pagescompleted") == $count) {
-           $datay90[$count] = mysql_result($result90, $count90,"NumUsers");	
-	   $count90++;
-	} else {
 	   $datay90[$count] = 0;
-	}
-    }
-
-    if ($count28 < $numrows28) {
-	if (mysql_result($result28, $count28,"pagescompleted") == $count) {
-           $datay28[$count] = mysql_result($result28, $count28,"NumUsers");	
-	   $count28++;
-	} else {
 	   $datay28[$count] = 0;
-	}
-    }
-
-    if ($count7 < $numrows7) {
-	if (mysql_result($result7, $count7,"pagescompleted") == $count) {
-           $datay7[$count] = mysql_result($result7, $count7,"NumUsers");	
-	   $count7++;
-	} else {
 	   $datay7[$count] = 0;
 	}
     }
