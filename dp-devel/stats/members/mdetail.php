@@ -8,7 +8,20 @@ include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
 
-$result = mysql_query("SELECT * FROM users WHERE u_id = ".$_GET['id']."");
+$id = array_get( $_GET, 'id', '' );
+if (empty($id)) {
+	echo "mdetail.php: missing or empty 'id' parameter";
+	exit;
+}
+
+$result = mysql_query("SELECT * FROM users WHERE u_id = '$id'");
+
+if (mysql_num_rows($result) == 0)
+{
+	echo "mdetail.php: no user with u_id='$id'";
+	exit;
+}
+
 $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
@@ -26,7 +39,7 @@ $desc = "$isAnonymousUsername'$needsApostrophe "._("Statistics");
 theme($desc, "header");
 
 echo "<br><center>";
-if (!empty($curMbr['u_id'])) {
+
 	if ($isAnonymousUsername == _("Anonymous") && $curMbr['username'] != $pguser) {
 		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
 	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
@@ -44,7 +57,6 @@ if (!empty($curMbr['u_id'])) {
 		if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
 		if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 	}
-}
 
 echo "</center>";
 theme("", "footer");
