@@ -176,8 +176,7 @@ echo "</table>\n";
 if ($page_type == "Full") {
 
 
-	echo "<h3>Per-Page Info</h3>\n";
-	echo_page_table( $projectid );
+	echo "<h3><a href='page_detail.php?project=$projectid&show_image=1'>Per-Page Info</a></h3>\n";
 
 
       // -----------------------------------------------------------------------------

@@ -7,7 +7,7 @@ include_once($relPath.'f_project_states.inc'); // projectStateRound
 
 
 
-function echo_page_table( $projectid )
+function echo_page_table( $projectid, $show_image_size)
 {
 	global $theme, $projects_dir;
 
@@ -20,7 +20,6 @@ function echo_page_table( $projectid )
 
 	$show_delete = ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND');
 
-	$show_image_size = 1;
 	$upload_colspan = 2 + $show_image_size;
 
 	echo "<table border=1>\n";
@@ -29,14 +28,14 @@ function echo_page_table( $projectid )
 	{
 		echo "<tr>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-		echo "    <td align='center' colspan='$upload_colspan'>Upload</td>\n";
+		echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		if ($can_edit) {
-			echo "    <td align='center' colspan='5'>Round 1</td>\n";
-			echo "    <td align='center' colspan='5'>Round 2</td>\n";
+			echo "    <td align='center' colspan='5'>"._("Round 1")."</td>\n";
+			echo "    <td align='center' colspan='5'>"._("Round 2")."</td>\n";
 		} else {
-			echo "    <td align='center' colspan='4'>Round 1</td>\n";
-			echo "    <td align='center' colspan='4'>Round 2</td>\n";
+			echo "    <td align='center' colspan='3'>"._("Round 1")."</td>\n";
+			echo "    <td align='center' colspan='3'>"._("Round 2")."</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -50,36 +49,42 @@ function echo_page_table( $projectid )
 
 		echo "{$td_start}I{$td_end}";
 
-		echo "{$td_start}Image{$td_end}";
+		echo "{$td_start}"._("Image")."{$td_end}";
 		if ($show_image_size)
 		{
-			echo "{$td_start}Size{$td_end}";
+			echo "{$td_start}"._("Size")."{$td_end}";
 		}
 
-		echo "{$td_start}Text{$td_end}";
+		echo "{$td_start}"._("Text")."{$td_end}";
 
-		echo "{$td_start}Page State{$td_end}";
+		echo "{$td_start}"._("Page State")."{$td_end}";
 
-		echo "{$td_start}Diff{$td_end}";
-		echo "{$td_start}Date{$td_end}";
-		echo "{$td_start}User{$td_end}";
-		echo "{$td_start}Text{$td_end}";
+		echo "{$td_start}"._("Diff")."{$td_end}";
+		echo "{$td_start}"._("Date")."{$td_end}";
 		if ($can_edit)
 		{
-			echo "{$td_start}Clear{$td_end}";
+			echo "{$td_start}"._("User")."{$td_end}";
 		}
-		echo "{$td_start}Diff{$td_end}";
-		echo "{$td_start}Date{$td_end}";
-		echo "{$td_start}User{$td_end}";
-		echo "{$td_start}Text{$td_end}";
+		echo "{$td_start}"._("Text")."{$td_end}";
 		if ($can_edit)
 		{
-			echo "{$td_start}Clear{$td_end}";
+			echo "{$td_start}"._("Clear")."{$td_end}";
+		}
+		echo "{$td_start}"._("Diff")."{$td_end}";
+		echo "{$td_start}"._("Date")."{$td_end}";
+		if ($can_edit)
+		{
+			echo "{$td_start}"._("User")."{$td_end}";
+		}
+		echo "{$td_start}"._("Text")."{$td_end}";
+		if ($can_edit)
+		{
+			echo "{$td_start}"._("Clear")."{$td_end}";
 		
-			echo "{$td_start}Bad{$td_end}";
+			echo "{$td_start}"._("Bad")."{$td_end}";
 
 			if ($show_delete) {
-				echo "{$td_start}Delete{$td_end}";
+				echo "{$td_start}"._("Delete")."{$td_end}";
 			}
 		}
 
@@ -152,9 +157,9 @@ function echo_page_table( $projectid )
 
 		// --------------------------------------------
 
-		echo_cells_for_round(1, $page_res, $projectid, $inRound );
+		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit);
 
-		echo_cells_for_round(2, $page_res, $projectid, $inRound );
+		echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit);
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -188,7 +193,7 @@ function echo_page_table( $projectid )
 
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
-	$projectid, $inRound )
+	$projectid, $inRound, $can_edit)
 {
 	global $userP, $forums_url;
 
@@ -226,9 +231,9 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 
 	echo "<td align='center'>";
 	if($page_res[$R_diff_field_name]) {
-		echo "no diff";
+		echo _("no diff");
 	} else {
-		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>diff</a>";
+		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
 	}
 
 	echo "</td>\n";
@@ -252,11 +257,11 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// User
 
 	$R_username = $page_res[$R_user_field_name];
-	if ($R_username == '')
+	if (($R_username == '') && ($can_edit))
 	{
 		echo "<td></td>\n";
 	}
-	else
+	else if ($can_edit)
 	{
 		$R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
 		if (mysql_num_rows($R_ures) == 0) {
@@ -304,7 +309,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			($inRound=='SECOND')
 		)
 		{
-			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>";
+			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>"._("Clear")."</a></td>";
 		}
 		else
 		{
