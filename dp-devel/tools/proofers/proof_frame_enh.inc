@@ -68,21 +68,21 @@ body {
   }
 A:link {
   color:#000000;
-  text-decoration : none; 
+  text-decoration : none;
   }
 A:visited {
   color:#000000;
-  text-decoration : none; 
+  text-decoration : none;
   }
 A:hover {
   color:#003300;
   font-weight: bold;
-  text-decoration : none; 
+  text-decoration : none;
   }
 A:active {
   color:#000033;
   font-weight: bold;
-  text-decoration : none; 
+  text-decoration : none;
   }
 #imagehorz {
   position:absolute;
@@ -133,7 +133,7 @@ A:active {
   z-index:1;
   background-color:#EEDFCC;
   }
-#controlframe { 
+#controlframe {
   <?PHP
 /*    if ($userP['i_layout']=='1')
       {
@@ -160,7 +160,7 @@ A:active {
   border:1px solid #000000;
   text-align:center;
   overflow:auto;
-  } 
+  }
 #tdtop {
   border:1px solid #000000;
   background-color:#CDC0B0;
@@ -193,50 +193,50 @@ A:active {
   }
 -->
 </style>
-</head><body 
-  text="#000000" 
-  topmargin="0" 
-  onload="ldAll()"><div 
-id="imagehorz"><table 
-  id="tbhorz" 
-  width="100%"><tr><td 
-    align="left"><a 
-    href="JavaScript:scrollImage('left')"><img 
-      src="gfx/a1_left.png" width="11" height="11" alt="Move Left" title="Move Left" border="0"></a>&nbsp;&nbsp;&nbsp;<a 
-    href="JavaScript: //" onmouseover="scrollOver('left')" onmouseout="stopOver()"><img 
-      src="gfx/a2_left.png" width="11" height="11" alt="Scroll Left" title="Scroll Left" border="0"></a></td><td 
-      align="right"><a 
-      href="JavaScript: //" onmouseover="scrollOver('right')" onmouseout="stopOver()"><img 
-        src="gfx/a2_right.png" width="11" height="11" alt="Scroll Right" title="Scroll Right" border="0"></a>&nbsp;&nbsp;&nbsp;<a 
-     href="JavaScript:scrollImage('right')"><img 
-       src="gfx/a1_right.png" width="11" height="11" alt="Move Right" title="Move Right" border="0"></a></td></tr></table></div><div 
-id="imagevert"><table 
-  id="tbvert" 
-  height="95%"><tr><td 
-    valign="top"><a 
-    href="JavaScript:scrollImage('up')"><img 
-      src="gfx/a1_up.png" width="11" height="11" alt="Move Up" title="Move Up" border="0"></a><p><a 
-    href="JavaScript: //" onmouseover="scrollOver('up')" onmouseout="stopOver()"><img 
-      src="gfx/a2_up.png" width="11" height="11" alt="Scroll Up" title="Scroll Up" border="0"></a></p></td></tr><tr><td 
-      valign="bottom"><a 
-      href="JavaScript: //" onmouseover="scrollOver('down')" onmouseout="stopOver()"><img 
-        src="gfx/a2_down.png" width="11" height="11" alt="Scroll Down" title="Scroll Down" border="0"></a><p><a 
-    href="JavaScript:scrollImage('down')"><img 
-      src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0"></a></p></td></tr></table></div><div 
-id="imageframe"><div 
-id="imagedisplay"><a href="JavaScript: //"><img 
-name="scanimage" id="scanimage" title="" alt="" 
-src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>" 
-border="0" width="<?PHP 
+</head><body
+  text="#000000"
+  topmargin="0"
+  onload="ldAll()"><div
+id="imagehorz"><table
+  id="tbhorz"
+  width="100%"><tr><td
+    align="left"><a
+    href="JavaScript:scrollImage('left')"><img
+      src="gfx/a1_left.png" width="11" height="11" alt="Move Left" title="Move Left" border="0"></a>&nbsp;&nbsp;&nbsp;<a
+    href="JavaScript: //" onmouseover="scrollOver('left')" onmouseout="stopOver()"><img
+      src="gfx/a2_left.png" width="11" height="11" alt="Scroll Left" title="Scroll Left" border="0"></a></td><td
+      align="right"><a
+      href="JavaScript: //" onmouseover="scrollOver('right')" onmouseout="stopOver()"><img
+        src="gfx/a2_right.png" width="11" height="11" alt="Scroll Right" title="Scroll Right" border="0"></a>&nbsp;&nbsp;&nbsp;<a
+     href="JavaScript:scrollImage('right')"><img
+       src="gfx/a1_right.png" width="11" height="11" alt="Move Right" title="Move Right" border="0"></a></td></tr></table></div><div
+id="imagevert"><table
+  id="tbvert"
+  height="95%"><tr><td
+    valign="top"><a
+    href="JavaScript:scrollImage('up')"><img
+      src="gfx/a1_up.png" width="11" height="11" alt="Move Up" title="Move Up" border="0"></a><p><a
+    href="JavaScript: //" onmouseover="scrollOver('up')" onmouseout="stopOver()"><img
+      src="gfx/a2_up.png" width="11" height="11" alt="Scroll Up" title="Scroll Up" border="0"></a></p></td></tr><tr><td
+      valign="bottom"><a
+      href="JavaScript: //" onmouseover="scrollOver('down')" onmouseout="stopOver()"><img
+        src="gfx/a2_down.png" width="11" height="11" alt="Scroll Down" title="Scroll Down" border="0"></a><p><a
+    href="JavaScript:scrollImage('down')"><img
+      src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0"></a></p></td></tr></table></div><div
+id="imageframe"><div
+id="imagedisplay"><a href="JavaScript: //"><img
+name="scanimage" id="scanimage" title="" alt=""
+src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>"
+border="0" width="<?PHP
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
   else {$iWidth=$userP['h_zoom'];}
   $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
-?>"></a></div></div><div 
-id="controlframe" align="center"><form 
-      name="editform" id="editform" 
-      method="POST" 
+?>"></a></div></div><div
+id="controlframe" align="center"><form
+      name="editform" id="editform"
+      method="POST"
       action="processtext.php"><?PHP
 // set values for hidden form fields
   $sHidFS="<input \r\ntype=\"hidden\" value=\"";
@@ -249,15 +249,15 @@ id="controlframe" align="center"><form
   echo $sHidFS.$npage['pagestate'].$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
   echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
   echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
-?><table 
-  id="tbtext" 
-  cellspacing="0" 
-  align="center"><tr><td 
-    id="tdtop" 
+?><table
+  id="tbtext"
+  cellspacing="0"
+  align="center"><tr><td
+    id="tdtop"
     valign="middle"><?PHP
   include('button_menu.inc');
-?></td></tr><tr><td 
-  id="tdtext" 
+?></td></tr><tr><td
+  id="tdtext"
   valign="top"><?PHP
 // display text area
   if ($userP['i_layout']==1)
@@ -268,9 +268,9 @@ id="controlframe" align="center"><form
   // SENDING PAGE-TEXT TO USER
   // We're sending it in an HTML document, so encode special characters.
   echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
-?></textarea></td></tr><tr><td 
-  id="tdbottom" 
-  valign="top"><?PHP 
+?></textarea></td></tr><tr><td
+  id="tdbottom"
+  valign="top"><?PHP
 //display page number
   $pageNum=substr($npage['image'],0,-4);
   echo "<font size=\"-1\"><B>Page Number: $pageNum";
@@ -279,8 +279,21 @@ id="controlframe" align="center"><form
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $username = mysql_result($result, 0, "round1_user");
       $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-      $user_id = mysql_result($result, 0, "user_id");   
-      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
+      $user_id = mysql_result($result, 0, "user_id");
+      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
     }
   echo "</b></font>";
-?></td></tr></table></form></div></body></html>
+?></td></tr></table></form></div>
+
+<?
+//Preload the next 4 pages
+//Load the page that is next.  Then load the page that is 2 pages from the one we are doing
+//Then we load the 4th page & 6th page after what we are currently proofing.
+//This is to help with the possibility that not just one person is proofing the project
+echo "<img alt='Preload Image' width='1' height='1' src='$projects_url/".$npage['project']."/".str_pad(($npage['image']+1),3,0,STR_PAD_LEFT).".png'>\n";
+echo "<img alt='Preload Image' width='1' height='1' src='$projects_url/".$npage['project']."/".str_pad(($npage['image']+2),3,0,STR_PAD_LEFT).".png'>\n";
+echo "<img alt='Preload Image' width='1' height='1' src='$projects_url/".$npage['project']."/".str_pad(($npage['image']+4),3,0,STR_PAD_LEFT).".png'>\n";
+echo "<img alt='Preload Image' width='1' height='1' src='$projects_url/".$npage['project']."/".str_pad(($npage['image']+6),3,0,STR_PAD_LEFT).".png'>\n";
+?>
+
+</body></html>
