@@ -5,9 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'echo_project_info.inc');
-include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
-$projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('page_table.inc');
 
@@ -86,14 +84,8 @@ if ($can_edit) {
         ";
 }
 
-// get state of project to giv to projectinfo, which already has plenty
-// enough queries on projects to have gotten it for itself.
 $result = mysql_query("SELECT state FROM projects WHERE projectid='$projectid'");
 $state = mysql_result($result, 0);
-
-// Appears to do a whole bunch of SQL queries.
-// Not sure where it's even used.
-$projectinfo->update($projectid, $state);
 
 echo "<center>";
 echo $link_to_other_version . '<br><br>';
