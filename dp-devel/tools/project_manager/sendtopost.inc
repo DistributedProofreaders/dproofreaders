@@ -39,7 +39,7 @@ include_once($relPath.'maybe_mail.inc');
 	// Generate comments html file
 	$htmlpath = $projectpath."/".$project."_comments.html";
 	$fp = fopen($htmlpath, "w");
-	project_comments($project, $fp);
+	write_project_comments($project, $fp);
 	fclose ($fp);
 
         // Create a zip of that file
@@ -83,7 +83,7 @@ include_once($relPath.'maybe_mail.inc');
 
     }
 
-    function project_comments ($project, $fp) {
+    function write_project_comments($project, $fp) {
 
 	$header = "<HTML><BODY>";
 	fputs($fp,$header);
