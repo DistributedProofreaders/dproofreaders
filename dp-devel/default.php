@@ -174,9 +174,7 @@ if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zi
 if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
 $projectid = $row['projectid'];
-$moddate = $row['modifieddate'];
-$moddate=$moddate=date("l, F jS, Y",$moddate);
-
+$moddate = date("l, F jS, Y",$row['modifieddate']);
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
 if ($numofetexts == $etext_limit) {
@@ -195,9 +193,7 @@ echo "<img src='web_graphics/silver_star.jpg' border='0' height='38' width='40' 
 $numofetexts = 1;
 while ($row = mysql_fetch_array($goldresult)) {
 $projectid = $row['projectid'];
-$moddate = $row['modifieddate'];
-$moddate=$moddate=date("l, F jS, Y",$moddate);
-
+$moddate = date("l, F jS, Y",$row['modifieddate']);
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
 if ($numofetexts == $etext_limit) {
@@ -215,9 +211,7 @@ echo "<img src='web_graphics/bronze_star.jpg' border='0' height='38' width='40' 
 $numofetexts = 1;
 while ($row = mysql_fetch_array($goldresult)) {
 $projectid = $row['projectid'];
-$moddate = $row['modifieddate'];
-$moddate=$moddate=date("l, F jS, Y",$moddate);
-
+$moddate = date("l, F jS, Y",$row['modifieddate']);
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
 if ($numofetexts == $etext_limit) {

@@ -77,8 +77,7 @@ $links = $links."<br><br>";
 $links = "<br>";
 }
 
-$moddate = $row['modifieddate'];
-$moddate=$moddate=date("l, F jS, Y",$moddate);
+$moddate = date("l, F jS, Y",$row['modifieddate']);
 
 if ($type == "Gold") {
 $moddate = "Uploaded: ".$moddate;
