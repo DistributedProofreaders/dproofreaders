@@ -38,7 +38,7 @@ function user_is_proj_facilitator()
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'proj_facilitator'");
 	if (mysql_num_rows($result) >= 1) {
@@ -54,7 +54,7 @@ function user_is_post_proof_verifier()
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'post_proof_verifier'");
 	if (mysql_num_rows($result) >= 1) {
@@ -70,7 +70,7 @@ function user_is_PM_of($project)
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT userid FROM projects WHERE projectid = '$project'");
 	if (mysql_num_rows($result) >= 1) {
@@ -88,7 +88,7 @@ function user_is_PP_of($project)
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND state = 'proj_post_first_checked_out'");
 	if (mysql_num_rows($result) >= 1) {
@@ -105,7 +105,7 @@ function user_is_site_news_editor()
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'site_news_editor'");
 	if (mysql_num_rows($result) >= 1) {
