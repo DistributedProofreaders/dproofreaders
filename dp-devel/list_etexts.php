@@ -56,7 +56,7 @@ $sortlist[3]=" Order by authorsname desc";
 $sortlist[4]=" Order by modifieddate asc";
 $sortlist[5]=" Order by modifieddate desc";
 
-$result=mysql_query("SELECT nameofwork, authorsname, ziplink, txtlink, htmllink, modifieddate, postednum FROM projects WHERE $state $sortlist[$sort]");
+$result=mysql_query("SELECT nameofwork, authorsname, ziplink, txtlink, htmllink, modifieddate, postednum, projectid FROM projects WHERE $state $sortlist[$sort]");
 
 $numofetexts = 1;
 while($row = mysql_fetch_array($result)) {
@@ -90,7 +90,11 @@ $moddate = "Last Proofed: ".$moddate;
 $moddate = "Released: ".$moddate;
 }
 
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>".$row['postednum']." pages; $moddate<br>$links</font>";
+$projectid = $row['projectid'];
+$totalpages = mysql_query("SELECT fileid FROM $projectid");
+$totalpages = mysql_num_rows($totalpages);
+
+echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>$links</font>";
 
 $numofetexts++;
 }
