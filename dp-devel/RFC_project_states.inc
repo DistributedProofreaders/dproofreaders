@@ -1,5 +1,13 @@
 <?PHP
 /*
+Note that this is just an RFC (Request for Comments),
+and is not actually used by the code.
+
+It may be useful for future reference,
+but there's no requirement that we follow it.
+*/
+
+/*
   States:
 
   All state names begin with PROJ (project)
