@@ -75,6 +75,11 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	// A project can be deleted when it's in any state.
 	if ( $new_state == PROJ_DELETE )
 	{
+
+		if ($writeBIGtable) {
+			$result = mysql_query("DELETE FROM project_pages WHERE projectid = '$projectid'");
+		}		
+
 		$result = mysql_query("DROP TABLE $projectid");
 
 		$result = mysql_query("
