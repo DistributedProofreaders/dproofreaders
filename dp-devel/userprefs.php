@@ -2,6 +2,13 @@
 $relPath="./pinc/";
 include($relPath.'dp_main.inc');
 
+function radio_select($db_name, $db_value, $value, $text_name) {
+if (strtolower($db_value) == strtolower($value)) {
+echo "<input type='radio' name='$db_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;&nbsp;&nbsp;";
+} else {
+echo "<input type='radio' name='$db_name' value='$value'>$text_name&nbsp;&nbsp;&nbsp;&nbsp;";
+} }
+
 //TODO Make pretty
 // TODO Make some of the repetitive stuff functions
 
@@ -30,10 +37,9 @@ if (isset($project) && isset($proofstate))
 else {echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/proof_per.php\"></head><body></body></html>";}
 exit;}
 
-
 if (@$_POST["insertdb"] == "") {
 echo "<html><head><title> User Preferences</title></head><body>";
-$result=mysql_query("SELECT real_name, email FROM users WHERE id='$uid' AND username='$pguser'");
+$result=mysql_query("SELECT * FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
 $email_updates = $userP['email_updates'];
@@ -52,11 +58,10 @@ echo "<td width='79%'><input type='text' name='email' value='$email'></td>";
 echo "</tr>";
 echo "<tr>";
 echo "<td width='21%'>Email Updates:</td>";
-if ($email_updates == "0") {
-echo "<td width='79%'><input type='radio' name='email_updates' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='email_updates' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='email_updates' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>No</td>";
-}
+echo "<td width='79%'>";
+radio_select('email_updates', $email_updates, '1', 'Yes');
+radio_select('email_updates', $email_updates, '0', 'No');
+echo "</td>";
 echo "</tr>";
 echo "<tr>";
 echo "<td width='21%'>Show projects from:</td>";
