@@ -29,6 +29,8 @@ if ( substr($request,0,4) == 'GET_' )
 		$refresh_url="$projects_url/$projectid/".$projectid."images.zip";
 	} else if ($request == 'GET_IMAGES_HTML') {
 		$refresh_url="$projects_url/$projectid/images.html";
+	} else if ($request == 'GET_PROJ_DETAILS') {
+		$refresh_url="$code_url/tools/project_manager/project_detail.php?project=$projectid";
 	} else if ($request == 'GET_COMMENTS_PROOF') {
 		$refresh_url="proofers/projects.php?project=$projectid&proofing=1";
 	} else if ($request == 'GET_COMMENTS_POST') {
