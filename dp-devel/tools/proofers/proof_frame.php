@@ -1,5 +1,6 @@
 <?PHP
 $relPath="./../../pinc/";
+include_once($relPath.'RoundDescriptor.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
@@ -46,9 +47,10 @@ $needPage=1;
         $err = get_available_page( $project, $proofstate, $pguser );
           if ($err)
             {
+	      $prd = get_PRD_for_project_state($proofstate);
               $body = $err . "<br> " . _("You will be taken back to the project listing page in 4 seconds.");
               $title = _("Unable to get an available page");
-              metarefresh(4, "list_avail.php", $title, $body);
+              metarefresh(4, "round.php?round_id={$prd->round_id}", $title, $body);
               exit;
             }
       }

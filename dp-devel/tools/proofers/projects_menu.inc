@@ -23,8 +23,9 @@ echo _("Personal Page")."</a></td>";
 
 // -------
 
-echo "<td bgcolor='CCCCCC' align='center'><a href='list_avail.php' target='_top'>"; 
-echo _("View Available Projects");
+$prd = get_PRD_for_project_state($proofstate);
+echo "<td bgcolor='CCCCCC' align='center'><a href='round.php?round_id={$prd->round_id}' target='_top'>"; 
+echo $prd->round_name;
 echo "</a></td>";
 
 // -------

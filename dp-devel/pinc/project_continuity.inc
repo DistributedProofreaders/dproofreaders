@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'project_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 function project_continuity_check($projectid,$orig_state,$no_more_pages)
 // $orig_state was the project's state at some time in the past,
@@ -32,8 +33,10 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 			echo "</p>\n";
 		}
 
+		global $code_url;
+		$prd = get_PRD_for_project_state($orig_state);
 		echo "<p>";
-		echo "<a href='list_avail.php' target=\"_top\">"._("Back to list of projects available for proofreading.")."</a>";
+		echo "<a href='$code_url/tools/proofers/round.php?round_id={$prd->round_id}' target=\"_top\">{$prd->round_name}</a>";
 		echo "</p>\n";
 
 		die();
