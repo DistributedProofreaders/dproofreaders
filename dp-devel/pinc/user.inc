@@ -5,6 +5,9 @@ class db_udb
 {
      var $cookieDomain="";
 
+function db_udb()
+{$this->cookieDomain=(substr_count($_SERVER['SERVER_NAME'], ".")) > 0? $_SERVER['SERVER_NAME'] : "";}
+
 function checkSafe($uInfo)
      {
      /*
