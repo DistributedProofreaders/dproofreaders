@@ -22,9 +22,12 @@ function checkRowExistence($projectid) {
 function update_total_pages($projectid, $adjustAvail) {
 	$result = mysql_query("SELECT COUNT(fileid) AS total_pages FROM $projectid");
 	$total_pages = mysql_result($result, 0, "total_pages");
-	if (!empty($adjustAvail)) { $avail_pages = $total_pages; } else { $avail_pages = 0; }
 	checkRowExistence($projectid);
-	$result = mysql_query("UPDATE page_counts SET total_pages = $total_pages, avail_pages = $avail_pages WHERE projectid = '$projectid'");
+	if (!empty($adjustAvail)) {
+		$result = mysql_query("UPDATE page_counts SET total_pages = $total_pages, avail_pages = $total_pages WHERE projectid = '$projectid'");
+	} else {
+		$result = mysql_query("UPDATE page_counts SET total_pages = $total_pages WHERE projectid = '$projectid'");
+	}
 }
 
 function update_avail_pages($projectid, $state) {
