@@ -31,11 +31,11 @@ theme("Project Managers", "header");
 	if ($userP['sitemanager'] == "yes") { 
 		echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
 		echo " | ";
-		echo "<a href='projectmgr.php?show=search_form'>Search for Projects</a>"; 
+		echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
 	}
 	else
 	{
-		echo "<a href='projectmgr.php?show=search_form'>Search Your Projects</a>"; 
+		echo "<b><a href='projectmgr.php?show=search_form'>Search Your Projects</a></b>"; 
 	}
 	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
@@ -159,7 +159,10 @@ theme("Project Managers", "header");
 			<input type='submit' value='Search'>
 		    </form>
 		    Matching [except for State] is case-insensitive and unanchored;<br>
-		    so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.
+		    so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.<br>
+		    <br>
+		    If desired, you should be able to select<br>
+		    multiple values for State (e.g., by holding down Ctrl).
 		    </center>
 		";
 	} else {
