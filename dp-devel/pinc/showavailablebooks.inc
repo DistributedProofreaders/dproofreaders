@@ -142,7 +142,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			}
 
                                // nice green for Abolition of Slavery and IWD
-                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )  OR startswith( $book['comments'], 'SPECIAL: IWD))
+                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )  OR startswith( $book['comments'], 'SPECIAL: IWD'))
                         {
                                 $bgcolor = " bgcolor='#00CC99'";
                         }
