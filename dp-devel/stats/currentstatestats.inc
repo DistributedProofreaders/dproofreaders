@@ -44,17 +44,20 @@ $Posted = state_change_since ( "
 				(state LIKE 'proj_submit%'
 				OR state LIKE 'proj_correct%')
 			",$start_date);
+
+
+
 echo "
 	<table width='75%' border='4' rules='all' align=center>
 	  <tbody>
-	  <tr bgcolor='#000099'>
-	      <th colspan=04><font color='#ffffff' face='verdana, arial'>"
+	  <tr bgcolor='".$theme['color_navbar_bg']."'>
+	      <th colspan=04><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."'>"
 	. _("Projects this month") .
 		"</font></th>
-	  <tr><td align=center bgcolor='#99CCFF'>"._("Created").":        <b>$created</b></td>
-	      <td align=center bgcolor='#99CCFF'>"._("Proofread").":      <b>$FinProof</b></td>
-	      <td align=center bgcolor='#99CCFF'>"._("Post-Processed").": <b>$FinPP</b></td>
-	      <td align=center bgcolor='#99CCFF'>"._("Posted to PG").": <b>$Posted</b></td>
+	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Created").":        <b>$created</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Proofread").":      <b>$FinProof</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg'].">"._("Post-Processed").": <b>$FinPP</b></td>
+	      <td align=center bgcolor='".$theme['color_mainbody_bg'].">"._("Posted to PG").": <b>$Posted</b></td>
 	  </tr>
 	  </tbody>
 	</table>
