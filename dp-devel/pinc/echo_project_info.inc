@@ -1,5 +1,6 @@
 <?
 include_once($relPath.'v_site.inc');
+include_once($relPath.'f_project_states.inc');
 include_once($relPath.'dp_main.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -14,10 +15,18 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	    SELECT * FROM projects WHERE projectid = '$projectid'
 	"));
 
-	$phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
-	$user_id = mysql_result($phpuser, 0, "user_id");
+	// These don't appear to be used.
+	// $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
+	// $user_id = mysql_result($phpuser, 0, "user_id");
 
-	if ($proofstate != 'proj_post')
+	// -------------------------------------------------------------------------
+	// The state of the project
+
+	if ($proofstate == 'proj_post')
+	{
+		echo_row_a( _("Project State"), project_states_text($project['state']) );
+	}
+	else
 	{
 		if ($sub)
 		{
@@ -32,14 +41,44 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		}
 	}
 
+	// -------------------------------------------------------------------------
+	// Information about the work itself (independent of DP)
+
 	echo_row_a( _("Title"),           $project['nameofwork'] );
 	echo_row_a( _("Author"),          $project['authorsname'] );
+	echo_row_a( _("Language"),        $project['language'] );
+	echo_row_a( _("Genre"),           $project['genre'] );
+	echo_row_a( _("Difficulty"),      $project['difficulty'] );
+
+	// -------------------------------------------------------------------------
+	// Basic DP info
+
+	if ($proofstate == 'proj_post')
+	{
+		echo_row_a( "Project ID",     $project['projectid'] );
+		echo_row_a( "Clearance Line", $project['clearance'] );
+	}
+
+	// -------------------------------------------------------------------------
+	// People who have certain roles with respect to the project
+	
 	echo_row_a( _("Project Manager"), $project['username'] );
 
 	if ($proofstate == 'proj_post')
 	{
 		echo_row_a( _("Post Proofer"), $project['postproofer'] );
+
+		$managercredit   = get_real_name( $project['username'] );
+		$scannercredit   = get_real_name( $project['scannercredit'] );
+		$postproofername = get_real_name( $project['postproofer'] );
+
+		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
+
+		echo_row_a( "Credits line so far", $creditline );
 	}
+
+	// -------------------------------------------------------------------------
+	// Current activity
 
 	if ($proofstate != 'proj_post')
 	{
@@ -57,6 +96,9 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		echo_row_a( _("Last Proofread"), $lastproofed );
 	}
 
+	// -------------------------------------------------------------------------
+	// Forum topic
+
 	$topic_id = $project['topic_id'];
 	if (!empty($topic_id)) {
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
@@ -72,23 +114,11 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 	echo_row_a( _("Forum"), "<a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">$blurb</a>" );
 
-	if ($proofstate == 'proj_post')
-	{
-		//Look up realnames for project manager, scanner and post processor for credit line
+	// -------------------------------------------------------------------------
+	// Personal data with respect to this project
+	// (This is the only section that uses $pguser and $userP.)
 
-		$managercredit   = get_real_name( $project['username'] );
-		$scannercredit   = get_real_name( $project['scannercredit'] );
-		$postproofername = get_real_name( $project['postproofer'] );
-
-		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
-
-		echo_row_a( "Credits line so far", $creditline );
-		echo_row_a( "Clearance Line:", $project['clearance'] );
-
-		echo_row_b( "Post Processor Comments", '' );
-		echo_row_c( $project['postcomments'] );
-	}
-	else
+	if ($proofstate != 'proj_post')
 	{
 		$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
 		if (mysql_num_rows($temp) == 0) {
@@ -103,6 +133,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,0);
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,1);
 		}
+	}
+
+	// -------------------------------------------------------------------------
+	// Comments
+
+	if ($proofstate == 'proj_post')
+	{
+		echo_row_b( "Post Processor Comments", '' );
+		echo_row_c( $project['postcomments'] );
 	}
 
 	$comments = $project['comments'];
@@ -123,6 +162,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$a = _("Follow the current <a href='$code_url/faq/document.php'>Proofing Guidelines</a> for detailed project formatting directions.");
 	$b = _("Instructions below take precedence over the guidelines");
 	echo_row_c( "$a<b>$b:</b><P>$comments" );
+
+	// -------------------------------------------------------------------------
 
 	echo "</table>";
 }
