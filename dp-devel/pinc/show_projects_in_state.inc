@@ -25,7 +25,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	$bgcolor = $theme['color_headerbar_bg'];
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 	{
-		$stage = 'post_1';
 		$foo_Header = _("Manager");
 		$foo_field_name = 'username';
   		if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
@@ -35,10 +34,11 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 			$linkbase = "<a href=post_proofers.php?orderPP=";
                         $linkend  = '#PP>';
 		}
+		$bgcolor_odd = $theme['color_mainbody_bg'];
+		$bgcolor_even = $theme['color_navbar_bg'];
 	}
 	elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 	{
-		$stage = 'post_2';
 		$bgcolor = '#66ccff';
 		$foo_Header = _("Post Processor");
 		$foo_field_name = 'postproofer';
@@ -49,16 +49,19 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 			$linkbase = "<a href=post_proofers.php?orderPPV=";
                         $linkend  = '#PPV>';
 		}
+		$bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
+		$bgcolor_even = '#99FFFF'; // "harshflourolightblue"
 
 	}
 	elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
 	{
-		$stage = 'correct';
 		$foo_Header = _("Editor");
 		$foo_field_name = 'correctedby';
 		// no sorting in CORRECT mode yet
 		$linkbase = " ";
 		$linkend  = " ";
+		$bgcolor_odd = $theme['color_mainbody_bg'];
+		$bgcolor_even = $theme['color_navbar_bg'];
 	}
 	else
 	{
@@ -241,17 +244,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 
 
 		$book = mysql_fetch_assoc($result);
-
-		if ($stage == 'post_2')
-		{
-			$bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
-			$bgcolor_even = '#99FFFF'; // "harshflourolightblue"
-		}
-		else
-		{
-			$bgcolor_odd = $theme['color_mainbody_bg'];
-			$bgcolor_even = $theme['color_navbar_bg'];
-		}
 
 		if ($rownum % 2) 
 		{
