@@ -171,6 +171,7 @@ function pageCountPercentage($pagescompleted) {
 
 function showMbrNeighbors($curMbr) {
 	global $theme;
+	global $rollover_highlight_attrs;
 	$now = time();
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
@@ -205,7 +206,7 @@ function showMbrNeighbors($curMbr) {
 		$latestSavedRank = $neighbor->get_latest_saved_page_tally_rank();
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
-		start_tr_with_rollover_highlight();
+		echo "\n<tr $rollover_highlight_attrs>";
 
 		if (!$neighbor->is_anonymized()) {
 
@@ -232,6 +233,7 @@ function showMbrNeighbors($curMbr) {
 
 function showMbrTeams($curMbr) {
 	global $theme;
+	global $rollover_highlight_attrs;
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("Teams") );
@@ -239,7 +241,7 @@ function showMbrTeams($curMbr) {
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = select_from_teams("id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
 	while ($row = mysql_fetch_assoc($result)) {
-		start_tr_with_rollover_highlight();
+		echo "\n<tr $rollover_highlight_attrs>";
 		echo "<td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
 	}
 	echo "</td></tr></table></table><p>";
@@ -274,15 +276,6 @@ function echo_tr_headerbar( $blurb, $colspan=1 )
 	echo "</center>";
 	echo "</td>";
 	echo "</tr>";
-}
-
-function start_tr_with_rollover_highlight()
-{
-	global $rollover_highlight_attrs;
-	echo "\n";
-	echo "<tr";
-	echo " $rollover_highlight_attrs";
-	echo ">";
 }
 
 ?>
