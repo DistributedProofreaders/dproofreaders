@@ -8,13 +8,8 @@ include_once($relPath.'gettext_setup.inc');
 
 project_update_page_counts( $project );
 
-$projectinfo = new projectinfo();
-if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-	$projectinfo->update_avail($project, PROJ_PROOF_FIRST_AVAILABLE);
-} else {
-	$projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
-}
-$pages_are_available = ( $projectinfo->availablepages > 0 );
+$num_pages_available = Project_getNumAvailablePagesInRound( $project, $proofstate );
+$pages_are_available = ( $num_pages_available > 0 );
 
 
 /* $_GET $project, $proofstate, $proofing */

@@ -8,7 +8,6 @@ include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'iso_lang_list.inc');
-$projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
 
@@ -297,8 +296,8 @@ abort_if_not_manager();
 			// Left
 			if ( $show_pages_left )
 			{
-			    $projectinfo->update_avail($projectid, $state);
-			    echo "<td align=\"center\">$projectinfo->availablepages</td>\n";
+			    $num_available_pages = Project_getNumAvailablePagesInRound($projectid, $state);
+			    echo "<td align=\"center\">$num_available_pages</td>\n";
 			}
 
 
