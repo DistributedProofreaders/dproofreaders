@@ -41,9 +41,10 @@ function update_avail($project, $state) {
     $this->avail2_rows = mysql_query("SELECT * FROM $project WHERE state = '".AVAIL_SECOND."' ORDER BY image ASC");
     if ($this->avail2_rows != "") { $this->avail2_pages = (mysql_num_rows($this->avail2_rows)); } else $this->avail2_pages = 0;
 
-    if ($state == PROJ_PROOF_SECOND_AVAILABLE) {
+    $project_round = projectStateRound($state);
+    if ( $project_round == 'SECOND' ) {
         $this->availablepages = $this->avail2_pages;
-    } else if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
+    } else if ( $project_round == 'FIRST' || $project_round == 'NEW' ) {
         $this->availablepages = $this->avail1_pages;
     } else $this->availablepages = 0;
 }
