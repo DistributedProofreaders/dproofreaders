@@ -10,11 +10,11 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	if ( $order == 'TitleA' )
 	{
 		$orderclause = 'nameofwork ASC';
+		$flip_title = FALSE;
 	}
 	elseif ( $order == 'TitleD' )
 	{
 		$orderclause = 'nameofwork DESC';
-		$flip_title = TRUE;
 	}
 	elseif ( $order == 'AuthorA' )
 	{
