@@ -44,12 +44,12 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
     tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'second') . " colspan=2");
     if ($totalpages < 50)
       {
-      tde("Second round projects are unavailable until you have proofread more than 50 first round pages.  After 50 pages of first round proofreading, the second round projects will be unlocked for you.", bgcol(1,'second') . " colspan=5");
+      tde("Second round projects are unavailable until you have proofread more than 50 first round pages.  After 50 pages of first round proofreading, the second round projects will be unlocked for you.", bgcol(1,'second') . " colspan=6");
       echo "</tr>";
       }
     else
       {
-      tde("These are pages that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.", bgcol(1,'second') . " colspan=5");
+      tde("These are pages that have already been proofread once, but now need to be examined <B>closely</B> for small errors that may have been missed.", bgcol(1,'second') . " colspan=6");
       echo "</tr>";
 
       if (! user_can_see_BEGIN_R2()) {
