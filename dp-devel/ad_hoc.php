@@ -16,6 +16,46 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
+if (1)
+{
+	// Regenerate page counts for projects in Post.
+	include_once($relPath.'bookpages.inc');
+	$res = mysql_query("
+		SELECT projectid,nameofwork
+		FROM projects
+		WHERE 0
+		OR state='".PROJ_POST_FIRST_UNAVAILABLE."'
+		OR state='".PROJ_POST_FIRST_AVAILABLE."'
+		OR state='".PROJ_POST_FIRST_CHECKED_OUT."'
+		OR state='".PROJ_POST_SECOND_AVAILABLE."'
+		OR state='".PROJ_POST_SECOND_CHECKED_OUT."'
+		OR state='".PROJ_POST_COMPLETE."'
+	");
+	while ( list($projectid,$nameofwork) = mysql_fetch_row($res) )
+	{
+		echo "$nameofwork<br>";
+		project_update_page_counts($projectid);
+	}
+}
+
+if (0)
+{
+	// Regenerate joined text files
+	include('sendtopost.php');
+	$res = dpsql_query( "
+		SELECT projectid
+		FROM projects 
+		WHERE state='".POST_AVAILABLE."' or state='".POST_CHECKED_OUT
+	" );
+	while ( list($projectid) = mysql_fetch_something($res) )
+	{
+		// backup existing
+		// set $fp
+		join_proofed_text( $projectid, $fp );
+		join_proofed_text_tei( $projectid, $fp );
+	}
+}
+
 if (0)
 {
 	include_once($relPath.'email_address.inc');
