@@ -75,9 +75,13 @@ $testing = '<<TESTING>>';
 
 // -----------------------------------------------------------------------------
 
-// If $use_cookies is true, cookies are used to track user preferences, etc; if false, sessions
+// If $use_php_sessions is true, PHP sessions are used to track user
+// preferences, etc; if false, the original DP cookie system is used.
 
-$use_cookies = '<<USE_COOKIES>>';
+$use_php_sessions = <<USE_PHP_SESSIONS>>;
+
+// You only need to define this if $use_php_sessions is FALSE.
+$cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
 
 // -----------------------------------------------------------------------------
 
