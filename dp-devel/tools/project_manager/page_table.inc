@@ -162,8 +162,6 @@ function echo_page_table( $projectid )
 
 // -----------------------------------------------------------------------------
 
-error_reporting(E_ALL);
-
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
 	$projectid, $inRound )
