@@ -3,6 +3,8 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
+include 'maybe_mail.inc';
+
 // Encodes a form parameter to allow it to contain double quotes.
 function encodeFormValue($value) {
   return stripslashes(htmlentities($value));
@@ -88,7 +90,7 @@ if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
             $temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
             $email = mysql_result($temp, 0, "user_email");
 
-            mail($email, "$NameofWork Posted to Project Gutenberg",
+            maybe_mail($email, "$NameofWork Posted to Project Gutenberg",
 "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
 --\n
 Distributed Proofreaders\nhttp://texts01.archive.org/dp/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
