@@ -153,7 +153,7 @@ plus though.<br>
 </p>
 <p>There is a large list of possible scan source sites in the Content
 Providers Forum under the topic <a class="maintitle"
- href="%3C?%20echo%20$forums_url%20?%3E/viewtopic.php?t=798&amp;start=0&amp;postdays=0&amp;postorder=asc&amp;highlight=">"Where
+ href="<? echo $forums_url ?>/viewtopic.php?t=798&amp;start=0&amp;postdays=0&amp;postorder=asc&amp;highlight=">"Where
 to find scanned images online"</a></p>
 Please follow the individual site guidelines regarding acceptable use
 and protocol. We don't want to be bad neighbors.<br>
