@@ -21,8 +21,8 @@ if ($order == 'default'){
     $numrows = mysql_numrows($result);
     $rownum = 0;
 
-    echo "<html><body><table cols = \"3\" border =\"1\">";
-    echo "<td><b>Index</b></td><td><b>Name of Work</b></td>
+    echo "<html><body><table cols=\"3\" border=\"1\">";
+    echo "<td><b>#</b></td><td><b>Name of Work</b></td>
           <td><b><a href =\"pp_checkedout.php?order=checkedoutby\">Checked Out To</b></td>
           <td><b><a href = \"pp_checkedout.php?order=modifieddate\">Date Last Modified</a></b></td><td>User Last
 Login</td><tr>";
@@ -47,18 +47,18 @@ $lastlogin = mysql_result($userresult,0,"last_login");
     $month = $today['month'];
     $mday = $today['mday'];
     $year = $today['year'];
-    $datestamp = "$month $mday,$year";
+    $datestamp = "$month $mday, $year";
 
 //calc last login date for user
     $today = getdate($lastlogin);
     $month = $today['month'];
     $mday = $today['mday'];
     $year = $today['year'];
-    $lastlogindate = "$month $mday,$year";
+    $lastlogindate = "$month $mday, $year";
 
     $rownum++;
-    echo "<td>$rownum</td><td width =
-\"200\">$nameofwork</td><td>$checkedoutby</td><td>$datestamp</td><td>$lastlogindate</td><tr>";
+    echo "<td>$rownum</td><td width=\"200\">$nameofwork</td>
+	   <td>$checkedoutby</td><td>$datestamp</td><td>$lastlogindate</td><tr>";
 
    }
 echo "</table></body></html>";
