@@ -90,6 +90,9 @@ properly, please check that your browser settings are as follows:
 - popup windows allowed (at least from us at www.pgdp.net)
 - caching set to off (or: refresh page every visit)
 
+Also, please ensure your PC clock is set to the correct date
+and time.
+
 As a new user, I recommend you read over our main page
 <$code_url/> for an overview of the site,
 a selection of the works that we are working on, along
