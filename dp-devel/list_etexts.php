@@ -7,12 +7,12 @@ $db_Connection=new dbConnect();
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
 $type = "Gold";
 $status = "Completed";
-$state = "state=30";
+$state = "state=79";
 $info = "Below is the list of Gold e-texts that have passed through this site.  Gold e-texts are books that have passed through a first round proofing, second round proofing and then a post processing.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 } elseif ($_GET['x'] == "s") {
 $type = "Silver";
 $status = "In Progress";
-$state = "state>=19 AND state<=29";
+$state = "state>=19 AND state<=78";
 $info = "Below is the list of Silver e-texts that are almost finished with their proofreading life on our site.  Silver e-texts are books that have passed through a first round proofing, second round proofing and are now in the post-processing phase.  During the post-processing phase the project manager runs the e-text through some final checks to make sure they are as correct as possible.  After that they are then submitted to the Project Gutenberg database for your enjoyment and download.  These e-texts are the product of hundreds of hours of labor donated by all of our volunteers.  The list is sorted with the most recently submitted e-texts at the top.  You can sort them based upon your own preferences by clicking below.  Enjoy!!";
 } elseif ($_GET['x'] == "b") {
 $type = "Bronze";
