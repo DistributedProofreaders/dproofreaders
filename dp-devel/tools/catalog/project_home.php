@@ -172,7 +172,7 @@ else
     while ( $page_res = mysql_fetch_array( $pages_res, MYSQL_ASSOC ) )
     {
         echo "<tr>\n";
-        echo "  <td>{$page_res['image']}</td>\n";
+        echo "  <td><a href='$projects_url/$projectid/{$page_res['image']}'>{$page_res['image']}</a></td>\n";
         echo "  <td>{$page_res['fileid']}</td>\n";
         echo "  <td>{$page_res['state']}</td>\n";
         echo "  <td><a href='get_page_text.php?project=$projectid&page_image={$page_res['image']}&which=master'>text</a>\n";
