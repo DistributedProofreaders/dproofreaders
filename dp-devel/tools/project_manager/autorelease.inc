@@ -69,6 +69,29 @@ function autorelease()
 	echo "<pre>\n";
 	echo "Starting autorelease\n";
 
+	// First, get the set of all authors with works in first round
+	{
+		$first_round_authors = array();
+		$author_res =
+			mysql_query("
+				SELECT authorsname
+				FROM projects
+				WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+				   OR state = '".PROJ_PROOF_FIRST_VERIFY."'
+			") or die(mysql_error());
+		while ( $author_row = mysql_fetch_assoc($author_res) )
+		{
+			$author = $author_row['authorsname'];
+			$first_round_authors[$author] = 1;
+		}
+		echo "\n";
+		echo "    List of authors in first round:\n";
+		foreach ( $first_round_authors as $author => $one )
+		{
+			echo "        $author\n";
+		}
+	}
+
         // Release of Different types of Projects from various logical queues
         // NB The arguments for these calls can come out of a table LATER (stage two)...
         // For now, let's get it out and working, even with hardwired arguments
@@ -248,33 +271,11 @@ function autorelease()
 		{
 			echo "    considering project \"{$project['nameofwork']}\"...\n";
 
-			// check the date
-			if ($project['modifieddate'] == $todaysdate) {
-				// since projects are sorted by date, if we reach here we have already
-				// considered and rejected all remaining candidates under the author rule
-				// and can stop checking
-				echo "        modifieddate is now.\n";
-				break;
-			}
+			$authorsname = $project['authorsname'];
 
-			// if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
-			// this candidate for early release, consider it now
-
-			// "no doubling up of authors"
-
-			// corrected to include books already marked for release
-
-			$author_q = "SELECT projectid FROM projects WHERE
-				(state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-					OR
-				state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '{$project['authorsname']}'";
-
-			if (mysql_num_rows(mysql_query($author_q)) > 0)
+			if ( array_key_exists( $authorsname, $first_round_authors ) )
 			{
-				// fails the author restriction,
-				// push this back two day's worth (in terms of order, not delay!) in the queue
-				echo "        Its author, {$project['authorsname']}, already has a book in first round.\n";
-				$temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
+				echo "        Its author, $authorsname, already has a project in first round.\n";
 				continue;
 			}
 
@@ -288,6 +289,8 @@ function autorelease()
 			}
 
 			echo "        Project released!\n";
+
+			$first_round_authors[$authorsname] = 1;
 
 			$newpagesreleased = numpages($project['projectid']);
 			$num_projects_released++;
