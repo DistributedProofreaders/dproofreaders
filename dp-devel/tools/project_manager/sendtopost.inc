@@ -28,29 +28,10 @@
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
         // Generate joined text file, and a zip of it.
-        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
-
-        $count = 0;
-        $mynumrows = mysql_numrows($myresult);
         $savepath = $projectpath."/".$project.".txt";
-
         $fp = fopen($savepath, "w"); //open file for writing
 
-        $carriagereturn = chr(13);
-        $linefeed = chr(10);
-        $indicator1 = "-----------------------File: ";
-        $indicator2 = "----------------------------";
-        $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
-        $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
-
-        while ($count < $mynumrows) {
-            $filename = mysql_result($myresult, $count, "image");
-            $text_data = mysql_result($myresult, $count, "round2_text");
-
-            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
-            fputs($fp,$fileinfo);
-            $count++;
-        } //end else
+		join_proofed_text ($project, $fp);
 
         // close the file
         fclose ($fp);
@@ -86,5 +67,29 @@
         }
     }
 
+
+    function join_proofed_text ($project, $fp) {
+		// Join the round 2 page-texts of the given project,
+		// and write the result to file-object $fp.
+		//
+        $carriagereturn = chr(13);
+        $linefeed = chr(10);
+        $indicator1 = "-----------------------File: ";
+        $indicator2 = "----------------------------";
+        $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
+        $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
+
+        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
+        $mynumrows = mysql_numrows($myresult);
+        $count = 0;
+        while ($count < $mynumrows) {
+            $filename = mysql_result($myresult, $count, "image");
+            $text_data = mysql_result($myresult, $count, "round2_text");
+
+            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
+            fputs($fp,$fileinfo);
+            $count++;
+        } //end else
+	}
 
 ?>
