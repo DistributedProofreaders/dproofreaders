@@ -24,7 +24,7 @@ include_once($relPath.'maybe_mail.inc');
         $projectpath = "../../projects/".$project;
 
         // Generate images.html that links to all page-images.
-        exec ("images.pl $project *.png");
+        exec ("perl images.pl $project *.png");
 
         // Zip all page-images.
         $zippedimages = $project."images.zip";
