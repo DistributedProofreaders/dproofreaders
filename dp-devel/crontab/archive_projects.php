@@ -31,6 +31,7 @@ $result = mysql_query("
         modifieddate <= $old_date
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
+    ORDER BY modifieddate
 ") or die(mysql_error());
 
 echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
@@ -39,18 +40,30 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
 
-    if ($dry_run) { continue; }
+    if ($dry_run)
+    {
+        echo "    Move table $projectid to dp_archive.\n";
+    }
+    else
+    {
+        mysql_query("
+            ALTER TABLE $projectid
+            RENAME AS dp_archive.$projectid
+        ") or die(mysql_error());
+    }
 
-    mysql_query("
-        ALTER TABLE $projectid
-        RENAME AS dp_archive.$projectid
-    ") or die(mysql_error());
-
-    mysql_query("
-        UPDATE projects
-        SET archived = '1'
-        WHERE projectid='$projectid'
-    ") or die(mysql_error());
+    if ($dry_run)
+    {
+        echo "    Mark project as archived.\n";
+    }
+    else
+    {
+        mysql_query("
+            UPDATE projects
+            SET archived = '1'
+            WHERE projectid='$projectid'
+        ") or die(mysql_error());
+    }
 }
 
 
