@@ -1,26 +1,12 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
+include($relPath.'connect.inc');
+include($relPath.'theme.inc');
+new dbConnect();
+theme('FAQ Central','header');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
-  <title>Distributed Proofreaders FAQ Central</title>
-</head>
-<body lang="en-US">
-<table border="0">
-  <tbody>
-    <tr>
-      <td width=640 align="center" bgcolor="white">
-        <a href="../">
-           <img SRC="../web_graphics/dp_title.png" BORDER=0 height=120 width=640
-           ALT="Distributed Publishers Logo"> </a>
-      </td>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
 <h1>FAQ Central</h1>
 <h3 align="right">Version 1.0, released Apr 15, 2003 </h3>
 
@@ -81,17 +67,6 @@ include($relPath.'v_site.inc');
       rather than anywhere on the official PG site -- but useful anyway.)
 
 </dl>
-<h2 align="center">End of <br>
-FAQ Central</h2>
-<table border="0" cellspacing="0" width="100%">
-  <tbody>
-    <tr>
-      <td bgcolor="silver">&nbsp;</td>
-    </tr>
-  </tbody>
-</table>
-Return to
-<a href="../">Distributed Proofreaders home page</a>
-<br>
-</body>
-</html>
+<?
+theme('','footer');
+?>
