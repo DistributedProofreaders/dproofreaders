@@ -16,8 +16,8 @@ my $db_user = "";
 my $db_pass = "";
 
 my ($min, $hour, $day, $month, $year) = (localtime)[1..5];
-my $midnight
-if ($min  < 10) { $min  = "0$min";  } = timelocal(0, 0, 0, $day, $month, $year);
+if ($min  < 10) { $min  = "0$min";  }
+my $midnight = timelocal(0, 0, 0, $day, $month, $year);
 
 my $dbh = DBI->connect($dsn, $db_user, $db_pass, {RaiseError => 1});
 
