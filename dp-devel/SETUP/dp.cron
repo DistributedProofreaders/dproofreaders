@@ -15,7 +15,7 @@
 01  0 * * * lynx -dump http://127.0.0.1/c/crontab/log_project_states.php
 10  0 * * * lynx -dump http://127.0.0.1/c/crontab/archive_projects.php
 15  0 * * * /home/dpadmin/mysql_backup.pl
-50  0 * * * lynx -dump http://127.0.0.1/c/crontab/clean_tmp.php
+50  0 * * * lynx -dump http://127.0.0.1/c/crontab/clean_tmp.php > /dev/null
 45 23 * * * lynx -dump http://127.0.0.1/c/crontab/update_birthday_queues.php
 
 # weekly (ish):
