@@ -1,4 +1,14 @@
 <?
+echo "<script language='javascript'>";
+echo "function showSpan(id) {";
+echo "document.getElementById(id).style.display=\"\";";
+echo "}";
+echo "function hideSpan(id) {";
+echo "document.getElementById(id).style.display=\"none\";";
+echo "}";
+
+echo "</script>";
+
 $relPath='pinc/';
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
@@ -15,8 +25,8 @@ $priority_array = array(1 => "Very High", 2 => "High", 3 => "Medium", 4 => "Low"
 $categories_array = array(1 => "None", 2 => "Documentation", 3 => "Entrance", 4 => "Log in/out", 5 => "New Member", 6 => "Page Proofreading", 7 => "Personal Page", 8 => "Post-Processing", 9 => "Preferences", 10 => "Pre-Processing", 11 => "Project Comments", 12 => "Project Listing Interface", 13 => "Project Manager", 14 => "Site wide", 15 => "Statistics", 16 => "Translation", 17 => "Task Center", 99 => "Other");
 $tasks_status_array = array(1 => "New", 2 => "Accepted", 3 => "Duplicate", 4 => "Fixed", 5 => "Invalid", 6 => "Later", 7 => "None", 8 => "Out of Date", 9 => "Postponed", 10 => "Rejected", 11 => "Remind", 12 => "Won't Fix", 13 => "Works for Me", 14 => "Closed", 15 => "Reopened", 16 => "Researching", 17 => "Implemented", 18 => "In Progress");
 $search_results_array = array("20", "40", "60", "80", "100");
-$os_array = array(0 => "All", 1 => "Windows 3.1", 2 => "Windows 95", 3 => "Windows 98", 4 => "Windows ME", 5 => "Windows 2000", 6 => "Windows NT", 7 => "Windows XP", 8 => "Mac System 7", 9 => "Mac System 7.5", 10 => "Mac System 7.6.1", 11 => "Mac System 8.0", 12 => "Mac System 8.5", 13 => "Mac System 8.6", 14 => "Mac System 9.x", 15 => "MacOS X", 16 => "Linux", 17 => "BSDI", 18 => "FreeBSD", 19 => "NetBSD", 20 => "OpenBSD", 21 => "BeOS", 22 => "HP-UX", 23 => "IRIX", 24 => "Neutrino", 25 => "OpenVMS", 26 => "OS/2", 27 => "OSF/1", 28 => "Solaris", 29 => "SunOS", 99 => "Other");
-$browser_array = array(0 => "All", 1 => "Internet Explorer 6.x", 2 => "Netscape 6.x", 3 => "Internet Explorer 5.x", 4 => "Netscape 7.x", 5 => "Netscape 3.x", 6 => "Netscape 4.x", 7 => "Opera", 8 => "Netscape 5.x", 9 => "Internet Explorer 4.x", 10 => "Lynx", 11 => "Avant Browser", 12 => "Netscape 2.x", 13 => "Slimbrowser", 14 => "Interarchy", 15 => "Straw", 16 => "MSN TV", 17 => "Mozilla 1.4", 18 => "Mozilla 1.5", 19 => "Mozilla 1.6", 20 => "Mozilla Firebird 0.6", 22 => "Mozilla Firebird 0.7", 23 => "Mozilla 1.1", 24 => "Mozilla 1.2", 25 => "Mozilla 1.3", 26 => "Safari", 27 => "Galeon", 28 => "Konquerer", 29 => "Internet Explorer 3.x");
+$os_array = array(0 => "All", 1 => "Windows 3.1", 2 => "Windows 95", 3 => "Windows 98", 4 => "Windows ME", 5 => "Windows 2000", 6 => "Windows NT", 7 => "Windows XP", 8 => "Mac System 7", 9 => "Mac System 7.5", 10 => "Mac System 7.6.1", 11 => "Mac System 8.0", 12 => "Mac System 8.5", 13 => "Mac System 8.6", 14 => "Mac System 9.x", 15 => "MacOS X", 16 => "Linux", 17 => "BSDI", 18 => "FreeBSD", 19 => "NetBSD", 20 => "OpenBSD", 21 => "BeOS", 22 => "HP-UX", 23 => "IRIX", 24 => "Neutrino", 25 => "OpenVMS", 26 => "OS/2", 27 => "OSF/1", 28 => "Solaris", 29 => "SunOS", 30 => "Windows 2003", 99 => "Other");
+$browser_array = array(0 => "All", 1 => "Internet Explorer 6.x", 2 => "Netscape 6.x", 3 => "Internet Explorer 5.x", 4 => "Netscape 7.x", 5 => "Netscape 3.x", 6 => "Netscape 4.x", 7 => "Opera", 8 => "Netscape 5.x", 9 => "Internet Explorer 4.x", 10 => "Lynx", 11 => "Avant Browser", 12 => "Netscape 2.x", 13 => "Slimbrowser", 14 => "Interarchy", 15 => "Straw", 16 => "MSN TV", 17 => "Mozilla 1.4", 18 => "Mozilla 1.5", 19 => "Mozilla 1.6", 20 => "Mozilla Firebird 0.6", 22 => "Mozilla Firebird 0.7", 23 => "Mozilla 1.1", 24 => "Mozilla 1.2", 25 => "Mozilla 1.3", 26 => "Safari", 27 => "Galeon", 28 => "Konquerer", 29 => "Internet Explorer 3.x", 30 => "Mozilla 1.7", 31 => "Mozilla 1.8", 32 => "Mozilla Firefox 0.8", 33 => "Mozilla Firefox 0.9", 34 => "Opera 6.x", 35 => "Opera 7.x", 99 => "Other");
 $versions_array = array(1 => "pgdp.net (Live)", 4 => "dp.rastko.net (Live)", 2 => "texts01 (Beta)", 3 => "CVS");
 $tasks_close_array = array(1 => "Not a Bug", 2 => "Won't Fix", 3 => "Won't Implement", 4 => "Works for Me", 5 => "Duplicate", 6 => "Deferred", 7 => "Fixed", 8 => "Implemented");
 $percent_complete_array = array(0 => "0%", 10 => "10%", 20 => "20%", 30 => "30%", 40 => "40%", 50 => "50%", 60 => "60%", 70 => "70%", 80 => "80%", 90 => "90%", 100 => "100%");
@@ -133,6 +143,14 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	} else {
 		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related topic id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
 	}
+} elseif (isset($_POST['meToo'])) {
+	if ($_POST['sameOS'] == 1) { $vote_os = $_POST['task_os']; } else { $vote_os = $_POST['metoo_os']; }
+	if ($_POST['sameBrowser'] == 1) { $vote_browser = $_POST['task_browser']; } else { $vote_browser = $_POST['metoo_browser']; }
+	
+	$result = mysql_query("INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser) VALUES (".$_POST['meToo'].", ".$userP['u_id'].", ".$vote_os.", ".$vote_browser.")");
+	
+	echo "<center><font face='Verdana' color='#000000' style='font-size: 11px'><b>Thank you for your report!  It has been recorded below.</b></font></center><br>";
+	TaskDetails($_POST['meToo']);
 } else {
 	if (isset($_GET['orderby']) && isset($_GET['direction'])) {
 		$order_by = "ORDER BY ".$_GET['orderby']." ".$_GET['direction'];
@@ -432,8 +450,28 @@ function TaskDetails($tid) {
 			EchoTaskProperty( "Priority",         $priority_array[$row['task_priority']] );
 			EchoTaskProperty( "Reported Version", $versions_array[$row['task_version']] );
 			EchoTaskProperty( "Percent Complete", "<img src='$code_url/graphics/task_percentages/large_".$row['percent_complete'].".png' width='150' height='10' border='0' alt='".$row['percent_complete']."% Complete'>" );
-			echo "</table></td></tr><tr><td align='left' valign='top'><br>\n";
-			echo "<table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='5%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Details&nbsp;&nbsp;</font></b></td>\n";
+			echo "</table></td></tr>\n";
+
+			$voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid."");
+			$osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = ".$tid."");
+			$browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = ".$tid."");
+			if (mysql_num_rows($voteInfo) > 0) {
+				$reportedOS = "";
+				$reportedBrowser = "";
+				echo "<tr><td colspan='2' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0' width='100%'>";
+				echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Votes&nbsp;&nbsp;</font></b></td>\n";
+				echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>".mysql_num_rows($voteInfo)."</font></td></tr>";
+				echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Operating Systems&nbsp;&nbsp;</font></b></td>\n";
+				echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+				while ($rowOS = mysql_fetch_assoc($osInfo)) { $reportedOS .= $os_array[$rowOS['vote_os']].", "; }
+				echo substr($reportedOS, 0, -2)."</font></td></tr>";
+				echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Browsers&nbsp;&nbsp;</font></b></td>\n";
+				echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+				while ($rowBrowser = mysql_fetch_assoc($browserInfo)) { $reportedBrowser .= $browser_array[$rowBrowser['vote_browser']].", "; }
+				echo substr($reportedBrowser, 0, -2)."</font></td></tr></table></td></tr>";
+			}
+			
+			echo "<tr><td align='left' valign='top'><br><table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='5%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Details&nbsp;&nbsp;</font></b></td>\n";
 			echo "<td align='left' width='95%' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['task_details']))."</font></td></tr></table></td></tr>\n";
 			if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
 				echo "<form action='tasks.php' method='post'><input type='hidden' name='close_task'><input type='hidden' name='task_id' value='".$row['task_id']."'>\n";
@@ -446,7 +484,14 @@ function TaskDetails($tid) {
 				$closed_by = mysql_result($result, 0, "username");
 				echo "<tr><td align='left'><br><font face='Verdana' color='#000000' style='font-size: 9px'>Closed by: $closed_by<br>Date Closed: ".date("d-M-Y", $row['date_closed'])."<br>Reason: ".$tasks_close_array[$row['closed_reason']]."";
 			}
+			echo "</td><td align='right'><br>";
+			
+			$meTooCheck = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." && u_id = ".$userP['u_id']."");
+			if (mysql_num_rows($meTooCheck) > 0) { echo "&nbsp;"; } else { echo "<input type='button' value='Me Too!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"showSpan('MeTooMain');\">"; }
+			
 			echo "</td></tr></table><br>\n";
+			
+			MeToo($tid, $row['task_os'], $row['task_browser']);
 			TaskComments($tid);
 			RelatedTasks($tid);
 			RelatedPostings($tid);
@@ -454,6 +499,27 @@ function TaskDetails($tid) {
 	} else {
 		echo "<tr bgcolor='#ffffff'><td colspan='7'><center><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid was not found!</font></center></td></tr>";
 	}
+}
+
+function MeToo($tid, $os, $browser) {
+	global $browser_array, $os_array, $userP;
+
+	echo "<span id='MeTooMain' style='display: none;'>";
+	echo "<form action='tasks.php' method='post'><input type='hidden' name='meToo' value='$tid'><input type='hidden' name='task_os' value='$os'><input type='hidden' name='task_browser' value='$browser'>";
+	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td><font face='Verdana' color='#000000' style='font-size: 11px'>\n"; 
+  echo "<fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same operating system?</b></legend>";
+  echo "&nbsp;<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
+  echo "<span id='OS' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Operating System</b>&nbsp;";
+  dropdown_select('metoo_os', "1", $os_array, ""); echo "</select></span></fieldset>\n";
+  
+  echo "<br><fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same browser?</b></legend>";
+  echo "&nbsp;<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
+  echo "<span id='Browser' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Browser</b>&nbsp;";
+  dropdown_select('metoo_browser', "1", $browser_array, "");  echo "</span></fieldset>\n";
+  
+  echo "<center><input type='submit' value='Send Report' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>&nbsp;<input type='reset' value='Reset' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"hideSpan('MeTooMain');\"></center>";
+  echo "</td></tr></table></font></form></span>";
+  
 }
 
 function EchoTaskProperty($name, $value) {
@@ -535,7 +601,7 @@ function RelatedTasks($tid) {
 	$related_tasks = mysql_result($result, 0, "related_tasks");
 
 	echo "<form action='tasks.php' method='post'><input type='hidden' name='new_relatedtask' value='$tid'>";
-	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td>\n";
+	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
 	echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Tasks&nbsp;&nbsp;</font></b>";
 	echo "<input type='text' name='related_task' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
 	echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
@@ -559,7 +625,7 @@ function RelatedPostings($tid) {
 	$related_postings = mysql_result($result, 0, "related_postings");
 
 	echo "<form action='tasks.php' method='post'><input type='hidden' name='new_relatedposting' value='$tid'>";
-	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td>\n";
+	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
 	echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Topic ID&nbsp;&nbsp;</font></b>";
 	echo "<input type='text' name='related_posting' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
 	echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
