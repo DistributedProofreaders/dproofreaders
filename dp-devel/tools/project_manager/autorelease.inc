@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'RoundDescriptor.inc');
@@ -253,7 +254,7 @@ function autorelease_for_round( $prd )
 
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
-            $is_special = ( substr($project['comments'], 0, strlen('SPECIAL:')) == 'SPECIAL:' );
+            $is_special = startswith($project['comments'], 'SPECIAL:');
 
             if ($is_special)
             {

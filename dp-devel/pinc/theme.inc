@@ -1,6 +1,7 @@
 <?
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'dpsession.inc');
@@ -94,7 +95,7 @@ function html_header($code_url, $theme, $nameofpage) {
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
-	if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page')
+	if (isset($nameofpage) && startswith($nameofpage, 'Personal Page'))
 	{
 		include($relPath.'special_colours.inc');
 	}
