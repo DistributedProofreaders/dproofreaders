@@ -321,13 +321,16 @@ class PageTally_Neighbor
     function get_latest_saved_page_tally_rank()
     {
         $result = mysql_query("
-            SELECT rank
-            FROM member_stats
-            WHERE u_id = {$this->u_id}
-            ORDER BY date_updated DESC
+            SELECT tally_rank
+            FROM past_tallies
+            WHERE
+                holder_type='U'
+                AND holder_id={$this->u_id}
+                AND tally_name='P'
+            ORDER BY timestamp DESC
             LIMIT 1
         ");
-        return mysql_result($result, 0, "rank");
+        return mysql_result($result, 0, "tally_rank");
     }
 }
 
@@ -369,14 +372,15 @@ function user_initialize_page_tally_history( $u_id )
 // Ensure that subsequent queries about the given (new) user's page-tally history
 // will find something.
 {
-    // We'll be inserting a record into member_stats.
+    // We'll be inserting a record into past_tallies.
     // The timestamp we use in that record should be the same as the most recent
     // timestamp used by the periodic snapshot script (mbrstats.php). (If we
     // use a more recent timestamp, we'll mislead the next run of that script.)
 
     $result = mysql_query("
-        SELECT MAX(date_updated)
-        FROM member_stats
+        SELECT MAX(timestamp)
+        FROM past_tallies
+        WHERE holder_type='U' AND tally_name='P'
     ");
     $latest_time_in_table = mysql_result($result,0,0);
 
@@ -386,7 +390,7 @@ function user_initialize_page_tally_history( $u_id )
     }
     else
     {
-        // member_stats is empty.
+        // No such entry in past_tallies.
         // (This is presumably the very first user.)
         // The choice of timestamp is arbitrary?
         // Pick the most recent midnight.
@@ -395,13 +399,15 @@ function user_initialize_page_tally_history( $u_id )
     }
 
     $result = mysql_query("
-        INSERT INTO member_stats
+        INSERT INTO past_tallies
         SET
-            u_id                 = $u_id,
-            date_updated         = $time_for_record,
-            daily_pagescompleted = 0,
-            total_pagescompleted = 0,
-            rank                 = 0
+            timestamp   = $time_for_record,
+            holder_type = 'U'
+            holder_id   = $u_id,
+            tally_name  = 'P',
+            tally_delta = 0,
+            tally_value = 0,
+            tally_rank  = 0
     ");
 }
 
@@ -413,10 +419,13 @@ function user_get_largest_page_tally_increment_info( $u_id )
 // -- a timestamp for which that increment was recorded.
 {
     $result = mysql_query("
-        SELECT daily_pagescompleted, date_updated
-        FROM member_stats
-        WHERE u_id=$u_id
-        ORDER BY daily_pagescompleted DESC
+        SELECT tally_delta, timestamp
+        FROM past_tallies
+        WHERE
+            holder_type='U'
+            AND holder_id=$u_id
+            AND tally_name='P'
+        ORDER BY tally_delta DESC
         LIMIT 1
     ");
     return mysql_fetch_row($result);
@@ -427,10 +436,13 @@ function user_get_largest_page_tally_increment_info( $u_id )
 function user_get_best_page_tally_rank_info( $u_id )
 {
     $result = mysql_query("
-        SELECT rank, date_updated
-        FROM member_stats
-        WHERE u_id=$u_id
-        ORDER BY rank ASC
+        SELECT tally_rank, timestamp
+        FROM past_tallies
+        WHERE
+            holder_type='U'
+            AND holder_id=$u_id
+            AND tally_name='P'
+        ORDER BY tally_rank ASC
         LIMIT 1
     ");
     return mysql_fetch_row($result);
