@@ -28,12 +28,12 @@ function attempt_to_release( $prd, $project )
 
     if ( $errors )
     {
-	      maybe_mail_project_manager( $project, 
+        maybe_mail_project_manager( $project, 
             "Some errors have been found:\n".
             "$errors\n".
             "Please correct the errors and put the project back into Waiting for Release.",
-	          "DP Errors Before Release"
-	      );
+            "DP Errors Before Release"
+        );
         $new_state = $prd->project_bad_state;
     }
     else
@@ -56,8 +56,8 @@ function attempt_to_release( $prd, $project )
     }
 
     maybe_mail_project_manager( $project,
-	      "This project has just become available for work in round {$prd->round_name}.",
-	      "DP Proofreading Started");
+        "This project has just become available for work in round {$prd->round_name}.",
+        "DP Proofreading Started");
 
     return TRUE;
 }
@@ -72,23 +72,23 @@ function autorelease_for_round( $prd )
 
     // First, get the set of all authors with works in this round
     {
-		    $this_round_authors = array();
-		    $author_res =
-			    mysql_query("
-				    SELECT authorsname
-				    FROM projects
-				    WHERE state = '{$prd->project_available_state}'
-				    ORDER BY authorsname
-			    ") or die(mysql_error());
+        $this_round_authors = array();
+        $author_res =
+            mysql_query("
+                SELECT authorsname
+                FROM projects
+                WHERE state = '{$prd->project_available_state}'
+                ORDER BY authorsname
+            ") or die(mysql_error());
         while ( $author_row = mysql_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
             $this_round_authors[$author]++;
         }
-		    echo "\n";
-		    echo "    List of authors in this round:\n";
-		    foreach ( $this_round_authors as $author => $one )
-		    {
+        echo "\n";
+        echo "    List of authors in this round:\n";
+        foreach ( $this_round_authors as $author => $one )
+        {
             echo "        $author\n";
         }
     }
@@ -97,12 +97,12 @@ function autorelease_for_round( $prd )
     {
         $this_round_pms = array();
         $pm_res =
-          mysql_query("
-				    SELECT username
-				    FROM projects
-				    WHERE state = '{$prd->project_available_state}'
-				    ORDER BY username
-          ") or die(mysql_error());
+            mysql_query("
+                SELECT username
+                FROM projects
+                WHERE state = '{$prd->project_available_state}'
+                ORDER BY username
+            ") or die(mysql_error());
         while ( $pm_row = mysql_fetch_assoc($pm_res) )
         {
             $pm = $pm_row['username'];
@@ -121,9 +121,9 @@ function autorelease_for_round( $prd )
     // Keep track of which PMs get a book released in this particular execution of the script
 
     {
-		$fresh_released_pms = array();
+        $fresh_released_pms = array();
 
-	}
+    }
 
 
     // -------------------------------------------------------------------------
@@ -145,7 +145,7 @@ function autorelease_for_round( $prd )
 
     while ( $qd = mysql_fetch_assoc($q_res) )
     {
-    	  $q_name            = $qd['name'];
+        $q_name            = $qd['name'];
         $project_selector  = $qd['project_selector'];
         $release_criterion = $qd['release_criterion'];
 
@@ -155,8 +155,8 @@ function autorelease_for_round( $prd )
         // $q_name       human readable string describing this type of project
         // $project_selector        portion of WHERE clause that defines this type of project
         // $release_criterion   logical expression involving 'projects' and 'pages':
-	//                      the number of projects of this type in this round,
-	//                      and their total number of unproofed pages.
+        //                      the number of projects of this type in this round,
+        //                      and their total number of unproofed pages.
 
         echo "\n";
         echo "Considering $q_name projects...\n";
@@ -257,16 +257,16 @@ function autorelease_for_round( $prd )
             echo "        Project released!\n";
 
 
-		  // special authors (anon, etc) have to have their counts incremented
-		  if (array_key_exists($authorsname, $this_round_authors)) {
+            // special authors (anon, etc) have to have their counts incremented
+            if (array_key_exists($authorsname, $this_round_authors)) {
                 $this_round_authors[$authorsname] = $this_round_authors[$authorsname] + 1;
-		  } else {
+            } else {
                 $this_round_authors[$authorsname] = 1;
-		  }
+            }
 
 
-		  // keep track of which PMs have had a book released this execution of the script
-		  $fresh_released_pms[$pm] = 1;
+            // keep track of which PMs have had a book released this execution of the script
+            $fresh_released_pms[$pm] = 1;
 
 
             $num_projects_released++;
@@ -315,8 +315,8 @@ function AP_setup( $prd )
 
     // Create the table.
     mysql_query("
-		    CREATE TEMPORARY TABLE active_page_counts
-		    (
+        CREATE TEMPORARY TABLE active_page_counts
+        (
             projectid  TEXT NOT NULL,
             pages      INT(4),
         )
@@ -361,8 +361,8 @@ function AP_evaluate_criteria( $prd, $project_selector, $release_criterion )
     // (values for 'projects', 'pages')
     $res = mysql_query("
         SELECT
-        SUM(projects.state='{$prd->project_available_state}') as projects,
-        SUM(active_page_counts.pages) as pages
+            SUM(projects.state='{$prd->project_available_state}') as projects,
+            SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $project_selector
     ") or die(mysql_error());
@@ -397,4 +397,5 @@ function evaluate_expression( $expression, $env )
     return $result;
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
