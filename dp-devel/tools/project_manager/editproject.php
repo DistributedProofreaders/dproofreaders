@@ -401,6 +401,7 @@ function genre_list($genre) {
                 'Encyclopedia',
                 'Essay',
                 'Folklore',
+                'General Fiction',
                 'Geology',
                 'Grammar',
                 'Health',
