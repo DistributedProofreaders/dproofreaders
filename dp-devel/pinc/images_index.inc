@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
-include_once($relPath.'maybe_mail.inc');
 
     function generate_images_index( $project )
     {
