@@ -53,14 +53,19 @@ if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" na
 if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\"> ";}
 ?><INPUT TYPE="Submit" accesskey="9" VALUE="Quit" name="button3"><BR>
 <?
-    echo "View: <a href=\"projects.php?project=$project&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-    echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a>";
-
+//display page number
+echo "<B>Page Number: $pageNum ";
     if ($prooflevel != 0) {
         $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile'");
         $username = mysql_result($result, 0, "round1_user");
-        echo " Proofed by: ".$username;
+        $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
+        $user_id = mysql_result($result, 0, "user_id");   
+        echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
     }
+echo "</B><BR>";
+    echo "View: <a href=\"projects.php?project=$project&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
+    echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a>";
+
 ?>
  Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)"></center>
 

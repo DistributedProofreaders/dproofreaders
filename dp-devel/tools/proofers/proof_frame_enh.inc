@@ -41,7 +41,7 @@ include('button_menu.inc');
 </TD></TR><TR>
 <TD COLSPAN="5" ALIGN="center" VALIGN="top"><textarea 
 name="text_data" ID="text_data" COLS="70" ROWS="<?PHP
-if ($orient=='vert') {if ($lang==1) {echo "39";}else {echo "37";}}
+if ($orient=='vert') {if ($lang==1) {echo "38";}else {echo "36";}}
 else {echo "6";}?>" onSelect="getCurSel()" 
 onClick="getCurCaret()" onKeyup="getCurCaret()" WRAP="off">
 <?PHP
@@ -68,11 +68,22 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
         $text_data = preg_replace($search, $replace, $text_data);
     }
     echo $text_data;
-?></TEXTAREA></TD></TR><TR ID="sdn"><TD COLSPAN="5" ALIGN="center" VALIGN="top">
-<?PHP
+?></TEXTAREA><BR><?PHP 
+//display page number
+echo "<FONT SIZE=\"-1\"><B>Page Number: $pageNum";
+    if ($prooflevel != 0) {
+        $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile'");
+        $username = mysql_result($result, 0, "round1_user");
+        $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
+        $user_id = mysql_result($result, 0, "user_id");   
+        echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
+    }
+echo "</B></FONT>";
 // include tag bar
 if ($sTags)
 {
+
+echo "<BR>";
 include('ptags.inc');
 
 // need to use $lang to determine non-ascii display
@@ -85,7 +96,7 @@ else {
 }
 
 //this is to finish off any lang
-echo " | <A \nHREF=\"#\" onclick=\"mNA()\">More</A></B>";
+echo " | <A \nHREF=\"#\" onclick=\"mNA()\">More</A></FONT>";
 }
 ?>
 </TD></TR></TABLE></FORM></CENTER></BODY></HTML>

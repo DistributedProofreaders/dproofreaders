@@ -1,4 +1,4 @@
-<B><a 
+<a 
 href="#" onclick="iMUe(8)">&#163;</a> | <a 
 href="#" onclick="iMUe(9)">&#161;</a> | <a 
 href="#" onclick="iMUe(10)">&#191;</a> | <a 
