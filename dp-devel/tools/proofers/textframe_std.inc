@@ -17,7 +17,7 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
 // get bad page code
       $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $b_code = mysql_result($result, 0, "b_code");
-      
+
 if ($npage['spcheck']==2)
   {
     $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
@@ -65,15 +65,15 @@ echo $docType."\r\n";
   echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
   echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
 ?>
-<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save">
-<?PHP 
+<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save as 'In Progress'">
+<?PHP
 	if (!isset($editone))
 	{
-		echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save and Proof Next Page\"> ";
+		echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save as 'Done' & Proof Next Page\"> ";
 	}
 ?>
-<INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save and Quit">
-<INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" VALUE="Quit" name="button3" title="Quit without Saving">
+<INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save as 'Done'">
+<INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" VALUE="Quit" name="button3" title="Stop Proofing">
 <BR>
 <INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>">
 <INPUT TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));">
@@ -95,8 +95,8 @@ echo $docType."\r\n";
       $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $username = mysql_result($result, 0, "round1_user");
       $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-      $user_id = mysql_result($result, 0, "user_id");   
-      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
+      $user_id = mysql_result($result, 0, "user_id");
+      echo " - Proofed by: <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
     }
   echo "</b></font>\n";
   echo "<BR>\n";
