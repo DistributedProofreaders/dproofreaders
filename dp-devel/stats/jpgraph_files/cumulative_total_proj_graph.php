@@ -10,18 +10,57 @@ include_once($relPath.'gettext_setup.inc');
 
 new dbConnect();
 
-//Create cumulative projects posted per day graph for all days 
+// Create "cumulative projects Xed per day" graph for all days 
 // since state stats started being recorded up to yesterday
+
+switch ( $_GET['which'] )
+{
+	case 'created':
+		$state_selector = "
+			state NOT LIKE 'proj_new%'
+		";
+		$color = 'green';
+		$title = _('Total Projects Created');
+		break;
+
+	case 'proofed':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post%'
+		";
+		$color = 'blue';
+		$title = _('Total Projects Proofed');
+		break;
+
+	case 'PPd':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+			OR state LIKE 'proj_post_second%'
+		";
+		$color = 'silver';
+		$title = _('Total Projects PPd');
+		break;
+
+	case 'posted':
+		$state_selector = "
+			state LIKE 'proj_submit%'
+			OR state LIKE 'proj_correct%'
+		";
+		$color = 'gold';
+		$title = _('Total Projects Posted to PG');
+		break;
+
+	default:
+		die("bad value for 'which'");
+}
 
 $day = date("d");
 $year  = date("Y");
 $month = date("m");
 $monthVar = date("F");
 $today = $year."-".$month."-".$day;
-
-$state_selector = "
-		(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%')";
 
 //query db and put results into arrays
 $result = mysql_query("SELECT sum(num_projects) as P, date FROM project_state_stats WHERE $state_selector GROUP BY DATE ORDER BY date ASC");
@@ -50,10 +89,10 @@ $graph->img->SetAntiAliasing();
 
 //Create the line plot
 $lplot1 = new LinePlot($datay1);
-$lplot1->SetColor("gold");
-$lplot1->SetLegend(_("Total Projects Posted to PG"));
+$lplot1->SetColor($color);
+$lplot1->SetLegend($title);
 $lplot1->SetWeight(1);
-$lplot1->SetFillColor("gold");
+$lplot1->SetFillColor($color);
 
 
 $graph->Add($lplot1); 
@@ -84,7 +123,7 @@ $graph->yaxis->title->Set(_('Projects'));
 $graph->yaxis->SetTitleMargin(45);
 
 
-$graph->title->Set(_("Total Projects Posted to PG"));
+$graph->title->Set($title);
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);

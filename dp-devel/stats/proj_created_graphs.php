@@ -14,7 +14,7 @@ echo "<br><br>";
 echo "<center><img src=\"jpgraph_files/curr_month_proj_created_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_proj_created.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_proj_graph.php?which=created\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_total_proj_created_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=created\"></center><br>";
 
 theme('','footer');
 ?>
