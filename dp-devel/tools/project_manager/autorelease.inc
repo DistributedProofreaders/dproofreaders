@@ -266,7 +266,13 @@ function autorelease($pagesleft) {
 
 	if ($pagesneeded > 0) {
 		$numReleased = 0;
-		$projtype_sql = "1";
+		$rel_qry = mysql_query("SELECT projectid FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') ORDER BY modifieddate ASC");
+		$numProjects = mysql_num_rows($rel_qry);
+		$i = 0;
+		while ($i < $numProjects) {
+			$numReleased = $numReleased + numpages(mysql_result,$i,0);
+			$i++;
+		}
 		release_projects("project", "Extra", $projtype_sql , $pagesneeded, $numreleased, "yes", $todaysdate,);
 	}
 
