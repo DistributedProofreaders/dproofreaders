@@ -290,7 +290,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
   if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
 
-  if (!$one_project) { autorelease($pagesleft); }
+  if (!$one_project) { autorelease(); }
 
   else {
   	 echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
