@@ -21,6 +21,8 @@ class ProofingRoundDescriptor
         $round_id,
             // A very short mnemonic identifier for the round.
             // (Should probably conform to the rules for a PHP variable name.)
+        $round_name,
+            // A gettext-translated name for the round.
         $minimum_user_pages,
             // The minimum number of pages that a user must complete
             // in order to be allowed to participate in this round.
@@ -43,6 +45,7 @@ class ProofingRoundDescriptor
         $this->round_number       = $n_rounds;
 
         $this->round_id           = $round_id;
+        $this->round_name         = $round_name;
         $this->minimum_user_pages = $minimum_user_pages;
         $this->title              = $title;
         $this->description        = $description;
@@ -106,6 +109,7 @@ class ProofingRoundDescriptor
 
 $P1 = new ProofingRoundDescriptor(
     'P1',
+    _('Proofreading Round 1'),
     -20,
     _("Current First - Round Projects"),
     _("The page-texts are the output from OCR software and have not been looked at."),
@@ -118,6 +122,7 @@ $P1 = new ProofingRoundDescriptor(
 
 $P2 = new ProofingRoundDescriptor(
     'P2',
+    _('Proofreading Round 2'),
     100,
     _("Current Second - Round Projects"),
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
