@@ -19,6 +19,6 @@ include($relPath.'project_edit.inc');
 
         metarefresh(0, "project_detail.php?project=$project", "Page(s) Deleted", ""); 
     } else {
-        echo "Confirm delete of $fileid <a href="deletefile.php?project=$project&fileid=$fileid&confirm=yes">here</a>";
+        echo "Confirm delete of $fileid <a href='deletefile.php?project=$project&fileid=$fileid&confirm=yes'>here</a>";
     }
 ?>
