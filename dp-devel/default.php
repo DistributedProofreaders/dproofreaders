@@ -9,6 +9,7 @@ $etext_limit = 10;
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<LINK REL="SHORTCUT ICON" HREF="/dp/favicon.ico">
 <title>Distributed Proofreaders</title>
 </head>
 
