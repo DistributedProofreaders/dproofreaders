@@ -15,9 +15,9 @@ if (isset($proofing))
 if (isset($prooflevel)){
    if ($prooflevel==0)
    {$wTime="round1_time";
-    $wState=8;}
+    $wState=9;}
    else {$wTime="round2_time";
-         $wState=18;}
+         $wState=19;}
 $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
   if (mysql_num_rows($proofdate)!=0)
      {$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; (Current Time: ".date("g:i:sA",time()).")";}
