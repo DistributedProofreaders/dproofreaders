@@ -15,10 +15,9 @@ echo "
     two rounds of proofreading on this site
     and they now need to be massaged into a final e-text.
     Once you have checked out and downloaded a book
-    it will remain checked out to you until you check it back in.
-    <b>The Completed Post-Processing feature is currently disabled
-    until it gets fully developed.
-    E-mail the project manager with the completed project for now.</b>
+    it will remain checked out to you until you check it back in. 
+    When you do so, choose Upload for Verification from the
+    drop-down list for that project.
 </p>
 <p>
     Here is a <a href='$code_url/faq/post_proof.php'><b>Post Proof FAQ</b></a>
@@ -31,10 +30,26 @@ echo "
 <p>
     <b>First Time here?</b>
     Juliet Sutherland is our Post Processing Coordinator.
-    Please read the FAQ, select an easy work to get started on
-    (usually fiction with a low page count is a good starter book)
+    Please read the FAQ, read it again ;), select an easy work to get started on
+    (usually fiction with a low page count is a good starter book; projects
+    whose manager was BEGIN make excellent first projects for a new PPer)
     and write <a href='mailto:juliet.sutherland@verizon.net'>Juliet</a>
     with any questions/comments.
+</p>
+<p>
+    If you are new to this page, make sure you only select projects
+    from the Books Available for Post-Processing section (and NOT the
+    Books Available for Post-Processing Verification & Posting section, 
+    which are reserved for an invited list of experienced volunteers only).
+</p>
+<p>
+    PPV is like a second round for PPed books; it allows another set of 
+    eyes to scan the books and make sure no errors are missed.  PPVers 
+    also give feedback to PPers, so that new PPers can learn the ropes 
+    a little faster.  Because PPV involves both feedback to new PPers 
+    and looking for easily-missed errors, only experienced PPers who 
+    receive permission can check out PPV books. Please do not check out 
+    these books if you have not yet received PPV clearance.
 </p>
 <p>
     <hr width=75% align='center'>
