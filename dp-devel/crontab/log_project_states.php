@@ -73,7 +73,7 @@ while (list ($state) = mysql_fetch_row ($result)) {
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
                VALUES (date('Y'),date('m'),date('d'),date(Y-m-d'),'". $state."', 0)";
 	
-          if ($testing_this_script)
+        if ($testing_this_script)
           {
              echo $insert_query, $EOL;
           }
