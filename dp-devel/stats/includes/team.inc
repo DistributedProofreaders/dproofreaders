@@ -258,7 +258,7 @@ function showTeamMbrs($curTeam) {
 	}
 	if ($totalAnonUsers > 0)
 	{
-		echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
+		echo "\n<tr $rollover_highlight_attrs>";
 		echo "<td width='35%'>"._("Anonymous");
 		if(!isset($GLOBALS['pguser'])) { echo "/"._("Private"); }
 		echo " "._("users")."</td>";
