@@ -10,49 +10,8 @@ include_once($relPath.'maybe_mail.inc');
         //
         // $project: the unique id of the project.
         // $username: the DP username of the owner(?) of the project.
-        //
-        // More specifically:
-        // -- Make a zip of all the page-image files.
-        //    (for "Download Zipped Images")
-        // -- Join all the page texts and put them in a file,
-        //    and make a zip of that file.
-        //    (for "Download Zipped Text")
-        // -- (Experimental) Join all the page texts in a TEIXLITE file
-        //    and make a zip of that file (for "Download Zipped TEI text")
-        // -- Send mail to the project manager, notifying him/her that the
-        //    project is ready for post-processing.
 
-        global $projects_dir;
-
-        $projectpath = "$projects_dir/$project";
-
-        // Zip all page-images.
-        $zippedimages = $project."images.zip";
-        exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
-
-        // Generate joined text file
-        $savepath = $projectpath."/".$project.".txt";
-        $fp = fopen($savepath, "w");
-        join_proofed_text($project, $fp);
-        fclose ($fp);
-
-	// Generate comments html file
-	$htmlpath = $projectpath."/".$project."_comments.html";
-	$fp = fopen($htmlpath, "w");
-	write_project_comments($project, $fp);
-	fclose ($fp);
-
-        // Create a zip of that file
-        exec ("zip -j $projectpath/$project.zip $savepath $htmlpath");
-
-        // Generate joined text file as TEI
-        $savepath = $projectpath."/".$project."_TEI".".txt";
-        $fp = fopen($savepath, "w");
-        join_proofed_text_tei($project, $fp);
-        fclose ($fp);
-
-        // Create a zip of that file
-        exec ("zip -j $projectpath/{$project}_TEI.zip $savepath $htmlpath");
+        generate_post_files( $project );
 
         // Decide whether to send to post-processing or have PM work on it.
 
@@ -81,6 +40,47 @@ include_once($relPath.'maybe_mail.inc');
         }
         maybe_mail_project_manager( $project, $body_blurb, "DP Post-Processing Started");
 
+    }
+
+    function generate_post_files( $project )
+    // Generate the files needed for post-processing.
+    {
+        global $projects_dir;
+
+        $projectpath = "$projects_dir/$project";
+
+        // Make a zip all page-images.
+        // (for "Download Zipped Images")
+        $zippedimages = "{$project}images.zip";
+        exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
+
+        // Generate comments html file.
+        $comments_path = "$projectpath/{$project}_comments.html";
+        $fp = fopen($comments_path, "w");
+        write_project_comments($project, $fp);
+        fclose ($fp);
+
+        // Join all the page texts into a plain text file...
+        $plain_path = "$projectpath/{$project}.txt";
+        $fp = fopen($plain_path, "w");
+        join_proofed_text($project, $fp);
+        fclose ($fp);
+        //
+        // and make a zip of that file (plus comments).
+        // (for "Download Zipped Text")
+        $plain_zip_path = "$projectpath/$project.zip";
+        exec ("zip -j $plain_zip_path $plain_path $comments_path");
+
+        // Join all the page texts into a TEIXLITE file...
+        $tei_path = "$projectpath/{$project}_TEI.txt";
+        $fp = fopen($tei_path, "w");
+        join_proofed_text_tei($project, $fp);
+        fclose ($fp);
+        //
+        // and make a zip of that file (plus comments).
+        // (for "Download Zipped TEI text")
+        $tei_zip_path = "$projectpath/{$project}_TEI.zip";
+        exec ("zip -j $tei_zip_path $tei_path $comments_path");
     }
 
     function write_project_comments($project, $fp) {
