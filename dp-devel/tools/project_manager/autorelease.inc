@@ -103,6 +103,8 @@ function verifynew($projectid, $author, $nameofwork, $language, $clearance, $ema
 
 function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $released, $count2ndRnd, $todaysdate)
 {
+        echo "<br>Considering $projtype_desc projects...<br>\n";
+
         $newpagesreleased = 0;
         $totalnewreleased = 0;
         $numReleased = 0;
@@ -122,6 +124,8 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
         while ( $project = mysql_fetch_assoc($avail_result) ) {
+
+                echo "considering project \"{$project['nameofwork']}\"...<br>\n";
                 // check the date
                 $modifieddate = $project['modifieddate'];
                 if ($modifieddate == $todaysdate) {
