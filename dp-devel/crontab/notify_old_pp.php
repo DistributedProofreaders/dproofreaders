@@ -20,6 +20,7 @@ $db_Connection=new dbConnect();
     $PPinQuestion = "";
     $lastwork = "";	
     $projectslist = "";
+    $displayprojectslist = "";
     $numprojs = 0;
 
    while ($rownum < $numrows) {
@@ -76,7 +77,7 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		$subject = "Distributed Proofreaders: $numprojs projects checked out over 90 days";
 	}	
 
-	$displayprojectslist = $projectslist . "<br>";
+	$displayprojectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n". "<br>";
 
         $rownum++;
 }
