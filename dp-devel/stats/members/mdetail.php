@@ -1,4 +1,5 @@
 <?
+echo "<META NAME=\"ROBOTS\" CONTENT=\"NOARCHIVE\">";
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
@@ -13,7 +14,7 @@ $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['us
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $now = time();
 
-if (empty($curMbr['u_privacy'])) {
+if ($curMbr['u_privacy'] != 1 || $curMbr['username'] == $pguser) {
 	$isAnonymousUsername = $curMbr['username'];
 	if (substr($curMbr['username'], -1) != "s") { $needsApostrophe = "s"; } else { $needsApostrophe = ""; }
 } else {
@@ -24,18 +25,23 @@ if (empty($curMbr['u_privacy'])) {
 theme("$isAnonymousUsername'$needsApostrophe Statistics", "header");
 
 echo "<br><center>";
-if (!empty($curMbr['u_id'])) 
-{
-	if ($isAnonymousUsername == "Anonymous")
-	{
-		print "<p>This user requested to remain anonymous.</p>";
-	}
-	else
-	{
-	showMbrProfile($curMbr);
-	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
-	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+if (!empty($curMbr['u_id'])) {
+	if ($isAnonymousUsername == "Anonymous" && $curMbr['username'] != $pguser) {
+		echo "<p>This user requested to remain anonymous.</p>";
+	} elseif ($curMbr['u_privacy'] == 2) {
+		if (!isset($pguser)) {
+			echo "<p>This user has requested their statistics remain private.  Please create an account to view their statistics.</p>";
+		} else {
+			showMbrProfile($curMbr);
+			if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
+			if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
+			if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+		}
+	} else {
+		showMbrProfile($curMbr);
+		if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
+		if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
+		if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 	}
 }
 
