@@ -303,7 +303,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
     //Show the site statistics
       echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-	echo "<center><u>" . _("Site Statistics (pages):") . "</u></center>\n";
+	echo "<center><u>" . _("Site Statistics:") . "</u></center>\n";
 
         // Today's Numbers
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
