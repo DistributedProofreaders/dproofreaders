@@ -345,5 +345,51 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	return '';
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function project_pre_release_check( $project )
+// Check whether the project seems ready to be released.
+// If it is, return an empty string.
+// If it has problems, return a detailed error-message.
+{
+	global $projects_dir;
+
+	$errors = '';
+
+	$projectid  = $project['projectid'];
+	$nameofwork = $project['nameofwork'];
+	$author     = $project['authorsname'];
+	$language   = $project['language'];
+	$clearance  = $project['clearance'];
+
+	if ($nameofwork == '') $errors .= "  The 'Title' field is blank.\n";
+	if ($author == '')     $errors .= "  The 'Author' field is blank.\n";
+	if ($language == '')   $errors .= "  The 'Language' field is blank.\n";
+	if ($clearance == '')  $errors .= "  The 'Clearance' field is blank.\n";
+
+	if ($errors) $errors .= "\n";
+
+	$res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
+
+	if (mysql_num_rows($res) == 0) $errors .= "  There are no pages.\n";
+
+	while ( $page = mysql_fetch_assoc($res) )
+	{
+		$filename = $page['image'];
+		$filepath = "$projects_dir/$projectid/$filename";
+
+		if (!file_exists($filepath)) {
+			$errors .= "  $filename: image file is missing\n";
+		} else if (filesize($filepath) < 100) {
+			$errors .= "  $filename: image file is small (probably bad)\n";
+		}
+
+		if ($page['master_text_length'] == 0) {
+			$errors .= "  $filename: text is empty\n";
+		}
+	}
+
+	return $errors;
+}
 // vim: ts=4 sw=4
 ?>
