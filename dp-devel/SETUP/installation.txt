@@ -35,6 +35,7 @@ If you're upgrading from a previous version, things would be different ...
             CREATE DATABASE dp_db;
         If you have MySQL 4.1.1 or higher:
             CREATE DATABASE dp_db CHARACTER SET UTF8;
+        Note that you can have UTF-8 enabled on the site even though you have older MySQL version which doesn't support it.
 
     --- Create the user.
         (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
