@@ -33,6 +33,7 @@ echo $docType."\r\n";
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <TITLE>Text Frame</TITLE></head>
@@ -141,9 +142,4 @@ Image Resize:
 </form>
 </center>
 </body>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="-1">
-</head>
 </html>

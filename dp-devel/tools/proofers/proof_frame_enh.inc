@@ -41,6 +41,7 @@ echo $docType."\r\n";
 ?>
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+<meta http-equiv="Cache-Control" content="no-cache" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <title>Proofreading Page</title>
@@ -320,8 +321,4 @@ id="controlframe" align="center"><form
   </form>
   </div>
 </body>
-<head>
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="-1">
-</head>
 </html>

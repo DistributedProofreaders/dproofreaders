@@ -10,9 +10,12 @@ $tpage=new processpage();
 $npage=$tpage->getPageCookie();
 
 ?>
-<html><head><title>Image Frame</title>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Cache-Control" content="no-cache" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="-1" />
+<title>Image Frame</title>
 </head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img
 name="scanimage" id="scanimage" title="" alt=""
 src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>"
@@ -25,8 +28,4 @@ width="<?PHP
 ?>"></div></center>
 
 </body>
-<head>
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="-1">
-</head>
 </html>

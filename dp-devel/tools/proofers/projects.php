@@ -19,6 +19,14 @@ if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
 
 include($relPath.'doctype.inc');
 echo "$docType\r\n<HTML><HEAD><TITLE> "._("Project Comments")."</TITLE>";
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
+
+<?
+
 if (!isset($proofing) && $userP['i_newwin']==1)
 {include($relPath.'js_newwin.inc');}
 echo "</HEAD><BODY>";
