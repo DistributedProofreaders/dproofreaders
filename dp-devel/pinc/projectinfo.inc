@@ -1,4 +1,4 @@
-<?
+<?PHP
 
 class projectInfo
 {
@@ -34,10 +34,10 @@ function update_avail($project, $state) {
     if ($this->avail2_rows != "") { $this->avail2_pages = (mysql_num_rows($this->avail2_rows)); } else $this->avail2_pages = 0;
 
     if ($state == 12) {
-        $availablepages = $this->avail2_pages;
+        $this->availablepages = $this->avail2_pages;
     } else if ($state == 2) {
-        $availablepages = $this->avail1_pages;
-    }
+        $this->availablepages = $this->avail1_pages;
+    } else $this->availablepages = 0;
 }
 
 function update_total($project, $state) {
@@ -60,8 +60,8 @@ function update($project, $state) {
     $this->done2_rows = mysql_query("SELECT * FROM $project WHERE state = 19 ORDER BY image ASC");
     if ($this->done2_rows != "") { $this->done2_pages = (mysql_num_rows($this->done2_rows)); } else $this->done2_pages = 0;
 
-    update_avail($project, $state);
-    update_total($project, $state);
+    $this->update_avail($project, $state);
+    $this->update_total($project, $state);
 
 }
 }
