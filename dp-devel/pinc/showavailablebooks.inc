@@ -132,43 +132,31 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 	if ( $round == 'first' )
 	{
-
-		// Select all projects in the list for round 1., subject to filter
-		// Put the BEGIN projects at the top.
-		$query = "
-			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
-                   round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
-			FROM projects, page_counts 
-			WHERE
-				projects.projectid = page_counts.projectid AND
-				(state = '".PROJ_PROOF_FIRST_AVAILABLE."') "
-				.$where_filter."
-			ORDER BY
-				is_beginner DESC, "
-				. $orderclause."	
-		";
+		$project_available_state = PROJ_PROOF_FIRST_AVAILABLE;
 		$linkbase = "<a href=proof_per.php?orderR1=";
 		$linkend = '#R1';
 	}
 	else if ( $round == 'second' )
 	{
-		// Select all projects in the list for round 2.
-		$query = "
-			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
-		      round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
-			FROM projects, page_counts
-			WHERE
-				projects.projectid = page_counts.projectid AND
-				(state = '".PROJ_PROOF_SECOND_AVAILABLE."') "
-				.$where_filter."
-			ORDER BY
-				is_beginner DESC, "
-				.$orderclause."
-		";
+		$project_available_state = PROJ_PROOF_SECOND_AVAILABLE;
 		$linkbase = "<a href=proof_per.php?orderR2=";
 		$linkend = '#R2';
 	}
 
+	// Always put the BEGIN projects at the top.
+	$query = "
+		SELECT *,
+			(username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
+			round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
+		FROM projects, page_counts
+		WHERE
+			projects.projectid = page_counts.projectid
+		       	AND (state = '$project_available_state')
+			$where_filter
+		ORDER BY
+			is_beginner DESC,
+			$orderclause
+	";
 	$result = mysql_query($query);
 
 	echo "<tr align=center ".bgcol(1,$round).">";
