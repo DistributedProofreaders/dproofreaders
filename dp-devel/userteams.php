@@ -426,11 +426,12 @@ echo $tre.$tbe.$menuBar.$closePage;
 
 function createThread($tname, $tinfo, $owner, $tid) {
 	//Declare variables
+	global $siteurl;
 	$timeposted = time();
 	$post_ip = $_SERVER['REMOTE_ADDR'];
 	$owner = 527;
 	$title = $tname;
-	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='http://texts01.archive.org/dp/userteams.php?tid=$tid'>http://texts01.archive.org/dp/userteams.php?tid=$tid<br><br>Use this area to have a discussion with your fellow teammates! :-D";
+	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$siteurl/userteams.php?tid=$tid'>$siteurl/userteams.php?tid=$tid<br><br>Use this area to have a discussion with your fellow teammates! :-D";
 	$message = addslashes($message);
 
 	//Add Topic into phpbb_topics
