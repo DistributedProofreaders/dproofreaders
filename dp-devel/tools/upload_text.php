@@ -6,6 +6,7 @@ include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'project_trans.inc');
 include($relPath.'html_main.inc');
+include_once($relPath.'theme.inc');
 
 // use: $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
@@ -56,8 +57,9 @@ if (!isset($action))
 {
 	// Present the upload page.
 
-	$htmlC->startHeader("$what Upload");
-	$htmlC->startBody(0,1,0,0);
+	$header = "$what "._("Upload");
+	theme($header, "header");
+
 	$tb=$htmlC->startTable(0,0,0,0);
 	$tr=$htmlC->startTR(0,0,1);
 	$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
@@ -88,7 +90,9 @@ if (!isset($action))
 	echo $bottom_blurb;
 	echo $tr.$td1;
 	echo "<A HREF='$back_url'><B>$back_blurb</B></A>";
-	echo "</TD></TR></TABLE></FORM></DIV></CENTER></BODY></HTML>";
+	echo "</TD></TR></TABLE></FORM></DIV></CENTER>";
+	theme("", "footer");
+
 }
 else
 {
@@ -130,7 +134,8 @@ else
 			}
 
 			// let them know file uploaded and send back to pp page
-			metarefresh(1, $back_url, "File uploaded", "File uploaded!");
+			$msg = _("File uploaded");
+			metarefresh(1, $back_url, $msg, $msg);
 		}
 	}
 }
