@@ -96,7 +96,7 @@ function pages_indicate_bad_project( $projectid, $round )
   $todaysdate = time();
 
   while ($rownum < $numrows) {
-    $project = mysql_result($allprojects, $rownum, "projectid");
+    $projectid = mysql_result($allprojects, $rownum, "projectid");
     $state = mysql_result($allprojects, $rownum, "state");
     $username = mysql_result($allprojects, $rownum, "username");
     $nameofwork = mysql_result($allprojects, $rownum, "nameofwork");
@@ -104,11 +104,11 @@ function pages_indicate_bad_project( $projectid, $round )
     if ($trace)
     {
         echo "<br>\n";
-        echo "project = $project<br>\n";
-        echo "state   = $state<br>\n";
+        echo "projectid = $projectid<br>\n";
+        echo "state     = $state<br>\n";
     }
 
-    $projectinfo->update($project, $state);
+    $projectinfo->update($projectid, $state);
 
 //Bad Page Error Check
 
@@ -127,7 +127,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
         if ( ($state == $AVAILABLE_PROJECT_STATE) || ($state == $BAD_PROJECT_STATE && $one_project) )
         {
-            if ( pages_indicate_bad_project( $project, $round ) )
+            if ( pages_indicate_bad_project( $projectid, $round ) )
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
@@ -135,7 +135,7 @@ function pages_indicate_bad_project( $projectid, $round )
                 if ($state != $BAD_PROJECT_STATE)
                 {
                     if ($trace) echo "changing its state to $BAD_PROJECT_STATE<br>\n";
-                    $error_msg = project_transition( $project, $BAD_PROJECT_STATE );
+                    $error_msg = project_transition( $projectid, $BAD_PROJECT_STATE );
                     if ($error_msg)
                     {
                         echo "$error_msg<br>\n";
@@ -163,7 +163,7 @@ function pages_indicate_bad_project( $projectid, $round )
         }
     }
 
-    $projectinfo->update($project, $state);
+    $projectinfo->update($projectid, $state);
     // Decide which round the project is in
     if ($state == PROJ_PROOF_FIRST_AVAILABLE ||
         $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE ||
@@ -201,7 +201,7 @@ function pages_indicate_bad_project( $projectid, $round )
         (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) ||
         (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
 
-        if ($verbose) echo "Found \"$nameofwork\" to verify = $project<BR>\n";
+        if ($verbose) echo "Found \"$nameofwork\" to verify = $projectid<BR>\n";
 
         // Check in MIA pages
         $page_num = 0;
@@ -215,7 +215,7 @@ function pages_indicate_bad_project( $projectid, $round )
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                  $sql = mysql_query("UPDATE $project SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                  $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num++;
         }
@@ -231,12 +231,12 @@ function pages_indicate_bad_project( $projectid, $round )
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                  $sql = mysql_query("UPDATE $project SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                  $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num2++;
         }
 
-        $projectinfo->update($project, $state);
+        $projectinfo->update($projectid, $state);
 
         if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_VERIFY)) {
 
@@ -248,11 +248,11 @@ function pages_indicate_bad_project( $projectid, $round )
 
         }
 
-		update_total_pages($project, "");
-        	update_avail_pages($project, " = '".$newstate."'");
+		update_total_pages($projectid, "");
+        	update_avail_pages($projectid, " = '".$newstate."'");
 
         if ($verbose) echo "New state = $state<P>\n";
-        $error_msg = project_transition( $project, $state );
+        $error_msg = project_transition( $projectid, $state );
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
@@ -263,11 +263,11 @@ function pages_indicate_bad_project( $projectid, $round )
 
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
-	update_total_pages($project, 1);
+	update_total_pages($projectid, 1);
 
-        if ($verbose) echo "Found project to promote = $project<BR>\n";
+        if ($verbose) echo "Found project to promote = $projectid<BR>\n";
 
-        $error_msg = project_transition( $project, PROJ_PROOF_SECOND_AVAILABLE );
+        $error_msg = project_transition( $projectid, PROJ_PROOF_SECOND_AVAILABLE );
         if ($error_msg)
         {
             echo "$error_msg<br>\n";
@@ -275,13 +275,13 @@ function pages_indicate_bad_project( $projectid, $round )
         }
 
         $timestamp = time();
-        $updatefile = mysql_query("UPDATE $project SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
+        $updatefile = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
     }
 
     // Completed Level
     if ($state == PROJ_PROOF_SECOND_COMPLETE) {
-        sendtopost($project, $username, $todaysdate);
+        sendtopost($projectid, $username, $todaysdate);
     }
     $rownum++;
   }
