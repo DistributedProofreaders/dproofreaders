@@ -15,7 +15,12 @@ $text = " " . _("In Progress.") . "</font>  " . _("These books have been process
 } elseif ($type == "gold") {
 $state = SQL_CONDITION_GOLD;
 $text = " " . _("Complete.") . "</font>  " . _("These books have been processed through our site and posted to the Project Gutenberg archive.");
-$text .= "<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>&nbsp;<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'><img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a><br>";
+$text .= "
+	<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'>
+		<img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
+	<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'>
+		<img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
+	<br>";
 }
 
 $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
