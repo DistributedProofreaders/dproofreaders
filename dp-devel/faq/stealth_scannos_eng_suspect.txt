@@ -361,8 +361,8 @@ lay	Jay
 le	ie
 lead	fond
 leader	leafier
-lee	Ice
 lee	ice
+lee	Ice
 lets	lots
 life	lifts
 lift	lilt
@@ -383,7 +383,6 @@ main	mary
 main	warn
 make	wake
 males	wales
-mall	mail
 man	ban
 man	nun
 married	warned
@@ -415,8 +414,8 @@ Mlle.	Mile.
 mm	win
 moat	meat
 mock	mode
-mode	mock
 Mode	Mock
+mode	mock
 modern	modem
 month	mouth
 mood	wood

@@ -349,6 +349,7 @@ lye	bye
 mad	and
 mads	made
 mail	mall
+mall	mail
 many	marry
 marry	many
 mast	must
