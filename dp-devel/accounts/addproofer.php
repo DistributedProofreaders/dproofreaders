@@ -5,7 +5,6 @@ include($relPath.'username.inc');
 include($relPath.'email_address.inc');
 include($relPath.'maybe_mail.inc');
 include($relPath.'connect.inc');
-include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
@@ -279,38 +278,24 @@ to have it reset.
 
     $header = _("Create An Account");
     theme($header, "header");
-    $tb=$htmlC->startTable(0,400,0,1);
-    $tr=$htmlC->startTR(0,0,1);
 
-$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
-$td2=$htmlC->startTD(1,0,0,0,"center",0,0,1);
-$td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
-$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
-$td5=$htmlC->startTD(0,0,2,0,"left",0,0,1);
-$tde=$htmlC->closeTD(1);
-$tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
-
-?>
-<center>
-<form method="post" action="addproofer.php">
-<input type=hidden name="password" value="proofer">
-<?php
-    echo $tb.$tr.$td2."<b>"._("Real Name").":</b>";
-    echo $td3.'<input type="text" maxlength=70 name="real_name" size=20>';
-    echo $tre.$tr.$td2."<b>"._("User Name").":</b>";
-    echo $td3.'<input type="text" maxlength=70 name="userNM" size=20>';
-    echo $tre.$tr.$td2."<b>"._("Password").":</b>";
-    echo $td3.'<input type="password" maxlength=70 name="userPW" size=20>';
-    echo $tre.$tr.$td2."<b>"._("E-mail Address").":</b>";
-    echo $td3.'<input type="text" maxlength=70 name="email" size=20>';
-    echo $tre.$tr.$td2."<b>"._("E-mail Updates").":</b>";
-    echo $tde.$td3."<input type='radio' name='email_updates' value='1' checked>"._("Yes")."&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>"._("No");
-    echo $tre.$tr.$td1."<input type='submit' value='"._("Create Account")."'>&nbsp;&nbsp;<input type='reset'>";
-    echo $tre.$tr.$td5;
+    echo "<center><form method='post' action='addproofer.php'><input type=hidden name='password' value='proofer'>";
+    echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse:collapse' width='400'><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Real Name").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='real_name' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("User Name").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='userNM' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Password").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='password' maxlength=70 name='userPW' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Address").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Updates").":</b>";
+    echo "</td><td bgcolor='#ffffff' align='center'><input type='radio' name='email_updates' value='1' checked>"._("Yes")."&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>"._("No");
+    echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Create Account")."'>&nbsp;&nbsp;<input type='reset'>";
+    echo "</td></tr><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
 
     include($code_dir.'/faq/privacy.php');
 
-    echo $tre.$htmlC->closeTable(1)."</form>";
+    echo "</td></tr></table></form>";
     echo "</center>";
 }
 theme("", "footer");
