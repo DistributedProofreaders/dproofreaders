@@ -317,7 +317,11 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 
 ?></td><td
 	align="right"
-	valign="top"><a
+	valign="top">
+<?
+echo "<b><font color='red'>"._("HELP")."---></font></b>";
+?>
+      <a
 	href="../../faq/prooffacehelp.php"
 	accesskey="1"
 	target="helpNewWin"
@@ -354,6 +358,7 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 <br>
 <font size="-1">
 <? 
+echo _("Reference Information").": ";
 echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/document.php' target='_blank'>". _('Proofreading Guidelines')."</a>] ";
 echo _("Proofreading Diagrams:"); ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
