@@ -160,9 +160,9 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 
 			if (empty($currentRank) || empty($prevRank)) {
 				$rankPos = "&nbsp;";
-			} elseif ($prevRank > $currentRank) {
+			} elseif ($currentRank < $prevRank) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
-			} elseif ($prevRank < $currentRank) {
+			} elseif ($currentRank > $prevRank) {
 				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
 			} else {
 				$rankPos = "&nbsp;";
@@ -174,10 +174,10 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 
 			if (empty($currentRank) || empty($prevRank)) {
 				$rankPos = "&nbsp;";
-			} elseif ($currentRank > $prevRank) {
-				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
 			} elseif ($currentRank < $prevRank) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
+			} elseif ($currentRank > $prevRank) {
+				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
 			} else {
 				$rankPos = "&nbsp;";
 			}
