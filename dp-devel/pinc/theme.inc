@@ -73,8 +73,8 @@ function theme ($nameofpage, $location) {
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td>\n";
-				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
+				echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+				echo "<td align='left' valign='top' width='25%' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
 				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
 				echo "</td></tr></table>\n";
 				html_footer($code_url, $theme, $theme_name);
@@ -283,7 +283,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the site statistics
       echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 	echo "<center><u>" . _("Site Statistics:") . "</u></center>\n";
-	echo "&nbsp;" . _("Today: " . number_format($sitestats['daily']) . " pages<br>\n";
+	echo "&nbsp;" . sprintf(_("Today: %s pages"), number_format($sitestats['daily'])) . " pages<br>\n";
 	echo "&nbsp;" . date("F: ") . "" . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
