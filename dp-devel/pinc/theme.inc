@@ -260,7 +260,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 	echo "<center><u>Site Statistics:</u></center>\n";
 	echo "&nbsp;Today: ".$sitestats['daily']." pages<br>\n";
-	echo "&nbsp;".date("F: ")."".$sitestats['monthly']." pages<br>\n";
+	echo "&nbsp;".date("F: ")."".number_format(str_replace(",", "", $sitestats['monthly'])+str_replace(",", "", $sitestats['daily']))." pages<br>\n";
 	echo "&nbsp;Goal: ".$sitestats['goal']." pages<br>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
