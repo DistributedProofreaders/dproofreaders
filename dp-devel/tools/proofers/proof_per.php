@@ -3,10 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'bookpages.inc');
-include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'page_states.inc');
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
 
