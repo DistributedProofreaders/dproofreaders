@@ -799,9 +799,9 @@ theme('Proofing Guidelines','header');
         <tt><pre>
 /*
 Mary had a little lamb[1]
-   Whose fleece was white as snow
+  Whose fleece was white as snow
 And everywhere that Mary went
-   The lamb was sure to go!
+  The lamb was sure to go!
 */</pre>
           [Footnote 1: This lamb was obviously of the Hampshire breed,           <br>
           well known for the pure whiteness of their wool.]                      <br>
