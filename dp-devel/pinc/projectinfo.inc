@@ -22,13 +22,12 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
     {
         $prd = get_PRD_for_project_state($proofstate);
         $avail_state = $prd->page_avail_state;
+        return Project_getNumPagesInState( $projectid, $avail_state );
     }
     else
     {
         return 0;
     }
-
-    return Project_getNumPagesInState( $projectid, $avail_state );
 }
 
 function Project_getNumPagesInState( $projectid, $page_state )
