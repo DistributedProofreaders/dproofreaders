@@ -338,7 +338,7 @@ different pages.  This will significantly speed up the proofreading process.
 <hr align="center" width="66%">
 <h4>Revision History of this Document</h4>
        04/16/2004 -- Version 1.6: Major changes by pourlean - removed all personal email addresses.
-       06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
+   <br>06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
    <br>10/27/2002 -- updated version produced by Charles Franks.
    <br>10/16/2001 -- original version of this document produced by Robert Rowe.
 
