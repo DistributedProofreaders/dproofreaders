@@ -52,11 +52,18 @@ function page_tallies_add( $username, $amount )
     ");
 
     // update page tally for each team
-    mysql_query("
-        UPDATE current_tallies
-        SET tally_value = tally_value + $amount
-        WHERE holder_type='T' AND holder_id IN (1, $team_1, $team_2, $team_3) AND tally_name='P'
-    ");
+    // (The 'array_unique' shouldn't be necessary, but just in case.)
+    foreach (array_unique(array(1, $team_1, $team_2, $team_3)) as $team_id)
+    {
+        if ( $team_id != 0 )
+        {
+            mysql_query("
+                UPDATE current_tallies
+                SET tally_value = tally_value + $amount
+                WHERE holder_type='T' AND holder_id=$team_id AND tally_name='P'
+            ");
+        }
+    }
 }
 
 // -----------------------------------------------------------------------------
