@@ -25,7 +25,7 @@ if ($cday != 1) {
     }
 }
 
-echo "Today is $today, start is $start_date, descrip is $descrip  ";
+echo "Today is $today, start is $start_date, descrip is $descrip  <br><br>";
 
 	
 
@@ -35,7 +35,7 @@ $created = state_change_since ( "
 
 
 
-echo "<b>$created</b>"._("projects have been created")." $descrip<br>";
+echo "<b>$created</b> "._("projects have been created")." $descrip<br>";
 
 $FinProof = state_change_since ( "
 				(state LIKE 'proj_submit%' 
@@ -45,7 +45,7 @@ $FinProof = state_change_since ( "
 
 
 
-echo "<b>$FinProof</b>"._("projects have finished proofing")." $descrip<br>";
+echo "<b>$FinProof</b> "._("projects have finished proofing")." $descrip<br>";
 
 
 $FinPP = state_change_since ( "
