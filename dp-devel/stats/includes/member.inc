@@ -26,7 +26,7 @@ function showMbrProfile($curMbr) {
 
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
+	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='$isAnonymousUsername'$needsApostrophe'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe Statistics </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
@@ -183,10 +183,10 @@ function showMbrNeighbors($curMbr) {
 	$rankArray = mbrRank($curMbr['username']);
 	$now = time();
 
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
+	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe "._("Neighbors")."</b></font></center></td></tr>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='10%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Rank")."</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Username")."</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Date Joined DP")."</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Overall Pages Completed")."</i></u></b></font></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='15%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Rank")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Username")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Date Joined DP")."</i></u></b></font></td><td width='29%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Overall Pages Completed")."</i></u></b></font></td></tr>";
 
 	$i = 4;
 	if ($rankArray['rank'][$rankArray['curMbrIndex']] <= 4) { $i = $rankArray['rank'][$rankArray['curMbrIndex']]-1; }
@@ -205,21 +205,21 @@ function showMbrNeighbors($curMbr) {
 		    ($privacy_enabled == 1 && isset($GLOBALS['pguser']) && $username == $GLOBAL['pguser']) ||
 		    ($privacy_enabled == 0)) {
 
-			echo "<td width='10%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='30%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
+			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
 			echo $username;
-			echo "</a></td><td width='30%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i></td><td width='30%'>$pagescompleted</td></tr>";
+			echo "</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
 
 		} else {
-			echo "<td width='10%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='30%'>";
+			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'>";
 			echo "Anonymous";
-			echo "</td><td width='30%'>--/--/-- <i>(--- "._("days").")</i></td><td width='30%'>$pagescompleted</td></tr>";
+			echo "</td><td width='28%'>--/--/-- <i>(--- "._("days").")</i></td><td width='29%'>$pagescompleted</td></tr>";
 		}
 
 		$i--;
 	}
 
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-	echo "<td width='10%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'], 0, $rankArray)."</td><td width='30%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$isAnonymousUsername</a></td><td width='30%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='30%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
+	echo "<td width='15%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'], 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$isAnonymousUsername</a></td><td width='28%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='29%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
 
 	$i = 1;
 	while ($i <= 4) {
@@ -232,7 +232,7 @@ function showMbrNeighbors($curMbr) {
 		$pagescompleted = number_format($rankArray['pages'][$rankArray['curMbrIndex']+$i]);
 
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='10%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='30%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a></td><td width='30%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." days)</i></td><td width='30%'>$pagescompleted</td></tr>";
+		echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a></td><td width='28%'>".date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." days)</i></td><td width='29%'>$pagescompleted</td></tr>";
 		$i++;
 	}
 
@@ -242,7 +242,7 @@ function showMbrNeighbors($curMbr) {
 function showMbrTeams($curMbr) {
 	global $theme, $isAnonymousUsername, $needsApostrophe;
 
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
+	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe "._("Teams")."</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
@@ -257,7 +257,7 @@ function showMbrHistory($curMbr) {
 	global $theme, $isAnonymousUsername, $needsApostrophe;
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
+	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe "._("History")."</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>"._("Last 7 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>"._("Last 14 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>"._("Last 30 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>"._("Last 60 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>"._("Last 365 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>"._("Lifetime")."</a></font>";
