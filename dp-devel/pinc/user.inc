@@ -15,7 +15,7 @@ function checkSafe($uInfo)
       }
 
 function checkUID($userID)
-     {if (strcmp($userID,$_POST['userID'])==0 && $this->checkSafe($userID)) 
+     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID)) 
           {return 1;}
       else {return 0;}
      }
