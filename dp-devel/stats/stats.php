@@ -19,7 +19,7 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 //limit to looking at projects modified
 //after 1 Jan 2003 as older projects have a
 //different table structure
-$allProjects = mysql_query("SELECT projectid FROM projects WHERE modifieddate > '1041465600'");
+$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0'");
 $numProjects = mysql_num_rows($allProjects);
 
 while ($i < $numProjects) {
