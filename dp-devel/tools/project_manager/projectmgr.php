@@ -208,7 +208,7 @@ abort_if_not_manager();
     		echo "<tr>";
       		echo_header_cell( 175, "Title" );
       		echo_header_cell( 100, "Author" );
-      		echo_header_cell( 50, "Diff." );
+      		echo_header_cell( 25, "Diff." );
 		if ( $show_pages_left )
 		{
 		    echo_header_cell( 50, "Left" );
@@ -232,7 +232,7 @@ abort_if_not_manager();
 		     {
             		$name = mysql_result($result, $rownum, "nameofwork");
             		$author = mysql_result($result, $rownum, "authorsname");
-                        $diff = substr(mysql_result($result, $rownum, "difficulty"),0,5);
+                        $diff = strtoupper(substr(mysql_result($result, $rownum, "difficulty"),0,1));
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
 
