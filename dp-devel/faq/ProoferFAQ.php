@@ -163,7 +163,7 @@ different pages.  This will significantly speed up the proofreading process.
     the images (best if you want to keep the book). We would prefer it if you would
     clear the books first with Project Gutenberg before scanning and sending us the
     images.  Please refer to the <a
-    href="scan/submitting.php">Submitting Material
+    href="scan/submitting.php">Content Provider's
     FAQ</a> for more details on clearing and scanning books. </p>
 
 <p> So if you want to do more than just proofreading, you can also help by taking on any

@@ -63,7 +63,7 @@ theme('FAQ Central','header');
   <dd>Information for new or aspiring Project Managers.  (Project Managers are people who
       manage the progress of a particular project ("book") through this site.)
 
-  <dt><a href="scan/submitting.php">Submitting Material FAQ</a>
+  <dt><a href="scan/submitting.php">Content Provider's FAQ</a>
   <dd>Overview for people who want to contribute material to be proofread on this site.
 
   <dt><a href="scan/scanfaq.php">Scanning FAQ</a>
