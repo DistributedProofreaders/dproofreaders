@@ -4,11 +4,11 @@ include($relPath.'dp_main.inc');
 include($relPath.'projectinfo.inc');
 
 $projectinfo = new projectinfo();
-if ($prooflevel == 0) {
+if ($proofstate < 9) {
   $projectinfo->update_avail($project, 2);
 } else $projectinfo->update_avail($project,12);
 
-/* $_GET $project, $prooflevel, $proofing */
+/* $_GET $project, $proofstate, $proofing */
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username, topic_id FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
@@ -20,8 +20,8 @@ if ($prooflevel == 0) {
     $user_id = mysql_result($phpuser, 0, "user_id");
 
 
-if (isset($prooflevel)){
-   if ($prooflevel==0)
+if (isset($proofstate)){
+   if ($proofstate < 9)
    {$wTime="round1_time";
     $wState=9;}
    else {$wTime="round2_time";
@@ -63,7 +63,7 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
 <P><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
-    if ($prooflevel == 0) {
+    if ($proofstate < 9) {
         echo "First Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>This is a First-Round project, these files are output from the OCR software and have not been looked at.</b></td></tr>";
     } else {
         echo "Second Round Project</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4><b>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.</b></td>";
@@ -83,7 +83,7 @@ Check out <a href="http://texts01.archive.org/dp/faq/document.html">Document Gui
     echo "<td colspan=4>$authorsname</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
     echo "<td colspan=4>$username</td></tr>";
-if (isset($prooflevel))
+if (isset($proofstate))
 {    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
     echo "<td colspan=4>$lastproofed</td></tr>";}
 
@@ -96,35 +96,39 @@ if ($topic_id == "") {
 }
     echo "</a></td>";
 
-    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td></tr>";
-    echo "<tr><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td><td bgcolor=CCCCCC><B>Date & Image</B></td></tr><tr>";
-
+    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><B>My Recently Proofed</B></td>";
+    echo "</tr><tr>";
+$recentNum=5;
+ for ($i=0;$i<5;$i++)
+  { echo "<td \r\nbgcolor=CCCCCC><B>Date &amp; Image</B></td>";}
 
     $sql = "SELECT image, fileid, ";
-     $whichTime=$prooflevel==2? "round2_time" : "round1_time";
+     $whichTime=$proofstate <9? "round1_time" : "round2_time";
      $sql.=$whichTime." FROM $project WHERE ";
-     if ($prooflevel==2) {$sql.="round2_user";} else {$sql.="round1_user";}
+     if ($proofstate <9) {$sql.="round1_user";} else {$sql.="round2_user";}
      $sql.="='$pguser' AND (state ='"; 
-     if ($prooflevel==2) {$sql.="19' OR state = '18";} else {$sql.="9' OR state = '8";} 
-     $sql.="') ORDER BY ".$whichTime." DESC"; 
+     if ($proofstate <9) {$sql.="9' OR state = '8";} else {$sql.="19' OR state = '18";} 
+     $sql.="') ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
     $result = mysql_query($sql);
     $rownum = 0;
     $numrows = mysql_num_rows($result);
-    while (($rownum < 5) && ($rownum < $numrows)) {
+    while (($rownum < $recentNum) && ($rownum < $numrows)) {
         $imagefile = mysql_result($result, $rownum, "image");
         $fileid = mysql_result($result, $rownum, "fileid");
         $timestamp = mysql_result($result, $rownum, $whichTime);
 $newproject = "project=$project";
 $newfileid="&amp;fileid=$fileid";
 $newimagefile = '&amp;imagefile='.$imagefile;
-$newprooflevel = '&amp;prooflevel='.$prooflevel;
+$newproofstate = '&amp;proofstate='.$proofstate;
 $saved="&amp;saved=1";
 $editone="&amp;editone=1";
-        echo "<TD ALIGN=\"center\">".date("M d", $timestamp)." - ".$imagefile."<BR>";
+  if (($rownum % 5) ==0)
+  {echo "</tr><tr>";}
+  echo "<TD \r\nALIGN=\"center\">".date("M d", $timestamp)." - ".$imagefile."<BR>\r\n";
   if ($userP['i_prefs']==0)
-     {echo "<a href=\"../../userprefs.php\">Set Interface</a></td>";}
+     {echo "<a \r\nhref=\"../../userprefs.php?".$newproject.$newproofstate."\">Set Interface</a></td>";}
   else {
-    $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newprooflevel.$saved.$editone;
+    $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$saved.$editone;
       if ($userP['i_newwin']==0)
       {echo "<A HREF=\"$eURL\">";}
       else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}
@@ -133,10 +137,8 @@ $editone="&amp;editone=1";
         $rownum++;
     }
 
-while ($rownum < 5)
+while (($rownum % 5) !=0)
 {echo "<td> </td>"; $rownum++;}
-
-    echo "</tr>";
 
     echo "</tr><tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>$comments</td></tr></table>";
     echo "<BR>";

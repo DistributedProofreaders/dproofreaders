@@ -12,7 +12,7 @@ if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"but
 TYPE="image" accesskey="7" name="button1" ID="button1" size="26" alt="Save" title="Save" src="gfx/bt3.png">&nbsp;<INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" size="26" alt="Save and Change Interface Layout" title="Save and Change Interface Layout" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" src="gfx/bt<?PHP if ($userP['i_layout']==1) {echo "5";} else {echo "4";} ?>.png">&nbsp;<a href="#" onclick="cFCE()"><img 
 src="gfx/bt6.png" width="26" height="26" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;<a 
-href="projects.php?project=<?PHP echo "$project&amp;prooflevel=$prooflevel"; ?>&amp;proofing=1" TARGET="viewcomments"><img 
+href="projects.php?project=<?PHP echo "$project&amp;proofstate=$proofstate"; ?>&amp;proofing=1" TARGET="viewcomments"><img 
 src="gfx/bt12.png" width="26" height="26" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<a href="#" onclick="showNW()"><img 
 src="gfx/bt9.png" width="26" height="26" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a href="#" onclick="udoRV()"><img 
 src="gfx/bt7.png" width="26" height="26" border="0" alt="Undo Revert" title="Undo Revert"></a>&nbsp;<a 

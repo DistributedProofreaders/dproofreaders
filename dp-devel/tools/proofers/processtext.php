@@ -1,7 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-/* $_POST $imagefile, $fileid, $prooflevel, $button1, $button2, $button3, $button4,
+/* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $editone, $saved */
 
@@ -31,8 +31,9 @@ $cookieC->setTempPrefs($userP,$pguser);
 $project = $projectname;
 $text_data = strip_tags($text_data, '<i>');
 
+$returnURL=isset($editone)?"projects.php?project={$project}&proofstate={$proofstate}":"proof_per.php";
 
-function addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid)
+function addUserCount($project,$proofstate,$imagefile,$pguser,$fileid)
 {
 $sql = "SELECT state FROM $project WHERE image='$imagefile' AND fileid='$fileid'";
 $result=dquery($sql);
@@ -40,7 +41,7 @@ $rows=nrows($result);
   if ($rows !=0)
   {
   $curState=dresult($result,0,'state');
-    if (($prooflevel==0 && $curState==5) || ($prooflevel==2 && $curState==15))
+    if (($proofstate < 9 && $curState==5) || ($proofstate >9 && $curState==15))
     {
     // add to user page count
     $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
@@ -49,57 +50,57 @@ $rows=nrows($result);
   }
 }
 
-function isProjectDone($project,$prooflevel)
+function isProjectDone($project,$proofstate)
 {
 $sql = "SELECT * FROM $project WHERE state='";
-$sql.=$prooflevel==0? "2'":"12'";
+$sql.=$proofstate < 9? "2'":"12'";
 $sql.=" OR state='";
-$sql.=$prooflevel==0? "5'":"15'";
+$sql.=$proofstate < 9? "5'":"15'";
 $sql.=" LIMIT 1";
 $result = dquery($sql);
 $rows=nrows($result);
   if ($rows == 0)
   {
-  if ($prooflevel == 0) { $newstate = 8; } else { $newstate = 18; }
+  if ($proofstate < 9) { $newstate = 8; } else { $newstate = 18; }
   $result = dquery("UPDATE projects SET state = '$newstate' WHERE projectid = '$project'");
   }
 }
 
-function savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid)
+function savePage($project,$proofstate,$imagefile,$text_data,$pguser,$fileid)
 {
 $timestamp = time();
 $dbQuery="UPDATE $project SET ";
-  if ($prooflevel==2)
-  {$dbQuery.="round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
-  else {$dbQuery.="round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
+  if ($proofstate < 9)
+  {$dbQuery.="round1_text='$text_data', round1_time='$timestamp', round1_user='$pguser'";}
+  else {$dbQuery.="round2_text='$text_data', round2_time='$timestamp', round2_user='$pguser'";}
 $dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
 }
 
-function setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid)
+function setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid)
 {
-addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);
+addUserCount($project,$proofstate,$imagefile,$pguser,$fileid);
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
-  if ($prooflevel==2)
-  {$dbQuery.="19', round2_time='$timestamp', round2_user='$pguser'";}
-  else {$dbQuery.="9', round1_time='$timestamp', round1_user='$pguser'";}
+  if ($proofstate < 9)
+  {$dbQuery.="9', round1_time='$timestamp', round1_user='$pguser'";}
+  else {$dbQuery.="19', round2_time='$timestamp', round2_user='$pguser'";}
 $dbQuery.=" WHERE image='$imagefile' AND fileid='$fileid'";
 $result = dquery($dbQuery);
-isProjectDone($project,$prooflevel);
+isProjectDone($project,$proofstate);
 }
 
-function isOpenProject($project,$prooflevel)
+function isOpenProject($project,$proofstate)
 {
 $result = dquery("SELECT state FROM projects WHERE projectid = '$project'");
 $curState=dresult($result,0,'state');
-  if (($prooflevel ==0 && $curState < 9) || ($prooflevel ==2 && $curState < 19))
+  if (($proofstate < 9 && $curState < 9) || ($proofstate > 9 && $curState < 19))
   {return 1;}
   else {return 0;}
 }
 
 // see if project is still in an open state for proofing level
-$isOpen=isOpenProject($project,$prooflevel);
+$isOpen=isOpenProject($project,$proofstate);
 if (!$isOpen)
 {
   if ($userP['i_type']==0)
@@ -119,7 +120,7 @@ if (!$isOpen)
 // buttons which save
 if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4) || isset($button5_x) || isset($button5))
 {
-savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid);
+savePage($project,$proofstate,$imagefile,$text_data,$pguser,$fileid);
 } // end save page
 
 
@@ -129,7 +130,7 @@ if (isset($button1) || isset($button1_x) || isset($button4_x) || isset($button4)
 $project = 'project='.$project;
 $fileid = '&fileid='.$fileid;
 $imagefile = '&imagefile='.$imagefile;
-$prooflevel = '&prooflevel='.$prooflevel;
+$proofstate = '&proofstate='.$proofstate;
 $lang='&lang='.$lang;
 $saved='&saved=1';
   if (@$button4 != "" || isset($button4_x))
@@ -138,7 +139,7 @@ $userP['i_layout']=$userP['i_layout']==1? 0:1;
 $userP['prefschanged']=1;
 $cookieC->setTempPrefs($userP, $pguser);
   } // end change layout button 4
-$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$prooflevel.$lang.$saved;
+$frame1 = 'proof.php?'.$project.$fileid.$imagefile.$proofstate.$lang.$saved;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
 metarefresh(0,$frame1,' ',' ');
 } // end save and continue same page button 1 & button 4
@@ -146,11 +147,11 @@ metarefresh(0,$frame1,' ',' ');
 // save and do another send back to proof.php for a new page
 if (isset($button2) || isset($button2_x))
 {
-setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
+setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid);
 $project = 'project='.$project;
-$prooflevel = '&prooflevel='.$prooflevel;
+$proofstate = '&proofstate='.$proofstate;
 $lang='&lang='.$lang;
-$frame1 = 'proof.php?'.$project.$prooflevel.$lang;
+$frame1 = 'proof.php?'.$project.$proofstate.$lang;
 if (isset($editone)){$frame1=$frame1."&editone=1";}
 metarefresh(0,$frame1,' ',' ');
 } // end save and do another button 2
@@ -160,16 +161,16 @@ if (isset($button3) || isset($button3_x))
 {
 if (!isset($saved))
   {$dbQuery="UPDATE $project SET state='";
-  $dbQuery.=$prooflevel==2?"12":"2";
+  $dbQuery.=$proofstate < 9?"2":"12";
   $dbQuery.="' WHERE image = '$imagefile' AND fileid='$fileid'";
   $result = mysql_query($dbQuery);}
-else {setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);}
+else {setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid);}
 if ($userP['i_newwin']==0)
-  {metarefresh(0,'proof_per.php',' ',' ');}
+  {metarefresh(0,"$returnURL",' ',' ');}
   else {
   include($relPath.'doctype.inc');
   echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
-?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="proof_per.php";window.close();</SCRIPT><?PHP
+?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="<?PHP echo $returnURL; ?>";window.close();</SCRIPT><?PHP
   echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
   echo "</BODY></HTML>";}
 } // end button 3 quit
@@ -177,13 +178,13 @@ if ($userP['i_newwin']==0)
 // if save and quit send back to projects page
 if (isset($button5) || isset($button5_x))
 {
-setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid);
+setSaveComplete($project,$proofstate,$imagefile,$pguser,$fileid);
 if ($userP['i_newwin']==0)
-  {metarefresh(0,'proof_per.php',' ',' ');}
+  {metarefresh(0,"$returnURL",' ',' ');}
   else {
   include($relPath.'doctype.inc');
   echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
-?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="proof_per.php";window.close();</SCRIPT><?PHP
+?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="<?PHP echo $returnURL; ?>";window.close();</SCRIPT><?PHP
   echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
   echo "</BODY></HTML>";}
 } // end button 5 quit

@@ -24,7 +24,7 @@ echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
 
 
 // depends on prooflevel
-if ($prooflevel==0)
+if ($proofstate <9)
 { if (isset($saved))
   {$wText="round1_text";}
   else {$wText="master_text";}
@@ -38,7 +38,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
     $result = mysql_query($dbQuery);
     $myrow = mysql_fetch_row($result);
     $text_data = mysql_result($result, 0, $wText);
-    if ($prooflevel != 0 || isset($saved)) {
+    if ($proofstate > 9 || isset($saved)) {
         $text_data = strip_tags($text_data, '<i>&');
     } else {
         $search = array("'>'i", "'<'i");
@@ -51,7 +51,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
 <?
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$imagefile\" name=\"imagefile\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$fileid\" name=\"fileid\">";
-    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$prooflevel\" name=\"prooflevel\">";
+    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$proofstate\" name=\"proofstate\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$project\" name=\"projectname\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$lang\" name=\"lang\">";
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
@@ -65,7 +65,7 @@ if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save 
 <?
 //display page number
 echo "<B>Page Number: $pageNum ";
-    if ($prooflevel != 0) {
+    if ($proofstate > 9) {
         $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile' AND fileid='$fileid'");
         $username = mysql_result($result, 0, "round1_user");
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
@@ -73,7 +73,7 @@ echo "<B>Page Number: $pageNum ";
         echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
     }
 echo "</B><BR>";
-    echo "View: <a href=\"projects.php?project=$project&amp;prooflevel=$prooflevel&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
+    echo "View: <a href=\"projects.php?project=$project&amp;proofstate=$proofstate&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
     echo "<a href=\"#\" onclick=\"mNA()\">Extended Characters</a> ";
     echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a> ";
 ?>

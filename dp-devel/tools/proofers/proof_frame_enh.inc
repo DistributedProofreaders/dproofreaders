@@ -12,7 +12,7 @@ $sHidFM2="\" ID=\"";
 $sHidFE="\">";
 echo $sHidFS.$imagefile.$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
 echo $sHidFS.$fileid.$sHidFM.'fileid'.$sHidFM2.'fileid'.$sHidFE;
-echo $sHidFS.$prooflevel.$sHidFM.'prooflevel'.$sHidFM2.'prooflevel'.$sHidFE;
+echo $sHidFS.$proofstate.$sHidFM.'proofstate'.$sHidFM2.'proofstate'.$sHidFE;
 echo $sHidFS.$project.$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
 echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
 if (isset($editone)) { echo $sHidFS.$editone.$sHidFM.'editone'.$sHidFM2.'editone'.$sHidFE;}
@@ -33,7 +33,7 @@ $twrap=$twrap==1? '': " wrap=\"off\"";
 echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\" onSelect=\"getCurSel()\" 
 onClick=\"getCurCaret()\" onKeyup=\"getCurCaret()\"$twrap>";
 // depends on prooflevel
-if ($prooflevel==0)
+if ($proofstate<9)
 { if (isset($saved))
   {$wText="round1_text";}
   else {$wText="master_text";}
@@ -47,7 +47,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
     $result = mysql_query($dbQuery);
     $myrow = mysql_fetch_row($result);
     $text_data = mysql_result($result, 0, $wText);
-    if ($prooflevel != 0 || isset($saved)) {
+    if ($proofstate > 9 || isset($saved)) {
         $text_data = strip_tags($text_data, '<i>&');
     } else {
         $search = array("'>'i", "'<'i");
@@ -58,7 +58,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid' AND image='$image
 ?></TEXTAREA><BR><?PHP 
 //display page number
 echo "<FONT SIZE=\"-1\"><B>Page Number: $pageNum";
-    if ($prooflevel != 0) {
+    if ($proofstate > 9) {
         $result = mysql_query("SELECT round1_user FROM $project WHERE image = '$imagefile' AND fileid='$fileid'");
         $username = mysql_result($result, 0, "round1_user");
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
