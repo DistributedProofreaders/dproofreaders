@@ -7,6 +7,7 @@ include_once($relPath.'udb_user.php');
 include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'session.inc');
+include_once($relPath.'gettext_setup.inc');
 
 //Let's see if the users session has already been started
 	$session_id = session_id();
@@ -48,8 +49,6 @@ if(isset($userP['i_theme'])) {
 		$theme_name = "project_gutenberg";
 		$theme = ${$theme_name};
 }
-
-include_once($relPath.'gettext_setup.inc');
 
 function theme ($nameofpage, $location) {
 
