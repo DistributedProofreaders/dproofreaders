@@ -25,7 +25,7 @@ i_prefs, i_res, i_type, i_layout, i_toolbar,
 i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
 v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
 h_fntf, h_zoom, h_tframe, h_tlines, h_tchars, h_tscroll, h_twrap, 
-id, manager, pagescompleted 
+id, manager, pagescompleted, postprocessor 
 FROM users WHERE username='$userID'";
           $db_result=mysql_query($db_query);
           $uData=mysql_fetch_assoc($db_result);
@@ -72,6 +72,7 @@ $uPrefs['h_twrap']=$cPrefs[$i++];
 $uPrefs['user_id']=$cPrefs[$i++];
 $uPrefs['manager']=$cPrefs[$i++];
 $uPrefs['pagescompleted']=$cPrefs[$i++];
+$uPrefs['postprocessor']=$cPrefs[$i++];
 return $uPrefs;
 }
 function deleteCookie()
