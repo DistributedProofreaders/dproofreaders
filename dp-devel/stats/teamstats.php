@@ -55,7 +55,7 @@ $max_update = mysql_result($result,0,0);
 		}
 
 	//Update the page count rank for the previous day
-	$result = mysql_query("SELECT id, page_count FROM user_teams WHERE id != 1 && page_count > 0 ORDER BY page_count DESC");
+	$result = mysql_query("SELECT id, page_count FROM user_teams WHERE id != 1 ORDER BY page_count DESC");
 		$i = 1;
 		$rankArray = "";
 
