@@ -1,15 +1,4 @@
 The following changes must be made for these files to work on a specific system:
 
-cookie.inc:
-     The variable $cookieDomain must be set to the URL for the cookie
-     (example: "texts01.archive.org") or "" for most local testing.
-
-user.inc:
-     Same as cookie.inc above.
-
 udb_user.inc:
      Must change class variables to match the information for your local database.
-
-metabaseurl.inc
-     Variable must be set to the site base url for use in the meta tags
-     (example: http://texts01.archive.org/dp/)     
