@@ -102,7 +102,7 @@ while($row = mysql_fetch_array($result)) {
 
 	if ($type != "Gold") echo "$totalpages pages; ";
 
-	echo "$moddate<br>$links</font>";
+	echo "$moddate<br>$links</font><br>";
 
 	$numofetexts++;
 }
