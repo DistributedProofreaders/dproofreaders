@@ -20,7 +20,7 @@ function echo_page_table( $projectid, $show_image_size)
 
 	$inRound = projectStateRound($state);
 
-	$show_delete = (($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') && $can_edit);
+	$show_delete = (($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST' || $inRound=='SECOND') && $can_edit);
 
 	$upload_colspan = 2 + $show_image_size;
 
