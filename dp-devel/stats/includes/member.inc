@@ -31,7 +31,13 @@ function showMbrProfile($curMbr) {
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='avatar'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Statistics")." </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
+       	echo_tr_headerbar(
+	       	_("Statistics")
+		. " <a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'>"
+		. "<img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'>"
+		. "</a>",
+		2
+       	);
 
 	function echo_tr_2_cols( $left, $right )
 	{
@@ -251,7 +257,7 @@ function showMbrNeighbors($curMbr) {
 	$now = time();
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Neighbors")."</b></font></center></td></tr>";
+	echo_tr_headerbar( _("Neighbors") );
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='15%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Rank")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Username")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Date Joined DP")."</i></u></b></font></td><td width='29%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Overall Pages Completed")."</i></u></b></font></td></tr>";
 
@@ -295,7 +301,7 @@ function showMbrTeams($curMbr) {
 	global $theme;
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Teams")."</b></font></center></td></tr>";
+	echo_tr_headerbar( _("Teams") );
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
@@ -310,11 +316,29 @@ function showMbrHistory($curMbr) {
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("History")."</b></font></center></td></tr>";
+	echo_tr_headerbar( _("History") );
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>"._("Last 7 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>"._("Last 14 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>"._("Last 30 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>"._("Last 60 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>"._("Last 365 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>"._("Lifetime")."</a></font>";
 	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/mbr_pages_history.php?id=".$curMbr['u_id']."&range=$range' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
+}
+
+// -----------------------------------------------------------------------------
+
+function echo_tr_headerbar( $blurb, $colspan=1 )
+{
+	global $theme;
+	echo "<tr>";
+	echo "<td colspan='$colspan' bgcolor='".$theme['color_headerbar_bg']."'>";
+	echo "<center>";
+	echo "<font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>";
+	echo "<b>";
+	echo $blurb;
+	echo "</b>";
+	echo "</font>";
+	echo "</center>";
+	echo "</td>";
+	echo "</tr>";
 }
 
 ?>
