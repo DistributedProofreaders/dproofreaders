@@ -203,7 +203,17 @@ theme("Personal Page for $pguser", "header");
 
         }
 
+        if ($pagesproofed >= 15) {
+
+                if ($pagesproofed < 80) {
+
+			echo "New Proofers: <a href='$forums_url/viewtopic.php?t=6651'>What did you think of the Mentor feedback you received?</a><br><br>";
+
+		}
+	}
+
         if ($pagesproofed >= 40) {
+
                 if ($pagesproofed < 50) {
                         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><br><br><i>";
                         echo _("Soon you will be able to see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
