@@ -16,7 +16,7 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
-if (1)
+if (0)
 {
 	// Regenerate page counts for projects in Post.
 	include_once($relPath.'bookpages.inc');
