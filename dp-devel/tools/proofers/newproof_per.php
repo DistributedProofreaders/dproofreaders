@@ -48,7 +48,7 @@ theme("Personal Page for $pguser", "header");
 		echo "<br><br>";
 		echo _("4) Don't correct the original spelling.");
 		echo "<br><br>";
-		echo _("5) When in doubt, make it look like the original and use * to flag the spot.";
+		echo _("5) When in doubt, make it look like the original and use * to flag the spot.");
 		echo "<br><br>";
 
 		echo _("The");
