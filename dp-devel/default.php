@@ -66,7 +66,6 @@ You can view the financial statement for this site <a href="finance.html">here.<
 <br>Our goal this month is <b>34,000</b> pages which means <b>1,133</b> pages per day.<p></td><tr>
 
 <?
-//just a test
     include 'connect.php';
 
     $numdays = 1;
