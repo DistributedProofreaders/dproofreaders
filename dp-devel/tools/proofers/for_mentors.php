@@ -49,7 +49,7 @@ function page_summary_sql($projectid)
                     DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') END AS Joined
             FROM $projectid  AS p
             INNER JOIN users AS u ON p.round1_user = u.username
-            INNER JOIN phpbb_users AS bbu ON u.u_id = bbu.user_id
+            INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
             GROUP BY p.round1_user" ;
 }
 
