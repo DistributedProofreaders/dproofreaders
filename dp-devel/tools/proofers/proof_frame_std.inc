@@ -1,0 +1,17 @@
+<?PHP
+    echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \r\n".
+      "\"http://www.w3.org/TR/html4/frameset.dtd\">\r\n";
+    echo "<HTML><HEAD><TITLE>Page $pageNum of $project</TITLE></HEAD><FRAMESET \n";
+    if ($userP['i_layout']=='1')
+      {echo "COLS=\"*,{$userP['v_tframe']}%\">";}
+    else
+      {echo "ROWS=\"*,{$userP['h_tframe']}%\">";}
+    echo "<FRAME \nNAME=\"imageframe\" SRC=\"image_frame.php\" marginwidth=\"2\" marginheight=\"2\">".
+      "<FRAME \nNAME=\"textframe\" SRC=\"text_frame.php\"";
+    if ($userP['i_layout']=='1' && $userP['v_tscroll']==0)
+      {echo " SCROLLING=\"no\"";}
+    if ($userP['i_layout']=='0' && $userP['h_tscroll']==0)
+      {echo " SCROLLING=\"no\"";}
+    echo " marginwidth=\"2\" marginheight=\"2\"></FRAMESET><NOFRAMES>Your \n".
+      "browser is not frames capable!</NOFRAMES></HTML>";
+?>

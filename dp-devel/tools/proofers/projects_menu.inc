@@ -1,5 +1,5 @@
 <table border=1 width=630><tr>
-<td width=126 bgcolor="CCCCCC" align=center><a href ="proof_per.php">Back</a></td>
+<td width=126 bgcolor="CCCCCC" align=center><a href ="proof_per.php" target="_top">Personal Page</a></td>
 <td width=126 bgcolor="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <?
 $setT="<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\">";
@@ -7,11 +7,9 @@ $setU="project=".$project."&amp;proofstate=".$proofstate;
 $setP="<a href=\"../../userprefs.php?".$setU."\">Interface Preferences</a>";
 
 if ($projectinfo->availablepages > 0) {
-    $pURL="proof.php?".$setU;
+    $pURL="proof_frame.php?".$setU;
     echo $setT."<b>";
-    if ($userP['i_newwin']==0)
-    {echo "<a href=\"$pURL\">";}
-    else {echo "<a href=\"#\" onclick=\"newProofWin('$pURL')\">";}
+    echo "<a href=\"$pURL\" target=\"proofframe\">";
     echo "Start Proofing</a></b></td>";
 } else {
     echo $setT;

@@ -1,15 +1,16 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-include_once($relPath.'f_pages.inc');
+include_once($relPath.'c_pages.inc');
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $editone, $savedm $pagestate */
-$project = $projectname;
-$text_data = strip_tags($text_data, '<i>');
+$project = isset($projectname)?$projectname:0;
+$text_data = isset($text_data)?strip_tags($text_data, '<i>'):'';
 
 $tpage=new processpage();
-$tpage->setPageState($pagestate,$project,$fileid,$imagefile);
+  if ($project !='')
+  {$tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);}
 
 // set tbutton
   if (isset($button1) || isset($button1_x)) {$tbutton=1;} // save (temp)
@@ -21,6 +22,13 @@ $tpage->setPageState($pagestate,$project,$fileid,$imagefile);
   if (isset($button7) || isset($button7_x)) {$tbutton=7;} // Return to Round (abandon)
   if (isset($button8) || isset($button8_x)) {$tbutton=8;} // Revert text/save (temp)
   if (isset($button9) || isset($button9_x)) {$tbutton=9;} // Undo Revert text (to last save)
+  if (isset($button10) || isset($button10_x)) {$tbutton=10;} // Run Spelling Check
+  if (isset($button11) || isset($button11_x)) {$tbutton=11;} // Run Common Errors Check
+
+  if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
+  if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
+  if (isset($errcorrect)) {$tbutton=111;} // Make Spelling Corrections
+  if (isset($errexit)) {$tbutton=112;} // Exit Spelling Corrections
 
 // set prefs
   if ($userP['i_type']==1)
@@ -28,58 +36,59 @@ $tpage->setPageState($pagestate,$project,$fileid,$imagefile);
     $isChg=0;
       if ($userP['i_layout']==1)
       {
-        if ($userP['v_fntf']!=$fntFace) {$userP['v_fntf']=$fntFace;$isChg=1;}
-        if($userP['v_fnts']!=$fntSize) {$userP['v_fnts']=$fntSize;$isChg=1;}
-        if ($userP['v_zoom']!=$zmSize) {$userP['v_zoom']=$zmSize;$isChg=1;}
+        if (isset($fntFace) && $userP['v_fntf']!=$fntFace) {$userP['v_fntf']=$fntFace;$isChg=1;}
+        if (isset($fntSize) && $userP['v_fnts']!=$fntSize) {$userP['v_fnts']=$fntSize;$isChg=1;}
+        if (isset($zmSize) && $userP['v_zoom']!=$zmSize) {$userP['v_zoom']=$zmSize;$isChg=1;}
       }
       else
       {
-        if ($userP['h_fntf']!=$fntFace) {$userP['h_fntf']=$fntFace;$isChg=1;}
-        if($userP['h_fnts']!=$fntSize) {$userP['h_fnts']=$fntSize;$isChg=1;}
-        if ($userP['h_zoom']!=$zmSize) {$userP['h_zoom']=$zmSize;$isChg=1;}
+        if (isset($fntFace) && $userP['h_fntf']!=$fntFace) {$userP['h_fntf']=$fntFace;$isChg=1;}
+        if (isset($fntSize) && $userP['h_fnts']!=$fntSize) {$userP['h_fnts']=$fntSize;$isChg=1;}
+        if (isset($zmSize) && $userP['h_zoom']!=$zmSize) {$userP['h_zoom']=$zmSize;$isChg=1;}
       }
     $userP['prefschanged']=$isChg;
     $cookieC->setTempPrefs($userP,$pguser);
   }
 
 //Make sure project is still available
-  $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
-  $result = mysql_query($sql);
-  $state = mysql_result($result, 0, "state");
-    if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_SECOND)))
-    {
-      $tpage->noPages($userP['i_newwin']);
-      exit;
-    } // end project open check
-
-
+  // only if not in a check
+  if ($tbutton <100 && $project !=0)
+  {
+    $sql = "SELECT state FROM projects WHERE projectid = '$project' LIMIT 1";
+    $result = mysql_query($sql);
+    $state = mysql_result($result, 0, "state");
+      if ((($proofstate == AVAIL_PI_FIRST) && ($state != AVAIL_FIRST)) || (($proofstate == AVAIL_PI_SECOND) && ($state != AVAIL_SECOND)))
+      {
+        $tpage->noPages($userP['i_newwin']);
+        exit;
+      } // end project open check
+  }
 
 // BUTTON CODE
 
 // temp saves and revert
 if ($tbutton==1 || $tbutton==4 || $tbutton==8 || $tbutton==9)
 {
-  if ($tbutton!=9) {$pagestate=$tpage->saveTemp($proofstate,$text_data,$pguser);}
-  else {$pagestate=$tpage->getRevertState();}
+  $npage=$tpage->getPageCookie();
+  if ($tbutton!=9) {$npage['pagestate']=$tpage->saveTemp($proofstate,$text_data,$pguser);}
+  else {$npage['pagestate']=$tpage->getRevertState();}
     if ($tbutton==4)
     {
       $userP['i_layout']=$userP['i_layout']==1? 0:1;
       $userP['prefschanged']=1;
       $cookieC->setTempPrefs($userP, $pguser);
     } // end change layout prefs
-    if ($tbutton==8) {$revert=1;}
-
-  $project = 'project='.$project;
-  $fileid = '&fileid='.$fileid;
-  $imagefile = '&imagefile='.$imagefile;
-  $proofstate = '&proofstate='.$proofstate;
-  $pagestate = '&pagestate='.$pagestate;
-  $lang='&lang='.$lang;
-  $saved='&saved=1';
-  $frame1 = 'proof.php?'.$project.$fileid.$imagefile.$proofstate.$pagestate.$lang.$saved;
-    if (isset($editone)){$frame1=$frame1."&editone=1";}
-    if (isset($revert)){$frame1=$frame1."&revert=1";}
-  metarefresh(0,$frame1,' ',' ');
+    if ($tbutton==8) {$npage['revert']=1;}
+    else {$npage['revert']=0;}
+  $npage['saved']=1;
+  $npage['spcheck']=0;
+  $npage['errcheck']=0;
+  $tpage->setTempPageCookie($npage);
+  if ($userP['i_type'] != 1)
+    {include($relPath.'proof_frame_nj.inc');}
+  else
+    {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
+  exit;
 } // end save and continue same page button 1 & button 4 & button 8
 
 // save and do another
@@ -88,23 +97,32 @@ if ($tbutton==2)
 {
   $tpage->saveComplete($proofstate,$text_data,$pguser);
   $project = 'project='.$project;
-  $proofstate = '&proofstate='.$proofstate;
-  $lang='&lang='.$lang;
-  $frame1 = 'proof.php?'.$project.$proofstate.$lang;
-  metarefresh(0,$frame1,' ',' ');
+  $proofstate = '&amp;proofstate='.$proofstate;
+  $frame1 = 'proof_frame.php?'.$project.$proofstate;
+  metarefresh(0,$frame1,'Save and Do Next Page','Page saved.');
 } // end save and do another button 2
 
 // quit
 if ($tbutton==3)
 {
-  $tpage->exitInterface($userP['i_newwin']);
+  $project = 'project='.$project;
+  $proofstate = '&amp;proofstate='.$proofstate;
+  $frame1 = 'projects.php?'.$project.$proofstate;
+  metarefresh(0,$frame1,'Quit Proofing','Exiting proofing interface....');
+//  $editone=isset($editone)?$editone:0;
+//  $tpage->exitInterface($userP['i_newwin'],$editone);
 }
 
 // save and quit send back to projects page
 if ($tbutton==5)
 {
   $tpage->saveComplete($proofstate,$text_data,$pguser);
-  $tpage->exitInterface($userP['i_newwin']);
+  $project = 'project='.$project;
+  $proofstate = '&amp;proofstate='.$proofstate;
+  $frame1 = 'projects.php?'.$project.$proofstate;
+  metarefresh(4,$frame1,'Save and Quit Proofing','Page Saved. Exiting proofing interface....');
+//  $editone=isset($editone)?$editone:0;
+//  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end button 5 quit
 
 // bad page report
@@ -112,14 +130,54 @@ if ($tbutton==6)
 {
 $badState=$tpage->bad_page;
 include('badpage.php');
-
 } // end button 6 bad page
 
 // return page to current round
 if ($tbutton==7)
 {
-  $tpage->returnPage($pguser);
-  $tpage->exitInterface($userP['i_newwin']);
+  $tpage->returnPage($proofstate,$pguser);
+  $project = 'project='.$project;
+  $proofstate = '&amp;proofstate='.$proofstate;
+  $frame1 = 'projects.php?'.$project.$proofstate;
+  metarefresh(4,$frame1,'Return to Round','Page Returned to Round.  Exiting proofing interface....');
+//  $editone=isset($editone)?$editone:0;
+//  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end return to round
 
+// run spelling check
+if ($tbutton==10)
+{
+  $npage=$tpage->getPageCookie();
+  $npage['spcheck']=1;
+  $tpage->setTempPageCookie($npage);
+  include('spellcheck.inc');
+} // end spelling check
+
+// run common errors check
+if ($tbutton==11)
+{
+  $npage=$tpage->getPageCookie();
+  $npage['errcheck']=1;
+  $tpage->setTempPageCookie($npage);
+//  include('errcheck.inc');
+} // end common errors check
+
+// Make Spelling Corrections
+if ($tbutton==101)
+{
+  $inCheck=1;
+  include('spellcorrect.inc');
+} // end spelling corrections
+
+// Exit Spelling Corrections
+if ($tbutton==102)
+{
+  // just give them the text
+    $correct_text=str_replace("[lf]","\r\n",stripslashes($text_data));
+    $npage=$tpage->getPageCookie();
+    $npage['spcheck']=0;
+    $tpage->setTempPageCookie($npage);
+    $inCheck=1;
+    include('text_frame.php');
+} // end exit spelling corrections
 ?>

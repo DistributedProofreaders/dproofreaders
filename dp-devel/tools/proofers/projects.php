@@ -25,7 +25,6 @@ function recentlyproofed($project, $proofstate, $pguser,$userP) {
     if ($proofstate <9) {$sql.="9' OR state = '8";} else {$sql.="19' OR state = '18";} 
     $sql.="') ORDER BY ".$whichTime." DESC LIMIT $recentNum"; 
     $result = mysql_query($sql);
-
     $rownum = 0;
     $numrows = mysql_num_rows($result);
 
@@ -42,10 +41,9 @@ function recentlyproofed($project, $proofstate, $pguser,$userP) {
         $saved="&amp;saved=1";
         $editone="&amp;editone=1";
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
+        $eURL="proof_frame.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
         echo "<TD ALIGN=\"center\">";
-        if ($userP['i_newwin']==0) {echo "<A HREF=\"$eURL\">";}
-        else {echo "<A HREF=\"#\" onclick=\"newProofWin('$eURL')\">";}
+        echo "<A HREF=\"$eURL\" target=\"proofframe\">";
         echo date("M d", $timestamp).": ".$imagefile."</a></td>\r\n";
         $rownum++;
     }
@@ -89,29 +87,11 @@ $proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER 
 include($relPath.'doctype.inc');
 echo "$docType\r\n<HTML><HEAD><TITLE> Project Comments</TITLE>";
 if (!isset($proofing) && $userP['i_newwin']==1)
-{
-?>
-<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
-<!-- 
-function newProofWin(winURL)
-{
-<?PHP 
-$i_r= array('640x480','800x600','1024x768','1152x864','1280x1024','1600x1200');
-$wSize=explode("x",$i_r[$userP['i_res']*1]);
-echo "newFeatures='toolbar={$userP['i_toolbar']},status={$userP['i_statusbar']},location=0,directories=0,menubar=0,scrollbars=1,resizable=1,width=".($wSize[0]-20).",height=".($wSize[1]-30).",top=0,left=5';\r\n";
-?>
-nwWin=window.open(winURL,"prooferWin",newFeatures);}
-// -->
-</SCRIPT>
-<?PHP
-}
-?>
-</HEAD><BODY>
-<?PHP
+{include($relPath.'js_newwin.inc');}
+echo "</HEAD><BODY>";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
-    ?>
-
+?>
 <br><table border=1 width=630><tr><td bgcolor="CCCCCC" align=center><h3><b>
 
 <?
@@ -150,7 +130,8 @@ if (!isset($proofing)) {
 
     notify($project, $proofstate, $pguser);
 
-    recentlyproofed($project, $proofstate, $pguser,$userP);
+    if (!isset($proofing))
+      {recentlyproofed($project, $proofstate, $pguser,$userP);}
 
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
     echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 1.22</a> for detailed project formatting directions.";

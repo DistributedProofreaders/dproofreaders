@@ -8,7 +8,10 @@ include($relPath.'showavailablebooks.inc');
 // should offer link to save changes and|or restore defaults
 
     echo "\n<html><head>";
-    echo "\n<title>Personal Page for $pguser</title></head><body>";
+    echo "\n<title>Personal Page for $pguser</title>";
+      if ($userP['i_newwin']==1)
+        {include($relPath.'js_newwin.inc');}
+    echo "</head><body>";
     echo "\n <table border=0 cellspacing=0 width=630>";
     echo "\n <tr><td width=1 bgcolor='#CCCCCC'>&nbsp;</td>";
     echo "\n <td bgcolor='#CCCCCC' align=left colspan=2><font size='+1'>Welcome</font><font color='#0000FF' font size='+1'> $pguser</font></td></tr>";
@@ -250,7 +253,7 @@ echo "<td bgcolor='#CCCCCC' colspan=5> These files are output from the OCR softw
 
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
-    showavailablebooks($result,2);
+    showavailablebooks($result,2,$userP);
 echo "</table>";
 }
 ?>
@@ -268,7 +271,7 @@ echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_n
 echo "</td></tr>";
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = 12 OR state = 18 ORDER BY nameofwork ASC");
-    showavailablebooks($result,12);
+    showavailablebooks($result,12,$userP);
     echo "</table>\n<p>";
 }
 } 

@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'tdecho.inc');
-function showavailablebooks($result,$state)
+function showavailablebooks($result,$state,$userP)
 {
 $tds="<td bgcolor=\"#CCCCCC\"";
 echo "<tr>";
@@ -24,7 +24,12 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
         if ($book['state'] == $state) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
-            $temp = "<A HREF=\"projects.php?project={$book['projectid']}&amp;proofstate={$book['state']}\">{$book['nameofwork']}</a>";
+            $eURL="proof.php?project={$book['projectid']}&amp;proofstate={$book['state']}";
+              if ($userP['i_newwin']==0)
+                {$temp="<a href=\"$eURL\">";}
+              else
+                {$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
+            $temp.="{$book['nameofwork']}</a>";
             tde($temp,$rownum,0);
             tde($book['authorsname'],$rownum,0);
             tde($book['language'],$rownum,0);
