@@ -85,14 +85,14 @@ function showMbrProfile($curMbr) {
 	);
 
 	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
-        if (!empty($curMbr['user_from']))      { echo_tr_2_cols( "Location",   $curMbr['user_from'] ); }
-        if (!empty($curMbr['user_occ']))       { echo_tr_2_cols( "Occupation", $curMbr['user_occ'] ); }
-	if (!empty($curMbr['user_interests'])) { echo_tr_2_cols( "Interests",  $curMbr['user_interests'] ); }
-        if (!empty($curMbr['user_website']))   { echo_tr_2_cols( "Website",    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
+        if (!empty($curMbr['user_from']))      { echo_tr_2_cols( _("Location"),   $curMbr['user_from'] ); }
+        if (!empty($curMbr['user_occ']))       { echo_tr_2_cols( _("Occupation"), $curMbr['user_occ'] ); }
+	if (!empty($curMbr['user_interests'])) { echo_tr_2_cols( _("Interests"),  $curMbr['user_interests'] ); }
+        if (!empty($curMbr['user_website']))   { echo_tr_2_cols( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
 		echo_tr_2_cols(
-			"Edit",
+			_("Edit"),
 			"<a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a>"
 			. " | "
 			. "<a href='".$GLOBALS['forums_url']."/profile.php?mode=editprofile&u=".$curMbr['user_id']."'>"._("Profile")."</a>"
