@@ -72,9 +72,9 @@ function user_is_PM_of($project)
 
 	if (user_is_a_sitemanager()) return TRUE;
 
-	$result = mysql_query("SELECT userid FROM projects WHERE projectid = '$project'");
+	$result = mysql_query("SELECT username FROM projects WHERE projectid = '$project'");
 	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "userid") == $pguser) { return TRUE; } else { return FALSE; }
+		if (mysql_result($result, 0, "username") == $pguser) { return TRUE; } else { return FALSE; }
 	} else {
 		return FALSE;
 	}
