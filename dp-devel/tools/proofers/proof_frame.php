@@ -48,9 +48,10 @@ $needPage=1;
           if ($err)
             {
 	      $prd = get_PRD_for_project_state($proofstate);
-              $body = $err . "<br> " . _("You will be taken back to the project listing page in 4 seconds.");
+              $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
+                                                 "<a href='round.php?round_id={$prd->round_id}' target='_top'>","</a>");
               $title = _("Unable to get an available page");
-              metarefresh(4, "round.php?round_id={$prd->round_id}", $title, $body);
+              echo "<html><head><title>$title</title></head><body>$body</body></html>";
               exit;
             }
       }
