@@ -38,19 +38,17 @@ function page_summary_sql($projectid)
     global $dynstats_url;
 
     return "SELECT 
-                    CASE WHEN u.u_privacy > 0 THEN 'Anonymous'
-                    ELSE CONCAT('<a href=\""
-                        // . $forums_url . "/profile.php?mode=viewprofile&u=', bbu.user_id,
-                        .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
-                        '\">',u.username,'</a>') END AS " . _("Proofreader") . ",
-                    COUNT(1) AS '" . _("Pages this project") . "',
-                    CASE WHEN u.u_privacy > 0 THEN '' ELSE
-                    u.pagescompleted END AS '" . _("Total Pages") . "',
-                    CASE WHEN u.u_privacy > 0 THEN '' ELSE
-                    DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') END AS Joined
+                CASE WHEN u.u_privacy > 0 THEN 'Anonymous'
+                ELSE CONCAT('<a href=\""
+                    .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
+                    '\">',u.username,'</a>')
+                END AS " . _("Proofreader") . ",
+                COUNT(1) AS '" . _("Pages this project") . "',
+                u.pagescompleted AS '" . _("Total Pages") . "',
+                DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
             FROM $projectid  AS p
-            INNER JOIN users AS u ON p.round1_user = u.username
-            INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
+                INNER JOIN users AS u ON p.round1_user = u.username
+                INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
             GROUP BY p.round1_user" ;
 }
 
@@ -58,12 +56,12 @@ function page_list_sql($projectid)
 {
     return "
     SELECT
-            p.fileid AS '" . _('Page') . "',
-            CASE WHEN u.u_privacy=1 THEN 'Anonymous'
-                    ELSE p.round1_user END
-                AS " . _('Proofreader') . "
+        p.fileid AS '" . _('Page') . "',
+        CASE WHEN u.u_privacy=1 THEN 'Anonymous'
+        ELSE p.round1_user
+        END AS " . _('Proofreader') . "
     FROM $projectid AS p
-    INNER JOIN users AS u ON p.round1_user = u.username
+        INNER JOIN users AS u ON p.round1_user = u.username
     ORDER BY fileid " ;
 }
 
