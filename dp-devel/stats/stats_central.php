@@ -88,7 +88,7 @@ echo "<a href='misc_stats1.php'>Miscellaneous Stats (Top Proofing Days and Month
 
 echo "<a href='release_queue.php'>See All Waiting Queues</a><br><br>";
 
-
+echo "<a href='user_logon_stats.php'>User Logon Stats</a><br><br>";
 
 echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
