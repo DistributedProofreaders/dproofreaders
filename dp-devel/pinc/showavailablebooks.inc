@@ -258,7 +258,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
                         // khaki for Boer War
                         if (startswith( $book['comments'], 'SPECIAL: Boer'))
                         {
-                                $bgcolor = " bgcolor='#E8E0C0'";
+                                $bgcolor = " bgcolor='#D7CDA4'";
                         }
 
                         // blue for Burns' night (Scotland)
