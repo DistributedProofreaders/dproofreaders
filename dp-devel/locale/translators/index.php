@@ -110,12 +110,10 @@ theme('','footer');
 function loc_eq($loc) {
         $a = array(
                 "pinc/theme.inc" => "default.php",
-                "pinc/pinc/simple_proof_text.inc" => "tools/proofers/proof_per.p
-hp?numofpages=0",
+                "pinc/pinc/simple_proof_text.inc" => "tools/proofers/round.php",
 		"pinc/prefs_options.inc" => "userprefs.php",
-		"pinc/showavailablebooks.inc" => "tools/proofers/proof_per.php",
+		"pinc/showavailablebooks.inc" => "tools/proofers/round.php",
 		"pinc/showstartexts.inc" => "default.php",
-		"tools/proofers/proof_list.inc" => "tools/proofers/proof_per.php",
 		"tools/proofers/projects_menu.inc" => "tools/proofers/projects.php",
 //		...
         );
