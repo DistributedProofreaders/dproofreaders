@@ -124,8 +124,8 @@ function echo_button( $button_id, $which_interface )
 			$attrs = array(
 				'accesskey' => "8",
 				'name'      => "button2",
-				$label      => "Save as 'Done' & Proof Next Page",
-				'title'     => "Save as 'Done' & Proof Next Page",
+				$label      => "Save as 'Done' & Proofread Next Page",
+				'title'     => "Save as 'Done' & Proofread Next Page",
 				'src'       => "gfx/bt2.png",
 			);
 			break;
