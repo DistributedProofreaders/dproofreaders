@@ -21,13 +21,16 @@
   SECOND
 */
 
+$project_state_label_ = array();
+
 function declare_project_state(
     $constant_name,
     $constant_value,
     $label )
 {
+    global $project_state_label_;
     define( $constant_name, $constant_value );
-    define( $constant_name . '_TEXT', $label );
+    $project_state_label_[$constant_value] = $label;
 }
 
 
