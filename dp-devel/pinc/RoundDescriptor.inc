@@ -43,6 +43,8 @@ class ProofingRoundDescriptor
             // documentation of intent.)
         $description,
             // A sentence or two explaining what happens in this round.
+        $tally_name,
+            // The name of the tally for pages saved-as-done in this round.
         $listing_bgcolors,
             // An array of (two) HTML colors that will be used as the bgcolor
             // in alternating rows in the listing of projects in this round.
@@ -62,6 +64,7 @@ class ProofingRoundDescriptor
         $this->minimum_user_pages = $minimum_user_pages;
         $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
+        $this->tally_name         = $tally_name;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
@@ -246,6 +249,7 @@ $P1 = new ProofingRoundDescriptor(
     -20,
     FALSE,
     _("The page-texts are the output from OCR software and have not been looked at."),
+    'P',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -259,6 +263,7 @@ $P2 = new ProofingRoundDescriptor(
     100,
     FALSE,
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
+    'P',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
@@ -272,6 +277,7 @@ $F1 = new ProofingRoundDescriptor(
     400,
     FALSE,
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
+    'F',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -285,6 +291,7 @@ $F2 = new ProofingRoundDescriptor(
     NULL,
     TRUE,
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
+    'F',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
