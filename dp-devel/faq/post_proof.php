@@ -11,7 +11,7 @@ theme('Post-Processing FAQ','header');
 ?>
 
 <h1>Post-Processing FAQ</h1> 
-<h5>(Version 3.7; last updated July 22, 2004)</h5> 
+<h5>(Version 3.7; last updated January 25, 2005)</h5>
 <br> 
 <h3>Getting Started</h3> 
  
@@ -126,7 +126,7 @@ Also, post-processors should be very familiar with the
 	<ul> 
 	<li>a <a href="#Editors">text editor</a>,
 	<li>a program capable of opening <a href="#Images">images</a>,
-	<li>a <a href="#Spell">spell checker</a>, and 
+	<li>a <a href="#Spell">spell checker</a>, and
 	<li><a href="#Gutcheck">Gutcheck</a>. 
 	</ul> 
  
@@ -155,14 +155,10 @@ with a relatively small number of pages. Here's why:
  
 <p>
 Take a look at the Post-Processing section of your Personal Page 
-to see all of the works available for post-processing. 
-Projects which are marked "TRAINEE" have been set aside for new post-processors, 
-and are ideal texts with which to learn the ropes of post-processing.  
+to see all of the works available for post-processing.
 Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofreaders.  
-These books are also relatively easy, and would make good first projects.  
-Unlike "TRAINEE" texts, however, these books may be checked out 
-by both new and experienced post-processors. 
-Alternatively, pick a text with a title that is likely to be fiction. 
+These books are relatively easy, and would make good first projects.
+Alternatively, pick a text with a title that is likely to be fiction.
 "The Boy Scout Camera Club" is a good bet; "Copyright Renewals" is not. 
 These texts are often marked "EASY" and are available to all post-processors.
 </p>
@@ -174,12 +170,12 @@ Do not select "Download Zipped TEI Text" (a different encoding)
 unless you know what TEI is and want to play around with it.
 The plain text is the version that you need.
 </p>
- 
+
 <p>
 Scroll through the <i>whole</i> text to see if there are any difficulties, 
 like footnotes, poetry, foreign languages, dialects, and tables in it. 
 This way, you will know what you will be dealing with before you commit to the project. 
-If you see any of these items, you would be wise to choose a different project. 
+If you see any of these items, you would be wise to choose a different project.
 But, if you think you can handle it, give it a try!
 </p>
  
@@ -239,7 +235,7 @@ In time, you will probably develop your own technique.
 This walkthrough describes a very hands-on way of post-processing, 
 which is why it is recommended for first-time post-processors. 
 It takes longer to complete the book this way 
-than if macros, global find-and-replace, and other tools are used, 
+than if macros, global find-and-replace, and other tools are used,
 but it gives the first-timer a feel for what they should look out for 
 by making the proofreader scroll through the book several times.  
 Also, the walk-through below is suitable for use on all operating systems, 
@@ -532,7 +528,7 @@ NOTE:  Please ensure that your files .zip extension is in lower case, NOT in upp
 Some people have not been able to upload their files 
 when the .zip extension was written in upper case.
 </p>
- 
+
 <li>Relax.  You're done! 
 </ol> 
  
@@ -555,9 +551,10 @@ like mismatched quotes, short lines, etc.
  
 <p>
 Gutcheck is currently being produced for Windows and *nix systems, 
-and can be found <a href="http://gutcheck.sourceforge.net">here</a>. 
-A quick-and-dirty Mac build can be downloaded <a href="gutcheck-0-95.sit">here</a>. 
-You could also simply ask another post-processor to run Gutcheck for you 
+and can be found <a href="http://gutcheck.sourceforge.net">here</a>.
+A quick-and-dirty Mac build can be downloaded
+<a href="http://gutcheck.sourceforge.net/gc-098-MacPPCOSX.zip">here</a>.
+You could also simply ask another post-processor to run Gutcheck for you
 if you have trouble with it, and they can send you a list of results.
 </p>
 
@@ -566,7 +563,7 @@ Many people have trouble setting up Gutcheck for the first time.
 If you too have trouble, don't worry.
 Someone in the <a href="<? echo $projects_forum_url ?>">Post-Processing Forum</a>
 will be only too happy to help you.  Just post and ask for help!
-</p>  
+</p>
 
 <p>If you are using Guiguts, you will not need Gutcheck, as it is a part of Guiguts.</p>
 <br> 
