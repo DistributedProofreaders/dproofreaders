@@ -19,6 +19,8 @@ $dyn_url = '<<DYN_URL>>';
 $dynstats_dir = "$dyn_dir/stats";
 $dynstats_url = "$dyn_url/stats";
 
+$dyn_locales_dir = "$dyn_dir/locale";
+
 $xmlfeeds_dir = '<<XMLFEEDS_DIR>>';
 $xmlfeeds_url = '<<XMLFEEDS_URL>>';
 
