@@ -95,6 +95,110 @@ if (0)
 
 if (0)
 {
+	// Testing the TallyBoard code.
+	include_once($relPath.'TallyBoard.inc');
+	$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
+	$users_Q_page_tallyboard = new TallyBoard( 'Q', 'U' );
+	$teams_Q_page_tallyboard = new TallyBoard( 'Q', 'T' );
+
+	$tb = $users_Q_page_tallyboard;
+
+	if (0)
+	{
+		$tb->add_to_tally(10, +3);
+	}
+
+	if (0)
+	{
+		list($j,$c) = $tb->get_sql_joinery_for_current_tallies('u_id');
+		dpsql_dump_query( "
+			SELECT username, u_id, $c AS Q_tally
+			FROM users $j
+			-- WHERE u_id BETWEEN 7 AND 15
+			ORDER BY u_id
+		");
+	}
+
+	if (0)
+	{
+		$neighborhood =
+			$tb->get_neighborhood(
+				4,
+				7,
+				'users',
+				'u_id',
+				'username',
+				'Q_tally',
+				'Q_rank'
+			);
+		foreach ( $neighborhood as $rel_posn => $neighbor )
+		{
+			echo "rel_posn=$rel_posn";
+			foreach ( $neighbor as $key => $value )
+			{
+				echo " $key=>$value";
+			}
+			echo "\n";
+		}
+		echo "\n";
+	}
+
+	if (0)
+	{
+		for ( $u_id = 0; $u_id <= 30; $u_id++ )
+		{
+			echo $u_id, ' ';
+			var_dump( $tb->get_rank($u_id) );
+			echo "\n";
+		}
+	}
+	if (0)
+	{
+		$tb->take_snapshot( time(), TRUE );
+	}
+	if (0)
+	{
+		var_dump( $tb->get_time_of_latest_snapshot() );
+	}
+	if (0)
+	{
+		var_dump($tb->get_info_from_latest_snapshot(10));
+	}
+	if (0)
+	{
+		var_dump($tb->get_info_re_largest_delta(10));
+		var_dump($tb->get_info_re_best_rank(10));
+	}
+	if (1)
+	{
+		echo "tallyboards:\n";
+		foreach ( get_all_current_tallyboards() as $tb )
+		{
+			echo "$tb->tally_name, $tb->holder_type\n";
+		}
+	}
+
+
+		
+
+	/*
+	echo $tb->get_tally(100);
+	mysql_query( "CREATE TEMPORARY TABLE test_u ( uid int, name char(5) )" );
+	mysql_query( "INSERT INTO test_u SET uid=100, name='C'" );
+	mysql_query( "INSERT INTO test_u SET uid=101, name='CI'" );
+	mysql_query( "INSERT INTO test_u SET uid=102, name='CII'" );
+
+	list($joiner, $current_tally_col) =
+		$tb->get_sql_joinery_for_current_tallies( 'uid' );
+	dpsql_dump_query("
+		SELECT test_u.*, $current_tally_col
+		FROM test_u $joiner
+	");
+	*/
+}
+
+if (0)
+{
 	// Time trials
 
 	$N = 10;
