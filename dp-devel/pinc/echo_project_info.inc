@@ -128,6 +128,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	$word = _("Forum");
 	echo_row_a($word, "<a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">$blurb</a>" );
 
+	// -------------------------------------------------------------------------
+
 	$word = _("Page Detail");
 	$blurb = _("Images, Pages Proofread, & Differences");
 
