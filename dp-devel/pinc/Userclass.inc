@@ -46,6 +46,8 @@ class User
     var $prefs;         // this is for the records from userprofiles for this user.
     var $stats;         // this is for the fields from a summary query from member_stats.
     var $logged_in;     // boolean = True when they are and False when they're not.
+    var $teams;
+    var $neighbors;
 
     /**
      * Class Initializer
@@ -701,6 +703,99 @@ class User
     function allLanguages()
     {
 
+    }
+
+    /**
+     * User rank
+     */
+
+    function rank()
+    {
+        return $this->users_phpbb['rank'] ;
+    }
+
+
+    /**
+      * returns the 5 nearest neighbors
+      */
+
+      function nearestFiveNeighbors()
+      {
+          return $this->_neighbors(5) ;
+      }
+
+    /**
+      * returns the 10 nearest neighbors
+      */
+
+      function nearestTenNeighbors()
+      {
+          return $this->_neighbors(10) ;
+      }
+
+    /**
+     * Returns a set of the n nearest neighbors in rank in both directions
+     */
+
+    function _neighbors($count)
+    {
+        if( ! $this->neighbors || count($this->neighbors < $count * 2 )
+        {
+            $this->_getNeighbors($count) ;
+        }
+
+        return $this->neighbors ;
+    }
+
+
+    /**
+     * creates the user's neighbor list.
+     */
+
+
+
+    function _getNeighbors($count)
+    {
+        $sql = "SELECT u.username,
+                       CASE u_privacy
+                        WHEN 1
+                            THEN u.username
+                        ELSE
+                            'Anonymous'
+                        END AS neighborname,
+                       u.pagescompleted,
+                       u.u_privacy, as privacy,
+                       COUNT(1) AS proofercount
+                FROM users AS u
+                INNER JOIN users AS u_me
+                WHERE u_me.username = '$user->UserName()'
+                    AND u.pagescompleted >= u_me.pagescompleted
+                ORDER BY u.pagescompleted
+                LIMIT 10" ;
+
+        $result = mysql_query( $sql ) ;
+        while( $row = mysql_fetch_assoc( $result ) ) {
+            $this->neighbors[$row['username']] = $row ;
+        } 
+        mysql_free_result( $result ) ;
+
+        $sql = "SELECT u.username,
+                       u.pagescompleted,
+                       u.u_privacy
+                FROM users AS u
+                INNER JOIN users AS u_me
+                WHERE u_me.username = '$user->UserName()'
+                    AND u.pagescompleted < u_me.pagescompleted
+                    AND u.pagescompleted > 0
+                ORDER BY u.pagescompleted DESC
+                LIMIT 10" ;
+        $result = mysql_query( $sql ) ;
+        while( $row = mysql_fetch_assoc( $result ) ) {
+            $this->neighbors[$row['username']] = $row ;
+        } 
+        mysql_free_result( $result ) ;
+
+        return '' ;
     }
 
     /**
@@ -2897,6 +2992,50 @@ class User
         if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
         return $percentTotal;
     }
+
+    function teams()
+    {
+        if( ! isset($this->teams) )
+        {
+            if ($this->users_phpbb['team_1'] )
+            {
+                $sql = $this->users_phpbb['team_1'] )
+            }
+
+            if ($this->users_phpbb['team_2'] )
+            {
+                if( $sql )
+                {
+                    $sql .= ", " ;
+                }
+                $sql = $this->users_phpbb['team_2'] )
+            }
+
+            if ($this->users_phpbb['team_2'] )
+            {
+                if( $sql )
+                {
+                    $sql .= ", " ;
+                }
+                $sql = $this->users_phpbb['team_2'] )
+            }
+
+
+            if( ! $sql )
+            return ;
+
+            $sql = "SELECT *
+            FROM user_teams
+            WHERE teamname IN (" . $sql . ")" ;
+            $result = mysql_query( $sql ) ;
+            while( $team = mysql_fetch_assoc( $result ) ) {
+                $teamname = $team['teamname'] ;
+                $this->teams['$teamname'] = $team ;
+            }
+        }
+        return $this->teams ;
+    }
+
 
     /**
      * Join A Team
