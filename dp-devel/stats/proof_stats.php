@@ -41,45 +41,29 @@ if (isset($GLOBALS['pguser']))
 
 	// site managers get to see everyone
 	if ( user_is_a_sitemanager() || user_is_proj_facilitator()) {
-		dpsql_dump_themed_ranked_query("
-			SELECT
-				username as 'Proofreader',
-				pagescompleted as 'Pages Proofread'
-			FROM users
-			WHERE pagescompleted > 0
-			ORDER BY 2 DESC, 1 ASC
-			LIMIT 100
-		");
+		$proofreader_expr = "username";
 	}
 	else
 	{
 		// hide names of users who don't want even logged on people to see their names
-		dpsql_dump_themed_ranked_query("
-			SELECT
-				IF(u_privacy = 1,'Anonymous', username) as 'Proofreader',
-				pagescompleted as 'Pages Proofread'
-			FROM users
-			WHERE pagescompleted > 0
-			ORDER BY 2 DESC, 1 ASC
-			LIMIT 100
-		");
+		$proofreader_expr = "IF(u_privacy = 1,'Anonymous', username)";
 	}
 } 
 else
 {
 
 	// hide names of users who don't want unlogged on people to see their names
-	dpsql_dump_themed_ranked_query("
-		SELECT
-			IF(u_privacy > 0,'Anonymous', username) as 'Proofreader',
-			pagescompleted as 'Pages Proofread'
-		FROM users
-		WHERE pagescompleted > 0
-		ORDER BY 2 DESC, 1 ASC
-		LIMIT 100
-	");
-
+	$proofreader_expr = "IF(u_privacy > 0,'Anonymous', username)";
 }
+dpsql_dump_themed_ranked_query("
+	SELECT
+		$proofreader_expr AS 'Proofreader',
+		pagescompleted AS 'Pages Proofread'
+	FROM users
+	WHERE pagescompleted > 0
+	ORDER BY 2 DESC, 1 ASC
+	LIMIT 100
+");
 
 echo "<br>\n";
 
