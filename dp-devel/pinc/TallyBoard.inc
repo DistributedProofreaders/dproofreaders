@@ -28,6 +28,15 @@ class TallyBoard
     {
         $this->tally_name  = $tally_name;
         $this->holder_type = $holder_type;
+
+        // When calculating ranks in a TallyBoard for teams,
+        // we do not count team #1.
+        // It's a kludge to express this here, because this class
+        // shouldn't have to know anything about particular values
+        // of holder_type or holder_id (or tally_name).
+        //
+        $this->rank_exclusion_kludge =
+            ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
     }
 
     // -------------------------------------------------------------------------
@@ -150,19 +159,13 @@ class TallyBoard
     // Return the given holder's rank, as determined
     // by the current tallies on this TallyBoard.
     {
-        // Kludge:
-        // When calculating ranks in a TallyBoard for teams,
-        // we do not count team #1.
-        //
-        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
-
         $result = mysql_query("
             SELECT holder_id
             FROM current_tallies
             WHERE
                 tally_name      = '$this->tally_name'
                 AND holder_type = '$this->holder_type'
-                AND $kludge
+                AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
         ");
         $i = 1;
@@ -181,8 +184,6 @@ class TallyBoard
     // Return an associative array that maps each holder's id
     // to its rank, as detrmined by tallies.
     {
-        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
-
         $rank_of_ = array();
 
         $result = mysql_query("
@@ -191,7 +192,7 @@ class TallyBoard
             WHERE
                 tally_name      = '$this->tally_name'
                 AND holder_type = '$this->holder_type'
-                AND $kludge
+                AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
         ");
         $i = 1;
@@ -337,8 +338,6 @@ class TallyBoard
     // If $dry_run is true, merely echo queries that would change db.
     // 
     {
-        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
-
         // Get the (ascribed) time of the previous snapshot.
         $result = mysql_query("
             SELECT MAX(timestamp)
@@ -382,7 +381,7 @@ class TallyBoard
             WHERE
                 tally_name      = '$this->tally_name'
                 AND holder_type = '$this->holder_type'
-                AND $kludge
+                AND $this->rank_exclusion_kludge
         ") or die(mysql_error());
 
         while ( list($holder_id, $current_tally) = mysql_fetch_row($result) )
