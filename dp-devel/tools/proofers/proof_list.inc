@@ -90,7 +90,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 	$extra = " ";
     }
 
-
+		if (empty($RFilter)) { $RFilter = ""; }
     show_books_available_for_proofing( 'first', $userP, $RFilter . $extra, $orderR1);
 
     echo "</table>\n<br>";
