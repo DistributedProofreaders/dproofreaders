@@ -582,6 +582,12 @@ class TallyBoard
 
         list($obj->best_delta, $obj->best_delta_timestamp) =
             $this->get_info_re_largest_delta($holder_id);
+        $today_delta = $obj->current_tally - $obj->latest_snapshot_tally;
+        if ($today_delta > $obj->best_delta)
+        {
+            $obj->best_delta = $today_delta;
+            $obj->best_delta_timestamp = time();
+        }
 
         list($obj->best_rank, $obj->best_rank_timestamp) =
             $this->get_info_re_best_rank($holder_id);
