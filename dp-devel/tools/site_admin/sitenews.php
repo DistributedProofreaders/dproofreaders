@@ -13,7 +13,7 @@ if (mysql_result($result,0,"sitemanager") == "yes") {
 
     // Save a new site news
     if (isset($_GET['action']) && $_GET['action'] == "add") {
-        $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
+        $message = strip_tags($_POST['message'], '<a><b><i><u><font><img>');
         $message = nl2br($message);
         $date_posted = time();
         $insert_news = mysql_query("INSERT INTO news (uid, date_posted, message) VALUES (NULL, '$date_posted', '$message')");
@@ -37,7 +37,7 @@ if (mysql_result($result,0,"sitemanager") == "yes") {
     // Save an update to a specific site news
     elseif (isset($_GET['action']) && $_GET['action'] == "edit_update") {
         $message = $_POST['message'];
-        $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
+        $message = strip_tags($_POST['message'], '<a><b><i><u><font><img>');
         $message = nl2br($message);
         $uid = $_POST['uid'];
         $result = mysql_query("UPDATE news SET message='$message' WHERE uid=$uid");
