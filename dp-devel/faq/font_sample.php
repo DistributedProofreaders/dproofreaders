@@ -56,7 +56,7 @@ if ($cfont != 'DPCustomMono2') {
 
 $exp_text = "<H1><font face='DPCustomMono2'>DPCustomMono2</font>";
 
-if (($tfont != _("Browser Default")) AND 
+if (($tfont != BROWSER_DEFAULT_STR) AND 
 	($tfont != 'DPCustomMono2') AND
 	($tfont != _("Monospaced"))) {
 
@@ -102,7 +102,7 @@ $exp_text .= _("If DpCustomMono2 is displayed correctly in this paragraph, then 
 } 
 
 
-if (($tfont == _("Browser Default")) OR ($tfont == _("Monospaced"))) {
+if (($tfont == BROWSER_DEFAULT_STR) OR ($tfont == _("Monospaced"))) {
 $exp_text .= _("Since you have the non-specific font type of $tfont selected, we don't have any specific comparison images to show you; but we encourage you to browse through the gallery of comparisons to specific fonts from the links below, to see them juxtaposed with DPCustomMono2.");
 
 }
@@ -117,7 +117,7 @@ $first = 1;
 foreach ($f_f as $otherfont) {
 
         if (($otherfont != $tfont) AND 
-		($otherfont != _("Browser Default")) AND 
+		($otherfont != BROWSER_DEFAULT_STR) AND 
 		($otherfont != 'DPCustomMono2') AND
 		($otherfont != _("Monospaced"))) {
                 if (! $first) {
@@ -135,7 +135,7 @@ foreach ($f_f as $otherfont) {
 echo " | <a href='images/Original.gif'>"._("View original image")."</a></P><br><br>\n";
 
 
-if (($tfont != _("Browser Default")) AND 
+if (($tfont != BROWSER_DEFAULT_STR) AND 
 	($tfont != 'DPCustomMono2') AND
 	($tfont != _("Monospaced"))) {
 
