@@ -1,7 +1,6 @@
 <?
 $relPath="./pinc/";
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 theme("Archived Site Updates", "header");
 
