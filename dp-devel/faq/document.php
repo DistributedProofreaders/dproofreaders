@@ -1057,7 +1057,7 @@ And everywhere that Mary went
       </td>
     </tr>
     <tr align="center">
-      <td width="100%" valign="top"> <img src="poetry_sample.png" alt=""
+      <td width="100%" valign="top"> <img src="poetry.png" alt=""
           width="850" height="256"> <br>
       </td>
     </tr>
