@@ -3,14 +3,58 @@ $relPath="./../../pinc/";
 include($relPath.'doctype.inc');
 echo $docType. "\r\n";
 ?>
-<html><!-- Graphics and html/javascript for Greek text conversion     by D Garcia 12/24/02 for Distributed Proofreaders     --><head><title>Greek to ASCII Transliteration</title><script language="JavaScript"><!--function clearBox() {	document.greek.textbox.value = '';	document.greek.textbox.focus();}function addChar(myChar) {	document.greek.textbox.value += myChar;	document.greek.textbox.focus();	// Following line is Opera focus+highlight workaround
+<html>
+
+<!-- Graphics and html/javascript for Greek text conversion
+     by D Garcia 12/24/02 for Distributed Proofreaders
+     -->
+
+<head>
+<title>Greek to ASCII Transliteration</title>
+<script language="JavaScript">
+<!--
+function clearBox() {
+	document.greek.textbox.value = '';
+	document.greek.textbox.focus();
+}
+
+function addChar(myChar) {
+	document.greek.textbox.value += myChar;
+	document.greek.textbox.focus();
+	// Following line is Opera focus+highlight workaround
 	document.greek.textbox.value += '';
-}//--></script><style type="text/css">
+}
+//-->
+</script>
+<style type="text/css">
 p.info {
 	font-size: 12px;
 	}
 </style>
-</head><body><table border="0" cellspacing="0" cellpadding="0" width="600"><tr><td colspan="2"><img Src="gfx/greek.png" height="80" width="600" usemap="#charmap" border="0"></td></tr><tr><td valign="top"><form name="greek" action="none"><input type="text" name="textbox" length="80" size="72"></td><td align="right" valign="top"><input type=button value="Clear" onClick="clearBox();"></td></form></tr><tr>
+</head>
+
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" width="600">
+
+<tr>
+<td colspan="2">
+<img Src="gfx/greek.png" height="80" width="600" usemap="#charmap" border="0">
+</td>
+</tr>
+
+<tr>
+<td valign="top">
+<form name="greek" action="none">
+<input type="text" name="textbox" length="80" size="72">
+</td>
+<td align="right" valign="top">
+<input type=button value="Clear" onClick="clearBox();">
+</td>
+</form>
+</tr>
+
+<tr>
 <td colspan="3">
 <p class="info">
 Diacritical marks may be ignored except for the rough-breathing mark,
@@ -32,7 +76,12 @@ Greek-ASCII Primer</a>.
 </td>
 </tr>
 
-</table><map name="charmap"><!-- Uppercase --><area shape="rect" coords="  5,8, 21,25" href="javascript:addChar('A')" alt="Alpha">
+</table>
+
+<map name="charmap">
+
+<!-- Uppercase -->
+<area shape="rect" coords="  5,8, 21,25" href="javascript:addChar('A')" alt="Alpha">
 <area shape="rect" coords=" 21,8, 40,25" href="javascript:addChar('B')" alt="Beta">
 <area shape="rect" coords=" 41,8, 58,25" href="javascript:addChar('G')" alt="Gamma">
 <area shape="rect" coords=" 59,8, 76,25" href="javascript:addChar('D')" alt="Delta">
@@ -88,4 +137,10 @@ Greek-ASCII Primer</a>.
 <area shape="rect" coords="512,27,538,48" href="javascript:addChar('nk')" alt="gamma (nk)">
 <area shape="rect" coords="539,27,564,48" href="javascript:addChar('nx')" alt="gamma (nx)">
 <area shape="rect" coords="565,27,594,48" href="javascript:addChar('nch')" alt="gamma (nch)">
-<area shape="default" nohref></map></body></html>
+
+<area shape="default" nohref>
+</map>
+
+</body>
+</html>
+
