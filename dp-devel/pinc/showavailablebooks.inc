@@ -12,7 +12,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		// Put the BEGIN projects at the top.
 		$query = "
 			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
-                   (unix_timestamp() - modifieddate)/(24 * 60 * 60) as days_avail
+                   round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
 			FROM projects
 			WHERE
 				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
@@ -29,7 +29,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		// Select all projects in the list for round 2.
 		$query = "
 			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner,
-		      (unix_timestamp() - modifieddate)/(24 * 60 * 60) as days_avail
+		      round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail
 			FROM projects
 			WHERE
 				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
