@@ -10,7 +10,7 @@ echo $docType. "\r\n";
      -->
 
 <head>
-<title>Greek to ASCII</title>
+<title>Greek to ASCII Transliteration</title>
 <script language="JavaScript">
 <!--
 function clearBox() {
@@ -36,10 +36,6 @@ p.info {
 <body>
 
 <table border="0" cellspacing="0" cellpadding="0" width="600">
-<tr><td colspan="2" align="center" valign="top">
-<b>Greek-to-ASCII Transliteration</b>
-</td>
-</tr>
 
 <tr>
 <td colspan="2">
@@ -75,6 +71,8 @@ begins with 'r', in which case the 'h' goes <emp>after</emp> the 'r'.
 For further information, see the Project Gutenberg 
 <a HREF="http://www.gutenberg.net/vol/greek.html" target="_new">
 Greek-ASCII Primer</a>.
+<br>
+<a HREF="#" onclick="window.close()"><b>Close</b></a>
 </td>
 </tr>
 
