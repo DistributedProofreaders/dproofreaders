@@ -263,16 +263,8 @@ function echo_page_table(
 		if ($can_edit) {
 
 			// Bad Page
-			$page_is_in_bad_state = FALSE;
-			for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
-			{
-				$prd = get_PRD_for_round($rn);
-				if ( $page_state == $prd->page_bad_state )
-				{
-					$page_is_in_bad_state = TRUE;
-					break;
-				}
-			}
+			$page_is_in_bad_state = page_state_is_a_bad_state($page_state);
+
 			echo "<td>";
 			if ($page_is_in_bad_state) {
 				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a></center>";
@@ -482,5 +474,19 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	echo "\n";
 }
 
+// -----------------------------------------------------------------------------
+
+function page_state_is_a_bad_state($page_state)
+{
+	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		if ( $page_state == $prd->page_bad_state )
+		{
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
 
 ?>
