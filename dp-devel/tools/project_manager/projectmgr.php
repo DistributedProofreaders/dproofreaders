@@ -13,7 +13,7 @@ theme("Project Managers", "header");
 
 function echo_cells_for_round($round_num)
 {
-	global $res, $rownum, $userP, $projectid, $fileid;
+	global $res, $rownum, $userP, $projectid, $fileid, $inRound, $page_state;
 
 	if ($round_num == 1)
 	{
@@ -83,7 +83,24 @@ function echo_cells_for_round($round_num)
 		echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$text_length&nbsp;b</a></td>\n";
 	}
 
-	echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>\n";
+	// Anticipate the tests in checkin.php:
+	if (
+		$round_num == 1 &&
+		$page_state == SAVE_FIRST &&
+		($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST')
+	    ||
+		$round_num == 2 &&
+		$page_state == SAVE_SECOND &&
+		($inRound=='SECOND')
+	)
+	{
+	    echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>\n";
+	}
+	else
+	{
+	    // checkin.php won't let anything happen
+	    echo "<td></td>\n";
+	}
 }
 
 // -----------------------------------------------------------------------------
