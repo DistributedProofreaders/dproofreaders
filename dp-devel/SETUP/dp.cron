@@ -21,6 +21,7 @@
 
 # weekly (ish):
 04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/crontab/update_ppers.php
+04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/stats/fill_pagestats.php
 
 # monthly:
 20 0 1 * * lynx -dump http://127.0.0.1/c/crontab/inactivate_users.php
