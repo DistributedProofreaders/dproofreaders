@@ -352,7 +352,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Personal Statistics:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
 	echo number_format($neighborhood['pages'][$userindex])."<br>\n";
-	echo "&nbsp;" _("Current Position: ");
+	echo "&nbsp;" . _("Current Position: ");
 	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
