@@ -1,4 +1,5 @@
 <?php
+if(!isset($relPath)) $relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
 ?>
 
