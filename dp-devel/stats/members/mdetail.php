@@ -27,10 +27,10 @@ theme("$isAnonymousUsername'$needsApostrophe Statistics", "header");
 echo "<br><center>";
 if (!empty($curMbr['u_id'])) {
 	if ($isAnonymousUsername == "Anonymous" && $curMbr['username'] != $pguser) {
-		echo "<p>This user requested to remain anonymous.</p>";
+		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
 	} elseif ($curMbr['u_privacy'] == 2) {
 		if (!isset($pguser)) {
-			echo "<p>This user has requested their statistics remain private.  Please create an account to view their statistics.</p>";
+			echo "<p>"._("This user has requested their statistics remain private.  Please create an account to view their statistics.")."</p>";
 		} else {
 			showMbrProfile($curMbr);
 			if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }

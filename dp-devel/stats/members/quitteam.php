@@ -13,8 +13,12 @@ if ($_GET['tid'] != 1 && ($userP['team_1'] == $_GET['tid'] || $userP['team_2'] =
     	$teamResult=mysql_query($quitQuery);
     	mysql_query("UPDATE user_teams SET active_members = active_members-1 WHERE id='".$_GET['tid']."'");
         dpsession_set_preferences_from_db();
-        metarefresh(0,"../teams/tdetail.php?tid=".$_GET['tid']."",'Quit the Team','Quitting the team....');
+	$title = _("Quit the Team");
+	$desc = _("Quitting the team....");
+        metarefresh(0,"../teams/tdetail.php?tid=".$_GET['tid']."",$title,$desc);
 }  else {
-	metarefresh(3,"../teams/tdetail.php?tid=".$_GET['tid']."",'Not a member','Unable to quit team....');
+	$title = _("Not a member");
+	$desc = _("Unable to quit team....");
+	metarefresh(3,"../teams/tdetail.php?tid=".$_GET['tid']."",$title,$desc);
 }
 ?>

@@ -29,11 +29,12 @@ if ($tid != 1) {
 			$redirect_team = 1;
 		} else {
 			include_once($relPath.'theme.inc');
-			theme("Three Team Maximum!", "header");
+			$title = _("Three Team Maximum!");
+			theme($title, "header");
 			echo "<br><center>";
 			echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
-			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><b><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>Three Team Maximum</font></center></b></td></tr>";
-			echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3'><center><font face='".$theme['font_mainbody']."' color='".$theme['color_mainbody_font']."' size='2'>You have already joined three teams.<br>Which team would you like to replace?</font></center></td></tr>";
+			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><b><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>"._("Three Team Maximum")."</font></center></b></td></tr>";
+			echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3'><center><font face='".$theme['font_mainbody']."' color='".$theme['color_mainbody_font']."' size='2'>"._("You have already joined three teams.<br>Which team would you like to replace?")."</font></center></td></tr>";
 			echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 			$teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_1']."'");
 			echo "<td width='33%'><center><b><a href='jointeam.php?tid=$tid&otid=1'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
@@ -41,19 +42,27 @@ if ($tid != 1) {
 			echo "<td width='33%'><center><b><a href='jointeam.php?tid=$tid&otid=2'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
 			$teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_3']."'");
 			echo "<td width='34%'><center><b><a href='jointeam.php?tid=$tid&otid=3'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
-			echo "</tr><tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><center><b><a href='../teams/tdetail.php?tid=$tid'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>Do Not Join Team</font></a></b></center></td></tr></table></center>";
+			echo "</tr><tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><center><b><a href='../teams/tdetail.php?tid=$tid'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Do Not Join Team")."</font></a></b></center></td></tr></table></center>";
 			theme("", "footer");
 		}
 	} else {
-		metarefresh(4,"../teams/tdetail.php?tid=$tid",'Unable to Join the Team','You are already a member of this team....');
+		$title = _("Unable to Join the Team");
+		$desc = _("You are already a member of this team....");
+
+		metarefresh(4,"../teams/tdetail.php?tid=$tid", $title, $desc);
 		$redirect_team = 0;
 	}
 } else {
-	metarefresh(4,"../teams/tdetail.php?tid=$tid",'Unable to Join the Team','You are already a member of this team....');
+	$title = _("Unable to Join the Team");
+	$desc = _("You are already a member of this team....");
+
+	metarefresh(4,"../teams/tdetail.php?tid=$tid",$title, $desc);
 }
 
 if ($redirect_team == 1) {
 	dpsession_set_preferences_from_db();
-	metarefresh(0,"../teams/tdetail.php?tid=$tid",'Join the Team','Joining the team....');
+	$title = _("Join the Team");
+	$desc = _("Joining the team....");
+	metarefresh(0,"../teams/tdetail.php?tid=$tid",$title, $desc);
 }
 ?>
