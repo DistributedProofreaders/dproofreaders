@@ -19,8 +19,10 @@ function checkCookie()
 
 function setUserPrefs($userID)
 {
+# first line of fields in SELECT was:
+# u_lang, email_updates, u_plist, u_top10, u_neigh,
           $db_query="SELECT 
-u_lang, email_updates, u_plist, u_top10, u_neigh,
+u_lang, emailupdates, u_plist,
 i_prefs, i_res, i_type, i_layout, i_toolbar, 
 i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
 v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
