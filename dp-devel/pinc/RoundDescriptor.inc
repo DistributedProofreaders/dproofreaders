@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
 
@@ -7,6 +8,9 @@ define('MAX_NUM_PAGE_EDITING_ROUNDS', 2);
 // -----------------------------------------------------------------------------
 
 $n_rounds = 0;
+$PRD_for_round_number_  = array();
+$PRD_for_project_state_ = array();
+$PRD_for_page_state_    = array();
 
 class ProofingRoundDescriptor
 // A container for various constants relating to a particular round of proofing.
@@ -68,6 +72,23 @@ class ProofingRoundDescriptor
             $prev_round_number = $this->round_number - 1;
             $this->prevtext_column_name = "round{$prev_round_number}_text";
         }
+
+        global $PRD_for_round_number_;
+        $PRD_for_round_number_[$this->round_number] =& $this;
+
+        global $PRD_for_project_state_;
+        $PRD_for_project_state_[$this->project_unavailable_state] =& $this;
+        $PRD_for_project_state_[$this->project_waiting_state    ] =& $this;
+        $PRD_for_project_state_[$this->project_bad_state        ] =& $this;
+        $PRD_for_project_state_[$this->project_available_state  ] =& $this;
+        $PRD_for_project_state_[$this->project_complete_state   ] =& $this;
+
+        global $PRD_for_page_state_;
+        $PRD_for_page_state_[$this->page_avail_state] =& $this;
+        $PRD_for_page_state_[$this->page_out_state  ] =& $this;
+        $PRD_for_page_state_[$this->page_temp_state ] =& $this;
+        $PRD_for_page_state_[$this->page_save_state ] =& $this;
+        $PRD_for_page_state_[$this->page_bad_state  ] =& $this;
     }
 }
 
@@ -110,66 +131,24 @@ function get_PRD_for_round( $round_number )
 // return the appropriate ProofingRoundDescriptor instance.
 // Otherwise, return NULL.
 {
-    global $PRD_1, $PRD_2;
-
-    if ( $round_number == 1 )
-    {
-        return $PRD_1;
-    }
-    else if ( $round_number == 2 )
-    {
-        return $PRD_2;
-    }
-    else
-    {
-        return NULL;
-    }
+    global $PRD_for_round_number_;
+    return array_get( $PRD_for_round_number_, $round_number, NULL );
 }
 
 // ---------------------------
 
 function get_PRD_for_project_state( $project_state )
 {
-    global $PRD_1, $PRD_2;
-
-    switch ($project_state)
-    {
-        case PROJ_P1_UNAVAILABLE:
-        case PROJ_P1_WAITING_FOR_RELEASE:
-        case PROJ_P1_AVAILABLE:
-        case PROJ_P1_BAD_PROJECT:
-        case PROJ_P1_COMPLETE:
-            return $PRD_1;
-
-        case PROJ_P2_UNAVAILABLE:
-        case PROJ_P2_WAITING_FOR_RELEASE:
-        case PROJ_P2_AVAILABLE:
-        case PROJ_P2_BAD_PROJECT:
-        case PROJ_P2_COMPLETE:
-            return $PRD_2;
-
-        default:
-            return NULL;
-    }
+    global $PRD_for_project_state_;
+    return array_get( $PRD_for_project_state_, $project_state, NULL );
 }
 
 // ---------------------------
 
 function get_PRD_for_page_state( $page_state )
 {
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-    {
-        $prd = get_PRD_for_round($rn);
-        if (   $page_state == $prd->page_avail_state
-            || $page_state == $prd->page_out_state
-            || $page_state == $prd->page_temp_state
-            || $page_state == $prd->page_save_state
-            || $page_state == $prd->page_bad_state )
-        {
-            return $prd;
-        }
-    }
-    return NULL;
+    global $PRD_for_page_state_;
+    return array_get( $PRD_for_page_state_, $page_state, NULL );
 }
 
 // -------------------------------------
