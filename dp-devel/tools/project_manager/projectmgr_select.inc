@@ -12,7 +12,7 @@ function get_allowed_next_project_states($state)
 
 		case PROJ_NEW_FILE_UPLOADED:
 			return array(
-                        PROJ_NEW_METADATA_FIRST);
+				PROJ_NEW_METADATA_FIRST);
 
 		case PROJ_PROOF_FIRST_UNAVAILABLE:
 			return array(
