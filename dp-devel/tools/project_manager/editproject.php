@@ -3,9 +3,32 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
+// Encodes a form parameter to allow it to contain double quotes.
+function encodeFormValue($value) {
+  return stripslashes(htmlentities($value));
+}
+
 function saveProject() {
   global $project, $clearance, $NameofWork, $AuthorsName, $comments, $Language;
   global $scannercredit, $txtlink, $ziplink, $htmllink, $pguser, $postednum; 
+
+  $errormsg;
+
+  if (strlen(trim($NameofWork)) == 0) {
+    $errormsg .= "Name of work is required.<br>";
+  }
+
+  if (strlen(trim($AuthorsName)) == 0) {
+    $errormsg .= "Author is required.<br>";
+  }
+
+  if (strlen(trim($Language)) == 0) {
+    $errormsg .= "Language is required.<br>";
+  }
+
+  if (isset($errormsg)) {
+    return $errormsg;
+  }
 
   if (isset($project) && strlen(trim($project)) > 0) {
     $sql = "UPDATE projects 
@@ -48,41 +71,50 @@ function saveProject() {
                                 '$clearance')";
     mysql_query($sql);
   }
+
+  return ""; // An empty string indicates no error 
 }
 
 if (isset($saveAndQuit)) {
-  saveProject();
-  echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+  $errormsg = saveProject();
+
+  if (strlen($errormsg) == 0) {
+    echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+    exit();
+  }
 } else if (isset($quit)) {
   echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
-} else {
-  if (isset($saveAndPreview)) {
-    saveProject();
-  }
+  exit();
+} 
 
-  if (isset($project)) {
-    $sql = "SELECT nameofwork, authorsname, language, scannercredit, txtlink,
-                   htmllink, ziplink, comments, postednum, clearance
-            FROM projects 
-            WHERE projectid = '$project'";
+if (isset($saveAndPreview)) {
+  $errormsg = saveProject();
+}
 
-    $result = mysql_query($sql);
+if ((!isset($errormsg) || strlen($errormsg) == 0) 
+    && isset($project) && strlen($project) > 0) {
+  $sql = "SELECT nameofwork, authorsname, language, scannercredit, txtlink,
+                 htmllink, ziplink, comments, postednum, clearance
+          FROM projects 
+          WHERE projectid = '$project'";
 
-    $NameofWork = mysql_result($result, 0, "nameofwork");
-    $AuthorsName = mysql_result($result, 0, "authorsname");
-    $Language = mysql_result($result, 0, "language");
-    $scannercredit = mysql_result($result, 0, "scannercredit");
-    $txtlink = mysql_result($result, 0, "txtlink");
-    $htmllink = mysql_result($result, 0, "htmllink");
-    $ziplink = mysql_result($result, 0, "ziplink");
-    $comments = mysql_result($result, 0, "comments");
-    $clearance = mysql_result($result, 0, "clearance");
-    $postednum = mysql_result($result, 0, "postednum");
-  }
+  $result = mysql_query($sql);
 
-  if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
-  if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.zip";
-  if ($Language == "") $Language = "English";
+  $NameofWork = mysql_result($result, 0, "nameofwork");
+  $AuthorsName = mysql_result($result, 0, "authorsname");
+  $Language = mysql_result($result, 0, "language");
+  $scannercredit = mysql_result($result, 0, "scannercredit");
+  $txtlink = mysql_result($result, 0, "txtlink");
+  $htmllink = mysql_result($result, 0, "htmllink");
+  $ziplink = mysql_result($result, 0, "ziplink");
+  $comments = mysql_result($result, 0, "comments");
+  $clearance = mysql_result($result, 0, "clearance");
+  $postednum = mysql_result($result, 0, "postednum");
+}
+
+if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
+if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.zip";
+if ($Language == "") $Language = "English";
 ?>
 
 <html>
@@ -93,44 +125,48 @@ if (isset($saveAndQuit)) {
 
 <input type="hidden" name="project" value="<? echo $project ?>">
 
+<? if (isset($errormsg) && strlen($errormsg) > 0) { ?>
+  <font color="red"><? echo $errormsg ?></font>
+<? } ?>
+
 <table border="1">
 <tr>
 <td bgcolor="#CCCCCC"><b>Name of Work</b></td>
-<td><input type ="text" size="67" name="NameofWork" value="<? echo $NameofWork ?>"></td>
+<td><input type ="text" size="67" name="NameofWork" value="<? echo encodeFormValue($NameofWork) ?>"></td>
 </tr>
 <tr>
-<td bgcolor="#CCCCCC"><b>Authors Name</b></td>
-<td><input type="text" size="67" name="AuthorsName" value="<? echo $AuthorsName ?>"></td>
+<td bgcolor="#CCCCCC"><b>Author's Name</b></td>
+<td><input type="text" size="67" name="AuthorsName" value="<? echo encodeFormValue($AuthorsName) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Language</b></td>
-<td><input type="text" size="67" name="Language" value="<? echo $Language ?>"></td>
+<td><input type="text" size="67" name="Language" value="<? echo encodeFormValue($Language) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Image Scanner Credit</b></td>
-<td><input type="text" size="67" name="scannercredit" value="<? echo $scannercredit ?>"></td>
+<td><input type="text" size="67" name="scannercredit" value="<? echo encodeFormValue($scannercredit) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Clearance Line</b></td>
-<td><input type="text" size="67" name="clearance" value="<? echo $clearance ?>"></td>
+<td><input type="text" size="67" name="clearance" value="<? echo encodeFormValue($clearance) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Text File URL</b></td>
-<td><input type="text" size="67" name="txtlink" value="<? echo $txtlink ?>"></td>
+<td><input type="text" size="67" name="txtlink" value="<? echo encodeFormValue($txtlink) ?>"></td>
 </tr>
 <tr><td bgcolor="#CCCCCC"><b>Zip File URL</b></td>
-<td><input type="text" size="67" name="ziplink" value="<? echo $ziplink ?>"></td>
+<td><input type="text" size="67" name="ziplink" value="<? echo encodeFormValue($ziplink) ?>"></td>
 </tr>
 <tr><td bgcolor="#CCCCCC" width="200"><b>HTML File URL</b></td>
-<td><input type="text" size="67" name="htmllink" value="<? echo $htmllink ?>"></td>
+<td><input type="text" size="67" name="htmllink" value="<? echo encodeFormValue($htmllink) ?>"></td>
 </tr>
 <tr><td bgcolor="#CCCCCC" width="200"><b>Posted Number</b></td>
-<td><input type="text" size="67" name="postednum" value="<? echo $postednum ?>"></td>
+<td><input type="text" size="67" name="postednum" value="<? echo encodeFormValue($postednum) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC" colspan="2"><B>Comments</b></td>
 </tr>
-<tr><td colspan="2"><textarea name="comments" cols="74" rows="16"><? echo stripslashes($comments) ?></textarea></td>
+<tr><td colspan="2"><textarea name="comments" cols="74" rows="16"><? echo encodeFormValue($comments) ?></textarea></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC" colspan="2" align="center">
@@ -178,4 +214,3 @@ in the posted message.
 </body>
 </html>
 
-<? } ?>
