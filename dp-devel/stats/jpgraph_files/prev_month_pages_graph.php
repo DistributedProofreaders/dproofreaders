@@ -16,6 +16,7 @@ $result = mysql_query("
 	SELECT date, pages, dailygoal
 	FROM pagestats
 	WHERE month = '$month' AND year = '$year'
+	ORDER BY date
 ");
 
 $mynumrows = mysql_numrows($result);
