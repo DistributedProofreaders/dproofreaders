@@ -50,9 +50,13 @@ function showMbrProfile($curMbr) {
 
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
+	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
+	echo "\n";
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='avatar'></td>";
-	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
+	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'>";
+	echo "\n";
+	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
        	echo_tr_headerbar(
 	       	_("Statistics")
 		. " <a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'>"
@@ -113,7 +117,7 @@ function showMbrProfile($curMbr) {
 		number_format($daily_Average) . " " . _("pages")
 	);
 
-	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
+	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
         if (!empty($curMbr['user_from']))      { echo_tr_2_cols( _("Location"),   $curMbr['user_from'] ); }
         if (!empty($curMbr['user_occ']))       { echo_tr_2_cols( _("Occupation"), $curMbr['user_occ'] ); }
 	if (!empty($curMbr['user_interests'])) { echo_tr_2_cols( _("Interests"),  $curMbr['user_interests'] ); }
@@ -130,6 +134,7 @@ function showMbrProfile($curMbr) {
 
 	echo "</table></td></tr>";
 	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
+		echo "\n";
 		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
 		messageCenter($curMbr);
 	}
@@ -154,7 +159,9 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 function messageCenter($curMbr) {
 	global $forums_url, $theme;
 
+	echo "\n";
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
+	echo "\n";
 	echo "<tr><td align='center' colspan='2'>".showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
 
 	function echo_tr_mc( $label, $icon_filename, $url, $target='' )
@@ -164,6 +171,7 @@ function messageCenter($curMbr) {
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
 		$target_str = ( empty($target) ? '' : " target='$target'" );
 
+		echo "\n";
 		echo "<tr>";
 		echo   "<td align='left'>";
 		echo     "<font face='".$theme['font_mainbody']."' size='2'>";
@@ -176,7 +184,6 @@ function messageCenter($curMbr) {
 		echo     "</a>";
 		echo   "</td>";
 		echo "</tr>";
-		echo "\n";
 	}
 
 	if (!empty($curMbr['user_viewemail'])) {
@@ -240,9 +247,13 @@ function showMbrNeighbors($curMbr) {
 	global $rollover_highlight_attrs;
 	$now = time();
 
+	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("Neighbors") );
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "\n";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td>";
+	echo "\n";
+	echo "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 
 	function echo_td( $width, $content )
 	{
@@ -256,6 +267,7 @@ function showMbrNeighbors($curMbr) {
 		echo "</td>";
 	}
 
+	echo "\n";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 	echo_td( 15, _("Rank") );
 	echo_td( 28, _("Username") );
@@ -303,9 +315,14 @@ function showMbrTeams($curMbr) {
 
 	if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
+	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("Teams") );
-	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "\n";
+	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>";
+	echo "\n";
+	echo "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+	echo "\n";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
 	$result = select_from_teams("id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
 	while ($row = mysql_fetch_assoc($result)) {
@@ -319,8 +336,11 @@ function showMbrHistory($curMbr) {
 	global $theme;
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
+
+	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("History") );
+	echo "\n";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>"._("Last 7 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>"._("Last 14 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>"._("Last 30 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>"._("Last 60 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>"._("Last 365 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>"._("Lifetime")."</a></font>";
 	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=U&holder_id=".$curMbr['u_id']."&days_back=$range' width='600' height='300'></center><br></td></tr>";
