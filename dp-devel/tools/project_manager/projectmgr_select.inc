@@ -1,15 +1,12 @@
 <?
 include_once($relPath.'misc.inc');
+include_once($relPath.'v_site.inc');
 include_once($relPath.'RoundDescriptor.inc');
 
 $transition_options_ = array(
 	PROJ_NEW =>
 		array(
 			PROJ_PROOF_FIRST_UNAVAILABLE),
-
-	PROJ_NEW_FILE_UPLOADED =>
-		array(
-			PROJ_NEW_METADATA_FIRST),
 
 	PROJ_POST_FIRST_UNAVAILABLE =>
 		array(
@@ -43,6 +40,13 @@ $transition_options_ = array(
 		array(
 			PROJ_SUBMIT_PG_POSTED),
 );
+
+if ($site_supports_metadata)
+{
+	$transition_options_[ PROJ_NEW_FILE_UPLOADED ] =
+		array(
+			PROJ_NEW_METADATA_FIRST);
+}
 
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
