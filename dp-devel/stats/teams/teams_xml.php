@@ -31,12 +31,8 @@ $result = mysql_query("SELECT * FROM user_teams WHERE id = ".$_GET['id']."");
 $curTeam = mysql_fetch_assoc($result);
 
 //Team info portion of $data
-	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY page_count DESC");
-	$i = 1;
-	while ($row = mysql_fetch_assoc($result)) {
-        	if ($row['id'] == $curTeam['id']) { $pageCountRank = $i; break; }
-		$i++;
-	}
+	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
+
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
 

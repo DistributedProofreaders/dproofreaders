@@ -93,12 +93,7 @@ function showTeamStats($curTeam) {
 		$i++;
 	}
 
-	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY page_count DESC");
-	$i = 1;
-	while ($row = mysql_fetch_assoc($result)) {
-        	if ($row['id'] == $curTeam['id']) { $pageCountRank = $i; break; }
-		$i++;
-	}
+	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
 
 	if ($hasStats) {
 		$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");	

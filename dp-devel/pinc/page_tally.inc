@@ -106,5 +106,22 @@ function user_page_tally_get_interval_title( $user_page_tally )
     }
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function team_get_page_tally_rank( $team_id )
+// Return the given team's rank (among all teams)
+// as determined by page tallies.
+{
+    $result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY page_count DESC");
+    $i = 1;
+    while ($row = mysql_fetch_assoc($result))
+    {
+        if ($row['id'] == $team_id) { return $i; }
+        $i++;
+    }
+    // assert(FALSE); ?
+    return NULL;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
