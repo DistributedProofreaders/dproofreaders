@@ -26,18 +26,6 @@ if ($cday != 1) {
 }
 
 
-$psd = get_project_status_descriptor('created');
-$created = state_change_since($psd->state_selector, $start_date);
-
-$psd = get_project_status_descriptor('proofed');
-$FinProof = state_change_since($psd->state_selector, $start_date);
-
-$psd = get_project_status_descriptor('PPd');
-$FinPP = state_change_since($psd->state_selector, $start_date);
-
-$psd = get_project_status_descriptor('posted');
-$Posted = state_change_since($psd->state_selector, $start_date);
-
 
 
 echo "
@@ -47,10 +35,22 @@ echo "
 	      <th colspan=04><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."'>"
 	._("Projects this month").
 		"</font></th>
-	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/projects_Xed_graphs.php?which=created'>"._("Created")."</a>:        <b>$created</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/projects_Xed_graphs.php?which=proofed'>"._("Proofread")."</a>:      <b>$FinProof</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/projects_Xed_graphs.php?which=PPd'>"._("Post-Processed")."</a>: <b>$FinPP</b></td>
-	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/projects_Xed_graphs.php?which=posted'>"._("Posted to PG")."</a>: <b>$Posted</b></td>
+	  <tr>
+";
+
+foreach ( array('created','proofed','PPd','posted') as $which )
+{
+	$graphs_url = "$code_url/stats/projects_Xed_graphs.php?which=$which";
+
+	$psd = get_project_status_descriptor($which);
+	$n = state_change_since($psd->state_selector, $start_date);
+
+	echo "<td align=center bgcolor='".$theme['color_mainbody_bg']."'>";
+	echo "<a href='$graphs_url'>$psd->Xed_title</a>: <b>$n</b>";
+	echo "</td>";
+}
+
+echo "
 	  </tr>
 	  </tbody>
 	</table>
