@@ -363,7 +363,7 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   $htmlC->startHeader("User Teams");
   echo $beginPage.$menuBar;
 // the teams table query
-  $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams WHERE id>$tstart ORDER BY id ASC LIMIT 20";
+  $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY id ASC LIMIT $tstart,20";
   $tResult=mysql_query($tQuery);
   $tRows=mysql_num_rows($tResult);
   $cellCount=0;
