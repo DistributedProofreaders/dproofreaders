@@ -260,7 +260,25 @@ function showMbrNeighbors($curMbr) {
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("Neighbors") );
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='15%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Rank")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Username")."</i></u></b></font></td><td width='28%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Date Joined DP")."</i></u></b></font></td><td width='29%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>"._("Overall Pages Completed")."</i></u></b></font></td></tr>";
+
+	function echo_td( $width, $content )
+	{
+		global $theme;
+		echo "<td width='$width%'>";
+		echo "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		echo "<b><u><i>";
+		echo $content;
+		echo "</i></u></b>";
+		echo "</font>";
+		echo "</td>";
+	}
+
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+	echo_td( 15, _("Rank") );
+	echo_td( 28, _("Username") );
+	echo_td( 28, _("Date Joined DP") );
+	echo_td( 29, _("Overall Pages Completed") );
+	echo "</tr>";
 
 	for ( $i = -4;  $i <= 4; $i++ ) {
 		$j = $rankArray['curMbrIndex']+$i;
