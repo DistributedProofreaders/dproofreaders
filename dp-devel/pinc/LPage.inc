@@ -14,11 +14,20 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 {
     $prd = get_PRD_for_project_state($proofstate);
 
-    $res = mysql_query("SELECT {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
-    $proofer = mysql_result($res, 0, $prd->user_column_name);
-    if ($pguser != $proofer)
+    $res = mysql_query("SELECT state, {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
+    list($current_page_state, $current_round_user) = mysql_fetch_row($res);
+
+    if ($pguser != $current_round_user)
     {
         $err = sprintf( _("You (%s) do not have the necessary access to page %s"), $pguser, $imagefile );
+        return $err;
+    }
+
+    if ($pagestate != $current_page_state)
+    {
+        $err = sprintf(
+            _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
+            $imagefile, $pagestate, $current_page_state );
         return $err;
     }
 
