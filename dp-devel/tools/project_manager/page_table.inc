@@ -54,7 +54,7 @@ function echo_page_table(
 
 	if ( $can_edit )
 	{
-		echo "<form method='get' action='$code_url/tools/project_manager/edit_pages.php'>\n";
+		echo "<form name='pagesform' method='get' action='$code_url/tools/project_manager/edit_pages.php'>\n";
 		echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 	}
 
@@ -132,6 +132,7 @@ function echo_page_table(
 
 	echo "</tr>";
 
+	$avail_pages="";
 
 	$path = "$projects_dir/$projectid/";
 
@@ -223,6 +224,9 @@ function echo_page_table(
 		$page_state = $page_res['state'];
 		echo "<td>$page_state</td>\n";
 
+		if($page_state==AVAIL_FIRST || $page_state==AVAIL_SECOND)
+			$avail_pages.="$index,";
+
 		// --------------------------------------------
 
 		if ($can_see_names_for_all_pages)
@@ -290,7 +294,43 @@ function echo_page_table(
 
 	if ( $can_edit )
 	{
+?>
+<script language="JavaScript" type="text/javascript"><!--
+avail_pages=new Array(<? echo substr($avail_pages,0,-1); ?>);
+
+function changeSelection(sel) {
+	switch(sel) {
+		case "all":
+			for(i=1;i<=<? echo $num_rows; ?>;i++)
+				document.pagesform.elements[i].checked=true;
+			break;
+		case "unproofed":
+			changeSelection("clear");
+			for(i in avail_pages)
+				document.pagesform.elements[avail_pages[i]].checked=true;
+			break;
+		case "invert":
+			for(i=1;i<=<? echo $num_rows; ?>;i++)
+				document.pagesform.elements[i].checked=!document.pagesform.elements[i].checked;
+			break;
+		case "clear":
+			for(i=1;i<=<? echo $num_rows; ?>;i++)
+				document.pagesform.elements[i].checked=false;
+			break;
+		default:
+			break;
+	}
+}
+// --></script>
+<?
 		echo "<br>\n";
+		echo "<select name='select' onChange='changeSelection(this.options[this.selectedIndex].value)'>\n";
+		echo "<option value='0'>"._("Select...")."</option>";
+		echo "<option value='all'>"._("Select all")."</option>";
+		echo "<option value='unproofed'>"._("Select all unproofread")."</option>";
+		echo "<option value='invert'>"._("Invert selection")."</option>";
+		echo "<option value='clear'>"._("Clear selection")."</option>";
+		echo "</select>. ";
 		echo _("For each selected page:") . "\n";
 		echo "<select name='operation'>\n";
 		// echo "  <option value='bad'   >" . _("Mark as bad") . "</option>\n";
