@@ -35,7 +35,7 @@ function update_avail($project, $state) {
 
     if ($state == 12) {
         $this->availablepages = $this->avail2_pages;
-    } else if ($state == 2) {
+    } else if (($state <= 2) || ($state >= 0)) {
         $this->availablepages = $this->avail1_pages;
     } else $this->availablepages = 0;
 }
