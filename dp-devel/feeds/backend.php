@@ -1,4 +1,14 @@
 <?
+function xmlencode($data) {
+	$trans_array = array();
+	for ($i=127; $i<255; $i++) {
+		$trans_array[chr($i)] = "&#" . $i . ";";
+		}
+      	$data = strtr($data, $trans_array);
+	$data = htmlentities($data, ENT_QUOTES);
+       	return $data;
+}
+
 //Try our best to make sure no browser caches the page
 header("Content-Type: text/xml");
 header("Expires: Sat, 1 Jan 2000 05:00:00 GMT");
@@ -37,28 +47,29 @@ $db_Connection=new dbConnect();
 		$posteddate = date("r",($row['modifieddate']));
 			if (isset($_GET['type'])) {
 				$data .= "<item>
-				<title>".htmlentities($row['nameofwork'])." - ".htmlentities($row['authorsname'])."</title>
+				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
 				<link>$siteurl/list_etexts.php?x=g#".$row['projectid']."</link>
-				<description>Language: ".htmlentities($row['language'])." - Genre: ".htmlentities($row['genre'])."</description>
+				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
 				</item>
 				";
 			} else {
 				$data .= "<project id=\"".$row['projectid']."\">
-				<nameofwork>".htmlentities($row['nameofwork'])."</nameofwork>
-				<authorsname>".htmlentities($row['authorsname'])."</authorsname>
-				<language>".htmlentities($row['language'])."</language>
+				<nameofwork>".xmlencode($row['nameofwork'])."</nameofwork>
+				<authorsname>".xmlencode($row['authorsname'])."</authorsname>
+				<language>".xmlencode($row['language'])."</language>
 				<posteddate>".$posteddate."</posteddate>
-				<genre>".htmlentities($row['genre'])."</genre>
+				<genre>".xmlencode($row['genre'])."</genre>
 				<links>
-				<text>".htmlentities($row['txtlink'])."</text>
-				<zip>".htmlentities($row['ziplink'])."</zip>
-				<html>".htmlentities($row['htmllink'])."</html>
+				<text>".xmlencode($row['txtlink'])."</text>
+				<zip>".xmlencode($row['ziplink'])."</zip>
+				<html>".xmlencode($row['htmllink'])."</html>
 				<library>$siteurl/list_etexts.php?x=g#".$row['projectid']."</library>
 				</links>
 				</project>
 				";
 			}
 		}
+
 		$lastupdated = date("r");
 			if (isset($_GET['type'])) {
 				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"ISO-8859-1\" ?".">
@@ -91,7 +102,7 @@ $db_Connection=new dbConnect();
 				$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
 				<link>$siteurl/pastnews.php?#".$row['uid']."</link>
-				<description>".htmlentities(strip_tags($row['message']))."</description>
+				<description>".xmlencode(strip_tags($row['message']))."</description>
 				</item>
 				";
 		}
