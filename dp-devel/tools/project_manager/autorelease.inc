@@ -17,6 +17,7 @@ function numavailpages($project, $roundavailstate) {
 function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
         global $projects_dir;
         global $auto_email_addr;
+        global $code_url;
 
     $currstate = PROJ_PROOF_FIRST_VERIFY;
     $result = mysql_query("UPDATE $project SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
@@ -29,45 +30,50 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     $page_num = 0;
 
-    if (($author == "") || ($nameofwork == "") || ($language == "") || ($clearance == "")) {
-        $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-        maybe_mail("$email", "DP: $nameofwork has an empty field.",
-             "This is an automated message from the Distributed Proofreaders site.\n\n".
-             "$nameofwork has one of the following parameters blank:\n\n".
-             "Title: $nameofwork\nAuthor: $author\nLanguage: $language\nClearance Line: $clearance\n\n".
-             "Please correct and put back into Waiting for Release.",
-             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
-    }
+    $errors = '';
 
+    if ($nameofwork == '') $errors .= "  The 'Title' field is blank.\n";
+    if ($author == '')     $errors .= "  The 'Author' field is blank.\n";
+    if ($language == '')   $errors .= "  The 'Language' field is blank.\n";
+    if ($clearance == '')  $errors .= "  The 'Clearance' field is blank.\n";
+
+    if ($errors) $errors .= "\n";
+       
     $path = "$projects_dir/$project/";
 
-    while (($page_num < $projectinfo->avail1_pages) && ($currstate == PROJ_PROOF_FIRST_VERIFY)) {
+    while ($page_num < $projectinfo->avail1_pages) {
         $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");
         $text = mysql_result($projectinfo->avail1_rows, $page_num, "master_text");
         $filename = mysql_result($projectinfo->avail1_rows, $page_num, "image");
 
         if (!file_exists($path.$filename)) {
-            $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-            maybe_mail("$email", "DP: $nameofwork has missing image $filename.",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has $filename image that is missing. Please correct, check other pages, and put back into Waiting for Release.",
-                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $errors .= "  $filename: image file is missing\n";
         } else if (filesize($path.$filename) < 100) {
-            $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-            maybe_mail("$email", "DP: $nameofwork has bad image $filename.",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has $filename image with a small file size. Please correct, check other pages, and put back into Waiting for Release.",
-                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
-        } else if ($text == "") {
-            $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-            maybe_mail("$email", "DP: $nameofwork has empty text for $filename.",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has $filename with a small text size. Please correct, check other pages, and put back into Waiting for Release.",
-                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $errors .= "  $filename: image file is small (probably bad)\n";
+        }
+        if ($text == "") {
+            $errors .= "  $filename: text is empty\n";
         }
 
         $page_num++;
     }
+
+    if ( $errors )
+    {
+        maybe_mail("$email", "DP: \"$nameofwork\"",
+            "This is an automated message from the Distributed Proofreaders site.\n\n".
+            "Regarding:\n".
+            "  \"$nameofwork\"\n".
+            "  ($project)\n".
+            "  $code_url/tools/project_manager/project_detail.php?project=$project\n".
+            "\n".
+            "Some errors have been found:\n".
+            "$errors\n".
+            "Please correct the errors and put the project back into Waiting for Release.",
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+        $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
+    }
+
 
     $error_msg = project_transition( $project, $currstate );
     if ($error_msg)
