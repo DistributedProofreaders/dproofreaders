@@ -275,9 +275,12 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	// Determine whether to use special colors or not
 	// (this does not affect the alternating between two
 	// background colors) in the project listing.
+	// Regardless of the preference, don't display
+	// special colors to newbies.
 	global $pguser;
 	$userSettings =& Settings::get_Settings($pguser);
-	$show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+	$show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
+                                && !$userSettings->get_boolean('hide_special_colors'));
 
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
