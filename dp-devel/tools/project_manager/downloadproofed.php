@@ -2,24 +2,30 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
+
     $project = $_GET['project'];
     $fileid = $_GET['fileid'];
     $round_num = $_GET['round_num'];
 
     if ($round_num == 0) {
-        $result = mysql_query("SELECT master_text FROM $project WHERE fileid = '$fileid'"); 
-        $data = mysql_result($result, 0, "master_text");
-    } else if ($round_num == 1) {
-        $result = mysql_query("SELECT round1_text FROM $project WHERE fileid = '$fileid'"); 
-        $data = mysql_result($result, 0, "round1_text");
-    } else if ($round_num == 2) {
-        $result = mysql_query("SELECT round2_text FROM $project WHERE fileid = '$fileid'"); 
-        $data = mysql_result($result, 0, "round2_text");
-    } else $data = "ERROR: Incorrect round_num parameter = ".$round_num." passed to script downloadproofed.php";
+        $text_column_name = 'master_text';
+    } else {
+        $prd = get_PRD_for_round($round_num);
+        if ( is_null($prd) )
+        {
+            die("downloadproofed.php: unexpected parameter round_num = '$round_num'");
+        }
+        $text_column_name = $prd->text_column_name;
+    }
+
+    $result = mysql_query("SELECT $text_column_name FROM $project WHERE fileid = '$fileid'"); 
+    $data = mysql_result($result, 0, $text_column_name);
 
     header("Content-type: text/plain; charset=$charset");
     // SENDING PAGE-TEXT TO USER
     // It's a text/plain document, so no encoding is necessary.
     echo $data;
 
+// vim: sw=4 ts=4 expandtab
 ?> 
