@@ -6,23 +6,23 @@ function projectStateRound($state)
   {
   $wProc='NONE';
     if ($state==PROJ_NEW)
-      {$wProc=='NEW';}
+      {$wProc='NEW';}
 //  for the pre-processing
 //    else if ($state==)
-//      {$wProc=='PR';}
+//      {$wProc='PR';}
     else if ($state==PROJ_PROOF_FIRST_UNAVAILABLE || $state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT || 
       $state==PROJ_PROOF_FIRST_AVAILABLE || $state==PROJ_PROOF_FIRST_VERIFY || $state==PROJ_PROOF_FIRST_COMPLETE)
-      {$wProc=='FIRST';}
+      {$wProc='FIRST';}
     else if ($state==PROJ_PROOF_SECOND_UNAVAILABLE || $state==PROJ_PROOF_SECOND_WAITING_FOR_RELEASE || $state==PROJ_PROOF_SECOND_BAD_PROJECT || 
       $state==PROJ_PROOF_SECOND_AVAILABLE || $state==PROJ_PROOF_SECOND_VERIFY || $state==PROJ_PROOF_SECOND_COMPLETE)
-      {$wProc=='SECOND';}
+      {$wProc='SECOND';}
     else if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT || $state==PROJ_POST_VERIFY || 
       $state==PROJ_POST_VERIFYING || $state==PROJ_POST_COMPLETE)
-      {$wProc=='PP';}
+      {$wProc='PP';}
     else if ($state==PROJ_SUBMIT_PG_UNAVAILABLE || $state==PROJ_SUBMIT_PG_AVAILABLE || $state==PROJ_SUBMIT_PG_POSTING || $state==PROJ_SUBMIT_PG_POSTED)
-      {$wProc=='GB';}
+      {$wProc='GB';}
     else if ($state==PROJ_COMPLETE)
-      {$wProc=='COMPLETE';}
+      {$wProc='COMPLETE';}
   return $wProc;
   }
 
