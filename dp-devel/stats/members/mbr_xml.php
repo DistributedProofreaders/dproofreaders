@@ -30,7 +30,7 @@ echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xs
 
 $result = mysql_query("
 	SELECT *, $user_P_page_tally_column AS current_P_page_tally
-	FROM $users_table_with_tallies
+	FROM users $joined_with_user_P_page_tallies
 	WHERE username = '".$_GET['username']."'
 	LIMIT 1
 ");

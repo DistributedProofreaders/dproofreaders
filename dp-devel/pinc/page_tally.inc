@@ -24,16 +24,10 @@ $teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
 
 // -----------------------------------------------------------------------------
 
+// See TallyBoard.inc for explanation of these two strings.
+
 list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
     $users_P_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
-
-$users_table_with_tallies = "users $joined_with_user_P_page_tallies";
-// A string containing an SQL table-expression that yields a table that
-// has all of the data of the 'users' table, plus a page-tally column.
-
-// $user_P_page_tally_column
-// A string containing the name of the column in the above table
-// that gives the user's tally of pages saved-as-done in proofing rounds.
 
 // -----------------------------------------------------------------------------
 
@@ -81,11 +75,11 @@ function get_daily_average( $start_time, $total )
 function user_get_page_tally( $username )
 // Return the user's page tally.
 {
-    global $users_table_with_tallies, $user_P_page_tally_column;
+    global $joined_with_user_P_page_tallies, $user_P_page_tally_column;
 
     $res = mysql_query("
         SELECT $user_P_page_tally_column
-        FROM $users_table_with_tallies
+        FROM users $joined_with_user_P_page_tallies
         WHERE username='$username'
     ") or die(mysql_error());
 

@@ -19,7 +19,7 @@ $result = mysql_query("
 		  AS num_who_joined,
 		SUM($user_P_page_tally_column > 0)
 		  AS num_who_proofed
-	FROM $users_table_with_tallies
+	FROM users $joined_with_user_P_page_tallies
 	GROUP BY month
 	ORDER BY month
 ");

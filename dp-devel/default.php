@@ -25,7 +25,7 @@ default_page_heading();
 //get total number of users
 $users = mysql_query("
     SELECT count(*) AS numusers
-    FROM $users_table_with_tallies
+    FROM users $joined_with_user_P_page_tallies
     WHERE $user_P_page_tally_column >=1
 ");
 $totalusers = mysql_result($users,0,"numusers");

@@ -61,7 +61,7 @@ dpsql_dump_themed_ranked_query("
 	SELECT
 		$proofreader_expr AS 'Proofreader',
 		$user_P_page_tally_column AS 'Pages Proofread'
-	FROM $users_table_with_tallies
+	FROM users $joined_with_user_P_page_tallies
 	WHERE $user_P_page_tally_column > 0
 	ORDER BY 2 DESC, 1 ASC
 	LIMIT 100

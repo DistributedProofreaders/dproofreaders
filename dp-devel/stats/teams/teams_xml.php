@@ -65,7 +65,7 @@ $curTeam = mysql_fetch_assoc($result);
 	$mbrQuery = mysql_query("
 		SELECT username, date_created, u_id, u_privacy,
 			$user_P_page_tally_column AS current_P_page_tally
-		FROM $users_table_with_tallies
+		FROM users $joined_with_user_P_page_tallies
 		WHERE {$curTeam['id']} IN (team_1, team_2, team_3)
 		ORDER BY username ASC
 	");
