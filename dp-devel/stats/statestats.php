@@ -70,6 +70,7 @@ $descrip = _("in October");
 $created = state_change_between_dates("
 				state not like 'project_new%'
 				",'2003-10-03','2003-11-01');
+$created += 19; // historical adjustment for first days of Oct
 echo "<b>$created</b> "._("projects were created")." $descrip<br>";
 
 $FinProof = state_change_between_dates("
@@ -77,35 +78,38 @@ $FinProof = state_change_between_dates("
 				OR state LIKE 'proj_correct%' 
 				OR state LIKE 'proj_post%')
 				",'2003-10-03','2003-11-01');
+$FinProof += 69; // historical adjustment for first days of Oct
 echo "<b>$FinProof</b> "._("projects were proofed")." $descrip<br>";
 
 $FinPP = state_change_between_dates("
 				(state LIKE 'proj_submit%' 
 				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post_second%')
+				OR state LIKE 'proj_post_second%'
+				)
 				",'2003-10-03','2003-11-01');
-echo "<b>$FinPP</b>"._("projects were PPd")." $descrip<br>";
+$FinPP +=   28; // historical adjustment for first days of Oct
+echo "<b>$FinPP</b> "._("projects were PPd")." $descrip<br>";
 
 echo "<br><br>";
 $descrip = _("in November");
 $created = state_change_between_dates("
 				state not like 'project_new%'
-				",'2003-11-03','2003-12-01');
+				",'2003-11-01','2003-12-01');
 echo "<b>$created</b> "._("projects were created")." $descrip<br>";
 
 $FinProof = state_change_between_dates("
 				(state LIKE 'proj_submit%' 
 				OR state LIKE 'proj_correct%' 
 				OR state LIKE 'proj_post%')
-				",'2003-11-03','2003-12-01');
+				",'2003-11-01','2003-12-01');
 echo "<b>$FinProof</b> "._("projects were proofed")." $descrip<br>";
 
 $FinPP = state_change_between_dates("
 				(state LIKE 'proj_submit%' 
 				OR state LIKE 'proj_correct%' 
 				OR state LIKE 'proj_post_second%')
-				",'2003-11-03','2003-12-01');
-echo "<b>$FinPP</b>"._("projects were PPd")." $descrip<br>";
+				",'2003-11-01','2003-12-01');
+echo "<b>$FinPP</b> "._("projects were PPd")." $descrip<br>";
 
 
 ?>
