@@ -66,6 +66,8 @@ show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 echo "<br>";
 }
 
+echo "<br><hr><br><br>";
+
 include('filter_PP_list.inc');
 
 echo "<center><b>Books Available for Post Processing:</b></center>";
