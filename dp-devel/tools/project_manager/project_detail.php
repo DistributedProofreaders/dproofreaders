@@ -12,8 +12,16 @@ include_once('projectmgr.inc');
 include_once('page_table.inc');
 
 
+if ( !isset($_GET['type']) || $_GET['type'] == 'Summary' || $_GET['type'] == '' ) {
+	$page_type = "Summary";
+	$other_type = "Full";
+} else {
+	$page_type = "Full";
+	$other_type = "Summary";
+}
+
 $no_stats=1;
-theme("Project Details", "header");
+theme("Project Details ($page_type version)", "header");
 
 $projectid = $_GET['project'];
 if (! user_is_PP_of( $projectid)) {
@@ -55,12 +63,20 @@ password=<b>$uploads_password</b>
 
 }
 
+
+
+
 $result = mysql_query("SELECT state FROM projects WHERE projectid='$projectid'");
 $state = mysql_result($result, 0);
 
 $projectinfo->update($projectid, $state);
 
 echo "<center>";
+
+
+echo "This is the $page_type Version of the Project Details page for this project."."<br>";
+echo "Also available is the "."<a href='project_detail.php?project=$projectid&type=$other_type>".
+	"$other_type Version"."</a>.<br><br>";
 
 echo_project_info( $projectid, 'proj_post', 0 );
 
@@ -154,18 +170,27 @@ echo "</table>\n";
 
 // -----------------------------------------------------------------------------
 
-echo "<h3>Per-Page Info</h3>\n";
-echo_page_table( $projectid );
 
-// -----------------------------------------------------------------------------
+// only show full page table details in "Full" mode
 
-if ($can_edit) {
+if ($page_type == "Full") {
 
-	if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
-	{
-		echo "<br><br><br>";
-		echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+
+	echo "<h3>Per-Page Info</h3>\n";
+	echo_page_table( $projectid );
+
+
+      // -----------------------------------------------------------------------------
+
+	if ($can_edit) {
+
+		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE ||  $state == PROJ_NEW_FILE_UPLOADED)
+		{
+			echo "<br><br><br>";
+			echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+		}
 	}
+
 }
 
 echo "</center>";
