@@ -32,7 +32,7 @@ $result = select_from_teams("id = {$_GET['id']}");
 $curTeam = mysql_fetch_assoc($result);
 
 //Team info portion of $data
-	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
+	$pageCountRank = $teams_P_page_tallyboard->get_rank( $curTeam['id'] );
 
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
@@ -40,7 +40,7 @@ $curTeam = mysql_fetch_assoc($result);
 	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
 
 	list($bestDayCount, $bestDayTimestamp) =
-		team_get_largest_page_tally_increment_info($curTeam['id']);
+		$teams_P_page_tallyboard->get_info_re_largest_delta( $curTeam['id'] );
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	$data = "<teaminfo id=\"".$curTeam['id']."\">

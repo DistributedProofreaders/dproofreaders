@@ -280,26 +280,5 @@ function should_anonymize( $username, $user_privacy_setting )
     }
 }
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function team_get_page_tally_rank( $team_id )
-// Return the given team's rank (among all teams)
-// as determined by page tallies.
-{
-    global $teams_P_page_tallyboard;
-    return $teams_P_page_tallyboard->get_rank( $team_id );
-}
-
-// -----------------------------------------------------------------------------
-
-function team_get_largest_page_tally_increment_info( $team_id )
-// Return an array consisting of:
-// -- the given team's largest recorded page tally increment, and
-// -- a timestamp for which that increment was recorded.
-{
-    global $teams_P_page_tallyboard;
-    return $teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
-}
-
 // vim: sw=4 ts=4 expandtab
 ?>

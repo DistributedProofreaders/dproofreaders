@@ -125,10 +125,10 @@ function showTeamStats($curTeam) {
 
 	$mbrCountRank = team_get_member_count_rank($team_id);
 
-	$pageCountRank = team_get_page_tally_rank($team_id);
+	$pageCountRank = $teams_P_page_tallyboard->get_rank($team_id);
 
 	list($bestDayCount, $bestDayTimestamp) =
-		team_get_largest_page_tally_increment_info($team_id);
+		$teams_P_page_tallyboard->get_info_re_largest_delta($team_id);
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
