@@ -94,7 +94,7 @@ elseif ($feedb == 'other') {
 echo "<h2>Difference with expected text</h2>";
 echo "<p>There is still a difference between your text and the expected one. Finding the reason for this is beyond the current scope of the analysing software.</p><p>This is the expected text:<br>";
 echo "
-<form action=''><textarea rows='20' cols='30' name='output' wrap='off'>
+<form action=''><textarea rows='20' cols='60' name='output' wrap='off'>
 We ask ourselves how Byron's poem\n
 /*
 You have the Pyrrhic dance as yet,
