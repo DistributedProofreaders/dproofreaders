@@ -70,14 +70,17 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	{
 		$orderclause = 'total_pages DESC, nameofwork ASC';
 	}
+
+	// note that we SHOW "days since M", but *order* by M, so the logic is flipped
+
 	elseif ( $order == 'DaysA' )
-	{
-		$orderclause = 'modifieddate ASC, nameofwork ASC';
-	}
-	elseif ( $order == 'DaysD' )
 	{
 		$orderclause = 'modifieddate DESC, nameofwork ASC';
 		$flip_days = TRUE;
+	}
+	elseif ( $order == 'DaysD' )
+	{
+		$orderclause = 'modifieddate ASC, nameofwork ASC';
 	}
 	else
 	{
