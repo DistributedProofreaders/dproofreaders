@@ -2,6 +2,8 @@
 #
 # Host: localhost    Database: dproofreaders
 # ------------------------------------------------------
+# When editing this file, please do not specify a database name.
+# ------------------------------------------------------
 # Server version	4.1.1-alpha-standard
 
 /*!40101 SET NAMES latin1*/;
@@ -129,7 +131,7 @@ CREATE TABLE `pagestats` (
 #
 # Table structure for table `pageTasks`
 #
-CREATE TABLE `dp_db`.`pageTasks` (
+CREATE TABLE `pageTasks` (
 `pageTaskId` int( 20 ) NOT NULL AUTO_INCREMENT ,
 `pageId` int( 20 ) NOT NULL default '0',
 `sequenceNumber` int( 8 ) NOT NULL default '1',
