@@ -6,6 +6,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 
 function encodeFormValue($value) {
@@ -121,8 +122,11 @@ function handle_projectfiles( $projectid )
 	# echo "insertTextFiles($dir_name, $projectid) ...<br>\n";
 	insertTextFiles($dir_name, $projectid);
 
-	# echo "UPDATE projects SET state ...<br>\n";
-	$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
+	$error_msg = project_transition( $projectid, PROJ_PROOF_FIRST_UNAVAILABLE );
+	if ($error_msg)
+	{
+		echo "$error_msg<br>\n";
+	}
 }
 
 function insertTextFiles($dir_name, $projectid) {
