@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
+include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
@@ -38,6 +39,11 @@ $mynumrows = mysql_numrows($result1);
             $count++;
         }
 
+        $count = 0;
+        while ($count < $mynumrows) {
+        $data3y[$count] = 100.0 * $data2y[$count]/ $data1y[$count];
+            $count++;
+        }
 
 
 // Create the graph. These two calls are always required
@@ -80,6 +86,16 @@ $gbplot = new GroupBarPlot (array($b1plot ,$b2plot));
 
 // ...and add it to the graPH
 $graph->Add( $gbplot);
+
+
+// line plot showing percentage of joining users who proof
+$lplot = new LinePlot ($data3y);
+$lplot->SetColour("blue");
+$lplot->SetWeighColour(2);
+$lplot->SetLegend(_("% of Newly Joined Users who Proofed"));
+
+$graph->AddY2($lplot);
+
 
 
 // Setup the title
