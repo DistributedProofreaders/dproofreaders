@@ -214,7 +214,7 @@ function showMbrHistory($curMbr) {
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>Name? History</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>Last 7 days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>Last 14 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>Last 30 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>Last 60 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>Last 365 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>Lifetime</a></font>";
-	echo "<p><img src='".$GLOBALS['dynstats_url']."/jpgraph_files/mbr_pages_history.php?id=".$curMbr['u_id']."&range=$range' width='600' height='300'></center><br></td></tr>";
+	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/mbr_pages_history.php?id=".$curMbr['u_id']."&range=$range' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
 }
 
