@@ -201,9 +201,10 @@ function team_get_member_count_rank( $team_id )
 }
 
 function showTeamStats($curTeam) {
-	global $teams_P_page_tallyboard;
 
 	$team_id = $curTeam['id'];
+
+	$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
 
 	$snapshot_info =
 		$teams_P_page_tallyboard->get_info_from_latest_snapshot($team_id);
@@ -253,7 +254,6 @@ function showTeamStats($curTeam) {
 
 function showTeamMbrs($curTeam) {
 	global $code_url;
-	global $users_table_with_tallies, $user_P_page_tally_column;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
@@ -320,6 +320,11 @@ function showTeamMbrs($curTeam) {
 
 	$t->column_headers( $header_content_ );
 
+	$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
+
+	list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
+		$users_P_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
+	$users_table_with_tallies = "users $joined_with_user_P_page_tallies";
 
 	$mbrQuery = mysql_query("
 		SELECT *, $user_P_page_tally_column AS current_P_page_tally
