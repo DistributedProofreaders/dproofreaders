@@ -73,7 +73,7 @@ if (!isset($_GET['name']))
 				SELECT COUNT(*)
 				FROM projects
 				WHERE ({$qd['project_selector']})
-					AND state='".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
+					AND state='{$prd->project_waiting_state}'
 			"),0);
 		echo "<td>$current_length</td>\n";
 		if ($user_is_a_sitemanager)
@@ -127,7 +127,7 @@ else
 			FROM_UNIXTIME(modifieddate) as 'Date Last Modified'
 		FROM projects
 		WHERE ($project_selector)
-			AND state='".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
+			AND state='{$prd->project_waiting_state}'
 		ORDER BY modifieddate
 	");
 }
