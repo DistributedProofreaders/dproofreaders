@@ -1,4 +1,5 @@
 <?PHP
+include_once($relPath.'cookiehash.php');
 class userCookie
 {
      var $cookieDomain="";
@@ -6,19 +7,38 @@ class userCookie
 function userCookie()
 {$this->cookieDomain=(substr_count($_SERVER['SERVER_NAME'], ".")) > 0? $_SERVER['SERVER_NAME'] : "";}
 
+function deleteCookie()
+{
+  setcookie("pguser","",time() - 86400,"/",$this->cookieDomain,0);
+}
+
+function checkCookieH()
+{
+  if (!isset($_COOKIE['pguser'])) {return false;}
+  $ccheck=explode("|",$_COOKIE['pguser']);
+  $isChecked=checkCookieHash($ccheck[0],$ccheck[1]);
+  if ($isChecked)
+    {return true;}
+  else
+    {return false;}
+}
+
 function checkCookie()
-     {
-     if (@$_COOKIE['pguser'])
-          {
-          // can only come from a cookie, forged or otherwise
-          $this->userID = $_COOKIE['pguser'];
-          return 1;
-          }
-     else {return 0;}
-     }
+{
+  if (isset($_COOKIE['pguser']) && $this->checkCookieH())
+  {
+    // can only come from a cookie, forged or otherwise
+    $ccheck=explode("|",$_COOKIE['pguser']);
+    $this->userID = $ccheck[0];
+    return 1;
+  }
+  else {return 0;}
+}
 
 function setUserPrefs($userID)
 {
+  if ($this->checkCookieH() || $this->ignoreHash)
+  {
           $db_users="SELECT u_id, u_profile, u_lang, email_updates, 
 u_plist, u_top10, u_neigh, i_prefs, 
 id, manager, postprocessor, team_1, team_2, team_3 
@@ -36,13 +56,22 @@ FROM user_profiles WHERE u_ref='{$u_usersData['u_id']}' AND id='{$u_usersData['u
           $userPrefs=implode("|",$u_usersData)."|".implode("|",$uData)."|0";
           $cookieName=md5($userID."_prefs");
           setcookie("$cookieName",$userPrefs,time() + 86400,"/",$this->cookieDomain,0);
+    $this->ignoreHash=0;
+  }
+  else 
+  {
+    $this->deleteCookie();
+    echo "Database access error 1634: Preference Write Error.";
+  }
 }
 
 function setCookie($userID)
-     {
-          setcookie("pguser",$userID,time()+86400,"/",$this->cookieDomain,0);
-          $this->setUserPrefs($userID);
-     }
+{
+  $cookieVal=$userID.'|'.getCookieHash($userID);
+  setcookie("pguser","$cookieVal",time()+86400,"/",$this->cookieDomain,0);
+  $this->ignoreHash=1;
+  $this->setUserPrefs($userID);
+}
 
 function setTempPrefs($tempPrefs,$userID)
 {
@@ -56,6 +85,8 @@ function deleteOldPrefs($userID)
 
 function getUserPrefs($userID)
 {
+     if ($this->checkCookieH())
+     {
 $cookieName=md5($userID."_prefs");
 @$cPrefs=explode("|",$_COOKIE[$cookieName]);
 $uPrefs=array();
@@ -103,10 +134,9 @@ $i=0;
 
 @$uPrefs['prefschanged']=$cPrefs[$i++];
 return $uPrefs;
-}
-function deleteCookie()
-     {
-     setcookie("pguser","",time() - 86400,"/",$this->cookieDomain,0);
      }
+else {return false;}
+}
+
 }
 ?>
