@@ -71,19 +71,19 @@ theme("Personal Page for $pguser", "header");
 		echo _("post processing"); 
 		echo "</a> "; 
 		echo _("phase of Distributed Proofreaders!  Currently there are"); 
-		echo "<b>".$numprojects."</b>";
+		echo "<b>".$numprojects."</b>"
 		echo _("projects waiting."); 
 
 		if (($yourPPprojects + $yourPPVprojects)  > 0) { 
 			echo "  ". _("You currently have") . " ";
 			if ($yourPPprojects > 0) {
-				echo " <b>".$yourPPprojects."</b>". _("projects checked out for PPing");
+				echo " <b>".$yourPPprojects."</b> ". _("projects checked out for PPing");
 				if ($yourPPVprojects > 0) {
 					echo " ". _("and");
 				} 
 			}
 			if ($yourPPVprojects > 0) {
-				echo " <b>".$yourPPVprojects."</b>". _("projects checked out for PPVing");
+				echo " <b>".$yourPPVprojects."</b> ". _("projects checked out for PPVing");
 			} 
 			echo ".";
 		}
@@ -101,7 +101,7 @@ theme("Personal Page for $pguser", "header");
 
 
 		echo "<font face=".$theme['font_mainbody']."><b>";
-		echo _("Random Rule");
+		echo _(Random Rule);
 		echo "</b></font><br>";
 
 
