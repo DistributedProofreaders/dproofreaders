@@ -37,12 +37,18 @@ echo "</a>\n";
 
 function echo_download_zip( $projectid, $link_text, $discriminator )
 {
-    global $projects_url;
+    global $projects_url, $projects_dir;
+
+    $p = "$projectid/$projectid$discriminator.zip";
+
+    $filesize_kb = round( filesize( "$projects_dir/$p") / 1024 );
 
     echo "<li>";
-    echo "<a href='$projects_url/$projectid/$projectid$discriminator.zip'>";
+    echo "<a href='$projects_url/$p'>";
     echo $link_text;
-    echo "</a>\n";
+    echo "</a>";
+    echo " ($filesize_kb kb)";
+    echo "\n";
 }
 
 echo_download_zip( $projectid, _("Download Zipped Images"), 'images' );
