@@ -11,6 +11,56 @@ include_once('projectmgr_select.inc');
 include_once($relPath.'f_project_states.inc');
 theme("Project Managers", "header");
 
+function echo_cells_for_round($round_num)
+{
+	global $res, $rownum, $userP, $projectid, $fileid;
+
+	if ($round_num == 1)
+	{
+		$R_time_field_name = 'round1_time';
+		$R_user_field_name = 'round1_user';
+		$R_save_state = SAVE_FIRST;
+	}
+	elseif ($round_num == 2)
+	{
+		$R_time_field_name = 'round2_time';
+		$R_user_field_name = 'round2_user';
+		$R_save_state = SAVE_SECOND;
+	}
+	else
+	{
+		assert(FALSE);
+	}
+
+	$R_time = mysql_result($res, $rownum, $R_time_field_name);
+	$R_time_str = date("M j H:i", $R_time);
+
+	$R_username = mysql_result($res, $rownum, $R_user_field_name);
+	$R_ures = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$R_username'");
+	if (mysql_num_rows($R_ures) == 0) {
+		$R_real_name = $R_username;
+		$R_email = "";
+		$R_pages_completed = 0;
+	} else {
+		$R_real_name = mysql_result($R_ures, 0, "real_name");
+		$R_email = mysql_result($R_ures, 0, "email");
+		$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
+	}
+
+	if ($userP['sitemanager'] == "yes") {
+		$R_display_name = $R_real_name;
+	} else {
+		$R_display_name = $R_username;
+	}
+
+	echo "<td>$R_time_str</td>\n";
+	echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
+	echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>Text</a></td>\n";
+	echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=$R_save_state>Clear</a></td>\n";
+}
+
+// -----------------------------------------------------------------------------
+
 //If they are not a manager let them know with a link back to the Personal Page
 	if ($userP['manager'] != "yes") {
 		echo "<P>You are not listed as a project manager. Please contact the <a href='mailto:$site_manager_email_addr'>site manager</A> about resolving this problem.";
@@ -64,167 +114,178 @@ theme("Project Managers", "header");
 		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name</font></b> <font color='".$theme['color_headerbar_font']."'>($projectid)</font></td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
-	
-		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE) {
+
+		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
+		{
 			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_files.php?project=$projectid'>";
 			if ($userP['sitemanager'] == "yes") {
-				echo "Add All Text From projects Folder"; } else { echo "Add All Text/Images from dpscans Account";
+				echo "Add All Text From projects Folder";
+			} else {
+				echo "Add All Text/Images from dpscans Account";
 			}
-			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=$projectid'>Delete All Text</a></td></tr></table>";
-			echo "<h3>Master Files</h3>";
-			echo "<table border=1></tr>";
-			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
-                	$counter = 1;
-                	$rownum = 0;
-                	$path = "$projects_dir/$projectid/";
-			while ($rownum < $projectinfo->total_pages) {
-				$imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
-				$date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
-				$fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
-                    		$master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
-		    		$page_state = mysql_result($projectinfo->total_rows, $rownum, "state");
-                    		if (file_exists($path.$imagename)) {
-                       			$imagesize = filesize(realpath($path.$imagename));
-                       			$bgcolor = "#FFFFFF";
-                    		} else {
-                       			$imagesize = 0;
-                       			$bgcolor = "#FF0000";
-                    		}
-                    		if ($rownum % 2 ) {
-                			$trcolor = $theme['color_main_bg'];
-                		} else {
-                			$trcolor = $theme['color_navbar_bg'];
-            			}
-                    		$date_txt = date("M j h:i A", $date);
-                    		echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='$bgcolor'><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td bgcolor=$bgcolor>$imagesize<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td><td>";
-		     		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		     			echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>";
-		     		} else {
-		     			echo "&nbsp;</td></tr>";
-		     		}
-                    		$counter++;
-                    		$rownum++;
-                	}
-			echo "</table>";
-		} elseif ($state == PROJ_PROOF_FIRST_AVAILABLE || $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state == PROJ_PROOF_FIRST_BAD_PROJECT || $state == PROJ_PROOF_FIRST_VERIFY || $state == PROJ_PROOF_FIRST_COMPLETE) {
-			echo "</table><h3>First-Round Files:</h3>";
-                	echo "<table border=1></tr>";
-                	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
-                	$counter = 1;
-                	$rownum = 0;
-                	while ($rownum < $projectinfo->done1_pages) {
-                    		$imagename = mysql_result($projectinfo->done1_rows, $rownum, "image");
-                    		$date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
-                    		$name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
-                    		$fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
-		    		$page_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
-				$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$name'");
-				if (mysql_num_rows($users) == 0) {
-                        		$real_name = $name;
-					$email = "";
-                        		$pagescompleted = 0;
-                    		} else {
-                        		$email = mysql_result($users, 0, "email");
-                        		$real_name = mysql_result($users, 0, "real_name");
-                        		$pagescompleted = mysql_result($users, 0, "pagescompleted");
-                    		}
-                    		if ($rownum % 2 ) {
-                			$trcolor = $theme['color_main_bg'];
-                		} else {
-                			$trcolor = $theme['color_navbar_bg'];
-            			}
-                    	$date_txt = date("M j h:i A" , $date);
-                    	echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
-                    	if ($userP['sitemanager'] == "yes") { 
-                    		echo $real_name; 
-                    	} else { 
-                    		echo $name; 
-                    	}
-                    	echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>";
+			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=$projectid'>Delete All Text</a></td></tr>";
+			$something = 0;
+		}
+		elseif ( $state == PROJ_PROOF_FIRST_AVAILABLE
+			|| $state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE
+			|| $state == PROJ_PROOF_FIRST_BAD_PROJECT
+			|| $state == PROJ_PROOF_FIRST_VERIFY
+			|| $state == PROJ_PROOF_FIRST_COMPLETE )
+		{
+			$something = 1;
+		}
+		else
+		{
+			$something = 2;
+		}
+		echo "</table>";
+
+		$inRound=projectStateRound($state);
+
+		$show_image_size = 1;
+		$show_master_size = 1;
+		$show_delete = ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND');
+		$upload_colspan = 2 + $show_image_size + $show_master_size;
+
+		echo "<h3>Per-Page Info</h3>\n";
+
+		echo "<table border=1>\n";
+
+		// Top header row
+		{
+			echo "<tr>\n";
+			echo "    <td align='center' colspan='$upload_colspan'>Upload</td>\n";
+			echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
+			echo "    <td align='center' colspan='4'>Round 1</td>\n";
+			echo "    <td align='center' colspan='4'>Round 2</td>\n";
+			echo "</tr>\n";
+		}
+
+		// Bottom header row
+		{
+			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>\n";
+
+			$td_start = "<td align='center'><font color='{$theme['color_headerbar_font']}'>";
+			$td_end   = "</font></td>\n";
+
+			echo "{$td_start}Image{$td_end}";
+			if ($show_image_size)
+			{
+				echo "{$td_start}Size{$td_end}";
+			}
+
+			echo "{$td_start}Master Text{$td_end}";
+			if ($show_master_size)
+			{
+				echo "{$td_start}Size{$td_end}";
+			}
+
+			echo "{$td_start}Page State{$td_end}";
+
+			echo "{$td_start}Date{$td_end}";
+			echo "{$td_start}User{$td_end}";
+			echo "{$td_start}Text{$td_end}";
+			echo "{$td_start}Clear{$td_end}";
+
+			echo "{$td_start}Date{$td_end}";
+			echo "{$td_start}User{$td_end}";
+			echo "{$td_start}Text{$td_end}";
+			echo "{$td_start}Clear{$td_end}";
+
+			echo "{$td_start}Bad Page{$td_end}";
+
+			if ($show_delete) {
+				echo "{$td_start}Delete{$td_end}";
+			}
+
+			echo "</tr>";
+		}
+
+		$path = "$projects_dir/$projectid/";
+
+		$fields_to_get = 'fileid,image,state,round1_time,round1_user,round2_time,round2_user';
+		if ($show_master_size)
+		{
+			$fields_to_get .= ',master_text';
+		}
+
+		$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
+		$num_rows = mysql_num_rows($res);
+
+		for ( $rownum=0; $rownum < $num_rows; $rownum++ )
+		{
+			$fileid = mysql_result($res, $rownum, "fileid");
+
+			if ($rownum % 2 ) {
+				$row_color = $theme['color_main_bg'];
+			} else {
+				$row_color = $theme['color_navbar_bg'];
+			}
+			echo "<tr bgcolor='$row_color'>";
+
+			// --------------------------------------------
+			// Upload Block
+
+			// Image
+			$imagename = mysql_result($res, $rownum, "image");
+			if (file_exists($path.$imagename)) {
+				$bgcolor = $row_color;
+				if ($show_image_size) $imagesize = filesize(realpath($path.$imagename));
+			} else {
+				$bgcolor = "#FF0000";
+				if ($show_image_size) $imagesize = 0;
+			}
+			echo "<td bgcolor='$bgcolor'><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
+
+			// Image Size
+			if ($show_image_size)
+			{
+				echo "<td bgcolor='$bgcolor'>$imagesize";
+			}
+
+			// Master Text
+			echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>\n";
+
+			// Master Text Size
+			if ($show_master_size)
+			{
+				$master_text = mysql_result($res, $rownum, "master_text");
+				echo "<td>".strlen($master_text)."</td>\n";
+			}
+
+			// --------------------------------------------
+
+			// Page State
+			$page_state = mysql_result($res, $rownum, "state");
+			echo "<td>$page_state</td>\n";
+
+			// --------------------------------------------
+
+			echo_cells_for_round(1);
+
+			echo_cells_for_round(2);
+
+			// --------------------------------------------
+
+			// Bad Page
+			echo "<td>";
 			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		       		echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>"; 
-		    	} else { 	                
-		       		echo "&nbsp;</td></tr>"; 
-		    	} 
-			$counter++;
-                    	$rownum++;
-                	}
-			echo "</table>";
-		} else {
-                	echo "</table><h3>Second-Round Files:</h3>";
-                	$lastfilename = "0";
-                	echo "<table border=1>\n";
-                	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 2 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 2 Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Round 1 Proofed By</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td>";
-                	$inRound=projectStateRound($state);
-	        	if ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') {
-	        		echo "<td><font color='".$theme['color_headerbar_font']."'>Delete</font></td>";
-	        	}
-        		echo "<td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>\n";
-			$counter = 1;
-                	$rownum = 0;
-	                while ($rownum < $projectinfo->done2_pages) {
-        	        	$imagename = mysql_result($projectinfo->done2_rows, $rownum, "image");
-                	    	$date = mysql_result($projectinfo->done2_rows, $rownum, "round2_time");
-                    		$round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
-                    		$round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
-                    		$fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
-		    		$page_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
-                    		$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round2_user'");
-                    		if (mysql_num_rows($users) == 0) {
-                        		$real_name = $round2_user;
-					$email = "";
-                        		$pagescompleted = 0;
-                    		} else {
-                        		$email = mysql_result($users, 0, "email");
-                        		$real_name = mysql_result($users, 0, "real_name");
-                        		$pagescompleted = mysql_result($users, 0, "pagescompleted");
-                    		}
-				$users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round1_user'");
-                    		if (mysql_num_rows($users) == 0) {
-                        		$oldreal_name = $round1_user;
-                        		$oldemail = "";
-                        		$oldpagescompleted = 0;
-                    		} else {
-                        		$oldemail = mysql_result($users, 0, "email");
-                        		$oldreal_name = mysql_result($users, 0, "real_name");
-                        		$oldpagescompleted = mysql_result($users, 0, "pagescompleted");
-                    		}
-                    		if ($rownum % 2 ) {
-                			$trcolor = $theme['color_main_bg'];
-                		} else {
-                			$trcolor = $theme['color_navbar_bg'];
-            			}
-                    		$date_txt = date("M j h:i A", $date);
-	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
-                    		if ($userP['sitemanager'] == "yes") { 
-                    			echo $real_name; 
-                    		} else { 
-                    			echo $round2_user;
-                    		}
-                    		echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>";
-                    		if ($userP['sitemanager'] == "yes") {
-                    			echo $oldreal_name; 
-                    		} else { 
-                    			echo $round1_user; 
-                    		}
-                    		echo "</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>";
-		 		$roundID=projectStateRound($state);
-                    		if ($roundID=='FIRST' || $roundID=='SECOND') {
-                    			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"; 
-                    		} else { 
-                    			echo "<td>&nbsp;</td>";
-                    		}
-                    		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		        		echo "<td><center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>";
-		    		} else { 	                
-		        		echo "<td>&nbsp;</td></tr>";
-		    		} 
-				$counter++;
-        			$lastfilename = $imagename;
-        			$rownum++;
+				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center>";
+			} else {
+				echo "&nbsp;";
 			}
-			echo "</table>";
-        	}
+			echo "</td>\n";
+
+			// Delete
+			if ($show_delete)
+			{
+				echo "<td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td>\n";
+			}
+
+			echo "</tr>";
+		}
+		echo "</table>";
+
         	echo "</center>";
 	} else {
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
