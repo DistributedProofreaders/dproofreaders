@@ -61,10 +61,14 @@ function page_tallies_add( $tally_name, $username, $amount )
     $user_tallyboard = new TallyBoard( $tally_name, 'U' );
     $user_tallyboard->add_to_tally( $u_id, $amount );
 
+    // update page tally for site
+    $site_tallyboard = new TallyBoard( $tally_name, 'S' );
+    $site_tallyboard->add_to_tally( 1, $amount );
+
     // update page tally for each team
     $team_tallyboard = new TallyBoard( $tally_name, 'T' );
     // (The 'array_unique' shouldn't be necessary, but just in case.)
-    foreach (array_unique(array(1, $team_1, $team_2, $team_3)) as $team_id)
+    foreach (array_unique(array($team_1, $team_2, $team_3)) as $team_id)
     {
         if ( $team_id != 0 )
         {
