@@ -245,6 +245,31 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
+function Page_reclaim( $projectid, $fileid, $round_number )
+{
+    global $writeBIGtable;
+
+    if ( $round_number == 1 )
+    {
+        $newstate = AVAIL_FIRST;
+        $timetype = "round1_time";
+    }
+    else if ( $round_number == 2 )
+    {
+        $newstate = AVAIL_SECOND;
+        $timetype = "round2_time";
+    }
+
+    $result = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+
+    if ($writeBIGtable)
+    {
+        $result = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
 {
     global $writeBIGtable;
