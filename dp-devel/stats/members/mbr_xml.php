@@ -39,6 +39,16 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $rankArray = mbrRank($curMbr['username']);
 $bestDay = bestDayEver($curMbr['u_id']);
 
+$now = time();
+$daysInExistence = number_format(floor(($now - $curMbr['date_created'])/86400));
+if ($daysInExistence > 0) {
+	        $daily_Average = $curMbr['pagescompleted']/$daysInExistence;
+} else {
+		$daily_Average = 0;
+}
+
+	
+
 $data = '';
 
 //User info portion of $data
@@ -54,7 +64,7 @@ if ($curMbr['u_privacy'] != true)
 				<pages>".$bestDay['count']."</pages>
 				<date>".$bestDay['time']."</date>
 			</bestdayever>
-			<dailyaverage>".number_format(dailyAverage($curMbr['u_id']))."</dailyaverage>
+			<dailyaverage>".number_format($daily_Average)."</dailyaverage>
 			<location>".xmlencode($curMbr['user_from'])."</location>
 			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
 			<interests>".xmlencode($curMbr['user_interests'])."</interests>
