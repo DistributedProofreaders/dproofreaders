@@ -111,58 +111,18 @@ if (0)
 {
     // For each possible project state, create a project in that state.
     include($relPath.'project_states.inc');
-    $state_constant_names = array(
-	'PROJ_NEW',
-	'PROJ_NEW_WAITING_APPROVAL',
-	'PROJ_NEW_UNAPPROVED',
-	'PROJ_NEW_APPROVED',
-	'PROJ_NEW_FILE_UPLOADED',
-	'PROJ_NEW_METADATA_FIRST',
-	'PROJ_NEW_METADATA_BAD',
-	'PROJ_NEW_METADATA_SECOND',
-	'PROJ_NEW_PREPROCESSING',
-	'PROJ_NEW_PENDING_PM',
-
-	'PROJ_PROOF_FIRST_BAD_PROJECT',
-	'PROJ_PROOF_FIRST_UNAVAILABLE',
-	'PROJ_PROOF_FIRST_WAITING_FOR_RELEASE',
-	'PROJ_PROOF_FIRST_AVAILABLE',
-	'PROJ_PROOF_FIRST_COMPLETE',
-
-	'PROJ_PROOF_SECOND_BAD_PROJECT',
-	'PROJ_PROOF_SECOND_UNAVAILABLE',
-	'PROJ_PROOF_SECOND_WAITING_FOR_RELEASE',
-	'PROJ_PROOF_SECOND_AVAILABLE',
-	'PROJ_PROOF_SECOND_COMPLETE',
-
-	'PROJ_POST_FIRST_UNAVAILABLE',
-	'PROJ_POST_FIRST_AVAILABLE',
-	'PROJ_POST_FIRST_CHECKED_OUT',
-	'PROJ_POST_SECOND_AVAILABLE',
-	'PROJ_POST_SECOND_CHECKED_OUT',
-	'PROJ_POST_COMPLETE',
-
-	'PROJ_SUBMIT_PG_POSTED',
-
-	'PROJ_CORRECT_AVAILABLE',
-	'PROJ_CORRECT_CHECKED_OUT',
-
-	'PROJ_COMPLETE',
-	'PROJ_DELETE',
-    );
     $i = 0;
-    foreach( $state_constant_names as $state_constant_name )
+    foreach ( $project_state_label_ as $project_state => $label )
     {
 	$i += 1;
-	$state_value = constant($state_constant_name);
 	mysql_query("
 	    INSERT INTO projects
 	    SET
 		projectid='jmd_$i',
-		nameofwork='$state_constant_name',
+		nameofwork='ADHOC: $label',
 		authorsname='anon',
 		username='jmdyck',
-		state='$state_value'
+		state='$project_state'
 	") or die(mysql_error());
     }
 }
@@ -259,4 +219,5 @@ if (0)
 	ORDER BY modifieddate
     ");
 }
+// 
 ?>
