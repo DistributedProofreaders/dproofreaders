@@ -1,15 +1,20 @@
 <?
 //A file full of member statistic functions
 
+
+
 function showProjProfile($curProj) {
 	global $theme;
+
+	$relPath="../../pinc/";
+
 	include_once($relPath.'project_states_text.inc');
 
         $avatar = $GLOBALS['projects_url']."/".$curProj['projectid']."/001.png";
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='".$curProj['nameofwork']."'></td>";
+	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='".$curProj['nameofwork']."' width = '74' height = '80'></td>";
 
 // Title of Book
 
@@ -46,6 +51,8 @@ function showProjProfile($curProj) {
 
 function activityCenter($curProj) {
 	global $theme;
+
+	$relPath="../../pinc/";
 
 	include($relPath.'page_states.inc');
 	include($relPath.'f_project_states.inc');

@@ -7,6 +7,7 @@ include($relPath.'bookpages.inc');
 include_once($relPath.'project_states.inc');
 include($relPath.'showtexts.inc');
 
+
 $type = $_GET['type'];
 $etext_limit = $_GET['etext_limit'];
 $type = $_GET['type'];
