@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Dump (to stdout) the SQL commands to create DP tables.
+
+db_user=<<DB_USER>>
+db_password=<<DB_PASSWORD>>
+db_name=<<DB_NAME>>
+code_dir=<<CODE_URL>>
+
+connection_options="--user=$db_user --password=$db_password"
+
+get_table_names()
+{
+    if false; then
+        mysql $connection_options -D $db_name \
+            --skip-column-names --batch --execute='show tables' |
+        grep -v \
+            -e '^projectID' \
+            -e active_users \
+            -e begin_users \
+            -e end_users \
+            -e old_phpbb_users \
+            -e phpwiki \
+            -e projectstemp \
+            -e ranks \
+            -e states |
+        sort
+    else
+        find $code_dir -type f \
+            \( -name '*.php' -o -name '*.inc' -o -name '*.pl' \) |
+        xargs grep -E '(FROM|INTO) ' |
+        sed -n -e'
+            s/.*\<FROM  *//
+            s/.*\<INTO  *//
+            s/^\([a-z_0-9][a-z_0-9]*\).*/\1/p
+            s/^`\([^`]*\)`.*/\1/p
+        ' |
+        grep -v -x -e active_page_counts -e cur -e old |
+            # active_page_counts is a temporary table.
+            # cur and old are tables referenced in DifferenceEngine.php,
+            # by code that we presumably don't execute.
+        sort -u
+    fi
+}
+
+tables=`get_table_names`
+
+if true; then
+    mysqldump $connection_options \
+        --no-data --quote-names \
+        $db_name $tables |
+    # Make it look more like the dump from phpMyAdmin:
+    sed '
+        s/^--/#/
+        s/for table .\(.*\)./for table \`\1\`/
+        /^# Table structure/ a\
+#\
+# Creation:\
+# Last update:
+        /^) TYPE=/ a\
+# --------------------------------------------------------
+        '
+fi
+# vim: sw=4 ts=4 expandtab ai
