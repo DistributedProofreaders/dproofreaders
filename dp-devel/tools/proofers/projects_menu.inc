@@ -5,17 +5,21 @@
 if ($userP['i_prefs']==0)
 {
   echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\" colspan=\"2\">";
-  echo "<a href=\"../../userprefs.php?project=$project&prooflevel=$prooflevel\">Please set Interface Preferences before proofing</A>";
+  echo "<a href=\"../../userprefs.php?project=$project&amp;prooflevel=$prooflevel\">Please set Interface Preferences before proofing</A>";
   echo "</td>";
 }
 else {
   if ($projectinfo->availablepages > 0) {
   $pURL="proof.php?project=".$project."&amp;prooflevel=".$prooflevel;
-  echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\" colspan=\"2\">";
+  echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\">";
   if ($userP['i_newwin']==0)
   {echo "<a href=\"$pURL\">";}
   else {echo "<a href=\"#\" onclick=\"newProofWin('$pURL')\">";}
   echo "Start Proofing</a></td>";
+
+  echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\">";
+  echo "<a href=\"../../userprefs.php?project=$project&amp;prooflevel=$prooflevel\">Interface Preferences</A>";
+  echo "</td>";
      }
   else {
   echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\"></td>";
