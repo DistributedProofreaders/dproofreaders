@@ -11,7 +11,7 @@ function echo_page_table( $projectid )
 {
 	global $theme, $projects_dir;
 
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
 
 	// test
 	$can_edit = FALSE;
@@ -188,7 +188,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 {
 	global $userP, $forums_url;
 
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
+	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
 
 	// test
 	$can_edit = FALSE;
