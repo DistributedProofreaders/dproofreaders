@@ -16,7 +16,7 @@ if (mysql_num_rows($result) == 1) {
     if (md5($password) == $user_password) {
         //set cookie if not already set
         if (!isset($pguser)) {
-            setcookie("pguser",$username,time()+86400,"/","texts01.archive.org",0);
+            setcookie("pguser",$username,time()+86400,"/",$_SERVER['SERVER_NAME'],0);
         }
 
         // calculate date
