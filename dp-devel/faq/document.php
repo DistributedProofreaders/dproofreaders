@@ -232,6 +232,10 @@ theme('Proofreading Guidelines','header');
    in these Guidelines, so follow them. (This is also where the Project Manager may give
    you interesting tidbits of information about the author or the project.)
 </p>
+<p><em>Please also read the Project Thread</em>: The Project Manager may clarify project-specific
+   guidelines here, and it is often used by proofreaders to alert other proofreaders to recurring
+   issues within the project and how they can best be addressed.
+</p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
    see how other proofreaders have made changes.
    <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217">This Forum thread</a>
@@ -460,13 +464,6 @@ theme('Proofreading Guidelines','header');
     may a boy sit on the public bridge and catch trout from that<br>
     brook? If the road should be abandoned or lifted, to whom<br>
     would the use of the land go?<br>#/<br>
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-    <br>
     <br>
     <br>
     <br>
@@ -1019,13 +1016,15 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr>
       <td valign="top">
-      Proofreaders may be tickled pink to read <i>Ticklishness</i>,<br>
-      <i>Tickling and Laughter</i>, <i>Remarks on Tickling and Laughter</i><br>
+      Proofreaders may be tickled pink to read<br>
+      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
+      <i>Remarks on Tickling and Laughter</i><br>
       and <i>Ticklishness, Laughter and Humour</i>.
       </td>
       <td valign="top">
-      <tt>Proofreaders may be tickled pink to read &lt;i&gt;Ticklishness&lt;/i&gt;,<br>
-      &lt;i&gt;Tickling and Laughter&lt;/i&gt;, &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
+      <tt>Proofreaders may be tickled pink to read<br>
+      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
+      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
       and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
       </td>
     </tr>
@@ -1173,7 +1172,7 @@ theme('Proofreading Guidelines','header');
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
   </ol>
-<p>Note: If a em-dash appears at the start or end of a line of your OCR'd text, join it with the
+<p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
    other line so that there are no spaces or line breaks around it. Only if the
    author used an em-dash to start or end the paragraph or line of poetry or dialog
    should you leave it at the start or end of a line. See the examples below.
@@ -1201,16 +1200,16 @@ theme('Proofreading Guidelines','header');
       <td> Hyphen</td>
     </tr>
     <tr>
-      <td valign="top">Among the discoveries which the Crus-<br>
-        aders made and brought home with them one of the</td>
-      <td valign="top"><tt>Among the discoveries which the Crusaders<br>
-        made and brought home with them one of the</tt></td>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
       <td> Hyphen</td>
     </tr>
     <tr>
-      <td valign="top">three great factors which mold char-<br>
+      <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>three great factors which mold character--environment,<br>
+      <td valign="top"><tt>factors which mold character--environment,<br>
         training and heritage,</tt>
       <td> Hyphen</td>
     </tr>
@@ -1235,21 +1234,21 @@ theme('Proofreading Guidelines','header');
       <td>En-dash</td>
     </tr>
     <tr>
-      <td valign="top">I am hurt;&mdash;A plague on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague on both your houses!--I am dead.</tt></td>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
       <td>Em-dash</td>
     </tr>
     <tr>
-      <td valign="top">taste sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What commonly pass for</td>
-      <td valign="top"><tt>taste sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What commonly pass for</tt></td>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes.</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
       <td>Em-dash</td>
     </tr>
     <tr>
-      <td valign="top">Of the four senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
         with which we are here concerned,</td>
-      <td valign="top"><tt>Of the four senses--touch, smell, hearing, and sight--with<br>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
         which we are here concerned,</tt></td>
       <td>Em-dash</td>
     </tr>
@@ -1701,6 +1700,9 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 <p>A "thought break" may represent a change of scene or subject, a lapse in time or a bit
    of suspense. This is intended by the author, so we preserve them by putting a blank line,
    5 <tt>*</tt>'s indented 7 spaces and then 7 spaces apart, as shown in the example.
+</p>
+<p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
+   <a href="#chap_head">Chapter Headers</a>, there is no need to add a "thought break" marker.
 </p>
 <p>The proofreading interface has the "thought break" marker available to cut and paste.
 </p>
