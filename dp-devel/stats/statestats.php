@@ -7,6 +7,7 @@ $db_Connection=new dbConnect();
 
 
 
+
 // display project count progress - here for the moment, can be moved to stats bar later
 $cday = date('d'); $cmonth = date('m'); $cyear = date('Y');
 $today = date('Y-m-d');
@@ -24,7 +25,6 @@ if ($cday != 1) {
  	$start_date = $temp."-12-01";
     }
 }
-echo "Today is $today, start is $start_date, descrip is $descrip  <br><br>";
 
 
 $created = state_change_since ( "
@@ -55,11 +55,6 @@ $FinPP = state_change_since ( "
 
 
 echo "<b>$FinPP</b> "._("projects have finished PPing")." $descrip<br>";
-
-
-
-
-
 
 
 
@@ -110,6 +105,7 @@ $FinPP = state_change_between_dates("
 				OR state LIKE 'proj_post_second%')
 				",'2003-11-01','2003-12-01');
 echo "<b>$FinPP</b> "._("projects were PPd")." $descrip<br>";
+
 
 
 ?>
