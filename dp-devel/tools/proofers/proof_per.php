@@ -86,7 +86,7 @@ include($relPath.'page_states.inc');
         $yourrank = 1;
     }
 
-echo "User Profile: <b> <a href=\"../../userprefs.php\">{$userP['profilename']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+echo "\r\nUser Profile: <a href=\"../../userprefs.php\">{$userP['profilename']}</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 if ($userP['prefschanged']==1)
 {echo "<a href=\"../../userprefs.php\">Save current changes</a>";}
 else {
@@ -94,31 +94,16 @@ if ($userP['i_prefs']==1)
 {echo "<a href=\"../../userprefs.php\">View current profile</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
-echo "</b><br>";
-echo "Teams: <b> ";
-  echo "<a href=\"../../userteams.php?tid=1\">All Users Team</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-
-  $teamQ1="SELECT teamname FROM user_teams WHERE id='{$userP['team_1']}'";
-  $teamQ2="SELECT teamname FROM user_teams WHERE id='{$userP['team_2']}'";
-  $teamQ3="SELECT teamname FROM user_teams WHERE id='{$userP['team_3']}'";
-  if ($userP['team_1']!=0)
-  {
-    $teamR=mysql_query($teamQ1);
-    echo "<a href=\"../../userteams.php?tid={$userP['team_1']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-  }
-  if ($userP['team_2']!=0)
-  {
-    $teamR=mysql_query($teamQ2);
-    echo "<a href=\"../../userteams.php?tid={$userP['team_2']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-  }
-  if ($userP['team_3']!=0)
-  {
-    $teamR=mysql_query($teamQ3);
-    echo "<a href=\"../../userteams.php?tid={$userP['team_3']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-  }
-
-echo "<a href=\"../../userteams.php\">View All Teams</a>";
-echo "</b><br>";
+echo "<p>";
+echo "\r\n<b>Your Teams: </b>";
+  echo "<table><tr><td>";
+  echo "<tr><td><a \r\nhref=\"../../userteams.php?tid=1\">Distributed Proofreaders</a></td></tr>";
+    $teamQuery="SELECT teamname,id FROM user_teams WHERE id='{$userP['team_1']}' OR  id='{$userP['team_2']}' OR  id='{$userP['team_3']}'";
+    $teamRes=mysql_query($teamQuery);
+      while($row = mysql_fetch_assoc($teamRes))
+        {echo "<tr><td><a \r\nhref=\"../../userteams.php?tid={$row['id']}\">{$row['teamname']}</a></td></tr>";}
+echo "<tr><td><a \r\nhref=\"../../userteams.php\">View All Teams</a></td></tr>";
+echo "</table><br>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {

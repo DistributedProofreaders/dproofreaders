@@ -31,17 +31,18 @@ function unstripAllString($ttext,$sType)
 
 function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tmembers,$tpages,$ttime,$tcreator,$ownerName,$tpreview)
   {
-    echo "<table id=\"teamtabletop\" border=\"1\" cellpadding=\"10\" width=\"650\">".
-      "<tr><td align=\"center\">";
-    if ($tavatar!='0')
-      {"<img src=\"./users/teams/icons/$tavatar\" width=\"100\" height=\"100\" alt=\"$tname\">";}
+    echo "<table \r\nid=\"teamtabletop\" border=\"1\" cellpadding=\"10\" width=\"650\">".
+      "<tr><td \r\nalign=\"center\">";
+
+    if (strcmp($tavatar,0)!=0)
+      {echo "<img \r\nsrc=\"./users/teams/icons/$tavatar\" width=\"100\" height=\"100\" alt=\"".strip_tags($tname)."\">";}
     echo "</td>".
-      "</td><td align=\"center\"><b>".stripslashes($tname)."</b>".
+      "</td><td \r\nalign=\"center\"><b>".stripslashes($tname)."</b>".
       "<p>Created: ".date("l, F jS, Y \a\\t g:i:sA",$ttime);
     echo "</td></tr></table><br>";
-    echo "<table id=\"teamtable\" border=\"1\" cellpadding=\"10\" width=\"650\">";
-    echo "<tr><td colspan=\"2\" align=\"center\"><strong>Description</strong>";
-    echo "</td></tr><tr><td colspan=\"2\">".
+    echo "<table \r\nid=\"teamtable\" border=\"1\" cellpadding=\"10\" width=\"650\">";
+    echo "<tr><td \r\ncolspan=\"2\" align=\"center\"><strong>Description</strong>";
+    echo "</td></tr><tr><td \r\ncolspan=\"2\">".
       stripslashes($ttext);
     echo "</td></tr><tr><td>".
       "Created by: <b>$tcreator</b>";
@@ -49,7 +50,7 @@ function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tme
       "Owned by: <b>$ownerName</b>";
     // if owner, let them edit
       if ($ownerName==$pguser && $tpreview==0)
-        {echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"userteams.php?etid=$tid\">Edit</a>";}
+        {echo "&nbsp;&nbsp;&nbsp;&nbsp;<a \r\nhref=\"userteams.php?etid=$tid\">Edit</a>";}
     echo "</td></tr><tr><td>".
       "Number of Members: <b>$tmembers</b>";
     echo "</td><td>".
@@ -57,9 +58,9 @@ function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tme
   // end display
     if ($tpreview ==0)
       {
-        echo "</td></tr><tr><td align=\"left\">".
+        echo "</td></tr><tr><td \r\nalign=\"left\">".
           "<b><a href=\"userteams.php?tstart=$tstart\">View Teams</a>";
-        echo "</td><td align=\"right\">";
+        echo "</td><td \r\nalign=\"right\">";
         if ($tid!=1 && $userP['team_1']!=$tid && $userP['team_2']!=$tid && $userP['team_3']!=$tid)
           {echo "<a href=\"userteams.php?jtid=$tid\">Join</a></b>";}
         else if ($tid !=1)
