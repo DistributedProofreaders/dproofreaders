@@ -604,6 +604,9 @@ function save_proofreading_tab() {
     $prefs_query.=" WHERE u_ref='{$userP['u_id']}' AND id='{$userP['u_profile']}'";
   }
 
+  $result = mysql_query($prefs_query);
+  echo mysql_error();
+
   // set users values
   /*
     u_plist is "Show projects from XXX round(s)"
@@ -616,9 +619,6 @@ function save_proofreading_tab() {
   $users_query .= " WHERE u_id=$uid AND username='$pguser'";
   $result = mysql_query($users_query);
 
-  echo mysql_error();
-
-  $result = mysql_query($prefs_query);
   echo mysql_error();
 
   $userSettings->set_boolean('hide_special_colors', $show_special_colors=='no');
