@@ -55,7 +55,7 @@ $graph->xaxis->title->Set("");
 $graph->yaxis->title->Set('Pages');
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set("Pages Done Per Day for Current Month");
+$graph->title->Set("Pages Done Per Day for Last Month");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
