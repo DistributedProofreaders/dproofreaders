@@ -26,7 +26,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.7, generated August 22, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.7, generated August 31, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="guidelines_francaises.html">in French</a> /
@@ -79,14 +79,15 @@ theme('Proofreading Guidelines','header');
         <li><a href="#italics">Italics</a></li>
         <li><a href="#bold">Bold Text</a></li>
         <li><a href="#supers">Superscripts</a></li>
+        <li><a href="#subscr">Subscripts</a></li>
         <li><a href="#underl">Underlined Text</a></li>
         <li><a href="#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></li>
         <li><a href="#font_sz">Font size changes</a></li>
         <li><a href="#word_caps">Word in all Caps or Small Caps</a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
+        <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
         <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
-        <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#next_word">Single word at bottom of page</a></li>
         <li><a href="#initials">Initials</a></li>
         <li><a href="#contract">Contractions</a></li>
@@ -102,6 +103,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#punctuat">Punctuation</a></li>
         <li><a href="#line_br">Line Breaks</a></li>
         <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
+        <li><a href="#trail_s">Trailing Space at End-of-line</a></li>
         <li><a href="#line_no">Line Numbers</a></li>
         <li><a href="#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></li>
         <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
@@ -111,7 +113,6 @@ theme('Proofreading Guidelines','header');
         <li><a href="#fract_s">Fractions</a></li>
         <li><a href="#page_ref">Page References "(See Pg. 123)"</a></li>
         <li><a href="#bk_index">Indexes</a></li>
-        <li><a href="#trail_s">Trailing Space at End-of-line</a></li>
         <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
       </ul>
@@ -295,7 +296,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr align="left">
       <td width="100%" valign="top"><img src="title.png" width="500"
-          height="700" alt="title page image"><br>
+          height="520" alt="title page image"><br>
       </td>
     </tr>
     <tr>
@@ -757,7 +758,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr align="left">
       <td width="100%" valign="top"> <img src="illust.png" alt=""
-          width="500" height="650"> <br>
+          width="500" height="525"> <br>
       </td>
     </tr>
     <tr>
@@ -1049,24 +1050,31 @@ theme('Proofreading Guidelines','header');
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
-   superscripts, for example:
-   <br> &nbsp; &nbsp; &nbsp; &nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup>
-   Cornwall's army. <br> Unless the <a href="#comments">Project Comments</a>
-   specify something else, insert a single quote (apostrophe) to identify this as an
-   abbreviation/contraction, like this:
-   <br> &nbsp; &nbsp; &nbsp; &nbsp; <tt>Gen'rl Washington defeated L'd Cornwall's army.</tt>
-   <br> Only change to the full word if the <a href="#comments">Project
-   Comments</a> specifically say to do so, like this:
-   <br> &nbsp; &nbsp; &nbsp; &nbsp; <tt>General Washington defeated Lord Cornwall's army.</tt>
+   superscripts, for example:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Proofread these by inserting a single caret to identify this as a superscripted
+   abbreviation/contraction, like this:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
-<p>Another way to mark this is with a caret <tt>^</tt> instead of the apostrophe to
-   indicate the superscripting.<br>
-   This is common in scientific &amp; technical works, which also use curly braces
-   <tt>{</tt> and <tt>}</tt>, especially when there are several letters superscripted.
+<p>In scientific &amp; technical works, proofread superscripted characters with curly braces
+   <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one letter superscripted.
    <br>For example:
    <br>&nbsp; &nbsp; &nbsp; &nbsp; ... up to x<sup>n-1</sup> elements in the array.
    <br>would be proofread as
    <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>... up to x^{n-1} elements in the array.<br></tt>
+</p>
+<p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
+   that superscripted text be marked up differently.
+</p>
+
+<h3><a name="subscr">Subscripts</a></h3>
+<p>Subscripted text is often found in scientific works, but is not common in other
+   material. Proofread subscripted text by inserting an underline character <tt>_</tt> and
+   surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>.
+   <br>For example:
+   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
+   <br>would be proofread as
+   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_{2}O.<br></tt>
 </p>
 
 <h3><a name="underl">Underlined Text</a></h3>
@@ -1108,47 +1116,6 @@ theme('Proofreading Guidelines','header');
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
 <p>Proofread large and ornate graphic first letters of a chapter, section, or paragraph
    as just the letter.
-</p>
-
-<h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
-<p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
-   word back together. If it is really a hyphenated word like well-meaning, join the
-   two halves leaving the hyphen in-between. But if it was just hyphenated because it
-   wouldn't fit on the line, and is not a word that is usually hyphenated, then join
-   the two halves and remove the hyphen. Keep the joined word on the top line, and put
-   a line break after it to preserve the line formatting&mdash;this makes it easier for
-   the 2nd Round Proofreader. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
-   of the Proofreading Guidelines for examples of each kind (nar-row turns into narrow,
-   but low-lying keeps the hyphen). If the word is followed
-   by punctuation, then carry that punctuation onto the top line, too.
-</p>
-<p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
-   hyphenated in the old books we are working on. Leave them hyphenated the way the
-   author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
-   put an <tt>*</tt> after it, and join the word together. Like this:
-   <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
-   processor, who has access to all the pages, and can determine how the author
-   typically wrote this word.
-</p>
-
-<h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
-<p>Proofread end-of-page hyphens by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
-   the hyphen.<br>
-   For example, proofread:<br>
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
-   as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>On pages that start with part of a word from the previous page, place a <tt>*</tt> before the partial word.<br>
-   To continue the above example, proofread:<br>
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
-   as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>These markings indicate to the post-processor that the word must be rejoined when the pages are
-   combined to produce the final e-book.
 </p>
 
 <h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a></h3>
@@ -1281,15 +1248,55 @@ theme('Proofreading Guidelines','header');
   </tbody>
 </table>
 
+<h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
+<p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
+   word back together. If it is really a hyphenated word like well-meaning, join the
+   two halves leaving the hyphen in-between. But if it was just hyphenated because it
+   wouldn't fit on the line, and is not a word that is usually hyphenated, then join
+   the two halves and remove the hyphen. Keep the joined word on the top line, and put
+   a line break after it to preserve the line formatting&mdash;this makes it easier for
+   the 2nd Round Proofreader. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
+   of the Proofreading Guidelines for examples of each kind (nar-row turns into narrow,
+   but low-lying keeps the hyphen). If the word is followed
+   by punctuation, then carry that punctuation onto the top line, too.
+</p>
+<p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
+   hyphenated in the old books we are working on. Leave them hyphenated the way the
+   author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
+   put an <tt>*</tt> after it, and join the word together. Like this:
+   <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
+   processor, who has access to all the pages, and can determine how the author
+   typically wrote this word.
+</p>
+
+<h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
+<p>Proofread end-of-page hyphens by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
+   the hyphen.<br>
+   For example, proofread:<br>
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
+   as:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>On pages that start with part of a word from the previous page, place a <tt>*</tt> before the partial word.<br>
+   To continue the above example, proofread:<br>
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+   as:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>These markings indicate to the post-processor that the word must be rejoined when the pages are
+   combined to produce the final e-book.
+</p>
+
 <h3><a name="next_word">Single word at bottom of page</a></h3>
 <p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
 </p>
-<p>In some older books, the single word at the bottom of the page (usually
-   printed near the right margin) is actually the first word on the next page of the book.
-   This is called an "incipit". It was used to make it easier for printers'
-   helpers to bind the pages into a book, because while many of them were unable to
-   read, they were able to match the shapes of the words to confirm they
-   had the page order correct.
+<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
+   printed near the right margin) indicates the first word on the next page of the book (called
+   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso");
+   to make it easier for printers' helpers to make up the pages prior to binding; also to help
+   the reader avoid turning over more than one page." 
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
@@ -1583,27 +1590,27 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
 <pre>/*
 TABLE II.
 
------------------------+----+-----+-------------------------+----+------
-                       | C  |     |                         |  C |
-Flat strips compared   | o  |     |                         |  o |
-with round wire 30 cm. | p  |Iron.|   Parallel wires 30 cm. |  p | Iron.
-in length.             | p  |     |      in length.         |  p |
-                       | e  |     |                         |  e |
-                       | r  |     |                         |  r |
-                       | .  |     |                         |  . |
------------------------+----+-----+-------------------------+----+------
-Wire 1 mm. diameter    | 20 | 100 | Wire 1 mm. diameter     | 20 |  100
------------------------+----+-----+-------------------------+----+------
-         STRIPS.       |    |     |          SINGLE WIRE.   |    |
-0.25 mm. thick, 2 mm.  |    |     |                         |    |
-  wide                 | 15 |  35 | 0.25 mm. diameter       | 16 |   48
-Same, 5 mm. wide       | 13 |  20 | Two  similar wires      | 12 |   30
- "   10  "    "        | 11 |  15 | Four    "      "        |  9 |   18
- "   20  "    "        | 10 |  14 | Eight   "      "        |  8 |   10
- "   40  "    "        |  9 |  13 | Sixteen "      "        |  7 |    6
-Same strip rolled up in|    |     | Same 16 wires bound     |    |
-  the form of a wire   | 17 |  15 |   close together        | 18 |   12
------------------------+----+-----+-------------------------+----+------
+-----------------------+----+-----++-------------------------+----+------
+                       | C  |     ||                         |  C |
+Flat strips compared   | o  |     ||                         |  o |
+with round wire 30 cm. | p  |Iron.|| Parallel wires 30 cm.   |  p | Iron.
+in length.             | p  |     || in length.              |  p |
+                       | e  |     ||                         |  e |
+                       | r  |     ||                         |  r |
+                       | .  |     ||                         |  . |
+-----------------------+----+-----++-------------------------+----+------
+Wire 1 mm. diameter    | 20 | 100 || Wire 1 mm. diameter     | 20 |  100
+-----------------------+----+-----++-------------------------+----+------
+        STRIPS.        |    |     ||       SINGLE WIRE.      |    |
+0.25 mm. thick, 2 mm.  |    |     ||                         |    |
+  wide                 | 15 |  35 || 0.25 mm. diameter       | 16 |   48
+Same, 5 mm. wide       | 13 |  20 || Two  similar wires      | 12 |   30
+ "   10  "    "        | 11 |  15 || Four    "      "        |  9 |   18
+ "   20  "    "        | 10 |  14 || Eight   "      "        |  8 |   10
+ "   40  "    "        |  9 |  13 || Sixteen "      "        |  7 |    6
+Same strip rolled up in|    |     || Same 16 wires bound     |    |
+  the form of a wire   | 17 |  15 ||   close together        | 18 |   12
+-----------------------+----+-----++-------------------------+----+------
 */</pre>
 </td></tr></table>
       </td>
@@ -1755,6 +1762,12 @@ Same strip rolled up in|    |     | Same 16 wires bound     |    |
 <p>For example, in <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> the space between
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
+</p>
+
+<h3><a name="trail_s">Trailing Space at End-of-line</a></h3>
+<p>Do not bother inserting spaces at the ends of lines of text. It is a waste of your time for
+   something that we can take care of automatically later. Similarly do not waste your time
+   removing extra spaces at the ends of lines.
 </p>
 
 <h3><a name="line_no">Line Numbers</a></h3>
@@ -2461,8 +2474,14 @@ cedilla                      [,x]   [x,]
 </p>
 <p>For sub-topic listings in an index, start each one on a new line, indented 2 spaces.
 </p>
+<p>Treat each new section in an index (A, B, C...) the same as a <a href="#sect_head">section header</a> by placing 2
+   blank lines before it.
+</p>
 <p>Old books sometimes printed the first word of each letter in the index in all caps;
    change this to match the style used for the rest of the index entries.
+</p>
+<p>Indexes are a case where long lines created by following this rule are acceptable, since the lines
+   will be re-wrapped to the proper width and indentation during post-processing.
 </p>
 <!-- END RR -->
 
@@ -2530,19 +2549,19 @@ cedilla                      [,x]   [x,]
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
     <tt>/*<br>
-    &nbsp;&nbsp;Hooker, Jos., maj. gen. U.S.V., 345;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;afterwards, McDowell's, 367;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;in pursuit of Lee, 380;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;at South Mt., 382;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;unacceptable to Halleck, retires from active service, 390.<br>
+    Hooker, Jos., maj. gen. U.S.V., 345;<br>
+    &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
+    &nbsp;&nbsp;afterwards, McDowell's, 367;<br>
+    &nbsp;&nbsp;in pursuit of Lee, 380;<br>
+    &nbsp;&nbsp;at South Mt., 382;<br>
+    &nbsp;&nbsp;unacceptable to Halleck, retires from active service, 390.<br>
     <br>
-    &nbsp;&nbsp;Hopkins, Henry H., 209;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;notorious secessionist in Kanawha valley, 217;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;controversy with Gen. Cox over escaped slave, 233;<br>
+    Hopkins, Henry H., 209;<br>
+    &nbsp;&nbsp;notorious secessionist in Kanawha valley, 217;<br>
+    &nbsp;&nbsp;controversy with Gen. Cox over escaped slave, 233;<br>
     <br>
-    &nbsp;&nbsp;Hosea, Lewis M., 187;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
+    Hosea, Lewis M., 187;<br>
+    &nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
     */</tt>
 </td></tr></table>
       </td>
@@ -2550,28 +2569,30 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 
-
-<h3><a name="trail_s">Trailing Space at End-of-line</a></h3>
-<p>Do not bother inserting spaces at the ends of lines of text. It is a waste of your time for
-   something that we can take care of automatically later. Similarly do not waste your time
-   removing extra spaces at the ends of lines.
-</p>
-
 <h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
-<p>Proofread cast listings (Dramatis Person&aelig;) as <a href="#lists">lists</a>.<br>
-   Put four blank lines before the beginning of an Act.<br>
-   Put two blank lines before the beginning of each Scene.<br>
-   For dialogue, treat a change in speaker as a new paragraph, with one blank line between.
-</p>
-<p>Proofread actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
-   <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.
-</p>
-<p>Stage directions are formatted as they are in the original text. If the stage direction on a line by
-   itself, proofread it that way; if it is at the end of a line of dialogue, leave it there.
-</p>
-<p>Stage directions often begin with an opening bracket and omit the closing bracket.
-   This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.
-</p>
+<p>For all plays:</p>
+<ul compact>
+ <li>Proofread cast listings (Dramatis Person&aelig;) as <a href="#lists">lists</a>.</li>
+ <li>Put four blank lines before the beginning of an Act.</li>
+ <li>Put two blank lines before the beginning of each Scene.</li>
+ <li>In dialogue, treat a change in speaker as a new paragraph, with one blank line between.</li>
+ <li>Proofread actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
+   <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.</li>
+<li>Stage directions are formatted as they are in the original text.<br>
+    If the stage direction on a line by itself, proofread it that way; if it is at the end of a line of dialogue, leave it there.<br>
+   Stage directions often begin with an opening bracket and omit the closing bracket.<br>
+   This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
+</ul>
+<p>For metrical plays: (Plays written as rhymed poetry)</p>
+<ul compact>
+ <li>Many plays are metrical, and like poetry should not be rewrapped.
+ Surround metred text with <tt>/*</tt> and <tt>*/</tt> as for poetry.</li>
+ <li>Preserve relative indenting of dialog when a single metrical line is
+ shared by more than one speaker.</li>
+ <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
+   If the continuation is only a word or so, it is often shown on the line
+   above or below following a (, rather than having a line of its own.</li>
+</ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
    specify different formatting.
 </p>
@@ -2594,7 +2615,7 @@ cedilla                      [,x]   [x,]
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>
+<p><tt>/*<br>
 Has not his name for nought, he will be trode upon:<br>
 What says my Printer now?
 </tt></p><p><tt>
@@ -2622,8 +2643,8 @@ Indeed I know not what to make on 'em.
 &lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, &lt;i&gt;Italica&lt;/i&gt;?
 </tt></p><p><tt>
 &lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
-&lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.
-</tt></p>
+&lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.<br>
+*/</tt></p>
 </td></tr></table>
       </td>
     </tr>
@@ -2647,12 +2668,12 @@ Indeed I know not what to make on 'em.
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>
-<br>
+<p><tt>/*<br>
 CLIN. And do I hold thee, my Antiphila,<br>
 Thou only wish and comfort of my soul!<br>
 <br>
 SYRUS. In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<br>
+*/<br>
 <br>
 <br>
 <br>
@@ -2663,6 +2684,7 @@ ACT THE THIRD.<br>
 SCENE I.<br>
 <br>
 <br>
+/*<br>
 CHREM. 'Tis now just daybreak.--Why delay I then<br>
 To call my neighbor forth, and be the first<br>
 To tell him of his son's return?--The youth,<br>
@@ -2676,6 +2698,7 @@ Assist the father. As my son, I see,<br>
 Ministers to th' occasions of his friend,<br>
 Associated in counsels, rank, and age,<br>
 So we old men should serve each other too.<br>
+*/<br>
 <br>
 <br>
 SCENE II.<br>
@@ -2683,6 +2706,7 @@ SCENE II.<br>
 &lt;i&gt;Enter&lt;/i&gt; MENEDEMUS.<br>
 <br>
 <br>
+/*<br>
 MENE. (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
 Beyond the rest of humankind, or else<br>
 'Tis a false saying, though a common one,<br>
@@ -2695,8 +2719,39 @@ The more pine after him.<br>
 CHREM. But he's come forth. (&lt;i&gt;Seeing&lt;/i&gt; MENEDEMUS.)<br>
 Yonder he stands. I'll go and speak with him.<br>
 Good-morrow, neighbor! I have news for you;<br>
-Such news as you'll be overjoy'd to hear.
-</tt></p>
+Such news as you'll be overjoy'd to hear.<br>
+*/</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Play Example 3">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="play3.png" width="502"
+          height="98" alt="title page image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>/*<br>
+&lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
+Or not slept well to night; some dream (&lt;i&gt;Ismena&lt;/i&gt;?)<br>
+<br>
+&lt;i&gt;Ism.&lt;/i&gt; My dreams are like my thoughts, honest and innocent,<br>
+Yours are unhappy; who are these that coast us?<br>
+You told me the walk was private.<br>
+*/</tt></p>
 </td></tr></table>
       </td>
     </tr>
