@@ -4,6 +4,16 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
 
+if (isset($saved)) {
+	$result = mysql_query("SELECT round1_user, round2_user FROM $project WHERE fileid = $fileid");
+	$firstrounduser = mysql_result($result, 0, "round1_user");
+	$secondrounduser = mysql_result($result, 0, "round2_user");
+	if (($pguser != $firstrounduser) && ($pguser != $secondrounduser)) {
+		echo "An error has occured.  Please close & relogin.";
+		exit();
+	}
+}
+
 /* $_GET from recently done
 $project, $fileid, $imagefile, $proofstate, $pagestate, $editone
 */
