@@ -90,7 +90,13 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 	else
 	{
-		notify($projectid, $proofstate, $pguser);
+		$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
+		if (mysql_num_rows($temp) == 0) {
+			$blurb = _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
+		} else {
+			$blurb = _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
+		}
+		echo_row_a( _("Book Completed:"), "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 
 		if ($sub)
 		{
@@ -159,19 +165,6 @@ function get_real_name( $login_name )
 		$name = $login_name;
 	}
 	return $name;
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function notify($projectid, $proofstate, $pguser)
-{
-	$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
-	if (mysql_num_rows($temp) == 0) {
-		$blurb = _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
-	} else {
-		$blurb = _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
-	}
-	echo_row_a( _("Book Completed:"), "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
