@@ -1,9 +1,16 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
+
+if (! user_is_a_sitemanager())
+{
+	echo "You are not authorized to invoke this script.";
+	exit;
+}
 
 //$user_condition = "u_id > 0 AND u_id <= 1000";
 
