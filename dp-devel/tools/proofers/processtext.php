@@ -80,7 +80,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
 //Make sure project is still available
   // only if not in a check
-  if ($tbutton <100)
+  if ($tbutton <100 && $tbutton != B_QUIT)
   {
     project_continuity_check($project,$proofstate,FALSE);
   }
