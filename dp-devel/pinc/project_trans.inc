@@ -5,6 +5,7 @@ include_once($relPath.'page_states.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'page_ops.inc');
+include_once($relPath.'f_move_post.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,
@@ -21,6 +22,11 @@ function project_transition( $projectid, $new_state, $extras = array() )
 //     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
+	global $waiting_projects_forum_idx;
+	global $projects_forum_idx;
+	global $pp_projects_forum_idx;
+	global $posted_projects_forum_idx;
+
 	// error_reporting(E_ALL);
 
 	$res = mysql_query("
@@ -257,6 +263,26 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		in_array( $new_state, array(PROJ_PROOF_FIRST_BAD_PROJECT,PROJ_PROOF_FIRST_AVAILABLE) ) )
 	{
 		$settings .= ", modifieddate='$now'";
+
+		//Move the forum topic (if there is one) to the proofing projects forum
+		$result = mysql_query("
+			SELECT topic_id FROM projects WHERE projectid='$projectid'
+		");
+		$topic_id = mysql_result($result, 0, "topic_id");
+
+		if ($topic_id != "")  // there is a project thread
+		{
+			$result = mysql_query("
+				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+			");
+
+			$from_forum_id = mysql_result($result, 0, "forum_id");  
+
+			if ($from_forum_id !=  $projects_forum_idx) { 
+				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+			}
+		}
+
 	}
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
@@ -268,6 +294,28 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 	}
+	else if ( $new_state == PROJ_POST_FIRST_AVAILABLE )
+	{
+		//Move the forum topic (if there is one) to the PPing projects forum
+		$result = mysql_query("
+			SELECT topic_id FROM projects WHERE projectid='$projectid'
+		");
+		$topic_id = mysql_result($result, 0, "topic_id");
+
+		if ($topic_id != "")  // there is a project thread
+		{
+			$result = mysql_query("
+				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+			");
+
+			$from_forum_id = mysql_result($result, 0, "forum_id");  
+
+			if ($from_forum_id !=  $pp_projects_forum_idx) { 
+				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+			}
+		}
+
+	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
@@ -276,6 +324,27 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		}
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
+
+		//Move the forum topic (if there is one) to the PPing projects forum
+		$result = mysql_query("
+			SELECT topic_id FROM projects WHERE projectid='$projectid'
+		");
+		$topic_id = mysql_result($result, 0, "topic_id");
+
+		if ($topic_id != "")  // there is a project thread
+		{
+			$result = mysql_query("
+				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+			");
+
+			$from_forum_id = mysql_result($result, 0, "forum_id");  
+
+			if ($from_forum_id !=  $pp_projects_forum_idx) { 
+				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+			}
+		}
+
+
 	}
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		$new_state == PROJ_POST_SECOND_AVAILABLE )
@@ -331,54 +400,18 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			SELECT topic_id FROM projects WHERE projectid='$projectid'
 		");
 		$topic_id = mysql_result($result, 0, "topic_id");
-		if ($topic_id != "")
+
+		if ($topic_id != "")  // there is a project thread
 		{
-
-			$i = 0;
-
-			$update_post = mysql_query("
-				UPDATE phpbb_posts SET forum_id = 15 WHERE topic_id=$topic_id
+			$result = mysql_query("
+				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
 			");
 
-			$i = mysql_affected_rows();
+			$from_forum_id = mysql_result($result, 0, "forum_id");  
 
-			$update_topic = mysql_query("
-				UPDATE phpbb_topics SET forum_id = 15 WHERE topic_id=$topic_id
-			");
-
-			$get_count = mysql_query("
-				SELECT forum_posts, forum_topics FROM phpbb_forums
-				WHERE forum_id=2
-			");
-			$forum_posts = mysql_result($get_count, 0, "forum_posts");
-			$forum_topics = mysql_result($get_count, 0, "forum_topics");
-			$forum_topics = $forum_topics-1;
-			$forum_posts = $forum_posts-$i;
-			$update_count = mysql_query("
-				UPDATE phpbb_forums
-				SET forum_posts=$forum_posts, forum_topics=$forum_topics
-				WHERE forum_id=2
-			");
-
-
-			$get_count = mysql_query("
-				SELECT forum_posts, forum_topics FROM phpbb_forums
-				WHERE forum_id=15
-			");
-			$forum_posts = mysql_result($get_count, 0, "forum_posts");
-			$forum_topics = mysql_result($get_count, 0, "forum_topics");
-			$forum_topics = $forum_topics+1;
-			$forum_posts = $forum_posts+$i;
-			$update_count = mysql_query("
-				UPDATE phpbb_forums
-				SET forum_posts=$forum_posts, forum_topics=$forum_topics
-				WHERE forum_id=15
-			");
-
-                        // TODO: ? add the id of the most recent post in the topic
-                        // to the forum_last_post_id field of the forums table  record for forum 15?
-
-
+			if ($from_forum_id !=  $posted_projects_forum_idx) { 
+				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+			}
 		}
 
 		// TODO: Archive the project
