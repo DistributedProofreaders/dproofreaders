@@ -19,7 +19,7 @@ include($relPath . 'functions_insert_post.'.$phpEx);
 $project_id = $_GET['project'];
 
 // Get info about project
-$proj_result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
+$proj_result = mysql_query("SELECT nameofwork, authorsname, topic_id, username, state FROM projects WHERE projectid='$project_id'");
 
 $row = mysql_fetch_array($proj_result);
 
@@ -31,6 +31,36 @@ if(($topic_id == "") || ($topic_id == 0))
         $nameofwork = $row['nameofwork'];
         $authorsname = $row['authorsname'];
         $proj_mgr = $row['username'];
+	$state = $row['state'];
+
+	// determine appropriate forum to create thread in
+
+	switch ($state) {
+        	case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE :
+	    	$forum_id = $waiting_projects_forum_idx;
+            break ;
+
+	        case PROJ_PROOF_FIRST_AVAILABLE :
+	        case PROJ_PROOF_SECOND_AVAILABLE :
+	    	$forum_id = $projects_forum_idx;
+            break ;
+
+        	case PROJ_POST_FIRST_AVAILABLE :
+	        case PROJ_POST_FIRST_CHECKED_OUT :
+	        case PROJ_POST_SECOND_AVAILABLE :
+        	case PROJ_POST_SECOND_CHECKED_OUT :
+	        case PROJ_POST_COMPLETE :
+	    	$forum_id = $pp_projects_forum_idx;
+            break ;
+
+	        case PROJ_SUBMIT_PG_POSTED :
+	    	$forum_id = $posted_projects_forum_idx;
+            break ;
+
+	        default :
+	    	$forum_id = $projects_forum_idx;
+            break ;	
+	}
 
         $post_subject = "\"".$nameofwork."\"    by ".$authorsname;
 
@@ -55,7 +85,7 @@ Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id
         $post_result =  insert_post(
                 $message,
                 $post_subject,
-                $projects_forum_idx,  
+                $forum_id,  
                 $owner,
                 $proj_mgr,
                 $sig);
