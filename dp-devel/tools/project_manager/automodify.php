@@ -151,7 +151,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     //Bad Page Error Check
     {
-        if ( ($state == $prd->project_available_state) || ($state == $prd->project_bad_state && $one_project) )
+        if ( ($state == $prd->project_available_state) || ($state == $prd->project_bad_state) )
         {
             if ( pages_indicate_bad_project( $projectid, $prd ) )
             {
