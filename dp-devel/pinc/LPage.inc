@@ -147,35 +147,16 @@ function deletePageCookie()
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 {
-  global $writeBIGtable;
-
-  $timestamp=time();
-
   if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
   {
-    $rval=OUT_SECOND;
-    $round_time='round2_time';
-    $round_user='round2_user';
+    $round_number = 2;
   }
   else
   {
-    $rval=OUT_FIRST;
-    $round_time='round1_time';
-    $round_user='round1_user';
+    $round_number = 1;
   }
 
-  if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET state='";
-    $dbQuery.="$rval', $round_time='$timestamp', $round_user='$pguser'";
-    $dbQuery.="  WHERE projectid = '$project' and fileid='$fileid'";
-    $update = mysql_query($dbQuery);
-  }
-
-  $dbQuery="UPDATE $project SET state='";
-  $dbQuery.="$rval', $round_time='$timestamp', $round_user='$pguser'";
-  $dbQuery.="  WHERE fileid='$fileid' AND image='$imagefile'";
-  $update = mysql_query($dbQuery);
-  return $rval;
+  return Page_checkout( $project, $fileid, $imagefile, $round_number, $pguser );
 }
 
 function getText($pagestate,$saved,$revert)
@@ -250,59 +231,21 @@ function deleteUserCount($proofstate,$pguser,$userP)
 
 function saveTemp($proofstate,$text_data,$pguser)
 {
-  global $writeBIGtable;
-
-  $timestamp = time();
-
-  if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
-    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
-    $result = mysql_query($dbQuery);
-  }
-
-  $dbQuery="UPDATE {$this->project} SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
-  $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result = mysql_query($dbQuery);
-  return $this->prd->temp_state;
+  return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
 
 
 // when a page is reopened from MRC, no need to update text, just record state change
 function reOpen($proofstate,$pguser)
 {
-  global $writeBIGtable;
-
-  $timestamp = time();
-
-  if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
-    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
-    $result = mysql_query($dbQuery);
-  }
-
-  $dbQuery="UPDATE {$this->project} SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->temp_state}', {$this->prd->user_column_name}='$pguser'";
-  $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result = mysql_query($dbQuery);
-  return $this->prd->temp_state;
+  return Page_reopen( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser );
 }
 
 
 function saveComplete($proofstate,$text_data,$pguser,$userP)
 {
-  global $writeBIGtable;
   $this->addUserCount($proofstate,$pguser,$userP);
-  $timestamp = time();
-
-  if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->save_state}', {$this->prd->user_column_name}='$pguser'";
-    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
-    $result = mysql_query($dbQuery) or die(mysql_error());
-  }
-
-  $dbQuery="UPDATE {$this->project} SET {$this->prd->text_column_name}='$text_data', {$this->prd->time_column_name}='$timestamp', state='{$this->prd->save_state}', {$this->prd->user_column_name}='$pguser'";
-  $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result = mysql_query($dbQuery) or die(mysql_error());
-  return $this->prd->save_state;
+  return Page_saveAsDone( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
 }
 
 function getRevertState()
@@ -328,20 +271,7 @@ function exitInterface($newwin,$editone)
 
 function returnPage($proofstate,$pguser,$userP)
 {
-  global $writeBIGtable;
-
-  $timestamp = time();
-
-  if ($writeBIGtable) {
-    $dbQuery="UPDATE project_pages SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->avail_state}', {$this->prd->user_column_name}='$pguser'";
-    $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
-    $result = mysql_query($dbQuery);
-  }
-
-  $dbQuery="UPDATE {$this->project} SET {$this->prd->time_column_name}='$timestamp', state='{$this->prd->avail_state}', {$this->prd->user_column_name}='$pguser'";
-  $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result = mysql_query($dbQuery);
-  return $this->prd->avail_state;
+  return Page_returnToRound( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser );
 }
 
 } // end class
