@@ -8,6 +8,7 @@ define('MAX_NUM_PAGE_EDITING_ROUNDS', 2);
 // -----------------------------------------------------------------------------
 
 $n_rounds = 0;
+$PRD_for_round_id_      = array();
 $PRD_for_round_number_  = array();
 $PRD_for_project_state_ = array();
 $PRD_for_page_state_    = array();
@@ -73,6 +74,9 @@ class ProofingRoundDescriptor
             $this->prevtext_column_name = "round{$prev_round_number}_text";
         }
 
+        global $PRD_for_round_id_;
+        $PRD_for_round_id_[$this->round_id] =& $this;
+
         global $PRD_for_round_number_;
         $PRD_for_round_number_[$this->round_number] =& $this;
 
@@ -123,6 +127,14 @@ $PRD_2 = new ProofingRoundDescriptor(
 
 // After creating all descriptors:
 assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
+
+// ---------------------------
+
+function get_PRD_for_round_id( $round_id )
+{
+    global $PRD_for_round_id_;
+    return array_get( $PRD_for_round_id_, $round_id, NULL );
+}
 
 // ---------------------------
 
