@@ -10,7 +10,7 @@ function encodeFormValue($value) {
 
 function saveProject() {
   global $project, $clearance, $NameofWork, $AuthorsName, $comments, $Language;
-  global $scannercredit, $txtlink, $ziplink, $htmllink, $pguser, $postednum; 
+  global $scannercredit, $txtlink, $ziplink, $htmllink, $pguser, $postednum, $genre; 
 
   $errormsg;
 
@@ -36,7 +36,8 @@ function saveProject() {
                 AuthorsName = '$AuthorsName', postednum = '$postednum', 
                 comments = '$comments', Language = '$Language', 
                 scannercredit = '$scannercredit', txtlink = '$txtlink', 
-                ziplink = '$ziplink', htmllink = '$htmllink' 
+                ziplink = '$ziplink', htmllink = '$htmllink',
+		genre = '$genre'
             WHERE projectid = '$project'"; 
 
     mysql_query($sql);
@@ -64,11 +65,11 @@ function saveProject() {
     //update main projects table with new project info
     $sql = "INSERT INTO projects (NameofWork, AuthorsName, Language, username, 
                                   comments, projectid, scannercredit, state, 
-                                  modifieddate, clearance) 
+                                  modifieddate, clearance, genre) 
                         VALUES ('$NameofWork', '$AuthorsName', '$Language', 
                                 '$pguser', '$comments', '$project', 
                                 '$scannercredit', '0', UNIX_TIMESTAMP(),
-                                '$clearance')";
+                                '$clearance', '$genre')";
     mysql_query($sql);
   }
 
@@ -119,7 +120,7 @@ if (isset($saveAndPreview)) {
 if ((!isset($errormsg) || strlen($errormsg) == 0) 
     && isset($project) && strlen($project) > 0) {
   $sql = "SELECT nameofwork, authorsname, language, scannercredit, txtlink,
-                 htmllink, ziplink, comments, postednum, clearance
+                 htmllink, ziplink, comments, postednum, clearance, genre
           FROM projects 
           WHERE projectid = '$project'";
 
@@ -135,6 +136,7 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
   $comments = mysql_result($result, 0, "comments");
   $clearance = mysql_result($result, 0, "clearance");
   $postednum = mysql_result($result, 0, "postednum");
+  $genre = mysql_result($result, 0, "genre");
 }
 
 if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
@@ -174,6 +176,10 @@ if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.arch
 <tr>
 <td bgcolor="#CCCCCC"><b>Language</b></td>
 <td><input type="text" size="67" name="Language" value="<? echo encodeFormValue($Language) ?>"></td>
+</tr>
+<tr>
+<td bgcolor="#CCCCCC"><b>Genre</b></td>
+<td><input type="text" size="67" name="genre" value="<? echo encodeFormValue($genre) ?>"></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Image Scanner Credit</b></td>
