@@ -1,8 +1,11 @@
 <?
 $relPath='./../pinc/';
+include($relPath.'misc.inc');
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
+
+$testing = array_get($_GET, 'testing', FALSE);
 
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
@@ -10,7 +13,7 @@ $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 //Find out if the script has been run once already for today
 $result = mysql_query("SELECT MAX(date_updated) FROM member_stats");
 $max_update = mysql_result($result,0,0);
-	if ($max_update == $midnight && empty($_GET['testing'])) {
+	if ($max_update == $midnight && !$testing) {
 		echo "<center>This script has already been run today!</center>\n";
 		mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('mbrstats.php', ".time().", 'FAIL', 'Already been run today!')");
 	} else {
