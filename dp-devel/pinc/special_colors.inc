@@ -18,20 +18,20 @@ function get_special_color_for_project($book) {
     // from the SPECIAL_DAYS table
 
     // default Special colour (will be over-ridden by any specific matches below)
-    if ( startswith( $book['comments'], 'SPECIAL:' ) or (!is_null($book['special'])))
+    if (!is_null($book['special']))
     {
         $bgcolor = '#FFFF66'; // fadedyellow
     }
 
     // very light blue for birthday books still available after the day
-    if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
+    if ( startswith( $book['special'], 'Birthday' ) )
     {
         $bgcolor = '#CCFFFF';
     }
 
     // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
-    if ( startswith( $book['comments'], "SPECIAL: Birthday $bday" ) )
+    if ( startswith( $book['special'], "Birthday $bday" ) )
     {
         $bgcolor = '#33CCFF';
     }
