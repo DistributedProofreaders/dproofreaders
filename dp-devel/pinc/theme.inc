@@ -271,6 +271,20 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/site_admin/sitenews.php'>" . _("News Update") . "</a>";
 			$divider = 1;
 		}
+		if (substr($_SERVER['PHP_SELF'], -16) != "md_available.php") {
+			if (isset($divider)) {
+				echo " | ";
+			}
+			echo "<a href='$code_url/tools/proofers/md_available.php'>" . _("Metadata Collection") . "</a>";
+			$divider = 1;
+		}
+		if (user_is_a_sitemanager() && substr($_SERVER['PHP_SELF'], -18) != "proj_approvals.php") {
+			if (isset($divider)) {
+				echo " | ";
+			}
+			echo "<a href='$code_url/tools/site_admin/proj_approvals.php'>" . _("Clearance Approvals") . "</a>";
+			$divider = 1;
+		}
 		echo "</center></font>\n";
 		if (isset($divider)) { echo "<br>\n"; }
 	}
@@ -456,6 +470,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/faq_central.php'>Frequently Asked Questions</a></font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/document.php'>Proofing Guidelines</a> (<a href='$code_url/faq/summary.pdf'>Summary</a>)</font><br>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>Tips & How-To's</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>Request Help</a></font><br>\n";
 	}
 
 
@@ -469,13 +484,13 @@ echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme[
 }
 
 function html_footer($code_url, $theme, $theme_name) {
-$mtime = explode(" ",microtime());
-$endtime = $mtime[1] + $mtime[0];
-$totaltime = ($endtime - $GLOBALS['starttime']);
+	$mtime = explode(" ",microtime());
+	$endtime = $mtime[1] + $mtime[0];
+	$totaltime = ($endtime - $GLOBALS['starttime']);
 
     //Bottom Copyright Text
 	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
-	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>Copyright Distributed Proofreaders (".substr($totaltime, 0, 5).")</font></center></td></tr>\n";
+	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>Copyright Distributed Proofreaders (Page Build Time: ".substr($totaltime, 0, 5).") </font><a href='".$GLOBALS['code_url']."/tasks.php'><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>Report a Bug</font></a></center></td></tr>\n";
 	echo "</table>\n";
 
     //The End
