@@ -26,22 +26,6 @@ define("TEMP_SECOND","temp_second"); // did not exist
 define("SAVE_FIRST","save_first"); // 9
 define("SAVE_SECOND","save_second"); // 19
 
-// -------------------------------------
-
-$PAGE_STATES_IN_ORDER = array(
-    AVAIL_FIRST,
-    OUT_FIRST,
-    TEMP_FIRST,
-    SAVE_FIRST,
-    BAD_FIRST,
-
-    AVAIL_SECOND,
-    OUT_SECOND,
-    TEMP_SECOND,
-    SAVE_SECOND,
-    BAD_SECOND
-);
-
 // -----------------------------------------------------------------------------
 
 class ProofingRoundDescriptor {}
@@ -192,6 +176,19 @@ function get_PRD_for_page_state( $page_state )
         default:
             return NULL;
     }
+}
+
+// -------------------------------------
+
+$PAGE_STATES_IN_ORDER = array();
+for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+{
+    $prd = get_PRD_for_round($rn);
+    $PAGE_STATES_IN_ORDER[] = $prd->page_avail_state;
+    $PAGE_STATES_IN_ORDER[] = $prd->page_out_state;
+    $PAGE_STATES_IN_ORDER[] = $prd->page_temp_state;
+    $PAGE_STATES_IN_ORDER[] = $prd->page_save_state;
+    $PAGE_STATES_IN_ORDER[] = $prd->page_bad_state;
 }
 
 // vim: sw=4 ts=4 expandtab
