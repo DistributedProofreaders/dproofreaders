@@ -18,7 +18,7 @@ $projectinfo = new projectinfo();
   $one_project = isset($_GET['project'])?$_GET['project']:0;
 
   if ($one_project) {
-    $verbose = 1;
+    $verbose = 0;
     $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
   } else {
     $verbose = 1;
