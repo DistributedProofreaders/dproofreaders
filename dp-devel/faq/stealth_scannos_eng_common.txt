@@ -33,6 +33,7 @@ ease	case
 fail	fall
 fee	he
 haying	having
+he	be
 hi	in
 ho	he
 ho	who
