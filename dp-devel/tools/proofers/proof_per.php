@@ -20,16 +20,6 @@ theme("Personal Page for $pguser", "header");
 	echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
 	echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>";
 
-	// If Post Processor give link to post processing page.
-    	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
-    	$postprocessorpages = mysql_result($result,0);
-    	if ($userP['postprocessor'] == "yes" || $postprocessorpages >= 400) {
-    		$result = mysql_query("SELECT count(projectid) FROM projects WHERE state='".PROJ_POST_FIRST_AVAILABLE."' || state='".PROJ_POST_SECOND_AVAILABLE."'");
-        	$numprojects = mysql_result($result,0);
-        	$result = mysql_query("SELECT count(projectid) FROM projects WHERE checkedoutby='$pguser' && (state='".PROJ_POST_FIRST_CHECKED_OUT."' || state='".PROJ_POST_SECOND_CHECKED_OUT."')");
-        	$yourprojects = mysql_result($result,0);
-?>
-
 <font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Brand New Proofers"); ?></b></font><br>
 <? echo _("BEGINNERS ONLY projects are reserved for brand new proofers; after you have done between 5 to 15 pages total from these BEGINNERS ONLY projects, though, please move on to other projects. EASY projects are available for everyone, but make a great second step for beginners, too."); ?>
 <br><br>
@@ -38,6 +28,17 @@ theme("Personal Page for $pguser", "header");
 <? echo _("Want to help out the site by providing material for us to proof?"); ?>
  <a href="<? echo $code_url ?>/faq/scan/submitting.php"><? echo _("Find out how!"); ?></a>
 <br><br>
+
+	// If Post Processor give link to post processing page.
+    	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
+    	$postprocessorpages = mysql_result($result,0);
+
+    	if ($userP['postprocessor'] == "yes" || $postprocessorpages >= 400) {
+    		$result = mysql_query("SELECT count(projectid) FROM projects WHERE state='".PROJ_POST_FIRST_AVAILABLE."' || state='".PROJ_POST_SECOND_AVAILABLE."'");
+        	$numprojects = mysql_result($result,0);
+        	$result = mysql_query("SELECT count(projectid) FROM projects WHERE checkedoutby='$pguser' && (state='".PROJ_POST_FIRST_CHECKED_OUT."' || state='".PROJ_POST_SECOND_CHECKED_OUT."')");
+        	$yourprojects = mysql_result($result,0);
+?>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Post Processing"); ?></b></font><br>
 <? echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the"); ?> <a href ="<? echo $code_url ?>/tools/post_proofers/post_proofers.php"><? echo _("post processing"); ?></a> <? echo _("phase of Distributed Proofreaders!  Currently there are"); ?> <b><? echo $numprojects; ?></b> <? echo _("projects waiting."); ?>
