@@ -10,7 +10,7 @@ include_once($relPath.'page_ops.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser )
+function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser, $userP )
 {
     $prd = get_PRD_for_project_state($proofstate);
 

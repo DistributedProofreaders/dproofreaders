@@ -18,7 +18,7 @@ $project, $proofstate
 project_continuity_check($project,$proofstate,!isset($editone));
 
 if (isset($saved)) {
-    $err = resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser );
+    $err = resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser, $userP );
     if ($err)
     {
         echo $err;
