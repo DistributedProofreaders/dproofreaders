@@ -155,7 +155,7 @@ to buy new (old) books, new software, a new super scanner for charlz
 (sooner than anticipated at the present rate :-) or other incidentals.
 Find or donate books that someone else can scan. Go to your local
 library, many have public access computers with Internet. You could log
-on and proof a few pages occasionally. </p>
+on and proofread a few pages occasionally. </p>
 <p> </p>
 <hr> <a name="11"><b>I'm using Linux, is there an OCR package I can use?</b></a><br>
 <p> There are SOME packages available. Perhaps the most highly developed
