@@ -1,4 +1,7 @@
 <?PHP
+
+// TODO - Utilize the themes as the source of colors
+
 class htmlStyles
 {
 // set unused vars to NULL as 0 will still render the attribute="0"
@@ -8,7 +11,7 @@ class htmlStyles
 var $body = array(
 0=> array(
 'BACKGROUND'=>NULL,
-'BGCOLOR'=>"#666666",
+'BGCOLOR'=>"#FFFFFF",
 'TEXT'=>"#000000",
 'LINK'=>"#000066",
 'VLINK'=>"#660000",
@@ -84,14 +87,14 @@ var $td = array(
 
 1 => array(
 'ID'=>NULL,
-'BGCOLOR'=>"#CCCCCC",
+'BGCOLOR'=>"#e0e8dd",
 'STYLE'=>NULL,
 'CLASS'=>NULL
 ),
 
 2 => array(
 'ID'=>NULL,
-'BGCOLOR'=>"#9999CC",
+'BGCOLOR'=>"#336633",
 'STYLE'=>NULL,
 'CLASS'=>NULL
 ),
