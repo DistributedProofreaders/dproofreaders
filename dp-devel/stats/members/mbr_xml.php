@@ -40,7 +40,7 @@ $rankArray = mbrRank($curMbr['username']);
 $bestDay = bestDayEver($curMbr['u_id']);
 
 //User info portion of $data
-	$data .= "<userinfo id=\"".$curMbr['u_id']."\">
+	$data = "<userinfo id=\"".$curMbr['u_id']."\">
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>

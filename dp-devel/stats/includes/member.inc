@@ -35,7 +35,7 @@ function showMbrProfile($curMbr) {
 	if (!empty($curMbr['user_interests'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Interests</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$curMbr['user_interests']."'>".$curMbr['user_website']."</a></font></td></tr>"; }
         if (!empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Website</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a></font></td></tr>"; }
 
-        if ($curMbr['username'] == $GLOBALS['pguser']) {
+        if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
         	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Edit</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><a href='".$GLOBALS['code_url']."/userprefs.php'>Preferences</a> | <a href='".$GLOBALS['forums_url']."/profile.php?mode=viewprofile&u=".$curMbr['user_id']."'>Profile</a></font></td></tr>";
         }
 
@@ -120,7 +120,7 @@ function mbrRank($username) {
 
 	if (!isset($userindex)) {
 		$userindex = $i+1;
-		$rankArray['username'][$userindex] = $GLOBALS['pguser'];
+		$rankArray['username'][$userindex] = $username;
 		$rankArray['pages'][$userindex] = 0;
 		$rankArray['rank'][$userindex] = $userindex;
 		$rankArray['totalRanks'] = $userindex;
@@ -183,6 +183,7 @@ function showMbrNeighbors($curMbr) {
 
 	$i = 1;
 	while ($i <= 4) {
+		if (empty($rankArray['rank'][$rankArray['curMbrIndex']+$i])) { break; }
 		$rank = $rankArray['rank'][$rankArray['curMbrIndex']+$i];
 		$username = $rankArray['username'][$rankArray['curMbrIndex']+$i];
 		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '$username'");
