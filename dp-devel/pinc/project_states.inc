@@ -9,7 +9,7 @@
 
   stages:
   PRE=Pre Processing
-  PROOF=Proofing rounds
+  PROOF=Proofreading rounds
   POST=Post Processing
   SUBMIT_PG=submission stage for Project Gutenberg
   CORRECT=Correcting Edition
@@ -63,15 +63,15 @@
   define("PROJ_PROOF_FIRST_BAD_PROJECT","bad_1"); // 31
   define("PROJ_PROOF_SECOND_BAD_PROJECT","bad_2"); // 41
 
-  // available for proofing
+  // available for proofreading
   define("PROJ_PROOF_FIRST_AVAILABLE","avail_1"); // 2
   define("PROJ_PROOF_SECOND_AVAILABLE","avail_2"); // 12
 
-  // proofing round complete, but needing verification
+  // proofreading round complete, but needing verification
   define("PROJ_PROOF_FIRST_VERIFY","verify_1"); // 8
   define("PROJ_PROOF_SECOND_VERIFY","verify_2"); // 18
 
-  // proofing round complete and verified
+  // proofreading round complete and verified
   define("PROJ_PROOF_FIRST_COMPLETE","done_1"); // 9
   define("PROJ_PROOF_SECOND_COMPLETE","done_2"); // 19
 
