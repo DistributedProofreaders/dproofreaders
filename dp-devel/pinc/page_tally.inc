@@ -61,5 +61,91 @@ function user_get_page_tally( $username )
     return mysql_result($res,0);
 }
 
+// -----------------------------------------------------------------------------
+
+function user_page_tally_get_interval_title( $user_page_tally )
+// The spectrum of user page tallies is partitioned into intervals,
+// each with a different title. (The interface refers to it as
+// "rank", but that just muddies the waters.)
+// Return the title for the interval containing $user_page_tally.
+{
+    if ($user_page_tally >= 0) {
+        $rankname = _("Newbie");
+    }
+    if ($user_page_tally >= 26) {
+        $rankname = _("Proofreader");
+    }
+    if ($user_page_tally >= 151) {
+        $rankname = _("Ace");
+    }
+    if ($user_page_tally >= 401) {
+        $rankname = _("Proofreader Savant");
+    }
+    if ($user_page_tally >= 1001) {
+        $rankname = _("Master Proofreader");
+    }
+    if ($user_page_tally >= 2001) {
+        $rankname = _("Maestro");
+    }
+    if ($user_page_tally >= 5001) {
+        $rankname = _("Connoisseur");
+    }
+    if ($user_page_tally >= 10001) {
+        $rankname = _("Rare Talent");
+    }
+    if ($user_page_tally >= 20001) {
+        $rankname = _("Super Proofreader");
+    }
+    if ($user_page_tally >= 30001) {
+        $rankname = _("Profound Proofreader");
+    }
+    if ($user_page_tally >= 40001) {
+        $rankname = _("Priceless Proofreader");
+    }
+    if ($user_page_tally >= 50001) {
+        $rankname = _("Prishan Level Proofreader");
+    }
+    if ($user_page_tally >= 50101) {
+        $rankname = _("Prime Proofreader");
+    }
+    if ($user_page_tally >= 60001) {
+        $rankname = _("Peerless Proofer");
+    }
+    if ($user_page_tally >= 70001) {
+        $rankname = _("Primordial Proofer");
+    }
+    if ($user_page_tally >= 75001) {
+        $rankname = _("Proofer Magnifico");
+    }
+    if ($user_page_tally >= 80001) {
+        $rankname = _("Proofer Supreme");
+    }
+    if ($user_page_tally >= 90001) {
+        $rankname = _("Prooferissimo");
+    }
+    if ($user_page_tally >= 99001) {
+        $rankname = _("Master of Proofreading");
+    }
+    if ($user_page_tally >= 99501) {
+        $rankname = _("Doctor of Proofreading");
+    }
+    if ($user_page_tally >= 100001) {
+        $rankname = _("Prishan of Proofers");
+    }
+    if ($user_page_tally >= 101001) {
+        $rankname = _("Proofer of Proofers");
+    }
+    if ($user_page_tally >= 110001) {
+        $rankname = _("Proofer Extraordinaire");
+    }
+    if ($user_page_tally >= 120001) {
+        $rankname = _("Presidential Proofer");
+    }
+    if ($user_page_tally >= 125001) {
+        $rankname = _("Professor of Proofreading");
+    }
+    return $rankname;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

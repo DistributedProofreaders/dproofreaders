@@ -319,81 +319,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if (isset($GLOBALS['pguser'])) {
     //Show the personal statistics
 	//get rank
-	if ($neighborhood['pages'][$userindex] >= 0) {
-	 $rankname = _("Newbie");
-	}
-	if ($neighborhood['pages'][$userindex] >= 26) {
-	 $rankname = _("Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 151) {
-	 $rankname = _("Ace");
-	}
-	if ($neighborhood['pages'][$userindex] >= 401) {
-	 $rankname = _("Proofreader Savant");
-	}
-	if ($neighborhood['pages'][$userindex] >= 1001) {
-	 $rankname = _("Master Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 2001) {
-	 $rankname = _("Maestro");
-	}
-	if ($neighborhood['pages'][$userindex] >= 5001) {
-	 $rankname = _("Connoisseur");
-	}
-	if ($neighborhood['pages'][$userindex] >= 10001) {
-	 $rankname = _("Rare Talent");
-	}
-	if ($neighborhood['pages'][$userindex] >= 20001) {
-	 $rankname = _("Super Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 30001) {
-	 $rankname = _("Profound Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 40001) {
-	 $rankname = _("Priceless Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 50001) {
-	 $rankname = _("Prishan Level Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 50101) {
-	 $rankname = _("Prime Proofreader");
-	}
-	if ($neighborhood['pages'][$userindex] >= 60001) {
-	 $rankname = _("Peerless Proofer");
-	}
-	if ($neighborhood['pages'][$userindex] >= 70001) {
-	 $rankname = _("Primordial Proofer");
-	}
-	if ($neighborhood['pages'][$userindex] >= 75001) {
-	 $rankname = _("Proofer Magnifico");
-	}
-	if ($neighborhood['pages'][$userindex] >= 80001) {
-	 $rankname = _("Proofer Supreme");
-	}
-	if ($neighborhood['pages'][$userindex] >= 90001) {
-	 $rankname = _("Prooferissimo");
-	}
-	if ($neighborhood['pages'][$userindex] >= 99001) {
-	 $rankname = _("Master of Proofreading");
-	}
-	if ($neighborhood['pages'][$userindex] >= 99501) {
-	 $rankname = _("Doctor of Proofreading");
-	}
-	if ($neighborhood['pages'][$userindex] >= 100001) {
-	 $rankname = _("Prishan of Proofers");
-	}
-	if ($neighborhood['pages'][$userindex] >= 101001) {
-	 $rankname = _("Proofer of Proofers");
-	}
-	if ($neighborhood['pages'][$userindex] >= 110001) {
-	 $rankname = _("Proofer Extraordinaire");
-	}
-	if ($neighborhood['pages'][$userindex] >= 120001) {
-	 $rankname = _("Presidential Proofer");
-	}
-	if ($neighborhood['pages'][$userindex] >= 125001) {
-	 $rankname = _("Professor of Proofreading");
-	}
+	$rankname = user_page_tally_get_interval_title(
+		$neighborhood['pages'][$userindex] );
 
 	// Get userid for personal stats link
 	$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
