@@ -1,4 +1,7 @@
 <?
+$relPath="./pinc/";
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 $etext_limit = 10;
 ?>
 
@@ -60,8 +63,6 @@ You can view the financial statement for this site <a href="finance.html">here.<
 <br>Our goal this month is <b>34,000</b> pages which means <b>1,133</b> pages per day.<p></td><tr>
 
 <?
-    include 'connect.php';
-
     $numdays = 1;
 
     //Changing this will change how many days will show at the top of the main page
@@ -170,12 +171,17 @@ if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>te
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
 $projectid = $row['projectid'];
 $moddate = $row['modifieddate'];
-$dateyear = substr($moddate, 0, 4);
+
+// deal with old date stamps else new time() stamp
+if (strlen($moddate)==8)
+{$dateyear = substr($moddate, 0, 4);
 $datemonth = substr($moddate, 4, 2);
 $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);
+$moddate = date("l, F jS, Y",$unixsec);}
+else {$moddate=date("l, F jS, Y",$moddate);}
+
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
 if ($numofetexts == $etext_limit) {
@@ -195,12 +201,17 @@ $numofetexts = 1;
 while ($row = mysql_fetch_array($goldresult)) {
 $projectid = $row['projectid'];
 $moddate = $row['modifieddate'];
-$dateyear = substr($moddate, 0, 4);
+
+// deal with old date stamps else new time() stamp
+if (strlen($moddate)==8)
+{$dateyear = substr($moddate, 0, 4);
 $datemonth = substr($moddate, 4, 2);
 $dateday = substr($moddate, 6, 2);
 $datecomplete = $dateyear."-".$datemonth."-".$dateday;
 $unixsec = strtotime($datecomplete);
-$moddate = date("l, F jS, Y",$unixsec);
+$moddate = date("l, F jS, Y",$unixsec);}
+else {$moddate=date("l, F jS, Y",$moddate);}
+
 $totalpages = mysql_query("SELECT fileid FROM $projectid");
 $totalpages = mysql_num_rows($totalpages);
 if ($numofetexts == $etext_limit) {
