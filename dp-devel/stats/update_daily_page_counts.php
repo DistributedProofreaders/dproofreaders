@@ -1,4 +1,7 @@
 <?
+$relPath='./../pinc/';
+include($relPath.'project_states.inc');
+
 // (This is a replacement for dailystats.pl.)
 
 // The 'pagestats' table records the number of pages proofed on any given day,
