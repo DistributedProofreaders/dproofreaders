@@ -233,4 +233,25 @@ function dpsql_fetch_all_keyed( $res )
     return $arr;
 }
 
+// -----------------------------------------------------------------------------
+
+function dpsql_fetch_columns( $res )
+// Return an array of arrays, one for each column of the result-set.
+{
+    $columms = array();
+    $num_cols = mysql_num_fields($res);
+    for ( $c = 0; $c < $num_cols; $c++ )
+    {
+        $columns[$c] = array();
+    }
+    while( $row = mysql_fetch_row($res) )
+    {
+        for ( $c = 0; $c < $num_cols; $c++ )
+        {
+            $columns[$c][] = $row[$c];
+        }
+    }
+    return $columns;
+}
+
 ?>
