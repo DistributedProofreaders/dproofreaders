@@ -1,6 +1,14 @@
+<p style="font-size: small"><strong>Last updated:</strong> 2004-02-20</p>
+
 <h3>Keep Text as Close to Original as Possible!</h3>
 
 <p>We've had some mention of people changing things like "* * *" to "..." &ndash; <strong>Please do not make such substitutions!</strong>  Please keep all text as close to the original as possible.
+
+<h3>Copyrighted Materials</h3>
+
+<p>Some of the content in the Warren Report and its supporting evidentiary and testimonial volumes is still under copyright. As a result, we are not allowed to include this copyrighted material in Project Gutenberg. Most (if not all) of this material has been identified, and place-holders have been included in the page images to indicate where these copyrighted materials occur.</p>
+
+<p>If you come across any materials (e.g., photographs, movie stills, etc.) that you think may need to be removed, please post a comment in the project thread.</p>
 
 <h3>Crossed-Out Words</h3>
 
@@ -11,11 +19,15 @@
   <li>If it is not readable, please just put a [**note] where it occurs.</li>
 </ul>
 
-<h3>Copyrighted Materials</h3>
+<h3>Underlined Text</h3>
 
-<p>Some of the content in the Warren Report and its supporting evidentiary and testimonial volumes is still under copyright. As a result, we are not allowed to include this copyrighted material in Project Gutenberg. Most (if not all) of this material has been identified, and place-holders have been included in the page images to indicate where these copyrighted materials occur.</p>
+<p>Some of the Commission Exhibits contain documents that have underlined text.  The Proofing Guidelines say to mark underlined text similarly to italicized text; <strong>however,</strong> we would like for this project to have underlined text marked with &lt;u&lt; and &lt;/u&lt; tags.  For example:
 
-<p>If you come across any materials (e.g., photographs, movie stills, etc.) that you think may need to be removed, please post a comment in the project thread.</p>
+<pre>  Here is some <u>underlined</u> text.</pre>
+
+<p>Should be marked as:</p>
+
+<pre>  Here is some &lt;u&gt;underlined&lt;/u&gt; text.</pre>
 
 <h3>Dialogue</h3>
 
@@ -23,7 +35,7 @@
 
 <pre>&lt;b&gt;Mr. RANKIN.&lt;/b&gt; Mrs. Oswald, did you write in Russian a story of your experiences in the United States?
 
-  &lt;b&gt;Mrs. OSWALD.&lt;/b&gt; Yes, I have. I think that you are familiar with it.</pre>
+&lt;b&gt;Mrs. OSWALD.&lt;/b&gt; Yes, I have. I think that you are familiar with it.</pre>
 
 <p>(<strong>Note:</strong> Please include the period inside the bold tags.)</p>
 
@@ -53,7 +65,15 @@
 
 <h3>Dashes</h3>
 
-<p>Recently the Proofreading Guidelines changed so that all dashes are now represented by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some dashes are longer than others.  For longer dashes, please use four hyphens (----).</p>
+<p>Recently the Proofing Guidelines changed so that all dashes are now represented by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some dashes are longer than others.  For longer dashes, please use four hyphens (----).</p>
+
+<p>Note that hyphens should still have only one hyphen (-).</p>
+
+<h3>Grayscale Images</h3>
+
+<p>Each text file in the Evidence volumes (XVI-XXVI) has a URL a grayscale image for that page.  These URLs are there for your reference, to help you identify portions that may not be clear in the black &amp; white version of the page.</p>
+
+<p>The grayscale images are hosted by <a href="http://www.pluckerbooks.com/">Pluckerbooks.com</a>.  Pluckerbooks runs off d.maddock1's cablemodem connection, so please be nice.  Also, because d.maddock1's ISP blocks port 80 (the standard HTTP port), the site runs off port 81, which means you may have trouble accessing the images from behind a firewall and/or proxy.</p>
 
 <h3>Non-Standard Formatting</h3>
 
