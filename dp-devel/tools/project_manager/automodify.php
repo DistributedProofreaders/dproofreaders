@@ -15,7 +15,15 @@ $projectinfo = new projectinfo();
   include 'autorelease.php';
   include 'sendtopost.php';
 
-  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."'");
+  $one_project = isset($_GET['project'])?$_GET['project']:0;
+
+  if ($one_project) {
+    $verbose = 1;
+    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
+  } else {
+    $verbose = 1;
+    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."'");
+  }
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
   $pagesleft = 0;
@@ -89,11 +97,11 @@ $projectinfo = new projectinfo();
     }
 
     if (($state == PROJ_PROOF_FIRST_VERIFY) ||
-        ($state == PROJ_PROOF_SECOND_VERIFY) ||
+        ($state == PROJ_PROOF_SECOND_VERIFY) || ($one_project) ||
         (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) || 
         (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
 
-        echo "Found \"$nameofwork\" to verify = $project<BR>";
+        if ($verbose) echo "Found \"$nameofwork\" to verify = $project<BR>";
 
         // Check in MIA pages
         $page_num = 0;
@@ -140,7 +148,7 @@ $projectinfo = new projectinfo();
         }
 
         $sql = "UPDATE projects SET state = '$state' WHERE projectid = '$project'";
-        echo "New state = $state<P>";
+        if ($verbose) echo "New state = $state<P>";
         $result = mysql_query($sql);
     }
 
@@ -150,7 +158,7 @@ $projectinfo = new projectinfo();
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $project SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
-        echo "Found project to promote = $project<BR>";
+        if ($verbose) echo "Found project to promote = $project<BR>";
 
         $updatefile = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_SECOND_AVAILABLE."' WHERE projectid = '$project'");
     }
@@ -161,7 +169,8 @@ $projectinfo = new projectinfo();
     }
     $rownum++;
   }
-  print "Total pages available = ".$pagesleft."<BR>";
+  if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
 
-  autorelease($pagesleft);
+  if (!$one_project) { autorelease($pagesleft); }
+  else { echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">"; }
 ?>

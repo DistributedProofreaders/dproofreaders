@@ -101,8 +101,7 @@ if ($topic_id == "") {
 
         // Allows a user to change a project to be checked, but should not be something they do.
 
-        echo "<P><B>NOTE:</B> Changing a projects state to verify for the current round is not needed. Once the last available page is done, this will be changed automatically now. After it has been changed to verify for the current round, the auto-cleanup script will check the validity and will demote it back down to being available and will make the missing pages available again.";
-        print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>(Click if you are changing a bad project), otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=automodify.php?project=$projectid\">";
     } else {
 
         // This option should never appear if they follow the options on the page, only for those that know what they are doing...
