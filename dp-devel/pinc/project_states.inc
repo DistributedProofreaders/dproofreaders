@@ -262,24 +262,6 @@ declare_project_state(
 
 // SUBMIT (was GB)
 declare_project_state(
-    "PROJ_SUBMIT_PG_UNAVAILABLE",
-    "proj_submit_pgunavailable",
-    _("Unavailable for Posting"),
-    'GB'
-);
-declare_project_state(
-    "PROJ_SUBMIT_PG_AVAILABLE",
-    "proj_submit_pgavailable",
-    _("Available for Posting"),
-    'GB'
-);
-declare_project_state(
-    "PROJ_SUBMIT_PG_POSTING",
-    "proj_submit_pgposting",
-    _("Being Posted"),
-    'GB'
-);
-declare_project_state(
     "PROJ_SUBMIT_PG_POSTED",
     "proj_submit_pgposted",
     _("Posted to Project Gutenberg"),
@@ -363,9 +345,6 @@ $PROJECT_STATES_IN_ORDER = array_merge(
         PROJ_POST_SECOND_CHECKED_OUT,
         PROJ_POST_COMPLETE,
 
-        PROJ_SUBMIT_PG_UNAVAILABLE,
-        PROJ_SUBMIT_PG_AVAILABLE,
-        PROJ_SUBMIT_PG_POSTING,
         PROJ_SUBMIT_PG_POSTED,
 
         PROJ_CORRECT_AVAILABLE,
@@ -392,9 +371,6 @@ $PROJECT_STATES_IN_ORDER = array_merge(
       . " OR state='".PROJ_POST_SECOND_AVAILABLE."'"
       . " OR state='".PROJ_POST_SECOND_CHECKED_OUT."'"
       . " OR state='".PROJ_POST_COMPLETE."'"
-      . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
-      . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
-      . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
       . ")");
   define("SQL_CONDITION_GOLD",
            "(state='".PROJ_SUBMIT_PG_POSTED."'"
