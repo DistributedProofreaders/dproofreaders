@@ -1,7 +1,6 @@
 <?PHP
 $relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
-include_once($relPath.'username.inc');
 include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'user.inc');
@@ -36,24 +35,17 @@ function abort_login( $error )
 
 extract($_POST);
 
-$err = check_username($userNM);
-if ($err != '')
-{
-    abort_login($err);
-}
-
 if ($userPW == '')
 {
     abort_login(_("You did not supply a password."));
 }
 
-// $userNM = str_replace("\'", "''", $userNM);
 $userC=new db_udb();
 
 $uC=$userC->checkLogin($userNM,$userPW);
 if (!$uC)
 {
-    abort_login(_("Username or password is incorrect."));
+    abort_login($userC->error);
 }
 
 $uP=$userC->getUserPrefs($userNM);
