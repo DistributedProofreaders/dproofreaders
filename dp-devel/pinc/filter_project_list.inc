@@ -1,7 +1,7 @@
 <?
 // set $label, $action_page, $filtertype_stem  and $state_sql before inclusion
 
-include_once(select_list.inc);
+include_once('select_list.inc');
 
 
 // arrays to hold legal filter values (determined from database)
