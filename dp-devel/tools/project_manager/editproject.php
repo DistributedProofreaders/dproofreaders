@@ -152,6 +152,7 @@ if ($Language == "") $Language = "English";
 if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$siteurl/faq/document.html\">Document Guidelines</a>.</p>";
 ?>
 
+<form method="POST" action="<? echo $_SERVER['PHP_SELF'] ?>">
 <input type="hidden" name="project" value="<? echo $project ?>">
 
 <? if (isset($errormsg) && strlen($errormsg) > 0) { ?>
