@@ -83,6 +83,55 @@ function get_project_status_descriptor( $which )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function array_subtract_first_from_each( $arr )
+// Return the array defined by:
+//     $result[$i] = $arr[$i] - $arr[0]
+{
+    $result = array();
+    foreach ( $arr as $key => $value )
+    {
+        if ( count($result) == 0 )
+        {
+            $first_value = $value;
+        }
+        $result[$key] = $value - $first_value;
+    }
+    return $result;
+}
+
+function array_successive_differences( $arr )
+// Return the array defined by:
+//     $result[$i] = $arr[$i+1] - $arr[$i]
+{
+    $result = array();
+    foreach ( $arr as $key => $value )
+    {
+        if ( isset($prev_key) )
+        {
+            $result[$prev_key] = $value - $prev_value;
+        }
+        $prev_key = $key;
+        $prev_value = $value;
+    }
+    return $result;
+}
+
+function array_accumulate( $arr )
+// Return the array defined by:
+//     $result[$i] = sum( $arr[$j] for $j up to and including $i )
+{
+    $result = array();
+    $sum = 0;
+    foreach ( $arr as $key => $value )
+    {
+        $sum += $value;
+        $result[$key] = $sum;
+    }
+    return $result;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function draw_pages_graph(
     $x_dates,
     $y_actual_n_pages,
