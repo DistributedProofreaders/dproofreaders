@@ -27,6 +27,10 @@ $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
 $general_forum_url         = "$forums_url/viewforum.php?f=1";
 $projects_forum_url        = "$forums_url/viewforum.php?f=2";
 $post_processing_forum_url = "$forums_url/viewforum.php?f=3";
+$content_providing_forum_url 	= "$forums_url/viewforum.php?f=9";
+$beginners_site_forum_url 	= "$forums_url/viewforum.php?f=18";
+$beginners_proofing_forum_url 	= "$forums_url/viewforum.php?f=19";
+
 
 $uploads_dir = '<<UPLOADS_DIR>>';
 $uploads_host = '<<UPLOADS_HOST>>';
