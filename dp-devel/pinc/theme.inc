@@ -204,7 +204,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     		} else {
         		$neighborhood['rank'][$i] = $i+1;
     		}
-		if (!empty($row['u_privacy'])) {
+		if (!empty($row['u_privacy']) && $row['username'] != $GLOBALS['pguser']) {
 			$neighborhood['username'][$i] = _("Anonymous");
 		} else $neighborhood['username'][$i] = $row['username'];
     		$neighborhood['pages'][$i] = $row['pagescompleted'];
