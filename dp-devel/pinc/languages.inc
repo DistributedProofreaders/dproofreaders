@@ -22,6 +22,7 @@ $locales=array(
         "pt"=>"pt_PT.utf8",
         "sr"=>"sr_YU.utf8@cyrillic",
         "sv"=>"sv_SE.utf8",
+	"ur"=>"ur_PK",
 );
 
 $phpbblangs=Array(
@@ -116,6 +117,13 @@ function lang_code($shortcode) {
 	return FALSE;
 }
 
+function short_lang_code($langcode=FALSE)
+{
+        if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+
+        return $langcode?substr($langcode,0,2):"en";
+}
+
 function lang_name($langcode)
 {
 	$a=array(
@@ -201,26 +209,40 @@ function bilingual_name($langcode)
 	}
 }
 
-function lang_dir($langcode)
+function lang_direction($langcode=FALSE)
 {
-	$a=substr($langcode,0,2);
+	if($langcode===FALSE) $langcode=$GLOBALS['locale'];
 
-	if($a=="en") return "";
-	else return $a."/";
+	switch(substr($langcode,0,2)) {
+		case "ar":
+		case "fa":
+		case "he":
+		case "ur": //surely more
+			return "RTL";
+			break;
+		default:
+			return "LTR";
+			break;
+	}
 }
 
-function cur_lang_dir()
+function lang_dir($langcode=FALSE)
 {
-	global $locale;
+	if($langcode===FALSE) $langcode=$GLOBALS['locale'];
 
-	return lang_dir($locale);
+	$a=substr($langcode,0,2);
+
+	if(!$a||$a=="en") return "";
+	else return $a."/";
 }
 
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).
-function lang_forum($langcode)
+function lang_forum($langcode=FALSE)
 {
+	if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+
 	$a=array(
 		"fr_FR.utf8"=>"fr",
 		"sr_YU.utf8@cyrillic"=>"sr",
@@ -230,17 +252,15 @@ function lang_forum($langcode)
 	if (in_array($langcode, $a)) { return $a[$langcode]; } else { return false; } 
 }
 
-function cur_lang_forum()
-{
-	global $locale;
-
-	return lang_forum($locale);
-}
-
 function phpbb_lang($langcode) {
 	global $phpbblangs;
 	
 	return $phpbblangs[$langcode];
+}
+
+function lang_html_header($langcode=FALSE)
+{
+	return " lang='".short_lang_code($langcode).((lang_direction($langcode)=="RTL")?"' dir='RTL'":"'");
 }
 
 ?>
