@@ -29,7 +29,6 @@ echo ">$array_list[$i]</option>";
 
 
 
-
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
 {
@@ -54,6 +53,7 @@ $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
 $email_updates = $userP['email_updates'];
 $project_listing = $userP['project_listing'];
+$pagescompleted = mysql_result($result,0,"pagescompleted");
 
 echo "<form action='userprefs.php' method='post'>";
 echo "<center>Preferences Page for $pguser</center><br><br>";
@@ -70,10 +70,12 @@ radio_select('email_updates', $email_updates, '1', 'Yes');
 radio_select('email_updates', $email_updates, '0', 'No');
 echo "</td></tr>";
 
+if ($pagescompleted >= 50) {
 echo "<tr><td width='21%'>Show projects from:</td><td width='79%'>";
 $array = implode('|', $p_l);
 dropdown_select('project_listing', $userP['project_listing'], $array);
 echo "</td></tr>";
+}
 
 echo "<tr><td width='21%'>Language:</td><td width='79%'>";
 $array = implode('|', $u_l);
