@@ -11,7 +11,6 @@ $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
 
-echo "PM Default: ".$userP['i_pmdefault'];
 if (empty($_GET['show'])) {
 	if ($userP['i_pmdefault'] == 0) {
 		metarefresh(0,"projectmgr.php?show=all","","");
