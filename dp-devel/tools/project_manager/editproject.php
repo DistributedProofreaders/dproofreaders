@@ -333,14 +333,14 @@ function previewProject($nameofwork, $authorsname, $comments) {
 
    echo "<br><table width='90%' border=1>";
    echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
-   echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$nameofwork</td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$authorsname</td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>".$GLOBALS['pguser']."</td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".date("l, F jS, Y")." at ".date("g:i:sA")."</td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>";
-   echo "<tr><td colspan=2>$comments</td></tr></table><br><br>";
+   echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$nameofwork</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$authorsname</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>".$GLOBALS['pguser']."</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".date("l, F jS, Y")." at ".date("g:i:sA")."</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
+   echo "<tr><td colspan=2>$comments</td></tr>\n</table><br><br>";
 }
 
 function language_list($language) {
@@ -370,7 +370,7 @@ function language_list($language) {
         if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
    }
-   echo "</select></td></tr>";
+   echo "</select></td></tr>\n";
 }
 
 function genre_list($genre) {
@@ -456,7 +456,7 @@ function genre_list($genre) {
         if ($genre == $array_list[$i]) { echo " SELECTED"; }
         echo ">$array_list[$i]</option>";
         }
-   echo "</select></td></tr>";
+   echo "</select></td></tr>\n";
 }
 
 function difficulty_list($difficulty_level) {
@@ -476,7 +476,7 @@ function difficulty_list($difficulty_level) {
            }
                 }
    }
-   echo "</td></tr>";
+   echo "</td></tr>\n";
 }
 
 function query_format() {
@@ -570,33 +570,33 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
                 echo "<tr><td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
                 echo "<td width='45%' align='left' valign='top'>";
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>\n";
                 echo "</table><p></td>";
             } else {
                 echo "<td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
                 echo "<td width='45%' align='left' valign='top'>";
                 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>";
-                echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>";
-                echo "</table><p></td></tr>";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>\n";
+                echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>\n";
+                echo "</table><p></td></tr>\n";
                 }
 
             $i++;
             $start++;
         }
-        if ($i % 2 != 1) { echo "</tr>"; }
+        if ($i % 2 != 1) { echo "</tr>\n"; }
 
         if (isset($_GET['start']) && ($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
-        if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>"; }
+        if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>\n"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>\n"; }
 
         echo "</table><br><center>";
         if (yaz_hits($id) != 0) { echo "<input type='submit' value='Create the Project'>&nbsp;"; }
@@ -657,23 +657,23 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
    if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
    echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
-   echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a New Project</font></b></center></td></tr>";
-   if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>Project ID</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>"; }
-        echo "<tr><td bgcolor='#CCCCCC'><b>Name of Work</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Author's Name</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>";
+   echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a New Project</font></b></center></td></tr>\n";
+   if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>Project ID</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>\n"; }
+        echo "<tr><td bgcolor='#CCCCCC'><b>Name of Work</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Author's Name</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
         echo language_list($language);
         echo genre_list($genre);
         echo difficulty_list($difficulty_level);
-        echo "<tr><td bgcolor='#CCCCCC'><b>PPer/PPVer</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".strip_tags($clearance)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>";
-        if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>"; }
-        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' value='Save and Preview'><input type='button' value='Quit Without Saving' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr></form>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>PPer/PPVer</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".strip_tags($clearance)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
+        if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
+        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' value='Save and Preview'><input type='button' value='Quit Without Saving' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
    echo "</table>";
 
    if(isset($_POST['saveAndPreview'])) {
@@ -708,16 +708,16 @@ else {
         echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
         echo "<input type='hidden' name='action' value='marc_search'>";
         echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='75%' bordercolor='#000000' style='border-collapse: collapse'>";
-        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a Project</font></b></center></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan='2'><center><font color='".$theme['color_navbar_font']."'>Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.</font></center></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Title</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='title'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Author</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='author'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publisher</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='publisher'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publication Year (eg: 1912)</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='pubdate'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISBN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='isbn'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISSN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='issn'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>LCCN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='lccn'></td></tr>";
-        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' value='Search'></center></td></tr></form>";
+        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a Project</font></b></center></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan='2'><center><font color='".$theme['color_navbar_font']."'>Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.</font></center></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Title</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='title'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Author</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='author'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publisher</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='publisher'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publication Year (eg: 1912)</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='pubdate'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISBN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='isbn'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISSN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='issn'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>LCCN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='lccn'></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' value='Search'></center></td></tr>\n</form>";
         echo "</table></center>";
    }
    theme("", "footer");
