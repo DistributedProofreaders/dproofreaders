@@ -137,13 +137,13 @@ echo "<td colspan =\"2\" align = \"center\"><b>This Image Contains:</b></td><tr>
       <td><b>Body of Book</b></td><td></td><tr>
       <td>Abbreviation</td><td><input type='checkbox' name='abbreviation'></td></td><tr>
       <td>Chapter/Part/Book Heading</td><td><input type='checkbox' name='division'></td></td><tr>
-      <td>Epigraph</td><td><input type='checkbox' name='epigraph'></td><tr>
+      <td>Dedication/Epigraph</td><td><input type='checkbox' name='epigraph'></td><tr>
       <td>Footnote</td><td><input type='checkbox' name='footnote'></td><tr>
       <td>Illustration or Drawing</td><td><input type='checkbox' name='illustration'></td><tr>
       <td>Letter</td><td><input type='checkbox' name='letter'></td><tr>
       <td>List</td><td><input type='checkbox' name='list'></td><tr>
-      <td>Math Notation</td><td><input type='checkbox' name='math'></td><tr>
-      <td>Poetry</td><td><input type='checkbox' name='poetry'></td><tr>
+      <td>Symbolic Notation</td><td><input type='checkbox' name='math'></td><tr>
+      <td>Poetry/Verse</td><td><input type='checkbox' name='poetry'></td><tr>
       <td>Sidenote</td><td><input type='checkbox' name='sidenote'></td><tr>
       <td>Song/Music</td><td><input type='checkbox' name='verse'></td><tr>
       <td>Table</td><td><input type='checkbox' name='table'></td><tr>
