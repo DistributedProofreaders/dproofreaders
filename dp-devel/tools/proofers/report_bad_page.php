@@ -38,6 +38,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<br><br><center>";
 	echo "<form action='badpage.php' method='post'>";
 	echo "<input type='hidden' name='fileid' value='$fileid'>";
+	echo "<input type='hidden' name='imagefile' value='$imagefile'>";
 	echo "<input type='hidden' name='projectname' value='$projectid'>";
 	echo "<input type='hidden' name='badState' value='$badState'>";
 	echo "<input type='hidden' name='proofstate' value='$proofstate'>";
