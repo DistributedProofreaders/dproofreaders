@@ -15,6 +15,8 @@ include_once('filter_proof_list.inc');
 
 $RFilter = " ";
 
+echo $array_of_langs. $array_of_genres . $array_of_PMs. $array_of_diffs;
+
 if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	$condition1 = '1';
 	if ( isset($_GET['language1']) && count($_GET['language1']) > 0 )
@@ -22,6 +24,9 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= " AND (0";
 	    foreach( $_GET['language1'] as $lang )
 	    {
+
+
+
 		if (!in_array( $lang, $array_of_langs )) { echo "UHOH" & exit(); }
 
 		if ( $lang == '' )
