@@ -226,21 +226,21 @@ function addUserCount($proofstate,$pguser,$userP)
 
 function deleteUserCount($proofstate,$pguser,$userP)
 {
-  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result=dquery($sql);
-  $rows=nrows($result);
-    if ($rows !=0)
-    {
-      $curState=dresult($result,0,'state');
-        if (($this->getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || ($this->getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
-        {
+//  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
+//  $result=dquery($sql);
+//  $rows=nrows($result);
+//    if ($rows !=0)
+//    {
+//      $curState=dresult($result,0,'state');
+//        if (($this->getProjectRound($proofstate)==1 && $curState==SAVE_FIRST) || ($this->getProjectRound($proofstate)==2 && $curState==SAVE_SECOND))
+//        {
           // delete from user page count
           $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
           $result = mysql_query($sql);
           $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
           $result = mysql_query($sql);
-        }
-    }
+//        }
+//    }
 }
 
 function saveTemp($proofstate,$text_data,$pguser)
