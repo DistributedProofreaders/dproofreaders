@@ -296,11 +296,6 @@ theme("Project Managers", "header");
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
 	
-        		if ($outby != "") {
-                		$tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
-                		$outbyemail = mysql_result($tempsql, 0, "email");
-            		}
-
 			if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_main_bg'];
                 	} else {
@@ -324,6 +319,10 @@ theme("Project Managers", "header");
             		if ($show == 'site') {
                 		print mysql_result($result, $rownum, "username");
             		} else if ($outby != "") {
+				// Maybe we should get this info via a
+				// left outer join in the big select query.
+                		$tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
+                		$outbyemail = mysql_result($tempsql, 0, "email");
                 		print "<a href=mailto:$outbyemail>$outby</a>";
             		}
 			echo "</td>\n";
