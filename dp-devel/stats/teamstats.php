@@ -40,17 +40,22 @@ $max_update = mysql_result($result,0,0);
 		// teams daily average as well
 		$now = time();
 		$rankArray = teams_get_page_tally_ranks();
+
+		$result = mysql_query("
+			SELECT team_id, total_page_count
+			FROM user_teams_stats
+			WHERE date_updated = $max_update
+		");
+		while ($row = mysql_fetch_assoc($result)) {
+			$prevDayCount[$row['team_id']] = $row['total_page_count'];
+		}
+
 		$result = mysql_query("SELECT id, page_count, created FROM user_teams");
 		while($row = mysql_fetch_assoc($result)) {
 			$team_id = $row['id'];
 			if ($team_id != 1) {
 				$rank = $rankArray[$team_id];
-				$prevDayCount = mysql_query("
-					SELECT total_page_count
-					FROM user_teams_stats
-					WHERE date_updated = $max_update && team_id = $team_id
-				");
-				$todaysCount = $row['page_count'] - mysql_result($prevDayCount,0,"total_page_count");
+				$todaysCount = $row['page_count'] - $prevDayCount[$team_id];
 				$updateCount = maybe_query("
 					INSERT INTO user_teams_stats
 					(team_id, date_updated, daily_page_count, total_page_count, rank)
