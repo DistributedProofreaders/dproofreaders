@@ -178,7 +178,7 @@ echo "</table>\n";
 // only show full page table details in "Full" mode
 
 if ($page_type == "Full") {
-
+       include_once('detail_legend.inc');
 	echo_page_table($projectid, 1);
 
       // -----------------------------------------------------------------------------

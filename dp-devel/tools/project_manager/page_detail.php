@@ -7,6 +7,8 @@ include_once('page_table.inc');
 
 theme("Project Details", "header");
 
+include_once('detail_legend.inc');
+
 echo_page_table( $project, $show_image);
 
 theme("","footer");
