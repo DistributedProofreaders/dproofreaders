@@ -209,98 +209,119 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 		if (1)
 		{
 
-			// will be nice one day to get all the following out of a table perhaps?
+
+                       // will be nice one day to get all the following out of a table perhaps?
 
                         // default Special colour (will be over-ridden by any specific matches below)
 
-			if ( startswith( $book['comments'], 'SPECIAL:' ) )
-			{
-				$bgcolor = " bgcolor='#FFFF66'";
-			}
+                        if ( startswith( $book['comments'], 'SPECIAL:' ) )
+                        {
+                                $bgcolor = " bgcolor='#FFFF66'";
+                        }
 
-			// Halloween colors for Halloween projects!
-			if ( startswith( $book['comments'], 'Halloween' ) )
-			{
-				$bgcolor = " bgcolor='orange'";
-			}
-			// Wanted to do orange-on-black, too,
-			// but couldn't figure out how to make link-text orange,
-			// and it was pretty unreadable as is on a black background.
+                        // Halloween colors for Halloween projects!
+                        if ( startswith( $book['comments'], 'Halloween' ) )
+                        {
+                                $bgcolor = " bgcolor='orange'";
+                        }
+                        // Wanted to do orange-on-black, too,
+                        // but couldn't figure out how to make link-text orange,
+                        // and it was pretty unreadable as is on a black background.
 
-			// green for Ramadan, St Patrick
-			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' )
-			      or startswith( $book['comments'], 'SPECIAL: St. Pat') )
-			{
-				$bgcolor = " bgcolor='#00FF00'";
-			}
-			// green for India
-			if (  startswith( $book['comments'], 'SPECIAL: India') )
-			{
-				$bgcolor = " bgcolor='#33FF99'";
-			}
-
-			// poppy red for Armistice Day, pale red for Christmas
-			if ( startswith( $book['comments'], 'SPECIAL: Nov 11' ) or
- 				startswith( $book['comments'], 'SPECIAL: CHRISTMAS' ) or
-				startswith( $book['comments'], 'SPECIAL: Christmas' ))
-			{
-				$bgcolor = " bgcolor='#FF9090'";
-			}
+                        // green for Ramadan, St Patrick
+                        if ( startswith( $book['comments'], 'SPECIAL: Ramadan' )
+                              or startswith( $book['comments'], 'SPECIAL: St. Pat') )
+                        {
+                                $bgcolor = " bgcolor='#00FF00'";
+                        }
+                        // green for India
+                        if (  startswith( $book['comments'], 'SPECIAL: India') )
+                        {
+                                $bgcolor = " bgcolor='#33FF99'";
+                        }
 
 
-			// very light blue for birthday books still avaialble after the day
-			if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
-			{
-				$bgcolor = " bgcolor='#CCFFFF'";
-			}
+                        // blue for Burns' night (Scotland)
+                        if (startswith( $book['comments'], 'SPECIAL: Burns'))
+                        {
+                                $bgcolor = " bgcolor='#99CCFF'";
+                        }
+
+                        // poppy red for Armistice Day, pale red for Christmas
+                        if ( startswith( $book['comments'], 'SPECIAL: Nov 11' ) or
+                                startswith( $book['comments'], 'SPECIAL: CHRISTMAS' ) or
+                                startswith( $book['comments'], 'SPECIAL: Christmas' ) or
+                                 startswith( $book['comments'], 'SPECIAL: Ides' ))
+                        {
+                                $bgcolor = " bgcolor='#FF9090'";
+                        }
+
+                        // Earth blue for Earth Day
+                        if ( startswith( $book['comments'], 'SPECIAL: Earth' ) )
+                        {
+                                $bgcolor = " bgcolor='#669CFF'";
+                        }
+
+                        // very light blue for birthday books still avaialble after the day
+                        if ( startswith( $book['comments'], 'SPECIAL: Birthday' ) )
+                        {
+                                $bgcolor = " bgcolor='#CCFFFF'";
+                        }
 
 
-			 // slightly richer blue for birthday books when today IS the day
+                         // slightly richer blue for birthday books when today IS the day
                         $bday = date('md');
                         if ( startswith( $book['comments'], "SPECIAL: Birthday $bday" ) )
                         {
                                 $bgcolor = " bgcolor='#33CCFF'";
                         }
 
-			// Native American Heritage Month
-			if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
-			{
-				$bgcolor = " bgcolor='#CCCCCC'";
-			}
+                        // Native American Heritage Month
+                        if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
+                        {
+                                $bgcolor = " bgcolor='#CCCCCC'";
+                        }
 
 
-			// yellow for Children's Book Week
-			if ( startswith( $book['comments'], 'SPECIAL: CBW' ) )
-			{
-				$bgcolor = " bgcolor='#FFFF33'";
-			}
+                        // green for World Health Day
+                        if ( startswith( $book['comments'], 'SPECIAL: Health' ) )
+                        {
+                                $bgcolor = " bgcolor='#00FF00'";
+                        }
 
-                               // nice green for Abolition of Slavery and IWD
-                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )  OR startswith( $book['comments'], 'SPECIAL: IWD'))
+                        // yellow for Children's Book Week - actually Blue so as not to clash with other special
+                        if ( startswith( $book['comments'], 'SPECIAL: CBW' )
+                                OR startswith( $book['comments'], 'SPECIAL: ChBook'))
+                        {
+                                $bgcolor = " bgcolor='#0099FF'";
+                                //$bgcolor = " bgcolor='#FFFF33'";
+                        }
+
+                               // nice green for Abolition of Slavery
+                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' )
+                                OR startswith( $book['comments'], 'SPECIAL: IWD'))
                         {
                                 $bgcolor = " bgcolor='#00CC99'";
                         }
 
-	               // blue for Wright Bros
+                       // blue for Wright Bros
                         if ( startswith( $book['comments'], 'SPECIAL: FLY100' ) )
                         {
                                 $bgcolor = " bgcolor='#0099FF'";
                         }
 
-	               // middle grey for Black History Month
-                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ) )
+                       // middle grey for Black History Month (and Slave Narratives - temp)
+                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ))
                         {
-                                $bgcolor = " bgcolor='#D6D600'";
+                                $bgcolor = " bgcolor='#D6D6D6'";
                         }
 
-			// pink for Saint Valentine's Day
+                        // pink for Saint Valentine's Day
                         if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) or
-				startswith( $book['comments'], 'SPECIAL: April Fool' ))
+                             startswith( $book['comments'], 'SPECIAL: April Fool') )
                         {
                                 $bgcolor = " bgcolor='#FF99FF'";
                         }
-
-
 
 		}
 
