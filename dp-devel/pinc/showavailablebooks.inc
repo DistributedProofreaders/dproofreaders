@@ -207,8 +207,8 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 
 
-	$linkbase = "<a href=proof_per.php?order{$prd->round_id}=";
-	$linkend = "#{$prd->round_id}";
+	$linkbase = "<a href='?order{$prd->round_id}=";
+	$linkend = "#{$prd->round_id}'";
 
 	// Always put the BEGIN projects at the top.
 	$query = "
