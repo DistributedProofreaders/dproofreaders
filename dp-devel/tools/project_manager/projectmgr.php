@@ -18,6 +18,10 @@ echo_manager_header();
 	<p><b>Project Manager Notice:</b><br>
 
 	<p>
+	The "Search for Projects" page is now the default PM page.
+
+	<hr width='50%'>
+	<p>
 	The "Pages Left" column of the projects table has been removed.
 	This should speed up assembly of the PM page dramatically,
 	and also reduce the load on the server.
