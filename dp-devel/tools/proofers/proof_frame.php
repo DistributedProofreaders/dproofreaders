@@ -43,6 +43,8 @@ if (isset($editone))
      // could rewrite to take extra variables instead (see earlier debugging versions)
      $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
      $tpage->deleteUserCount($proofstate,$pguser,$userP);
+     // new function only to be called from here
+     $tpage->reOpen($proofstate,$pguser);
   }
 
   // load the frame
