@@ -79,7 +79,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                    WHERE state = '".PROJ_POST_SECOND_CHECKED_OUT."'");
     $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
-    echo "<td align ='left'>Books being verified:</td><td align ='right'>$totalverifying</td><tr>";
+    echo "<td align ='left'>Books being verified:</td><a href ='ppv_checkedout.php?order=default'>(View)</a><td align ='right'>$totalverifying</td><tr>";
 
 echo "</table>";
 echo "<br>";
@@ -93,7 +93,7 @@ echo "<a href='../tools/project_manager/release_queue.php'>See All Waiting Queue
 echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_total_pages_graph.php\"></center><br>";
+//echo "<center><img src=\"jpgraph_files/cumulative_total_pages_graph.php\"></center><br>";
 
 //echo "<hr><br><br>Special temporary graphs showing last month's results:<br><br>";
 //echo "<center><img src=\"jpgraph_files/prev_month_pages_graph.php\"></center><br>";
