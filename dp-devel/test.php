@@ -28,18 +28,34 @@ if (0)
     echo "<hr>\n";
 }
 
+function startswith( $str, $pre )
+{
+    return ( substr( $str, 0, strlen($pre) ) == $pre );
+}
+
 if (1)
 {
-    $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
-    $criterion = "modifieddate >= $project_cutoff_ts";
-    $criterion = "archived='0'";
-    $criterion = "1";
-    $res = mysql_query("SELECT projectid FROM projects WHERE $criterion")
-	    or die(mysql_error());
+    if (0)
+    {
+	$project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
+	$criterion = "modifieddate >= $project_cutoff_ts";
+	$criterion = "archived='0'";
+	$criterion = "1";
+	$res = mysql_query("SELECT projectid FROM projects WHERE $criterion")
+		or die(mysql_error());
+    }
+    else
+    {
+	$res = mysql_query("SHOW TABLES");
+    }
 
     while( $project_row = mysql_fetch_array($res) )
     {
 	list($projectid) = $project_row;
+	if ( ! startswith( $projectid, 'projectID' ) )
+	{
+	    continue;
+	}
 
 	echo $projectid;
 	echo " ";
