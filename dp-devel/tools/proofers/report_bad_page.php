@@ -76,7 +76,12 @@ if ($reason == 0) {
 }
 
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser', b_code=$reason WHERE fileid='$fileid'");
+if ($badState == "bad_first") {
+	$text_copier = 'round1_text=master_text';
+} else {
+	$text_copier = 'round2_text=round1_text';
+}
+$result = mysql_query("UPDATE $projectid SET state='$badState', b_user='$pguser', b_code=$reason, $text_copier WHERE fileid='$fileid'");
 
 //Find out how many pages have been marked bad
 $totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
@@ -113,13 +118,6 @@ $subject = "Page Marked as Bad";
 
 //Send the email to the PM
 maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
-
-//Update the page to have the master text & username of bad page reporter
-if ($badState == "bad_first") {
-	$result = mysql_query("UPDATE $projectid SET round1_text=master_text WHERE fileid='$fileid'");
-} else {
-	$result = mysql_query("UPDATE $projectid SET round2_text=round1_text WHERE fileid='$fileid'");
-}
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
