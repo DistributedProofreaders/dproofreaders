@@ -48,9 +48,10 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
 if (isset($saved)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$saved\" name=\"saved\">";}
 ?>
-<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1"> <?PHP 
-if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\"> ";}
-?><INPUT TYPE="Submit" accesskey="9" VALUE="Quit" name="button3"><BR>
+<INPUT TYPE="submit" accesskey="6" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($orient=="vert") {echo "Horizontal";} else {echo "Vertical";} ?>"> 
+<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save"> <?PHP 
+if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save and Proof Next Page\"> ";}
+?><INPUT TYPE="Submit" accesskey="9" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
 <?
 //display page number
 echo "<B>Page Number: $pageNum ";

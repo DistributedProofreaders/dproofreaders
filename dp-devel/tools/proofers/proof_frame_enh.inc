@@ -9,7 +9,7 @@ echo "newZmSize=$zmSize;\r\n";
 
 ?>
 //  -->
-</SCRIPT></head><BODY 
+</SCRIPT></HEAD><BODY 
 BGCOLOR="#CCCCCC" TEXT="#000000" LINK="#000000" VLINK="#000000" 
 ALINK="#000000" TOPMARGIN="0" onLoad="doBU()"><CENTER><FORM NAME="editform" ID="editform" 
 METHOD="POST" ACTION="processtext.php" TARGET="_top">

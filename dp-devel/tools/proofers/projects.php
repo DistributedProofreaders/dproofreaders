@@ -32,14 +32,16 @@ if (!isset($proofing))
 <!-- 
 function newProofWin(winURL)
 {
-sw=screen.width;
+newWidth=600;newHeight=450;
+iCan=(window.ScriptEngine) ? (ScriptEngine().indexOf("InScript") != -1) : false;
+if (!iCan)
+{sw=screen.width;
 if (sw)
 {newWidth=screen.width-20;
-newHeight=((newWidth-40) * 75)/100;
-}
-else {newWidth=600;newHeight=450;}
+newHeight=((newWidth-40) * 75)/100;}
 newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width="+newWidth+",height="+newHeight+",top=0,left=5'";
 nwWin=window.open(winURL,"prooferWin",newFeatures);}
+else {alert('This interface does not currently support the iCab browser.\r\nPlease use the standard proofing interface.');}}
 // -->
 </SCRIPT>
 <?PHP
