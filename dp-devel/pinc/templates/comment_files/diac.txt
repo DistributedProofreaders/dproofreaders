@@ -1,0 +1,18 @@
+
+<pre>
+diacritical mark           above  below
+--------------------------   ------  ------
+macron (straight line)       [=x]   [x=]
+2 dots (diaresis or umlaut)  [:x]   [x:]
+1 dot                        [.x]   [x.]
+grave accent                 [\x]   [x\]
+acute (égu) accent           [/x]   [x/]
+circumflex                   [^x]   [x^]
+caron (v-shaped symbol)      [vx]   [xv]
+breve (u-shaped symbol)      [)x]   [x)]
+tilde                        [~x]   [x~]
+cedilla                      [,x]   [x,] 
+</pre>
+
+<p>If the diacritical mark is in Latin-1 (i.e. available from the
+pulldown list), enter it as one character.  
