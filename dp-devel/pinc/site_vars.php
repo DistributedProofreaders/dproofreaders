@@ -39,6 +39,7 @@ $pp_projects_forum_idx            = '<<FORUMS_PROJECT_PP_IDX>>';
 $posted_projects_forum_idx        = '<<FORUMS_PROJECT_POSTED_IDX>>';
 $content_providing_forum_idx      = '<<FORUMS_CONTENT_PROVIDERS_IDX>>';
 $post_processing_forum_idx        = '<<FORUMS_POST_PROCESSORS_IDX>>';
+$teams_forum_idx                  = '<<FORUMS_TEAMS_IDX>>';
 
 
 $general_forum_url                = "$forums_url/viewforum.php?f=$general_forum_idx";
@@ -50,7 +51,7 @@ $post_processing_forum_url        = "$forums_url/viewforum.php?f=$post_processin
 $content_providing_forum_url   	  = "$forums_url/viewforum.php?f=$content_providing_forum_idx";
 $beginners_site_forum_url 	  = "$forums_url/viewforum.php?f=$beginners_site_forum_idx";
 $beginners_proofing_forum_url     = "$forums_url/viewforum.php?f=$beginners_proofing_forum_idx";
-
+$teams_forum_url                  = "$forums_url/viewforum.php?f=$teams_forum_idx";
 
 
 $uploads_dir = '<<UPLOADS_DIR>>';
