@@ -243,7 +243,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage Projects") . "</a>";
 			$divider = 1;
 		}
-		if (($userP['postprocessor'] == "yes" || $neighborhood['pages'][$userindex] >= 400) && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
+		if (user_is_PP() && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
