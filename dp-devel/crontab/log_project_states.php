@@ -54,20 +54,20 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 // every occupied state. (The occupied states should be a subset of the defined
 // states, but you never know.)
 // Insert a row into project_state_stats for each of those entries.
+
+echo "INSERT INTO project_state_stats SET year=$yr, month=$mth, day=$dy, date='$dte', ...", $EOL;
 foreach ( $num_projects_in_state_ as $state => $num_projects )
 {
+    $np = sprintf( "%4d", $num_projects );
+    echo "    num_projects=$np, state='$state'", $EOL;
+
     $insert_query = "
         INSERT INTO project_state_stats
         SET year=$yr, month=$mth, day=$dy, date='$dte', state='$state', num_projects=$num_projects
     ";
 
-    if ($testing_this_script)
+    if (! $testing_this_script)
     {
-        echo $insert_query, $EOL;
-    }
-    else
-    {
-        echo $insert_query, $EOL;
         mysql_query($insert_query) or die(mysql_error());
     }
 }
