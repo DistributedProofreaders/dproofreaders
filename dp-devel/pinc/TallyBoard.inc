@@ -325,10 +325,7 @@ class TallyBoard
             $prev_tally_for_[$holder_id] = $prev_tally_value;
         }
 
-        // Get everyone's current rank.
-
-        $rank_for_ = array();
-
+        // Get everyone's current tally, in rank order.
         $result = mysql_query("
             SELECT holder_id, tally_value
             FROM current_tallies
@@ -337,26 +334,12 @@ class TallyBoard
                 AND holder_type = '$this->holder_type'
                 AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
-        ");
-        $ranker = new Ranker(TRUE);
-        while (list($holder_id, $tally_value) = mysql_fetch_row($result))
-        {
-            $rank_for_[$holder_id] = $ranker->next( $tally_value );
-        }
-
-        // Get everyone's current tally.
-        $result = mysql_query("
-            SELECT holder_id, tally_value
-            FROM current_tallies
-            WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND $this->rank_exclusion_kludge
         ") or die(mysql_error());
 
+        $ranker = new Ranker(TRUE);
         while ( list($holder_id, $current_tally) = mysql_fetch_row($result) )
         {
-            $rank = $rank_for_[$holder_id];
+            $rank = $ranker->next( $current_tally );
             $tally_delta = $current_tally - $prev_tally_for_[$holder_id];
             $query = "
                 INSERT INTO past_tallies
