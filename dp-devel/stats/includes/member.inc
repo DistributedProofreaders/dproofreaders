@@ -193,11 +193,11 @@ function mbrRank($username) {
 	}
 
 	if (!isset($userindex)) {
-		$userindex = $i+1;
+		$userindex = $i;
 		$rankArray['username'][$userindex] = $username;
 		$rankArray['pages'][$userindex] = 0;
-		$rankArray['rank'][$userindex] = $userindex;
-		$rankArray['totalRanks'] = $userindex;
+		$rankArray['rank'][$userindex] = $userindex+1;
+		$rankArray['totalRanks'] = $userindex+1;
 	} else {
 		$rankArray['totalRanks'] = $rankArray['rank'][$i-1];
 	}
