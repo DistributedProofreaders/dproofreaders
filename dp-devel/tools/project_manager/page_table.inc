@@ -6,19 +6,21 @@ include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
 
 
-
 function echo_page_table( $projectid, $show_image_size)
 {
 	global $theme, $projects_dir;
 
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
+      // want PPers able to see names
+	$can_see_names = ($can_edit || user_is_PP_of( $projectid));
+
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
 
 	$inRound = projectStateRound($state);
 
-	$show_delete = ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND');
+	$show_delete = (($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') && $can_edit);
 
 	$upload_colspan = 2 + $show_image_size;
 
@@ -33,6 +35,9 @@ function echo_page_table( $projectid, $show_image_size)
 		if ($can_edit) {
 			echo "    <td align='center' colspan='5'>"._("Round 1")."</td>\n";
 			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='5'>"._("Round 2")."</td>\n";
+		} elseif ($can_see_names) {
+			echo "    <td align='center' colspan='4'>"._("Round 1")."</td>\n";
+			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='4'>"._("Round 2")."</td>\n";
 		} else {
 			echo "    <td align='center' colspan='3'>"._("Round 1")."</td>\n";
 			if ($inRound <> 'FIRST') echo "    <td align='center' colspan='3'>"._("Round 2")."</td>\n";
@@ -61,7 +66,7 @@ function echo_page_table( $projectid, $show_image_size)
 
 		echo "{$td_start}"._("Diff")."{$td_end}";
 		echo "{$td_start}"._("Date")."{$td_end}";
-		if ($can_edit)
+		if ($can_see_names)
 		{
 			echo "{$td_start}"._("User")."{$td_end}";
 		}
@@ -74,7 +79,7 @@ function echo_page_table( $projectid, $show_image_size)
 		{
 			echo "{$td_start}"._("Diff")."{$td_end}";
 			echo "{$td_start}"._("Date")."{$td_end}";
-			if ($can_edit)
+			if ($can_see_names)
 			{
 				echo "{$td_start}"._("User")."{$td_end}";
 			}
@@ -93,7 +98,7 @@ function echo_page_table( $projectid, $show_image_size)
 	}
 
 	echo "</tr>";
-}
+
 
 	$path = "$projects_dir/$projectid/";
 
@@ -124,13 +129,12 @@ function echo_page_table( $projectid, $show_image_size)
 
 		$fileid = $page_res['fileid'];
 
-		if (($page_res['round1_user'] == $pguser) || ($page_res['round2_user'] == $pguser))
-			$row_color = '#FF0000';
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
 		} else {
 			$row_color = $theme['color_navbar_bg'];
 		}
+
 		echo "<tr bgcolor='$row_color'>";
 
 		// --------------------------------------------
@@ -173,9 +177,9 @@ function echo_page_table( $projectid, $show_image_size)
 
 		// --------------------------------------------
 
-		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit);
+		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names);
 
-		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit);
+		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names);
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -209,9 +213,9 @@ function echo_page_table( $projectid, $show_image_size)
 
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
-	$projectid, $inRound, $can_edit)
+	$projectid, $inRound, $can_edit, $can_see_names)
 {
-	global $userP, $forums_url;
+	global $userP, $forums_url, $pguser;
 
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager()  || user_is_proj_facilitator() );
 
@@ -242,6 +246,14 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		assert(FALSE);
 	}
 
+	$R_username = $page_res[$R_user_field_name];
+
+	if ($R_username == $pguser) 
+		$cellcolorclause = "bgcolor='#880000'";
+	else
+		$cellcolorclause = " ";
+
+
 	// ------------------------------
 	// Diff
 
@@ -249,7 +261,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	if($page_res[$R_diff_field_name]) {
 		echo _("no diff");
 	} else {
-		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
+		echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num' target='_blank'>"._("diff")."</a>";
 	}
 
 	echo "</td>\n";
@@ -272,13 +284,14 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// User
 
-	$R_username = $page_res[$R_user_field_name];
-	if (($R_username == '') && ($can_edit))
+
+	if (($R_username == '') && ($can_see_names))
 	{
 		echo "<td></td>\n";
 	}
-	else if ($can_edit)
+	else if ($can_see_names)
 	{
+
 		$R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
 		if (mysql_num_rows($R_ures) == 0) {
 			$R_pages_completed = 0;
@@ -293,7 +306,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			$R_bb_user_id = mysql_result($R_bbres, 0, "user_id");
 		}
 
-		echo "<td align='center'><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
+		echo "<td align='center' $cellcolorclause ><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
 	}
 
 	// ------------------------------
@@ -303,11 +316,11 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 
 	if ( $R_text_length == 0 )
 	{
-		echo "<td></td>\n";
+		echo "<td $cellcolorclause > </td>\n";
 	}
 	else
 	{
-		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$R_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$R_text_length&nbsp;b</a></td>\n";
 	}
 
 	// ------------------------------
@@ -337,3 +350,4 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 }
 
 ?>
+
