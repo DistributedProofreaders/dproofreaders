@@ -43,32 +43,22 @@ $db_Connection=new dbConnect();
 			$message = "This is an automated message.\n\n
 Our database indicates that you have had a PP project checked out for more than 90 days:\n\n
 $projectslist\n\n 
-If you wish to continue working on this project and/or need help please 
-forward this email with a brief description of the status to dphelp@pgdp.net.\n\n
-If you no longer wish to have this text assigned to you please visit the 
-Distributed Proofreaders website Post Processing section and select Return 
-to Available for this book, or forward this email to dphelp@pgdp.net and 
-state that you would no longer like to have the book in question assigned to you so 
-that we may return it to the available pool for someone else to work on.\n\n 
+If you wish to continue working on this project and/or need help please forward a copy of this email (quoting the information on the book, above) with a brief description of the status to dphelp@pgdp.net.\n\n
+If you no longer wish to have this text assigned to you please visit the Distributed Proofreaders website Post Processing section and select Return to Available for this book, or forward this email to dphelp@pgdp.net and state that you would no longer like to have the book in question assigned to you so that we may return it to the available pool for someone else to work on.\n\n 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		    } else {
 			$message = "This is an automated message.\n\n
 Our database indicates that you have had several PP projects checked out for more than 90 days:\n\n 
 $projectslist\n\n 
-If you wish to continue working on some or all of these projects and/or need help please 
-forward this email with a brief description of the status to dphelp@pgdp.net.\n\n
-If you no longer wish to have some or all of these texts assigned to you please visit the 
-Distributed Proofreaders website Post Processing section and select Return 
-to Available for the books in question or forward this email to dphelp@pgdp.net and 
-state that you would no longer like to have the books in question assigned to you so 
-that we may return them to the available pool for someone else to work on.\n\n 
+If you wish to continue working on some or all of these projects and/or need help please forward this email, quoting the list of books, with a brief description of the status for each of the various books listed above to dphelp@pgdp.net.\n\n
+If you no longer wish to have some or all of these texts assigned to you please visit the Distributed Proofreaders website Post Processing section and select Return to Available for the books in question or forward this email to dphelp@pgdp.net and state that you would no longer like to have the books in question assigned to you so that we may return them to the available pool for someone else to work on.\n\n 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 		    }
 
-//	            maybe_mail("$email", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+//	            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 // test
-  maybe_mail("big_bill_boy2@yahoo.com.au", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
+  maybe_mail("big_bill_boy2@yahoo.com.au", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
 
 
 		    $projectslist = "";
