@@ -13,8 +13,16 @@ include($relPath.'project_edit.inc');
         if ($userP['sitemanager'] == 'yes') {
             $string = "perl add_files.pl $project $projects_dir/";
         } else $string = "perl add_files.pl $project $uploads_dir/";
-        exec($string);
-        metarefresh(0, "projectmgr.php?project=$project", "Files Added", "");
+        echo "here is the output of \"$string\"...<br>\n";
+        echo "<hr>\n";
+        echo "<pre>\n";
+        system($string);
+        echo "</pre>\n";
+        echo "<hr>\n";
+        echo "Return to <a href='projectmgr.php?project=$project'>Project Page</a>.\n";
+
+        // metarefresh(0, "projectmgr.php?project=$project", "Files Added", "");
+
     }
 ?>
 
