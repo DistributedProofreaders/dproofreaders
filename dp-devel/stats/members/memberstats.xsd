@@ -3,7 +3,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="memberstats">
     <xs:complexType>
-      <xs:sequence>
+      <xs:sequence minOccurs="0" maxOccurs="1">
         <xs:element ref="userinfo" minOccurs="1" maxOccurs="1" />
         <xs:element ref="teaminfo" minOccurs="1" maxOccurs="1" />
         <xs:element ref="neighborinfo" minOccurs="1" maxOccurs="1" />
