@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
+include_once($relPath.'page_tally.php');
 new dbConnect();
 
 
@@ -22,7 +23,7 @@ $t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 
 // how many bars in the graph?
 $result0 = mysql_query("
-	SELECT max(pagescompleted) as maxpages FROM users 
+	SELECT max($user_P_page_tally_column) as maxpages FROM $users_table_with_tallies 
 ");
 $maxpages = mysql_result($result0, 0,"maxpages");
 
@@ -31,12 +32,12 @@ $maxpages = mysql_result($result0, 0,"maxpages");
 //query db and put results into arrays
 $result = mysql_query("
 	SELECT
-		pagescompleted,
+		$user_P_page_tally_column        AS pagescompleted,
 		COUNT(*)                         AS n_all,
 		SUM(last_login > $t_90_days_ago) AS n_90d,
 		SUM(last_login > $t_28_days_ago) AS n_28d,
 		SUM(last_login > $t_7_days_ago)  AS n_7d
-	FROM users
+	FROM $users_table_with_tallies
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");

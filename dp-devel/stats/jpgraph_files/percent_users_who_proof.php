@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
+include_once($relPath.'page_tally.php');
 new dbConnect();
 
 
@@ -18,9 +19,9 @@ $result = mysql_query("
 		  AS month,
 		COUNT(*)
 		  AS num_who_joined,
-		SUM(pagescompleted > 0)
+		SUM($user_P_page_tally_column > 0)
 		  AS num_who_proofed
-	FROM users
+	FROM $users_table_with_tallies
 	GROUP BY month
 	ORDER BY month
 ");

@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
+include_once($relPath.'page_tally.php');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
@@ -62,8 +63,8 @@ $curTeam = mysql_fetch_assoc($result);
 //Team members portion of $data
 	$data .= "<teammembers>";
 	$mbrQuery = mysql_query("
-		SELECT username, pagescompleted, date_created, u_id, u_privacy
-		FROM users
+		SELECT username, $user_P_page_tally_column, date_created, u_id, u_privacy
+		FROM $users_table_with_tallies
 		WHERE {$curTeam['id']} IN (team_1, team_2, team_3)
 		ORDER BY username ASC
 	");
@@ -73,7 +74,7 @@ $curTeam = mysql_fetch_assoc($result);
 		{
 			$data .= "<member id=\"".$curMbr['u_id']."\">
 				<username>".xmlencode($curMbr['username'])."</username>
-				<pagescompleted>".$curMbr['pagescompleted']."</pagescompleted>
+				<pagescompleted>".$curMbr[$user_P_page_tally_column]."</pagescompleted>
 				<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			</member>
 			";

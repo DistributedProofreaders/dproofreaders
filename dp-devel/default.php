@@ -8,6 +8,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'showstartexts.inc');
+include_once($relPath.'page_tally.php');
+
 abort_if_in_maintenance_mode();
 theme(_("Welcome"), "header");
 $etext_limit = 10;
@@ -22,8 +24,8 @@ default_page_heading();
 //get total number of users
 $users = mysql_query("
     SELECT count(*) AS numusers
-    FROM users
-    WHERE pagescompleted >=1
+    FROM $users_table_with_tallies
+    WHERE $user_P_page_tally_column >=1
 ");
 $totalusers = mysql_result($users,0,"numusers");
 

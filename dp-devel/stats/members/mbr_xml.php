@@ -30,7 +30,7 @@ echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xs
 
 $result = mysql_query("
 	SELECT *
-	FROM users
+	FROM $users_table_with_tallies
 	WHERE username = '".$_GET['username']."'
 	LIMIT 1
 ");
@@ -47,7 +47,7 @@ $bestDay = bestDayEver($curMbr['u_id']);
 $now = time();
 $daysInExistence = floor(($now - $curMbr['date_created'])/86400);
 if ($daysInExistence > 0) {
-	        $daily_Average = $curMbr['pagescompleted']/$daysInExistence;
+	        $daily_Average = $curMbr[$user_P_page_tally_column]/$daysInExistence;
 } else {
 		$daily_Average = 0;
 }
@@ -61,7 +61,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
-			<pagescompleted>".$curMbr['pagescompleted']."</pagescompleted>
+			<pagescompleted>".$curMbr[$user_P_page_tally_column]."</pagescompleted>
 			<overallrank>".$neighbors[0]->get_current_page_tally_rank()."</overallrank>
 			<bestdayever>
 				<pages>".$bestDay['count']."</pages>

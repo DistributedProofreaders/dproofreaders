@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'page_tally.php');
 
 $title = _("Proofreading Statistics");
 theme($title, 'header');
@@ -59,9 +60,9 @@ else
 dpsql_dump_themed_ranked_query("
 	SELECT
 		$proofreader_expr AS 'Proofreader',
-		pagescompleted AS 'Pages Proofread'
-	FROM users
-	WHERE pagescompleted > 0
+		$user_P_page_tally_column AS 'Pages Proofread'
+	FROM $users_table_with_tallies
+	WHERE $user_P_page_tally_column > 0
 	ORDER BY 2 DESC, 1 ASC
 	LIMIT 100
 ");

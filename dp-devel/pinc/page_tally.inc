@@ -72,9 +72,11 @@ function get_daily_average( $start_time, $total )
 function user_get_page_tally( $username )
 // Return the user's page tally.
 {
+    global $users_table_with_tallies, $user_P_page_tally_column;
+
     $res = mysql_query("
-        SELECT pagescompleted
-        FROM users
+        SELECT $user_P_page_tally_column
+        FROM $users_table_with_tallies
         WHERE username='$username'
     ") or die(mysql_error());
 
@@ -189,19 +191,21 @@ function user_get_page_tally_neighborhood( $username, $radius )
 //    
 // -- The maximum current page tally rank of any user.
 {
+    global $users_table_with_tallies, $user_P_page_tally_column;
+
     assert( $radius >= 0 );
 
     $rankArray = array();
 
     // Note that for the purposes of this function,
-    // we pretend that no users with pagescompleted <= 0 exist,
+    // we pretend that no users with user_P_page_tally_column <= 0 exist,
     // with the possible exception of the target user.
 
     $result = mysql_query("
-        SELECT username, date_created, u_id, pagescompleted, u_privacy
-        FROM users
-        WHERE pagescompleted > 0 OR username='$username'
-        ORDER BY pagescompleted DESC
+        SELECT username, date_created, u_id, $user_P_page_tally_column, u_privacy
+        FROM $users_table_with_tallies
+        WHERE $user_P_page_tally_column > 0 OR username='$username'
+        ORDER BY $user_P_page_tally_column DESC
     ");
 
     $num_rows = mysql_num_rows($result);
@@ -235,13 +239,13 @@ function user_get_page_tally_neighborhood( $username, $radius )
 
     $neighbors = array();
     $i = 0;
-    $latest_page_tally = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
+    $latest_page_tally = -1000; // A value that the first $row[$user_P_page_tally_column] will not be equal to.
     $latest_rank = NULL;
     while ($row = mysql_fetch_assoc($result))
     {
-        if ($row['pagescompleted'] != $latest_page_tally)
+        if ($row[$user_P_page_tally_column] != $latest_page_tally)
         {
-            $latest_page_tally = $row['pagescompleted'];
+            $latest_page_tally = $row[$user_P_page_tally_column];
             $latest_rank = $i+1;
         }
 
@@ -270,7 +274,7 @@ function user_get_page_tally_neighborhood( $username, $radius )
                     $neighbor_username,
                     $neighbor_date_joined,
                     $row['u_id'],
-                    $row['pagescompleted'],
+                    $row[$user_P_page_tally_column],
                     $latest_rank
                 );
         }
