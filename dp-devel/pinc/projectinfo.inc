@@ -80,4 +80,20 @@ function update($project, $state) {
 
 }
 }
+
+// -----------------------------------------------------------------------------
+
+function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
+// Return the number of pages in the given project that are available
+// for proofing in round X, where X is implied by $proofstate.
+// (Usually, $proofstate is the same as the project's state,
+// but the result is still well-defined if it isn't. E.g.,
+// if the project is in second round, the number of pages that
+// are available for first-round proofing is zero.)
+{
+	$projectinfo = new projectinfo();
+	$projectinfo->update_avail($projectid, $proofstate);
+	return $projectinfo->availablepages;
+}
+
 ?>
