@@ -28,6 +28,17 @@ $tpage=new processpage();
 // proof single page
 if (isset($editone))
 {
+
+  // plug user page count cheat - if they reopen a saved page, subtract it from their count
+  // as it is 'unproofing' it; they will get it back if they save it again
+
+  // if page comes from My Recently Completed (???)
+  if (($pagestate == SAVE_FIRST) || 
+      ($pagestate == SAVE_SECOND))
+  {
+     $tpage->deleteUserCount($proofstate, $pguser,$userP);
+  }
+
   // set the cookie
     $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
   // load the frame
@@ -36,22 +47,6 @@ if (isset($editone))
   else
     {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading page....");}
   exit;
-}
-
-
-// plug user page count cheat - if they reopen a saved page, subtract it from their count
-// as it is 'unproofing' it; they will get it back if they save it again
-
-// if editing a page
-if (isset($editone)) 
-{
-  // if page comes from My Recently Completed
-  if (($pagestate == SAVE_FIRST) || 
-      ($pagestate == SAVE_SECOND))
-  {
-
-     $tpage->deleteUserCount($proofstate, $pguser,$userP);
-  }
 }
 
 
