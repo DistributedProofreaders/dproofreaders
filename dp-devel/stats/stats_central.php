@@ -23,7 +23,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
    //get total users active in the last 7 days
     $begin_time = time() - 604800;
 # $begin_time = time() - 2592000;
-    $users = mysql_query("SELECT count(*) AS numusers FROM users 
+    $users = mysql_query("SELECT count(*) AS numusers FROM users
                           WHERE last_login > $begin_time");
     $totalusers = (mysql_result($users,0,"numusers"));
     echo "<tr><td align ='left'>Proofers active in the last 7 days:</td><td align ='right'> $totalusers</td><tr>";
@@ -31,7 +31,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 
   //get total books posted  in the last 7 days
 
-    $books = mysql_query("SELECT count(*) AS numbooks FROM projects 
+    $books = mysql_query("SELECT count(*) AS numbooks FROM projects
                           WHERE modifieddate >= $begin_time AND state = 'proj_submit_pgposted'");
     $totalbooks = (mysql_result($books,0,"numbooks"));
     echo "<td align ='left'>Books posted in the last 7 days:</td><td align ='right'>$totalbooks</td><tr>";
@@ -44,45 +44,46 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 
 
   //get total non-English books waiting to be released
-    $nonwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects 
+    $nonwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                     WHERE state = 'waiting_1' AND language != 'English'");
     $totalnonwaiting = (mysql_result($nonwaitingbooks,0,"numbooks"));
     echo "<td align ='left'>Non-English Books waiting to be released for first round:</td><td align ='right'> $totalnonwaiting</td><tr>";
 
 
   //get total books waiting to be post processed
-    $waitingpost = mysql_query("SELECT count(*) AS numbooks FROM projects 
+    $waitingpost = mysql_query("SELECT count(*) AS numbooks FROM projects
                                 WHERE state = 'proj_post_available'");
     $totalwaitingpost = (mysql_result($waitingpost,0,"numbooks"));
     echo "<td align ='left'>Books waiting for post processing:</td><td align ='right'>$totalwaitingpost</td><tr>";
 
-  
+
   //get total books being post processed
-    $inpost = mysql_query("SELECT count(*) AS numbooks FROM projects 
-                           WHERE state = 'proj_post_checkedout'");      
+    $inpost = mysql_query("SELECT count(*) AS numbooks FROM projects
+                           WHERE state = 'proj_post_checkedout'");
     $totalinpost = (mysql_result($inpost,0,"numbooks"));
     echo "<td align ='left'>Books being post processed:  <a href ='pp_checkedout.php?order=default'>(View)</a></td><td align ='right'>$totalinpost</td><tr>";
- 
+
 
   //get total books in verify
-    $verifybooks = mysql_query("SELECT count(*) AS numbooks FROM projects 
+    $verifybooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                 WHERE state = 'proj_post_verify'");
     $totalverify = (mysql_result($verifybooks,0,"numbooks"));
     echo "<td align ='left'>Books waiting to be verified:</td><td align ='right'>$totalverify</td><tr>";
-  
+
 
   //get total books in verifying
-    $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects 
+    $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                    WHERE state = 'proj_post_verifying'");
     $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
     echo "<td align ='left'>Books being verified:</td><td align ='right'>$totalverifying</td><tr>";
- 
+
 
 echo "</table>";
 
 
 echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center>";
+echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
 
 theme('','footer');
 ?>
