@@ -13,7 +13,7 @@ $date_format = _('%Y-%m-%d');
 
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT DATE_FORMAT(date,'$date_format') AS fdate, pages, dailygoal
+	SELECT DATE_FORMAT(date,'$date_format'), pages, dailygoal
 	FROM pagestats
 	WHERE month = '$month' AND year = '$year'
 	ORDER BY date

@@ -65,7 +65,7 @@ switch ( $preceding )
 //query db and put results into arrays
 
 $result = mysql_query("
-    SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format') as T, $column_name
+    SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp),'$date_format'), $column_name
     FROM user_active_log 
     WHERE time_stamp >= $min_timestamp
     ORDER BY time_stamp

@@ -30,7 +30,7 @@ foreach ( array( 'created', 'proofed', 'PPd', 'posted' ) as $which )
 
 	//query db and put results into arrays
 	$result = mysql_query("
-		SELECT date, SUM(num_projects) as P
+		SELECT date, SUM(num_projects)
 		FROM project_state_stats
 		WHERE $psd->state_selector
 		GROUP BY DATE

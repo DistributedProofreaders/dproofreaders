@@ -18,7 +18,7 @@ $timeframe = _('since stats began');
 
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT date, SUM(num_projects) AS P
+	SELECT date, SUM(num_projects)
 	FROM project_state_stats
 	WHERE $psd->state_selector
 	GROUP BY date

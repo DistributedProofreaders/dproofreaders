@@ -10,7 +10,7 @@ new dbConnect();
 //Total pages by month since beginning of stats
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT CONCAT(year, '-', month) as T, SUM(pages) AS sumpages
+	SELECT CONCAT(year, '-', month), SUM(pages)
 	FROM pagestats
 	GROUP BY year, month
 	ORDER BY year ASC, month ASC

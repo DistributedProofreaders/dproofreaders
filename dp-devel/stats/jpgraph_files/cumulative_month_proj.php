@@ -24,7 +24,7 @@ $maxday = get_number_of_days_in_current_month();
 
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT day, SUM(num_projects) AS P
+	SELECT day, SUM(num_projects)
 	FROM project_state_stats
 	WHERE month = '$month' AND year = '$year' AND ($psd->state_selector)
 	GROUP BY day
