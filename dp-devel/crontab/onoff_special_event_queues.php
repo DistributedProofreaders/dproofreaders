@@ -17,7 +17,7 @@ $relPath='../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
 
-$EOL = "\n";
+$EOL = "\n<br>";
 $testing_this_script=$_GET['testing'];
 
 if ($testing_this_script)
