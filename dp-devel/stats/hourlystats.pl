@@ -24,11 +24,11 @@ my $total_pages = 0;
 while (my $project = $sth->fetchrow_array()) {
   my $query = qq{
     SELECT SUM(CASE WHEN round1_time >= $midnight 
-                         AND state > 5
+                         AND state = 'verify_1' OR state = 'done_1' OR state = 'unavail_2' OR state = 'waiting_2' or state = 'avail_2' OR state = 'verify_2' OR state = 'done_2' OR state >= 60
                     THEN 1 ELSE 0 END
                + 
                CASE WHEN round2_time >= $midnight 
-                         AND state > 15
+                         AND state = 'verify_2' OR state = 'done_2' OR state >= 60
                     THEN 1 ELSE 0 END)
     FROM $project
   };
