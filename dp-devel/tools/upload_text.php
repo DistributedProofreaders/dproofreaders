@@ -90,6 +90,27 @@ else
 	{
 		$path_to_file = $path_to_file."/";
 	}
+
+	function ensure_path_is_unused( $path )
+	// Ensure that nothing exists at $path.
+	// (If something's there, rename it.)
+	{
+		if ( file_exists($path) )
+		{
+			$bak = "$path.bak";
+			ensure_path_is_unused( $bak );
+			$success = rename( $path, $bak );
+			if (!$success)
+			{
+				// It will already have printed a warning.
+				echo sprintf(
+				       	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
+					'db-req@pgdp.net' );
+				exit;
+			}
+		}
+	}
+
 	foreach ($files['name'] as $key=>$name)
 	{
 		if ($files['size'][$key])
@@ -98,7 +119,7 @@ else
 			$zipext = ".zip";
 			$name = $project.$indicator.$zipext;
 			$location = $path_to_file.$name;
-			while (file_exists($location)) $location .= ".copy";
+			ensure_path_is_unused( $location );
 			copy($files['tmp_name'][$key],$location);
 			unlink($files['tmp_name'][$key]);
 
