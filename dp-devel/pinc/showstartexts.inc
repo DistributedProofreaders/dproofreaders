@@ -1,10 +1,10 @@
 <?
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'list_projects.inc');
+
 function showstartexts($etext_limit,$type) {
 global $code_url;
-
-$i = 1;
 
 if ($type == "bronze") {
 $state = SQL_CONDITION_BRONZE;
@@ -24,39 +24,10 @@ $text .= "
 }
 
 $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
-$result = mysql_query("SELECT * FROM projects WHERE $state ORDER BY modifieddate DESC LIMIT $etext_limit");
 
 echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' width='40' alt='$type star'> = <font face='Verdana' size='4'>".number_format($total)." $text";
 
-while ($row = mysql_fetch_array($result)) {
-$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
-echo "<font face='Verdana' size='1' color='#444444'><b>$i) \"".$row['nameofwork']."\"</b></font>";
-echo "<font face='Verdana' size='1'>, ".$row['authorsname']." (".$row['language'].")<br>";
-
-if ($type == "gold") {
-$links="";
-
-if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>" . _("zip version") . "</a>, ";
-
-if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>" . _("text version") . "</a>, ";
-
-if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>" . _("html version") . "</a>, ";
-
-if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&amp;stage=correct'>" . _("submit corrections") . "</a>";
-} else {
-	$links=$links._("under review");
-}
-
-if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
-echo "$moddate<br>";
-echo "$links</font><br><br>";
-} else {
-$totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
-if ($totalpages && mysql_num_rows($totalpages) > 0) { echo mysql_result($totalpages,0)." "._("pages")."; $moddate</font><br><br>"; }
-}
-$i++;
-}
+list_projects( $state, "ORDER BY modifieddate DESC", "LIMIT $etext_limit" );
 
 if ($total > $etext_limit) {
 echo "<font face='Verdana' size='1'>--<a href='list_etexts.php?x=".substr($type,0,1)."'>"._("See more...")."</a></font><br><br>";

@@ -2,17 +2,10 @@
 $relPath="../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'bookpages.inc');
+include_once($relPath.'list_projects.inc');
 
 function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $show_total) {
-	global $pageCountArray;
 	global $code_url;
-
-	if (empty($pageCountArray)) {
-		update_pageCountArray();
-	}
-
-	$i = 1;
 
 	if ($type == "bronze") {
 		$state = SQL_CONDITION_BRONZE;
@@ -48,41 +41,11 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
  		$state .= " LIMIT $etext_limit";
 	}
 
-	$result = mysql_query("SELECT * FROM projects WHERE $state");
-
 	if (!empty($show_total)) {
 		echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' width='40' alt='$type star'> = <font face='Verdana' size='4'>".number_format($total)." $text";
 	}
 
-	while ($row = mysql_fetch_array($result)) {
-		$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
-		echo "<font face='Verdana' size='1' color='#444444'><b>$i) \"".$row['nameofwork']."\"</b></font>";
-		echo "<font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
-
-		if ($type == "gold") {
-			$links="";
-
-			if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>"._("zip version")."</a>, ";
-
-			if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>"._("text version")."</a>, ";
-
-			if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>"._("html version")."</a>, ";
-
-			if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-				$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>"._("submit corrections")."</a>";
-			} else {
-				$links=$links._("under review");
-			}
-
-			if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
-			echo "$moddate<br>";
-			echo "$links</font><br><br>";
-		} else {
-			$totalpages = $pageCountArray[$row['projectid']]['total_pages'];
-			echo "$totalpages "._("pages")."; $moddate</font><br><br>";
-		}
-		$i++;
-	}
+	list_projects( $state, "", "" );
 
 	if (!empty($show_total) && $total > $etext_limit) {
 		echo "<font face='Verdana' size='1'>--<a href='$code_url/stats/books/book_list.php?etext_limit=0&type=$type&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total='>"._("See more...")."</a></font><br><br>";

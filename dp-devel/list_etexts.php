@@ -1,15 +1,8 @@
 <?php
 $relPath="./pinc/";
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
 include_once($relPath.'theme.inc');
-include($relPath.'bookpages.inc');
 include_once($relPath.'project_states.inc');
-
-if ( empty($pageCountArray) )
-{
-	update_pageCountArray();
-}
+include_once($relPath.'list_projects.inc');
 
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
 	$type = "Gold";
@@ -49,7 +42,7 @@ if ($type == "Gold") {
 <i>Title:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=0">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=1">desc</a> |
 <i>Author:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=2">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=3">desc</a> |
 <i>Submitted Date:</i> <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=4">asc</a> or <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&amp;sort=5">desc</a><br></center>
-<hr width="75%" align="center"><br>
+<hr width="75%" align="center">
 
 <?
 $sort = isset($_GET['sort'])? $_GET['sort'] : 0;
@@ -61,50 +54,7 @@ $sortlist[3]=" Order by authorsname desc";
 $sortlist[4]=" Order by modifieddate asc";
 $sortlist[5]=" Order by modifieddate desc";
 
-$result=mysql_query("SELECT nameofwork, authorsname, ziplink, txtlink, htmllink, modifieddate, postednum, projectid, state FROM projects WHERE $state $sortlist[$sort]");
+list_projects( $state, $sortlist[$sort], "" );
 
-$numofetexts = 1;
-while($row = mysql_fetch_array($result)) {
-
-	if ($type == "Gold") {
-		$links="";
-		if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zip version</a>, ";
-		if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
-		if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>, ";
-		if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-			$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>submit corrections</a>";
-		} else {
-			$links=$links."under review";
-		}
-		if ($links == "") {
-			$links = $links."<br>";
-		} else {
-			$links = $links."<br><br>";
-		}
-	} else {
-		$links = "<br>";
-	}
-
-	$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
-	$projectid = $row['projectid'];
-
-	if ($type == "Gold") {
-		$moddate = "Uploaded: ".$moddate;
-	} elseif ($type == "Silver") {
-		$moddate = "Last Proofed: ".$moddate;
-		$totalpages = $pageCountArray[$projectid]['total_pages'];
-	} elseif ($type == "Bronze") {
-		$moddate = "Released: ".$moddate;
-		$totalpages = $pageCountArray[$projectid]['total_pages'];
-	}
-
-	echo "<a name='".$row['projectid']."'><font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br></a>";
-
-	if ($type != "Gold" && !empty($totalpages)) echo "$totalpages pages; ";
-
-	echo "$moddate<br>$links</font>\n";
-
-	$numofetexts++;
-}
 theme("", "footer");
 ?>
