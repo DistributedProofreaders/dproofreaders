@@ -19,7 +19,9 @@ my ($numrows) = 0;
 my ($todaysdate, $stats);
 my ($mydbh,$mysth);
 my ($project,$year,$month,$day,@monthlypages);
-my (@myary,$pages);
+my ($pages);
+my ($query);
+my ($count) = 0;
 
 
 
@@ -84,16 +86,20 @@ $startofyesterday = ($startofday - 86400);
 
 #    $mydbh = DBI ->connect ($dsn, $user_name, $password, {RaiseError => 1});
 #   $mysth = $mydbh->prepare ("SELECT image_filename FROM projectID3a31bd77c4d16 WHERE date_uploaded = '20010116' AND prooflevel != '0' AND prooflevel != '2' ");
-    $mysth = $dbh->prepare ("SELECT image_filename FROM @ary WHERE timestamp >= $startofday AND (prooflevel = '10' 
-OR prooflevel 
-= '1' OR prooflevel = '3')");
+    $query = "SELECT SUM(CASE WHEN round1_time >= $startofday 
+                         THEN 1 ELSE 0 END
+                         + 
+                         CASE WHEN round2_time >= $startofday 
+                         THEN 1 ELSE 0 END)
+              FROM @ary";
+
+    $mysth = $dbh->prepare($query); 
     $mysth->execute();
 
-    while (@myary = $mysth->fetchrow_array ())
-    {
-    $numrows++;
-    }
-    $mysth->finish ();
+    $count = $mysth->fetchrow_array;
+    $numrows += $count;
+
+    $mysth->finish();
 
 #print ("my project is:\n", $project);
 
