@@ -44,13 +44,6 @@ function show_block_for_round( $round_number, $projects_filter )
 		");
 	}
 
-	$result = mysql_query("
-		SELECT pagescompleted
-		FROM users
-		WHERE username = '$pguser'
-	");
-	$pagescompleted = mysql_result($result,0);
-
 	echo "\n<a name='{$prd->round_id}'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr bgcolor='{$prd->listing_bgcolors[1]}'>";
@@ -58,13 +51,10 @@ function show_block_for_round( $round_number, $projects_filter )
 	$title = _('Projects Currently Available');
 	echo "\n<td colspan=2><h3>$title</h3></td>";
 
-	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
-	if ($pagescompleted < $min_num_pages_to_see_this_round)
+	list($can_access,$explanation) = $prd->user_access( $pguser );
+	if ( !$can_access )
 	{
-		$sorry = sprintf(
-			_("These projects are inaccessible until you have proofread %d pages."),
-			$min_num_pages_to_see_this_round );
-		echo "\n<td colspan=6>$sorry</td>";
+		echo "\n<td colspan=6>$explanation</td>";
 		echo "</tr>";
 	}
 	else

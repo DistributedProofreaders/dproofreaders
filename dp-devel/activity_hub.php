@@ -202,20 +202,9 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo $prd->description;
     echo "<br>\n";
 
-    if ( $prd->minimum_user_pages > 0 )
-    {
-        if ( $pagesproofed >= $prd->minimum_user_pages )
-        {
-            echo _("You have proofed enough pages to work in this round.");
-        }
-        else
-        {
-            echo sprintf(
-                _("You must proof %d more pages to work in this round."),
-                $prd->minimum_user_pages - $pagesproofed );
-        }
-        echo "<br>\n";
-    }
+	list($can_access,$explanation) = $prd->user_access( $pguser, $pagesproofed );
+    echo $explanation;
+    echo "<br>\n";
 
     summarize_projects( array(
         $prd->project_waiting_state,
