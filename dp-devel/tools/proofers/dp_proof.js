@@ -260,11 +260,11 @@ nW.document.close()
 
 function showNW_safe(str)
 // Entity-encode str's HTML-special characters,
-// but reinstate <i> and <b> tags,
+// but reinstate <i> and <b> and <hr> tags,
 // because we want the browser to interpret them (but nothing else) as markup.
 {
     return html_safe(str)
-	.replace(/&lt;(\/?)(i|b)&gt;/ig, '<$1$2>')
+	.replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
 }
 
 function html_safe(str)
