@@ -7,11 +7,11 @@ include_once($relPath.'theme.inc');
 $state = ( isset($_GET['state']) ? $_GET['state'] : PROJ_POST_FIRST_CHECKED_OUT );
 if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
 {
-	$activity = 'Post Processing';
+	$activity = _('Post Processing');
 }
 elseif ( $state == PROJ_POST_SECOND_CHECKED_OUT )
 {
-	$activity = 'Post Processing Verification';
+	$activity = _('Post Processing Verification');
 }
 else
 {
@@ -44,9 +44,10 @@ else
 
 // ------------------
 
-theme("Books Checked Out for $activity", "header");
+$title = _("Books Checked Out for ") . $activity;
+theme($title,'header');
 
-echo "<h2>Books Checked Out for $activity</h2>\n";
+echo "<br><h2>$title</h2>\n";
 
 // ------------------
 
@@ -60,8 +61,10 @@ $colspecs = array(
 	'User Last Login'    => 'holder_last_login'
 );
 
-echo "<table border='1'>\n";
-echo "<tr>\n";
+echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
+
+echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_header => $col_order )
 {
 	$s = $col_header;
@@ -71,7 +74,7 @@ foreach ( $colspecs as $col_header => $col_order )
 	{
 		$s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
 	}
-	$s = "<th>$s</th>";
+	$s = "<th><center>".$s ."</font></th>";
 	echo "$s\n";
 }
 echo "</tr>\n";
@@ -113,7 +116,7 @@ while ( $project = mysql_fetch_object( $result ) )
 	$lastlogindate = "$month $mday, $year";
 
 	echo "
-		<tr>
+		<tr bgcolor='".$theme['color_navbar_bg']."'>
 		<td>$rownum</td>
 		<td width='200'>$project->nameofwork</td>
 		<td>$project->checkedoutby</td>
@@ -126,3 +129,4 @@ while ( $project = mysql_fetch_object( $result ) )
 echo "</table>";
 theme("","footer");
 ?>
+

@@ -30,9 +30,10 @@ else
 
 // ------------------
 
-theme("Books Available for PPV", "header");
+$title = _("Books Available for PPV");
+theme($title,'header');
 
-echo "<h2>Books Available for PPV</h2>\n";
+echo "<br><h2>$title</h2>\n";
 
 // ------------------
 
@@ -46,8 +47,10 @@ $colspecs = array(
 	'Date Last Modified' => 'modifieddate'
 );
 
-echo "<table border='1'>\n";
-echo "<tr>\n";
+echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
+echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
+
+echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_header => $col_order )
 {
 	$s = $col_header;
@@ -57,7 +60,7 @@ foreach ( $colspecs as $col_header => $col_order )
 	{
 		$s = "<a href='PPV_avail.php?order=$col_order'>$s</a>";
 	}
-	$s = "<th>$s</th>";
+	$s = "<th><center>".$s."</center></th>";
 	echo "$s\n";
 }
 echo "</tr>\n";
@@ -90,7 +93,7 @@ while ( $project = mysql_fetch_object( $result ) )
 	$datestamp = "$month $mday, $year";
 
 	echo "
-		<tr>
+		<tr bgcolor='".$theme['color_navbar_bg']."'>
 		<td>$rownum</td>
 		<td width='200'>$project->nameofwork</td>
 		<td>$project->username</td>
@@ -103,3 +106,4 @@ while ( $project = mysql_fetch_object( $result ) )
 echo "</table>";
 theme("","footer");
 ?>
+
