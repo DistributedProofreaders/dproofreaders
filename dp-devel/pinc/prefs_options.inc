@@ -30,4 +30,6 @@ define('PRIVACY_PRIVATE',   2);
 // See ../faq/pophelp/prefs/set_privacy.html
 // for definitions of these privacy categories.
 
+$credit_names = array('real_name', 'username', 'other');
+$credit_names_labels = array(_('Real Name'), _('Username'), _('Other:'));
 ?>

@@ -49,6 +49,45 @@ function dropdown_select($db_name, $db_value, $array) {
   echo "</select>";
 }
 
+$event_id = 0;
+$window_onload_event= '';
+
+// Unlike in dropdown_select, the third argument should be a 'real' array.
+// The labels will be displayed to the user,
+// one of the values will be passed back from the browser as the selected value.
+//
+// The fifth (optional argument), $on_change, is used as a javascript event handler
+// on the dropdown. It will be made into a function so quote marks should not
+// be any problems.
+// Example value: "alert('Hi'+\"!\");"
+// Using this as the $on_change-argument will popup an alert displaying the string
+// 'Hi!' (without quotes).
+// The use of these event handlers are foremost to enable/disable certain preferences
+// depending on the values set in other preferences.
+//
+// The event handler will also be run on page-load and in order to achieve this,
+// something resembling a hack has been introduced. Always refer to the form
+// as the variable f, and always use the variable t to refer to the dropdown.
+// DO NOT USE this.form and this, respectively!!!
+function dropdown_select_values_and_labels($db_name, $db_value, $values, $labels, $on_change='') {
+  global $event_id, $window_onload_event;
+
+  $function_name = 'event' . ++$event_id;
+  $jscode = "var f=document.forms[0];\nvar t=f.$db_name;\n$on_change";
+
+  echo "<script language='javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
+
+  echo "<select name='$db_name' ID='$db_name' onChange=\"$function_name()\">";
+  for ($i=0;$i<count($values);$i++)  {
+    echo "<option value='$values[$i]'";
+    if ($db_value == $values[$i]) { echo " SELECTED"; }
+    echo ">".htmlspecialchars($labels[$i])."</option>";
+  }
+  echo "</select>";
+
+  $window_onload_event .= "$function_name();\n";
+}
+
 function dropdown_select_yesno($db_name, $yes_selected) {
   echo "<select name='$db_name' ID='$db_name'>\n";
   echo "<option value='yes'";
@@ -69,6 +108,11 @@ function dropdown_select_complex($db_name, $db_value, $array, $values) {
     echo ">$array_list[$i]</option>";
   }
   echo "</select>";
+}
+
+function textfield_for_setting($setting, $default='') {
+  global $userSettings;
+  echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
 }
 
 if (isset($project) && isset($proofstate))
@@ -144,6 +188,23 @@ echo "<br><center>";
 $popHelpDir="$code_url/faq/pophelp/prefs/set_";
 include($relPath.'js_newpophelp.inc');
 
+?>
+<script language='javascript'><!--
+  // function that can be used to check/uncheck a lot
+  // of checkboxes at a time.
+  // First parameter: true/false.
+  // Following parameters: The name of the checkboxes.
+  // The code checks that a checkbox really exists
+  // before accessing it.
+  function check_boxes(value) {
+    var f = document.forms[0];
+    for (var i = 1; i < arguments.length; i++) {
+        var name = arguments[i];
+        eval("if (f."+name+") f."+name+".checked=value");
+    }
+  }
+// --></script>
+<?
 echo "<form action='userprefs.php' method='post'>";
 echo "<table width='90%' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
 
@@ -176,6 +237,10 @@ echo "<input type='hidden' name='user_id' value='$uid'>";
 
 echo "</table></form>\n";
 echo "<br></center>";
+
+// When the window loads, run all the event handlers that e.g disable preferences.
+echo "\n\n<script language='javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";
+
 theme("", "footer");
 
 // End main code. Functions below.
@@ -193,6 +258,8 @@ function echo_bottom_button_row() {
 function echo_general_tab() {
   global $theme, $uid, $pguser, $userP, $reset_password_url;
   global $u_il, $u_iloc, $u_n, $i_stats, $u_l, $i_pm;
+  global $userSettings;
+  global $credit_names, $credit_names_labels;
 
   $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
   $real_name = mysql_result($result,0,"real_name");
@@ -286,6 +353,54 @@ function echo_general_tab() {
   echo "</td>\n";
   echo "</tr>\n";
 
+  $cp_credit_checked = $userSettings->get_boolean('cp_anonymous') ? '' : 'checked ';
+  $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
+  $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
+
+  echo "<tr>\n";
+  echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right' valign='top' rowspan='2'>";
+  echo "<strong>"._("Credits Wanted:")."</strong>";
+  echo "</td><td bgcolor='#ffffff' align='left' rowspan='2'>";
+  echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked/> CP\n";
+  if (user_is_PM())
+    echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked/> PM\n";
+  echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked/> PP\n";
+  echo "<br /><a href='#' onClick=\"check_boxes(true, 'cp_credit', 'pm_credit', 'pp_credit');\">Check all</a> | <a href='#' onClick=\"check_boxes(false, 'cp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
+  echo "</td><td bgcolor='#ffffff' align='center' valign='top' rowspan='2'><b>&nbsp;<a href=\"JavaScript:newHelpWin('creditswanted');\">?</a>&nbsp;</b>";
+  echo "</td>\n";
+  echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+  echo "<strong>"."&nbsp;"."</strong>";
+  echo "</td><td bgcolor='#ffffff' align='left'>";
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;</b>";
+  echo "</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+  echo "<strong>"."&nbsp;"."</strong>";
+  echo "</td><td bgcolor='#ffffff' align='left'>";
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;</b>";
+  echo "</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+  echo "<strong>"._("Credit Name:")."</strong>";
+  echo "</td><td bgcolor='#ffffff' align='left'>";
+  $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
+  dropdown_select_values_and_labels('credit_name', $userSettings->get_value('credit_name', 'real_name'), $credit_names, $credit_names_labels, $on_change);
+  echo " ";
+  textfield_for_setting('credit_other');
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('creditname');\">?</a>&nbsp;</b>";
+  echo "</td>\n";
+  echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+  echo "<strong>"."&nbsp;"."</strong>";
+  echo "</td><td bgcolor='#ffffff' align='left'>";
+  echo "&nbsp;";
+  echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;</b>";
+  echo "</td>\n";
+  echo "</tr>\n";
+
   echo_bottom_button_row();
 }
 
@@ -293,6 +408,9 @@ function save_general_tab() {
   global $_POST, $uid, $userP, $pguser;
   global $real_name, $email, $email_updates;
   global $u_top10, $u_align, $u_neigh, $u_lang, $i_theme, $i_pmdefault, $u_intlang, $u_privacy;
+  global $userSettings;
+  global $cp_credit, $pm_credit, $pp_credit;
+  global $credit_name, $credit_other;
 
   $user_id = $_POST['user_id'];
   $real_name = $_POST['real_name'];
@@ -306,8 +424,18 @@ function save_general_tab() {
   WHERE  u_id=$uid AND username='$pguser'";
   $result = mysql_query($users_query);
 
+  // Opt-out of credits when Content-Providing, Project-Managing and/or Post-Processing.
+  $userSettings->set_boolean('cp_anonymous', !isset($cp_credit));
+  $userSettings->set_boolean('pm_anonymous', !isset($pm_credit));
+  $userSettings->set_boolean('pp_anonymous', !isset($pp_credit));
+  // Credit Real Name, Username or Other (specify)
+  $userSettings->set_value('credit_name', $credit_name);
+  if (isset($credit_other))
+    $userSettings->set_value('credit_other', $credit_other);
+
   echo mysql_error();
   dpsession_set_preferences_from_db();
+
 }
 
 /*************** PROOFREADING TAB ***************/
