@@ -4,6 +4,7 @@ error_reporting(0);
 
 $relPath='./pinc/';
 include($relPath.'connect.inc');
+include_once($relPath.'RoundDescriptor.inc');
 $db_Connection=new dbConnect();
 
 $result = mysql_query("SELECT projectid FROM projects");
@@ -24,11 +25,21 @@ while ($row = mysql_fetch_assoc($result)) {
         // $projectid = substr($row['projectid'], -13);
         $projectid = $row['projectid'];
 
+        $columns_for_rounds = "";
+        for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+        {
+            $prd = get_PRD_for_round($rn);
+            $columns_for_rounds .= "
+                {$prd->time_column_name} ,
+                {$prd->user_column_name} ,
+                {$prd->text_column_name} ,
+            ";
+        }
         $result2 = mysql_query( 
             "INSERT project_pages 
             SELECT '".$projectid."', fileid , image , master_text ,
-            round1_text , round2_text , round1_user , round2_user , 
-            round1_time , round2_time , state , b_user , b_code , 
+            $columns_for_rounds
+            state , b_user , b_code , 
             NULL, NULL 
             FROM ".$projectid ) ;
 
