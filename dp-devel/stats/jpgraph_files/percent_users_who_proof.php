@@ -10,27 +10,24 @@ new dbConnect();
 ///////////////////////////////////////////////////
 //Numbers of users logging on in last hour, day, week and 28 days
 //query db and put results into arrays
-$result1 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as month, count(*) as num_who_joined FROM users 
+$result = mysql_query("
+	SELECT
+		FROM_UNIXTIME(date_created, '%Y-%m')
+		  AS month,
+		COUNT(*)
+		  AS num_who_joined,
+		SUM(pagescompleted > 0)
+		  AS num_who_proofed
+	FROM users
 	GROUP BY month
 	ORDER BY month
 ");
 
-$result2 = mysql_query("
-	SELECT FROM_UNIXTIME(date_created, '%Y-%m') as month, count(*) as num_who_proofed FROM users 
-	WHERE pagescompleted > 0 
-	GROUP BY month
-	ORDER BY month
-");
-
-
-$mynumrows = mysql_numrows($result1);
-        $count = 0;
-        while ($count < $mynumrows) {
-        $data1y[$count] = 100 *  mysql_result($result2, $count,"num_who_proofed") / mysql_result($result1, $count,"num_who_joined");
-        $datax[$count] = mysql_result($result1, $count,"month");
-            $count++;
-        }
+while ( $row = mysql_fetch_object($result) )
+{
+        $datax[]  = $row->month;
+        $data1y[] = 100 *  $row->num_who_proofed / $row->num_who_joined;
+}
 
 
 // Create the graph. These two calls are always required
