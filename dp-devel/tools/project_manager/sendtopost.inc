@@ -93,19 +93,19 @@ include_once($relPath.'maybe_mail.inc');
 	    "<HEAD>  <TITLE>Image Index</TITLE>  </HEAD>\n" .
 	    "<BODY>\n" .
 	    "<H1 ALIGN=CENTER>Image Index</H1>\n" .
-	    "Here are the individual images for this project:<P>\n" .
+	    "<P>Here are the individual images for this project:</P>\n" .
 	    "<HR>\n";
 
 	foreach( glob("$projectpath/*.png") as $png_path )
 	{
 	    $size = filesize($png_path);
 	    $png_filename = basename($png_path);
-	    $s .= "<A HREF=\"$png_filename\">\n";
-	    $s .= "  <B>$png_filename</B> <I>($size bytes)</I><P>\n";
+	    $s .= "<A HREF=\"$png_filename\"><B>$png_filename</B></A>";
+	    $s .= " <I>($size bytes)</I><BR>\n";
 	}
 	$s .= "<HR>\n";
-	$s .= "<a href=\"$code_url/tools/post_proofers/post_proofers.php?project=$project\">Back</a> to the Post Processing page.";
-	$s .= "<p>Return to your <a href=\"$code_url/tools/proofers/proof_per.php\">personal page.</a>";
+	$s .= "<P>Back to the <A HREF=\"$code_url/tools/post_proofers/post_proofers.php?project=$project\">Post Processing page</A>.</P>\n";
+	$s .= "<P>Back to your <A HREF=\"$code_url/tools/proofers/proof_per.php\">personal page</A>.</P>\n";
 	$s .= "</BODY>\n";
 	$s .= "</HTML>\n";
 	
