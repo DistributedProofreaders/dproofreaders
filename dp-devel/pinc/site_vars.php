@@ -26,4 +26,9 @@ $auto_email_addr = $general_help_email_addr;
 
 // -----------------------------------------------------------------------------
 
+$testing = TRUE;
+// So far, the only effect of setting $testing to TRUE is to prevent email
+// messages from being sent. Instead, the site shows a copy of the message
+// that would have been sent. See pinc/maybe_mail.inc.
+
 ?>
