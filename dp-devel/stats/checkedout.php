@@ -61,7 +61,7 @@ $colspecs = array(
 	'User Last Login'    => 'holder_last_login'
 );
 
-echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
 echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
