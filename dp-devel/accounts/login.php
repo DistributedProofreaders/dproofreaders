@@ -12,7 +12,8 @@ function abort_login( $error )
     global $reset_password_url;
     global $site_manager_email_addr;
 
-    theme(_("Login Failed"), "header");
+    $title = _("Login Failed");
+    theme($title, "header");
 
     echo "<br>\n";
     echo "<b>$error</b>\n";
@@ -37,7 +38,8 @@ extract($_POST);
 
 if ($userPW == '')
 {
-    abort_login(_("You did not supply a password."));
+    $error = _("You did not supply a password.");
+    abort_login($error);
 }
 
 $userC=new db_udb();
@@ -51,7 +53,8 @@ if (!$uC)
 $uP=$userC->getUserPrefs($userNM);
 if (!$uP)
 {
-    abort_login(_("Username or password is incorrect."));
+    $error = _("Username or password is incorrect.");
+    abort_login($error);
 }
 
 // The login is successful!
@@ -91,6 +94,7 @@ else
         $url = "../tools/proofers/proof_per.php";
     }
 }
-metarefresh(1,$url,_("Sign In"),"");
+$title = _("Sign In");
+metarefresh(1,$url,$title,"");
 
 ?>

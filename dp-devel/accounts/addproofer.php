@@ -16,7 +16,8 @@ echo "<br>";
 function abort_registration( $error )
 {
     echo "$error<br>\n";
-    echo "<a href=\"addproofer.php\">"._("Back")."</a>";
+    $back = _("Back");
+    echo "<a href=\"addproofer.php\">".$back."</a>";
     theme("", "footer");
     exit;
 }
@@ -42,12 +43,14 @@ if ($password=="proofer") {
 
     if (empty($userpass) || empty($email) || empty($real_name))
     {
-        abort_registration(_("You did not completely fill out the form.  Please hit back & try again."));
+        $error = _("You did not completely fill out the form.  Please hit back & try again.");
+        abort_registration($error);
     }
 
     if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
     {
-    	abort_registration(_("Your e-mail address is invalid.  Please hit back & try again."));
+        $error = _("Your e-mail address is invalid.  Please hit back & try again.");
+    	abort_registration($error);
     }
 
 
@@ -59,8 +62,8 @@ if ($password=="proofer") {
                 VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '3', '1', '10')");
 
     if (!$result) {
-        abort_registration(
-            _("That user name already exists, please try another."));
+        $error = _("That user name already exists, please try another.")
+        abort_registration($error);
 
     } else {
         // create profile
@@ -88,7 +91,8 @@ if ($password=="proofer") {
         $result = mysql_query($sql);
 
         // Send them an introduction e-mail
-        maybe_mail($email, _("Welcome to the Distributed Proofreaders' Site!"), "
+        $welcome = _("Welcome to the Distributed Proofreaders' Site!");
+        maybe_mail($email, $welcome, "
 Hello $real_name,
 
 We want to first thank you for registering on our site. That is the 
@@ -254,10 +258,11 @@ to have it reset.
 
         // Page shown when account is succeffully created
 
-        $htmlC->startHeader(_("User")." $username "._("Added Successfully"));
+        $header = _("User")." $username "._("Added Successfully");
+        $htmlC->startHeader($header);
         $htmlC->startBody(0, 1, 0, 0);
 
-        print _("User")." <b>$username</b> "._("added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.");
+        echo _("User")." <b>$username</b> "._("added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.");
         echo "<center>";
         echo "<br><font size=+1>"._("Click below to sign in and start proofing!!");
         echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='hidden' name='userPW' value='".$userpass."'><input type='submit' value='"._("Sign In")."'></form>";
