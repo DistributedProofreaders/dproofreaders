@@ -68,20 +68,21 @@ if ($_POST['reason'] == 0) {
 $result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
 
 //Find out how many pages have been marked bad
-$totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'"));
+$totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".$_POST['badState']."'"));
 
 //If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 if ($totalBad >= 10) {
-$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'");
-$uniqueBadPages = mysql_result($result,0);
-if ($uniqueBadPages >= 3) {
-if($_POST['badState']==BAD_FIRST) {
-$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
-} else {
-$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
+	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM ".$_POST['projectname']." WHERE state='".$_POST['badState']."'");
+	$uniqueBadPages = mysql_result($result,0);
+	if ($uniqueBadPages >= 3) {
+		if($_POST['badState']==BAD_FIRST) {
+			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
+		} else {
+			$result = mysql_query("UPDATE projects SET state='".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid='".$_POST['projectname']."'");
+		}
+	$advisePM = 1;
+	} 
 }
-$advisePM = 1;
-} }
 
 //Get the email address of the PM
 $result = mysql_query("SELECT * FROM projects WHERE projectID='".$_POST['projectname']."'");
