@@ -23,6 +23,15 @@ echo "<hr>\n";
 
 if (0)
 {
+	include_once($relPath.'project_continuity.inc');
+	$projectid = 'projectID40ee33c5e1436';
+	$orig_state = 'P1.proj_avail';
+	$no_more_pages = true;
+	project_continuity_check( $projectid, $orig_state, $no_more_pages );
+}
+
+if (0)
+{
 	include_once($relPath.'project_states.inc');
 	var_dump( $PROJECT_STATES_IN_ORDER );
 	var_dump( $project_state_label_ );
