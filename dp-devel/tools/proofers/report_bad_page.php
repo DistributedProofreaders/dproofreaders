@@ -125,13 +125,13 @@ of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
 	} else {
 		$message =
-"$imagefile has been a page marked as bad in this project due to $reason_list[$reason].
-Please visit $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid to view
-the reason it was marked as bad by the user.
-You will then be able to make any needed
-changes and put the page back up for proofreading.
-If 10 pages are marked bad by at least 3 unique users,
-the project will be automatically shut down.";
+"Page $imagefile of this project has been marked bad due to $reason_list[$reason].
+Please visit
+    $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid
+to make any needed changes and make the page available for proofreading again.
+Until this report has been resolved, the project will not be able to leave
+the current round. If 10 pages are marked bad by at least 3 different users,
+the project will automatically be made unavailable.";
 	}
 
 	//Send the email to the PM
