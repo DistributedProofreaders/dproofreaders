@@ -22,7 +22,7 @@ theme("Personal Page for $pguser", "header");
 		echo _("Welcome"); 
 		echo "</b></font><br><br><font face=" . $theme['font_mainbody'] .">";
 		echo _("Please see our");
-		echo "<a href='".$beginners_site_forum_url."'> ";
+		echo "<a href=".$beginners_site_forum_url."> ";
 		echo _("Beginner's Forum");
 		echo "</a> ";
 		echo _("for answers to common questions.");
