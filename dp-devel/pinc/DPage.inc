@@ -107,5 +107,127 @@ function project_add_page(
     return $errs;
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
+{
+    global $writeBIGtable;
+
+    $timestamp = time();
+
+    $prd = get_PRD_for_round( $round_number );
+
+    $dbQuery="UPDATE $projectid SET state='";
+    $dbQuery.="{$prd->out_state}', {$prd->time_column_name}='$timestamp', {$prd->user_column_name}='$user'";
+    $dbQuery.=" WHERE fileid='$fileid' AND image='$image'";
+    $update = mysql_query($dbQuery);
+
+    if ($writeBIGtable)
+    {
+        $dbQuery="UPDATE project_pages SET state='";
+        $dbQuery.="{$prd->out_state}', {$prd->time_column_name}='$timestamp', {$prd->user_column_name}='$user'";
+        $dbQuery.=" WHERE projectid = '$projectid' and fileid='$fileid'";
+        $update = mysql_query($dbQuery);
+    }
+
+    return $prd->out_state;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $user, $page_text )
+{
+    global $writeBIGtable;
+
+    $timestamp = time();
+
+    $prd = get_PRD_for_round( $round_number );
+
+    $dbQuery="UPDATE $projectid SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
+    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
+    $result = mysql_query($dbQuery);
+
+    if ($writeBIGtable)
+    {
+        $dbQuery="UPDATE project_pages SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
+        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
+        $result = mysql_query($dbQuery);
+    }
+
+    return $prd->temp_state;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $page_text )
+{
+    global $writeBIGtable;
+
+    $timestamp = time();
+
+    $prd = get_PRD_for_round( $round_number );
+
+    $dbQuery="UPDATE $projectid SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->save_state}', {$prd->user_column_name}='$user'";
+    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
+    $result = mysql_query($dbQuery) or die(mysql_error());
+
+    if ($writeBIGtable)
+    {
+        $dbQuery="UPDATE project_pages SET {$prd->text_column_name}='$page_text', {$prd->time_column_name}='$timestamp', state='{$prd->save_state}', {$prd->user_column_name}='$user'";
+        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
+        $result = mysql_query($dbQuery) or die(mysql_error());
+    }
+
+    return $prd->save_state;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
+{
+    global $writeBIGtable;
+
+    $timestamp = time();
+
+    $prd = get_PRD_for_round( $round_number );
+
+    $dbQuery="UPDATE $projectid SET {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
+    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
+    $result = mysql_query($dbQuery);
+
+    if ($writeBIGtable)
+    {
+        $dbQuery="UPDATE project_pages SET {$prd->time_column_name}='$timestamp', state='{$prd->temp_state}', {$prd->user_column_name}='$user'";
+        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
+        $result = mysql_query($dbQuery);
+    }
+
+    return $prd->temp_state;
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
+{
+    global $writeBIGtable;
+
+    $timestamp = time();
+
+    $prd = get_PRD_for_round( $round_number );
+
+    $dbQuery="UPDATE $projectid SET {$prd->time_column_name}='$timestamp', state='{$prd->avail_state}', {$prd->user_column_name}='$user'";
+    $dbQuery.=" WHERE image='$image' AND fileid='$fileid'";
+    $result = mysql_query($dbQuery);
+
+    if ($writeBIGtable)
+    {
+        $dbQuery="UPDATE project_pages SET {$prd->time_column_name}='$timestamp', state='{$prd->avail_state}', {$prd->user_column_name}='$user'";
+        $dbQuery.=" WHERE projectid = '$projectid' AND fileid='$fileid'";
+        $result = mysql_query($dbQuery);
+    }
+
+    return $prd->avail_state;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
