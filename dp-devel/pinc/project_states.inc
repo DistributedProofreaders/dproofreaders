@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'misc.inc'); // array_get
+include_once($relPath.'v_site.inc');
 
 /*
   States:
@@ -64,70 +65,63 @@ declare_project_state(
     'NEW'
 );
 
-  // You might think that this group of states should be embedded within
-  // if ($site_supports_metadata) { ... }
-  // Properly, they should, along with every piece of code that uses them.
-  // But there are some uses out there (e.g., case arms) that would be
-  // difficult to make conditional on $site_supports_metadata. So instead:
-  // (1) We leave those uses unconditional, and rely on the assumption
-  //     that they won't trigger as long as there isn't a project in
-  //     one of these states.
-  // (2) We leave these defines here, so those uses do not raise errors.
-  //
-declare_project_state(
-    "PROJ_NEW_WAITING_APPROVAL",
-    "project_new_waiting_app",
-     _("Awaiting Approval"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_UNAPPROVED",
-    "project_new_unapp",
-    _("Unapproved Project"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_APPROVED",
-    "project_new_app",
-    _("Approved Project"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_FILE_UPLOADED",
-    "project_new_uploaded",
-    _("Files Uploaded"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_METADATA_FIRST",
-    "project_md_first",
-    _("Metadata First Round"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_METADATA_BAD",
-    "project_md_bad",
-    _("Bad Metadata"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_METADATA_SECOND",
-    "project_md_second",
-    _("Metadata Second Round"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_PREPROCESSING",
-    "project_new_preprocess",
-    _("Preprocessing"),
-    'NONE'
-);
-declare_project_state(
-    "PROJ_NEW_PENDING_PM",
-    "project_new_pend_pm",
-    _("Pending Project Manager"),
-    'NONE'
-);
+if ($site_supports_metadata)
+{
+	declare_project_state(
+	    "PROJ_NEW_WAITING_APPROVAL",
+	    "project_new_waiting_app",
+	     _("Awaiting Approval"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_UNAPPROVED",
+	    "project_new_unapp",
+	    _("Unapproved Project"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_APPROVED",
+	    "project_new_app",
+	    _("Approved Project"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_FILE_UPLOADED",
+	    "project_new_uploaded",
+	    _("Files Uploaded"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_METADATA_FIRST",
+	    "project_md_first",
+	    _("Metadata First Round"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_METADATA_BAD",
+	    "project_md_bad",
+	    _("Bad Metadata"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_METADATA_SECOND",
+	    "project_md_second",
+	    _("Metadata Second Round"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_PREPROCESSING",
+	    "project_new_preprocess",
+	    _("Preprocessing"),
+	    'NONE'
+	);
+	declare_project_state(
+	    "PROJ_NEW_PENDING_PM",
+	    "project_new_pend_pm",
+	    _("Pending Project Manager"),
+	    'NONE'
+	);
+}
 
 
 // PROOF
