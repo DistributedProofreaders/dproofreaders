@@ -20,6 +20,26 @@ echo "<hr>\n";
 
 if (0)
 {
+	$res = mysql_query("SHOW TABLES LIKE 'projectID%'");
+	while (list($projectid) = mysql_fetch_row($res) )
+	{
+		// Look for old-style tables:
+		$q = "
+			SHOW COLUMNS FROM $projectid LIKE 'Image_Filename'
+		";
+		// Look for cases where 'fileid' and 'image' don't match:
+		$q = "
+			SELECT fileid,image
+			FROM $projectid
+			WHERE CONCAT(fileid,'.png') != image
+		";
+		$res2 = mysql_query($q) or die( "$projectid: " . mysql_error() );
+		if ( mysql_num_rows($res2) > 0 ) echo "$projectid\n";
+	}
+}
+
+if (0)
+{
 	include_once($relPath.'../stats/pages_proofed.inc');
 	$start_ts = mktime(0,0,0,10,16,2004);
 	$end_ts   = mktime(0,0,0,10,17,2004);
