@@ -627,15 +627,17 @@ theme('Proofreading Guidelines','header');
     <tr valign="top">
       <td width="100%"> <p>Sample Image</p>
       </td>
-      <td width="100%"> <p>Correct Text</p>
-      </td>
     </tr>
     <tr valign="top">
       <td width="100%" align="center"><img src="side.png" alt=""
           width="900" height="1366"><br>
       </td>
     </tr>
-    <trv align="top">
+    <tr valign="top">
+      <td width="100%"> <p>Correct Text</p>
+      </td>
+    </tr>
+    <tr align="top">
       <td width="100%">
         <p><tt>
                *[Sidenote: Burning                                                  <br>
