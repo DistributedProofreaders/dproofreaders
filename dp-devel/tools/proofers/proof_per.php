@@ -229,7 +229,8 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <input type="hidden" name="business" value="charlz@lvcablemodem.com">
 <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
 </form>
-<p>
+<p><p>
+Want to help out the site by providing material for us to proof? Check <a href="http://texts01.archive.org/dp/faq/scan/submitting.htm">here</a> to find out how!
 <p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td><tr>
 <td width = "1" bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td><td bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td>
 </table><p><p>
