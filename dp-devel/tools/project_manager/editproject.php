@@ -666,7 +666,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         echo difficulty_list($difficulty_level);
         echo "<tr><td bgcolor='#CCCCCC'><b>PPer/PPVer</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".strip_tags($clearance)."'></td></tr>\n";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
