@@ -290,6 +290,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round1_diff';
 		$R_time_field_name = 'round1_time';
 		$R_user_field_name = 'round1_user';
+                $R_other_user_field_name = 'round2_user';
 		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
 		$R_temp_state = TEMP_FIRST;
@@ -301,6 +302,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round2_diff';
 		$R_time_field_name = 'round2_time';
 		$R_user_field_name = 'round2_user';
+                $R_other_user_field_name = 'round1_user';
 		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
 		$R_temp_state = TEMP_SECOND;
@@ -312,7 +314,12 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		assert(FALSE);
 	}
 
-	$R_username = $page_res[$R_user_field_name];
+        // who are the people who proofed this page in each round?
+        // we will let people see proofer names of pages they themselves proofed
+
+        $R_username = $page_res[$R_user_field_name];
+        $R_other_username = $page_res[$R_other_user_field_name];
+
 
        // colour-code pages proofed by the user
         if ($R_username == $pguser) {
@@ -365,30 +372,33 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// User
 
+        if ($R_username == '')
+        {
+                echo "<td></td>\n";
+        }
+        else if ($can_see_names or ($pguser ==  $R_username) or ($pguser == $R_other_username))
+        {
 
-	if (($R_username == '') && ($can_see_names))
-	{
-		echo "<td></td>\n";
-	}
-	else if ($can_see_names)
-	{
+                $R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
+                if (mysql_num_rows($R_ures) == 0) {
+                        $R_pages_completed = 0;
+                } else {
+                        $R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
+                }
 
-		$R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
-		if (mysql_num_rows($R_ures) == 0) {
-			$R_pages_completed = 0;
-		} else {
-			$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
-		}
+                $R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
+                if (mysql_num_rows($R_bbres) == 0) {
+                        $R_bb_user_id = "";
+                } else {
+                        $R_bb_user_id = mysql_result($R_bbres, 0, "user_id");
+                }
 
-		$R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
-		if (mysql_num_rows($R_bbres) == 0) {
-			$R_bb_user_id = "";
-		} else {
-			$R_bb_user_id = mysql_result($R_bbres, 0, "user_id");
-		}
-
-		echo "<td align='center' $cellcolorclause ><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
-	}
+                echo "<td align='center' $cellcolorclause ><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
+        }
+        else
+        {
+                echo "<td></td>\n";
+        }
 
 	// ------------------------------
 	// Text
