@@ -5,13 +5,13 @@ include_once($relPath.'bookpages.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'theme.inc');
+
+theme("Available Projects", "header");
+echo "<br>";
 
 // $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode
 // should offer link to save changes and|or restore defaults
-
-    echo "\n<html><head>";
-    echo "\n<title>Available Projects</title>";
-    echo "</head><body>";
 
 //get total pages completed
     $pagessql = "SELECT pagescompleted FROM users WHERE username = '$pguser' LIMIT 1";
@@ -27,5 +27,6 @@ include_once('proof_list.inc');
 
 // restore old win pref
 $userP['i_newwin']=$winPref;
+theme("", "footer");
 ?>
-</body></html>
+
