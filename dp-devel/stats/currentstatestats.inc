@@ -54,7 +54,7 @@ echo "
 	      <th colspan=04><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."'>"
 	. _("Projects this month") .
 		"</font></th>
-	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Created").":        <b>$created</b></td>
+	  <tr><td align=center bgcolor='".$theme['color_mainbody_bg']."'><a href='$code_url/stats/proj_created_graphs.php'>"._("Created")."</a>:        <b>$created</b></td>
 	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Proofread").":      <b>$FinProof</b></td>
 	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Post-Processed").": <b>$FinPP</b></td>
 	      <td align=center bgcolor='".$theme['color_mainbody_bg']."'>"._("Posted to PG").": <b>$Posted</b></td>
