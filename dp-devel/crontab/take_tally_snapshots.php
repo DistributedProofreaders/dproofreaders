@@ -55,7 +55,7 @@ foreach ( get_all_current_tallyboards() as $tallyboard )
     {
         $t_end_tallyboard = time();
         $elapsed_for_tallyboard = $t_end_tallyboard - $t_start_tallyboard;
-        echo "    Snaphot completed in $elapsed_for_tallyboard seconds.\n";
+        echo "    Snapshot completed in $elapsed_for_tallyboard seconds.\n";
 
         maybe_query("INSERT INTO job_logs (filename, tracetime, event, comments) VALUES ('take_tally_snapshots.php', $t_end_tallyboard, 'END', '$id_for_logs: Started at $t_start_tallyboard, took $elapsed_for_tallyboard seconds total')");
     }
