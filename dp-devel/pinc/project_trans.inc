@@ -297,31 +297,26 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			mysql_query ("DELETE FROM page_counts WHERE projectid = '$projectid'");
 		}
 
-		//Delete the topic from forum if there is one
+		//Move the forum topic (if there is one) to the projects archive forum 
 		$result = mysql_query("
 			SELECT topic_id FROM projects WHERE projectid='$projectid'
 		");
 		$topic_id = mysql_result($result, 0, "topic_id");
 		if ($topic_id != "")
 		{
+
 			$i = 0;
-			$post_list = mysql_query("
-				SELECT * FROM phpbb_posts WHERE topic_id=$topic_id
+
+			$update_post = mysql_query("
+				UPDATE phpbb_posts SET forum_id = 15 WHERE topic_id=$topic_id
 			");
-			while($row = mysql_fetch_array($post_list) )
-			{
-				$postid = $row['post_id'];
-				$i++;
-				$delete_post_text = mysql_query("
-					DELETE FROM phpbb_posts_text WHERE post_id=$postid
-				");
-			}
-			$delete_post = mysql_query("
-				DELETE FROM phpbb_posts WHERE topic_id=$topic_id
+
+			$i = mysql_affected_rows();
+
+			$update_topic = mysql_query("
+				UPDATE phpbb_topics SET forum_id = 15 WHERE topic_id=$topic_id
 			");
-			$delete_topic = mysql_query("
-				DELETE FROM phpbb_topics WHERE topic_id=$topic_id
-			");
+
 			$get_count = mysql_query("
 				SELECT forum_posts, forum_topics FROM phpbb_forums
 				WHERE forum_id=2
@@ -335,6 +330,25 @@ function project_transition( $projectid, $new_state, $extras = array() )
 				SET forum_posts=$forum_posts, forum_topics=$forum_topics
 				WHERE forum_id=2
 			");
+
+
+			$get_count = mysql_query("
+				SELECT forum_posts, forum_topics FROM phpbb_forums
+				WHERE forum_id=15
+			");
+			$forum_posts = mysql_result($get_count, 0, "forum_posts");
+			$forum_topics = mysql_result($get_count, 0, "forum_topics");
+			$forum_topics = $forum_topics+1;
+			$forum_posts = $forum_posts+$i;
+			$update_count = mysql_query("
+				UPDATE phpbb_forums
+				SET forum_posts=$forum_posts, forum_topics=$forum_topics
+				WHERE forum_id=15
+			");
+
+
+
+
 		}
 
 		// TODO: Archive the project
