@@ -75,14 +75,7 @@ if (!$result) {
 }
 $this_uid = mysql_result($result, 0);
 
-// member_stats.date_updated should only have midnight times,
-// otherwise the code gets confused.
-$now = getdate();
-$midnight = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
-
-$sql = "INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
-    VALUES ('$this_uid', $midnight, 0 , 0 , 0)";
-$result = mysql_query($sql);
+user_initialize_page_tally_history($this_uid);
 
 // Send them an introduction e-mail
 maybe_welcome_mail($email, $real_name, $username);

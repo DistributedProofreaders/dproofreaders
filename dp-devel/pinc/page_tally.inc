@@ -333,6 +333,28 @@ function should_anonymize( $username, $user_privacy_setting )
 
 // -----------------------------------------------------------------------------
 
+function user_initialize_page_tally_history( $u_id )
+// Ensure that subsequent queries about the given (new) user's page-tally history
+// will find something.
+{
+    // member_stats.date_updated should only have midnight times,
+    // otherwise the code gets confused.
+    $now = getdate();
+    $midnight = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
+
+    $result = mysql_query("
+        INSERT INTO member_stats
+        SET
+            u_id                 = $u_id,
+            date_updated         = $midnight,
+            daily_pagescompleted = 0,
+            total_pagescompleted = 0,
+            rank                 = 0
+    ");
+}
+
+// -----------------------------------------------------------------------------
+
 function user_get_largest_page_tally_increment_info( $u_id )
 // Return an array consisting of:
 // -- the given user's largest recorded page tally increment, and
