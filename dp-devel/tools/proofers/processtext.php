@@ -1,31 +1,16 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-    $imagefile = ptog('imagefile');
-    $fileid = ptog('fileid');
-    $prooflevel = ptog('prooflevel');
-    $button1 = ptog('button1');
-    $button2 = ptog('button2');
-    $button3 = ptog('button3');
-    $button4 = ptog('button4');
-    $project = ptog('projectname');
-    $text_data = ptog('text_data');
-    $text_data = strip_tags($text_data, '<i>');
-    $orient = ptog('orient');
-    $lang=ptog('lang');
-    $js = ptog('js');
-    $button1_x = ptog('button1_x');
-    $button2_x = ptog('button2_x');
-    $button3_x = ptog('button3_x');
-    $button4_x = ptog('button4_x');
-    $editone = ptog('editone');
+/* $_POST $imagefile, $fileid, $prooflevel, $button1, $button2, $button3, $button4,
+          $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
+          $button3_x, $button4_x, $editone */
+
+$project = $projectname;
+$text_data = strip_tags($text_data, '<i>');
 
 if ($js==1)
 {
-$fntF=ptog('fntF');
-$fntS=ptog('fntS');
-$sTags=ptog('sTags');
-$zmSize=ptog('zmSize');
+/* $_POST $fntF, $fntS, $sTags, $zmSize */
 $fntF=isset($fntF)? $fntF:'0';
 $fntS=isset($fntS)? $fntS:'0';
 $sTags=isset($sTags)? $sTags:'1';
@@ -107,7 +92,7 @@ if (!$isOpen)
 }
 // see which button they pressed
 // buttons which save
-if (($button1 != "") || ($button2 != "") || isset($button1_x) || isset($button2_x))
+if ((@$button1 != "") || (@$button2 != "") || isset($button1_x) || isset($button2_x))
 {
 addUserCount($project,$prooflevel,$fileid,$pguser);
 savePage($project,$prooflevel,$fileid,$text_data,$pguser);
@@ -125,7 +110,7 @@ $prooflevel = '&prooflevel='.$prooflevel;
 $js='&js='.$js;
 $lang='&lang='.$lang;
 $saved='&saved=1';
-  if ($button4 != "" || isset($button4_x))
+  if (@$button4 != "" || isset($button4_x))
   {
   $orient=$orient=='vert'? $orient='hrzn':$orient='vert';
   } // end change layout button 4
@@ -138,7 +123,7 @@ echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\"></HEAD
 } // end save and continue same page button 1 & button 4
 
 // save and do another send back to proof.php for a new page
-if ($button2 != "" || isset($button2_x))
+if (@$button2 != "" || isset($button2_x))
 {
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
@@ -152,7 +137,7 @@ echo "<HTML><HEAD><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$frame1\" TARGET
 } // end save and do another button 2
 
 // if quit without saving send back to projects page
-if ($button3 != "")
+if (@$button3 != "" || isset($button3_x))
 {
 $dbQuery="UPDATE $project SET state='";
 $dbQuery.=$prooflevel==2?"12":"2";

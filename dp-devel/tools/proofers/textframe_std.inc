@@ -15,12 +15,20 @@ function resize(newsize)
 <textarea name="text_data" COLS="65" ROWS="6" WRAP="no"><?  }
 
 // depends on prooflevel
-$dbQuery="SELECT ";
-$dbQuery.=$prooflevel==0? "master":"round1";
-$dbQuery.="_text FROM $project WHERE fileid = '$fileid'";
+if ($prooflevel==0)
+{ if (isset($saved))
+  {$wText="round1_text";}
+  else {$wText="master_text";}
+}
+else {
+  if (isset($saved))
+  {$wText="round2_text";}
+  else {$wText="round1_text";}
+}
+$dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
     $result = mysql_query($dbQuery);
     $myrow = mysql_fetch_row($result);
-    $text_data = $prooflevel==0?mysql_result($result, 0, "master_text"):mysql_result($result, 0, "round1_text");;
+    $text_data = mysql_result($result, 0, $wText);
     if ($prooflevel != 0) {
         $text_data = strip_tags($text_data, '<i>&');
     } else {

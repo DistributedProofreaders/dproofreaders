@@ -1,8 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-    $project = gtog('project');
-    $prooflevel = gtog('prooflevel');
+/* $_GET $project, $prooflevel */
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");

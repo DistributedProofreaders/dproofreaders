@@ -1,10 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-$project = gtog('project');
-$imagefile = gtog('imagefile');
-$js=gtog('js');
-$orient=gtog('orient');
+/* $_GET $project, $imagefile, $js, $orient */
 
 $project="project=$project";
 $imagefile="&imagefile=$imagefile";

@@ -1,16 +1,9 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-    $project = gtog('project');
-    $prooflevel =gtog('prooflevel');
-    $orient = gtog('orient');
-    $text_data = gtog('text_data');
-    $fileid = gtog('fileid');
-    $imagefile = gtog('imagefile');
-    $js=gtog('js');
-    $saved=gtog('saved');
-    $editone=gtog('editone');
 
+/* $_GET $project, $prooflevel, $orient, $text_data, $fileid, $imagefile, $js,
+         $saved, $editone, $lang */
 
 if (!isset($saved))
 {
@@ -56,21 +49,18 @@ if (!isset($saved))
             $newprooflevel = '&prooflevel='.$prooflevel;
             $newjs='&js='.$js;
 // will need to add a true language option to this in future
-            $lang=gtog('lang');
             $lang=isset($lang)? $lang:'1';
             $lang="&lang=$lang";
-$frame1=isset($saved) && (!isset($editone))? 'saved':'imageframe';
+$frame1=isset($saved)? 'saved':'imageframe';
             $frame1 = $frame1.'.php?project='.$project.$imagefile.$newjs;
             $frame3 = 'textframe.php?project='.$project.$imagefile.$fileid.$newprooflevel.$lang.$newjs;
 if (isset($orient)) {$neworient="&orient=$orient"; $frame1.=$neworient;$frame3.=$neworient;}
 if (isset($editone)) {$editone="&editone=$editone"; $frame3.=$editone;}
+if (isset($saved)) {$saved="&saved=$saved"; $frame3.=$saved;}
 
 if ($js)
 {
-$fntF=gtog('fntF');
-$fntS=gtog('fntS');
-$sTags=gtog('sTags');
-$zmSize=gtog('zmSize');
+/* $_GET $fntF, $fntS, $sTags, $zmSize */
 $fntF=isset($fntF)? $fntF:'0';
 $fntS=isset($fntS)? $fntS:'0';
 $sTags=isset($sTags)? $sTags:'1';
