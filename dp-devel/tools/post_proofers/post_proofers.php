@@ -14,27 +14,23 @@ echo "<p><hr width=75% align='center'><br>";
 
 //List the "My Checked Out Post-Processing Books"
 echo "<center><b>My Checked Out Post-Processing Books:</b></center>";
-echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
 show_available_post(PROJ_POST_CHECKED_OUT);
-echo "</table><br>";
+echo "<br>";
 
 //List the "My Checked Out Verifying Post-Processing Books"
 echo "<center><b>My Checked Out Verifying Post-Processing Books:</b></center>";
-echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
 show_available_post(PROJ_POST_VERIFYING);
-echo "</table><br>";
+echo "<br>";
 
 //List the "Available for Post Processing Books"
 echo "<center><b>Available for Post-Processing Books:</b></center>";
-echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
 show_available_post(PROJ_POST_AVAILABLE);
-echo "</table><br>";
+echo "<br>";
 
 //List the "Available for Post-Processing Verification & Posting Books"
 echo "<center><b>Available for Post-Processing Verification & Posting Books:</b></center>";
-echo "<table align='center' border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse;' bordercolor='#111111'>";
 show_available_post(PROJ_POST_VERIFY);
-echo "</table><br>";
+echo "<br>";
 
 theme("", "footer");
 ?>
