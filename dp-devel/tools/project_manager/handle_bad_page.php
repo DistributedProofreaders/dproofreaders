@@ -130,6 +130,6 @@ if (!isset($_POST['action'])) {
 }
 
   //Redirect the user back to the project detail page.
-    header("Location: project_detail.php?project=$projectID");
+    header("Location: project_detail.php?project=$projectID&type=Full");
 }
 ?>
