@@ -108,7 +108,7 @@ href=\"../proofers/project_topic.php?project=$project\">";
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
     echo "$postcomments</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3>(Please check for Guideline Modifications)</td></tr><tr><td colspan=5>";
-    echo "Follow the current <a href=\"$code_url/faq/document.php\">Document Guidelines</a> for detailed project formatting directions. ";
+    echo "Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ";
     echo "<b>Instructions below take precedence over the guidelines:</b><P>";
     echo "$comments</td></tr>";
     echo "</table>";
