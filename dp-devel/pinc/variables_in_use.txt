@@ -9,8 +9,6 @@ cookiecheck.inc
      $cookieID = the username as pulled from the pgname cookie variable
 
 dp_main.inc
-     $admin_email = administrators email
-     $admin_name = administrators name
      $cookieC class instance use as $cookieC->setCookie() | $cookieC->deleteCookie()
      $cookieSet= true/false (preset from $cookieC->checkCookie() call)
      $cookieID = the username as pulled from the pgname cookie variable
@@ -22,3 +20,7 @@ dp_main.inc
  *** NOTE:  Pages which include dp_main.inc have all $_GET and $_POST variables autoglobal.
             $_GET variables are extracted first and $_POST variables are extracted secondly.
             So, $_POST variables will overwrite $_GET variables with the same name.
+
+v_site.inc
+     $admin_email = administrators email
+     $admin_name = administrators name
