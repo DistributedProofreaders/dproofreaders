@@ -195,6 +195,8 @@ feel free to use macros and such if you wish.
 <br>
 
 <li>Download the book's images (optional) and text.
+You may wish to make a local backup of the text file,
+for ease of reference later in the process.
 </li>
 <br>
 
