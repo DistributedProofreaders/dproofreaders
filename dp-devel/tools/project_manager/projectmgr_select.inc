@@ -1,5 +1,6 @@
 <?
 include_once($relPath.'misc.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 $transition_options_ = array(
 	PROJ_NEW =>
@@ -9,44 +10,6 @@ $transition_options_ = array(
 	PROJ_NEW_FILE_UPLOADED =>
 		array(
 			PROJ_NEW_METADATA_FIRST),
-
-	PROJ_PROOF_FIRST_UNAVAILABLE =>
-		array(
-			PROJ_PROOF_FIRST_WAITING_FOR_RELEASE),
-
-	PROJ_PROOF_FIRST_WAITING_FOR_RELEASE =>
-		array(
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_AVAILABLE),
-
-	PROJ_PROOF_FIRST_BAD_PROJECT =>
-		array(
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			'automodify'),
-
-	PROJ_PROOF_FIRST_AVAILABLE =>
-		array(
-			PROJ_PROOF_FIRST_UNAVAILABLE,
-			'automodify'),
-
-	PROJ_PROOF_SECOND_UNAVAILABLE =>
-		array(
-			PROJ_PROOF_SECOND_WAITING_FOR_RELEASE),
-
-	PROJ_PROOF_SECOND_WAITING_FOR_RELEASE =>
-		array(
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			PROJ_PROOF_SECOND_AVAILABLE),
-
-	PROJ_PROOF_SECOND_BAD_PROJECT =>
-		array(
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			'automodify'),
-
-	PROJ_PROOF_SECOND_AVAILABLE =>
-		array(
-			PROJ_PROOF_SECOND_UNAVAILABLE,
-			'automodify'),
 
 	PROJ_POST_FIRST_UNAVAILABLE =>
 		array(
@@ -80,6 +43,30 @@ $transition_options_ = array(
 		array(
 			PROJ_SUBMIT_PG_POSTED),
 );
+
+for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+{
+	$prd = get_PRD_for_round($rn);
+
+	$transition_options_[ $prd->project_unavailable_state ] =
+			array(
+				$prd->project_waiting_state);
+
+	$transition_options_[ $prd->project_waiting_state ] =
+			array(
+				$prd->project_unavailable_state,
+				$prd->project_available_state);
+
+	$transition_options_[ $prd->project_bad_state ] =
+			array(
+				$prd->project_unavailable_state,
+				'automodify');
+
+	$transition_options_[ $prd->project_available_state ] =
+			array(
+				$prd->project_unavailable_state,
+				'automodify');
+}
 
 function getSelect($project_state)
 {
