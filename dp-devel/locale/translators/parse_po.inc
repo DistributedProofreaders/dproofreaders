@@ -29,8 +29,8 @@ function parse_po($messages_po) {
 			while (!empty($messages_po[$i]) && (substr($messages_po[$i], 0, 5) == "msgid" || substr($messages_po[$i], 0, 1) == "\"")) {
 				if (!isset($translation['msgid'][$p])) { $translation['msgid'][$p] = ""; }
 				$formatted_msgid = trim(preg_replace("/^msgid/", "", $messages_po[$i]));
-				$formatted_msgid = trim(substr($formatted_msgid, 1, (strlen($formatted_msgid)-2)));
-				$translation['msgid'][$p] .= " ".$formatted_msgid;
+				$formatted_msgid = substr($formatted_msgid, 1, (strlen($formatted_msgid)-2));
+				$translation['msgid'][$p] .= $formatted_msgid;
 				$i++;
 			}
 
