@@ -114,11 +114,22 @@ function Pages_prepForRound( $projectid, $round_number )
     {
         $timestamp = time();
 
-        $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
+        $result = mysql_query("
+            UPDATE $projectid
+            SET
+                state = '".AVAIL_SECOND."',
+                round2_time = '$timestamp'
+        ");
     
         if ($writeBIGtable)
         {
-            $result = mysql_query("UPDATE project_pages SET state = '".AVAIL_SECOND."', round2_time = '$timestamp' WHERE projectid = '$projectid' ");
+            $result = mysql_query("
+                UPDATE project_pages
+                SET
+                    state = '".AVAIL_SECOND."',
+                    round2_time = '$timestamp'
+                WHERE projectid = '$projectid'
+            ");
         }
     }
 }
