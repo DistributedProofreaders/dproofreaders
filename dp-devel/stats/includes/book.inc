@@ -14,7 +14,7 @@ function showProjProfile($curProj) {
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
 
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='".$curProj['nameofwork']."' width = '74' height = '80'></td>";
+	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='".$curProj['nameofwork']."' width = '100' height = '150'></td>";
 
 // Title of Book
 
@@ -54,8 +54,8 @@ function activityCenter($curProj) {
 
 	$relPath="../../pinc/";
 
-	include($relPath.'page_states.inc');
-	include($relPath.'f_project_states.inc');
+	include_once($relPath.'page_states.inc');
+	include_once($relPath.'f_project_states.inc');
 
 	$proj_round = projectStateRound($curProj['state']);
 
