@@ -16,14 +16,11 @@ if ($code_url != "$real_site_url/c" )
         echo "<b>THIS IS A TEST SITE!!!</b>";
         echo "</p>";
         echo "<p>";
-        echo "For the real site, go to <a href='$real_site_url'>$real_site_url</
-a>.";
+        echo "For the real site, go to <a href='$real_site_url'>$real_site_url</a>.";
         echo "</p>";
         echo "<p>";
         echo "To leave feedback or report bugs regarding this TEST site, ";
-        echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=12226'>
-this forum topic</a> on the real site.";
-
+        echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=12226'>this forum topic</a> on the real site.";
         echo "</p>";
         echo "</center>";
         echo "</font>";
