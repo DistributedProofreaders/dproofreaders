@@ -11,7 +11,7 @@ $htmlEnd="</BODY></HTML>";
 $noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
 extract($_POST);
 
-if (ereg("[^A-Za-z0-9 ]", $userNM) || ereg("[^A-Za-z0-9 ]", $userPW) || strlen($userNM) > 25 || strlen($userPW) > 32)
+if (ereg("[^A-Za-z0-9@ ]", $userNM) || ereg("[^A-Za-z0-9@ ]", $userPW) || strlen($userNM) > 25 || strlen($userPW) > 32)
 {
     echo "Your username or password has invalid characters in it.  Please hit back & try again.  If you have any questions feel free to email <a href='dphelp@texts01.archive.org'>dphelp@texts01.archive.org</a>";
     exit();
