@@ -9,16 +9,7 @@ theme($title, "header");
 
 echo "<br><br><h2>$title</h2><br>\n";
 
-echo "<br>\n";
-
-$sub_title = _("Total Pages Proofread Since Statistics Were Kept");
-echo "<h3>$sub_title</h3>\n";
-
-dpsql_dump_themed_query("
-	SELECT
-		SUM(pages) as 'Total Pages Proofread So Far'
-	FROM pagestats
-");
+show_all_time_total();
 
 show_month_sums( 'top_ten' );
 
@@ -35,6 +26,20 @@ show_months_with_most_days_over(8000);
 show_months_with_most_days_over(9000);
 
 // -----------------------------------------------------------------------------
+
+function show_all_time_total()
+{
+	$sub_title = _("Total Pages Proofread Since Statistics Were Kept");
+	echo "<h3>$sub_title</h3>\n";
+
+	dpsql_dump_themed_query("
+		SELECT
+			SUM(pages) as 'Total Pages Proofread So Far'
+		FROM pagestats
+	");
+
+	echo "<br>\n";
+}
 
 function show_top_days( $n, $when )
 {
