@@ -200,6 +200,18 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_SUBMIT_PG_AVAILABLE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
+		PROJ_SUBMIT_PG_POSTED => array(
+			PROJ_CORRECT_VERIFY,
+			),
+
+		PROJ_CORRECT_VERIFY => array(
+			PROJ_CORRECT_VERIFYING,
+			),
+		PROJ_CORRECT_VERIFYING => array(
+			PROJ_CORRECT_VERIFY,
+			PROJ_SUBMIT_PG_POSTED,
+			),
+
 	);
 
 	if ( ! in_array( $new_state, $transition_graph[$current_state] ) )
@@ -266,7 +278,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	else if ( $current_state == PROJ_POST_VERIFYING &&
 		$new_state == PROJ_POST_VERIFY )
 	{
-		$settings .= ", modifieddate=''";
+		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$project['postproofer']}'";
 	}
 	else if ( $new_state == PROJ_SUBMIT_PG_POSTED )
@@ -321,8 +333,34 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		}
 
 		// TODO: Archive the project
-	}
 
+	}
+      else if ( $current_state == PROJ_SUBMIT_PG_POSTED &&
+		$new_state == PROJ_CORRECT_VERIFY)
+	{
+		if ( $extras['correctedby'] == '' )
+		{
+			return "$transition_str: \$extras['correctedby'] is unset";
+		}
+		$settings .= ", modifieddate='$now'";
+		$settings .= ", correctedby='{$extras['correctedby']}'";
+	}
+	else if ( $current_state == PROJ_CORRECT_VERIFY &&
+		$new_state == PROJ_CORRECT_VERIFYING )
+	{
+		if ( $extras['checkedoutby'] == '' )
+		{
+			return "$transition_str: \$extras['checkedoutby'] is unset";
+		}
+		$settings .= ", modifieddate='$now'";
+		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
+	}
+	else if ( $current_state == PROJ_CORRECT_VERIFYING &&
+		$new_state == PROJ_CORRECT_VERIFY )
+	{
+		$settings .= ", modifieddate='$now'";
+		$settings .= ", checkedoutby=''";
+	}
 
 	if ($testing)
 	{
@@ -432,5 +470,5 @@ Distributed Proofreaders
 		"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 }
 
-// vim: ts=4 sw=4
+
 ?>

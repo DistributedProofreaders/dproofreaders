@@ -52,6 +52,10 @@
   define("PROJ_SUBMIT_PG_POSTING_TEXT", "Being Posted");
   define("PROJ_SUBMIT_PG_POSTED_TEXT", "Posted to Project Gutenberg");
 
+// CORRECT
+  define("PROJ_CORRECT_VERIFY_TEXT", "Verify Corrections");
+  define("PROJ_CORRECT_VERIFYING_TEXT", "Verifying Corrections");
+
 // for the 'deletion' of a project
   define("PROJ_DELETE_TEXT", "Delete Project");
 

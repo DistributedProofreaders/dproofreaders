@@ -12,6 +12,7 @@
   PROOF=Proofing rounds
   POST=Post Processing
   SUBMIT_PG=submission stage for Project Gutenberg
+  CORRECT=Correcting Edition
 
   rounds:
   FIRST
@@ -27,7 +28,7 @@
 
 
 // PROOF
-    
+
   // unavailable
   define("PROJ_PROOF_FIRST_UNAVAILABLE","unavail_1"); // 0
   define("PROJ_PROOF_SECOND_UNAVAILABLE","unavail_2"); // 10
@@ -59,7 +60,7 @@
 //  define("AVAIL_PP", "62");  this is not the same as db
   define("PROJ_POST_CHECKED_OUT", "proj_post_checkedout"); // 65
 
-  define("PROJ_POST_VERIFY", "proj_post_verify"); // this is not in db 
+  define("PROJ_POST_VERIFY", "proj_post_verify"); // this is not in db
 
   define("PROJ_POST_VERIFYING", "proj_post_verifying"); // 67
   define("PROJ_POST_COMPLETE", "proj_post_complete"); // 69
@@ -73,6 +74,10 @@
   define("PROJ_SUBMIT_PG_AVAILABLE", "proj_submit_pgavailable"); // 71
   define("PROJ_SUBMIT_PG_POSTING", "proj_submit_pgposting"); // 75
   define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted"); // 79
+
+// CORRECT
+  define("PROJ_CORRECT_VERIFY", "proj_correct_verify");
+  define("PROJ_CORRECT_VERIFYING", "proj_correct_verifying");
 
 // for the 'deletion' of a project
   define("PROJ_DELETE", "project_delete"); // 99
@@ -113,6 +118,9 @@ $PROJECT_STATES_IN_ORDER = array(
     PROJ_SUBMIT_PG_POSTING,
     PROJ_SUBMIT_PG_POSTED,
 
+    PROJ_CORRECT_VERIFY,
+    PROJ_CORRECT_VERIFYING,
+
     PROJ_COMPLETE,
     PROJ_DELETE
 );
@@ -140,7 +148,10 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_POST_CHECKEDOUT_SECOND."'"
       . ")");
   define("SQL_CONDITION_GOLD",
-           "(state='".PROJ_SUBMIT_PG_POSTED."')");
+           "(state='".PROJ_SUBMIT_PG_POSTED."'"
+      . " OR state='".PROJ_CORRECT_VERIFY."'"
+      . " OR state='".PROJ_CORRECT_VERIFYING."'"
+	. ")");
   define("SQL_CONDITION_ALL",
 	   "(state='".PROJ_PROOF_FIRST_UNAVAILABLE."'"
       . " OR state='".PROJ_PROOF_SECOND_UNAVAILABLE."'"
@@ -164,6 +175,8 @@ $PROJECT_STATES_IN_ORDER = array(
       . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
       . " OR state='".PROJ_SUBMIT_PG_POSTED."'"
+      . " OR state='".PROJ_CORRECT_VERIFY."'"
+      . " OR state='".PROJ_CORRECT_VERIFYING."'"
       . " OR state='".PROJ_COMPLETE."'"
       . " OR state='".PROJ_NEW."'"
       . ")")
