@@ -92,9 +92,9 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	$line = fgets($fp);
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." projects left till number 10,000!</font></td>";\
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." projects left till number 10,000!</font></td>";
 		} elseif ($numProjectsLeft <= 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font></td>";\
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font></td>";
 	}
 			
 	echo "</tr></table>";
