@@ -46,11 +46,12 @@ function page_summary_sql($projectid)
                     '\">',u.username,'</a>')
                 END AS " . _("Proofreader") . ",
                 COUNT(1) AS '" . _("Pages this project") . "',
-                u.pagescompleted AS '" . _("Total Pages") . "',
+                ct.tally_value AS '" . _("Total Pages") . "',
                 DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
             FROM $projectid  AS p
                 INNER JOIN users AS u ON p.round1_user = u.username
                 INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
+		LEFT OUTER JOIN current_tallies AS ct ON (ct.holder_type='U' AND ct.holder_id=u.u_id AND ct.tally_name='P')
             GROUP BY p.round1_user" ;
 }
 

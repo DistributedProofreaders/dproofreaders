@@ -13,19 +13,15 @@
 
 // -----------------------------------------------------------------------------
 
-$users_table_with_tallies = "users";
+// $users_table_with_tallies = "users";
+$users_table_with_tallies = "users LEFT OUTER JOIN current_tallies ON (holder_type='U' AND holder_id=u_id AND tally_name='P')";
 // A string containing an SQL table-expression that yields a table that
 // has all of the data of the 'users' table, plus a page-tally column.
-// Currently, the 'users' table *has* a page-tally column, so the table-expr
-// is simply the table-name 'users'.
-// Eventually, however, page-tallies will be stored in a separate table,
-// and this table-expr will be a join of 'users' and that table. E.g.:
-// $users_table_with_tallies = "users LEFT OUTER JOIN current_tallies ON (holder_type='U' AND holder_id=u_id AND tally_name='P')";
 
-$user_P_page_tally_column = "pagescompleted";
+// $user_P_page_tally_column = "pagescompleted";
+$user_P_page_tally_column = "tally_value";
 // A string containing the name of the column in the above table
 // that gives the user's tally of pages saved-as-done in proofing rounds.
-// $user_P_page_tally_column = "tally_value";
 
 // -----------------------------------------------------------------------------
 
@@ -33,19 +29,19 @@ function page_tallies_add( $username, $amount )
 // Add $amount to the user's page tally,
 // and to the page tally of each team that the user currently belongs to.
 {
-    // get teams that the user belongs to
+    // get the user's u_id, and the teams that he/she belongs to
     $result = mysql_query("
-        SELECT team_1, team_2, team_3
+        SELECT u_id, team_1, team_2, team_3
         FROM users
         WHERE username = '$username'
     ");
-    list($team_1, $team_2, $team_3) = mysql_fetch_row($result);
+    list($u_id, $team_1, $team_2, $team_3) = mysql_fetch_row($result);
 
     // update page tally for user
     mysql_query("
-        UPDATE users
-        SET pagescompleted = pagescompleted + $amount
-        WHERE username = '$username'
+        UPDATE current_tallies
+        SET tally_value = tally_value + $amount
+        WHERE holder_type='U' AND holder_id='$u_id' AND tally_name='P'
     ");
 
     // update page tally for each team
@@ -73,8 +69,14 @@ function user_initialize_current_page_tally( $u_id )
 // Ensure that subsequent queries about the given (new) user's
 // current page-tally will find something.
 {
-    // Don't need to do anything, because users.pagescompleted
-    // is initialized to zero when user is created.
+    mysql_query("
+        INSERT INTO current_tallies
+        SET
+            holder_type = 'U',
+            holder_id   = $u_id,
+            tally_name  = 'P',
+            tally_value = 0
+    ") or die(mysql_error());
 }
 
 // -----------------------------------------------------------------------------
@@ -154,9 +156,10 @@ function users_get_page_tally_ranks()
     $rankArray = "";
 
     $result = mysql_query("
-        SELECT u_id, pagescompleted
-        FROM users
-        ORDER BY pagescompleted DESC
+        SELECT holder_id, tally_value
+        FROM current_tallies
+        WHERE holder_type='U' AND tally_name='P'
+        ORDER BY tally_value DESC
     ");
     $i = 1;
     while (list($u_id, $P_tally) = mysql_fetch_row($result))

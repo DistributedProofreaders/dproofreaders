@@ -53,8 +53,9 @@ $max_update = mysql_result($result,0,0);
 		}
 
 		$result = mysql_query("
-			SELECT u_id, pagescompleted
-			FROM users
+			SELECT holder_id, tally_value
+			FROM current_tallies
+			WHERE holder_type='U' AND tally_name='P'
 		");
 		while(list($u_id, $current_P_tally) = mysql_fetch_row($result)) {
 			$rank = $rankArray[$u_id];
