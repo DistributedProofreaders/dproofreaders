@@ -253,23 +253,13 @@ function showTeamTallySelector( $curTeam, $tally_name )
 
 function showTeamStats($curTeam, $tally_name) {
 
-	$team_id = $curTeam['id'];
-
 	$teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 
-	$snapshot_info =
-		$teams_tallyboard->get_info_from_latest_snapshot($team_id);
+	$vitals = $teams_tallyboard->get_vitals( $curTeam['id'] );
 
-	$lastupdated = date("n/d/Y h:i:s A T", ($snapshot_info['timestamp']-1));
+	$lastupdated = date("n/d/Y h:i:s A T", ($vitals->latest_snapshot_timestamp-1));
 
-	$prevRank = $snapshot_info['tally_rank'];
-
-	$pageCount = $teams_tallyboard->get_current_tally( $team_id );
-	$pageCountRank = $teams_tallyboard->get_rank($team_id);
-
-	list($bestDayCount, $bestDayTimestamp) =
-		$teams_tallyboard->get_info_re_largest_delta($team_id);
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-86400));
 
 	$t = new ThemedTable(
 		2,
@@ -285,19 +275,19 @@ function showTeamStats($curTeam, $tally_name) {
 	$t->row(
 		_("Total Pages")
 			. " <i>("._("Rank").")</i>",
-		"<b>" . number_format($pageCount) . "</b>"
-			. "&nbsp;<i>(#$pageCountRank)</i>"
-			. showChangeInRank( $prevRank, $pageCountRank )
+		"<b>" . number_format($vitals->current_tally) . "</b>"
+			. "&nbsp;<i>(#$vitals->current_rank)</i>"
+			. showChangeInRank( $vitals->latest_snapshot_rank, $vitals->current_rank )
 	);
 
-	$avg_pages_per_day = get_daily_average($curTeam['created'],$pageCount);
+	$avg_pages_per_day = get_daily_average($curTeam['created'],$vitals->current_tally);
 	$t->row(
 		_("Avg. Pages per Day"),
 		"<b>" . number_format($avg_pages_per_day,1) . "</b>"
 	);
 	$t->row(
 		_("Most Pages Done per Day"),
-		"<b>" . number_format($bestDayCount) . "</b>"
+		"<b>" . number_format($vitals->best_delta) . "</b>"
 			. "&nbsp;<i>($bestDayTime)</i></b>"
 	);
 

@@ -268,33 +268,18 @@ function showMbrPageStats( $curMbr, $tally_name )
 {
 	$users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
-	$current_tally = $users_tallyboard->get_current_tally( $curMbr['u_id'] );
+	$vitals = $users_tallyboard->get_vitals( $curMbr['u_id'] );
 
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 
-	$neighbors =
-		user_get_page_tally_neighborhood(
-			$tally_name, $curMbr['username'], 0 );
-	$currentRank = $neighbors[0]->get_current_page_tally_rank();
-	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
-
-	list($bestDayCount,$bestDayTimestamp) =
-		$users_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
-
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
-
-	list($highestRank, $highestRankDate) =
-		$users_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
-
+	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-86400));
 
 	if ($daysInExistenceInteger > 0) {
-	        $daily_Average = $current_tally/$daysInExistenceInteger;
+	        $daily_Average = $vitals->current_tally/$daysInExistenceInteger;
 	} else {
 		$daily_Average = 0;
 	}
-
-	if ($currentRank <= $highestRank) { $highestRank = $currentRank; $highestRankDate = time(); }
 
 	$t = new ThemedTable(
 		2, 
@@ -304,23 +289,23 @@ function showMbrPageStats( $curMbr, $tally_name )
 
 	$t->row(
 		_("Total Pages"),
-		number_format($current_tally) . " " . _("pages")
-		. " (" . pageCountPercentage($current_tally) . _("% of total") . ")"
+		number_format($vitals->current_tally) . " " . _("pages")
+		. " (" . pageCountPercentage($vitals->current_tally) . _("% of total") . ")"
 	);
 	$t->row(
 		_("Overall Rank"),
-		number_format($currentRank)
-		. showChangeInRank( $latestSavedRank, $currentRank )
+		number_format($vitals->current_rank)
+		. showChangeInRank( $vitals->latest_snapshot_rank, $vitals->current_rank )
 	);
 	$t->row(
 		_("Highest Rank"),
-		number_format($highestRank)
-		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
-		. "&nbsp;" . showChangeInRank($highestRank, $currentRank)
+		number_format($vitals->best_rank)
+		. "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp) . ")</i>"
+		. "&nbsp;" . showChangeInRank($vitals->best_rank, $vitals->current_rank)
 	);
 	$t->row(
 		_("Best Day Ever"),
-		number_format($bestDayCount) . " " . _("pages")
+		number_format($vitals->best_delta) . " " . _("pages")
 		. " <i>(" . $bestDayTime . ")</i>"
 	);
 	$t->row(

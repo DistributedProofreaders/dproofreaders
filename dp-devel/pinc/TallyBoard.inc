@@ -562,6 +562,37 @@ class TallyBoard
         return $delta_at_;
     }
 
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+    function get_vitals( $holder_id )
+    // Return an object whose members are various useful quantities
+    // from this tallyboard for the given holder.
+    // (This is just a convenience function.)
+    {
+        $obj = new StdClass;
+
+        $obj->current_tally = $this->get_current_tally($holder_id);
+        $obj->current_rank  = $this->get_rank($holder_id);
+
+        $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
+        $obj->latest_snapshot_timestamp = $snapshot_info['timestamp'];
+        $obj->latest_snapshot_delta     = $snapshot_info['tally_delta'];
+        $obj->latest_snapshot_tally     = $snapshot_info['tally_value'];
+        $obj->latest_snapshot_rank      = $snapshot_info['tally_rank'];
+
+        list($obj->best_delta, $obj->best_delta_timestamp) =
+            $this->get_info_re_largest_delta($holder_id);
+
+        list($obj->best_rank, $obj->best_rank_timestamp) =
+            $this->get_info_re_best_rank($holder_id);
+        if ($obj->current_rank <= $obj->best_rank)
+        {
+            $obj->best_rank = $obj->current_rank;
+            $obj->best_rank_timestamp = time();
+        }
+
+        return $obj;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
