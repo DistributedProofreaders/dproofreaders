@@ -14,5 +14,11 @@ function array_get( $arr, $key, $default )
     }
 }
 
+function startswith( $subject, $prefix )
+// Return TRUE iff $subject starts with $prefix.
+{
+	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
