@@ -187,6 +187,20 @@ function posted_pg($projectid) {
 }
 
 function previewProject($nameofwork, $authorsname, $comments) {
+	global $relPath;
+
+	$template_count = substr_count($comments, "[template=");
+	if (!empty($template_count)) {
+		$i = 1;
+		while ($i <= $template_count) {
+			$comments_backup = $comments;
+			$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
+			$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
+			$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
+			$i++;
+		}
+	}
+
 	echo "<br><table width='90%' border=1>";
 	echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
 	echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>";

@@ -175,6 +175,19 @@ if (!isset($proofing)) {
         recentlyproofed($project, $proofstate, $pguser,$userP,0);
         recentlyproofed($project, $proofstate, $pguser,$userP,1);
       }
+
+    $template_count = substr_count($comments, "[template=");
+    if (!empty($template_count)) {
+	$i = 1;
+	while ($i <= $template_count) {
+		$comments_backup = $comments;
+		$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
+		$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
+		$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
+		$i++;
+	}
+    }
+
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>"._("Project Comments")."</h3>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
     echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
     echo "<b>"._("Instructions below take precedence over the guidelines"); ?></b>:<P>";
