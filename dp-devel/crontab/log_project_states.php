@@ -18,7 +18,7 @@ if ($testing_this_script)
 $res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
 $X_date = mysql_result($res,0);
-
+echo $X_date;
 if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ";
     if (! $testing_this_script)
@@ -39,7 +39,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-	VALUES ($X_year,$X_month,$X_day, $X_date,'". $state."', $num_projects)";
+	VALUES (date('Y'),date('m'),date('d'),date(Y-m-d'),'". $state."', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -64,14 +64,14 @@ $result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY 
 
 while (list ($state) = mysql_fetch_row ($result)) {
 
-	$result = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = $state and date = $X_day");
+	$result = mysql_query ("SELECT count(*) as cnt FROM project_state_stats WHERE state = $state and date = date('Y-m-d')");
 
 	// no row for this state yet today
-	if ( !mysql_res ($result,0)) {	
+	if ( ! mysql_result($result,0)) {	
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES ($X_year,$X_month,$X_day, $X_year-$X_month-$X_day,'". $state."', 0)";
+               VALUES (date('Y'),date('m'),date('d'),date(Y-m-d'),'". $state."', 0)";
 	
           if ($testing_this_script)
           {
