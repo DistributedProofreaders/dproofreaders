@@ -2,9 +2,9 @@
 
 # Dump (to stdout) the SQL commands to create DP tables.
 
-db_user=<<DB_USER>>
-db_password=<<DB_PASSWORD>>
-db_name=<<DB_NAME>>
+db_user='<<DB_USER>>'
+db_password='<<DB_PASSWORD>>'
+db_name='<<DB_NAME>>'
 code_dir=<<CODE_DIR>>
 
 export LC_ALL=POSIX
