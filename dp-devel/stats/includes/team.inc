@@ -16,7 +16,7 @@ $team_icons_url   = "$dyn_url/teams/icon";
 function select_from_teams( $where_body, $other_clauses='' )
 {
 	global $teams_ELR_page_tallyboard;
-	list($joined_with_team_P_page_tallies,$team_P_page_tally_column) =
+	list($joined_with_team_ELR_page_tallies,$team_ELR_page_tally_column) =
 		$teams_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('id');
 
 	if ($where_body == '') $where_body = '1';
@@ -24,9 +24,9 @@ function select_from_teams( $where_body, $other_clauses='' )
 	$q = "
 		SELECT
 			user_teams.*,
-			$team_P_page_tally_column AS page_count
+			$team_ELR_page_tally_column AS page_count
 		FROM user_teams
-			$joined_with_team_P_page_tallies
+			$joined_with_team_ELR_page_tallies
 		WHERE $where_body
 		$other_clauses
 	";
