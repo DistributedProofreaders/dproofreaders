@@ -39,10 +39,8 @@ return $to_echo;
 
     echo "\r\n<table border=1 width=630>";
     echo "\r\n<tr>";
-    echo   "<td>Language</td>";
-    echo   "<td>Genre</td>";
-    echo   "<td>Project Manager</td>";
-    echo   "<td>Difficulty</td>";
+    echo   "<td>"._("Language")."</td>";
+    echo   "<td>"._("Genre")."</td>";
     echo "\r\n</tr>";
     echo "\r\n<tr>";
 
@@ -82,6 +80,15 @@ return $to_echo;
 	    </select>
 	    </td>
 	";
+
+    echo "\r\n</tr>";
+    echo "\r\n<tr>";
+    echo   "<td>"._("Project Manager"."</td>";
+    echo   "<td>"._("Difficulty")."</td>";
+    echo "\r\n</tr>";
+    echo "\r\n<tr>";
+
+
        
 	// PM filter
 
