@@ -196,7 +196,7 @@ theme("Project Managers", "header");
                 			$trcolor = $theme['color_navbar_bg'];
             			}
                     		$date_txt = date("M j h:i A", $date);
-	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='#ffffff'><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
+	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
                     		if ($userP['sitemanager'] == "yes") { 
                     			echo $real_name; 
                     		} else { 
