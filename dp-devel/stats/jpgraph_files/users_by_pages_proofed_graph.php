@@ -56,28 +56,18 @@ for ($pagescompleted_i = 0; $pagescompleted_i <= $maxpages; $pagescompleted_i++ 
 }
 
 
-$numrows = mysql_numrows($result);
-
-
-$row_num = 0;
-
-
-// consider in turn each possible pagescompleted value...
-while ($row_num < $numrows) {
-
-    // for the current pagescompleted value,
-    // add the n_* values to the array of Y-axis data;
-
-
-	$pagescompleted_i = mysql_result($result, $row_num,"pagescompleted");
-	if ($pagescompleted_i >= 0)
-	{
-	   $datayAll[$pagescompleted_i] = mysql_result($result, $row_num,"n_all");
-	   $datay90[$pagescompleted_i] = mysql_result($result, $row_num,"n_90d");
-	   $datay28[$pagescompleted_i] = mysql_result($result, $row_num,"n_28d");
-	   $datay7[$pagescompleted_i] = mysql_result($result, $row_num,"n_7d");
-	}
-	$row_num++;
+// For each pagescompleted value in the result-set,
+// add the corresponding n_* values to the arrays of Y-axis data.
+//
+while ($row = mysql_fetch_object($result))
+{
+    if ($row->pagescompleted >= 0)
+    {
+        $datayAll[$row->pagescompleted] = $row->n_all;
+        $datay90[ $row->pagescompleted] = $row->n_90d;
+        $datay28[ $row->pagescompleted] = $row->n_28d;
+        $datay7[  $row->pagescompleted] = $row->n_7d;
+    }
 }
 
 
