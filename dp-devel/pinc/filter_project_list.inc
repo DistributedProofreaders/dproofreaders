@@ -71,7 +71,7 @@ echo "<center>";
 echo _("Filter available ").$label._(" books by").":";
 echo "</center>\n";    
 echo "<br>
-    <form method=get action=''>
+    <form method='post' action=''>
     <input type='hidden' name='filter_".$filtertype_stem."' value='filter_on'>";
 
 
@@ -107,7 +107,7 @@ echo "\r\n<tr>";
 // I'm pretty sure this doesn't mean anything to HTML/HTTP,
 // but PHP takes it as a cue to make the multiple values of
 // the select control available as an array.
-// That is, $_GET['whatever'] will be an array containing
+// That is, $_POST['whatever'] will be an array containing
 // all selected values.
 
 
@@ -203,12 +203,12 @@ if (mysql_num_rows($result) >= 1) {
 
 
 
-// get new filters from passed arguments (if any) in URL
+// get new filters from passed arguments (if any) in HTTP request
 
 // validate each set value against the arrays of legal values
 // as some protection against the "injection of SQL into URL" attack
 
-if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem"] == 'filter_on')) {
+if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_stem"] == 'filter_on')) {
 
 	$RFilter = " ";
 	$display_filter = "";
@@ -218,11 +218,11 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 	// construct language clause of new filter
 
 	$condition1 = '1';
-	if ( isset($_GET['language1']) && count($_GET['language1']) > 0 )
+	if ( isset($_POST['language1']) && count($_POST['language1']) > 0 )
 	{
 	    $condition1 .= " AND (0";
 	    $display_filter .= "<br>Languages=";
-	    foreach( $_GET['language1'] as $lang )
+	    foreach( $_POST['language1'] as $lang )
 	    {
 
 		if ( $lang == '' )
@@ -242,11 +242,11 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 
 	// construct genre clause of new filter
 
-	if ( isset($_GET['genre1']) && count($_GET['genre1']) > 0 )
+	if ( isset($_POST['genre1']) && count($_POST['genre1']) > 0 )
 	{
 	    $condition1 .= " AND (0";
 	    $display_filter .= "<br>Genres=";
-	    foreach( $_GET['genre1'] as $genre )
+	    foreach( $_POST['genre1'] as $genre )
 	    {
 		if ( $genre == '' )
 		{
@@ -265,11 +265,11 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 
 	// construct PM clause of new filter
 
-	if ( isset($_GET['PM1']) && count($_GET['PM1']) > 0 )
+	if ( isset($_POST['PM1']) && count($_POST['PM1']) > 0 )
 	{
 	    $condition1 .= " AND (0";
 	    $display_filter .= "<br>PMs=";
-	    foreach( $_GET['PM1'] as $PM )
+	    foreach( $_POST['PM1'] as $PM )
 	    {
 		if ( $PM == '' )
 		{
@@ -289,11 +289,11 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 
 	// construct difficulty clause of new filter
 
-	if ( isset($_GET['difficulty1']) && count($_GET['difficulty1']) > 0 )
+	if ( isset($_POST['difficulty1']) && count($_POST['difficulty1']) > 0 )
 	{
 	    $condition1 .= " AND (0";
 	    $display_filter .= "<br>Difficulty=";
-	    foreach( $_GET['difficulty1'] as $diff )
+	    foreach( $_POST['difficulty1'] as $diff )
 	    {
 		if ( $diff == '' )
 		{
