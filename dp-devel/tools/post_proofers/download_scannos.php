@@ -5,7 +5,7 @@
 // enclosed in %scannoslist = ( );.
 
 // Currently valid languages: eng, fr, ger
-$lang = $_GET['lang'];
+$lang = $_GET['language'];
 // Currently valid types: common, rare, suspect
 $flavour = $_GET['type'];
 
@@ -21,15 +21,15 @@ if (!file_exists($filename)) {
           <p>"._("The following scanno lists are available in .rc format:")."</p>
           <table border='1'>
           <tr><th>"._("Language")."</th><th></th><th></th><th></th></tr>
-          <tr><td>"._("English")."</td><td><a href='$_SERVER[PHP_SELF]?lang=eng&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=eng&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=eng&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("French")."</td><td><a href='$_SERVER[PHP_SELF]?lang=fr&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=fr&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=fr&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("German")."</td><td><a href='$_SERVER[PHP_SELF]?lang=ger&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=ger&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?lang=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("English")."</td><td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("French")."</td><td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("German")."</td><td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
           </table>
           ";
 
@@ -37,11 +37,7 @@ if (!file_exists($filename)) {
     exit();
 }
 
-
-header("Content-Type: text/plain");
-header("Content-Disposition: attachment; filename=\"".$lang."_".$flavour.".rc\"");
-
-echo "%scannoslist = (\n";
+$output = "%scannoslist = (\n";
 
 $raw_scannos = fopen($filename,"r");
 while (!feof($raw_scannos)) {
@@ -51,11 +47,18 @@ while (!feof($raw_scannos)) {
      // Escape 's to avoid messing up the file
      $sc1 = str_replace("'", "\'", $scanno1);
      $sc2 = str_replace("'", "\'", $scanno2);
-     echo "'$sc1' => '$sc2',\r\n";
+     $output .= "'$sc1' => '$sc2',\r\n";
    }
    $trans_scannos=NULL;
 }
 fclose($raw_scannos);
 
-echo ");";
+$output .= ");";
+
+
+header("Content-Type: text/plain");
+header("Content-Disposition: attachment; filename=\"".$lang."_".$flavour.".rc\"");
+header("Content-Length: ".strlen($output));
+
+echo $output;
 ?>
