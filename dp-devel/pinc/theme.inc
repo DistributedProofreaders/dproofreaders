@@ -297,6 +297,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	//Get the personal statistics array
 	$neighborhood = get_user_page_tally_rank_array($GLOBALS['pguser'], TRUE);
+	$neighbors = user_get_page_tally_neighbors($neighborhood, $userP['u_neigh']);
 	$userindex = $neighborhood['curMbrIndex'];
 
 	//get rank
@@ -333,9 +334,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Neighborhood:</u></font></center>\n";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
-		$N = $userP['u_neigh'];
-
-		$neighbors = user_get_page_tally_neighbors( $neighborhood, $N );
 		foreach ( $neighbors as $rel_posn => $neighbor )
 		{
 			echo "&nbsp;";
