@@ -1,11 +1,6 @@
 <?php
 
-/** NOTES
- *
- * This class should probably be responsible for knowing if this user is logged in or
- * not based on whether logIn() has succeeded and logOut() has not subsequently occurred.
- * Hence the var $logged_in for the purpose.
- */
+require_once 'v_site.inc';
 
 /**
  * User Class
@@ -13,6 +8,10 @@
  * <p>Liberally scavenged from "user_is.inc". All the heavy lifting was developed
  * there by mdyck and big_bill - I simply rearranged it a bit into a class for
  * my own convenenience (and that of the hard-working database server.)</p>
+ *
+ * <p>This class should probably be responsible for knowing if this user is logged in or
+ * not based on whether logIn() has succeeded and logOut() has not subsequently occurred.
+ * Hence the var $logged_in for the purpose.</p>
  *
  * <p>This class is still in alpha, do not fully rely on it yet until it has gone
  * through unit testing successfully.</p>
@@ -22,9 +21,9 @@ class User
 {
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $settings;      // This is for the records from usersettings for this user.
-    var $prefs;    // this is for the records from userprofiles for this user.
-    var $stats;    // this is for the fields from a summary query from member_stats.
-    var $logged_in; // boolean = True when they are and False when they're not.
+    var $prefs;         // this is for the records from userprofiles for this user.
+    var $stats;         // this is for the fields from a summary query from member_stats.
+    var $logged_in;     // boolean = True when they are and False when they're not.
 
     /**
      * Class Initializer
@@ -81,15 +80,38 @@ class User
     }
 
     /**
+     * Saves User Information to Database
+     *
+     * Once block of code has made changes to the User object, that information
+     * needs to sometimes go back into the database. This function puts all that
+     * information back in.
+     *
+     * - returns true if it is successful
+     * - returns false otherwise
+     */
+
+    function saveUser()
+    {
+
+    }
+
+    /**
      * Attempts to log the user $this->userName() into the site
      *
-     * - returns true if it was successful logging in
-     * - returns false if it was unsuccessful logging in
+     * - returns an empty string if it was successful logging in
+     * - returns an error message otherwise
      */
 
     function logIn($password)
     {
-        return ( $this->logged_in = ( MD5($password) == $this->passwordMD5() ) ) ;
+        $validUser = $this->validUser();
+        $validPassword = $this->validPassword();
+        if (!($this->logged_in = (empty($validUser) && empty($validPassword))) {
+
+            // Sending all error messages back to function caller
+            return $validUserName." ".$validPassword;
+
+        } else return '';
     }
 
     /**
@@ -101,7 +123,7 @@ class User
 
     function logOut()
     {
-        $this->logged_in = False ; 
+        $this->logged_in = False; 
 
     }
 
@@ -114,7 +136,7 @@ class User
 
     function isLoggedIn()
     {
-        return $this->logged_in ;
+        return $this->logged_in;
     }
 
     /**
@@ -129,7 +151,7 @@ class User
      * - returns an error message explaining why it cannot be used.
      */
 
-    function isValidUserName()
+    function validUserName()
     {
 
         // This is the length of the 'username' field in the 'users' table.
@@ -174,11 +196,11 @@ class User
      * It is different from isValidUserName() in that it not just verifies the name,
      * but also makes sure that the user has an account with the site.</p>
      *
-     * - returns true if the name is someone registered
-     * - returns false otherwise
+     * - returns a blank string if the user is valid
+     * - returns an error message otherwise
      */
 
-    function isValidUser()
+    function validUser()
     {
 
     }
@@ -198,25 +220,48 @@ class User
 
     }
 
+    /**
+     * Set the Real Name of the User
+     */
+
     function setRealName($realName)
     {
 
     }
+
+    /**
+     * Real Name of User
+     */
 
     function realName()
     {
 
     }
 
+    /**
+     * Status if able to E-mail Updates to User
+     *
+     * - returns true if able to e-mail updates to user
+     * - returns false otherwise
+     */
+
     function updatesEmailed()
     {
 
     }
 
+    /**
+     * Enable E-mail Updates for User
+     */
+
     function enableEmailUpdates()
     {
 
     }
+
+    /**
+     * Disable E-mail Updates for User
+     */
 
     function disableEmailUpdates()
     {
@@ -247,6 +292,10 @@ class User
 
     }
 
+    /**
+     * MD5 version of User's Password
+     */
+
     function passwordMD5()
     {
         return $this->users_phpbb['bbu.password'];
@@ -255,12 +304,20 @@ class User
     /**
      * Checks to see if a Password can be used
      *
-     * <p>Takes a string that may be used as a password and verifies that it does not
-     * have any spaces
+     * <p>Takes a string that may be used as a password and makes sure it matches this
+     * user's password.
+     *
+     * - returns an empty string if the password matches
+     * - returns an error message otherwise
+     */
 
-    function isValidPassword($password)
+    function validPassword($password)
     {
+       if (MD5($password) != $this->passwordMD5()) {
+           $error = _("Password is invalid.");
+       } else $error = "";
 
+       return $error;
     }
 
     /**
@@ -304,17 +361,17 @@ class User
         // This is the length of the 'email' field in the 'users' table.
         $email_address_max_len = 50;
 
-        if ($email_address == '') {
+        if ($this->emailAddress() == '') {
             $error = _("You did not supply an E-mail Address.");
             return $error;
         }
 
-        if (strlen($email_address) > $email_address_max_len) {
+        if (strlen($this->emailAddress()) > $email_address_max_len) {
             $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
             return $error;
         }
 
-        $parts = explode('@', $email_address);
+        $parts = explode('@', $this->emailAddress());
         if (count($parts) == 1) {
             $error = _("Your E-mail Address does not contain an '@' sign.");
             return $error;
@@ -360,7 +417,7 @@ class User
         // Formerly:
         // $domain_re = "((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)";
 
-        if (!ereg("^$local_part_re@$domain_re$", $email_addres)) {
+        if (!ereg("^$local_part_re@$domain_re$", $this->emailAddress())) {
             $error = _("Your E-mail Address appears to be invalid.");
             return $error;
         }
@@ -369,7 +426,7 @@ class User
     }
 
     /**
-     * Returns the internal user ID # of the User object
+     * Internal user ID # of the User object
      */
 
     function userId()
@@ -377,44 +434,651 @@ class User
         return $this->users_phpbb['u_id'];
     }
 
+    /**
+     * Theme Name that User has selected in their preferences
+     */
+
     function themeName()
     {
-        return $this->users_phpbb['i_theme'];
+        return $this->getRow('i_theme');
     }
 
-    function align()
+    function setThemeName($name)
     {
-        return $this->users_phpbb['u_align'];
+
     }
+
+    /**
+     * Active Profile's Name
+     */
+
+    function activeProfile()
+    {
+
+    }
+
+    /**
+     * All Profile Names
+     */
+
+    function allProfileNames()
+    {
+
+    }
+
+    /**
+     * Set Active Profile
+     */
+
+    function setProfile($name)
+    {
+
+    }
+
+    function isShowingR1()
+    {
+
+    }
+
+    function enableShowingR1()
+    {
+
+    }
+
+    function disableShowingR1()
+    {
+
+    }
+
+    function isShowingR2()
+    {
+
+    }
+
+    function enableShowingR2()
+    {
+
+    }
+
+    function disableShowingR2()
+    {
+
+    }
+
+    function setLanguage($name)
+    {
+
+    }
+
+    function language()
+    {
+
+    }
+
+    function numRankNeighbors()
+    {
+
+    }
+
+    function setNumRankNeighbors($num)
+    {
+
+    }
+
+    function interfaceLanguage()
+    {
+
+    }
+
+    function setInterfaceLanguage($lang)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setVerticalResolution($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function verticalResolution()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setHoriziontalResolution($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function horiztionalResolution()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isStandardInterface()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableStandardInterface()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isEnhancedInterface()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableEnhancedInterface()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isLaunchedNewWindow()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableLaunchNewWindow()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableLaunchNewWindow()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isToolbarShown()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableShowToolbar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableShowToolbar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isStatusBarShown()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableShowStatusBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableShowStatusBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isTop10Shown()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableShowTop10()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableShowTop10()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setLeftStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isLeftStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setRightStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isRightStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setVerticalFontFace($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setHoriziontalFontFace($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setActiveFontFace($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function activeFontFace()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function horiziontalFontFace()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function verticalFontFace()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function allFontFaces()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setVerticalFontSize($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setHoriziontalFontSize($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setActiveFontSize($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function activeFontSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function horiziontalFontSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function verticalFontSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function allFontSizes()
+    {
+
+    }
+
+    /**
+     * Is User's Proofreading Layout Vertical
+     *
+     * - returns true if user wants vertical layout
+     * - returns false otherwise
+     */
+
+    function isVerticalLayout()
+    {
+        return ($this->users_phpbb['i_layout'] == 1);
+    }
+
+    /**
+     * Sets User's Proofreading Layout to Vertical
+     */
+
+    function enableVerticalLayout()
+    {
+        $this->users_phpbb['i_layout'] = 1;
+    }
+
+    /**
+     * Is User's Proofreading Layout Horiziontal
+     *
+     * - returns true if user wants horiziontal layout
+     * - returns false otherwise
+     */
+
+    function isHoriziontalLayout()
+    {
+        return ($this->users_phpbb['i_layout'] == 0);
+    }
+
+    /**
+     * Sets User's Proofreading Layout to Horiziontal
+     */
+
+    function enableHoriziontalLayout()
+    {
+        $this->users_phpbb['i_layout'] = 0;
+    }
+
+    /**
+     * Number of Proofreading Rows for Active Layout & Profile
+     *
+     * <p>Returns the number of columns of characters for the active proofreading layout.</p>
+     */
+
+    function numberActiveRows()
+    {
+        if ($this->isHoriziontalLayout()) {
+            return $this->getPref($this->activeProfile(), 'h_tlines');
+        } else return $this->getPref($this->activeProfile(), 'v_tlines');
+    }
+
+    /**
+     * Number of Proofreading Columns for Active Layout & Profile
+     *
+     * <p>Returns the number of columns of characters for the active proofreading layout.</p>
+     */
+
+    function numberActiveColumns()
+    {
+        if ($this->isHoriziontalLayout()) {
+            return $this->getPref($this->activeProfile(), 'h_tchars');
+        } else return $this->getPref($this->activeProfile(), 'v_tchars');
+    }
+
+    /**
+     * Set Number of Horiziontal Proofreading Columns For Active Profile
+     * 
+     * - returns true if number given is valid number
+     * - returns false otherwise
+     */
+
+    function setNumberHoriziontalColumns($num)
+    {
+        if (($num >= 10) && ($num <= 160)) {
+            $this->setPref($this->activeProfile(), 'h_tchars', $num);
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Set Number of Vertical Proofreading Columns For Active Profile
+     * 
+     * - returns true if number given is valid number
+     * - returns false otherwise
+     */
+
+    function setNumberVerticalColumns($num)
+    {
+        if (($num >= 10) && ($num <= 160)) {
+            $this->setPref($this->activeProfile(), 'v_tchars', $num);
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Set Number of Horiziontal Proofreading Rows For Active Profile
+     * 
+     * - returns true if number given is valid number
+     * - returns false otherwise
+     */
+
+    function setNumberHoriziontalRows($num)
+    {
+        if (($num >= 1) && ($num <= 100)) {
+            $this->setPref($this->activeProfile(), 'h_tlines', $num);
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Set Number of Vertical Proofreading Rows For Active Profile
+     * 
+     * - returns true if number given is valid number
+     * - returns false otherwise
+     */
+
+    function setNumberVerticalRows($num)
+    {
+        if (($num >= 1) && ($num <= 100)) {
+            $this->setPref($this->activeProfile(), 'v_tlines', $num);
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Is User's Statistics Public
+     *
+     * <p>Public means that anyone can see this person's statistics. This is the default
+     * setting for all users.</p>
+     *
+     * - returns true if user has chosen to make their statistics public
+     * - returns false otherwise
+     */
+
+    function isPublic()
+    {
+        return ($this->users_phpbb['u_privacy'] == 0);
+    }
+
+    /**
+     * Enable Public User Statistics Setting
+     *
+     * <p>No matter what their privacy setting was before, this will make them public.</p>
+     */
+
+    function enablePublic()
+    {
+        $this->users_phpbb['u_privacy'] = 0;
+    }
+
+    /**
+     * Is User's Statistics Anonymous
+     *
+     * <p>Anonymous means that only users with accounts can see this person's statistics.</p>
+     *
+     * - returns true if user has chosen to make their statistics anonymous
+     * - returns false otherwise
+     */
 
     function isAnonymous()
     {
-
+        return ($this->users_phpbb['u_privacy'] == 1);
     }
+
+    /**
+     * Enable Anonymous User Statistics Setting
+     *
+     * <p>No matter what their privacy setting was before, this will make them anonymous.</p>
+     */
 
     function enableAnonymous()
     {
-
+        $this->users_phpbb['u_privacy'] = 1;
     }
 
-    function disableAnonymous()
-    {
-
-    }
+    /**
+     * Is User's Statistics Private
+     *
+     * <p>Private means that no one can see this person's statistics.</p>
+     *
+     * - returns true if user has chosen to make their statistics private
+     * - returns false otherwise
+     */
 
     function isPrivate()
     {
-
+        return ($this->users_phpbb['u_privacy'] == 2);
     }
+
+    /**
+     * Enable Private User Statistics Setting
+     *
+     * <p>No matter what their privacy setting was before, this will make them private.</p>
+     */
 
     function enablePrivate()
     {
-
-    }
-
-    function disablePrivate()
-    {
-
+        $this->users_phpbb['u_privacy'] = 2;
     }
 
     /**
@@ -438,35 +1102,83 @@ class User
         return $needsApostrophe;
     }
 
+    /**
+     * Date User Account was Created
+     */
 
     function dateCreated()
     {
-        return $this->users_phpbb['date_created'];
+        return $this->rowVal('date_created');
     }
 
-    function createdDaysAgo()
+    /**
+     * Set Date User Account was Created
+     */
+
+    function setDateCreated($date)
     {
-        return ((((time() - $this->time_created) / 24) / 60) / 60);
+        $this->users_phpbb['date_created'] = $date;
     }
 
-    function daysAMember()
+    /**
+     * Number of Days Since User Account was Created
+     */
+
+    function daysSinceCreated()
     {
-        return date() - $this->dateCreated();
+        return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
     }
+
+    /**
+     * Date User Last Logged In
+     */
 
     function lastLogin()
     {
-
+        return $users_phpbb['last_login'];
     }
+
+    /**
+     * Set Date User Last Logged In
+     */
+
+    function setLastLogin($date)
+    {
+        $users_phpbb['last_login'] = $date;
+    }
+
+    /**
+     * Number of Days Since User Last Logged In
+     */
 
     function daysSinceLogin()
     {
-
+        return number_format(floor((((time() - $this->lastLogin()) / 24) / 60) / 60);
     }
 
-    function password()
+    /**
+     * Location of the User's Avatar
+     *
+     * - returns a default avatar location if user has none setup
+     * - returns otherwise the location of their avatar
+     */
+
+    function userAvatar()
     {
-        return $this->users_phpbb['bbu.password'];
+        if (empty($this->users_phpbb['user_avatar'])) {
+            $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif";
+        } else {
+            $avatar = $GLOBALS['forums_url']."/images/avatars/".$this->users_phpbb['user_avatar'];
+        }
+        return $avatar;
+    }
+
+    function setUserAvatar($location)
+    {
+        // TODO: Add checking that $location is valid and
+        // does not have user accessing file they shouldn't.
+
+        $this->users_phpbb['user_avatar'] = $location;
     }
 
     /**
@@ -477,7 +1189,79 @@ class User
  
     function rankingDescription()
     {
-
+        if ($this->pagesCompleted() <= 25) {
+            return _("Newbie");
+	}
+        if ($this->pagesCompleted() <= 150) {
+            return _("Proofreader");
+	}
+        if ($this->pagesCompleted() <= 400) {
+            return _("Ace");
+	}
+        if ($this->pagesCompleted() <= 1000) {
+            return _("Proofreader Savant");
+	}
+        if ($this->pagesCompleted() <= 2000) {
+            return _("Master Proofreader");
+	}
+        if ($this->pagesCompleted() <= 5000) {
+            return _("Maestro");
+	}
+        if ($this->pagesCompleted() <= 10000) {
+            return _("Connoisseur");
+	}
+        if ($this->pagesCompleted() <= 20000) {
+            return _("Rare Talent");
+	}
+        if ($this->pagesCompleted() <= 30000) {
+            return _("Super Proofreader");
+	}
+        if ($this->pagesCompleted() <= 40000) {
+            return _("Profound Proofreader");
+	}
+        if ($this->pagesCompleted() <= 50000) {
+            return _("Priceless Proofreader");
+	}
+        if ($this->pagesCompleted() <= 50100) {
+            return _("Prishan Level Proofreader");
+	}
+        if ($this->pagesCompleted() <= 60000) {
+            return _("Prime Proofreader");
+	}
+        if ($this->pagesCompleted() <= 70000) {
+            return _("Peerless Proofreader");
+	}
+        if ($this->pagesCompleted() <= 75000) {
+            return _("Primordial Proofreader");
+	}
+        if ($this->pagesCompleted() <= 80000) {
+            return _("Proofreader Magnifico");
+	}
+        if ($this->pagesCompleted() <= 90000) {
+            return _("Proofreader Supreme");
+	}
+        if ($this->pagesCompleted() <= 99000) {
+            return _("Prooferissimo");
+	}
+        if ($this->pagesCompleted() <= 99500) {
+            return _("Master of Proofreading");
+	}
+        if ($this->pagesCompleted() <= 100000) {
+            return _("Doctor of Proofreading");
+	}
+        if ($this->pagesCompleted() <= 101000) {
+            return _("Prishan of Proofreaders");
+	}
+        if ($this->pagesCompleted() <= 110000) {
+            return _("Proofer of Proofers");
+	}
+        if ($this->pagesCompleted() <= 120000) {
+            return _("Proofreader Extraordinaire");
+	}
+        if ($this->pagesCompleted() <= 125000) {
+            return _("Professor of Proofreading");
+        }
+        return = _("Presidential Proofreader");
     }
 
     /**
@@ -491,14 +1275,27 @@ class User
     /**
      * Get Generic User Setting
      *
-     * <p>An intermediate-level function for genererically obtaining 
+     * <p>An intermediate-level function for generically obtaining 
      * a setting - better to add a property but this can be used also,
      * and is probably entirely appropriately locally within the class.</p>
      */
 
     function getSetting($settingname)
     {
-        return $this->settings($settingname);
+        return $this->settings[$settingname];
+    }
+
+    /**
+     * Set Generic User Setting
+     *
+     * <p>An intermediate-level function for generically setting 
+     * a setting - better to add a property but this can be used also,
+     * and is probably entirely appropriately locally within the class.</p>
+     */
+
+    function setSetting($settingname, $value)
+    {
+        $this->settings[$settingname] = $value;
     }
 
     /**
@@ -511,13 +1308,30 @@ class User
      * <p>Returns the value for that preference</p>
      */
 
-    function getPref($prefname,$itemname)
+    function getPref($prefname, $itemname)
     {
         if (!$prefname) {
             $prefname = 'default';
         }
 
-        return $prefs['$prefname']['$itemname'];
+        return $prefs[$prefname][$itemname];
+    }
+
+    /**
+     * Set Item in Preference group
+     *
+     * <p>Takes the name of one of the user's preference groups, the name
+     * of one of the preferences, and a value. If no preference is set in $prefname, then
+     * it will put it into the 'default' preference group.</p>
+     */
+
+    function setPref($prefname, $itemname, $value)
+    {
+        if (!$prefname) {
+            $prefname = 'default';
+        }
+
+        $prefs[$prefname][$itemname] = $value;
     }
 
     /**
@@ -558,7 +1372,7 @@ class User
 
     function incrementPagesCompleted()
     {
-
+        $user['pagescompleted']++;
     }
 
     /**
@@ -571,23 +1385,55 @@ class User
 
     function decrementPagesCompleted()
     {
-
+        $user['pagescompleted']--;
     }
+
+    /*
+     * Helper Function to Enable User Attribute
+     *
+     * <p><b>It is not recommended to use this function outside of this class,
+     * as it is dependent upon the current structure of the sub-system.</b></p>
+     */
 
     function enableBoolean($name)
     {
-        if ($this->users_phpbb['$name'] != 'yes') {
-            $this->users_phpbb['$name'] = 'yes';
-            // TODO: Update database to have 'yes' value
-        }
+        $this->users_phpbb['$name'] = 'yes';
     }
+
+    /*
+     * Helper Function to Disable User Attribute
+     *
+     * <p><b>It is not recommended to use this function outside of this class,
+     * as it is dependent upon the current structure of the sub-system.</b></p>
+     */
 
     function disableBoolean($name)
     {
-        if ($this->users_phpbb['$name'] != '') {
-            $this->users_phpbb['$name'] = '';
-            // TODO: Update database to have '' value
-        }
+        $this->users_phpbb['$name'] = '';
+    }
+
+    /*
+     * Helper Function to Enable User Setting
+     *
+     * <p><b>It is not recommended to use this function outside of this class,
+     * as it is dependent upon the current structure of the sub-system.</b></p>
+     */
+
+    function enableBooleanSetting($name)
+    {
+        $this->settings['$name'] = 'yes';
+    }
+
+    /*
+     * Helper Function to Disable User Setting
+     *
+     * <p><b>It is not recommended to use this function outside of this class,
+     * as it is dependent upon the current structure of the sub-system.</b></p>
+     */
+
+    function disableBooleanSetting($name)
+    {
+        $this->settings['$name'] = '';
     }
 
     /**
@@ -672,7 +1518,7 @@ class User
 
     function enableSiteManager()
     {
-
+        $this->enableBoolean('sitemanager');
     }
 
     /**
@@ -684,11 +1530,11 @@ class User
 
     function disableSiteManager()
     {
-
+        $this->disableBoolean('sitemanager');
     }
-     * May User Manage Site??
+
     /**
-     * May User Manage Site
+     * May User Manage Site?
      *
      * <p>This function has the same action as isSiteManager(), but is included to keep
      * the interface for this class to be consistent.</p>
@@ -726,7 +1572,7 @@ class User
 
     function enableTaskCenterManager()
     {
-
+        $this->enableBooleanSetting('task_center_mgr');
     }
 
     /**
@@ -738,11 +1584,11 @@ class User
 
     function disableTaskCenterManager()
     {
-
+        $this->disableBooleanSetting('task_center_mgr');
     }
-     * May User Manage Task Center??
+
     /**
-     * May User Manage Task Center
+     * May User Manage Task Center?
      *
      * <p>This is different from isTaskCenterManager() in that Site Managers, in their very nature
      * of being Site Managers, are allowed to do anything.</p>
@@ -781,7 +1627,7 @@ class User
 
     function enableProjectFacilitator()
     {
-
+        $this->enableBooleanSetting('proj_facilitator');
     }
 
     /**
@@ -793,7 +1639,7 @@ class User
 
     function disableProjectFacilitator()
     {
-
+        $this->disableBooleanSetting('proj_facilitator');
     }
 
     /**
@@ -824,7 +1670,7 @@ class User
 
     function isProjectMentor()
     {
-        return ($this->settings['proj_mentor'] == 'yes');
+        return $this->settings['proj_mentor'];
     }
 
     /**
@@ -836,7 +1682,7 @@ class User
 
     function enableProjectMentor()
     {
-
+        $this->enableBooleanSetting('proj_mentor');
     }
 
     /**
@@ -848,7 +1694,7 @@ class User
 
     function disableProjectMentor()
     {
-
+        $this->disableBooleanSetting('proj_mentor');
     }
 
     /**
@@ -893,7 +1739,7 @@ class User
 
     function enablePostProcessor()
     {
-
+        $this->enableBoolean('postprocessor');
     }
 
     /**
@@ -905,7 +1751,7 @@ class User
 
     function disablePostProcessor()
     {
-
+        $this->disableBoolean('postprocessor');
     }
 
     /**
@@ -950,7 +1796,7 @@ class User
 
     function enablePostProcessVerifier()
     {
-
+        $this->enableBooleanSetting('post_proof_verifier');
     }
 
     /**
@@ -962,7 +1808,7 @@ class User
 
     function disablePostProcessVerifier()
     {
-
+        $this->disableBooleanSetting('post_proof_verifier');
     }
 
     /**
@@ -1005,7 +1851,7 @@ class User
 
     function enableSiteNewsEditor()
     {
-
+        $this->enableBooleanSetting('site_news_editor');
     }
 
     /**
@@ -1017,7 +1863,7 @@ class User
 
     function disableSiteNewsEditor()
     {
-
+        $this->disableBooleanSetting('site_news_editor');
     }
 
     /**
@@ -1060,7 +1906,7 @@ class User
 
     function enableSeeBeginR1()
     {
-
+        $this->enableBooleanSetting('see_BEGIN_R1');
     }
 
     /**
@@ -1072,7 +1918,7 @@ class User
 
     function disableSeeBeginR1()
     {
-
+        $this->disableBooleanSetting('see_BEGIN_R1');
     }
 
     /**
@@ -1119,7 +1965,7 @@ class User
 
     function enableSeeBeginR2()
     {
-
+        $this->enableBooleanSetting('see_BEGIN_R2');
     }
 
     /**
@@ -1131,7 +1977,7 @@ class User
 
     function disableSeeBeginR2()
     {
-
+        $this->disableBooleanSetting('see_BEGIN_R2');
     }
 
     /**
@@ -1190,6 +2036,40 @@ class User
     }
 
     /**
+     * Queries the member_status table for statistic data
+     *
+     * <p>This is an internal-only function, not to be called from the outside.
+     * Over time, will need to calculate other statistics to store them in memory.</p>
+     */
+
+    function _queryStats()
+    {
+        $sql = "SELECT
+                   AVG(daily_pagescompleted) AS avgCount,
+                   MAX(daily_pagescompleted) as maxCount
+               FROM member_status
+               WHERE u_id = $this->userID()" 
+        $result = mysql_query($sql);
+        $stats = mysql_fetch_assoc($result);
+        mysql_free_result($result);
+    }
+
+    /**
+     * Maybe Query Statistics
+     *
+     * <p>This is an internal-only function, not to be called from the outside.
+     * In order to reduce the load of instatiating this class, the statistics
+     * about the user will not be calculated until they are needed for the first time.</p>
+     */
+
+    function _maybeQueryStats()
+    {
+        if (!$stats) {
+            $this->_queryStats();
+        }
+    }
+
+    /**
      * Daily Average of Pages Proofread
      *
      * <p>Calculates the daily average from the member statistics table.</p>
@@ -1198,59 +2078,128 @@ class User
      * - Otherwise will return the average.
      */
 
-     function _queryStats()
-     {
-         $sql = "SELECT
-                    AVG(daily_pagescompleted) AS avgCount,
-                    MAX(daily_pagescompleted) as maxCount
-                FROM member_status
-                WHERE u_id = $this->userID()" 
-         $result = mysql_query( $sql ) ;
-         $stats= mysql_fetch_assoc( $result ) ;
-         mysql_free_result( $result ) ;
-     }
-
-     function _maybeQueryStats()
-     {
-         if( ! $stats ) {
-             $this->_queryStats() ;
-         }
-     }
-
     function dailyPageAverage()
     {
          _maybeQueryStats() ;
          return empty( $avg = $this->stats['avgCount'] ) ? 0 : $avg ;
      }
 
-     function bestCountEver()
-     {
-         _maybeQueryStats() ;
-         return empty($max = $this->stats['maxCount'] ) : 0 : $max ;
+    /**
+     * Best Proofreading Day Count Ever for User
+     *
+     * <p>Gives the number of pages proofread on the user's best proofreading day.
+     * See bestDayEver() for the date that this occurred on.</p>
+     *
+     * - Returns 0 if there is no best day for them.
+     * - Returns the page count otherwise.
+     */
+
+    function bestDayEverCount()
+    {
+        _maybeQueryStats();
+        return empty($max = $this->stats['maxCount']) : 0 : $max;
+    }
+
+    /**
+     * Best Proofreading Day Ever for User
+     *
+     * <p>Pulls from the member_stats table the best proofreading day for the user.
+     * See bestDayEverCount() for the count that this occurred on.</p>
+     *
+     * - Returns today if they have no best day.
+     * - Returns the date it occurred otherwise.
+     */
+
+    function bestDayEver() {
+        static $best;
+
+        _maybeQueryStats();
+
+        // this extra query can be eliminated when we have correlated subqueries
+        // in mysql. But in the meantime...
+
+        if (!isset($best)) {
+            $sql = "SELECT UNIX_TIMESTAMP(date_updated)
+                    AS BestDay
+                    FROM member_stats
+                    WHERE
+                    u_id = $this->userID()
+                    AND daily_pagescompleted = $this->bestCountEver()
+                    ORDER BY date_updated
+                    DESC LIMIT 1";
+            $result = mysql_query($sql);
+            $best = mysql_result($result, 0, "BestDay");
+            // This is returned in a field that is a 
+            mysql_free_result($result);
         }
 
-     // this extra query can be eliminated when we have correlated subqueries
-     // in mysql. But in the meantime...
+        return $best;
+    }
 
-     function bestDayEver()
-     {
-         static $best ;
+    /**
+     * Total Percentage User Has Proofread of All Pages Proofread
+     *
+     * <p>As our site grows, this percentage will need to grow or be removed due to most
+     * users will end up being in the 0.01 or lower category.</p>
+     */
 
-         _maybeQueryStats() ;
-
-         if( ! isset( $best ) ) {
-             $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
-                FROM member_stats
-                     WHERE u_id = $this->userID()
-                         AND daily_pagescompleted = $this->bestCountEver()
-                    ORDER BY date_updated DESC LIMIT 1" ;
+    function pageCountPercentage()
+    {
+        $sql = "SELECT SUM(pages)
+                AS total_pagescompleted
+                FROM pagestats";
         $result = mysql_query($sql);
-             $best = mysql_result( $result, 0, "BestDay" ) ;
-             // This is returned in a field that is a 
-             mysql_free_result( $result ) ;
+        $total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
+        $percentTotal = number_format((($this->pagesCompleted()/$total_pagescompleted)*100), 2);
+        if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
+        return $percentTotal;
+    }
+
+    /**
+     * Join A Team
+     *
+     * <p>Takes as a parameter the team's ID # and attempts to join the user to that team.
+     * If they are already part of that team, do not allow them to join again
+     * <b>NOTE:</b> This only changes the user's preference, it does not modify the team tables.</p>
+     *
+     * - returns true if successful
+     * - returns false otherwise
+     */
+
+    function joinTeam($teamID)
+    {
+
+    }
+
+    /**
+     * Quit A Team
+     *
+     * <p>Takes as a parameter the team's ID # and attempts to remove the user from that team.
+     * If it's the site-wide team ($teamID 1), do not allow them to quit that team.
+     * <b>NOTE:</b> This only changes the user's preference, it does not modify the team tables.</p>
+     *
+     * - returns true if successful
+     * - returns false otherwise
+     */
+
+    function quitTeam($teamID)
+    {
+        if ($teamID == 1) {
+            return false;
         }
 
-         return $best;
+        if ($this->users_phpbb['team_1'] == $teamID) {
+            $this->users_phpbb['team_1'] = 0;
+            $return true;
+        } else if ($this->users_phpbb['team_2'] == $teamID) {
+            $this->users_phpbb['team_2'] = 0;
+            $return true;
+        } else if ($this->users_phpbb['team_3'] == $teamID) {
+            $this->users_phpbb['team_3'] = 0;
+            $return true;
+        }
+
+        $return false;
     }
 
 }
