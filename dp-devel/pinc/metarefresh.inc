@@ -2,8 +2,9 @@
 function metarefresh($seconds,$url,$title,$body)
 {
 $relPath=$GLOBALS['relPath'];
-include($relPath.'doctype.inc');
-include($relPath.'v_site.inc');
+include('doctype.inc');
+include('v_site.inc');
+include('gettext_setup.inc');
 
 if ($testing)
 {
