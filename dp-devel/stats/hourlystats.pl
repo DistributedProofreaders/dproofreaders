@@ -3,9 +3,13 @@ use strict;
 use DBI;
 use Time::Local;
 
-open (OUTFILE, ">/home/charlz/public_html/dproofreaders/stats/hourly.txt");
-open (HOURLYOUT, ">/home/charlz/public_html/dproofreaders/hourpages.txt");
-open (MONTHLYOUT, ">/home/charlz/public_html/dproofreaders/monthpages.txt");
+my $base = "/home/charlz/public_html/dproofreaders";
+# for testing:
+# my $base = "/tmp";
+
+open (OUTFILE,    ">$base/stats/hourly.txt");
+open (HOURLYOUT,  ">$base/hourpages.txt");
+open (MONTHLYOUT, ">$base/monthpages.txt");
 
 my $dsn = "DBI:mysql:dproofreaders:localhost";
 my $db_user = "";
@@ -23,14 +27,10 @@ my $total_pages = 0;
 
 while (my $project = $sth->fetchrow_array()) {
   my $query = qq{
-    SELECT SUM(CASE WHEN round1_time >= $midnight 
-                         AND state = 'verify_1' OR state = 'done_1' OR state = 'unavail_2' OR state = 'waiting_2' or state = 'avail_2' OR state = 'verify_2' OR state = 'done_2' OR state = 'proj_post_unavailable' OR state = 'proj_post_available' OR state = 'proj_post_checkedout' OR state = 'proj_post_verify' OR state = 'proj_post_verifying' OR state = 'proj_post_complete' OR state = 'proj_submit_pgunavailable' OR state = 'proj_submit_pgavailable' OR state = 'proj_submit_pgposting' OR state = 'proj_submit_pgposted'
-                    THEN 1 ELSE 0 END
-               + 
-               CASE WHEN round2_time >= $midnight 
-                         AND state = 'verify_2' OR state = 'done_2' OR state = 'proj_post_unavailable' OR state = 'proj_post_available' OR state = 'proj_post_checkedout' OR state = 'proj_post_verify' OR state = 'proj_post_verifying' OR state = 'proj_post_complete' OR state = 'proj_submit_pgunavailable' OR state = 'proj_submit_pgavailable' OR state = 'proj_submit_pgposting' OR state = 'proj_submit_pgposted'
-                    THEN 1 ELSE 0 END)
-    FROM $project
+      SELECT COUNT(*) FROM $project WHERE
+        (state = 'save_first'  AND round1_time >= $midnight)
+        OR
+        (state = 'save_second' AND round2_time >= $midnight)
   };
 
   my $sth2 = $dbh->prepare($query); 
