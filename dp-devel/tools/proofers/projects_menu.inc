@@ -1,4 +1,16 @@
 <?
+// The file that includes this one (i.e. projects.php)
+// must appropriately define the following variables,
+// either directly or indirectly (via other included files):
+//     $userP
+//     $forums_url
+//     $project
+//     $proofstate
+//     $top_menu
+//     $my_last_page_date
+//     $comments_last_modified
+//     $projectinfo
+
 echo "<table border='1' width='630'><tr>";
 echo "<td width='126' bgcolor='CCCCCC' align='center'>";
 
