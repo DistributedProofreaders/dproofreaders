@@ -551,6 +551,32 @@ class TallyBoard
         return $delta_at_;
     }
 
+    // -------------------------------------------------------------------------
+
+    function get_delta_sum( $holder_id, $start_timestamp, $end_timestamp )
+    // Return the sum of the 'tally_delta' values at all timestamps such that
+    //     $start_timestamp < timestamp <= $end_timestamp
+    // Note that the case of timestamp = $start_timestamp is excluded,
+    // because its delta is for the period preceding $start_timestamp.
+    //
+    // If (as is often the case) $start_timestamp and $end_timestamp
+    // match timestamps in the table, then the result should be the same
+    // as the difference between the tally_value at those two times.
+    // But summing the intervening deltas is the more general solution.
+    {
+        $res = mysql_query("
+            SELECT SUM(tally_delta)
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = '$holder_id'
+                AND $start_timestamp < timestamp
+                AND timestamp <= $end_timestamp
+        ") or die(mysql_error());
+        return mysql_result($res,0);
+    }
+
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     function get_vitals( $holder_id )
