@@ -18,22 +18,6 @@ function format_time( $time_sse )
     }
 }
 
-$page_states = array(
-    UNAVAIL_FIRST,
-    AVAIL_FIRST,
-    OUT_FIRST,
-    TEMP_FIRST,
-    SAVE_FIRST,
-    BAD_FIRST,
-
-    UNAVAIL_SECOND,
-    AVAIL_SECOND,
-    OUT_SECOND,
-    TEMP_SECOND,
-    SAVE_SECOND,
-    BAD_SECOND
-);
-
 $projectid = $_GET['project'];
 
 $rows = mysql_query( "SELECT * FROM projects WHERE projectid='$projectid'") or die(mysql_error());
@@ -154,7 +138,7 @@ else
 
     echo "<p>Number of pages in various states:</p>\n";
     echo "<table border=1>\n";
-    foreach ($page_states as $page_state)
+    foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
         $res = mysql_query( "SELECT count(*) AS num_pages FROM $projectid WHERE state='$page_state'") or die(mysql_error());
         $num_pages = mysql_result($res,0,'num_pages');
