@@ -51,7 +51,7 @@ if (isset($_POST['mkPreview'])) {
 	} else {
 		mysql_query("INSERT INTO user_teams (teamname,team_info,webpage,createdby,owner,created) VALUES('".addslashes(stripAllString(trim($_POST['teamname'])))."','".addslashes(stripAllString($_POST['text_data']))."','".addslashes(stripAllString($_POST['teamwebpage']))."','$pguser','{$userP['u_id']}','".time()."')");
 		$tid = mysql_insert_id($db_link);
-		team_initialize_current_page_tally($tid);
+		team_initialize_page_tally($tid);
 		if (!empty($_POST['tavatar'])) {
 	    		mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
 	    	} elseif (!empty($_FILES['teamavatar'])) {
