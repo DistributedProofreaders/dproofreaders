@@ -15,7 +15,7 @@ if (mysql_result($result,0,"sitemanager") == "yes") {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
         $message = nl2br($message);
-        $date_posted = date(U);
+        $date_posted = time();
         $insert_news = mysql_query("INSERT INTO news (uid, date_posted, message) VALUES (NULL, '$date_posted', '$message')");
         header("Location: sitenews.php");
     }
@@ -23,7 +23,7 @@ if (mysql_result($result,0,"sitemanager") == "yes") {
     elseif (isset($_GET['action']) && $_GET['$action'] == "view") {
         $uid = $_GET['uid'];
         $result = mysql_query("SELECT * FROM news WHERE uid = $uid");
-        $date_posted = date("l, F jS, Y",mysql_result($result,0,'date_posted'));
+        $date_posted = strftime(_("%A, %B %e, %Y"),mysql_result($result,0,'date_posted'));
         echo "<b>$date_posted</b><br>";
         echo mysql_result($result,0,"message");
         echo "<br><br><a href='javascript:history.back()'>Go Back...</a>";
@@ -61,7 +61,7 @@ if (mysql_result($result,0,"sitemanager") == "yes") {
         echo "<input type='hidden' name='uid' value='$uid'></form>";
         $result = mysql_query("SELECT * FROM news ORDER BY uid DESC");
         while($row = mysql_fetch_array($result)) {
-            $date_posted = date("l, F jS, Y",$row['date_posted']);
+            $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
             echo "[<a href='sitenews.php?action=view&uid=".$row['uid']."')'>View</a>]&nbsp;[<a href='sitenews.php?action=edit&uid=".$row['uid']."'>Edit</a>]&nbsp;[<a href='sitenews.php?action=delete&uid=".$row['uid']."'>Delete</a>] -- ";
             echo $row['message']." ($date_posted)<br><br>";
         }

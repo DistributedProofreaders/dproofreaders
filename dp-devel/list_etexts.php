@@ -85,7 +85,7 @@ while($row = mysql_fetch_array($result)) {
 		$links = "<br>";
 	}
 
-	$moddate = date("l, F jS, Y",$row['modifieddate']);
+	$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
 	$projectid = $row['projectid'];
 
 	if ($type == "Gold") {

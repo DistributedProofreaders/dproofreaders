@@ -365,7 +365,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	else
 	{
-		$R_time_str = date("M j H:i", $R_time);
+		$R_time_str = strftime(_("%b %e %H:%M"), $R_time);
 	}
 	echo "<td>$R_time_str</td>\n";
 

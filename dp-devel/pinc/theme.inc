@@ -338,15 +338,15 @@ if ($metadata){
 		$yesterdaysGoal = 0;
 		$yesterdaysTotal = 0;
 	}
-	echo "&nbsp;"._("Yesterday's")." "._("Goal").": ".number_format($yesterdaysGoal)."<br>\n";
+	echo "&nbsp;"._("Yesterday's Goal:").number_format($yesterdaysGoal)."<br>\n";
 	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
 	// Month's Numbers
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
 
-	echo "&nbsp;".date("F")."'s "._("Goal").": " . number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
-	echo "&nbsp;".date("F")."'s Total: ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
+	echo "&nbsp;".strftime(_("%B's Goal:")).number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
+	echo "&nbsp;".strftime(_("%B's Total:")).number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
 
        echo "</font><br><hr width='75%' align='center'><br>\n";
 
@@ -506,7 +506,7 @@ if ($metadata){
 			$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
 			$enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
 
-			$displaydate = date("M Y", $begindate );
+			$displaydate = strftime(_("%b %Y"), $begindate );
 
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = '".PROJ_SUBMIT_PG_POSTED."'");
 			$totalprojects = mysql_result($result,0);

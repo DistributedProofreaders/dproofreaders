@@ -307,7 +307,7 @@ function previewProject($nameofwork, $authorsname, $comments) {
    echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$nameofwork</td></tr>\n";
    echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$authorsname</td></tr>\n";
    echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>".$GLOBALS['pguser']."</td></tr>\n";
-   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".date("l, F jS, Y")." at ".date("g:i:sA")."</td></tr>\n";
+   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".strftime(_("%A, %B %e, %Y at %X"))."</td></tr>\n";
    echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
    echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
    echo "<tr><td colspan=2>$comments</td></tr>\n</table><br><br>";

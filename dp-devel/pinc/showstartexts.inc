@@ -29,7 +29,7 @@ $result = mysql_query("SELECT * FROM projects WHERE $state ORDER BY modifieddate
 echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' width='40' alt='$type star'> = <font face='Verdana' size='4'>".number_format($total)." $text";
 
 while ($row = mysql_fetch_array($result)) {
-$moddate = date("l, F jS, Y",$row['modifieddate']);
+$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
 echo "<font face='Verdana' size='1' color='#444444'><b>$i) \"".$row['nameofwork']."\"</b></font>";
 echo "<font face='Verdana' size='1'>, ".$row['authorsname']." (".$row['language'].")<br>";
 

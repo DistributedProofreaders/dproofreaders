@@ -55,7 +55,7 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 	}
 
 	while ($row = mysql_fetch_array($result)) {
-		$moddate = date("l, F jS, Y",$row['modifieddate']);
+		$moddate = strftime(_("%A, %B %e, %Y"),$row['modifieddate']);
 		echo "<font face='Verdana' size='1' color='#444444'><b>$i) \"".$row['nameofwork']."\"</b></font>";
 		echo "<font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
 

@@ -107,7 +107,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		}
 		$proofdate=mysql_query("SELECT $wTime FROM $projectid WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
 		if (mysql_num_rows($proofdate)!=0) {
-			$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".date("g:i:sA",time()).")";
+			$lastproofed=strftime(_("%A, %B %e, %Y at %X"),mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".strftime(_("%X"),time()).")";
 		} else {
 			$lastproofed=_("Project has not been proofread in this round.");
 		}
@@ -122,7 +122,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	if (!empty($topic_id)) {
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
-		$last_post_date = date("l, F jS, Y \a\\t g:i:sA", $last_post_date);
+		$last_post_date = strftime(_("%A, %B %e, %Y at %X"), $last_post_date);
 		$word = _("Last Forum Post");
 		echo_row_a($word, $last_post_date );
 	}
@@ -336,7 +336,7 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 		$eURL="proof_frame.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
 		echo "<TD ALIGN=\"center\">";
 		echo "<A HREF=\"$eURL\" target=\"proofframe\">";
-		echo date("M d", $timestamp).": ".$imagefile."</a></td>\r\n";
+		echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
 		$rownum++;
 	}
 

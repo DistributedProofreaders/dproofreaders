@@ -92,7 +92,7 @@ theme(_("Personal Page for $pguser"), "header");
                 $result = mysql_query("SELECT date_posted, message FROM news ORDER BY uid DESC LIMIT 1");
                 $news = mysql_fetch_assoc($result);
                 echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>";
-                echo _("News Update for")." ".date("l, F jS, Y", $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
+                echo _("News Update for")." ".strftime(_("%A, %B %e, %Y"), $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
 
 		echo _("archives") . "</a>)";
 
