@@ -595,7 +595,7 @@ These are explained on the script's page.
 <p>
 This section contains information on the more complex aspects of post-proofing.
 Most of these issues are also treated in the
-<a href="document.php">Document Guidelines</a>
+<a href="document.php">Proofing Guidelines</a>
 if you should need information on proper markup.
 </p>
 <br>
@@ -874,7 +874,7 @@ If possible, the text should be transcribed into the Latin alphabet.
 It's not a lossless process,
 but it's the only way to preserve these snippets in ASCII.
 Information of the transcription process is available in the
-<a href="document.php">Document Guidelines</a>.
+<a href="document.php">Proofing Guidelines</a>.
 </p>
 
 <p>

@@ -86,7 +86,7 @@ As a new user, I recommend you read over our main page
 <$code_url/> for an overview of the site,
 a selection of the works that we are working on, along
 with the books that have been completed through the site.
-The Document Guidelines <$code_url/faq/document.php>
+The Proofing Guidelines <$code_url/faq/document.php>
 covers most formatting questions, so be sure to read it over too.
 
 Once you understand the work being done through this site,
