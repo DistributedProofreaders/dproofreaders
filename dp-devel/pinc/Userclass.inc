@@ -51,6 +51,7 @@ class User
     var $logged_in;     // boolean = True when they are and False when they're not.
     var $teams;
     var $neighbors;
+    var $topten ;
 
     /**
      * Class Initializer
@@ -79,16 +80,18 @@ class User
 
     function _queryPhpbb_Users()
     {
-        $sql = "SELECT u.*, bbu.*
+        $sql = "SELECT u .* , bbu.* , t1.*, t2.*, t3.* 
                 FROM users AS u
-                LEFT OUTER JOIN phpbb_users AS bbu
-                ON u.username = bbu.username
-                WHERE u.username = '$username'";
+                LEFT  OUTER  JOIN phpbb_users AS bbu ON u.username = bbu.username
+                LEFT  OUTER  JOIN user_teams AS t1 ON u.team_1 = t1.id
+                LEFT  OUTER  JOIN user_teams AS t2 ON u.team_2 = t2.id
+                LEFT  OUTER  JOIN user_teams AS t3 ON u.team_3 = t3.id
+                WHERE u.username = '$this->_userId()'" ;
         $result = mysql_query($sql);
 
         for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++ )
         {
-            $meta = mysql_fetch_field($result, $i);
+            $meta = mysql_fetch_field($result, $i) ;
             $users_phpbb_meta[$meta->name] = $meta;
         }
 
@@ -509,6 +512,15 @@ class User
     }
 
     /**
+     * Align, whatever that is
+     */
+
+    function align()
+    {
+        return $this->_rowVal('u_align') ;   
+    }
+
+    /**
      * Error Checking on Theme Name
      * Needs to go to a Theme class.
      */
@@ -612,6 +624,41 @@ class User
     }
 
     /**
+     * Wants to see the top 10
+     */
+
+    function topTen()
+    {
+        return $this->topTen ;
+    }
+
+    function wantsTopTen()
+    {
+        return $this->_rowVal('u_top10') ;
+    }
+
+/*
+    function _queryTopTen()
+    {
+        $sql = "SELECT username,
+                       CASE u_privacy
+                           WHEN 1 THEN u.username
+                           ELSE 'Anonymous'
+                           END AS neighborname,
+                       pagescompleted AS pages,
+                       u_privacy AS privacy
+                FROM users
+                ORDER BY pagescompleted DESC
+                LIMIT 10" ;
+
+        $result = mysql_query( $sql ) ;
+        while( $row = mysql_fetch_assoc( $result ) ) {
+            $this->topTen[$row['username']] = $row ;
+        } 
+        mysql_free_result( $result ) ;
+    } 
+*/
+    /**
      * Error-checking that the language being selected is a valid language
      */
 
@@ -657,6 +704,32 @@ class User
     }
 
 
+    function wantsNeighbors()
+    {
+        return $this->_rowVal('u_neigh') ;
+    }
+
+    function _queryTopTen()
+    {
+        $sql = "SELECT username,
+                       CASE u_privacy
+                           WHEN 1 THEN u.username
+                           ELSE 'Anonymous'
+                           END AS neighborname,
+                       rank,
+                       pagescompleted AS pages,
+                       u_privacy AS privacy
+                FROM users
+                ORDER BY pagescompleted DESC
+                LIMIT 10" ;
+
+        $result = mysql_query( $sql ) ;
+        while( $row = mysql_fetch_assoc( $result ) ) {
+            $this->topTen[$row['username']] = $row ;
+        } 
+        mysql_free_result( $result ) ;
+    } 
+
     /**
       * returns the 5 nearest neighbors
       */
@@ -700,14 +773,11 @@ class User
     {
         $sql = "SELECT u.username,
                        CASE u_privacy
-                        WHEN 1
-                            THEN u.username
-                        ELSE
-                            'Anonymous'
-                        END AS neighborname,
-                       u.pagescompleted,
-                       u.u_privacy, as privacy,
-                       COUNT(1) AS proofercount
+                           WHEN 1 THEN u.username
+                           ELSE 'Anonymous'
+                           END AS neighborname,
+                       u.pagescompleted AS pages,
+                       u.u_privacy, as privacy
                 FROM users AS u
                 INNER JOIN users AS u_me
                 WHERE u_me.username = '$user->userName()'
@@ -1014,40 +1084,41 @@ class User
     {
         if ($this->pagesCompleted() <= 25) {
             return _("Newbie");
-	}
+        }
         if ($this->pagesCompleted() <= 150) {
             return _("Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 400) {
             return _("Ace");
-	}
+        }
         if ($this->pagesCompleted() <= 1000) {
             return _("Proofreader Savant");
-	}
+        }
         if ($this->pagesCompleted() <= 2000) {
             return _("Master Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 5000) {
             return _("Maestro");
-	}
+        }
         if ($this->pagesCompleted() <= 10000) {
             return _("Connoisseur");
-	}
+        }
+        
         if ($this->pagesCompleted() <= 20000) {
             return _("Rare Talent");
-	}
+        }
         if ($this->pagesCompleted() <= 30000) {
             return _("Super Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 40000) {
             return _("Profound Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 50000) {
             return _("Priceless Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 50100) {
             return _("Prishan Level Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 60000) {
             return _("Prime Proofreader");
 	}
@@ -1995,45 +2066,23 @@ class User
 
     function teams()
     {
+        return array(
+                $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
+                $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
+                $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')) ;
+  
+/*
         if( ! isset($this->teams) )
         {
-            if($this->_rowVal('team_1'))
-            {
-                $sql = $this->_rowVal('team_1') ;
-            }
-
-            if ($this->_rowVal('team_2'))
-            {
-                if( $sql )
-                {
-                    $sql .= ", " ;
-                }
-                $sql = $this->users_phpbb['team_2'] ;
-            }
-
-            if ($this->users_phpbb['team_2'] )
-            {
-                if( $sql )
-                {
-                    $sql .= ", " ;
-                }
-                $sql = $this->users_phpbb['team_2'] ;
-            }
-
-
-            if( ! $sql )
-            return ;
-
-            $sql = "SELECT *
-            FROM user_teams
-            WHERE teamname IN (" . $sql . ")" ;
-            $result = mysql_query( $sql ) ;
-            while( $team = mysql_fetch_assoc( $result ) ) {
-                $teamname = $team['teamname'] ;
-                $this->teams['$teamname'] = $team ;
-            }
+            $this->teams = array(
+                $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
+                $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
+                $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')
+            )
         }
+
         return $this->teams ;
+*/
     }
 
 
