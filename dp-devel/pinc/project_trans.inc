@@ -269,6 +269,10 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
 	}
+        else if ( $new_state == PROJ_PROOF_SECOND_AVAILABLE )
+	{
+		$settings .= ", modifieddate='$now'";
+	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
