@@ -270,6 +270,48 @@ function Page_reclaim( $projectid, $fileid, $round_number )
 
 // -----------------------------------------------------------------------------
 
+function Page_clearRound( $projectid, $fileid, $round_number )
+{
+    global $writeBIGtable;
+
+    if ( $round_number == 1 )
+    {
+        $text_field_name = 'round1_text';
+        $time_field_name = 'round1_time';
+        $user_field_name = 'round1_user';
+        $avail_page_state = AVAIL_FIRST;
+    }
+    else if ( $round_number == 2 )
+    {
+        $text_field_name = 'round2_text';
+        $time_field_name = 'round2_time';
+        $user_field_name = 'round2_user';
+        $avail_page_state = AVAIL_SECOND;
+    }
+
+    $result = mysql_query("
+        UPDATE $projectid
+        SET $text_field_name='',
+            $user_field_name='',
+            $time_field_name='',
+            state = '$avail_page_state'
+        WHERE fileid = '$fileid'
+    ");
+
+    if ($writeBIGtable) {
+        $result = mysql_query("
+            UPDATE project_pages
+            SET $text_field_name='',
+                $user_field_name='',
+                $time_field_name='',
+                state = '$avail_page_state'
+            WHERE projectid = '$projectid' AND fileid = '$fileid'
+        ");
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
 {
     global $writeBIGtable;
