@@ -84,10 +84,13 @@ echo "</table>\n";
 echo "<br>\n";
 
 
-$sub_title = _("See All Waiting Queues");
-echo "<p align='center'><a href='release_queue.php'>$sub_title</a></p>\n";
-
 echo "<table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>\n";
+
+$sub_title = _("See All Waiting Queues");
+echo "<tr><td><a href='release_queue.php'>$sub_title</a></td>\n";
+
+$sub_title = _("Most Requested Books");
+echo "<td><a href='requested_books.php'>$sub_title</a></td></tr>\n";
 
 $sub_title = _("Top Proofreading Days and Months, etc");
 echo "<tr><td><a href='misc_stats1.php'>$sub_title</a></td>\n";
