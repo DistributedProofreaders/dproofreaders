@@ -23,7 +23,7 @@ if (!file_exists($xmlfile)) {
 	}
 
 //Determine if the feed needs to be updated.  If not display feed to user
-if (filemtime($xmlfile) == $refreshdelay) {
+if (filemtime($xmlfile) > $refreshdelay) {
 readfile($xmlfile);
 } else {
 $relPath="./../pinc/";
