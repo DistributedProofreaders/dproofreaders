@@ -139,12 +139,6 @@ if ($tbutton==B_SAVE_AND_QUIT)
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end B_SAVE_AND_QUIT
 
-if ($tbutton==B_REPORT_BAD_PAGE)
-{
-$badState=$tpage->bad_page;
-include('badpage.php');
-} // end B_REPORT_BAD_PAGE
-
 if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 {
   $tpage->returnPage($proofstate,$pguser,$userP);
@@ -155,6 +149,12 @@ if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 //  $editone=isset($editone)?$editone:0;
 //  $tpage->exitInterface($userP['i_newwin'],$editone);
 } // end B_RETURN_PAGE_TO_ROUND
+
+if ($tbutton==B_REPORT_BAD_PAGE)
+{
+$badState=$tpage->bad_page;
+include('badpage.php');
+} // end B_REPORT_BAD_PAGE
 
 if ($tbutton==B_RUN_SPELL_CHECK)
 {
