@@ -262,10 +262,11 @@ Legend for Special Books:
 <?
 }
 
+// The following should be factored out somewhere eventually
 
-// determine filter for R1
+// determine filter for projects
 
-$R1Filter = " ";
+$RFilter = " ";
 
 if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	$condition1 = '1';
@@ -338,10 +339,10 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    $condition1 .= ")";
 	}
 
-	$R1Filter = " AND ".$condition1;
-
+	$RFilter = " AND ".$condition1;
 
 }
+
 
 if ($pagesproofed <= 20) {
 

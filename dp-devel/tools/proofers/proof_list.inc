@@ -14,7 +14,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     tde("These files are output from the OCR software and have not been looked at.", bgcol(1,'first') . " colspan=5");
     echo "</tr>";
 
-    show_books_available_for_proofing( 'first', $userP, $tList, $R1Filter );
+    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter );
 
     echo "</table>\n<br>";
   }
@@ -34,7 +34,7 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'second') . " colspan=5");
       echo "</tr>";
 
-      show_books_available_for_proofing( 'second', $userP, $tList, $R2Filter );
+      show_books_available_for_proofing( 'second', $userP, $tList, $RFilter );
       }
   echo "</table>\n<br>";
 }
