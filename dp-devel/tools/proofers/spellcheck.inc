@@ -154,17 +154,21 @@ A:active {
   z-index:6;
   overflow:auto;
   }
-#allframe { 
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
-  height=100%;
-  background-color:#CDCDC1;
-  text-align:center;
-  z-index:6;
-  overflow:auto;
-  }
+// This declaration is what breaks spellcheck display for Opera users
+// Commenting it corrects the issue for the standard interface only.
+// Enhanced interface still experiences the same issue, and will require
+// more significant refactoring to address. (donovan)
+// #allframe { 
+//  position:absolute;
+//  left:0;
+//  top:0;
+//  width:100%;
+//  height=100%;
+//  background-color:#CDCDC1;
+//  text-align:center;
+//  z-index:6;
+//  overflow:auto;
+//  }
 #tbtext {
   border:1px solid #000000;
   text-align:left;
