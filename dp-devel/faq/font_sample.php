@@ -111,7 +111,7 @@ $exp_text .= _("If DpCustomMono2 is displayed correctly in this paragraph,
 
 if (($tfont == _("Browser Default")) OR ($tfont == _("Monospaced"))) {
 $exp_text .= _("Since you have the non-specific font type of $tfont selected, we don't have any 
-		specific comparison images to show you; but we enocurage you to browse through the gallery of
+		specific comparison images to show you; but we encourage you to browse through the gallery of
 		comparisons to specific fonts from the links below, to see them juxtaposed with DPCustomMono2.");
 
 }
