@@ -237,8 +237,9 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
                         {
                                 $bgcolor = " bgcolor='#00FF00'";
                         }
-                        // green for India
-                        if (  startswith( $book['comments'], 'SPECIAL: India') )
+                        // green for India & George Sand
+                        if (  startswith( $book['comments'], 'SPECIAL: India') 
+			       or ($book['username'] == 'PM-Sand') )
                         {
                                 $bgcolor = " bgcolor='#33FF99'";
                         }
@@ -254,7 +255,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
                         if ( startswith( $book['comments'], 'SPECIAL: Nov 11' ) or
                                 startswith( $book['comments'], 'SPECIAL: CHRISTMAS' ) or
                                 startswith( $book['comments'], 'SPECIAL: Christmas' ) or
-                                 startswith( $book['comments'], 'SPECIAL: Ides' ))
+                                startswith( $book['comments'], 'SPECIAL: WWI' ) or
+                                startswith( $book['comments'], 'SPECIAL: Ides' ))
                         {
                                 $bgcolor = " bgcolor='#FF9090'";
                         }
