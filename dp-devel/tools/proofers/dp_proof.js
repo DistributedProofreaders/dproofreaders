@@ -17,10 +17,17 @@ function selBox(wBox)
 {
 if (wBox=='char')
 {cRef.markBoxChar.focus();
-cRef.markBoxChar.select();}
+cRef.markBoxChar.select();
+cRef.tCharsA.selectedIndex=0;
+cRef.tCharsE.selectedIndex=0;
+cRef.tCharsI.selectedIndex=0;
+cRef.tCharsO.selectedIndex=0;
+cRef.tCharsU.selectedIndex=0;
+cRef.tCharsM.selectedIndex=0;}
 else if (wBox=='start')
 {markRef.markBox.focus();
-markRef.markBox.select();}}
+markRef.markBox.select();
+markRef.ttagsMore.selectedIndex=0;}}
 
 function getCurSel()
 {if (cnSel){curSel=docRef.selection.createRange().text;}}
@@ -129,7 +136,7 @@ if (wM > 19)
 
 markRef.markBox.value=wOT;
 markRef.markBoxEnd.value=wCT;
-
+markRef.ttagsMore.selectedIndex=0;
 cR=chkRange();
 
 //plain

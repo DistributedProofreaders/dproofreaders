@@ -75,7 +75,7 @@ name="tCharsA" ID="tCharsA" title="A" onchange="if (this.value !=0){iMUc(this.va
 <option value="39">&#198;</option>
 <option value="71">&#230;</option>
 </select><select 
-name="tCharsA" ID="tCharsE" title="E" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="tCharsE" ID="tCharsE" title="E" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">E</option>
 <option value="0">--</option>
 <option value="41">&#200;</option>
@@ -87,7 +87,7 @@ name="tCharsA" ID="tCharsE" title="E" onchange="if (this.value !=0){iMUc(this.va
 <option value="44">&#203;</option>
 <option value="76">&#235;</option>
 </select><select 
-name="tCharsA" ID="tCharsI" title="I" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="tCharsI" ID="tCharsI" title="I" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">I</option>
 <option value="0">--</option>
 <option value="45">&#204;</option>
@@ -99,7 +99,7 @@ name="tCharsA" ID="tCharsI" title="I" onchange="if (this.value !=0){iMUc(this.va
 <option value="48">&#207;</option>
 <option value="80">&#239;</option>
 </select><select 
-name="tCharsA" ID="tCharsO" title="O" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="tCharsO" ID="tCharsO" title="O" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">O</option>
 <option value="0">-</option>
 <option value="51">&#210;</option>
@@ -115,7 +115,7 @@ name="tCharsA" ID="tCharsO" title="O" onchange="if (this.value !=0){iMUc(this.va
 <option value="57">&#216;</option>
 <option value="89">&#248;</option>
 </select><select 
-name="tCharsA" ID="tCharsU" title="U" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="tCharsU" ID="tCharsU" title="U" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">U</option>
 <option value="0">--</option>
 <option value="58">&#217;</option>
@@ -128,7 +128,7 @@ name="tCharsA" ID="tCharsU" title="U" onchange="if (this.value !=0){iMUc(this.va
 <option value="93">&#252;</option>
 <option value="22">&#181;</option>
 </select><select 
-name="tCharsA" ID="tCharsM" title="More" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="tCharsM" ID="tCharsM" title="More" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
 <option value="0">+</option>
 <option value="97">&#036;</option>
 <option value="3">&#162;</option>
@@ -201,7 +201,7 @@ TYPE="text" VALUE="" name="markBoxChar" class="dropnormal" size="1" onclick="thi
 href="#" onclick="mGR()" title="Greek-to-ASCII Transliteration"><img 
 src="gfx/tags/greek.png" width="62" height="22" border="0" align="top"></a></td></form><form 
 name="tagform" id="tagform" onsubmit="return(false);"><td valign="top" align="center"><select 
-name="tCharsA" ID="ttagsMore" title="More Tags" onchange="if (this.value !=0){iMUc(this.value);}" class="dropchars">
+name="ttagsMore" ID="ttagsMore" title="More Tags" onchange="if (this.value !=0){iMU(this.value);}" class="dropchars">
 <option value="0">More Markup</option>
 <option value="0">--------------------</option>
 <option value="">bar</option>
