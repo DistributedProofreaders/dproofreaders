@@ -210,11 +210,8 @@ echo "rfilters i ".$RFilter;
 	$result = mysql_query($query);
 
 
-	$query = "
-		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '".$RFilter."')
-		";
-	$result = mysql_query($query);
-echo $query;
+	$result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '".$RFilter."')");
+echo $RFilter;
 	$query = "
 		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'display_filter', '"
 		.$display_filter."')
