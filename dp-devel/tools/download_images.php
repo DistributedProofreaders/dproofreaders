@@ -49,7 +49,7 @@ if ($return_code != 0)
     exit;
 }
 
-header( "Location: $zipfile_url", TRUE, 201 );
+header( "Location: $zipfile_url" );
 
 // vim: sw=4 ts=4 expandtab
 ?>
