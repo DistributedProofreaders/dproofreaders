@@ -13,15 +13,13 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 
 function get_number_of_days_in_current_month()
 {
-    // note that unlike project_state_stats, 
-    // which gets a row added for each new day just after midnight,
-    // pagestats is prepopulated with rows for the whole month
-    $year  = date("Y");
-    $month = date("m");
-    $result = mysql_query("SELECT max(day) as maxday FROM pagestats WHERE month = '$month' AND year = '$year'");
-    return mysql_result($result, 0, "maxday");
+    $current = getdate();
+    // The last day of this month is the "zeroth" day of next month.
+    $last_day_timestamp =
+        mktime( 0, 0, 0, $current['mon'] + 1, 0, $current['year'] );
+    $last_day = getdate($last_day_timestamp);
+    return $last_day['mday'];
 }
-
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
