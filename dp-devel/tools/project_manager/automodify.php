@@ -83,11 +83,24 @@ $one_project = isset($_GET['project'])?$_GET['project']:0;
 
 if ($one_project) {
     $verbose = 0;
-    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE projectid = '$one_project'");
+    $condition = "projectid = '$one_project'";
 } else {
     $verbose = 1;
-    $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'");
+    $condition = "
+           state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+        OR state = '".PROJ_PROOF_FIRST_VERIFY."'
+        OR state = '".PROJ_PROOF_FIRST_COMPLETE."'
+        OR state = '".PROJ_PROOF_FIRST_BAD_PROJECT."'
+        OR state = '".PROJ_PROOF_SECOND_AVAILABLE."'
+        OR state = '".PROJ_PROOF_SECOND_VERIFY."'
+        OR state = '".PROJ_PROOF_SECOND_COMPLETE."'
+    ";
 }
+$allprojects = mysql_query("
+    SELECT projectid, state, username, nameofwork
+    FROM projects
+    WHERE $condition
+");
 
 $pagesleft = 0;
 
