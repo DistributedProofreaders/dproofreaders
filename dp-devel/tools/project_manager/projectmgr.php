@@ -79,7 +79,7 @@ function echo_cells_for_round($round_num)
 ?>
 	<p><b>Project Manager Notice:</b><br>There is a new way to upload files to the site without needing anyone to help you:
 	<ol>
-		<li>FTP to texts01.archive.org with username dpscans and password image$
+		<li>FTP to pgdp01.archive.org with username dpscans and password image$
 		<li>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
 		<li>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
 		<li>Click on the title of the book to view it's details.
