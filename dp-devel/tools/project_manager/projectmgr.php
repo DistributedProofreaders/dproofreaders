@@ -47,36 +47,36 @@ theme("Project Managers", "header");
 //and if they are display the details of that project.  If they are not the PM
 //then display an error stating so.
 	if (isset($_GET['project'])) {
-		$project = $_GET['project'];
+		$projectid = $_GET['project'];
 
-		abort_if_cant_edit_project( $project );
+		abort_if_cant_edit_project( $projectid );
 
-		$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '".$_GET['project']."'");
+		$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
         	$manager = mysql_result($result, 0, "username");
         	$state = mysql_result($result, 0, "state");
         	$name = mysql_result($result, 0, "nameofwork");
         	$author = mysql_result($result, 0, "authorsname");
         	$language = mysql_result($result, 0, "language");
 
-        	$projectinfo->update($_GET['project'], $state);
+        	$projectinfo->update($projectid, $state);
 	
 		echo "<center><table border=1>";
-		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name</font></b> <font color='".$theme['color_headerbar_font']."'>(".$_GET['project'].")</font></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=4><b><font color='".$theme['color_headerbar_font']."' size=+1>Project Name: $name</font></b> <font color='".$theme['color_headerbar_font']."'>($projectid)</font></td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Author:</td><td>$author</td><td bgcolor='".$theme['color_navbar_bg']."'>Total Number of Master Pages:</td><td>$projectinfo->total_pages</td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'>Language:</td><td>$language</td><td bgcolor='".$theme['color_navbar_bg']."'>Pages Remaining to be Proofed:</td><td>$projectinfo->availablepages</td></tr>";
 	
 		if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE) {
-			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_files.php?project=".$_GET['project']."'>";
+			echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='add_files.php?project=$projectid'>";
 			if ($userP['sitemanager'] == "yes") {
 				echo "Add All Text From projects Folder"; } else { echo "Add All Text/Images from dpscans Account";
 			}
-			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=".$_GET['project']."'>Delete All Text</a></td></tr></table>";
+			echo "</a><td bgcolor='".$theme['color_navbar_bg']."' colspan=2><a href='deletefile.php?project=$projectid'>Delete All Text</a></td></tr></table>";
 			echo "<h3>Master Files</h3>";
 			echo "<table border=1></tr>";
 			echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td width=4><font color='".$theme['color_headerbar_font']."'>Index</font></td><td><font color='".$theme['color_headerbar_font']."'>Image</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Master Text</font></td><td><font color='".$theme['color_headerbar_font']."'>Size</font></td><td><font color='".$theme['color_headerbar_font']."'>Date Uploaded</font></td><td><font color='".$theme['color_headerbar_font']."'>Delete</font></td><td><font color='".$theme['color_headerbar_font']."'>Bad Page</font></td></tr>";
                 	$counter = 1;
                 	$rownum = 0;
-                	$path = "$projects_dir/$project/";
+                	$path = "$projects_dir/$projectid/";
 			while ($rownum < $projectinfo->total_pages) {
 				$imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
 				$date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
@@ -96,9 +96,9 @@ theme("Project Managers", "header");
                 			$trcolor = $theme['color_navbar_bg'];
             			}
                     		$date_txt = date("M j h:i A", $date);
-                    		echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='$bgcolor'><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td bgcolor=$bgcolor>$imagesize<td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=".$_GET['project']."&fileid=$fileid>Delete</a></td><td>";
+                    		echo "<tr bgcolor='$trcolor'><td>$counter</td><td bgcolor='$bgcolor'><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td bgcolor=$bgcolor>$imagesize<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td><td>";
 		     		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		     			echo "<center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>";
+		     			echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>";
 		     		} else {
 		     			echo "&nbsp;</td></tr>";
 		     		}
@@ -134,15 +134,15 @@ theme("Project Managers", "header");
                 			$trcolor = $theme['color_navbar_bg'];
             			}
                     	$date_txt = date("M j h:i A" , $date);
-                    	echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
+                    	echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
                     	if ($userP['sitemanager'] == "yes") { 
                     		echo $real_name; 
                     	} else { 
                     		echo $name; 
                     	}
-                    	echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>";
+                    	echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td><td><a href=checkin.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">Delete</a></td><td>";
 			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		       		echo "<center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>"; 
+		       		echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>"; 
 		    	} else { 	                
 		       		echo "&nbsp;</td></tr>"; 
 		    	} 
@@ -195,27 +195,27 @@ theme("Project Managers", "header");
                 			$trcolor = $theme['color_navbar_bg'];
             			}
                     		$date_txt = date("M j h:i A", $date);
-	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=".$_GET['project']."&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
+	  			echo "<tr bgcolor='$trcolor'><td>$counter</td><td><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_SECOND.">View</a></td><td>$date_txt</td><td><a href = mailto:$email>";
                     		if ($userP['sitemanager'] == "yes") { 
                     			echo $real_name; 
                     		} else { 
                     			echo $round2_user;
                     		}
-                    		echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>";
+                    		echo "</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".SAVE_FIRST.">View</a></td><td><a href=mailto:$oldemail>";
                     		if ($userP['sitemanager'] == "yes") {
                     			echo $oldreal_name; 
                     		} else { 
                     			echo $round1_user; 
                     		}
-                    		echo "</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=".$_GET['project']."&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>";
+                    		echo "</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">View</a></td>";
 		 		$roundID=projectStateRound($state);
                     		if ($roundID=='FIRST' || $roundID=='SECOND') {
-                    			echo "<td><a href=checkin.php?project=".$_GET['project']."&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"; 
+                    			echo "<td><a href=checkin.php?project=$projectid&fileid=$fileid&state=".SAVE_SECOND.">Delete</a></td>"; 
                     		} else { 
                     			echo "<td>&nbsp;</td>";
                     		}
                     		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-		        		echo "<td><center><a href='badpage.php?projectid=".$_GET['project']."&fileid=$fileid'>X</a></center></td></tr>";
+		        		echo "<td><center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center></td></tr>";
 		    		} else { 	                
 		        		echo "<td>&nbsp;</td></tr>";
 		    		} 
