@@ -140,7 +140,12 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 
         // set of candidates for release
         $avail_result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql ORDER BY modifieddate ASC");
-        $numAvailable = mysql_num_rows($avail_result);
+        if (mysql_num_rows($avail_result) == 0)
+        {
+            echo "Could have released some $projtype_desc projects, but none were waiting!<br>";
+            // email someone?
+            return 0;
+        }
 
         // Keep releasing these projects (SP) until:
         //      we meet our target for them ($released >= $target),
@@ -204,11 +209,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 }
         }
 
-        // if $numavailable == 0, email someone!
-        if ($numavailable == 0)
-		echo "<BR>Would like to have released some $projtype_desc projects, but none were waiting!<br>";
-	else
-	        echo "<br>Prepared <b>$numReleased</b> $projtype_desc projects for release<br>";
+        echo "<br>Prepared <b>$numReleased</b> $projtype_desc projects for release<br>";
         return $totalnewreleased;
 }
 
