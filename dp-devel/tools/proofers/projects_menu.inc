@@ -5,7 +5,7 @@
 if ($userP['i_prefs']==0)
 {
   echo "<td width=\"252\" bgcolor=\"#CCCCCC\" align=\"center\" colspan=\"2\">";
-  echo "<a href=\"../../userprefs.php?project=$project\">Please set Interface Preferences before proofing</A>";
+  echo "<a href=\"../../userprefs.php?project=$project&prooflevel=$prooflevel\">Please set Interface Preferences before proofing</A>";
   echo "</td>";
 }
 else {

@@ -259,6 +259,11 @@ echo "</tr>";
 
 
 echo "</table>";
+$project = $_GET['project'];
+$prooflevel = $_GET['prooflevel'];
+
+echo "<input type='hidden' name='project' value='$project'>";
+echo "<input type='hidden' name='prooflevel' value='$prooflevel'>";
 echo "<input type='hidden' name='insertdb' value='true'><br><br>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
 echo "<center><input type='submit' value='Submit'></center>";
@@ -269,6 +274,8 @@ $real_name = $_POST['real_name'];
 $email = $_POST['email'];
 $email_updates = $_POST['email_updates'];
 $project_listing = $_POST['project_listing'];
+$project = $_POST['project'];
+$prooflevel = $_POST['prooflevel'];
 $result = mysql_query("UPDATE users SET real_name='$real_name', email='$email', 
 email_updates='$email_updates', project_listing='$project_listing', 
 u_lang='$u_lang', i_res='$i_res', i_type='$i_type', i_layout='$i_layout', 
@@ -281,5 +288,6 @@ h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'
 WHERE id='$user_id' AND username='$pguser'");
 echo mysql_error();
 $cookieC->setUserPrefs($pguser);
+echo "<html><head><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=tools/proofers/projects.php?project=$project&prooflevel=$prooflevel\"></head><body></body></html>"; 
 }
 ?>
