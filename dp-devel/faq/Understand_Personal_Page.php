@@ -797,7 +797,7 @@ and most importantly, you know you can find help in all of these.<br>
 
 <li>Send a <a href="<? echo "$forums_url"; ?>/privmsg.php?folder=inbox">Private Message</a> to another DPer.</li>
 
-<li>email <? echo "<a href='$general_help_email_addr'>$general_help_email_addr</a>"; ?></li>
+<li>email <? echo "<a href='mailto:$general_help_email_addr'>$general_help_email_addr</a>"; ?></li>
 
 </ul><br>
 
