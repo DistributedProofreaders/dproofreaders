@@ -57,27 +57,35 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<interests>".xmlencode($curMbr['user_interests'])."</interests>
 			<website>".xmlencode($curMbr['user_website'])."</website>";
 
-	$current_page_tally = $users_P_page_tallyboard->get_current_tally($u_id);
-	$currentRank = $users_P_page_tallyboard->get_rank($u_id);
 
-	list($bestDayCount,$bestDayTimestamp) =
-		$users_P_page_tallyboard->get_info_re_largest_delta($u_id);
-	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+	foreach ( $page_tally_names as $tally_name => $gerund )
+	{
+		$tallyboard = new TallyBoard( $tally_name, 'U' );
 
-	if ($daysInExistence > 0) {
-			$daily_Average = $current_page_tally/$daysInExistence;
-	} else {
-			$daily_Average = 0;
+		$current_page_tally = $tallyboard->get_current_tally($u_id);
+		$currentRank = $tallyboard->get_rank($u_id);
+
+		list($bestDayCount,$bestDayTimestamp) =
+			$tallyboard->get_info_re_largest_delta($u_id);
+		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+
+		if ($daysInExistence > 0) {
+				$daily_Average = $current_page_tally/$daysInExistence;
+		} else {
+				$daily_Average = 0;
+		}
+
+		echo "
+			<roundinfo id='$tally_name'>
+				<pagescompleted>$current_page_tally</pagescompleted>
+				<overallrank>$currentRank</overallrank>
+				<bestdayever>
+					<pages>$bestDayCount</pages>
+					<date>$bestDayTime</date>
+				</bestdayever>
+				<dailyaverage>".number_format($daily_Average)."</dailyaverage>
+			</roundinfo>";
 	}
-
-	echo "
-			<pagescompleted>$current_page_tally</pagescompleted>
-			<overallrank>$currentRank</overallrank>
-			<bestdayever>
-				<pages>$bestDayCount</pages>
-				<date>$bestDayTime</date>
-			</bestdayever>
-			<dailyaverage>".number_format($daily_Average)."</dailyaverage>";
 
 	echo "
 		</userinfo>";

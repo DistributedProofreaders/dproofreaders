@@ -17,14 +17,23 @@
         <xs:element ref="username" minOccurs="1" maxOccurs="1" />
         <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
         <xs:element ref="lastlogin" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="overallrank" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="bestdayever" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="dailyaverage" minOccurs="1" maxOccurs="1" />
         <xs:element ref="location" minOccurs="1" maxOccurs="1" />
         <xs:element ref="occupation" minOccurs="1" maxOccurs="1" />
         <xs:element ref="interests" minOccurs="1" maxOccurs="1" />
         <xs:element ref="website" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="roundinfo" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="roundinfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="overallrank" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="bestdayever" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="dailyaverage" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
       <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
     </xs:complexType>
