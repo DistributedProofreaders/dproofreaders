@@ -1,22 +1,24 @@
-<html>
-<head>
-    <title>DP Catalog</title>
-</head>
-<body>
-<h1>Distributed Proofreaders Catalog</h1>
-
-<p>
-This page lists all DP projects, grouped by state.
-(We could have other ways of grouping/ordering.
-We could also have a search interface.)
-Click on a project title to go to its home page.
-</p>
-
-<?PHP
+<?php
 $relPath = '../../pinc/';
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 include($relPath.'f_project_states.inc');
+
+echo <<<END
+   <html>
+   <head>
+       <title>DP Catalog</title>
+   </head>
+   <body>
+   <h1>Distributed Proofreaders Catalog</h1>
+   
+   <p>
+   This page lists all DP projects, grouped by state.
+   (We could have other ways of grouping/ordering.
+   We could also have a search interface.)
+   Click on a project title to go to its home page.
+   </p>
+END;
 
 foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 {
