@@ -248,9 +248,8 @@ function pages_indicate_bad_project( $projectid, $round )
 
         }
 
-        if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_SECOND_AVAILABLE)) {
+		update_total_pages($project, "");
         	update_avail_pages($project, " = '".$newstate."'");
-        }
 
         if ($verbose) echo "New state = $state<P>";
         $error_msg = project_transition( $project, $state );
