@@ -16,89 +16,193 @@ else
 
 // -----------------------------------------------------------------------------
 
-$page_completed = "
-    The page you were proofing is considered 'completed',
-    and will automatically proceed to the next round
-    when all other pages have also been completed.
-    A link to it will appear in the 'My Recently Completed' section
-    of the project comments page,
-    whence it can be opened for corrections if necessary.
-";
+if ( $i_type == 0 )
+{
+    $no_stats=1;
+    theme('Standard Proofing Interface Help','header');
+    echo "
+    <center>
+    <h2>Standard Proofing Interface Help</h2>
+    </center>
+    ";
+}
+else
+{
+    $no_stats=1;
+    theme( 'Enhanced Proofing Interface Help','header');
+    echo "
+    <center>
+    <h2>Enhanced Proofing Interface Help</h2>
+    Version 1.2<br>
+    <br>
+    <table>
+    <tr><td>Created</td><td>12/03/2002</td><td>Author: Carel Lyn Miske</td></tr>
+    <tr><td>Updated</td><td>12/15/2002</td><td>Tim Bonham</td></tr>
+    <tr><td>Updated</td><td>06/17/2003</td><td>Bill Keir</td></tr>
+    <tr><td>Updated</td><td>06/22/2003</td><td>Bill Keir</td></tr>
+    </table>
+    </center>
+    ";
+}
 
-$page_not_completed = "
-    A link to it will appear in
-    the 'My Recently Proofread' section of the project comments page,
-    whence it can be opened for more proofing later.
-    If not completed, eventually the system will reclaim it
-    for someone else to proof,
-    and it will vanish from your 'My Recently Proofread' list.
-";
+// -----------------------------------------------------------------------------
 
-$truly_finish = "
-    Do NOT complete a page you haven't truly finished,
-    as the book may automatically proceed to the next round
-    with the unfinished page still undone!
-";
+?>
 
-// ----------------------------------
+<h3>Introduction</h3>
+
+<p>
+To understand the interface,
+you need to understand the following Q &amp; A.
+
+<p>
+<b>Q</b>:
+Where do my pages go?
+
+<p>
+<b>A</b>:
+There are four possible destinations in the system
+for the pages that you proof.
+They are:
+
+<ul>
+    <li>
+    <b><a name=done>"DONE"</a></b>:
+    All final changes are saved, and proofing is completed.
+    These pages are ready to go to the next round.
+    There are links to the five most recent pages in this category
+    on the Project Comments page, under the heading "My Recently Completed".
+    These pages can be re-opened for corrections if necessary
+    by clicking on the individual links.
+    Do not mark a page "DONE" unless you have really finished correcting it,
+    or else this partially-proofed page may move to the next round
+    when the rest of the project does!
+    </li>
+    <br>
+
+    <li>
+    <b><a name=progr>"IN PROGRESS"</a></b>:
+    Changes made so far are saved, but proofing is not yet completed.
+    These pages are not yet ready to go the next round.
+    There are links to the five most recent pages in this category
+    on the Project Comments page, under the heading "My Recently Proofread".
+    These pages are waiting for you to complete them;
+    you can do so by clicking on the individual links
+    to re-open them and finish the proofing.
+    If you do not complete them,
+    eventually the system will reclaim them for someone else to proof.
+    </li>
+    <br>
+
+    <li>
+    <b><a name=return>"RETURN TO SENDER"</a></b>
+    All changes are abandoned,
+    original version of page made available for someone else to proof.
+    This is for pages that, once you saw them,
+    you decided you didn't want to or couldn't proof,
+    but that someone else might be able to.
+    Whoever next clicks on the "Start Proofing" link for this project
+    will get the page to proof.
+    </li>
+    <br>
+
+    <li>
+    <b><a name=bad>"BAD"</a></b>
+    All changes abandoned, page is unproofably damaged or flawed
+    and is made unavailable until it can be repaired by the Project Manager.
+    </li>
+
+</ul>
+
+<p>
+When you open a page for proofing,
+it is automatically <a href="#progr">"IN PROGRESS"</a>
+</p>
+
+<p>
+Now you will understand the following explanations of what the buttons do.
+</p>
+
+<hr>
+
+<?
+
+// -----------------------------------------------------------------------------
 
 $help = Array();
 
 $help['Save and Quit'] = "
 <p>
-    Saves the current page and then quit proofing.
-    This browser window will close.
-    $page_completed
-    $truly_finish
+    \"I have finished proofing this page,
+    it is as correct as I can make it,
+    so I want to save it as <a href='#done'>DONE</a>,
+    and stop proofing for now.\"
+</p>
+<p>
+    Save all changes, and finish proofing the current page.
+    The page is now <a href='#done'>DONE</a>.
+    Quit proofing.
+    The proofing browser window will close.
 </p>
 ";
 
 $help['Save and Do Another'] = 
 $help['Save and Proof Next Page'] = "
 <p>
-    Saves the current page and
-    obtains the next available page for proofing within the project.
-    $page_completed
-    $truly_finish
+    \"I have finished proofing this page,
+    it is as correct as I can make it,
+    so I want to save it as <a href='#done'>DONE</a>,
+    and start proofing the next available page.\"
+</p>
+<p>
+    Save all changes, and finish proofing the current page.
+    The page is now <a href='#done'>DONE</a>.
+    The next available page within the project, if any,
+    will be opened for proofing.
 </p>
 ";
 
 $help['Save'] = "
 <p>
-    Saves your work so far on the current page.
-    You will be repositioned to the start of the page.
-    The current page is not considered 'completed'
-    until you press either 'Save and Quit' or 'Save and Do Another',
-    and will not automatically proceed to the next round.
-    $page_not_completed
+    \"I haven't finished proofing this page,
+    but I want to save my work on it so far.\"
 </p>
 <p>
+    Save changes to the current page.
+    The page is now <a href='#progr'>IN PROGRESS</a>.
     'Save' is intended to temporarily save your work so far
     on a page you plan to finish later,
-    perhaps because it is so long or you are interrupted.
-    To complete a page, use the 'Save and Quit' or 'Save and Do Another'
-    buttons instead.
-    $truly_finish
+    perhaps because it is too long or you are interrupted.
+    You will be repositioned to the start of the page.
 </p>
 ";
 
 $help['Quit'] = "
 <p>
-    Closes the proofing interface <b>without saving</b> the current page.
-    To save before quitting, use the 'Save' button.
-    Note that 'Save' followed by 'Quit' is NOT equivalent to 'Save and  Quit'.
-    When you press 'Quit',
-    the page you were proofing is not considered 'completed',
-    and will not automatically proceed to the next round.
-    $page_not_completed
-    To complete a page,
-    use the 'Save and Quit' or 'Save and Do Another' buttons.
+    \"I haven't finished proofing this page,
+    but I want to stop proofing for now.
+    I will finish proofing this page later.\"
+</p>
+<p>
+    Closes the proofing interface without saving the current page.
+    The page will be <a href='#progr'>IN PROGRESS</a>.
+    To save your most recent changes before quitting,
+    use the 'Save' button first.
+    Note that 'Save' followed by 'Quit'
+    (page is left <a href='#progr'>IN PROGRESS</a>)
+    is NOT equivalent to 'Save and Quit'
+    (page is left <a href='#done'>DONE</a>).
 </p>
 ";
 
 $help['Report Bad Page'] = "
 <p>
+    \"This page is damaged or flawed so badly no one could proof it.\"
+</p>
+<p>
     Loads the Report Bad Page form.
+</p>
+<p>
     Rarely, some damaged pages are unproofable.
     For instance, the image may be incomplete or unreadable,
     or the OCR text may be from a different image.
@@ -108,25 +212,37 @@ $help['Report Bad Page'] = "
     Further information
     (including how to tell a truly bad page from a false alarm)
     is available on the Report Bad Page form itself.
+    If you press the 'Submit Report' button on the Bad Page Report form,
+    the page is now <a href='#bad'>BAD</a>;
+    if you press the 'Cancel' button instead,
+    the page is <a href='#progr'>IN PROGRESS</a>.
 </p>
 ";
 
 $help['Return Page to Round'] =
 $help['Return Page to Current Round'] = "
 <p>
+    \"This page is more than I can (or want to) proof at the moment,
+    but someone else may have better luck.\"
+</p>
+<p>
     Abandons any changes you have made to the current page,
-    and returns it to the top of the pile of available pages for this project,
+    and returns the original version
+    to the top of the pile of available pages for this project,
     waiting for the next proofer
     who requests a new page to proof from this project,
     to whom it will go for proofing.
+    (See <a href='#return'>RETURN TO SENDER</a>.)
+</p>
+<p>
     If a page seems too long or complex for you,
     you can return it to round for someone else to do.
     (Note if you then immediately request a new page to proof,
     the 'someone else' may be you!
     If you don't want to go proof a different project instead,
     you can 'Save' the page, 'Quit' and follow the 'Start Proofing' link.
-    This will load the next available page, leaving the one you
-    wanted to skip in your 'My Recently Proofread' section.
+    This will load the next available page,
+    leaving the one you wanted to skip in your 'My Recently Proofread' section.
     When you have finished proofing for the day,
     you can re-open it from there and press 'Return Page to Current Round'
     to immediately make it available for someone else to proof.)
@@ -136,17 +252,34 @@ $help['Return Page to Current Round'] = "
 $help['Spell Check'] =
 $help['Run Spelling Check'] = "
 <p>
+    \"I want to check this page with the automatic spell checker.\"
+</p>
+<p>
     Loads the Spelling Check form.
     The OCR text is run through a spell-checker and then displayed,
     with doubtful words rendered as
     a drop down list of suggested corrected spellings from which you can select.
+</p>
+<p>
     When done, the corrections made can be submitted (applied) or cancelled.
+</p>
+<p>
+    In either case the page is <a href='#progr'>IN PROGRESS</a>.
 </p>
 ";
 
 $help['Switch to Vertical/Horizontal'] = "
 <p>
-    [Saves current page, changes interface....]
+    \"I'd rather the image was above / to the left of the text.\"
+</p>
+<p>
+    Toggles your interface layout between horizontal
+    (scanned image of page ABOVE the OCR text you are correcting)
+    and vertical
+    (scanned image of page to the LEFT of the OCR text you are correcting)
+    modes.
+    On the way, it performs a 'SAVE'.
+    The page is <a href='#progr'>IN PROGRESS</a>.
 </p>
 ";
 
@@ -270,9 +403,6 @@ $help['Set Image Zoom Percent'] = "
 
 if ( $i_type == 0 )
 {
-    $no_stats=1;
-    theme('Standard Proofing Interface Help','header');
-    echo "<h2>Standard Proofing Interface Help</h2>\n";
     echo "<form>\n";
     echo "<dl>\n";
     foreach(
@@ -381,23 +511,15 @@ if ( $i_type == 0 )
 
 else
 {
-$no_stats=1;
-theme( 'Enhanced Proofing Interface Help','header');
 ?>
 
 <CENTER><DIV ALIGN="CENTER"><TABLE
-BORDER="1" WIDTH="630" CELLPADDING="6"><TR><TD COLSPAN="2" ALIGN="CENTER"><FONT SIZE="+2">Enhanced Proofing Interface Help</FONT><BR>Version 1.1<BR></TD></TR>
-<TR><TD
-COLSPAN="2"><FONT SIZE="-1">
-Created: 12/03/2002 &nbsp;&nbsp;&nbsp; Author: Carel Lyn Miske
-<BR>Updated: 12/15/2002 &nbsp;&nbsp;&nbsp; Tim Bonham
-<BR>Updated: 06/17/2003 &nbsp;&nbsp;&nbsp; Bill Keir
-</FONT></TD></TR>
+BORDER="1" WIDTH="630" CELLPADDING="6">
+
 <TR><TD
 COLSPAN="2">
 <P><A HREF="#ibtns"><B>Button and Selection Menu</B></A>
 <P><A HREF="#ikeys"><B>Accelerator Keys (accesskeys)</B></A>
-<P><A HREF="#itags"><B>Tags and Extended Character Displays</B></A>
 <P><B>Additional Help Files</B>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofer's Frequently Asked Questions</A>
@@ -481,66 +603,214 @@ The currently displayed mage may be scrolled using the following accelerator key
 Currently, this is the only method for scrolling the image.<BR>
 
 </TD></TR>
+</TABLE></DIV></CENTER>
 
-<TR><TD ALIGN="CENTER" COLSPAN="2">
-<P><A NAME="itags"> </A><P><FONT SIZE="+1">Tags and Extended Character Displays</FONT><P></TD></TR><TR>
-<TD VALIGN="TOP"><B>Open Tags</B></TD><TD>
-Tags which have an opening and a closing tag such as [Footnote: ], &lt;i&gt;&lt;/i&gt;,
-and [Illustration: ].
+<?
+}
+// -----------------------------------------------------------------------------
+?>
+
+<hr>
+
+<center><h3>Help for Proofing Toolbar</h3></center>
+
+
+<h4>Special Character Dropdowns</h4>
+
+<p>
+    Many non-English texts have characters
+    that can be difficult to enter from the keyboard.
+    There are six drop-down lists of non-ASCII characters
+    to assist in these cases.
+</p>
+<p>
+    The ones labelled A,E,I,O,U contain various accented versions,
+    upper and lower case,
+    of those respective characters.
+    The final drop-down list contains other special symbols,
+    and accented versions of some consonants like Y, C, D, N etc.
+</p>
+<p>
+    For any of the dropdown lists, select the character you want.
+    It should appear in the small text box
+    immediately to the left of the 'Greek' button.
+    From there you can drag (Internet Explorer)
+    or cut-and-paste (other browsers)
+    it into the correct place in the text you are correcting.
+</p>
+<p>
+    Some people experience problems with these lists,
+    such as not being able to select the same character twice in a row.
+    We are aware of these difficulties and are working to solve them.
+    A workaround is to select a different character in between,
+    or copy-and-paste it from the earlier position (if still on the same page).
+</p>
+<p>
+    Also see the Proofing Guidelines
+    for other ways of entering special characters.
+</p>
+
+
+<h4>Greek transliteration popup</h4>
+
+<p>
+    The most common non-Latin alphabet we encounter is Greek.
+    We usually wish to transliterate Greek letters into Latin ones,
+    and wrap the result in tags [Greek: ].
+    So
+	<blockquote>
+	&beta;&iota;&beta;&lambda;&omicron;&sigmaf;
+	</blockquote>
+    in the image is rendered
+    <pre>
+    [Greek: biblos]
+    </pre>
+    in our proofed page.
+</p>
+<p>
+    To make it easier to select the correct transliterated characters,
+    this tool has been provided.
+    Click on the Greek button and a small window pops up,
+    containing upper and lower case Greek alphabets and a text box.
+</p>
+<p>
+    All of the Greek letters in the popup box are clickable.
+    Click the ones that appear in the Greek word in the image,
+    and the latin transliterations appear in the text box,
+    from whence they can be cut-and-pasted into the proofed text
+    and surrounded with [Greek: ] tags.
+</p>
+<p>
+    For more information please see the Proofing Guidelines.
+</p>
+
+
+<h4>Common Tags</h4>
+
+<p>
+    Sidenote,
+    Illustration,
+    *,
+    Footnote,
+    /*,
+    */,
+    *&nbsp;*&nbsp;*&nbsp;*&nbsp;* (thought break)
+    and
+    Blank Page
+</p>
+<p>
+    Along the lower line of the proofing toolbar
+    in the lower pane of the proofing interface
+    are controls labelled with the common tags listed above.
+    Clicking on any of these puts the corresponding tags in the left
+    (and, where appropriate, right) text boxes
+    immediately to the right of the i and B (italic and bold) buttons.
+    From here, they can be
+    dragged (Internet Explorer) or cut-and-pasted (other browsers)
+    into the appropriate places in the text you are proofing.
+    They are provided as a convenience;
+    if you'd really rather type the tags in by hand you are welcome to.
+</p>
+<p>
+    Note that [Blank Page] will clear any existing text in the proofing window.
+</p>
+
+
+<h4>Italics and Bold tag buttons</h4>
+
+<p>
+    The 
+    <img src='../tools/proofers/gfx/tags/italic.png'
+	width='18' height='18' border='0'
+	alt='italics' title='italics'>
+    and 
+    <img src='../tools/proofers/gfx/tags/bold.png'
+	width='18' height='18' border='0'
+	alt='bold' title='bold'>
+    buttons put paired italic and bold tags respectively
+    in the left and right text boxes next to them,
+    whence they can be
+    dragged (Internet Explorer) or cut-and-pasted (other browsers)
+    into the appropriate places in the proofing window.
+</p>
+
+<dl>
+<dt>
+    <img src='../tools/proofers/gfx/tags/help.png'
+	width='30' height='30' border='0'
+	alt='Help' title='Help'>
+</dt>
+<dd>
+    <p>
+    Opens this help page.
+    </p>
+</dd>
+
+<dt>
+    <img src='../tools/proofers/gfx/tags/exit.png'
+	width='30' height='30' border='0'
+	alt='Exit' title='Exit'>
+</dt>
+<dd>
+    <p>
+    Quit, equivalent to the QUIT button.
+    </p>
+    <p>
+    The page you are proofing is not saved,
+    and is <a href='#progr'>IN PROGRESS</a>.
+    </p>
+</dd>
+</dl>
+
+<!--
+<B>Open Tags</B><br>
+Tags which have an opening and a closing tag, such as
+    [Footnote: ],
+    &lt;i&gt;&lt;/i&gt;, and
+    [Illustration: ].
 
 <P><B>Internet Explorer for Windows Only</B><BR>
-With the mouse or keyboard, select the area of text that should be enclosed by the opening
-and closing tag.  Click the opening tag (example: [Footnote: ) and the opening tag will be
-placed at the start of the selected text and the closing tag will be placed at the end of
-the selected text.  Opening and closing tags may also be inserted separately as listed
-below in the Single Characters and Tags description.
+With the mouse or keyboard,
+select the area of text that should be enclosed by the opening and closing tag.
+Click the opening tag (example: [Footnote: )
+and the opening tag will be placed at the start of the selected text
+and the closing tag will be placed at the end of the selected text.
+Opening and closing tags may also be inserted separately as listed below
+in the Single Characters and Tags description.
 
 <P><B>All Other Browsers</B><BR>
-Open and closing tags must be inserted into text using the copy and paste method, as
-described below for Single Characters and Tags.
+Open and closing tags must be inserted into text
+using the copy and paste method,
+as described below for Single Characters and Tags.
 
-</TD></TR><TR><TD VALIGN="TOP"><B>Single Characters and Tags</B></TD><TD>
+
+<B>Single Characters and Tags</B><br>
 Extended Characters such as &#161;,&#162;, and &#163;
 
-<P>Tags which stand alone such as * * * * * or when using either an opening tag such as
-[Illustration:  or a closing tag such as &lt;/i&gt; for separate insertions.
+<P>Tags which stand alone such as * * * * *
+or when using either an opening tag such as [Illustration:
+or a closing tag such as &lt;/i&gt;
+for separate insertions.
 
 <P><B>Note:</B> [Blank Page] will replace all text in the proofing text area.
 
 <P><B>Internet Explorer for Windows Only</B><BR>
-Place the cursor caret in the text area at the location in the text where you would like
-to insert either the opening or the closing tag.  Click the tag you would like to insert.
-The opening or closing tag you clicked will be inserted into the document at the location
-of the cursor.
+Place the cursor caret in the text area
+at the location in the text where you would like to insert
+either the opening or the closing tag.
+Click the tag you would like to insert.
+The opening or closing tag you clicked will be inserted into the document
+at the location of the cursor.
 
 <P><B>All Other Browsers</B><BR>
-Click the tag or character you would like to insert.  The clicked tag will display in the
-small text box and should be pre-selected.  Copy the text to the system clipboard
-(using ctrl-c/cmd-c).  Position the cursor in the text area where you would
-like the tag or character to appear and then paste the text from the clipboard
-(using ctrl-v/cmd-v).
+Click the tag or character you would like to insert.
+The clicked tag will display in the small text box and should be pre-selected.
+Copy the text to the system clipboard (using ctrl-c/cmd-c).
+Position the cursor in the text area
+where you would like the tag or character to appear
+and then paste the text from the clipboard (using ctrl-v/cmd-v).
+-->
 
-</TD></TR></TABLE></DIV></CENTER>
 <?
-}
-
-// -----------------------------------------------------------------------------
-
-echo "
-    <hr>
-
-    <h3>Bottom Pane</h3>
-
-    <p>
-    This is where we should describe the controls on the bottom pane:
-    <ul>
-    <li>pop-up menus for non-ASCII characters
-    <li>button to open the 'Greek-to-ASCII Transliteration' dialog
-    <li>italic and bold
-    <li>Sidenote, Illustration, Footnote, /**/, thought break, Blank Page
-    </ul>
-    </p>
-";
-
 theme('','footer');
 ?>
