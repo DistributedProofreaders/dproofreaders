@@ -386,8 +386,6 @@ if(wM==6)
 
 function doBU()
 {
-chFFace(docRef.editform.fntFace.selectedIndex);
-chFSize(docRef.editform.fntSize.selectedIndex);
 if (frameRef.scanimage) {
     loadImageSize();
     showIZ();
