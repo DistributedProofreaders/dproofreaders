@@ -36,16 +36,19 @@ echo "
     good starter book; projects whose manager is BEGIN make excellent first projects
     for a new post processor) and check out the <a href='$post_processing_forum_url'>
     Post Processing Forum</a> to post all your questions. If nothing interests you
-    rigt now, check back later and there will be more!
+    right now, check back later and there will be more!
 </p>";
 } else {
 echo "
 <br>
 <p>
     As an experienced volunteer, you have access to do verification of texts
-    that have been Post Processed already. The <a href='$code_url/faq/post_proof.php'>
-    Post Processing FAQ</a> is available for more details on the role and the
-    <a href='$post_processing_forum_url'>Post Processing Forum</a> is available
+    that have been Post Processed already, if you wish.
+    Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) 
+    is our Post Processing Coordinator. Julie Barkley
+    (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>)
+    maintains our <a href='$code_url/faq/post_proof.php'>Post Processing FAQ</a>.
+    As always, the <a href='$post_processing_forum_url'>Post Processing Forum</a> is available
     for any of your questions.
 </p>
 ";
