@@ -214,7 +214,7 @@ switch ( $submit_button )
             echo "Considering doing the renamings $direction ...\n";
             echo "\n";
 
-            $n_errors = 0;
+            $n_failed_steps = 0;
 
             $sim = $current_image_for_fileid_; // copies it
 
@@ -238,17 +238,16 @@ switch ( $submit_button )
                 if ( array_key_exists($new_fileid, $sim) )
                 {
                     $reasons[] = "a row with fileid='$new_fileid' will already exist";
-                    $n_errors++;
                 }
 
                 if ( in_array($new_image, $sim) )
                 {
                     $reasons[] = "a row with image='$new_image' will already exist";
-                    $n_errors++;
                 }
 
                 if ( count($reasons) > 0 )
                 {
+                    $n_failed_steps++;
                     echo "Renamings will fail at step #$i:\n";
                     echo "    ($old_fileid,$old_image) -> ($new_fileid,$new_image)\n";
                     echo "because:\n";
@@ -262,7 +261,7 @@ switch ( $submit_button )
                 $sim[$new_fileid] = $new_image;
             }
 
-            if ($n_errors == 0)
+            if ($n_failed_steps == 0)
             {
                 echo "Okay, it looks like $direction will work.\n";
                 $direction_that_works = $direction;
