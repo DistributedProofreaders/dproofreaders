@@ -33,10 +33,11 @@ function theme ($nameofpage, $location) {
 		if ($location == "header") {
 			html_header($siteurl, $theme, $nameofpage);
 			html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-			echo "</form>\n";
+
 			echo "<table align='left' border='0' cellpadding='0' cellspacing='0' width='26%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' bgcolor='".$theme['color_navbar_bg']."'>\n";
@@ -53,11 +54,12 @@ function theme ($nameofpage, $location) {
 		if ($location == "header") {
 			html_header($siteurl, $theme, $nameofpage);
 			html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 			echo "<td align='left' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-			echo "</form>\n";
+
 			echo "<table align='right' border='0' cellpadding='0' cellspacing='0' width='26%'>\n";
 			echo "<tr>\n";
 			echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'>\n";
@@ -125,6 +127,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
+	echo "</form>\n";
 	} else {
     //Code to display if the user is logged in
     	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
