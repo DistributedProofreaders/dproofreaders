@@ -327,6 +327,94 @@ class TallyBoard
 
         return array( $neighbors, $max_current_rank );
     }
+
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+    function take_snapshot( $ascribe_time, $dry_run )
+    // Take a snapshot of this TallyBoard's current data,
+    // and append it to the TallyBoard's history
+    // (ascribing it to $ascribe_time rather than the current time).
+    // If $dry_run is true, merely echo queries that would change db.
+    // 
+    {
+        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
+
+        // Get the (ascribed) time of the previous snapshot.
+        $result = mysql_query("
+            SELECT MAX(timestamp)
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+        ") or die(mysql_error());
+        $prev_ascribe_time = mysql_result($result,0,0);
+
+        if ( !$dry_run )
+        {
+            // Abort if this TallyBoard already has a snapshot for $ascribe_time
+            if ( $prev_ascribe_time == $ascribe_time )
+            {
+                return 'already';
+            }
+        }
+
+        // Get everyone's most recent saved tally.
+        $result = mysql_query("
+            SELECT holder_id, tally_value
+            FROM past_tallies
+            WHERE
+                timestamp       = $prev_ascribe_time
+                AND tally_name  = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+        ") or die(mysql_error());
+        while ( list($holder_id, $prev_tally_value) = mysql_fetch_row($result) )
+        {
+            $prev_tally_for_[$holder_id] = $prev_tally_value;
+        }
+
+        // Get everyone's current rank.
+        $rank_for_ = $this->get_ranks();
+
+        // Get everyone's current tally.
+        $result = mysql_query("
+            SELECT holder_id, tally_value
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND $kludge
+        ") or die(mysql_error());
+
+        while ( list($holder_id, $current_tally) = mysql_fetch_row($result) )
+        {
+            $rank = $rank_for_[$holder_id];
+            $tally_delta = $current_tally - $prev_tally_for_[$holder_id];
+            $query = "
+                INSERT INTO past_tallies
+                SET
+                    timestamp   = $ascribe_time,
+                    tally_name  = '$this->tally_name',
+                    holder_type = '$this->holder_type',
+                    holder_id   = $holder_id,
+                    tally_delta = $tally_delta,
+                    tally_value = $current_tally,
+                    tally_rank  = $rank
+            ";
+            if ($dry_run)
+            {
+                // Normalize whitespace
+                $query = preg_replace('/\s+/', ' ', trim($query));
+                echo "$query\n";
+            }
+            else
+            {
+                mysql_query($query) or die(mysql_error());
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+
 }
 
 // vim: sw=4 ts=4 expandtab
