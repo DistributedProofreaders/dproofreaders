@@ -3,7 +3,7 @@
 require_once 'v_site.inc';
 
 /**
- * User Class.
+ * User Class
  *
  * <p>Liberally scavenged from "user_is.inc". All the heavy lifting was developed
  * there by mdyck and big_bill - I simply rearranged it a bit into a class for
@@ -17,31 +17,9 @@ require_once 'v_site.inc';
  * through unit testing successfully.</p>
  */
 
-/*
- * No class variables should be available outside - everything should be abstracted
- * to a business-rule level property.
- * Look for every opportunity to restrict access to internal field values if their
- * only legitimate use is to support derived business-rule level properties.
- * Decompose whenever possible. Example: methods with an argument indicating whether
- * to switch something between True and False (with logic of the form:
- * func($bool) { if($bool) what; else what-not; should be split into two methods
- * funcTrue() { what; } and funcFalse() {what-not}.
- */
-
-/* Questions:
- *
- * Is it desirable to make an object of this class simultaneous with a session?
- * i.e. the constructor would process an submitted username and password pair,
- * and return '' or an error message, per standard usage. (If it failed, it would
- * linger as a zombie (all properties returning Null) until it went out of scope
- * and died. If we can do this, the username/password handling becomes clearer.
- */
-
-
 class User
 {
     var $users_phpbb;   // this is for one record from mysql, as an array.
-    var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;      // This is for the records from usersettings for this user.
     var $prefs;         // this is for the records from userprofiles for this user.
     var $stats;         // this is for the fields from a summary query from member_stats.
@@ -57,11 +35,8 @@ class User
      * or wherever it is.</p>
      */
 
-    function User($username, $password)
+    function User($username)
     {
-        $username = trim($userName) ;
-        $password = trim($password) ; 
-
         $this->logged_in = False;
         
         $sql = "SELECT u.*, bbu.*
@@ -70,12 +45,6 @@ class User
                 ON u.username = bbu.username
                 WHERE u.username = '$username'";
         $result = mysql_query($sql);
-
-        for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++
-        {
-            $meta = mysql_fetch_field($result, $i);
-            $users_phpbb_meta['$meta->name'] = $meta ;
-        }
 
         // take the result set as an associative array and tuck it away to use whenever
         // somebody asks for an attribute of our user.
@@ -113,9 +82,12 @@ class User
     /**
      * Saves User Information to Database
      *
-     * Once block of code has made changes to the User object, that information
+     * <p>Once block of code has made changes to the User object, that information
      * needs to sometimes go back into the database. This function puts all that
-     * information back in.
+     * information back in.</p>
+     *
+     * <p><b>NOTE:</b>If saveUser() is not manually called before end of life of object,
+     * all changes made to User object will be lost.</p>
      *
      * - returns true if it is successful
      * - returns false otherwise
@@ -123,7 +95,7 @@ class User
 
     function saveUser()
     {
-        
+
     }
 
     /**
@@ -133,7 +105,7 @@ class User
      * - returns an error message otherwise
      */
 
-    function _logIn($password)
+    function logIn($password)
     {
         $validUser = $this->validUser();
         $validPassword = $this->validPassword();
@@ -182,25 +154,19 @@ class User
      * - returns an error message explaining why it cannot be used.
      */
 
-     function _fieldLength($fieldname)
-     {
-         return $user_phpbb_meta['$fieldname'] ;
-     }
-
     function validUserName()
     {
+
         // This is the length of the 'username' field in the 'users' table.
-        // $username_max_len = 25;
+        $username_max_len = 25;
 
         if ($this->userName() == '') {
             $error = _("You did not supply a User Name (ID).");
             return $error;
         }
 
-        // if (strlen($this->userName()) > $username_max_len)
-        if (strlen($this->userName()) > $this->fieldLength('username')
-        {
-            $error = _("Your User Name is too long.<br>(The maximum is")." $this->fieldLength('username') "._("characters").".)";
+        if (strlen($this->userName()) > $username_max_len) {
+            $error = _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
             return $error;
         }
 
@@ -209,8 +175,6 @@ class User
             return $error;
         }
 
-        /*
-        // DAK: Just trim username when submitted in case it was inadvertent on the user's part.
         // In order to prevent one class of impersonations,
         // any space character in $this->userName() must have a non-space on either side.
         // Thus, no leading or trailing spaces, and no adjacent spaces.
@@ -219,7 +183,6 @@ class User
             $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
             return $error;
         }
-        */
 
         if (ereg("  ", $this->userName())) {
             $error = _("Your User Name contains adjacent space characters, which is not allowed.");
@@ -261,12 +224,32 @@ class User
     }
 
     /**
+     * Error checking on Real Name of user
+     *
+     * <p>Future versions of this function will return an error string explaining what is wrong.</p>
+     *
+     * - returns true if the real name is valid
+     * - returns false otherwise
+     */
+
+    function isValidRealName($realName)
+    {
+
+    }
+
+    /**
      * Set the Real Name of the User
+     *
+     * - returns true if successful at setting user's real name
+     * - returns false otherwise
      */
 
     function setRealName($realName)
     {
-
+        if (isValidRealName($realName)) {
+            $this->setRowVal('real_name', $realName);
+            return true;
+        } else return false;
     }
 
     /**
@@ -275,7 +258,7 @@ class User
 
     function realName()
     {
-
+        return $this->rowVal('real_name');
     }
 
     /**
@@ -285,7 +268,7 @@ class User
      * - returns false otherwise
      */
 
-    function updatesEmailed()
+    function isUpdatesEmailed()
     {
 
     }
@@ -392,8 +375,6 @@ class User
      * <p>Verifies the current e-mail address is a reasonable/acceptable e-mail address.
      * Was taken from pinc/email_address.inc</p>
      *
-     * This belongs here iff no other code needs to check it (which probably is a goal.)
-     *
      * - returns an empty string if it is valid
      * - returns an error message otherwise
      */
@@ -403,26 +384,22 @@ class User
         // This is the length of the 'email' field in the 'users' table.
         $email_address_max_len = 50;
 
-        if ($this->emailAddress() == '')
-        {
+        if ($this->emailAddress() == '') {
             $error = _("You did not supply an E-mail Address.");
             return $error;
         }
 
-        if (strlen($this->emailAddress()) > $email_address_max_len)
-        {
+        if (strlen($this->emailAddress()) > $email_address_max_len) {
             $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
             return $error;
         }
 
         $parts = explode('@', $this->emailAddress());
-        if (count($parts) == 1)
-        {
+        if (count($parts) == 1) {
             $error = _("Your E-mail Address does not contain an '@' sign.");
             return $error;
         }
-        if (count($parts) > 2)
-        {
+        if (count($parts) > 2) {
             $error = _("Your E-mail Address contains more than one '@' sign.");
             return $error;
         }
@@ -472,25 +449,94 @@ class User
     }
 
     /**
-     * Internal user ID # of the User object.
-     * Should not be useful outside this class.
+     * Internal user ID # of the User object
      */
 
-    function _userId()
+    function userId()
     {
         return $this->users_phpbb['u_id'];
+    }
+
+    /**
+     * Error Checking on Theme Name
+     */
+
+    function isValidTheme($name)
+    {
+        
+    }
+
+    /**
+     * Error Checking to see if the Theme exists
+     */
+
+    function isThemeExist($name)
+    {
+        
     }
 
     /**
      * Theme Name that User has selected in their preferences
      */
 
-    function themeName()
+    function theme()
     {
         return $this->getRow('i_theme');
     }
 
-    function setThemeName($name)
+    /**
+     * Set the Active Theme to the one provided
+     *
+     * <p>If the theme given does not exist, it will create a new theme using the existing
+     * preferences.</p>
+     */
+
+    function setTheme($name)
+    {
+
+    }
+
+    /**
+     * All Theme Names
+     */
+
+    function allThemes()
+    {
+
+    }
+
+    /**
+     * Checks to make sure the profile name is valid
+     */
+
+    function isValidProfile($name)
+    {
+
+    }
+
+    /**
+     * Checks to see if the profile exists in the database
+     */
+
+    function isProfileExist($name)
+    {
+
+    }
+
+    /**
+     * Create a new Profile
+     */
+
+    function createProfile($name)
+    {
+
+    }
+
+    /**
+     * Delete a Profile
+     */
+
+    function deleteProfile($name)
     {
 
     }
@@ -508,7 +554,7 @@ class User
      * All Profile Names
      */
 
-    function allProfileNames()
+    function allProfiles()
     {
 
     }
@@ -522,60 +568,144 @@ class User
 
     }
 
+    /**
+     * Is the Proofreader wanting Round 1 Projects Showing?
+     */
+
     function isShowingR1()
     {
 
     }
+
+    /**
+     * Enable Showing Round 1 Projects to Proofreader
+     */
 
     function enableShowingR1()
     {
 
     }
 
+    /**
+     * Disable Showing Round 1 Projects to Proofreader
+     */
+
     function disableShowingR1()
     {
 
     }
+
+    /**
+     * Is the Proofreader wanting Round 2 Projects Showing?
+     */
 
     function isShowingR2()
     {
 
     }
 
+    /**
+     * Enable Showing Round 2 Projects to Proofreader
+     */
+
     function enableShowingR2()
     {
 
     }
+
+    /**
+     * Disable Showing Round 2 Projects to Proofreader
+     */
 
     function disableShowingR2()
     {
 
     }
 
+    /**
+     * Error-checking that the language being selected is a valid language
+     */
+
+    function isValidLanguage($name)
+    {
+
+    }
+
+    /**
+     * Set the User's language
+     */
+
     function setLanguage($name)
     {
 
     }
+
+    /**
+     * Returns current language preference
+     */
 
     function language()
     {
 
     }
 
+    /**
+     * Returns a list of all possible languages available
+     */
+
+    function allLanguages()
+    {
+
+    }
+
+    /**
+     * Error checking on the Number of Rank Neighbors
+     */
+
+    function isValidNumRankNeighbors($num)
+    {
+
+    }
+
+    /**
+     * Number of Rank Neighbors to be shown in Statistics Side Bar
+     */
+
     function numRankNeighbors()
     {
 
     }
+
+    /**
+     * Set Number of Rank Neighbors to be shown in Statistics Side Bar
+     */
 
     function setNumRankNeighbors($num)
     {
 
     }
 
+    /**
+     * Returns the interface language of the User
+     */
+
     function interfaceLanguage()
     {
 
     }
+
+    /**
+     * Error checking on the interface language provided
+     */
+
+    function isValidInterfaceLanguage($lang)
+    {
+
+    }
+
+    /**
+     * Sets the interface language
+     */
 
     function setInterfaceLanguage($lang)
     {
@@ -583,8 +713,25 @@ class User
     }
 
     /**
-     * At the 'right time', this stuff should be spun off to
-     * a UI attribute class.
+     * Returns a list of all possible interface languages
+     */
+
+    function allInterfaceLanguages()
+    {
+
+    }
+
+    /**
+     * Is Vertical Screen Resolution Valid?
+     */
+
+    function isValidVerticalResolution($num)
+    {
+
+    }
+
+    /**
+     * Set User's Vertical Screen Resolution
      */
 
     function setVerticalResolution($num)
@@ -593,7 +740,7 @@ class User
     }
 
     /**
-     *
+     * Returns the User's Vertical Screen Resolution
      */
 
     function verticalResolution()
@@ -602,7 +749,16 @@ class User
     }
 
     /**
-     *
+     * Is Horiziontal Screen Resolution Valid?
+     */
+
+    function isValidHoriziontalResolution($num)
+    {
+
+    }
+
+    /**
+     * Set User's Horiziontal Screen Resolution
      */
 
     function setHoriziontalResolution($num)
@@ -611,7 +767,7 @@ class User
     }
 
     /**
-     *
+     * Returns the User's Horiziontal Screen Resolution
      */
 
     function horiztionalResolution()
@@ -620,7 +776,7 @@ class User
     }
 
     /**
-     *
+     * Is User Proofreading in Standard Interface?
      */
 
     function isStandardInterface()
@@ -629,7 +785,7 @@ class User
     }
 
     /**
-     *
+     * Enable Standard Proofreading Interface
      */
 
     function enableStandardInterface()
@@ -638,7 +794,7 @@ class User
     }
 
     /**
-     *
+     * Is User Proofreading in Enhanced Interface?
      */
 
     function isEnhancedInterface()
@@ -647,7 +803,7 @@ class User
     }
 
     /**
-     *
+     * Enable Enhanced Proofreading Interface
      */
 
     function enableEnhancedInterface()
@@ -656,7 +812,7 @@ class User
     }
 
     /**
-     *
+     * Is the Proofreading Interface Launched in a New Window?
      */
 
     function isLaunchedNewWindow()
@@ -665,7 +821,7 @@ class User
     }
 
     /**
-     *
+     * Enable Launching of Proofreading Interface in a New Window
      */
 
     function enableLaunchNewWindow()
@@ -674,7 +830,7 @@ class User
     }
 
     /**
-     *
+     * Disable Launching of Proofreading Interface in a New Window
      */
 
     function disableLaunchNewWindow()
@@ -767,7 +923,25 @@ class User
      *
      */
 
-    function setLeftStatisticsBar()
+    function enableNoStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isNoStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableLeftStatisticsBar()
     {
 
     }
@@ -785,7 +959,7 @@ class User
      *
      */
 
-    function setRightStatisticsBar()
+    function enableRightStatisticsBar()
     {
 
     }
@@ -795,6 +969,15 @@ class User
      */
 
     function isRightStatisticsBar()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isValidFontFace($name)
     {
 
     }
@@ -866,6 +1049,15 @@ class User
      *
      */
 
+    function isValidFontSize($name)
+    {
+
+    }
+
+    /**
+     *
+     */
+
     function setVerticalFontSize($name)
     {
 
@@ -926,6 +1118,393 @@ class User
     }
 
     /**
+     *
+     */
+
+    function isValidImageZoom($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setHoriziontalImageZoom($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setVerticalImageZoom($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setActiveImageZoom($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function activeImageZoom()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function horiziontalImageZoom()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function verticalImageZoom()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isValidTextFrameSize($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setHoriziontalTextFrameSize($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setVerticalTextFrameSize($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function setActiveTextFrameSize($num)
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function activeTextFrameSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function horiziontalTextFrameSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function verticalTextFrameSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isActiveTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableActiveTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableActiveTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableHoriziontalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableHoriziontalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableVerticalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableVerticalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isHoriziontalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isVerticalTextFrameScrolled()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isActiveTextWrapped()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isHoriziontalTextWrapped()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isVerticalTextWrapped()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableActiveWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableActiveWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableHoriziontalWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableHoriziontalWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableVerticalWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function disableVerticalWrapText()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isSearchDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableSearchDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isActiveProjectsDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableActiveProjectsDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isAllProjectsDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableAllProjectsDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isProofreadDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enableProofreadDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function isPostProcessingDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function enablePostProcessingDefaultPage()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function allDefaultPages()
+    {
+
+    }
+
+    /**
      * Is User's Proofreading Layout Vertical
      *
      * - returns true if user wants vertical layout
@@ -973,11 +1552,29 @@ class User
      * <p>Returns the number of columns of characters for the active proofreading layout.</p>
      */
 
-    function numberActiveRows()
+    function numActiveRows()
     {
         if ($this->isHoriziontalLayout()) {
             return $this->getPref($this->activeProfile(), 'h_tlines');
         } else return $this->getPref($this->activeProfile(), 'v_tlines');
+    }
+
+    /**
+     *
+     */
+
+    function numVerticalRows()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function numHoriziontalRows()
+    {
+
     }
 
     /**
@@ -986,11 +1583,29 @@ class User
      * <p>Returns the number of columns of characters for the active proofreading layout.</p>
      */
 
-    function numberActiveColumns()
+    function numActiveColumns()
     {
         if ($this->isHoriziontalLayout()) {
             return $this->getPref($this->activeProfile(), 'h_tchars');
         } else return $this->getPref($this->activeProfile(), 'v_tchars');
+    }
+
+    /**
+     *
+     */
+
+    function numVerticalColumns()
+    {
+
+    }
+
+    /**
+     *
+     */
+
+    function numHoriziontalColumns()
+    {
+
     }
 
     /**
@@ -1000,7 +1615,7 @@ class User
      * - returns false otherwise
      */
 
-    function setNumberHoriziontalColumns($num)
+    function setNumHoriziontalColumns($num)
     {
         if (($num >= 10) && ($num <= 160)) {
             $this->setPref($this->activeProfile(), 'h_tchars', $num);
@@ -1015,7 +1630,7 @@ class User
      * - returns false otherwise
      */
 
-    function setNumberVerticalColumns($num)
+    function setNumVerticalColumns($num)
     {
         if (($num >= 10) && ($num <= 160)) {
             $this->setPref($this->activeProfile(), 'v_tchars', $num);
@@ -1030,7 +1645,7 @@ class User
      * - returns false otherwise
      */
 
-    function setNumberHoriziontalRows($num)
+    function setNumHoriziontalRows($num)
     {
         if (($num >= 1) && ($num <= 100)) {
             $this->setPref($this->activeProfile(), 'h_tlines', $num);
@@ -1045,7 +1660,7 @@ class User
      * - returns false otherwise
      */
 
-    function setNumberVerticalRows($num)
+    function setNumVerticalRows($num)
     {
         if (($num >= 1) && ($num <= 100)) {
             $this->setPref($this->activeProfile(), 'v_tlines', $num);
@@ -1136,12 +1751,9 @@ class User
      *
      * - returns "s" if the username does not end with "s"
      * - returns "" otherwise
-     *
-     * Should only be used internally to generate possessive form of a property when
-     * asked for.
      */
 
-    function _needsApostrophe()
+    function needsApostrophe()
     {
         if ((substr($this->userName(), -1) != "s")
             ||  {
@@ -1172,24 +1784,11 @@ class User
     }
 
     /**
-     * Return the number of days between the dates on 
-     * which two date values occurred, removing funny
-     * stuff for earliness or lateness within day of each.
-     */
-
-    function _daysBetween($earlierdate, $laterdate)
-    {
-        return $laterdate / 24 / 60 / 60 - $earlierdate / 24 / 60 / 60 ;
-    }
-
-    /**
      * Number of Days Since User Account was Created
-     * Abstracted dates should be in native php form, not unix seconds.
      */
 
     function daysSinceCreated()
     {
-        return daysDiff( 
         return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
     }
 
@@ -1217,8 +1816,7 @@ class User
 
     function daysSinceLogin()
     {
-        return daysBetween( $this->lastLogin(), getdate() ) ;
-        // return number_format(floor((((time() - $this->lastLogin()) / 24) / 60) / 60);
+        return number_format(floor((((time() - $this->lastLogin()) / 24) / 60) / 60);
     }
 
     /**
@@ -1238,12 +1836,21 @@ class User
         return $avatar;
     }
 
+    /**
+     * Tests to see if the location is valid for an Avatar
+     */
+
+    function isValidUserAvatar($location)
+    {
+
+    }
+
     function setUserAvatar($location)
     {
-        // TODO: Add checking that $location is valid and
-        // does not have user accessing file they shouldn't.
-
-        $this->users_phpbb['user_avatar'] = $location;
+        if ($this->isValidUserAvatar($location)) {
+            $this->users_phpbb['user_avatar'] = $location;
+            return true;
+        } else return false;
     }
 
     /**
@@ -1345,7 +1952,7 @@ class User
      * and is probably entirely appropriately locally within the class.</p>
      */
 
-    function _getSetting($settingname)
+    function getSetting($settingname)
     {
         return $this->settings[$settingname];
     }
@@ -1373,7 +1980,7 @@ class User
      * <p>Returns the value for that preference</p>
      */
 
-    function _getPref($prefname, $itemname)
+    function getPref($prefname, $itemname)
     {
         if (!$prefname) {
             $prefname = 'default';
@@ -1390,7 +1997,7 @@ class User
      * it will put it into the 'default' preference group.</p>
      */
 
-    function _setPref($prefname, $itemname, $value)
+    function setPref($prefname, $itemname, $value)
     {
         if (!$prefname) {
             $prefname = 'default';
@@ -1407,9 +2014,14 @@ class User
      * <p>Returns the value of that field of the User object</p>
      */
 
-    function _rowVal($name)
+    function rowVal($name)
     {
-        return $this->users_phpbb['$name'];
+        return $this->users_phpbb[$name];
+    }
+
+    function setRowVal($name, $value)
+    {
+        $this->users_phpbb[$name] = $value;
     }
 
     /**
@@ -1425,6 +2037,11 @@ class User
     function pagesCompleted()
     {
         return $user['pagescompleted'];
+    }
+
+    function pagesPosition()
+    {
+
     }
 
     /**
@@ -1460,7 +2077,7 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function _enableBoolean($name)
+    function enableBoolean($name)
     {
         $this->users_phpbb['$name'] = 'yes';
     }
@@ -1472,7 +2089,7 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function _disableBoolean($name)
+    function disableBoolean($name)
     {
         $this->users_phpbb['$name'] = '';
     }
@@ -1484,10 +2101,9 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function _enableBooleanSetting($name)
+    function enableBooleanSetting($name)
     {
-        // $this->settings['$name'] = 'yes';
-        _enableBoolean($this->settings['$name']) ;
+        $this->settings['$name'] = 'yes';
     }
 
     /*
@@ -1497,10 +2113,9 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function _disableBooleanSetting($name)
+    function disableBooleanSetting($name)
     {
-        // $this->settings['$name'] = '';
-        disableBoolean($this->settings['$name']) ;
+        $this->settings['$name'] = '';
     }
 
     /**
@@ -1557,7 +2172,7 @@ class User
     function mayManageProjects()
     {
         return ($this->isSiteManager()
-             || $this->isProjectManager());
+	|| $this->isProjectManager());
     }
 
     /**
@@ -1667,7 +2282,7 @@ class User
     function mayManageTaskCenter()
     {
         return ($this->isSiteManager() 
-                || $this->isTaskCenterManager());
+        || $this->isTaskCenterManager());
     }
 
     /**
@@ -2003,9 +2618,9 @@ class User
     function maySeeBeginR1()
     {
         return ($this->isSiteManager()
-            || $this->isProjectFacilitator()
-            || $this->pagesCompleted() <= 40
-            || $this->isSeeBeginR1());
+        || $this->isProjectFacilitator()
+        || $this->pagesCompleted() <= 40
+        || $this->isSeeBeginR1());
     }
 
     /**
@@ -2186,12 +2801,14 @@ class User
         // in mysql. But in the meantime...
 
         if (!isset($best)) {
-            $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
+            $sql = "SELECT UNIX_TIMESTAMP(date_updated)
+                    AS BestDay
                     FROM member_stats
-                    WHERE u_id = $this->userID()
-                        AND daily_pagescompleted = $this->bestCountEver()
-                    ORDER BY date_updated DESC
-                    LIMIT 1";
+                    WHERE
+                    u_id = $this->userID()
+                    AND daily_pagescompleted = $this->bestCountEver()
+                    ORDER BY date_updated
+                    DESC LIMIT 1";
             $result = mysql_query($sql);
             $best = mysql_result($result, 0, "BestDay");
             // This is returned in a field that is a 
@@ -2232,6 +2849,21 @@ class User
      */
 
     function joinTeam($teamID)
+    {
+
+    }
+
+    /**
+     * Is User a Member of a Team?
+     *
+     * <p>Takes a parameter of the team's ID # and sees if the user's proferences says they are
+     * in that team.
+     *
+     * - returns true if they are
+     * - returns false otherwise
+     */
+
+    function isTeamMember($teamID)
     {
 
     }
