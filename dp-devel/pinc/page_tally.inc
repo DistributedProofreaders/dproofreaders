@@ -179,7 +179,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
     list($u_id) = mysql_fetch_row($result);
 
     $tallyboard = new TallyBoard( $tally_name, 'U' );
-    list($nb,$max_current_rank) =
+    $nb =
         $tallyboard->get_neighborhood(
             $u_id, $radius,
             'users',

@@ -229,9 +229,7 @@ class TallyBoard
         $tally_alias,
         $rank_alias
     )
-    // Return an array consisting of:
-    //
-    // -- The tally-neighborhood of the target holder. This is an array:
+    // Return the tally-neighborhood of the target holder. This is an array:
     //
     //    The keys are integers from the range [-$radius, +$radius],
     //    indicating a holder's position (w.r.t. tally)
@@ -244,8 +242,6 @@ class TallyBoard
     //    For a given key, the value is data for the corresponding neighbor:
     //    an associative array as returned by mysql_fetch_assoc(), with an
     //    item added for the neighbor's rank.
-    //    
-    // -- The maximum current rank on this TallyBoard.
     {
         assert( $radius >= 0 );
 
@@ -317,9 +313,7 @@ class TallyBoard
             $r++;
         }
 
-        $max_current_rank = $rank;
-
-        return array( $neighbors, $max_current_rank );
+        return $neighbors;
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
