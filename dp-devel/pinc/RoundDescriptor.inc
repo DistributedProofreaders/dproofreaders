@@ -206,6 +206,22 @@ class ProofingRoundDescriptor
             }
         }
 
+        // Site managers can go anywhere.
+        if ( !$can )
+        {
+            $res = mysql_query("
+                SELECT sitemanager
+                FROM users
+                WHERE username='$username'
+            ") or die(mysql_error());
+
+            if (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes')
+            {
+                $can = TRUE;
+                $why .= ' ' . _("However, you're a site manager, so you have access to everywhere.");
+            }
+        }
+
         return array( $how, $can, $why );
     }
 
