@@ -17,7 +17,7 @@ if (isset($_POST['userNM']) && isset($_POST['userPW']))
 $uC=$userC->checkLogin($_POST['userNM'],$_POST['userPW']);
      if ($uC)
      {
-     $uP=$userC->getUserPrefs($userNM);
+     $uP=$userC->getUserPrefs($_POST['userNM']);
           if ($uP)
           {
           // send them to the correct page
