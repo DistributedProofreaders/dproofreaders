@@ -203,7 +203,7 @@ aFnt[1]='Courier New';
 aFnt[2]='Times New Roman';
 aFnt[3]='Arial';
 aFnt[4]='Lucida Sans Typewriter';
-aFnt[5]='monospaced';
+aFnt[5]='monospace';
 aFnt[6]='DPCustomMono2';
 aFnt[7]='Courier';	// re-added per Task 400
 
