@@ -60,10 +60,10 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	$word = _("Project Manager");
 	echo "\n<td><b>$word</b></td>";
 
-	$word = _("Pages available for proofreading");
+	$word = _("Available Pages");
 	echo "\n<td><b>$word</b></td>";
 
-	$word = _("Total pages in the book");
+	$word = _("Total Pages");
 	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Days");
