@@ -94,7 +94,31 @@ if ($userP['i_prefs']==1)
 {echo "<a href=\"../../userprefs.php\">View current profile</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
-echo "</b>";
+echo "</b><br>";
+echo "Teams: <b> ";
+  echo "<a href=\"../../userteams.php?tid=1\">All Users Team</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+
+  $teamQ1="SELECT teamname FROM user_teams WHERE id='{$userP['team_1']}'";
+  $teamQ2="SELECT teamname FROM user_teams WHERE id='{$userP['team_2']}'";
+  $teamQ3="SELECT teamname FROM user_teams WHERE id='{$userP['team_3']}'";
+  if ($userP['team_1']!=0)
+  {
+    $teamR=mysql_query($teamQ1);
+    echo "<a href=\"../../userteams.php?tid={$userP['team_1']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+  }
+  if ($userP['team_2']!=0)
+  {
+    $teamR=mysql_query($teamQ2);
+    echo "<a href=\"../../userteams.php?tid={$userP['team_2']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+  }
+  if ($userP['team_3']!=0)
+  {
+    $teamR=mysql_query($teamQ3);
+    echo "<a href=\"../../userteams.php?tid={$userP['team_3']}\">".mysql_result($teamR,0,'teamname')."</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+  }
+
+echo "<a href=\"../../userteams.php\">View All Teams</a>";
+echo "</b><br>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {
