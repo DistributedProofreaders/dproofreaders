@@ -114,19 +114,21 @@ function showTeamStats($curTeam) {
 	global $theme;
 	global $teams_P_page_tallyboard;
 
+	$team_id = $curTeam['id'];
+
 	$snapshot_info =
-		$teams_P_page_tallyboard->get_info_from_latest_snapshot( $curTeam['id'] );
+		$teams_P_page_tallyboard->get_info_from_latest_snapshot($team_id);
 
 	$lastupdated = date("n/d/Y h:i:s A T", ($snapshot_info['timestamp']-1));
 
 	$prevRank = $snapshot_info['tally_rank'];
 
-	$mbrCountRank = team_get_member_count_rank( $curTeam['id'] );
+	$mbrCountRank = team_get_member_count_rank($team_id);
 
-	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
+	$pageCountRank = team_get_page_tally_rank($team_id);
 
 	list($bestDayCount, $bestDayTimestamp) =
-		team_get_largest_page_tally_increment_info($curTeam['id']);
+		team_get_largest_page_tally_increment_info($team_id);
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
