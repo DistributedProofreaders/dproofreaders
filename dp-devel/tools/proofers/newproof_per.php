@@ -7,6 +7,9 @@ include_once($relPath.'project_states.inc');
 ?>
 <style type="text/css">
 <!--
+.purple {
+        background-color:#9933CC;
+}
 .orange {
         background-color: #FF9900;
 }
@@ -43,6 +46,20 @@ theme("Personal Page for $pguser", "header");
         $pagesproofed =  isset($_GET['numofpages'])?$_GET['numofpages']:0;
 
         echo '<br>';
+
+	// Unread messages
+
+        if ($pagesproofed <= 100) {
+
+	    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
+    		$numofPMs = mysql_fetch_row($result);
+		if ($numofPMs > 0) {
+			echo "<br><br><font color='red' size=2>";
+			echo _("You have received a private message in your Inbox! This could be from somebody sending you feedback on some of the pages you have proofed, earlier. We strongly reccommend you READ your messages. Near the upper right of this page there is a link that says "Inbox", just click on that. (After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there in the corner, and when you have new messages that will be shown in the link)");
+			echo "</font><br><br>\n";
+		}
+
+	}
 
         // Beginners Info
 
@@ -216,7 +233,9 @@ Legend for Special Books:
 <span class="richblue"> Authors with birthdays today </span>&nbsp;
 <br>
 <span class="yellow"> Children's Book Week </span>&nbsp;
-<span class="grey"> Native American Heritage Month </span>
+<span class="grey"> Native American Heritage Month </span>&nbsp;
+<br>
+<span class="purple"> Other Special </span>
 </b></font>
 </p>
 <br>
