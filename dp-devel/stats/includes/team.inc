@@ -40,16 +40,16 @@ function showTeamProfile($curTeam) {
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Created</b>: ";
 	echo date("m/d/Y", $curTeam['created']) . "&nbsp;($daysInExistence days)</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='"; 
-	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='"; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='";
 	echo $GLOBALS['code_url'] . "/stats/members/mdetail.php?id=" . $curTeam['owner'] . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='"; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Total Pages</b>: ";
 	echo number_format($curTeam['page_count']) . "</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='"; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Description</b>: ";
 	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='"; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>Website</b>: <a href='";
 	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>Forums</b>: <a href='";
 	echo $GLOBALS['forums_url'] . "/viewtopic.php?t=" . $curTeam['topic_id'] . "'>Team Discussion</a> (Last Post: $last_post_date)</font></td></tr>";
@@ -60,7 +60,7 @@ function showTeamStats($curTeam) {
 	global $theme;
 
 	$result = mysql_query("SELECT MAX(date_updated) FROM user_teams_stats");
-	$lastupdated = date("n/d/Y h:i:s A T", mysql_result($result,0,0));
+	$lastupdated = date("n/d/Y h:i:s A T", (mysql_result($result,0,0)-1));
 
 	$result = mysql_query("SELECT rank FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY date_updated DESC LIMIT 1");
 	$prevRank = mysql_result($result, 0, "rank");
@@ -91,7 +91,7 @@ function showTeamStats($curTeam) {
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>Members <i>(Rank)</i></td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['member_count']) . "</b>&nbsp;<i>(#$mbrCountRank)</i></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\""; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>Current Members</td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['active_members']) . "</b></td></tr>";
@@ -99,7 +99,7 @@ function showTeamStats($curTeam) {
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>Retired Members</td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\""; 
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>Total Pages <i>(Rank)</i><font size='2'></font></td>";
 	echo "<td width='40%'><b>" . number_format($curTeam['page_count']) . "</b>&nbsp;<i>(#$pageCountRank)</i>";
@@ -159,14 +159,14 @@ function showTeamMbrs($curTeam) {
 	$totalAnonUsers = 0;
 	$totalPagesAnonUsers = 0;
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
-		if (!empty($curMbr['u_privacy'])) 
-		{ 
-			$totalAnonUsers++; 
+		if (!empty($curMbr['u_privacy']))
+		{
+			$totalAnonUsers++;
 			$totalPagesAnonUsers += number_format($curMbr['pagescompleted']);
-		} 
-		else 
-		{ 
-			$username = $curMbr['username']; 
+		}
+		else
+		{
+			$username = $curMbr['username'];
 			echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"" . $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg']."\"'>";
 			echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'] . "'>$username</a></td>";
 			echo "<td width='35%'>" . number_format($curMbr['pagescompleted']) . "</td>";

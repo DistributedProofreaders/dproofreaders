@@ -22,7 +22,7 @@ if ($range != "all") {
 $i = 0;
 while ($row = mysql_fetch_assoc($result)) {
 	$datay[$i] = $row['daily_page_count'];
-        $datax[$i] = date("n/j/Y", $row['date_updated']);
+        $datax[$i] = date("n/j/Y", ($row['date_updated']-86400));
         $i++;
 }
 $graph = new Graph(600,300,"auto",180);
