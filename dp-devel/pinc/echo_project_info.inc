@@ -10,12 +10,10 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	echo "<table border=1 width=630>";
 
-	$result = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
-	$nameofwork = mysql_result($result, 0, "nameofwork");
-	$authorsname = mysql_result($result, 0, "authorsname");
-	$comments = mysql_result($result, 0, "comments");
-	$username = mysql_result($result, 0, "username");
-	$topic_id = mysql_result($result, 0, "topic_id");
+	$project = mysql_fetch_assoc(mysql_query("
+	    SELECT * FROM projects WHERE projectid = '$projectid'
+	"));
+
 	$phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
 	$user_id = mysql_result($phpuser, 0, "user_id");
 
@@ -35,18 +33,16 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 
 	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Title")."</b></td>";
-	echo "<td colspan=4>$nameofwork</td></tr>";
+	echo "<td colspan=4>{$project['nameofwork']}</td></tr>";
 	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Author")."</b></td>";
-	echo "<td colspan=4>$authorsname</td></tr>";
+	echo "<td colspan=4>{$project['authorsname']}</td></tr>";
 	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Project Manager")."</b></td>";
-	echo "<td colspan=4>$username</td></tr>";
+	echo "<td colspan=4>{$project['username']}</td></tr>";
 
 	if ($proofstate == 'proj_post')
 	{
-		$postproofer = mysql_result($result, 0, "postproofer");
-
 		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Post Proofer")."</b></td>";
-		echo "<td colspan=4>$postproofer</td></tr>";
+		echo "<td colspan=4>{$project['postproofer']}</td></tr>";
 	}
 
 	if ($proofstate != 'proj_post')
@@ -66,6 +62,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		echo "<td colspan=4>$lastproofed</td></tr>";
 	}
 
+	$topic_id = $project['topic_id'];
 	if (!empty($topic_id)) {
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
@@ -86,19 +83,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		$postcomments = mysql_result($result, 0, "postcomments");
-		$scannercredit = mysql_result($result, 0, "scannercredit");
-		$clearance = mysql_result($result, 0, "clearance");
-
 		//Look up realnames for project manager, scanner and post processor for credit line
 
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '$username'");
+		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['username']}'");
 		$managercredit = mysql_result($result, 0, "real_name");
 
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '$scannercredit'");
+		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['scannercredit']}'");
 		$scannercredit = mysql_result($result, 0, "real_name");
 
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '$postproofer'");                                       
+		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['postproofer']}'");                                       
 		$postproofername = mysql_result($result, 0, "real_name");     
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
@@ -106,10 +99,10 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Credits line so far</b></td>";
 		echo "<td colspan=4>$creditline</td></tr>";
 		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Clearance Line:</b></td>";
-		echo "<td colspan=4>$clearance</td></tr>";
+		echo "<td colspan=4>{$project['clearance']}</td></tr>";
 
 		echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
-		echo "$postcomments</td></tr>";
+		echo "{$project['postcomments']}</td></tr>";
 	}
 	else
 	{
@@ -122,6 +115,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		}
 	}
 
+	$comments = $project['comments'];
 	$template_count = substr_count($comments, "[template=");
 	if (!empty($template_count)) {
 		$i = 1;
