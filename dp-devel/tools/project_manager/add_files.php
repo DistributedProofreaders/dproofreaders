@@ -38,7 +38,9 @@ if ($source_project_dir != $dest_project_dir)
 }
 
 echo "\n";
-echo "adding text from each text-file to the $projectid table...\n";
+echo "For each text file in\n";
+echo "    $source_project_dir\n";
+echo "adding a row to the $projectid table...\n";
 foreach ( glob("$source_project_dir/*.txt") as $txt_file_path )
 {
 	// basename() corrupts its first argument!
