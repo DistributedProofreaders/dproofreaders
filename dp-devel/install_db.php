@@ -1,5 +1,5 @@
 <?
-//Declare variables
+//Declare all variables
 $db_schema = "db_schema.sql";
 $db_host = "localhost";
 $db_user = "username";
