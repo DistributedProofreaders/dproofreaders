@@ -187,60 +187,75 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
         WHERE pagescompleted > 0 OR username='$username'
         ORDER BY pagescompleted DESC
     ");
-    $i = 0;
-    $latest_page_tally = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
-    while ($row = mysql_fetch_assoc($result))
+
+    $num_rows = mysql_num_rows($result);
+    
+    // First, run through the results,
+    // looking for the row that contains the target user.
+    $target_user_i = NULL;
+    for ($i = 0; $i < $num_rows; $i++)
     {
-        if ($row['username'] == $username)
+        $row = mysql_fetch_row($result);
+        if ( $row[0] == $username )
         {
-            $userindex = $i;
+            $target_user_i = $i;
+            break;
         }
-
-        if ($row['pagescompleted'] == $latest_page_tally)
-        {
-            $rankArray['rank'][$i] = $rankArray['rank'][$i - 1];
-        }
-        else
-        {
-            $rankArray['rank'][$i] = $i+1;
-        }
-
-        if ($consider_privacy && $row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $username)
-        {
-            $rankArray['username'][$i] = _("Anonymous");
-        }
-        else
-        {
-            $rankArray['username'][$i] = $row['username'];
-        }
-        $rankArray['pages'][$i] = $row['pagescompleted'];
-        $latest_page_tally = $row['pagescompleted'];
-        $i++;
     }
 
-    if (!isset($userindex))
+    if ( is_null($target_user_i) )
     {
         // The target user does not appear in the 'users' table.
         // This shouldn't ever happen.
         die( "User '$username' does not appear in the 'users' table." );
     }
 
-    $max_current_rank = $rankArray['rank'][$i-1];
+    // Now, go through the results again
+    // (calculating page-tally rank as you go),
+    // and when you get to the neighborhood of the target user,
+    // save the results in the $neighbors array.
 
+    mysql_data_seek( $result, 0 );
 
     $neighbors = array();
-
-    for ( $rel_posn = -$radius; $rel_posn <= $radius; $rel_posn++ )
+    $i = 0;
+    $latest_page_tally = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
+    $latest_rank = NULL;
+    while ($row = mysql_fetch_assoc($result))
     {
-        $j = $userindex + $rel_posn;
-        if (!isset($rankArray['username'][$j])) { continue; }
-        $neighbors[$rel_posn] =&
-            new PageTally_Neighbor(
-                $rankArray['username'][$j],
-                $rankArray['pages'][$j],
-                $rankArray['rank'][$j]
-            );
+        if ($row['pagescompleted'] != $latest_page_tally)
+        {
+            $latest_page_tally = $row['pagescompleted'];
+            $latest_rank = $i+1;
+        }
+
+        if ( abs( $i - $target_user_i ) <= $radius )
+        {
+            // We're in the neighborhood of the target user.
+
+            $rel_posn = $i - $target_user_i;
+
+            if ($consider_privacy && $row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $username)
+            {
+                $neighbor_username = _("Anonymous");
+            }
+            else
+            {
+                $neighbor_username = $row['username'];
+            }
+
+            $neighbors[$rel_posn] =&
+                new PageTally_Neighbor(
+                    $neighbor_username,
+                    $row['pagescompleted'],
+                    $latest_rank
+                );
+        }
+
+        $i++;
     }
+
+    $max_current_rank = $latest_rank;
 
     return array( $neighbors, $max_current_rank );
 }
