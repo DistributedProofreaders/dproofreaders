@@ -321,12 +321,26 @@ include_once($relPath.'maybe_mail.inc');
         // On each line with non-blank content,
         // embed that content in an <l> element.
         // replace indentation with an attribute-value pair
-        $s1 = preg_replace( '/(\n)([^ ].*) *(\r)/', '\1<l>\2</l>\3', $s );
-        $s2 = preg_replace( '/(\n)( *)([^ ].*) *(\r)/e', '\1<l rend="indent(' . strlen('\2') . ')">\2\3</l>\4', $s );
-        if ($s==$s1) {$s=$s2;} else {$s=$s1;}
+
+        $s = preg_replace_callback(
+            '/(\n)( *)([^ ].*) *(\r)/',
+            'mark_up_poetry_line',
+            $s );
 
         // And mark the whole thing as poetry.
         return "\r\n\r\n<!-- poem -->$s<!-- poem -->\r\n\r\n";
+    }
+
+    function mark_up_poetry_line($m)
+    {
+        $nl     = $m[1];
+        $indent = $m[2];
+        $words  = $m[3];
+        $cr     = $m[4];
+
+        $i = strlen($indent);
+        $attr = ( $i > 0 ? " rend='indent($i)'" : "" );
+        return "$nl<l$attr>$words</l>$cr";
     }
 
     function startswith( $subject, $prefix )
