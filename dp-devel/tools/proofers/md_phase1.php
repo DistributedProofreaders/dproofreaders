@@ -13,6 +13,12 @@ $badmetadata = 0;
 
 theme("Image Metadata Phase1", "header");
 
+if (!$metadata)
+{
+	echo 'md_phase1.php: $metadata is false, so exiting.';
+	exit();
+}
+
 
 if (isset($_POST['done']))
 {

@@ -6,6 +6,12 @@ include_once($relPath.'c_pages.inc');
 include($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
 
+if (!$metadata)
+{
+	echo 'md_phase2.php: $metadata is false, so exiting.';
+	exit();
+}
+
 // get cookie
 //$tpage=new processpage();
 //$npage=$tpage->getPageCookie();

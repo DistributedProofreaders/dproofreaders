@@ -14,6 +14,11 @@ include_once($relPath.'bookpages.inc');
 
 theme("Image Metadata Collection", "header");
 
+if (!$metadata)
+{
+	echo 'md_available.php: $metadata is false, so exiting.';
+	exit();
+}
 
 //Phase 1 table----------------------------------------------------------------------------------
 
