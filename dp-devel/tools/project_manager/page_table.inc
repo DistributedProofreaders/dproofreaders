@@ -420,7 +420,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		if (
 			$round_num == 1 &&
 			$page_state == $prd->page_save_state &&
-			($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='FIRST')
+			($project_phase=='FIRST')
 			||
 			$round_num == 2 &&
 			$page_state == $prd->page_save_state &&
