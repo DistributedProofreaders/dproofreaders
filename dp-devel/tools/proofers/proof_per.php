@@ -28,6 +28,11 @@ theme("Personal Page for $pguser", "header");
         	$yourprojects = mysql_result($result,0);
 ?>
 
+<font face="<? echo $theme['font_mainbody']; ?>"><b>Providing Content</b></font><br>
+Want to help out the site by providing material for us to proof?
+<a href="<? echo $code_url ?>/faq/scan/submitting.php">Find out how!</a>
+<br><br>
+
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Post Processing</b></font><br>
 After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the <a href ="<? echo $code_url ?>/tools/post_proofers/post_proofers.php">post processing</a> phase of Distributed Proofreaders!  Currently there are <b><? echo $numprojects; ?></b> projects waiting.
 
@@ -37,10 +42,6 @@ echo "<br><br>";
 }
 ?>
 
-<font face="<? echo $theme['font_mainbody']; ?>"><b>Providing Content</b></font><br>
-Want to help out the site by providing material for us to proof?
-<a href="<? echo $code_url ?>/faq/scan/submitting.php">Find out how!</a>
-<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Random Rule</b></font><br>
 
