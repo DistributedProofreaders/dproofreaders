@@ -15,7 +15,9 @@ $filename = "$dynstats_dir/stats.php.lock";
 if (file_exists($filename)) {
     //lock file exists, exit
     print "stats.php is already running! lock file
-$dynstats_dir/stats.php.lock exists";
+$dynstats_dir/stats.php.lock exists\n";
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+                       VALUES ('stats.php', ".time().", 'FAIL', 'didn\'t run, lock file found')");
     exit;
 } else { //no lock so proceed with stats run
 $handle = fopen ($filename, "w");
