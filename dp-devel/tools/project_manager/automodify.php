@@ -260,12 +260,18 @@ function pages_indicate_bad_project( $projectid, $round )
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
 
+        if ($verbose) echo "Found project to promote = $project<BR>";
+
+        $error_msg = project_transition( $project, PROJ_PROOF_SECOND_AVAILABLE );
+        if ($error_msg)
+        {
+            echo "$error_msg<br>\n";
+	    return;
+        }
+
         $timestamp = time();
         $updatefile = mysql_query("UPDATE $project SET state = '".AVAIL_SECOND."', round2_time = '$timestamp'");
 
-        if ($verbose) echo "Found project to promote = $project<BR>";
-
-        $updatefile = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_SECOND_AVAILABLE."' WHERE projectid = '$project'");
     }
 
     // Completed Level
