@@ -5,6 +5,7 @@ include_once($relPath.'projectinfo.inc');
 include_once($relPath.'page_states.inc');
 $projectinfo = new projectinfo();
 include_once('projectmgr_select.inc');
+include_once($relPath.'f_project_states.inc');
 
     echo "<title>Project Managers Page</title>";
 
@@ -160,7 +161,8 @@ include_once('projectmgr_select.inc');
                 echo "<table border=1>\n";
 
                 echo "<tr bgcolor=\"CCCCCC\"><td width=4>Index</td><td>Image</td><td>Round 2 Text</td><td>Date Uploaded</td><td>Round 2 Proofed By</td><td>Round 1 Text</td><td>Round 1 Proofed By</td><td>Master Text</td>";
-                if ($state < 20) echo "<td>Delete</td>";
+                $inRound=projectStateRound($state);
+                if ($inRound=='NEW' || $inRound=='PR' || $inRound='FIRST' || $inRound=='SECOND') echo "<td>Delete</td>";
                 echo "<td>Bad Page</td></tr>\n";
 
                 $counter = 1;
