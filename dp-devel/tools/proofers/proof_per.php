@@ -14,15 +14,13 @@ include($relPath.'showavailablebooks.inc');
     echo" <td width = \"1\" bgcolor = \"CCCCCC\">&nbsp</td><td>";
     echo" <b>Site Stats:</b><br>";
     include("../../stats/hourly.txt");
-    echo" <p><b>Your Stats:<br></b>";
+
     //get total pages completed
     $pagessql = "SELECT pagescompleted FROM users WHERE username = '$pguser' LIMIT 1";
     $pages = mysql_query($pagessql);
     $totalpages = mysql_result($pages, 0, "pagescompleted");
-    echo "Your Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
 
     //get rank
-
     if ($totalpages >= 0) {
         $yourrank = 1;
     }
@@ -52,11 +50,14 @@ include($relPath.'showavailablebooks.inc');
     $rankresult = mysql_query($ranksql);
     $currentrank = mysql_result($rankresult, 0, "rankname");
 
-    echo "Your Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
-
     //get total number of users
     $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
     $totalusers = (mysql_result($users,0,"numusers"));
+    echo "<br>Total users who completed at least 1 page: <b> $totalusers</b>";
+
+    echo" <p><b>Your Stats:<br></b>";
+    echo "Your Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
+    echo "Your Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
 
     $pagessql = "SELECT username, pagescompleted FROM users ORDER BY pagescompleted DESC";
     $pages = mysql_query($pagessql);
@@ -87,9 +88,7 @@ if ($userP['i_prefs']==1)
 {echo "<a href=\"../../userprefs.php\">View</a>";}
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
-echo "</b><br>";
-
-    echo "Total users who completed at least 1 page:<font color=\"#0000FF\"><b> $totalusers</b></font><br><P>";
+echo "</b><P>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {
