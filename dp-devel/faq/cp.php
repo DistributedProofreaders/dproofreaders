@@ -153,7 +153,7 @@ plus though.<br>
 </p>
 <p>There is a large list of possible scan source sites in the Content
 Providers Forum under the topic <a class="maintitle"
- href="<? echo $forums_url ?>/viewtopic.php?p=18049#18049&amp;start=0&amp;postdays=0&amp;postorder=asc&amp;highlight=">"Online sources of scanned book images"</a></p>
+ href="<? echo $forums_url ?>/viewtopic.php?p=18049#18049">"Online sources of scanned book images"</a></p>
 Please follow the individual site guidelines regarding acceptable use
 and protocol. We don't want to be bad neighbors.<br>
 If you <i>do</i> go this route, is considered good form to credit the
