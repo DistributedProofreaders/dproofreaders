@@ -1,7 +1,7 @@
 <?
-echo "<META NAME=\"ROBOTS\" CONTENT=\"NOARCHIVE\">";
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'http_headers.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
