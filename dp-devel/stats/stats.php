@@ -19,20 +19,37 @@ if (!file_exists($stats_inc_path)) {
 $today = getdate();
 $midnight = mktime(0,0,0,$today['mon'],$today['mday'],$today['year']);
 
-//limit to looking at projects modified
-//after 1 Jan 2003 as older projects have a
-//different table structure
+//limit to looking at projects which do not have
+//the archive flag set to 1 in order to limit run time
 $allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0'");
 $numProjects = mysql_num_rows($allProjects);
 
 while ($i < $numProjects) {
-	$projectID = mysql_result($allProjects, $i, "projectid");
-	$result = mysql_query("SELECT COUNT(*) FROM $projectID WHERE state='save_first' AND round1_time >= $midnight OR state='save_second' AND round2_time >= $midnight");
-	$row = mysql_fetch_row($result);
-	$dailyPages = $dailyPages+$row[0];
-	$i++;
+        $projectID = mysql_result($allProjects, $i, "projectid");
+
+        $result1 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE         
+           round1_time >= $midnight AND  
+           (state='save_first' OR state LIKE '%_second%')");   
+             
+        
+        $result2 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE
+           state='save_second' AND round2_time >= $midnight");
+           
+        $row1 = mysql_fetch_row($result1);
+        $pages1 = $row1[0];
+        
+        $row2 = mysql_fetch_row($result2);
+        $pages2 = $row2[0];
+        
+        $rows = $pages1+$pages2;
+        
+        $dailyPages = $dailyPages+$rows;
+        $i++;
 }
 $dailyPages = number_format($dailyPages);
+
+//echo result so we know cron job is working and to avoid timeout
+echo "Daily pages: $dailyPages";
 
 $monthlyPages = mysql_query("SELECT SUM(pages) FROM pagestats WHERE month=".$today['mon']." AND year=".$today['year']."");
 $row = mysql_fetch_row($monthlyPages);
