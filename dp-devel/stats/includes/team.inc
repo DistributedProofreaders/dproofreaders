@@ -95,6 +95,21 @@ function showTeamProfile($curTeam) {
 	echo "</table><p>";
 }
 
+function team_get_member_count_rank( $team_id )
+{
+	$result = mysql_query("
+		SELECT id
+		FROM user_teams
+		WHERE id != 1
+		ORDER BY member_count DESC
+	");
+	$i = 1;
+	while ( list($id) = mysql_fetch_row($result) ) {
+		if ($id == $team_id) { return $i; }
+		$i++;
+	}
+}
+
 function showTeamStats($curTeam) {
 	global $theme;
 	global $teams_P_page_tallyboard;
@@ -106,12 +121,7 @@ function showTeamStats($curTeam) {
 
 	$prevRank = $snapshot_info['tally_rank'];
 
-	$result = mysql_query("SELECT id FROM user_teams WHERE id != 1 ORDER BY member_count DESC");
-	$i = 1;
-	while ($row = mysql_fetch_assoc($result)) {
-        	if ($row['id'] == $curTeam['id']) { $mbrCountRank = $i; break; }
-		$i++;
-	}
+	$mbrCountRank = team_get_member_count_rank( $curTeam['id'] );
 
 	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
 
