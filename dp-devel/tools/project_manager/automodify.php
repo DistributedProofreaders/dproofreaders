@@ -126,8 +126,6 @@ $allprojects = mysql_query("
 
 $pagesleft = 0;
 
-$todaysdate = time();
-
 while ( $project = mysql_fetch_assoc($allprojects) ) {
     $have_echoed_blurb_for_this_project = 0;
 
@@ -344,7 +342,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     // Completed Level
     if ($state == PROJ_PROOF_SECOND_COMPLETE) {
-        sendtopost($projectid, $username, $todaysdate);
+        sendtopost($projectid, $username);
     }
 }
 
