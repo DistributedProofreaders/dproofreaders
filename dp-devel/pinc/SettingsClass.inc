@@ -92,10 +92,10 @@ class Settings
             WHERE u.username = '$this->username'";
 
         $result = mysql_query($sql);
+        // To know whether we've populated fields from 'users' table yet:
+        $isUserVals = false;
         while ($row = mysql_fetch_assoc($result))
         {
-            // to know whether we've populated user table fields yet.
-            static $isUserVals = false;
             // get the onesies from the first row
             // yes, this is more efficient than two separate queries.
             if(!$isUserVals)
