@@ -7,6 +7,20 @@ $db_Connection=new dbConnect();
 
 $stats_inc_path="$dynstats_dir/stats.inc";
 
+
+//define lock file name
+$filename = "$dynstats_dir/stats.php.lock";
+
+//test for lock
+if (file_exists($filename)) {
+    //lock file exists, exit
+    print "stats.php is already running! lock file
+$dynstats_dir/stats.php.lock exists";
+    exit;
+} else { //no lock so proceed with stats run
+$handle = fopen ($filename, "w");
+fclose($handle);
+
 if (!file_exists($stats_inc_path)) {
 	touch($stats_inc_path);
 	$statsfile = fopen($stats_inc_path, "w");
@@ -75,6 +89,9 @@ while ($i < count($lines)) {
 	$i++;
 	}
 	fclose($statsfile);
+//delete lock file
+unlink ($filename);
 
+}
 ?>
 
