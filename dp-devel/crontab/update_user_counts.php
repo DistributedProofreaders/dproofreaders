@@ -1,5 +1,5 @@
 <?php
-$relPath="./pinc/";
+$relPath='./../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
