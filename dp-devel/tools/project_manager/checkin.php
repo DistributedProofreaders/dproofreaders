@@ -19,15 +19,32 @@ include($relPath.'project_edit.inc');
     $inRound=projectStateRound($projstate);
 
     if (($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST') && ($pagestate == SAVE_FIRST)) {
-        $result = mysql_query("UPDATE $project SET round1_text = '', round1_user = '', round1_time = '', state = '".AVAIL_FIRST."' WHERE fileid = '$fileid'");
-        metarefresh(0, "projectmgr.php?project=$project", "Page Checked In (1)", "");
+	$round_number = 1;
+	$text_field_name = 'round1_text';
+	$user_field_name = 'round1_user';
+	$time_field_name = 'round1_time';
+	$new_state = AVAIL_FIRST;
 
     } else if (($inRound=='SECOND') && ($pagestate == SAVE_SECOND)) {
-        $result = mysql_query("UPDATE $project SET round2_text = '', round2_user = '', round2_time = '', state = '".AVAIL_SECOND."' WHERE fileid = '$fileid'");
-        metarefresh(0, "projectmgr.php?project=$project", "Page Checked In (2)", "");
+	$round_number = 2;
+	$text_field_name = 'round2_text';
+	$user_field_name = 'round2_user';
+	$time_field_name = 'round2_time';
+	$new_state = AVAIL_SECOND;
 
     } else {
         print "File can not be checked back in due to the project not currently being available or available in a different state. Go <a href=\"projectmgr.php?project=$project\">back</a>.";
+	exit;
     }
+
+    $result = mysql_query("
+	UPDATE $project
+	SET $text_field_name='',
+	    $user_field_name='',
+	    $time_field_name='',
+	    state='$new_state'
+	WHERE fileid = '$fileid'
+    ");
+    metarefresh(0, "projectmgr.php?project=$project", "Page Checked In ($round_number)", "");
 ?>
 
