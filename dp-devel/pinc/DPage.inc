@@ -137,8 +137,22 @@ function project_add_page(
     global $writeBIGtable;
 
     $image_file_name_e = addslashes( $image_file_name );
-    $txt_file_path_e = addslashes( $txt_file_path );
-    $txt_expr = "LOAD_FILE('$txt_file_path_e')";
+
+    $have_file_privilege = TRUE;
+    if ($have_file_privilege)
+    {
+        $txt_file_path_e = addslashes( $txt_file_path );
+        $txt_expr = "LOAD_FILE('$txt_file_path_e')";
+    }
+    else
+    {
+        $txt = file_get_contents( $txt_file_path );
+        if ( $txt === FALSE )
+        {
+            return "Unable to read file '$txt_file_path'";
+        }
+        $txt_expr = "'" . addslashes($txt) . "'";
+    }
 
     $prd = get_PRD_for_round(1);
     $page_state = $prd->page_avail_state;
