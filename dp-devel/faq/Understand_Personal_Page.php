@@ -10,7 +10,7 @@ theme('Understanding Your Personal Page','header');
 
 <style type="text/css">
 <!--
-body {margin:10%; text-align:justify}
+body {margin-left:10%; margin-right:10%; text-align:justify}
 h1,h2,h3,h4,h5,h6 {color:#A82C28}
 -->
 </style>
