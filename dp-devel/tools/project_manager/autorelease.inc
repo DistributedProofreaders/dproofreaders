@@ -109,7 +109,7 @@ function autorelease()
 			// Always have a certain number of projects in first round
 			'projtype_desc' => "EASY English",
 			'projtype_sql'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
-			'release_criterion' => "projects1 < {$GLOBALS['easy_projects']}",
+			'release_criterion' => "projects1 < {$GLOBALS['easy_projects']} or pages1 < 500",
 		),
 		array(
 			// Non-English Projects
