@@ -7,24 +7,26 @@
 # FUNCTIONS:
 #  Fixes common scannos.
 #  Removes end-of-line hyphenation and joins words.
+#  The @nojoin (dehyphenation exclusion list) is now functional.
 #  Marks "last line last word" hypen with asterisk.
 #  Removes start/end-of-line spaces.
-#  Collapses doublespaces.
+#  Collapses multiple adjacent spaces.
 #  Inserts "[Blank Page]" text into zero-byte files.
 #  Supports "strip lines with TEXT" using -s TEXT commandline
 #  Scanno correction is OFF by default, enable with -c
 #
-# BUGS: (and caveats)
-#  Doesn't check de-hyphenated words for scannos.
-#  The @nojoin (exclusion list) is broken at the moment.
+# BUGS:
+#  Doesn't check de-hyphenated words for scannos. (not a big deal)
 #  Assumes DOS-style CRLF for rewriting line endings. 
 #  Does not (YET) check words with punctuation for scannos.
 #  De-hyphenation does NOT work on texts which scanned as doublespaced lines
-#  Assumes ALL *.txt files in current directory are to be processed, should set.
+#  Data should eventually be moved into separate files for ease of maintenance
 #  Script needs to be in the path, or called with explicit pathing.
+#
+# CAVEATS:
 #  Probably shouldn't be used on text that isn't primarily English.
 #  The strip text switch and following text MUST be last on the command line
-#  Data should eventually be moved into spearate files for ease of maintenance
+#  Assumes ALL *.txt files in current directory are to be processed, should set.
 # ==============================================================================
 
 eval 'exec /usr/bin/perl -S $0 ${1+"$@"}'
@@ -48,6 +50,7 @@ my $current_dir = ".";
 my @files;
 my @nojoin;
 my $size = 0;
+my $notjoined = 0;
 
 while ($ARGV[0] =~ /^-/) {
     $_ = shift;
@@ -94,20 +97,50 @@ use strict;
     $corrections{$typo} = $fix;
   }
 
-# Enhanced: List of hypenated words that should NOT be de-hyphenated when at
-# the end of a line. (common compound words, first half)
+# ==============================================================================
+# List of hypenated words that should NOT be de-hyphenated when at
+# the end of a line. (common compound words and hyphenated prefixes, first half)
 # Lazy, this really should be using "dictionary" files instead of inlined data
+# NEW LIST: Frequency analyzed from the Moby Project data, top 300 or so in the
+# categories: descriptive, animal, body, colors, directions, emotions, numerics,
+# places, plants, true hyphenated prefixes, times, and weather. Objects and
+# verbs were excluded due to low frequencies.
 
-@nojoin = ("a ", "above ", "air ", "all ", "anti ", "arch ", "awe ", "before ", "blood ", "blue ", "broken ", "cap ", "cat ",
- "church ", "coffee ", "counter ", "country ", "dark ", "death ", "deep ", "dining ", "dinner ", "dull ", "dumb ", "eight ",
- "eighty ", "eight ", "even ", "ever ", "evil ", "extra ", "far ", "fellow ", "ferry ", "fifth ", "fifty ", "fire ", "first ",
- "five ","fore ", "forty ", "four ", "fourth ", "full ", "gentle ", "go ", "good ", "grand ", "gray ", "green ", "grey ", "half ", 
- "hand ", "hard ", "head ", "heart ", "hiding ", "home ", "house ", "hundred ", "hundredth ", "ill ", "kind ", "land ", "light ", 
- "long ", "low ", "main ", "much ", "never ", "new ", "night ", "nine ", "ninety ", "ninth ", "non ", "oft ", "oil ", "one ", "out ", "over ", 
- "play ", "pocket ", "pre ", "quarter ", "round ", "second ", "self ", "seven ", "seventh ", "seventy ", "six ", "sixth ", 
- "sixty ", "slow ", "soul ", "street ", "strong ", "sub ", "supper ", "table ", "tea ", "ten ", "tenth ", "third ", "thirty ", 
- "thorn ", "three ", "top ", "true ", "twenty ", "two ", "watch ", "water ", "well ", "west ", "wheel ", "white ", "wide ", "wild "
+@nojoin = ( "afore", "after", "age", "air", "all", "alpha", "anti", "arch", "arm", "auto", 
+"baby", "back", "belly", "beta", "bird", "black", "blood", "blue", "brain", 
+"bright", "broad", "brow", "brown", "buck", "bull", "care", "chicken", "child", 
+"clear", "close", "cloud", "cold", "contra", "corn", "count", "counter",
+"country", "court", "cow", "cross", "crow", "day", "dead", "deep", "demi", "dim", 
+"dog", "double", "down", "dream", "dry", "dull", "ear", "east", "eight",
+"eighty", "end", "equal", "eve", "ever", "extra", "eye", "false", "far", 
+"father", "fear", "feather", "field", "fifty", "fire", "first", "fish", 
+"five", "flat", "flower", "fly", "foot", "for", "fore", "forty", "four", 
+"fourth", "free", "front", "frost", "full", "gay", "gold", "golden", "good", 
+"goose", "grass", "gray", "great", "green", "grey", "ground", "hair", "half", 
+"hand", "hard", "head", "heart", "heat", "heaven", "high", "hog", "home", 
+"horse", "hot", "house", "hundred", "hyper", "ice", "ill", "inter", "intra", 
+"ivory", "joy", "land", "large", "last", "late", "left", "life", "light", 
+"lion", "long", "love", "low", "many", "mean", "merry", "meta", "middle", 
+"mill", "mind", "moon", "morning", "mother", "mouse", "multi", "multiple", 
+"near", "neo", "never", "new", "nigh", "night", "nine", "ninety", "non", 
+"north", "nose", "off", "old", "one", "open", "out", "over", "pale", "pan", 
+"par", "passion", "pear", "pearl", "pleasant", "pleasure", "plum", "point", 
+"post", "pro", "proto", "proud", "pseudo", "public", "purple", "quarter", 
+"quasi", "quick", "rain", "red", "rib", "right", "river", "road", "rock", 
+"rose", "rough", "round", "rude", "sad", "sand", "scar", "scare", "sea", 
+"second", "self", "semi", "seven", "seventy", "sharp", "short", "side", "silk", 
+"silver", "single", "six", "sixty", "skin", "sky", "slow", "small", "smooth", 
+"snake", "snow", "sober", "soft", "sole", "son", "soon", "sorrow", "soul", 
+"south", "spider", "spring", "square", "stag", "star", "state", "stern", "stone", 
+"storm", "straight", "sub", "sugar", "summer", "sun", "super", "supra", "swan", 
+"sweet", "tempest", "ten", "tender", "terror", "thick", "thin", "third", 
+"thirty", "thought", "thousand", "three", "thrice", "through", "thunder", "time", 
+"toad", "tongue", "top", "town", "tree", "tri", "triple", "true", "twelve", 
+"twenty", "twice", "two", "ultra", "under", "vice", "violet", "wall", "water", 
+"well", "west", "white", "wide", "wind", "wing", "winter", "wish", "woe", "wolf", 
+"wonder", "wood", "world", "worm", "wry", "year", "yellow"
 );
+# ==============================================================================
 
 # Get a list of all txt files in the current directory
   opendir(DIR, $current_dir);
@@ -140,10 +173,11 @@ use strict;
     $totalerrors += $errors;
     $totalhyphen += $hyphen;			# Running totals
   }
-  print REPORT "\nTOTALS: Scannos: $totalerrors EOL Hyphens: $totalhyphen\n";
+  print REPORT "\nTOTALS: Scannos: $totalerrors EOL Hyphens: $totalhyphen Hyphens not joined: $notjoined\n";
   close REPORT;
 
 # END OF MAIN
+# ==============================================================================
 
 # This subroutine performs all the magical happy stuff :)
 sub process_file {
@@ -161,7 +195,7 @@ LINE:   while (<OLDFILE>) {
 	my $tmpline = "";				# Modified line
 	my $tmphyphen = "";				# Fragment holder
 	$org_line = $_;					# Save original line
-	my @wlist;
+	my $word;
 
 	if (($sflag) && (/$striptext/)) {		# If we're stripping and match
 	    print REPORT "Stripping line $. : $_";	# Say so and move along
@@ -177,15 +211,14 @@ LINE:   while (<OLDFILE>) {
 	    $tmphyphen = ( split /\s/, $_) [-1];	# Get last word of line
 	    $tmphyphen =~ s/(\r|\n)//g;			# and strip its line termination
 	    $tmphyphen =~ s/-$//;			# Get the non-hyphen part
-	    $j = grep { / $tmphyphen/ } @nojoin;	# See if there's a match
+	    $tmphyphen =~ s/\(|\)|\{|\}|\[|\]|\///g;	# Ugly hack to drop perl quoting chars
 
-	    # Note that the nojoin exclusion stuff is not working but regular dehyphenation is
-	    
+	    $j = grep ( /^${tmphyphen}$/ , @nojoin);	# See if there's a match
 	    if (not $j) {				# If string NOT in nojoin list
 		$_ =~ s/-$//;				# Remove the hypen
 	    } else {
-	    $_ = $_ . "-";				# Put it back.
-	    print REPORT "Not joining hyphenated $tmphyphen at line $.\n";
+		print REPORT "Not joining \"$tmphyphen-\" at line $.\n";
+		$notjoined++;
 	    }
 	    $hyphen++;					# Count EOL hyphens
 	}
@@ -196,7 +229,7 @@ LINE:   while (<OLDFILE>) {
         if ($cflag) {
 	    # If replacement exists and not on 1st word of line after hypen, fix.
 	    if (($corrections{$_}) && not ($i == 1) && not ($hflag)) {
-	        $errors += 1;				# Track errors in page.
+	        $errors++;				# Track errors in page.
 	        $eflag=1;				# Set flag if errors.
 	        print REPORT "Correcting \"$_\" to \"$corrections{$_}\" at line $.\n";
 	    }
@@ -209,7 +242,9 @@ LINE:   while (<OLDFILE>) {
 	    if (($i == 1) && ($pflag)) { $tmpline = $tmpline . "\r\n"; $pflag=0; }
         } else {
 	# Not doing corrections
-	$tmpline = $tmpline . $_ ;
+	    # Drop in the newline after a dehyphenated fragment and clear the flag
+	    if (($i == 1) && ($pflag)) { $tmpline = $tmpline . $_ . "\r\n"; $pflag=0; }
+	    else { $tmpline = $tmpline . $_ ; }
 	}
     }
 
@@ -224,7 +259,6 @@ LINE:   while (<OLDFILE>) {
     # (Because we removed them, and this is the end of a page!)
     print NEWFILE "-*\r\n" if ($hflag);
 }
-
 
 # =============================================================================
 # Following this is the scanno correction pairs list:
