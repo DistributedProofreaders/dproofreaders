@@ -38,7 +38,7 @@ $db_Connection=new dbConnect();
 		    $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
 		    $email = mysql_result($userresult, 0, "email");
 			
-		    echo $PPinQuestion . "\n" . $displayprojectslist ."<br><br>\n\n";
+		    echo $PPinQuestion . "<br>\n" . $displayprojectslist ."<br><br>\n\n";
 
 		    if ($numprojs == 1) {
 			$message = "This is an automated message.\n\n
@@ -63,6 +63,7 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 
 
 		    $projectslist = "";
+		    $displayprojectslist = "";
 		    $numprojs = 0;
  	    }
 	    $PPinQuestion = $checkedoutby;
@@ -70,11 +71,11 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 
 	$numprojs++;
 	
-	$projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n";
+	$projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n\n";
         if (numprojs == 1) {
-		$subject = "Distributed Proofreaders: $nameofwork checked out over 90 days";
+		$subject = "Distributed Proofreaders: $nameofwork checked out for PPnig over 90 days";
 	} else {
-		$subject = "Distributed Proofreaders: $numprojs projects checked out over 90 days";
+		$subject = "Distributed Proofreaders: $numprojs projects checked out for PPing over 90 days";
 	}	
 
 	$displayprojectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n". "<br>";
