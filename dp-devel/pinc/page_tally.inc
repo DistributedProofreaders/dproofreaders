@@ -182,7 +182,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
     // with the possible exception of the target user.
 
     $result = mysql_query("
-        SELECT username, date_created, pagescompleted, u_privacy
+        SELECT username, date_created, u_id, pagescompleted, u_privacy
         FROM users
         WHERE pagescompleted > 0 OR username='$username'
         ORDER BY pagescompleted DESC
@@ -250,6 +250,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
                 new PageTally_Neighbor(
                     $neighbor_username,
                     $neighbor_date_joined,
+                    $row['u_id'],
                     $row['pagescompleted'],
                     $latest_rank
                 );
@@ -265,16 +266,18 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $username, $date_joined, $current_page_tally, $current_page_tally_rank )
+    function PageTally_Neighbor( $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
     {
         $this->username = $username;
         $this->date_joined = $date_joined;
+        $this->u_id = $u_id;
         $this->current_page_tally = $current_page_tally;
         $this->current_page_tally_rank = $current_page_tally_rank;
     }
 
     function get_username()                { return $this->username; }
     function get_date_joined()             { return $this->date_joined; }
+    function get_u_id()                    { return $this->u_id; }
     function get_current_page_tally()      { return $this->current_page_tally; }
     function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
 }
