@@ -76,13 +76,14 @@ include_once('filter_proof_list.inc');
 
 // determine filter for projects
 
-// read filters (actual and display) from usersettings here
+// read filters (actual and display) from user_filters here
 
-$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'");
+
+$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_internal'");
 if (mysql_num_rows($result) >= 1) {
 	$RFilter = mysql_result($result, 0, "value");
 }
-$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'");
+$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_display'");
 if (mysql_num_rows($result) >= 1) {
 	$display_filter = mysql_result($result, 0, "value");
 }
@@ -195,19 +196,19 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	//no rows affected isn't reliable
 
 	$query = "
-		DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'
+		DELETE FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_internal'
 		";
 	$result = mysql_query($query);
 	$query = "
-		DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'
+		DELETE FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_display'
 		";
 	$result = mysql_query($query);
 
-	$query = "INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '".addslashes($RFilter)."')";
+	$query = "INSERT INTO user_filters (username, filtertype, value) VALUES ('$pguser', 'proof_internal', '".addslashes($RFilter)."')";
 	$result = mysql_query($query);
 
 	$query = "
-		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'display_filter', '"
+		INSERT INTO user_filters (username, filtertype, value) VALUES ('$pguser', 'proof_display', '"
 		.$display_filter."')
 		";
 	$result = mysql_query($query);
