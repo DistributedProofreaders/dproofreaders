@@ -152,6 +152,12 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                                 $bgcolor = " bgcolor='#0099FF'";
                         }
 
+	               // middle grey for Black History Month (and Slave Narratives - temp)
+                        if ( startswith( $book['comments'], 'SPECIAL: BHM' ) or
+				($book['username'] == 'papeters' and $book['authorsname'] == 'Work Projects Administration' ))
+                        {
+                                $bgcolor = " bgcolor='#D6D600'";
+                        }
 			
 
 		}
