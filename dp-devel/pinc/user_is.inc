@@ -22,7 +22,7 @@ function user_is_taskcenter_mgr() {
 
 	if (!isset($userP)) { return FALSE; }
 
-	if (user_is_a_site_manager()) return TRUE;
+	if (user_is_a_sitemanager()) return TRUE;
 
 	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'task_center_mgr'");
 	if (mysql_num_rows($result) >= 1) {
