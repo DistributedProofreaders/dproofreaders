@@ -3,6 +3,7 @@ $relPath='./../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include('statestats.inc');
+include_once($relPath.'gettext_setup.inc');
 $db_Connection=new dbConnect();
 
 
