@@ -48,7 +48,6 @@ echo "<html><head><title> User Preferences</title></head><body>";
 $result=mysql_query("SELECT * FROM users WHERE id='$uid' AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
-$pagescompleted = mysql_result($result,0,"pagescompleted");
 
 echo "<form action='userprefs.php' method='post'>";
 echo "<center>Preferences Page for $pguser</center><br><br>";
