@@ -106,6 +106,14 @@ $one_project = isset($_GET['project'])?$_GET['project']:0;
 if ($one_project) {
     $verbose = 0;
     $condition = "projectid = '$one_project'";
+
+    // log tracetimes
+    $tracetime = time();
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for single proj $one_project')");
+
+
+
 } else {
     $verbose = 1;
     $condition = "
@@ -117,6 +125,13 @@ if ($one_project) {
         OR state = '".PROJ_PROOF_SECOND_VERIFY."'
         OR state = '".PROJ_PROOF_SECOND_COMPLETE."'
     ";
+
+    // log tracetimes
+    $tracetime = time();
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for all eligible projects')");
+
+
 }
 $allprojects = mysql_query("
     SELECT projectid, state, username, nameofwork
@@ -360,10 +375,30 @@ echo "</pre>\n";
 
 if (!$one_project)
 {
+    // log tracetimes
+    $tracetimea = time();
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('automodify.php', $tracetimea, 'MIDDLE', 'pre autorelease')");
+
     autorelease();
+
+    // log tracetimes
+    $tracetimea = time();
+    $tooktime = $tracetimea = $tracetime;
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('automodify.php', $tracetimea, 'END', 'post autorelease, started at $tracetime, took $tooktime seconds')");
+
 }
 else
 {
+
+    // log tracetimes
+    $tracetimea = time();
+    $tooktime = $tracetimea = $tracetime;
+    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('automodify.php', $tracetimea, 'END', 'end single, started at $tracetime, took $tooktime seconds')");
+
+
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 }
 
