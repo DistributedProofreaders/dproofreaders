@@ -12,6 +12,10 @@ echo "<br>\n";
 
 echo "<h3>Projects with Genre = 'Art'</h3>\n";
 
+echo "<br><br>If there are many projects with a common or similar Title or Author that are all going to the same genre,
+suitable for a mass database change, feel free to lodge a Site Admin request 
+at the <a href='http://www.pgdp.net/c/tasks.php'>Task Page</a>.<br><br>";
+
 dpsql_dump_query("
 	SELECT
 		username as PM, nameofwork as Title, authorsname as Author , projectid 
