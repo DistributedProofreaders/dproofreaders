@@ -18,7 +18,7 @@ theme("Personal Page for $pguser", "header");
 	// Beginners Info
 
 	if ($pagesproofed <= 40) {
-		echo "<font face=" . $theme['font_mainbody'] ." size=3 "><b>";
+		echo "<font face=" . $theme['font_mainbody'] ." size=3><b>";
 		echo _("Welcome"); 
 		echo "</b></font><br><br><font face=" . $theme['font_mainbody'] .">";
 		echo _("Please see our");
