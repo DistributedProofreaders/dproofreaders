@@ -179,15 +179,23 @@ function escapeStringEntities($text)
 
 // --------------------------------------------
 
+// Because we have PHP configured with magic_quotes_gpc on,
+// anything we pull out of $_POST will automatically have
+// each single-quote, double-quote, and backslash
+// preceeded by an extra backslash.
+// We don't want these extra backslashes here,
+// so we apply stripslashes to anything (textual) we get from $_POST.
+
+
 function spellcheck_quit()
 {
-	$text_data = $_POST['text_data'];
-	return str_replace( "[lf]", "\r\n", stripslashes($text_data) );
+	$text_data = stripslashes($_POST['text_data']);
+	return str_replace( "[lf]", "\r\n", $text_data );
 }
 
 function spellcheck_apply_corrections()
 {
-	$text_data = $_POST['text_data'];
+	$text_data = stripslashes($_POST['text_data']);
 
 	// were there any corrections?
 	$spell_count=isset($_POST['sptotal'])?$_POST['sptotal']:0;
