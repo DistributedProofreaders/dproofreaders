@@ -86,7 +86,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 
 			if ( startswith( $book['comments'], 'SPECIAL:' ) )
 			{
-				$bgcolor = " bgcolor='#9966CC'";
+				$bgcolor = " bgcolor='#FFFF66'";
 			}
 
 			// Halloween colors for Halloween projects!

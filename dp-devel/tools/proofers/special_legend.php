@@ -9,6 +9,6 @@ Legend for Special Books:
 <span class="richblue"> Authors with birthdays today </span>&nbsp;
 <br>
 <span class="orange"> Halloween </span>&nbsp;
-<span class="purple"> Other Special </span>
+<span class="fadedyellow"> Other Special </span>
 </b>
 

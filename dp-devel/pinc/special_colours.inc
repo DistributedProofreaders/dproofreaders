@@ -4,6 +4,9 @@
 .purple {
         background-color:#9966CC;
 }
+.fadedyellow {
+        background-color:#FFFF66;
+}
 .orange {
         background-color: #FF9900;
 }
