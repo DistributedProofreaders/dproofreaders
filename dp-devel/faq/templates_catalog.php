@@ -90,12 +90,11 @@ include('../pinc/templates/comment_files/wrrn.txt');
 <!-- cedron.html info -->		
 
 <!-- This code was made by cedron -->
-<a name="cedrlayout"></a> <strong>LAYOUT</strong> 
+<a name="cedrlayout">cedron's</a> <strong>LAYOUT</strong> 
 <p>
 <HR><blockquote>
 <font COLOR="#000099" SIZE="+1">Project vitals : </font> 
-&nbsp;&nbsp;&nbsp;&nbsp;Publication Date: 1000 &nbsp;&nbsp; Author Lifespan: 
-1000-1000
+&nbsp;&nbsp;&nbsp;&nbsp;Publication Date: 1000 &nbsp;&nbsp; Author Lifespan: 1000-1000
 </blockquote>
 
 <HR><blockquote>
@@ -132,33 +131,28 @@ By ~AUTHOR~ </font><br><br>
 <br>
 <br>
 <br>
-<strong>CODE</strong> <a name="cedrcode"></a>
+<a name="cedrcode">cedron's</a> <strong>CODE</strong>
 <p>
 &lt;p&gt;<br>
 &lt;HR&gt;&lt;blockquote&gt;<br>
-&lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Project 
-vitals : &lt;/font&gt; 
+&lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Project vitals : &lt;/font&gt; 
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<br>
 &lt;/blockquote&gt;
 <p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Deviations 
-from the 
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Deviations from the 
   standard Proofing Guidelines :&lt;/font&gt;&amp;nbsp;&amp;nbsp; <br>
   &lt;/blockquote&gt;</p>
 <p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Difficulty 
-details 
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Difficulty details 
   :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
   &lt;/blockquote&gt;</p>
 <p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;What to 
-watch for 
+  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;What to watch for 
   :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
   &lt;/blockquote&gt;</p>
 <p>&lt;HR&gt;&lt;br&gt;</p>
 <p>&lt;blockquote&gt;</p>
-<p>&lt;font COLOR=&quot;#9C9C63&quot; SIZE=&quot;+2&quot;&gt;&lt;b&gt; 
-~TITLE~ 
+<p>&lt;font COLOR=&quot;#9C9C63&quot; SIZE=&quot;+2&quot;&gt;&lt;b&gt; ~TITLE~ 
   &lt;/b&gt;&lt;br&gt;<br>
   By ~AUTHOR~ &lt;/font&gt;&lt;br&gt;&lt;br&gt;<br>
   &lt;b&gt; ~PUBLISHER, CITY, DATE~ 
@@ -169,13 +163,13 @@ watch for
 
 
 
-
+<br><hr><br>		
 
 
 <!-- cgehring.html info -->		
 
 <!-- This code was made by cgehring -->
-<a name="cgehlayout"></a> <strong>LAYOUT</strong> 
+<a name="cgehlayout">cgehring's</a> <strong>LAYOUT</strong> 
 <center>
   <table width="100%" table bgcolor="#FFFFFF" border="1" 
 bordercolor="#111111" cellspacing="0" cellpadding="2">
@@ -287,13 +281,11 @@ HALF IN THE SECOND COLUMN.*****
 <br>
 <br>
 <br>
-<strong>CODE</strong> <a name="cgehcode"></a>
+<a name="cgehcode">cgehring's</a><strong>CODE</strong> 
   <p align="left">&lt;!-- This code was made by cgehring --&gt;<br>
     &lt;center&gt;<br>
-    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; 
-border=&quot;1&quot; 
-    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; 
-cellpadding=&quot;2&quot;&gt;<br>
+    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; border=&quot;1&quot; 
+    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;<br>
     &lt;tr&gt;<br>
     &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
     &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>
@@ -304,32 +296,26 @@ cellpadding=&quot;2&quot;&gt;<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Special Instructions:<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
     *****PUT YOUR SPECIAL INSTRUCTIONS HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Notes:<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
     *****PUT ANY NOTES TO THE PROOFERS HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Copyright Information:<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
     *****PUT COPYRIGHT AND PRINTING INFORMATION HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
@@ -343,57 +329,41 @@ valign=top&gt;<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Date of Birth:<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
     *****PUT BIRTHDATE AND PLACE HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Date of Death:<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
     *****PUT DEATHDATE AND PLACE HERE*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left 
-valign=top&gt;<br>
+    &lt;td bgcolor=&quot;#e0e8dd&quot; width=&quot;160&quot; align=left valign=top&gt;<br>
     Biography:<br>
     &lt;br&gt;&lt;br&gt;<br>
-    &lt;img src=&quot;http://*****PUT THE URL OF THE ARTISTS PICTURE 
-HERE. I RECOMEND 
-    UPLOADING IT WITH YOUR OTHER PNG FILES AND CALLING IT SOMETHING 
-DESCRIPTIVE, 
-    LIKE BIO.PNG *BE SURE THAT WHATEVER YOU CALL IT, YOU DO NOT HAVE A 
-TEXT FILE 
-    THAT IS TITLED THE SAME!* THAT MEANS THAT IF YOU CALL THE PNG 
-BIO.PNG, DO 
-    NOT UPLOAD A TEXT FILE NAMED BIO.TXT*****&quot; 
-width=&quot;150&quot;&gt;<br>
+    &lt;img src=&quot;http://*****PUT THE URL OF THE ARTISTS PICTURE HERE. I RECOMEND 
+    UPLOADING IT WITH YOUR OTHER PNG FILES AND CALLING IT SOMETHING DESCRIPTIVE, 
+    LIKE BIO.PNG *BE SURE THAT WHATEVER YOU CALL IT, YOU DO NOT HAVE A TEXT FILE 
+    THAT IS TITLED THE SAME!* THAT MEANS THAT IF YOU CALL THE PNG BIO.PNG, DO 
+    NOT UPLOAD A TEXT FILE NAMED BIO.TXT*****&quot; width=&quot;150&quot;&gt;<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left 
-valign=top&gt;<br>
-    *****PUT BIOGRAPHICAL INFORMATION HERE. I SUGGEST USING GOOGLE TO 
-FIND INFORMATION. 
-    SOMETIMES THE JACKET COVER OF THE BOOK WILL HAVE A SHORT BIO AS 
-WELL. REMEMBER, 
-    THE BOOK MAY HAVE BEEN PRINTED BEFORE THE AUTHOR DIED, SO PAY 
-SPECIAL ATTENTION 
+    &lt;td bgcolor=&quot;#FFFFFF&quot; width=&quot;*&quot; align=left valign=top&gt;<br>
+    *****PUT BIOGRAPHICAL INFORMATION HERE. I SUGGEST USING GOOGLE TO FIND INFORMATION. 
+    SOMETIMES THE JACKET COVER OF THE BOOK WILL HAVE A SHORT BIO AS WELL. REMEMBER, 
+    THE BOOK MAY HAVE BEEN PRINTED BEFORE THE AUTHOR DIED, SO PAY SPECIAL ATTENTION 
     TO THAT.*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;/table&gt;<br>
-    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; 
-border=&quot;1&quot; 
-    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; 
-cellpadding=&quot;2&quot;&gt; 
+    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; border=&quot;1&quot; 
+    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt; 
     <br>
     &lt;tr&gt;<br>
     &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
@@ -405,28 +375,25 @@ cellpadding=&quot;2&quot;&gt;
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;tr&gt;<br>
-    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top 
-width=&quot;50%&quot;&gt;<br>
-    *****PUT OTHER BOOKS BY THE AUTHOR IN PG HERE. AT THE END OF EACH 
-TITLE, PUT 
+    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top width=&quot;50%&quot;&gt;<br>
+    *****PUT OTHER BOOKS BY THE AUTHOR IN PG HERE. AT THE END OF EACH TITLE, PUT 
     THE &amp;lt;br&amp;gt; TAG.<br>
     EXAMPLE:<br>
     BOOK BY THE AUTHOR&lt;br&gt;<br>
     ANOTHER BOOK&lt;br&gt;<br>
     PUT HALF OF THE TITLES HERE,<br>
     &lt;/td&gt;<br>
-    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top 
-width=&quot;50%&quot;&gt;<br>
-    AND THE OTHER HALF OF THE TITLES HERE. I SUGGEST PUTTING THEM IN 
-ALPHABETICAL 
-    ORDER WITH THE FIRST HALF IN THE FIRST COLUMN, AND THE SECOND HALF 
-IN THE 
+    &lt;td bgcolor=&quot;FFFFFF&quot; align=left valign=top width=&quot;50%&quot;&gt;<br>
+    AND THE OTHER HALF OF THE TITLES HERE. I SUGGEST PUTTING THEM IN ALPHABETICAL 
+    ORDER WITH THE FIRST HALF IN THE FIRST COLUMN, AND THE SECOND HALF IN THE 
     SECOND COLUMN.*****<br>
     &lt;/td&gt;<br>
     &lt;/tr&gt;<br>
     &lt;/table&gt;<br>
     &lt;/center&gt; </p>
 </center> 
+<br>
+<br>
 <?
 theme('','footer');
 ?>
