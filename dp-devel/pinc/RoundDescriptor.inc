@@ -3,7 +3,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
 
-define('MAX_NUM_PAGE_EDITING_ROUNDS', 2);
+define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
 
 // -----------------------------------------------------------------------------
 
@@ -262,7 +262,33 @@ $P2 = new ProofingRoundDescriptor(
     array( 'P1' )
 );
 
-// Although $P1 and $P2 are variables, they should be treated as constants.
+$F1 = new ProofingRoundDescriptor(
+    'F1',
+    _('Formatting Round 1'),
+    400,
+    FALSE,
+    _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
+    array(
+        0 => '#FFE4B5', // mocassin
+        1 => '#FFF8DC', // cornsilk
+    ),
+    array()
+);
+
+$F2 = new ProofingRoundDescriptor(
+    'F2',
+    _('Formatting Round 2'),
+    NULL,
+    TRUE,
+    _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
+    array(
+        0 => '#DDA0DD', // plum
+        1 => '#D8BFD8', // thistle
+    ),
+    array( 'F1' )
+);
+
+// Although $P1, $P2, etc are variables, they should be treated as constants.
 
 // ---------------------------
 

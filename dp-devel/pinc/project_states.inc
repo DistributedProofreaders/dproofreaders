@@ -222,10 +222,12 @@ if ($site_supports_metadata)
 
 
 // PROOF
-
 declare_project_states_for_round( 'P1', _('Proofreading Round 1') );
-
 declare_project_states_for_round( 'P2', _('Proofreading Round 2') );
+
+// FORMAT
+declare_project_states_for_round( 'F1', _('Formatting Round 1') );
+declare_project_states_for_round( 'F2', _('Formatting Round 2') );
 
 
 // POST
