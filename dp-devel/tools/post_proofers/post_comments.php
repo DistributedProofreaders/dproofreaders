@@ -33,7 +33,9 @@ echo "<ul>\n";
 echo "<li>";
 echo "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>";
 echo _("View Images Online");
-echo "</a>\n";
+echo "</a>";
+echo "</li>";
+echo "\n";
 
 function echo_download_zip( $projectid, $link_text, $discriminator )
 {
@@ -48,6 +50,7 @@ function echo_download_zip( $projectid, $link_text, $discriminator )
     echo $link_text;
     echo "</a>";
     echo " ($filesize_kb kb)";
+    echo "</li>";
     echo "\n";
 }
 
