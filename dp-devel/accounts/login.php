@@ -3,6 +3,7 @@ $relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'connect.inc');
+$db_Connection=new dbConnect();
 include_once($relPath.'user.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
@@ -47,7 +48,6 @@ if ($userPW == '')
 }
 
 // $userNM = str_replace("\'", "''", $userNM);
-
 $userC=new db_udb();
 
 $uC=$userC->checkLogin($userNM,$userPW);
