@@ -5,9 +5,10 @@ include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 
-theme("For Mentors", "header");
 
-echo "<br><br><h2>For Mentors</h2><br>\n";
+theme(_("For Mentors"), "header");
+
+echo "<br><br><h2>"._("For Mentors")."</h2><br>\n";
 
 echo "<br>\n";
 
@@ -15,7 +16,8 @@ echo "<br>\n";
 // MENTORS ONLY books available in Round 2
 
 
-echo "<h3>Currently Available MENTORS ONLY projects</h3><br><br>\n";
+echo "<h3>"._("Currently Available MENTORS ONLY projects")."</h3><br><br>\n";
+echo _("Listed oldest first, so please start at the top")."<br><br>\n";
 
 $result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects WHERE difficulty = 'beginner' AND (
 			state='".PROJ_PROOF_SECOND_AVAILABLE."' || state='".PROJ_PROOF_SECOND_VERIFY."')
