@@ -92,6 +92,7 @@ dpsql_dump_ranked_query("
 		sum(pages) as 'Pages Proofed',
 		sum(dailygoal) as 'Monthly Goal'
 	FROM pagestats
+	WHERE  ( year < YEAR(NOW())  OR (year = YEAR(NOW()) AND month <= MONTH(NOW())))
 	GROUP BY year, month
 	ORDER BY 'Pages Proofed' DESC");
 
