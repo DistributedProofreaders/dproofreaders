@@ -66,7 +66,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_a( _("Post Proofer"), $project['postproofer'] );
+		echo_row_a( _("Post Processor"), $project['postproofer'] );
 
 		$managercredit   = get_real_name( $project['username'] );
 		$scannercredit   = get_real_name( $project['scannercredit'] );
