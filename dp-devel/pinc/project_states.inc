@@ -40,9 +40,26 @@
   define("COMPLETE_PI_FIRST","done_1");
   define("COMPLETE_PI_SECOND","done_2");
 
-  define("AVAIL_PP", "62");
+// PP
+  define("UNAVAIL_PP", "60");
+  define("AVAIL_PP", "61");
+//  define("AVAIL_PP", "62");  this is not the same as db
   define("IN_PP", "65");
-  define("VERIFY_PP", "67");
+
+  define("VERIFY_PP", "67"); // this is not in db 
+
   define("VERIFYING_PP", "68");
   define("COMPLETE_PP", "69");
+
+// GB
+  define("UNAVAIL_GB", "70");
+  define("AVAIL_GB", "71");
+  define("POSTING_GB", "75");
+  define("POSTED_GB", "79");
+
+// for the 'deletion' of a project
+  define("DELETE_PROJECT", "99");
+
+// for complete project
+  define("COMPLETED_PROJECT", "100");
 ?>

@@ -1,10 +1,14 @@
 <?PHP
+  include_once('project_states.inc');
+
 /*
   PR=Pre Processing
   PP=Post Processing
   PI=Proofing (In/Interface/Interval)
 */
-  include('project_states.inc');
+
+  define("NEW_PROJECT_TEXT", "New Project");
+
 // PI
 
   // unavailable
@@ -28,28 +32,27 @@
   define("VERIFY_PI_SECOND_TEXT","Verify Second Round");
 
   // proofing round complete and verified
-  define("SAVE_PI_FIRST_TEXT","Completed First Round");
-  define("SAVE_PI_SECOND_TEXT","Completed Second Round");
+  define("COMPLETE_PI_FIRST_TEXT","Completed First Round");
+  define("COMPLETE_PI_SECOND_TEXT","Completed Second Round");
 
+// PP
+  define("UNAVAIL_PP_TEXT", "Available for Post-Processing");
   define("AVAIL_PP_TEXT", "Available for Post-Processing");
   define("IN_PP_TEXT", "In Post-Processing");
   define("VERIFY_PP_TEXT", "Verify Post-Processing");
   define("VERIFYING_PP_TEXT", "Verifying Post-Processing");
   define("COMPLETE_PP_TEXT", "Completed Post-Processing");
 
-  function project_states_text($state) {
-    switch($state) {
-      case AVAIL_PP:
-         return AVAIL_PP_TEXT;
-      case IN_PP:
-         return IN_PP_TEXT;
-      case VERIFY_PP:
-         return VERIFY_PP_TEXT;
-      case VERIFYING_PP:
-         return VERIFYING_PP_TEXT;
-      case COMPLETE_PP:
-         return COMPLETE_PP_TEXT;
-    }
-    return "";
-  }
+
+// GB
+  define("UNAVAIL_GB_TEXT", "Unavailable for Posting");
+  define("AVAIL_GB_TEXT", "Available for Posting");
+  define("POSTING_GB_TEXT", "Being Posted");
+  define("POSTED_GB_TEXT", "Posted to Project Gutenberg");
+
+// for the 'deletion' of a project
+  define("DELETE_PROJECT_TEXT", "Delete Project");
+
+// for complete project
+  define("COMPLETED_PROJECT_TEXT", "Project Complete");
 ?>
