@@ -7,13 +7,13 @@ $site_dir = '<<SITE_DIR>>';
 // installed (i.e., the directory that corresponds to 'dp-devel' in the CVS
 // repository -- it should contain directories such as 'pinc' and 'tools').
 
-$siteurl='';
+$siteurl=''; // <<SITE_URL>>
 // This is the HTTP URL that resolves to the directory described above.
 
-$projects_dir = "$site_dir/projects";  // '<<PROJECTS_DIR>>';
-$projects_url = "$siteurl/projects";   // '<<PROJECTS_URL>>';
+$projects_dir = '<<PROJECTS_DIR>>';
+$projects_url = '<<PROJECTS_URL>>';
 
-$forums_url = "$siteurl/phpBB2"; // <<FORUMS_URL>>
+$forums_url = '<<FORUMS_URL>>';
 $reset_password_url = "$forums_url/profile.php?mode=sendpassword";
 
 $uploads_dir = '/home/dpscans'; // <<UPLOADS_DIR>>
