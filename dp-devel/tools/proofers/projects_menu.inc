@@ -9,7 +9,7 @@
 //     $top_menu
 //     $my_last_page_date
 //     $comments_last_modified
-//     $projectinfo
+//     $pages_are_available
 
 echo "<table border='1' width='630'><tr>";
 echo "<td width='126' bgcolor='CCCCCC' align='center'>";
@@ -29,7 +29,7 @@ $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>"
 
 echo "$setT";
 
-if ($projectinfo->availablepages == 0) {
+if (!$pages_are_available) {
 	echo _("Round Complete");
 } else if (($top_menu) && ($my_last_page_date < $comments_last_modified)) {
 	echo _("Start Link Below<br>Project Comments");
