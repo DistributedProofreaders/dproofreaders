@@ -3,8 +3,12 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 
 function project_transition( $projectid, $new_state )
-// Does not do any interface stuff.
-// Only output is for debugging.
+// Move the given project to the given state,
+// and perform any attendant processing.
+// If there are any problems, return a string containing an error message.
+// Otherwise, return an empty string.
+//
+// This function produces no output except for debugging messages.
 {
 	global $testing;
 	error_reporting(E_ALL);
@@ -246,7 +250,10 @@ function project_transition( $projectid, $new_state )
 	}
 
 
-	echo "settings = $settings<br>\n";
+	if ($testing)
+	{
+		echo "settings = $settings<br>\n";
+	}
 
 	$res = mysql_query("
 		UPDATE projects SET $settings WHERE projectid = '$projectid'
