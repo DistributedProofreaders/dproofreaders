@@ -55,23 +55,7 @@ $max_update = mysql_result($result,0,0);
 		}
 
 	//Update the page count rank for the previous day
-	$result = mysql_query("SELECT id, page_count FROM user_teams WHERE id != 1 ORDER BY page_count DESC");
-		$i = 1;
-		$rankArray = "";
-
-		while ($row = mysql_fetch_assoc($result)) {
-			$team_id = $row['id'];
-			if ($row['page_count'] == $lastcompleted) {
-				$rankArray[$team_id] = $lastrank;
-				$lastrank = $lastrank;
-    			} else {
-    				$rankArray[$team_id] = $i;
-    				$lastrank = $i;
-   			}
-    			$lastcompleted = $row['page_count'];
-    			if ($i == 1) { $lastrank = 1; }
-    			$i++;
-		}
+	$rankArray = teams_get_page_tally_ranks();
 
 	$result = mysql_query("SELECT id FROM user_teams");
 		while($row = mysql_fetch_assoc($result)) {

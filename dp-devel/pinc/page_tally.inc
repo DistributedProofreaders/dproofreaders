@@ -123,5 +123,41 @@ function team_get_page_tally_rank( $team_id )
     return NULL;
 }
 
+// -----------------------------------------------------------------------------
+
+function teams_get_page_tally_ranks()
+// Return an associative array that maps each team's id
+// to its rank (as determined by page tallies).
+{
+    $rankArray = "";
+
+    $result = mysql_query("
+        SELECT id, page_count
+        FROM user_teams
+        WHERE id != 1
+        ORDER BY page_count DESC
+    ");
+    $i = 1;
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $team_id = $row['id'];
+        if ($row['page_count'] == $lastcompleted)
+        {
+            $rankArray[$team_id] = $lastrank;
+            $lastrank = $lastrank;
+        }
+        else
+        {
+            $rankArray[$team_id] = $i;
+            $lastrank = $i;
+        }
+        $lastcompleted = $row['page_count'];
+        if ($i == 1) { $lastrank = 1; }
+        $i++;
+    }
+
+    return $rankArray;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
