@@ -1,7 +1,6 @@
 <?
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
-include($relPath.'pg.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -26,7 +25,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.7, generated August 14, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.7, generated August 22, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="guidelines_francaises.html">in French</a> /
@@ -112,7 +111,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#page_ref">Page References "(See Pg. 123)"</a></li>
         <li><a href="#bk_index">Indexes</a></li>
         <li><a href="#trail_s">Trailing Space at End-of-line</a></li>
-        <li><a href="#play_n">Play Actor Names/Stage Notes</a></li>
+        <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
       </ul>
     </td>
@@ -1522,7 +1521,10 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 <p>Surround tables with <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between these markers
    and the rest of the text. The markers will ensure the  individual lines are not rewrapped during
    post-processing. Format the table with spaces to look approximately like the original table.
-   Don't make the table wider than 70 characters. Do not use tabs for formatting&mdash;use space
+   Don't make the table wider than 75 characters. Project Gutenberg's guidelines go on to say
+   "...except where it can't be helped. Never, ever longer than 80...".
+</p>
+<p>Do not use tabs for formatting&mdash;use space
    characters only. Tab characters will line up differently between computers, and your careful
    formatting will not always display the same way.
 </p>
@@ -1536,6 +1538,79 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p><b>Footnotes</b> in tables should go at the end of the table. See <a href="#footnotes">footnotes</a> for details.
 </p>
+<!-- END RR -->
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Table Example 1">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="table1.png" alt="" width="500" height="142"><br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<pre>/*
+Deg. C.   Millimeters of Mercury.    Gasolene.
+               Pure Benzene.
+
+ -10&deg;               13.4                 43.5
+   0&deg;               26.6                 81.0
+ +10&deg;               46.6                132.0
+  20&deg;               76.3                203.0
+  40&deg;              182.0                301.8
+*/</pre>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Table Example 2">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<pre>/*
+TABLE II.
+
+-----------------------+----+-----+-------------------------+----+------
+                       | C  |     |                         |  C |
+Flat strips compared   | o  |     |                         |  o |
+with round wire 30 cm. | p  |Iron.|   Parallel wires 30 cm. |  p | Iron.
+in length.             | p  |     |      in length.         |  p |
+                       | e  |     |                         |  e |
+                       | r  |     |                         |  r |
+                       | .  |     |                         |  . |
+-----------------------+----+-----+-------------------------+----+------
+Wire 1 mm. diameter    | 20 | 100 | Wire 1 mm. diameter     | 20 |  100
+-----------------------+----+-----+-------------------------+----+------
+         STRIPS.       |    |     |          SINGLE WIRE.   |    |
+0.25 mm. thick, 2 mm.  |    |     |                         |    |
+  wide                 | 15 |  35 | 0.25 mm. diameter       | 16 |   48
+Same, 5 mm. wide       | 13 |  20 | Two  similar wires      | 12 |   30
+ "   10  "    "        | 11 |  15 | Four    "      "        |  9 |   18
+ "   20  "    "        | 10 |  14 | Eight   "      "        |  8 |   10
+ "   40  "    "        |  9 |  13 | Sixteen "      "        |  7 |    6
+Same strip rolled up in|    |     | Same 16 wires bound     |    |
+  the form of a wire   | 17 |  15 |   close together        | 18 |   12
+-----------------------+----+-----+-------------------------+----+------
+*/</pre>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 <h3><a name="block_qt">Block Quotations</a></h3>
 <p>Surround block quotations with <tt>/#</tt> and <tt>#/</tt> markers. Leave a blank line between these markers
@@ -2346,7 +2421,7 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
+  <li>Greek: <a href="http://gutenberg.net/howto/greek/">Greek HOWTO</a> (from
       Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
@@ -2357,7 +2432,7 @@ cedilla                      [,x]   [x,]
   <li>Hebrew and Arabic:
       Not recommended unless you are fluent. There are significant
       difficulties transliterating these languages and neither <a href="..">Distributed
-      Proofreaders</a> nor <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>
+      Proofreaders</a> nor <a href="http://www.gutenberg.net/">Project Gutenberg</a>
       have yet chosen a standard method.
   </li>
 </ul>
@@ -2481,43 +2556,151 @@ cedilla                      [,x]   [x,]
    removing extra spaces at the ends of lines.
 </p>
 
-<h3><a name="play_n">Play Actor Names/Stage Notes</a></h3>
-<p>Mark all actor names in italics if they are <a href="#italics">Italics</a> in the
-   original text, mark them as bold if they are <a href="#bold">bold</a> in the
-   original text.
+<h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
+<p>Proofread cast listings (Dramatis Person&aelig;) as <a href="#lists">lists</a>.<br>
+   Put four blank lines before the beginning of an Act.<br>
+   Put two blank lines before the beginning of each Scene.<br>
+   For dialogue, treat a change in speaker as a new paragraph, with one blank line between.
 </p>
-
-<p>For stage notes, format them as they are in the original text. Note that it is a convention
-   in many stage directions to begin with an opening square bracket, and to omit the closing
-   square bracket. This convention should be retained, do not close the brackets, <i>e.g.</i> proofread:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;[<i>Exit</i> OPHELIA.<br>
-   as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>[&lt;i&gt;Exit&lt;/i&gt; OPHELIA.</tt>
+<p>Proofread actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
+   <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.
+</p>
+<p>Stage directions are formatted as they are in the original text. If the stage direction on a line by
+   itself, proofread it that way; if it is at the end of a line of dialogue, leave it there.
+</p>
+<p>Stage directions often begin with an opening bracket and omit the closing bracket.
+   This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.
 </p>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
-   request that these items be formatted differently.
+   specify different formatting.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Actor Names">
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Play Example 1">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Scanned Text:</th></tr>
     <tr>
-      <td valign="top">
-	<p><i>Brun.</i> Why lookest thou so dejected?</p>
-	<p><i>Prot.</i> I want a little shift, Lady, nothing else.</p>
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="play1.png" width="500"
+          height="430" alt="title page image"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
-      <td valign="top">
-	<p><tt>&lt;i&gt;Brun.&lt;/i&gt; Why lookest thou so dejected?</tt></p>
-	<p><tt>&lt;i&gt;Prot.&lt;/i&gt; I want a little shift, Lady, nothing else.</tt></p>
+      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>
+Has not his name for nought, he will be trode upon:<br>
+What says my Printer now?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<br>
+You shall have perfect Books now in a twinkling.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; These marks are ugly.
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're proper:<br>
+Blows should have marks, or else they are nothing worth.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; But why a Peel-crow here?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<br>
+A scare-crow had been better.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; How slave? look you, Sir,<br>
+Did not I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this &lt;i&gt;Bob&lt;/i&gt;,<br>
+Should be both &lt;i&gt;Pica Roman&lt;/i&gt;.
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; So said I, Sir, both &lt;i&gt;Picked Romans&lt;/i&gt;,<br>
+And he has made 'em &lt;i&gt;Welch&lt;/i&gt; Bills,<br>
+Indeed I know not what to make on 'em.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, &lt;i&gt;Italica&lt;/i&gt;?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
+&lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.
+</tt></p>
+</td></tr></table>
       </td>
     </tr>
   </tbody>
 </table>
-<!--we still need better play guidelines-->
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Play Example 2">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="play2.png" width="500"
+          height="680" alt="title page image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>
+<br>
+CLIN. And do I hold thee, my Antiphila,<br>
+Thou only wish and comfort of my soul!<br>
+<br>
+SYRUS. In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<br>
+<br>
+<br>
+<br>
+<br>
+ACT THE THIRD.<br>
+<br>
+<br>
+SCENE I.<br>
+<br>
+<br>
+CHREM. 'Tis now just daybreak.--Why delay I then<br>
+To call my neighbor forth, and be the first<br>
+To tell him of his son's return?--The youth,<br>
+I understand, would fain not have it so.<br>
+But shall I, when I see this poor old man<br>
+Afflict himself so grievously, by silence<br>
+Rob him of such an unexpected joy,<br>
+When the discov'ry can not hurt the son?<br>
+No, I'll not do't; but far as in my pow'r<br>
+Assist the father. As my son, I see,<br>
+Ministers to th' occasions of his friend,<br>
+Associated in counsels, rank, and age,<br>
+So we old men should serve each other too.<br>
+<br>
+<br>
+SCENE II.<br>
+<br>
+&lt;i&gt;Enter&lt;/i&gt; MENEDEMUS.<br>
+<br>
+<br>
+MENE. (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
+Beyond the rest of humankind, or else<br>
+'Tis a false saying, though a common one,<br>
+"That time assuages grief." For ev'ry day<br>
+My sorrow for the absence of my son<br>
+Grows on my mind: the longer he's away,<br>
+The more impatiently I wish to see him,<br>
+The more pine after him.<br>
+<br>
+CHREM. But he's come forth. (&lt;i&gt;Seeing&lt;/i&gt; MENEDEMUS.)<br>
+Yonder he stands. I'll go and speak with him.<br>
+Good-morrow, neighbor! I have news for you;<br>
+Such news as you'll be overjoy'd to hear.
+</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While proofreading, if you encounter something that isn't covered in these guidelines that you
@@ -2548,8 +2731,7 @@ cedilla                      [,x]   [x,]
 </table>
 <br>
 
-<h2><a name="sp_copy"></a>
-    <a name="sp_ency"></a>
+<h2><a name="sp_ency"></a>
     <a name="sp_chem"></a>
     <a name="sp_math"></a>
     <a name="sp_poet"></a>
@@ -2722,7 +2904,7 @@ cedilla                      [,x]   [x,]
      &nbsp;&nbsp;&nbsp;
      <a href="faq_central.php">DP FAQ Central page</a>,
      &nbsp;&nbsp;&nbsp;
-     <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+     <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
      </font>
   </td>
 </tr>
