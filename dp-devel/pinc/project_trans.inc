@@ -25,8 +25,13 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		FROM projects
 		WHERE projectid = '$projectid'
 	");
+	if (mysql_num_rows($res) == 0)
+	{
+	    return "$projectid: no such project";
+	}
+
 	$project = mysql_fetch_array($res);
-    $current_state = $project['state'];
+	$current_state = $project['state'];
 
 	$transition_str = "$projectid: transition from $current_state to $new_state";
 	if ($testing)
