@@ -36,6 +36,7 @@ type="text" value="<?PHP
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
 
 echo_button(SET_IMAGE_ZOOM,'a');
+echo '&nbsp;';
 echo_button(SET_IMAGE_ACTUAL,'a');
 
 ?>&nbsp;<a href="#"

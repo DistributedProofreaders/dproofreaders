@@ -254,7 +254,7 @@ return false;
 function showActual()
 {
   docRef.editform.zmSize.value = cW/10;
-  showIZ();
+  return showIZ();
 }
 
 function loadImageSize()
@@ -385,7 +385,10 @@ function doBU()
 {
 chFFace(docRef.editform.fntFace.selectedIndex);
 chFSize(docRef.editform.fntSize.selectedIndex);
-if (frameRef.scanimage) {showIZ();}
+if (frameRef.scanimage) {
+    loadImageSize();
+    showIZ();
+  }
 }
 
 // a required var

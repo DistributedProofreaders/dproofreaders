@@ -167,7 +167,6 @@ function echo_button( $button_id, $which_interface )
 				'title'     => _("Zoom to Actual Size"),
 				'src'       => "gfx/bt18.png",
 				'onclick'   => "return(showActual());",
-                                'onload'    => "return(loadImageSize());",
 			);
 			break;
 
