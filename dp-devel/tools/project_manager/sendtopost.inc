@@ -55,14 +55,14 @@
 
         // Change state based on user's settings
         if ($send_to_post == "yes") {
-            $sql = "UPDATE projects SET state=20, modifieddate = '$todaysdate' WHERE projectid = '$project'";
+            $sql = "UPDATE projects SET state=61, modifieddate = '$todaysdate' WHERE projectid = '$project'";
             $result = mysql_query($sql);
             mail("$email", "DP: $nameofwork Sent To Post-Processing",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         } else {
-            $result = mysql_query("UPDATE projects SET state = 25, modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
+            $result = mysql_query("UPDATE projects SET state = 65, modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
             mail("$email", "DP: $nameofwork Ready For You To Post-Process",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",

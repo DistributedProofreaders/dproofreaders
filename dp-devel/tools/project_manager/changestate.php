@@ -32,7 +32,7 @@ include($relPath.'dp_main.inc');
     if (($sitemanager != 'yes') && ($pguser != $username)) {
         echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"charlz@lvcablemodem.com\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
-    } else if ($newstate == 42) {
+    } else if ($newstate == 99) {
         // Allows a user to delete a project as a last-case scenario
         if ($always == 'yes') {
             $sql = "DROP TABLE $projectid";
@@ -50,7 +50,7 @@ include($relPath.'dp_main.inc');
             echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
             print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
         }
-    } else if ($newstate == 30) {
+    } else if ($newstate == 79) {
         // Changing a state to "Posted to Project Gutenberg"
         $sql = mysql_query("UPDATE projects SET state = $newstate WHERE projectid = '$projectid'");
 	
@@ -82,16 +82,16 @@ if ($topic_id == "") {
 
         // TODO: Archive the project
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid\">";
-    } else if (($newstate == 0) || ($newstate == 10) || ($newstate == 25) || ($always == 'yes') ||
-        ($oldstate == 0) || ($oldstate == 1) || ($oldstate == 10) || ($oldstate == 25)) {
+    } else if (($newstate == 0) || ($newstate == 10) || ($newstate == 65) || ($always == 'yes') ||
+        ($oldstate == 0) || ($oldstate == 1) || ($oldstate == 10) || ($oldstate == 65)) {
 
         // The above are valid changes that can be made to a project
 
         $sql = mysql_query("UPDATE projects SET state = $newstate WHERE projectid = '$projectid'");
 
         if ($newstate == 1) $sql = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
-        if ($newstate == 20) $sql = mysql_query("UPDATE projects SET checkedoutby = '' WHERE projectid = '$projectid'");
-        if ($newstate == 25) $sql = mysql_query("UPDATE projects SET checkedoutby = '$pguser' WHERE projectid = '$projectid'");
+        if (($newstate == 61) || ($newstate == 60)) $sql = mysql_query("UPDATE projects SET checkedoutby = '' WHERE projectid = '$projectid'");
+        if ($newstate == 65) $sql = mysql_query("UPDATE projects SET checkedoutby = '$pguser' WHERE projectid = '$projectid'");
 
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 

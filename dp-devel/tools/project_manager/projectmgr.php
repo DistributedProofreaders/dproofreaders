@@ -238,10 +238,10 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
 <?
         $numrows = 0;
         if (($show == 'site') && ($sitemanager === 'yes')) {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != 30 ORDER BY state asc, nameofwork asc");
+            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != 79 ORDER BY state asc, nameofwork asc");
         } else if ($show == 'all') {
             $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
-        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state FROM projects WHERE state != 30 AND username = '$pguser' ORDER BY state asc, nameofwork asc");
+        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state FROM projects WHERE state != 79 AND username = '$pguser' ORDER BY state asc, nameofwork asc");
         if ($result != "") $numrows = (mysql_num_rows($result));
 
         $numstates = 0;
@@ -284,10 +284,10 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                 $s_name = mysql_result($state_names, $staterow, "name");
                 if ($id == $state) {
                     print "<option value=$id selected>$s_name\n";
-                } else if ($id == 42) {
+                } else if ($id == 99) {
                     print "<option value=$id>$s_name\n";
                 } else if ($state == 0) {
-                   if (($id == 1) || ($id == 30)) {
+                   if (($id == 1) || ($id == 79)) {
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 1) {
@@ -306,16 +306,24 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                     if (($id == 10) || ($id == 18)) {
                         print "<option value=$id>$s_name\n";
                     }
-                } else if ($state == 20) {
-                    if ($id == 25) {
+                } else if ($state == 60) {
+                    if (($id == 61) || ($id == 65)) {
                         print "<option value=$id>$s_name\n";
                     }
-                } else if ($state == 25) {
-                    if (($id == 20) || ($id == 29) || ($id == 30)) {
+                } else if ($state == 61) {
+                    if (($id == 60) || ($id == 65)) {
                         print "<option value=$id>$s_name\n";
                     }
-                } else if ($state == 29) {
-                    if ($id == 30) {
+                } else if ($state == 65) {
+                    if (($id == 60) || ($id == 68) || ($id == 69) || ($id == 79)) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 68) {
+                    if ($id == 69) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 69) {
+                    if ($id == 79) {
                         print "<option value=$id>$s_name\n";
                     }
                 }
@@ -325,8 +333,8 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
             echo "</select></form></td><td align=center>";
 
             print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
-            if (($state == 20) || ($state == 25)) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
-            if ($state == 29) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
+            if (($state >= 60) && ($state <= 65)) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
+            if (($state == 68) || ($state == 69)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
             echo "</td></tr>\n";
             //increment row number for background color change
             $rownum++;
