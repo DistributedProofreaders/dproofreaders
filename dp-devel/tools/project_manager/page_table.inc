@@ -398,7 +398,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			($inRound=='SECOND')
 		)
 		{
-			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=cleat'>"._("Clear")."</a></td>";
+			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
 		}
 		else
 		{
