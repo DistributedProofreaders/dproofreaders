@@ -16,7 +16,7 @@ system("date");
 echo "<BR>\n";
 echo "<hr>\n";
 
-if (1)
+if (0)
 {
     // For each possible project state, create a project in that state.
     include($relPath.'project_states.inc');
