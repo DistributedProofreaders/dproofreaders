@@ -13,7 +13,7 @@ $dbC=new dbConnect() or die ('Error: Unable to connect to database.');
 
     echo" <b>Site Stats:</b><br>";
 //    include("/home/charlz/hourly.txt");
-    include("/home/charlz/public_html/dproofreaders/stats/hourly.txt");  
+    include("stats/hourly.txt");  
   echo" <p><b>Your Stats:<br></b>";
 
     //get total pages completed
