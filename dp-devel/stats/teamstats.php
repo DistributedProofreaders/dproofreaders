@@ -3,6 +3,7 @@ $relPath='./../pinc/';
 include($relPath.'misc.inc');
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
+include($relPath.'page_tally.php');
 $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
