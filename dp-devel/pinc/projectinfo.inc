@@ -106,16 +106,35 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
         return 0;
     }
 
-    $res = mysql_query("SELECT COUNT(*) FROM $projectid WHERE state='$avail_state'");
+    return Project_getNumPagesInState( $projectid, $avail_state );
+}
+
+function Project_getNumPagesInState( $projectid, $page_state )
+{
+    $res = mysql_query("SELECT COUNT(*) FROM $projectid WHERE state='$page_state'");
     if (!$res)
     {
         echo mysql_error();
         return 0;
     }
 
-    list($num_available_pages) = mysql_fetch_row($res);
+    list($num_pages) = mysql_fetch_row($res);
 
-    return $num_available_pages;
+    return $num_pages;
+}
+
+function Project_getNumPages( $projectid )
+{
+    $res = mysql_query("SELECT COUNT(*) FROM $projectid");
+    if (!$res)
+    {
+        echo mysql_error();
+        return 0;
+    }
+
+    list($num_pages) = mysql_fetch_row($res);
+
+    return $num_pages;
 }
 
 // vim: sw=4 ts=4 expandtab
