@@ -16,7 +16,7 @@ theme("Personal Page for $pguser", "header");
 	$result = mysql_query("SELECT * FROM news ORDER BY uid DESC LIMIT 1");
 	$date_posted = date("l, F jS, Y", mysql_result($result,0,"date_posted"));
 	$message = mysql_result($result,0,"message");
-	echo "<font size=2 face=".$theme['font_mainbody']."><center><b>News Update for $date_posted (<a href='$siteurl/pastnews.php'>archives</a>)</b></font><br><br><font size=2 face=".$theme['font_mainbody'].">$message<hr width='75%'></center></font><br>";
+	echo "<font size=2 face=".$theme['font_mainbody']."><center><b>News Update for $date_posted (<a href='$code_url/pastnews.php'>archives</a>)</b></font><br><br><font size=2 face=".$theme['font_mainbody'].">$message<hr width='75%'></center></font><br>";
 	
 	// If Post Processor give link to post processing page.
     	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
@@ -29,14 +29,14 @@ theme("Personal Page for $pguser", "header");
 ?>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Post Processing</b></font><br>
-After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the <a href ="<? echo $siteurl ?>/tools/post_proofers/post_proofers.php">post processing</a> phase of Distributed Proofreaders!  Currently there are <b><? echo $numprojects; ?></b> projects waiting.
+After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the <a href ="<? echo $code_url ?>/tools/post_proofers/post_proofers.php">post processing</a> phase of Distributed Proofreaders!  Currently there are <b><? echo $numprojects; ?></b> projects waiting.
 
 <? 
 if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> projects checked out."; }
 }
 ?>
 
-<p>Want to <a href="<? echo $siteurl ?>/faq/scan/submitting.php">help out the site by providing material for us to proof</a>? Find out how!<br><br>
+<p>Want to <a href="<? echo $code_url ?>/faq/scan/submitting.php">help out the site by providing material for us to proof</a>? Find out how!<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>"><b>Random Rule</b></font><br>
 
@@ -48,7 +48,7 @@ if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> project
     	$rule = mysql_fetch_assoc($result);
     	echo "<i>".$rule['subject']."</i><br>";
     	echo "".$rule['rule']."<br><br>";
-    	echo "See the <a href='$siteurl/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$siteurl/faq/document.php'>Document Guidelines</a><br><br>";
+    	echo "See the <a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$code_url/faq/document.php'>Document Guidelines</a><br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 

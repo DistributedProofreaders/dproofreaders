@@ -48,7 +48,7 @@ $db_Connection=new dbConnect();
 			if (isset($_GET['type'])) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-				<link>$siteurl/list_etexts.php?x=g#".$row['projectid']."</link>
+				<link>$code_url/list_etexts.php?x=g#".$row['projectid']."</link>
 				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
 				</item>
 				";
@@ -63,7 +63,7 @@ $db_Connection=new dbConnect();
 				<text>".xmlencode($row['txtlink'])."</text>
 				<zip>".xmlencode($row['ziplink'])."</zip>
 				<html>".xmlencode($row['htmllink'])."</html>
-				<library>$siteurl/list_etexts.php?x=g#".$row['projectid']."</library>
+				<library>$code_url/list_etexts.php?x=g#".$row['projectid']."</library>
 				</links>
 				</project>
 				";
@@ -77,7 +77,7 @@ $db_Connection=new dbConnect();
 				<rss version=\"0.91\">
 				<channel>
 				<title>Distributed Proofreaders - Latest Releases</title>
-				<link>$siteurl</link>
+				<link>$code_url</link>
 				<description>The latest releases from Distributed Proofreaders posted to Project Gutenberg</description>
 				<language>en-us</language>
 				<webMaster>$site_manager_email_addr</webMaster>
@@ -101,7 +101,7 @@ $db_Connection=new dbConnect();
 		$posteddate = date("l, F jS, Y",($row['date_posted']));
 				$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
-				<link>$siteurl/pastnews.php?#".$row['uid']."</link>
+				<link>$code_url/pastnews.php?#".$row['uid']."</link>
 				<description>".xmlencode(strip_tags($row['message']))."</description>
 				</item>
 				";
@@ -112,7 +112,7 @@ $db_Connection=new dbConnect();
 				<rss version=\"0.91\">
 				<channel>
 				<title>Distributed Proofreaders - Latest Releases</title>
-				<link>$siteurl</link>
+				<link>$code_url</link>
 				<description>The latest news related to Distributed Proofreaders</description>
 				<language>en-us</language>
 				<webMaster>$site_manager_email_addr</webMaster>

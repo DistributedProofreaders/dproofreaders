@@ -1,7 +1,7 @@
 <?php
 $relPath="./pinc/";
 include($relPath.'v_site.inc');
-if (isset($_COOKIE['pguser'])) { header("Location: $siteurl/tools/proofers/proof_per.php");  }
+if (isset($_COOKIE['pguser'])) { header("Location: $code_url/tools/proofers/proof_per.php");  }
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();
@@ -29,7 +29,7 @@ This site provides a web-based method of easing the proofreading work associated
 <p>Once all pages for a particular book have been processed, a post-processor joins the pieces, properly formats them into a Project Gutenberg e-book and submits it to the Project Gutenberg archive.<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b>How You Can Help</b></font><br>
-The first step to take to help us out would be to register to be a new proofreader.  You can do so by clicking <a href="accounts/addproofer.php">here</a> or by clicking "Register" at the top of the screen.  After you register be sure to read over both the email you receive as well as FAQ Central which provides helpful resources on how to proofread.  FAQ Central can be reached <a href="<? echo $siteurl; ?>/faq/faq_central.php">here</a> or by clicking "Help" at the top of any screen.  After you have registered & read through some of the intro documents choose an interesting-looking book from our Current Projects and try proofreading a page or two.
+The first step to take to help us out would be to register to be a new proofreader.  You can do so by clicking <a href="accounts/addproofer.php">here</a> or by clicking "Register" at the top of the screen.  After you register be sure to read over both the email you receive as well as FAQ Central which provides helpful resources on how to proofread.  FAQ Central can be reached <a href="<? echo $code_url; ?>/faq/faq_central.php">here</a> or by clicking "Help" at the top of any screen.  After you have registered & read through some of the intro documents choose an interesting-looking book from our Current Projects and try proofreading a page or two.
 <p>Remember that there is no committment expected on this site. Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do "a page a day", but it's entirely up to you! We hope you will join us in our mission of "preserving the literary history of the world in a freely available form for everyone to use".<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b>Most Recent Projects</b></font><br>

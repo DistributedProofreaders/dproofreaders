@@ -98,7 +98,7 @@ if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
             maybe_mail($email, "$NameofWork Posted to Project Gutenberg",
 "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
 --\n
-Distributed Proofreaders\n$siteurl/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
+Distributed Proofreaders\n$code_url/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
              "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
             $rownum++;
         }
@@ -149,7 +149,7 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
 if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.txt";
 if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip";
 if ($Language == "") $Language = "English";
-if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$siteurl/faq/document.php\">Document Guidelines</a>.</p>";
+if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Document Guidelines</a>.</p>";
 
 theme("Create a Project", "header");
 ?>

@@ -102,7 +102,7 @@ willing to implement the code that we are going to discuss below into
 their site.&nbsp; It includes more data for your end user as well as 
 providing you more options on how to display the data.&nbsp; This feed 
 is again based upon the DTD definition format and you can see our DTD
-<a href="<? echo $siteurl; ?>/feeds/projects.dtd">here</a>.</p>
+<a href="<? echo $code_url; ?>/feeds/projects.dtd">here</a>.</p>
 </blockquote>
 <table border="0" style="border-collapse: collapse" width="95%" id="table4" bgcolor="#D8E4F1">
 <tr>
@@ -152,24 +152,24 @@ own format which is yet to be named.&nbsp; Below are the links to the
 different feeds as well as the type of feed it is.</p>
 <ol>
 <li>
-<a href="<? echo $siteurl; ?>/feeds/backend.php?content=projects">
-<? echo $siteurl; ?>/feeds/backend.php?content=projects</a>
+<a href="<? echo $code_url; ?>/feeds/backend.php?content=projects">
+<? echo $code_url; ?>/feeds/backend.php?content=projects</a>
 <br>
 --The last ten projects posted to Project Gutenberg in our propriety 
 XML format.</li>
 <li>
-<a href="<? echo $siteurl; ?>/feeds/backend.php?content=projects&type=rss">
-<? echo $siteurl; ?>/feeds/backend.php?content=projects&amp;type=rss</a><br>
+<a href="<? echo $code_url; ?>/feeds/backend.php?content=projects&type=rss">
+<? echo $code_url; ?>/feeds/backend.php?content=projects&amp;type=rss</a><br>
 --The last ten projects posted to Project Gutenberg in RSS format.
 </li>
 <li>
-<a href="<? echo $siteurl; ?>/feeds/backend.php?content=news">
-<? echo $siteurl; ?>/feeds/backend.php?content=news</a><br>
+<a href="<? echo $code_url; ?>/feeds/backend.php?content=news">
+<? echo $code_url; ?>/feeds/backend.php?content=news</a><br>
 --News headlines for the Distributed Proofreaders site in RSS 
 format.<span style="text-decoration: none">*</span></li>
 <li>
-<a href="<? echo $siteurl; ?>/feeds/backend.php?content=news&type=rss">
-<? echo $siteurl; ?>/feeds/backend.php?content=news&amp;type=rss</a><br>
+<a href="<? echo $code_url; ?>/feeds/backend.php?content=news&type=rss">
+<? echo $code_url; ?>/feeds/backend.php?content=news&amp;type=rss</a><br>
 --News headlines for the Distributed Proofreaders site in RSS 
 format.<span style="text-decoration: none">*</span></li>
 </ol>

@@ -23,4 +23,4 @@ dp_main.inc
 
 v_site.inc
 
-	 $siteurl
+	 $code_url

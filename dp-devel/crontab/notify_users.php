@@ -21,7 +21,7 @@ include($relPath.'dp_main.inc');
             maybe_mail("$email", "Distributed Proofreaders: Inactive Account $username",
                  "Hello $real_name,\n\n".
 "This is an automated message and your only e-mail reminder that your account on the
- Distributed Proofreaders site ($siteurl/) has been inactive
+ Distributed Proofreaders site ($code_url/) has been inactive
 for over 5 months now. In order to show a valid number of active members for our
 site, we will be marking this account as inactive a month from today if you do not
 log into the site.\n\n

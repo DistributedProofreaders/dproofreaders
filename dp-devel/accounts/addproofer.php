@@ -83,10 +83,10 @@ first step in helping us proofread books for Project Gutenberg
 <http://www.gutenberg.net/>.
 
 As a new user, I recommend you read over our main page
-<$siteurl/> for an overview of the site,
+<$code_url/> for an overview of the site,
 a selection of the works that we are working on, along
 with the books that have been completed through the site.
-The Document Guidelines <$siteurl/faq/document.php>
+The Document Guidelines <$code_url/faq/document.php>
 covers most formatting questions, so be sure to read it over too.
 
 Once you understand the work being done through this site,

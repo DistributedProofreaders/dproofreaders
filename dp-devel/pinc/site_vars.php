@@ -7,7 +7,7 @@ $code_dir = '<<CODE_DIR>>';
 // installed (i.e., the directory that corresponds to 'dp-devel' in the CVS
 // repository -- it should contain directories such as 'pinc' and 'tools').
 
-$siteurl='<<CODE_URL>>';
+$code_url='<<CODE_URL>>';
 // This is the HTTP URL that resolves to the directory described above.
 
 $projects_dir = '<<PROJECTS_DIR>>';

@@ -25,59 +25,59 @@ function theme ($nameofpage, $location) {
 		$userP = "";
 	}
 	
-	$siteurl = $GLOBALS['siteurl'];
+	$code_url = $GLOBALS['code_url'];
 	$theme_name = $GLOBALS['theme_name'];
 	$theme = $GLOBALS['theme'];
 		
 	if (!isset($GLOBALS['no_stats'])) { 
 		if ($statsbar_align == 1) { 
 			if ($location == "header") {
-				html_header($siteurl, $theme, $nameofpage);
-				html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+				html_header($code_url, $theme, $nameofpage);
+				html_logobar($code_url, $theme, $nameofpage, $theme_name);
 				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
-				html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
+				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
 				echo "</td>\n";
-				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td></tr></table>\n";			
-				html_footer($siteurl, $theme, $theme_name);
+				html_footer($code_url, $theme, $theme_name);
 			}	
 		} else {
 			if ($location == "header") {
-				html_header($siteurl, $theme, $nameofpage);
-				html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+				html_header($code_url, $theme, $nameofpage);
+				html_logobar($code_url, $theme, $nameofpage, $theme_name);
 				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td>\n";
-				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
 				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
-				html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP);
+				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
 				echo "</td></tr></table>\n";
-				html_footer($siteurl, $theme, $theme_name);
+				html_footer($code_url, $theme, $theme_name);
 			}
 		}
 	} else {
 		if ($location == "header") {
-			html_header($siteurl, $theme, $nameofpage);
-			html_logobar($siteurl, $theme, $nameofpage, $theme_name);
+			html_header($code_url, $theme, $nameofpage);
+			html_logobar($code_url, $theme, $nameofpage, $theme_name);
 			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 			echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 		} elseif ($location == "footer") {
 			echo "</td></tr></table>\n";
-			html_footer($siteurl, $theme, $theme_name);
+			html_footer($code_url, $theme, $theme_name);
 		}
 	}	
 }
 
-function html_header($siteurl, $theme, $nameofpage) {
+function html_header($code_url, $theme, $nameofpage) {
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
         echo "<html><head><link rel='shortcut icon' href='/dp/favicon.ico'>\n";
 	echo "<title>DP";
@@ -87,12 +87,12 @@ function html_header($siteurl, $theme, $nameofpage) {
 	echo "<body bgcolor='".$theme['body_bgcolor']."' text='".$theme['body_text']."' link='".$theme['body_link']."' vlink='".$theme['body_vlink']."' alink='".$theme['body_alink']."' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n";
 }
 
-function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
+function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	global $dynstats_dir;
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-	echo "<a href='$siteurl'><img src='$siteurl/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a>\n";
+	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a>\n";
 	echo "</td>\n";
 	// show number of projects left till 10,000
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."' align='center' valign='middle'>\n";
@@ -114,7 +114,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 
     //Create the name of the page
-    	if (isset($GLOBALS['pguser'])) { echo "<a href='$siteurl/tools/proofers/proof_per.php'>\n"; } else { echo "<a href='$siteurl/default.php'>\n"; }
+    	if (isset($GLOBALS['pguser'])) { echo "<a href='$code_url/tools/proofers/proof_per.php'>\n"; } else { echo "<a href='$code_url/default.php'>\n"; }
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
 	echo "</td>\n";
@@ -127,16 +127,16 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	// (Mozilla gets it right, but that's small comfort.)
 	// So instead, put the td element within the form.
 	// (Yeah, it doesn't make sense, but the browsers don't complain.)
-	echo "<form action='$siteurl/accounts/login.php' method='post'>\n";
+	echo "<form action='$code_url/accounts/login.php' method='post'>\n";
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	echo "ID:<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 	echo "Password:<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 	echo "<input type='submit' value='Sign In' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
+	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
+	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	echo "</form>\n";
 	} else {
@@ -147,7 +147,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
     	$numofPMs = mysql_fetch_row($result);
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
-	echo "<a href='$siteurl/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
+	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
@@ -155,9 +155,9 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] new)"; }
 	echo "</font>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
+	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$siteurl/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
+	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	}
 
@@ -165,7 +165,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "</table>\n";
 }
 	
-function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
+function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir;
     //If logged in & either a Post Processor or Project Manager display links
 	if (isset($GLOBALS['pguser'])) {
@@ -173,28 +173,28 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 				
 		//if ((substr($_SERVER['PHP_SELF'], -14) == "projectmgr.php" || substr($_SERVER['PHP_SELF'], -17) == "post_proofers.php" || substr($_SERVER['PHP_SELF'], -12) == "sitenews.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
 		if ((substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
-			echo "<a href='$siteurl/tools/proofers/proof_per.php'>Proofread Projects</a>";
+			echo "<a href='$code_url/tools/proofers/proof_per.php'>Proofread Projects</a>";
 			$divider = 1;
 		}
 		if ($userP['manager'] == "yes" && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
 			if (isset($divider)) { 
 				echo " | ";
 			}
-			echo "<a href='$siteurl/tools/project_manager/projectmgr.php'>Manage Projects</a>";
+			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>Manage Projects</a>";
 			$divider = 1;
 		}
 		if ($userP['postprocessor'] == "yes" && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
 			if (isset($divider)) { 
 				echo " | ";
 			}
-			echo "<a href='$siteurl/tools/post_proofers/post_proofers.php'>Post Processing</a>";
+			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>Post Processing</a>";
 			$divider = 1;
 		}
 		if ($userP['sitemanager'] == "yes" && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
-			echo "<a href='$siteurl/tools/site_admin/sitenews.php'>News Update</a>";
+			echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
 			$divider = 1;
 		}
 		echo "</center></font>\n";
@@ -291,12 +291,12 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 	
 	//Show the team statistics
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Teams:</u></font></center>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$siteurl/userteams.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/userteams.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
 	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id='{$userP['team_1']}' OR id='{$userP['team_2']}' OR id='{$userP['team_3']}'");
 		while($row = mysql_fetch_assoc($teamRes)) {
-			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$siteurl/userteams.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
+			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/userteams.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 			}
-        echo "&nbsp;<a href='$siteurl/userteams.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
+        echo "&nbsp;<a href='$code_url/userteams.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
         
         //Show the Top Ten users is user has the option set
         if ($userP['u_top10']) {
@@ -356,16 +356,16 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 		echo "</table>\n";
         }	
 	echo "<br></font>\n";
-	echo "<center><a href='$siteurl/previous_stats.html'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
+	echo "<center><a href='$code_url/previous_stats.html'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
     
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
 	echo "<br><br><center><input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='donate@gutenberg.net'>\n";
-	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='image' src='$siteurl/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></center>\n";
+	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></center>\n";
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>The Project Gutenberg Literary Archive Foundation (<a href='http://www.gutenberg.net/donation.html' target='_new'>PGLAF</a>) is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541</font></center></form>\n";
 }
 
-function html_footer($siteurl, $theme, $theme_name) {
+function html_footer($code_url, $theme, $theme_name) {
 $mtime = explode(" ",microtime());
 $endtime = $mtime[1] + $mtime[0];
 $totaltime = ($endtime - $GLOBALS['starttime']);

@@ -8,7 +8,7 @@ include($relPath.'v_site.inc');
  */
 
 function dpRandomRule () {
-	global $siteurl;
+	global $code_url;
 
     $query = "SELECT count(*) AS numrules FROM rules";
     $result = mysql_query($query);
@@ -26,7 +26,7 @@ function dpRandomRule () {
 
 <p>$rule[rule]</p>
 
-<p>See the <a href="$siteurl/faq/document.php#$rule[doc]">$rule[subject]</a> section of the <a href="$siteurl/faq/document.php">Document Guidelines</a></p>
+<p>See the <a href="$code_url/faq/document.php#$rule[doc]">$rule[subject]</a> section of the <a href="$code_url/faq/document.php">Document Guidelines</a></p>
 EOT;
 }
 ?>

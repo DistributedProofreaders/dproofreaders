@@ -162,7 +162,7 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"            <projectDesc>\r\n");
         fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],\r\n");
         fputs($fp,"                and the Online Distributed Proofreading Team at\r\n");
-        fputs($fp,"                <$siteurl>.\r\n");
+        fputs($fp,"                <$code_url>.\r\n");
         fputs($fp,"                Page-images available at\r\n");
         fputs($fp,"                <$projects_url/$project/\r\n");
         fputs($fp,"            </projectDesc>\r\n");

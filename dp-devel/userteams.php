@@ -427,11 +427,11 @@ echo $tre.$tbe.$menuBar.$closePage;
 
 function createThread($tname, $tinfo, $towner, $tid) {
 	//Declare variables
-	global $siteurl;
+	global $code_url;
 	$timeposted = time();
 	$owner = 527;
 	$title = $tname;
-	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$siteurl/userteams.php?tid=$tid'>$siteurl/userteams.php?tid=$tid</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
+	$message = "Team Name: $tname<br>Created By: $towner<br>Info: $tinfo<br>Team Page: <a href='$code_url/userteams.php?tid=$tid'>$code_url/userteams.php?tid=$tid</a><br><br>Use this area to have a discussion with your fellow teammates! :-D<br>";
 	$message = addslashes($message);
 
 	$ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);

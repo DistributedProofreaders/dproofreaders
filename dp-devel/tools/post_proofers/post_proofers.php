@@ -21,7 +21,7 @@ echo "
     E-mail the project manager with the completed project for now.</b>
 </p>
 <p>
-    Here is a <a href='$siteurl/faq/post_proof.php'><b>Post Proof FAQ</b></a>
+    Here is a <a href='$code_url/faq/post_proof.php'><b>Post Proof FAQ</b></a>
     that details all of the steps that we normally take to post proof an etext.
     There is a <a href='$post_processing_forum_url'>forum</a>
     to post all your questions.
