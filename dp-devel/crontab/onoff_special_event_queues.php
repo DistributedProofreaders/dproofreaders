@@ -77,7 +77,7 @@ else
         mysql_query($update_query) or die(mysql_error());
     }
 
-$Qdefn = 'comments like "SPECIAL: Birthday '.$tomorrow.'%"';
+$Qdefn = 'comments like "SPECIAL: Otherday '.$tomorrow.'%"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 256";
 
