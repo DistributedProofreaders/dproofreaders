@@ -309,21 +309,21 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	$todaysGoal = mysql_result($result, 0, "dailygoal");
 	echo "&nbsp;"._("Today's Goal:")." ".number_format($todaysGoal)."<br>\n";
-	echo "&nbsp;"._("Today:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n";
+	echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
 	$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
 	$yesterdaysTotal = mysql_result($result, 0, "pages");
 	echo "&nbsp;"._("Yesterday's")." "._("Goal").": ".number_format($yesterdaysGoal)."<br>\n";
-	echo "&nbsp;"._("Yesterday:")." ".number_format($yesterdaysTotal)."<br><br>\n";
+	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
 	// Month's Numbers
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
 
 	echo "&nbsp;".date("F")."'s "._("Goal").": " . number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
-	echo "&nbsp;".date("F").": ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
+	echo "&nbsp;".date("F")."'s Total: ".number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
 
 	echo "<br><hr width='75%' align='center'><br>\n";
 
