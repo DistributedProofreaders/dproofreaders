@@ -1,7 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <?php
 include("./../../pinc/slim_header.inc");
-slim_header(_("Proofreading Interface"),FALSE,FALSE);
+$res = mysql_fetch_assoc(mysql_query("
+    SELECT nameofwork FROM projects WHERE projectid = '$project';
+"));
+$nameofwork = $res['nameofwork'];
+slim_header(_("Proofreading Interface").": ".$nameofwork,FALSE,FALSE);
 ?>
 </head><frameset rows="*,73">
 <frame name="proofframe" src="<?PHP echo "projects.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
