@@ -92,7 +92,8 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>";
 
     //Create the name of the page
-	echo "<a href='$siteurl/default.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Distributed Proofreading</font></a>";
+    	if (isset($GLOBALS['pguser'])) { echo "<a href='$siteurl/tools/proofers/proof_per.php'>"; } else { echo "<a href='$siteurl/default.php'>"; }
+	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Distributed Proofreading</font></a>";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>"; }
 	echo "</td><td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>";
 	
