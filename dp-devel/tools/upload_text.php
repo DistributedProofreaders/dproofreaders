@@ -12,42 +12,23 @@ include_once($relPath.'theme.inc');
 
 if ($stage == 'post_1')
 {
-	$what = "Post-Processed File";
+	$what = _("Post-Processed File");
 	$indicator = "_second";
 	$new_state = PROJ_POST_SECOND_AVAILABLE;
 	$extras = array();
 	$back_url = "$code_url/tools/post_proofers/post_proofers.php";
-	$back_blurb = "Back to Post Proofers Page";
-	$bottom_blurb = "
-		<B>Note:</B>Please make sure the file you upload is<BR> Zipped
-		(not Gzip, TAR, etc.).<BR>
-		 The file should have the .zip extension, NOT .Zip, .ZIP, etc.<BR>
-		After you click Upload, the browser will appear to be slow<BR>
-		getting to the next page.
-		This is because it is uploading the file.
-	";
+	$back_blurb = _("Back to Post Proofers Page");
+	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 }
 else if ($stage == 'correct')
 {
-	$what = "Corrected Edition";
+	$what = _("Corrected Edition");
 	$indicator = "_corrections";
 	$new_state = PROJ_CORRECT_AVAILABLE;
 	$extras = array( 'correctedby' => $pguser );
 	$back_url = "$code_url/list_etexts.php?x=g";
-	$back_blurb = "Back to Gold List";
-	$bottom_blurb = "
-		<B>Note:</B>Please make sure the file you upload is Zipped
-		(not Gzip, TAR, etc.). The file should have the .zip
-		extension, NOT .Zip, .ZIP, etc.
-		After you click Upload, the browser will appear to be slow
-		getting to the next page.
-		This is because it is uploading the file.
-		When making corrections, please read over the entire book
-		and compare your corrections to the page images available.
-		Frequently Asked Questions will be developed
-		as this feature is used more.
-		Put any questions in the forums.
-	";
+	$back_blurb = _("Back to Gold List");
+	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.	This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
 }
 else
 {
@@ -72,18 +53,18 @@ if (!isset($action))
 	echo "<FORM ACTION='upload_text.php' METHOD='POST' ENCTYPE='multipart/form-data'>";
 	echo $tb;
 	echo $tr.$td1;
-	echo "<B>Upload $what for Verification</B>";
+	echo "<B>"._("Upload $what for Verification")."</B>";
 	echo $td3;
 	echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
 	echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
 	echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
 	echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='25165824'>";
 	echo $tr.$td2;
-	echo "<STRONG>Zipped File:</STRONG>";
+	echo "<STRONG>"._("Zipped File:")."</STRONG>";
 	echo $td3;
 	echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
 	echo $tr.$td4;
-	echo "<STRONG>Leave Comments:</STRONG>";
+	echo "<STRONG>"._("Leave Comments:")."</STRONG>";
 	echo $tr.$td4;
 	echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
 	echo $tr.$td4;
@@ -109,7 +90,7 @@ else
 	$files = $HTTP_POST_FILES['files'];
 
 	if (substr($files['name'][0], -4) != ".zip") {
-		echo "Invalid Filename";
+		echo _("Invalid Filename");
 		exit();
 	}
 
