@@ -201,7 +201,7 @@ include_once('projectmgr_select.inc');
                     printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td>");
 
                     $roundID=projectStateRound($state);
-                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
+                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); } else { printf("<td>&nbsp;</td>"); }
                     if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
