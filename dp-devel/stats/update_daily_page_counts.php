@@ -30,6 +30,9 @@ if ($trace)
     echo 'Last counted date was ', $X_date, $EOL;
 }
 
+// testing:
+$X_date = '2003-01-01'; $testing_this_script=TRUE;
+
 list($X_year,$X_month,$X_day) = explode('-',$X_date);
 
 // Get a timestamp for the most recent midnight (local time).
