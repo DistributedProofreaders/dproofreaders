@@ -132,7 +132,7 @@ function autorelease()
 		$waiting_res = mysql_query("
 			SELECT *
 			FROM projects
-			WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $project_selector
+			WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND ($project_selector)
 			ORDER BY modifieddate ASC
 		");
 		if (mysql_num_rows($waiting_res) == 0)
