@@ -54,7 +54,7 @@ theme("Personal Page for $pguser", "header");
     		$pguser_id = mysql_result($result, 0, "user_id");
     	
 	    	$result = mysql_query("SELECT COUNT(*) as num FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
-		$numofPMs = (int) mysql_fetch_row($result, 0, "num");
+		$numofPMs = (int) mysql_result($result, 0, "num");
 		if ($numofPMs > 0) {
 			echo "<br><br><font color='red' size=3><b>";
 			echo _("You have received a private message in your Inbox!");
