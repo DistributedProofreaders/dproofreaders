@@ -22,7 +22,7 @@ theme('Proofing Guidelines','header');
         -->
 
 <h1 align="center">Proofing Guidelines</h1>
-<h3 align="center">Version 1.51, released Aug 16, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.52, released Sep 7, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <!-- Real version:
@@ -675,11 +675,22 @@ theme('Proofing Guidelines','header');
 </table>
 
 <h3><a name="footnotes">Footnotes/Endnotes</a> </h3>
-<p> Footnotes are normally done in-line; that is, the text of the footnote is moved from
-    the bottom of the page to the place on the page where it is referenced in the text.
+<p> <b>Footnotes are now normally done out-of-line</b>; that is, the text of the footnote is left
+    at the bottom of the page and a tag placed where it is referenced in the text.
     But in some books, the Project Manager may ask that you leave the the footnotes
-    out-of-line; that is, leave the text of the footnote at the bottom of the page. Do
-    it that way when the Project Comments ask you to.  </p>
+    in-line; that is, the text of the footnote is moved from the bottom of the page 
+    to the place on the page where it is referenced in the text. Do it that way when 
+    the Project Comments ask you to.  </p>
+<p><b>Out-of-Line Footnotes:</b>
+    For these, Surround the footnote number, *, or other character that marks a footnote
+    location with brackets (<tt>[</tt> and <tt>]</tt>).  Don't leave any space before
+    the <tt>[</tt>--keep it right next to the word being footnoted.  Then at the bottom
+    of the page, where the text for that footnote it, surround it with <tt>[Footnote _:
+    ]</tt>, keeping the footnote number or marker where the underline is.  </p>
+<!--
+    See the <a href="#page_hf">Page Headers/Footers</a>
+    image/text for an example footnote.</p>
+-->
 <p><b>In-Line Footnotes:</b>
     Replace the footnote number, *, dagger (&dagger; or &Dagger;), etc. that marks a
     footnote location with the actual text of the footnote, surrounded by <tt>[Footnote:
@@ -701,16 +712,7 @@ theme('Proofing Guidelines','header');
     (<tt>[</tt> and <tt>]</tt>) and put a <tt>*</tt> next to it so the post-proofer can
     find it. (This is common in scientific &amp; technical books, where footnotes are often
     grouped at the end of chapters.)
-<p><b>Out-of-Line Footnotes:</b>
-    For these, Surround the footnote number, *, or other character that marks a footnote
-    location with brackets (<tt>[</tt> and <tt>]</tt>).  Don't leave any space before
-    the <tt>[</tt>--keep it right next to the word being footnoted.  Then at the bottom
-    of the page, where the text for that footnote it, surround it with <tt>[Footnote _:
-    ]</tt>, keeping the footnote number or marker where the underline is.  </p>
-<!--
-    See the <a href="#page_hf">Page Headers/Footers</a>
-    image/text for an example footnote.</p>
--->
+
 <table border="1"  cellpadding="4" cellspacing="0" width="97%" align="center">
   <col width="256*">
   <tbody>
@@ -729,23 +731,6 @@ theme('Proofing Guidelines','header');
       </td>
     </tr>
     <tr>
-      <th valign="top" align="left">Proofed with In-Line Footnotes:</th>
-    </tr>
-    <tr>
-      <td valign="top">
-        <tt>
-          The principal persons involved
-          in this argument were Caesar                                           <br>
-          [Footnote: Gaius Julius Caesar],                                       <br>
-          former military                                                        <br>
-          leader and Imperator, and the orator Cicero                            <br>
-          [Footnote: Marcus Tullius Cicero].                                     <br>
-          Both were of the aristocratic                                          <br>
-          (Patrician) class, and were quite wealthy.
-          </tt>
-      </td>
-    </tr>
-    <tr>
       <th valign="top" align="left">Proofed with Out-of-Line Footnotes: </th>
     </tr>
       <tr valign="top">
@@ -761,6 +746,23 @@ theme('Proofing Guidelines','header');
           <tt>[Footnote 1: Gaius Julius Caesar]                                      <br>
                                                                                  <br>
           [Footnote 2: Marcus Tullius Cicero]</tt>
+      </td>
+    </tr>
+    <tr>
+      <th valign="top" align="left">Proofed with In-Line Footnotes:</th>
+    </tr>
+    <tr>
+      <td valign="top">
+        <tt>
+          The principal persons involved
+          in this argument were Caesar                                           <br>
+          [Footnote: Gaius Julius Caesar],                                       <br>
+          former military                                                        <br>
+          leader and Imperator, and the orator Cicero                            <br>
+          [Footnote: Marcus Tullius Cicero].                                     <br>
+          Both were of the aristocratic                                          <br>
+          (Patrician) class, and were quite wealthy.
+          </tt>
       </td>
     </tr>
   </tbody>
