@@ -72,7 +72,7 @@ $projectinfo = new projectinfo();
                     $date = mysql_result($projectinfo->total_rows, $rownum, "round1_time");
                     $fileid = mysql_result($projectinfo->total_rows, $rownum, "fileid");
                     $master_text = mysql_result($projectinfo->total_rows, $rownum, "master_text");
-		    $project_state = mysql_result($projectinfo->total_rows, $rownum, "state");
+		    $page_state = mysql_result($projectinfo->total_rows, $rownum, "state");
 
                     if (file_exists($path.$imagename)) {
                        $imagesize = filesize(realpath($path.$imagename));
@@ -85,7 +85,7 @@ $projectinfo = new projectinfo();
                     $date_txt = date("M j h:i A", $date);
                     printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
 
-		    if (($project_state == 31) || ($project_state == 41)) {
+		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		       printf("&nbsp;</td></tr>\n"); 
@@ -111,7 +111,7 @@ $projectinfo = new projectinfo();
                     $date = mysql_result($projectinfo->done1_rows, $rownum, "round1_time");
                     $name = mysql_result($projectinfo->done1_rows, $rownum, "round1_user");
                     $fileid = mysql_result($projectinfo->done1_rows, $rownum, "fileid");
-		    $project_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
+		    $page_state = mysql_result($projectinfo->done1_rows, $rownum, "state");
 
                     $bgcolor = "#FFFFFF";
 
@@ -131,7 +131,7 @@ $projectinfo = new projectinfo();
                     if ($sitemanager == "yes") { printf("$real_name"); } else printf("$name");
                     printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
 
-		    if (($project_state == 31) || ($project_state == 41)) {
+		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		       printf("&nbsp;</td></tr>\n"); 
@@ -165,7 +165,7 @@ $projectinfo = new projectinfo();
                     $round2_user = mysql_result($projectinfo->done2_rows, $rownum, "round2_user");
                     $round1_user = mysql_result($projectinfo->done2_rows, $rownum, "round1_user");
                     $fileid = mysql_result($projectinfo->done2_rows, $rownum, "fileid");
-		    $project_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
+		    $page_state = mysql_result($projectinfo->done2_rows, $rownum, "state");
 
                     $users = mysql_query("SELECT real_name, email, pagescompleted FROM users WHERE username = '$round2_user'");
                     if (mysql_num_rows($users) == 0) {
@@ -198,7 +198,7 @@ $projectinfo = new projectinfo();
                     if ($sitemanager == "yes") { printf("$oldreal_name"); } else printf("$round1_user");
                     printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td>");
                     if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
-		    if (($project_state == 31) || ($project_state == 41)) {
+		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		        printf("<td>&nbsp;</td></tr>\n"); 
