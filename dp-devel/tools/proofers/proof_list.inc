@@ -17,18 +17,16 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 
     //Select all projects in the list for round 1
     // now puts the BEGIN projects at the top
-    // couldn't get UNION query to work (worked ok in phpMyAdmin tho :/ )
-    // instead, two separate queries each sent to showavailable books
-    // and header code now a sep function so can be called only once
 
-    $result = mysql_query("SELECT * FROM projects WHERE username = 'BEGIN' || difficulty = 'beginner' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."')");
-
+    $result = mysql_query("
+	    SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
+	    FROM projects
+	    WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."'
+	    ORDER BY is_beginner DESC, modifieddate DESC, nameofwork ASC
+    ");
     showbooklistheader('first');
     showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
 
-    $result2 = mysql_query("SELECT * FROM projects WHERE username != 'BEGIN' && difficulty != 'beginner' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc");
-
-    showavailablebooks($result2,AVAIL_FIRST,$userP,$tList,'first');
     echo "</table>\n<br>";
   }
 
