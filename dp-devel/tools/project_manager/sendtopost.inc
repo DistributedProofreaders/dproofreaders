@@ -1,16 +1,33 @@
 <?
 
     function sendtopost($project, $username, $todaysdate) {
+        // Prepare a project for post-processing.
+        //
+        // $project: the unique id of the project.
+        // $username: the DP username of the owner(?) of the project.
+        // $todaysdate: the result of calling time() recently.
+        //
+        // More specifically:
+        // -- Generate an images.html file that links to all of the page-images.
+        //    (for "View Images Online")
+        // -- Make a zip of all the page-image files.
+        //    (for "Download Zipped Images")
+        // -- Join all the page texts and put them in a file,
+        //    and make a zip of that file.
+        //    (for "Download Zipped Text")
+        // -- Send mail to the project manager, notifying him/her that the
+        //    project is ready for post-processing.
+
         $projectpath = "../../projects/".$project;
 
-        //generate index.html for project images
+        // Generate images.html that links to all page-images.
         exec ("images.pl $project *.png");
 
-        // zip all images for project
+        // Zip all page-images.
         $zippedimages = $project."images.zip";
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
-        // Generate Joined Text File
+        // Generate joined text file, and a zip of it.
         $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
 
         $count = 0;
