@@ -11,10 +11,13 @@
         background-color: #FF9900;
 }
 .green {
-        background-color: #00FF33;
+        background-color: #00FF00;
 }
 .nicegreen {
         background-color: #00CC99;
+}
+.midgreen {
+        background-color: #33FF66;
 }
 .paleblue {
         background-color: #CCFFFF;
