@@ -13,7 +13,7 @@ $tasks_array = array(1 => "Bug Report", 2 => "Feature Request", 3 => "Support Re
 $severity_array = array(1 => "Catastrophic", 2 => "Critical", 3 => "Major", 4 => "Normal", 5 => "Minor", 6 => "Trivial", 7 => "Enhancement");
 $priority_array = array(1 => "Very High", 2 => "High", 3 => "Medium", 4 => "Low", 5 => "Very Low");
 $categories_array = array(1 => "None", 2 => "Documentation", 3 => "Entrance", 4 => "Log in/out", 5 => "New Member", 6 => "Page Proofing", 7 => "Personal Page", 8 => "Post-Processing", 9 => "Preferences", 10 => "Pre-Processing", 11 => "Project Comments", 12 => "Project Listing Interface", 13 => "Project Manager", 14 => "Site wide", 15 => "Statistics", 16 => "Translation", 17 => "Task Center", 99 => "Other");
-$tasks_status_array = array(1 => "New", 2 => "Accepted", 3 => "Duplicate", 4 => "Fixed", 5 => "Invalid", 6 => "Later", 7 => "None", 8 => "Out of Date", 9 => "Postponed", 10 => "Rejected", 11 => "Remind", 12 => "Won't Fix", 13 => "Works for Me", 14 => "Closed", 15 => "Reopened", 16 => "Researching");
+$tasks_status_array = array(1 => "New", 2 => "Accepted", 3 => "Duplicate", 4 => "Fixed", 5 => "Invalid", 6 => "Later", 7 => "None", 8 => "Out of Date", 9 => "Postponed", 10 => "Rejected", 11 => "Remind", 12 => "Won't Fix", 13 => "Works for Me", 14 => "Closed", 15 => "Reopened", 16 => "Researching", 17 => "Implemented");
 $search_results_array = array("20", "40", "60", "80", "100");
 $os_array = array(0 => "All", 1 => "Windows 3.1", 2 => "Windows 95", 3 => "Windows 98", 4 => "Windows ME", 5 => "Windows 2000", 6 => "Windows NT", 7 => "Windows XP", 8 => "Mac System 7", 9 => "Mac System 7.5", 10 => "Mac System 7.6.1", 11 => "Mac System 8.0", 12 => "Mac System 8.5", 13 => "Mac System 8.6", 14 => "Mac System 9.x", 15 => "MacOS X", 16 => "Linux", 17 => "BSDI", 18 => "FreeBSD", 19 => "NetBSD", 20 => "OpenBSD", 21 => "BeOS", 22 => "HP-UX", 23 => "IRIX", 24 => "Neutrino", 25 => "OpenVMS", 26 => "OS/2", 27 => "OSF/1", 28 => "Solaris", 29 => "SunOS", 99 => "Other");
 $browser_array = array(0 => "All", 1 => "Internet Explorer 6.x", 2 => "Netscape 6.x", 3 => "Internet Explorer 5.x", 4 => "Netscape 7.x", 5 => "Netscape 3.x", 6 => "Netscape 4.x", 7 => "Opera", 8 => "Netscape 5.x", 9 => "Internet Explorer 4.x", 10 => "Lynx", 11 => "Avant Browser", 12 => "Netscape 2.x", 13 => "Slimbrowser", 14 => "Interarchy", 15 => "Straw", 16 => "MSN TV", 17 => "Mozilla 1.4", 18 => "Mozilla 1.5", 19 => "Mozilla 1.6", 20 => "Mozilla Firebird 0.6", 22 => "Mozilla Firebird 0.7", 23 => "Mozilla 1.1", 24 => "Mozilla 1.2", 25 => "Mozilla 1.3", 26 => "Safari", 27 => "Galeon", 28 => "Konquerer", 29 => "Internet Explorer 3.x");
@@ -84,11 +84,16 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 ORDER BY task_severity ASC, date_opened ASC, task_type ASC");
 	ShowTasks($result);
 } elseif (isset($_POST['new_comment'])) {
-	NotificationMail($_POST['new_comment'], "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
-	$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-	$u_id = mysql_result($result, 0, "u_id");
-	$result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES (".$_POST['new_comment'].", $u_id, ".time().", '".htmlentities($_POST['task_comment'], ENT_QUOTES)."')");
-	TaskDetails($_POST['new_comment']);
+	if (!empty($_POST['task_comment'])) {
+		NotificationMail($_POST['new_comment'], "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
+		$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
+		$u_id = mysql_result($result, 0, "u_id");
+		$result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES (".$_POST['new_comment'].", $u_id, ".time().", '".htmlentities($_POST['task_comment'], ENT_QUOTES)."')");
+		TaskDetails($_POST['new_comment']);
+	} else {
+		echo "<center><b><font color='red'>You must supply a comment before clicking Add Comment</font></b></center>";
+		TaskDetails($_POST['new_comment']);
+	}
 } elseif (isset($_GET['f']) && $_GET['f'] == "notifyme") {
 	$result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".$_GET['tid'].")");
 	TaskDetails($_GET['tid']);
@@ -184,7 +189,9 @@ function TaskHeader() {
 		}
 	echo "</select><br>\n";
 	echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Developers</option>\n";
-	echo "<option value='0'>Unassigned</option>";
+	echo "<option value='0'";
+	 if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == 0) { echo " SELECTED"; }
+	echo ">Unassigned</option>";
 	$result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
 	while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
 		$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
@@ -193,20 +200,27 @@ function TaskHeader() {
 				$u_id = mysql_result($u_idQuery, 0, "u_id");
 				$task_assignees_array[$u_id] = $row['username'];
 		}
+
+		natcasesort($task_assignees_array);
 		while (list($key, $val) = each($task_assignees_array)) {
 			echo "<option value='$key'";
 			if (isset($_POST['task_assignee']) && $_POST['task_assignee'] == $key) { echo " SELECTED"; }
 			echo ">$val</option>\n";
 		}
 	echo "</select>\n";
+
 	echo "<select size='1' name='task_category' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Categories</option>\n";
+		asort($categories_array);
 		while (list($key, $val) = each($categories_array)) {
 			echo "<option value='$key'";
 			if (isset($_POST['task_category']) && $_POST['task_category'] == $key) { echo " SELECTED"; }
 			echo ">$val</option>\n";
 		}
 	echo "</select>\n";
-	echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='998'>All Tasks</option><option value='999'>All Open Tasks</option>\n";
+	echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='998'>All Tasks</option><option value='999'";
+	 if (isset($_REQUEST['task_status']) && $_REQUEST['task_status'] == 999) { echo " SELECTED"; }
+	echo ">All Open Tasks</option>\n";
+		asort($tasks_status_array);
 		while (list($key, $val) = each($tasks_status_array)) {
 			echo "<option value='$key'";
 			if (isset($_POST['task_status']) && $_POST['task_status'] == $key) { echo " SELECTED"; }
@@ -295,7 +309,7 @@ function TaskForm($tid) {
 	echo "<form action='tasks.php' method='post'><input type='hidden' name='newtask'>\n";
 	if (!empty($tid)) { echo "<input type='hidden' name='task_id' value='$tid'>"; }
 	echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-	echo "<tr><td><b><font face='Verdana' color='#000000' style='font-size: 11px'>Summary</b>&nbsp;&nbsp;<input type='text' name='task_summary' value='$task_summary' size='60' maxlength='80' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'></td></tr>\n";
+	echo "<tr><td><b><font face='Verdana' color='#000000' style='font-size: 11px'>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'></td></tr>\n";
 	echo "<tr><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
 	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Task Type</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
 		dropdown_select('task_type', $task_type, $tasks_array, "");  echo "<font face='Verdana' color='#000000' style='font-size: 11px'></td></tr>\n";
@@ -312,8 +326,18 @@ function TaskForm($tid) {
 			$u_id = mysql_result($u_idQuery, 0, "u_id");
 			$task_assignees_array[$u_id] = $row['username'];
 		}
-			$task_assignees_array[0] = "Unassigned";
-		dropdown_select('task_assignee', $task_assignee, $task_assignees_array, 1); echo "</td></tr>\n";
+			natcasesort($task_assignees_array);
+			echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
+			echo "<option value='0'";
+			 if ($task_assignees = 0) { echo " SELECTED"; }
+			echo ">Unassigned</option>";
+			while (list($key, $val) = each($task_assignees_array)) {
+			echo "<option value='$key'";
+			if ($task_assignee == $key) { echo " SELECTED"; }
+			echo ">$val</option>";
+			}
+
+		echo "</select></td></tr>\n";
 	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
 		dropdown_select('task_os', $task_os, $os_array, "");  echo "</td></tr>\n";
 	echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
@@ -344,13 +368,13 @@ function TaskForm($tid) {
 function TaskDetails($tid) {
 	global $userP, $code_url, $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
 	global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
-	global $priority_array;
+	global $priority_array, $pguser;
 
 	$result = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
 
 	if (mysql_num_rows($result) >= 1) {
 		while ($row = mysql_fetch_assoc($result)) {
-			$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'taskctr_notice' && value = $tid");
+			$result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' && value = $tid && username = '$pguser'");
 			if (mysql_num_rows($result) >= 1) { $already_notified = 1; } else { $already_notified = 0; }
 
 			$result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['opened_by']."");
@@ -435,30 +459,32 @@ function TaskComments($tid) {
 }
 
 function NotificationMail($tid, $message) {
-	global $code_url, $auto_email_addr;
+	global $code_url, $auto_email_addr, $pguser;
 
 	$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'taskctr_notice' && value = $tid");
 	while ($row = mysql_fetch_assoc($result)) {
-		$temp = mysql_query("SELECT email FROM users WHERE username = '".$row['username']."'");
-		$email = mysql_result($temp, 0, "email");
-		maybe_mail($email, "Task #$tid has been updated",
-		"You had requested to be let known when task #$tid was updated.  "
-		."$message"
-		."\n"
-		."You can see task #$tid by visiting http://www.pgdp.net/c/tasks.php?f=detail&tid=$tid."
-		."\n"
-		."\n"
-		."--"
-		."\n"
-		."Distributed Proofreaders"
-		."\n"
-		."$code_url"
-		."\n"
-		."\n"
-		."This is an automated message that you had requested,"
-		." please do not respond directly to this e-mail.",
-		"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
-		);
+		if ($row['username'] != $pguser) {
+			$temp = mysql_query("SELECT email FROM users WHERE username = '".$row['username']."'");
+			$email = mysql_result($temp, 0, "email");
+			maybe_mail($email, "Task #$tid has been updated",
+			  "You had requested to be let known when task #$tid was updated.  "
+			   ."$message"
+			   ."\n"
+			   ."You can see task #$tid by visiting http://www.pgdp.net/c/tasks.php?f=detail&tid=$tid."
+			   ."\n"
+			   ."\n"
+			   ."--"
+			   ."\n"
+			   ."Distributed Proofreaders"
+			   ."\n"
+			   ."$code_url"
+			   ."\n"
+			   ."\n"
+			   ."This is an automated message that you had requested,"
+			   ." please do not respond directly to this e-mail.",
+			  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
+			  );
+		}
 	}
 }
 
@@ -486,4 +512,3 @@ function RelatedTasks($tid) {
 	echo "</td></tr></table></form>";
 }
 ?>
-
