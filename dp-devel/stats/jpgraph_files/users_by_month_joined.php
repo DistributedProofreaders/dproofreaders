@@ -27,14 +27,14 @@ $result2 = mysql_query("
 $mynumrows = mysql_numrows($result1);
         $count = 0;
         while ($count < $mynumrows) {
-        $data1y[$count] = mysql_result($result, $count,"Joined");
-        $datax[$count] = mysql_result($result, $count,"Month");
+        $data1y[$count] = mysql_result($result1, $count,"Joined");
+        $datax[$count] = mysql_result($result1, $count,"Month");
             $count++;
         }
 
         $count = 0;
         while ($count < $mynumrows) {
-        $data2y[$count] = mysql_result($result, $count,"EverProofed");
+        $data2y[$count] = mysql_result($result2, $count,"EverProofed");
             $count++;
         }
 
