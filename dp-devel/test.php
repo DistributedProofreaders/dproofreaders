@@ -3,6 +3,10 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
+$relPath='./pinc/';
+include($relPath.'connect.inc');
+new dbConnect();
+
 echo "<pre>\n";
 
 echo date("r");
@@ -22,10 +26,6 @@ echo "<hr>\n";
 
 if (0)
 {
-    $relPath='./pinc/';
-    include($relPath.'connect.inc');
-    new dbConnect();
-
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
     $res = mysql_query("SELECT projectid FROM projects WHERE modifieddate >= $project_cutoff_ts" )
 	    or die(mysql_error());
