@@ -43,7 +43,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-        VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."', '". $state."', $num_projects)";
+        VALUES ($yr, $mth, $dy, '$dte', '$state', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -69,7 +69,7 @@ $result = mysql_query ("SELECT distinct state FROM project_state_stats ORDER BY 
 while (list ($state) = mysql_fetch_row ($result)) {
 
 
-    $qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '".$state."' and date = '".date('Y-m-d')."'";
+    $qry = "SELECT count(*) as cnt FROM project_state_stats WHERE state = '$state' and date = '".date('Y-m-d')."'";
     echo $qry;
     $result2 = mysql_query ($qry);
 
@@ -80,7 +80,7 @@ while (list ($state) = mysql_fetch_row ($result)) {
 
         $insert_query =
             "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-            VALUES (".$yr.", ".$mth.", ".$dy.", '".$dte."','". $state."', 0)";
+            VALUES ($yr, $mth, $dy, '$dte','$state', 0)";
 
         if ($testing_this_script)
         {
