@@ -9,7 +9,7 @@ theme('Post-Proofing FAQ','header');
 ?>
 
 <h1>Post-Proofing FAQ</h1> 
-<h5>(Version 3.5; last updated September 12, 2003)</h5> 
+<h5>(Version 3.51; last updated September 28, 2003)</h5> 
 <br> 
 <h3>Getting Started</h3> 
  
@@ -353,7 +353,23 @@ to give you a reference with the page numbers still included.
     and that all end-of-line hyphenation is fixed. 
     <a href="#PRTK">PRTK</a> has a Dash Check feature which will list all words 
     containing dashes so that you can look for oddities with ease. 
- 
+
+<p> 
+Guiguts has a hyphen checking feature as part of its Word Frequency function. 
+It highlights differences between hyphenated and non-hyphenated words. e.g.
+</p>
+<pre>
+      1 every-day
+      4 everyday ****
+</pre>
+<p>
+indicates that every-day occurs once and everyday occurs 4 times in the text. 
+Double-clicking on a word in the list adds the word to the guiguts Search function, 
+once the word is found in the text, 
+the image for that page can be viewed by Clicking on the "See" button 
+at the bottom of the guiguts interface for easy text and image comparison. 
+</p>
+
 <p>
 Some proofers like to replace all hyphens with unbreaking hyphens 
 in order to minimize the work in browsing for hyphenated words 
@@ -410,7 +426,7 @@ just make sure that there are no numbers missing.
 <li><a name="13">Remove page markers, either manually or with a tool or search.</a> 
     Remove [Blank Page] tags as well.<br>
  
-<li><a name="14-16">Search for space-hyphen and hyphen-space 
+<li><a name="14">Search for space-hyphen and hyphen-space 
     and replace each instance with hyphen.</a> 
     The exception here is hyphens replacing a word, like a person's name; 
     in that case, leave spaces before and after the hyphens to indicate this. 
@@ -425,9 +441,9 @@ just make sure that there are no numbers missing.
 <li>Remove end-of-line spaces by searching for spaces followed by returns 
     and replacing them with returns only. Again, don't do a global replace. 
     <a href="#PRTK">PRTK</a> has a feature which will remove end-of-line spaces 
-    automatically. (So does RewrapIndent)<br>
+    automatically. (So do RewrapIndent and guiguts)<br>
  
-<li><a name="17">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
+<li><a name="15-17">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
     Make sure that the same number of &lt;i&gt; were replaced as &lt;/i&gt;. 
     If there were more or less, some of the tags may not have been correctly typed, 
     and you'll have to track them down.   
@@ -614,7 +630,8 @@ Guiguts comes in two forms: as a
 which can be run on any platform, but requires a perl interpreter.  
 The online manual can be found 
 <a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
-Guiguts does not come with a spell checker. 
+Guiguts does not come with a spell checker, 
+but it is easy to integrate Aspell or Ispell for use with guiguts. 
 For the latest news, and the best place to ask a question about GuiGuts,
 please see the forum thread 
 <a href="<? echo $forums_url ?>/viewtopic.php?t=3075">Gui frontend to gutcheck and other post processing - Guiguts</a>
