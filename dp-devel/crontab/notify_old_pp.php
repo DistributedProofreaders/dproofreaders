@@ -37,7 +37,7 @@ $db_Connection=new dbConnect();
 		    $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
 		    $email = mysql_result($userresult, 0, "email");
 			
-		    echo $PPinQuestion . "\n" . $projectslist ."\n\n";
+		    echo $PPinQuestion . "\n" . $projectslist ."<br><br>\n\n";
 
 		    $message = "This is an automated message.\n\n".
 "Our database indicates that you have had ". ($numprojs == 1) ? "a project" : "several projects" . " checked out for more than 90 days:\n\n" 
