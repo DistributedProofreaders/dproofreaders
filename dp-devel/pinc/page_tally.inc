@@ -177,10 +177,14 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
     $rankArray = array();
 
+    // Note that for the purposes of this function,
+    // we pretend that no users with pagescompleted <= 0 exist,
+    // with the possible exception of the target user.
+
     $result = mysql_query("
         SELECT username, pagescompleted, u_privacy
         FROM users
-        WHERE pagescompleted > 0
+        WHERE pagescompleted > 0 OR username='$username'
         ORDER BY pagescompleted DESC
     ");
     $i = 0;
@@ -216,26 +220,12 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
     if (!isset($userindex))
     {
-        // Either the target user doesn't appear in the 'users' table
-        // (which shouldn't normally happen), or it appears with
-        // pagescompleted <= 0 (or null, I suppose).
-        //
-        // Assume that pagescompleted = 0 (which you'd think would be a safe
-        // assumption), and pretend that the target user is the only such user.
-
-        $userindex = $i;
-        $rankArray['username'][$userindex] = $username;
-        $rankArray['pages'][$userindex] = 0;
-        $rankArray['rank'][$userindex] = $userindex+1;
-        $max_current_rank = $userindex+1;
+        // The target user does not appear in the 'users' table.
+        // This shouldn't ever happen.
+        die( "User '$username' does not appear in the 'users' table." );
     }
-    else
-    {
-        // The target user appears in the 'users' table, with pagescompleted > 0.
-        // Pretend that there are no users with pagescompleted <= 0.
 
-        $max_current_rank = $rankArray['rank'][$i-1];
-    }
+    $max_current_rank = $rankArray['rank'][$i-1];
 
 
     $neighbors = array();
