@@ -77,7 +77,7 @@ echo "<br>
 
 // checkboxes for selection of difficulty
 
-echo "\r\n<table border=1 width=630>";
+echo "\r\n<table border=1>";
 echo "\r\n<tr>";
 
 echo "<td>"._("Difficulty")."</td>";
@@ -93,7 +93,7 @@ echo "</table>\n";
 
 // drop down multiselect listboxes for Language, Genre and PM
 
-echo "\r\n<table border=1 width=630>";
+echo "\r\n<table border=1>";
 echo "\r\n<tr>";
 
 echo   "<td>"._("Language")."</td>";

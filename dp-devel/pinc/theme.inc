@@ -41,7 +41,7 @@ function theme ($nameofpage, $location) {
 			if ($location == "header") {
 				html_header($code_url, $theme, $nameofpage);
 				html_logobar($code_url, $theme, $nameofpage, $theme_name);
-				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
 				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
@@ -56,7 +56,7 @@ function theme ($nameofpage, $location) {
 			if ($location == "header") {
 				html_header($code_url, $theme, $nameofpage);
 				html_logobar($code_url, $theme, $nameofpage, $theme_name);
-				echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
@@ -73,7 +73,7 @@ function theme ($nameofpage, $location) {
 		if ($location == "header") {
 			html_header($code_url, $theme, $nameofpage);
 			html_logobar($code_url, $theme, $nameofpage, $theme_name);
-			echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+			echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 			echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
@@ -86,17 +86,24 @@ function theme ($nameofpage, $location) {
 
 function html_header($code_url, $theme, $nameofpage) {
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-        echo "<html><head><link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
+      echo "<html>\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
-        if (isset($nameofpage)) { echo " -- $nameofpage"; }
+      if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
-	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>\n";
-	echo "<body bgcolor='".$theme['body_bgcolor']."' text='".$theme['body_text']."' link='".$theme['body_link']."' vlink='".$theme['body_vlink']."' alink='".$theme['body_alink']."' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n";
+      if (isset($nameofpage) && substr($nameofpage,0,13) == 'Personal Page'))
+      {
+        	include($relPath.'special_colours.inc');
+      }
+	echo "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n</head>\n\n";
+	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text']; 
+	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink']; 
+	echo "' alink='" . $theme['body_alink']; 
+	echo "' topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>\n\n";
 }
 
 function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	global $dynstats_dir, $maintenance;
-	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
+	echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
@@ -115,7 +122,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "</tr>\n";
 	echo "</table>\n";
 
-	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<tr>\n";
 	echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
 	echo "<td width='50%' align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
@@ -495,12 +502,12 @@ function html_footer($code_url, $theme, $theme_name) {
 	$totaltime = ($endtime - $GLOBALS['starttime']);
 
     //Bottom Copyright Text
-	echo "<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
+	echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
 	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Copyright")." "._("Distributed Proofreaders")." ("._("Page Build Time").": ".substr($totaltime, 0, 5).") </font><a href='".$GLOBALS['code_url']."/tasks.php'><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Report a Bug")."</font></a></center></td></tr>\n";
 	echo "</table>\n";
 
     //The End
-	echo "</body>\n";
+	echo "\n</body>\n";
 	echo "</html>\n";
 }
 ?>

@@ -63,7 +63,7 @@ if ($orderR2 != $orderR2old) {
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
 
-    echo "\r\n<table border=1 width=630>";
+    echo "\r\n<table border=1>";
     echo "\r\n<tr>";
     tde("<h3>Current First - Round Projects</h3>", bgcol(1,'first') . " colspan=2");
     tde("These pages are output from the OCR software and have not been looked at.", bgcol(1,'first') . " colspan=6");
@@ -83,7 +83,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
   {
-    echo "\r\n<table border=1 width=630>";
+    echo "\r\n<table border=1>";
     echo "\r\n<tr>";
     tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'second') . " colspan=2");
     if ($totalpages < 50)
