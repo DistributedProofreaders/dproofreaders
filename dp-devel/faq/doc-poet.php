@@ -43,10 +43,11 @@ theme('Proofing Guidelines -- Poetry','header');
     <br>and insert a new line after the end of the poetry, and type <tt>*/</tt> on it.
         (These markers are to help the post processor find the poetry, which has to
         be treated differently.)                                                </li>
-    <li>If lines are indented, indent them (in groups of 2 spaces).             </li>
+    <li>If lines are indented relative to each other, indent them to match.     </li>
     <li>But don't try to <b>center</b> poetry, even if it was centered in the
         printed version.  (That won't work for an e-book viewed with many
-        different screen sizes.) Just put it all along the left margin.         </li>
+        different screen sizes.) Slide the lines towards the left margin, while preserving
+        teh relative indents.         </li>
     <li>If a line of verse is "broken" because it collided with the right
         margin, join it back into a single line.                                </li>
     <li>If some words are set in ALL CAPS at the beginning of a poem (or each
