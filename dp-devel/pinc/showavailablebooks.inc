@@ -18,7 +18,7 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
     while ($rownum2 < $numrows) {
            $book=dassoc($result);
             // find out how many files the project has total/available!!!!!
-            $pages=bookpages($book['projectid'],$state);
+            $pages=bookpages($book['projectid'],"=$state");
             $bgcolor=bgcol($rownum);
 
         if (($pages['available'] != 0) && ($book['state'] == $state)) {

@@ -1,7 +1,7 @@
 <?PHP
 function bgcol($row)
-{if ($row % 2) {$bgcolor = "\"#CCCCCC\"";}
-else {$bgcolor = "\"#999999\"";}
+{if ($row % 2) {$bgcolor = "#CCCCCC";}
+else {$bgcolor = "#999999";}
 return $bgcolor;}
 
 function tde($text,$row,$cntr)
