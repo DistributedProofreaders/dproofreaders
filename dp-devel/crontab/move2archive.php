@@ -3,10 +3,6 @@
 
 $relPath="./../pinc/";
 include($relPath.'dp_main.inc');
-include($relPath.'bookpages.inc');
-include($relPath.'showavailablebooks.inc');
-include($relPath.'project_states.inc');
-include($relPath.'page_states.inc');
 
 
 //get projects that have archived flag set
