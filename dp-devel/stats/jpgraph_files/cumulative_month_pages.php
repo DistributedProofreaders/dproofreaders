@@ -28,6 +28,10 @@ while ($row = mysql_fetch_assoc($result)) {
 	$i++;
 }
 
+if (empty($datay1)) {
+	$datay1[0] = 0;
+}
+
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
 $graph = new Graph(640,400,"auto",1);
