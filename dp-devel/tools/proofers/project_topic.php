@@ -55,7 +55,7 @@ Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id
         $post_result =  insert_post(
                 $message,
                 $post_subject,
-                $projects_forum_url,  
+                $projects_forum_idx,  
                 $owner,
                 $proj_mgr,
                 $sig);
