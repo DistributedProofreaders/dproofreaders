@@ -75,7 +75,7 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
 
 $projectinfo = new projectinfo();
-if ($proofstate < 9) {
+if ($proofstate ==AVAIL_PI_FIRST) {
   $projectinfo->update_avail($project, AVAIL_PI_FIRST);
 } else $projectinfo->update_avail($project,AVAIL_PI_SECOND);
 
