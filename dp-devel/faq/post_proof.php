@@ -9,7 +9,7 @@ theme('Post-Proofing FAQ','header');
 ?>
 
 <h1>Post-Proofing FAQ</h1> 
-<h5>(Version 3.51; last updated September 28, 2003)</h5> 
+<h5>(Version 3.6; last updated January 2, 2004)</h5> 
 <br> 
 <h3>Getting Started</h3> 
  
@@ -27,27 +27,33 @@ theme('Post-Proofing FAQ','header');
                             (ex. searching for Stealth Scannos).</a> 
 	<li><a href="#10">10. Search for *.</a> 
 	<li><a href="#11">11. Format the book.</a> 
-	<li><a href="#12">12. Run Gutcheck.</a>  
-	<li><a href="#13">13. Remove page markers.</a> 
-	<li><a href="#14">14. Rewrap lines.</a> 
-	<li><a href="#15-17">15-17. Search for hyphens adjacent to spaces, 
+	<li><a href="#12">12. Remove page markers.</a> 
+	<li><a href="#13-15"> 13-15. Search for hyphens adjacent to spaces, 
                              double spaces, and spaces at the end of lines.</a>
-	<li><a href="#18">18. Replace all HTML elements.</a> 
+	<li><a href="#16">16. Replace all HTML elements.</a> 
+	<li><a href="#17">17. Rewrap lines.</a> 
+	<li><a href="#18">18. Run Gutcheck.</a>  
 	<li><a href="#19">19. Look the book over again.</a>
-	<li><a href="#20">20. Add your name to the credits line.</a>
-	<li><a href="#21">21. Upload book for verification.</a>
+	<li><a href="#20">20. Upload book for verification.</a>
 	</ul> 
 <br> 
-<h3>Software</h3> 
- 
+<h3><a href="#Software">Software</a></h3> 
+
+<h4><a href="#Basic">The Basics</a></h4>
 <a href="#Gutcheck">Gutcheck</a><br> 
 <a href="#Editors">Text Editors</a><br> 
-<a href="#Images">Images</a><br> 
-<a href="#Tools">Other Tools</a><br> 
+<a href="#Images">Image Viewers</a><br>
+<a href="#Spell">Spell Checkers</a><br>
+<a href="#HTML">HTML Validators</a><br>
+
+<h4><a href="#Dedicated">Dedicated Proofing Tools</a></h4>
+<a href="#Guiguts">Guiguts</a>
+<a href="#Gut">The Gut* Foursome</a>
+<a href="#Extras">Other Tools</a><br> 
 <br> 
 <h3>Advanced Proofing Questions</h3>
 
-<h4>Text Formatting</h4>
+<h4>Special Formatting Issues</h4>
 <a href="#Footnotes">Footnotes</a><br> 
 <a href="#Illustrations">Illustrations</a><br> 
 <a href="#Poetry">Poetry</a><br> 
@@ -65,7 +71,7 @@ theme('Post-Proofing FAQ','header');
 <a href="#Formats">Non-ASCII Formats</a><br> 
 <a href="#Missing">Missing or Problem Images</a><br> 
 <a href="#Returning">Returning a Project</a><br>
-<a href="#Beginner">BEGINNER and MENTOR projects</a><br>
+<a href="#Split">Projects with Multiple Parts</a><br>
 <a href="#PPV">Post-Processing Verification</a>
 <a href="#Other">Other Questions, and Suggestions for the FAQ</a><br> 
 <br> 
@@ -118,13 +124,13 @@ Also, post-proofers should be very familiar with the
 	<ul> 
 	<li>a <a href="#Editors">text editor</a>,
 	<li>a program capable of opening <a href="#Images">images</a>,
-	<li>a spell checker, and 
+	<li>a <a href="#Spell">spell checker</a>, and 
 	<li><a href="#Gutcheck">Gutcheck</a>. 
 	</ul> 
  
 <p>
-There are other useful <a href="#Extras">programs</a> available which are nice to have, 
-but not essential. 
+There are other useful <a href="#Software">programs</a> available which are not essential,
+but which can be extremely useful and might save you a lot of time. 
 Take a look and see if any of them would be of use to you.
 </p> 
 <br> 
@@ -162,6 +168,9 @@ These texts are often marked "EASY" and are available to all post-proofers.
 <p>
 Download the text you have chosen by going to its Book Options scrollbar 
 and selecting "Download Zipped Text".
+Do not select "Download Zipped TEI Text" (a different encoding)
+unless you know what TEI is and want to play around with it.
+The plain text is the version that you need.
 </p>
  
 <p>
@@ -183,6 +192,8 @@ more difficult than you had realized.
 When you have found a work that you want to do, 
 check it out by going to its Book Options dropdown listbox and selecting Check Out Book. 
 The book is now yours!
+(Make absolutely sure that the book appears as checked out to you, or you might end up
+working for hours on your text only to find that someone else has checked it out and submitted it!)
 </p>
 <br>
 <h4><a name="Time">How long will it take me to post-process my book?</a></h4>
@@ -216,32 +227,32 @@ You will speed up naturally with practice.
  
 <p>
 <b>There is no one way to post-process books.</b> 
-Every post-proofer has a different technique and uses different tools. 
+Every post-proofer has a different technique and uses different tools to do the job. 
 The technique described below is the one the author personally uses,
 but there are many ways of achieving the same end result. 
 In time, you will probably develop your own technique.
 </p>
  
 <p>
-This walkthrough is a very hands-on way of post-proofing, 
+This walkthrough describes a very hands-on way of post-proofing, 
 which is why it is recommended for first-time post-proofers. 
 It takes longer to complete the book this way 
-than if macros and global find-and-replace are used, 
-but it gives the first timer a feel for what they should look out for 
+than if macros, global find-and-replace, and other tools are used, 
+but it gives the first-timer a feel for what they should look out for 
 by making the proofer scroll through the book several times.  
 Also, the walk-through below is suitable for use on all operating systems, 
 regardless of what text editor is used or what tools are available for that operating system. 
 Once you get the hang of what post-proofing is all about,
-feel free to use macros and such if you wish. 
-A list of helpful tools and their functions is provided in the 
-<a href="#Software">Software</a> section below.
+please experiment with the <a href="#Software">software</a> available below,
+especially the <a href="#Dedicated">dedicated post-proofing tools</a>.
+You do not <i>have</i> to use and of them, but any post-proofers find them indispensable!
 </p>
 
 <p>
 It is strongly advised that you read through the following walkthrough 
 <i>before</i> starting to post-proof. 
 This will give you an idea of what you will be doing in advance. 
-You might also like to look for helpful <a href="#Software">software</a> 
+You might also like to look for helpful <a href="#Software">software</a> first
 if you are so inclined.
 </p>
 <br> 
@@ -249,12 +260,16 @@ if you are so inclined.
  
 <ol> 
 <li><a name="1-5">Choose a book and sign it out.</a>  
-    For guidance, see <a href="#Selecting">Selecting a Book</a>, above.<br>
+    For guidance, see <a href="#Selecting">Selecting a Book</a>, above.
+    Make sure that the book appears in the Post-Processing list as checked out to you.
+    Otherwise, someone else might check it out later and duplicate all of your hard work!<br>
 
 <li>Look for comments and questions proofers had while proofing your book 
     in the <a href="<? echo $projects_forum_url ?>">Project Questions and Comments Forum</a>.<br> 
  
-<li>Download the book's images (optional) and text. 
+<li>Download the book's images (optional) and text.
+	Make sure to select "Download Zipped Text" and not "Download Zipped TEI Text"
+	unless you know how to work with TEI text encoding. 
     You may wish to make a local backup of the text file, 
     for ease of reference later in the process.<br> 
  
@@ -264,21 +279,17 @@ if you are so inclined.
  
 <li>If the document is not displayed in a monospaced font 
     (that is, a font where each letter, space, and punctuation mark 
-    take up exactly the same amount of space), make this adjustment now.  
-    Also, if you are not saving the working document as plain text (.txt), 
-    but as a Microsoft Word document or some other file type, 
-    make sure that the font size is 10 point.  
-    Please note, however, that the final submitted version MUST be saved 
-      as a text file (.txt).  
-    This is easily done in all word processing programs.  
-    If you think that you might forget to make this conversion, 
-    it would be wise to save as plain text from the very beginning.<br>
+    take up exactly the same amount of space), make this adjustment now.
+    "Monaco" or any font with "Mono" in its name will be monospaced.  
+    Please make sure that the project is always saved as text (.txt).  
+    This is a Project Gutenberg requirement, 
+    and is easily done in all word processing and text editing programs.<br>
  
 <li><a name="6">Format the first page(s) to your liking.</a> 
     These pages contain the title of the book, the author's name, 
     and occasionally information on a translator, etc. 
     Delete any copyright or publication information (unless you really want to keep them in), 
-    <b>except</b> for the years of publication and/or copyright (which, in a recent change, 
+    <b>except</b> for the years of publication and/or year of copyright (which, in a recent change, 
     we are now keeping), and space the rest in a way that is pleasing to your eye. 
     If this section is in ALL CAPS, you can change it to Capitalized Text if you wish.<br>
  
@@ -287,12 +298,12 @@ if you are so inclined.
     which can be corrected at this time. 
     There are many other things that you can look for during this first pass. 
     For instance, you may notice deviations from the proofing guidelines, 
-      which should be corrected.  
-    Here are a few things to watch for:
+    which should be corrected.  
+    Here are a few examples of the sorts of things to watch for:
     <ul> 
 	<li>poetry, tables, and other areas which <b>must not</b> be re-wrapped 
             (i.e. where line breaks are important).  
-            These should be surrounded by /* */, but be wary, as some might not be!;
+            These <i>should</i> be surrounded by /* */, but be wary, as some might not be!;
 	<li>punctuation in odd places (usually from specks on the scanned image) 
             and dubious spellings;
 	<li>lines of asterisks: if you find one, it may be worth looking through the images 
@@ -313,10 +324,9 @@ if you are so inclined.
             to make sure that there are none missing, 
             and read the last few words on each page 
             and the first few words on the next page 
-            to make sure that they go together;
-	<li>pages which look like they haven't been proofed at all: 
-            you'll have to look carefully for errors in these areas; and
-    <li>words in all caps at the beginning of paragraphs. 
+            to make sure that they go together; and
+	<li>pages which look like they haven't been proofed at all; 
+            you'll have to look carefully for errors in these areas. 
     </ul> 
  
 <p>
@@ -334,6 +344,9 @@ Most people remove them at this stage,
 though some leave them in to make checking the text against the images easier. 
 If you choose to remove them, make an unedited copy of the file 
 to give you a reference with the page numbers still included.
+You can always unzip or download a fresh file if something happens to your backup.
+<a href="#Guiguts">Guiguts</a> will remove the page markers 
+while still remembering the page's identity.
 </p>
  
 <li><a name="8">Run a spell check.</a> 
@@ -342,7 +355,9 @@ to give you a reference with the page numbers still included.
     and correct when necessary. 
     Proofers often miss some misspellings, such as ltttle for little.  
     Books of PG vintage, especially books of poetry, 
-    may contain archaic and unusual spellings and words.<br> 
+    may also contain archaic and unusual spellings and words.
+    DO NOT correct these, but only obvious typos or OCR errors.
+    If you do not have a spell checker, you can pick one up <a href="#Spell">here</a>.<br> 
  
 <li><a name="9">Search for -.</a> 
     If you run across something bizarre, 
@@ -353,23 +368,7 @@ to give you a reference with the page numbers still included.
     and that all end-of-line hyphenation is fixed. 
     <a href="#PRTK">PRTK</a> has a Dash Check feature which will list all words 
     containing dashes so that you can look for oddities with ease. 
-
-<p> 
-Guiguts has a hyphen checking feature as part of its Word Frequency function. 
-It highlights differences between hyphenated and non-hyphenated words. e.g.
-</p>
-<pre>
-      1 every-day
-      4 everyday ****
-</pre>
-<p>
-indicates that every-day occurs once and everyday occurs 4 times in the text. 
-Double-clicking on a word in the list adds the word to the guiguts Search function, 
-once the word is found in the text, 
-the image for that page can be viewed by Clicking on the "See" button 
-at the bottom of the guiguts interface for easy text and image comparison. 
-</p>
-
+ 
 <p>
 Some proofers like to replace all hyphens with unbreaking hyphens 
 in order to minimize the work in browsing for hyphenated words 
@@ -393,11 +392,18 @@ you will want to be sure that you do a thorough job
 and catch as many mistakes as you can, 
 and these extra checks will help you produce high quality etexts.
 </p>
+
+<p>
+<a href="#Guiguts">Guiguts</a> makes performing paranoid checks a lot easier,
+as it incorporates Gutcheck into its interface.  
+<a href="#Gut">GutAxe</a> makes these checks as well.
+
+</p>
  
 <li><a name="10">Search for *.</a> 
-    In addition to the asterisks that you may have inserted to mark potential problems, 
+    In addition to the asterisks that you may have inserted yourself to mark potential problems, 
     proofers may have used them to mark problems that they had 
-    and bring them to your attention. 
+    to bring them to your attention. 
     If you have left in the page markers, 
     use them to guide you to the image containing the text that you are checking.<br>
  
@@ -417,16 +423,10 @@ If the chapters are simply numbered Chapter 1, 2, etc.,
 just make sure that there are no numbers missing.
 </p> 
  
-<li><a name="12">Run Gutcheck.</a> 
-    Check every potential problem that it brings to your attention.  
-    Not all Gutcheck "flags" are genuine errors 
-   (for example, it may report short lines where the text contains poetry or a table), 
-   but each must be looked into and corrected if necessary.<br>
- 
-<li><a name="13">Remove page markers, either manually or with a tool or search.</a> 
+<li><a name="12">Remove page markers, either manually or with a tool or search.</a> 
     Remove [Blank Page] tags as well.<br>
  
-<li><a name="14">Search for space-hyphen and hyphen-space 
+<li><a name="13-15">Search for space-hyphen and hyphen-space 
     and replace each instance with hyphen.</a> 
     The exception here is hyphens replacing a word, like a person's name; 
     in that case, leave spaces before and after the hyphens to indicate this. 
@@ -436,14 +436,15 @@ just make sure that there are no numbers missing.
 <li>Search for double space and replace with single space. 
     DO NOT do a global find and replace 
     if your text contained poetry, charts, or lines of asterisks, 
-    all of which legitimately contain multiple spaces.<br>
+    all of which legitimately contain multiple spaces.
+    <a href="#Gut">GutSweeper</a> will do this for you automatically.<br>
  
 <li>Remove end-of-line spaces by searching for spaces followed by returns 
     and replacing them with returns only. Again, don't do a global replace. 
     <a href="#PRTK">PRTK</a> has a feature which will remove end-of-line spaces 
-    automatically. (So do RewrapIndent and guiguts)<br>
+    automatically, as does RewrapIndent.<br>
  
-<li><a name="15-17">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
+<li><a name="16">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
     Make sure that the same number of &lt;i&gt; were replaced as &lt;/i&gt;. 
     If there were more or less, some of the tags may not have been correctly typed, 
     and you'll have to track them down.   
@@ -456,7 +457,7 @@ just make sure that there are no numbers missing.
     which symbol you used for italics and which for bold, 
     but this is not absolutely necessary.<br>
  
-<li><a name="18">Time to rewrap.</a> 
+<li><a name="17">Time to rewrap.</a> 
     Did you see any poetry, tables, etc.? 
     If not, rewrapping the lines should be easy. 
     You will need to rewrap the lines to between 65 and 75 characters in length. 
@@ -464,48 +465,65 @@ just make sure that there are no numbers missing.
     and you will have to find the way that works best for you. 
     In BBEdit Lite, select Hard Wrap from the Text menu. 
     For MS Word, save as Text with Line Breaks. 
+    Many <a href="#Dedicated">tools</a> will rewrap for you,
+    including Guiguts, GutHammer, and RewrapIndent. 
     If worst comes to worst and you cannot find an easy way to rewrap the lines, 
     find and replace all line breaks with spaces, 
     count any line to find to see approximately where 65-75 characters falls, 
     and insert lines breaks manually at this point. 
     It's painful, but it works. 
-    Be grateful that you chose a book with a low page count!<br>
+    Be grateful that you chose a book with a low page count!
+    However, this extreme step should not be necessary.<br>
  
 <p>
 If you have areas that you must not wrap, you must be more careful. 
 In BBEdit, it is possible to rewrap a section by highlighting it and selecting Hard Wrap. 
 This allows you to rewrap the text in blocks between tables or poems. 
 Other programs may have a similar feature. 
+<a href="#Dedicated">RewrapIndent, Guiguts, and Guthammer</a> feature selective rewrapping, 
+though the user needs to learn a small amount of special markup.
 If you cannot find an easy way to rewrap around poems, 
 there is a process which you can try <a href="rewrap.html">here</a>.
 </p>
 
+<p>Make sure to remove the /* */ markup around poetry and tables after the rewrap is complete!</p>
+
 <p>
 Rewrapping sometimes reveals spacing errors.  
-Repeat steps 14 and 16 to catch any new problems 
+Repeat steps 13 and 15 to catch any new problems 
 that may have been introduced by the rewrap.
 </p>
+ 
+<li><a name="18">Run Gutcheck.</a> 
+    Check every potential problem that it brings to your attention.  
+    Not all Gutcheck "flags" are genuine errors 
+   (for example, it may report short lines where the text contains poetry or a table), 
+   but each must be looked into and corrected if necessary.
+   Continue to run Gutcheck after each series of corrections 
+   until it doesn't flag any more "true" errors.<br>
  
 <li><a name="19">Give the whole thing a quick eyeball to make sure that all is well.</a>  
     If you are not sure what the finished text should look like, 
     download a text from <a href="http://www.promo.net/pg">Project Gutenberg</a> 
-    and skim it to get a clearer idea.<br>
+    and skim it to get a clearer idea.
+    Some proofers believe that this is best done the next day, 
+    when you have a fresher eye and might be more likely to spot oversights.
+    If you switched characted sets (eg. used MIDex on a Mac), switch back to ISO encoding now.<br>
 
-<li><a name="20">Add your name to the credits line.</a>  
-    If you wish for your name to appear in the credits of the final etext, 
-    type it at the top of the text in the form you would like it to appear.  
-    This might be your proper name, your screen name, 
-    or any other name that you wish to be known by.  
-    If you do NOT wish to be credited, leave a note to this effect as well.  
-    If you would like to be notified when your etext is posted to PG, 
-    put your email with your name at the top of the etext.<br>
- 
-<li><a name="21">Zip the finished product and upload it to the site.</a> 
+<li><a name="20">Zip the finished product and upload it to the site.</a> 
+    Make sure that the file is saved as plain text.  
+    <b>No other file formats will be accepted.</b>
     Go to your Post-Processing page, 
     and select Upload for Verification from the project's drop-down menu. 
-    After your first few texts, 
-    they will also explain how to create two separate versions: 
-    an ASCII version for posting and an archive version for, well, archiving.<br>
+    Enter your name and email address in the submit form if you would like your real name
+    to be listed in the credits of the final etext.
+    If you do not wish for your name to appear, 
+    put in a note that you would like to remain anonymous.
+    Your email address will not be displayed in the credits line,
+    but is used by the PPVer to give you feedback.
+    If you do not include an email address,
+    this feedback will be sent via a personal message on the site.
+    <br>
 
 <p>
 NOTE:  Please ensure that your files .zip extension is in lower case, NOT in upper case.  
@@ -519,8 +537,12 @@ when the .zip extension was written in upper case.
 <hr> 
 <a name="Software"></a>
 <h2>Software</h2> 
+<br>
+<h3>The Basics</h3>
+<br>
+<h3><a name="Gutcheck">Gutcheck</a></h3>
 <br> 
-<h4><a name="Gutcheck">What is Gutcheck, and how do I use it?</a></h4> 
+<h4>What is Gutcheck, and how do I use it?</h4> 
  
 <p>
 Gutcheck is a nifty piece of software created by Jim Tinsley 
@@ -533,40 +555,42 @@ like mismatched quotes, short lines, etc.
 Gutcheck is currently being produced for Windows and *nix systems, 
 and can be found <a href="http://gutcheck.sourceforge.net">here</a>. 
 A quick-and-dirty Mac build can be downloaded <a href="gutcheck-0-95.sit">here</a>. 
-A few kindly individuals have also constructed web interfaces for Gutcheck 
-(<a href="http://caw.homelinux.net/gut/gutcheck.php">here</a> and 
-<a href="http://inkwina.homeip.net/%7Ephsi/gutcheck/gutcheck.php">here</a> 
-*please note that neither of these are working at present; 
-if you would like to set one up, please 
-<a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">send me the link</a>*) 
-if you cannot run any of the builds available. 
 You could also simply ask another post-proofer to run Gutcheck for you 
 if you have trouble with it, and they can send you a list of results.
 </p>
-<br> 
-<h3><a name="Extras">Other Useful Software...</a></h3> 
+
+<p>
+Many people have trouble setting up Gutcheck for the first time.
+If you too have trouble, don't worry.
+Someone in the <a href="<? echo $projects_forum_url ?>">Post-Processing Forum</a>
+will be only too happy to help you.  Just post and ask for help!
+</p>  
+
+<p>If you are using Guiguts, you will not need Gutcheck, as it is a part of Guiguts.</p>
 <br> 
 <h4><a name="Editors">Text Editors</a></h4> 
  
 <p>
 Any text editor can be used for post-proofing, 
 but some have tools which make them more suitable than others for the job. 
-<a href="http://www.barebones.com/products/bblite/index.shtml">BBEdit Lite</a> 
+<a href="ftp://ftp.barebones.com/pub/freeware/BBEdit_Lite_612.smi.hqx">BBEdit Lite</a> 
 is an excellent choice for Mac users. 
+It is no longer being supported, but remains on the site for download.  
 Be sure to download the 
 <a href="http://ftp.barebones.com//pub/third-party-plugins/MIDex_1.4.2.hqx">MIDex</a> 
-plugin as well. 
-It is no longer being supported, but remains on the site for download.  
+plug-in as well. 
+Other useful plug-ins for BBEdit are available 
+<a href="http://www.barebones.com/support/bbedit/plugin_library.shtml">here</a>.
 Many *nix users use emacs, which can be downloaded 
 <a href="http://ftp.gnu.org/pub/gnu/emacs/">here</a>, 
 though it is probably on your machine already. 
 It is also available for 
 <a href="http://www.emacs.mirkolinkonline.de/install_en.html">Windows</a>. 
 If you use Microsoft Word for any platform, 
-you will be able to run a useful <a href="#Tools">macro</a>.
+you will be able to run a useful <a href="#Extras">macro</a>.
 </p>
 <br> 
-<h4><a name="Images">Images</a></h4> 
+<h4><a name="Images">Image Viewers</a></h4> 
  
 <p>
 You will need to be able to look at your book's scanned images 
@@ -579,91 +603,15 @@ Any program that will display images will do.
 <p>
 Some people have recommended utilities which allow you to see thumbnails of images 
 without opening them, making it easier to find the one you're looking for. 
-<a href="http://www.lemkesoft.de/gcdownload_us.html">GraphicConverter</a> 
+<a href="http://www.lemkesoft.de/en/index.htm">GraphicConverter</a> 
 is one such program for Macintosh machines. 
-<a href="http://www.irfanview.com/english.htm">Irfanview32</a> 
+<a href="http://www.irfanview.com/main_download_engl.htm">Irfanview</a> 
 is a quality Windows image manipulation program. 
 <a href="http://www.xnview.com/">Xnview</a> 
 runs on Windows, *nix, and a host of smaller operating systems.
 </p>
-<br> 
-<h4><a name="Tools">Other Very Useful Tools</a></h4> 
- 
-<p>
-Below are some useful pieces of software which are designed to aid post-processors.  
-There are also some macros listed here, 
-which will perform certain repetitive post-proofing tasks for you 
-to save you time and effort.  
-Though none of these tools are necessary for the job 
-(i.e. it can be done even if you choose not to run any of them), 
-they can make it a LOT easier.  
-Indeed, many post-processors wouldn't dream of working without them!
-</p> 
 
-<p><b>Software Packages</b></p>
-
-<p>
-There are presently two pieces of software 
-which have been specifically written by post-proofers for post-proofers.  
-Both provide an all-in-one kit, so you can use them for all of your post-processing, 
-or just take advantage of some of their extras.  
-Each program has their supporters and detractors, so give them both a try!
-</p>
-
-<p>
-<b>Guiguts</b> was written by thundergnat.  
-The tool is almost a complete post-proofing kit in itself.  
-Among its special features are the ability to 
-automatically remove page headers while keeping track of each page's identity, 
-analysis of word frequencies 
-(especially useful for catching misspelled proper names and other odd spellings), 
-automated checks for markup errors, a footnote moving function, 
-easy checking of "Stealth Scannos", and much more.  
-You won't even need a text editor or Gutcheck, because they're built in!
-</p>
-
-<p>
-Guiguts comes in two forms: as a 
-<a href="http://mywebpages.comcast.net/thundergnat/winguts.zip">DOS/Windows executable</a> 
-(no other software needed to run it), and as a 
-<a href="http://mywebpages.comcast.net/thundergnat/guiguts.zip">perl script</a>, 
-which can be run on any platform, but requires a perl interpreter.  
-The online manual can be found 
-<a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
-Guiguts does not come with a spell checker, 
-but it is easy to integrate Aspell or Ispell for use with guiguts. 
-For the latest news, and the best place to ask a question about GuiGuts,
-please see the forum thread 
-<a href="<? echo $forums_url ?>/viewtopic.php?t=3075">Gui frontend to gutcheck and other post processing - Guiguts</a>
-</p>
-
-<p>
-BillFlis has created a set of four tools which run on the Windows platform only.  
-<b>GutSweeper</b> scans the text and makes some automatic corrections, 
-such as eliminating double spaces and splitting oe ligatures.  
-It is markup sensitive, 
-so that it will not ruin the formatting of poetry, block quotes, and tables.  
-This saves some time for the proofer, 
-as all of its changes are ones that they would have to make anyway.  
-<b>GutAxe</b> is an interactive tool, 
-which allows the post-proofer to make more complicated changes to the text.  
-It works a bit like a spell checker, 
-highlighting a "problem" area and suggesting possible solutions.  
-It scans for common "Stealth Scannos" and punctuation errors, among other things.  
-<b>GutWrench</b> supplements GutAxe with a few extra checks.  
-<b>GutHammer</b> rewraps the text in a similar way to Big_Bill's RewrapIndent tool 
-(see Macros, below).  
-The changes made by these programs are saved as new files, 
-with no alteration being made to the original, 
-so they are totally undoable if something goes wrong.  
-The tools can be downloaded 
-<a href="http://frankfordinstitute.bravepages.com/GutWrench.htm">here</a>.
-For the latest news, and the best place to ask a question about GutWrench,
-please see the forum thread 
-<a href="<? echo $forums_url ?>/viewtopic.php?t=21114">GutWrench: Alternative to PRTK for Post-Processing</a>
-</p>
-
-<p><b>Spell Checkers</b></p>
+<h4><a name="Spell">Spell Checkers</a></h4>
 
 <p>
 Many text editors do not provide a spell checking feature.  
@@ -702,7 +650,94 @@ there are a good selection of language dictionaries available for downloading.
 Ispell can be found <a href="http://fmg-www.cs.ucla.edu/geoff/ispell.html">here</a>.
 </p>
 
-<p><b>Macros</b></p>
+<h4><a name="HTML">HTML Validators</a></h4>
+<br>
+<p>
+<a href="http://tidy.sourceforge.net/">HTML Tidy</a> is an excellent HTML validator
+which runs on a myriad of systems.  
+Files to be validated can be uploaded to <a href="http://validator.w3.org/">this website</a> 
+or <a href="http://infohound.net/tidy/">this one</a> and validated online.
+</p>
+<h3><a name="Dedicated">Dedicated Proofing Tools</a></h3> 
+<br>
+
+<p>
+There are presently two pieces of software 
+which have been specifically written by post-proofers for post-proofers.  
+Both provide an all-in-one kit, so you can use them for all of your post-processing needs, 
+or just take advantage of some of their extra features.  
+Each program has their supporters and detractors, so give them both a try!
+</p>
+<br>
+<h4><a name="Guiguts">Guiguts</a></h4>
+<p>
+Guiguts was written by thundergnat.  
+The tool is almost a complete post-proofing kit in itself. 
+It began as a graphical interface for gutcheck, but has evolved to become much more. 
+Among its special features are the ability to 
+automatically remove page headers while keeping track of each page's identity, 
+analysis of word frequencies 
+(especially useful for catching misspelled proper names and other odd spellings), 
+automated checks for markup errors, a footnote moving function, 
+easy checking of "Stealth Scannos", and much more.  
+You won't even need a text editor or Gutcheck, because they're built in!
+Guiguts is very well-documented.
+</p>
+
+<p>
+Guiguts comes in two forms: as a 
+<a href="http://mywebpages.comcast.net/thundergnat/winguts.zip">DOS/Windows executable</a> 
+(no other software needed to run it), and as a 
+<a href="http://mywebpages.comcast.net/thundergnat/guiguts.zip">perl script</a>, 
+which can be run on most platforms (NOT MacOS Classic), but requires a perl interpreter.  
+The online manual can be found 
+<a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
+Guiguts does not come with a spell checker. 
+</p>
+<br>
+<h4><a name="Gut">The Gut* Foursome</a></h4>
+<p>BillFlis has created a set of four tools which run on the Windows platform only.</p>
+
+<p> 
+<b>GutSweeper</b> scans the text and makes a lot of automatic corrections, 
+such as eliminating double spaces and end-of-line blanks, 
+fixing hyphenation errors, and splitting oe ligatures.  
+It is markup sensitive, 
+so that it will not ruin the formatting of poetry, block quotes, and tables.  
+This saves some time for the proofer, 
+as all of its changes are ones that they would have to be made anyway.
+</p>
+
+<p>
+<b>GutAxe</b> is an interactive tool, 
+which allows the post-proofer to make more complicated changes to the text.  
+It works a bit like a spell checker, 
+highlighting a "problem" area and suggesting possible solutions.  
+It scans for common "Stealth Scannos" and punctuation errors, among other things.
+It also removes page markers. 
+</p>
+
+<p>
+<b>GutWrench</b> supplements Gutcheck with a lot of extra checks.
+</p>
+
+<p>  
+<b>GutHammer</b> rewraps the text in a similar way to Big_Bill's RewrapIndent tool 
+(see Macros, below).
+It also replaces HTML markup with ASCII symbols.
+</p>
+
+<p>
+The changes made by these programs are saved as new files, 
+with no alteration being made to the original, 
+so they are totally undoable if something goes wrong.  
+The tools can be downloaded 
+<a href="http://frankfordinstitute.bravepages.com/GutWrench.htm">here</a>.
+They have excellent documentation, 
+and include a suggested post-proofing walkthrough written especially for the Gut* tools. 
+</p>
+
+<a name="Extras">Other Tools</a>
 
 <p>
 Please note that macros may need an additional piece of software in order to run.  
@@ -710,7 +745,7 @@ For example, a lisp or perl script will need a lisp or perl interpreter to work,
 ActivePerl, available <a href="http://www.activestate.com/Products/ActivePerl/">here</a>,
 and Clisp, available <a href="http://clisp.sourceforge.net/">here</a>, both for free.
 If you need help getting them to work, or your platform isn't supported by these,
-ask on the <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a> for help;
+ask in the <a href="<? $post_processing_forum_url >?">Post-Processing Forum</a> for help;
 almost certainly someone will be able to assist you!
 </p>
  
@@ -733,10 +768,7 @@ Garweyne has written a
 <a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/footnotes.lsp">lisp script</a> 
 to aid post-proofers wishing to rearrange footnotes. 
 A more elaborate description of the script's abilites is available at the link above. 
-For even more information, and the best place to ask a question on this tool, 
-see the forum thread
-<a href="<? echo $forums_url ?>/viewtopic.php?t=1780">Footnote moving tool</a>.
-Many more of his lisp scripts are available 
+Many more useful lisp scripts are available 
 <a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/dptools.el">here</a>.
 </p>
  
@@ -752,8 +784,6 @@ and multiple levels of block quotes within block quotes,
 but can also be used to quickly and tidily rewrap any simple book 
 that needs no special indenting, to whatever line length you choose, too.
 For more details see the HTML documentation inside the zip file.
-To ask questions about RewrapIndent, please see the forum thread 
-<a href="<? echo $forums_url ?>/viewtopic.php?t=1981">Rewrap and Indent tool</a>.
 </p>
  
 <p><b>PRTK</b></p>
@@ -841,14 +871,15 @@ Whatever format you choose, make sure that it is consistent throughout the text.
     What about the ones with captions?</h4> 
  
 <p>
-[Illustration] tags with no caption can be safely removed. 
-However, do not do this until the end, when the ASCII version is produced. 
-Leave them in the archive version of the text. 
-That way, if someone decides to make an HTML version in the future, 
+[Illustration] tags with no captions should <b>not</b> be removed. 
+This is so that if someone decides to make an HTML version in the future, 
 the tags will be there and it will be easier to correctly place the images.
+If you are making an HTML, XML, or similar version yourself, 
+replace the tags with links to the images.
 </p>
  
-<p>[Illustration] tags with captions should be left in place for the reader to enjoy.</p>
+<p>[Illustration] tags with captions should be left in place for the reader to enjoy.
+</p>
 <br> 
 <h4>My text will make no sense if the actual illustrations aren't included.</h4> 
  
@@ -893,10 +924,11 @@ preserving any further indenting that the author intended.
 </p>
  
 <p>
-DO NOT WRAP LINES. You will have to take special care when you rewrap the text 
+DO NOT REWRAP LINES. You will have to take special care when you rewrap the text 
 not to rewrap your poetry. 
 However, if a line is broken in two due to its length, 
-but it was not intended to be (the second line of these is usually highly indented), 
+but it was not intended to be 
+(the second line of these is usually highly indented and not capitalized), 
 join the two parts of the line together. 
 If they still don't fit on one line, break them and indent the second half heavily.
 </p>
@@ -959,6 +991,9 @@ DO NOT REWRAP LINES! You don't want to destroy all of your hard work, now do you
 <li>Try your best. You may have to split the chart into multiple rows. 
     Or you may come up with your own way to format the information in the troublesome chart. 
     Be inventive.
+<li>Go over the PG limit.  PG will accept books with a few lines longer than their standard
+	if there is a good reason for them to be extra-long.
+	However, try <b>very</b> hard to make it fit in the PG limit before bending the rules.
 <li>Give up. Mark the chart up as an [Illustration], use the title as the caption, 
     and write it off. It's not ideal, but sometimes it's the only way.
 </ol> 
@@ -972,7 +1007,7 @@ In most cases, sidenotes add a bit of summary or description to the text,
 but, in very rare cases, the sidenotes add nothing to the book 
 and will be an annoyance rather than a help. 
 If your book fits this mold, consider leaving out the sidenotes. 
-BUT, think long and hard about this, as it is altering the text of the original. 
+BUT, think long and hard about this, as this is altering the text of the original, a DP no-no. 
 Email the Project Manager and/or post in the 
 <a href="<? echo $projects_forum_url ?>">Forums</a> 
 for a second opinion before taking this step.
@@ -1003,9 +1038,11 @@ You may either leave these in or remove them, as long as you are consistent.
  
 <p>
 DO NOT REWRAP LINES. 
-Unless you have places a blank line between each and every entry, 
+Unless you have placed a blank line between each and every entry, 
 rewrapping will destroy the format of the index. Be careful!
 </p>
+
+<p>If you are creating an HTML version, why not make a hyperlinked index?</p> 
 <br>
 <h3><a name="Errata">Errata Pages</a></h3>
 <br>
@@ -1019,11 +1056,13 @@ First- and second-round proofers had access to only one page of the book at a ti
 so none of the errata errors will have been corrected by them.  
 This job therefore falls to the post-processor, 
 who has access to all of the pages of the book.
+Find and correct all of the errata, and delete the errata page from the book.
 </p>
 <br>
 <h3><a name="Non-ASCII">Non-ASCII Characters</a></h3> 
 <br> 
-<h4>My text has accents, pound signs, or other non-ASCII characters in it. Should I preserve them in the final version?</h4> 
+<h4>My text has accents, pound signs, or other non-ASCII characters in it. 
+Should I preserve them in the final version?</h4> 
  
 <p>
 In general, yes. Keep all of the accented words (or symbols) as they are. 
@@ -1033,12 +1072,6 @@ that are not found in ASCII or ISO-8859-1,
 there are other forms of encoding out there in which they can be preserved.
 </p>
  
-<p>
-Some English-language texts contain just the occasional word with an accent in it. 
-If the accents are rare and don't add any meaning to the text, 
-take them out when producing the ASCII edition, 
-but leave them in the archive version.
-</p>
 <br> 
 <h3><a name="Symbols">Non-Latin Scripts and Unusual Symbols</a></h3> 
 <br> 
@@ -1063,7 +1096,7 @@ to find someone to team up with for transcription.
  
 <p>
 If there is a significant amount of text in a non-Latin script, 
-it may be worth making a Unicode version, 
+it may be worth making a Unicode (HTML) version, 
 which would allow the original script to be preserved.
 </p>
  
@@ -1137,8 +1170,8 @@ search for the following things:
 	<li>.' for ." (reverse these if your book uses single quotes as double quotes, 
 	<li>{ and } instead of [ and ],
 	<li>standalone ' followed by a hard return, and
-	<li>standalone symbols, like &amp;, $, ^, =, \, /, «, », 
-            @, ~, `, #, %, +, and |, which can creep in.
+	<li>standalone symbols, like &amp;, $, ^, =, \, /, &laquo;, &raquo;, 
+            @, ~, `, #, %, =, +, and |, which can creep in.
 	</ul> 
  
 <p>
@@ -1169,44 +1202,44 @@ Only a few of the most common scannos will be listed here.
 	<li>yon, for you,
 	<li>modem, for modern,
 	<li>loth, for 10th, 
+	<li>bad, for had,
+	<li>lie, for he (and the),
 	<li>hut, for but,
 	<li>clay, for day,
 	<li>wen, for well,
 	<li>ail, for all,
+	<li>fail, for fall,
+	<li>tho, for the,
 	<li>bo, for be,
 	<li>ho, for he,
-	<li>lie, for he and the,
-	<li>Alien, for Allen,
+	<li>lime, for time,
 	<li>coining, for coming,
-	<li>bad, for had,
 	<li>tiling, for thing,
 	<li>docs, for does,
 	<li>riot, for not,
-	<li>tho, for the,
 	<li>tum, for turn,
 	<li>cur, for our,
 	<li>ringer, for finger,
 	<li>mined, for ruined,
 	<li>carnage, for carriage,
 	<li>carne, for came,
+	<li>tip, for up,
 	<li>tile, for the,
 	<li>bat, for but,
 	<li>comer, for corner,
 	<li>44 and 11, for ",
 	<li>Borne, for Rome,
 	<li>ease, for case,
-	<li>lime, for time,
 	<li>Spam, for Spain,
 	<li>tram, for train,
 	<li>gram, for grain,
 	<li>guru, for gun,
 	<li>vas, for was,
 	<li>bum, for burn,
+	<li>Alien, for Allen,
 	<li>j, for ;,
-	<li>tie, for the,
 	<li>gaming, for gaining,
 	<li>art, for act,
-	<li>ray, for my,
 	<li>eve(s), for eye(s),
 	<li>car, for ear, and
 	<li>cat, for eat.
@@ -1240,8 +1273,7 @@ The latest version (presently 1.22) of big_bill's lists can be found here:
 <p>
 The lists are plain text, and could also be used by an adventurous programmer 
 to check for common letter shifts (ex. h -&gt; b) and such. 
-Several of the custom built post-processing <a href="#tools">Tools</a> 
-make use of them, also.
+The custom built post-processing <a href="#Dedicated">tools</a> make use of them, also.
 </p>
 <br> 
 <h3><a name="Formats">Non-ASCII Formats</a></h3> 
@@ -1253,6 +1285,49 @@ Can I make a version of the text in HTML/XML/etc.?</h4>
 Yes! Feel free to make non-ASCII versions if you wish. 
 As long as you also produce an ASCII version, 
 PG will be glad to accept any other version that you may produce.
+</p>
+
+<p>
+Many projects will need an HTML version, as they are not well-suited to ASCII.
+In particular, texts with non-Latin languages (like Greek) which will need Unicode,
+those with illustrations, 
+and those with many, many footnotes require HTML versions.
+For some others, such as those with long indexes or many chapters or subsections, 
+HTML would be beneficial but not essential.
+If you wish to work on a text which will need HTML treatment,
+you must either be willing to produce the extra version yourself 
+or find a partner to do it for you.
+</p>
+
+<p>Specific HTML questions should be dealt with in the 
+<a href="<? $post_processing_forum_url >?">Post-Processing Forum</a>.
+There is no required format, though the HTML is required to be clean,
+and should be run through a <a href="#HTML">validator</a> before being submitted.
+Any images should be reduced as much as possible while still preserving detail.
+Be kind to those with slow internet connections.
+</p>
+
+<p>
+There have been a few especially useful discussion in the Post-Processing Forum.
+One is a <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=4244&amp;view=next">post</a>
+which suggests a format for documents based on XHTML 1.0. 
+Another is <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=1563&amp;view=next">
+this DPWiki post</a>
+which gives a suggested guide for HTML writers and provides an index of HTML-related topics.
+</p>
+
+<p>Some useful HTML entity codes can be found 
+<a href="http://www.w3schools.com/html/html_entitiesref.asp">here</a>.
+</p>
+<br>
+<h4>I checked out a math text, and it's full of strange markup.
+How should I treat it?</h4>
+
+<p>
+Most math texts which are being proofread use the LaTeX markup language 
+to clarify the mathematical symbols and formulas in the book.
+This means that the post-processor of math books <i>must</i> understand this markup,
+and be willing to produce a LaTeX version for PG.
 </p>
 <br> 
 <h3><a name="Missing">Missing or Problem Images</a></h3> 
@@ -1295,30 +1370,23 @@ or I just don't want to do it any more!  How do I get rid of it?</h4>
 To dispose of your project and return it to the pool for another post-proofer, 
 go to your Post-Proofing page, find the title of the book which you are returning, 
 and select Return to Available from its drop-down menu.
+This will erase all of your changes and send it back to the pool for another post-proofer.
+If you have done a lot of work on it, you might be better to arrange for 
+someone else to pick up where you left off by making a post 
+in the <a href="<? echo $post_processing_forum_url ?>">Post-Proofing Forum</a>.
 </p>
 <br>
-<h3><a name="Beginner">BEGINNER and MENTOR Projects</a></h3>
+<h3><a name="Split">Projects with Multiple Parts</a></h3>
 <br>
-<h4>What do the labels "BEGINNER" and "MENTOR" mean in the post-processing list?  
-Why are these projects split into different parts?</h4>
+<h4>Why are some projects split into different parts?</h4>
 
 <p>
-The "BEGINNER" and "MENTOR" labels are survivals from the first two proofing rounds.  
-They were used to label books reserved especially for beginning proofers 
-(in the first round) and mentors (in the second round).  
-However, they are NOT reserved for "beginner" and "mentor" post-processors.  
-They are available to all.
-</p>
-
-<p>
-"BEGINNER" and "MENTOR" books are generally split into smaller units.  
-This not only ensures a constant supply of projects for beginners, 
-but helps them get feedback from mentors faster 
-than if the books were kept in one piece.  
+In the proofing rounds, books intended for beginners were generally split into smaller units.  
+This was not only to ensure a constant supply of projects for beginners, 
+but to get feedback from mentors to the proofers faster than if the books were kept in one piece.  
 It is encouraged, though not absolutely essential, 
 for the same post-processor to check out all of the pieces 
-of BEGINNER and MENTOR books at the same time 
-so that the formatting will be consistent throughout.  
+of these books at the same time so that the formatting will be consistent throughout.  
 The pieces should be joined together into one file for submission.
 </p>
 <br>
@@ -1340,7 +1408,7 @@ familiar with common problems in etexts and able to provide feedback.
 Because of this, there is only a limited pool of people capable of PPVing.  
 Once a person has submitted a number of consistently good etexts, 
 the PPV will (at their discretion) give them permission to PPV projects themselves.  
-If you have not been given this permission, please do not check out PPV projects.
+If you have not been given this permission, you will not be able to check out PPV projects.
 </p>
 
 <br>
@@ -1361,7 +1429,7 @@ how to handle particular formatting issues and make global format changes.
 <p>
 If your common sense and personal judgement aren't helping you solve 
 some particular problem, post your question in the 
-<a href="<? echo $post_processing_forum_url ?>">Forums</a>. 
+<a href="<? echo $post_processing_forum_url ?>">Post-Proofing Forum</a>. 
 Other post-processors can then tell you how they would handle the situation. 
 Their suggestions might give you a logical answer for your text, 
 or inspire your own idea as to how to handle the issue.
