@@ -34,8 +34,8 @@ if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
 echo "$moddate<br>";
 echo "$links<br><br>";
 } else {
-$totalpages = mysql_num_rows(mysql_query("SELECT fileid FROM ".$row['projectid'].""));
-echo "$totalpages pages; $moddate</font><br><br>";
+$totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
+echo mysql_result($totalpages,0)." pages; $moddate</font><br><br>";
 }
 $i++;
 }
