@@ -50,10 +50,10 @@ function setWinHeight()
 
 function setViewWidth()
 {
-  if (imgblock.clientWidth)
-    {imgviewX=imgblock.clientWidth;}
-  else if (frameRef.getElementById('scanimage').offsetWidth)
+  if (frameRef.getElementById('scanimage').offsetWidth)
     {imgviewX=frameRef.getElementById('scanimage').offsetWidth;}
+  else if (imgblock.clientWidth)
+    {imgviewX=imgblock.clientWidth;}
   else if (imgblock.offsetWidth)
     {imgviewX=imgblock.offsetWidth;}
   else if (imgstyle.clip.width)
