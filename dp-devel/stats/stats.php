@@ -40,12 +40,32 @@ mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
 
 //limit to looking at projects which do not have
 //the archive flag set to 1 in order to limit run time
-$allProjects = mysql_query("SELECT projectid FROM projects WHERE archived ='0' AND state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'");
+// Also exclude new projects, projects in PPV, projects
+// that became checked out for PP or waiting or unavailable
+// before midnight, and posted projects.
+// The assumption is that a book won't be proofing in the morning
+// and posted to PG before midnight.
+// When we have the big table this whole level of the code
+// will become uneccessary, anyway
+$allProjects = mysql_query("
+	SELECT projectid FROM projects 
+	WHERE archived = '0' AND 
+		(state != '".PROJ_NEW."') AND 
+		(state != '".PROJ_SUBMIT_PG_POSTED."') AND 
+		(state !='".PROJ_POST_SECOND_AVAILABLE."') AND 
+		(state !='".PROJ_POST_SECOND_CHECKED_OUT."') AND 
+		(state != '".PROJ_POST_SECOND_CHECKED_OUT."' 
+			OR modifieddate > $midnight) AND 
+		(state != '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' 
+			OR modifieddate > $midnight) AND 
+		(state != '".PROJ_POST_FIRST_UNAVAILABLE."' 
+			OR modifieddate > $midnight)
+	");
 $numProjects = mysql_num_rows($allProjects);
 
 $tracetimeA = time();
 mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
-		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  $numProjects is $numProjects')");
+		VALUES ('stats.php', $tracetimeA, 'NUMROWS', 'started at $tracetime,  numProjects is $numProjects')");
 
 
 while ($i < $numProjects) {
