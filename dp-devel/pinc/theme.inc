@@ -127,7 +127,7 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 	echo "<a href='$siteurl/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
 	echo "<a href='$siteurl/faq/faq_central.html'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
-	echo "</form>\n";
+	echo "</form>";
 	} else {
     //Code to display if the user is logged in
     	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
@@ -231,6 +231,13 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
     		$i++;
 	}
 	
+		if (!isset($userindex)) { 
+		$userindex = $i-1;
+		$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
+		$neighborhood['pages'][$userindex] = 0;
+		$neighborhood['rank'][$userindex] = $userindex;
+		}
+	
 	//get rank    
 	if ($neighborhood['pages'][$userindex] >= 0) {
 	 $rankname = "Newbie";
@@ -306,10 +313,12 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 		}
 		echo "&nbsp;<b><i>".$neighborhood['rank'][$userindex].".) ".$neighborhood['username'][$userindex]." - ".number_format($neighborhood['pages'][$userindex])."</b></i><br>\n";
 		$i = 1;
+		if ($neighborhood['pages'][$userindex] != 0) {
 		while ($i <= $userP['u_neigh']) {
 			echo "&nbsp;".$neighborhood['rank'][$userindex+$i].".) ".$neighborhood['username'][$userindex+$i]." - ".number_format($neighborhood['pages'][$userindex+$i])."<br>\n";
 			$i++;		
 		}
+	}
 	}
 	
    //If it is a guest user show the past years completed projects	
