@@ -157,7 +157,7 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 	}
 	$createdby .= " Charles Franks and the Online Distributed Proofreading Team.";
 
-      $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"UTF-8\" ?".">
+      $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"{$GLOBALS['charset']}\" ?".">
 	<dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
 	  <title>$title</title>
 	  <creator>$author</creator>
