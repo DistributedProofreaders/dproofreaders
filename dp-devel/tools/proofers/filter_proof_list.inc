@@ -1,134 +1,37 @@
 <?
+$relPath="./../../pinc/";
 
-function build_selectlist( $states, $field)
+// initialise variables to values for "proofing"
+
+$action_page = 'proof_per.php';
+
+if ($userP['u_plist'] == 1) 
 {
-
-	$to_echo = "";
-	$query = "
-		SELECT distinct $field
-		FROM projects
-			WHERE $states
-			ORDER BY $field
-		";
-
-	$result = mysql_query($query);
-	
-	$i = 0;
-	while ($a_res = mysql_fetch_row($result))
-	{
-	    $val = $a_res[0];	
-	    $to_echo .= "<option value='$val'>";
-	    $to_echo .= $val;
-	    $to_echo .= "</option>\n";
-	}
-
-
-return $to_echo;
-
+	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_FIRST_VERIFY."') ";
+	$label = _("First Round");
+}
+if ($userP['u_plist'] == 2)
+{
+	$state_sql = " (state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
+	$label = _("Second Round");
+}
+if ($userP['u_plist'] == 3)
+{
+	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_FIRST_VERIFY."' OR
+		 state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
+	$label = "";
 }
 
 
+$filtertype_stem = "proof";
 
+// add the filter code
 
-    echo "<center>";
-    echo _("Filter available ").$label._(" books by").":";
-    echo "</center>\n";    
-    echo "<br>
-	    <form method=get action='proof_per.php'>
-	    <input type='hidden' name='filter' value='filter_on'>";
-
-    echo "\r\n<table border=1 width=630>";
-    echo "\r\n<tr>";
-
-    echo "<td>"._("Difficulty")."</td>";
-    echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._("All")." <input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Easy").' <input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
-    echo _("Hard").' <input type="checkbox" name="difficulty1[]" value="hard"></td>';
-
-    echo "\r\n</tr>";
-    echo "</table>\n";
-
-    echo "\r\n<table border=1 width=630>";
-    echo "\r\n<tr>";
-
-    echo   "<td>"._("Language")."</td>";
-    echo   "<td>"._("Genre")."</td>";
-    echo   "<td>"._("Project Manager")."</td>";
-
-    echo "\r\n</tr>";
-    echo "\r\n<tr>";
-
-    // In the <select> tags, we set the name attribute to 'whatever[]'.
-    // I'm pretty sure this doesn't mean anything to HTML/HTTP,
-    // but PHP takes it as a cue to make the multiple values of
-    // the select control available as an array.
-    // That is, $_GET['whatever'] will be an array containing
-    // all selected values.
-
-
-	// LANGUAGE filter
-
- 	echo "
-	    <td>
-	    <select name='language1[]' size=5 multiple>
-		<option value=''>All languages</option>
-	";
-
-	echo build_selectlist( $state_sql, "language", $array_of_langs);
-
-	echo "
-	    </select>
-	    </td>
-	";
-
-	// GENRE filter
-
- 	echo "
-	    <td>
-	    <select name='genre1[]' size=5  multiple>
-		<option value=''>All genres</option>
-	";
-
-	echo build_selectlist( $state_sql, "genre", $array_of_genres);
-	echo "
-	    </select>
-	    </td>
-	";
-       
-	// PM filter
-
- 	echo "
-	    <td>
-	    <select name='PM1[]' size=5 multiple>
-		<option value=''>All PMs</option>
-	";
-
-	echo build_selectlist( $state_sql, "username", $array_of_PMs);
-	echo "
-	    </select>
-	    </td>
-	";
-
-
-
-
-
-
-    echo "</tr>";
-    echo "</table>\n<br>";
-    echo "<center>";
-    echo "<input type='reset' value='Reset New Filter to null'>";
-    echo "<input type='submit' value='Apply New Filter to Projects'>";
-    echo "</center>\n";    
-    echo "</form><br>";
-    echo "<center>";
-    echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
-    echo "<br><br>";
-    echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
-    echo "</center><br><br>\n";    
-
+include_once($relPath.'filter_project_list.inc');
 
 ?>
 
