@@ -65,8 +65,12 @@ $max_update = mysql_result($result,0,0);
 			$todaysCount = $current_P_tally - $prevDayCount[$u_id];
 			$updateCount = maybe_query("
 				INSERT INTO member_stats
-				(u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
-				VALUES ($u_id, $midnight, $todaysCount, $current_P_tally, $rank)
+				SET
+					u_id                 = $u_id,
+					date_updated         = $midnight,
+					daily_pagescompleted = $todaysCount,
+					total_pagescompleted = $current_P_tally,
+					rank                 = $rank
 			");
 		}
 		$tracetimea = time();

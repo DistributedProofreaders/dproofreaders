@@ -62,8 +62,12 @@ $max_update = mysql_result($result,0,0);
 				$todaysCount = $current_P_tally - $prevDayCount[$team_id];
 				$updateCount = maybe_query("
 					INSERT INTO user_teams_stats
-					(team_id, date_updated, daily_page_count, total_page_count, rank)
-					VALUES ($team_id, $midnight, $todaysCount, $current_P_tally, $rank)
+					SET
+						team_id          = $team_id,
+						date_updated     = $midnight,
+						daily_page_count = $todaysCount,
+						total_page_count = $current_P_tally,
+						rank             = $rank
 				");
 			}
 		}
