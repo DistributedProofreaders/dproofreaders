@@ -35,7 +35,7 @@ echo "<center><br>";
 
 //Display of user teams
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='4' style='border-collapse: collapse' width='95%'>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>"
+echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>";
 echo _("User Teams");
 echo "</font></b></td></tr>";
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
