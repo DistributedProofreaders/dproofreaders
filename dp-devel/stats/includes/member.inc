@@ -329,13 +329,27 @@ function showMbrHistory($curMbr) {
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 
+	$choices = array();
+	$u_id = $curMbr['u_id'];
+	foreach( array( 7, 14, 30, 60, 365, 'all' ) as $d )
+	{
+		$text =
+			($d == 'all')
+			? _('Lifetime')
+			: sprintf( _('Last %d Days'), $d );
+		$choices[] = "<a href='mdetail.php?id=$u_id&range=$d'>$text</a>";
+	}
+	$choices_str = join( $choices, ' | ' );
+
+	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=U&holder_id=$u_id&days_back=$range";
+
 	echo "\n";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
 	echo_tr_headerbar( _("History") );
 	echo "\n";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
-	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>"._("Last 7 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>"._("Last 14 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>"._("Last 30 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>"._("Last 60 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>"._("Last 365 Days")."</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>"._("Lifetime")."</a></font>";
-	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=U&holder_id=".$curMbr['u_id']."&days_back=$range' width='600' height='300'></center><br></td></tr>";
+	echo "<p><font size='2'>$choices_str</font>";
+	echo "<p><img src='$image_url' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
 }
 
