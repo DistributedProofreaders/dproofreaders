@@ -76,7 +76,7 @@ function get_phase_containing_project_state($state)
 // -----------------------------------------------
 
 function declare_project_states_for_round(
-    $round_number,
+    $round_id,
     $round_name,
     $constant_name_part )
 {
@@ -85,7 +85,7 @@ function declare_project_states_for_round(
 
     declare_project_state(
         "PROJ_{$constant_name_part}_BAD_PROJECT",
-        "bad_{$round_number}",
+        "$round_id.proj_bad",
         "$round_name: " . _("Bad Project"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -93,23 +93,23 @@ function declare_project_states_for_round(
     );
     declare_project_state(
         "PROJ_{$constant_name_part}_UNAVAILABLE",
-        "unavail_{$round_number}",
+        "$round_id.proj_unavail",
         "$round_name: " . _("Unavailable"),
-        ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
         ''
     );
     declare_project_state(
         "PROJ_{$constant_name_part}_WAITING_FOR_RELEASE",
-        "waiting_{$round_number}",
+        "$round_id.proj_waiting",
         "$round_name: " . _("Waiting for Release"),
-        ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
         ''
     );
     declare_project_state(
         "PROJ_{$constant_name_part}_AVAILABLE",
-        "avail_{$round_number}",
+        "$round_id.proj_avail",
         "$round_name: " . _("Available"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -117,7 +117,7 @@ function declare_project_states_for_round(
     );
     declare_project_state(
         "PROJ_{$constant_name_part}_COMPLETE",
-        "done_{$round_number}",
+        "$round_id.proj_done",
         "$round_name: " . _("Completed"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -224,9 +224,9 @@ if ($site_supports_metadata)
 
 // PROOF
 
-declare_project_states_for_round( 1, _('Proofreading Round 1'), 'PROOF_FIRST' );
+declare_project_states_for_round( 'P1', _('Proofreading Round 1'), 'PROOF_FIRST' );
 
-declare_project_states_for_round( 2, _('Proofreading Round 2'), 'PROOF_SECOND' );
+declare_project_states_for_round( 'P2', _('Proofreading Round 2'), 'PROOF_SECOND' );
 
 
 // POST
