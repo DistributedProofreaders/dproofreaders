@@ -302,10 +302,16 @@ function autorelease($pagesleft) {
 			}
 		}
 
-		if ($target > $numReleased) {
-			$pagesneeded = $pagesneeded -
+		if ($numReleased >= $target)
+		{
+			echo "Enough $projtype_desc {$track_by}s ($numReleased) already, no releases through the $projtype_desc Queue\n";
+			continue;
+		}
+
+		$totalnewreleased =
 				release_projects($track_by, $projtype_desc, $projtype_sql, $target, $numReleased, $count2ndRnd, $todaysdate);
-		} else echo "Enough $projtype_desc {$track_by}s ($numReleased) already, no releases through the $projtype_desc Queue\n";
+
+		$pagesneeded = $pagesneeded - $totalnewreleased;
 	}
 
         echo "</pre>\n";
