@@ -276,7 +276,9 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
 		$settings .= ", postcomments='{$postcomments}'";
 	}
-	else if ( $current_state == PROJ_POST_SECOND_AVAILABLE &&
+	else if ( ( $current_state == PROJ_POST_FIRST_CHECKED_OUT ||
+		    $current_state == PROJ_POST_SECOND_AVAILABLE )
+		&&
 		$new_state == PROJ_POST_SECOND_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
