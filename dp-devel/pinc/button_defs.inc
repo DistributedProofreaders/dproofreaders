@@ -13,6 +13,11 @@ define('SAVE_AS_IN_PROGRESS',         'J');
 define('SET_IMAGE_ZOOM',              'K');
 define('SPELL_CHECK',                 'L');
 
+define('PROJECT_COMMENTS',            'M');
+define('REFRESH_IMAGE',               'N');
+define('REVERT_TO_LAST_SAVE_DISABLED','O');
+define('SHOW_ALL_TEXT',               'P');
+
 function echo_button( $button_id, $which_interface )
 {
 	$CRLF = '\r\n';
@@ -181,6 +186,57 @@ function echo_button( $button_id, $which_interface )
 	foreach ($attrs as $at_name => $at_value)
 	{
 		echo "$at_name=\"$at_value\"\n";
+	}
+	echo ">";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function echo_img( $id )
+{
+	switch ($id)
+	{
+		case PROJECT_COMMENTS:
+			$attrs = array(
+				'src'       => "gfx/bt12.png",
+				'alt'       => "Project Comments",
+				'title'     => "Project Comments",
+			);
+			break;
+
+		case REFRESH_IMAGE:
+			$attrs = array(
+				'src'       => "gfx/bt6.png",
+				'alt'       => "Refresh Image",
+				'title'     => "Refresh Image",
+			);
+			break;
+
+		case REVERT_TO_LAST_SAVE_DISABLED:
+			$attrs = array(
+				'src'       => "gfx/bt7_n.png",
+				'alt'       => "Revert to Last Save Disabled",
+				'title'     => "Revert to Last Save Disabled",
+			);
+			break;
+
+		case SHOW_ALL_TEXT:
+			$attrs = array(
+				'src'       => "gfx/bt9.png",
+				'alt'       => "Show All Text",
+				'title'     => "Show All Text",
+			);
+			break;
+	}
+	$attrs['align' ] = 'top';
+	$attrs['width' ] = "26";
+	$attrs['height'] = "26";
+	$attrs['border'] = "0";
+
+	echo "<img\n";
+	foreach( $attrs as $at_name => $at_value )
+	{
+		print "$at_name=\"$at_value\"\n";
 	}
 	echo ">";
 }
