@@ -175,7 +175,7 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
         $rval=OUT_FIRST;
         $dbQuery.="$rval', round1_time='$timestamp', round1_user='$pguser'";
       }
-    $dbQuery.="  WHERE projectid = '$project' and fileid='$fileid' AND image='$imagefile'";
+    $dbQuery.="  WHERE projectid = '$project' and fileid='$fileid'";
     $update = mysql_query($dbQuery);
   }
 
