@@ -167,16 +167,25 @@ function getText($pagestate,$saved,$revert)
   $result = mysql_query($dbQuery);
   $myrow = mysql_fetch_row($result);
   $text_data = mysql_result($result, 0, $wText);
-    if ($this->getPageRound($pagestate)==2 || $saved !=0)
-    {
-      $text_data = strip_tags(htmlentities($text_data), PROOF_SECOND_TAGS_KEEP);
-    }
-    else
-    {
-     $search = array("'>'i", "'<'i");
-     $replace = array("*", "*");
-     $text_data = preg_replace($search, $replace, $text_data);
-    }
+
+    // We need to protect our users against malicious HTML code.
+    // For example, see CERT Advisory CA-2000-02.
+    // But we can't throw out all tags, because we use some tags, like <i>..</i>.
+    // And we can't throw out all but the trusted tags, because there are other
+    // uses of angle-brackets that don't look like trusted tags, e.g. X < Y
+    // And really, we don't want to throw out *anything*, because there's
+    // the risk that we might throw out a big chunk of non-malicious work.
+    // So let's try this: anything that looks like it might be a nasty tag,
+    // we convert its opening angle-bracket to '&lt' and mark it with an asterisk.
+    // $text_data = preg_replace( ';<([\s/]*(SCRIPT|OBJECT|APPLET|EMBED));i', '&lt;*\1', $text_data );
+
+    // Actually, this is all moot.
+    // The value returned by this function will be sent to the client as the
+    // content of a <textarea> element (the Proofing Page's text frame),
+    // which the browser won't interpret as HTML anyhow.
+    // (That's why we see <i> *tags* rather than seeing italicized text.)
+    // So just return the text as-is.
+
   return $text_data;
 }
 
