@@ -1,11 +1,12 @@
 <?
-
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'maybe_mail.inc');
-
+theme("Create a Project", "header");
+echo "<br>";
 // Encodes a form parameter to allow it to contain double quotes.
 function encodeFormValue($value) {
   return stripslashes(htmlentities($value));
@@ -151,12 +152,6 @@ if ($Language == "") $Language = "English";
 if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$siteurl/faq/document.html\">Document Guidelines</a>.</p>";
 ?>
 
-<html>
-<head><title>Project Information</title></head>
-<body>
-
-<form method="POST" action="<? echo $_SERVER['PHP_SELF'] ?>">
-
 <input type="hidden" name="project" value="<? echo $project ?>">
 
 <? if (isset($errormsg) && strlen($errormsg) > 0) { ?>
@@ -245,17 +240,8 @@ in the posted message.
 <td><? echo stripslashes($comments); ?></td>
 </tr>
 </table>
-
-<p>
-<table border="1" width="630">
-<tr>
-<td width="126" align="center" bgcolor ="#CCCCCC"><a href="projectmgr.php">Back</a></td>
-<td width="126" bgcolor="#CCCCCC" align="center">Create Project</td>
-<td width="126" bgcolor="#CCCCCC" align="center"><a href ="../proofers/proof_per.php">Proofread Project</a></td>
-<td width="126" bgcolor="#CCCCCC" align="center"><a href ="deleteproject.php">Delete Project</a></td>
-<td width="126" bgcolor="#CCCCCC" align="center"><a href ="../logout.php">Logout</a></td>
-</tr>
-</table>
-</body>
-</html>
+<br>
+<?
+theme("", "footer");
+?>
 
