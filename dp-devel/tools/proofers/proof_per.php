@@ -59,7 +59,7 @@ include($relPath.'page_states.inc');
     //get total number of users
     $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
     $totalusers = (mysql_result($users,0,"numusers"));
-    echo "\n<br>Total users who completed at least 1 page: <b> $totalusers</b>";
+    echo "\n<br>Total users who completed at least 1 page: $totalusers";
 
     echo"\n <p><b>Your Stats:<br></b>";
     echo "\nYour Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
