@@ -46,14 +46,45 @@ function showTeamProfile($curTeam) {
 	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align: middle;'>";
 	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
-	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
+	if ($curTeam['createdby'] == $GLOBALS['pguser'])
+	{
+		$op_url = "tedit.php?tid=$team_id";
+		$text = _('Edit');
+		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
+		$editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='$op_url'>$colored_text</a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+	}
+	else
+	{
+		$editlink = '';
+	}
 
-	if ($team_id != 1 && $userP['team_1'] != $team_id && $userP['team_2'] != $team_id && $userP['team_3'] != $team_id && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Join")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
-	} elseif ($team_id != 1 && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Quit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
-	} else {
-		$joinquitlink = "";
+	if (empty($userP))
+	{
+		// The requestor is not logged in,
+		// so they can't join or quit the team.
+		$joinquitlink = '';
+	}
+	elseif ($team_id == 1)
+	{
+		// This is team #1, with automatic membership.
+	       	// You can neither join nor quit.
+		$joinquitlink = '';
+	}
+	else
+	{
+		if ($userP['team_1'] != $team_id && $userP['team_2'] != $team_id && $userP['team_3'] != $team_id)
+		{
+			$op = 'jointeam';
+			$text = _('Join');
+		}
+		else
+		{
+			$op = 'quitteam';
+			$text = _('Quit');
+		}
+		$op_url = "../members/$op.php?tid=$team_id";
+		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
+		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='$op_url'>$colored_text</a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	}
 
 	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
