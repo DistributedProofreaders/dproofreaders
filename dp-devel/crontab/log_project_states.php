@@ -23,7 +23,7 @@ if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ";
     if (! $testing_this_script)
     {
-	echo "switching to testing mode" <br><br>
+	echo "switching to testing mode <br><br>";
         echo "<pre>", $EOL;
         $testing_this_script = TRUE;
     }
