@@ -63,8 +63,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	{
 		$word = _("Project ID");
 		echo_row_a($word,     $project['projectid'] );
-		$word = _("Clearance Line");
-		echo_row_a($word, $project['clearance'] );
+
+		// The clearance line normally contains the email address of the
+		// person who submitted the clearance request. Since this is
+		// private information, we restrict who can see it.
+		if ( user_is_PPV_of($project['projectid']) )
+		{
+			$word = _("Clearance Line");
+			echo_row_a($word, $project['clearance'] );
+		}
 	}
 
 	// -------------------------------------------------------------------------
