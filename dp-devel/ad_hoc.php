@@ -20,6 +20,84 @@ echo "<BR>\n";
 
 echo "<hr>\n";
 
+$timer_start = NULL;
+
+function start_timer()
+{
+	global $timer_start;
+	$timer_start = gettimeofday();
+}
+
+function end_timer()
+{
+	global $timer_start;
+	$timer_end = gettimeofday();
+	$diff =
+		($timer_end['sec'] - $timer_start['sec']) +
+		($timer_end['usec'] - $timer_start['usec']) / 1e6;
+	return $diff;
+}
+
+// ------------------------
+
+if (0)
+{
+	// Time trials
+
+	$N = 10;
+	$t_sum = 0;
+	for ( $trial = 1; $trial <= $N; $trial++ )
+	{
+		// Timings (averaged over ten trials)
+		// were taken on www.pgdp.net,
+		// when the query yielded 17,869 rows.
+
+		echo sprintf( "%2d", $trial );
+		$result = mysql_query("
+			SELECT username, pagescompleted, u_privacy
+			FROM users
+			WHERE pagescompleted > 0
+			ORDER BY pagescompleted DESC
+		");
+		// 0.187 sec
+
+		$arr = array();
+		start_timer();
+		$i = 0;
+		while ($row = mysql_result($result,$i,1) )
+		{
+			$i++;
+			$arr[] = $row;
+		}
+		$t = end_timer();
+
+		// Time for whole loop.
+
+		// where body is $i++
+		// using:
+		// mysql_fetch_row:            0.050 sec
+		// mysql_fetch_assoc:          0.062 sec
+		// mysql_fetch_object:         0.067 sec
+		// mysql_fetch_array:          0.078 sec
+		// mysql_result($result,$i,1): 2.588 sec
+
+		// where body is $i++; $arr[] = $row;
+		// using:
+		// mysql_fetch_row:    0.147 sec
+		// mysql_fetch_assoc:  0.153 sec
+		// mysql_fetch_object: 0.161 sec
+		// mysql_fetch_array:  0.229 sec
+
+		echo " $i $t";
+		$t_sum += $t;
+
+		echo "\n";
+	}
+	echo "avg:";
+	echo " ", $t_sum / $N;
+	echo "\n";
+}
+
 if (0)
 {
 	// Test factor_strings()
