@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'project_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 // Return the total number of pages proofed between the two timestamps.
@@ -17,38 +18,6 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 //
 // (Takes about ?? seconds.)
 {
-    // Construct the guts of the query that we'll be posing for each project.
-
-    $end_constraint1 = (is_null($end_ts) ? "" : "AND round1_time < $end_ts");
-    $end_constraint2 = (is_null($end_ts) ? "" : "AND round2_time < $end_ts");
-
-    // An SQL expression that, for a given page, yields the number of
-    // 'proofings' that the page achieved within the time constraints.
-    // Note that a page finished in R1 may have since progressed to R2,
-    // and may even be finished in R2.
-    $n_proofings_for_page = "
-        (
-            (state='save_first' OR state LIKE '%_second%')
-            AND round1_time >= $start_ts
-            $end_constraint1
-        )
-        +
-        (
-            state='save_second'
-            AND round2_time >= $start_ts
-            $end_constraint2
-        )
-    ";
-    // The phrasing of this expression relies on the fact that
-    // MySQL implements TRUE and FALSE as 1 and 0 respectively,
-    // so it's meaningful to add two boolean expressions.
-    // (If we were using an SQL processor that didn't do this,
-    // we would have to use the IF() function or a CASE expr.)
-
-    // echo $n_proofings_for_page, "\n";
-
-    // -------------------------------------------------------------------------
-
     $total_n_pages_proofed = 0;
 
     // Only consider projects that have not been archived.
@@ -69,7 +38,7 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
     // say, the total from a day last month.
 
     $res = mysql_query("
-        SELECT projectid
+        SELECT projectid, state
         FROM projects
         WHERE archived = '0'
             AND (state != '".PROJ_NEW."')
@@ -86,7 +55,9 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 
     while ( $project_row = mysql_fetch_array($res) )
     {
-        list($projectid) = $project_row;
+        list($projectid,$project_state) = $project_row;
+
+        $n_proofings_for_page = sql_n_proofings_for_page( $start_ts, $end_ts, $project_state );
 
         $result = mysql_query("SELECT SUM($n_proofings_for_page) FROM $projectid");
 
@@ -107,5 +78,70 @@ function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 
     return $total_n_pages_proofed;
 }
+
+function sql_n_proofings_for_page( $start_ts, $end_ts, $project_state )
+// Return an SQL expression that, for a given page,
+// yields the number of 'proofings' that the page achieved
+// within the time constraints.
+{
+    // A page can be proofed (i.e., saved as done) in more than one round
+    // in a day (or any given time interval).  So for a given page, we want
+    // to count one proofing for each round in which:
+    // -- it has been saved as done, and
+    // -- the "round time" is within the interval.
+    //
+    // We can assume that the page has been saved in all rounds preceding
+    // the current one, and we can tell from its state whether it has been
+    // saved in the current one.
+
+    $prd = get_PRD_for_project_state($project_state);
+    if (!is_null($prd))
+    {
+        // The project is in a particular page-editing round.
+
+        // Can we count a proofing for the current round?
+        $e = "(";
+        $e .= "{$prd->time_column_name} >= $start_ts";
+        if (!is_null($end_ts))
+        {
+            $e .= " AND {$prd->time_column_name} < $end_ts";
+        }
+        $e .= " AND state='{$prd->page_save_state}'";
+        $e .= ")";
+
+        // The project has completed all preceding rounds.
+        $latest_completed_round = $prd->round_number - 1;
+    }
+    else
+    {
+        // The project has completed all page-editing rounds.
+        $e = "0";
+        $latest_completed_round = MAX_NUM_PAGE_EDITING_ROUNDS;
+    }
+
+    // Consider the completed rounds. For these, the only concern is
+    // whether the "round time" is within the interval.
+    // Do them in reverse order, just for kicks.
+    for ($rn = $latest_completed_round; $rn >= 1; $rn-- )
+    {
+        $completed_prd = get_PRD_for_round($rn);
+        $e .= " + (";
+        $e .= "{$completed_prd->time_column_name} >= $start_ts";
+        if (!is_null($end_ts))
+        {
+            $e .= " AND {$completed_prd->time_column_name} < $end_ts";
+        }
+        $e .= ")";
+    }
+
+    return $e;
+
+    // The phrasing of this expression relies on the fact that
+    // MySQL implements TRUE and FALSE as 1 and 0 respectively,
+    // so it's meaningful to add two boolean expressions.
+    // (If we were using an SQL processor that didn't do this,
+    // we would have to use the IF() function or a CASE expr.)
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
