@@ -171,14 +171,39 @@ if ($tbutton==11)
 if ($tbutton==101)
 {
   $inCheck=1;
-  include('spellcorrect.inc');
+  include_once('spellcheck_text.inc');
+
+  if ($userP['i_type']==0)
+    {
+      include_once($relPath.'c_pages.inc');
+      $tpage=new processpage();
+      $npage=$tpage->getPageCookie();
+      $npage['spcheck']=2;
+      $tpage->setTempPageCookie($npage);
+    }
+
+    $correct_text = spellcheck_apply_corrections();
+
+// show html
+    if ($userP['i_type']==1)
+      {include('text_frame.php');}
+    else
+      {
+        // write file
+          $text_file= $project.substr($imagefile,0,-4).".txt";
+          if ($fd=fopen($aspell_temp_dir.$text_file,"w"))
+            {fwrite($fd,stripslashes($correct_text));}
+        include('proof_frame_nj.inc');
+      }
+
 } // end spelling corrections
 
 // Exit Spelling Corrections
 if ($tbutton==102)
 {
+    include_once('spellcheck_text.inc');
   // just give them the text
-    $correct_text=str_replace("[lf]","\r\n",stripslashes($text_data));
+    $correct_text = spellcheck_quit();
     $npage=$tpage->getPageCookie();
     if ($userP['i_type']==1)
       {$npage['spcheck']=0;}
