@@ -1,6 +1,6 @@
 <?PHP
-include($relPath.'fmain.inc');
-include($relPath.'connect.inc');
+include_once($relPath.'fmain.inc');
+include_once($relPath.'connect.inc');
 
 //global db vars
 $db_Connection=new dbConnect();
