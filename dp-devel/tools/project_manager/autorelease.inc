@@ -195,14 +195,14 @@ function autorelease()
                 continue;
             }
 
-            // If a PM has 5 books already in round 1, their books should be skipped
+            // If a PM has 10 books already in round 1, their books should be skipped
 
-            if ((array_key_exists($pm, $first_round_pms) && ($first_round_pms[$pm] > 5))
+            if ((array_key_exists($pm, $first_round_pms)) && ($first_round_pms[$pm] > 10))
             {
                 echo "        The PM, $pm, already has $first_round_pms[$pm] projects in first round.\n";
                 continue;
             }
-
+	    
             // OK to release
             // release the project for proofing, and keep track of
             // its contribution to reducing our total page shortfall
