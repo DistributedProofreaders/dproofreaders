@@ -13,8 +13,12 @@ $popHelpDir='./../../faq/pophelp/project_manager/';
 include_once($relPath.'js_newpophelp.inc');
 
 function encodeFormValue($value) {
-  return stripslashes(htmlentities($value,ENT_QUOTES));
+  return htmlentities($value,ENT_QUOTES);
 }
+
+// Because we have PHP configured with magic_quotes_gpc On,
+// values from $_POST come with backslashes added. So don't pass
+// them to addslashes(), or the result will have double-backslashes.
 
 function saveProject() {
 	global $projects_dir, $uploads_dir, $pguser;
@@ -43,18 +47,18 @@ function saveProject() {
 		//Update the projects database with the updated info
 		mysql_query("
 			UPDATE projects SET
-				nameofwork='".addslashes($_POST['nameofwork'])."',
-				authorsname='".addslashes($_POST['authorsname'])."',
+				nameofwork='".$_POST['nameofwork']."',
+				authorsname='".$_POST['authorsname']."',
 				language='$language',
-				genre='".addslashes($_POST['genre'])."',
-				difficulty='".addslashes($_POST['difficulty_level'])."',
-				comments='".addslashes($_POST['comments'])."',
-				scannercredit='".addslashes($_POST['scannercredit'])."',
-				txtlink='".addslashes($_POST['txtlink'])."',
-				ziplink='".addslashes($_POST['ziplink'])."',
-				htmllink='".addslashes($_POST['htmllink'])."',
-				postednum='".addslashes($_POST['postednum'])."',
-				clearance='".addslashes($_POST['clearance'])."'
+				genre='".$_POST['genre']."',
+				difficulty='".$_POST['difficulty_level']."',
+				comments='".$_POST['comments']."',
+				scannercredit='".$_POST['scannercredit']."',
+				txtlink='".$_POST['txtlink']."',
+				ziplink='".$_POST['ziplink']."',
+				htmllink='".$_POST['htmllink']."',
+				postednum='".$_POST['postednum']."',
+				clearance='".$_POST['clearance']."'
 			WHERE projectid='".$_POST['projectid']."'
 		");
 
@@ -90,18 +94,18 @@ function saveProject() {
 			INSERT INTO projects
 				(nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance)
 			VALUES (
-				'".addslashes($_POST['nameofwork'])."',
-				'".addslashes($_POST['authorsname'])."',
+				'".$_POST['nameofwork']."',
+				'".$_POST['authorsname']."',
 				'$language',
-				'".addslashes($_POST['genre'])."',
-				'".addslashes($_POST['difficulty_level'])."',
+				'".$_POST['genre']."',
+				'".$_POST['difficulty_level']."',
 				'".$GLOBALS['pguser']."',
-				'".addslashes($_POST['comments'])."',
+				'".$_POST['comments']."',
 				'$projectid',
 				UNIX_TIMESTAMP(),
-				'".addslashes($_POST['scannercredit'])."',
+				'".$_POST['scannercredit']."',
 				'".PROJ_NEW."',
-				'".addslashes($_POST['clearance'])."'
+				'".$_POST['clearance']."'
 			)
 		");
 
