@@ -30,6 +30,10 @@ theme("Personal Page for $pguser", "header");
         	$yourprojects = mysql_result($result,0);
 ?>
 
+<font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Brand New Proofers"); ?></b></font><br>
+<? echo _("BEGINNERS ONLY projects are reserved for brand new proofers; after you have done between 5 to 15 pages total from these BEGINNERS ONLY projects, though, please move on to other projects. EASY projects are available for everyone, but make a great second step for beginners, too."); ?>
+<br><br>
+
 <font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Providing Content"); ?></b></font><br>
 <? echo _("Want to help out the site by providing material for us to proof?"); ?>
  <a href="<? echo $code_url ?>/faq/scan/submitting.php"><? echo _("Find out how!"); ?></a>
