@@ -292,7 +292,11 @@ to have it reset.
     echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Create Account")."'>&nbsp;&nbsp;<input type='reset'>";
     echo "</td></tr><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
 
-    include($code_dir.'/faq/privacy.php');
+    if(file_exists($code_dir.'/faq/'.cur_lang_dir().'privacy.php')) {
+        include($code_dir.'/faq/'.cur_lang_dir().'privacy.php');
+    } else {
+        include($code_dir.'/faq/privacy.php');
+    }
 
     echo "</td></tr></table></form>";
     echo "</center>";
