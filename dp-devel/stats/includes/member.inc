@@ -157,31 +157,21 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 			$currentRank = $rank;
 			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
 			$prevRank = mysql_result($result, 0, "rank");
-
-			if (empty($currentRank) || empty($prevRank)) {
-				$rankPos = "&nbsp;";
-			} elseif ($currentRank < $prevRank) {
-				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
-			} elseif ($currentRank > $prevRank) {
-				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
-			} else {
-				$rankPos = "&nbsp;";
-			}
 		} else {
 			// $rank is highest rank achieved. Compare current rank to it.
 			$prevRank = $rank;
 			$currentRank = $rankArray['curMbrRank'];
-
-			if (empty($currentRank) || empty($prevRank)) {
-				$rankPos = "&nbsp;";
-			} elseif ($currentRank < $prevRank) {
-				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
-			} elseif ($currentRank > $prevRank) {
-				$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
-			} else {
-				$rankPos = "&nbsp;";
-			}
 		}
+
+	if (empty($currentRank) || empty($prevRank)) {
+		$rankPos = "&nbsp;";
+	} elseif ($currentRank < $prevRank) {
+		$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
+	} elseif ($currentRank > $prevRank) {
+		$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
+	} else {
+		$rankPos = "&nbsp;";
+	}
 
 	return $rankPos;
 }
