@@ -30,7 +30,7 @@ function saveProject() {
    if (empty($_POST['pri_language'])) { $errormsg .= "Primary Language is required.<br>"; }
    if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
         if (!empty($_FILES['projectfiles']['name'])) { if(substr($_FILES['projectfiles']['name'], -4) != ".zip") { $errormsg .= "File type must be ZIP.<br."; } }
-   if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name of the zip file must be unique.<br>"; } }
+   if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>"; } }
    if (isset($errormsg)) {
         return $errormsg;
         exit();
@@ -201,7 +201,8 @@ function handle_projectfiles($projectid) {
    exec("unzip -o -j $local_zipfile -d $projects_dir/$projectid");
 
    # echo "unzipping to $uploads_dir/$pguser/$dir_name ...<br>\n";
-   exec("unzip -o -j $local_zipfile -d $uploads_dir/$pguser/$dir_name");
+   exec("unzip -o -j $local_zipfile -d '$uploads_dir/$pguser/$dir_name'");
+   // Put target dir in quotes because $pguser might contain a space char.
 
    # echo "insertTextFiles($dir_name, $projectid) ...<br>\n";
    insertTextFiles($dir_name, $projectid);
