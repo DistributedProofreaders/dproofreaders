@@ -26,6 +26,7 @@
 7	,'
 7	."
 7	.'
+ABE	ARE
 Ac	she
 act	not
 ad	as
@@ -38,6 +39,7 @@ alt	all
 an	on
 anal	and
 aped	aged
+appeal	appear
 at	as
 atone	alone
 Aura	down
@@ -52,6 +54,7 @@ bath	hath
 beach	bench
 Beads	heads
 bean	been
+Bear	Rear
 beard	heard
 beast	heart
 BEEP	BEEF
@@ -88,14 +91,18 @@ case	cafe
 case	ease
 caste	came
 celling	coming
+CHARTER	CHAPTER
+CHATTER	CHAPTER
 check	cheek
 chewed	shewed
 cit her	either
+clog	dog
 clone	done
 clown	down
 cm	on
 coarse	course
 cockles	cookies
+coiner	comer
 comers	corners
 coming	coining
 conies	comes
@@ -141,6 +148,7 @@ far	for
 fast	last
 fate	face
 fatuous	famous
+fax	far
 fear	for
 fed	feel
 fee	be
@@ -177,10 +185,12 @@ foot	floor
 From	Prom
 fry	try
 ft	it
+gamed	gained
 gaming	gaining
 Gay	Guy
 gel	get
 gift	girl
+gilt	gift
 girt	girl
 Go.	Co.
 got	get
@@ -198,6 +208,7 @@ hare	have
 he	be
 he	lie
 heal	heart
+hear	beer
 her	he
 her	here
 here-marked	he remarked
@@ -205,11 +216,13 @@ hest	best
 Hew	New
 hex	her
 hi	he
+hi	in
 hid	bid
 hie	his
 Hie	the
 hind	bind
 Hiring	living
+Hiss	Miss
 hist	him
 hit	he
 hit	his
@@ -254,12 +267,14 @@ lad	had
 laid	told
 lameness	tameness
 lateral	later at
+laud	land
 Lie	Life
 lie	the
 lier	her
 lies	her
 light	right
 lip	up
+live	five
 lock	look
 lode	look
 logs	loss
@@ -289,8 +304,8 @@ Mile.	Mlle.
 Mine	came
 mined	ruined
 ml.	vol.
-mm	him
 Mm	him
+mm	him
 mm	was
 Mock	Mode
 Molds	Fields
@@ -316,12 +331,13 @@ no	so
 noire	more
 not	hot
 nourish	flourish
+nourished	flourished
 O	0
 oar	our
 oat	out
 of	by
-Of	or
 of	or
+Of	or
 oil	off
 oil	oh
 oil	on
@@ -357,6 +373,8 @@ Prom	From
 qualifies	qualities
 ram	rain
 ramie	made
+ran	run
+ranch	much
 rations	decorations
 ratter	rather
 rattier	rather
@@ -418,6 +436,7 @@ swill	swift
 tad	had
 tally	rally
 tare	care
+TEAR	YEAR
 tearing	bearing
 Tears	Years
 tee	here
@@ -486,6 +505,7 @@ TUB	THE
 tum	turn
 turn	him
 tut	but
+unsifted	ungifted
 us	as
 V	".'
 V	'."
@@ -499,6 +519,7 @@ wait	went
 wall	well
 war	was
 wax	war
+Wearing	Nearing
 Wee	like
 weekly	meekly
 Wended	blended
@@ -512,3 +533,4 @@ winch	which
 wind	mind
 WOMBS	WOMEN
 wore	more
+wore	were

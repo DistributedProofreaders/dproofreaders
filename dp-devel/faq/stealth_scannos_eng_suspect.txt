@@ -16,6 +16,8 @@ and	2nd
 and	anal
 and	arid
 anger	auger
+appear	appeal
+ARE	ABE
 are	arc
 are	sire
 as	is
@@ -52,6 +54,7 @@ been	bean
 been	beets
 been	boon
 Beep	Keep
+beer	hear
 believe	relieve
 bench	beach
 bend	baud
@@ -106,6 +109,8 @@ cased	eased
 cases	eases
 cast	oust
 cd	ed
+CHAPTER	CHARTER
+CHAPTER	CHATTER
 checks	cheeks
 cheeks	checks
 chief	thief
@@ -119,6 +124,7 @@ cock	code
 code	cock
 coin	cow
 coins	cows
+comer	coiner
 comes	conies
 cookies	cockles
 corn	coin
@@ -149,6 +155,7 @@ detect	defect
 detected	defected
 detects	defects
 does	docs
+dog	clog
 down	clown
 drain	dram
 drain	draw
@@ -178,6 +185,7 @@ falling	failing
 falls	fails
 fame	fate
 famous	fatuous
+far	fax
 Fasting	Pasting
 fate	fame
 feel	feet
@@ -197,6 +205,7 @@ flies	files
 floor	flour
 flour	floor
 flourish	nourish
+flourished	nourished
 flows	flown
 foe	toe
 for	far
@@ -206,10 +215,12 @@ fowls	jowls
 France	Prance
 full	fall
 gain	gary
+gained	gamed
 gaining	gaming
 gary	gain
 gave	crave
 get	got
+gift	gilt
 go	so
 Gracie	Grade
 grain	gram
@@ -236,8 +247,8 @@ having	haying
 hay	bay
 He	Pie
 head	bead
-heads	Beads
 heads	beads
+heads	Beads
 hear	bear
 heard	beard
 hearing	bearing
@@ -296,6 +307,7 @@ ie	le
 iii	ill
 Ill	111
 ill	iii
+in	hi
 in	is
 inc	me
 inc	we
@@ -308,7 +320,6 @@ lame	tame
 land	laud
 last	fast
 later at	lateral
-laud	land
 lay	Jay
 le	ie
 lee	Ice
@@ -318,7 +329,6 @@ lift	lilt
 lilt	lift
 line	fine
 list	fist
-live	five
 live	I've
 living	Hiring
 locked	looked
@@ -352,6 +362,7 @@ mind	wind
 minds	winds
 mine	wine
 mines	wines
+Miss	Hiss
 Mlle	Mile
 Mlle.	Mile.
 mm	win
@@ -371,9 +382,11 @@ Mr.	Mr
 Mr.	Mr,
 Mrs.	Mrs
 Mrs.	Mrs,
+much	ranch
 must	mast
 my	nay
 my	ray
+Nearing	Wearing
 New	Hew
 next	nest
 no	110
@@ -418,6 +431,7 @@ Re	Be
 reached	reacted
 reacted	reached
 read	react
+Rear	Bear
 religions	religious
 remained	retrained
 returned	retained
@@ -442,6 +456,7 @@ ruined	mined
 rum	ruin
 RUMP	BUMP
 run	inn
+run	ran
 rustle	rustic
 said	paid
 salts	waits
@@ -530,6 +545,7 @@ turn	tum
 un-polished	tin-polished
 under	tinder
 under	wider
+ungifted	unsifted
 up	lip
 up	rip
 up	tip
@@ -561,6 +577,7 @@ well	wall
 well	wen
 went	merit
 were	mere
+were	wore
 wet	met
 where	whore
 which	winch
@@ -576,6 +593,7 @@ wines	mines
 WOMEN	WOMBS
 wood	mood
 y	v
+YEAR	TEAR
 Years	Tears
 yet	vet
 you	von
