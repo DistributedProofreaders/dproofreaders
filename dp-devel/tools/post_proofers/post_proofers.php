@@ -29,7 +29,7 @@ include($relPath.'showavailablepost.inc');
 <P>This is the post processing section. The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text. Once you have checked out and downloaded a book it will remain checked out to you until you check it back in. <b>The Completed Post-Processing feature is currently disabled until it gets fully developed. E-mail the project manager with the completed project for now.</b>
 
 <p>Here is a <a href="http://texts01.archive.org/dp/faq/post_proof.html"><b>Post Proof FAQ</b></a> that details all of the 
-steps that we normally take to post proof an etext. There is a <a href=http://texts01.archive.org/dp/phpBB2/viewforum.php?f=3>forum</a> to post all your questions. If no books are listed that means no work is currently available, please check back later!
+steps that we normally take to post proof an etext. There is a <a href="http://texts01.archive.org/dp/phpBB2/viewforum.php?f=3">forum</a> to post all your questions. If no books are listed that means no work is currently available, please check back later!
 <p>
 <b>First Time here?</b>  Juliet Sutherland is our Post Processing Coordinator. Please read the FAQ, select an easy work to get 
 started on (usually fiction with a low page count is a good starter book) and write <a href = 
@@ -59,4 +59,5 @@ showavailablepost($rows,PROJ_POST_AVAILABLE);
 <td width=126 bgcolor =CCCCCC align=center>&nbsp;</td>
 <td width=126 bgcolor =CCCCCC align=center><a href ="../proofers/proof_per.php">Proofread Books</a></td>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td>
+</table>
 </body></html>
