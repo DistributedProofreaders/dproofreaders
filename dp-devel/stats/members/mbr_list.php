@@ -58,7 +58,7 @@ if (!empty($mRows)) {
 		    ($row['u_privacy'] == 0)) {
 
 			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
-			echo "<td width='25%'>".$row['username'].":""</td>";
+			echo "<td width='25%'>".$row['username']."</td>";
 			echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
 			echo "<td width='25%' align='center'>".number_format($row['pagescompleted'])."</td>";
 			echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$forums_url/privmsg.php?mode=post&u=".mysql_result($phpbbID, 0, "user_id")."'>"._("PM")."</a></b></td>";
