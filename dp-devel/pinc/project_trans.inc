@@ -1,6 +1,7 @@
 <?
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'bookpages.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,

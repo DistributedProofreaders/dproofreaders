@@ -1,5 +1,6 @@
 <?
 include_once($relPath.'tdecho.inc');
+include_once($relPath.'bookpages.inc');
 
 function showbooklistheader($round) {
 echo "<tr>";
