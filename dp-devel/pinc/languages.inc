@@ -88,22 +88,3 @@ function phpbb_lang($langcode) {
 	
 	return $phpbblangs[$langcode];
 }
-
-function aspell_dict($engname) {
-	$a=array(
-		"English"=>"-d en",
-//		"Finnish"=>"-d fi",
-		"French"=>"-d fr",
-		"German"=>"-d de",
-		"Italian"=>"-d it",
-		"Polish"=>"-d pl",
-		"Portuguese"=>"-d pt",
-		"Romanian"=>"-d ro",
-		"Swedish"=>"-d sv"
-//		"Serbian"=>"-d sr"
-	);
-
-	$s=preg_split("/ with /",$engname);
-	
-	return $a[$s[0]]." ".$a[$s[1]];
-}
