@@ -102,6 +102,52 @@ class ProofingRoundDescriptor
         $PAGE_STATES_IN_ORDER[] = $this->page_save_state;
         $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
+
+    function user_access( $username, $n_pages_completed=null )
+    // Return an array containing:
+    // -- a boolean: TRUE iff the user can participate in this round.
+    // -- a string: detailing why or why not (addressed to "you").
+    // 
+    // If $n_pages_completed is non-null, use it as the number of pages
+    // that the user has completed. Otherwise, consult the database.
+    {
+        if ( $this->minimum_user_pages <= 0 )
+        {
+            $can = TRUE;
+            $why = _("Everyone can work in this round.");
+        }
+        else
+        {
+            if ( is_null($n_pages_completed) )
+            {
+                $result = mysql_query("
+                    SELECT pagescompleted
+                    FROM users
+                    WHERE username = '$username'
+                ");
+                $n_pages_completed = mysql_result($result,0);
+            }
+
+            if ( $n_pages_completed >= $this->minimum_user_pages )
+            {
+                $can = TRUE;
+                $why = _("You have completed enough pages to work in this round.");
+            }
+            else
+            {
+                $can = FALSE;
+                $why = sprintf(
+                    _("You have completed %d of the %d pages necessary to work in this round."),
+                    $n_pages_completed, $this->minimum_user_pages );
+                    // _("This round is inaccessible until you have completed %d pages."),
+                    // $this->minimum_user_pages );
+                    // _("This round will be opened to you when you have completed %d pages."),
+                    // $this->minimum_user_pages );
+            }
+        }
+
+        return array( $can, $why );
+    }
 }
 
 $P1 = new ProofingRoundDescriptor(
