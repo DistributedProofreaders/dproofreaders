@@ -64,7 +64,8 @@ $auto_email_addr = $general_help_email_addr;
 
 $testing = '<<TESTING>>';
 $use_cookies = '<<USE_COOKIES>>';
-// $maintenance = '<<MAINTENANCE>>';
+$maintenance = '<<MAINTENANCE>>';
+$metadata = '<<METADATA>>';
 
 // So far, the effects of setting $testing to TRUE are:
 // (1) It prevents email messages from being sent. Instead, the site shows a
