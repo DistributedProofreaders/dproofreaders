@@ -273,8 +273,8 @@ different pages.  This will significantly speed up the proofreading process.
 
 <p> Remember that all your proofread pages will be proofread again in the 'second round' of
     proofreading.  Few mistakes make it by both proofreaders undetected!  <i>So just do
-    your best and don't worry.</i>  (Second-round proofreading is limited to 'experienced'
-    first-round proofreaders [those who've proofread over 50 pages].) </p>
+    your best and don't worry.</i>  (Second-round proofreading is limited to more experienced
+    proofreaders.) </p>
 
 <p>Also, feel free to leave short notes in the pages as you do them, just make certain
     to mark them with an asterisk so that the next proofreader can find them.  Like this: <br>
@@ -291,7 +291,7 @@ different pages.  This will significantly speed up the proofreading process.
       <ol compact type="a">
         <li>Cookies accepted/on*
         <li>Javascript enabled
-         <p>Also, if in your Forum Profile (<a
+         <p>Also, if in your Preferences (<a
           href="<? echo $code_url; ?>/userprefs.php">located
           here</a>), "Launch in New Window" is set to "Yes", then there is
           the following additional requirement: </p>
