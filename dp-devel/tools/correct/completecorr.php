@@ -13,7 +13,7 @@ $error_msg = project_transition( $project, $new_state);
 
 if ($error_msg == '')
 {
-	metarefresh(2, "index.php", "Project Completed Successful",
+	metarefresh(2, "editproject.php?project=$project&posted=1", "Project Completed Successful",
 	    "This project has been marked as completed.");
 }
 else
