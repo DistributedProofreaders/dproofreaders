@@ -6,7 +6,6 @@
       <xs:sequence minOccurs="0" maxOccurs="1">
         <xs:element ref="userinfo" minOccurs="1" maxOccurs="1" />
         <xs:element ref="teaminfo" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="neighborinfo" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -66,25 +65,6 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="neighborinfo">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="neighbor" minOccurs="1" maxOccurs="unbounded" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
-  <xs:element name="neighbor">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="username" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="datejoined" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
   <xs:element name="activemembers">
     <xs:complexType mixed="true" />
   </xs:element>
@@ -130,10 +110,6 @@
   </xs:element>
 
   <xs:element name="pagescompleted">
-    <xs:complexType mixed="true" />
-  </xs:element>
-
-  <xs:element name="rank">
     <xs:complexType mixed="true" />
   </xs:element>
 

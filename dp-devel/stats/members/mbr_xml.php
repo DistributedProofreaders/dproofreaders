@@ -104,35 +104,6 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 	}
 	echo "
 		</teaminfo>";
-
-
-//Neighbor info
-
-	$neighbors =
-		user_get_page_tally_neighborhood(
-			'P', $curMbr['username'], 4 );
-
-	echo "
-		<neighborinfo>";
-	foreach ( $neighbors as $rel_posn => $neighbor )
-	{
-		echo "
-			<neighbor>
-				<rank>".$neighbor->get_current_page_tally_rank()."</rank>";
-
-		if (!$neighbor->is_anonymized())
-		{
-			echo "
-				<username>".xmlencode($neighbor->get_username())."</username>
-				<datejoined>".date("m/d/Y", $neighbor->get_date_joined())."</datejoined>";
-		}
-
-		echo "
-				<pagescompleted>".$neighbor->get_current_page_tally()."</pagescompleted>
-			</neighbor>";
-	}
-	echo "
-		</neighborinfo>";
 }
 
 echo "
