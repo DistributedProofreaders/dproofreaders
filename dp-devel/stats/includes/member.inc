@@ -221,8 +221,10 @@ function showBBProfile($curMbr) {
 		),
 	);
 
-	while( list( $condition, $label, $icon_filename, $url, $target ) = next($contact_data) )
+	foreach ( $contact_data as $contact )
 	{
+		list( $condition, $label, $icon_filename, $url, $target ) = $contact;
+
 		if (!$condition) continue;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
