@@ -25,7 +25,7 @@ theme("Project Managers", "header");
 
 abort_if_not_manager();
 
-	if ( $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
+	if ( !isset($_GET['show']) || $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
 		echo_manager_header('project_search_page');
 
 		echo "
