@@ -21,9 +21,9 @@
 
 <p>The testimonial volumes are primarily dialogue. Please mark the speaker's names as bold (i.e., with &lt;b&gt; and &lt;/b&gt; tags), like so:</p>
 
-<pre>&lt;b&gt;Mr. RANKIN.</b> Mrs. Oswald, did you write in Russian a story of your experiences in the United States?
+<pre>&lt;b&gt;Mr. RANKIN.&lt;/b&gt; Mrs. Oswald, did you write in Russian a story of your experiences in the United States?
 
-  &lt;b&gt;Mrs. OSWALD.</b> Yes, I have. I think that you are familiar with it.</pre>
+&lt;b&gt;Mrs. OSWALD.&lt;/b&gt; Yes, I have. I think that you are familiar with it.</pre>
 
 <p>(<strong>Note:</strong> Please include the period inside the bold tags.)</p>
 
