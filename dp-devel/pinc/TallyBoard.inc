@@ -62,14 +62,7 @@ class TallyBoard
         // timestamp used by the periodic snapshot script. (If we use a more recent
         // timestamp, we'll mislead the next run of that script.)
 
-        $result = mysql_query("
-            SELECT MAX(timestamp)
-            FROM past_tallies
-            WHERE
-                tally_name='$this->tally_name'
-                AND holder_type='$this->holder_type'
-        ") or die(mysql_error());
-        $latest_time_in_table = mysql_result($result,0,0);
+        $latest_time_in_table = $this->get_time_of_latest_snapshot();
 
         if (!is_null($latest_time_in_table))
         {
@@ -292,15 +285,7 @@ class TallyBoard
     // If $dry_run is true, merely echo queries that would change db.
     // 
     {
-        // Get the (ascribed) time of the previous snapshot.
-        $result = mysql_query("
-            SELECT MAX(timestamp)
-            FROM past_tallies
-            WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-        ") or die(mysql_error());
-        $prev_ascribe_time = mysql_result($result,0,0);
+        $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
         if ( !$dry_run )
         {
@@ -363,6 +348,22 @@ class TallyBoard
                 mysql_query($query) or die(mysql_error());
             }
         }
+    }
+
+    // -------------------------------------------------------------------------
+
+    function get_time_of_latest_snapshot()
+    // Return the ascribed timestamp of the latest snapshot for this TallyBoard,
+    // or NULL if there has been no snapshot yet.
+    {
+        $result = mysql_query("
+            SELECT MAX(timestamp)
+            FROM past_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+        ") or die(mysql_error());
+        return mysql_result($result,0,0);
     }
 
     // -------------------------------------------------------------------------
