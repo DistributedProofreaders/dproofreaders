@@ -67,13 +67,13 @@ $exp_text .= " vs. $tfont";
 $exp_text .=
 	"</H1>
         <P>"
-        ._("DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders, that helps proofreaders find mistakes.")
+        ._("DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders, that helps proofreaders find mistakes. ")
         ._("You can change the font that you use for proofreading in your")
         ." <a href='$code_url/userprefs.php'>"._("preferences")."</a>. "
-        ._("Here are some samples that compare DPCustomMono2 to other fonts.")
+        ._("Here are some samples that compare DPCustomMono2 to other fonts. ")
         ._("For information on installing and using the font, read the"). 
 	" <a href='$forums_url/viewtopic.php?p=31521#31521'>".
-	_("DPWiki post")
+	_("DPWiki post.")
         ."</a></P>";
 
 echo $exp_text;
@@ -89,15 +89,15 @@ $exp_text .= _("You currently have DPCustomMono2 selected as your default proofr
 } 
 
 $exp_text .= 
-	 _("If you already have the font installed, you will see this paragraph in the DPCustomMono2 typeface.")
+	 _("If you already have the font installed, you will see this paragraph in the DPCustomMono2 typeface. ")
         ._("If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from")
         ." <a href='DPCustomMono2.ttf'>"._("here")."</a> "
 	._("(right click the link, and choose Save Target As...). ")
-	._("After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.");
+	._("After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly. ");
 
 if ($DPCM) {
 
-$exp_text .= _("If DpCustomMono2 is displayed correctly in this paragraph, then please browse through the gallery of font comparisons below to remind yourself why it's so useful.")." ";
+$exp_text .= _("If DPCustomMono2 is displayed correctly in this paragraph, then please browse through the gallery of font comparisons below to remind yourself why it's so useful.")." ";
 
 } 
 
