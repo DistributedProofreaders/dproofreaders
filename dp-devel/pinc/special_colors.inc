@@ -18,7 +18,7 @@ function get_special_color_for_project($book) {
     // from the SPECIAL_DAYS table
 
     // default Special colour (will be over-ridden by any specific matches below)
-    if (!is_null($book['special']))
+    if (!is_null($book['special']) and strlen($book['special']))
     {
         $bgcolor = '#FFFF66'; // fadedyellow
     }
