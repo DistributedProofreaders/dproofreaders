@@ -65,9 +65,7 @@ if ($_POST['reason'] == 0) {
 }
 
 //Update the page the user was working on to reflect a bad page.
-$result = mysql_query("SELECT master_text FROM ".$_POST['projectname']." WHERE fileid='".$_POST['fileid']."'");
-$master_text = mysql_result($result, 0, "master_text");
-$result = mysql_query("UPDATE ".$_POST['projectname']." SET round1_user='$pguser', round1_text='$master_text', state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
+$result = mysql_query("UPDATE ".$_POST['projectname']." SET state='".$_POST['badState']."', b_user='$pguser', b_code=".$_POST['reason']." WHERE fileid='".$_POST['fileid']."'");
 
 //Find out how many pages have been marked bad
 $totalBad = mysql_num_rows(mysql_query("SELECT * FROM ".$_POST['projectname']." WHERE state='".BAD_FIRST."' OR state='".BAD_SECOND."'"));
