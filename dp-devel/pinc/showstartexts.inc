@@ -6,13 +6,13 @@ $i = 1;
 
 if ($type == "bronze") {
 $state = SQL_CONDITION_BRONZE;
-$text = " Now Proofing.</font>  These books are currently being processed through our site, sign in and start helping!!!! <br>";
+$text = " Now Proofing.</font>  These books are currently being processed through our site; sign in and start helping!!!! <br>";
 } elseif ($type == "silver") {
 $state = SQL_CONDITION_SILVER;
 $text = " In Progress.</font>  These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).<br>";
 } elseif ($type == "gold") {
 $state = SQL_CONDITION_GOLD;
-$text = " Complete.</font>  These books have been processed through this site and posted to the Project Gutenberg archive.<br>";
+$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive.<br>";
 }
 
 $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
@@ -32,7 +32,7 @@ if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>te
 if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
 if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
 echo "$moddate<br>";
-echo "$links<br><br>";
+echo "$links</font><br><br>";
 } else {
 $totalpages = mysql_query("SELECT COUNT(*) FROM ".$row['projectid']."");
 echo mysql_result($totalpages,0)." pages; $moddate</font><br><br>";
