@@ -6,13 +6,13 @@ if (isset($userP)){
     $intlang = $userP['u_intlang'];
 } else {
     // Set default interface language to language passed with URL or English if it's not specified
- define (lang, '');
-    if (!isset($lang)) {
+ define ("lang", '');
+    if (!isset($lang) && isset($_GET['lang'])) {
         $intlang = $_GET['lang'];
-    if ($intlang == ''){
-        $intlang  = "en_EN";
+    } elseif (!isset($lang) && !isset($_GET['lang'])) {
+    	$intlang = "en_EN";
     }
-    }
+
 }
 
 $locale = setlocale(LC_ALL, $intlang);
