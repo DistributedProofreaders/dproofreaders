@@ -67,6 +67,8 @@ while ($a_res = mysql_fetch_row($result))
 
 $array_of_diffs = array('beginner','easy','average','hard');
 
+foreach($array_of_langs as $value) echo $value;
+
 
 include_once('filter_proof_list.inc');
 
@@ -85,7 +87,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	    foreach( $_GET['language1'] as $lang )
 	    {
 
-
+		
 
 		if (!in_array( $lang, $array_of_langs )) { echo "UHOH" & exit(); }
 
