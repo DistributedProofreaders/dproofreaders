@@ -140,7 +140,14 @@ function showTeamMbrs($curTeam) {
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
 
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b></font></center></td></tr>";
+	
+	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b>";
+	$latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
+	if (mysql_num_rows($latestMbr) > 0) { 
+		if (mysql_result($latestMbr, 0, "Privacy") == 0 || (mysql_result($latestMbr, 0, "Privacy") == 2 && isset($GLOBALS['pguser']))) { echo "<br>Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!"; }
+	}
+	echo "</font></center></td></tr>";
+	
 	echo "\n<tr><td><table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	echo "\n<tr bgcolor='#cccccc'>";
 
