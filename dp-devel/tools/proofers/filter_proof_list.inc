@@ -8,7 +8,7 @@ function build_selectlist( $states, $field)
 		SELECT distinct $field
 		FROM projects
 			WHERE $states
-			ORDER BY %field
+			ORDER BY $field
 		";
 
 	$result = mysql_query($query);
@@ -84,12 +84,8 @@ if ($userP['u_plist'] == 3)
 
 	echo "
 	    </select>
-
-	echo build_selectlist( $state_sql, "language");
-
 	    </td>
 	";
-
 
 	// GENRE filter
 
@@ -139,11 +135,13 @@ if ($userP['u_plist'] == 3)
     echo "</tr>";
     echo "</table>\n<br>";
 
-    echo "<input type='submit' value='Filter Projects'>";
-    echo "<input type='reset' value='Clear Filter'>";
+    echo "<input type='submit' value='Apply Filter to Projects'>";
+    echo "<input type='reset' value='Reset Filter to none'>";
     echo "</form><br>";
     echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
-    echo "</center><br>\n";
+    echo "<br><br>";
+    echo _("Restting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
+    echo "</center><br><br>\n";
 
 ?>
 
