@@ -376,7 +376,7 @@ function get_project_status_descriptor( $which )
     {
         case 'created':
             $obj->state_selector = "(
-                state NOT LIKE 'proj_new%'
+                state NOT LIKE 'project_new%'
             )";
             $obj->color = 'green';
             $obj->projects_Xed_title = _('Projects Created');
