@@ -1,7 +1,7 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
-include_once($relPath.'languages.inc');
+include_once($relPath.'iso_639_list.inc');
 
 $correct_text = "";
 
@@ -32,8 +32,35 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		}
 		fclose($fd);
 
-		global $aspell_executable, $aspell_prefix;
-		$aspell_dict=aspell_dict(mysql_result(mysql_query("SELECT language FROM projects WHERE projectid='$projectid'"),0));
+		global $aspell_executable, $aspell_prefix, $iso_639;
+
+		// Decide which dictionaries to ask for.
+		$aspell_dict = '';
+		$project_language_property = mysql_result(mysql_query("
+			SELECT language FROM projects WHERE projectid='$projectid'
+			"),0);
+		$languages = preg_split('/ with /', $project_language_property );
+		foreach ($languages as $language )
+		{
+			$langcode = array_search( $language, $iso_639 );
+			if ( $langcode )
+			{
+				$dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
+				if ( file_exists( $dict_file ) )
+				{
+					$aspell_dict .= "-d $langcode ";
+				}
+				else
+				{
+					echo "Warning: no dictionary file for language '$language'.<br>";
+				}
+			}
+			else
+			{
+				echo "Warning: unrecognized language '$language'.<br>";
+			}
+		}
+
 		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} {$aspell_dict} -H -a";
 		// echo $aspell_command; // Very useful for debugging
 		// run aspell
