@@ -31,8 +31,10 @@ header("Pragma: no-cache");
 $result = select_from_teams("id = {$_GET['id']}");
 $curTeam = mysql_fetch_assoc($result);
 
+$team_id = $curTeam['id'];
+
 //Team info portion of $data
-	$pageCountRank = $teams_P_page_tallyboard->get_rank( $curTeam['id'] );
+	$pageCountRank = $teams_P_page_tallyboard->get_rank( $team_id );
 
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
@@ -40,10 +42,10 @@ $curTeam = mysql_fetch_assoc($result);
 	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
 
 	list($bestDayCount, $bestDayTimestamp) =
-		$teams_P_page_tallyboard->get_info_re_largest_delta( $curTeam['id'] );
+		$teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
-	$data = "<teaminfo id=\"".$curTeam['id']."\">
+	$data = "<teaminfo id='$team_id'>
 			<teamname>".xmlencode($curTeam['teamname'])."</teamname>
 			<datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
 			<leader>".xmlencode($curTeam['createdby'])."</leader>
@@ -66,7 +68,7 @@ $curTeam = mysql_fetch_assoc($result);
 		SELECT username, date_created, u_id, u_privacy,
 			$user_P_page_tally_column AS current_P_page_tally
 		FROM users $joined_with_user_P_page_tallies
-		WHERE {$curTeam['id']} IN (team_1, team_2, team_3)
+		WHERE $team_id IN (team_1, team_2, team_3)
 		ORDER BY username ASC
 	");
 	while ($curMbr = mysql_fetch_assoc($mbrQuery))
