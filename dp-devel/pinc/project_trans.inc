@@ -390,5 +390,47 @@ function project_pre_release_check( $project )
 
 	return $errors;
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function maybe_mail_project_manager( $project, $info )
+// $project is either a string containing a projectid,
+// or an associative array containing various attributes of a project.
+{
+	global $code_url, $auto_email_addr;
+
+	if (is_string($project))
+	{
+		$project = mysql_fetch_assoc(mysql_query("
+			SELECT * FROM projects WHERE projectid='$project'
+		"));
+	}
+
+	$projectid  = $project['projectid'];
+	$nameofwork = $project['nameofwork'];
+	$username   = $project['username'];
+
+	$body =
+"This is an automated message from the Distributed Proofreaders site.
+
+Regarding:
+\"$nameofwork\"
+  ($projectid)
+  $code_url/tools/project_manager/project_detail.php?project=$projectid
+
+$info
+
+Thank You!
+Distributed Proofreaders
+";
+
+	$email_addr = mysql_result(mysql_query("
+		SELECT email FROM users WHERE username = '$username'
+	"),0);
+
+	maybe_mail($email_addr, "DP: \"$nameofwork\"", $body,
+		"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+}
+
 // vim: ts=4 sw=4
 ?>
