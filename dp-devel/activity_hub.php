@@ -132,9 +132,12 @@ while ( list($project_state,$count) = mysql_fetch_row($res) )
     $n_projects_in_state_[$project_state] = $count;
 }
 
-function summarize_projects( $project_states )
+// -----------
+
+function summarize_projects( $project_states, $filtertype_stem )
 {
     global $n_projects_in_state_;
+    global $pguser;
 
     $total = 0;
     foreach ($project_states as $project_state)
@@ -142,7 +145,13 @@ function summarize_projects( $project_states )
         $count = array_get( $n_projects_in_state_, $project_state, 0 );
         $total += $count;
     }
-    echo sprintf( _('There are %d projects in this stage:'), $total );
+    echo sprintf( _('There are %d projects in this stage.'), $total );
+
+    if ($total == 0)
+    {
+        // Nothing else to say.
+        return;
+    }
 
     echo "<ul>\n";
     foreach ($project_states as $project_state)
@@ -150,7 +159,63 @@ function summarize_projects( $project_states )
         $count = array_get( $n_projects_in_state_, $project_state, 0 );
         $label = project_states_text($project_state);
         echo "<li>$count $label</li>\n";
+    }
+    echo "</ul>\n";
 
+    // -----------------------
+
+    // And now, with filtering...
+
+    $res1 = mysql_query("
+        SELECT value
+        FROM user_filters
+        WHERE username='$pguser' AND filtertype='{$filtertype_stem}_internal'
+    ") or die(mysql_error());
+    if ( mysql_num_rows($res1) == 0 )
+    {
+        // echo _("You have no project filtering set up for this stage.");
+        return;
+    }
+
+    list($project_filter) = mysql_fetch_row($res1);
+    
+    $states_list = '';
+    foreach ( $project_states as $project_state )
+    {
+        if ($states_list) $states_list .= ',';
+        $states_list .= "'$project_state'";
+    }
+
+    $res2 = mysql_query("
+        SELECT state, COUNT(*)
+        FROM projects
+        WHERE state IN ($states_list) $project_filter
+        GROUP BY state
+    ") or die(mysql_error());
+
+    $n_filtered_projects_in_state_ = array();
+    $filtered_total = 0;
+    while ( list($project_state,$count) = mysql_fetch_row($res2) )
+    {
+        $n_filtered_projects_in_state_[$project_state] = $count;
+        $filtered_total += $count;
+    }
+
+    echo sprintf(
+        _('After applying your filter for this stage, there are %d projects.'),
+        $filtered_total );
+
+    if ($filtered_total == 0) // or $filtered_total == $total ?
+    {
+        return;
+    }
+
+    echo "<ul>\n";
+    foreach ($project_states as $project_state)
+    {
+        $count = array_get( $n_filtered_projects_in_state_, $project_state, 0 );
+        $label = project_states_text($project_state);
+        echo "<li>$count $label</li>\n";
     }
     echo "</ul>\n";
 }
@@ -214,7 +279,8 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         // $prd->project_complete_state,
         // $prd->project_unavailable_state,
         // $prd->project_bad_state
-        )
+        ),
+        $prd->round_id
     );
 
     echo "</li>\n";
@@ -251,7 +317,8 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         // PROJ_POST_FIRST_UNAVAILABLE,
         PROJ_POST_FIRST_AVAILABLE,
         PROJ_POST_FIRST_CHECKED_OUT
-        )
+        ),
+        'avail_PP'
     );
 
     {
@@ -300,7 +367,8 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         PROJ_POST_SECOND_AVAILABLE,
         PROJ_POST_SECOND_CHECKED_OUT,
         // PROJ_POST_COMPLETE
-        )
+        ),
+        'avail_PPV'
     );
 
     {
