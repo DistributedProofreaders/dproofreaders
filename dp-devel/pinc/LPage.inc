@@ -239,26 +239,6 @@ function getText($pagestate,$saved,$revert)
   return $text_data;
 }
 
-function isProjectDone($proofstate)
-{
-  $sql ="SELECT * FROM {$this->project} WHERE state='";
-  $sql.=$this->getProjectRound($proofstate)==1? AVAIL_FIRST:AVAIL_SECOND;
-  $sql.="' OR state='";
-  $sql.=$this->getProjectRound($proofstate)==1? OUT_FIRST:OUT_SECOND;
-  $sql.="' LIMIT 1";
-  $result = mysql_query($sql);
-  $rows=mysql_num_rows($result);
-    if ($rows == 0)
-    {
-      $newstate = $this->getProjectRound($proofstate)==1 ? PROJ_PROOF_FIRST_VERIFY : PROJ_PROOF_SECOND_VERIFY;
-      $error_msg = project_transition( $this->project, $newstate );
-      if ($error_msg)
-      {
-        echo "$error_msg<br>\n";
-      }
-    }
-}
-
 function addUserCount($proofstate,$pguser,$userP)
 {
   $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
@@ -352,7 +332,6 @@ function saveComplete($proofstate,$text_data,$pguser,$userP)
   $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
   $result = mysql_query($dbQuery) or die(mysql_error());
-  $this->isProjectDone($proofstate);
   return $this->save_state;
 }
 
