@@ -290,21 +290,21 @@ class TallyBoard
         $ranker = new Ranker(FALSE);
         while ($row = mysql_fetch_assoc($result))
         {
-            $latest_rank = $ranker->next( $row[$tally_alias] );
+            $rank = $ranker->next( $row[$tally_alias] );
 
             $rel_posn = $r - $target_holder_r;
             if ( abs($rel_posn) <= $radius )
             {
                 // We're in the neighborhood of the target holder.
 
-                $row[$rank_alias] = $latest_rank;
+                $row[$rank_alias] = $rank;
                 $neighbors[$rel_posn] = $row;
             }
 
             $r++;
         }
 
-        $max_current_rank = $latest_rank;
+        $max_current_rank = $rank;
 
         return array( $neighbors, $max_current_rank );
     }
