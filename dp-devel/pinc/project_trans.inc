@@ -99,12 +99,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// -------------------------------------------------------------------------
 
-	// Re transitions marked "misleading":
-	// The pop-up menus on the PM project listings page imply that these
-	// transitions are possible, but project_manager/changestate.php
-	// refers these cases (among others) to automodify.php, which may
-	// cause a transition, but (in these cases) not the requested one.
-
 	$transition_graph = array(
 		PROJ_NEW => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE
@@ -116,7 +110,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 		PROJ_PROOF_FIRST_BAD_PROJECT => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,
-			// PROJ_PROOF_FIRST_VERIFY // misleading
 			PROJ_PROOF_FIRST_AVAILABLE,
 			PROJ_PROOF_FIRST_COMPLETE,
 			),
@@ -131,7 +124,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_FIRST_AVAILABLE => array(
 			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
-			// PROJ_PROOF_FIRST_VERIFY, // misleading
 			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_VERIFY => array(
@@ -146,7 +138,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 		PROJ_PROOF_SECOND_BAD_PROJECT => array(
 			PROJ_PROOF_SECOND_UNAVAILABLE,
-			// PROJ_PROOF_SECOND_VERIFY // misleading
 			PROJ_PROOF_SECOND_AVAILABLE,
 			PROJ_PROOF_SECOND_COMPLETE,
 			),
@@ -160,7 +151,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		PROJ_PROOF_SECOND_AVAILABLE => array(
 			PROJ_PROOF_SECOND_BAD_PROJECT,
 			PROJ_PROOF_SECOND_UNAVAILABLE,
-			// PROJ_PROOF_SECOND_VERIFY, // misleading
 			PROJ_PROOF_SECOND_COMPLETE,
 			),
 		PROJ_PROOF_SECOND_VERIFY => array(
