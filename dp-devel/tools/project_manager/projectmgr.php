@@ -11,6 +11,8 @@ $projectinfo = new projectinfo();
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
 
+
+
 if (empty($_GET['show'])) {
 	if ($userP['i_pmdefault'] == 0) {
 		metarefresh(0,"projectmgr.php?show=all","","");
@@ -189,6 +191,7 @@ abort_if_not_manager();
 		// Present the results of the search query.
 
 		$show_pages_left = 0;
+		$show_pages_total = 1;
 
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
 
@@ -208,6 +211,10 @@ abort_if_not_manager();
 		if ( $show_pages_left )
 		{
 		    echo_header_cell( 50, "Left" );
+		}
+		if ( $show_pages_total )
+		{
+		    echo_header_cell( 50, "Total" );
 		}
       		echo_header_cell(  75, ($_GET['show'] == "site" ? "PM" : "Owner" ) );
       		echo_header_cell( 180, "Project Status" );
@@ -247,6 +254,17 @@ abort_if_not_manager();
 			    $projectinfo->update_avail($projectid, $state);
 			    echo "<td align=\"center\">$projectinfo->availablepages</td>\n";
 			}
+
+
+			// Total
+			if ( $show_pages_total )
+			{
+				$totqry = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
+ 				$totpag = mysql_result($totqry,0,"total_pages");
+
+			    echo "<td align=\"center\">$totpag</td>\n";
+			}
+
 
 			// Owner
 			echo "<td align=\"center\">";
