@@ -188,8 +188,8 @@ if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.arch
 <td><input type="text" size="67" name="scannercredit" value="<? echo encodeFormValue($scannercredit) ?>"></td>
 </tr>
 <tr>
-<td bgcolor="#CCCCCC"><b>Clearance Line</b></td>
-<td><input type="text" size="67" name="clearance" value="<? echo encodeFormValue($clearance) ?>"></td>
+<td bgcolor="#CCCCCC"><b>Clearance Information</b></td>
+<td><textarea cols="67" rows="2" name="clearance"><? echo encodeFormValue($clearance) ?></textarea></td>
 </tr>
 <tr>
 <td bgcolor="#CCCCCC"><b>Text File URL</b></td>
