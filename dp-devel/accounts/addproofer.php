@@ -16,7 +16,7 @@ if ($password=="proofer") {
     $todaysdate = time();
 
     $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, emailupdates, u_plist)
-                VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '1')");
+                VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$todaysdate', '$email_updates', '3')");
 
     if (!$result) {
 
