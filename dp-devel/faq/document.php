@@ -692,33 +692,33 @@ theme('Proofreading Guidelines','header');
                in Wurtemberg and the Frauenberg near Gerhausen.[4]                  <br>
                At Deffingen, in Swabia, as the people sprang over the mid-*         <br>
                                                                                     <br>
-               [Footnote 1: <i>Op. cit.</i> iv. i. p. 242. We have                  <br>
+               [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. i. p. 242. We have      <br>
                seen (p. 163) that in the sixteenth                                  <br>
                century these customs and beliefs were                               <br>
                common in Germany. It is also a                                      <br>
                German superstition that a house which                               <br>
                contains a brand from the midsummer                                  <br>
                bonfire will not be struck by lightning                              <br>
-               (J.W. Wolf, <i>Beiträge, zur deutschen                               <br>
-               Mythologie</i>, i. p. 217, § 185).]                                  <br>
+               (J.W. Wolf, &lt;i&gt;Beiträge, zur deutschen                         <br>
+               Mythologie&lt;/i&gt;, i. p. 217, § 185).]                            <br>
                                                                                     <br>
-               [Footnote 2: J. Boemus, <i>Mores, leges et ritus                     <br>
-               omnium gentium</i> (Lyons, 1541), p.                                 <br>
+               [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus               <br>
+               omnium gentium&lt;/i&gt; (Lyons, 1541), p.                           <br>
                226.]                                                                <br>
                                                                                     <br>
                [Footnote 3: Karl Freiherr von Leoprechting,                         <br>
-               <i>Aus dem Lechrain</i> (Munich, 1855),                              <br>
-               pp. 181 <i>sqq.</i>; W. Mannhardt, <i>Der                            <br>
-               Baumkultus</i>, p. 510.]                                             <br>
+               &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),                  <br>
+               pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der          <br>
+               Baumkultus&lt;i&gt;, p. 510.]                                        <br>
                                                                                     <br>
-               [Footnote 4: A. Birlinger, <i>Volksthümliches aus                    <br>
-               Schwaben</i> (Freiburg im Breisgau, 1861-1862),                      <br>
-               ii. pp. 96 <i>sqq.</i>, § 128, pp. 103                               <br>
-               <i>sq.</i>, § 129; <i>id., Aus Schwaben</i> (Wiesbaden,              <br>
+               [Footnote 4: A. Birlinger, &lt;i&gt;Volksthümliches aus              <br>
+               Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),                <br>
+               ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, § 128, pp. 103                   <br>
+               &lt;i&gt;sq.&lt;/i&gt;, § 129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,   <br>
                1874), ii. 116-120; E. Meier,                                        <br>
-               <i>Deutsche Sagen, Sitten und Gebräuche                              <br>
-               aus Schwaben</i> (Stuttgart, 1852), pp.                              <br>
-               423 <i>sqq.</i>; W. Mannhardt, <i>Der Baumkultus</i>,                <br>
+               &lt;i&gt;Deutsche Sagen, Sitten und Gebräuche                        <br>
+               aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.                        <br>
+               423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,     <br>
                p. 510.]                                                             <br>
         </tt></p>
       </td>
@@ -1441,6 +1441,7 @@ image/text for an example.</p>
     <tt>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
     </tt>
+    Remove extra dots, if any, to reduce the number to three (or four) as appropriate.
     </p>
     
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a> </h3>
@@ -1581,7 +1582,7 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&reg;    </td><td>Alt-0174</td>
       <td align=center bgcolor=mistyrose>&ntilde; </td><td>Alt-0241</td>
       <td align=center bgcolor=mistyrose>&iquest; </td><td>Alt-0191</td>
-      <td align=center bgcolor=mistyrose>&euro;   </td><td>Alt-0128</td>
+      <td>                                        </td><td>        </td>
       <td align=center bgcolor=mistyrose>&not;    </td><td>Alt-0172</td>
   <tr><td align=center bgcolor=mistyrose>&Ccedil; </td><td>Alt-0199</td>
       <td>                                        </td><td>        </td>
@@ -1728,7 +1729,7 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&reg;    </td><td>Opt-r   </td>
       <td align=center bgcolor=mistyrose>&ntilde; </td><td>Opt-n, n</td>
       <td align=center bgcolor=mistyrose>&iquest; </td><td>Opt-?   </td>
-      <td align=center bgcolor=mistyrose>&euro;   </td><td>Opt-@   </td>
+      <td>                                        </td><td>        </td>
       <td align=center bgcolor=mistyrose>&not;    </td><td>Opt-l   </td>
   <tr><td align=center bgcolor=mistyrose>&Ccedil; </td><td>Opt-C   </td>
       <td>                                           </td><td>     </td>
@@ -1895,12 +1896,14 @@ cedilla                      [,x]*  [x,]
 <h3><a name="page_ref">Page References</a> </h3>
 <p> Some non-fiction works will reference themselves by giving a page number to go to,
     for example: (see p. 123). Please leave these references as they are within the text
-    (even though we remove page numbers from the Table of Contents &amp; Index pages).
-    Do not mark these with a <tt>*</tt> either, unless the Project Manager specifies
-    this in the <a href="#comments">Project Comments</a>. </p>
+    (even though we remove page numbers from the Table of Contents and the headers or footers of pages).
+    Mark these page references with a <tt>*</tt>, as in <tt>(see p. 123*)</tt>, unless the Project Manager specifies not to
+    in the <a href="#comments">Project Comments</a>. This will make it easier for the Post Processor 
+    to find them later. This is for page references within the main body of the text or within footnotes only; see
+    below for page references within indexes.</p>
  
 <h3><a name="bk_index">Indexes</a> </h3>
-<p>Please retain page numbers on index pages unless requested otherwise. You don't need to align the numbers as they appear in the scan; just put a comma or semicolon, followed by the page numbers.
+<p>Please retain page numbers in index pages unless requested otherwise, but do not mark them with a *. You don't need to align the numbers as they appear in the scan; just put a comma or semicolon, followed by the page numbers. 
 </p>
 <p>
     Indexes are often printed in 2 columns; this narrower space can cause entries to
@@ -2034,8 +2037,8 @@ cedilla                      [,x]*  [x,]
 <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  [...more to be added...] </p>
 
 <h3><a name="hand_notes">Handwritten Notes in Book</a> </h3>
-<p> Do not include handwritten notes in a book, unless it is impossible to read the text
-    that the handwritten note is replacing.</p>
+<p> Do not include handwritten notes in a book (unless it is overwriting faded, printed text to make it more visible). 
+    Do not include handwritten marginal notes made by readers, etc.</p>
     
 <h3><a name="bad_image">Bad Images</a> </h3>
 <p> If an image is bad (not loading, chopped off, unable to be read), please put a post
@@ -2114,3 +2117,4 @@ cedilla                      [,x]*  [x,]
 <?
 theme('','footer');
 ?>
+
