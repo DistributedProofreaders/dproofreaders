@@ -88,7 +88,8 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 function noPages($newwin)
 {
     $body=_("No more files available for proofing for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
-    metarefresh(4,"list_avail.php",'Project Round Complete',$body);
+    $title = _("Project Round Complete");
+    metarefresh(4,"list_avail.php",$title,$body);
 }
 
 function getAvailablePage($project,$proofstate,$pguser)
@@ -304,7 +305,7 @@ function exitInterface($newwin,$editone)
         echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
         echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
         echo "window.close();</SCRIPT>";
-        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here")."</A> "._("to close the proofing window.");
+        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here to close the proofing window.")."</A>";
         echo "</BODY></HTML>";
       }
 }
