@@ -215,7 +215,7 @@ echo "</table>\n";
 $num = $n_proofings_total['both']['done'];
 $den = 2 * $n_pages_total;
 $percentage = sprintf( "%.1f", 100 * $num / $den ); 
-echo "<p><b>Proofing is $percentage% ($num/$den) done.</b>";
+echo "<p><b>Proofreading is $percentage% ($num/$den) done.</b>";
 
 echo "</BODY></HTML>\n";
 

@@ -26,7 +26,7 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
     $users = mysql_query("SELECT count(*) AS numusers FROM users
                           WHERE last_login > $begin_time");
     $totalusers = (mysql_result($users,0,"numusers"));
-    echo "<tr><td align ='left'>Proofers active in the last 7 days:</td><td align ='right'> $totalusers</td><tr>";
+    echo "<tr><td align ='left'>Proofreaders active in the last 7 days:</td><td align ='right'> $totalusers</td><tr>";
 
 
   //get total books posted  in the last 7 days
@@ -123,10 +123,10 @@ echo "<tr><td>";
 echo _("Proofreading");
 echo "</td><td>";
 
-$sub_title = _("Projects Proofed Graphs");
+$sub_title = _("Projects Proofread Graphs");
 echo "<a href='proj_proofed_graphs.php'>$sub_title</a><br><br>";
 echo "</td><td>";
-$sub_title = _("Pages Proofed Graphs");
+$sub_title = _("Pages Proofread Graphs");
 echo "<a href='pages_proofed_graphs.php'>$sub_title</a><br><br>";
 echo "</td></tr>";
 

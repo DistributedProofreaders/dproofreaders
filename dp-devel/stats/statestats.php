@@ -75,7 +75,7 @@ $FinProof = state_change_between_dates("
 				OR state LIKE 'proj_correct%' 
 				OR state LIKE 'proj_post%')
 				",'2003-11-01','2003-12-01');
-echo "<b>$FinProof</b> projects were proofed $descrip<br>";
+echo "<b>$FinProof</b> projects were proofread $descrip<br>";
 
 $FinPP = state_change_between_dates("
 				(state LIKE 'proj_submit%' 
@@ -99,7 +99,7 @@ $FinProof = state_change_between_dates("
 				OR state LIKE 'proj_post%')
 				",'2003-10-03','2003-11-01');
 $FinProof += 69; // historical adjustment for first days of Oct
-echo "<b>$FinProof</b> projects were proofed $descrip<br>";
+echo "<b>$FinProof</b> projects were proofread $descrip<br>";
 
 $FinPP = state_change_between_dates("
 				(state LIKE 'proj_submit%' 
