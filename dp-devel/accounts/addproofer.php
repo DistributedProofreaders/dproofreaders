@@ -69,7 +69,7 @@ user_viewemail)
 "Thanks,\n
 The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username.
 If your password doesn't work, go to <http://texts01.archive.org/dp/phpBB2/profile.php?mode=sendpassword> to have it reset.",
-"From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+"From: dphelp@texts01.archive.org\r\nReply-To: dphelp@texts01.archive.org\r\n");
 
         print "User <b>$username</b> added successfully. Please verify your account by following the link provided in the e-mail being sent to you.";
         echo "<center>";
