@@ -2,7 +2,7 @@
 
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-
+include_once($relPath.'project_states.inc');
 include_once 'maybe_mail.inc';
 
 // Encodes a form parameter to allow it to contain double quotes.
@@ -70,7 +70,7 @@ function saveProject() {
                                   modifieddate, clearance, genre) 
                         VALUES ('$NameofWork', '$AuthorsName', '$Language', 
                                 '$pguser', '$comments', '$project', 
-                                '$scannercredit', '0', UNIX_TIMESTAMP(),
+                                '$scannercredit', '".PROJ_NEW."', UNIX_TIMESTAMP(),
                                 '$clearance', '$genre')";
     mysql_query($sql);
   }
