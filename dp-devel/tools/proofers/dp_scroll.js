@@ -237,14 +237,13 @@ function ldAll(wFace)
       docRef=top.proofframe.document;
       cnSel=docRef.selection? true : false;
       setLayer();
+      doBU();
     }
   else if (wFace==0)
     {
       docRef=top.proofframe.textframe.document;
       cnSel=docRef.selection? true : false;
       if (window.opera) {cnSel=false;}
-//      cnSel=false;
-      //doBU();
     }
   else if (wFace==2)
     {
@@ -257,6 +256,8 @@ function ldAll(wFace)
       docRef=top.proofframe.textframe.document;
       cnSel=false;
     }
+
+
 }
 inProof=0;
 isLded=0;
