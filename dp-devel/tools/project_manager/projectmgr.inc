@@ -1,6 +1,7 @@
 <?
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'user_is.inc');
 
 function abort_if_not_manager()
 {
@@ -32,16 +33,11 @@ function echo_manager_header( $which )
 	echo " | ";
 	echo "<a href='editproject.php'>Create Project</a>";
 	echo " | ";
-	if ($userP['sitemanager'] == "yes")
+	if (user_is_a_sitemanager())
 	{ 
-		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
-		if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-			echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
-			echo " | ";
-			echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
-		} else {
-			echo "<b><a href='projectmgr.php?show=search_form'>Search Your Projects</a></b>"; 
-		}
+		echo "<a href='projectmgr.php?show=site'>Show All Projects</a>"; 
+		echo " | ";
+		echo "<b><a href='projectmgr.php?show=search_form'>Search for Projects</a></b>"; 
 	}
 	else
 	{

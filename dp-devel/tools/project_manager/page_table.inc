@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
@@ -226,13 +227,8 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
 		}
 
-		if ($userP['sitemanager'] == "yes") {
-			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
-			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-				$R_display_name = $R_real_name;
-			} else {
-				$R_display_name = $R_username;
-			}
+		if (user_is_a_sitemanager()) {
+			$R_display_name = $R_real_name;
 		} else {
 			$R_display_name = $R_username;
 		}

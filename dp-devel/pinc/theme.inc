@@ -5,6 +5,7 @@ $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'v_site.inc');
 include_once($relPath.'udb_user.php');
 include_once($relPath.'cookie.inc');
+include_once($relPath.'user_is.inc');
 
 //Let's check to see if the user has a cookie already
 	$cookieC=new userCookie();
@@ -239,15 +240,12 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>Post Processing</a>";
 			$divider = 1;
 		}
-		if ($userP['sitemanager'] == "yes" && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
-			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
-			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-				if (isset($divider)) {
-					echo " | ";
-				}
-				echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
-				$divider = 1;
+		if (user_is_a_sitemanager() && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
+			if (isset($divider)) {
+				echo " | ";
 			}
+			echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
+			$divider = 1;
 		}
 		echo "</center></font>\n";
 		if (isset($divider)) { echo "<br>\n"; }

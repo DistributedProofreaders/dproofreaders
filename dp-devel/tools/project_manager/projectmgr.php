@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
@@ -31,17 +32,14 @@ abort_if_not_manager();
 			    <td><input type='text' name='author'></td>
 			</tr>
 		";
-        	if ($userP['sitemanager'] == "yes")
+        	if (user_is_a_sitemanager())
 		{
-			$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
-			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-		    		echo "
-					<tr>
-			    		<td>Project Manager</td>
-			    		<td><input type='text' name='project_manager'></td>
-					</tr>
-		    		";
-		    	}
+		    echo "
+			<tr>
+			    <td>Project Manager</td>
+			    <td><input type='text' name='project_manager'></td>
+			</tr>
+		    ";
 		}
 		// In the <select> tag, we set the name attribute to 'state[]'.
 		// I'm pretty sure this doesn't mean anything to HTML/HTTP,
@@ -101,13 +99,8 @@ abort_if_not_manager();
       		echo "</tr>";
 
         	$numrows = 0;
-        	if ($_GET['show'] == "site" && $userP['sitemanager'] == "yes") {
-        		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
-			if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-				$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
-			} else {
-				$condition = "username = '$pguser'";
-			}
+        	if ($_GET['show'] == "site" && user_is_a_sitemanager()) {
+			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
         	} elseif ($_GET['show'] == "all") {
 			$condition = "username = '$pguser'";
 		} elseif ($_GET['show'] == 'search') {
@@ -120,17 +113,12 @@ abort_if_not_manager();
 			{
 			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
 			}
-			if ($userP['sitemanager'] == "yes")
+			if (user_is_a_sitemanager())
 			{
-				$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
-				if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-			    		if ( $_GET['project_manager' ] != '' )
-			    		{
-						$condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
-			    		}
-			    	} else {
-			    		$condition .= " AND username='$pguser'";
-			    	}
+			    if ( $_GET['project_manager' ] != '' )
+			    {
+				$condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
+			    }
 			}
 			else
 			{

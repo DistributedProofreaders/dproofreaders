@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
+include($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
 include($relPath.'page_states.inc');
 
@@ -10,18 +11,13 @@ $projectid = $_GET['project'];
 
 abort_if_cant_edit_project( $projectid );
 
-if ($userP['sitemanager'] == 'yes')
+if (user_is_a_sitemanager())
 {
-	$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
-	if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-		// It's assumed that anyone with site-manager privileges
-		// would upload their files directly into the projects area.
-		// Maybe this should be an option, as sometimes a site-manager
-		// may want to upload to dpscans.
-		$source_area = $projects_dir;
-	} else {
-		$source_area = $uploads_dir;
-	}
+	// It's assumed that anyone with site-manager privileges
+	// would upload their files directly into the projects area.
+	// Maybe this should be an option, as sometimes a site-manager
+	// may want to upload to dpscans.
+	$source_area = $projects_dir;
 }
 else
 {

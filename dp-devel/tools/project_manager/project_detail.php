@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
@@ -49,18 +50,9 @@ if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 	echo "<br>\n";
 	echo "<form method='get' action='add_files.php'>\n";
 	echo "<input type='hidden' name='project' value='$projectid'>\n";
-	if ($userP['sitemanager'] == "yes") {
-		$sitemgrCheck = mysql_query("SELECT sitemanager FROM users WHERE username = '".$GLOBALS['pguser']."'");
-		if (mysql_result($sitemgrCheck,0,"sitemanager") == "yes") {
-			echo "Add Text From projects Folder";
-			echo "<input type='hidden' name='source_dir' value=''>\n";
-		} else {
-		echo "Add Text+Images from $uploads_account Account";
-		echo "<br>\n";
-		echo "directory: ";
-		echo "<input type='text' name='source_dir'>";
-		echo " (defaults to $projectid )";
-		}			
+	if (user_is_a_sitemanager()) {
+		echo "Add Text From projects Folder";
+		echo "<input type='hidden' name='source_dir' value=''>\n";
 	} else {
 		echo "Add Text+Images from $uploads_account Account";
 		echo "<br>\n";
