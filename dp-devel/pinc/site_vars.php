@@ -5,5 +5,6 @@
 $admin_email='';
 $admin_name='';
 
+$siteurl='';
 
 ?>
