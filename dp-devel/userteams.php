@@ -369,9 +369,10 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
      //default order is by id
      if ($order ==''){
      $order ="ID";
+     $direction ="ASC";
      }
 
-    $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order ASC LIMIT $tstart,20";
+    $tQuery="SELECT teamname, id, icon, member_count, page_count FROM user_teams ORDER BY $order $direction LIMIT $tstart,20";
 
 
   $tResult=mysql_query($tQuery);
