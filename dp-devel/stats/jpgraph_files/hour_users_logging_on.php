@@ -67,10 +67,11 @@ $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->Stroke();
 
 
+echo "<br><br>";
 
 // over a day
 
-$mynumrows = mysql_numrows($result);
+
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"U_day");
@@ -80,45 +81,45 @@ $mynumrows = mysql_numrows($result);
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",58);
-$graph->SetScale("textint");
+$graph2 = new Graph(640,400,"auto",58);
+$grap2->SetScale("textint");
 
 //set X axis
-$graph->xaxis->SetTickLabels($datax);
+$graph2->xaxis->SetTickLabels($datax);
 // Only draw labels on every 2nd tick mark
-//$graph->xaxis->SetTextLabelInterval(91.25);
-$graph->xaxis->SetLabelAngle(90);
-$graph->xaxis->title->Set("");
-$graph->xaxis->SetTextTickInterval(91.25);
+//$graph2->xaxis->SetTextLabelInterval(91.25);
+$graph2->xaxis->SetLabelAngle(90);
+$graph2->xaxis->title->Set("");
+$graph2->xaxis->SetTextTickInterval(91.25);
 //Set Y axis
-$graph->yaxis->title->Set('Fresh Logons');
-$graph->yaxis->SetTitleMargin(45);
+$graph2->yaxis->title->Set('Fresh Logons');
+$graph2->yaxis->SetTitleMargin(45);
 
 //Set background to white
-$graph->SetMarginColor('white');
+$graph2->SetMarginColor('white');
 
 // Add a drop shadow
-$graph->SetShadow();
+$graph2->SetShadow();
 
 // Adjust the margin a bit to make more room for titles
 //left, right , top, bottom
 
-$graph->img->SetMargin(70,30,20,100);
+$graph2->img->SetMargin(70,30,20,100);
 
 // Create a bar pot
-$bplot = new BarPlot($datay);
-$graph->Add($bplot);
+$bplot2 = new BarPlot($datay);
+$graph2->Add($bplot2);
 
 // Setup the title
-$graph->title->Set("Number of users newly logged in over a day");
+$graph2->title->Set("Number of users newly logged in over a day");
 
 
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph2->title->SetFont(FF_FONT1,FS_BOLD);
+$graph2->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph2->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
 // Display the graph
-$graph->Stroke();
+$graph2->Stroke();
 
 
 
