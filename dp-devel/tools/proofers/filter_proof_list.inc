@@ -81,7 +81,8 @@ return $to_echo;
 	    </select>
 	    </td>
 	";
-
+       
+        echo "</tr><tr>";
 
 	// PM filter
 
