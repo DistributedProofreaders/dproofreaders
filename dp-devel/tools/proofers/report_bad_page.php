@@ -6,7 +6,6 @@ include($relPath.'dp_main.inc');
 $projectID = $_POST['projectname'];
 $fileID = $_POST['fileid'];
 $reason = $_POST['reason'];
-$badState = 31;
 $badLimit = 10;
 $unique = 3;
 $reason_list = array('Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
@@ -23,6 +22,12 @@ echo "<select name='reason'>";
 for ($i=0;$i<count($reason_list);$i++)  { echo "<option value='$i'>$reason_list[$i]</option>"; }
 echo "</select>&nbsp;&nbsp;<input type='submit' value='Submit Report'></form></body></html>";
 } else {
+//Find out what round the page is currently in
+$result = mysql_query("SELECT state FROM $projectID WHERE fileid=$fileID");
+$currentState = mysql_result($result,0,"state");
+if (in_array($currentState,array(32,35,38,39)) { $badState = 31; }
+if (in_array($currentState,array(40,42,45,48,49)) { $badState = 41; }
+
 //Update the page the user was working on to reflect a bad page.
 $result = mysql_query("UPDATE $projectID SET state=$badState, reason=$reason, reporting_user=$username WHERE fileid=$fileID");
 
