@@ -14,7 +14,7 @@ function echo_page_table( $projectid )
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
 
 	// test
-	$can_edit = FALSE;
+	//$can_edit = FALSE;
 
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
@@ -191,7 +191,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager());
 
 	// test
-	$can_edit = FALSE;
+	//$can_edit = FALSE;
 
 	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
