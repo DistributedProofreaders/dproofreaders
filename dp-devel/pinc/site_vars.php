@@ -21,6 +21,7 @@ $xmlfeeds_url = '<<XMLFEEDS_URL>>';
 
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
+$general_forum_url         = "$forums_url/viewforum.php?f=1";
 $projects_forum_url        = "$forums_url/viewforum.php?f=2";
 $post_processing_forum_url = "$forums_url/viewforum.php?f=3";
 
