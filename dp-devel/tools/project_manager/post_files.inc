@@ -74,9 +74,13 @@ function join_proofed_text ($project, $fp)
     $eol = $carriagereturn.$linefeed;
 
     $myresult = page_info_query($project);
-    while( list($filename,$round1_user,$round2_user,$text_data) = page_info_fetch($myresult) )
+    while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
     {
-        $info_str = "-----File: $filename---\\$round1_user\\$round2_user\\";
+        $info_str = "-----File: $filename---\\";
+        foreach ( $proofer_names as $proofer_name )
+        {
+            $info_str .= "$proofer_name\\";
+        }
         $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
         $fileinfo = $eol . $separator_line . $eol . $text_data;
         // SENDING PAGE-TEXT TO USER
@@ -174,11 +178,17 @@ function join_proofed_text_tei ($project, $fp)
     fputs($fp,"</front>\r\n");
     fputs($fp,"<body>\r\n");
 
-    // ROUNDS: generalize
     $myresult = page_info_query($project);
-    while( list($filename,$round1_user,$round2_user,$text_data) = page_info_fetch($myresult) )
+    while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
     {
-        fputs($fp,"\r\n\r\n<pb id='$filename' proofer1='$round1_user' proofer2='$round2_user'/>\r\n\r\n");
+        $proofer_attributes = "";
+        $i = 0;
+        foreach ( $proofer_names as $proofer_name )
+        {
+            $i++;
+            $proofer_attributes .= " proofer$i='$proofer_name'";
+        }
+        fputs($fp,"\r\n\r\n<pb id='$filename'$proofer_attributes/>\r\n\r\n");
 
         // SENDING PAGE-TEXT TO USER
         // It's an XML file, so the non-markup angle-brackets and ampersands
@@ -315,8 +325,23 @@ function page_info_query( $projectid )
 }
 
 function page_info_fetch( $res )
+// For the next page in the query-result,
+// return an array consisting of (in order):
+// -- the page text resulting from the page-editing rounds;
+// -- the filename of the page image;
+// -- an array of the usernames of the users who worked on the page in the rounds.
+// If there's no next page, return FALSE;
 {
-    return mysql_fetch_array($res);
+    $a = mysql_fetch_array($res);
+    if (!$a) return FALSE;
+
+    list($filename,$round1_user,$round2_user,$text_data) = $a;
+
+    return array(
+        $text_data,
+        $filename,
+        array( $round1_user, $round2_user )
+    );
 }
 
 // vim: sw=4 ts=4 expandtab
