@@ -25,13 +25,13 @@ echo "<h3>$sub_title</h3>\n";
 
 dpsql_dump_themed_ranked_query("
 	SELECT
-		month as 'Month',
 		year as 'Year',
+		month as 'Month',
 		SUM(pages) as 'Pages Proofread',
 		SUM(dailygoal) as 'Monthly Goal',
 		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 	FROM pagestats
-	GROUP BY month, year
+	GROUP BY year, month
 	ORDER BY 3 DESC
 	LIMIT 10
 ");
