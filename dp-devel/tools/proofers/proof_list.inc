@@ -76,11 +76,26 @@ include_once('filter_proof_list.inc');
 
 // determine filter for projects
 
-$RFilter = " ";
-$display_filter = "";
-$show_df = FALSE;
+// read filters (actual and display) from usersettings here
+
+$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'");
+if (mysql_num_rows($result) >= 1) {
+	$RFilter = mysql_result($result, 0, "value");
+}
+$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'");
+if (mysql_num_rows($result) >= 1) {
+	$display_filter = mysql_result($result, 0, "value");
+}
+
+
 
 if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
+
+	$RFilter = " ";
+	$display_filter = "";
+	$show_df = FALSE;
+
+
 	$condition1 = '1';
 	if ( isset($_GET['language1']) && count($_GET['language1']) > 0 )
 	{
@@ -175,6 +190,36 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	} else {
 		echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
 	}
+
+	// save or update filter to usersettings here (since they've potentially changed)
+
+	//Note:  When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
+	//This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
+	//only the number of rows that were literally affected by the query.
+	//To avoid the risk of creatign multiple rows per user for each of these two settings,
+	//we delete and insert rather than UPDATE and "if no rows affected", INSERT, since the
+	//no rows affected isn't reliable
+
+	$query = "
+		DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'
+		";
+	$result = mysql_query($query);
+	$query = "
+		DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'
+		";
+	$result = mysql_query($query);
+
+
+	$query = "
+		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '$Rfilter')
+		";
+	$result = mysql_query($query);
+	$query = "
+		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'display_filter', '$display_filter')
+		";
+	$result = mysql_query($query);
+
+
 }
 
 
