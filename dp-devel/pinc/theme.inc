@@ -20,32 +20,32 @@ include_once($relPath.'user_is.inc');
 	$userP=$cookieC->getUserPrefs($pguser);
 }
 
-if(isset($userP['i_theme'])) { 
-		include_once($relPath.'templates/'.$userP['i_theme'].'/theme.tpl');		
+if(isset($userP['i_theme'])) {
+		include_once($relPath.'templates/'.$userP['i_theme'].'/theme.tpl');
 		$theme_name = $userP['i_theme'];
-		$theme = ${$theme_name};		
-	} else { 
-		include_once($relPath.'templates/project_gutenberg/theme.tpl'); 
+		$theme = ${$theme_name};
+	} else {
+		include_once($relPath.'templates/project_gutenberg/theme.tpl');
 		$theme_name = "project_gutenberg";
 		$theme = ${$theme_name};
 	}
 
 function theme ($nameofpage, $location) {
-				
-	if (isset($GLOBALS['pguser'])) { 
+
+	if (isset($GLOBALS['pguser'])) {
 		$userP = $GLOBALS['userP'];
 		$statsbar_align = $userP['u_align'];
 		} else {
 		$statsbar_align = 0;
 		$userP = "";
 	}
-	
+
 	$code_url = $GLOBALS['code_url'];
 	$theme_name = $GLOBALS['theme_name'];
 	$theme = $GLOBALS['theme'];
-		
-	if (!isset($GLOBALS['no_stats'])) { 
-		if ($statsbar_align == 1) { 
+
+	if (!isset($GLOBALS['no_stats'])) {
+		if ($statsbar_align == 1) {
 			if ($location == "header") {
 				html_header($code_url, $theme, $nameofpage);
 				html_logobar($code_url, $theme, $nameofpage, $theme_name);
@@ -57,9 +57,9 @@ function theme ($nameofpage, $location) {
 				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
-				echo "</td></tr></table>\n";			
+				echo "</td></tr></table>\n";
 				html_footer($code_url, $theme, $theme_name);
-			}	
+			}
 		} else {
 			if ($location == "header") {
 				html_header($code_url, $theme, $nameofpage);
@@ -89,7 +89,7 @@ function theme ($nameofpage, $location) {
 			echo "</td></tr></table>\n";
 			html_footer($code_url, $theme, $theme_name);
 		}
-	}	
+	}
 }
 
 function html_header($code_url, $theme, $nameofpage) {
@@ -133,7 +133,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
         if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
 	echo "</td>\n";
-	
+
     //Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
 	// If you put the form element inside the td element (which would
@@ -179,12 +179,12 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "</tr>\n";
 	echo "</table>\n";
 }
-	
+
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url;
-    
+
 	if (isset($GLOBALS['pguser'])) {
-	
+
 	//Get the personal statistics array
 	$result = mysql_query("SELECT username, pagescompleted FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
 	$i = 0;
@@ -201,7 +201,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     		if ($row['username'] == $GLOBALS['pguser']) {
         		$userindex = $i;
     		}
-    		if ($row['pagescompleted'] == $lastcompleted) { 
+    		if ($row['pagescompleted'] == $lastcompleted) {
         		$neighborhood['rank'][$i] = $neighborhood['rank'][$i - 1];
     		} else {
         		$neighborhood['rank'][$i] = $i+1;
@@ -211,30 +211,30 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     		$lastcompleted = $row['pagescompleted'];
     		$i++;
 	}
-	
-		if (!isset($userindex)) { 
+
+		if (!isset($userindex)) {
 		$userindex = $i-1;
 		$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
 		$neighborhood['pages'][$userindex] = 0;
 		$neighborhood['rank'][$userindex] = $userindex;
 		}
-		
+
 		//If logged in & either a Post Processor or Project Manager display links
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
-				
-		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") { 
+
+		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") {
 			echo "<a href='$code_url/tools/proofers/proof_per.php'>Proofread Projects</a>";
 			$divider = 1;
 		}
 		if ($userP['manager'] == "yes" && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
-			if (isset($divider)) { 
+			if (isset($divider)) {
 				echo " | ";
 			}
 			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>Manage Projects</a>";
 			$divider = 1;
 		}
 		if (($userP['postprocessor'] == "yes" || $neighborhood['pages'][$userindex] >= 400) && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
-			if (isset($divider)) { 
+			if (isset($divider)) {
 				echo " | ";
 			}
 			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>Post Processing</a>";
@@ -250,12 +250,12 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "</center></font>\n";
 		if (isset($divider)) { echo "<br>\n"; }
 	}
-	
+
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
 	include("$dynstats_dir/stats.inc");
-	
+
     //Show the site statistics
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 	echo "<center><u>Site Statistics:</u></center>\n";
@@ -267,7 +267,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //If the user is logged in show personal & team stats
 	if (isset($GLOBALS['pguser'])) {
     //Show the personal statistics
-	//get rank    
+	//get rank
 	if ($neighborhood['pages'][$userindex] >= 0) {
 	 $rankname = "Newbie";
 	}
@@ -304,16 +304,16 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "&nbsp;Current Rank: ";
 	echo "$rankname<br></font>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
-	
+
 	//Show the team statistics
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Teams:</u></font></center>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/userteams.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
 	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id='{$userP['team_1']}' OR id='{$userP['team_2']}' OR id='{$userP['team_3']}'");
 		while($row = mysql_fetch_assoc($teamRes)) {
-			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/userteams.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
-			}
-        echo "&nbsp;<a href='$code_url/userteams.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
-        
+			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
+		}
+        echo "&nbsp;<a href='$code_url/stats/teams/tlist.php'><font face='".$theme['font_navbar']."' size='1'>View all teams...</font></a><br>\n";
+
         //Show the Top Ten users is user has the option set
         if ($userP['u_top10']) {
         	echo "<br><hr width='75%' align='center'><br>\n";
@@ -328,7 +328,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			$p++;
 		}
         }
-        
+
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
         	echo "<br><hr width='75%' align='center'><br>\n";
@@ -340,19 +340,19 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		while ($i > 0) {
 			echo "&nbsp;".$neighborhood['rank'][$userindex-$i].".) ".$neighborhood['username'][$userindex-$i]." - ".number_format($neighborhood['pages'][$userindex-$i])."<br>\n";
 			$i--;
-		
+
 		}
 		echo "&nbsp;<b><i>".$neighborhood['rank'][$userindex].".) ".$neighborhood['username'][$userindex]." - ".number_format($neighborhood['pages'][$userindex])."</b></i><br>\n";
 		$i = 1;
 		if ($neighborhood['pages'][$userindex] != 0) {
 		while ($i <= $userP['u_neigh']) {
 			echo "&nbsp;".$neighborhood['rank'][$userindex+$i].".) ".$neighborhood['username'][$userindex+$i]." - ".number_format($neighborhood['pages'][$userindex+$i])."<br>\n";
-			$i++;		
+			$i++;
 		}
 	}
 	}
-	
-   //If it is a guest user show the past years completed projects	
+
+   //If it is a guest user show the past years completed projects
         } else {
 		echo "<center><u>Completed Projects:</u></center>\n";
 		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
@@ -372,10 +372,10 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";
 		}
 		echo "</table>\n";
-        }	
+        }
 	echo "<br></font>\n";
 	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
-    
+
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
 	echo "<br><br><center>";
