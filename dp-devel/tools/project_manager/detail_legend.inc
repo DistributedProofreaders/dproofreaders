@@ -1,5 +1,5 @@
 <br><br>
-<table width='75%' border='4' rules='all' align=center>
+<table width='75%' border='4' rules='all'>
           <tr>
        <td colspan=3> Pages proofread by you and...</td></tr>
        <tr> <td bgcolor='#FFCC66'> IN PROGRESS (awaiting completion this round)</td>
