@@ -3,13 +3,12 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
-phpinfo();
+echo "include_path = "
+ini_get('include_path');
+echo "<BR>\n";
 
-echo "\n<HR>\n";
+ini_set('include_path', './pinc');
 
-echo "include_path = $include_path<BR>\n";
-
-$include_path = 'pinc';
 include('v_site.inc');
 echo "site_dir = $site_dir<BR>\n";
 
