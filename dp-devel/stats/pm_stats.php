@@ -2,6 +2,7 @@
 $relPath='../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
 $title = _("Project Manager Statistics");
@@ -24,12 +25,13 @@ echo "<br>\n";
 echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 
+$psd = get_project_status_descriptor('created');
 dpsql_dump_themed_ranked_query("
 	SELECT
 		username as 'PM',
 		count(*) as 'Projects Created'
 	FROM projects
-	WHERE state not LIKE 'project_new%'
+	WHERE $psd->state_selector
 	GROUP BY username
 	ORDER BY 2 DESC
 	LIMIT 100
@@ -41,13 +43,13 @@ echo "<br>\n";
 echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
+$psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_ranked_query("
 	SELECT
 		username as 'PM',
 		count(*) as 'Projects Posted to PG'
 	FROM projects
-	WHERE (state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%')
+	WHERE $psd->state_selector
 	GROUP BY username
 	ORDER BY 2 DESC
 	LIMIT 100

@@ -1,6 +1,7 @@
 <?php
 $relPath='./../pinc/';
 include($relPath.'v_site.inc');
+include_once($relPath.'project_states.inc');
 include($relPath.'connect.inc');
 include('statestats.inc');
 include_once($relPath.'gettext_setup.inc');
@@ -30,30 +31,23 @@ if ($cday != 1) {
 }
 
 
-$created = state_change_since ( "
-				state not like 'project_new%'
-				",$start_date);
+$psd = get_project_status_descriptor('created');
+$created = state_change_since ($psd->state_selector, $start_date);
 
 
 
 echo "<b>$created</b> projects have been created $descrip<br>";
 
-$FinProof = state_change_since ( "
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post%')
-			",$start_date);
+$psd = get_project_status_descriptor('proofed');
+$FinProof = state_change_since ($psd->state_selector, $start_date);
 
 
 
 echo "<b>$FinProof</b> projects have finished proofreading $descrip<br>";
 
 
-$FinPP = state_change_since ( "
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post_second%')
-	",$start_date);
+$psd = get_project_status_descriptor('PPd');
+$FinPP = state_change_since ($psd->state_selector, $start_date);
 
 
 
@@ -65,48 +59,33 @@ echo "<b>$FinPP</b> projects have finished PPing $descrip<br>";
 
 echo "<br><br>";
 $descrip = "in November";
-$created = state_change_between_dates("
-				state not like 'project_new%'
-				",'2003-11-01','2003-12-01');
+$psd = get_project_status_descriptor('created');
+$created = state_change_between_dates($psd->state_selector, '2003-11-01','2003-12-01');
 echo "<b>$created</b> projects were created $descrip<br>";
 
-$FinProof = state_change_between_dates("
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post%')
-				",'2003-11-01','2003-12-01');
+$psd = get_project_status_descriptor('proofed');
+$FinProof = state_change_between_dates($psd->state_selector, '2003-11-01','2003-12-01');
 echo "<b>$FinProof</b> projects were proofread $descrip<br>";
 
-$FinPP = state_change_between_dates("
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post_second%')
-				",'2003-11-01','2003-12-01');
+$psd = get_project_status_descriptor('PPd');
+$FinPP = state_change_between_dates($psd->state_selector, '2003-11-01','2003-12-01');
 echo "<b>$FinPP</b> projects were PPd $descrip<br>";
 
 
 echo "<br><br>";
 $descrip = "in October";
-$created = state_change_between_dates("
-				state not like 'project_new%'
-				",'2003-10-03','2003-11-01');
+$psd = get_project_status_descriptor('created');
+$created = state_change_between_dates($psd->state_selector, '2003-10-03','2003-11-01');
 $created += 19; // historical adjustment for first days of Oct
 echo "<b>$created</b> projects were created $descrip<br>";
 
-$FinProof = state_change_between_dates("
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post%')
-				",'2003-10-03','2003-11-01');
+$psd = get_project_status_descriptor('proofed');
+$FinProof = state_change_between_dates($psd->state_selector, '2003-10-03','2003-11-01');
 $FinProof += 69; // historical adjustment for first days of Oct
 echo "<b>$FinProof</b> projects were proofread $descrip<br>";
 
-$FinPP = state_change_between_dates("
-				(state LIKE 'proj_submit%' 
-				OR state LIKE 'proj_correct%' 
-				OR state LIKE 'proj_post_second%'
-				)
-				",'2003-10-03','2003-11-01');
+$psd = get_project_status_descriptor('PPd');
+$FinPP = state_change_between_dates($psd->state_selector, '2003-10-03','2003-11-01');
 $FinPP +=   28; // historical adjustment for first days of Oct
 echo "<b>$FinPP</b> projects were PPd $descrip<br>";
 

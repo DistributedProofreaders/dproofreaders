@@ -121,12 +121,14 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		echo "<br>\n";
 	}
 
+	$psd = get_project_status_descriptor('posted');
+
 	if (0) {
 		// show number of projects posted to PG from DP
 		$result = mysql_query( "
 			SELECT COUNT(*)
 			FROM projects
-			WHERE state like 'proj_submit%' or state like 'proj_correct%'
+			WHERE $psd->state_selector
 		");
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
@@ -144,7 +146,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 		$result = mysql_query( "
 			SELECT COUNT(distinct postednum)
 			FROM projects
-			WHERE state like 'proj_submit%' or state like 'proj_correct%'
+			WHERE $psd->state_selector
 		");
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";

@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'v_site.inc');
+include_once($relPath.'project_states.inc');
 include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
 
@@ -25,26 +26,17 @@ if ($cday != 1) {
 }
 
 
-$created = state_change_since ( "
-				state not like 'project_new%'
-				",$start_date);
+$psd = get_project_status_descriptor('created');
+$created = state_change_since($psd->state_selector, $start_date);
 
-$FinProof = state_change_since ( "
-				(state LIKE 'proj_submit%'
-				OR state LIKE 'proj_correct%'
-				OR state LIKE 'proj_post%')
-			",$start_date);
+$psd = get_project_status_descriptor('proofed');
+$FinProof = state_change_since($psd->state_selector, $start_date);
 
-$FinPP = state_change_since ( "
-				(state LIKE 'proj_submit%'
-				OR state LIKE 'proj_correct%'
-				OR state LIKE 'proj_post_second%')
-			",$start_date);
+$psd = get_project_status_descriptor('PPd');
+$FinPP = state_change_since($psd->state_selector, $start_date);
 
-$Posted = state_change_since ( "
-				(state LIKE 'proj_submit%'
-				OR state LIKE 'proj_correct%')
-			",$start_date);
+$psd = get_project_status_descriptor('posted');
+$Posted = state_change_since($psd->state_selector, $start_date);
 
 
 

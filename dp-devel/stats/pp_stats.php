@@ -2,6 +2,7 @@
 $relPath='../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
 $title = "Post-Processing Statistics";
@@ -17,17 +18,11 @@ echo "<br>\n";
 
 echo "<h3>" . _("Total Projects Post-Processed Since Statistics were Kept") . "</h3>\n";
 
-$state_selector = "
-	(state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%'
-		OR state LIKE 'proj_post_second%')
-";
-
-
+$psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
 	SELECT
 		SUM(num_projects) as 'Total Projects Post-Processed So Far'
-	FROM project_state_stats WHERE $state_selector
+	FROM project_state_stats WHERE $psd->state_selector
 	GROUP BY date ORDER BY date DESC LIMIT 1
 ");
 
@@ -49,14 +44,13 @@ echo "<br>\n";
 echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Finished PPing)") . "</h4>\n";
 
+$psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_ranked_query("
 	SELECT
 		postproofer as 'PPer',
 		count(*) as 'Projects Finished PPing'
 	FROM projects
-	WHERE (state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%'
-		OR state LIKE 'proj_post_second%')
+	WHERE $psd->state_selector
 		AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
@@ -68,13 +62,13 @@ echo "<br>\n";
 echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
+$psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_ranked_query("
 	SELECT
 		postproofer as 'PPer',
 		count(*) as 'Projects Posted to PG'
 	FROM projects
-	WHERE (state LIKE 'proj_submit%'
-		OR state LIKE 'proj_correct%')
+	WHERE $psd->state_selector
 	AND postproofer is not null
 	GROUP BY postproofer
 	ORDER BY 2 DESC
