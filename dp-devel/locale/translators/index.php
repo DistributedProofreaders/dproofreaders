@@ -15,8 +15,8 @@ function parse_po($messages_po) {
 	$translation['comments'] = "";
 	$comments_done = 0;
 
-
-	while ($i < count($messages_po)) {
+	$total_messages = count($messages_po);
+	while ($i < $total_messages) {
 		if (substr($messages_po[$i], 0, 2) == "# " && $comments_done != 1) {
 			$translation['comments'] .= trim(preg_replace("/^#/", "", $messages_po[$i]))."\n";
 			if (substr($messages_po[$i+1], 0, 1) != "#") { $comments_done = 1; }
