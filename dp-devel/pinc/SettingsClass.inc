@@ -204,10 +204,17 @@ class Settings
         }
         else
         {
-            $sql = "REPLACE usersettings
-                    SET value = '$value',
-                    username = '$this->username', 
-                    setting = '$settingCode'" ;
+            if (array_key_exists($settingCode, $this->settings_array)) {
+                $sql = "UPDATE usersettings
+                        SET value = '$value'
+                        WHERE username = '$this->username'
+                        AND setting = '$settingCode'" ;
+            }
+            else {
+                $sql = "INSERT INTO usersettings
+                        (username, setting, value)
+                        VALUES ('$this->username', '$settingCode', '$value')" ;
+            }
             ExecSQL($sql);
             $this->settings_array[$settingCode] = $value;
         }
