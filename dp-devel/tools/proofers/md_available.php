@@ -30,7 +30,7 @@ echo "<table border=1>\n";
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
 
-      while ($rownum2 < $numrows) {
+      while ($rownum < $numrows) {
            $projectid = mysql_result($result, $rownum, "projectid");
            $state = mysql_result($result, $rownum, "state");
            $name = mysql_result($result, $rownum, "nameofwork");
@@ -50,7 +50,6 @@ echo "<table border=1>\n";
       echo "<td align='right'>#pages</td>\n";
 
       $rownum++;
-      $rownum2++;
       echo "</tr>";
 	}
 
@@ -79,9 +78,8 @@ echo "<br>";
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, username, state FROM projects");
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
-	$rownum2 = 0;
 
-      while ($rownum2 < $numrows) {
+      while ($rownum < $numrows) {
            $projectid = mysql_result($result, $rownum, "projectid");
            $state = mysql_result($result, $rownum, "state");
            $name = mysql_result($result, $rownum, "nameofwork");
@@ -101,7 +99,6 @@ echo "<br>";
       echo "<td align='right'>#pages</td>\n";
 
       $rownum++;
-      $rownum2++;
       echo "</tr>";
 	}
 
