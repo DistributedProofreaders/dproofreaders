@@ -7,6 +7,11 @@ db_password=<<DB_PASSWORD>>
 db_name=<<DB_NAME>>
 code_dir=<<CODE_DIR>>
 
+export LC_ALL=POSIX
+# because on www.pgdp.net, none of the LC_* are defined,
+# and LANG=en_US.UTF-8, which produces case-insensitivity
+# in grep and sed.
+
 connection_options="--user=$db_user --password=$db_password"
 
 get_table_names()
