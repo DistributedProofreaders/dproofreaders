@@ -6,12 +6,6 @@ include_once($relPath.'bookpages.inc');
 include_once($relPath.'echo_project_info.inc');
 include_once($relPath.'gettext_setup.inc');
 
-project_update_page_counts( $project );
-
-$num_pages_available = Project_getNumAvailablePagesInRound( $project, $proofstate );
-$pages_are_available = ( $num_pages_available > 0 );
-
-
 /* $_GET $project, $proofstate, $proofing */
 
 include($relPath.'slim_header.inc');
@@ -26,6 +20,11 @@ if (!isset($proofing))
     {
         include($relPath.'js_newwin.inc');
     }
+
+    project_update_page_counts( $project );
+
+    $num_pages_available = Project_getNumAvailablePagesInRound( $project, $proofstate );
+    $pages_are_available = ( $num_pages_available > 0 );
 
     $top_menu = 1;
 
@@ -75,4 +74,5 @@ else
 }
 
 echo "</BODY></HTML>";
+// vim: sw=4 ts=4 expandtab
 ?>
