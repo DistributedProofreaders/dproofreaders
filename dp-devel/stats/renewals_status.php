@@ -125,14 +125,12 @@ for ( $year = 1950; $year < 1978; $year ++ )
 		else if (
 			$state == PROJ_PROOF_FIRST_UNAVAILABLE or
 			$state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE or
-			$state == PROJ_PROOF_FIRST_VERIFY or
 			$state == PROJ_PROOF_FIRST_AVAILABLE or
 			$state == PROJ_PROOF_FIRST_BAD_PROJECT or
 			$state == PROJ_PROOF_FIRST_COMPLETE or
 
 			$state == PROJ_PROOF_SECOND_UNAVAILABLE or
 			$state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE or
-			$state == PROJ_PROOF_SECOND_VERIFY or
 			$state == PROJ_PROOF_SECOND_AVAILABLE or
 			$state == PROJ_PROOF_SECOND_BAD_PROJECT or
 			$state == PROJ_PROOF_SECOND_COMPLETE )

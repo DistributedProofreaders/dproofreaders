@@ -188,20 +188,6 @@ declare_project_state(
     'PAGE_EDITING'
 );
 
-  // proofreading round complete, but needing verification
-declare_project_state(
-    "PROJ_PROOF_FIRST_VERIFY",
-    "verify_1",
-    _("Verify First Round"),
-    'PAGE_EDITING'
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_VERIFY",
-    "verify_2",
-    _("Verify Second Round"),
-    'PAGE_EDITING'
-);
-
   // proofreading round complete and verified
 declare_project_state(
     "PROJ_PROOF_FIRST_COMPLETE",
@@ -328,14 +314,12 @@ $PROJECT_STATES_IN_ORDER = array_merge(
         PROJ_PROOF_FIRST_UNAVAILABLE,
         PROJ_PROOF_FIRST_WAITING_FOR_RELEASE,
         PROJ_PROOF_FIRST_AVAILABLE,
-        PROJ_PROOF_FIRST_VERIFY,
         PROJ_PROOF_FIRST_COMPLETE,
 
         PROJ_PROOF_SECOND_BAD_PROJECT,
         PROJ_PROOF_SECOND_UNAVAILABLE,
         PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
         PROJ_PROOF_SECOND_AVAILABLE,
-        PROJ_PROOF_SECOND_VERIFY,
         PROJ_PROOF_SECOND_COMPLETE,
 
         PROJ_POST_FIRST_UNAVAILABLE,
@@ -360,9 +344,7 @@ $PROJECT_STATES_IN_ORDER = array_merge(
 // Constants for use in SQL queries
   define("SQL_CONDITION_BRONZE",
            "(state='".PROJ_PROOF_FIRST_AVAILABLE."'"
-      . " OR state='".PROJ_PROOF_FIRST_VERIFY."'"
       . " OR state='".PROJ_PROOF_SECOND_AVAILABLE."'"
-      . " OR state='".PROJ_PROOF_SECOND_VERIFY."'"
       . ")");
   define("SQL_CONDITION_SILVER",
            "(state='".PROJ_POST_FIRST_UNAVAILABLE."'"

@@ -31,8 +31,7 @@ AND (`state` = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'
   OR `state` = '".PROJ_PROOF_SECOND_WAITING_FOR_RELEASE."'
   OR `state` = '".PROJ_PROOF_FIRST_AVAILABLE."'
   OR `state` = '".PROJ_PROOF_SECOND_AVAILABLE."'
-  OR `state` = '".PROJ_PROOF_FIRST_VERIFY."'
-  OR `state` = '".PROJ_PROOF_SECOND_VERIFY."')
+)
 GROUP BY `value` 
 ORDER BY 'Notification Requests' DESC 
 LIMIT 50");

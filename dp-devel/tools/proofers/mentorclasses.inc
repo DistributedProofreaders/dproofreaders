@@ -373,8 +373,7 @@ class BeginProjects EXTENDS Projects
                         modifieddate AS releasedate
                 FROM dproofreaders.projects
                 WHERE difficulty = 'BEGINNER'
-                    AND ( state='".PROJ_PROOF_SECOND_AVAILABLE."'
-                        OR state='".PROJ_PROOF_SECOND_VERIFY."')";
+                    AND ( state='".PROJ_PROOF_SECOND_AVAILABLE."' )";
     }
 
     function _CreateBeginPagesTable() {

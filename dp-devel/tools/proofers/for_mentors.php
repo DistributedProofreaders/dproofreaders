@@ -27,8 +27,7 @@ function project_sql()
         WHERE
             difficulty = 'BEGINNER'
         AND
-			( state='".PROJ_PROOF_SECOND_AVAILABLE."'
-           OR state='".PROJ_PROOF_SECOND_VERIFY."')
+            state='".PROJ_PROOF_SECOND_AVAILABLE."'
         ORDER BY
             modifieddate ASC" ;
 }

@@ -29,10 +29,6 @@ function get_allowed_next_project_states($state)
 				PROJ_PROOF_FIRST_UNAVAILABLE,
 				'automodify');
 
-		case PROJ_PROOF_FIRST_VERIFY:
-			return array(
-				PROJ_PROOF_FIRST_UNAVAILABLE);
-
 		case PROJ_PROOF_SECOND_UNAVAILABLE:
 			return array(
 				PROJ_PROOF_SECOND_WAITING_FOR_RELEASE);

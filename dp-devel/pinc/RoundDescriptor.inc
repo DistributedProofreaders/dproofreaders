@@ -13,7 +13,6 @@ $PRD_1->round_number = 1;
 $PRD_1->project_waiting_state   = PROJ_PROOF_FIRST_WAITING_FOR_RELEASE;
 $PRD_1->project_bad_state       = PROJ_PROOF_FIRST_BAD_PROJECT;
 $PRD_1->project_available_state = PROJ_PROOF_FIRST_AVAILABLE;
-$PRD_1->project_verify_state    = PROJ_PROOF_FIRST_VERIFY;
 $PRD_1->project_complete_state  = PROJ_PROOF_FIRST_COMPLETE;
 $PRD_1->page_avail_state   = AVAIL_FIRST;
 $PRD_1->page_out_state     = OUT_FIRST;
@@ -33,7 +32,6 @@ $PRD_2->round_number = 2;
 $PRD_2->project_waiting_state   = PROJ_PROOF_SECOND_WAITING_FOR_RELEASE;
 $PRD_2->project_bad_state       = PROJ_PROOF_SECOND_BAD_PROJECT;
 $PRD_2->project_available_state = PROJ_PROOF_SECOND_AVAILABLE;
-$PRD_2->project_verify_state    = PROJ_PROOF_SECOND_VERIFY;
 $PRD_2->project_complete_state  = PROJ_PROOF_SECOND_COMPLETE;
 $PRD_2->page_avail_state   = AVAIL_SECOND;
 $PRD_2->page_out_state     = OUT_SECOND;
@@ -99,7 +97,6 @@ function get_PRD_for_project_state( $project_state )
         case PROJ_PROOF_FIRST_WAITING_FOR_RELEASE:
         case PROJ_PROOF_FIRST_AVAILABLE:
         case PROJ_PROOF_FIRST_BAD_PROJECT:
-        case PROJ_PROOF_FIRST_VERIFY:
         case PROJ_PROOF_FIRST_COMPLETE:
             return $PRD_1;
 
@@ -107,7 +104,6 @@ function get_PRD_for_project_state( $project_state )
         case PROJ_PROOF_SECOND_WAITING_FOR_RELEASE:
         case PROJ_PROOF_SECOND_AVAILABLE:
         case PROJ_PROOF_SECOND_BAD_PROJECT:
-        case PROJ_PROOF_SECOND_VERIFY:
         case PROJ_PROOF_SECOND_COMPLETE:
             return $PRD_2;
 

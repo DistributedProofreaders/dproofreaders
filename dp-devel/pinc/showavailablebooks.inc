@@ -112,9 +112,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 		FROM projects
 		WHERE
 			(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-			state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
-			state = '".PROJ_PROOF_SECOND_VERIFY."' OR
-			state = '".PROJ_PROOF_FIRST_VERIFY."') ";
+			state = '".PROJ_PROOF_SECOND_AVAILABLE."') ";
 
 	$result = mysql_query($query);
 
@@ -143,8 +141,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 			FROM projects, page_counts 
 			WHERE
 				projects.projectid = page_counts.projectid AND
-				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-				state = '".PROJ_PROOF_FIRST_VERIFY."') "
+				(state = '".PROJ_PROOF_FIRST_AVAILABLE."') "
 				.$where_filter."
 			ORDER BY
 				is_beginner DESC, "
@@ -162,8 +159,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 			FROM projects, page_counts
 			WHERE
 				projects.projectid = page_counts.projectid AND
-				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
-				state = '".PROJ_PROOF_SECOND_VERIFY."') "
+				(state = '".PROJ_PROOF_SECOND_AVAILABLE."') "
 				.$where_filter."
 			ORDER BY
 				is_beginner DESC, "

@@ -107,11 +107,9 @@ if ($one_project) {
     $verbose = 1;
     $condition = "
            state = '".PROJ_PROOF_FIRST_AVAILABLE."'
-        OR state = '".PROJ_PROOF_FIRST_VERIFY."'
         OR state = '".PROJ_PROOF_FIRST_COMPLETE."'
         OR state = '".PROJ_PROOF_FIRST_BAD_PROJECT."'
         OR state = '".PROJ_PROOF_SECOND_AVAILABLE."'
-        OR state = '".PROJ_PROOF_SECOND_VERIFY."'
         OR state = '".PROJ_PROOF_SECOND_COMPLETE."'
     ";
 
@@ -183,7 +181,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     if (
         ($one_project) ||
-        ($state == $prd->project_verify_state) ||
         (($state == $prd->project_available_state) &&
            (Project_getNumPagesInState($projectid, $prd->page_avail_state) == 0))
     )
@@ -251,7 +248,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
 
         // Decide whether the project is finished its current round.
-        if ( $state == $prd->project_available_state || $state == $prd->project_verify_state )
+        if ( $state == $prd->project_available_state )
         {
             $num_done_pages  = Project_getNumPagesInState($projectid, $prd->page_save_state);
             $num_total_pages = Project_getNumPages($projectid);
