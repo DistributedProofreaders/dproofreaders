@@ -143,8 +143,8 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
   $genre = mysql_result($result, 0, "genre");
 }
 
-if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.txt";
-if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext04/XXXXX10.zip";
+if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.txt";
+if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip";
 if ($Language == "") $Language = "English";
 if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines</a>.</p>";
 ?>
