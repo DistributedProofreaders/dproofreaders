@@ -38,9 +38,7 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
-$neighbors =
-	user_get_page_tally_neighborhood(
-		'P', $curMbr['username'], 4 );
+$currentRank = $users_P_page_tallyboard->get_rank( $curMbr['u_id'] );
 
 list($bestDayCount,$bestDayTimestamp) =
 	$users_P_page_tallyboard->get_info_re_largest_delta($curMbr['u_id']);
@@ -64,7 +62,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
 			<pagescompleted>".$curMbr['current_P_page_tally']."</pagescompleted>
-			<overallrank>".$neighbors[0]->get_current_page_tally_rank()."</overallrank>
+			<overallrank>$currentRank</overallrank>
 			<bestdayever>
 				<pages>$bestDayCount</pages>
 				<date>$bestDayTime</date>
@@ -93,6 +91,11 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 
 //Neighbor info
+
+	$neighbors =
+		user_get_page_tally_neighborhood(
+			'P', $curMbr['username'], 4 );
+
 	echo "
 		<neighborinfo>";
 	foreach ( $neighbors as $rel_posn => $neighbor )
