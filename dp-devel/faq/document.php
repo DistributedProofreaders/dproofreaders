@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Document Guidelines','header');
+theme('Proofing Guidelines','header');
 ?>
 
   <style TYPE="text/css">
@@ -21,15 +21,15 @@ theme('Document Guidelines','header');
   </style>
         -->
 
-<h1 align="center">Document Guidelines</h1>
-<h3 align="center">Version 1.5, released Jun 6, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h1 align="center">Proofing Guidelines</h1>
+<h3 align="center">Version 1.5, released Jun 19, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <!-- Real version:
-<h4>Document Guidelines in <a href="doc-fr.html">French</font></a> /
+<h4>Proofing Guidelines in <a href="doc-fr.html">French</font></a> /
     Directives de Formatage en <a href="doc-fr.html">Fran&ccedil;aise</font></a></h4>
  ** Temporary redirect:  -->
-<h4>Document Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</font></a> /
+<h4>Proofing Guidelines in <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">French</font></a> /
     Directives de Formatage en <a href="http://panic.et.tudelft.nl/~saibot/DPGF2.html">Fran&ccedil;aise</font></a></h4>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
@@ -69,7 +69,7 @@ theme('Document Guidelines','header');
             <li><a href="#blank_pg">Blank Page</a>                      </li>
             <li><a href="#page_hf">Page Headers/Footers</a>             </li>
             <li><a href="#chap_head">Chapter Headers</a>                </li>
-            <li><a href="#para_side">Paragraph Side-Descriptions</a>    </li>
+            <li><a href="#para_side">Paragraph Side-Descriptions (SideNotes)</a></li>
             <li><a href="#para_space">Paragraph Spacing</a>             </li>
             <li><a href="#mult_col">Multiple Columns</a>                </li>
             <li><a href="#illust">Illustrations</a>                     </li>
@@ -93,6 +93,7 @@ theme('Document Guidelines','header');
             <li><a href="#block_qt">Block Quotations</a>                </li>
             <li><a href="#double_q">Double Quotes</a>                   </li>
             <li><a href="#single_q">Single Quotes</a>                   </li>
+            <li><a href="#quote_ea">Quote Marks on each line</a>        </li>
             <li><a href="#period_s">Periods Between Sentences</a>       </li>
             <li><a href="#punctuat">Punctuation</a>                     </li>
             <li><a href="#line_br">Line Breaks</a>                      </li>
@@ -107,7 +108,7 @@ theme('Document Guidelines','header');
             <li><a href="#bk_index">Indexes</a>                         </li>
             <li><a href="#trail_s">Trailing Space at End-of-line</a>    </li>
             <li><a href="#play_n">Play Actor Names/Stage Notes</a>      </li>
-            <li><a href="#anything">Anything else that needs special handling</a></li>
+            <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a> </li>
           </ul>
         </li>
       </ul>
@@ -240,12 +241,38 @@ theme('Document Guidelines','header');
     on this book. </p>
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a> </h3>
-<p> For each book you've worked on, the last 5 pages that you proofed are available from
-    the project page for that book under the heading "My Recently Proofread".  If you
-    discover that you made a mistake on a page, or marked something incorrectly, you can
-    click on that page here and re-open it to fix the error.  (If it's already gone by,
-    then use the  <a href="#forums">project forum</a> to leave a note for the next round.)
+<p> Each project has a project comments page, which is loaded when you click on a
+    project name from the list of projects available for proofing on your personal page
+    (which is the page that appears when you log in).  </p>
+<p> This page contains links to pages from this project that you have recently proofed.
+    (If you haven't proofed any pages yet, there will be no links shown.) These links
+    appear under one of two headings, depending on if you have told the system you have
+    completed the proofing on a page or not.  </p>
+<p> The two headings are "My Recently Completed" and "My Recently Proofread". Links to
+    the fivemost recently proofed pages will show under each heading. Pages linked to
+    from "My Recently Completed" are considered complete, and will proceed automatically
+    to the next round when all other pages in the project have also been completed.
+    Pages linked to from "My Recently Proofread" are waiting for you to complete them;
+    they will not proceed automatically to the next round (neither will they hold the
+    book up indefinitely: eventually, if not completed by you, the system will reclaim
+    them, discard your changes, and make them available for someone else to proof).
     </p>
+<p> When you first load a new page to proof, by clicking on the 'Start Proofing' link on
+    the project comments page, a link to the page is created under 'My Recently
+    Proofread'. Each time you press the "Save" button, this link is updated to point to
+    the newly saved version of the page. You tell the system you have completed the
+    proofing on a page by pressing either the "Save and Quit" or the "Save and Do
+    Another" buttons. Pressing either of these buttons moves the link to the page from
+    the "My Recently Proofread" section to the "My Recently Completed" section. This is
+    the only way you can mark pages as complete and make sure your work will get through
+    to the next round. Until you press one of those two buttons, the page is
+    'incomplete', even if you press the "Quit" button.  </p>
+<p> Pages listed under either "My Recently Completed" or "My Recently Proofed"  are
+    available to you for to make proofing corrections or to finish proofing.  Just click
+    on the link to the page.  So if you discover that you made a mistake on a page, or
+    marked something incorrectly, you can click on that page here and re-open it to fix
+    the error. (If it's already gone by, then use the  <a href="#forums">project
+    forum</a> to leave a note for the next round.) </p>
 <br>
 <table border="0" cellspacing="0" width="100%" cellpadding="6">
   <tbody>
@@ -452,7 +479,7 @@ theme('Document Guidelines','header');
                                                                                      <br>
           COMMERCIAL PAPER.                                                          <br>
                                                                                      <br>
-          KINDS AND USES.--If a man wishes to buy some commodity                     <br>
+          &lt;b&gt;Kinds and Uses&lt;/b&gt;.--If a man wishes to buy some commodity  <br>
           from another but has not the money to pay for                              <br>
           it, he may secure what he wants by giving his written                      <br>
           promise to pay at some future time. This written                           <br>
@@ -483,7 +510,7 @@ theme('Document Guidelines','header');
   <br> &nbsp;&nbsp;&nbsp;&nbsp;
     Old books often printed the first word of every chapter in all caps, sometimes even
     the first word of every paragraph; change these to a normal word (first letter only
-    capitalized), unless it's <a href="#bold">bold text</a>.
+    capitalized).
   <br> &nbsp;&nbsp;&nbsp;&nbsp;
     Watch out for a missing double quote at the start of the first paragraph, which some
     publishers did not include or which the OCR missed due to a large capital in the
@@ -550,7 +577,7 @@ theme('Document Guidelines','header');
   </tbody>
 </table>
 
-<h3><a name="para_side">Paragraph Side-Descriptions</a> </h3>
+<h3><a name="para_side">Paragraph Side-Descriptions (SideNotes)</a> </h3>
 <p> Some books will have short descriptions of the paragraph along the side of the text.
     Move these "Sidenotes" to just above the paragraph that they belong to, surrounded
     with <tt>[Sidenote: the-description-text]</tt>.  If the paragraph began on a
@@ -608,11 +635,13 @@ theme('Document Guidelines','header');
     </p>
 
 <h3><a name="illust">Illustrations</a> </h3>
-<p> Text for an illustration should be surrounded by <tt>[Illustration: the-text]</tt>.
-    If there is no text, just place <tt>[Illustration]</tt> there. If it is in the
-    middle of a paragraph or on the side of a paragraph, move the <tt>[Illustration:
-    the-text] </tt>to either above or below the paragraph, based on where you can put it
-    without it being in the middle of a paragraph. </p>
+<p> Text for an illustration should be surrounded by <tt>[Illustration:
+    the-text-caption]</tt>.  If there is no text caption, just place
+    <tt>[Illustration]</tt> there. If it is in the middle of a paragraph or on the side
+    of a paragraph, move the <tt>[Illustration: the-text] </tt>to either above or below
+    the paragraph, based on where you can put it without it being in the middle of a
+    paragraph.  If the text caption is printed on multiple lines, put it that way in
+    your proofed text.  </p>
 <p align="left" style="margin-bottom: 0cm;"><br>
 </p>
 <table width="100%" border="1"  cellpadding="4"
@@ -655,9 +684,10 @@ theme('Document Guidelines','header');
     Replace the footnote number, *, dagger (&dagger; or &Dagger;), etc. that marks a
     footnote location with the actual text of the footnote, surrounded by <tt>[Footnote:
     ]</tt>.  That is, footnotes should be be moved from the bottom of the page to the
-    place on the page where they are referenced in the text.  Many proofreaders put a
-    line break before the <tt>[Footnote:</tt> and another one after the <tt>]</tt> that
-    ends the footnote, because this makes it easier for the Second Round Proofer. </p>
+    place on the page where they are referenced in the text.  Many proofreaders start
+    the <tt>[Footnote:</tt> on a new line, and also start the text following the
+    <tt>]</tt> on a new line, because this makes it easier for the Second Round Proofer.
+    (See below for an example.) </p>
 <p> If a footnote was a continuation of a footnote from a previous page, move it to the
     top of the page and surround it with <tt>[*Footnote: ]</tt>.  (The <tt>*</tt>
     indicates that the footnote was continued, and brings it to the attention of the
@@ -673,9 +703,10 @@ theme('Document Guidelines','header');
     grouped at the end of chapters.)
 <p><b>Out-of-Line Footnotes:</b>
     For these, Surround the footnote number, *, or other character that marks a footnote
-    location with brackets (<tt>[</tt> and <tt>]</tt>).  Then at the bottom of the page,
-    where the text for that footnote it, surround it with <tt>[Footnote _: ]</tt>,
-    keeping the footnote number or marker where the underline is.  </p>
+    location with brackets (<tt>[</tt> and <tt>]</tt>).  Don't leave any space before
+    the <tt>[</tt>--keep it right next to the word being footnoted.  Then at the bottom
+    of the page, where the text for that footnote it, surround it with <tt>[Footnote _:
+    ]</tt>, keeping the footnote number or marker where the underline is.  </p>
 <!--
     See the <a href="#page_hf">Page Headers/Footers</a>
     image/text for an example footnote.</p>
@@ -687,7 +718,7 @@ theme('Document Guidelines','header');
       <th valign="top" align="left">Original Text:</th>
     </tr>
     <tr>
-      <td valign="top">The principle persons involved in this argument were
+      <td valign="top">The principal persons involved in this argument were
           Caesar<sup>1</sup>, former military                                    <br>
           leader and Imperator, and the orator Cicero<sup>2</sup>.
           Both were of the aristocratic                                          <br>
@@ -703,7 +734,7 @@ theme('Document Guidelines','header');
     <tr>
       <td valign="top">
         <tt>
-          The principle persons involved
+          The principal persons involved
           in this argument were Caesar                                           <br>
           [Footnote: Gaius Julius Caesar],                                       <br>
           former military                                                        <br>
@@ -719,65 +750,20 @@ theme('Document Guidelines','header');
     </tr>
       <td valign="top">
         <tt>
-          The principle persons involved
-          in this argument were Caesar [1],
+          The principal persons involved
+          in this argument were Caesar[1],
           former military                                                        <br>
-          leader and Imperator, and the orator Cicero [2].
+          leader and Imperator, and the orator Cicero[2].
           Both were of the aristocratic                                          <br>
           (Patrician) class, and were quite wealthy.
      <hr align="left" width="50%" noshade size=2>
           [Footnote 1: Gaius Julius Caesar]                                      <br>
+                                                                                 <br>
           [Footnote 2: Marcus Tullius Cicero]
       </td>
     </tr>
   </tbody>
 </table>
-<!-- horiz version -- doesn't fit right.
-<table border="1"  cellpadding="4" cellspacing="0">
-  <col width="256*">
-  <tbody>
-    <tr>
-      <th valign="top" width="26%">Original Text </th>
-      <th valign="top" width="37%">Proofed with In-Line Footnotes</th>
-      <th valign="top" width="37%">Proofed with Out-of-Line Footnotes</th>
-    </tr>
-    <tr>
-      <td valign="top">The principle persons involved                            <br>
-          in this argument were Caesar<sup>1</sup>,
-          former military leader and Imperator, and Cicero<sup>2</sup>.          <br>
-          Both were of the aristocratic (Patrician) class, and quite wealthy.
-     <hr align="left" width="50%" noshade size=2>
-     <font size=-2><sup>1</sup> Gaius Julius Caesar.                             <br>
-     <font size=-2><sup>2</sup> Gaius Valerius Cicero. </font>                   <br>
-      </td>
-      <td valign="top">
-        <tt>
-          The principle persons involved                                         <br>
-          in this argument were Caesar                                           <br>
-          [Footnote: Gaius Julius Caesar],                                       <br>
-          former military leader and                                             <br>
-          Imperator, and Cicero                                                  <br>
-          [Footnote: Marcus Tullius Cicero].                                   <br>
-          Both were of the aristocratic                                          <br>
-          (Patrician) class, and quite wealthy.
-          </tt>
-      </td>
-      <td valign="top">
-        <tt>
-          The principle persons involved                                         <br>
-          in this argument were Caesar [1],                                      <br>
-          former military leader and                                             <br>
-          Imperator, and Cicero [2].                                             <br>
-          Both were of the aristocratic                                          <br>
-         (Patrician) class, and quite wealthy.
-     <hr align="left" width="50%" noshade size=2>
-          [Footnote 1: Gaius Julius Caesar]                                      <br>
-          [Footnote 2: Marcus Tullius Cicero]
-      </td>
-    </tr>
-  </tbody>
-</table>
--->
 <p> <b>Endnotes</b> are just footnotes that have been located together at the end of a
     chapter or at the end of the book, instead of on the bottom of each page.  If you
     are proofing a page with endnotes on it, surround the text of the note with
@@ -808,10 +794,10 @@ theme('Document Guidelines','header');
       </td>
       <td valign="top">
         <tt> /*                                                                  <br>
-          &nbsp;&nbsp;Mary had a little lamb [1]                                 <br>
-          &nbsp;&nbsp;Whose fleece was white as snow                             <br>
-          &nbsp;&nbsp;And everywhere that Mary went                              <br>
-          &nbsp;&nbsp;The lamb was sure to go!                                   <br>
+          Mary had a little lamb[1]                                              <br>
+          Whose fleece was white as snow                                         <br>
+          And everywhere that Mary went                                          <br>
+          The lamb was sure to go!                                               <br>
           */                                                                     <br>
           [Footnote 1: This lamb was obviously of the Hampshire breed,           <br>
           well known for the pure whiteness of their wool.]                      <br>
@@ -863,24 +849,28 @@ theme('Document Guidelines','header');
 </table>
 
 <h3><a name="bold">Bold Text</a> </h3>
-<p> Change bold text into all capitals.  See the <a href="#page_hf">Page
-    Headers/Footers</a> image/text for an example.
+<p> Bold text (text printed in a heavier typeface) should be marked with
+    <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>after it.
+    See the <a href="#page_hf">Page Headers/Footers</a> image/text for an example.
   <br>
-    Do not mark bold text HTML-style (surrounded with <tt>&lt;b&gt;</tt> and
-    <tt>&lt;/b&gt;</tt>) unless the Project Manager specifies this method in the <a
+    (Note: either lower-case <tt>&lt;b&gt;</tt> or upper-case <tt>&lt;B&gt;</tt> is
+    OK, whichever you prefer.) </p>
+  <br>
+    Previously, we used to change bold text into all capitals.  We no longer do it that
+    way, unless the Project Manager specifies that method in the <a
     href="#comments">Project Comments</a>. </p>
 
 <h3><a name="supers">Superscripts</a> </h3>
 <p> Older books often abbreviated words as contractions, and printed them as
     superscripts, for example: <font color="red">
-    <br> &nbsp; &nbsp; &nbsp; &nbsp; Gen<sup>rl</sup>
-    Washington defeated L<sup>d</sup> Cornwall's army. <br>    </font>
-    Unless the <a href="#comments">Project Comments</a> specify something else, insert a
-    single quote (apostrophe) to identify this as an abbreviation/contraction, like
-    this: <br> &nbsp; &nbsp; &nbsp; &nbsp;    <tt>Gen'rl Washington defeated L'd
-    Cornwall's army.</tt> <br> Only change to the full word if the <a
-    href="#comments">Project Comments</a> specificly say to do so, like this: <br>
-    &nbsp; &nbsp; &nbsp; &nbsp; <tt>General Washington defeated Lord Cornwall's
+  <br> &nbsp; &nbsp; &nbsp; &nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup>
+    Cornwall's army. <br>    </font> Unless the <a href="#comments">Project Comments</a>
+    specify something else, insert a single quote (apostrophe) to identify this as an
+    abbreviation/contraction, like this:
+  <br> &nbsp; &nbsp; &nbsp; &nbsp;    <tt>Gen'rl Washington defeated L'd Cornwall's
+    army.</tt> <br> Only change to the full word if the <a href="#comments">Project
+    Comments</a> specificly say to do so, like this:
+  <br> &nbsp; &nbsp; &nbsp; &nbsp; <tt>General Washington defeated Lord Cornwall's
     army.</tt> </p>
 
 <h3><a name="underl">Underlined Text</a> </h3>
@@ -895,8 +885,7 @@ theme('Document Guidelines','header');
     electronic form, it will all be plain ASCII text in the same font.   The exception
     to this is when the font size changes to indicate a section of <a
     href="#poetry">poetry</a> or <a href="#block_qt">block quotations</a>; then mark the
-    text as specified for those (<tt>/*</tt> at the start, <tt>*/</tt> at the end, with
-    poetry indented 2 spaces, block quotations indented 4 spaces). </p>
+    text as specified for those (<tt>/*</tt> at the start and <tt>*/</tt> at the end. </p>
 
 <h3><a name="word_caps">Word in all Caps or Small Caps</a> </h3>
 <p> If a word or words in the text are printed in all capital letters (including small
@@ -1044,23 +1033,18 @@ theme('Document Guidelines','header');
 <h3><a name="poetry">Poetry/Epigrams</a> </h3>
 <p> Mark poetry or epigrams so the post-processor can find the poetry quicker. Insert a
     separate line with <tt>/*</tt> at the start of the poetry or epigram and a separate
-    line with <tt>*/</tt> at the end, and then indent each line in between by exactly 2
-    spaces. If the poetry starts at the beginning of the page put a <tt>*</tt> before
-    the <tt>/*</tt> so the post-proofer can check to see if it was continued from the
-    previous page.  If it goes to the end of the page put a <tt>*</tt> after the
-    <tt>*/</tt> so the post-proofer can check to see if it continues onto the next page.
-    </p>
+    line with <tt>*/</tt> at the end. </p>
 <p> Don't bother trying to center lines of poetry, even if it was centered on the
     printed page; that won't work for an e-book viewed with many different screen sizes.
-    Just leave it all indented 2 spaces.  (If there is some other indenting that you
+    Just put it all at the left margin.  (If there is some other indenting that you
     think is needed to reflect the author's meaning, then try to duplicate the format of
-    the original.  Try to start each stanza indented 2 spaces, and then format from
-    there.)  But for most poetry, the meaning is in the words and line breaks; indenting
-    format is not critical.  </p>
-<p> Sometimes a line of poetry doesn't fit on the printed page, and part of it is
-    split onto the next line (usually indented quite a bit).  Rejoin these words back
-    onto the end of previous line.  (Since our final e-book does not have 'pages', we
-    don't have to worry about a line being too long for the 'page'.) </p>
+    the original.) But for most poetry, the meaning is in the words and line breaks;
+    indenting format is not critical.  </p>
+<p> Sometimes a line of poetry doesn't fit on the printed page, and part of it is split
+    onto the next line (usually indented quite a bit, and usually starts with a
+    lower-case letter).  Rejoin these words back onto the end of previous line.  (Since
+    our final e-book does not have 'pages', we don't have to worry about a line being
+    too long for the 'page'.) </p>
 <p> <b>Footnotes</b> in poetry should go at the end of the poem or stanza.  See
     <a href="#footnotes">footnotes</a> for details.
 </p>
@@ -1084,18 +1068,18 @@ theme('Document Guidelines','header');
     <tr>
       <td width="100%" valign="top">
           <tt>
-                                                          <br>
-          /*                                              <br>
-          &nbsp;&nbsp;Pansies, lilies, kingcups, daisies, <br>
-          &nbsp;&nbsp;Let them live upon their praises;   <br>
-          &nbsp;&nbsp;Long as there's a sun that sets,    <br>
-          &nbsp;&nbsp;Primroses will have their glory;    <br>
-          &nbsp;&nbsp;Long as there are violets           <br>
-          &nbsp;&nbsp;They will have a place in story;    <br>
-          &nbsp;&nbsp;But for flowers my bowls to fill,   <br>
-          &nbsp;&nbsp;Give me just the daffodil.          <br>
-          */                                              <br>
-                                                          <br>
+                                               <br>
+          /*                                   <br>
+          Pansies, lilies, kingcups, daisies,  <br>
+          Let them live upon their praises;    <br>
+          Long as there's a sun that sets,     <br>
+          Primroses will have their glory;     <br>
+          Long as there are violets            <br>
+          They will have a place in story;     <br>
+          But for flowers my bowls to fill,    <br>
+          Give me just the daffodil.           <br>
+          */                                   <br>
+                                               <br>
           As Wordsworth ought to have said.
           </tt>
       </td>
@@ -1108,13 +1092,13 @@ theme('Document Guidelines','header');
     Instead of indenting put a blank line before the start of the letter. </p>
 
 <h3><a name="lists">Lists of Items</a> </h3>
-<p> Mark these similar to poetry; insert a line with <tt>/*</tt>before the list, indent
-    each list item by 2 spaces, and insert a line with <tt>*/</tt> after the list.  This
-    marking tells the post processor that this section of text should be kept as
-    seperate lines, and not re-flowed into paragraphs.  Mark it this way for any such
-    list that should not be reformatted, including lists of questions &amp; answers,
-    items in a recipe, etc.  (But often in a cookbook made up mostly of recipes the
-    Project Manager will say not to bother marking each list of ingredients.)</p>
+<p> Mark these similar to poetry; insert a line with <tt>/*</tt> before the list, and
+    insert a line with <tt>*/</tt> after the list.  This marking tells the post
+    processor that this section of text should be kept as seperate lines, and not
+    re-flowed into paragraphs.  Mark it this way for any such list that should not be
+    reformatted, including lists of questions &amp; answers, items in a recipe, etc.
+    (But often in a cookbook made up mostly of recipes the Project Manager will say not
+    to bother marking each list of ingredients.) </p>
 
 <h3><a name="tables">Tables</a> </h3>
 <p> Mark tables so the post-processor can find them by surrounding them with <tt>/*</tt>
@@ -1127,32 +1111,26 @@ theme('Document Guidelines','header');
 </p>
 
 <h3><a name="block_qt">Block Quotations</a> </h3>
-<p> These are long quotations (typically several lines) included in a book. They are
+<p> These are long quotations (typically several lines) included in the text. They are
     often printed narrower (wider margins) and in a smaller font size.  Mark block
     quotations so the post-processor can find them by surrounding them with <tt>/*</tt>
-    and <tt>*/</tt>, like <a href="#poetry">poetry</a> above.  Indent each line in the
-    quotation by 4 spaces. </p>
+    and <tt>*/</tt>, like <a href="#poetry">poetry</a> above.  </p>
 
 <h3><a name="double_q">Double Quotes</a> </h3>
    <!-- This first sentence is unclear to me! -->
 <p> Single spacing around quote marks and punctuation is the correct formatting for the
     text. Please try to just use the plain <font color="red">"</font> double quote,
     since the directional double quotes <font color="red">&ldquo;</font> and <font
-    color="red">&rdquo;</font> will have to be replaced to make it ASCII compliant.
-    This also applies to <font color="red">&bdquo;</font>German quotes<font
-    color="red">&rdquo;</font> and to <font color="red">&laquo;</font>&nbsp;French
-    guillemet quotes&nbsp;<font color="red">&raquo;</font> -- just use the ASCII <font
-    color="red">"</font> instead (unless the Project Manager specifies different for a
-    particular book).  Also, do not change single quotes to double quotes.  Leave them
-    as the Author wrote them.  See the <a href="#chap_head">Chapter Headers</a> image
-    and text for an example.</p>
-<p> Old books sometimes put quote marks at the beginning of each line of a quotation;
-    remove them except for the first line.  But if the quotation goes on for multiple
-    paragraphs, each paragraph should have an opening quote mark on the first line of
-    the paragraph.  Often there is no closing quote mark until the very end of the
-    quotation, after the last paragraph; if so, leave it that way.  (This means that the
-    proofed text will have more opening quotes than ending quotes.)
-    </p>
+    color="red">&rdquo;</font> will have to be replaced to make it ASCII compliant.</p>
+<p> For quotes from non-English languages, use the quotation marks that are appropriate
+    to that language.  For example, in German mark quotations <font color="red">
+    &bdquo;</font><tt>like this</tt><font color="red">&rdquo;</font>; and in French mark
+    them with guillemets <font color="red">&laquo;</font>&nbsp;<tt>like this</tt>&nbsp;
+    <font color="red">&raquo;</font>.  (As always, the Project Manager might instruct
+    you to do these differently for a particular book). </p>
+<p> Also, do not change single quotes to double quotes.  Leave them as the Author wrote
+    them.  See the <a href="#chap_head">Chapter Headers</a> image and text for an
+    example. </p>
 
 <h3><a name="single_q">Single Quotes</a> </h3>
 <p> Single quotes are used for a variety of purposes.  They sometimes are used
@@ -1161,6 +1139,18 @@ theme('Document Guidelines','header');
     Try to put them the way the image shows them.  Last of all, please try to just use
     the plain ASCII <tt>'</tt> single quote (apostrophe) to make it easier for
     everyone.</p>
+
+<h3><a name="quote_ea">Quote Marks on each line</a>  </h3>
+<p> Old books sometimes put quote marks at the beginning of each line of a quotation;
+    remove them except for the first line.  But if the quotation goes on for multiple
+    paragraphs, each paragraph should have an opening quote mark on the first line of
+    the paragraph.  Often there is no closing quote mark until the very end of the
+    quotation, after the last paragraph; if so, leave it that way.  Sometimes that last
+    paragraph of the quotation is on the next page, so you will not see any closing
+    quote mark at all.  If so, leave it that way -- don't add closing quote marks that
+    aren't on the page image.  (Note that this means that the proofed text for
+    multi-paragraph quotes will have more opening quotes than ending quotes.  That's
+    fine, our post-proofing software expects this.) </p>
 
 <h3><a name="period_s">Periods Between Sentences</a> </h3>
 <p> Single space after periods (not two spaces). But don't bother to remove double
@@ -1202,9 +1192,12 @@ theme('Document Guidelines','header');
 <h3><a name="extra_sp">Extra spaces or tabs between Words</a> </h3>
 <p> Extra spaces between words are a common OCR error.  You don't need to bother
     removing those spaces--that can be done automatically in post-proofing.  Same with
-    tab characters instead of spaces--those too can be fixed automatically.  But extra spaces
-    around punctuation, em-dashes, quote marks, etc. do need to be removed--that is hard
-    to do automatically.  </p>
+    tab characters instead of spaces--those too can be fixed automatically.  But extra
+    spaces around punctuation, em-dashes, quote marks, etc. do need to be removed when
+    they seperate the symbol from the word.  For example, in <b>A
+    horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> the space between "horse"
+    and the semicolon needs to be removed.  But the 2 spaces after the semicolon are
+    OK--you needn't bother deleting one of them. </p>
 
 <h3><a name="line_no">Line Numbers</a> </h3>
 <p> These are numbers in the margin for each line -- common in older technical books.
@@ -1558,7 +1551,8 @@ image/text for an example.</p>
 <p> The second method is more work, but provides a more accurate text. This involves
     converting each character of the foreign text into the equivalent ASCII Latin
     letter(s). The result should still be enclosed in <tt>[Greek: ]</tt> etc. tags. For
-    example, <thanatos (in greek)> would become <tt>[Greek: thanatos]</tt>.  </p>
+    example, <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
+    would become <tt>[Greek: Biblos]</tt>. ("Book"--so appropriate for DP!)</p>
 <p> <b>Tip:</b> Greek occurs so frequently there is a clickable tool in the interface to
     help you do the transliteration. Press the "Greek" button near the bottom of the
     screen to make it pop-up, then you can click on the Greek characters to have their
@@ -1620,16 +1614,18 @@ image/text for an example.</p>
   <tbody>
     <tr>
       <th valign="top">Scanned Text</th>
-      <th valign="top">Correct Text</th>
+      <th valign="top">Proofed Text</th>
     </tr>
     <tr>
       <td valign="top">Elizabeth I, her royal Majesty the                  <br>
                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queen, 123, 144-155.  <br>
                        &nbsp;&nbsp;birth of, 145.                          <br>
+                       &nbsp;&nbsp;christening, 146-147.                   <br>
                        &nbsp;&nbsp;death and burial, 152.                  <br>
                        Ethelred II, the Unready                            </td>
       <td valign="top"><tt>Elizabeth I, her royal Majesty the Queen,       <br>
                        &nbsp;&nbsp;birth of,                               <br>
+                       &nbsp;&nbsp;christening,                            <br>
                        &nbsp;&nbsp;death and burial,                       <br>
                        Ethelred II, the Unready                            </td>
     </tr>
@@ -1654,8 +1650,7 @@ image/text for an example.</p>
 </p>
 <p>
     Old books sometimes printed the first word of each letter in the index in all caps;
-    change this to a normal word (first letter only capitalized), unless it's <a
-    href="#bold">bold text</a>.</p>
+    change this to a normal word (first letter only capitalized). </p>
 
 <h3><a name="trail_s">Trailing Space at End-of-line</a> </h3>
 <p> Don't bother putting spaces at the ends of lines of text. Waste of your time for
@@ -1664,18 +1659,23 @@ image/text for an example.</p>
 
 <h3><a name="play_n">Play Actor Names/Stage Notes</a> </h3>
 <p>Mark all actor names in italics if they are <a href="#italics">Italics</a> in the
-    original text, mark them as bold if they are <a href="#bold">Bold</a> in the
+    original text, mark them as bold if they are <a href="#bold">bold</a> in the
     original text.  And Stage Notes too: format them like they are in the original text.
     </p>
 
-<h3><a name="anything">Anything else that needs special handling</a> </h3>
+<h3><a name="anything">Anything else that needs special handling or that you're unsure of</a> </h3>
 <p>If you run into something that isn't covered in these guidelines that you think needs
-   special handling, put an asterisk (<tt>*</tt>) next to it in your proofed text.  (You
-   can also put a note there explaining the problem.) This signals the post-proofer to
-   stop and examine this text &amp; the matching image, and deal with it. This does slow
-   down the post-proof processing of this text, so don't do this unless you are sure
-   that it is needed.
-    </p>
+   special handling, or you run into something
+   that you're not sure of, put an asterisk (<tt>*</tt>) next to it
+   in your proofed text.  This signals the next proofer to stop and examine this text
+   &amp; the matching image, and deal with it. (This does slow down the proofing
+   of this text, so don't do this unneccessarily.)
+   </p>
+<p>You can also put a <tt>[**Note: I'm not sure...]</tt> there explaining the problem.
+   Notes are quite helpful -- they save the next proofer time by explaining what the
+   question is.  Put square brackets <tt>[</tt> and <tt>]</tt> around your note so that
+   is clearly seperated from the Author's text. And mark it with 2 asterisks <tt>**</tt>
+   for the next proofer.</p>
 <br>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
@@ -1740,25 +1740,28 @@ image/text for an example.</p>
 <h3><a name="bad_image">Bad Images</a> </h3>
 <p> If an image is bad (not loading, chopped off, unable to be read), please put a post
     about this bad image in the project comments <a href="#forums">forum</a>.  Do not
-    click on "Quit without Saving"; if you do, the next person will get that page. Click
-    on your back button to the project listing page or go back to
-    http://texts01.archive.org/dp/tools/proofers/proof_per.php until we create a better
-    method in the coming weeks.</p>
+    click on "Return Page to Round"; if you do, the page will be reissued to the next
+    proofer.  Instead, click on the "Report Bad Page" button so this page is
+    'quarantined'. </p>
+<p> Note that some page images are quite big, and it's fairly common for your browser to
+    have difficulty displaying them, especially if you have several windows open or are
+    using an older computer.  Before reporting this as a bad page, try clicking on the
+    "Image" line on the bottom of the page to bring up just the image in a new window.
+    If that brings up a good image, then the problem is probably in your browser of
+    system.  </p>
 <p> It's fairly common for the image to be good, but the OCR scan is missing the first
     line or two of the text.  Please just type in the missing line(s).  If nearly all of
     the lines are missing in the scan, then either type in the whole page (if you are
-    willing to do that), or just click on the "Quit without Saving" button and the page
+    willing to do that), or just click on the "Return Page to Round" button and the page
     will be reissued to someone else.  If there are several pages like this, you might
     post a note in the project comments <a href="#forums">forum</a> to notify the
     Project Manager. </p>
 
 <h3><a name="bad_text">Wrong Image for Text</a> </h3>
 <p> If there is a wrong image for the text given, please put a post about this bad image
-    in the project comments <a href="#forums">forum</a>.  Do not click on "Quit without
-    Saving"; if you do, the next person will get that page.  Click on your back button
-    to the project listing page or go back to
-    http://texts01.archive.org/dp/tools/proofers/proof_per.php until we create a better
-    method in the coming weeks.</p>
+    in the project comments <a href="#forums">forum</a>.  Do not click on "Return Page
+    to Round"; if you do, the page will be reissued to the next proofer.  Instead, click
+    on the "Report Bad Page" button so this page is 'quarantined'.  </p>
 
 <h3><a name="round1">Previous Proofreader Mistakes</a> </h3>
 <p> If the previous proofreader made a lot of mistakes or missed a lot of things, you
@@ -1774,6 +1777,9 @@ image/text for an example.</p>
     true printer errors, then you should fix them. Some may be due to differences in
     spelling of words from a long time ago. Do not try to correct those to modern
     English.</p>
+<p> Whenever you make a change like this, include a note describing what you changed:
+    <tt>[*Transcriber's note: typo fixed, changed from "3/8 = .378" to "3/8 = .375"]</tt>
+    Include an <tt>*</tt> so the post proofer will notice it. </p>
 
 <h3><a name="f_errors">Factual Errors in Texts</a> </h3>
 <p> In general, don't correct factual errors in the author's book.  Many of the books we
@@ -1784,6 +1790,9 @@ image/text for an example.</p>
     pages of the book.) Notify the Project Manager about these, either by sending them a
     message via the <a href="#forums">Forum</a>, or by inserting <tt>[sic*
     explain-your-concern]</tt> at that point in the text. </p>
+<p> Whenever you make a change like this, include a note describing what you changed:
+    <tt>[*Transcriber's note: typo fixed, changed from "3/8 = .378" to "3/8 = .375"]</tt>
+    Include an <tt>*</tt> so the post proofer will notice it. </p>
 
 <h3><a name="uncertain">Uncertain Items</a> </h3>
 <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  [...to be completed...] </p>

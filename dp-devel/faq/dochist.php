@@ -26,40 +26,177 @@ theme('Proofing Guidelines Revision History','header');
       </td>
     </tr>
     <tr>
-      <td>06/03/2003 </td>
+      <td>06/19/2003 </td>
       <td>Ver.&nbsp;1.5 </td>
       <td>Tim Bonham (with suggestions from many people)</td>
       <td>Following items added or changed:
-          <ul compact="compact">
-            <li>Lists: added this section.                                       </li>
-            <li>Chapter Header example: corrected it: skip 4/2 lines, also
-                added note to do blank lines even if it starts on a new page.    </li>
-            <li>Double Quotes: added paragraph about quote marks on each line.   </li>
-            <li>Changed link to point to new DP logo.                            </li>
-            <li>Added link to French version of Proofing Guidelines.             </li>
-            <li>Added secion for Special Books, and links to specific guides.    </li>
-            <li>Added new document of special guidelines for copyright renewals. </li>
-            <li>Added new document of special guidelines for Encyclopedias.      </li>
-            <li>Added new document of special guidelines for Poetry.             </li>
-            <li>Added to Indexes section note & example of rejoining split entries. </li>
-            <li>Fixed typo in Sidenotes section.                                 </li>
-            <li>In Sidenotes section, added note about no blank line afterwards. </li>
-            <li>Added to eol-hyphenated section note about "if you're not sure". </li>
-            <li>Replaced Dashes section with Bill Flis's rewritten version.      </li>
-            <li>Added Abbreviations section                                      </li>
-            <li>Changed name from Document Guidlines to Proofing Guidelines.     </li>
-            <li>Added Small Caps to Word in all Caps section                     </li>
-            <li>Added standard links at the bottom of this (and all Doc pages).  </li>
-            <li>For Ellipsis, state that there is no space after any punctuation.</li>
-            <li>Added section on Drop Caps.                                      </li>
-            <li>In Bold test section, removed confusing note about 1st word of chapter. </li>
-            <li>Slight rewording in section "About this Document".               </li>
-            <li>Revised Footnotes section, added out-of-line ones, plus example. </li>
-            <li>Slight rewording in section on Greek & other non-Latin words.    </li>
-            <li>Added note in Poetry section about rejoining split lines.        </li>
-            <li>Added tabs to section Extra spaces between words.                </li>
-            <li>                                                                 </li>
-          </ul>
+        <ul compact="compact">
+          <li>Changes in Guidelines:                  </li>
+            <ul compact="compact">
+              <li>Changed name from Document Guidelines to Proofing Guidelines.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php"><font size=-1 color="green">(new)</font></a></li>
+              <li>Revised Footnotes section, added out-of-line ones, plus example.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#footnotes"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#footnotes"><font size=-1 color="green">(new)</font></a></li>
+              <li>Bold text: default is now html-style markup instead of all-caps.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#bold"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#bold"><font size=-1 color="green">(new)</font></a></li>
+              <li>Poetry: we no longer indent by 2 spaces within the /* and */ markers.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#poetry"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#poetry"><font size=-1 color="green">(new)</font></a></li>
+              <li>Block Quotes: we no longer indent by 4 spaces within the /* and */ markers.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#block_qt"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
+            </ul>
+          <li>New sections added:                     </li>
+            <ul compact="compact">
+              <li>Added Lists section.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#lists"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added Special Books section, and links to specific guides.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added new document of special guidelines for copyright renewals.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#sp_copy"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added new document of special guidelines for Encyclopedias.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#sp_ency"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added new document of special guidelines for Poetry.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#sp_poet"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added Abbreviations section
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#abbrev"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added Drop Caps section.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#drop_caps"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added Quote marks on each line section.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#quote_ea"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added link to French version of Proofing Guidelines.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added standard links at the bottom of this (and all Doc pages).
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#uncertain"><font size=-1 color="green">(new)</font></a></li>
+            </ul>
+          <li>More details added:                     </li>
+            <ul compact="compact">
+              <li>Added to Indexes section note & example of rejoining split entries.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#bk_index"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#bk_index"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added to eol-hyphenated section note about "if you're not sure".
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#eol_hyphen"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#eol_hyphen"><font size=-1 color="green">(new)</font></a></li>
+              <li>In Sidenotes section, added note about no blank line afterwards.
+                  And included "Sidenotes" in the section title.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#para_side"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#para_side"><font size=-1 color="green">(new)</font></a></li>
+              <li>For Ellipsis, state that there is no space after any punctuation.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#period_p"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#period_p"><font size=-1 color="green">(new)</font></a></li>
+              <li>In Bold text section, removed confusing note about 1st word of chapter.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#bold"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#bold"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added note in Poetry section about rejoining split lines.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#poetry"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#poetry"><font size=-1 color="green">(new)</font></a></li>
+              <li>Extra spaces between words section: added tabs.
+                  Also rewrote part about extra spaces around punctuation to make it clearer.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#extra_sp"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#extra_sp"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added example of [**Note...] to "Anything Else that needs Special...
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#anything"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#anything"><font size=-1 color="green">(new)</font></a></li>
+              <li>Double Quotes: added part about non-English quote marks.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#double_q"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#double_q"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added part about [Transcriber's note:] to the errors sections.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#p_errors"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#p_errors"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added more info to "Fixing errors on Previous Pages section.  Big_Bill's rewrite.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#prev_pg"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#prev_pg"><font size=-1 color="green">(new)</font></a></li>
+              <li>Illustrations section: added note about multiple lines.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#illust"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#illust"><font size=-1 color="green">(new)</font></a></li>
+            </ul>
+          <li>Re-worded or Typo's fixed:              </li>
+            <ul compact="compact">
+              <li>Chapter Header example: corrected it: skip 4/2 lines, also
+                  added note to do blank lines even if it starts on a new page.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#chap_head"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#chap_head"><font size=-1 color="green">(new)</font></a></li>
+              <li>Fixed typo in Sidenotes section.
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#para_side"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#para_side"><font size=-1 color="green">(new)</font></a></li>
+              <li>Replaced Dashes section with Bill Flis's rewritten version.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#em_dashes"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#em_dashes"><font size=-1 color="green">(new)</font></a></li>
+              <li>Added Small Caps to Word in all Caps section
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#word_caps"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#word_caps"><font size=-1 color="green">(new)</font></a></li>
+              <li>Slight rewording in section "About this Document".
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#about"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#about"><font size=-1 color="green">(new)</font></a></li>
+              <li>Slight rewording in section on Greek & other non-Latin words, added biblos example.
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#f_chars"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#f_chars"><font size=-1 color="green">(new)</font></a></li>
+              <li>Block Quotes: refer to "text" rather than "book".
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="olddoc14.html#block_qt"><font size=-1 color="red">(old)</font></a>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="document.php#block_qt"><font size=-1 color="green">(new)</font></a></li>
+            </ul>
+        </ul>
       </td>
     </tr>
     <tr>

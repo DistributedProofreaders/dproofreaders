@@ -26,7 +26,7 @@ Also, fix section 6 -- add more people that they may want to contact.
   </style>
 
 <h1>Beginning Proofers' <br> Frequently Asked Questions (FAQ)</h1>
-<h3 align="right">Version 1.5, released June 6, 2003 </h3>
+<h3 align="right">Version 1.5, released June 19, 2003 </h3>
 
 <p> The purpose of this FAQ is to provide answers to common questions that new people
     joining us at the Distributed Proofreaders web site have asked.
@@ -57,6 +57,8 @@ Also, fix section 6 -- add more people that they may want to contact.
         <li><a href="#9">How can I get copies of other Gutenberg etexts?       </a></li>
         <li><a href="#10">I think I messed something up (done something wrong),
                           How can I fix it?                                    </a></li>
+        <li><a href="#11">I'm having trouble on the webpage trying to ...
+                          Log in/Proof a page/Get a new page                   </a></li>
       </ol>
       </td>
     </tr>
@@ -92,8 +94,9 @@ different pages.  This will significantly speed up the proofreading process.
   <br>Note that, <i>at the same time</i>, others will be working on other pages from
       this book, or from different books.  Each proofreader does just a bit (we suggest
       "a page a day"), but working together we can get a lot of books done! [In 2003, we
-      average 250-300 proofreaders participating each day, and we finish 2500-3000 pages
-      per day. That's about 2 pages every minute of every day!]
+      average 250-300 proofreaders participating each day from countries all over the
+      world, and we finish 2500-3000 pages per day. That's about 2 pages every minute of
+      every day!]
   <li>The site stores that proofed page in our database for the next round.  (Each book
       goes through two rounds of proofreading, to try to catch all errors in the text.)
   <li>When all the pages in a book have been proofread, a "post-proofer" does the
@@ -262,7 +265,8 @@ different pages.  This will significantly speed up the proofreading process.
   <li>When we get the clearance info back, we send this to Charles at <a href="mailto:charlz@lvcablemodem.com">Charles Franks</a>
   <li>Now we make digital images of the pages using a scanner.
   <li>Next, we feed these images to an OCR program that turns them into text.
-  <li>We then feed this text to other pre-processing programs to fix the things left by the OCR programs (like chapter headings, paragraph indention, paragraph separation, etc).
+  <li>We then feed this text to other pre-processing programs to fix the things left by
+      the OCR programs (like chapter headings, paragraph indention, paragraph separation, etc).
   <li>Now we create a project using the Project Manager's web page.
   <li>We upload the images and text to the web site, and make them available to proofreaders.
   <li>Proofreaders come to the site and proofread pages of the text, fixing them to match the page images.
@@ -287,13 +291,14 @@ different pages.  This will significantly speed up the proofreading process.
     Gutenberg Archive, you will receive an email notifying you and giving the link to
     download this book.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Also, on the DP main page, there is a weekly list of recent books completed and sent
-    to Project Gutenberg, books proofread and being post-proofed, and books currently in
-    the process of proofreading. </p>
+    Also, on the DP main page, there is a weekly list of links to recent books completed
+    and sent to Project Gutenberg, books proofread and being post-proofed, and books
+    currently in the process of proofreading. </p>
 
 <h3><a name="9">9. How can I get copies of other Gutenberg etexts? </a></h3>
-<p> You can go to the Project Gutenberg site <a href="http://www.gutenberg.net">www.gutenberg.net</a> and get copies of any etext
-    in the library, including the ones done through Distributed Proofreaders. </p>
+<p> You can go to the Project Gutenberg site <a
+    href="http://www.gutenberg.net">www.gutenberg.net</a> and get copies of any etext in
+    the library, including the ones done through Distributed Proofreaders. </p>
 
 <h3><a name="10">10. I think I messed something up (done something wrong), How can I fix it? </a></h3>
 <p> <i>Don't panic.</i> We all make mistakes. If you think you made a mistake on the last few
@@ -316,11 +321,58 @@ different pages.  This will significantly speed up the proofreading process.
 <p> Also, feel free to leave short notes in the pages as you do them, just make certain
     to mark them with an asterisk so that the next proofer can find them.  Like this: <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <tt>John Smyth* [image too faint--I can't tell if it's Smythe or Smith here.]* </tt></p>
+    <tt>John Smyth* [**image too faint--I can't tell if it's Smythe or Smith here.] </tt></p>
+
+
+<h3><a name="11">11. I'm having trouble on the webpage trying to ... Log in/Proof a page/Get a new page </a></h3>
+<p>
+    Almost all browser-related problems (not being able to log in, not seeing the
+    proofing page, not getting a fresh page to proof after you have proofed your first
+    page) can be solved by verifying that your browser options are set up the following
+    way:
+      <ol compact type="a">
+        <li>Cookies accepted/on*
+        <li>Javascript enabled
+        <li>Caching disabled (or Page-Refresh set to 'every time')
+      <p> Also, if in your Forum Profile (<a
+          href="<? echo $code_url; ?>/userprefs.php">located
+          here</a>), "Launch in New Window" is set to "Yes", then there is
+          the following additional requirement: </p>
+        <li>Pop-up Windows allowed* (and make sure they aren't being blocked by another utility)
+      </ol>
+    Setting these options correctly solves most problems accessing or using the site.
+    For specific examples of setting these options for various browsers, check the latest
+    info on the DPWiki post, available by
+    <a href="<? echo $forums_url; ?>/viewtopic.php?p=17984&highlight=#17984">clicking here.</a>
+
+<table border=1 rules="none" width="75%" align="center">
+  <tr><td colspan=2> * <i>Security note:</i> for security and privacy reasons, many people have some of
+      these options turned off.  They must be turned on for the DP website to work. <br>
+      However, they can be limited: </td></tr>
+  <tr><td>Cookies:</td>
+      <td>DP cookies are only for the DP Website, so rather than setting this
+          option to "Accept All Cookies", you can set it to the more restricted option
+          "Accept Cookies for the originating website only". </td></tr>
+  <tr><td>Pop-up Windows:</td>
+      <td>most browser Pop-up options or pop-up blocking utilities
+          offer an option to list specific sites from which you accept pop-ups.  So
+          rather than simply setting it to "Accept all pop-ups", you can set the more
+          restrictive option of "Suppress all pop-ups" but include the DP website
+          (www.pgdp.net) in the Exceptions list. </td></tr>
+  <tr><td colspan=2> <i>Note:</i> the exact wording of these options will depend on your
+          browser.</td></tr>
+</table>
+
+<p> Sometimes a firewall or proxy, on your PC, LAN, or ISP, will save pages in a cache,
+    leading to the <i>'I get the same page to proof over and over again'</i> difficulty.
+    If it's on your PC, you can probably fix it yourself.  If it's in a LAN or ISP, you
+    will need to talk to the people managing that to get this fixed.  See the DPWiki
+    post given above for advice. </p>
+
 
 <hr align="center" width="66%">
 <h4>Revision History of this Document</h4>
-       04/17/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
+       06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
    <br>10/27/2002 -- updated version produced by Charles Franks.
    <br>10/16/2001 -- original version of this document produced by Robert Rowe.
 

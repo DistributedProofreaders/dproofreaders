@@ -78,6 +78,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
       </tt>
    <!-- would be good to have the next author shown here!  -->
       </td>
+
    <!-- would be good to have the corresponding image here, too! -->
     </tr>
   </tbody>

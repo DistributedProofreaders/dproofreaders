@@ -83,6 +83,7 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
     <tr valign="top">
       <td>
       <tt>
+
           ABAILARD, PIERRE.                                                     <br>
             &nbsp;&nbsp;&nbsp; The letters of Abelard and Heloise;              <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translated from the Latin by C. K. <br>

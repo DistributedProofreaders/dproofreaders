@@ -43,12 +43,10 @@ theme('Proofing Guidelines -- Poetry','header');
     <br>and insert a new line after the end of the poetry, and type <tt>*/</tt> on it.
         (These markers are to help the post processor find the poetry, which has to
         be treated differently.)                                                </li>
-    <li>Indent each line between these markers by 2 spaces.                     </li>
-    <li>If a line is further indented, indent it more (in groups of 2 spaces).  </li>
+    <li>If lines are indented, indent them (in groups of 2 spaces).             </li>
     <li>But don't try to <b>center</b> poetry, even if it was centered in the
         printed version.  (That won't work for an e-book viewed with many
-        different screen sizes.) Just put it all indented 2 spaces from the left
-        margin.                                                                 </li>
+        different screen sizes.) Just put it all along the left margin.         </li>
     <li>If a line of verse is "broken" because it collided with the right
         margin, join it back into a single line.                                </li>
     <li>If some words are set in ALL CAPS at the beginning of a poem (or each
@@ -79,6 +77,7 @@ theme('Proofing Guidelines -- Poetry','header');
 <b>Example:</b>
     <br>[To be added...]
    <!--
+   /* this is the table from encyclopedias -- poetry example will use this format. */
 <table width="50%" border="1"  cellpadding="4"
        cellspacing="0"> <col width="128*">
   <tbody>
