@@ -136,7 +136,7 @@ class Settings
         ExecSQL("REPLACE INTO usersettings
                 SET value = 'yes',
                     username = '$this->username',
-                    setting = '$settingcode'");
+                    setting = '$settingCode'");
         $this->settings_array[$settingCode] = 'yes';
     }
 
@@ -163,6 +163,7 @@ class Settings
     // Return True iff a row exists and its value is 'yes'. Otherwise, False.
     function get_boolean($settingCode)
     {
+        if (!array_key_exists($settingCode, $this->settings_array)) return false;
         $val = $this->settings_array[$settingCode] ;
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
@@ -198,6 +199,7 @@ class Settings
     // Note: if setting is really boolean, this will NOT return True, but 'yes'.
     function get_value($settingCode, $default = Null)
     {
+        if (!array_key_exists($settingCode, $this->settings_array)) return null;
         $val = $this->settings_array[$settingCode];
         return $val ? $val : $default;
     }
