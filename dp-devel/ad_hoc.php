@@ -3,6 +3,8 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
+error_reporting(E_ALL);
+
 $relPath='./pinc/';
 include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');
@@ -17,6 +19,51 @@ system("date");
 echo "<BR>\n";
 
 echo "<hr>\n";
+
+if (0)
+{
+	include_once($relPath.'../stats/pages_proofed.inc');
+	$sql = sql_n_proofings_for_page( 'START', 'END', 'proj_post_first_available' );
+	echo "$sql\n";
+}
+
+if (0)
+{
+	include_once($relPath.'../tools/project_manager/post_files.inc');
+	$projectid = 'projectID40e7bd24f37af';
+	generate_post_files( $projectid, FALSE );
+}
+
+if (0)
+{
+	// include_once($relPath.'project_trans.inc');
+	// project_transition( 'projectID40fae3d3dd5ef', 'foo', 'bar' );
+
+	// include_once($relPath.'../tools/project_manager/projectmgr_select.inc');
+	// ksort($transition_options_); var_dump($transition_options_);
+
+	// include_once($relPath.'bookpages.inc');
+	// project_update_page_counts('FOO');
+
+	include_once($relPath.'RoundDescriptor.inc');
+	foreach ($PAGE_STATES_IN_ORDER as $page_state)
+	{
+		$prd = get_PRD_for_page_state($page_state);
+		echo "$page_state\t$prd->round_name\n";
+	}
+}
+
+if (0)
+{
+	include_once($relPath.'project_states.inc');
+	foreach ( array('BRONZE','SILVER','GOLD') as $metal )
+	{
+		$constant_name = "SQL_CONDITION_$metal";
+		$val = constant($constant_name);
+		// $val = str_replace( ' ', "\n", $val );
+		echo "\n$constant_name:\n$val\n";
+	}
+}
 
 if (0)
 {
