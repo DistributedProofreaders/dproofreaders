@@ -15,12 +15,29 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']); 
             theme("Site News Update for ".$news_type, "header");
             echo "<br>";
+            echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
         } else {
            echo _("Error").": <b>".$news_page."</b> "._("Unknown news_page specified, exiting.");
            exit();
         }
     } else {
-       echo _("No news_page specified, exiting.");
+
+        theme("Site News Central", "header");
+        $type_result = mysql_query("SELECT * FROM news_pages WHERE 1 = 1 order by news_type");
+
+        if ($type_result) {
+
+            echo "<h1>"._("Site News Central")."</h1>";
+            echo "<br><br><font size = +1><ul>";
+            while ($news_type_row = mysql_fetch_assoc($type_result)) {
+                $site_news_id = $news_type_row['site_news_id'];
+                $news_type = _($news_type_row['news_type']);       
+                $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']); 
+                echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$site_news_id."'>".
+                    $news_type."</a> "._("Last modified : ").$last_modified."<br><br><br>";
+             }
+             echo "</ul></font>";   
+       }
        exit();
     }
 
@@ -128,9 +145,9 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
         // show all news items for this page
         // three categories:
-        // 1) visible (currently displayed on page)
-        // 2) hidden (displayed on the "recent news" page
-        // 3) archived (not visible to users at all, saved for later use or historical interest
+        // 1) visible (currently displayed on page every time)
+        // 2) hidden (displayed on "Recent News", and one shown as Random)
+        // 3) archived (not visible to users at all, saved for later use or historical interest)
 
         $result = mysql_query("
             SELECT * 
@@ -144,15 +161,17 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             $first_hidden = 1;
             $first_vis = 1;
 
-            echo "<font size=+2><b>"._("Currently Visible News Items for ").$news_type.
+            echo "<font size=+2><b>"._("Fixed News Items for ").$news_type.
                 "</b></font>&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")<hr><br><br>";
+
+            echo _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed.")."<br><br>";
 
             while($row = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
                 $visible = $row['display'];
                 $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
                 if ($visible == 1) {
-                    echo $base_url."hide'>"._("Hide Item")."</a>]&nbsp;";
+                    echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
                     if ($first_vis == 1) {
                        $first_vis = 0;
                     } else {
@@ -161,14 +180,14 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                    echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
                 } else {
                     if ($first_hidden == 1) {
-                        echo "<br><br><font size=+2><b>"._("Hidden News Items for ").$news_type.
-                           _(" (Appear as 'Recent News')")."</b></font><hr><br><br>";
+                        echo "<br><br><font size=+2><b>"._("Random News Items for ").$news_type.
+                           _(" (Also appear as 'Recent News')")."</b></font><hr><br><br>";
+                       echo _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed.")."<br><br>";
                        $first_hidden = 0;
                     }
-                    echo $base_url."display'>Show Item</a>]&nbsp;";        
+                    echo $base_url."display'>Make Fixed</a>]&nbsp;";        
                     echo $base_url."archive'>Archive Item</a>]&nbsp;";        
                 }
-//                echo $base_url."view'>View</a>]&nbsp;";    // doesn't seem to do anything?
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
                 echo $row['message']."<br><br>";
@@ -186,13 +205,12 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
             echo "<font size=+2><b>"._("Archived News Items for ").$news_type.
                            _(" (Only visible on this page)")."</b></font><hr><br><br>";
-
+            echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
             while($row = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
                 $visible = $row['display'];
                 $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
                 echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";        
-//              echo $base_url."view'>View</a>]&nbsp;";    // doesn't seem to do anything?
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
                 echo $row['message']."<br><br>";
