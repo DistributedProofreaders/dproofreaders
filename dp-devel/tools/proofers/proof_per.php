@@ -17,7 +17,10 @@ theme("Personal Page for $pguser", "header");
 	$result = mysql_query("SELECT * FROM news ORDER BY uid DESC LIMIT 1");
 	$date_posted = date("l, F jS, Y", mysql_result($result,0,"date_posted"));
 	$message = mysql_result($result,0,"message");
-	echo "<font size=2 face=".$theme['font_mainbody']."><center><b>"._("News Update for")." $date_posted (<a href='$code_url/pastnews.php'>"._("archives")."</a>)</b></font><br><br><font size=2 face=".$theme['font_mainbody'].">$message<hr width='75%'></center></font><br>";
+	echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>"; 
+	echo _("News Update for") . " $date_posted (<a href='$code_url/pastnews.php'>"; 
+	echo _("archives") . "</a>)</b></font><br><br><font size=2 face=";
+	echo $theme['font_mainbody'] . ">$message<hr width='75%'></center></font><br>";
 	
 	// If Post Processor give link to post processing page.
     	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
@@ -29,16 +32,16 @@ theme("Personal Page for $pguser", "header");
         	$yourprojects = mysql_result($result,0);
 ?>
 
-<font face="<? echo $theme['font_mainbody']; ?>"><b><? _("Providing Content"); ?></b></font><br>
-<? _("Want to help out the site by providing material for us to proof?"); ?>
-<a href="<? echo $code_url ?>/faq/scan/submitting.php"><? _("Find out how!"); ?></a>
+<font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Providing Content"); ?></b></font><br>
+<? echo _("Want to help out the site by providing material for us to proof?"); ?>
+<a href="<? echo $code_url ?>/faq/scan/submitting.php"><? echo _("Find out how!"); ?></a>
 <br><br>
 
-<font face="<? echo $theme['font_mainbody']; ?>"><b><? _("Post Processing"); ?></b></font><br>
-<? _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the"); ?> <a href ="<? echo $code_url ?>/tools/post_proofers/post_proofers.php"><? _("post processing"); ?></a> <? _("phase of Distributed Proofreaders!  Currently there are"); ?> <b><? echo $numprojects; ?></b> <? _("projects waiting."); ?>
+<font face="<? echo $theme['font_mainbody']; ?>"><b><? echo _("Post Processing"); ?></b></font><br>
+<? echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the"); ?> <a href ="<? echo $code_url ?>/tools/post_proofers/post_proofers.php"><? echo _("post processing"); ?></a> <? echo _("phase of Distributed Proofreaders!  Currently there are"); ?> <b><? echo $numprojects; ?></b> <? echo _("projects waiting."); ?>
 
 <? 
-if ($yourprojects > 0) { echo "  "._("You currently have <b>$yourprojects</b> projects checked out."); }
+if ($yourprojects > 0) { echo "  ". _("You currently have <b>$yourprojects</b> projects checked out."); }
 echo "<br><br>";
 }
 ?>
