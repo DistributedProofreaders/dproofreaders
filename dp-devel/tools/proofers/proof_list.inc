@@ -267,6 +267,11 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
       tde("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed. See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.", bgcol(1,'second') . " colspan=5");
       echo "</tr>";
 
+    if (! user_can_see_BEGIN_R2()) {
+        $RFilter = $RFilter . " AND difficulty != 'beginner' ";
+    }
+
+
       show_books_available_for_proofing( 'second', $userP, $tList, $RFilter );
       }
   echo "</table>\n<br>";
