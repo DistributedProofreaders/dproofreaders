@@ -112,7 +112,7 @@ echo $docType."\r\n";
 	echo "<br>\n";
 
 //display page number
-
+  $pageNum=substr($npage['image'],0,-4);
   echo "<font size=\"-1\"><B>Page Number: $pageNum ";
     if ($tpage->getProjectRound($npage['proofstate']) == 2)
     {
