@@ -15,7 +15,7 @@ $projectinfo = new projectinfo();
   include 'autorelease.php';
   include 'sendtopost.php';
 
-  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."' OR state = '15'");
+  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_FIRST_VERIFY."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_VERIFY."' OR state = '".PROJ_PROOF_FIRST_COMPLETE."' OR state = '".PROJ_PROOF_SECOND_COMPLETE."'");
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
   $pagesleft = 0;
@@ -33,7 +33,7 @@ $projectinfo = new projectinfo();
     $projectinfo->update($project, $state);
 
     // Error checking
-    if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == 15)) {
+    if ($state == PROJ_PROOF_SECOND_AVAILABLE) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."' AND state != '".BAD_SECOND."'");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {

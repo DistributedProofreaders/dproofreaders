@@ -58,7 +58,9 @@ function getSelect($state)
 
   $st_sw=array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
-  if($state==PROJ_PROOF_FIRST_UNAVAILABLE)
+  if($state==PROJ_NEW)
+    {$st_sw[2]=1;}
+  else if($state==PROJ_PROOF_FIRST_UNAVAILABLE)
     {$st_sw[3]=1;}
   else if($state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT || $state==PROJ_PROOF_FIRST_AVAILABLE)
     {$st_sw[2]=1;$st_sw[6]=1;}
@@ -72,7 +74,7 @@ function getSelect($state)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[16]=1;}
   else if($state==PROJ_POST_CHECKED_OUT)
     {$st_sw[14]=1;$st_sw[15]=1;$st_sw[17]=1;$st_sw[19]=1;$st_sw[23]=1;}
-  else if($state==PROJ_POST_VERIFYING)
+  else if($state==PROJ_POST_VERIFYING || $state==PROJ_POST_VERIFY)
     {$st_sw[19]=1;$st_sw[23]=1;}
   else if($state==PROJ_POST_COMPLETE)
     {$st_sw[20]=1;$st_sw[21]=1;$st_sw[22]=1;$st_sw[23]=1;}
