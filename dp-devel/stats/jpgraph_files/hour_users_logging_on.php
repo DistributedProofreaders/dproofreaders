@@ -8,9 +8,9 @@ new dbConnect();
 
 
 ///////////////////////////////////////////////////
-//Numbers of users logging on in last hour, day, week and 28 days
+//Numbers of users logging on in last hour
 //query db and put results into arrays
-$result = mysql_query("SELECT U_lasthour,U_day, U_week, U_4wks, time_stamp,year,month, day, hour FROM user_active_log 
+$result = mysql_query("SELECT U_lasthour, time_stamp,year,month, day, hour FROM user_active_log 
 WHERE time_stamp > 1071896580 
 ORDER BY time_stamp");
 
