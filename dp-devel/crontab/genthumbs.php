@@ -1,8 +1,10 @@
 <?
-$relPath="./../../pinc/";
+$relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
+
+set_time_limit(90);
 
 //this module looks for projects that do not have thumbs generated and generates them
 
