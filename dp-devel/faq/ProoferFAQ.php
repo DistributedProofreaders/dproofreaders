@@ -293,12 +293,11 @@ different pages.  This will significantly speed up the proofreading process.
 <p>
     Almost all browser-related problems (not being able to log in, not seeing the
     proofing page, not getting a fresh page to proof after you have proofed your first
-    page) can be solved by verifying that your browser options are set up the following
-    way:
+    page) can be solved by verifying that your computer is set with the correct time and date and that your 
+    browser options are set the following way:
       <ol compact type="a">
         <li>Cookies accepted/on*
         <li>Javascript enabled
-	<li>The date and time on your PC are correct for your timezone
          <p>Also, if in your Forum Profile (<a
           href="<? echo $code_url; ?>/userprefs.php">located
           here</a>), "Launch in New Window" is set to "Yes", then there is
@@ -318,7 +317,7 @@ different pages.  This will significantly speed up the proofreading process.
       <td>DP cookies are only for the DP Website, so rather than setting this
           option to "Accept All Cookies", you can set it to the more restricted option
           "Accept Cookies for the originating website only". </td></tr>
-	  <tr></tr>
+	  <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
   <tr><td>Pop-up Windows:</td>
       <td>Most browser Pop-up options or pop-up blocking utilities
           offer an option to list specific sites from which you accept pop-ups.  So
@@ -329,7 +328,7 @@ different pages.  This will significantly speed up the proofreading process.
           browser.</td></tr>
 </table>
 
-<p> The DP site works with most firewalls and proxy caches, though if you see the
+<p> The DP site attempts to cooperate with firewalls, web caches and proxies, though if you see the
     <i>'I get the same page to proof over and over again'</i> difficulty, please email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>, including your browser details.
     </p>
 
