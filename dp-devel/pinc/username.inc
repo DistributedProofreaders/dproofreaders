@@ -24,6 +24,20 @@ function check_username( $username )
 	return "Your User Name contains invalid characters.<br>(Valid characters are: a-z A-Z 0-9 @ - . _ space)";
     }
 
+    // In order to prevent one class of impersonations,
+    // any space character in $username must have a non-space on either side.
+    // Thus, no leading or trailing spaces, and no adjacent spaces.
+
+    if ( trim($username) != $username )
+    {
+	return "Your User Name has leading or trailing whitespace, which is not allowed.";
+    }
+
+    if ( ereg( "  ", $username ) )
+    {
+	return "Your User Name contains adjacent space characters, which is not allowed.";
+    }
+
     return '';
 }
 
