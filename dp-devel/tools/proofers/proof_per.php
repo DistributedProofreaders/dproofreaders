@@ -48,7 +48,7 @@ if ($yourprojects > 0) { echo "  You currently have <b>$yourprojects</b> project
     	$rule = mysql_fetch_assoc($result);
     	echo "<i>".$rule['subject']."</i><br>";
     	echo "".$rule['rule']."<br><br>";
-    	echo "See the <a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$code_url/faq/document.php'>Document Guidelines</a><br><br>";
+    	echo "See the <a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$code_url/faq/document.php'>Proofing Guidelines</a><br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 

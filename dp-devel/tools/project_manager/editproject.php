@@ -149,7 +149,7 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
 if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.txt";
 if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip";
 if ($Language == "") $Language = "English";
-if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Document Guidelines</a>.</p>";
+if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a>.</p>";
 
 theme("Create a Project", "header");
 ?>
