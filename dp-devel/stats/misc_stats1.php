@@ -81,19 +81,19 @@ function show_month_sums( $which )
 	{
 		case 'top_ten':
 			$sub_title = _("Top Ten Best Proofreading Months");
-			$order = '3 DESC';
+			$order = '2 DESC';
 			$limit = 'LIMIT 10';
 			break;
 
 		case 'all_chron':
 			$sub_title = _("Historical Log of Total Pages Proofread Per Month");
-			$order = '1,2'; // chronological
+			$order = '1'; // chronological
 			$limit = '';
 			break;
 
 		case 'all_by_pages':
 			$sub_title = _("Total Pages Proofread Per Month");
-			$order = '3 DESC';
+			$order = '2 DESC';
 			$limit = '';
 			break;
 
@@ -105,8 +105,7 @@ function show_month_sums( $which )
 
 	dpsql_dump_themed_ranked_query("
 		SELECT
-			year as 'Year',
-			month as 'Month',
+			DATE_FORMAT(date,'%Y-%m') as 'Month',
 			SUM(pages) as 'Pages Proofread',
 			SUM(dailygoal) as 'Monthly Goal',
 			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
@@ -127,14 +126,13 @@ function show_months_with_most_days_over( $n )
 
 	dpsql_dump_themed_ranked_query("
 		SELECT
-			year as 'Year',
-			month as 'Month',
+			DATE_FORMAT(date,'%Y-%m') as 'Month',
 			count(*) as 'Number of Days',
 			IF(MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 		FROM pagestats
 		WHERE pages >= $n
 		GROUP BY year, month
-		ORDER BY 3 DESC
+		ORDER BY 2 DESC
 		LIMIT 10
 	");
 
