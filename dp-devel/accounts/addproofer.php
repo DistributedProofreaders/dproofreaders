@@ -8,7 +8,7 @@ $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
 theme("Create An Account", "header");
-echo "<br><center>";
+echo "<br>";
 
 $password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
@@ -29,9 +29,8 @@ if ($password=="proofer") {
         $htmlC->startHeader("User name already exists...");
         $htmlC->startBody(0,1,0,0);
         echo "That user name already exists, please try another.<br>";
-        echo "<center>";
         echo "<a href=\"addproofer.php\">Back to account creation page.</a>";
-        echo "</center></body></html>";
+	$htmlC->closeBody(0);
         exit;
     } else {
         // create profile
@@ -88,7 +87,7 @@ If your password doesn't work, go to <$reset_password_url> to have it reset.",
         echo "<center>";
         echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
         echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
-        echo "</center></body></html>";
+	$htmlC->closeBody(0);
     }
 } else {
 
@@ -104,6 +103,7 @@ $tde=$htmlC->closeTD(1);
 $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 
 ?>
+<center>
 <form method="post" action="addproofer.php">
 <input type=hidden name="password" value="proofer">
 <?php
@@ -134,7 +134,7 @@ $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 <?php
      echo $tre.$htmlC->closeTable(1)."</form>";
 
+     echo "</center>";
 }
-echo "</center>";
 theme("", "footer");
 ?>
