@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include($relPath.'gettext_setup.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'showavailablebooks.inc');
 include($relPath.'project_states.inc');

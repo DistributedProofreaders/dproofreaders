@@ -6,7 +6,6 @@ include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
 include($relPath.'doctype.inc');
 include_once($relPath.'theme.inc');
-include($relPath.'gettext_setup.inc');
 
 $uid = $userP['user_id'];
 

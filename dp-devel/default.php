@@ -3,7 +3,6 @@ $relPath="./pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
-include($relPath.'gettext_setup.inc');
 $db_Connection=new dbConnect();
 include($relPath.'showstartexts.inc');
 theme("Welcome", "header");
