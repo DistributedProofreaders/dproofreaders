@@ -11,7 +11,8 @@ curSel='';
 curCaret='';
 
 // extended charset
-extC=' �����������������������������������������������������������������������������������������������$';
+//extC=' ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ$';
+extCA=new Array(' ','¡','¢','£','¤','¥','¦','§','¨','©','ª','«','¬','­','®','¯','°','±','²','³','´','µ','¶','·','¸','¹','º','»','¼','½','¾','¿','À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','×','Ø','Ù','Ú','Û','Ü','Ý','Þ','ß','à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô','õ','ö','÷','ø','ù','ú','û','ü','ý','þ','ÿ','$');
 
 // image width
 iW='1000';
@@ -53,7 +54,7 @@ function gCC(cC)
 {thisC=String.fromCharCode(cC);
 if (thisC.length != 1)
 {if (cC !=36)
-{thisC=extC.charAt(cC-160);}
+{thisC=extCA[cC-160];}
 else {thisC='$';}
 }
 return thisC;}
@@ -168,7 +169,7 @@ docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
-else {
+else { 
 if (cR && curSel=='')
 {cT=wOT;
 putCT(cT);}
@@ -320,7 +321,7 @@ switch (sdir) {
   case "right" :
    targ.scrollBy(ammt,0);
    break;
-  }
+  } 
 docRef.editform.text_data.focus();
 return true;}
 
@@ -371,7 +372,7 @@ docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
-else {
+else { 
 if (cR && curSel=='')
 {cT=wWT;
 putCT(cT);}
