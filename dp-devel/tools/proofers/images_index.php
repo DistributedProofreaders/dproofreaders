@@ -20,7 +20,8 @@ chdir("$projects_dir/$projectid");
 foreach( glob("*.png") as $png_filename )
 {
     $size = filesize($png_filename);
-    echo "<A HREF='$projects_url/$projectid/$png_filename'><B>$png_filename</B></A>";
+    $encoded_url = "$projects_url/$projectid/" . rawurlencode($png_filename);
+    echo "<A HREF='$encoded_url'><B>$png_filename</B></A>";
     echo " <I>($size bytes)</I><BR>\n";
 }
 
