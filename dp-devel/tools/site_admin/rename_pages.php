@@ -222,7 +222,7 @@ switch ( $submit_button )
             $olds = (
                 $direction == 'forward' ?
                 $current_image_for_fileid_ :
-                array_reverse($current_image_for_fileid_)
+                array_reverse($current_image_for_fileid_, TRUE)
             );
 
             $i = 0;
@@ -338,7 +338,7 @@ switch ( $submit_button )
         $olds = (
             $direction == 'forward' ?
             $current_image_for_fileid_ :
-            array_reverse($current_image_for_fileid_)
+            array_reverse($current_image_for_fileid_, TRUE)
         );
 
         foreach ( $olds as $old_fileid => $old_image )
