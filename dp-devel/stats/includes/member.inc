@@ -12,7 +12,7 @@ function showMbrInformation( $curMbr ) {
 	showMbrProfile($curMbr);
 	showMbrPageStats($curMbr);
 	showMbrTeams($curMbr);
-	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
+	showMbrNeighbors($curMbr);
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 }
 
