@@ -32,6 +32,8 @@ if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser)
 	// Note that this doesn't reveal anything;
 	// the requestor already knows the subject's u_id,
 	// because it was included in the request.
+} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
+	$user_referent = "#" . $curMbr['u_id'];
 } else {
 	$user_referent = "'" . $curMbr['username'] . "'";
 }
