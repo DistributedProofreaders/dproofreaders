@@ -93,5 +93,10 @@ function getUserPrefs($userID)
           else {return 1;};
      }
 
+function addUser()
+     {
+     // do strcmp(POST[var], $var)==0 && checkSafe($var,$chkType) on variables
+     // if all true, put data into users & phpbb_users
+     }
 }
 ?>
