@@ -59,6 +59,18 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 	while ($rownum2 < $numrows) {
 		$book=dassoc($result);
 		$bgcolor=bgcol($rownum,$round);
+		if (1)
+		{
+			// Halloween colors for Halloween projects!
+			if ( startswith( $book['comments'], 'Halloween' ) )
+			{
+				$bgcolor = " bgcolor='orange'";
+			}
+			// Wanted to do orange-on-black, too,
+			// but couldn't figure out how to make link-text orange,
+			// and it was pretty unreadable as is on a black background.
+		}
+
 		if (($round == 'first'  && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
 		    ($round == 'second' && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
 		{
@@ -109,4 +121,11 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 	}
 
 }
+
+function startswith( $subject, $prefix )
+// Return TRUE iff $subject starts with $prefix.
+{
+	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
+}
+
 ?>
