@@ -36,6 +36,7 @@ $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 $u_il= array('English', 'Dutch', 'French', 'German', 'Italian', 'Portuguese', 'Spanish');
 $u_iloc= array('en_EN', 'nl_NL', 'fr_FR', 'de_DE', 'it_IT', 'pt_PT', 'es_ES');
 $i_pm= array('All Projects', 'Active Projects', 'Search Page');
+$i_stats = array('Public', 'Anonymous', 'Private');
 
 function radio_select($db_name, $db_value, $value, $text_name) {
 if (strtolower($db_value) == strtolower($value)) {
@@ -255,10 +256,10 @@ echo $tde.$td3a;
 if ($userP['manager'] == "yes") { echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>"; } else { echo ""; }
 
 echo $tre.$tr.$td2;
-echo "<strong>"._("Anonymous Statistics")."</strong>";
+echo "<strong>"._("Statistics")."</strong>";
 echo $tde.$td3;
-radio_select('u_privacy', $userP['u_privacy'], '1', _("Yes"));
-radio_select('u_privacy', $userP['u_privacy'], '0', _("No"));
+$array = implode('|', $i_stats);
+dropdown_select('u_privacy', $userP['u_privacy'], $array);
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('privacy');\">?</a>&nbsp;</b>";
 echo $tde.$td2;
 echo "&nbsp;";
