@@ -150,7 +150,7 @@ if ( $refresh_url != '' )
 if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
     $reqd_state == PROJ_POST_SECOND_AVAILABLE)
 {
-	$refresh_url="post_proofers/uploadpost.php?project=$projectid";
+	$refresh_url="upload_text.php?project=$projectid&stage=post_1";
 }
 else if ($reqd_state == 69) // No code requests this.
 {
