@@ -42,18 +42,12 @@ function deletePageCounts($projectid) {
 	$result = mysql_query("DELETE FROM page_counts WHERE projectid = '$projectid'");
 }
 
-function total_pages() {
+function update_pageCountArray() {
 	global $pageCountArray;
-	$result = mysql_query("SELECT projectid, total_pages FROM page_counts");
+
+	$result = mysql_query("SELECT projectid, total_pages, avail_pages FROM page_counts");
 	while ($row = mysql_fetch_assoc($result)) {
 		$pageCountArray[$row['projectid']]['total_pages'] = $row['total_pages'];
-	}
-}
-
-function avail_pages() {
-	global $pageCountArray;
-	$result = mysql_query("SELECT projectid, avail_pages FROM page_counts");
-	while ($row = mysql_fetch_assoc($result)) {
 		$pageCountArray[$row['projectid']]['avail_pages'] = $row['avail_pages'];
 	}
 }

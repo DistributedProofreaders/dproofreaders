@@ -21,15 +21,11 @@ function showavailablebooks($result,$state,$userP,$tList,$round) {
 	$rownum2 = 0;
 
 	if (empty($pageCountArray)) {
-			total_pages();
-			avail_pages();
+		update_pageCountArray();
 	}
 
     while ($rownum2 < $numrows) {
            $book=dassoc($result);
-            // find out how many files the project has total/available!!!!!
-            //$apages = avail_pages($book['projectid']);
-            //$tpages = total_pages($book['projectid']);
             $bgcolor=bgcol($rownum,$round);
         if (($state==AVAIL_FIRST && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
             ($state==AVAIL_SECOND && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE)) {

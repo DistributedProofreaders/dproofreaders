@@ -2,15 +2,14 @@
 $relPath="../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
-include($relPath.'bookpages.inc');
+include_once($relPath.'bookpages.inc');
 
 function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $show_total) {
 	global $pageCountArray;
 	global $code_url;
 
 	if (empty($pageCountArray)) {
-			total_pages();
-			avail_pages();
+		update_pageCountArray();
 	}
 
 	$i = 1;
