@@ -5,6 +5,14 @@ function resize(newsize)
 {
   parent.imageframe.document.scanimage.width=newsize;
 }
+function mNA()
+{
+// additional character window
+winURL='morenonascii.php';
+newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=460,height=240,top=200,left=200'";
+asciiWin=window.open(winURL,"nonasciiWin",newFeatures);
+asciiWin.focus();
+}
 //-->
 </script>
 <?
@@ -65,8 +73,8 @@ echo "<B>Page Number: $pageNum ";
     }
 echo "</B><BR>";
     echo "View: <a href=\"projects.php?project=$project&amp;prooflevel=$prooflevel&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-    echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a>";
-
+    echo "<a href=\"#\" onclick=\"mNA()\">Extended Characters</a> ";
+    echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a> ";
 ?>
  Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)"></center>
 
