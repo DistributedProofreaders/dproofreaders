@@ -1,0 +1,12 @@
+The following variables are in use (global) outside of classes:
+
+doctype.inc
+     $docType = standard <DOCTYPE> header
+
+metabaseurl.inc
+     $baseURL = site's basic URL to the home page root    
+
+cookiecheck.inc
+     $cookieC  class instance use as $cookieSet->setCookie() | $cookieSet->deleteCookie()
+     $cookieSet = true/false (preset from $cookieSet->checkCookie() call)
+     $cookieID = the username as pulled from the pgname cookie variable
