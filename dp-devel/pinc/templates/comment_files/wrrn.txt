@@ -23,7 +23,7 @@
 
 <pre>&lt;b&gt;Mr. RANKIN.&lt;/b&gt; Mrs. Oswald, did you write in Russian a story of your experiences in the United States?
 
-&lt;b&gt;Mrs. OSWALD.&lt;/b&gt; Yes, I have. I think that you are familiar with it.</pre>
+  &lt;b&gt;Mrs. OSWALD.&lt;/b&gt; Yes, I have. I think that you are familiar with it.</pre>
 
 <p>(<strong>Note:</strong> Please include the period inside the bold tags.)</p>
 
@@ -41,11 +41,19 @@
 
 <pre>     Some note[3].</pre>
 
+<p>The footnote itself should remain at the bottom of the page, like so:</p>
+
+<pre>     [Footnote 3: Text of some note.]</pre>
+
 <h3>Superscripts</h3>
 
 <p>In some places, there are superscripted letters that don't refer to footnotes. (This may be in the Report only, but we're not entirely sure.)  Please mark these using TeX-style markup, e.g., ^{A}</p>
 
 <p>Multiple superscripts may be combined into one: ^{A B}</p>
+
+<h3>Dashes</h3>
+
+<p>Recently the Proofing Guidelines changed so that all dashes are now represented by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some dashes are longer than others.  For longer dashes, please use four hyphens (----).</p>
 
 <h3>Non-Standard Formatting</h3>
 
