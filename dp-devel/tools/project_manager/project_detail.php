@@ -24,6 +24,13 @@ echo_manager_header();
 <p><b>Project Manager Notice:</b>
 
 <p>
+The "Delete All Text" link (if present) is now at the very bottom of this page,
+to lessen the chance of hitting it by accident.
+This is a temporary measure
+until a proper "Are You Sure?" prompt is implemented.
+
+<hr width='50%'>
+<p>
 You can now specify a directory
 (in the <? echo $uploads_account; ?> account)
 from which to add text+images into your project.
@@ -84,7 +91,6 @@ if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
 	echo "<br>\n";
 	echo "</form>\n";
 
-	echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
 	$something = 0;
 }
 elseif ( $state == PROJ_PROOF_FIRST_AVAILABLE
@@ -103,6 +109,12 @@ else
 
 echo "<h3>Per-Page Info</h3>\n";
 echo_page_table( $projectid );
+
+if ($state == PROJ_NEW || $state == PROJ_PROOF_FIRST_UNAVAILABLE)
+{
+	echo "<br><br><br>";
+	echo "<a href='deletefile.php?project=$projectid'>Delete All Text</a>";
+}
 
 echo "</center>";
 
