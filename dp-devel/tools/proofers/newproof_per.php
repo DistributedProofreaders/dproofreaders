@@ -82,7 +82,7 @@ theme("Personal Page for $pguser", "header");
                 echo "<br><br>\n";
 
                 if ($pagesproofed > 80) {
-                        echo "<i><font size=1>";
+                        echo "<i><font size=-1>";
                         echo _("After you proof a few more pages, the following introductory Simple Proofing Rules will be removed from this page. However, they are permanently available ");
  	                echo "<a href =" . $code_url . "/faq/simple_proof_rules.php>";
 			echo _("here");
