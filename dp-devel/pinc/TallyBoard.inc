@@ -143,6 +143,37 @@ class TallyBoard
             "current_tallies.tally_value"
         );
     }
+
+    // -------------------------------------------------------------------------
+
+    function get_rank( $holder_id )
+    // Return the given holder's rank, as determined
+    // by the current tallies on this TallyBoard.
+    {
+        // Kludge:
+        // When calculating ranks in a TallyBoard for teams,
+        // we do not count team #1.
+        //
+        $kludge = ( $this->holder_type == 'T' ? 'holder_id != 1' : '1' );
+
+        $result = mysql_query("
+            SELECT holder_id
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND $kludge
+            ORDER BY tally_value DESC
+        ");
+        $i = 1;
+        while ($row = mysql_fetch_assoc($result))
+        {
+            if ($row['holder_id'] == $holder_id) { return $i; }
+            $i++;
+        }
+        // assert(FALSE); ?
+        return NULL;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -423,20 +423,8 @@ function team_get_page_tally_rank( $team_id )
 // Return the given team's rank (among all teams)
 // as determined by page tallies.
 {
-    $result = mysql_query("
-        SELECT holder_id
-        FROM current_tallies
-        WHERE holder_type='T' AND holder_id != 1 AND tally_name='P'
-        ORDER BY tally_value DESC
-    ");
-    $i = 1;
-    while ($row = mysql_fetch_assoc($result))
-    {
-        if ($row['holder_id'] == $team_id) { return $i; }
-        $i++;
-    }
-    // assert(FALSE); ?
-    return NULL;
+    global $teams_P_page_tallyboard;
+    return $teams_P_page_tallyboard->get_rank( $team_id );
 }
 
 // -----------------------------------------------------------------------------
