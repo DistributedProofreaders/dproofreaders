@@ -2,8 +2,8 @@
 $password = $_POST['password'];
 if ($password=="proofer") {
     $real_name = $_POST['real_name'];
-    $username = $_POST['username'];
-    $userpass = $_POST['userpass'];
+    $username = $_POST['userNM'];
+    $userpass = $_POST['userPW'];
     $email = $_POST['email'];
 
     $ID = uniqid("userID");
