@@ -1,6 +1,5 @@
 <?PHP
 $relPath="./../pinc/";
-include($relPath.'cookie.inc');
 include($relPath.'connect.inc');
 include($relPath.'user.inc');
 $userC=new db_udb();
@@ -9,15 +8,16 @@ $htmlStart="<HTML><HEAD><TITLE>Login</TITLE>";
 $htmlMid="</HEAD><BODY>";
 $htmlEnd="</BODY></HTML>";
 $noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
+extract($_POST);
 
-if (isset($_POST['userNM']) && isset($_POST['userPW']))
+if (isset($userNM) && isset($userPW))
 {
 // $userNM = str_replace("\'", "''", $userNM);
 
-$uC=$userC->checkLogin($_POST['userNM'],$_POST['userPW']);
+$uC=$userC->checkLogin($userNM,$userPW);
      if ($uC)
      {
-     $uP=$userC->getUserPrefs($_POST['userNM']);
+     $uP=$userC->getUserPrefs($userNM);
           if ($uP)
           {
           // send them to the correct page
