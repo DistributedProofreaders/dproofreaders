@@ -32,12 +32,12 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     if (($author == "") || ($nameofwork == "") || ($language == "") || ($clearance == "")) {
         $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-        //maybe_mail("$email", "DP: $nameofwork has an empty field.",
-        //     "This is an automated message from the Distributed Proofreaders site.\n\n".
-        //     "$nameofwork has one of the following parameters blank:\n\n".
-        //     "Title: $nameofwork\nAuthor: $author\nLanguage: $language\nClearance Line: $clearance\n\n".
-        //     "Please correct and put back into Waiting for Release.",
-        //     "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+        maybe_mail("$email", "DP: $nameofwork has an empty field.",
+             "This is an automated message from the Distributed Proofreaders site.\n\n".
+             "$nameofwork has one of the following parameters blank:\n\n".
+             "Title: $nameofwork\nAuthor: $author\nLanguage: $language\nClearance Line: $clearance\n\n".
+             "Please correct and put back into Waiting for Release.",
+             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
     }
 
     $path = "$projects_dir/$project/";
@@ -49,22 +49,22 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
         if (!file_exists($path.$filename)) {
             $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-        //    maybe_mail("$email", "DP: $nameofwork has missing image $filename.",
-        //         "This is an automated message from the Distributed Proofreaders site.\n\n".
-        //         "$nameofwork has $filename image that is missing. Please correct, check other pages, and put back into Waiting for Release.",
-        //         "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            maybe_mail("$email", "DP: $nameofwork has missing image $filename.",
+                 "This is an automated message from the Distributed Proofreaders site.\n\n".
+                 "$nameofwork has $filename image that is missing. Please correct, check other pages, and put back into Waiting for Release.",
+                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         } else if (filesize($path.$filename) < 100) {
             $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-        //    maybe_mail("$email", "DP: $nameofwork has bad image $filename.",
-        //         "This is an automated message from the Distributed Proofreaders site.\n\n".
-        //         "$nameofwork has $filename image with a small file size. Please correct, check other pages, and put back into Waiting for Release.",
-        //         "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            maybe_mail("$email", "DP: $nameofwork has bad image $filename.",
+                 "This is an automated message from the Distributed Proofreaders site.\n\n".
+                 "$nameofwork has $filename image with a small file size. Please correct, check other pages, and put back into Waiting for Release.",
+                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         } else if ($text == "") {
             $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
-        //    maybe_mail("$email", "DP: $nameofwork has empty text for $filename.",
-        //         "This is an automated message from the Distributed Proofreaders site.\n\n".
-        //         "$nameofwork has $filename with a small text size. Please correct, check other pages, and put back into Waiting for Release.",
-        //         "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            maybe_mail("$email", "DP: $nameofwork has empty text for $filename.",
+                 "This is an automated message from the Distributed Proofreaders site.\n\n".
+                 "$nameofwork has $filename with a small text size. Please correct, check other pages, and put back into Waiting for Release.",
+                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
 
         $page_num++;
