@@ -19,7 +19,7 @@ $round=$_GET['round'];
 if($round==1) {
 	$fields="master_text,round1_text";
 } else {
-	$fields="round2_text,round2_text";
+	$fields="round1_text,round2_text";
 }
 
 $res = mysql_query("SELECT $fields FROM $projectid WHERE fileid='$fileid'");
