@@ -4,6 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'project_states.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
+include_once($relPath.'site_news.inc');
 new dbConnect();
 
 $title = _("Statistics Central");
@@ -12,6 +13,8 @@ theme($title,'header');
 $begin_themed_row = "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 
 echo "<br><h2>" . _("Statistics Central") . "</h2>";
+
+show_site_news_for_page("stats_central.php");
 
 //Member/team stats searches and listings
 

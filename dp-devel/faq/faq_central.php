@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'site_news.inc');
 new dbConnect();
 $no_stats=1;
 theme('FAQ Central','header');
@@ -15,6 +16,11 @@ theme('FAQ Central','header');
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
    files about the Distributed Proofreaders website.</p>
+
+<?
+show_site_news_for_page("faq_central.php");
+?>
+
 <table border="0" cellspacing="0" width="100%">
   <tbody>
 

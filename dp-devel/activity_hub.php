@@ -16,6 +16,8 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
+include_once($relPath.'site_news.inc');
+
 
 
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
@@ -73,33 +75,7 @@ if ($pagesproofed >= 20)
         echo "</i></font><br><br>\n";
     }
 
-    $result = mysql_query("SELECT date_posted, message FROM news ORDER BY uid DESC LIMIT 1");
-    $news = mysql_fetch_assoc($result);
-    echo "<font size=2 face=" . $theme['font_mainbody'] . "><center><b>";
-    echo _("News Update for")." ".strftime(_("%A, %B %e, %Y"), $news['date_posted'])." (<a href='$code_url/pastnews.php'>";
-
-    echo _("archives") . "</a>)";
-
-
-    // this commented out until fuller rollout
-
-    // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-    // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-
-    echo "</b></font><br><br><font size=2 face=";
-
-
-    echo $theme['font_mainbody'] . ">".$news['message']."</center></font>\n";
-
-    if ( user_is_a_sitemanager() )
-    {
-        echo "<hr width='30%'>\n";
-        echo "<center>";
-        echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php'>" . _("Update Site News") . "</a>";
-        echo "</center>";
-    }
-
-    echo "<br>\n";
+    show_site_news_for_page("activity_hub.php");
 
     include("./stats/currentstatestats.php");
 }

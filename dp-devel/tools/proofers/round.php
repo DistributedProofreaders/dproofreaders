@@ -11,6 +11,7 @@ include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'site_news.inc');
 
 $userSettings = Settings::get_Settings($pguser);
 
@@ -38,6 +39,10 @@ $pagesproofed = get_pages_proofed_maybe_simulated();
 
 
 welcome_see_beginner_forum( $pagesproofed );
+
+
+show_site_news_for_page("round.php?round_id=".$round_id);
+
 
 
 if ($pagesproofed <= 100)

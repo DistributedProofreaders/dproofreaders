@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include($relPath.'bookpages.inc');
 include($relPath.'show_projects_in_state.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'site_news.inc');
 
 global $pguser;
 
@@ -91,6 +92,8 @@ if ($orderPPV != $orderPPVold) {
 	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'PPVorder', '$orderPPV') ");
 }
 
+
+show_site_news_for_page("post_proofers.php");
 
 $isPPV = user_is_post_proof_verifier();
 
