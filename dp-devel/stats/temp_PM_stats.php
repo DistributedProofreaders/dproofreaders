@@ -5,7 +5,7 @@ include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'theme.inc');
 
 $title = _("Temporary Stats");
-theme(%title,'header');
+theme($title,'header');
 
 echo "<br><br><h2>$title</h2>\n";
 
