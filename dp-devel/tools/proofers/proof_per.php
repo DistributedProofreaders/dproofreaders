@@ -1,6 +1,8 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include($relPath.'bookpages.inc');
+include($relPath.'showavailablebooks.inc');
     echo "<html><head>";
     echo "<title>Personal Page for $pguser</title></head><body>";
     echo" <table border = \"0\" cellspacing = \"0\" width = \"630\">";
@@ -220,12 +222,6 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <p></td><td width = "1" bgcolor = "CCCCCC">&nbsp</td><tr>
 <td width = "1" bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td><td bgcolor = "CCCCCC">&nbsp</td><td width = "1" bgcolor = "CCCCCC" colspan ="2">&nbsp</td>
 </table><p><p>
-
-<?
-    //Select all projects in the list for round 1
-    $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
-    $numrows = mysql_num_rows($result);
-?>
 <table border="1" width="630">
 <tr>
   <td bgcolor="#CCCCCC"><h3>Random Rule</h3></td>
@@ -245,55 +241,10 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <table border=1 width=630>
 <tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>
 <td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>
-<tr><td bgcolor = "CCCCCC"><b>Name of Work</b></td><td align = "center" bgcolor = "CCCCCC"><b>Author</b></td><td bgcolor = "CCCCCC" width=70><b>Language</b></td><td bgcolor = "CCCCCC" width=60><center><b>Project Manager</b></center></td><td width = 100 align = center bgcolor = "CCCCCC"><b>Pages available for proofing</b></td><td width = 100 align = center bgcolor = "CCCCCC"><b>Total pages in the book</b></tr>
 <?
-    $rownum = 0;
-    $rownum2 = 0;
-    while ($rownum2 < $numrows) {
-        $projectid = mysql_result($result, $rownum2, "projectid");
-
-        // find out how many files are available for proofing for each project!!!!!
-        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state=2");
-        $availablepages = mysql_num_rows($rows);
-
-            //alternate colors for each project
-            if ($rownum % 2) {
-                $bgcolor = "\"#CCCCCC\"";
-            } else {
-                $bgcolor = "\"#999999\"";
-            }
-
-            // find out how many files the project has total!!!!!
-
-            $rows = mysql_query("SELECT fileid FROM $projectid");
-            $totalpages = (mysql_num_rows($rows));
-
-            $nameofwork = mysql_result($result, $rownum2, "nameofwork");
-            $authorsname = mysql_result($result, $rownum2, "authorsname");
-            $language = mysql_result($result, $rownum2, "language");
-            $username = mysql_result($result, $rownum2, "username");
-            $projectid = mysql_result($result, $rownum2, "projectid");
-            $state = mysql_result($result, $rownum2, "state");
-
-        if (($availablepages != 0) && ($state == 2)) {
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo " <tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
-            echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=0\">Project Comments & Start Proofing</a></td>";
-            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
-        } else if (($availablepages == 0) || ($state == 2)) {
-
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
-            echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=0\">My Recently Done</a></td></tr>\n";
-
-        } else $rownum--;
-        $rownum++;
-        $rownum2++;
-    }
+    //Select all projects in the list for round 1
+    $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
+    showavailablebooks($result,2);
 ?>
 
 </table>
@@ -302,58 +253,10 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <td bgcolor="CCCCCC" colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.
 See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">this page</A> for examples.
 </td></tr>
-<tr><td bgcolor = "CCCCCC"><b>Name of Work</b></td><td align = "center" bgcolor = "CCCCCC"><b>Author</b></td><td bgcolor = "CCCCCC" width=70><b>Language</b></td><td bgcolor = "CCCCCC" width=60><center><b>Project Manager</b></center></td><td width = 100 align = center bgcolor = "CCCCCC"><b>Pages available for proofing</b></td><td width = 100 align = center bgcolor = "CCCCCC"><b>Total pages in the book</b></tr>
 <?
-    $rownum = 0;
-    $bgcolor2 = "\"#999999\"";
-    $rownum2 = 0;
-
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = 12 OR state = 18 ORDER BY nameofwork ASC");
-    $numrows = mysql_num_rows($result);
-
-    while ($rownum2 < $numrows) {
-        $projectid = mysql_result($result, $rownum2, "projectid");
-
-        // find out how many files are available for proofing for each project!!!!!
-        $rows = mysql_query("SELECT fileid FROM $projectid WHERE state='12'");
-        $availablepages = mysql_num_rows($rows);
-   
-            $rows = mysql_query("SELECT fileid FROM $projectid");
-            $totalpages = (mysql_num_rows($rows));
-
-            $nameofwork = mysql_result($result, $rownum2, "nameofwork");
-            $authorsname = mysql_result($result, $rownum2, "authorsname");
-            $language = mysql_result($result, $rownum2, "language");
-            $username = mysql_result($result, $rownum2, "username");
-            $projectid = mysql_result($result, $rownum2, "projectid");
-            $state = mysql_result($result, $rownum2, "state");
-            //alternate colors for each project
-            if ($rownum % 2) {
-                $bgcolor = "\"#CCCCCC\"";
-            } else {
-                $bgcolor = "\"#999999\"";
-            }
-
-        if (($availablepages != 0) && ($state == 12)) {
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
-            echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<tr><td bgcolor=$bgcolor colspan=4 align=center><a href=\"projects.php?project=$projectid&prooflevel=2\">Project Comments & Start Proofing</a></td>";
-            echo "<td bgcolor=$bgcolor colspan=2 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
-        } else if ($availablepages == 0) {
-
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo " <tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-            echo "<td bgcolor = $bgcolor>$language</td><td bgcolor = $bgcolor>$username</td>";
-            echo "<td align=center bgcolor=$bgcolor>$availablepages</td><td align = center bgcolor = $bgcolor>$totalpages</td></tr>";
-            echo "<td bgcolor=$bgcolor colspan=6 align=center><a href=\"listpages.php?project=$projectid&prooflevel=2\">My Recently Done</a></td></tr>\n";
-
-        } else $rownum--;
-        $rownum++;
-        $rownum2++;
-    }
+    showavailablebooks($result,12);
     echo "</table>\n<p>";
 
     echo "<table border=1 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111 width=630>";
