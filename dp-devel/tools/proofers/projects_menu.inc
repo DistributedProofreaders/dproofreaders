@@ -15,12 +15,17 @@ $setT = "<td width='252' bgcolor='#CCCCCC' align='center'>";
 $setU = "project=$project&amp;proofstate=$proofstate";
 $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
 
-if ($projectinfo->availablepages > 0) {
-	echo "$setT<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b></td>";
+echo "$setT";
+
+if (($top_menu) && ($my_last_page_date < $comments_last_modified)) {
+	echo "(See Below for Start Link)";
+} else if ($projectinfo->availablepages > 0) {
+	echo "<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b>";
 } else {
-	echo "$setT"._("Round Complete")."</td>";
+	echo _("Round Complete");
 }
 
+echo "</td>";
 echo $setT.$setP."\r\n</td>";
 echo "<td width='126' bgcolor='#CCCCCC' align='center'>";
 
