@@ -206,7 +206,7 @@ if ($tbutton==101 || $tbutton==102)
         // write file
           $text_file= $project.substr($imagefile,0,-4).".txt";
           if ($fd=fopen($aspell_temp_dir.$text_file,"w"))
-            {fwrite($fd,stripslashes($correct_text));}
+            {fwrite($fd,$correct_text);}
         include('proof_frame_nj.inc');
       }
 }
