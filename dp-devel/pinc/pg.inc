@@ -35,7 +35,7 @@ function get_pg_catalog_link_for_etext( $etext_number, $link_text=null )
 
     if ( is_null($link_text) )
     {
-        $link_text = $etext_number;
+        $link_text = sprintf( _('PG etext #%d'), $etext_number );
     }
 
     return "<a href='$url'>$link_text</a>";
