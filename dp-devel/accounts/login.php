@@ -66,17 +66,16 @@ if (mysql_num_rows($bb_res)==0)
    abort_login(_("Username or password is incorrect."));
 }
 
-dpsession_begin( $userNM );
-
 // Look for user in 'users' table.
 $q = "SELECT * FROM users WHERE username='$userNM'";
 $u_res = mysql_query($q) or die(mysql_error());
 if (mysql_num_rows($u_res)==0)
 {
-    $error = _("Username or password is incorrect.");
+    $error = _("You are registered with the forum software, but not with DP.");
     abort_login($error);
 }
 
+// -------------------------------------
 // The login is successful!
 
 $u_row = mysql_fetch_assoc($u_res);
@@ -86,10 +85,12 @@ $now = time();
 $q = "UPDATE users SET last_login='$now' WHERE username='$userNM'";
 mysql_query($q) or die(mysql_error());
 
+// Start the DP session.
+dpsession_begin( $userNM );
+
 // Log into phpBB2
 if (is_dir($forums_dir)) {
-	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$userNM'");
-	$user_id = mysql_result($result, 0, "user_id");
+	$user_id = mysql_result($bb_res, 0, "user_id");
 	define('IN_PHPBB', true);
 	$phpbb_root_path = $forums_dir."/";
 	include($phpbb_root_path.'extension.inc');
