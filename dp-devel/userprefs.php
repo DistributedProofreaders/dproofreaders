@@ -84,7 +84,7 @@ if (@$_POST["insertdb"] == "") {
 $header = _("Personal Preferences");
 theme($header, "header");
 echo "<br><center>";
-$popHelpDir='faq/pophelp/prefs/set_';
+$popHelpDir="$code_url/faq/pophelp/prefs/set_";
 include($relPath.'js_newpophelp.inc');
 $tb=$htmlC->startTable(0,0,0,1);
 $tr=$htmlC->startTR(0,0,1);

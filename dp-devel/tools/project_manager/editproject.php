@@ -10,7 +10,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'maybe_mail.inc');
 
-$popHelpDir='./../../faq/pophelp/project_manager/';
+$popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
 
 function encodeFormValue($value) {

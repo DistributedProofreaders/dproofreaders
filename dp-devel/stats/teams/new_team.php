@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
-$popHelpDir='faq/pophelp/teams/edit_';
+$popHelpDir="$code_url/faq/pophelp/teams/edit_";
 
 if (isset($_POST['mkPreview'])) {
 	include($relPath.'js_newpophelp.inc');

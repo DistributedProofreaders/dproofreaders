@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
-$popHelpDir='faq/pophelp/teams/edit_';
+$popHelpDir="$code_url/faq/pophelp/teams/edit_";
 
 //Do we need this anymore?
 if (!empty($_POST['tsid'])) { $tid = $_POST['tsid']; } else { $tid = $_GET['tid']; }
