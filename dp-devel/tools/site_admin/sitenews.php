@@ -34,7 +34,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 $news_type = _($news_type_row['news_type']);       
                 $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']); 
                 echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$site_news_id."'>".
-                    $news_type."</a> "._("Last modified : ").$last_modified."<br><br><br>";
+                    $news_type."</a> "._("Last modified : ").$last_modified."<br><br>";
              }
              echo "</ul></font>";
        }
