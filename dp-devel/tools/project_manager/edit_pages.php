@@ -15,7 +15,7 @@ echo "<br>\n";
 $do_exit = 0;
 foreach ( array('projectid','selected_pages','operation') as $required_param )
 {
-    if ( !isset($_GET[$required_param]) )
+    if ( !isset($_REQUEST[$required_param]) )
     {
         echo "Error: edit_pages.php: '$required_param' parameter is not set.<br>";
         $do_exit = 1;
@@ -28,9 +28,9 @@ if ( $do_exit )
     exit;
 }
 
-$projectid      = $_GET['projectid'];
-$selected_pages = $_GET['selected_pages'];
-$operation      = $_GET['operation'];
+$projectid      = $_REQUEST['projectid'];
+$selected_pages = $_REQUEST['selected_pages'];
+$operation      = $_REQUEST['operation'];
 
 
 abort_if_cant_edit_project( $projectid );
@@ -79,7 +79,7 @@ switch ( $operation )
 
 // -----------------------------------------------------------------------------
 
-if ( isset($_GET['confirmed']) and $_GET['confirmed'] == 'yes' )
+if ( isset($_REQUEST['confirmed']) and $_REQUEST['confirmed'] == 'yes' )
 {
     // Perform the operation.
 
@@ -104,11 +104,21 @@ else
     echo "<br>\n";
     echo "$your_request<br>\n";
     echo "<br>\n";
-    $request_uri = $_SERVER['REQUEST_URI'];
-    echo "<a href='$request_uri&confirmed=yes'>" . _("Do it.") . "</a><br>\n";
+
+    echo "<form method='post' action='edit_pages.php'>\n";
+    echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+    echo "<input type='hidden' name='operation' value='$operation'>\n";
+    foreach ( $selected_pages as $fileid => $setting )
+    {
+        echo "<input type='hidden' name='selected_pages[$fileid]' value='$setting'>\n";
+    }
+    echo "<input type='hidden' name='confirmed' value='yes'>\n";
+    echo "<input type='submit' value='" . _("Do it") . "'>\n";
+    echo "<br>\n";
 }
 
 echo "<br>\n";
 theme("","footer");
 
+// vim: sw=4 ts=4 expandtab
 ?>
