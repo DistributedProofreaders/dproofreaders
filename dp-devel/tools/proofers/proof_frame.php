@@ -25,13 +25,8 @@ if (isset($saved)) {
 		echo _("An error has occured.  Please close & relogin.");
 		exit();
 	}
-}
-
-//deletePageCookie();
 
 // proof single page
-if (isset($editone))
-{
 
   // set the cookie
   setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
