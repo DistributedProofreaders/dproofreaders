@@ -343,8 +343,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 		}
 
-		if (($round == 'first'  && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
-		    ($round == 'second' && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
+		if (TRUE)
 		{
 			echo "<tr $bgcolor>";
 			$eURL="proof.php";
