@@ -43,26 +43,14 @@ $needPage=1;
   // give them a new page
     if ($needPage==1)
       {
-        $npage = getAvailablePage($project,$proofstate,$pguser);
-        // check to see if the user has exceeded the R1 BEGIN quota for this project
-	    if ($npage['TooManyBegin'] == 1) 
+        $err = get_available_page( $project, $proofstate, $pguser );
+          if ($err)
             {
-              $body = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.<br> You will be taken back to the project listing page in 4 seconds.");
-              $title = _("Beginners Only quota reached for this Project");
-              metarefresh(4,"list_avail.php",$title,$body);
+              $body = $err . "<br> " . _("You will be taken back to the project listing page in 4 seconds.");
+              $title = _("Unable to get an available page");
+              metarefresh(4, "list_avail.php", $title, $body);
               exit;
-            } //end R1 BEGIN quota check
-        // check to see if project is open
-          if ($npage['isopen'] == 0)
-            {
-              $body = _("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
-              $title = _("Project Round Complete");
-              metarefresh(4,"list_avail.php",$title,$body);
-              exit;
-            } //end no pages left check
-        $tpage = new processpage();
-        $pagestate=$tpage->checkOutPage($project,$proofstate,$pguser,$npage['fileid'],$npage['image']);
-        setPageCookie($project,$proofstate,$npage['fileid'],$npage['image'],$pagestate,0,0,0,0,0,0);
+            }
       }
 }
 
