@@ -33,7 +33,7 @@ function startswith( $str, $pre )
     return ( substr( $str, 0, strlen($pre) ) == $pre );
 }
 
-if (1)
+if (0)
 {
     if (0)
     {
