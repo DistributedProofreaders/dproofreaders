@@ -41,7 +41,7 @@ function setUserPrefs($userID)
   {
           $db_users="SELECT u_id, u_profile, u_lang, email_updates, 
 u_plist, u_top10, u_neigh, u_align, i_prefs, 
-id, manager, postprocessor, team_1, team_2, team_3 
+id, manager, postprocessor, sitemanager, team_1, team_2, team_3 
 FROM users WHERE username='$userID'";
           $db_usersres=mysql_query($db_users);
           $u_usersData=mysql_fetch_assoc($db_usersres);
@@ -104,6 +104,7 @@ $i=0;
 @$uPrefs['user_id']=$cPrefs[$i++];
 @$uPrefs['manager']=$cPrefs[$i++];
 @$uPrefs['postprocessor']=$cPrefs[$i++];
+@$uPrefs['sitemanager']=$cPrefs[$i++];
 @$uPrefs['team_1']=$cPrefs[$i++];
 @$uPrefs['team_2']=$cPrefs[$i++];
 @$uPrefs['team_3']=$cPrefs[$i++];
