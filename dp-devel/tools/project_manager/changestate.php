@@ -66,11 +66,8 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	|| ($always == 'yes')
 	|| ($oldstate == PROJ_POST_FIRST_CHECKED_OUT)
 	|| ($oldstate == PROJ_NEW)
-	|| is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
     {
-        // The above are valid changes that can be made to a project
-
 	$do_transition = TRUE;
         $refresh_url = "projectmgr.php";
 
@@ -79,7 +76,15 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	{
 	    $extras = array( 'checkedoutby' => $pguser );
 	}
-	else if ( $oldstate == PROJ_P1_WAITING_FOR_RELEASE &&
+    }
+    else if (
+	is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
+    )
+    {
+	$do_transition = TRUE;
+	$refresh_url = "projectmgr.php";
+
+	if ( $oldstate == PROJ_P1_WAITING_FOR_RELEASE &&
 	          $newstate == PROJ_P1_AVAILABLE )
 	{
 	    $errors = project_pre_release_check( $project );
