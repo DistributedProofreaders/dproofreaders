@@ -15,6 +15,12 @@ function showMbrProfile($curMbr) {
 	$highestRank = mysql_result($result, 0, "rank");
 	$highestRankDate = mysql_result($result, 0, "date_updated");
 
+	if (daysInExistence > 0) {
+	        $daily_Average = $curMbr['pagescompleted']/daysInExistence;
+	} else {
+		$daily_Average = 0;
+	}
+
 	if ($rankArray['curMbrRank'] <= $highestRank) { $highestRank = $rankArray['curMbrRank']; $highestRankDate = time(); }
 
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
@@ -29,7 +35,7 @@ function showMbrProfile($curMbr) {
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Overall Rank</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($rankArray['curMbrRank'])." out of ".number_format($rankArray['totalRanks']).rankPosition($rankArray['curMbrRank'], $curMbr['u_id'], 0)."</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Highest Rank</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($highestRank)."&nbsp;<i>(".date("M. jS, Y", $highestRankDate).")</i>&nbsp;".rankPosition($highestRank, $curMbr['u_id'], 1)."</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Best Day Ever</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($bestDay['count'])." pages <i>(".$bestDay['time'].")</i></font></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Daily Average</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format(dailyAverage($curMbr['u_id']))." pages</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Daily Average</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($daily_Average)." pages</font></td></tr>";
 
 	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
         if (!empty($curMbr['user_from'])) { echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Location</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curMbr['user_from']."</a></font></td></tr>"; }
