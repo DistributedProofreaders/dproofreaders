@@ -5,6 +5,7 @@
 01 0 * * * lynx -dump <<CODE_URL>>/stats/teamstats.php
 01 0 * * * lynx -dump <<CODE_URL>>/stats/mbrstats.php
 07 0 * * * lynx -dump <<CODE_URL>>/crontab/archive_projects.php
+50 0 * * * lynx -dump <<CODE_URL>>/crontab/clean_tmp.php
 20 0 1 * * lynx -dump <<CODE_URL>>/crontab/inactivate_users.php
 35 0 1 * * lynx -dump <<CODE_URL>>/crontab/notify_users.php
 50 0 1 * * lynx -dump <<CODE_URL>>/crontab/notify_old_pp.php
