@@ -260,7 +260,33 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		$sitestats['goal'] = 0;
 		$sitestats['monthly'] = 0;
 	}
+	$sitestatsgoal = $sitestats['goal'];
 
+	// Today's goal
+	$result = mysql_query("
+		SELECT dailygoal
+		FROM pagestats
+		WHERE date = '".date("Y-m-d", time())."'
+	");
+	if (mysql_num_rows($result) > 0) {
+		$todaysGoal = mysql_result($result, 0, "dailygoal");
+	} else {
+		$todaysGoal = 0;
+	}
+
+	// Yesterday's goal and actual
+	$result = mysql_query("
+		SELECT pages, dailygoal
+		FROM pagestats
+		WHERE date = '".date("Y-m-d", (time()-86400))."'
+	");
+	if (mysql_num_rows($result) > 0) {
+		$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
+		$yesterdaysTotal = mysql_result($result, 0, "pages");
+	} else {
+		$yesterdaysGoal = 0;
+		$yesterdaysTotal = 0;
+	}
 
     //Show the site statistics
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
@@ -269,8 +295,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 
         // Today's Numbers
-	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
-	if (mysql_num_rows($result) > 0) { $todaysGoal = mysql_result($result, 0, "dailygoal"); } else { $todaysGoal = 0; }
 	echo "&nbsp;"._("Today's Goal:")." "
 		. number_format($todaysGoal)
 		. "<br>\n";
@@ -279,14 +303,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		. " (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
-	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
-	if (mysql_num_rows($result) > 0) {
-		$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
-		$yesterdaysTotal = mysql_result($result, 0, "pages");
-	} else {
-		$yesterdaysGoal = 0;
-		$yesterdaysTotal = 0;
-	}
 	echo "&nbsp;"._("Yesterday's Goal:")." "
 		. number_format($yesterdaysGoal)
 		. "<br>\n";
@@ -295,8 +311,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		. "<br><br>\n";
 
 	// Month's Numbers
-	$sitestatsgoal = $sitestats['goal'];
-
 	echo "&nbsp;".strftime(_("%B's Goal:"))." "
 		. number_format($sitestatsgoal)
 		. ($sitestatsgoal
