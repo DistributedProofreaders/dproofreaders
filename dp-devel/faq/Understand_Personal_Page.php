@@ -4,9 +4,16 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 new dbConnect();
-$no_stats=1;
+$no_stats=0;
 theme('Understanding Your Personal Page','header');
 ?>
+
+<style type="text/css">
+<!--
+body {margin:10%; text-align:justify}
+h1,h2,h3,h4,h5,h6 {color:#A82C28}
+-->
+</style>
 
 
 <h1>Understanding <i>Your Personal Page</i></h1>
@@ -815,11 +822,6 @@ As to your journey with DP ---<br>
 <p align="right"><a href="#toc">Contents</a></p><hr width="50%" align="right"><br><br>
 
 
-
-
-
-</body>
-
-</html>
-
-
+<?
+theme('','footer');
+?>
