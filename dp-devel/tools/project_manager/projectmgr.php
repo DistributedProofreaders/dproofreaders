@@ -412,6 +412,94 @@ abort_if_not_manager();
                     echo_special_legend(" 1 = 1");
 		    echo "</font></p><br>\n";
 		}
+
+
+             // if the user is currently the UP_manager of any Uber Projects, display them
+
+             // note that the Settings class can't handle lists of values, nor joins to other tables,
+             // so we go directly to the user_settings table instead
+
+             $UPs = mysql_query("
+                 SELECT * FROM uber_projects up, usersettings us
+                 WHERE us.username = '$pguser' AND
+                       us.setting  = 'up_manager' AND
+                       us.value = up.up_projectid
+             ");
+
+             if (mysql_num_rows($UPs)) {
+
+                 $tr_num = 0;
+
+                 echo "<br><center><h3>"._("Uber Projects to which you have access")."</h3></center><br>";
+
+                 echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+
+                 echo "<tr>";
+                 echo_header_cell( 200, _("Overall Name of Uber Project") );
+                 echo_header_cell( 75, _("Number of Projects") );
+                 echo_header_cell( 55, _("Number of PMs") );
+                 echo_header_cell( 30, _("Forum Thread") );
+                 echo_header_cell(  30, _("Options") );
+                 echo "</tr>";
+
+                 while ($UPinfo = mysql_fetch_assoc($UPs)) {
+
+                     $up_projid = $UPinfo['up_projectid'];  
+                     $up_name = $UPinfo['up_nameofwork'];
+                     $up_topicid = $UPinfo['up_topic_id']; 
+                     
+                     // no one will have specific access to a large number of UPs,
+                     // so these next two queries shouldn't be too expensive
+                     // in absolute terms, even though they are in a loop
+                    
+                     $num_proj_res = mysql_fetch_assoc(mysql_query("
+                         SELECT count(*) as num 
+                         FROM projects WHERE up_projectid = '$up_projid'
+                     "));
+
+                     $num_proj = $num_proj_res['num'];
+
+                    
+                     $num_PM_res = mysql_fetch_assoc(mysql_query("
+                         SELECT count(*) as num 
+                         FROM usersettings WHERE setting = 'up_manager' and value = '$up_projid'
+                     "));
+
+                     $num_PM = $num_PM_res['num'];
+
+  			if ($tr_num % 2 ) {
+                		$bgcolor = $theme['color_mainbody_bg'];
+                	} else {
+                		$bgcolor = $theme['color_navbar_bg'];
+            		}
+
+            		echo "<tr bgcolor=$bgcolor>\n";
+
+
+			// Name
+			echo "<td>$up_name</td>\n";
+
+			// Number of projects
+			echo "<td align=\"center\">$num_proj</td>\n";
+
+			// Number of project managers
+			echo "<td align=\"center\">$num_PM</td>\n";
+
+			// link to Forum thread
+			echo "<td>Click here</td>\n";
+
+			// Options
+			echo "<td>Edit / Create New</td>\n";
+
+			echo "</tr>\n";
+
+			$tr_num++;
+                 }
+
+                 echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+
+           }
+
 	}
 
 echo "<br>";
