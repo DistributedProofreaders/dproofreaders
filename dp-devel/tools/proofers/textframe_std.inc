@@ -54,7 +54,7 @@ echo $docType."\r\n";
   // We're sending it in an HTML document, so encode special characters.
   if ($loadFile==1)
     // How should I handle encoding here?
-    {include($text_dir.$text_file);}
+    {include($aspell_temp_dir.$text_file);}
   else
     {echo htmlspecialchars($npage['text'],ENT_NOQUOTES);}
 ?></textarea>
