@@ -39,17 +39,19 @@ function showTeamProfile($curTeam) {
 	global $team_avatars_url;
 	global $code_url;
 
-	$xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=" . $curTeam['id'];
+	$team_id = $curTeam['id'];
+
+	$xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
 	$xml_img_url = "$code_url/graphics/xml.gif";
 	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align: middle;'>";
 	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
-	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
+	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Edit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
-	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id'] && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Join")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
-	} elseif ($curTeam['id'] != 1 && !empty($userP)) {
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Quit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+	if ($team_id != 1 && $userP['team_1'] != $team_id && $userP['team_2'] != $team_id && $userP['team_3'] != $team_id && !empty($userP)) {
+		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Join")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+	} elseif ($team_id != 1 && !empty($userP)) {
+		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=$team_id'><font color='".$theme['color_headerbar_font']."' size='2'>"._("Quit")."</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	} else {
 		$joinquitlink = "";
 	}
@@ -99,7 +101,7 @@ function showTeamProfile($curTeam) {
 	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
 
 	$webpage = $curTeam['webpage'];
-	$topic_url = "$code_url/stats/teams/team_topic.php?team=".$curTeam['id'];
+	$topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
 	echo "$webpage' target='_new'>$webpage</a><br><b>"._("Forums")."</b>: <a href='";
