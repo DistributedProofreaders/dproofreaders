@@ -38,6 +38,8 @@ theme($desc, "header");
 
 echo "<br><center>";
 
+echo "<h1>$desc</h1>";
+
 	if ($isAnonymousUsername == _("Anonymous") && $curMbr['username'] != $pguser) {
 		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
 	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
