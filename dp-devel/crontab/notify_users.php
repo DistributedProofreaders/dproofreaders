@@ -14,7 +14,7 @@ include($relPath.'dp_main.inc');
         $email = mysql_result($result, $rownum, "email");
         $pagescompleted = mysql_result($result, $rownum, "pagescompleted");
         $email_updates = mysql_result($result, $rownum, "email_updates");
-
+        echo "$username, $email\n<br>";
         if ($email_updates) {
             mail("$email", "Distributed Proofreaders: Inactive Account $username",
                  "Hello $real_name,\n\n".
@@ -33,6 +33,7 @@ The Distributed Proofreaders Team",
         }
 
         $rownum++;
+        echo "$rownum";
     }
 
     echo "$numrows";
