@@ -37,7 +37,7 @@ To become a PM, send an email to <a
 
 <hr>
 
-<p>Contents:
+<p>Contents:</p>
 
 <ul>
 
@@ -85,16 +85,18 @@ and what the PMs do.
 
 <li><a name='release'><b>Release the project for proofing.</b></a>
     <blockquote>
+    <p>
     This is done by toggling the "Availability" of the project on the PM's page.
     The project will be added to the site's queueing system,
     which tries to ensure an even mix of books in proofing.
-
+    </p>
     <p>
     In particular, it won't allow more than one book by the same author
     in First Round at the same time.
     So if you have 4 volumes of a series, all by the same author,
     you can put them all into 'Waiting to be Released' at once,
     but the software will only allow one of them in First Round at a time.
+    </p>
     </blockquote>
 </li>
 
@@ -175,8 +177,8 @@ and what the PMs do.
     you can download the stitched-together file by selecting <b>D/L</b> on the PM page,
     or <b>Download Zipped Text</b> on the post-processing page.
     Then follow the instructions in the
-    <a href='post_proof.php'>Post-Proofing FAQ</a>.
-
+    <a href='post_proof.php'>Post-Processing FAQ</a>.
+    </p>
     <p>
     Or you can
     <!--
@@ -188,7 +190,9 @@ and what the PMs do.
     for someone else to post-process.
     (They will find it on the post-processing page,
     and check it out by selecting <b>Check Out Book</b>.)
+    </p>
     </blockquote>
+</li>
 
 <li><a name='submit_to_pg'><b>Submit the finished e-text to Project Gutenberg</b></a>
 
@@ -214,6 +218,7 @@ That is, it is the page that a PM will normally be directed to after signing in
 and after various other operations.
 You can also get to it from the other PM pages
 by clicking on the "Search Your Projects" link near the top of the page.
+</p>
 
 <p>
 Matching for fields other than <i>State</i>
@@ -224,14 +229,13 @@ So, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.
 <p>
 If desired, you should be able to select multiple values
 for <i>State</i> (e.g., by holding down Ctrl).
-
 </p>
 
 <h3><a name='project_listings_page'>Project Listings Page</a></h3>
 
 <p>
 Click on the title of a project to view its details.
-
+</p>
 <p>
 The "Pages Left" column of the projects table was removed
 to speed up assembly of the PM page,
@@ -256,7 +260,7 @@ as the corresponding directory on your local machine.)
 Of course, the project's ID will still work fine
 as the name of the directory, and is in fact the default
 for the Add Text+Images button.
-
+</p>
 <p>
 Moreover, the string you type is actually interpreted as a 'path'
 (relative to the root of the <? echo $uploads_account; ?> account),
@@ -282,7 +286,7 @@ The "Delete All Text" link (if present) is now at the very bottom of this page,
 to lessen the chance of hitting it by accident.
 This is a temporary measure
 until a proper "Are You Sure?" prompt is implemented.
-
+</p>
 <hr>
 <h4>Document History</h4>
 
@@ -292,15 +296,16 @@ until a proper "Are You Sure?" prompt is implemented.
     <a href="mailto:charlz@lvcablemodem.com">charlz@lvcablemodem.com</a>
     and
     Robert Rowe
-    <a href="mailto:robert_rowe@yahoo.com">robert_rowe@yahoo.com</a>
-<li>2002-06-02: Updated
+    <a href="mailto:robert_rowe@yahoo.com">robert_rowe@yahoo.com</a></li>
+<li>2002-06-02: Updated</li>
 <li>2003-07-25: jmdyck: eliminated overlap with the
 <a href='scan/submitting.php'>Prep Guidelines</a> and the
-<a href='post_proof.php'>Post-Proofing FAQ</a>.
+<a href='post_proof.php'>Post-Processing FAQ</a>.
 Reorganized the remainder.
-(It still needs updating, but that should be easier now.)
-<li>2003-07-25: jmdyck: added notes on PM pages.
-<li>2004-05-24: jmdyck: minor edits to eliminate remarks in red.
+(It still needs updating, but that should be easier now.)</li>
+<li>2003-07-25: jmdyck: added notes on PM pages.</li>
+<li>2004-05-24: jmdyck: minor edits to eliminate remarks in red.</li>
+<li>2004-07-25: donovan: minor edits to conform to post-process* terminology and valid html compliance.</li>
 </ul>
 
 <br>

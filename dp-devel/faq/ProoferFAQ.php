@@ -248,7 +248,7 @@ different pages.  This will significantly speed up the proofreading process.
     Gutenberg Archive, you will receive an email notifying you and giving the link to
     download this book.</p>
 <p>Also, on the DP main page, there is a weekly list of links to recent books completed
-    and sent to Project Gutenberg, books proofread and being post-proofed, and books
+    and sent to Project Gutenberg, books proofread and being post-processed, and books
     currently in the process of proofreading. </p>
 
 <h3><a name="9">9. How can I get copies of other Gutenberg etexts? </a></h3>
