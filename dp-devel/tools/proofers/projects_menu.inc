@@ -6,10 +6,6 @@
 //     $forums_url
 //     $project
 //     $proofstate
-//     $top_menu
-//     $my_last_page_date
-//     $comments_last_modified
-//     $pages_are_available
 
 echo "<table border='1' width='630'><tr>";
 echo "<td width='126' bgcolor='CCCCCC' align='center'>";
@@ -27,17 +23,6 @@ $setT = "<td width='252' bgcolor='#CCCCCC' align='center'>";
 $setU = "project=$project&amp;proofstate=$proofstate";
 $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
 
-echo "$setT";
-
-if (!$pages_are_available) {
-	echo _("Round Complete");
-} else if (($top_menu) && ($my_last_page_date < $comments_last_modified)) {
-	echo _("Start Link Below<br>Project Comments");
-} else {
-	echo "<b><a href='proof_frame.php?$setU' target='proofframe'>"._("Start Proofreading")."</a></b>";
-}
-
-echo "</td>";
 echo $setT.$setP."\r\n</td>";
 echo "<td width='126' bgcolor='#CCCCCC' align='center'>";
 
