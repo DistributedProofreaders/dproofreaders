@@ -63,7 +63,6 @@ function verifynew($project) {
     $projectid = $project['projectid'];
     $nameofwork = $project['nameofwork'];
 
-    $currstate = PROJ_PROOF_FIRST_VERIFY;
     $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
 
 	//Update the total and available pages in the HEAP table
@@ -88,23 +87,29 @@ function verifynew($project) {
             "$errors\n".
             "Please correct the errors and put the project back into Waiting for Release.",
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
-        $currstate = PROJ_PROOF_FIRST_BAD_PROJECT;
+        $new_state = PROJ_PROOF_FIRST_BAD_PROJECT;
+    }
+    else
+    {
+        $new_state = PROJ_PROOF_FIRST_VERIFY;
     }
 
 
-    $error_msg = project_transition( $projectid, $currstate );
+    $error_msg = project_transition( $projectid, $new_state );
     if ($error_msg)
     {
         echo "$error_msg<br>\n";
         return 0;
     }
 
-    if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
-         print "Prepared to release project = $projectid<BR>";
-         return numpages($projectid);
+    if ($new_state == PROJ_PROOF_FIRST_BAD_PROJECT)
+    {
+        // nothing else to do
+        return 0;
+    }
 
-    } else return 0;
-
+    print "Prepared to release project = $projectid<BR>";
+    return numpages($projectid);
 }
 
 
