@@ -8,6 +8,12 @@ include_once($relPath.'metarefresh.inc');
 
 theme(_("Translation Center"), "header");
 
+if(!user_is_site_translator()) {
+	echo _("You can not add a new language.");
+	theme("","footer");
+	exit();
+}
+
 if (isset($_GET['func'])) { $func = $_GET['func']; } else { $func = ""; }
 
 if (empty($_GET['lang']) && $func == "newlang") {
