@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="teamstats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="teaminfo" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="teammembers" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+      <xs:attribute name="xsi:noNamespaceSchemaLocation" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="teaminfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="teamname" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="datecreated" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="leader" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="totalpages" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="description" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="website" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="forums" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="totalmembers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="currentmembers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="retiredmembers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="avgpagesday" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="mostpagesday" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="teammembers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="member" minOccurs="1" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="member">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="username" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="pagescompleted" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="datejoined" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:NMTOKEN" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="avgpagesday">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="currentmembers">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="datecreated">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="datejoined">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="description">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="forums">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="leader">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="mostpagesday">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="pagescompleted">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="rank">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="retiredmembers">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="teamname">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="totalmembers">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="totalpages">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="username">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="website">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+</xs:schema>
