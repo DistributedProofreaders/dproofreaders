@@ -271,7 +271,7 @@ if ($pagesproofed <= 20) {
 }
 
 $tList=0;
-include_once('proof_list.inc');
+include_once('Tproof_list.inc');
 ?>
 
 <?
