@@ -26,17 +26,21 @@ if ($mynumrows) {
 } else {
 	$datay1[0] = 0;
 }
-$datax[0] = 1;
+
+$datax[0] = mysql_result($result, 0, "date");
 $count = 1;
 
 
 while ($count < $mynumrows) {
-	$total = mysql_result($result, $count, "PC");
-	$datay1[$count] = $total;
-	$datay1[$count-1] = $total - $datay1[$count-1];
-        $datax[$count] = $count + 1;
+        $total = mysql_result($result, $count, "PC");
+        $datay1[$count] = $total;
+        $datay1[$count-1] = $total - $datay1[$count-1];
+        $datax[$count] = mysql_result($result, $count, "date");
         $count++;
 }
+$datay1[$count - 1] = 0;
+$datay1[$count] = 0;
+$datay1[0] = 0;
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
@@ -48,7 +52,6 @@ $graph->img->SetMargin(70,30,20,100); //Adjust the margin a bit to make more roo
 
 //Create the bar plot
 $bplot = new BarPlot($datay1);
-$bplot->SetLegend(_("Projects Created"));
 $bplot->SetFillColor("green");
 
 $graph->Add($bplot); //Add the bar plot to the graph
@@ -57,22 +60,20 @@ $graph->Add($bplot); //Add the bar plot to the graph
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
+$graph->xaxis->SetTextTickInterval(28);
 
 //Set Y axis
 $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set(_("Projects Created Each Day Since Stats Began");
+$graph->title->Set(_("Projects Created Each Day Since Stats Began"));
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
-$graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 
 $graph->Stroke();
-
-?>
 
 
