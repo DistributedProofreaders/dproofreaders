@@ -263,7 +263,7 @@ Want to help out the site by providing material for us to proof? Check <a href="
 <p><p>
 
 <?
-if ($userP['project_listing'] == 1 || $userP['project_listing'] == 3) {
+if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
 echo "<tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>";
 echo "<td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>";
@@ -276,7 +276,7 @@ echo "</table>";
 ?>
 
 <?
-if ($userP['project_listing'] == 2 || $userP['project_listing'] == 3) {
+if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
 echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
 echo "<td bgcolor='CCCCCC' colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";

@@ -73,7 +73,7 @@ echo "</td></tr>";
 if ($pagescompleted >= 50) {
 echo "<tr><td width='21%'>Show projects from:</td><td width='79%'>";
 $array = implode('|', $p_l);
-dropdown_select('project_listing', $userP['project_listing'], $array);
+dropdown_select('u_plist', $userP['u_plist'], $array);
 echo "</td></tr>";
 }
 
@@ -214,7 +214,7 @@ $email_updates = $_POST['email_updates'];
 $project_listing = $_POST['project_listing'];
 
 $result = mysql_query("UPDATE users SET real_name='$real_name', email='$email', 
-email_updates='$email_updates', project_listing='$project_listing', 
+email_updates='$email_updates', u_plist='$u_plist', 
 u_lang='$u_lang', i_res='$i_res', i_type='$i_type', i_layout='$i_layout', 
 i_newwin='$i_newwin', i_toolbar='$i_toolbar', i_statusbar='$i_statusbar', 
 v_fntf='$v_fntf', v_fnts='$v_fnts', v_zoom='$v_zoom', v_tframe='$v_tframe', v_tscroll='$v_tscroll', 
