@@ -49,6 +49,9 @@ include_once($relPath.'maybe_mail.inc');
         join_proofed_text_tei($project, $fp);
         fclose ($fp);
 
+        // Create a zip of that file
+        exec ("zip -j $projectpath/{$project}_TEI.zip $savepath");
+
         // Decide whether to send to post-processing or have PM work on it.
 
         $result = mysql_query("SELECT value FROM usersettings WHERE setting = 'send_to_post' AND username='$username'");
@@ -118,7 +121,7 @@ include_once($relPath.'maybe_mail.inc');
         // Join the round 2 page-texts of the given project,
         // and write the result to file-object $fp.
 
-	global $code_url, $projects_url;
+        global $code_url, $projects_url;
        
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
         //echo mysql_errno().": ".mysql_error()."<BR>";
