@@ -71,15 +71,15 @@ include_once($relPath.'maybe_mail.inc');
             $extras = array();
             $subject_blurb = 'Sent To Post-Processing';
             $body_blurb =
-                "$nameofwork has been sent to post-processing\n".
-                "for others to do the post-processing.\n".
+                "\"$nameofwork\" has completed second round proofreading\n".
+                "and has been made available for someone else to do the post-processing.\n".
                 "You will be notified once it has completed post-processing.";
         } else {
             $new_state = PROJ_POST_CHECKED_OUT;
             $extras = array( 'checkedoutby' => $username );
             $subject_blurb = 'Ready For You To Post-Process';
             $body_blurb =
-                "$nameofwork has completed second round proofreading\n".
+                "\"$nameofwork\" has completed second round proofreading\n".
                 "and is ready for you to do the post-processing.\n".
                 "If you do not want to work on it,\n".
                 "set it to Available for Post-Processing.";
