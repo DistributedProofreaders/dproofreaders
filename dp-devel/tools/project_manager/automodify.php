@@ -12,7 +12,7 @@ $db_Connection=new dbConnect();
   include 'sendtopost.php';
   include 'pm_globals.php';
 
-  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = 2 OR state = 8 OR state = 12 OR state = 18 OR state = 9 OR state = 19");
+  $allprojects = mysql_query("SELECT projectid, state, username, nameofwork FROM projects WHERE state = 2 OR state = 8 OR state = 12 OR state = 18 OR state = 9 OR state = 19 OR state = 15");
   if ($allprojects != "") { $numrows = mysql_num_rows($allprojects); } else $numrows = 0;
 
   $pagesleft = 0;
@@ -27,16 +27,10 @@ $db_Connection=new dbConnect();
     $username = mysql_result($allprojects, $rownum, "username");
     $nameofwork = mysql_result($allprojects, $rownum, "nameofwork");
 
-    $tempsql = mysql_query("SELECT * FROM $project WHERE image = ''");
-    if (mysql_num_rows($tempsql) > 0) { echo "Bad project - $project"; 
-       if ($state < 10) { $state = 0; } else $state = 10;
-       $updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
-    }
-
     update_globals($project, $state);
 
     // Error checking
-    if ($state == 12) {
+    if (($state == 12) || ($state == 15)) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != 12 AND state != 15 AND state != 18 AND state != 19");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {
@@ -45,7 +39,6 @@ $db_Connection=new dbConnect();
         }
         $pagesleft += $avail2_pages;
         $availablepages = $avail2_pages;
-
 
     } else if ($state == 2) {
         $result = mysql_query("SELECT fileid FROM $project WHERE state != 2 AND state != 5 AND state != 8 AND state != 9");
@@ -58,6 +51,8 @@ $db_Connection=new dbConnect();
         $availablepages = $avail1_pages;
 
     }
+
+    update_globals($project, $state);
 
     // Decide which round the project is in
     if ($state < 10) {
@@ -86,12 +81,12 @@ $db_Connection=new dbConnect();
 
         // Check in MIA pages
         $page_num = 0;
-        $dietime = time() - 7200; // 30 Minute TTL
+        $dietime = time() - 14400; // 4 Hour TTL
 
         while ($page_num < $numoutrows) {
 
-            $fileid = mysql_result($numoutrows, $page_num, "fileid");
-            $timestamp = mysql_result($numoutrows, $page_num, $timetype);
+            $fileid = mysql_result($outtable, $page_num, "fileid");
+            $timestamp = mysql_result($outtable, $page_num, $timetype);
 
             if ($timestamp == "") $timestamp = $dietime;
 
@@ -138,4 +133,3 @@ $db_Connection=new dbConnect();
 
   autorelease($pagesleft);
 ?>
-
