@@ -68,7 +68,7 @@ abort_if_not_manager();
 			<tr>
 			    <td>State</td>
 			    <td>
-			    <select size='1' name='state[]' multiple>
+			    <select name='state[]' multiple>
 				<option value=''>any state</option>
 		";
 		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
