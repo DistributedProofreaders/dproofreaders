@@ -16,7 +16,7 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
 
     if ( $project_phase == 'NEW' )
     {
-        $avail_state = AVAIL_FIRST;
+        return Project_getNumPages($projectid);
     }
     else if ( $project_phase == 'PAGE_EDITING' )
     {
