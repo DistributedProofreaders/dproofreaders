@@ -191,7 +191,7 @@ theme('Proofreading Guidelines','header');
   <br>
     For example, typesetters in the 1700's &amp; 1800's often inserted a &frac34;ths
     space before punctuation such as a semicolon or comma. Our OCR scanners generally
-    read this as a space character. But when proofreading, we remove that space; since
+    read this as a space character. But when proofreading, we remove that space, since
     it distracts modern readers and removing it doesn't affect the meaning of the
     author's words. Typesetters of that time also used the "long s" (&fnof; or &#383;)
     <!-- Need a better html or unicode tag for this! ??? -->
@@ -257,7 +257,7 @@ theme('Proofreading Guidelines','header');
     (which is the page that appears when you log in).  </p>
 <p> This page contains links to pages from this project that you have recently proofed.
     (If you haven't proofed any pages yet, there will be no links shown.) These links
-    appear under one of two headings, depending on if you have told the system you have
+    appear under one of two headings, depending on whether you have told the system you have
     completed the proofreading on a page or not.  </p>
 
 <p> The two headings are "DONE" and "IN PROGRESS". Links to
@@ -274,7 +274,7 @@ theme('Proofreading Guidelines','header');
     Each time you press the "Save as 'In Progress'" button, this link is updated to point to
     the newly saved version of the page. You tell the system you have completed the
     proofreading on a page by pressing either
-    the "Save as 'Done'" or the "Save as 'Done' &amp; Proof Next" buttons.
+    the "Save as 'Done'" or the "Save as 'Done' &amp; Proof Next" button.
     Pressing either of these buttons moves the link to the page from
     the "IN PROGRESS" section to the "DONE" section. This is
     the only way you can mark pages as complete and make sure your work will get through
@@ -332,7 +332,7 @@ theme('Proofreading Guidelines','header');
          "THE PRINCE OF GRAUSTARK," ETC.                   <br>
                                                            <br>
          WITH FRONTISPIECE BY                              <br>
-         C. ALLEN GILBERT                                  <br>
+         C. ALLAN GILBERT                                  <br>
                                                            <br>
          NEW YORK                                          <br>
          DODD, MEAD AND COMPANY.                           <br>
@@ -434,8 +434,8 @@ theme('Proofreading Guidelines','header');
 <p> Remove page headers and page footers (but not <a href="#footnotes">footnotes</a>)
     from the text. The page headers are normally at the top of the image and have a page
     number opposite them.  Page headers may be the same all through the book (often the
-    title of the book and the author's name); they may be the same for each chapter
-    (often the chapter number); or they may be different on each page (describing the
+    title of the book and the author's name), they may be the same for each chapter
+    (often the chapter number), or they may be different on each page (describing the
     action on that page).  Remove them all, regardless, including the page number.</p>
    <p>
     A <a href="#chap_head">chapter header</a> will start farther down the page and won't
@@ -466,8 +466,7 @@ theme('Proofreading Guidelines','header');
           In a bank? In a church? In a college?                                      <br>
                                                                                      <br>
           Write a list of all the corporations that you know or have                 <br>
-          ever heard of, grouping them under the heads &lt;i&gt;public&lt;/i&gt; and <br>
-          &lt;i&gt;private&lt;/i&gt;.                                                <br>
+          ever heard of, grouping them under the heads &lt;i&gt;public&lt;/i&gt; and &lt;i&gt;private&lt;/i&gt;.                                                <br>
                                                                                      <br>
           How could a pastor collect his salary if the church should                 <br>
           refuse to pay it?                                                          <br>
@@ -1238,7 +1237,7 @@ And everywhere that Mary went
     </tr>
     <tr align="center">
       <td width="100%" valign="top"> <img src="poetry.png" alt=""
-          width="850" height="256"> <br>
+          width="750" height="256"> <br>
       </td>
     </tr>
     <tr>
@@ -1366,7 +1365,7 @@ And everywhere that Mary went
       <th valign="top">Correct Text</th>
     </tr>
     <tr>
-      <td valign="top"><tt>and so it goes&ensp;; ever and ever.</tt></td>
+      <td valign="top"><tt>and so it goes&nbsp;; ever and ever.</tt></td>
       <td valign="top"><tt>and so it goes; ever and ever.</tt> </td>
     </tr>
   </tbody>
