@@ -83,7 +83,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				is_beginner DESC, "
 				. $orderclause."	
 		";
-		$linkbase = "<a href=proofer_per.php?orderR1=";
+		$linkbase = "<a href=proof_per.php?orderR1=";
 	}
 	else if ( $round == 'second' )
 	{
@@ -100,7 +100,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				is_beginner DESC, "
 				.$orderclause."
 		";
-		$linkbase = "<a href=proofer_per.php?orderR2=";
+		$linkbase = "<a href=proof_per.php?orderR2=";
 	}
 
 	$result = mysql_query($query);
