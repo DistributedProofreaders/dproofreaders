@@ -41,12 +41,15 @@ if (!isset($proofing)) {
 
     include('./projects_menu.inc');
     $top_menu = 0;
-?>
-<br><i><? echo _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!"); ?></i><br>
-<br>
 
-<?
+    echo "<br>";
+    echo "<i>";
+    echo _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
+    echo "</i>";
+    echo "<br>";
+    echo "<br>";
 }
+
     echo_project_info( $project, $proofstate, !isset($proofing) );
     echo "<BR>";
 
@@ -55,5 +58,6 @@ if (!isset($proofing)) {
     } else {
         echo"<p><p><b> "._("This information has been opened in a separate browser window, feel free to leave it open for reference or close it.")."</b>";
     }
+
+    echo "</BODY></HTML>";
 ?>
-</BODY></HTML>
