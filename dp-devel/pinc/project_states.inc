@@ -22,15 +22,19 @@
 */
 
 $project_state_label_ = array();
+$project_state_phase_ = array();
 
 function declare_project_state(
     $constant_name,
     $constant_value,
-    $label )
+    $label,
+    $phase )
 {
     global $project_state_label_;
+    global $project_state_phase_;
     define( $constant_name, $constant_value );
     $project_state_label_[$constant_value] = $label;
+    $project_state_phase_[$constant_value] = $phase;
 }
 
 
@@ -41,7 +45,8 @@ function declare_project_state(
 declare_project_state(
     "PROJ_NEW",
     "project_new",
-     _("New Project")
+     _("New Project"),
+    'NEW'
 );
 
   // You might think that this group of states should be embedded within
@@ -57,47 +62,56 @@ declare_project_state(
 declare_project_state(
     "PROJ_NEW_WAITING_APPROVAL",
     "project_new_waiting_app",
-     _("Awaiting Approval")
+     _("Awaiting Approval"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_UNAPPROVED",
     "project_new_unapp",
-    _("Unapproved Project")
+    _("Unapproved Project"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_APPROVED",
     "project_new_app",
-    _("Approved Project")
+    _("Approved Project"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_FILE_UPLOADED",
     "project_new_uploaded",
-    _("Files Uploaded")
+    _("Files Uploaded"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_METADATA_FIRST",
     "project_md_first",
-    _("Metadata First Round")
+    _("Metadata First Round"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_METADATA_BAD",
     "project_md_bad",
-    _("Bad Metadata")
+    _("Bad Metadata"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_METADATA_SECOND",
     "project_md_second",
-    _("Metadata Second Round")
+    _("Metadata Second Round"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_PREPROCESSING",
     "project_new_preprocess",
-    _("Preprocessing")
+    _("Preprocessing"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_NEW_PENDING_PM",
     "project_new_pend_pm",
-    _("Pending Project Manager")
+    _("Pending Project Manager"),
+    'NONE'
 );
 
 
@@ -107,72 +121,84 @@ declare_project_state(
 declare_project_state(
     "PROJ_PROOF_FIRST_UNAVAILABLE",
     "unavail_1",
-    _("Unavailable First Round")
+    _("Unavailable First Round"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_UNAVAILABLE",
     "unavail_2",
-    _("Unavailable Second Round")
+    _("Unavailable Second Round"),
+    'PAGE_EDITING'
 );
 
   // waiting for release
 declare_project_state(
     "PROJ_PROOF_FIRST_WAITING_FOR_RELEASE",
     "waiting_1",
-    _("Waiting for First Round Release")
+    _("Waiting for First Round Release"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_WAITING_FOR_RELEASE",
     "waiting_2",
-    _("Waiting for Second Round Release")
+    _("Waiting for Second Round Release"),
+    'PAGE_EDITING'
 );
 
   // bad project
 declare_project_state(
     "PROJ_PROOF_FIRST_BAD_PROJECT",
     "bad_1",
-    _("Bad First Round Project")
+    _("Bad First Round Project"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_BAD_PROJECT",
     "bad_2",
-    _("Bad Second Round Project")
+    _("Bad Second Round Project"),
+    'PAGE_EDITING'
 );
 
   // available for proofreading
 declare_project_state(
     "PROJ_PROOF_FIRST_AVAILABLE",
     "avail_1",
-    _("Available for First Round")
+    _("Available for First Round"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_AVAILABLE",
     "avail_2",
-    _("Available for Second Round")
+    _("Available for Second Round"),
+    'PAGE_EDITING'
 );
 
   // proofreading round complete, but needing verification
 declare_project_state(
     "PROJ_PROOF_FIRST_VERIFY",
     "verify_1",
-    _("Verify First Round")
+    _("Verify First Round"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_VERIFY",
     "verify_2",
-    _("Verify Second Round")
+    _("Verify Second Round"),
+    'PAGE_EDITING'
 );
 
   // proofreading round complete and verified
 declare_project_state(
     "PROJ_PROOF_FIRST_COMPLETE",
     "done_1",
-    _("Completed First Round")
+    _("Completed First Round"),
+    'PAGE_EDITING'
 );
 declare_project_state(
     "PROJ_PROOF_SECOND_COMPLETE",
     "done_2",
-    _("Completed Second Round")
+    _("Completed Second Round"),
+    'PAGE_EDITING'
 );
 
 
@@ -180,35 +206,41 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_FIRST_UNAVAILABLE",
     "proj_post_first_unavailable",
-    _("Unavailable for Post-Processing")
+    _("Unavailable for Post-Processing"),
+    'PP'
 );
 declare_project_state(
     "PROJ_POST_FIRST_AVAILABLE",
     "proj_post_first_available",
-    _("Available for Post-Processing")
+    _("Available for Post-Processing"),
+    'PP'
 );
 
 declare_project_state(
     "PROJ_POST_FIRST_CHECKED_OUT",
     "proj_post_first_checked_out",
-    _("In Post-Processing")
+    _("In Post-Processing"),
+    'PP'
 );
 
 declare_project_state(
     "PROJ_POST_SECOND_AVAILABLE",
     "proj_post_second_available",
-    _("Available for Verifying Post-Processing")
+    _("Available for Verifying Post-Processing"),
+    'PP'
 );
 
 declare_project_state(
     "PROJ_POST_SECOND_CHECKED_OUT",
     "proj_post_second_checked_out",
-    _("Verifying Post-Processing")
+    _("Verifying Post-Processing"),
+    'PP'
 );
 declare_project_state(
     "PROJ_POST_COMPLETE",
     "proj_post_complete",
-    _("Completed Post-Processing")
+    _("Completed Post-Processing"),
+    'PP'
 );
 
 
@@ -217,48 +249,56 @@ declare_project_state(
 declare_project_state(
     "PROJ_SUBMIT_PG_UNAVAILABLE",
     "proj_submit_pgunavailable",
-    _("Unavailable for Posting")
+    _("Unavailable for Posting"),
+    'GB'
 );
 declare_project_state(
     "PROJ_SUBMIT_PG_AVAILABLE",
     "proj_submit_pgavailable",
-    _("Available for Posting")
+    _("Available for Posting"),
+    'GB'
 );
 declare_project_state(
     "PROJ_SUBMIT_PG_POSTING",
     "proj_submit_pgposting",
-    _("Being Posted")
+    _("Being Posted"),
+    'GB'
 );
 declare_project_state(
     "PROJ_SUBMIT_PG_POSTED",
     "proj_submit_pgposted",
-    _("Posted to Project Gutenberg")
+    _("Posted to Project Gutenberg"),
+    'GB'
 );
 
 // CORRECT
 declare_project_state(
     "PROJ_CORRECT_AVAILABLE",
     "proj_correct_available",
-    _("Verify Corrections")
+    _("Verify Corrections"),
+    'NONE'
 );
 declare_project_state(
     "PROJ_CORRECT_CHECKED_OUT",
     "proj_correct_checked_out",
-    _("Verifying Corrections")
+    _("Verifying Corrections"),
+    'NONE'
 );
 
 // for the 'deletion' of a project
 declare_project_state(
     "PROJ_DELETE",
     "project_delete",
-    _("Delete Project")
+    _("Delete Project"),
+    'NONE'
 );
 
 // for complete project
 declare_project_state(
     "PROJ_COMPLETE",
     "project_complete",
-    _("Project Complete")
+    _("Project Complete"),
+    'COMPLETE'
 );
 
 // -----------------------------------------------------------------------------
