@@ -1,13 +1,14 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
-include($relPath.'projectinfo.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'projectinfo.inc');
 $projectinfo = new projectinfo();
+include_once('projectmgr_select.inc');
 
     echo "<title>Project Managers Page</title>";
 
-    $project = $_GET['project'];
-    $show = $_GET['show'];
+    $project = isset($_GET['project'])?$_GET['project']:0;
+    $show = isset($_GET['show'])?$_GET['show']:0;
 
     $users = mysql_query("SELECT manager, sitemanager FROM users WHERE username = '$pguser'");
     $manager = mysql_result($users, 0, "manager");
@@ -48,7 +49,7 @@ $projectinfo = new projectinfo();
             printf("<td bgcolor=\"CCCCCC\"><b>Total Number of Master Pages:</b></td><td>$projectinfo->total_pages</td></tr><tr><td bgcolor=\"CCCCCC\"><b>Language:</b></td><td>$language</td>");
             printf("<td bgcolor=\"CCCCCC\"><b>Pages Remaining to be Proofed:</b></td><td>$projectinfo->availablepages</td></tr>");
 
-            if ($state == 0) {
+            if ($state == NEW_PROJECT) {
                 printf("<tr><td bgcolor=\"CCCCCC\" colspan=2><a href=\"add_files.php?project=$project\">");
                 if ($sitemanager == 'yes') {
                    printf("Add All Text From projects Folder");
@@ -85,7 +86,7 @@ $projectinfo = new projectinfo();
                     $date_txt = date("M j h:i A", $date);
                     printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
 
-		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+		     if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		       printf("&nbsp;</td></tr>\n"); 
@@ -95,7 +96,8 @@ $projectinfo = new projectinfo();
                     $rownum++;
                 }
                 echo "</table>";
-            } else if ($state < 10) {
+            } else if ($state == AVAIL_PI_FIRST || $state== WAITING_PI_FIRST || $state== BAD_PI_FIRST ||
+                $state== VERIFY_PI_FIRST || $state== COMPLETE_PI_FIRST) {
                 echo "</table><h3>First-Round Files:</h3>";
 
                 //Print each row
@@ -197,8 +199,10 @@ $projectinfo = new projectinfo();
                     printf("</a> ($pagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>");
                     if ($sitemanager == "yes") { printf("$oldreal_name"); } else printf("$round1_user");
                     printf("</a> ($oldpagescompleted)</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td>");
-                    if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
-		    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+
+                    $roundID=projectStateRound($state);
+                    if ($roundID=='FIRST' || $roundID=='SECOND') { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
+                    if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
 		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		        printf("<td>&nbsp;</td></tr>\n"); 
@@ -283,15 +287,11 @@ if ($sitemanager == "yes") {
 <?
         $numrows = 0;
         if (($show == 'site') && ($sitemanager === 'yes')) {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != 79 ORDER BY state asc, nameofwork asc");
+            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".POSTED_GB."' ORDER BY state asc, nameofwork asc");
         } else if ($show == 'all') {
-            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
-        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state FROM projects WHERE state != 79 AND username = '$pguser' ORDER BY state asc, nameofwork asc");
+            $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE username = '$pguser' ORDER BY state asc, nameofwork asc");
+        } else $result = mysql_query("SELECT projectid, nameofwork, authorsname, checkedoutby, state, username FROM projects WHERE state != '".POSTED_GB."' AND username = '$pguser' ORDER BY state asc, nameofwork asc");
         if ($result != "") $numrows = (mysql_num_rows($result));
-
-        $numstates = 0;
-        $state_names = mysql_query("SELECT name, id FROM states ORDER BY id asc");
-        if ($state_names != "") $numstates = mysql_num_rows($state_names);
 
         $rownum = 0;
         while ($rownum < $numrows) {
@@ -322,88 +322,13 @@ if ($sitemanager == "yes") {
                 print "<a href=mailto:$outbyemail>$outby</a>";
             }
 
-            $staterow = 0;
             print "</td><td valign=center><form name=\"$projectid\" method=get action=\"changestate.php\"><input type=hidden name=project value=\"$projectid\"><select name=state onchange=\"this.form.submit()\">";
-            while ($staterow < $numstates) {
-                $id = mysql_result($state_names, $staterow, "id");
-                $s_name = mysql_result($state_names, $staterow, "name");
-                if ($id == $state) {
-                    print "<option value=$id selected>$s_name\n";
-                } else if ($id == 99) {
-                    print "<option value=$id>$s_name\n";
-                } else if ($state == 0) {
-                   if (($id == 1) || ($id == 79)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 1) {
-                    if (($id == 0) || ($id == 8)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 2) {
-                    if (($id == 0) || ($id == 8)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 8) {
-                   if ($id == 0) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 10) {
-                    if ($id == 18) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 12) {
-                    if (($id == 10) || ($id == 18)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-		} else if ($state == 31) {
-		    if (($id == 0) || ($id == 8)) {
-			print "<option value=$id>$s_name\n";
-		    }
-		} else if ($state == 41) {
-		    if (($id == 10) || ($id == 18)) {
-			print "<option value=$id>$s_name\n";
-		    }
-                } else if ($state == 60) {
-                    if (($id == 61) || ($id == 65)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 61) {
-                    if (($id == 60) || ($id == 65)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 65) {
-                    if (($id == 60) || ($id == 61) || ($id == 68) || ($id == 69) || ($id == 79)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 68) {
-                    if (($id == 69) || ($id == 79)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 69) {
-                    if (($id == 79) || ($id == 70) || ($id == 71) || ($id == 75)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 70) {
-                    if (($id == 71) || ($id == 75)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 71) {
-                    if (($id == 70) || ($id == 75) || ($id == 79)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                } else if ($state == 75) {
-                    if (($id == 70) || ($id == 71) || ($id == 79)) {
-                        print "<option value=$id>$s_name\n";
-                    }
-                }
-
-                $staterow++;
-            }
+            getSelect($state);
             echo "</select></form></td><td align=center>";
 
             print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
-            if (($state >= 60) && ($state <= 65)) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
-            if (($state == 68) || ($state == 69)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
+            if ($state==UNAVAIL_PP || $state==AVAIL_PP || $state==IN_PP) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
+            if (($state == VERIFYING_PP) || ($state == COMPLETE_PP)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
             echo "</td></tr>\n";
             //increment row number for background color change
             $rownum++;
