@@ -1,5 +1,9 @@
 <?
-$password = $_POST['password'];
+$relPath="./../pinc/";
+include($relPath.'connect.inc');
+$db_Connection=new dbConnect();
+
+$password = isset($_POST['password'])? $_POST['password']: '';
 if ($password=="proofer") {
     $real_name = $_POST['real_name'];
     $username = $_POST['userNM'];
@@ -8,13 +12,7 @@ if ($password=="proofer") {
 
     $ID = uniqid("userID");
 
-    include '../connect.php';
-
-    // calculate date
-    $year  = date("Y");
-    $month = date("m");
-    $day = date("d");
-    $todaysdate = $year.$month.$day;
+    $todaysdate = time();
 
     $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, emailupdates)
                 VALUES ('$ID', '$real_name', '$username', '$email','no', '$todaysdate', 'yes')");
@@ -31,7 +29,7 @@ if ($password=="proofer") {
         //code from php forums bb_register.php 
         $passwd = md5($userpass);
         $sql = "SELECT max(user_id) AS total FROM phpbb_users";
-        if(!$r = mysql_query($sql, $db))
+        if(!$r = mysql_query($sql))
             die("Error connecting to the database.");
         list($total) = mysql_fetch_array($r);
         $currtime = time();
