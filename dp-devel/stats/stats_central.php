@@ -86,6 +86,10 @@ echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br
 echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
 
+echo "<hr><br><br>Special temporary graphs showing last month's results:<br><br>"
+echo "<center><img src=\"jpgraph_files/prev_month_pages_graph.php\"></center><br>";
+echo "<center><img src=\"jpgraph_files/cumulative_prev_month_pages.php\"></center><br>";
+
 
 theme('','footer');
 ?>
