@@ -176,9 +176,9 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	$RFilter = " AND ".$condition1;
 
 	if ($show_df) {
-		echo "<centre>"._("Currently filtered by:")." $display_filter</centre><br><br>\n";
+		echo "<center>"._("Currently filtered by:")."<b> $display_filter </b></center><br><br>\n";
 	} else {
-		echo "<centre>"._("No filter, all books shown")."</centre><br><br>\n";
+		echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
 	}
 }
 
