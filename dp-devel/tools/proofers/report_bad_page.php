@@ -22,7 +22,7 @@ $htmlC->startBody(0,1,0,0);
 $tb=$htmlC->startTable(0,0,0,1);
 $tr=$htmlC->startTR(0,0,1);
 $td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
-$td2=$htmlC->startTD(1,0,0,0,"center",0,0,1);
+$td2=$htmlC->startTD(1,0,0,0,"left",0,0,1);
 $td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
 $td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
 $td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
@@ -49,7 +49,7 @@ echo "<input name='redirect_action' value='proof' type='radio'>Continue Proofing
 echo $tr.$td1;
 echo "<input type='submit' VALUE='Submit Report'>";
 echo $tr.$td5;
-echo "<B>Note:</B>If this report causes a project to be marked bad you will be redirected to your personal page.";
+echo "<B>Note:</B>If this report causes a project to be marked<br> bad you will be redirected to your personal page.";
 echo "</td></tr></table></form></div></center></body></html>";
 } else {
 //Update the page the user was working on to reflect a bad page.
