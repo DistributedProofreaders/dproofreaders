@@ -11,14 +11,14 @@ if (!isset($_POST['resolution'])) {
     //Get variables to use for form
     $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectid = $_GET['projectid'];
-    $fileID = $_GET['fileid'];
+    $fileid = $_GET['fileid'];
     if (!isset($projectid)) {
         $projectid = $_POST['projectid'];
-        $fileID = $_POST['fileid'];
+        $fileid = $_POST['fileid'];
     }
 
     //Find out information about the bad page report
-    $result = mysql_query("SELECT * FROM $projectid WHERE fileid='$fileID'");
+    $result = mysql_query("SELECT * FROM $projectid WHERE fileid='$fileid'");
     $imageName = mysql_result($result,0,"image");
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
@@ -30,7 +30,7 @@ if (!isset($_POST['resolution'])) {
 
     echo "<form action='badpage.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='fileid' value='$fileID'>";
+    echo "<input type='hidden' name='fileid' value='$fileid'>";
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
@@ -76,7 +76,7 @@ if (!isset($_POST['resolution'])) {
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-        $result = mysql_query("SELECT master_text FROM $projectid where fileid='$fileID'");
+        $result = mysql_query("SELECT master_text FROM $projectid where fileid='$fileid'");
         $master_text = mysql_result($result, 0, "master_text");
         echo "<form action='badpage.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
@@ -89,10 +89,10 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='submit' value='Update Original Text'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
         $master_text = $_POST['master_text'];
-        Page_modifyStartingText( $projectid, $fileID, $master_text );
+        Page_modifyStartingText( $projectid, $fileid, $master_text );
         echo "<b>Update of Original Text Complete!</b>";
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
-        $result = mysql_query("SELECT image FROM $projectid where fileid='$fileID'");
+        $result = mysql_query("SELECT image FROM $projectid where fileid='$fileid'");
         $master_image = mysql_result($result, 0, "image");
         echo "<form enctype='multipart/form-data' action='badpage.php' method='post'>";
         echo "<input type='hidden' name='modify' value='image'>";
@@ -104,12 +104,12 @@ if (!isset($_POST['resolution'])) {
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
         $master_image = $_POST['master_image'];
         $projectid = $_POST['projectid'];
-        $fileID = $_POST['fileid'];
+        $fileid = $_POST['fileid'];
         if (substr($_FILES['image']['name'], -4) == ".png") {
             copy($_FILES['image']['tmp_name'],"$projects_dir/$projectid/$master_image") or die("Could not upload new image!");
             echo "<b>Update of Original Image Complete!</b>";
         } else {
-            echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectid&fileid=$fileID&modify=image'>here</a> to return.</b>";
+            echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>here</a> to return.</b>";
         }
     }
 
@@ -119,13 +119,13 @@ if (!isset($_POST['resolution'])) {
 
     //Get variables passed from form
     $projectid = $_POST['projectid'];
-    $fileID = $_POST['fileid'];
+    $fileid = $_POST['fileid'];
     $state = $_POST['state'];
 
     //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($resolution == "fixed") || ($resolution == "bad")) {
         $prd = get_PRD_for_page_state($state);
-        Page_eraseBadMark( $projectid, $fileID, $prd->round_number );
+        Page_eraseBadMark( $projectid, $fileid, $prd->round_number );
     }
 
     //Redirect the user back to the project detail page.
