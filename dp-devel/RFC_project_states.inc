@@ -10,7 +10,7 @@
   PRE=Pre Processing
   PROOF=Proofing rounds
   POST=Post Processing
-  CONVERT=conversion (to TEI)
+  CONVERT_TEI=conversion to TEI
   SUBMIT_PG=submission stage for Project Gutenberg
 
   rounds:
@@ -157,8 +157,12 @@
      check flags may be recursively turned on and off during POST.
   */
   define("FLAG_POST_FIRST_NEEDS_SPELLING", "flag_post_first_needs_spelling");
-  define("FLAG_POST_HAS_SPELLING", "flag_post_second_has_spelling");
+  define("FLAG_POST_FIRST_HAS_SPELLING", "flag_post_first_has_spelling");
+  define("FLAG_POST_SECOND_NEEDS_SPELLING", "flag_post_second_needs_spelling");
+  define("FLAG_POST_SECOND_HAS_SPELLING", "flag_post_second_has_spelling");
   define("FLAG_POST_FIRST_NEEDS_ERRORCHECK", "flag_post_first_needs_errorcheck");
+  define("FLAG_POST_FIRST_HAS_ERRORCHECK", "flag_post_first_has_errorcheck");
+  define("FLAG_POST_SECOND_NEEDS_ERRORCHECK", "flag_post_second_needs_errorcheck");
   define("FLAG_POST_SECOND_HAS_ERRORCHECK", "flag_post_second_has_errorcheck");
 
   define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable");
