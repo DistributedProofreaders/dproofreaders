@@ -4,7 +4,7 @@
   PP=Post Processing
   PI=Proofing (In/Interface/Interval)
 */
-
+  include('project_states.inc');
 // PI
 
   // unavailable
@@ -26,4 +26,26 @@
   // proofing round complete and verified
   define("SAVE_PI_FIRST_TEXT","Completed First Round");
   define("SAVE_PI_SECOND_TEXT","Completed Second Round");
+
+  define("AVAIL_PP_TEXT", "Available for Post-Processing");
+  define("IN_PP_TEXT", "In Post-Processing");
+  define("VERIFY_PP_TEXT", "Verify Post-Processing");
+  define("VERIFYING_PP_TEXT", "Verifying Post-Processing");
+  define("COMPLETE_PP_TEXT", "Completed Post-Processing");
+
+  function project_states_text($state) {
+    switch($state) {
+      case AVAIL_PP:
+         return AVAIL_PP_TEXT;
+      case IN_PP:
+         return IN_PP_TEXT;
+      case VERIFY_PP:
+         return VERIFY_PP_TEXT;
+      case VERIFYING_PP:
+         return VERIFYING_PP_TEXT;
+      case COMPLETE_PP:
+         return COMPLETE_PP_TEXT;
+    }
+    return "";
+  }
 ?>

@@ -26,4 +26,10 @@
   // proofing round complete and verified
   define("SAVE_PI_FIRST","39");
   define("SAVE_PI_SECOND","49");
+
+  define("AVAIL_PP", "62");
+  define("IN_PP", "65");
+  define("VERIFY_PP", "67");
+  define("VERIFYING_PP", "68");
+  define("COMPLETE_PP", "69");
 ?>
