@@ -16,17 +16,17 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 
 	if ($type == "bronze") {
 		$state = SQL_CONDITION_BRONZE;
-		$text = " Now Proofing.</font>  These books are currently being processed through our site; sign in and start helping!!!! <br>";
+		$text = " "._("Now Proofing")."</font>  "._("These books are currently being processed through our site; sign in and start helping!!!!")."<br>";
 	} elseif ($type == "silver") {
 		$state = SQL_CONDITION_SILVER;
-		$text = " In Progress.</font>  These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).<br>";
+		$text = " "._("In Progress")."</font>  "._("These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).")."<br>";
 	} elseif ($type == "gold") {
 		$state = SQL_CONDITION_GOLD;
-		$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive. ";
+		$text = " "._("Complete")."</font>  "._("These books have been processed through our site and posted to the Project Gutenberg archive.");
 		$text .= "<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>&nbsp;<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'><img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a><br>";
 	} else {
 		$state = "1";
-		$text = " All.</font>";
+		$text = " "._("All")."</font>";
 	}
 
 	if (!empty($search_char)) {
@@ -57,16 +57,16 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 		if ($type == "gold") {
 			$links="";
 
-			if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zip version</a>, ";
+			if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>"._("zip version")."</a>, ";
 
-			if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
+			if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>"._("text version")."</a>, ";
 
-			if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>, ";
+			if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>"._("html version")."</a>, ";
 
 			if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-				$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>submit corrections</a>";
+				$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>"._("submit corrections")."</a>";
 			} else {
-				$links=$links."under review";
+				$links=$links._("under review");
 			}
 
 			if (substr($links,-2) == ", ") { $links = substr($links,0,-2); }
@@ -74,13 +74,13 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 			echo "$links</font><br><br>";
 		} else {
 			$totalpages = $pageCountArray[$row['projectid']]['total_pages'];
-			echo "$totalpages pages; $moddate</font><br><br>";
+			echo "$totalpages "._("pages")."; $moddate</font><br><br>";
 		}
 		$i++;
 	}
 
 	if (!empty($show_total) && $total > $etext_limit) {
-		echo "<font face='Verdana' size='1'>--<a href='$code_url/stats/books/book_list.php?etext_limit=0&type=$type&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total='>See more $type e-texts</a></font><br><br>";
+		echo "<font face='Verdana' size='1'>--<a href='$code_url/stats/books/book_list.php?etext_limit=0&type=$type&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total='>"._("See more...")."</a></font><br><br>";
 	}
 }
 ?>
