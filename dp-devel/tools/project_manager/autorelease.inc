@@ -200,8 +200,8 @@ function autorelease($pagesleft) {
 	
 	if ($beginners_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
-			release_projects("page", "Beginners", $projtype_sql, 40, $numReleased, "no", $todaysdate);
-	} else echo "Enough BEGIN pages already, no releases through the BEGIN Queue";
+			release_projects("project", "Beginners", $projtype_sql, $beginners_projects , $numReleased, "no", $todaysdate);
+	} else echo "Enough BEGIN projects ($numReleased) already, no releases through the BEGIN Queue";
 	
 	//Easy English Projects - always have a certain number of projects in first round
 	$projtype_sql = "genre LIKE 'EASY%' && language LIKE 'English%'";
@@ -211,7 +211,7 @@ function autorelease($pagesleft) {
 	if ($easy_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numReleased, "", $todaysdate);
-	} else echo "Enough EASY English projects already, no releases through the EASY English Queue";
+	} else echo "Enough EASY English projects  ($numReleased) already, no releases through the EASY English Queue";
 
 	//Non-English Projects - always have a certain number of pages spread over the two rounds
 	$numReleased = 0;
@@ -233,7 +233,7 @@ function autorelease($pagesleft) {
 	if ($noneng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numReleased, "yes", $todaysdate);
-	} else echo "Enough Non English pages already, no releases through the Non English Queue";
+	} else echo "Enough Non English pages ($numReleased) already, no releases through the Non English Queue";
 
 	//English Projects - always have a certain number of pages spread over the two rounds
 	$numReleased = 0;
@@ -254,7 +254,7 @@ function autorelease($pagesleft) {
 	if ($eng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numReleased, "yes", $todaysdate);
-	} else echo "Enough English pages already, no releases through the English Queue";
+	} else echo "Enough English pages ($numReleased) already, no releases through the English Queue";
 	
 	//Extra Projects - make sure we have a total of at least X pages spread out over the two rounds;
 	// if there's any room left, just release projects from the front of the queue until we have
@@ -276,6 +276,6 @@ function autorelease($pagesleft) {
 			$i++;
 		}
 		release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numReleased, "yes", $todaysdate);
-	} else echo "Enough total pages already, no extra releases";
+	} else echo "Enough total pages ($numReleased) already, no extra releases";
 }
 ?>
