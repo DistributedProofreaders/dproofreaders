@@ -224,9 +224,9 @@ if ($site_supports_metadata)
 
 // PROOF
 
-declare_project_states_for_round( 1, _('First Round'), 'PROOF_FIRST' );
+declare_project_states_for_round( 1, _('Proofreading Round 1'), 'PROOF_FIRST' );
 
-declare_project_states_for_round( 2, _('Second Round'), 'PROOF_SECOND' );
+declare_project_states_for_round( 2, _('Proofreading Round 2'), 'PROOF_SECOND' );
 
 
 // POST
