@@ -185,12 +185,12 @@ function autorelease($pagesleft) {
         $pagesneeded = $GLOBALS['pagesneeded'] - $pagesleft;
         $noneng_pagesneeded = $GLOBALS['noneng_pagesneeded'];
         $eng_pagesneeded = $GLOBALS['eng_pagesneeded'];
-        $beginners_projects = $GLOBALS['beginners_projects'];
+        $beginners_pagesneeded = $GLOBALS['beginners_pagesneeded'];
         $easy_projects = $GLOBALS['easy_projects'];
 
 
 	echo "Starting autorelease<BR>Current thresholds/targets are:<BR>";
-	echo "$beginners_projects projects for Beginners Only<BR>";
+	echo "$beginners_pagesneeded pages for Beginners Only<BR>";
 	echo "$easy_projects EASY projects<BR>";
 	echo "$noneng_pagesneeded nonEnglish pages minimum<BR>";
 	echo "$eng_pagesneeded English pages minimum<BR>";
@@ -201,15 +201,23 @@ function autorelease($pagesleft) {
         // NB The arguments for these calls can come out of a table LATER (stage two)...
         // For now, let's get it out and working, even with hardwired arguments
 
-        //Beginners Projects - always have a certain number of projects in first round
+        //Beginners Projects - always have a certain number of pages available in R1
+	$numReleased = 0;
         $projtype_sql = "username = 'BEGIN'";
-        $rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'  AND $projtype_sql ORDER BY modifieddate ASC");
-        $numReleased = mysql_result($rel_qry,0);
-
-        if ($beginners_projects > $numReleased) {
+        $rel_qry = mysql_query("SELECT projectid FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'  AND $projtype_sql ORDER BY modifieddate ASC");
+        $numProjects = mysql_num_rows($rel_qry);
+	$i = 0;
+        // how many page still available for proofing, in R1, from each BEGIN project?
+        while ($i < $numProjects) {
+                $proj = mysql_result($rel_qry,$i,0);
+                $numReleased = $numReleased + numavailpages($proj, AVAIL_FIRST);               
+                $i++;
+        }
+        if ($beginners_pagesneeded > $numReleased) {
                 $pagesneeded = $pagesneeded -
-                        release_projects("project", "Beginners", $projtype_sql, $beginners_projects, $numReleased, "", $todaysdate);
-        }  else echo "Enough BEGIN projects ($numReleased) already, no releases through the BEGIN Queue<BR>";
+                        release_projects("pages", "Beginners Only", $projtype_sql , $beginners_pagesneeded, $numReleased, "", $todaysdate);
+        }   else echo "Enough Beginners Only pages ($numReleased) in R1 already, no releases through the BEGIN Queue<BR>";
+
 
         //Easy English Projects - always have a certain number of projects in first round
         $projtype_sql = "genre LIKE 'EASY%' && language LIKE 'English%'";
