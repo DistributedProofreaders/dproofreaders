@@ -1,5 +1,6 @@
 <?php
 $relPath="./pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();

@@ -2,6 +2,7 @@
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 
+include_once($relPath.'v_site.inc');
 include_once($relPath.'udb_user.php');
 
 if(isset($userP['i_theme'])) { 

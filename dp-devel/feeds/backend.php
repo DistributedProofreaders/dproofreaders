@@ -27,6 +27,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 readfile($xmlfile);
 } else {
 $relPath="./../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 	
