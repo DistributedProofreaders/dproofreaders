@@ -82,8 +82,9 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_WAITING_FOR_RELEASE => array(
+			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
-			PROJ_PROOF_FIRST_VERIFY, // queue-jumping trick
+			PROJ_PROOF_FIRST_VERIFY, // queue-jumping trick (if invoked from PM page)
 			),
 		PROJ_PROOF_FIRST_VERIFY => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,
@@ -198,6 +199,11 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		{
             return "$transition_str is disallowed because project has no pages";
         }
+		$settings .= ", modifieddate='$now'";
+	}
+	else if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
+		in_array( $new_state, array(PROJ_PROOF_FIRST_BAD_PROJECT,PROJ_PROOF_FIRST_VERIFY) ) )
+	{
 		$settings .= ", modifieddate='$now'";
 	}
 	else if ( $current_state == PROJ_POST_CHECKED_OUT &&
