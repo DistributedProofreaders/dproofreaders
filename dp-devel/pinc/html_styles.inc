@@ -7,11 +7,11 @@ class htmlStyles
 // onload can be set in the specific function
 var $body = array(
 'BACKGROUND'=>NULL,
-'BGCOLOR'=>"#FFFFFF",
+'BGCOLOR'=>"#999999",
 'TEXT'=>"#000000",
-'LINK'=>"#000099",
-'VLINK'=>"#990000",
-'ALINK'=>"#009900",
+'LINK'=>"#000066",
+'VLINK'=>"#660000",
+'ALINK'=>"#006600",
 'STYLE'=>NULL,
 'CLASS'=>NULL
 );
@@ -60,7 +60,7 @@ var $tr = array(
 var $td = array(
 0 => array(
 'ID'=>NULL,
-'BGCOLOR'=>NULL,
+'BGCOLOR'=>"#FFFFFF",
 'STYLE'=>NULL,
 'CLASS'=>NULL
 ),
