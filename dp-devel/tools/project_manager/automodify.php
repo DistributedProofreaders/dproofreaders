@@ -94,7 +94,7 @@ $projectinfo = new projectinfo();
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                  $sql = mysql_query("UPDATE $project SET state = $newstate, $usertype = '', $texttype = '', $timetype = '' WHERE fileid = '$fileid'");
+                  $sql = mysql_query("UPDATE $project SET state = $newstate, $timetype = '' WHERE fileid = '$fileid'");
             }
             $page_num++;
         }

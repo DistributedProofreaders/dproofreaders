@@ -10,7 +10,7 @@ function numpages($project) {
 function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
 
     $currstate = 8;
-    $result = mysql_query("UPDATE $project SET state = 2 WHERE 1");
+    $result = mysql_query("UPDATE $project SET state = 2 WHERE state = 0");
     $projectinfo = new projectinfo();
 
     $projectinfo->update($project, $state);
@@ -74,14 +74,16 @@ function autorelease($pagesleft) {
   // NON-English Books
 
   $non_english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language != 'English' ORDER BY modifieddate ASC");
+  $done = 0;
 
-  while (($pagesleft < $pagesneeded) && (mysql_num_rows($non_english) > 0)) {
+  while (($pagesleft < $pagesneeded) && (mysql_num_rows($non_english) > 0) && ($done != 1)) {
     $project = mysql_result($non_english, 0, "projectid");
+    echo "working on $project<BR>";
     $author = mysql_result($non_english, 0, "authorsname");
     $nameofwork = mysql_result($non_english, 0, "nameofwork");
     $language = mysql_result($non_english, 0, "language");
     $clearance = mysql_result($non_english, 0, "clearance");
-    $mod_date = mysql_result($non_english, 0, "modifieddate");
+    $modifieddate = mysql_result($non_english, 0, "modifieddate");
     $pm = mysql_result($non_english, 0, "username");
 
     $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
@@ -89,23 +91,24 @@ function autorelease($pagesleft) {
 
     if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = 2 AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
       $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
-    } else {
+    } else if ($modifieddate != $todaysdate) {
       verifynew($project, $author, $nameofwork, $language, $clearance, $email);
-    }
+    } else  $done = 1;
     $non_english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language != 'English' ORDER BY modifieddate ASC");
   }
 
   // English Books
 
   $english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language = 'English' ORDER BY modifieddate ASC");
+  $done = 0;
 
-  while (($pagesleft < $pagesneeded) && (mysql_num_rows($english) > 0)) {
+  while (($pagesleft < $pagesneeded) && (mysql_num_rows($english) > 0) && ($done != 1)) {
     $project = mysql_result($english, 0, "projectid");
     $author = mysql_result($english, 0, "authorsname");
     $nameofwork = mysql_result($english, 0, "nameofwork");
     $language = mysql_result($english, 0, "language");
     $clearance = mysql_result($english, 0, "clearance");
-    $mod_date = mysql_result($english, 0, "modifieddate");
+    $modifieddate = mysql_result($english, 0, "modifieddate");
     $pm = mysql_result($english, 0, "username");
 
     $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
@@ -113,9 +116,9 @@ function autorelease($pagesleft) {
 
     if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = 2 AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
       $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
-    } else {
+    } else if ($modifieddate != $todaysdate) {
       verifynew($project, $author, $nameofwork, $language, $clearance, $email);
-    }
+    } else  $done = 1;
     $english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language = 'English' ORDER BY modifieddate ASC");
   }
 }

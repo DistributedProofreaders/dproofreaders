@@ -45,7 +45,7 @@ modifieddate, clearance) VALUES ('$NameofWork','$AuthorsName','$Language','$pgus
 
 
         $result = mysql_query($sql);
-        echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"30 ;URL=projectmgr.php\">";
+        echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 
     } else if (($button3 != "") && ($action == "update")) {
         $sql = mysql_query("UPDATE projects SET clearance = '$clearance', NameofWork = '$NameofWork', AuthorsName = '$AuthorsName', postednum = '$postednum', comments = '$comments', Language = '$Language', scannercredit = '$scannercredit', txtlink = '$txtlink', ziplink = '$ziplink', htmllink = '$htmllink' WHERE projectid = '$projectid'"); 

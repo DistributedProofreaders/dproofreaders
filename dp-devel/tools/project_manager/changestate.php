@@ -77,8 +77,8 @@ if ($topic_id == "") {
 	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics WHERE forum_id=2");
 }
 
-
-        // TODO: Change Modified Date to New Date
+        // Change Modified Date to New Date
+        mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
 
         // TODO: Archive the project
         echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid\">";
