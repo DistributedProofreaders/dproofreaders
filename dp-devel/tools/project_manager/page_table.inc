@@ -53,7 +53,7 @@ function echo_page_table(
 
 	if ( $can_edit )
 	{
-		echo "<form name='pagesform' method='get' action='$code_url/tools/project_manager/edit_pages.php'>\n";
+		echo "<form name='pagesform' method='post' action='$code_url/tools/project_manager/edit_pages.php'>\n";
 		echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 	}
 
