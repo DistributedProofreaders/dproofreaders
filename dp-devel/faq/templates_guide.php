@@ -37,7 +37,7 @@ manually copy and paste the code and then fill in <br>
 specific information relating to the individual project.<br> 
 </li><ol>
 <br>
-<b>Both types can be plain text or HTML.</b>
+<b>Both types can be done as text or HTML, either plain or fancy.</b>
 <br><br>
 
 
@@ -47,6 +47,7 @@ These can be accessed by pointing to a specific file <br />
 within the comments section of the Project Comments form.<br />
 <br />
 The standard template files currently available are:<br />
+<a href="#bae1">bae1.txt</a> Bureau of American Ethnology<br />
 <a href="#bg1a">BG1a.txt</a> Beginners Only, round one, upper<br />
 <a href="#bg1b">BG1b.txt</a> Beginners Only, round one, lower<br />
 <a href="#bgr2">BGr2.txt</a> Beginners Only, round two extra<br />
@@ -61,7 +62,7 @@ To place any one of the above samples into your comments simply include the line
 where <i>file.txt</i> is the name of the template you wish to have included <br>
 in your project comments. You can use as many as you wish.<br />
 <br />
-If you would like to create your own re-usable templates similar to those above<br />
+<b>If you would like to create your own re-usable templates</b> similar to those above<br />
 please email them as a text file to <a href="mailto:dphelp@pgdp.net">dphelp@pgdp.net</a>.<br />
 The filename needs to be four letters in length.
 <br>
@@ -93,7 +94,14 @@ into the commment window on your Project Information page.
 <h1>Preview of Templates available for Project Comments</h1>
 <br>
 <br>
+<!-- bae1.txt info -->
+<a name="bae1"><h3>bae1.txt</h3></a><br>
+<?
+include('../pinc/templates/comment_files/bae1.txt');
+?>
 
+		
+<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <!-- BG1a.txt info -->
 <a name="bg1a"><h3>BG1a.txt</h3></a> <br>
