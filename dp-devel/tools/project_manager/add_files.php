@@ -164,6 +164,24 @@ foreach ( glob("*.txt") as $txt_file_name )
 	{
 		echo "        ", mysql_error(), "\n";
 	}
+
+	if ($writeBIGtable) {
+
+		$sql_command = "
+			INSERT INTO project_pages
+			SET
+				projectid   = '$projectid',
+				fileid      = '$file_base',
+				image       = '$image_file_name',
+				master_text = LOAD_FILE('$txt_file_path'),
+				round1_time = $now,
+				state       = '".AVAIL_FIRST."'
+		";
+
+		$res = mysql_query($sql_command);
+	}
+
+
 }
 //update projects table and put the project into proj_new_files_uploaded
 $result = mysql_query("UPDATE projects SET state = 'project_new_uploaded' WHERE projectid = '$projectid'");
