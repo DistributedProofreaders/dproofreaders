@@ -8,7 +8,8 @@ include($relPath.'showstartexts.inc');
 theme("Welcome", "header");
 $etext_limit = 10;
 
-if ($testing)
+$real_site_url = 'http://www.pgdp.net';
+if ($code_url != "$real_site_url/c" )
 {
 	echo "<font color='red'>";
 	echo "<center>";
@@ -16,11 +17,11 @@ if ($testing)
 	echo "<b>THIS IS A TEST SITE!!!</b>";
 	echo "</p>";
 	echo "<p>";
-	echo "For the real site, go to <a href='http://www.pgdp.net'>www.pgdp.net</a>.";
+	echo "For the real site, go to <a href='$real_site_url'>$real_site_url</a>.";
 	echo "</p>";
 	echo "<p>";
 	echo "To leave feedback or report bugs regarding this TEST site, ";
-	echo "please go to <a href='http://www.pgdp.net/phpBB2/viewtopic.php?t=3767'>this forum topic</a> on the real site.";
+	echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=3767'>this forum topic</a> on the real site.";
 
 	echo "</p>";
 	echo "</center>";
