@@ -23,6 +23,7 @@ include_once($relPath.'v_site.inc');
   SECOND
 */
 
+$PROJECT_STATES_IN_ORDER = array();
 $project_state_label_ = array();
 $project_state_phase_ = array();
 
@@ -32,9 +33,11 @@ function declare_project_state(
     $label,
     $phase )
 {
+    global $PROJECT_STATES_IN_ORDER;
     global $project_state_label_;
     global $project_state_phase_;
     define( $constant_name, $constant_value );
+    $PROJECT_STATES_IN_ORDER[] = $constant_value;
     $project_state_label_[$constant_value] = $label;
     $project_state_phase_[$constant_value] = $phase;
 }
@@ -52,6 +55,10 @@ function get_phase_containing_project_state($state)
 }
 
 // -----------------------------------------------
+
+// Note that the order in which these project states are declared
+// is the order in which they will be displayed in various contexts
+// (via $PROJECT_STATES_IN_ORDER).
 
 
 // PR
@@ -270,61 +277,6 @@ declare_project_state(
     "project_delete",
     _("Delete Project"),
     'NONE'
-);
-
-// -----------------------------------------------------------------------------
-
-$PROJECT_STATES_IN_ORDER = array_merge(
-    array(
-        PROJ_NEW
-    ),
-
-    (
-        $site_supports_metadata
-        ?
-        array(
-            PROJ_NEW_WAITING_APPROVAL,
-            PROJ_NEW_UNAPPROVED,
-            PROJ_NEW_APPROVED,
-            PROJ_NEW_FILE_UPLOADED,
-            PROJ_NEW_METADATA_FIRST,
-            PROJ_NEW_METADATA_BAD,
-            PROJ_NEW_METADATA_SECOND,
-            PROJ_NEW_PREPROCESSING,
-            PROJ_NEW_PENDING_PM
-        )
-        :
-        array()
-    ),
-
-    array(
-        PROJ_PROOF_FIRST_BAD_PROJECT,
-        PROJ_PROOF_FIRST_UNAVAILABLE,
-        PROJ_PROOF_FIRST_WAITING_FOR_RELEASE,
-        PROJ_PROOF_FIRST_AVAILABLE,
-        PROJ_PROOF_FIRST_COMPLETE,
-
-        PROJ_PROOF_SECOND_BAD_PROJECT,
-        PROJ_PROOF_SECOND_UNAVAILABLE,
-        PROJ_PROOF_SECOND_WAITING_FOR_RELEASE,
-        PROJ_PROOF_SECOND_AVAILABLE,
-        PROJ_PROOF_SECOND_COMPLETE,
-
-        PROJ_POST_FIRST_UNAVAILABLE,
-        PROJ_POST_FIRST_AVAILABLE,
-        PROJ_POST_FIRST_CHECKED_OUT,
-        PROJ_POST_SECOND_AVAILABLE,
-        PROJ_POST_SECOND_CHECKED_OUT,
-        PROJ_POST_COMPLETE,
-
-        PROJ_SUBMIT_PG_POSTED,
-
-        PROJ_CORRECT_AVAILABLE,
-        PROJ_CORRECT_CHECKED_OUT,
-
-        PROJ_COMPLETE,
-        PROJ_DELETE
-    )
 );
 
 // -----------------------------------------------------------------------------
