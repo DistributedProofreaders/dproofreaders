@@ -42,7 +42,7 @@ function showMbrProfile($curMbr) {
         }
 
 	echo "</table></td></tr>";
-	if (empty($curMbr['u_privacy'])) {
+	if ($curMbr['u_privacy'] != 1 || $curMbr['username'] == $GLOBALS['pguser']) {
 		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>Contact ".$curMbr['username'].":</b></font></center>";
 		messageCenter($curMbr);
 	}
