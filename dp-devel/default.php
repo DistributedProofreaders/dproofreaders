@@ -62,7 +62,7 @@ You can view the financial statement for this site <a href="finance.html">here.<
 <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
 </form><p></td><tr>
 
-<td bgcolor=CCCCCC><td align=left><b>Hourly Page Count:&nbsp&nbsp</b> <? include("/home/charlz/public_html/dproofreaders/stats/hourly.txt"); ?>
+<td bgcolor=CCCCCC><td align=left><b>Hourly Page Count:&nbsp&nbsp</b> <? include("stats/hourly.txt"); ?>
 <br>Our goal this month is <b>34,000</b> pages which means <b>1,133</b> pages per day.<p></td><tr>
 
 <?
@@ -70,6 +70,8 @@ You can view the financial statement for this site <a href="finance.html">here.<
 
     $numdays = 1;
     $numgoldtoshow = 10;
+    $numsilvertoshow = 10;
+    $numbronzetoshow = 10;
 
     //Changing this will change how many days will show at the top of the main page
     $daterange=$numdays * 86400;
@@ -217,7 +219,7 @@ You can view the financial statement for this site <a href="finance.html">here.<
 
 
     $rownum = 0;
-    while ($rownum < $numsilver) {
+    while (($rownum < $numsilver) && ($rownum < $numsilvertoshow)) {
 
         $title = mysql_result($silverresult, $rownum, "nameofwork");
         $author = mysql_result($silverresult, $rownum, "authorsname");
@@ -231,7 +233,7 @@ You can view the financial statement for this site <a href="finance.html">here.<
 
 
     $rownum = 0;
-    while ($rownum < $numbronze) {
+    while (($rownum < $numbronze) && ($rownum < $numbronzetoshow)) {
 
         $title = mysql_result($bronzeresult, $rownum, "nameofwork");
         $author = mysql_result($bronzeresult, $rownum, "authorsname");
