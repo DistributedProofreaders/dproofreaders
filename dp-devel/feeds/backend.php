@@ -37,22 +37,22 @@ $db_Connection=new dbConnect();
 		$posteddate = date("r",($row['modifieddate']));
 			if (isset($_GET['type'])) {
 				$data .= "<item>
-				<title>".$row['nameofwork']." - ".$row['authorsname']."</title>
+				<title>".htmlentities($row['nameofwork'])." - ".htmlentities($row['authorsname'])."</title>
 				<link>$siteurl/list_etexts.php?x=g#".$row['projectid']."</link>
-				<description>Language: ".$row['language']." - Genre: ".$row['genre']."</description>
+				<description>Language: ".htmlentities($row['language'])." - Genre: ".htmlentities($row['genre'])."</description>
 				</item>
 				";
 			} else {
 				$data .= "<project id=\"".$row['projectid']."\">
-				<nameofwork>".$row['nameofwork']."</nameofwork>
-				<authorsname>".$row['authorsname']."</authorsname>
-				<language>".$row['language']."</language>
+				<nameofwork>".htmlentities($row['nameofwork'])."</nameofwork>
+				<authorsname>".htmlentities($row['authorsname'])."</authorsname>
+				<language>".htmlentities($row['language'])."</language>
 				<posteddate>".$posteddate."</posteddate>
-				<genre>".$row['genre']."</genre>
+				<genre>".htmlentities($row['genre'])."</genre>
 				<links>
-				<text>".$row['txtlink']."</text>
-				<zip>".$row['ziplink']."</zip>
-				<html>".$row['htmllink']."</html>
+				<text>".htmlentities($row['txtlink'])."</text>
+				<zip>".htmlentities($row['ziplink'])."</zip>
+				<html>".htmlentities($row['htmllink'])."</html>
 				<library>$siteurl/list_etexts.php?x=g#".$row['projectid']."</library>
 				</links>
 				</project>
@@ -91,7 +91,7 @@ $db_Connection=new dbConnect();
 				$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
 				<link>$siteurl/pastnews.php?#".$row['uid']."</link>
-				<description>".strip_tags($row['message'])."</description>
+				<description>".htmlentities(strip_tags($row['message']))."</description>
 				</item>
 				";
 		}
