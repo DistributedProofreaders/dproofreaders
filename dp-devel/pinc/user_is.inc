@@ -116,5 +116,52 @@ function user_is_site_news_editor()
 }
 
 
+function user_can_see_BEGIN_R1()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager() || user_is_proj_facilitator() ) return TRUE;
+
+	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "pagescompleted") <= 30) { return TRUE; }
+	} else {
+		return FALSE;
+	}
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'see_BEGIN_R1'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
+
+function user_can_see_BEGIN_R2()
+{
+	global $userP, $pguser;
+
+	if (!isset($userP)) { return FALSE; }
+
+	if (user_is_a_sitemanager() || user_is_proj_facilitator() ) return TRUE;
+
+	$result = mysql_query("SELECT pagescompleted FROM users WHERE username = '$pguser'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "pagescompleted") >= 300) { return TRUE; }
+	} else {
+		return FALSE;
+	}
+
+	$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'see_BEGIN_R2'");
+	if (mysql_num_rows($result) >= 1) {
+		if (mysql_result($result, 0, "value") == "yes") { return TRUE; } else { return FALSE; }
+	} else {
+		return FALSE;
+	}
+}
+
 
 ?>
