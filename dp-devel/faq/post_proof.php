@@ -745,7 +745,7 @@ For example, a lisp or perl script will need a lisp or perl interpreter to work,
 ActivePerl, available <a href="http://www.activestate.com/Products/ActivePerl/">here</a>,
 and Clisp, available <a href="http://clisp.sourceforge.net/">here</a>, both for free.
 If you need help getting them to work, or your platform isn't supported by these,
-ask in the <a href="<? $post_processing_forum_url >?">Post-Processing Forum</a> for help;
+ask in the <a href="<? $post_processing_forum_url ?>">Post-Processing Forum</a> for help;
 almost certainly someone will be able to assist you!
 </p>
  
@@ -1300,7 +1300,7 @@ or find a partner to do it for you.
 </p>
 
 <p>Specific HTML questions should be dealt with in the 
-<a href="<? $post_processing_forum_url >?">Post-Processing Forum</a>.
+<a href="<? $post_processing_forum_url ?>">Post-Processing Forum</a>.
 There is no required format, though the HTML is required to be clean,
 and should be run through a <a href="#HTML">validator</a> before being submitted.
 Any images should be reduced as much as possible while still preserving detail.
