@@ -4,11 +4,10 @@ include_once($relPath.'v_site.inc');
 $orig_line_i=0;
 $orig_lines=Array();
 $orig_start=0;
-$n_bad_words=0;
 
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
-	global $orig_lines,$orig_line_i,$orig_start,$n_bad_words;
+	global $orig_lines,$orig_line_i,$orig_start;
 
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
@@ -43,6 +42,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		$asr_text = str_replace(array("\r","\n"),array('',"[lf]"),$asr_text);
 		$asr_lines = explode("[lf]",$asr_text);
 	}
+
+	$n_bad_words=0;
 
 	echo "<pre>";
 
@@ -103,8 +104,49 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 				echo "unexpected aspell flag: '$asr_flag'<BR>\n";
 				return;
 			}
+
+			// Flush any original-text preceding the bad word.
 			flush_orig( $orig_word_offset );
-			spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str);
+
+			$n_bad_words++;
+
+			$orig_word = escapeStringEntities($orig_word);
+
+			// create html
+			// hidden values line|offset|word length
+			echo
+				"<input
+					type='hidden'
+					name='posit{$n_bad_words}'
+					value='$orig_line_i|$orig_word_offset|".strlen($orig_word)."'
+				><input
+					type='hidden'
+					name='wd{$n_bad_words}'
+					value='{$orig_word}'
+				><select
+					name='sp{$n_bad_words}'
+					onChange='setSpell($n_bad_words,this.value);'>
+					<option value='{$orig_word}' selected>{$orig_word}</option>
+					<option value='sp1input'>-- Insert --</option>
+				";
+
+			if ($n_suggs > 0)
+			{
+				// escape all words
+				$suggs_str = escapeStringEntities($suggs_str);
+
+				// break word list
+				$suggs = explode(', ',$suggs_str);
+
+				foreach ($suggs as $sugg)
+				{
+					echo "<option value='$sugg'>$sugg</option>\n";
+				}
+			}
+			echo "</select>";
+
+			// Advance $orig_start
+			$orig_start = ($orig_word_offset-1)+strlen($orig_word);
 		}
 	}
 
@@ -121,49 +163,6 @@ function flush_orig( $orig_word_offset )
 	$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
 	echo escapeStringEntities($orig_str);
 }
-
-function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
-{
-	// echo "spellSuggest( orig_word='$orig_word', n_suggs=$n_suggs, orig_word_offset=$orig_word_offset, suggs_str='$suggs_str' )<br>\n";
-	global $orig_line_i,$orig_start,$n_bad_words;
-
-	$n_bad_words++;
-
-	$orig_word = escapeStringEntities($orig_word);
-
-	// create html
-	// hidden values line|offset|word length
-	echo
-		"<input
-			type='hidden'
-			name='posit{$n_bad_words}'
-			value='$orig_line_i|$orig_word_offset|".strlen($orig_word)."'
-		><input
-			type='hidden'
-			name='wd{$n_bad_words}'
-			value='{$orig_word}'
-		><select
-			name='sp{$n_bad_words}'
-			onChange='setSpell($n_bad_words,this.value);'>
-			<option value='{$orig_word}' selected>{$orig_word}</option>
-			<option value='sp1input'>-- Insert --</option>
-		";
-	if ($n_suggs > 0)
-	{
-		// escape all words
-		$suggs_str = escapeStringEntities($suggs_str);
-		// break word list
-		$suggs = explode(', ',$suggs_str);
-		foreach ($suggs as $sugg)
-		{
-			echo "<option value='$sugg'>$sugg</option>\n";
-		}
-	}
-	echo "</select>";
-
-	// advance $orig_start
-	$orig_start = ($orig_word_offset-1)+strlen($orig_word);
-} // end spellSuggest
 
 function escapeStringEntities($text)
 {
