@@ -1,9 +1,14 @@
 <?PHP
+
+function quizsolved()
+{
+}
+
 $browser_title                = "DP -- Proofreading Quiz";
 $ocr_text                     = "printing would be good for nothing but\nwaste paper, might not\nbe realised. The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where lie revised the\nfinal proofs. \n\nSo far as the reception of the work was\n\nWallace, p. 108.";  
 $solutions                    = array("printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration: High art.]\n\nSo far as the reception of the work was\n\n[Footnote A: Wallace, p. 108.]", "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration: High art.]\n\nSo far as the reception of the work was\n\n[Footnote A:\nWallace, p. 108.]", "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration:\nHigh art.]\n\nSo far as the reception of the work was\n\n[Footnote A: Wallace, p. 108.]", "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration:\nHigh art.]\n\nSo far as the reception of the work was\n\n[Footnote A:\nWallace, p. 108.]");
 $showsolution                 = TRUE;
-$initial_text                 = "<h2>Quiz, part 4</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
+$welcome                 = "<h2>Quiz, part 4</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 4 of quiz successfully solved</h2>\nCongratulations, no errors found!";
 $links_out                    = "<a href='../5/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step5' target='_top'>Next step of quiz</a>";
 

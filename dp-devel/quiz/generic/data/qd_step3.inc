@@ -1,9 +1,14 @@
 <?PHP
+
+function quizsolved()
+{
+}
+
 $browser_title                = "DP -- Proofreading Quiz";
 $ocr_text                     = "repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\nDEAREST mother, this is indeed\nlike some of\nOakwood's happy hours, \" exclaimed\nEmmeline , that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, arid raised her laughing eyes";  
 $solutions                    = array("repentant and remorseful agony.\n\n\n\n\nCHAPTER VII.\n\nAt Oakwood\n\n\n\"Dearest mother, this is indeed\nlike some of\nOakwood's happy hours,\" exclaimed\nEmmeline, that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, and raised her laughing eyes");
 $showsolution                 = TRUE;
-$initial_text                 = "<h2>Quiz, part 3</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
+$welcome                 = "<h2>Quiz, part 3</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 3 of quiz successfully solved</h2>\nCongratulations, no errors found!";
 $links_out                    = "<a href='../4/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step4' target='_top'>Next step of quiz</a>";
 

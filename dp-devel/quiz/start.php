@@ -17,13 +17,13 @@ At the moment we have 5 parts, all directed to beginners. Each part might take a
 <p>
 This is still a preliminary version, feedback is highly welcome. Please post it <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=8539">here</a>.</p>
 <p>
-<a href="./1/tut.php">Start with step 1 in tutorial</a><br>
+<a href="./tuts/tut1.php">Start with step 1 in tutorial</a><br>
 <a href="./generic/main.php?type=step1">Start with step 1 in quiz</a></p>
 <p>If you have already done some parts and want to reenter, choose your entry point here:<br>
-<a href="./2/tut.php">part 2</a> (paragraphs, hyphens, dashes)<br>
-<a href="./3/tut.php">part 3</a> (chapter headers, punctuation)<br>
-<a href="./4/tut.php">part 4</a> (illustrations, footnotes)<br>
-<a href="./5/tut.php">part 5</a> (poetry, block quotations)<br></p>
+<a href="./tuts/tut2.php">part 2</a> (paragraphs, hyphens, dashes)<br>
+<a href="./tuts/tut3.php">part 3</a> (chapter headers, punctuation)<br>
+<a href="./tuts/tut4.php">part 4</a> (illustrations, footnotes)<br>
+<a href="./tuts/tut5.php">part 5</a> (poetry, block quotations)<br></p>
 <br><br>
 <?
 theme("", "footer");

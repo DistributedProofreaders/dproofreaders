@@ -1,8 +1,8 @@
 <?
 $relPath='../../../pinc/';
 include_once('../small_theme.inc');
-include './data/qd_' . $_REQUEST['type'] . '.php';
+include './data/qd_' . $_REQUEST['type'] . '.inc';
 ?> 
  
-<?php echo $initial_text; ?></body>
+<?php echo $welcome; ?></body>
 </html>

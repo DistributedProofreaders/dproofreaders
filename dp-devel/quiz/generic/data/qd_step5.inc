@@ -1,9 +1,14 @@
 <?PHP
+
+function quizsolved()
+{
+}
+
 $browser_title                = "DP -- Proofreading Quiz";
 $ocr_text                     = "We ask ourselves how Byron's poem\n\nYou have the Pyrrhic dance as yet,\nWhere is the Pyrrhic phalanx\n                 gone?\nOf two such lessons, why forget\nThe nobler and the manlier one?\n\nis related to these well known words:\n\nWhen in the Course of human events, it\nbecomes necessary for one people to dissolve the\npolitical hands which have connected ...\n\nNot at all we suspect.";  
 $solutions                    = array("We ask ourselves how Byron's poem\n\n/*\nYou have the Pyrrhic dance as yet,\n  Where is the Pyrrhic phalanx gone?\nOf two such lessons, why forget\n  The nobler and the manlier one?\n*/\n\nis related to these well known words:\n\n/#\nWhen in the Course of human events, it\nbecomes necessary for one people to dissolve the\npolitical bands which have connected ...\n#/\n\nNot at all we suspect.");
 $showsolution                 = TRUE;
-$initial_text                 = "<h2>Quiz, part 5</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
+$welcome                 = "<h2>Quiz, part 5</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 5 of quiz successfully solved</h2>\nCongratulations, no errors found!";
 $links_out                    = "";
 

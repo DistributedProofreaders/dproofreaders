@@ -2,7 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
-include './data/qd_' . $_REQUEST['type'] . '.php';
+include './data/qd_' . $_REQUEST['type'] . '.inc';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>

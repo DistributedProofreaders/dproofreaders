@@ -1,7 +1,7 @@
 <? 
 $relPath='../../../pinc/';
 include_once('../small_theme.inc');
-include './data/qd_' . $_REQUEST['type'] . '.php';
+include './data/qd_' . $_REQUEST['type'] . '.inc';
 
 
 // A margin
@@ -19,7 +19,7 @@ if (count($messages[$_REQUEST['error']]["hints"]) > (1 + $_REQUEST['number']))
   {
     echo "Desperate? Can't find it?";
   };
-  echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $error_found . "&number=" . ($_REQUEST['number'] + 1) . "'>here</a>.<p>";
+  echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $_REQUEST['error'] . "&number=" . ($_REQUEST['number'] + 1) . "'>here</a>.<p>";
 };
 
  ?>

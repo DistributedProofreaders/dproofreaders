@@ -1,7 +1,10 @@
 <? 
 $relPath='../../../pinc/';
+include_once($relPath.'connect.inc');
 include_once('../small_theme.inc');
-include './data/qd_' . $_REQUEST['type'] . '.php';
+include './data/qd_' . $_REQUEST['type'] . '.inc';
+include './quiz_defaults.inc';
+include './quiz_fixedtexts.inc';
 
 function in_string($needle, $haystack, $sensitive = 0) 
 {
@@ -81,11 +84,11 @@ function finddiff()
     if ($d == "")
       return FALSE;
   };
-  echo "<h2>Difference with expected text</h2>";
-  echo "<p>There is still a difference between your text and the expected one. Finding the reason for this is beyond the current scope of the analysing software.</p>";
+  echo '<h2>' . $qt_differencehead . '</h2>';
+  echo '<p>' . $qt_difference . '</p>';
   if (count($solutions) == 1)
   {
-    echo "<p>This is the first differing line:<br>";
+    echo '<p>' . $qt_frstdiff . '<br>';
     echo "<pre>\n";
     echo $d;
     echo "\n</pre></p>";
@@ -94,7 +97,7 @@ function finddiff()
   {
     if ($showsolution)
     {
-      echo "<p>This is the expected text:<br>";
+      echo '<p>' . $qt_expected . '<br>';
       echo "<pre>\n";
       echo $solutions[0];
       echo "\n</pre></p>";
@@ -199,10 +202,6 @@ function error_check()
         };
       };
     };
-// todo:
-//
-// diff
-//
   };
 
   return "";
@@ -217,6 +216,7 @@ if ($error_found == "")
   $d = finddiff();
   if (!$d)
   {
+    quizsolved();
     echo $solved_message;
     echo "<p>";
     echo $links_out;
@@ -234,7 +234,7 @@ else
     }
     else
     {
-      echo "Desperate? Can't find it?";
+      echo $default_hintlink;
     };
     echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $error_found . "&number=0'>here</a>.<p>";
   };
@@ -244,7 +244,7 @@ else
   }
   else
   {
-    echo "Try to correct that or press 'restart' to restart.";
+    echo $default_challenge;
   };
   echo "<p>";
   if (isset($messages[$error_found]["feedbacktext"]))
@@ -253,7 +253,7 @@ else
   }
   else
   {
-    echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the message doesn't make any sense, please post a feedback message in <a href='http://www.pgdp.net/phpBB2/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
+    echo $default_feedbacktext;
   };
 };
  ?>
