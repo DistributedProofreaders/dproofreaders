@@ -1,14 +1,31 @@
 <?
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
-
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'udb_user.php');
 include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'session.inc');
+
+//Let's see if the users session has already been started
+	$session_id = session_id();
+	if (empty($session_id)) {
+		session_set_save_handler("mysql_session_open", "mysql_session_close", "mysql_session_select", "mysql_session_write", "mysql_session_destroy", "mysql_session_garbage_collect");
+		session_start();
+		if (!isset($_SESSION['userP']) || empty($_SESSION['userP'])) {
+			session_unset();
+			session_destroy();
+		} else {
+			if (!isset($pguser)) {
+				extract($_SESSION);
+			}
+		}
+	}
+
 
 //Let's check to see if the user has a cookie already
+if (0) {
 	$cookieC=new userCookie();
 	$cookieSet=$cookieC->checkCookie();
 	if ($cookieSet) { $pguser=$cookieC->userID;
@@ -19,6 +36,7 @@ include_once($relPath.'user_is.inc');
 			exit;
 		}
 	$userP=$cookieC->getUserPrefs($pguser);
+}
 }
 
 if(isset($userP['i_theme'])) {
@@ -43,9 +61,9 @@ function theme ($nameofpage, $location) {
 		$userP = "";
 	}
 
-	if (isset($userP['last_login']) && $userP['last_login'] <= (time() - 1440)) {
-		$result = mysql_query("UPDATE users SET last_login = ".time()." WHERE u_id = ".$userP['u_id']."");
-	}
+	//if (isset($userP['last_login']) && $userP['last_login'] <= (time() - 1440)) {
+	//	$result = mysql_query("UPDATE users SET last_login = ".time()." WHERE u_id = ".$userP['u_id']."");
+	//}
 
 	$code_url = $GLOBALS['code_url'];
 	$theme_name = $GLOBALS['theme_name'];
@@ -116,15 +134,11 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
-
-
-        // show number of projects posted to PG from DP
-
-        echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
-        $result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
-        $numproj = mysql_result($result,0);
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." books posted to PG from DP!</b></font>\n";
-
+	// show number of projects posted to PG from DP
+	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
+	$result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+	$numproj = mysql_result($result,0);
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." books posted to PG from DP!</b></font>\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -380,7 +394,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo number_format($neighborhood['rank'][$userindex])."/".number_format($neighborhood['total_ranks'])."<br>\n";
 	echo "&nbsp;" . _("Current Rank: ");
 	echo "$rankname<br></font>\n";
-	echo "<" . "!-- " . $userP['user_id'] . " -->";
+	echo "<" . "!-- " . $userP['u_id'] . " -->";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
 	//Show the team statistics

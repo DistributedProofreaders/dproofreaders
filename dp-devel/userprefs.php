@@ -1,14 +1,16 @@
 <?
 $relPath="./pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
-include($relPath.'html_main.inc');
-include($relPath.'doctype.inc');
-include($relPath.'prefs_options.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'metarefresh.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'html_main.inc');
+include_once($relPath.'doctype.inc');
+include_once($relPath.'v_resolution.inc');
+include_once($relPath.'prefs_options.inc');
+include_once($relPath.'session.inc');
 include_once($relPath.'theme.inc');
 
-$uid = $userP['user_id'];
+$uid = $userP['id'];
 
 // see if they already have 10 profiles, etc.
     $pf_query=mysql_query("SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
@@ -25,7 +27,6 @@ if (isset($swProfile))
     metarefresh(0,$eURL,'Profile Selection','Loading Selected Profile....');
     exit;
   }
-$uid = $userP['user_id'];
 
 include_once($relPath.'v_resolution.inc');
 
@@ -70,10 +71,11 @@ metarefresh(0, $eURL, "Quit", "");
 exit;
 }
 
-// restore cookie values from db
+// restore session values from db
 if (isset($restorec))
 {
-$cookieC->setUserPrefs($pguser);
+updateSessionPreferences($pguser);
+if (0) { $cookieC->setUserPrefs($pguser); }
 metarefresh(0, $eURL, "Restore", "");
 exit;
 }
@@ -411,7 +413,8 @@ $users_query.=" WHERE id='$user_id' AND username='$pguser'";
 $result = mysql_query($users_query);
 
 echo mysql_error();
-$cookieC->setUserPrefs($pguser);
+updateSessionPreferences($pguser);
+if (0) { $cookieC->setUserPrefs($pguser); }
 
 metarefresh(0, $eURL, "Save", "");
 }

@@ -109,18 +109,21 @@ function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$ed
 {
   //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
   $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
-  setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0);
+  if (0) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
+  $_SESSION['userPage'] = $pagerefs;
 }
 
 function setTempPageCookie($tempPrefs)
 {
   $pagerefs=implode("|",$tempPrefs);
-  setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0);
+  if (0) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
+  $_SESSION['userPage'] = $pagerefs;
 }
 
 function getPageCookie()
 {
-  @$cPage=explode("|",$_COOKIE['userPage']);
+  if (0) { @$cPage=explode("|",$_COOKIE['userPage']); }
+  @$cPage=explode("|",$_SESSION['userPage']);
   $uPage=array();
   $i=0;
   @$uPage['project']=$cPage[$i++];
@@ -139,8 +142,10 @@ function getPageCookie()
   return $uPage;
 }
 
-function deletePageCookie()
-  {setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0);}
+function deletePageCookie() {
+	if (0) { setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0); }
+  	$_SESSION['userPage'] = NULL;
+}
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
 {
@@ -158,7 +163,7 @@ function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
     }
   $dbQuery.="  WHERE fileid='$fileid' AND image='$imagefile'";
   $update = mysql_query($dbQuery);
-  return $rval;  
+  return $rval;
 }
 
 function getText($pagestate,$saved,$revert)
@@ -278,7 +283,7 @@ function saveComplete($proofstate,$text_data,$pguser,$userP)
   $timestamp = time();
   $dbQuery="UPDATE {$this->project} SET {$this->save_text}='$text_data', {$this->save_time}='$timestamp', state='{$this->save_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
-  $result = mysql_query($dbQuery);
+  $result = mysql_query($dbQuery) or die(mysql_error());
   $this->isProjectDone($proofstate);
   return $this->save_state;
 }
