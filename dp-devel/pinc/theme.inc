@@ -137,19 +137,28 @@ function html_logobar($siteurl, $theme, $nameofpage, $theme_name) {
 function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
     //If logged in & either a Post Processor or Project Manager display links
 	if (isset($GLOBALS['pguser'])) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>";
-		if ($userP['manager'] == "yes") {
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
+				
+		//if ((substr($_SERVER['PHP_SELF'], -14) == "projectmgr.php" || substr($_SERVER['PHP_SELF'], -17) == "post_proofers.php" || substr($_SERVER['PHP_SELF'], -12) == "sitenews.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
+		if ((substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") && ($userP['manager'] == "yes" || $userP['postprocessor'] == "yes" || $userP['sitemanager'] == "yes")) { 
+			echo "<a href='$siteurl/tools/proofers/proof_per.php'>Proofread Projects</a>"; 
+			$divider = 1;
+		}
+		if ($userP['manager'] == "yes" && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
+			if (isset($divider)) { 
+				echo " | ";
+			}
 			echo "<a href='$siteurl/tools/project_manager/projectmgr.php'>Manage Projects</a>";
 			$divider = 1;
 		}
-		if ($userP['postprocessor'] == "yes") {
+		if ($userP['postprocessor'] == "yes" && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
 			if (isset($divider)) { 
 				echo " | ";
 			}
 			echo "<a href='$siteurl/tools/post_proofers/post_proofers.php'>Post Processing</a>";
 			$divider = 1;
 		}
-		if ($userP['sitemanager'] == "yes") {
+		if ($userP['sitemanager'] == "yes" && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
