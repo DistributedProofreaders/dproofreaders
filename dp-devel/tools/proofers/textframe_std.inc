@@ -3,8 +3,8 @@ include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'button_defs.inc');
-include_once($relPath.'prefs_options.inc');
 include_once($relPath.'slim_header.inc');
+include_once('textarea.inc');
 
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
@@ -44,37 +44,8 @@ slim_header("Text Frame",TRUE,FALSE);
 	//-->
 </script>
 <?
-// display text area
-  // choose horizontal or vertical settings
-  if ($userP['i_layout']==1)
-  {
-    $tcols = $userP['v_tchars'];
-    $trows = $userP['v_tlines'];
-    $twrap = $userP['v_twrap'];
-    $tfonti = $userP['v_fntf'];
-    $tfont = $f_f[$tfonti];
-  }
-  else
-  {
-    $tcols = $userP['h_tchars'];
-    $trows = $userP['h_tlines'];
-    $twrap = $userP['h_twrap'];
-    $tfonti = $userP['h_fntf'];
-    $tfont = $f_f[$tfonti];
-  }
-  // choose general settings
-  $twrap = $twrap==1? '': " wrap=\"off\"";
-  // write the textarea
-  echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\" $twrap";
-  if ($tfont != '' && $tfonti != 0)
-  {
-    echo ' style="font-family: ' . $tfont . '"';
-  }
-  echo ">\n";
-  // SENDING PAGE-TEXT TO USER
-  // We're sending it in an HTML document, so encode special characters.
-  echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
-?></textarea>
+  echo_proofing_textarea( $npage['text'], FALSE );
+?>
 <BR>
 <?
 // set values for hidden form fields

@@ -2,8 +2,8 @@
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'c_pages.inc');
-include_once($relPath.'prefs_options.inc');
 include_once($relPath.'slim_header.inc');
+include_once('textarea.inc');
 
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
@@ -264,36 +264,10 @@ id="controlframe" align="center"><form
 ?></td></tr><tr><td
   id="tdtext"
   valign="top"><?PHP
-  // settings for horizontal or vertical interface
-  if ($userP['i_layout']==1)
-  {
-    $tcols = $userP['v_tchars'];
-    $trows = $userP['v_tlines'];
-    $twrap = $userP['v_twrap'];
-    $tfonti = $userP['v_fntf'];
-    $tfont = $f_f[$tfonti];
-  }
-  else
-  {
-    $tcols = $userP['h_tchars'];
-    $trows = $userP['h_tlines'];
-    $twrap = $userP['h_twrap'];
-    $tfonti = $userP['h_fntf'];
-    $tfont = $f_f[$tfonti];
-  }
-  // General settings
-  $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
-  // display text area
-  echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\" $twrap";
-  if ($tfont != '' && $tfonti != 0)
-  {
-    echo ' style="font-family: ' . $tfont . '"';
-  }
-  echo ">\n";
-  // SENDING PAGE-TEXT TO USER
-  // We're sending it in an HTML document, so encode special characters.
-  echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
-?></textarea></td></tr><tr><td
+
+  echo_proofing_textarea( $npage['text'], TRUE );
+
+?></td></tr><tr><td
   id="tdbottom"
   valign="top"><?PHP
 //display page number
