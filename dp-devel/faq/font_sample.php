@@ -4,8 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 new dbConnect();
-$no_stats=0;
-theme('DPCustomMono2','header');
+theme('Custom Font Comparison','header');
 ?>
 
 
