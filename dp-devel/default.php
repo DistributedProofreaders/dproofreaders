@@ -8,8 +8,8 @@
 <table BORDER=0><tr>
 <td>
 <form action="accounts/login.php" method="post"><table border=1>
-<tr><td bgcolor=#CCCCCC><strong>Username</strong></td><td><input type="text" name="username" size=10 maxsize=50></td></tr>
-<tr><td bgcolor=#CCCCCC><strong>Password</strong></td><td><input type="password" name="password" size=10 maxsize=50></td></tr>
+<tr><td bgcolor=#CCCCCC><strong>Username</strong></td><td><input type="text" name="userNM" size=10 maxsize=50></td></tr>
+<tr><td bgcolor=#CCCCCC><strong>Password</strong></td><td><input type="password" name="userPW" size=10 maxsize=50></td></tr>
 <tr><td colspan=2 align=center><a href="accounts/addproofer.php">New User?</a> <input type="submit" value="Auth me"></td></tr>
 </table></form>
 </td>
