@@ -50,12 +50,14 @@ function showProjProfile($curProj) {
 
 
 function activityCenter($curProj) {
-	global $theme;
+	global $theme, $code_url, $projects_url;
 
 	$relPath="../../pinc/";
 
 	include_once($relPath.'page_states.inc');
 	include_once($relPath.'f_project_states.inc');
+
+	$projectid = $curProj['projectid'];
 
 	$proj_round = projectStateRound($curProj['state']);
 
@@ -63,15 +65,15 @@ function activityCenter($curProj) {
 
 // Discuss project in forums
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/project_topic.php?project=".$curProj['projectid']."'>Discuss</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/project_topic.php?project=$projectid'>Discuss</a></font></td></tr>";
 
 // View Page Images
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.html'>View Page Images</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.html'>View Page Images</a></font></td></tr>";
 
 // Download Page Images
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$projects_url."/".$curProj['projectid']."/images.zip'>Download Page Images</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.zip'>Download Page Images</a></font></td></tr>";
 
 // Start Proofing
 
