@@ -178,10 +178,15 @@ function rankPosition($rank, $u_id) {
 
 			// $rank is current rank. Compare it to rank as of latest midnight.
 			$currentRank = $rank;
-			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
-			$prevRank = mysql_result($result, 0, "rank");
+			$prevRank = user_get_latest_saved_page_tally_rank( $u_id );
 
 	return showChangeInRank($prevRank, $currentRank);
+}
+
+function user_get_latest_saved_page_tally_rank( $u_id )
+{
+	$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
+	return mysql_result($result, 0, "rank");
 }
 
 function showChangeInRank($prevRank, $currentRank)
