@@ -12,21 +12,46 @@ include_once($relPath.'page_ops.inc');
 
 function get_available_page( $project, $proofstate, $pguser )
 {
-    $npage = getAvailablePage( $project, $proofstate, $pguser );
-
-    // check to see if the user has exceeded the R1 BEGIN quota for this project
-    if ($npage['TooManyBegin'] == 1) 
+    // If $project is a BEGIN project in R1, people can only get a new page 
+    // if they've done less than X pages on this project so far;
+    // X is currently, let's say, 20
+    //
+    if ($proofstate == PROJ_PROOF_FIRST_AVAILABLE)
     {
-        $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
-        return $err;
+        $dbQuery = "
+            SELECT COUNT(fileid) as pagesdone
+            FROM $project, projects 
+            WHERE round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
+        "; 
+        $result = mysql_query($dbQuery);
+        $pagesdone = mysql_result($result, 0, "pagesdone" );
+        if ($pagesdone > 20)
+        {
+            $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
+            return $err;
+        }
     }
 
-    // check to see if project is open
-    if ($npage['isopen'] == 0)
+    // Find page to be proofed.
+    // (It appears that a simultaneous query from someone else would return the same page.)
+    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='";
+    if ($proofstate == PROJ_PROOF_SECOND_AVAILABLE)
+    {
+        $dbQuery .= AVAIL_SECOND."' AND round1_user != '$pguser'";
+    }
+    else
+    {
+        $dbQuery .= AVAIL_FIRST."'";
+    }
+    $dbQuery .= " ORDER BY image ASC LIMIT 1";
+    $result = mysql_query($dbQuery);
+    $numrows = mysql_num_rows($result);
+    if ($numrows == 0)
     {
         $err = _("No more files available for proofreading for this round of the project.");
         return $err;
     }
+    $npage = mysql_fetch_assoc($result);
 
     $tpage = new processpage();
     $pagestate = $tpage->checkOutPage( $project, $proofstate, $pguser, $npage['fileid'], $npage['image'] );
@@ -270,65 +295,6 @@ function getProjectRound( $state )
   {
     return 0;
   }
-}
-
-// Following function appears to construct and return an array named $rval.
-// Here are the keys that might be in $rval:
-// 1. 'TooManyBegin' - set to 1 if:
-//      this was a beginner project, and the user has already proofed
-//      too many pages from this project (hard-coded guess? to 20).
-//     If this key is set to '1', the array with the single key in it is returned.
-//     Nonetheless, the key is set to 0 subsequently.
-// 2. 'isopen' - set to 1 if any available page was found,  set to 0 otherwise.
-//      In either case, 'TooManyBegin' is set to 0 (see #1) - possibly redundant.
-// 3. In addition, if a page was found, a set of field values is also included
-//    in the return array, perhaps for subsequent assignment. It appears that
-//    a simultaneous query from someone else would return the same page.
-
-function getAvailablePage($project,$proofstate,$pguser)
-{
-  // if a BEGIN project in R1, people can only get a new page 
-  // if they've done less than X pages on this project already;
-  // X is currently, let's say, 20
-
-  if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
-  {
-    $dbQuery = "
-      SELECT COUNT(fileid) as pagesdone
-      FROM $project, projects 
-      WHERE round1_user = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
-    "; 
-    $result=mysql_query($dbQuery);
-    $pagesdone = mysql_result($result, 0, "pagesdone" );
-    if ($pagesdone > 20)
-    {
-      $rval['TooManyBegin'] = 1;
-      return $rval;
-    }
-  }
-
-  //find page to be proofed.
-  $dbQuery="SELECT fileid, image, state FROM $project WHERE state='";
-  if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
-  {
-    $dbQuery.=AVAIL_SECOND."' AND round1_user != '$pguser'";
-  }
-  else
-  {
-    $dbQuery.=AVAIL_FIRST."'";
-  }
-  $dbQuery.=" ORDER BY image ASC LIMIT 1";
-  $result=mysql_query($dbQuery);
-  $numrows = mysql_num_rows($result);
-  if ($numrows !=0)
-  {
-    $rval=mysql_fetch_assoc($result);$rval['isopen']=1;$rval['TooManyBegin'] = 0;
-  }
-  else
-  {
-    $rval['isopen']=0;$rval['TooManyBegin'] = 0;
-  }
-  return $rval;
 }
 
 function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
