@@ -46,7 +46,8 @@ function show_projects_in_state($state,$table=1)
 			username,
 			postproofer,
 			checkedoutby,
-			correctedby
+			correctedby,
+                        difficulty
 		FROM projects
 		WHERE state='$state'
 	";
