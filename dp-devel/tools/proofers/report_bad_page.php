@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
@@ -25,18 +24,8 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$header = _("Bad Page Report");
 	theme($header, "header");
 
-	$tb=$htmlC->startTable(0,0,0,1);
-	$tb2=$htmlC->startTable(0,"80%",'align="center"',1);
-	$tr=$htmlC->startTR(0,0,1);
-	$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
-	$td2=$htmlC->startTD(1,0,0,0,"left",0,0,1);
-	$td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
-	$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
-	$td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
-	$td6=$htmlC->startTD(2,0,2,0,"left",0,0,1);
-
 	echo "<br><br><center>";
-	echo $tb2.$tr.$td6;
+	echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'><tr><td bgcolor='#336633' colspan='2' align='left'>";
 	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
 	echo "<ul>";
 	echo "<li>First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.<br><br>";
@@ -52,26 +41,26 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input type='hidden' name='badState' value='$badState'>";
 	echo "<input type='hidden' name='proofstate' value='$proofstate'>";
 	echo "<input type='hidden' name='submitted' value='true'>";
-	echo $tb;
-	echo $tr.$td1;
+	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
+	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
 	echo "<B><font color='#ffffff'>"._("Submit a Bad Page Report")."</font></B>";
-	echo $tr.$td2;
+	echo "<tr><td bgcolor='#e0e8dd' align='left'>";
 	echo "<strong>"._("Reason").":</strong>";
-	echo $td3;
+	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<select name='reason'>";
 	for ($i=0;$i<count($reason_list);$i++)
 	{
 		echo "<option value='$i'>$reason_list[$i]</option>";
 	}
 	echo "</select>";
-	echo $tr.$td2;
+	echo "<tr><td bgcolor='#e0e8dd' align='left'>";
 	echo "<strong>"._("What to Do").":</strong>";
-	echo $td3;
+	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
-	echo $tr.$td1;
+	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
 	echo "<input type='submit' value='"._("Submit Report")."'>";
 	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
-	echo $tr.$td5;
+	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
 	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to your personal page.");
 	echo "</td></tr></table></form></center></div>";
 	theme("", "footer");
