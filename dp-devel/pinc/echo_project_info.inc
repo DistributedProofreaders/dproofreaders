@@ -85,14 +85,9 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	{
 		//Look up realnames for project manager, scanner and post processor for credit line
 
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['username']}'");
-		$managercredit = mysql_result($result, 0, "real_name");
-
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['scannercredit']}'");
-		$scannercredit = mysql_result($result, 0, "real_name");
-
-		$result = mysql_query("SELECT real_name FROM users WHERE username = '{$project['postproofer']}'");                                       
-		$postproofername = mysql_result($result, 0, "real_name");     
+		$managercredit   = get_real_name( $project['username'] );
+		$scannercredit   = get_real_name( $project['scannercredit'] );
+		$postproofername = get_real_name( $project['postproofer'] );
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
 
@@ -134,6 +129,29 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	echo "$comments</td></tr>";
 
 	echo "</table>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_real_name( $login_name )
+{
+	if ($login_name == '')
+	{
+		return '(no name)';
+	}
+
+	$res = mysql_query("
+		SELECT real_name FROM users WHERE username='$login_name'
+	");
+	if (mysql_num_rows($res) > 0)
+	{
+		$name = mysql_result($res, 0);
+	}
+	else
+	{
+		$name = $login_name;
+	}
+	return $name;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
