@@ -27,9 +27,12 @@ if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
 }
 
 //Create projects created per day graph for current month
-$year  = date("Y");
-$month = date("m");
 
+$day = date("d", $todaysTimeStamp);
+$year  = date("Y", $todaysTimeStamp);
+$month = date("m", $todaysTimeStamp);
+$monthVar = _(date("F", $todaysTimeStamp));
+$today = $year."-".$month."-".$day;
 
 // number of days this month - note that unlike project_state_stats, 
 // which gets a row added for each new day just after midnight,
@@ -56,7 +59,7 @@ $datax[0] = 1;
 $count = 1;
 
 
-while ($count < $maxday) {
+while ($count <= $maxday) {
 	if ($count < $mynumrows) {
 		$total = mysql_result($result, $count, "PC");
 	       	$datay1[$count] = $total;
@@ -92,7 +95,7 @@ $graph->xaxis->title->Set("");
 $graph->yaxis->title->Set(_("Projects"));
 $graph->yaxis->SetTitleMargin(45);
 
-$graph->title->Set(_("Projects PPd Per Day for Current Month"));
+$graph->title->Set(_("Projects PPd Per Day for")." $monthVar $year");
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
