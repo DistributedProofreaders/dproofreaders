@@ -39,13 +39,13 @@ require_once "Profileclass.inc" ;
 
 class User
 {
-    var $subject;       // the usename for which we want to instantiate this instance
+    var $my_username;      // the usename for which we want to instantiate this instance
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $users_phpbb_meta; // metadata for users_phpbb columns.
-    var $settings;      // This is for the records from usersettings for this user.
-    var $profiles;       // this is for the records from userprofiles for this user.
-    var $stats;         // this is for the fields from a summary query from member_stats.
-    var $logged_in;     // boolean = True when they are and False when they're not.
+    var $settings;         // This is for the records from usersettings for this user.
+    var $profiles;         // this is for the records from userprofiles for this user.
+    var $stats;            // this is for the fields from a summary query from member_stats.
+    var $logged_in;        // boolean = True when they are and False when they're not.
     var $teams;
     var $neighbors;
     var $ten;
@@ -70,16 +70,16 @@ class User
         // using $pguser is the quickanddirty way to hitchhike on the
         // existing security.
 
-        if(!($this->subject = $username))
+        if(!($this->my_username = $username))
         {
-            $this->subject = $pguser ;
+            $this->my_username = $pguser ;
         }
         assert($pguser) ;
-        assert($this->subject);
+        assert($this->my_username);
 
         // temporary comment out validuser etc. - work on it later.
         // if(! $this->_isValidUser()) {
-        $this->_queryPhpbb_Users();
+        $this->_queryPhpbb_Users($username);
         $this->_querySettings();
         // }
 
@@ -89,17 +89,27 @@ class User
         // And now we have a configured user!
     }
 
-    function _queryPhpbb_Users()
+    function _queryPhpbb_Users($username)
     {
-        $sql = "SELECT u .* , bbu.* , t1.*, t2.*, t3.* 
+        $sql = "SELECT u.*, bbu.*, t1.*, t2.*, t3.*
                 FROM users AS u
-                LEFT  OUTER  JOIN phpbb_users AS bbu ON u.username = bbu.username
-                LEFT  OUTER  JOIN user_teams AS t1 ON u.team_1 = t1.id
-                LEFT  OUTER  JOIN user_teams AS t2 ON u.team_2 = t2.id
-                LEFT  OUTER  JOIN user_teams AS t3 ON u.team_3 = t3.id
-                WHERE u.username = '$this->_userId()'" ;
+                LEFT OUTER JOIN phpbb_users AS bbu ON u.username = bbu.username
+                LEFT OUTER JOIN user_teams AS t1 ON u.team_1 = t1.id
+                LEFT OUTER JOIN user_teams AS t2 ON u.team_2 = t2.id
+                LEFT OUTER JOIN user_teams AS t3 ON u.team_3 = t3.id
+                WHERE u.username = '$username'" ;
+
         $result = mysql_query($sql);
 
+        if( ! mysql_num_rows($result) )
+        {
+            $this->logged_in = False ;
+            return ;
+        }
+    
+        $this->logged_in = True ;
+
+        // collect metadata about each of the columns
         for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++ )
         {
             $meta = mysql_fetch_field($result, $i) ;
@@ -117,8 +127,8 @@ class User
         // Now query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
         $sql = "SELECT *
-                FROM usersettings
-                WHERE username = '$username'";
+            FROM usersettings
+            WHERE username = '$username'";
         $result = mysql_query($sql);
 
         while ($row = mysql_fetch_assoc($result)) {
@@ -193,10 +203,10 @@ class User
      * - returns an error message explaining why it cannot be used.
      */
 
-     function _fieldLength($fieldname)
-     {
-         return $user_phpbb_meta[$fieldname];
-     }
+    function _fieldLength($fieldname)
+    {
+        return $user_phpbb_meta[$fieldname];
+    }
 
     function _isValidUserName()
     {
@@ -227,10 +237,10 @@ class User
         // Thus, no leading or trailing spaces, and no adjacent spaces.
 
         if (trim($this->userName()) != $this->userName()) {
-            $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
-            return $error;
+        $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
+        return $error;
         }
-        */
+         */
 
         if (ereg("  ", $this->userName())) {
             $error = _("Your User Name contains adjacent space characters, which is not allowed.");
@@ -322,14 +332,14 @@ class User
     }
 
 
-
     /**
      * pagecount for the user
      */
 
     function pageCount()
     {
-        return $this->_rowVal('u.pagescompleted') ;
+        // return $this->stats['pagecount']
+        return $this->users_phpbb['pagescompleted'] ;
     }
 
     /**
@@ -357,7 +367,7 @@ class User
     function userName()
     {
         // return $this->users_phpbb['username'];
-        return $this->_rowVal['username'];
+        return $this->_rowVal('username');
     }
 
     /**
@@ -396,11 +406,11 @@ class User
 
     function _isValidPassword($password)
     {
-       if (MD5($password) != $this->_passwordMD5()) {
-           $error = _("Password is invalid.");
-       } else $error = "";
+        if (MD5($password) != $this->_passwordMD5()) {
+            $error = _("Password is invalid.");
+        } else $error = "";
 
-       return $error;
+        return $error;
     }
 
     /**
@@ -410,11 +420,13 @@ class User
      * - returns an error message otherwise
      */
 
+    /*
     function logIn($password)
     {
-        $ret = trim( $this->_isValidUser() . ' ' . $this->_isValidPassword($password) ) ;
-        return ( $this->logged_in = ( $ret == '' ) ) ;
+        return ($this->_isValidUser() == ''
+                && $this->_isValidPassword($password) == '') ;
     }
+    */
 
     /**
      * Sets the E-mail Address of the User
@@ -551,7 +563,7 @@ class User
 
     function _isValidTheme($name)
     {
-        
+
     }
 
     /**
@@ -653,6 +665,7 @@ class User
 
     function topTen()
     {
+        if( ! $this->isLoggedIn() ) return ;
         if( ! $this->ten )
             $this->_queryTopTen();
         assert( $this->ten ) ;
@@ -664,27 +677,6 @@ class User
         return ($this->_rowVal('u.u_top10')>0) ;
     }
 
-/*
-    function _queryTopTen()
-    {
-        $sql = "SELECT username,
-                       CASE u_privacy
-                           WHEN 1 THEN u.username
-                           ELSE 'Anonymous'
-                           END AS neighborname,
-                       pagescompleted AS pages,
-                       u_privacy AS privacy
-                FROM users
-                ORDER BY pagescompleted DESC
-                LIMIT 10" ;
-
-        $result = mysql_query( $sql ) ;
-        while( $row = mysql_fetch_assoc( $result ) ) {
-            $this->topTen[$row['username']] = $row ;
-        } 
-        mysql_free_result( $result ) ;
-    } 
-*/
     /**
      * Error-checking that the language being selected is a valid language
      */
@@ -727,7 +719,8 @@ class User
 
     function rank()
     {
-        return $this->users_phpbb['u.rank'] ;
+        $this->_maybeQueryStats() ;
+        return $this->stats['rank'] ;
     }
 
 
@@ -738,42 +731,42 @@ class User
 
     function _queryTopTen()
     {
-        $sql = "SELECT username,
-                       CASE u_privacy
-                           WHEN 1 THEN u.username
-                           ELSE 'Anonymous'
-                           END AS neighborname,
-                       rank,
-                       pagescompleted AS pages,
-                       u_privacy AS privacy
-                FROM users
-                ORDER BY pagescompleted DESC
+        $sql = "SELECT u.username,
+                    CASE
+                        WHEN u.u_privacy = 1
+                        THEN 'Anonymous'
+                        ELSE u.username
+                        END AS neighborname,
+                    u.pagescompleted AS pages,
+                    u.u_privacy AS privacy
+                FROM users as u
+                ORDER BY u.pagescompleted DESC
                 LIMIT 10" ;
 
         $result = mysql_query( $sql ) ;
         while( $row = mysql_fetch_assoc( $result ) ) {
-            $this->topTen[$row['username']] = $row ;
+            $this->ten[$row['username']] = $row ;
         } 
         mysql_free_result( $result ) ;
     } 
 
     /**
-      * returns the 5 nearest neighbors
-      */
+     * returns the 5 nearest neighbors
+     */
 
-      function nearestFiveNeighbors()
-      {
-          return $this->_neighbors(5);
-      }
+    function nearestFiveNeighbors()
+    {
+        return $this->_neighbors(5);
+    }
 
     /**
-      * returns the 10 nearest neighbors
-      */
+     * returns the 10 nearest neighbors
+     */
 
-      function nearestTenNeighbors()
-      {
-          return $this->_neighbors(10);
-      }
+    function nearestTenNeighbors()
+    {
+        return $this->_neighbors(10);
+    }
 
     /**
      * Returns a set of the n nearest neighbors in rank in both directions
@@ -794,50 +787,98 @@ class User
      * creates the user's neighbor list.
      */
 
+/*
+The first query gets the users above
+SELECT
+    'Above' AS direction,
+    u.username, 
+    CASE WHEN u.u_privacy = 0
+        THEN u.username
+        ELSE 'Anonymous' END
+        AS neighborname,
+    u.pagescompleted AS pages,
+    u.u_privacy AS privacy
+FROM users AS u, users AS ume
+WHERE ume.username = 'dkretz'
+    AND u.pagescompleted >= ume.pagescompleted
+ORDER BY u.pagescompleted
+LIMIT 10 
 
+SELECT
+    'Below' AS direction,
+    u.username,
+    CASE 
+        WHEN u.u_privacy = 0
+        THEN u.username
+        ELSE 'Anonymous' END
+        AS neighborname,
+    u.pagescompleted AS pages,
+    u.u_privacy as privacy
+FROM users AS u, users AS ume
+WHERE ume.username = 'dkretz'
+    AND u.pagescompleted < ume.pagescompleted
+ORDER BY u.pagescompleted DESC
+LIMIT 10 
+*/
 
     function _getNeighbors($count)
     {
-        $sql = "SELECT u.username,
-                       CASE u.u_privacy
-                           WHEN 1 THEN u.username
-                           ELSE 'Anonymous'
-                           END AS neighborname,
-                       u.pagescompleted AS pages,
-                       u.u_privacy as privacy
-                FROM users AS u
-                INNER JOIN users AS u_me
-                WHERE u_me.username = '$this->userName()'
-                    AND u.pagescompleted >= u_me.pagescompleted
-                ORDER BY u.pagescompleted
-                LIMIT 10" ;
+        $sql = "
+            SELECT
+                'Above' AS direction,
+                u.username, 
+                CASE WHEN u.u_privacy = 0
+                    THEN u.username
+                    ELSE 'Anonymous' END
+                    AS neighborname,
+                u.pagescompleted AS pages,
+                u.u_privacy AS privacy
+                FROM users AS u, users AS ume
+            WHERE ume.username = '" . $this->userName() . "'
+                AND u.pagescompleted >= ume.pagescompleted
+            ORDER BY u.pagescompleted
+            LIMIT " . number_format($count+1) ;
 
-        print $sql ;
+        // print $sql ;
         $result = mysql_query( $sql ) ;
         assert( $result );
-        while( $row = mysql_fetch_assoc( $result ) ) {
-            $this->neighbors[$row['username']] = $row ;
+        $this->neighbors = array() ;
+        for( $i = $this->rank() ; $row = mysql_fetch_assoc( $result ) ; $i++ )
+        {
+            array_push($this->neighbors,$row) ;
+            // print "<br>$i " . $row['username'] . " " . $row['pages'] ;
+            // $this->neighbors[$row['username']] = $row ;
         } 
         mysql_free_result( $result ) ;
 
-        $sql = "SELECT u.username,
-                       CASE u.u_privacy
-                           WHEN 1 THEN u.username
-                           ELSE 'Anonymous'
-                           END AS neighborname,
-                       u.pagescompleted AS pages,
-                       u.u_privacy AS privacy
-                FROM users AS u
-                INNER JOIN users AS u_me
-                WHERE u_me.username = '$this->userName()'
-                    AND u.pagescompleted < u_me.pagescompleted
-                    AND u.pagescompleted > 0
-                ORDER BY u.pagescompleted DESC
-                LIMIT 10" ;
+        $this->neighbors = array_reverse( $this->neighbors ) ;
+        $num_above = count($this->neighbors) ;
+
+        $sql = "
+            SELECT
+                'Below' AS direction,
+                u.username, 
+                CASE WHEN u.u_privacy = 0
+                    THEN u.username
+                    ELSE 'Anonymous' END
+                    AS neighborname,
+                u.pagescompleted AS pages,
+                u.u_privacy AS privacy
+                FROM users AS u, users AS ume
+            WHERE ume.username = '" . $this->userName() . "'
+                AND u.pagescompleted < ume.pagescompleted
+                AND u.pagescompleted > 0
+            ORDER BY u.pagescompleted DESC
+            LIMIT " . number_format($count) ;
+
+        // print $sql ;
         $result = mysql_query( $sql ) ;
         assert( $result ) ;
-        while( $row = mysql_fetch_assoc( $result ) ) {
-            $this->neighbors[$row['username']] = $row ;
+        for( $i = $this->rank() -1 ; $row = mysql_fetch_assoc( $result ) ; $i-- )
+        {
+            array_push($this->neighbors,$row) ;
+            // $this->neighbors[--$i] = $row ;
+            // print "<br>$i" . $row['username'] . " " . $row['pages'] ;
         } 
         mysql_free_result( $result ) ;
 
@@ -992,19 +1033,19 @@ class User
      * - returns "" otherwise
      */
 
-     /*
-    function _needsApostrophe()
-    {
-        if ((substr($this->userName(), -1) != "s")
-            ||  {
-            $needsApostrophe = "s";
-        } else {
-            $needsApostrophe = "";
-        }
+    /*
+       function _needsApostrophe()
+       {
+       if ((substr($this->userName(), -1) != "s")
+       ||  {
+       $needsApostrophe = "s";
+       } else {
+       $needsApostrophe = "";
+       }
 
-        return $needsApostrophe;
-    }
-    */
+       return $needsApostrophe;
+       }
+     */
 
     /**
      * Date User Account was Created
@@ -1113,7 +1154,7 @@ class User
      *
      * <p>Based on user's page, returns the user ranking name.</p>
      */
- 
+
     function rankingDescription()
     {
         if ($this->pagesCompleted() <= 25) {
@@ -1137,7 +1178,7 @@ class User
         if ($this->pagesCompleted() <= 10000) {
             return _("Connoisseur");
         }
-        
+
         if ($this->pagesCompleted() <= 20000) {
             return _("Rare Talent");
         }
@@ -1155,37 +1196,37 @@ class User
         }
         if ($this->pagesCompleted() <= 60000) {
             return _("Prime Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 70000) {
             return _("Peerless Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 75000) {
             return _("Primordial Proofreader");
-	}
+        }
         if ($this->pagesCompleted() <= 80000) {
             return _("Proofreader Magnifico");
-	}
+        }
         if ($this->pagesCompleted() <= 90000) {
             return _("Proofreader Supreme");
-	}
+        }
         if ($this->pagesCompleted() <= 99000) {
             return _("Prooferissimo");
-	}
+        }
         if ($this->pagesCompleted() <= 99500) {
             return _("Master of Proofreading");
-	}
+        }
         if ($this->pagesCompleted() <= 100000) {
             return _("Doctor of Proofreading");
-	}
+        }
         if ($this->pagesCompleted() <= 101000) {
             return _("Prishan of Proofreaders");
-	}
+        }
         if ($this->pagesCompleted() <= 110000) {
             return _("Proofer of Proofers");
-	}
+        }
         if ($this->pagesCompleted() <= 120000) {
             return _("Proofreader Extraordinaire");
-	}
+        }
         if ($this->pagesCompleted() <= 125000) {
             return _("Professor of Proofreading");
         }
@@ -1386,8 +1427,8 @@ class User
      * - returns false otherwise
      */
 
-     // This sort of field could go into the "usersettings" table in the future.
-     
+    // This sort of field could go into the "usersettings" table in the future.
+
     function isProjectManager()
     {
         return ($this->users_phpbb['manager'] == 'yes');
@@ -1430,7 +1471,7 @@ class User
     function mayManageProjects()
     {
         return ($this->isSiteManager()
-	|| $this->isProjectManager());
+                || $this->isProjectManager());
     }
 
     /**
@@ -1540,7 +1581,7 @@ class User
     function mayManageTaskCenter()
     {
         return ($this->isSiteManager() 
-        || $this->isTaskCenterManager());
+                || $this->isTaskCenterManager());
     }
 
     /**
@@ -1595,7 +1636,7 @@ class User
     function mayFacilitateProjects()
     {
         return ($this->isSiteManager() 
-        || $this->isProjectFacilitator());
+                || $this->isProjectFacilitator());
     }
 
     /**
@@ -1651,8 +1692,8 @@ class User
     function mayMentorProjects()
     {
         return ($this->isSiteManager() 
-        || $this->isProjectFacilitator() 
-        || $this->isProjectMentor());
+                || $this->isProjectFacilitator() 
+                || $this->isProjectMentor());
     }
 
     /**
@@ -1708,8 +1749,8 @@ class User
     function mayPostProcess()
     {
         return ($this->isSiteManager() 
-        || $this->isPostProcessor()
-        || $this->pagesCompleted() >= 400);
+                || $this->isPostProcessor()
+                || $this->pagesCompleted() >= 400);
     }
 
     /**
@@ -1754,7 +1795,8 @@ class User
     /**
      * May User Post Process Verify
      *
-     * <p>This is different from isPostProcessVerifier() in that Site Managers, in their very nature
+     * <p>This is different from isPostProcessVerifier()
+     * in that Site Managers, in their very nature
      * of being Site Managers, are allowed to do anything.</p>
      *
      * - Returns true if the User may manage projects
@@ -1764,7 +1806,7 @@ class User
     function mayPostProcessVerify()
     {
         return ($this->isSiteManager() 
-        || $this->isPostProcessVerifier());
+                || $this->isPostProcessVerifier());
     }
 
     /**
@@ -1819,7 +1861,7 @@ class User
     function mayEditSiteNews()
     {
         return ($this->isSiteManager() 
-        || $this->isSiteNewsEditor());
+                || $this->isSiteNewsEditor());
     }
 
     /**
@@ -1876,9 +1918,9 @@ class User
     function maySeeBeginR1()
     {
         return ($this->isSiteManager()
-        || $this->isProjectFacilitator()
-        || $this->pagesCompleted() <= 40
-        || $this->isSeeBeginR1());
+                || $this->isProjectFacilitator()
+                || $this->pagesCompleted() <= 40
+                || $this->isSeeBeginR1());
     }
 
     /**
@@ -1935,9 +1977,9 @@ class User
     function maySeeBeginR2()
     {
         return ($this->isSiteManager()
-        || $this->isProjectFacilitator()
-        || $this->pagesCompleted() >= 300
-        || $this->isSeeBeginR2());
+                || $this->isProjectFacilitator()
+                || $this->pagesCompleted() >= 300
+                || $this->isSeeBeginR2());
     }
 
     // **********************************************************************************
@@ -1966,7 +2008,7 @@ class User
             $sql = "SELECT COUNT(1) AS PMcount
                     FROM phpbb_privmsgs
                     WHERE
-                    privmsgs_to_userid = '$this->userId()'
+                    privmsgs_to_userid = '$this->_userId()'
                          && privmsgs_type IN (1, 5)";
             $result = mysql_query($sql);
             $PM_count = mysql_result($result, 0);
@@ -1984,13 +2026,32 @@ class User
 
     function _queryStats()
     {
+        assert( $this->userName() ) ;
         $sql = "SELECT
-                   AVG(daily_pagescompleted) AS avgCount,
-                   MAX(daily_pagescompleted) as maxCount
-               FROM member_status
-               WHERE u_id = $this->userID()"  ;
+                    AVG(daily_pagescompleted) AS avgCount,
+                    MAX(daily_pagescompleted) as maxCount
+                FROM member_stats
+                WHERE u_id = " . $this->_userID()  ;
+
         $result = mysql_query($sql);
-        $stats = mysql_fetch_assoc($result);
+        $row = mysql_fetch_assoc($result);
+        $this->stats['avgCount'] = $row['avgCount'] ;
+        $this->stats['maxCount'] = $row['maxCount'] ;
+        mysql_free_result($result);
+
+        $sql = "
+                SELECT
+                    COUNT(1) AS membercount,
+                    SUM(
+                        CASE WHEN u.pagescompleted <= ume.pagescompleted
+                        THEN 1 ELSE 0 END) AS rank
+                FROM users AS u, users AS ume
+                WHERE u.pagescompleted > 0
+                    AND ume.username = '" . $this->userName() . "'" ;
+        $result = mysql_query($sql);
+        $row = mysql_fetch_assoc($result);
+        $this->stats['membercount'] = $row['membercount'] ;
+        $this->stats['rank'] = $row['rank'] ;
         mysql_free_result($result);
     }
 
@@ -2020,9 +2081,15 @@ class User
 
     function dailyPageAverage()
     {
-         _maybeQueryStats() ;
-         return ( $avg = $this->stats['avgCount'] ) ? $avg : 0 ;
-     }
+        $this->_maybeQueryStats() ;
+        return ( $avg = $this->stats['avgCount'] ) ? $avg : 0 ;
+    }
+
+    function memberCount()
+    {
+        $this->_maybeQueryStats() ;
+        return ( $i = $this->stats['memberCount'] ) ? i : 0 ;
+    }
 
     /**
      * Best Proofreading Day Count Ever for User
@@ -2036,7 +2103,7 @@ class User
 
     function bestDayEverCount()
     {
-        _maybeQueryStats();
+        $this->_maybeQueryStats();
         return ($max = $this->stats['maxCount']) ? $max : 0 ;
     }
 
@@ -2053,18 +2120,18 @@ class User
     function bestDayEver() {
         static $best;
 
-        _maybeQueryStats();
+        $this->_maybeQueryStats();
 
         // this extra query can be eliminated when we have correlated subqueries
         // in mysql. But in the meantime...
 
         if (!isset($best)) {
             $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
-                    FROM member_stats
-                    WHERE u_id = $this->userID()
-                    AND daily_pagescompleted = $this->bestDayEverCount()
-                    ORDER BY date_updated DESC
-                    LIMIT 1";
+                FROM member_stats
+                WHERE u_id = $this->_userID()
+                AND daily_pagescompleted = $this->bestDayEverCount()
+                ORDER BY date_updated DESC
+                LIMIT 1";
             $result = mysql_query($sql);
             $best = mysql_result($result, 0, "BestDay");
             // This is returned in a field that is a 
@@ -2081,22 +2148,22 @@ class User
      * users will end up being in the 0.01 or lower category.</p>
      */
 
-     /* I suggest it's time to quit table-scanning our largest table for a meaningless stat.
-    function pageCountPercentage()
-    {
-        $sql = "SELECT SUM(pages)
-        AS total_pagescompleted
-        FROM pagestats";
-        $result = mysql_query($sql);
-        $total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
-        $percentTotal = number_format( $this->pagesCompleted()
-            / $this->total_pagescompleted * 100), 2);
-        if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) {
-            $percentTotal = 0.01;
-        }
-        return $percentTotal;
-    }
-    */
+    /* I suggest it's time to quit table-scanning our largest table for a meaningless stat.
+       function pageCountPercentage()
+       {
+       $sql = "SELECT SUM(pages)
+       AS total_pagescompleted
+       FROM pagestats";
+       $result = mysql_query($sql);
+       $total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
+       $percentTotal = number_format( $this->pagesCompleted()
+       / $this->total_pagescompleted * 100), 2);
+       if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) {
+       $percentTotal = 0.01;
+       }
+       return $percentTotal;
+       }
+     */
 
     function teams()
     {
@@ -2104,19 +2171,19 @@ class User
                 $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
                 $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
                 $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')) ;
-  
-/*
-        if( ! isset($this->teams) )
-        {
-            $this->teams = array(
-                $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
-                $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
-                $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')
-            )
-        }
 
-        return $this->teams ;
-*/
+        /*
+           if( ! isset($this->teams) )
+           {
+           $this->teams = array(
+           $this->_rowVal('t1.teamname') => $this->_rowVal('t1.pagecount'),
+           $this->_rowVal('t2.teamname') => $this->_rowVal('t2.pagecount'),
+           $this->_rowVal('t3.teamname') => $this->_rowVal('t3.pagecount')
+           )
+           }
+
+           return $this->teams ;
+         */
     }
 
 
@@ -2178,7 +2245,6 @@ class User
             return false;
         }
     }
-
 }
 
 ?>
