@@ -51,13 +51,7 @@ echo "<br><center>";
 echo "<h1>$desc</h1>";
 
 if (is_null($brushoff)) {
-	$result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
-	$curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
-	$now = time();
-	showMbrProfile($curMbr);
-	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-	if ($curMbr['current_P_page_tally'] > -100) { showMbrNeighbors($curMbr); }
-	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+	showMbrInformation( $curMbr );
 } else {
 	echo "<p>$brushoff</p>";
 }
