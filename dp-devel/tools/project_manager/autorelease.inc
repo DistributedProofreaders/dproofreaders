@@ -106,6 +106,7 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 	$avail_result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND $projtype_sql ORDER BY modifieddate ASC");
 	$numAvailable = mysql_num_rows($avail_result);
 	
+	
 	// Keep releasing these projects (SP) until: 
 	// 	we meet our target for them ($released >= $target),
 	// or 	we run out of SP ready to release ($numAvailable), 
@@ -187,7 +188,7 @@ function autorelease($pagesleft) {
 	$projtype_sql = "username = 'BEGIN'";
 	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
 	$numReleased = mysql_result($rel_qry,0);
-
+	
 	if ($beginners_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("project", "Beginners", $projtype_sql, $beginners_projects, $numReleased, "", $todaysdate);
@@ -200,7 +201,7 @@ function autorelease($pagesleft) {
 
 	if ($easy_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
-			release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numreleased, "", $todaysdate);
+			release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numReleased, "", $todaysdate);
 	}
 	
 	//Non-English Projects - always have a certain number of pages spread over the two rounds
@@ -215,7 +216,7 @@ function autorelease($pagesleft) {
 	}
 	if ($noneng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
-			release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numreleased, "yes", $todaysdate);
+			release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numReleased, "yes", $todaysdate);
 	}	
 
 	//English Projects - always have a certain number of pages spread over the two rounds
@@ -230,7 +231,7 @@ function autorelease($pagesleft) {
 	}
 	if ($eng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
-			release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numreleased, "yes", $todaysdate);
+			release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numReleased, "yes", $todaysdate);
 	}
 	
 	//Extra Projects - make sure we have a total of at least X pages spread out over the two rounds;
@@ -239,7 +240,6 @@ function autorelease($pagesleft) {
 
 	if ($pagesneeded > 0) {
 		$numReleased = 0;
-		$projtype_sql = "";
 		$rel_qry = mysql_query("SELECT projectid FROM projects WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."') ORDER BY modifieddate ASC");
 		$numProjects = mysql_num_rows($rel_qry);
 		$i = 0;
@@ -247,7 +247,7 @@ function autorelease($pagesleft) {
 			$numReleased = $numReleased + numpages(mysql_result($rel_qry,$i));
 			$i++;
 		}
-		release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numreleased, "yes", $todaysdate);
+		release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numReleased, "yes", $todaysdate);
 	}
 }
 
