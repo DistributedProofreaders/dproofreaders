@@ -8,10 +8,9 @@ include($relPath.'dp_main.inc');
     $authorsname = mysql_result($result, 0, "authorsname");
     $comments = mysql_result($result, 0, "comments");
     $username = mysql_result($result, 0, "username");
-if (isset($proofing))
-{   $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
-   $user_id = mysql_result($phpuser, 0, "user_id");
-}
+    $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
+    $user_id = mysql_result($phpuser, 0, "user_id");
+
 if (isset($prooflevel)){
    if ($prooflevel==0)
    {$wTime="round1_time";
