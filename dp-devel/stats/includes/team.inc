@@ -2,8 +2,9 @@
 //A file full of functions used in team stats
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
-include($relPath.'v_site.inc');
+include_once($relPath.'v_site.inc');
 include_once($relPath.'page_tally.php');
+include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
@@ -107,41 +108,43 @@ function showTeamProfile($curTeam) {
 	echo $curTeam['avatar'] . "' alt='".strip_tags($curTeam['teamname'])."'></td>";
 	echo "<td width='70%'>";
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='100%'>";
-	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'] . "'>";
-	echo "<td align='left' valign='top'><center><font color='" . $theme['color_headerbar_font'];
-	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b>&nbsp;";
-	echo $xml_button;
-	echo $editlink . $joinquitlink . "</font></center></td></tr>";
+	$t = new ThemedTable(
+		1,
+		stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
+		array( 'width' => 100 )
+	);
 
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Created")."</b>: ";
-	echo date("m/d/Y", $curTeam['created']) . "&nbsp;($daysInExistence "._("days").")</font></td></tr>";
+	$t->row(
+		"<b>" . _("Created") . "</b>: "
+		. date("m/d/Y", $curTeam['created'])
+		. "&nbsp;($daysInExistence "._("days").")"
+	);
 
 	$owner_url = "$code_url/stats/members/mdetail.php?id=" . $curTeam['owner'];
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
-	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Leader")."</b>: <a href='";
-	echo $owner_url . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
+	$t->row(
+		"<b>"._("Leader")."</b>: "
+		. "<a href='$owner_url'>" . $curTeam['createdby'] . "</a>"
+	);
 
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Total Pages")."</b>: ";
-	echo number_format($curTeam['page_count']) . "</font></td></tr>";
+	$t->row(
+		"<b>" . _("Total Pages") . "</b>: "
+		. number_format($curTeam['page_count'])
+	);
 
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Description")."</b>: ";
-	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
+	$t->row(
+		"<b>" . _("Description") . "</b>: "
+		. stripslashes($curTeam['team_info'])
+	);
 
 	$webpage = $curTeam['webpage'];
 	$topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
-	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
-	echo "$webpage' target='_new'>$webpage</a><br><b>"._("Forums")."</b>: <a href='";
-	echo "$topic_url'>"._("Team Discussion")."</a> ";
-	if (!is_null($last_post_date)) {
-		echo "("._("Last Post:")." $last_post_date)";
-	}
-	echo "</font></td></tr>";
-	echo "</table><p>";
+	$t->row(
+		"<b>" . _("Website") . "</b>: <a href='$webpage' target='_new'>$webpage</a>"
+		. "<br><b>" . _("Forums") . "</b>: <a href='$topic_url'>"._("Team Discussion")."</a> "
+		. ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
+	);
+
+	$t->end();
 
 	echo "</td></tr></table><p>";
 }
@@ -162,7 +165,6 @@ function team_get_member_count_rank( $team_id )
 }
 
 function showTeamStats($curTeam) {
-	global $theme;
 	global $teams_P_page_tallyboard;
 
 	$team_id = $curTeam['id'];
@@ -182,35 +184,32 @@ function showTeamStats($curTeam) {
 		$teams_P_page_tallyboard->get_info_re_largest_delta($team_id);
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' rules='none' style='border-collapse: collapse' width='95%'>";
-	echo "\n<tr><td colspan='2' bgcolor='" . $theme['color_headerbar_bg'] . "'><center><font face='" . $theme['font_headerbar'];
-	echo "' color='" . $theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics")."</b><br><font size='1'>("._("Last Updated:")." $lastupdated)</font></font></center></td></tr>";
+	$t = new ThemedTable(
+		2,
+		_("Team Statistics"),
+		array(
+			'width' => 95,
+			'subtitle' => "("._('Last Updated:')." $lastupdated)",
+			'rollover_highlight' => TRUE
+		)
+	);
+	$t->set_column_widths( 60, 40 );
 
-	function echo_tr( $left, $right )
-	{
-		global $rollover_highlight_attrs;
-		echo "\n";
-		echo "<tr $rollover_highlight_attrs>";
-		echo "<td width='60%'>$left</td>";
-		echo "<td width='40%'>$right</td>";
-		echo "</tr>";
-	}
-
-	echo_tr(
+	$t->row(
 		_("Members")
 			. " <i>("._("Rank").")</i>",
 		"<b>" . number_format($curTeam['member_count']) . "</b>"
 			. "&nbsp;<i>(#$mbrCountRank)</i>"
 	);
-	echo_tr(
+	$t->row(
 		_("Current Members"),
 		"<b>" . number_format($curTeam['active_members']) . "</b>"
 	);
-	echo_tr(
+	$t->row(
 		_("Retired Members"),
 		"<b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b>"
 	);
-	echo_tr(
+	$t->row(
 		_("Total Pages")
 			. " <i>("._("Rank").")</i>",
 		"<b>" . number_format($curTeam['page_count']) . "</b>"
@@ -219,47 +218,56 @@ function showTeamStats($curTeam) {
 	);
 
 	$avg_pages_per_day = get_daily_average($curTeam['created'],$curTeam['page_count']);
-	echo_tr(
+	$t->row(
 		_("Avg. Pages per Day"),
 		"<b>" . number_format($avg_pages_per_day,1) . "</b>"
 	);
-	echo_tr(
+	$t->row(
 		_("Most Pages Done per Day"),
 		"<b>" . number_format($bestDayCount) . "</b>"
 			. "&nbsp;<i>($bestDayTime)</i></b>"
 	);
 
-	echo "</table><p>";
+	$t->end();
 }
 
 function showTeamMbrs($curTeam) {
-	global $theme, $code_url;
+	global $code_url;
 	global $users_table_with_tallies, $user_P_page_tally_column;
-	global $rollover_highlight_attrs;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
 
-	echo "\n<table border='1' bordercolor='#111111' rules='none' cellspacing='2' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	
-	echo "<tr><td colspan='3' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b>";
+	$subtitle = null;
 	$latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
 	if (mysql_num_rows($latestMbr) > 0) { 
-		if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) { echo "<br>Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!"; }
+		if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
+			$subtitle = "Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!";
+		}
 	}
-	echo "</font></center></td></tr>";
-	
-	echo "\n<tr bgcolor='#cccccc'>";
+
+	$t = new ThemedTable(
+		3,
+		_("Team Member Details"),
+		array(
+			'width' => 95,
+			'subtitle' => $subtitle,
+			'rollover_highlight' => TRUE
+		)
+	);
+	$t->set_column_widths( 35, 35, 30 );
+
+	$header_content_ = array();
 
 	$column_descriptors =
 		array(
-			array( 'mbr',   'username',             'asc',  _("Username"),        35 ),
-			array( 'pages', 'current_P_page_tally', 'desc', _("Pages Completed"), 35 ),
-			array( 'date',  'date_created',         'asc',  _("Date Joined DP"),  30 )
+			array( 'mbr',   'username',             'asc',  _("Username")        ),
+			array( 'pages', 'current_P_page_tally', 'desc', _("Pages Completed") ),
+			array( 'date',  'date_created',         'asc',  _("Date Joined DP")  )
 		);
 	foreach ( $column_descriptors as $column_descriptor )
 	{
-		list( $cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text, $cd_width ) =
+		list( $cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text ) =
 			$column_descriptor;
 		if ( $cd_order == $order ) {
 			// This is the column by which we are to sort the table.
@@ -287,24 +295,12 @@ function showTeamMbrs($curTeam) {
 		}
 		$url = "tdetail.php?tid=".$curTeam['id']."&order=$cd_order&direction=$dir";
 
-		// Render the column-header using 'navbar' settings.
-		$bgcolor    = $theme['color_navbar_bg'];
-		$font_face  = $theme['font_navbar'];
-		$font_color = $theme['color_navbar_font'];
-
-		echo "<td width='$cd_width%' bgcolor='$bgcolor'>";
-		echo   "<b>";
-		echo     "<a href='$url'>";
-		echo       "<font face='$font_face' color='$font_color' size='2'>";
-		echo          $cd_header_text;
-		echo       "</font>";
-		echo     "</a>";
-		echo   "</b>";
-		echo   $dir_indicator;
-		echo "</td>";
+		$header_content_[] = "<a href='$url'>$cd_header_text</a>$dir_indicator";
 	}
 
-	echo "</tr>";
+	$t->column_headers( $header_content_ );
+
+
 	$mbrQuery = mysql_query("
 		SELECT *, $user_P_page_tally_column AS current_P_page_tally
 		FROM $users_table_with_tallies
@@ -329,26 +325,29 @@ function showTeamMbrs($curTeam) {
 		{
 			$username = $curMbr['username'];
 			$member_url = "$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'];
-			echo "\n<tr $rollover_highlight_attrs>";
-			echo "<td width='35%'><a href='$member_url'>$username</a></td>";
-			echo "<td width='35%'>" . number_format($curMbr['current_P_page_tally']) . "</td>";
-			echo "<td width='30%'>" . date("m/d/Y", $curMbr['date_created']) . "</td></tr>";
+			$t->row(
+				"<a href='$member_url'>$username</a>",
+				number_format($curMbr['current_P_page_tally']),
+				date("m/d/Y", $curMbr['date_created'])
+			);
 		}
 	}
 	if ($totalAnonUsers > 0)
 	{
-		echo "\n<tr $rollover_highlight_attrs>";
-		echo "<td width='35%'>"._("Anonymous");
-		if(!isset($GLOBALS['pguser'])) { echo "/"._("Private"); }
-		echo " "._("users")."</td>";
-		echo "<td width='35%'>" . number_format($totalPagesAnonUsers) . "</td>";
-		echo "<td width='30%'>&nbsp;</td></tr>";
+		$t->row(
+			_("Anonymous")
+				. ( isset($GLOBALS['pguser']) ? '' : ("/"._("Private")) )
+				. " "
+				. _("users"),
+			number_format($totalPagesAnonUsers),
+			"&nbsp;"
+		);
 	}
-	echo "</table><p>";
+
+	$t->end();
 }
 
 function showTeamHistory($curTeam) {
-	global $theme;
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 
 	$choices = array();
@@ -364,12 +363,19 @@ function showTeamHistory($curTeam) {
 
 	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range";
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	echo "\n<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics History")."</b></font></center></td></tr>";
-	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
-	echo "<p><font size='2'>$choices_str</font>";
-	echo "<p><img src='$image_url' width='600' height='300'></center><br></td></tr>";
-	echo "</table><p>";
+	$t = new ThemedTable(
+		1,
+		_("Team Statistics History"),
+		array( 'width' => 95 )
+	);
+
+	$t->row(
+		"<center><br><p>"
+		. "<font size='2'>$choices_str</font>"
+		. "<p><img src='$image_url' width='600' height='300'></center><br>"
+	);
+
+	$t->end();
 }
 
 function stripAllString($ttext) {

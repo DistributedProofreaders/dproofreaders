@@ -3,6 +3,7 @@
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'page_tally.php');
+include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr ) {
@@ -62,72 +63,55 @@ function showMbrProfile($curMbr) {
 	$xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
 	$xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
-	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-       	echo_tr_headerbar(
-	       	_("Statistics") . " $xml_button",
-		2
-       	);
+	$t = new ThemedTable(
+		2, 
+		_("Statistics") . " $xml_button",
+		array( 'border'=>0, 'width'=>100 )
+	);
+	$t->set_column_widths( 30, 70 );
 
-	function echo_tr_2_cols( $left, $right )
-	{
-		global $theme;
-		echo "\n";
-		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-		echo   "<td width='30%' align='left' valign='top'>";
-		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-		echo       "<b>$left</b>:";
-		echo     "</font>";
-		echo   "</td>";
-		echo   "<td width='70%' align='left' valign='top'>";
-		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-		echo       "$right";
-		echo     "</font>";
-		echo   "</td>";
-		echo "</tr>";
-	}
-
-	echo_tr_2_cols(
+	$t->row(
 		_("Date Joined"),
 		date("m/d/Y", $curMbr['date_created']) . "&nbsp;($daysInExistenceString)"
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Last Login"),
 		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Total Pages"),
 		number_format($curMbr['current_P_page_tally']) . " " . _("pages")
 		. " (" . pageCountPercentage($curMbr['current_P_page_tally']) . _("% of total") . ")"
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Overall Rank"),
 		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
 		. showChangeInRank( $latestSavedRank, $currentRank )
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Highest Rank"),
 		number_format($highestRank)
 		. "&nbsp;<i>(" . date("M. jS, Y", $highestRankDate) . ")</i>"
 		. "&nbsp;" . showChangeInRank($highestRank, $currentRank)
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Best Day Ever"),
 		number_format($bestDayCount) . " " . _("pages")
 		. " <i>(" . $bestDayTime . ")</i>"
 	);
-	echo_tr_2_cols(
+	$t->row(
 		_("Daily Average"),
 		number_format($daily_Average) . " " . _("pages")
 	);
 
-	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td colspan='2' align='center' valign='middle'><hr width='90%'></td></tr>"; }
-        if (!empty($curMbr['user_from']))      { echo_tr_2_cols( _("Location"),   $curMbr['user_from'] ); }
-        if (!empty($curMbr['user_occ']))       { echo_tr_2_cols( _("Occupation"), $curMbr['user_occ'] ); }
-	if (!empty($curMbr['user_interests'])) { echo_tr_2_cols( _("Interests"),  $curMbr['user_interests'] ); }
-        if (!empty($curMbr['user_website']))   { echo_tr_2_cols( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
+	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { $t->hr( 90 ); }
+        if (!empty($curMbr['user_from']))      { $t->row( _("Location"),   $curMbr['user_from'] ); }
+        if (!empty($curMbr['user_occ']))       { $t->row( _("Occupation"), $curMbr['user_occ'] ); }
+	if (!empty($curMbr['user_interests'])) { $t->row( _("Interests"),  $curMbr['user_interests'] ); }
+        if (!empty($curMbr['user_website']))   { $t->row( _("Website"),    "<a href='".$curMbr['user_website']."'>".$curMbr['user_website']."</a>" ); }
 
         if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
-		echo_tr_2_cols(
+		$t->row(
 			_("Edit"),
 			"<a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a>"
 			. " | "
@@ -135,7 +119,9 @@ function showMbrProfile($curMbr) {
 		);
         }
 
-	echo "</table></td></tr>";
+	$t->end();
+
+	echo "</td></tr>";
 	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
 		echo "\n";
 		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
@@ -160,7 +146,7 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 }
 
 function messageCenter($curMbr) {
-	global $forums_url, $theme;
+	global $forums_url;
 
 	echo "\n";
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
@@ -246,33 +232,20 @@ function pageCountPercentage($pagescompleted) {
 }
 
 function showMbrNeighbors($curMbr) {
-	global $theme;
-	global $rollover_highlight_attrs;
 	$now = time();
 
-	echo "\n";
-	echo "<table rules='none' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
-	echo_tr_headerbar( _("Neighbors"), 4 );
-
-	function echo_td( $width, $content )
-	{
-		global $theme;
-		echo "<td width='$width%'>";
-		echo "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-		echo "<b><u><i>";
-		echo $content;
-		echo "</i></u></b>";
-		echo "</font>";
-		echo "</td>";
-	}
-
-	echo "\n";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-	echo_td( 15, _("Rank") );
-	echo_td( 28, _("Username") );
-	echo_td( 28, _("Date Joined DP") );
-	echo_td( 29, _("Overall Pages Completed") );
-	echo "</tr>";
+	$t = new ThemedTable(
+		4,
+		_("Neighbors"),
+		array( 'width'=>99, 'rollover_highlight'=>TRUE )
+	);
+	$t->set_column_widths( 15, 28, 28, 29 );
+	$t->column_headers(
+		_("Rank"),
+		_("Username"),
+		_("Date Joined DP"),
+		_("Overall Pages Completed")
+	);
 
 	list( $neighbors, $max_page_tally_rank ) =
 		user_get_page_tally_neighborhood(
@@ -282,8 +255,6 @@ function showMbrNeighbors($curMbr) {
 		$rank = $neighbor->get_current_page_tally_rank();
 		$latestSavedRank = $neighbor->get_latest_saved_page_tally_rank();
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
-
-		echo "\n<tr $rollover_highlight_attrs>";
 
 		if (!$neighbor->is_anonymized()) {
 
@@ -298,37 +269,47 @@ function showMbrNeighbors($curMbr) {
 			$username_html = "Anonymous";
 			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
-		echo "<td width='15%'>$rank" . showChangeInRank( $latestSavedRank, $rank ) . "</td>";
-		echo "<td width='28%'>$username_html</td>";
-		echo "<td width='28%'>$day_html</td>";
-		echo "<td width='29%'>$pagescompleted</td>";
-		echo "</tr>";
+		$t->row(
+			$rank . showChangeInRank( $latestSavedRank, $rank ),
+			$username_html,
+			$day_html,
+			$pagescompleted
+		);
 	}
 
-	echo "</table><p>";
+	$t->end();
 }
 
 function showMbrTeams($curMbr) {
-	global $theme;
-	global $rollover_highlight_attrs;
 
 	if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
-	echo "\n";
-	echo "<table rules='none' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
-	echo_tr_headerbar( _("Teams"), 3 );
-	echo "\n";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>"._("Team Name")."</u></b></i></td><td width='30%'><b><i><u>"._("Pages Completed")."</u></b></i></td><td width='30%'><b><i><u>"._("Active Members")."</u></b></i></td></tr>";
+	$t = new ThemedTable(
+		3,
+		_("Teams"),
+		array( 'width'=>99, 'rollover_highlight'=>TRUE )
+	);
+	$t->set_column_widths( 40, 30, 30 );
+	$t->column_headers(
+		_("Team Name"),
+		_("Pages Completed"),
+		_("Active Members")
+	);
+
 	$result = select_from_teams("id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})");
 	while ($row = mysql_fetch_assoc($result)) {
-		echo "\n<tr $rollover_highlight_attrs>";
-		echo "<td width='40%'><a href='".$GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></td><td width='30%'>".number_format($row['page_count'])." "._("pages")."</td><td width='30%'>".number_format($row['active_members'])." "._("members")."</td></tr>";
+		$url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];
+		$t->row(
+			"<a href='$url'>".$row['teamname']."</a>",
+			number_format($row['page_count'])." "._("pages"),
+			number_format($row['active_members'])." "._("members")
+		);
 	}
-	echo "</table><p>";
+
+	$t->end();
 }
 
 function showMbrHistory($curMbr) {
-	global $theme;
 
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 
@@ -346,33 +327,13 @@ function showMbrHistory($curMbr) {
 
 	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=U&holder_id=$u_id&days_back=$range";
 
-	echo "\n";
-	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>";
-	echo_tr_headerbar( _("History") );
-	echo "\n";
-	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
-	echo "<p><font size='2'>$choices_str</font>";
-	echo "<p><img src='$image_url' width='600' height='300'></center><br></td></tr>";
-	echo "</table><p>";
-}
-
-// -----------------------------------------------------------------------------
-
-function echo_tr_headerbar( $blurb, $colspan=1 )
-{
-	global $theme;
-	echo "\n";
-	echo "<tr>";
-	echo "<td colspan='$colspan' bgcolor='".$theme['color_headerbar_bg']."'>";
-	echo "<center>";
-	echo "<font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>";
-	echo "<b>";
-	echo $blurb;
-	echo "</b>";
-	echo "</font>";
-	echo "</center>";
-	echo "</td>";
-	echo "</tr>";
+	$t = new ThemedTable(
+		1,
+		_("History"),
+		array( 'width'=>99 )
+	);
+	$t->row( "<center><br><p><font size='2'>$choices_str</font><p><img src='$image_url' width='600' height='300'></center><br>" );
+	$t->end();
 }
 
 ?>

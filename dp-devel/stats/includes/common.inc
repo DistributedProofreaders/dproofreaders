@@ -2,21 +2,6 @@
 // A file for (UI) code that's used by both user and team stats pages.
 
 include_once($relPath.'v_site.inc'); // $code_url
-include_once($relPath.'theme.inc');  // $theme
-
-// -----------------------------------------------------------------------------
-
-$_normal_color    = $theme['color_navbar_bg'];
-$_highlight_color = $theme['color_mainbody_bg'];
-
-$rollover_highlight_attrs =
-    "bgcolor='$_normal_color'"
-    . " onmouseover='javascript:style.background=\"$_highlight_color\"'"
-    .  " onmouseout='javascript:style.background=\"$_normal_color\"'"
-;
-
-unset($_normal_color);
-unset($_highlight_color);
 
 // -----------------------------------------------------------------------------
 
