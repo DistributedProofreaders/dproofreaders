@@ -61,4 +61,7 @@ foreach( $projectids as $projectid )
 }
 
 echo "</pre>\n";
+
+echo "<hr>\n";
+echo "<p>Back to <a href='projectmgr.php'>project manager</a> page.</p>\n";
 ?>
