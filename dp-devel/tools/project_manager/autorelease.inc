@@ -189,7 +189,7 @@ function autorelease()
             if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
                 (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
                 (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
-		(array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various'))
+		            (array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
             {
                 echo "        Its author, $authorsname, already has a project(s) in first round.\n";
                 continue;
