@@ -17,13 +17,13 @@
         <xs:element ref="teamname" minOccurs="1" maxOccurs="1" />
         <xs:element ref="datecreated" minOccurs="1" maxOccurs="1" />
         <xs:element ref="leader" minOccurs="1" maxOccurs="1" />
-        <xs:element ref="totalpages" minOccurs="1" maxOccurs="1" />
         <xs:element ref="description" minOccurs="1" maxOccurs="1" />
         <xs:element ref="website" minOccurs="1" maxOccurs="1" />
         <xs:element ref="forums" minOccurs="1" maxOccurs="1" />
         <xs:element ref="totalmembers" minOccurs="1" maxOccurs="1" />
         <xs:element ref="currentmembers" minOccurs="1" maxOccurs="1" />
         <xs:element ref="retiredmembers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="totalpages" minOccurs="1" maxOccurs="1" />
         <xs:element ref="rank" minOccurs="1" maxOccurs="1" />
         <xs:element ref="avgpagesday" minOccurs="1" maxOccurs="1" />
         <xs:element ref="mostpagesday" minOccurs="1" maxOccurs="1" />

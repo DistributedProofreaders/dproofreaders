@@ -49,16 +49,18 @@ $team_id = $curTeam['id'];
 			<teamname>".xmlencode($curTeam['teamname'])."</teamname>
 			<datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
 			<leader>".xmlencode($curTeam['createdby'])."</leader>
-			<totalpages>".$curTeam['page_count']."</totalpages>
 			<description>".xmlencode($curTeam['team_info'])."</description>
 			<website>".xmlencode($curTeam['webpage'])."</website>
 			<forums>".xmlencode($GLOBALS['forums_url']."/viewtopic.php?t=".$curTeam['topic_id'])."</forums>
 			<totalmembers>".$curTeam['member_count']."</totalmembers>
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
-			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>
+			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
+	$data .= "
+			<totalpages>".$curTeam['page_count']."</totalpages>
 			<rank>".$pageCountRank."/".$totalTeams."</rank>
 			<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
-			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
+			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>";
+	$data .= "
 		</teaminfo>
 	";
 
