@@ -275,7 +275,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 
-	list( $neighbors, $totalRanks ) =
+	$neighbors =
 		user_get_page_tally_neighborhood(
 			$tally_name, $curMbr['username'], 0 );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
@@ -360,7 +360,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 		_("Overall Pages Completed")
 	);
 
-	list( $neighbors, $max_page_tally_rank ) =
+	$neighbors =
 		user_get_page_tally_neighborhood(
 			$tally_name, $curMbr['username'], 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )

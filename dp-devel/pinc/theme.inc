@@ -313,7 +313,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the personal statistics
 
 	//Get the personal statistics array
-	list($neighbors, $max_page_tally_rank) =
+	$neighbors =
 		user_get_page_tally_neighborhood(
 			$tally_name, $GLOBALS['pguser'], $userP['u_neigh']);
 	$usern = $neighbors[0];

@@ -152,17 +152,13 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 // the neighborhood. (It will include fewer that the maximum iff the target
 // user is within $radius of the corresponding end of the ranked list.)
 //
-// Return an array consisting of:
-//
-// -- The page-tally neighborhood of $username.
+// Return the page-tally neighborhood of $username.
 //    This is an array:
 //    The keys are integers from the range [-$radius, +$radius],
 //    indicating a user's position relative to the target user (w.r.t. page tally).
 //    (So key=0 refers to the target user.)
 //    For a given key, the corresponding value is a PageTally_Neighbor object
 //    supplying various information about the page-tally neighbor.
-//    
-// -- The maximum current page tally rank of any user.
 {
     $result = mysql_query("
         SELECT u_id
@@ -221,7 +217,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
             );
     }
 
-    return array( $neighbors, $max_current_rank );
+    return $neighbors;
 }
 
 class PageTally_Neighbor

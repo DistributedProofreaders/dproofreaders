@@ -38,7 +38,7 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
-list( $neighbors, $max_page_tally_rank ) =
+$neighbors =
 	user_get_page_tally_neighborhood(
 		'P', $curMbr['username'], 4 );
 
