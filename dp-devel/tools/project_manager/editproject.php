@@ -270,15 +270,19 @@ function posted_pg($projectid) {
 			." It has been sent to Project Gutenberg and will soon be available for reading."
 			." Most files will be ready by the time you receive this mail;"
 			." sometimes there may be a delay of a day or so."
-			." Download the file at $ziplink and enjoy!/n"
-			."/n"
-			."--/n"
-			."Distributed Proofreaders/n"
-			."$code_url/n"
-			."/n"
+			." Download the file at $ziplink and enjoy!"
+			."\n"
+			."\n"
+			."--"
+			."\n"
+			."Distributed Proofreaders"
+			."\n"
+			."$code_url"
+			."\n"
+			."\n"
 			."This is an automated message that you had requested,"
 			." please do not respond directly to this e-mail.",
-			"From: $auto_email_addr/r/nReply-To: $auto_email_addr/r/n"
+			"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
 		);
             	$rownum++;
         }
