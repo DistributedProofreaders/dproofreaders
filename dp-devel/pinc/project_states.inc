@@ -11,6 +11,10 @@
   define("UNAVAIL_PI_FIRST","unavail_1");
   define("UNAVAIL_PI_SECOND","unavail_2");
 
+  // waiting for release
+  define("WAITING_PI_FIRST","waiting_1");
+  define("WAITING_PI_SECOND","waiting_2");
+
   // bad project
   define("BAD_PI_FIRST","bad_1");
   define("BAD_PI_SECOND","bad_2");

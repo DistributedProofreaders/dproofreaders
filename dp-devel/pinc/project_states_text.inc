@@ -11,6 +11,10 @@
   define("UNAVAIL_PI_FIRST_TEXT","Unavailable First Round");
   define("UNAVAIL_PI_SECOND_TEXT","Unavailable Second Round");
 
+  // waiting for release
+  define("WAITING_PI_FIRST_TEXT","Waiting for First Round Release");
+  define("WAITING_PI_SECOND_TEXT","Waiting for Second Round Release");
+
   // bad project
   define("BAD_PI_FIRST_TEXT","Bad First Round Project");
   define("BAD_PI_SECOND_TEXT","Bad Second Round Project");
