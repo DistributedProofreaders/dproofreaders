@@ -33,13 +33,6 @@ function page_tallies_add( $username, $amount )
 // Add $amount to the user's page tally,
 // and to the page tally of each team that the user currently belongs to.
 {
-    // update page tally for user
-    mysql_query("
-        UPDATE users
-        SET pagescompleted = pagescompleted + $amount
-        WHERE username = '$username'
-    ");
-
     // get teams that the user belongs to
     $result = mysql_query("
         SELECT team_1, team_2, team_3
@@ -47,6 +40,13 @@ function page_tallies_add( $username, $amount )
         WHERE username = '$username'
     ");
     list($team_1, $team_2, $team_3) = mysql_fetch_row($result);
+
+    // update page tally for user
+    mysql_query("
+        UPDATE users
+        SET pagescompleted = pagescompleted + $amount
+        WHERE username = '$username'
+    ");
 
     // update page tally for each team
     mysql_query("
