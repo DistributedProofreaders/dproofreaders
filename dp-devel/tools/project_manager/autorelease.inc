@@ -1,5 +1,4 @@
 <?
-$relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
