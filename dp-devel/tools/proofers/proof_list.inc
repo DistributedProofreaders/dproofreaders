@@ -188,7 +188,7 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	$RFilter = " AND ".$condition1;
 
 
-
+echo "rfilters i ".$RFilter;
 
 
 	// save or update filter to usersettings here (since they've potentially changed)
