@@ -3,18 +3,19 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
 
-function show_books_available_for_proofing( $round, $userP, $tList )
+function show_books_available_for_proofing( $round, $userP, $tList, $where_filter = " " )
 {
 	if ( $round == 'first' )
 	{
-		// Select all projects in the list for round 1.
+		// Select all projects in the list for round 1., subject to filter
 		// Put the BEGIN projects at the top.
 		$query = "
 			SELECT *, (username = 'BEGIN' OR difficulty = 'beginner') AS is_beginner
 			FROM projects
 			WHERE
-				state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-				state = '".PROJ_PROOF_FIRST_VERIFY."'
+				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+				state = '".PROJ_PROOF_FIRST_VERIFY."') "
+				.$where_filter." 
 			ORDER BY
 				is_beginner DESC,
 				modifieddate DESC,
@@ -28,8 +29,9 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			SELECT *
 			FROM projects
 			WHERE
-				state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
-				state = '".PROJ_PROOF_SECOND_VERIFY."'
+				(state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+				state = '".PROJ_PROOF_SECOND_VERIFY."') "
+				.$where_filter." 
 			ORDER BY
 				nameofwork ASC
 		";
@@ -88,8 +90,10 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 				$bgcolor = " bgcolor='#00FF33'";
 			}
 
-			// poppy red for Armistice Day
-			if ( startswith( $book['comments'], 'SPECIAL:Nov 11' ) )
+			// poppy red for Armistice Day, pale red for Christmas
+			if ( startswith( $book['comments'], 'SPECIAL: Nov 11' ) or
+ 				startswith( $book['comments'], 'SPECIAL: CHRISTMAS' ) or
+				startswith( $book['comments'], 'SPECIAL: Christmas' ))
 			{
 				$bgcolor = " bgcolor='#FF9090'";
 			}
@@ -196,3 +200,4 @@ function startswith( $subject, $prefix )
 }
 
 ?>
+
