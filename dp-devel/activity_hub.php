@@ -327,6 +327,25 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo "<br>\n";
 }
 
+
+// Smooth Reading
+{
+    echo "<li>\n";
+
+    echo "(SR) <a href='$code_url/tools/post_proofers/smooth_reading.php'>Smooth Reading Pool</a>";
+    echo "<br>\n";
+
+    echo _("Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.");
+    echo "<br>\n";
+
+    echo _("Every DP user can participate in this stage.");
+    echo "<br><br>\n";
+
+
+
+}
+
+
 // Post-Processing Verification
 {
     echo "<li>\n";
@@ -376,6 +395,9 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo "</li>\n";
     echo "<br>\n";
 }
+
+
+
 
 echo "</ul>\n";
 
