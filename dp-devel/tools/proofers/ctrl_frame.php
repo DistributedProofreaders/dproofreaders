@@ -285,13 +285,19 @@ name="tCharsA" ID="ttagsMore" title="More Tags" onchange="if (this.value !=0){iM
 <option value="">index</option>
 <option value="0">--------------------</option>
 </select><INPUT 
-TYPE="text" VALUE="" name="markBox" class="dropnormal" size="9" onclick="this.select()"><img 
-src="gfx/tags/italic.png" width="22" height="22" border="0" align="top"><img 
-src="gfx/tags/bold.png" width="22" height="22" border="0" align="top"><img 
-src="gfx/tags/underline.png" width="22" height="22" border="0" align="top"><img 
-src="gfx/tags/caps.png" width="42" height="22" border="0" align="top"><img 
-src="gfx/tags/sup.png" width="22" height="22" border="0" align="top"><img 
-src="gfx/tags/sub.png" width="22" height="22" border="0" align="top"><INPUT 
+TYPE="text" VALUE="" name="markBox" class="dropnormal" size="9" onclick="this.select()"><a 
+href="#" onclick="iMU(21)"><img 
+src="gfx/tags/italic.png" width="22" height="22" border="0" align="top" title="italics"></a><a 
+href="#" onclick="iMU(22)"><img 
+src="gfx/tags/bold.png" width="22" height="22" border="0" align="top" title="bold"></a><a 
+href="#" onclick="iMU(23)"><img 
+src="gfx/tags/underline.png" width="22" height="22" border="0" align="top" title="underline"></a><a 
+href="#" onclick="iMU(24)"><img 
+src="gfx/tags/caps.png" width="42" height="22" border="0" align="top" title="caps"></a><a 
+href="#" onclick="iMU(25)"><img 
+src="gfx/tags/sup.png" width="22" height="22" border="0" align="top" title="superscript"></a><a 
+href="#" onclick="iMU(26)"><img 
+src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subscript"></a><INPUT 
 TYPE="text" VALUE="" name="markBoxEnd" class="dropnormal" size="9" onclick="this.select()"></td></form><form 
 name="xform" id="xform" method="POST" action="processtext.php" target="_top"><td 
 align="right" valign="top"><a 
@@ -305,5 +311,27 @@ href="<?PHP
 ?>" target="_top" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));"><img 
 src="gfx/tags/exit.png" width="18" height="18" border="0" align="top" alt="Quit" title="Quit"></a></td></form></tr><tr><td 
 valign="top" colspan="3" align="center"><img 
-src="gfx/tags/bar1.png" width="752" height="22" border="0"><br><img 
-src="gfx/tags/bar2.png" width="752" height="22" border="0"></td></tr></table></body></html>
+src="gfx/tags/bar1.png" width="752" height="22" border="0" usemap="#markbar1"><br><img 
+src="gfx/tags/bar2.png" width="752" height="22" border="0" usemap="#markbar2"></td></tr></table><map 
+name="markbar1"><area 
+shape="rect" coords="0,0,85,21" href="javaScript:iMU(27)"><area 
+shape="rect" coords="86,0,159,21" href="javaScript:iMU(28)"><area 
+shape="rect" coords="160,0,245,21" href="javaScript:iMU(29)"><area 
+shape="rect" coords="246,0,361,21" href="javaScript:iMU(30)"><area 
+shape="rect" coords="362,0,430,21" href="javaScript:iMU(31)"><area 
+shape="rect" coords="431,0,488,21" href="javaScript:iMU(32)"><area 
+shape="rect" coords="489,0,555,21" href="javaScript:iMU(33)"><area 
+shape="rect" coords="556,0,623,21" href="javaScript:iMU(34)"><area 
+shape="rect" coords="624,0,722,21" href="javaScript:iMU(35)"><area 
+shape="rect" coords="723,0,751,21" href="javaScript:iMU(20)"></map><map 
+name="markbar2"><area 
+shape="rect" coords="0,0,55,21" href="javaScript:iMU(36)"><area 
+shape="rect" coords="56,0,148,21" href="javaScript:iMU(37)"><area 
+shape="rect" coords="149,0,224,21" href="javaScript:iMU(38)"><area 
+shape="rect" coords="225,0,274,21" href="javaScript:iMU(39)"><area 
+shape="rect" coords="275,0,359,21" href="javaScript:iMU(40)"><area 
+shape="rect" coords="360,0,409,21" href="javaScript:iMU(41)"><area 
+shape="rect" coords="410,0,510,21" href="javaScript:iMU(42)"><area 
+shape="rect" coords="511,0,626,21" href="javaScript:iMU(43)"><area 
+shape="rect" coords="627,0,695,21" href="javaScript:iMU(44)"><area 
+shape="rect" coords="696,0,751,21" href="javaScript:iMU(1)"></map></body></html>

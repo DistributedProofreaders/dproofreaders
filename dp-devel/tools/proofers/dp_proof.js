@@ -13,7 +13,6 @@ curCaret='';
 // image width
 iW='1000';
 
-
 function selBox(wBox)
 {
 if (wBox=='char')
@@ -117,12 +116,20 @@ putCT(cT);}
  }
 }
 
-// opening tag selection
+// standard tag selection
 function iMU(wM)
 {
 if (inProof==1)
 {
-markRef.markBox.value=mUO[wM];
+wTag=mUO[wM];
+wOT='<'+wTag+'>';
+wCT='';
+if (wM > 19)
+{wCT='</'+wTag+'>';}
+
+markRef.markBox.value=wOT;
+markRef.markBoxEnd.value=wCT;
+
 cR=chkRange();
 
 //plain
@@ -132,23 +139,17 @@ if (!cnSel || !cR)
 //fancy
 if (curSel != '' && docRef.selection.createRange().text == curSel)
 {docRef.editform.text_data.focus();
-wTag=+mUO[wM];
-wOT='<'+wtag+'>';
-wCT='';
-if (wM < 10)
-{wCT='</'+wTag+'>';}
-else {}
 docRef.selection.createRange().text=wOT + curSel + wCT;
 curCaret='';
 curSel='';
 docRef.editform.text_data.focus();}
 else { 
 if (cR && curSel=='')
-{cT=mUO[wM];
+{cT=wOT;
 putCT(cT);}
      }
-if(wM==6)
-{docRef.editform.text_data.value=mUO[6];}
+if(wM==1)
+{docRef.editform.text_data.value=wOT;}
 }}
 
 
