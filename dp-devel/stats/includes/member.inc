@@ -113,13 +113,6 @@ function showMbrProfile($curMbr) {
 		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])
 	);
 
-        if (isset($GLOBALS['pguser']) && $curMbr['username'] == $GLOBALS['pguser']) {
-		$t->row(
-			_("Edit"),
-			"<a href='".$GLOBALS['code_url']."/userprefs.php'>"._("Preferences")."</a>"
-		);
-        }
-
 	$t->end();
 
 	echo "</td></tr></table><p>";
