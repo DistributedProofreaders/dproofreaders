@@ -17,14 +17,16 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 
     //Select all projects in the list for round 1
     // now puts the BEGIN projects at the top
-//    $result = mysql_query("(SELECT * FROM projects WHERE username = 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc) UNION (SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."' ORDER BY modifieddate desc, nameofwork asc)");
+    // couldn't get UNION query to work (worked ok in phpMyAdmin tho :/ )
+    // instead, two separate queries each sent to showavailable books
+    // and header code now a sep function so can be called only once
 
-$result = mysql_query("SELECT * FROM projects WHERE username = 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."')");
+    $result = mysql_query("SELECT * FROM projects WHERE username = 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."')");
 
+    showbooklistheader('first');
     showavailablebooks($result,AVAIL_FIRST,$userP,$tList,'first');
 
-
-$result2 = mysql_query("SELECT * FROM projects WHERE username != 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc");
+    $result2 = mysql_query("SELECT * FROM projects WHERE username != 'BEGIN' AND (state = '".PROJ_PROOF_FIRST_AVAILABLE."' or state = '".PROJ_PROOF_FIRST_VERIFY."') ORDER BY modifieddate desc, nameofwork asc");
 
     showavailablebooks($result2,AVAIL_FIRST,$userP,$tList,'first');
     echo "</table>\n<br>";
@@ -47,6 +49,7 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
 
       //Select all projects in the list for round 2 
         $result = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_SECOND_AVAILABLE."' or state = '".PROJ_PROOF_SECOND_VERIFY."' ORDER BY nameofwork ASC");
+      showbooklistheader('second');
       showavailablebooks($result,AVAIL_SECOND,$userP,$tList,'second');
       }
   echo "</table>\n<br>";
