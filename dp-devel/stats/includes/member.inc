@@ -151,12 +151,13 @@ function mbrRank($username) {
 }
 
 function rankPosition($rank, $u_id, $highestrank, $rankArray) {
-	$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
-	$prevRank = mysql_result($result, 0, "rank");
 
 	if (!empty($rank)) {
 		if (empty($highestrank)) {
 			// $rank is current rank. Compare it to rank as of latest midnight.
+			$result = mysql_query("SELECT rank FROM member_stats WHERE u_id = $u_id ORDER BY date_updated DESC LIMIT 1");
+			$prevRank = mysql_result($result, 0, "rank");
+
 			if ($prevRank > $rank && !empty($prevRank)) {
 				$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$rank)."'>&nbsp;".number_format(($prevRank-$rank)).")</font>";
 			} elseif ($prevRank < $rank && !empty($prevRank)) {
