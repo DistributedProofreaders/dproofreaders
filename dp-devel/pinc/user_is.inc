@@ -1,5 +1,13 @@
 <?
+// $Id$
+
 include_once($relPath.'page_tally.php');
+include_once($relPath.'settingsclass.inc');
+
+global $settings;
+
+if(!isset($settings))
+    $settings = new Settings();
 
 // This file is for functions that ascertain various things about the user?
 // (capabilities, roles)
@@ -18,7 +26,14 @@ function user_is_a_sitemanager()
 	return (mysql_result($res,0,"sitemanager") == "yes");
 }
 
-function user_is_taskcenter_mgr() {
+function user_is_taskcenter_mgr()
+{
+    global $settings;
+    return $settings->get_boolean("task_center_mgr");
+}
+
+/*
+function user_is_taskcenter_mgr()
 	global $userP, $pguser;
 
 	if (!isset($userP)) { return FALSE; }
@@ -32,7 +47,15 @@ function user_is_taskcenter_mgr() {
 		return FALSE;
 	}
 }
+*/
 
+function user_is_proj_facilitator()
+{
+    global $settings;
+    return user_is_a_sitemanager() || $settings->get_boolean("proj_facilitator");
+}
+
+/*
 function user_is_proj_facilitator()
 {
 	global $userP, $pguser;
@@ -48,6 +71,7 @@ function user_is_proj_facilitator()
 		return FALSE;
 	}
 }
+*/
 
 function user_is_PM()
 {
@@ -88,6 +112,14 @@ function user_is_PP()
 
 function user_is_post_proof_verifier()
 {
+    global $settings;
+    return user_is_a_sitemanager() || $settings->get_boolean('post_proof_verifier');
+}
+
+
+/*
+function user_is_post_proof_verifier()
+{
 	global $userP, $pguser;
 
 	if (!isset($userP)) { return FALSE; }
@@ -101,6 +133,7 @@ function user_is_post_proof_verifier()
 		return FALSE;
 	}
 }
+*/
 
 function user_is_PM_of($project)
 {
@@ -138,6 +171,10 @@ function user_is_PP_of($project)
 
 function user_is_PPV_of($project)
 {
+    if(user_is_a_sitemanager()) return True;
+    if(!user_is_post_proof_verifier()) return False;
+
+    /*
 	global $userP, $pguser;
 
 	if (!isset($userP)) { return FALSE; }
@@ -150,20 +187,26 @@ function user_is_PPV_of($project)
 	} else {
 		return FALSE;
 	}
+    */
 
 	// Note that if someone with PPV-ability is PPing a project,
 	// they can (and probably will) directly post to PG,
 	// with no explicit PPV phase. Thus, they are effectively
 	// both the PPer and PPVer of the project.
-	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND (state = 'proj_post_first_checked_out' or state = 'proj_post_second_checked_out')");
-	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "checkedoutby") == $pguser) { return TRUE; } else { return FALSE; }
-	} else {
-		return FALSE;
-	}
+	$result = mysql_query("SELECT checkedoutby
+                           FROM projects
+                           WHERE projectid = '$project'
+                            AND (state = 'proj_post_first_checked_out' or state = 'proj_post_second_checked_out')");
+	return (mysql_num_rows($result) >= 1 && mysql_result($result, 0, "checkedoutby") == $pguser);
 }
 
+function user_is_site_news_editor()
+{
+    global $settings;
+    return user_is_a_sitemanager() || $settings->get_boolean("site_news_editor");
+}
 
+/*
 function user_is_site_news_editor()
 {
 	global $userP, $pguser;
@@ -179,7 +222,15 @@ function user_is_site_news_editor()
 		return FALSE;
 	}
 }
+*/
 
+function user_is_site_translator()
+{
+    global $settings;
+    return user_is_a_sitemanager() || $settings->get_boolean("site_translator");
+}
+
+/*
 function user_is_site_translator()
 {
 	global $userP, $pguser;
@@ -195,7 +246,24 @@ function user_is_site_translator()
 		return FALSE;
 	}
 }
+*/
 
+function user_can_see_BEGIN_in_round($round_number)
+{
+    global $settings;
+    if (user_is_a_sitemanager()
+            || user_is_proj_facilitator()
+            || $settings->get_boolean("see_BEGIN_R".$round_number))
+        return TRUE;
+
+    $n_pages = user_get_page_tally( $pguser );
+    if($round_number == 1)
+        return $n_pages <= 40;
+    else
+        return $n_pages >= 300;
+}
+    
+/*
 function user_can_see_BEGIN_in_round($round_number)
 {
 	global $userP, $pguser;
@@ -226,8 +294,16 @@ function user_can_see_BEGIN_in_round($round_number)
 		return FALSE;
 	}
 }
+*/
 
 
+function user_is_authors_db_manager()
+{
+    global $settings;
+	return user_is_a_sitemanager() || $settings->get_boolean('authors_db_manager');
+}
+
+/*
 function user_is_authors_db_manager()
 {
 	global $userP, $pguser;
@@ -243,11 +319,6 @@ function user_is_authors_db_manager()
 		return FALSE;
 	}
 }
-
-
-function user_is_authors_db_editor() {
-  return user_is_PM();
-}
-
+*/
 
 ?>
