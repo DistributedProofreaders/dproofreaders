@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'iso_3166_list.inc');
+include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'metarefresh.inc');
 
 function parse_po($messages_po) {

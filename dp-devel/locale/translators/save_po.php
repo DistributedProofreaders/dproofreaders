@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'iso_3166_list.inc');
+include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('parse_po.inc');
 
@@ -23,7 +23,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 	fputs($po_file, "\"POT-Creation-Date: ".date("Y-m-j h:iO")."\\n\"\n");
 	fputs($po_file, "\"PO-Revision-Date: ".date("Y-m-j h:iO")."\\n\"\n");
 	fputs($po_file, "\"Last-Translator: $real_name &lt;$email_addr&gt;\\n\"\n");
-	fputs($po_file, "\"Language-Team: ".$iso_3166[$_POST['lang']]." &lt;$email_addr&gt;\\n\"\n");
+	fputs($po_file, "\"Language-Team: ".$iso_639[$_POST['lang']]." &lt;$email_addr&gt;\\n\"\n");
 	fputs($po_file, "\"MIME-Version: 1.0\\n\"\n");
 	fputs($po_file, "\"Content-Type: text/plain; charset=UTF-8\\n\"\n");
 	fputs($po_file, "\"Content-Transfer-Encoding: 8bit\\n\"\n\n");
@@ -66,7 +66,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 	fclose($po_file);
 
 	echo "<center><b><i><font size='+2'>"._("Strings Rebuilt!")."</font></i></b><br><br>";
-	echo "<a href='index.php?func=translate&lang=".$_POST['lang']."'>"._("Please click here to return to translate the ").$iso_3166[$_POST['lang']]." "._("language file").".</a>";
+	echo "<a href='index.php?func=translate&lang=".$_POST['lang']."'>"._("Please click here to return to translate the ").$iso_639[$_POST['lang']]." "._("language file").".</a>";
 }
 
 theme('','footer');

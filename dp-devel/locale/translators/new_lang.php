@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'iso_3166_list.inc');
+include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'metarefresh.inc');
 
 theme(_("Translation Center"), "header");
@@ -21,7 +21,7 @@ if (empty($_GET['lang']) && $func == "newlang") {
 	}
 
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='3'><ul>";
-	foreach ($iso_3166 as $short_lang => $full_lang) {
+	foreach ($iso_639 as $short_lang => $full_lang) {
 		if (!in_array($short_lang, $existing_lang)) {
 			echo "<tr><td width='50%' align='left'><li>$full_lang</li></td><td width='50%' align='left'>[ <a href='new_lang.php?func=create_newlang&lang=".$short_lang."'>Create Translation File</a> ]</td></tr>";
 		}
