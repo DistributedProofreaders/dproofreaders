@@ -1,0 +1,28 @@
+<p>Regarding receipts:</p>
+
+<p>The receipts are simple to do.  Put one blank line between each receipt,
+don't bother to indent (the blank line is sufficient) and mark each donation
+amount with a ... before it.</p>
+
+<p>Example:</p>
+
+<pre>RECEIPTS FOR MAY, 1889.
+
+MAINE, $352.06.
+
+Acton. Cong. Ch. and Soc. ...$3.50
+
+Albany. Anna K. Cummings,
+  <i>for Mountain Work</i> ...2.00
+
+Bangor. First Cong. Ch. and Soc. ...38.00
+
+Bath. Winter St. Ch. ...140.30
+
+Bucksport. Y.P.S.C.E., by Charlotte
+  S. Barnard, <i>for Pleasant Hill, Tenn.</i> ...20.00
+
+Castine. Prof. Fred. W. Foster ...1.44</pre>
+
+<p>Also, see the <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=7421">UberProjects thread</a> in the forum for questions
+and answers. </p>
