@@ -40,6 +40,17 @@ function page_tallies_add( $username, $amount )
     ");
 }
 
+// -----------------------------------------------------------------------------
+
+function get_daily_average( $start_time, $total )
+// Not actually tally-specific, but that's all it's used for.
+{
+    $now = time();
+    $seconds_since_start = $now - $start_time;
+    $days_since_start = $seconds_since_start / 86400;
+    return $total / $days_since_start;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function user_get_page_tally( $username )
