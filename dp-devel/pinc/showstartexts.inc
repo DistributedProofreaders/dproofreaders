@@ -14,7 +14,8 @@ $state = SQL_CONDITION_SILVER;
 $text = " In Progress.</font>  These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).<br>";
 } elseif ($type == "gold") {
 $state = SQL_CONDITION_GOLD;
-$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive.<br>";
+$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive. ";
+$text .= "<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>&nbsp;<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'><img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a><br>";
 }
 
 $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
