@@ -90,7 +90,7 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 
 	// page finished in R1 may have since progressed to R2
 
-        $pdoneR1 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE         
+        $pdoneR1 = mysql_query("SELECT COUNT(*) FROM $projectid WHERE         
 		round1_time >= $start_ts
             AND round1_time <  $end_ts
             AND (state='save_first' OR state LIKE '%_second%')
@@ -108,7 +108,7 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 	}
 
         
-        $pdoneR2 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE
+        $pdoneR2 = mysql_query("SELECT COUNT(*) FROM $projectid WHERE
          	  state='save_second' 
             AND round2_time >= $start_ts
             AND round2_time <  $end_ts 
