@@ -24,22 +24,22 @@ theme('FAQ Central','header');
 </table>
 
 <dl compact>
-  <dt><a href="ProoferFAQ.php">Beginning Proofer's FAQ </a>
+  <dt><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a>
   <dd>Introduction to the site, general overview, beginner's questions.
 
-  <dt><a href="summary.pdf">Handy Proofing Guide</a>
+  <dt><a href="summary.pdf">Handy Proofreading Guide</a>
 
   <dd>(aka "Summary Guidelines") A printable two-page summary of the most commonly needed
-      proofing standards from the Proofing Guidelines, done as one big example!
+      proofreading standards from the Proofreading Guidelines, done as one big example!
 
-  <dt><a href="document.php">Proofing Guidelines</a>
-  <dd>The full details of the guidelines we use for proofing documents.
+  <dt><a href="document.php">Proofreading Guidelines</a>
+  <dd>The full details of the guidelines we use for proofreading documents.
 
-  <dt><a href="prooffacehelp.php?i_type=0">Standard Proofing Interface Help</a>
-  <dd>A help-file for the Standard Proofing Interface.
+  <dt><a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a>
+  <dd>A help-file for the Standard Proofreading Interface.
 
-  <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofing Interface Help</a>
-  <dd>A help-file for the Enhanced Proofing Interface.
+  <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a>
+  <dd>A help-file for the Enhanced Proofreading Interface.
 
   <dt><a href="<? echo $forums_url ?>/faq.php">Forums FAQ</a>
   <dd>Information on using the Forum software (our "bulletin board" system for
@@ -65,8 +65,8 @@ theme('FAQ Central','header');
 
   <dd> &nbsp;
 
-  <dt><a href="post_proof.php">Post-Proofing FAQ</a>
-  <dd>Information for new and aspiring Post-Proofers.  (Post-Proofers are people who do
+  <dt><a href="post_proof.php">Post-Processing FAQ</a>
+  <dd>Information for new and aspiring Post-Processors.  (Post-Processors are people who do
       all the processing  of a particular project ("book") after it has been proofread
       on this site (combining all the pages, making them consistent, fixing problems,
       and submitting it to the Project Gutenberg archive.)

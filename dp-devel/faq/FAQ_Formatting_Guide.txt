@@ -26,7 +26,7 @@ you have read it all. :D
 
 
 
-Just as we have guidelines on proofing a page
+Just as we have guidelines on proofreading a page
 or post-processing a project at DP, describing
 what to do and how the finished product should 
 look, so we now are creating guidelines on
@@ -177,7 +177,7 @@ Good for browsers, bad for text editors and CVS
 
 <BEGIN SAMPLE #1>
 
-<a href="#Tables">Tables</a><br><a href="#Sidenotes">Sidenotes</a><br><a href="#Headings">Headings and Subheadings</a><br><a href="#Indexes">Indexes</a><br><a href="#Errata">Errata Pages</a><br><h4>Symbols and Scripts</h4><a href="#Non-ASCII">Non-ASCII Characters</a><br><a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br><h4>Extra Checks</h4><a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br><h4>Technical Questions</h4><a href="#Formats">Non-ASCII Formats</a><br><a href="#Missing">Missing or Problem Images</a><br><a href="#Returning">Returning a Project</a><br><a href="#Beginner">BEGINNER and MENTOR projects</a><br><a href="#PPV">Post-Processing Verification</a><a href="#Other">Other Questions, and Suggestions for the FAQ</a><br><br><hr><p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-proofing a little less frightening!</p><hr><br><h2>Getting Started</h2><br><p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofing Questions section for advice.</p><br><h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4><p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p><p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-proofing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofing Guidelines</a> before attempting to post-proof.</p><br><h4><a name="Tools">What software will I need to get started?</a></h4><p>The requirements for software are minimal:</p><ul><li>a <a href="#Editors">text editor</a>,<li>a program capable of opening <a href="#Images">images</a>,<li>a spell checker, and <li><a href="#Gutcheck">Gutcheck</a>. </ul> <p>There are other useful <a href="#Extras">programs</a> available which are nice to have, but not essential. Take a look and see if any of them would be of use to you.</p><br> 
+<a href="#Tables">Tables</a><br><a href="#Sidenotes">Sidenotes</a><br><a href="#Headings">Headings and Subheadings</a><br><a href="#Indexes">Indexes</a><br><a href="#Errata">Errata Pages</a><br><h4>Symbols and Scripts</h4><a href="#Non-ASCII">Non-ASCII Characters</a><br><a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br><h4>Extra Checks</h4><a href="#Bonus">Paranoid Proofreading Checks (Stealth Scannos, etc.)</a><br><h4>Technical Questions</h4><a href="#Formats">Non-ASCII Formats</a><br><a href="#Missing">Missing or Problem Images</a><br><a href="#Returning">Returning a Project</a><br><a href="#Beginner">BEGINNER and MENTOR projects</a><br><a href="#PPV">Post-Processing Verification</a><a href="#Other">Other Questions, and Suggestions for the FAQ</a><br><br><hr><p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-proofing a little less frightening!</p><hr><br><h2>Getting Started</h2><br><p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofing Questions section for advice.</p><br><h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4><p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p><p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-proofing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofing Guidelines</a> before attempting to post-proof.</p><br><h4><a name="Tools">What software will I need to get started?</a></h4><p>The requirements for software are minimal:</p><ul><li>a <a href="#Editors">text editor</a>,<li>a program capable of opening <a href="#Images">images</a>,<li>a spell checker, and <li><a href="#Gutcheck">Gutcheck</a>. </ul> <p>There are other useful <a href="#Extras">programs</a> available which are nice to have, but not essential. Take a look and see if any of them would be of use to you.</p><br> 
 
 <END SAMPLE #1>
 
@@ -225,7 +225,7 @@ Good for browsers and text editors, bad for CVS
 <a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
 
 <h4>Extra Checks</h4>
-<a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br> 
+<a href="#Bonus">Paranoid Proofreading Checks (Stealth Scannos, etc.)</a><br> 
 
 <h4>Technical Questions</h4>
 <a href="#Formats">Non-ASCII Formats</a><br> 
@@ -237,19 +237,19 @@ Good for browsers and text editors, bad for CVS
 <br> 
 <hr> 
 
-<p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-proofing a little less frightening!</p> 
+<p>This FAQ is designed as a guide for post-proofers, especially new ones. I hope that it makes the task of post-processing a little less frightening!</p> 
  
 <hr> 
 <br>
 <h2>Getting Started</h2> 
 <br> 
-<p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofing Questions section for advice.</p>
+<p>This section is designed especially for the first-time post-proofer.  It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.  For more difficult books, please see the Advanced Proofreading Questions section for advice.</p>
 <br>
 <h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4>
 
-<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofreading rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofreading rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
 
-<p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-proofing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofing rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofing Guidelines</a> before attempting to post-proof.</p>
+<p>Post-processors require more experience than ordinary proofers.  Because they are preparing the text for uploading to Project Gutenberg, they are the final editors of the text.  Because of this, post-processing is only available for proofers who have completed at least <b>400</b> pages in the first and/or second proofreading rounds.  Also, post-proofers should be very familiar with the <a href="document.php">Proofreading Guidelines</a> before attempting to post-proof.</p>
 <br>
 <h4><a name="Tools">What software will I need to get started?</a></h4> 
  
@@ -311,9 +311,9 @@ best simulation of the situation facing the developer
 using CVS, make sure your line wrap is OFF before you 
 try to find the change in the two following lines)
 
-<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofreading rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project's Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofreading rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
 
-<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofing rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofing rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
+<p>The purpose of post-processing is to massage an etext into a readable form.  In its journey through two proofreading rounds, the text will have been edited by perhaps hundreds of proofers.  The post-processor must standardize the formatting of the book and adjust it to comply with Project Gutenberg's requirements.  The post-processor must also correct as many errors as possible that have survived both proofreading rounds.  The ultimate goal of post-processing is to create a plain-text etext with consistent formatting throughout, which contains as few errors as possible, and which accurately reflects the intentions of the author.</p>
 
 
 
@@ -350,7 +350,7 @@ Good for browsers, text editors and CVS
 <a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
 
 <h4>Extra Checks</h4>
-<a href="#Bonus">Paranoid Proofing Checks (Stealth Scannos, etc.)</a><br> 
+<a href="#Bonus">Paranoid Proofreading Checks (Stealth Scannos, etc.)</a><br> 
 
 <h4>Technical Questions</h4>
 <a href="#Formats">Non-ASCII Formats</a><br> 
@@ -364,7 +364,7 @@ Good for browsers, text editors and CVS
 
 <p>
 This FAQ is designed as a guide for post-proofers, especially new ones.
-I hope that it makes the task of post-proofing a little less frightening!
+I hope that it makes the task of post-processing a little less frightening!
 </p> 
  
 <hr> 
@@ -374,19 +374,19 @@ I hope that it makes the task of post-proofing a little less frightening!
 <p>
 This section is designed especially for the first-time post-proofer. 
 It provides a walkthrough of all of the essential steps needed to proof a relatively simple book.
-For more difficult books, please see the Advanced Proofing Questions section for advice.
+For more difficult books, please see the Advanced Proofreading Questions section for advice.
 </p>
 <br>
 <h4><a name="Introduction">What is post-processing, and who can post-proof?</a></h4>
 
 <p>
 The purpose of post-processing is to massage an etext into a readable form. 
-In its journey through two proofing rounds,
+In its journey through two proofreading rounds,
 the text will have been edited by perhaps hundreds of proofers. 
 The post-processor must standardize the formatting of the book
 and adjust it to comply with Project's Gutenberg's requirements. 
 The post-processor must also correct as many errors as possible
-that have survived both proofing rounds. 
+that have survived both proofreading rounds. 
 The ultimate goal of post-processing is to create a plain-text etext
 with consistent formatting throughout, which contains as few errors as possible,
 and which accurately reflects the intentions of the author.
@@ -396,10 +396,10 @@ and which accurately reflects the intentions of the author.
 Post-processors require more experience than ordinary proofers.
 Because they are preparing the text for uploading to Project Gutenberg,
 they are the final editors of the text. 
-Because of this, post-proofing is only available for proofers who have completed at least
-<b>400</b> pages in the first and/or second proofing rounds. 
+Because of this, post-processing is only available for proofers who have completed at least
+<b>400</b> pages in the first and/or second proofreading rounds. 
 Also, post-proofers should be very familiar with the
-<a href="document.php">Proofing Guidelines</a> before attempting to post-proof.
+<a href="document.php">Proofreading Guidelines</a> before attempting to post-proof.
 </p>
 <br>
 <h4><a name="Tools">What software will I need to get started?</a></h4> 
@@ -597,7 +597,7 @@ way. URLs to completely different sites can
 and should remain as is, and also links to
 other files in the FAQ directory can remain
 the same (these are links that just feature
-a file name, like document.php for the Proofing
+a file name, like document.php for the Proofreading
 Guidelines).
 
 
@@ -613,7 +613,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Post-Proofing FAQ','header');
+theme('Post-Processing FAQ','header');
 ?>
 
 
@@ -641,7 +641,7 @@ it is not actually in the FAQ file)
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head><link rel='shortcut icon' href='http://www.pgdp.net/c/favicon.ico'>
-<title>DP -- Post-Proofing FAQ</title>
+<title>DP -- Post-Processing FAQ</title>
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 
@@ -662,7 +662,7 @@ it is not actually in the FAQ file)
 <td width='50%' align='left' valign='middle' bgcolor='#336633'>
 <a href='http://www.pgdp.net/c/default.php'>
 <font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>DP</font></a>
-<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'> È Post-Proofing FAQ</font>
+<font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'> È Post-Processing FAQ</font>
 </td>
 <td width='50%' align='right' bgcolor='#336633'>
 <font face='verdana, helvetica, sans-serif' size='1' color='#ffffff'>
@@ -701,7 +701,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Post-Proofing FAQ','header');
+theme('Post-Processing FAQ','header');
 ?>
 
 and have them show up in the browsers as if all

@@ -233,7 +233,7 @@ The * is a wildcard, and matches any string of letters.<br>
 
 <br>
 
-Helpful people at DP will send you feedback about your proofing, to help you settle in, 
+Helpful people at DP will send you feedback about your proofreading, to help you settle in, 
 and those early messages will come to your <b>Inbox</b>. 
 
 <br>
@@ -261,7 +261,7 @@ Don't miss the question marks next to each choice. They explain things to you, s
 <br>
 
 The <i>top</i> half of the window is <i>general</i> preferences. 
-The <i>bottom</i> half is about the <i>proofing interface,</i> where you actually do your proofing.<br>
+The <i>bottom</i> half is about the <i>proofreading interface,</i> where you actually do your proofreading.<br>
 
 <br>
 
@@ -287,7 +287,7 @@ In the <i>top</i> half:<br><br>
 
 <li>you can choose from several different <b>themes</b> (the way DP looks to you)</li>
 
-<li>you can choose from several <b>languages</b> used in the proofing <b>interface</b></li>
+<li>you can choose from several <b>languages</b> used in the proofreading <b>interface</b></li>
 
 <li>you can choose if your <b>statistics</b> (how many pages you proof etc.) are seen by other DPers or not</li>
 
@@ -301,7 +301,7 @@ Over to the right-hand side of the <i>top</i> half, now:<br><br>
 
 <li>what <b>screen resolution</b> works best for your monitor and browser?</li>
 
-<li>do you want the <b>proofing interface</b> to be standard or enhanced?</li>
+<li>do you want the <b>proofreading interface</b> to be standard or enhanced?</li>
 
 </ul> <blockquote>You can try both out. 
 The enhanced interface doesn't work with some  browsers, I think it was written for Internet Explorer, 
@@ -316,7 +316,7 @@ You can also choose to have the original scan <b>above</b> and the output text <
 this is the horizontal layout, as the line separating text and image runs horizontally. 
 Again, you want to experiment and suit yourself.</li>
 
-<li>Do you want the proofing interface to pop up in a <b>new window</b>, or not?</li>
+<li>Do you want the proofreading interface to pop up in a <b>new window</b>, or not?</li>
 
 <li>Do you want to be able to see the <b>toolbar</b> from your browser, above the interface?</li>
 
@@ -333,7 +333,7 @@ You can come here and change any of these things at any time.<br>
 
 <br>
 
-Now, for the <i>proofing interface</i> choice, in the <i>bottom</i> half of the window. (takes a deep breath)<br><br>
+Now, for the <i>proofreading interface</i> choice, in the <i>bottom</i> half of the window. (takes a deep breath)<br><br>
 
 
 
@@ -360,7 +360,7 @@ Again, you will want to experiment. Your browser may fuss about font choices. Br
 
 <li>how much bigger or smaller that the original book size do you want the <b>image</b> (the scanned picture of the page) to be?</li>
 
-</ul> <blockquote>You can enlarge the scan from the proofing interface, too. See how you go.</blockquote>
+</ul> <blockquote>You can enlarge the scan from the proofreading interface, too. See how you go.</blockquote>
 
 
 <ul>
@@ -384,7 +384,7 @@ or <b>quit</b>.<br>
 
 <br>
 
-The Preferences page is very useful to fine-tune your proofing screen, or if things are not working for some reason. 
+The Preferences page is very useful to fine-tune your proofreading screen, or if things are not working for some reason. 
 Preferences are <b>your choices</b>. You can fiddle with them so things work right for you.<br>
 
 <br>
@@ -519,7 +519,7 @@ Again, if you can't see this, it will show up after 400 pages proofed.<br>
 <br>
 
 Post-Processors are our wrapping artists. 
-They put the whole e-book together when we have finished proofing it (twice, two rounds of checking), 
+They put the whole e-book together when we have finished proofreading it (twice, two rounds of checking), 
 and they make it all into the most attractive and most easily-read package, for serving from Project Gutenberg.<br>
 
 <br>
@@ -545,7 +545,7 @@ This, too, will pop up as a development of your Personal Page after you have pro
 <br>
 
 What is the Random Rule? A devious concept, that's what it  is ... 
-you may think that you can't remember all the proofing Guidelines, but, day by day 
+you may think that you can't remember all the Proofreading Guidelines, but, day by day 
 (or each time you refresh your Personal Page), we remind you of one at a time, and they stick in your mind!<br>
 
 <br>
@@ -558,7 +558,7 @@ but this little Random Rule may help you remember things much better.<br>
 
 <br>
 
-Each time, one proofing rule is explained, and it really does help you to remember.<br>
+Each time, one proofreading rule is explained, and it really does help you to remember.<br>
 
 <br>
 
@@ -600,7 +600,7 @@ If a book doesn't show a difficulty, it's "average".<br>
 
 <br>
 
-It's up to you where you feel comfortable proofing. 
+It's up to you where you feel comfortable proofreading. 
 Some people stay in one level or type of text, others dart around like dragonflies, flitting and sipping, 
 some suffer from acute masochism and specialize in heavy footnoting or strange markup. 
 Once you've settled in and done some Beginners' and Easy texts, you can take your pick.<br>
@@ -612,15 +612,15 @@ You can see the books' <b>title</b>, the <b>author</b>, the <b>language</b> the 
 please note your language skills in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=2384">this post</a> in the Forums), 
 the <b>genre</b> (novel? history? great dog story?), 
 the <b>project manager</b> (who is looking after this book: good person to ask questions about it), 
-how many <b>pages available</b> for proofing right now (or as close to right now as the database gets) 
+how many <b>pages available</b> for proofreading right now (or as close to right now as the database gets) 
 and the <b>total pages</b> in that book.<br>
 
 <br>
 
-When you click on the <b>title</b> of a book, the <b>proofing interface</b> pops up in front of you 
+When you click on the <b>title</b> of a book, the <b>proofreading interface</b> pops up in front of you 
 like something out of a trap-door (but friendly!). 
-You can stop change your mind and <b>stop proofing</b>, 
-<b>save</b> proofed pages and <b>go on</b> proofing, start and stop whenever suits you. 
+You can stop change your mind and <b>stop proofreading</b>, 
+<b>save</b> proofed pages and <b>go on</b> proofreading, start and stop whenever suits you. 
 This is <i>your DP.</i><br>
 
 <br>
@@ -732,8 +732,8 @@ Some of those guys are <i>hot!</i> (Could be you, one day...)<br>
 
 <br>
 
-You can choose to have the people over and under you in the proofing stats, shown here. 
-This is your <b>proofing neighbourhood</b>, and it's fun to watch it change. 
+You can choose to have the people over and under you in the proofreading stats, shown here. 
+This is your <b>proofreading neighbourhood</b>, and it's fun to watch it change. 
 Will you pass treefrog today? Will canetoad pass you? (Hope not!)<br>
 
 <br>

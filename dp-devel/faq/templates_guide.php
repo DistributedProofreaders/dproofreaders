@@ -176,7 +176,7 @@ include('../pinc/templates/comment_files/wrrn.txt');
       <td bgcolor="#336633" align=center colspan=2>
         <font size="+2" color="#FFFFFF">
           <b>
-            Special Instructions and Proofing Notes:
+            Special Instructions and Proofreading Notes:
           </b>
         </font>
       </td>
@@ -289,7 +289,7 @@ HALF IN THE SECOND COLUMN.*****
     &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
     &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>
     &lt;b&gt;<br>
-    Special Instructions and Proofing Notes:<br>
+    Special Instructions and Proofreading Notes:<br>
     &lt;/b&gt;<br>
     &lt;/font&gt;<br>
     &lt;/td&gt;<br>

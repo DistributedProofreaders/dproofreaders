@@ -11,7 +11,7 @@ theme('Custom Font Comparison','header');
 
 <H1>DPCustomMono2</H1>
 <P>DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders, that helps proofreaders
-find mistakes. You can change the font that you use for proofing in
+find mistakes. You can change the font that you use for proofreading in
 your <? echo "<a href='$code_url/userprefs.php'>preferences</a>"; ?>. Here are some samples that compare DPCustomMono2 to
 other fonts. For information on installing and using the font, read the <? echo "<a href='$forums_url/viewtopic.php?p=31521#31521'>Wiki about this</a>"; ?></P> 
 <P><FONT FACE="DPCustomMono2, Times New Roman, Times, serif">If you already have the font
