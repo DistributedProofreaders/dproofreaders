@@ -36,9 +36,6 @@ function saveProject() {
 		exit();
 	}
 
-	//If the project has been posted to PG let the users know
-	if(isset($_POST['posted'])) { posted_pg($_POST['projectid']); }
-
 	//Format the language as pri_language with sec_language if pri_language is set
 	//Otherwise set just the pri_language
 	if (!empty($_POST['sec_language'])) { $language = $_POST['pri_language']." with ".$_POST['sec_language']; } else { $language = $_POST['pri_language']; }
@@ -46,6 +43,7 @@ function saveProject() {
 	//If we are just updated an already existing project
 	if (isset($_POST['projectid'])) {
 		//Update the projects database with the updated info
+		$comments = addslashes($_POST['comments']);
 		mysql_query("
 			UPDATE projects SET
 				nameofwork='{$_POST['nameofwork']}',
@@ -53,7 +51,7 @@ function saveProject() {
 				language='$language',
 				genre='{$_POST['genre']}',
 				difficulty='{$_POST['difficulty_level']}',
-				comments='{$_POST['comments']}',
+				comments='{$comments}',
 				scannercredit='{$_POST['scannercredit']}',
 				txtlink='{$_POST['txtlink']}',
 				ziplink='{$_POST['ziplink']}',
@@ -162,6 +160,9 @@ function saveProject() {
 		//Create a Dublin Core file in the projects_dir directory
 		create_dc_xml_oai($projectid, $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
 	}
+
+	//If the project has been posted to PG let the users know
+	if(isset($_POST['posted'])) { posted_pg($_POST['projectid']); }
 }
 
 function handle_projectfiles($projectid) {
@@ -253,6 +254,8 @@ function posted_pg($projectid) {
 	$NameofWork = mysql_result($result, 0, "nameofwork");
 	$ziplink = mysql_result($result, 0, "ziplink");
 
+	if(substr($ziplink, -7, 1) == "X") { $ziplink = "http://www.pgdp.net/c/list_etexts.php?x=g"; }
+
 	$result = mysql_query("SELECT username FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
         $numrows = mysql_numrows($result);
         $rownum = 0;
@@ -265,7 +268,7 @@ function posted_pg($projectid) {
             	$rownum++;
         }
 
-        $del = mysql_query("DELETE FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
+	$del = mysql_query("DELETE FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
         $ins = mysql_query("UPDATE projects SET int_level = '$numrows' WHERE projectid = '$projectid'");
 }
 
