@@ -117,6 +117,18 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	}
 
 	// -------------------------------------------------------------------------
+
+	$state = $project['state'];
+	if ( $state == PROJ_SUBMIT_PG_POSTED
+	  || $state == PROJ_CORRECT_AVAILABLE
+	  || $state == PROJ_CORRECT_CHECKED_OUT )
+	{
+		$postednum = $project['postednum'];
+		echo_row_a( _("PG etext num"),
+			"<a href='http://www.gutenberg.net/etext/$postednum'>$postednum</a>" );
+	}
+
+	// -------------------------------------------------------------------------
 	// Forum topic
 
 	$topic_id = $project['topic_id'];
