@@ -74,8 +74,8 @@ exit;
 // restore session values from db
 if (isset($restorec))
 {
-updateSessionPreferences($pguser);
-if (0) { $cookieC->setUserPrefs($pguser); }
+if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
+else { updateSessionPreferences($pguser); }
 metarefresh(0, $eURL, "Restore", "");
 exit;
 }
@@ -413,8 +413,8 @@ $users_query.=" WHERE id='$user_id' AND username='$pguser'";
 $result = mysql_query($users_query);
 
 echo mysql_error();
-updateSessionPreferences($pguser);
-if (0) { $cookieC->setUserPrefs($pguser); }
+if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
+else { updateSessionPreferences($pguser); }
 
 metarefresh(0, $eURL, "Save", "");
 }
