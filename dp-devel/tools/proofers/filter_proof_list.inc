@@ -1,8 +1,6 @@
 <?
 
-global $array_of_langs, $array_of_genres , $array_of_PMs, $array_of_diffs;
-
-function build_selectlist( $states, $field, &$array)
+function build_selectlist( $states, $field)
 {
 
 	$to_echo = "";
@@ -21,38 +19,14 @@ function build_selectlist( $states, $field, &$array)
 	    $val = $a_res[0];	
 	    $to_echo .= "<option value='$val'>";
 	    $to_echo .= $val;
-	    $array[$i] = $val;	
 	    $to_echo .= "</option>\n";
 	}
-
-
 
 
 return $to_echo;
 
 }
 
-
-if ($userP['u_plist'] == 1) 
-{
-	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-		 state = '".PROJ_PROOF_FIRST_VERIFY."') ";
-	$label = _("First Round");
-}
-if ($userP['u_plist'] == 2)
-{
-	$state_sql = " (state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
-		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
-	$label = _("Second Round");
-}
-if ($userP['u_plist'] == 3)
-{
-	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-		 state = '".PROJ_PROOF_FIRST_VERIFY."' OR
-		 state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
-		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
-	$label = "";
-}
 
 
 

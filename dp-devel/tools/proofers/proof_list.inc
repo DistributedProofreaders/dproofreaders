@@ -8,6 +8,32 @@ $array_of_genres = array();
 $array_of_PMs = array();
 $array_of_diffs = array();
 
+
+if ($userP['u_plist'] == 1) 
+{
+	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_FIRST_VERIFY."') ";
+	$label = _("First Round");
+}
+if ($userP['u_plist'] == 2)
+{
+	$state_sql = " (state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
+	$label = _("Second Round");
+}
+if ($userP['u_plist'] == 3)
+{
+	$state_sql = " (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_FIRST_VERIFY."' OR
+		 state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
+		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
+	$label = "";
+}
+
+
+
+
+
 include_once('filter_proof_list.inc');
 
 
@@ -15,7 +41,7 @@ include_once('filter_proof_list.inc');
 
 $RFilter = " ";
 
-echo $array_of_langs. $array_of_genres . $array_of_PMs. $array_of_diffs;
+
 
 if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 	$condition1 = '1';
