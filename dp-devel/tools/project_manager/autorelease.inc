@@ -78,6 +78,10 @@ function autorelease($pagesleft) {
   $pagesneeded = 20000;
   
   // NON-English Books
+  $releasenonenglish = "False";
+  
+  
+if ($releasenonenglish != "False"){
 
   $non_english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language != 'English' ORDER BY modifieddate ASC");
   $done = 0;
@@ -102,7 +106,7 @@ function autorelease($pagesleft) {
     } else $done = 1;
     $non_english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language != 'English' ORDER BY modifieddate ASC");
   }
-
+}
   // English Books
 
   $english = mysql_query("SELECT * FROM projects WHERE state = '".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."' AND language = 'English' ORDER BY modifieddate ASC");
