@@ -51,6 +51,13 @@ if ($testing_this_script)
     $today_start_ts = mktime(0,0,0, 7,3,2003);
 }
 
+$tracetime = time();
+mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('update_daily_page_counts.php', $tracetime, 'BEGIN', '')");
+
+
+
+
 for ( $d = 1; ; $d++ )
 {
     // Consider the day (Y) that is $d days after $X_date.
@@ -79,7 +86,22 @@ for ( $d = 1; ; $d++ )
         echo $update_query, $EOL;
         mysql_query($update_query) or die(mysql_error());
     }
+
+
+$tracetimea = time();
+$sofar = $tracetimea - $tracetime;
+mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('update_daily_page_counts.php', $tracetimea, 'ENDED a DAY', 'time so far $sofar seconds')");
+
+
 }
+
+$tracetimea = time();
+$sofar = $tracetimea - $tracetime;
+mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+               VALUES ('update_daily_page_counts.php', $tracetimea, 'END ALL', 'time so far $sofar seconds')");
+
+
 
 if ($testing_this_script)
 {
