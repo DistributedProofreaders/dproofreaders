@@ -26,6 +26,9 @@ $projects_forum_url        = "$forums_url/viewforum.php?f=2";
 $post_processing_forum_url = "$forums_url/viewforum.php?f=3";
 
 $uploads_dir = '<<UPLOADS_DIR>>';
+$uploads_host = '<<UPLOADS_HOST>>';
+$uploads_account = '<<UPLOADS_ACCOUNT>>';
+$uploads_password = '<<UPLOADS_PASSWORD>>';
 
 // -----------------------------------------------------------------------------
 
