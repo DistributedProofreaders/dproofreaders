@@ -6,7 +6,7 @@ include_once($relPath.'doctype.inc');
 include_once($relPath.'sp_check_user.inc');
 $aspell_dict="en.multi";
 $text_file= $project.substr($imagefile,0,-4).".txt";
-$aspell_command="cat {$aspell_temp_dir}{$text_file} | {$aspell_local} --prefix={$aspell_root} --master={$aspell_dict} --ignore-accents -H -a";
+$aspell_command="cat {$aspell_temp_dir}{$text_file} | {$aspell_executable} --prefix={$aspell_prefix} --master={$aspell_dict} --ignore-accents -H -a";
 $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
 
 // set image and text height and width
