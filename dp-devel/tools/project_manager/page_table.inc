@@ -83,7 +83,9 @@ function echo_page_table( $projectid )
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
 	{
-		$fileid = mysql_result($res, $rownum, "fileid");
+		$page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
+
+		$fileid = $page_res['fileid'];
 
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_main_bg'];
@@ -101,7 +103,7 @@ function echo_page_table( $projectid )
 		// Upload Block
 
 		// Image
-		$imagename = mysql_result($res, $rownum, "image");
+		$imagename = $page_res['image'];
 		if (file_exists($path.$imagename)) {
 			$bgcolor = $row_color;
 			if ($show_image_size) $imagesize = filesize(realpath($path.$imagename));
@@ -118,20 +120,20 @@ function echo_page_table( $projectid )
 		}
 
 		// Master Text
-		$master_text_length = mysql_result($res, $rownum, "length(master_text)");
+		$master_text_length = $page_res['length(master_text)'];
 		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">$master_text_length&nbsp;b</a></td>\n";
 
 		// --------------------------------------------
 
 		// Page State
-		$page_state = mysql_result($res, $rownum, "state");
+		$page_state = $page_res['state'];
 		echo "<td>$page_state</td>\n";
 
 		// --------------------------------------------
 
-		echo_cells_for_round(1, $res, $rownum, $fileid, $page_state, $projectid, $inRound );
+		echo_cells_for_round(1, $page_res, $projectid, $inRound );
 
-		echo_cells_for_round(2, $res, $rownum, $fileid, $page_state, $projectid, $inRound );
+		echo_cells_for_round(2, $page_res, $projectid, $inRound );
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -160,11 +162,16 @@ function echo_page_table( $projectid )
 
 // -----------------------------------------------------------------------------
 
+error_reporting(E_ALL);
+
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
-	$res, $rownum, $fileid, $page_state,
+	$page_res,
 	$projectid, $inRound )
 {
 	global $userP;
+
+	$fileid     = $page_res['fileid'];
+	$page_state = $page_res['state'];
 
 	if ($round_num == 1)
 	{
@@ -188,7 +195,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Date
 
-	$R_time = mysql_result($res, $rownum, $R_time_field_name);
+	$R_time = $page_res[$R_time_field_name];
 	if ($R_time == 0)
 	{
 		$R_time_str = '';
@@ -202,7 +209,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// User
 
-	$R_username = mysql_result($res, $rownum, $R_user_field_name);
+	$R_username = $page_res[$R_user_field_name];
 	if ($R_username == '')
 	{
 		echo "<td></td>\n";
@@ -232,7 +239,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Text
 
-	$R_text_length = mysql_result($res, $rownum, $R_text_length_field_name);
+	$R_text_length = $page_res[$R_text_length_field_name];
 
 	if ( $R_text_length == 0 )
 	{
