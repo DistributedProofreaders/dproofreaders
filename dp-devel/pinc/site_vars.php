@@ -16,6 +16,8 @@ $projects_url = "$siteurl/projects";   // '<<PROJECTS_URL>>';
 $forums_url = "$siteurl/phpBB2"; // <<FORUMS_URL>>
 $reset_password_url = "$forums_url/profile.php?mode=sendpassword";
 
+$uploads_dir = '/home/dpscans'; // <<UPLOADS_DIR>>
+
 // -----------------------------------------------------------------------------
 
 $no_reply_email_addr = 'no-reply@texts01.archive.org'; // <<NO_REPLY_EMAIL_ADDR>>
