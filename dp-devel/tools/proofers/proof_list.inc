@@ -42,6 +42,18 @@ $orderR1 = (isset($_GET['orderR1']) ? $_GET['orderR1'] : $orderR1old );
 $orderR2 = (isset($_GET['orderR2']) ? $_GET['orderR2'] : $orderR2old );
 
 
+// if orders have changed, save them to database
+
+if ($orderR1 != $orderR1old) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'R1order', '$orderR1' ");
+}
+
+if ($orderR2 != $orderR2old) {
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'");
+	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'R2order', '$orderR2' ");
+}
+
 
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
