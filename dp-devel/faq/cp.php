@@ -49,7 +49,7 @@ you can submit to DP. The biggest, and probably most important is: The
 book MUST be either in the Public Domain OR the copyright must have
 expired. In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
-it is troublesome to try to try to prove them. There is a good detailed
+it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
 on <a href="http://www.promo.net/pg/vol/pd.html">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
