@@ -24,7 +24,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_a( _("Project State"), project_states_text($project['state']) );
+		$proj_state = _("Project State");
+		echo_row_a($proj_state, project_states_text($project['state']) );
 	}
 	else
 	{
@@ -44,29 +45,38 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	// -------------------------------------------------------------------------
 	// Information about the work itself (independent of DP)
 
-	echo_row_a( _("Title"),           $project['nameofwork'] );
-	echo_row_a( _("Author"),          $project['authorsname'] );
-	echo_row_a( _("Language"),        $project['language'] );
-	echo_row_a( _("Genre"),           $project['genre'] );
-	echo_row_a( _("Difficulty"),      $project['difficulty'] );
+	$word =  _("Title");
+	echo_row_a($word,           $project['nameofwork'] );
+	$word = _("Author");
+	echo_row_a($word,          $project['authorsname'] );
+	$word = _("Language");
+	echo_row_a($word,        $project['language'] );
+	$word = _("Genre");
+	echo_row_a($word,           $project['genre'] );
+	$word =  _("Difficulty");
+	echo_row_a($word,      $project['difficulty'] );
 
 	// -------------------------------------------------------------------------
 	// Basic DP info
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_a( _("Project ID"),     $project['projectid'] );
-		echo_row_a( _("Clearance Line"), $project['clearance'] );
+		$word = _("Project ID");
+		echo_row_a($word,     $project['projectid'] );
+		$word = _("Clearance Line");
+		echo_row_a(, $project['clearance'] );
 	}
 
 	// -------------------------------------------------------------------------
 	// People who have certain roles with respect to the project
 
-	echo_row_a( _("Project Manager"), $project['username'] );
+	$word = _("Project Manager");
+	echo_row_a($word, $project['username'] );
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_a( _("Post Processor"), $project['postproofer'] );
+		$word = _("Post Processor");
+		echo_row_a($word, $project['postproofer'] );
 
 		$managercredit   = get_real_name( $project['username'] );
 		$scannercredit   = get_real_name( $project['scannercredit'] );
@@ -74,7 +84,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
 
-		echo_row_a( _("Credits line so far"), $creditline );
+		$word = _("Credits line so far");
+		echo_row_a($word, $creditline );
 	}
 
 	// -------------------------------------------------------------------------
@@ -93,7 +104,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		} else {
 			$lastproofed=_("Project has not been proofread in this round.");
 		}
-		echo_row_a( _("Last Proofread"), $lastproofed );
+		$word = _("Last Proofread");
+		echo_row_a($word, $lastproofed );
 	}
 
 	// -------------------------------------------------------------------------
@@ -104,7 +116,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
 		$last_post_date = date("l, F jS, Y \a\\t g:i:sA", $last_post_date);
-		echo_row_a( _("Last Forum Post"), $last_post_date );
+		$word = _("Last Forum Post");
+		echo_row_a($word, $last_post_date );
 	}
 
 	if ($topic_id == "") {
@@ -112,7 +125,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	} else {
 		$blurb = _("Discuss this project");
 	}
-	echo_row_a( _("Forum"), "<a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">$blurb</a>" );
+	$word = _("Forum");
+	echo_row_a($word, "<a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">$blurb</a>" );
 
 	// -------------------------------------------------------------------------
 	// Personal data with respect to this project
@@ -126,7 +140,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		} else {
 			$blurb = _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
 		}
-		echo_row_a( _("Book Completed:"), "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
+		$word = _("Book Completed:");
+		echo_row_a($word, "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 
 		if ($sub)
 		{
@@ -140,7 +155,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_b( _("Post Processor Comments"), '' );
+		$word = _("Post Processor Comments");
+		echo_row_b($word, '' );
 		echo_row_c( $project['postcomments'] );
 	}
 
@@ -168,7 +184,9 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		}
 	}
 
-	echo_row_b( _("Project Comments"), "("._("Please check below for Guideline Modifications").")" );
+	$word = _("Project Comments");
+	$details = _("(Please check below for guideline modifications.)");
+	echo_row_b($word, $details);
 
 	$a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofing Guidelines")."</a> "._("for detailed project formatting directions.");
 	$b = _("Instructions below take precedence over the guidelines");

@@ -28,7 +28,7 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		if ($no_more_pages)
 		{
 			echo "<p>";
-			echo "("._("The project has no more pages available for proofing in that round").".)";
+			echo _("The project has no more pages available for proofing in that round.");
 			echo "</p>\n";
 		}
 

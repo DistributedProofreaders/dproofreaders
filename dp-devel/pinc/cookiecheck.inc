@@ -18,7 +18,8 @@ if (0) {
 		// after the login process.
 		$url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
 		$body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
-		metarefresh(0,$url,_("Please Sign In"),$body);
+		$title = _("Please Sign In");
+		metarefresh(0,$url,$title,$body);
 		exit;
 	}
 }
