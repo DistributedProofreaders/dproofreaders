@@ -139,7 +139,7 @@ function summarize_projects( $project_states )
     $total = 0;
     foreach ($project_states as $project_state)
     {
-        $count = $n_projects_in_state_[$project_state];
+        $count = array_get( $n_projects_in_state_, $project_state, 0 );
         $total += $count;
     }
     echo sprintf( _('There are %d projects in this stage:'), $total );
