@@ -9,6 +9,12 @@ include_once('parse_po.inc');
 
 theme(_("Translation Center"), "header");
 
+if(!user_is_site_translator()) {
+	echo _("You can not access this page.");
+	theme("","footer");
+	exit();
+}
+
 if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
     $lang = $_POST['lang'];
@@ -35,8 +41,17 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
             if($_POST['location_'.$i]) {
                 $translation_location = unserialize(base64_decode($_POST['location_'.$i]));
                 $translation_msgid = unserialize(base64_decode($_POST['msgid_'.$i]));
-                $translation_msgstr = str_replace("\n", "\"\n\"", $_POST['msgstr_'.$i]);
-                $translation_msgstr = stripslashes($translation_msgstr);
+                $translation_msgstr = preg_replace(
+			'/(?<!\\\\)"/', //unescaped quotes
+			'\"',
+			stripslashes(
+				preg_replace(
+					"/(\r\n|\r|\n)/",
+					"\"\n\"",
+					$_POST['msgstr_'.$i]
+				)
+			)
+		);
             } else {
                 $translation_location = $translation['location'][$i];
                 $translation_msgid = $translation['msgid'][$i];
