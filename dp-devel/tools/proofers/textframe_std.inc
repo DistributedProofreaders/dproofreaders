@@ -70,7 +70,7 @@ echo $docType."\r\n";
   {
     echo ' style="font-family: ' . $tfont . '"';
   }
-  echo ">";
+  echo ">\n";
   // SENDING PAGE-TEXT TO USER
   // We're sending it in an HTML document, so encode special characters.
   echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
