@@ -87,7 +87,7 @@ function showTeamStats($curTeam) {
 }
 
 function showTeamMbrs($curTeam) {
-	global $theme, $forums_url;
+	global $theme, $code_url;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
@@ -129,7 +129,7 @@ function showTeamMbrs($curTeam) {
         	$userIDQuery = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 		$user_id = mysql_result($userIDQuery,0,"user_id");
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='35%'><a href='$forums_url/privmsg.php?mode=post&u=$user_id'>".$curMbr['username']."</a></td>";
+		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=$user_id'>".$curMbr['username']."</a></td>";
 		echo "<td width='35%'>".number_format($curMbr['pagescompleted'])."</td>";
 		echo "<td width='30%'>".date("m/d/Y", $curMbr['date_created'])."</td></tr>";
 	}
