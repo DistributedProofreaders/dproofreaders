@@ -1,6 +1,10 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include_once($relPath.'theme.inc');
+theme("Site News Update", "header");
+
+echo "<br>";
 
 $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
 
@@ -39,7 +43,6 @@ header("Location: sitenews.php");
 }
 
 else {
-echo "<html><head><title>Site News Updates</title></head><body><font size='2' face='Verdana'>";
 $action = "add";
 $submit_query = "Add Site Update";
 if ($_GET['action'] == "edit") {
@@ -58,7 +61,6 @@ $date_posted = date("l, F jS, Y",$row['date_posted']);
 echo "[<a href='sitenews.php?action=view&uid=".$row['uid']."')'>View</a>]&nbsp;[<a href='sitenews.php?action=edit&uid=".$row['uid']."'>Edit</a>]&nbsp;[<a href='sitenews.php?action=delete&uid=".$row['uid']."'>Delete</a>] -- ";
 echo $row['message']." ($date_posted)<br><br>";
 }
-echo "</body></html>";
 }
 
 } else {
@@ -66,4 +68,5 @@ echo "</body></html>";
 echo "You are not authorized to use this form.";
 }
 
+theme("", "footer");
 ?>
