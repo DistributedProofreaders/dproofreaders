@@ -2,7 +2,6 @@
 $relPath = '../../pinc/';
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
-include($relPath.'f_project_states.inc');
 include($relPath.'slim_header.inc');
 slim_header("DP Catalog");
 ?>

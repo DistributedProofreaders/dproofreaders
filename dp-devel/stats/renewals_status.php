@@ -2,7 +2,7 @@
 $relPath = '../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
-include($relPath.'f_project_states.inc');
+include($relPath.'project_states.inc');
 
 echo "
 <HTML>

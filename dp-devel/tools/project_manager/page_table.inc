@@ -4,7 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'RoundDescriptor.inc');
-include_once($relPath.'f_project_states.inc'); // get_phase_containing_project_state
+include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
 
 function echo_page_table(
 	$projectid,

@@ -10,7 +10,7 @@ function showProjProfile($curProj) {
 
 	$relPath="../../pinc/";
 
-	include_once($relPath.'f_project_states.inc');
+	include_once($relPath.'project_states.inc');
 
         $avatar = $GLOBALS['projects_url']."/".$curProj['projectid']."/001.png";
 
@@ -57,7 +57,7 @@ function activityCenter($curProj) {
 	$relPath="../../pinc/";
 
 	include_once($relPath.'page_states.inc');
-	include_once($relPath.'f_project_states.inc');
+	include_once($relPath.'project_states.inc');
 
 	$projectid = $curProj['projectid'];
 
