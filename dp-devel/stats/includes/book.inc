@@ -31,8 +31,6 @@ function showProjProfile($curProj) {
 
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Current State</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".project_states_text($curProj['state'])."</font></td></tr>";
 
-date("l, F jS, Y",$row['modifieddate'])
-
 // Last Modified
 
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Last Modified</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("l, F jS, Y",$curProj['modifieddate'])."</font></td></tr>";
@@ -71,11 +69,11 @@ function activityCenter($curProj) {
 
 	if ($proj_round = 'GB') {
 
-	if (!empty($curProj['ziplink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['ziplink']."'>Zip Version</a></font></td></tr>"; }
+		if (!empty($curProj['ziplink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['ziplink']."'>Zip Version</a></font></td></tr>"; }
 
-	if (!empty($curProj['txtlink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['txtlink']."'>Text Version</a></font></td></tr>"; }
+		if (!empty($curProj['txtlink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['txtlink']."'>Text Version</a></font></td></tr>"; }
 
-	if (!empty($curProj['htmllink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['htmllink']."'>HTML Version</a></font></td></tr>"; }
+		if (!empty($curProj['htmllink'])) { echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='".$curProj['htmllink']."'>HTML Version</a></font></td></tr>"; }
 
 	}
 
