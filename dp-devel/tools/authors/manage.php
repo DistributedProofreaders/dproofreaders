@@ -477,7 +477,7 @@ echo $links_and_buttons;
   $count = $browseUtility->getRowCountToList();
   $i = 0;
 
-  while ($i++ < $count && $author = mysql_fetch_array($result)) {
+  while ($i++ < $count && $author = @mysql_fetch_array($result)) {
     echo "<tr><td colspan='13'></td></tr>\n";
     $id = $author['author_id'];
     $bioresult = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");

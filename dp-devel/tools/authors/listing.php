@@ -77,7 +77,7 @@
   $count = $browseUtility->getRowCountToList();
   $i = 0;
 
-  while ($i++ < $count && $row = mysql_fetch_array($result)) {
+  while ($i++ < $count && $row = @mysql_fetch_array($result)) {
     $id = $row['author_id'];
     echo "<tr><td>$id</td><td><a href=\"author.php?author_id=$id\">" .
          $row['last_name'] . "</a></td><td>" .
