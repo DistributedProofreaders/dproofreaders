@@ -20,6 +20,8 @@ include($relPath.'project_edit.inc');
 
     $do_transition = FALSE;
 
+    $extras = array();
+
     if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.
@@ -45,6 +47,10 @@ include($relPath.'project_edit.inc');
     {
         // The above are valid changes that can be made to a project
 
+	if ( $newstate == PROJ_POST_CHECKED_OUT )
+	{
+	    $extras = array( 'checkedoutby' => $pguser );
+	}
 	$do_transition = TRUE;
         $refresh_url = "projectmgr.php";
     }
@@ -65,7 +71,7 @@ include($relPath.'project_edit.inc');
 
     if ( $do_transition )
     {
-	$error_msg = project_transition( $projectid, $newstate );
+	$error_msg = project_transition( $projectid, $newstate, $extras );
 	if ( $error_msg )
 	{
 	    echo "<p>$error_msg <p>Back to <a href=\"projectmgr.php\">project manager</a> page.";
