@@ -7,13 +7,18 @@
  */
 
 function dpRandomRule () {
-    $randid  = rand(0,36); // Remember to change high number after adding new rules!
+    $query = "SELECT count(*) AS numrules FROM rules";
+    $result = mysql_query($query);
+    $num_rules = mysql_result($result,0,"numrules");
+
+    $randid  = rand(0,$num_rules); 
 
     $query = "SELECT subject,rule,doc FROM rules WHERE id=$randid";
     $result = mysql_query($query);
     $rule = mysql_fetch_assoc($result);
 
     return <<<EOT
+
 <p><strong>$rule[subject]</strong></p>
 
 <p>$rule[rule]</p>
