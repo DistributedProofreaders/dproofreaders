@@ -54,32 +54,62 @@ if ($password=="proofer") {
             VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
         $result = mysql_query($sql);
 
-        maybe_mail($email, "Welcome to the Distributed Proofreader's Site!",
-             "Hello $real_name,\n\n".
-"I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg <http://www.gutenberg.net/>.\n\n".
+        maybe_mail($email, "Welcome to the Distributed Proofreader's Site!", "
+Hello $real_name,
 
-"As a new user, I recommend you read over our main page <$siteurl/> for an overview of the site, a selection of the works that we are working on, along with the books that have been completed through the site. The Document Guidelines <$siteurl/faq/document.html> covers most formatting questions, so be sure to read it over too.\n\n".
+I want to first thank you for registering on our site. That is the
+first step in helping us proofread books for Project Gutenberg
+<http://www.gutenberg.net/>.
 
-"Once you understand the work being done through this site, the best thing to do is get started! Here's a step-by-step process once you login:\n\n".
+As a new user, I recommend you read over our main page
+<$siteurl/> for an overview of the site,
+a selection of the works that we are working on,
+along with the books that have been completed through the site.
+The Document Guidelines <$siteurl/faq/document.html>
+covers most formatting questions, so be sure to read it over too.
 
-"- Select a book that you would like to read a little bit on. Each book goes through two rounds of proofreading, you will be starting in the first round so that someone can check your work and e-mail you about any major mistakes. Second round will be available to you later on.\n\n".
+Once you understand the work being done through this site,
+the best thing to do is get started! Here's a step-by-step
+process once you login:
 
-"- Click on the title you want to work on.\n\n".
+- Select a book that you would like to read a little bit on.
+  Each book goes through two rounds of proofreading. You will
+  be starting in the first round so that someone can check your
+  work and e-mail you about any major mistakes. Second round
+  will be available to you later on.
 
-"- It will show you a listing of items to note when working on a project, these will stay fairly consistent on all projects. They will be available later, so do not worry about remembering them all.\n\n".
+- Click on the title you want to work on.
 
-"- Click on \"Start Proofreading\".".
+- It will show you a listing of items to note when working on
+  a project. These will stay fairly consistent on all projects.
+  They will be available later, so do not worry about remembering
+  them all.
 
-"- Compare the text in the text box to what is in the image, making corrections for differences between the two and any additional items described in the comments. You can pull the comments back up by clicking on the link below the text box.\n\n".
+- Click on \"Start Proofreading\".
 
-"- Once you are finished with this page, click on either \"Save and Quit\" or \"Save and Do Another\"\n\n".
+- Compare the text in the text box to what is in the image, making
+  corrections for differences between the two and any additional
+  items described in the comments. You can pull the comments back
+  up by clicking on the link below the text box.
 
-"That is all there is to completing your first page. If you have specific questions on a book, you can post a message in the forum. Remember every page you do gets these books done quicker. I hope that you enjoy the proofreading available and that you will continue to use our site.\n\n".
+- Once you are finished with this page, click on either
+  \"Save and Quit\" or \"Save and Do Another\"
 
-"Thanks,\n
-The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username.
-If your password doesn't work, go to <$reset_password_url> to have it reset.",
-"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+That is all there is to completing your first page. If you have
+specific questions on a book, you can post a message in the forum.
+Remember, every page you do gets these books done quicker. I hope
+that you enjoy the proofreading available and that you will continue
+to use our site.
+
+Thanks,
+
+The Distributed Proofreaders Team
+
+PS - Your user name, in case you forget, is $username.
+If your password doesn't work, go to <$reset_password_url>
+to have it reset.
+            ",
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
         $htmlC->startHeader("User $username Added Successfully");
         $htmlC->startBody(0, 1, 0, 0);
