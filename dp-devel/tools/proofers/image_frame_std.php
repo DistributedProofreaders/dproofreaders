@@ -6,8 +6,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 
 // get cookie
-$tpage=new processpage();
-$npage=$tpage->getPageCookie();
+$npage = getPageCookie();
 
 include($relPath.'slim_header.inc');
 slim_header("Image Frame",TRUE,FALSE);

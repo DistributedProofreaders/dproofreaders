@@ -13,8 +13,7 @@ if (!$metadata)
 }
 
 // get cookie
-//$tpage=new processpage();
-//$npage=$tpage->getPageCookie();
+//$npage = getPageCookie();
 
 
 

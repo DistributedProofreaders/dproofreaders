@@ -89,7 +89,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 // temp saves and revert
 if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
 {
-  $npage=$tpage->getPageCookie();
+  $npage = getPageCookie();
   if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($proofstate,$text_data,$pguser);}
   else {$npage['pagestate']=$tpage->getRevertState();}
     if ($tbutton==B_SWITCH_LAYOUT)
@@ -103,7 +103,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   $npage['saved']=1;
   $npage['spcheck']=0;
   $npage['errcheck']=0;
-  $tpage->setTempPageCookie($npage);
+  setTempPageCookie($npage);
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
   else
@@ -162,18 +162,18 @@ include('badpage.php');
 
 if ($tbutton==B_RUN_SPELL_CHECK)
 {
-  $npage=$tpage->getPageCookie();
+  $npage = getPageCookie();
   $npage['spcheck']=1;
-  $tpage->setTempPageCookie($npage);
+  setTempPageCookie($npage);
   include('spellcheck.inc');
 } // end B_RUN_SPELL_CHECK
 
 // run common errors check
 if ($tbutton==B_RUN_COMMON_ERRORS_CHECK)
 {
-  $npage=$tpage->getPageCookie();
+  $npage = getPageCookie();
   $npage['errcheck']=1;
-  $tpage->setTempPageCookie($npage);
+  setTempPageCookie($npage);
 //  include('errcheck.inc');
 } // end B_RUN_COMMON_ERRORS_CHECK
 
@@ -189,10 +189,9 @@ if ($tbutton==101 || $tbutton==102)
 
 	if ($userP['i_type']==0)
 	{
-	  $tpage=new processpage();
-	  $npage=$tpage->getPageCookie();
+	  $npage = getPageCookie();
 	  $npage['spcheck']=2;
-	  $tpage->setTempPageCookie($npage);
+	  setTempPageCookie($npage);
 	}
     }
     else if ( $tbutton == 102 )
@@ -200,12 +199,12 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Quit" button.
 	$correct_text = spellcheck_quit();
 
-	$npage=$tpage->getPageCookie();
+	$npage = getPageCookie();
 	if ($userP['i_type']==1)
 	  {$npage['spcheck']=0;}
 	else
 	  {$npage['spcheck']=2;}
-	$tpage->setTempPageCookie($npage);
+	setTempPageCookie($npage);
     }
 
     $inCheck=1;
