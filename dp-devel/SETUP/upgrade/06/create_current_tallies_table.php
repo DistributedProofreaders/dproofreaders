@@ -36,7 +36,7 @@ dpsql_query("
 // merely rename 'pagescompleted' column, rather than dropping it.
 dpsql_query("
     ALTER TABLE users
-    CHANGE pagescompleted pagescompleted_hidden MEDIUMINT(8) DEFAULT '0'
+    CHANGE pagescompleted pagescompleted_obsolete MEDIUMINT(8) DEFAULT '0'
 ") or die("Aborting.");
 
 // ALTER TABLE users
@@ -56,7 +56,7 @@ dpsql_query("
 // merely rename 'page_count' column, rather than dropping it.
 dpsql_query("
     ALTER TABLE user_teams
-    CHANGE page_count page_count_hidden INT(20) NOT NULL DEFAULT '0';
+    CHANGE page_count page_count_obsolete INT(20) NOT NULL DEFAULT '0';
 ") or die("Aborting.");
 
 // ALTER TABLE user_teams
