@@ -116,28 +116,15 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
-	// show number of projects left till 10,000
-	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
-	if ($fp = fopen("$dynstats_dir/total_count.txt", "r"))
-	{
-		$line = fgets($fp);
-	}
-	else
-	{
-		$line = "-1";
-	}
-	$numProjectsLeft = 10000 - $line;
-	if ($numProjectsLeft > 0) {
-		echo "<font color='" . $theme['color_navbar_font'] . "' face='";
-		echo $theme['font_navbar'] . "' size='2'>";
-		printf(_("%s books left till number 10,000 is posted to PG!"), number_format($numProjectsLeft));
-		echo "</font>\n";
-		} elseif ($numProjectsLeft <= 0) {
-		echo "<font color='" . $theme['color_navbar_font'] . "' face='";
-		echo $theme['font_navbar'] . "' size='2'><b><i><u>";
-		echo _("WE MADE IT!! 10,000 Books Posted to Project Gutenberg!!");
-		echo "</u></i></b></font>\n";
-	}
+
+
+        // show number of projects posted to PG from DP
+
+        echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
+        $result = mysql_query( "SELECT COUNT(*) FROM projects WHERE state like 'proj_submit%' or state like 'proj_correct%'");
+        $numproj = mysql_result($result,0);
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>".number_format($numproj)." books posted to PG from DP!</b></font>\n";
+
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
