@@ -454,7 +454,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			WHERE state = '".UNAVAIL_FIRST."'
 		");
 		// Update the page_counts table.
-		update_total_pages($projectid, 1);
+		project_update_page_counts( $projectid );
 	}
 
 	// (All the stuff under PROJ_SUBMIT_PG_POSTED, except for the assignment

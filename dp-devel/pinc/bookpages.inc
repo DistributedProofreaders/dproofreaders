@@ -19,23 +19,34 @@ function checkRowExistence($projectid) {
 	}
 }
 
-function update_total_pages($projectid, $adjustAvail) {
-	$result = mysql_query("SELECT COUNT(fileid) AS total_pages FROM $projectid");
-	$total_pages = mysql_result($result, 0, "total_pages");
-	checkRowExistence($projectid);
-	if (!empty($adjustAvail)) {
-		$result = mysql_query("UPDATE page_counts SET total_pages = $total_pages, avail_pages = $total_pages WHERE projectid = '$projectid'");
-	} else {
-		$result = mysql_query("UPDATE page_counts SET total_pages = $total_pages WHERE projectid = '$projectid'");
-	}
-}
+function project_update_page_counts($projectid) {
 
-function update_avail_pages($projectid, $state) {
-	if (empty($state)) { $state = " = '".AVAIL_FIRST."' || state = '".AVAIL_SECOND."'"; }
-	$result = mysql_query("SELECT COUNT(fileid) AS avail_pages FROM $projectid WHERE state$state") or die(mysql_error());
+	$result = mysql_query("
+		SELECT
+			COUNT(*) AS total_pages,
+			SUM( state='".AVAIL_FIRST."' || state='".AVAIL_SECOND."' ) as avail_pages
+		FROM $projectid
+	");
+	// Note that when MySQL evaluates
+	//     state='...' || state='...'
+	// for each page, the result is either 0 (false) or 1 (true).
+	// Summing this over all pages gives the number of pages in either state.
+
+	if (!$result)
+	{
+		echo mysql_error(), "\n";
+		return;
+	}
+
+	$total_pages = mysql_result($result, 0, "total_pages");
 	$avail_pages = mysql_result($result, 0, "avail_pages");
+
 	checkRowExistence($projectid);
-	$result = mysql_query("UPDATE page_counts SET avail_pages = $avail_pages WHERE projectid = '$projectid'");
+	$result = mysql_query("
+		UPDATE page_counts
+		SET total_pages = $total_pages, avail_pages = $avail_pages
+		WHERE projectid = '$projectid'
+	");
 }
 
 function deletePageCounts($projectid) {
@@ -56,8 +67,7 @@ function updatePageCountsTable() {
 	$state = SQL_CONDITION_BRONZE." OR ".SQL_CONDITION_SILVER;
 	$availableProjects = mysql_query("SELECT projectid FROM projects WHERE $state");
 	while ($row = mysql_fetch_assoc($availableProjects)) {
-		update_total_pages($row['projectid'], 0);
-		update_avail_pages($row['projectid'], "");
+		project_update_page_counts($row['projectid']);
 	}
 }
 

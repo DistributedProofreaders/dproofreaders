@@ -115,8 +115,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	while ($rownum < $numrows) {
 		$book=mysql_fetch_assoc($result);
 		if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
-			update_total_pages($book['projectid'], 1);
-			update_pageCountArray;
+			project_update_page_counts( $book['projectid'] );
+			update_pageCountArray();
 		}
 		$rownum++;
 	}

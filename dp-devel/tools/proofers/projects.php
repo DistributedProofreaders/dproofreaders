@@ -6,12 +6,12 @@ include_once($relPath.'bookpages.inc');
 include_once($relPath.'echo_project_info.inc');
 include_once($relPath.'gettext_setup.inc');
 
+project_update_page_counts( $project );
+
 $projectinfo = new projectinfo();
 if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-	update_avail_pages($project, " = '".AVAIL_FIRST."'");
 	$projectinfo->update_avail($project, PROJ_PROOF_FIRST_AVAILABLE);
 } else {
-	update_avail_pages($project, " = '".AVAIL_SECOND."'");
 	$projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
 }
 

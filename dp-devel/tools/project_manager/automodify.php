@@ -307,8 +307,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         }
 
-        update_total_pages($projectid, "");
-        update_avail_pages($projectid, " = '".$newstate."'");
+        project_update_page_counts( $projectid );
 
         if ($verbose)
         {
@@ -326,7 +325,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
-        update_total_pages($projectid, 1);
+        project_update_page_counts( $projectid );
 
         if ( hold_project_between_rounds( $project ) )
         {
