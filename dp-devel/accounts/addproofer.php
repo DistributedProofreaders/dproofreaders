@@ -16,6 +16,8 @@ function abort_registration( $error )
     $header = _("Registration Incomplete");
     theme($header, "header");
     echo "$error<br>\n";
+    $please = _("Please hit 'Back' and try again.");
+    echo "$please<br>\n";
     $back = _("Back");
     echo "<a href=\"addproofer.php\">".$back."</a>";
     theme("", "footer");
@@ -43,13 +45,13 @@ if ($password=="proofer") {
 
     if (empty($userpass) || empty($email) || empty($real_name))
     {
-        $error = _("You did not completely fill out the form.  Please hit back & try again.");
+        $error = _("You did not completely fill out the form.");
         abort_registration($error);
     }
 
     if (!ereg("^([a-zA-Z0-9_.-]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email))
     {
-        $error = _("Your e-mail address is invalid.  Please hit back & try again.");
+        $error = _("Your e-mail address is invalid.");
     	abort_registration($error);
     }
 
