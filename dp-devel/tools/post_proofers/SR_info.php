@@ -23,7 +23,7 @@ $smooth_dead = $project['smoothread_deadline'];
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-echo "<ul>\n";
+echo "<br><br><ul>\n";
 
 echo "<li>";
 echo "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>";
@@ -43,16 +43,24 @@ if (($smooth_dead > time()) AND ($state==PROJ_POST_FIRST_CHECKED_OUT) ) {
    echo "<li>";
    $deadline = strftime(_("%A, %B %e, %Y"), $smooth_dead);
    echo _("This project has been made available for smoothreading until ")."<b>$deadline</b>";
-   echo "<br><br>";
+   echo "<br>";
    $label =  _("Upload a smooth read version of the project") ;
    $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
    echo $link_start.$label."</a><br>";
+   echo "<li>";
+   echo "<a href='smooth_reading.php'>"._("Back to Smooth Reading Pool")."</a>";
    echo "</ul>\n";
    echo_project_info( $projectid, 'proj_post', 0 , 1);
 } else {
-    echo "</ul>\n";
-    echo_project_info( $projectid, 'proj_post', 0 );
+   echo "<li>";
+   echo _("This project is not available for smooth reading at this time");
+   echo "<li>";
+   echo "<a href='smooth_reading.php'>"._("Back to Smooth Reading Pool")."</a>";
+   echo "</ul>\n";
+   echo_project_info( $projectid, 'proj_post', 0 );
 }
+
+
 echo "<BR>";
 
 theme('', 'footer');
