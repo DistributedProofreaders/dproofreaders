@@ -40,20 +40,8 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 $u_id = $curMbr['u_id'];
 
-$current_page_tally = $users_P_page_tallyboard->get_current_tally($u_id);
-$currentRank = $users_P_page_tallyboard->get_rank($u_id);
-
-list($bestDayCount,$bestDayTimestamp) =
-	$users_P_page_tallyboard->get_info_re_largest_delta($u_id);
-$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
-
 $now = time();
 $daysInExistence = floor(($now - $curMbr['date_created'])/86400);
-if ($daysInExistence > 0) {
-	        $daily_Average = $current_page_tally/$daysInExistence;
-} else {
-		$daily_Average = 0;
-}
 
 
 //User info
@@ -68,6 +56,19 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
 			<interests>".xmlencode($curMbr['user_interests'])."</interests>
 			<website>".xmlencode($curMbr['user_website'])."</website>";
+
+	$current_page_tally = $users_P_page_tallyboard->get_current_tally($u_id);
+	$currentRank = $users_P_page_tallyboard->get_rank($u_id);
+
+	list($bestDayCount,$bestDayTimestamp) =
+		$users_P_page_tallyboard->get_info_re_largest_delta($u_id);
+	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
+
+	if ($daysInExistence > 0) {
+			$daily_Average = $current_page_tally/$daysInExistence;
+	} else {
+			$daily_Average = 0;
+	}
 
 	echo "
 			<pagescompleted>$current_page_tally</pagescompleted>
