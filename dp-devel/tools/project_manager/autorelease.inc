@@ -48,6 +48,9 @@ function verifynew($project) {
         return 0;
     }
 
+    maybe_mail_project_manager( $project,
+	"This project has just become available for first-round proofing." );
+
     $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
 
     //Update the total and available pages in the HEAP table
