@@ -57,18 +57,17 @@ function showMbrProfile($curMbr) {
 	echo "<tr>";
 	echo "<td align='center' valign='top'>";
 
-	echo "<table border='1' width='100%'>";
-	echo "<tr>";
-	echo "<td align='center' height='90'>";
-	echo "<img border='0' src='$avatar' alt='avatar'>";
-	echo "</td>";
-	echo "</tr>";
-	echo "\n";
-	echo "<tr><td valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
-	messageCenter($curMbr);
-	echo "</td>";
-	echo "</tr>";
-	echo "</table>";
+	$t = new ThemedTable(
+		2,
+		_("phpBB Profile"),
+		array( 'width'=>100 )
+	);
+	$t->row(
+		_("Avatar"),
+		"<img border='0' src='$avatar' alt='avatar'>"
+	);
+	messageCenter($curMbr,$t);
+	$t->end();
 
 	echo "</td>";
 
@@ -156,13 +155,13 @@ function showMbrRoles($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	return $mbrStatus;
 }
 
-function messageCenter($curMbr) {
+function messageCenter($curMbr,$t) {
 	global $forums_url;
 
-	echo "\n";
-	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-	echo "\n";
-	echo "<tr><td align='center' colspan='2'>".showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
+	$t->row(
+		_('Roles'),
+		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])
+	);
 
 	$contact_data = array(
 		array(
@@ -214,24 +213,14 @@ function messageCenter($curMbr) {
 		global $theme;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
+		$img_tag = "<img src='$icon_path' alt='$label ".$curMbr['username']."' border='0'>";
 		$target_str = ( empty($target) ? '' : " target='$target'" );
 
-		echo "\n";
-		echo "<tr>";
-		echo   "<td align='left'>";
-		echo     "<font face='".$theme['font_mainbody']."' size='2'>";
-		echo       "$label:";
-		echo     "</font>";
-		echo   "</td>";
-		echo   "<td align='left'>";
-		echo     "<a href='$url'$target_str>";
-		echo       "<img src='$icon_path' alt='$label ".$curMbr['username']."' border='0'>";
-		echo     "</a>";
-		echo   "</td>";
-		echo "</tr>";
+		$t->row(
+			$label,
+			"<a href='$url'$target_str>$img_tag</a>"
+		);
 	}
-
-	echo "</table>";
 }
 
 function pageCountPercentage($pagescompleted) {
