@@ -8,8 +8,10 @@ $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 
-//this module sets projects as archived which have been posted more than 7 days
-//this limits the number of projects that the stats code must look at
+// Find projects that were posted to PG a while ago
+// (that haven't been archived yet), and:
+// -- move the project's page-table to the archive database,
+// -- mark the project as having been archived.
 
 $n_days_ago = 7;
 
@@ -29,6 +31,12 @@ echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
 while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
+
+    mysql_query("
+        ALTER TABLE $projectid
+        RENAME AS dp_archive.$projectid
+    ") or die(mysql_error());
+
     mysql_query("
         UPDATE projects
         SET archived = '1'
