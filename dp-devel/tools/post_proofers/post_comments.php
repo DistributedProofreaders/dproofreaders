@@ -129,6 +129,20 @@ if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
         echo "<li>".$link_start."4'>"._("Make available for smoothreading for four weeks")."</a>";
         echo "</ul>";
     }
+
+    global $projects_dir;
+    if ($done_files = glob("$projects_dir/$projectid/*smooth_done_*.zip") ) {
+        echo "<li>"._("Download smoothread file uploaded by:");
+        echo "<ul>";
+        foreach ($done_files as $filename) {
+               $showname = basename($filename,".zip");
+               $showname = substr($showname, strpos($showname,"_done_") + 6);
+               echo_download_zip( $projectid,$showname, '_smooth_done_'.$showname );
+        }
+        echo "</ul>";
+
+   }
+
 }
 
 
