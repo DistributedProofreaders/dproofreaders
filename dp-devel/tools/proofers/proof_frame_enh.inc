@@ -80,6 +80,8 @@ else {
 }
 
 //this is to finish off any lang
-echo " | <a \r\nhref=\"#\" onclick=\"mNA()\" title=\"Extended Latin-1 Character Set\">More</A></FONT>";
+echo " | <a \r\nhref=\"#\" onclick=\"mNA()\" title=\"Extended Latin-1 Character Set\">More</A>";
+//Greek transliterator
+echo " | <a \r\nhref=\"#\" onclick=\"mGR()\" title=\"Greek-to-ASCII Transliteration\">Greek</A></FONT>";
 ?>
 </TD></TR></TABLE></FORM></CENTER></BODY></HTML>
