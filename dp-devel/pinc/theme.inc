@@ -282,14 +282,19 @@ if ($metadata){
 
         // Today's Numbers
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
-	$todaysGoal = mysql_result($result, 0, "dailygoal");
+	if (mysql_num_rows($result) > 0) { $todaysGoal = mysql_result($result, 0, "dailygoal"); } else { $todaysGoal = 0; }
 	echo "&nbsp;"._("Today's Goal:")." ".number_format($todaysGoal)."<br>\n";
 	echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
-	$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
-	$yesterdaysTotal = mysql_result($result, 0, "pages");
+	if (mysql_num_rows($result) > 0) {
+		$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
+		$yesterdaysTotal = mysql_result($result, 0, "pages");
+	} else {
+		$yesterdaysGoal = 0;
+		$yesterdaysTotal = 0;
+	}
 	echo "&nbsp;"._("Yesterday's")." "._("Goal").": ".number_format($yesterdaysGoal)."<br>\n";
 	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
