@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'page_tally.php');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
@@ -16,7 +17,7 @@ if (empty($id)) {
 
 $result = mysql_query("
 	SELECT *
-	FROM users
+	FROM $users_table_with_tallies
 	WHERE u_id = '$id'
 ");
 
@@ -55,7 +56,7 @@ if (is_null($brushoff)) {
 	$now = time();
 	showMbrProfile($curMbr);
 	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
-	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
+	if ($curMbr[$user_P_page_tally_column] > 0) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
 } else {
 	echo "<p>$brushoff</p>";
