@@ -26,6 +26,19 @@ function project_transition( $projectid, $new_state )
 
 	// -------------------------------------------------------------------------
 
+	if ( $new_state == $current_state )
+	{
+		// The transition succeeds trivially.
+		// No attendant processing.
+		if ($testing)
+		{
+			echo "$transition_str: succeeds trivially<br>\n";
+		}
+		return '';
+	}
+
+	// -------------------------------------------------------------------------
+
 	// A project can be deleted when it's in any state.
 	if ( $new_state == PROJ_DELETE )
 	{
@@ -65,6 +78,8 @@ function project_transition( $projectid, $new_state )
 		PROJ_PROOF_FIRST_BAD_PROJECT => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,
 			// PROJ_PROOF_FIRST_VERIFY // misleading
+			PROJ_PROOF_FIRST_AVAILABLE,
+			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_WAITING_FOR_RELEASE => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,
@@ -72,11 +87,14 @@ function project_transition( $projectid, $new_state )
 			),
 		PROJ_PROOF_FIRST_VERIFY => array(
 			PROJ_PROOF_FIRST_UNAVAILABLE,
+			PROJ_PROOF_FIRST_AVAILABLE,
+			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_AVAILABLE => array(
 			PROJ_PROOF_FIRST_BAD_PROJECT,
 			PROJ_PROOF_FIRST_UNAVAILABLE,
 			// PROJ_PROOF_FIRST_VERIFY // misleading
+			PROJ_PROOF_FIRST_COMPLETE,
 			),
 		PROJ_PROOF_FIRST_COMPLETE => array(
 			),
@@ -87,15 +105,22 @@ function project_transition( $projectid, $new_state )
 		PROJ_PROOF_SECOND_BAD_PROJECT => array(
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			// PROJ_PROOF_SECOND_VERIFY // misleading
+			PROJ_PROOF_SECOND_AVAILABLE,
+			PROJ_PROOF_SECOND_COMPLETE,
 			),
 		PROJ_PROOF_SECOND_WAITING_FOR_RELEASE => array(
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			// PROJ_PROOF_SECOND_VERIFY // misleading
 			),
+		PROJ_PROOF_SECOND_VERIFY => array(
+			PROJ_PROOF_SECOND_AVAILABLE,
+			PROJ_PROOF_SECOND_COMPLETE,
+			),
 		PROJ_PROOF_SECOND_AVAILABLE => array(
 			PROJ_PROOF_SECOND_BAD_PROJECT,
 			PROJ_PROOF_SECOND_UNAVAILABLE,
 			// PROJ_PROOF_SECOND_VERIFY // misleading
+			PROJ_PROOF_SECOND_COMPLETE,
 			),
 
 		PROJ_POST_UNAVAILABLE => array(
