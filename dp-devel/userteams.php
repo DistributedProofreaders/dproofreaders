@@ -235,7 +235,7 @@ function showEdit($userP,$tstart,$tname,$ttext,$tedit,$tsid)
     "<strong>Team Description</strong> <b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea \r\n".
     "name=\"text_data\" COLS=\"40\" ROWS=\"6\">\r\n".
     $ttext."</textarea>".$tre.$tr.$td13a.
-    "The Team Icon and Team Logo can be uploaded after the team is created.";
+    //"The Team Icon and Team Logo can be uploaded after the team is created.";
   $team_1=$userP['team_1'];$team_2=$userP['team_2'];$team_3=$userP['team_3'];
   if ($tedit==1 && $team_1!=0 && $team_2!=0 && $team_3!=0)
     {
