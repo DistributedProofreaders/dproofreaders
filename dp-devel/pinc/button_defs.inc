@@ -20,6 +20,7 @@ define('SHOW_ALL_TEXT',               'P');
 
 function echo_button( $button_id, $which_interface )
 {
+	global $userP;
 	$CRLF = '\r\n';
 	if ($which_interface == 's')
 	{
