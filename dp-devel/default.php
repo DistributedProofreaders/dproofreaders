@@ -1,7 +1,6 @@
 <?php
 $relPath="./pinc/";
 include($relPath.'v_site.inc');
-if (isset($_COOKIE['pguser'])) { header("Location: $code_url/tools/proofers/proof_per.php");  }
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();
