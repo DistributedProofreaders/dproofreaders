@@ -270,7 +270,7 @@ theme('Proofreading Guidelines','header');
    Proofreading Interface Help</a> or the <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading 
    Interface Help</a>, depending on which interface you are using.
 </p>
-
+<!-- END RR -->
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -983,7 +983,7 @@ theme('Proofreading Guidelines','header');
 </p>
 <p>The periods that mark an abbreviated word in the title of a journal such as <i>Phil. Trans.</i>
    are part of the title for italicization purposes, and are included within the italic tags, thus:
-   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>)
+   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
 </p>
 <p>For dates and similar phrases, proofread the entire phrase as
    italics, rather than marking the words as italics and the numbers as non-italics.
@@ -1065,7 +1065,7 @@ theme('Proofreading Guidelines','header');
    &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 <p>In scientific &amp; technical works, proofread superscripted characters with curly braces
-   <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one letter superscripted.
+   <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one character superscripted.
    <br>For example:
    <br>&nbsp; &nbsp; &nbsp; &nbsp; ... up to x<sup>n-1</sup> elements in the array.
    <br>would be proofread as
@@ -2327,9 +2327,9 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
    8-bit, Unicode, html, etc.
 </p>
 <p>Note that when some of these marks appear on some characters (mainly vowels) our standard
-   Latin-1 character set already includes that character with the diacritical mark. In those
+   Latin-1 character set already includes that character with the diacritical mark. <b>In those
    cases, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
-   drop down lists in the proofreading interface.
+   drop down lists in the proofreading interface.</b>
 </p>
 <!-- END RR -->
 
@@ -2482,6 +2482,8 @@ cedilla                      [,x]   [x,]
 </p>
 <p>Indexes are a case where long lines created by following this rule are acceptable, since the lines
    will be re-wrapped to the proper width and indentation during post-processing.
+</p>
+<p>Place one blank line between each entry in the index.
 </p>
 <p>For sub-topic listings in an index, start each one on a new line, indented 2 spaces.
 </p>
