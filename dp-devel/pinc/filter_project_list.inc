@@ -352,7 +352,7 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 
 // report filter in use to user
 
-if ($show_df || $display_filter) {
+if ((isset($show_df) && $show_df) || (isset($display_filter) && $display_filter)) {
 	echo "<center>"._("Currently filtered by:")."<b> $display_filter </b></center><br><br>\n";
 } else {
 	echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
