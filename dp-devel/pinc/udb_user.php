@@ -5,5 +5,7 @@ var $server='';
 var $username='';
 var $password='';
 var $dbname='';
+var $admin_email='';
+var $admin_name=''
 }
 ?>
