@@ -143,9 +143,9 @@ function dailyAverage($u_id) {
 }
 
 function bestDayEver($u_id) {
-	$result = mysql_query("SELECT date_updated, daily_pagescompleted FROM member_stats WHERE u_id = $u_id ORDER BY daily_pagescompleted DESC LIMIT 1");
-	$bestDay['count'] = mysql_result($result, 0, "daily_pagescompleted");
-	$bestDay['time'] = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
+	list($bestDayCount,$bestDayTimestamp) = user_get_largest_page_tally_increment_info($u_id);
+	$bestDay['count'] = $bestDayCount;
+	$bestDay['time'] = date("M. jS, Y", ($bestDayTimestamp-86400));
 	if (empty($bestDay['count'])) { $bestDay['count'] = 0; $bestDay['time'] = date("M. jS, Y", time()); }
 	return $bestDay;
 }

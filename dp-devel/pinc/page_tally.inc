@@ -331,6 +331,23 @@ function should_anonymize( $username, $user_privacy_setting )
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function user_get_largest_page_tally_increment_info( $u_id )
+// Return an array consisting of:
+// -- the given user's largest recorded page tally increment, and
+// -- a timestamp for which that increment was recorded.
+{
+    $result = mysql_query("
+        SELECT daily_pagescompleted, date_updated
+        FROM member_stats
+        WHERE u_id=$u_id
+        ORDER BY daily_pagescompleted DESC
+        LIMIT 1
+    ");
+    return mysql_fetch_row($result);
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )
