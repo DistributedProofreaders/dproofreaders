@@ -123,7 +123,6 @@ function showTeamMbrs($curTeam) {
 
 	echo "</tr></table><table border='0' width='100%' cellspacing='2' cellpadding='0'>";
 	$mbrQuery = mysql_query("SELECT * FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY $orderby $direction");
-	$pagesQuery = mysql_query("SELECT username FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY pagescompleted DESC");
 
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
