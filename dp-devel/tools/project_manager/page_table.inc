@@ -34,8 +34,13 @@ function echo_page_table( $projectid )
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		echo "    <td align='center' colspan='$upload_colspan'>Upload</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-		echo "    <td align='center' colspan='4'>Round 1</td>\n";
-		echo "    <td align='center' colspan='4'>Round 2</td>\n";
+		if ($can_edit) {
+			echo "    <td align='center' colspan='4'>Round 1</td>\n";
+			echo "    <td align='center' colspan='4'>Round 2</td>\n";
+		} else {
+			echo "    <td align='center' colspan='3'>Round 1</td>\n";
+			echo "    <td align='center' colspan='3'>Round 2</td>\n";
+		}
 		echo "</tr>\n";
 	}
 
@@ -71,12 +76,12 @@ function echo_page_table( $projectid )
 		if ($can_edit)
 		{
 			echo "{$td_start}Clear{$td_end}";
-		}
+		
+			echo "{$td_start}Bad{$td_end}";
 
-		echo "{$td_start}Bad{$td_end}";
-
-		if ($show_delete) {
-			echo "{$td_start}Delete{$td_end}";
+			if ($show_delete) {
+				echo "{$td_start}Delete{$td_end}";
+			}
 		}
 
 		echo "</tr>";
@@ -152,19 +157,22 @@ function echo_page_table( $projectid )
 
 		// --------------------------------------------
 
-		// Bad Page
-		echo "<td>";
-		if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
-			echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center>";
-		} else {
-			echo "&nbsp;";
-		}
-		echo "</td>\n";
+		if ($can_edit) {
 
-		// Delete
-		if ($show_delete)
-		{
-			echo "<td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td>\n";
+			// Bad Page
+			echo "<td>";
+			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>X</a></center>";
+			} else {
+				echo "&nbsp;";
+			}
+			echo "</td>\n";
+
+			// Delete
+			if ($show_delete)
+			{
+				echo "<td><a href=deletefile.php?project=$projectid&fileid=$fileid>Delete</a></td>\n";
+			}
 		}
 
 		echo "</tr>";
