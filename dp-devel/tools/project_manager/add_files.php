@@ -11,18 +11,14 @@ $projectid = $_GET['project'];
 
 abort_if_cant_edit_project( $projectid );
 
-if (user_is_a_sitemanager())
-{
-	// It's assumed that anyone with site-manager privileges
-	// would upload their files directly into the projects area.
-	// Maybe this should be an option, as sometimes a site-manager
-	// may want to upload to dpscans.
-	$source_area = $projects_dir;
-}
-else
-{
-	$source_area = $uploads_dir;
-}
+$source_area = $uploads_dir;
+// Formerly, we assumed that anyone with site-manager privileges
+// would upload their files directly into the projects area,
+// but we discontinued that practice.
+// if (user_is_a_sitemanager())
+// {
+// 	$source_area = $projects_dir;
+// }
 
 $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 
