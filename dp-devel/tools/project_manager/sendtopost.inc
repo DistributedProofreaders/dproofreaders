@@ -13,8 +13,6 @@ include_once($relPath.'maybe_mail.inc');
         // $todaysdate: the result of calling time() recently.
         //
         // More specifically:
-        // -- Generate an images.html file that links to all of the page-images.
-        //    (for "View Images Online")
         // -- Make a zip of all the page-image files.
         //    (for "Download Zipped Images")
         // -- Join all the page texts and put them in a file,
@@ -28,9 +26,6 @@ include_once($relPath.'maybe_mail.inc');
         global $projects_dir;
 
         $projectpath = "$projects_dir/$project";
-
-        // Generate images.html that links to all page-images.
-	generate_images_index( $project );
 
         // Zip all page-images.
         $zippedimages = $project."images.zip";
@@ -81,41 +76,6 @@ include_once($relPath.'maybe_mail.inc');
         }
         maybe_mail_project_manager( $project, $body_blurb );
 
-    }
-
-    function generate_images_index( $project )
-    {
-	global $projects_dir, $code_url;
-
-        $projectpath = "$projects_dir/$project";
-	$images_html = "$projectpath/images.html";
-
-	$s =
-	    "<HTML>\n" .
-	    "<HEAD>  <TITLE>Image Index</TITLE>  </HEAD>\n" .
-	    "<BODY>\n" .
-	    "<H1 ALIGN=CENTER>Image Index</H1>\n" .
-	    "<P>Here are the individual images for this project:</P>\n" .
-	    "<HR>\n";
-
-	foreach( glob("$projectpath/*.png") as $png_path )
-	{
-	    $size = filesize($png_path);
-	    $png_filename = basename($png_path);
-	    $s .= "<A HREF=\"$png_filename\"><B>$png_filename</B></A>";
-	    $s .= " <I>($size bytes)</I><BR>\n";
-	}
-	$s .= "<HR>\n";
-	$s .= "<P>Back to the <A HREF=\"$code_url/tools/post_proofers/post_proofers.php?project=$project\">Post Processing page</A>.</P>\n";
-	$s .= "<P>Back to your <A HREF=\"$code_url/tools/proofers/proof_per.php\">personal page</A>.</P>\n";
-	$s .= "</BODY>\n";
-	$s .= "</HTML>\n";
-	
-
-	( $f = fopen( $images_html, 'w' ) ) and
-	fwrite( $f, $s ) and
-	fclose($f) or
-	print( "\nProblems writing $images_html\n" );
     }
 
     function join_proofed_text ($project, $fp) {
