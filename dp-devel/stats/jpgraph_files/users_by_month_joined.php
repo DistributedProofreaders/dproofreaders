@@ -25,16 +25,12 @@ $result = mysql_query("
 ");
 
 
-$mynumrows = mysql_numrows($result);
-        $count = 0;
-        while ($count < $mynumrows) {
-	$row = mysql_fetch_object($result);
+while ( $row = mysql_fetch_object($result) ) {
         $data1y[] = $row->num_who_joined;
         $datax[]  = $row->month;
         $data2y[] = $row->num_who_proofed;
 	$data3y[] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
-            $count++;
-        }
+}
 
 
 
