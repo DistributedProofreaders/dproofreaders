@@ -43,6 +43,20 @@ else if ($stage == 'smooth_avail')
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
       $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
+else if ($stage == 'smooth_done')
+{
+	$what = _("Smooth Read Version");
+      $for_what = "";
+	$indicator = "_smooth_done_".$pg_user;
+	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
+	$extras = array();
+	$back_url = "$code_url/tools/post_proofers/SR_info.php?project=$project";
+	$back_blurb = _("Back to Smooth Reading Project Information Page");
+	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+      $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
+
+}
+
 else
 {
 	echo "Don't know how to handle stage='$stage'<br>\n";
@@ -71,13 +85,15 @@ if (!isset($action))
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
 	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-      if ($stage != 'smooth_avail') {
-          echo "<STRONG>"._("Leave Comments:")."</STRONG>";
-      } else {
-          echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
+      if ($stage != 'smooth_done') {
+          if ($stage != 'smooth_avail') {
+              echo "<STRONG>"._("Leave Comments:")."</STRONG>";
+          } else {
+              echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
+          }
+          echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
+          echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
       }
-      echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-      echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
 	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
 	echo "<INPUT TYPE='submit' VALUE='Upload'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
@@ -113,20 +129,30 @@ else
 	function ensure_path_is_unused( $path )
 	// Ensure that nothing exists at $path.
 	// (If something's there, rename it.)
+      // EXCEPT: let people overwrite their finished SR files as often as they want
 	{
+             global $stage;
+
 		if ( file_exists($path) )
 		{
-			$bak = "$path.bak";
-			ensure_path_is_unused( $bak );
-			$success = rename( $path, $bak );
-			if (!$success)
-			{
-				// It will already have printed a warning.
-				echo sprintf(
-				       	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-					'db-req@pgdp.net' );
-				exit;
-			}
+
+                   if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
+
+   			    $bak = "$path.bak";
+			    ensure_path_is_unused( $bak );
+			    $success = rename( $path, $bak );
+			    if (!$success)
+			    {
+				    // It will already have printed a warning.
+				    echo sprintf(
+				           	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
+					     'db-req@pgdp.net' );
+				   exit;
+			    }
+                  } else {
+
+                        unlink($path);
+                  }
 		}
 	}
 
