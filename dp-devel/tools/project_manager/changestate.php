@@ -53,7 +53,8 @@ include($relPath.'project_edit.inc');
 	$do_transition = TRUE;
         $refresh_url = "projectmgr.php";
 
-	if ( $newstate == PROJ_POST_FIRST_CHECKED_OUT )
+	if ( $newstate == PROJ_POST_FIRST_CHECKED_OUT ||
+	     $newstate == PROJ_POST_SECOND_CHECKED_OUT )
 	{
 	    $extras = array( 'checkedoutby' => $pguser );
 	}
