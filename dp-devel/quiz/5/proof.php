@@ -33,6 +33,13 @@ function check()
   };
   if (feedb == "ok")
   {
+    if ( (s.indexOf("words") > s.indexOf("/#")) || (s.indexOf("Not at") < s.indexOf("#/")))
+    {
+          feedb = "bqtoomuch";
+    };
+  };
+  if (feedb == "ok")
+  {
     feedb = ldexpect(s,"Byron's poem","/*",2,"pmspacing","pmspacing");
   };
   if (feedb == "ok")
@@ -56,6 +63,20 @@ function check()
     if ((s.indexOf(" Where is") == -1) || (s.indexOf(" The nobler") == -1))
     {
           feedb = "nopindent";
+    };
+  };
+  if (feedb == "ok")
+  {
+    if ((s.indexOf("/*You") != -1) || (s.indexOf("one?*/") != -1) || (s.indexOf("/#When") != -1) || (s.indexOf("...#/") != -1))
+    {
+          feedb = "poetrymarkerown";
+    };
+  };
+  if (feedb == "ok")
+  {
+    if ((s.indexOf(" You have") != -1) || (s.indexOf(" Of two") != -1))
+    {
+          feedb = "baseindent";
     };
   };
   if (feedb == "ok")

@@ -41,7 +41,16 @@ if ($feedb == 'spquote') {
 // the user needs to adjust proofing glasses arid try again
 elseif ($feedb == 'arid') {
 echo "<h2>Scanno</h2>";
-echo "You've missed one typical 'scanno' in the text. A 'n' mis-read as 'ri'.";
+echo "<p>You've missed one typical 'scanno' in the text. A 'n' mis-read as 'ri'.</p>\n";
+echo "<p>Desperate? Can't find it? Get some more hints <a href='./returnfeed.php?feedb=arid2'>here</a>.</p>\n";
+}
+// the user request hints to find the arid scanno
+elseif ($feedb == 'arid2') {
+echo "<h2>Scanno: hints</h2>";
+echo "<p>Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.</p>\n";
+echo "<p>You are looking for an occurance of 'ri' that is wrong. There is only only words with 'ri' in the text. Once you've found it you will immediately know it is wrong.</p>\n";
+echo "<p>If you can't find any word with 'ri', consider copying the text into an editor and searching for 'ri'. You'll get a result, guaranteed!</p>\n";
+echo "<p>No, we won't give away the solution, after all this is a quiz!</p>\n";
 }
 // THE USER FORGOT TO DECAPITALISE THE TEXT
 elseif ($feedb == 'capital') {
@@ -62,6 +71,11 @@ echo "There should be 4 blank lines before the chapter header.";
 elseif ($feedb == 'nottwo') {
 echo "<h2>Number of blank lines between chapter header section and text incorrect</h2>";
 echo "There should be 2 blank lines before the start of the text.";
+}
+// wrong number of blank lines within chapter header
+elseif ($feedb == 'numberinheader') {
+echo "<h2>Number of blank lines within chapter header section incorrect</h2>";
+echo "There should be 1 blank line between different parts of the chapter header.";
 }
 // the user , even ignorant of the proofing guidelines , really should have known about this
 elseif ($feedb == 'spcomma') {
@@ -123,7 +137,7 @@ echo "<p>";
 echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
 echo "message doesn't make any sense, please post a feedback message in <a href='";
 echo $forums_url;
-echo "/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
 echo "</p>"; 
 }
  ?>

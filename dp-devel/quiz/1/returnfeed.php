@@ -45,7 +45,17 @@ $feedb = $_GET[feedb];
 if ($feedb == 'tbe') {
   echo "<h2>Scanno</h2>";
   echo "<p>You've missed one typical 'scanno' in the text. An 'h' mis-read as  a 'b'.</p>\n";
+  echo "<p>Desperate? Can't find it? Get some more hints <a href='./returnfeed.php?feedb=tbe2'>here</a>.</p>\n";
 }
+// hints for scanno
+elseif ($feedb == 'tbe2') {
+echo "<h2>Scanno: hints</h2>";
+echo "<p>Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.</p>\n";
+echo "<p>You are looking for a 'b' that is wrong. There are only 3 words with a 'b' in the text. Once you've found them you will immediately know which one is the culprit.</p>\n";
+echo "<p>If you can only find 2 words with a 'b', consider copying the text into an editor and searching for 'b'. You'll get 3 results, guaranteed!</p>\n";
+echo "<p>No, we won't give away the solution, after all this is a quiz!</p>\n";
+}
+                   
 // wrong bold
 elseif ($feedb == 'boldwrong') {
 echo "<h2>Problem with bold markup</h2>";
@@ -148,7 +158,7 @@ echo "<p>";
 echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
 echo "message doesn't make any sense, please post a feedback message in <a href='";
 echo $forums_url;
-echo "/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
 echo "</p>"; 
 }
  ?>

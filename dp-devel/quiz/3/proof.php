@@ -27,6 +27,10 @@ function check()
   };
   if (feedb == "ok")
   {
+    feedb = ldexpect(sl,"vii.","at oakwood",2,"numberinheader","numberinheader");
+  };
+  if (feedb == "ok")
+  {
     if (sl.indexOf("\"dearest") == -1)
     {
           feedb = "missingquote";

@@ -44,7 +44,16 @@ Also leave one blank line after the block quote closing marker #/.
 // The user should use their hands to fix the scanno
 elseif ($feedb == 'hands') {
 echo "<h2>Scanno</h2>";
-echo "You've missed one typical 'scanno' in the text. A 'b' mis-read as an 'h'.";
+echo "<p>You've missed one typical 'scanno' in the text. A 'b' mis-read as an 'h'.</p>\n";
+echo "<p>Desperate? Can't find it? Get some more hints <a href='./returnfeed.php?feedb=hands2'>here</a>.</p>\n";
+}
+// the user request hints to find the hands scanno
+elseif ($feedb == 'hands2') {
+echo "<h2>Scanno: hints</h2>";
+echo "<p>Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.</p>\n";
+echo "<p>You are looking for an 'h' that is wrong. There are 21 words with an 'h' in the text. Two of those words would also make sense if you replaced the 'h' by a 'b'. Check them with the original and you'll know.</p>\n";
+echo "<p>If you can't find all 21 words with an 'h', consider copying the text into an editor and searching for 'h'.</p>\n";
+echo "<p>No, we won't give away the solution, after all this is a quiz!</p>\n";
 }
 // The user forgot the blockquote
 elseif ($feedb == 'nobc') {
@@ -68,6 +77,11 @@ elseif ($feedb == 'otherpindent') {
 echo "<h2>Poetry indentation not as expected</h2>";
 echo "For the indentation of poetry lines there is an unofficial semi-standard of using multiples of two spaces. Not following this is not exactly an error, but in this quiz for the sake of the dumb testing routines please use indents of two spaces.";
 }
+// The user indenten the complete poem
+elseif ($feedb == 'baseindent') {
+echo "<h2>Poetry indentation</h2>";
+echo "It seems you have indented the whole poem. Please try to represent only relative indentation, so that the leftmost lines are not indented.";
+}
 
 elseif ($feedb == 'plinenotjoined') {
 echo "<h2>Poetry line not joined</h2>";
@@ -80,6 +94,16 @@ echo "Please leave exactly one empty line before the poetry starting marker /*.
 Also leave one blank line after the poetry closing marker */.
 ";
 }
+// The user hasn't put the poetry maker on a line of its own
+elseif ($feedb == 'poetrymarkerown') {
+echo "<h2>Problem with Poetry or Block Quotation markup</h2>";
+echo "Please put the poetry markers /* and */ and block quotation markers /# and #/ each on a line of their own.";
+}
+// The user has included too much text in the block quote
+elseif ($feedb == 'bqtoomuch') {
+echo "<h2>Block quotation markup wrong</h2>";
+echo "You've included too much text in the block quotation.";
+}
 // they finally got it
 elseif ($feedb == 'ok') {
 echo "<h2>Quiz successfully solved</h2>";
@@ -87,7 +111,7 @@ echo "
 Congratulations, no errors found!<p>
 That's it for now! These 5 parts covered the most important things to watch out for in proofing. When in doubt you should always consult the <a href='$code_url/faq/document.php' target='_top'>Proofing Guidelines</a> or ask in the forums if that doesn't help.</p>
 <p>
-You'll find books to proofread on your <a href='$code_url/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$code_url/faq/quiz/start.php' target='top'>return to the start of the quiz</a>.";
+You'll find books to proofread on your <a href='$code_url/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$code_url/faq/quiz/start.php' target='_top'>return to the start of the quiz</a>.";
 }
 // they tried to edit the text, or something :roll:
 elseif ($feedb == 'other') {
@@ -131,7 +155,7 @@ echo "<p>";
 echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
 echo "message doesn't make any sense, please post a feedback message in <a href='";
 echo $forums_url;
-echo "/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
 echo "</p>"; 
 }
 ?>

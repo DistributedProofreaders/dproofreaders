@@ -4,6 +4,7 @@
 <script src="../quiz.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript">
 var corr = "a detective, why was he watching? There was\nindeed no reward offered whatsoever for his arrest.\nPerhaps he belonged to the wretched type of beings\nwho do pride themselves on their public spirit--men\nwho wrote letters to the newspapers and\ninterfered in other people's business. He might now\nwell have wanted to show his public spirit by handing\nhim over to the police. The newspaper in his\nhand! Of course. He had read his description there,\nand identified him.\n\nCharles now found himself conjecturing how the\nman would set about carrying out his task of pub-*";
+var cor2 = "a detective, why was he watching? There was\nindeed no reward offered whatsoever for his arrest.\nPerhaps he belonged to the wretched type of beings\nwho do pride themselves on their public\nspirit--men who wrote letters to the newspapers and\ninterfered in other people's business. He might now\nwell have wanted to show his public spirit by handing\nhim over to the police. The newspaper in his\nhand! Of course. He had read his description there,\nand identified him.\n\nCharles now found himself conjecturing how the\nman would set about carrying out his task of pub-*";
 function check()
 {
   var i;
@@ -35,6 +36,11 @@ function check()
   };
   if (feedb == "ok")
   {
+     if ((s.indexOf("-- ") != -1) || (s.indexOf(" --") != -1))
+        feedb = "spacedem";
+  };
+  if (feedb == "ok")
+  {
      p = s.indexOf("him.");
      part = s.substring(p,s.indexOf("Charles now"));
      if ((part.indexOf("\n") == part.lastIndexOf("\n")) && (part.indexOf("\r") == part.lastIndexOf("\r")))
@@ -47,7 +53,7 @@ function check()
   };
   if (feedb == "ok")
   {
-     if (!diff(s.toLowerCase(),corr.toLowerCase()))
+     if (!(diff(s.toLowerCase(),corr.toLowerCase()) || diff(s.toLowerCase(),cor2.toLowerCase())))
      {
         feedb = "other";
      };

@@ -4,6 +4,9 @@
 <script src="../quiz.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript">
 var corr = "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration: High art.]\n\nSo far as the reception of the work was\n\n[Footnote A: Wallace, p. 108.]";
+var cor2 = "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration: High art.]\n\nSo far as the reception of the work was\n\n[Footnote A:\nWallace, p. 108.]";
+var cor3 = "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration:\nHigh art.]\n\nSo far as the reception of the work was\n\n[Footnote A: Wallace, p. 108.]";
+var cor4 = "printing would be good for nothing but\nwaste paper, might not\nbe realised.[A] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\n[Illustration:\nHigh art.]\n\nSo far as the reception of the work was\n\n[Footnote A:\nWallace, p. 108.]";
 function check()
 {
   var i;
@@ -44,7 +47,7 @@ function check()
   };
   if (feedb == "ok")
   {
-    feedb = ldexpect(sl,"[illustration","so far as",2,"illunospace","illumuchspace");
+    feedb = ldexpect(sl,"high art.]","so far as",2,"illunospace","illumuchspace");
   };
   if (feedb == "ok")
   {
@@ -55,7 +58,7 @@ function check()
   };
   if (feedb == "ok")
   {
-    if (s.indexOf("[Illustration: High art.]") == -1)
+    if ((s.indexOf("[Illustration: High art.]") == -1) && (s.indexOf("[Illustration:\nHigh art.]") == -1) && (s.indexOf("[Illustration: \nHigh art.]") == -1))
     {
           feedb = "illuother";
     };
@@ -65,6 +68,13 @@ function check()
     if ((s.indexOf("The") < s.indexOf("[")) || (s.indexOf("The") < s.indexOf("]")))
     {
           feedb = "fnmarkermissing";
+    };
+  };
+  if (feedb == "ok")
+  {
+    if (s.indexOf("].") != -1)
+    {
+          feedb = "fnmarkerbefore";
     };
   };
   if (feedb == "ok")
@@ -139,7 +149,7 @@ function check()
   };
   if (feedb == "ok")
   {
-     if (!diff(s.toLowerCase(),corr.toLowerCase()))
+     if (!(diff(s.toLowerCase(),corr.toLowerCase()) || diff(s.toLowerCase(),cor2.toLowerCase()) || diff(s.toLowerCase(),cor3.toLowerCase()) || diff(s.toLowerCase(),cor4.toLowerCase())))
      {
         feedb = "other";
      };

@@ -39,7 +39,8 @@ function check()
   };
   if (feedb == "ok")
   {
-     if (((sl.indexOf("<i>") != -1) && (sl.indexOf("</i>") == -1)) || ((sl.indexOf("<i>") == -1) && (sl.indexOf("</i>") != -1)))
+     if (((sl.indexOf("<i>") != -1) && (sl.indexOf("</i>") == -1)) || ((sl.indexOf("<i>") == -1) && (sl.indexOf("</i>") != -1))
+     	|| (sl.indexOf("<i>") > sl.indexOf("</i>")))
         feedb = "italcorrupt";
   };
   if (feedb == "ok")

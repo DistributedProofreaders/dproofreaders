@@ -52,7 +52,12 @@ echo "If there is a hyphen or dash at the end of a page, it should be marked by 
 // hyph
 elseif ($feedb == 'hyphen') {
 echo "<h2>End-of-line Hyphenation</h2>";
-echo "Unless it really is a hyphenated word like well-meaning, remove the end-of-line hyphenation, and join the two halves of a previously hyphenated word back together.";
+echo "You've left a hyphen at the end of a line. Join the two parts of the divided word by moving the bottom part up to the previous line. Remove the hyphen unless it really is a hyphenated word like 'well-meaning'.";
+}
+// spaced em-dash
+elseif ($feedb == 'spacedem') {
+echo "<h2>Spaced em-dash</h2>";
+echo "You have inserted spaces around the em-dash (--). Please remove them.";
 }
 // long line
 elseif ($feedb == '../longline') {
@@ -112,7 +117,7 @@ echo "<p>";
 echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
 echo "message doesn't make any sense, please post a feedback message in <a href='";
 echo $forums_url;
-echo "/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
 echo "</p>"; 
 }
  ?>

@@ -59,7 +59,8 @@ echo "It seems you have used different footnote tags. Please refer to the tutori
 // Illustration tag in wrong place
 elseif ($feedb == 'illupos') {
 echo "<h2>Illustration position incorrect.</h2>";
-echo "The illustration should be moved outside the paragraph, but next to the paragraph it was in.";
+echo "<p>The illustration should be moved outside the paragraph, but next to the paragraph it was in.</p>";
+echo "<p>It can be put either below or above the paragraph it was originally in. In this case the paragraph in question starts on the previous page, so moving it above is not an option here.</p>";
 }
 
 // The user forgot the footnote marker
@@ -117,7 +118,16 @@ echo "The illustration should be moved outside the paragraph, but next to the pa
 // That silly user; lie has missed the scanno!
 elseif ($feedb == 'lie') {
 echo "<h2>Scanno</h2>";
-echo "You've missed one typical 'scanno' in the text. An 'h' mis-read as 'li'.";
+echo "<p>You've missed one typical 'scanno' in the text. An 'h' mis-read as 'li'.</p>\n";
+echo "<p>Desperate? Can't find it? Get some more hints <a href='./returnfeed.php?feedb=lie2'>here</a>.</p>\n";
+}
+// the user request hints to find the lie scanno
+elseif ($feedb == 'lie2') {
+echo "<h2>Scanno: hints</h2>";
+echo "<p>Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.</p>\n";
+echo "<p>You are looking for an occurance of 'li' that is wrong. There are only 2 words with 'li' in the text. Once you've found them you will immediately know which one is the culprit.</p>\n";
+echo "<p>If you can only find 1 word with a 'li', consider copying the text into an editor and searching for 'li'. You'll get 2 results, guaranteed!</p>\n";
+echo "<p>No, we won't give away the solution, after all this is a quiz!</p>\n";
 }
 // [Illustration: no caption]
 elseif ($feedb == 'nocaption') {
@@ -138,6 +148,11 @@ echo "It seems you haven't marked the illustration correctly. Put the illustrati
 elseif ($feedb == 'spacedfnmarker') {
 echo "<h2>Spaced footnote marker.</h2>";
 echo "The footnote marker should go immediately after the word, without a space in between.";
+}
+// Footnote marker [A] before period.
+elseif ($feedb == 'fnmarkerbefore') {
+echo "<h2>Footnote marker position wrong.</h2>";
+echo "The footnote marker should go after the period, not before it, because this is how it appears in the original.";
 }
 // they finally got it
 elseif ($feedb == 'ok') {
@@ -164,8 +179,8 @@ final proofs.\n
 So far as the reception of the work was\n
 [Footnote A: Wallace, p. 108.]</textarea>
 <p>
-<a href='../2/tut.php' target='_top'>next step of tutorial</a><br>
-<a href='../2/main.php' target='_top'>next step of quiz</a>
+<a href='../5/tut.php' target='_top'>next step of tutorial</a><br>
+<a href='../5/main.php' target='_top'>next step of quiz</a>
 </p>";}
 //  
 //  
@@ -187,7 +202,7 @@ echo "<p>";
 echo "The algorithm for finding errors in this quiz is a quite simple one. If you feel the ";
 echo "message doesn't make any sense, please post a feedback message in <a href='";
 echo $forums_url;
-echo "/viewtopic.php?t=9165'>this forum topic</a>.";
+echo "/viewtopic.php?t=9165' target='_blank'>this forum topic</a>.";
 echo "</p>"; 
 }
 ?>
