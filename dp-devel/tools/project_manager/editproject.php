@@ -1007,7 +1007,8 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($scannercredit)) { $scannercredit = ""; }
     if (empty($clearance)) { $clearance = ""; }
     // Cosmetic change. Do not display db default value, PM should not be
-    // able to change it, and the final value is only set through post_files
+    // changing it, and the final value is only set when an SA marks a project
+    // as posted.
     $postednum = "";
     if (empty($special)) { $special = ""; }
     if (empty($image_provider)) { $image_provider = "DP User"; }
