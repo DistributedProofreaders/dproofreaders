@@ -10,6 +10,7 @@ include_once($relPath.'page_states.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 
+$no_stats=1;
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];
 $fileid     = $_POST['fileid'];
@@ -24,7 +25,6 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$header = _("Bad Page Report");
 	theme($header, "header");
 
-	echo "<br><br>";
 	$tb=$htmlC->startTable(0,0,0,1);
 	$tr=$htmlC->startTR(0,0,1);
 	$td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
@@ -34,6 +34,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
 	$td6=$htmlC->startTD(2,0,2,0,"left",0,0,1);
 
+	echo "<br><br>";
 	echo $tb.$tr.$td6;
 	echo "<font color='#ffffff'><center><b>Common Fixes for Bad Pages. Try these first!</b></center>";
 	echo "<ul>";
