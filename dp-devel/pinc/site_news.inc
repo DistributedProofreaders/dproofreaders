@@ -1,6 +1,5 @@
 <?PHP
 
-
 // -----------------------------------------------------------------------------
 
 // Echos the visible site news designated to be shown on the page
@@ -25,7 +24,7 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
     ");
 
     // this is a valid page that may potentially have news items
-    if (mysql_num_rows($result0) > 0) {
+    if ($result0 AND mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
         $news_page_id = $news_page['site_news_id'];
@@ -41,7 +40,7 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
         ");
 
         // we have some news items to display 
-        if ( mysql_num_rows ($result) > 0) {
+        if ($result AND  mysql_num_rows ($result) > 0) {
  
             $news = mysql_fetch_assoc($result);
 
@@ -82,6 +81,52 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
     }
 }
 
+
+function random_news_item_for_page( $web_page_url)
+// Output a randomly selected news item from the current set of 
+// non-displayed, non-archived site-news news-items 
+// defined for the web page $web_page_url
+{
+
+    global $theme;
+    global $code_url;
+
+    $result0 = mysql_query("
+        SELECT site_news_id, news_type , modifieddate
+        FROM news_pages 
+        WHERE display_page = '$web_page_url'
+    ");
+
+    // this is a valid page that may potentially have news items
+    if ($result0 AND mysql_num_rows($result0) > 0) {
+
+        $news_page = mysql_fetch_assoc($result0);
+        $news_page_id = $news_page['site_news_id'];
+        $news_type = _($news_page['news_type']);
+        $date_changed = $news_page['modifieddate'];
+ 
+        $result = mysql_query("
+            SELECT message 
+            FROM news 
+            WHERE display = 0 AND (archive IS NULL OR archive != 1) 
+                AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            ORDER BY RAND() LIMIT 1
+        ");
+
+        // we have a random news items to display 
+        if ($result AND mysql_num_rows ($result) == 1) {
+ 
+            $news = mysql_fetch_assoc($result);
+
+            echo "<center>";
+            echo "<br><font size=2 face=";
+            echo $theme['font_mainbody'] . ">";
+            echo $news['message'];
+            echo "</center></font><br>\n";
+        }
+        echo "<br>\n";
+    }
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
