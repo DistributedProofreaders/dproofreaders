@@ -16,11 +16,17 @@
 
 // -----------------------------------------------------------------------------
 
+include_once($relPath.'misc.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();
 
 // A TallyBoard maintains all tally data (past and present)
 // for a particular combination of tally_name and holder_type.
+
+// If a holder isn't explicitly recorded in a TallyBoard,
+// then it is implicitly recorded with a tally of zero.
+// So  the TallyBoard is prepared to answer questions about
+// holders it has never heard of before.
 
 class TallyBoard
 {
@@ -46,55 +52,16 @@ class TallyBoard
     // Typically, this is called when the holder is created.
     // (Eventually, this function won't be necessary.)
     {
-        mysql_query("
-            INSERT INTO current_tallies
-            SET
-                tally_name  = '$this->tally_name',
-                holder_type = '$this->holder_type',
-                holder_id   = $holder_id,
-                tally_value = 0
-        ") or die(mysql_error());
-
-        // -----------------
-
-        // We'll be inserting a record into past_tallies.
-        // The timestamp we use in that record should be the same as the most recent
-        // timestamp used by the periodic snapshot script. (If we use a more recent
-        // timestamp, we'll mislead the next run of that script.)
-
-        $latest_time_in_table = $this->get_time_of_latest_snapshot();
-
-        if (!is_null($latest_time_in_table))
-        {
-            $time_for_record = $latest_time_in_table;
-        }
-        else
-        {
-            // No such entry in past_tallies.
-            // (This is presumably the very first user.)
-            // The choice of timestamp is arbitrary?
-            // Pick the most recent midnight.
-            $now = getdate();
-            $time_for_record = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
-        }
-
-        mysql_query("
-            INSERT INTO past_tallies
-            SET
-                timestamp   = $time_for_record,
-                holder_type = '$this->holder_type',
-                holder_id   = $holder_id,
-                tally_name  = '$this->tally_name',
-                tally_delta = 0,
-                tally_value = 0,
-                tally_rank  = 0
-        ") or die(mysql_error());
+        // obsolete
     }
 
     // -------------------------------------------------------------------------
 
     function add_to_tally( $holder_id, $amount )
     {
+        // In MySQL 4.1.0, we could use ON DUPLICATE KEY UPDATE to do this
+        // in one query.
+
         mysql_query("
             UPDATE current_tallies
             SET tally_value = tally_value + $amount
@@ -103,6 +70,26 @@ class TallyBoard
                 AND holder_type = '$this->holder_type'
                 AND holder_id   = '$holder_id'
         ") or die(mysql_error());
+
+        $n = mysql_affected_rows();
+        if ( $n > 1 )
+        {
+            // Key constraint should prevent this.
+            die( "add_to_tally: query affected $n rows" );
+        }
+        else if ( $n == 0 )
+        {
+            // No row matched the WHERE condition.
+            // Ensure that one exists.
+            mysql_query("
+                INSERT INTO current_tallies
+                SET
+                    tally_name  = '$this->tally_name',
+                    holder_type = '$this->holder_type',
+                    holder_id   = '$holder_id',
+                    tally_value = $amount
+            ") or die(mysql_error());
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -142,8 +129,37 @@ class TallyBoard
                     AND holder_id   = $holder_id_expr
                 )
             ",
-            "current_tallies.tally_value"
+            "IFNULL(current_tallies.tally_value,0)"
         );
+    }
+
+    // -------------------------------------------------------------------------
+
+    function get_current_tally( $holder_id )
+    // Return the given holder's current tally on this TallyBoard.
+    // (Note that if you want tallies for multiple holders, it's probably
+    // more efficient to use SQL-joinery supplied by the previous method.)
+    {
+        $res = mysql_query("
+            SELECT tally_value
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND holder_id   = $holder_id
+        ") or die(mysql_error());
+
+        if ( mysql_num_rows($res) == 0 )
+        {
+            // The given holder is not on this board.
+            // So they implicitly have a tally of zero.
+            $current_tally = 0;
+        }
+        else
+        {
+            $current_tally = mysql_result($res,0,0);
+        }
+        return $current_tally;
     }
 
     // -------------------------------------------------------------------------
@@ -161,14 +177,17 @@ class TallyBoard
                 AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
         ");
-        $ranker = new Ranker(FALSE);
+        $ranker = new Ranker(TRUE);
         while (list($h_id,$tally_value) = mysql_fetch_row($result))
         {
             $rank = $ranker->next( $tally_value );
             if ($h_id == $holder_id) { return $rank; }
         }
-        // assert(FALSE); ?
-        return NULL;
+        
+        // The given holder is not on this board.
+        // So they implicitly have a tally of zero.
+        // So they have a rank of zero (null rank).
+        return 0;
     }
 
     // -------------------------------------------------------------------------
@@ -206,8 +225,8 @@ class TallyBoard
 
         $result = mysql_query("
             SELECT
-                holder_id,
-                tally_value AS $tally_alias,
+                $holder_id_expr AS _holder_id,
+                IFNULL(tally_value,0) AS $tally_alias,
                 $other_select_exprs
             FROM
                 $other_table
@@ -217,9 +236,9 @@ class TallyBoard
                     AND holder_type = '$this->holder_type'
                     AND holder_id   = $holder_id_expr
                 )
-            WHERE tally_value > 0 OR holder_id='$target_holder_id'
+            WHERE tally_value > 0 OR $holder_id_expr='$target_holder_id'
             ORDER BY tally_value DESC, holder_id ASC
-        ");
+        ") or die(mysql_error());
         // Note that for the purposes of this function,
         // we pretend that holders with tally_value <= 0 don't exist,
         // with the possible exception of the target holder.
@@ -232,7 +251,7 @@ class TallyBoard
         for ( $r = 1; $r <= $num_rows; $r++ )
         {
             $row = mysql_fetch_assoc($result);
-            if ( $row['holder_id'] == $target_holder_id )
+            if ( $row['_holder_id'] == $target_holder_id )
             {
                 $target_holder_r = $r;
                 break;
@@ -241,10 +260,11 @@ class TallyBoard
 
         if ( is_null($target_holder_r) )
         {
-            // The target holder does not appear on this TallyBoard.
-            // This shouldn't ever happen.
-            die( "Holder '$target_holder_id' does not appear on this TallyBoard." );
+            die( "Holder '$target_holder_id' does not appear in $other_table.$holder_id_expr." );
         }
+        // Note that it's *not* a problem if $target_holder_id doesn't appear
+        // in current_tallies.holder_id. That's handled by the LEFT OUTER JOIN
+        // and the IFNULL(tally_value,0).
 
         // Now, go through the results again (calculating rank as you go),
         // and when you're in the neighborhood of the target holder,
@@ -287,27 +307,37 @@ class TallyBoard
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
-        if ( !$dry_run )
+        $prev_tally_for_ = array();
+        if ( is_null($prev_ascribe_time) )
         {
-            // Abort if this TallyBoard already has a snapshot for $ascribe_time
-            if ( $prev_ascribe_time == $ascribe_time )
-            {
-                return 'already';
-            }
+            // No previous snapshot on this TallyBoard.
         }
-
-        // Get everyone's most recent saved tally.
-        $result = mysql_query("
-            SELECT holder_id, tally_value
-            FROM past_tallies
-            WHERE
-                timestamp       = $prev_ascribe_time
-                AND tally_name  = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-        ") or die(mysql_error());
-        while ( list($holder_id, $prev_tally_value) = mysql_fetch_row($result) )
+        else
         {
-            $prev_tally_for_[$holder_id] = $prev_tally_value;
+            // There was a previous snapshot on this TallyBoard.
+
+            if ( !$dry_run )
+            {
+                // Abort if this TallyBoard already has a snapshot for $ascribe_time
+                if ( $prev_ascribe_time == $ascribe_time )
+                {
+                    return 'already';
+                }
+            }
+
+            // Get everyone's most recent saved tally.
+            $result = mysql_query("
+                SELECT holder_id, tally_value
+                FROM past_tallies
+                WHERE
+                    timestamp       = $prev_ascribe_time
+                    AND tally_name  = '$this->tally_name'
+                    AND holder_type = '$this->holder_type'
+            ") or die(mysql_error());
+            while ( list($holder_id, $prev_tally_value) = mysql_fetch_row($result) )
+            {
+                $prev_tally_for_[$holder_id] = $prev_tally_value;
+            }
         }
 
         // Get everyone's current tally, in rank order.
@@ -325,7 +355,8 @@ class TallyBoard
         while ( list($holder_id, $current_tally) = mysql_fetch_row($result) )
         {
             $rank = $ranker->next( $current_tally );
-            $tally_delta = $current_tally - $prev_tally_for_[$holder_id];
+            $previous_tally = array_get( $prev_tally_for_, $holder_id, 0 );
+            $tally_delta = $current_tally - $previous_tally;
             $query = "
                 INSERT INTO past_tallies
                 SET
@@ -352,9 +383,9 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    function get_time_of_latest_snapshot()
+    function get_time_of_latest_snapshot( $default=NULL )
     // Return the ascribed timestamp of the latest snapshot for this TallyBoard,
-    // or NULL if there has been no snapshot yet.
+    // or $default if there has been no snapshot yet.
     {
         $result = mysql_query("
             SELECT MAX(timestamp)
@@ -363,7 +394,15 @@ class TallyBoard
                 tally_name      = '$this->tally_name'
                 AND holder_type = '$this->holder_type'
         ") or die(mysql_error());
-        return mysql_result($result,0,0);
+        $max_timestamp = mysql_result($result,0,0);
+
+        if ( is_null($max_timestamp) )
+        {
+            // No snapshots for this TallyBoard yet.
+            $max_timestamp = $default;
+        }
+
+        return $max_timestamp;
     }
 
     // -------------------------------------------------------------------------
@@ -386,7 +425,29 @@ class TallyBoard
             ORDER BY timestamp DESC
             LIMIT 1
         ") or die(mysql_error());
-        return mysql_fetch_assoc($result);
+
+        if ( mysql_num_rows($result) == 0 )
+        {
+            // That holder does not appear in any snapshot for this TallyBoard.
+            // So we can infer that, at the latest snapshot:
+            //     his tally would have been zero, and thus
+            //     his delta would have been zero, and also
+            //     his rank would have been zero (null rank).
+
+            $timestamp = $this->get_time_of_latest_snapshot(0);
+
+            $info = array(
+                'timestamp' => $timestamp,
+                'tally_delta' => 0,
+                'tally_value' => 0,
+                'tally_rank'  => 0
+            );
+        }
+        else
+        {
+            $info = mysql_fetch_assoc($result);
+        }
+        return $info;
     }
 
     // -------------------------------------------------------------------------
@@ -406,7 +467,19 @@ class TallyBoard
             ORDER BY tally_delta DESC, timestamp ASC
             LIMIT 1
         ") or die(mysql_error());
-        return mysql_fetch_row($result);
+
+        if ( mysql_num_rows($result) == 0 )
+        {
+            // That holder does not appear in any snapshot for this TallyBoard.
+            $largest_delta = 0;
+            $timestamp = $this->get_time_of_latest_snapshot(0);
+            $info = array( $largest_delta, $timestamp );
+        }
+        else
+        {
+            $info = mysql_fetch_row($result);
+        }
+        return $info;
     }
 
     // -------------------------------------------------------------------------
@@ -426,7 +499,18 @@ class TallyBoard
             ORDER BY tally_rank ASC, timestamp ASC
             LIMIT 1
         ") or die(mysql_error());
-        return mysql_fetch_row($result);
+
+        if ( mysql_num_rows($result) == 0 )
+        {
+            // That holder does not appear in any snapshot for this TallyBoard.
+            $best_rank = 0;
+            $timestamp = $this->get_time_of_latest_snapshot(0);
+            return array( $best_rank, $timestamp );
+        }
+        else
+        {
+            return mysql_fetch_row($result);
+        }
     }
 
     // -------------------------------------------------------------------------
