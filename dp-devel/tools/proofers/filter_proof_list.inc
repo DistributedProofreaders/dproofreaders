@@ -72,7 +72,7 @@ return $to_echo;
 
  	echo "
 	    <td>
-	    <select name='language1[]' size=5 multiple>
+	    <select name='language1[]' size=3 multiple>
 		<option value=''>All languages</option>
 	";
 
@@ -87,7 +87,7 @@ return $to_echo;
 
  	echo "
 	    <td>
-	    <select name='genre1[]' size=5  multiple>
+	    <select name='genre1[]' size=3  multiple>
 		<option value=''>All genres</option>
 	";
 
@@ -101,7 +101,7 @@ return $to_echo;
 
  	echo "
 	    <td>
-	    <select name='PM1[]' size=5 multiple>
+	    <select name='PM1[]' size=3 multiple>
 		<option value=''>All PMs</option>
 	";
 
