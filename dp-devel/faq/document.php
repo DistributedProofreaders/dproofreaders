@@ -798,9 +798,9 @@ theme('Proofing Guidelines','header');
       <td valign="top">
         <tt> /*                                                                  <br>
           Mary had a little lamb[1]                                              <br>
-          &nbsp;&nbsp;&nbsp;Whose fleece was white as snow                                         <br>
+             Whose fleece was white as snow                                      <br>
           And everywhere that Mary went                                          <br>
-          &nbsp;&nbsp;&nbsp;The lamb was sure to go!                                               <br>
+             The lamb was sure to go!                                            <br>
           */                                                                     <br>
           [Footnote 1: This lamb was obviously of the Hampshire breed,           <br>
           well known for the pure whiteness of their wool.]                      <br>
