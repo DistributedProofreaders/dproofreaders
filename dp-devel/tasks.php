@@ -19,6 +19,7 @@ $browser_array = array(0 => "All", 1 => "Internet Explorer");
 $versions_array = array(1 => "pgdp.net (Live)", 2 => "texts01 (Beta)", 3 => "CVS");
 $tasks_close_array = array(1 => "Not a Bug", 2 => "Won't Fix", 3 => "Won't Implement", 4 => "Works for Me", 5 => "Duplicate", 6 => "Deferred", 7 => "Fixed", 8 => "Implemented");
 $percent_complete_array = array(0 => "0%", 10 => "10%", 20 => "20%", 30 => "30%", 40 => "40%", 50 => "50%", 60 => "60%", 70 => "70%", 80 => "80%", 90 => "90%", 100 => "100%");
+$task_assignees_array = array();
 
 echo "<br><div align='center'><table border='0' cellpadding='0' cellspacing='0' width='98%'><tr><td>\n";
 TaskHeader();
@@ -120,7 +121,12 @@ function TaskHeader() {
 	echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Developers</option>\n";
 		echo "<option value='0'>Unassigned</option>";
 		$result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
-		while ($row = mysql_fetch_assoc($result)) { echo "<option value='".$row['u_id']."'>".$row['username']."</option>"; }
+		while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
+		$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
+		  $u_idQuery = mysql_query("SELECT u_id FROM users WHERE username = '".$row['username']."'");
+		  $u_id = mysql_result($u_idQuery, 0, "u_id");
+		while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$u_id] = $row['username']; }
+		while (list($key, $val) = each($task_assignees_array)) { echo "<option value='$key'>$val</option>\n"; }
 		echo "</select>\n";
 	echo "<select size='1' name='task_category' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Categories</option>\n";
                                 while (list($key, $val) = each($categories_array)) { echo "<option value='$key'>$val</option>\n"; }
@@ -198,12 +204,17 @@ function TaskForm($tid) {
 		dropdown_select('task_category', $task_category, $categories_array, "");  echo "</td></tr>\n";
 	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
 		if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array, ""); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array, ""); }  echo "</td></tr>\n";
-	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'><select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='0'>Unassigned</option>\n";
-		$result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes' ORDER BY username");
-		while ($row = mysql_fetch_assoc($result)) { echo "<option value='".$row['u_id']."'";
-		if ($task_assignee == $row['u_id']) { echo " SELECTED"; }
-		echo ">".$row['username']."</option>\n"; }
-		echo "</td></tr></select>\n";
+	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+		$result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
+		while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
+		$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
+		while ($row = mysql_fetch_assoc($result)) {
+			$u_idQuery = mysql_query("SELECT u_id FROM users WHERE username = '".$row['username']."'");
+			$u_id = mysql_result($u_idQuery, 0, "u_id");
+			$task_assignees_array[$u_id] = $row['username'];
+		}
+			$task_assignees_array[0] = "Unassigned";
+		dropdown_select('task_assignee', $task_assignee, $task_assignees_array, 1); echo "</td></tr>\n";
 	echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
 		dropdown_select('task_os', $task_os, $os_array, "");  echo "</td></tr>\n";
 	echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
@@ -241,6 +252,14 @@ function TaskDetails($tid) {
 			$result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['edited_by']."");
 			$edited_by = mysql_result($result, 0, "username");
 
+			if (empty($row['task_assignee'])) {
+				$task_assignee_username = "Unassigned";
+			} else {
+				$result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['task_assignee']."");
+				$task_assignee_username = mysql_result($result, 0, "username");
+				//$task_assignee_username = $row['task_assignee'];
+			}
+
 			echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
 			echo "<tr bgcolor='#ecdbb7'><td width='90%' align='left' valign='center'><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".stripslashes($row['task_summary'])."</font></td><td width='10%' align='right' valign='center'><form action='tasks.php' method='post'>\n";
 			if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
@@ -256,7 +275,7 @@ function TaskDetails($tid) {
 			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Task Type&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_array[$row['task_type']]."</font></td></tr>\n";
 			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Category&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$categories_array[$row['task_category']]."</font></td></tr>\n";
 			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>USFJoseph</font></td></tr>\n";
+			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>$task_assignee_username</font></td></tr>\n";
 			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System&nbsp;&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$os_array[$row['task_os']]."</font></td></tr>\n";
 			echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
 			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Browser&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$browser_array[$row['task_browser']]."</font></td></tr>\n";
