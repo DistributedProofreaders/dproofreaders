@@ -13,7 +13,7 @@ if ($today['mday'] == 1 && ($today['hours'] >=0 && $today ['hours'] <= 3)) {
 		$todaysTimeStamp = time() - 86400;
 		echo "BACK!!";
 	} else {
-		if (!file_exists($code_dir."/stats/graph_archive/curr_month_pages/".date("Fy",time()-86400).".png")) {
+		if (!file_exists($dynstats_dir."/graph_archive/curr_month_pages/".date("Fy",time()-86400).".png")) {
 			header("Location: ".$code_url."/stats/jpgraph_files/curr_month_pages_graph.php?ignore_archive_graph=1");
 		} else {
 			$todaysTimeStamp = time();
@@ -77,7 +77,7 @@ $graph->legend->Pos(0.05,0.5,"right" ,"top"); //Align the legend
 
 // Display the graph
 if (isset($_GET['ignore_archive_graph']) && $_GET['ignore_archive_graph'] == 1) {
-	$archiveGraphPath = $code_dir."/stats/graph_archive/curr_month_pages/".date("Fy",time()-86400).".png";
+	$archiveGraphPath = $dynstats_dir."/graph_archive/curr_month_pages/".date("Fy",time()-86400).".png";
 	$graph ->Stroke($archiveGraphPath);
 	sleep(5);
 	header("Location: ".$code_url."/stats/stats_central.php");
