@@ -21,27 +21,15 @@ echo "$tds><b>Name&nbsp;of&nbsp;Work$tdc".
             $pages=bookpages($book['projectid'],"='{$state}'");
             $bgcolor=bgcol($rownum);
 
-        if (($pages['available'] != 0) && ($book['state'] == $state)) {
+        if ($book['state'] == $state) {
             // NOTE: Leave space before <tr> in there, needed for client.
             echo " <tr>";
-            tde($book['nameofwork'],$rownum,0);
+            tde("<A HREF=\"projects.php?project={$book['projectid']}&amp;prooflevel=$prooflevel\">$book['nameofwork']</a>,$rownum,0);
             tde($book['authorsname'],$rownum,0);
             tde($book['language'],$rownum,0);
             tde($book['username'],$rownum,0);
             tde($pages['available'],$rownum,1);
             tde($pages['total'],$rownum,1);
-            echo "</tr><tr><td bgcolor=\"$bgcolor\" colspan=\"4\" align=\"center\"><a href=\"projects.php?project={$book['projectid']}&amp;prooflevel=$prooflevel\">Project Comments & Start Proofing</a></td>";
-            echo "<td bgcolor=\"$bgcolor\" colspan=\"2\" align=\"center\"><a href=\"listpages.php?project={$book['projectid']}&amp;prooflevel=$prooflevel\">My Recently Done</a></td></tr>\n";
-        } else if (($pages['available'] == 0) || ($book['state'] == $state)) {
-            // NOTE: Leave space before <tr> in there, needed for client.
-            echo " <tr>";
-            tde($book['nameofwork'],$rownum,0);
-            tde($book['authorsname'],$rownum,0);
-            tde($book['language'],$rownum,0);
-            tde($book['username'],$rownum,0);
-            tde($pages['available'],$rownum,1);
-            tde($pages['total'],$rownum,1);
-            echo "</tr><tr><td bgcolor=\"$bgcolor\" colspan=\"6\" align=\"center\"><a href=\"listpages.php?project={$book['projectid']}&amp;prooflevel=$prooflevel\">My Recently Done</a></td></tr>\n";
         } else $rownum--;
         $rownum++;
         $rownum2++;
