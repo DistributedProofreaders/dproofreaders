@@ -1,4 +1,5 @@
 <?
+$relPath = "../pinc/";
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
                 $theme_name = $userP['i_theme'];
         } else {
@@ -98,7 +99,7 @@ function dpsql_dump_themed_query_result( $result )
 		for ($c = 0; $c < $n_cols; $c++ )
 		{
 			print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>";
-			print "<font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>";
+			print "<font color='".$theme['color_headerbar_font']."'>";
 			print mysql_field_name($result, $c);
 			print "</font></td>\n";
 		}
@@ -176,14 +177,14 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 
 	print "<tr>\n";
 	print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
-	print "<font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>";
+	print "<font color='".$theme['color_headerbar_font']."'>";
 	print "Rank";
 	print "</font></td>\n";
 
 	for ($c = 0; $c < ($n_cols); $c++ )
 	{
 		print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
-		print "<font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>";
+		print "<font color='".$theme['color_headerbar_font']."'>";
 		print mysql_field_name($result, $c);
 		print "</font></td>\n";
 	}
