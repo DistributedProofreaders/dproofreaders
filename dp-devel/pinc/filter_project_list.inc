@@ -182,15 +182,21 @@ echo "<br><br>";
 echo _("Resetting the filter to null does not apply it. To see all projects again, Reset then Apply Filter.");
 echo "</center><br><br>\n";    
 
+// $filtertype_stem (which must be initialised in enclosing file) 
+// allows different filters to be set for different list/pages/purposes
+// (e.g. "proof" and "PP")
+
+$FT_int = $filtertype_stem . "_internal";
+$FT_dis = $filtertype_stem . "_display";
 
 
 // read saved filters (actual and display) from user_filters table 
 
-$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_internal'");
+$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_int'");
 if (mysql_num_rows($result) >= 1) {
 	$RFilter = mysql_result($result, 0, "value");
 }
-$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = 'proof_display'");
+$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_dis'");
 if (mysql_num_rows($result) >= 1) {
 	$display_filter = mysql_result($result, 0, "value");
 }
@@ -320,13 +326,7 @@ if ( isset($_GET["filter_$filtertype_stem"]) and ($_GET["filter_$filtertype_stem
 	// _internal filter is database-readable SQL for WHERE clause in queries
 	// _display filter is human readable summary for reporting current filter to user
 
-	// $filtertype_stem (which must be initialised in enclosing file) 
-	// allows different filters to be set for different list/pages/purposes
-	// (e.g. "proof" and "PP")
-
-	$FT_int = $filtertype_stem . "_internal";
-	$FT_dis = $filtertype_stem . "_display";
-
+	
 
 	// remove old filter values (if any) from table and add news ones
 
