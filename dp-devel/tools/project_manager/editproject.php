@@ -50,8 +50,8 @@ function saveProject() {
     $project = uniqid("projectID");
 
     $sql = "CREATE TABLE $project (
-              fileid varchar(20) NOT NULL default '',
-              image varchar(8) NOT NULL default '',
+              fileid varchar(20) NOT NULL default '', UNIQUE (fileid),
+              image varchar(8) NOT NULL default '',   UNIQUE (image),
               master_text longtext NOT NULL,
               round1_text longtext NOT NULL,
               round2_text longtext NOT NULL,
