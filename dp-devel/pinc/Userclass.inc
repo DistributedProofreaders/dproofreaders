@@ -64,8 +64,33 @@ class User
         $username = trim($userName) ;
         $password = trim($password) ; 
 
-        $this->logged_in = False;
+        if (empty(isValidUser())) {
+            _queryPhpbb_Users();
+            _querySettings();
+            _queryPrefs();
+        }
+
+        $this->logged_in = empty($this->logIn($password));
         
+        // And now we have a configured user!
+    }
+
+    function User($username)
+    {
+        $this->logged_in = False;
+        $this->users_phpbb['username'] = $username;
+
+        if (empty(isValidUser())) {
+            _queryPhpbb_Users();
+            _querySettings();
+            _queryPrefs();
+        }
+
+        // And now we have a configured user!
+    }
+
+    function _queryPhpbb_Users()
+    {
         $sql = "SELECT u.*, bbu.*
                 FROM users AS u
                 LEFT OUTER JOIN phpbb_users AS bbu
@@ -76,15 +101,17 @@ class User
         for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++
         {
             $meta = mysql_fetch_field($result, $i);
-            $users_phpbb_meta['$meta->name'] = $meta ;
+            $users_phpbb_meta[$meta->name] = $meta;
         }
 
         // take the result set as an associative array and tuck it away to use whenever
         // somebody asks for an attribute of our user.
         $this->users_phpbb = mysql_fetch_assoc($result);
         mysql_free_result($result);
+    }
 
-
+    function _querySettings()
+    {
         // Now query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
         $sql = "SELECT *
@@ -96,7 +123,10 @@ class User
             $this->settings[$row['setting']] = $row['value'];
         }
         mysql_free_result($result);
+    }
 
+    function _queryPrefs()
+    {
         // And the same for preferences,
         // except here we store multiple rows (full named sets of preferences.)
         $sql = "SELECT *
@@ -108,8 +138,6 @@ class User
             $this->prefs[$row['profilename']] = $row;
         }
         mysql_free_result($result);
-
-        // And now we have a configured user!
     }
 
     /**
@@ -138,7 +166,7 @@ class User
      * - returns an error message otherwise
      */
 
-    function _logIn($password)
+    function logIn($password)
     {
         $validUser = $this->validUser();
         $validPassword = $this->validPassword();
@@ -189,7 +217,7 @@ class User
 
      function _fieldLength($fieldname)
      {
-         return $user_phpbb_meta['$fieldname'] ;
+         return $user_phpbb_meta[$fieldname];
      }
 
     function validUserName()
@@ -300,7 +328,7 @@ class User
 
     function realName()
     {
-        return $this->rowVal('real_name');
+        return $this->_rowVal('real_name');
     }
 
     /**
@@ -721,7 +749,7 @@ class User
 
       function nearestFiveNeighbors()
       {
-          return $this->_neighbors(5) ;
+          return $this->_neighbors(5);
       }
 
     /**
@@ -730,7 +758,7 @@ class User
 
       function nearestTenNeighbors()
       {
-          return $this->_neighbors(10) ;
+          return $this->_neighbors(10);
       }
 
     /**
@@ -1913,7 +1941,7 @@ class User
 
     function dateCreated()
     {
-        return $this->rowVal('date_created');
+        return $this->_rowVal('date_created');
     }
 
     /**
@@ -2302,7 +2330,7 @@ class User
 
     function enableProjectManager()
     {
-        $this->enableBoolean('manager');
+        $this->_enableBoolean('manager');
     }
 
     /**
@@ -2314,7 +2342,7 @@ class User
 
     function disableProjectManager()
     {
-        $this->disableBoolean('manager');
+        $this->_disableBoolean('manager');
     }
 
     /**
@@ -2358,7 +2386,7 @@ class User
 
     function enableSiteManager()
     {
-        $this->enableBoolean('sitemanager');
+        $this->_enableBoolean('sitemanager');
     }
 
     /**
@@ -2370,7 +2398,7 @@ class User
 
     function disableSiteManager()
     {
-        $this->disableBoolean('sitemanager');
+        $this->_disableBoolean('sitemanager');
     }
 
     /**
@@ -2412,7 +2440,7 @@ class User
 
     function enableTaskCenterManager()
     {
-        $this->enableBooleanSetting('task_center_mgr');
+        $this->_enableBooleanSetting('task_center_mgr');
     }
 
     /**
@@ -2424,7 +2452,7 @@ class User
 
     function disableTaskCenterManager()
     {
-        $this->disableBooleanSetting('task_center_mgr');
+        $this->_disableBooleanSetting('task_center_mgr');
     }
 
     /**
@@ -2467,7 +2495,7 @@ class User
 
     function enableProjectFacilitator()
     {
-        $this->enableBooleanSetting('proj_facilitator');
+        $this->_enableBooleanSetting('proj_facilitator');
     }
 
     /**
@@ -2479,7 +2507,7 @@ class User
 
     function disableProjectFacilitator()
     {
-        $this->disableBooleanSetting('proj_facilitator');
+        $this->_disableBooleanSetting('proj_facilitator');
     }
 
     /**
@@ -2522,7 +2550,7 @@ class User
 
     function enableProjectMentor()
     {
-        $this->enableBooleanSetting('proj_mentor');
+        $this->_enableBooleanSetting('proj_mentor');
     }
 
     /**
@@ -2534,7 +2562,7 @@ class User
 
     function disableProjectMentor()
     {
-        $this->disableBooleanSetting('proj_mentor');
+        $this->_disableBooleanSetting('proj_mentor');
     }
 
     /**
@@ -2579,7 +2607,7 @@ class User
 
     function enablePostProcessor()
     {
-        $this->enableBoolean('postprocessor');
+        $this->_enableBoolean('postprocessor');
     }
 
     /**
@@ -2591,7 +2619,7 @@ class User
 
     function disablePostProcessor()
     {
-        $this->disableBoolean('postprocessor');
+        $this->_disableBoolean('postprocessor');
     }
 
     /**
@@ -2636,7 +2664,7 @@ class User
 
     function enablePostProcessVerifier()
     {
-        $this->enableBooleanSetting('post_proof_verifier');
+        $this->_enableBooleanSetting('post_proof_verifier');
     }
 
     /**
@@ -2648,7 +2676,7 @@ class User
 
     function disablePostProcessVerifier()
     {
-        $this->disableBooleanSetting('post_proof_verifier');
+        $this->_disableBooleanSetting('post_proof_verifier');
     }
 
     /**
@@ -2691,7 +2719,7 @@ class User
 
     function enableSiteNewsEditor()
     {
-        $this->enableBooleanSetting('site_news_editor');
+        $this->_enableBooleanSetting('site_news_editor');
     }
 
     /**
@@ -2703,7 +2731,7 @@ class User
 
     function disableSiteNewsEditor()
     {
-        $this->disableBooleanSetting('site_news_editor');
+        $this->_disableBooleanSetting('site_news_editor');
     }
 
     /**
@@ -2746,7 +2774,7 @@ class User
 
     function enableSeeBeginR1()
     {
-        $this->enableBooleanSetting('see_BEGIN_R1');
+        $this->_enableBooleanSetting('see_BEGIN_R1');
     }
 
     /**
@@ -2758,7 +2786,7 @@ class User
 
     function disableSeeBeginR1()
     {
-        $this->disableBooleanSetting('see_BEGIN_R1');
+        $this->_disableBooleanSetting('see_BEGIN_R1');
     }
 
     /**
@@ -2805,7 +2833,7 @@ class User
 
     function enableSeeBeginR2()
     {
-        $this->enableBooleanSetting('see_BEGIN_R2');
+        $this->_enableBooleanSetting('see_BEGIN_R2');
     }
 
     /**
@@ -2817,7 +2845,7 @@ class User
 
     function disableSeeBeginR2()
     {
-        $this->disableBooleanSetting('see_BEGIN_R2');
+        $this->_disableBooleanSetting('see_BEGIN_R2');
     }
 
     /**
@@ -2962,7 +2990,7 @@ class User
             $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
                     FROM member_stats
                     WHERE u_id = $this->userID()
-                    AND daily_pagescompleted = $this->bestCountEver()
+                    AND daily_pagescompleted = $this->bestDayEverCount()
                     ORDER BY date_updated DESC
                     LIMIT 1";
             $result = mysql_query($sql);
