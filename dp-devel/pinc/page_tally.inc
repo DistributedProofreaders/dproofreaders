@@ -235,7 +235,7 @@ function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy
 
             $rel_posn = $i - $target_user_i;
 
-            if ($consider_privacy && $row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $username)
+            if ($consider_privacy && should_anonymize( $row['username'], $row['u_privacy'] ) )
             {
                 $neighbor_username = _("Anonymous");
             }
@@ -277,6 +277,38 @@ class PageTally_Neighbor
     {
         $result = mysql_query("SELECT date_created FROM users WHERE username = '{$this->username}'");
         return mysql_result($result, 0, "date_created");
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+function should_anonymize( $username, $user_privacy_setting )
+// Should we anonymize information about the given user?
+{
+    global $pguser; // the "requestor"
+
+    // The given user's details should be visible to whom?
+    switch ($user_privacy_setting)
+    {
+        case PRIVACY_PUBLIC:
+            // Visible to all.
+            // Never anonymize.
+            return FALSE;
+
+        case PRIVACY_PRIVATE:
+            // Visible to anyone logged in.
+            // Anonymize if the requestor is not logged in.
+            return is_null($pguser);
+
+        case PRIVACY_ANONYMOUS:
+            // Visible to the user him/herself only.
+            // Anonymize if the requestor is not logged in,
+            // or is someone other than the given user.
+            return is_null($pguser) || $pguser != $username;
+
+        default:
+            // Shouldn't happen.
+            die( "should_anonymize(): bad privacy setting: '$user_privacy_setting'" );
     }
 }
 
