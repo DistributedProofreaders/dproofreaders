@@ -1,8 +1,9 @@
-//
-// ID: $Id$
 <?php
 
+// ID: $Id$
+
 require_once 'v_site.inc';
+require_once "Profileclass.inc" ;
 
 /**
  * User Class.
@@ -45,7 +46,7 @@ class User
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;      // This is for the records from usersettings for this user.
-    var $profile;       // this is for the records from userprofiles for this user.
+    var $profiles;       // this is for the records from userprofiles for this user.
     var $stats;         // this is for the fields from a summary query from member_stats.
     var $logged_in;     // boolean = True when they are and False when they're not.
     var $teams;
@@ -66,28 +67,13 @@ class User
         $username = trim($userName) ;
         $password = trim($password) ; 
 
-        if (empty(isValidUser())) {
-            _queryPhpbb_Users();
-            _querySettings();
-            _queryPrefs();
+        if(! $this->_isValidUser()) {
+            $this->_queryPhpbb_Users();
+            $this->_querySettings();
         }
 
-        $this->logged_in = empty($this->logIn($password));
+        $this->logged_in = ($this->logIn($password) == '' );
         
-        // And now we have a configured user!
-    }
-
-    function User($username)
-    {
-        $this->logged_in = False;
-        $this->users_phpbb['username'] = $username;
-
-        if (empty(isValidUser())) {
-            _queryPhpbb_Users();
-            _querySettings();
-            _queryPrefs();
-        }
-
         // And now we have a configured user!
     }
 
@@ -127,8 +113,10 @@ class User
         mysql_free_result($result);
     }
 
+    function _queryProfiles()
+    {
         // get the user's profiles ;
-        $this->profiles = new Profiles($this->username());
+        $this->profiles = new Profiles($this->userName());
         $this->profile = $this->standardProfile() ;
 
         // And now we have a configured user!
@@ -151,25 +139,6 @@ class User
     function _save()
     {
 
-    }
-
-    /**
-     * Attempts to log the user $this->userName() into the site
-     *
-     * - returns an empty string if it was successful logging in
-     * - returns an error message otherwise
-     */
-
-    function logIn($password)
-    {
-        $validUser = $this->validUser();
-        $validPassword = $this->validPassword();
-        if (!($this->logged_in = (empty($validUser) ) && empty($validPassword))) {
-
-            // Sending all error messages back to function caller
-            return $validUserName." ".$validPassword;
-
-        } else return '';
     }
 
     /**
@@ -214,7 +183,7 @@ class User
          return $user_phpbb_meta[$fieldname];
      }
 
-    function _validUserName()
+    function _isValidUserName()
     {
         // This is the length of the 'username' field in the 'users' table.
         // $username_max_len = 25;
@@ -267,9 +236,9 @@ class User
      * - returns an error message otherwise
      */
 
-    function _validUser()
+    function _isValidUser()
     {
-
+        return Null ;
     }
 
     /**
@@ -374,7 +343,7 @@ class User
      * - returns false otherwise
      */
 
-    _function setPassword($password)
+    function _setPassword($password)
     {
 
     }
@@ -383,7 +352,7 @@ class User
      * MD5 version of User's Password
      */
 
-    _function _passwordMD5()
+    function _passwordMD5()
     {
         return $this->users_phpbb['bbu.password'];
     }
@@ -398,13 +367,26 @@ class User
      * - returns an error message otherwise
      */
 
-    function _validPassword($password)
+    function _isValidPassword($password)
     {
-       if (MD5($password) != $this->passwordMD5()) {
+       if (MD5($password) != $this->_passwordMD5()) {
            $error = _("Password is invalid.");
        } else $error = "";
 
        return $error;
+    }
+
+    /**
+     * Attempts to log the user $this->userName() into the site
+     *
+     * - returns an empty string if it was successful logging in
+     * - returns an error message otherwise
+     */
+
+    function logIn($password)
+    {
+        $ret = trim( $this->_isValidUser() . ' ' . $this->_isValidPassword($password) ) ;
+        return ( $this->logged_in = ( $ret == '' ) ) ;
     }
 
     /**
@@ -1934,7 +1916,7 @@ class User
     function dailyPageAverage()
     {
          _maybeQueryStats() ;
-         return empty( $avg = $this->stats['avgCount'] ) ? 0 : $avg ;
+         return ( $avg = $this->stats['avgCount'] ) ? $avg : 0 ;
      }
 
     /**
@@ -1950,7 +1932,7 @@ class User
     function bestDayEverCount()
     {
         _maybeQueryStats();
-        return empty($max = $this->stats['maxCount']) : 0 : $max;
+        return ($max = $this->stats['maxCount']) ? $max : 0 ;
     }
 
     /**
@@ -1994,25 +1976,39 @@ class User
      * users will end up being in the 0.01 or lower category.</p>
      */
 
+     /* I suggest it's time to quit table-scanning our largest table for a meaningless stat.
     function pageCountPercentage()
     {
         $sql = "SELECT SUM(pages)
-                AS total_pagescompleted
-                FROM pagestats";
+        AS total_pagescompleted
+        FROM pagestats";
         $result = mysql_query($sql);
         $total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
-        $percentTotal = number_format((($this->pagesCompleted()/$total_pagescompleted)*100), 2);
-        if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
+        $percentTotal = number_format( $this->pagesCompleted()
+            / $this->total_pagescompleted * 100), 2);
+        if ($this->pagesCompleted() > 0 && $percentTotal == 0.00) {
+            $percentTotal = 0.01;
+        }
         return $percentTotal;
     }
+    */
 
     function teams()
     {
         if( ! isset($this->teams) )
         {
-            if ($this->users_phpbb['team_1'] )
+            if($this->_rowVal('team_1'))
             {
-                $sql = $this->users_phpbb['team_1'] )
+                $sql = $this->_rowVal('team_1') ;
+            }
+
+            if ($this->_rowVal('team_2'))
+            {
+                if( $sql )
+                {
+                    $sql .= ", " ;
+                }
+                $sql = $this->users_phpbb['team_2'] ;
             }
 
             if ($this->users_phpbb['team_2'] )
@@ -2021,16 +2017,7 @@ class User
                 {
                     $sql .= ", " ;
                 }
-                $sql = $this->users_phpbb['team_2'] )
-            }
-
-            if ($this->users_phpbb['team_2'] )
-            {
-                if( $sql )
-                {
-                    $sql .= ", " ;
-                }
-                $sql = $this->users_phpbb['team_2'] )
+                $sql = $this->users_phpbb['team_2'] ;
             }
 
 
@@ -2087,6 +2074,7 @@ class User
      * <p>Takes as a parameter the team's ID # and attempts to remove the user from that team.
      * If it's the site-wide team ($teamID 1), do not allow them to quit that team.
      * <b>NOTE:</b> This only changes the user's preference, it does not modify the team tables.</p>
+     * DAK: If team 1 haappened to get into one of their slots, they *better" be able to remove it!
      *
      * - returns true if successful
      * - returns false otherwise
@@ -2094,22 +2082,18 @@ class User
 
     function quitTeam($teamID)
     {
-        if ($teamID == 1) {
-            return false;
-        }
-
         if ($this->users_phpbb['team_1'] == $teamID) {
             $this->users_phpbb['team_1'] = 0;
-            $return true;
-        } else if ($this->users_phpbb['team_2'] == $teamID) {
+            return true;
+        } elseif ($this->users_phpbb['team_2'] == $teamID) {
             $this->users_phpbb['team_2'] = 0;
-            $return true;
-        } else if ($this->users_phpbb['team_3'] == $teamID) {
+            return true;
+        } elseif ($this->users_phpbb['team_3'] == $teamID) {
             $this->users_phpbb['team_3'] = 0;
-            $return true;
+            return true;
+        } else {
+            return false;
         }
-
-        $return false;
     }
 
 }
