@@ -185,7 +185,7 @@ the paper is very yellow. Higher dpi doesn't necessarily make for better
  OCR unless the text is <i>extremely</i> small. You want to end up with
 good, reasonably clean images that the OCR software won't choke on.</p>
 <p> The following examples and explanations assume that you are using
-Abbyy Finereader. This FAQ tends to concentrate on using Abbyy Finereader
+ABBYY FineReader. This FAQ tends to concentrate on using ABBYY FineReader
  Pro because: </p>
 <ul>
   <li>It is one of the more popular OCR packages used by the DP
@@ -195,12 +195,12 @@ administrators. </li>
   <li>It is pretty easy to automate for most of the process. </li>
   <li>It is free to try for 30 days or 15 hours of use.</li>
 </ul>
-<p> Abbyy Finereader Pro 5.0 or higher (and most other high end OCR
+<p> ABBYY FineReader Pro 5.0 or higher (and most other high end OCR
 programs) have built in scanning functionality and will allow you to
-automate the process to a great extent. In Finereader, to open a new
+automate the process to a great extent. In FineReader, to open a new
 batch. Click on File-&gt;New Batch, (Ctrl+N) and give it an appropriate
 name. (The title of the book, abbreviated, is a good choice) This is
-where Finereader stores all of the interim files for the project. It is
+where FineReader stores all of the interim files for the project. It is
 probably a good idea to make a separate batch directory in which to put
 all of your individual batches. </p>
 <p>As a matter of fact, while we're on the subject, let's talk about
@@ -215,15 +215,15 @@ be followed.<br>
 (Shown as "C:\" &nbsp;in this example, choose a place comfortable for
 you.) Make two directories: "Batch" and "Projects".<br>
 </p>
-<p>Every time you start a new batch in Abbyy, it automatically
+<p>Every time you start a new batch in ABBYY, it automatically
 generates a directory where it stores raw image and text data, named
 with a batch name that you specify. Save this under the "Batch"
 directory <br>
 </p>
 <p>Under the "Projects" directory make another directory. Name this
-with the same name as the "Batch" name used in Finereader. Under that
+with the same name as the "Batch" name used in FineReader. Under that
 directory make several more directories: "pngs", "textw" and "textwo" .
-These are where you will save the images and text files from Abbyy.
+These are where you will save the images and text files from ABBYY.
 "Textw" stands for text with line breaks and "textwo" stands for text
 without line breaks. These will be explained more later.<br>
 </p>
@@ -235,11 +235,11 @@ without line breaks. These will be explained more later.<br>
   <br>
   <br>
 </blockquote>
-Some people like to put the batch from Abbyy in the same directory as
+Some people like to put the batch from ABBYY in the same directory as
 the png and text directories to keep track of them easier. That is fine
 too if you prefer it that way. Personal preference and comfort comes
 into this a lot.<br>
-<p>&nbsp;When your batch directory is set up, in Abbyy, Select
+<p>&nbsp;When your batch directory is set up, in ABBYY, Select
 File-&gt;Scan Multiple images (Ctrl+Shift+K) to start scanning the book.
 From here the procedure will vary greatly depending on what features
 your scanner has, (automatic document feeder or not) and your personal
@@ -274,7 +274,7 @@ Generally there are two easy ways to get one-up images from two-up images:
 <ul>
 <li>If your scanning program has an option to automatically split images
     as they are scanned, set this option.
-    (Finereader can do this as long as
+    (FineReader can do this as long as
     there is some white space between the pages.)
 <li>Use an external program.
 </ul>
@@ -287,7 +287,7 @@ images, not color or grayscale;&nbsp; you probably want ".tif" or ".png"
 format image files. Later you'll NEED ".png" format files, so if your
 OCR software can handle them it might be better to use them now. Avoid
 saving them as jpegs (lossy format) or .bmp bitmaps (huge files). Under
-Finereader, to save all the image files at once, select them all
+FineReader, to save all the image files at once, select them all
 first,(click in the thumbnail window and press Ctrl-A) then choose
 File-&gt;Save Images (F12), and be sure to give the images a name since
 it doesn't insert the batch name automatically. It will save them in a
@@ -297,9 +297,9 @@ series with the specified name, a hyphen, and a four digit counter.
 <br>
 <b>VERY IMPORTANT! </b>- Make sure the files are named in an order
 that is sequential and alphabetically ordered. (Automatic under
-Finereader-as long as they were loaded in the correct order.) If your
+FineReader-as long as they were loaded in the correct order.) If your
 package allows it, your best bet is to name the files "001.png (or
-.tif), 002.png, 003.png, etc". (Finereader doesn't, you'll need to
+.tif), 002.png, 003.png, etc". (FineReader doesn't, you'll need to
 rename them later in the preprocessing section. It will name them
 sequentially but not in the exact format we need.) This will make it
 easier to keep the order straight and avoid gaps and holes in the naming
@@ -311,7 +311,7 @@ need to download them, convert  them to .pngs, and make sure the
 filenames follow the correct format. If you have multi page images, you
 may need to split them first. With .pdf files you'll need to use one of
 the software utilities to extract the .tif (usually) images from the .pdf</p>
-<p><b>Note:</b> Abbyy Finereader OCR 6.0 is capable of working directly
+<p><b>Note:</b> ABBYY FineReader OCR 6.0 is capable of working directly
 with .pdf files. You don't need to extract the images first. If you set
 up a batch, it will extract .tif images to the batch directory
 automatically as it is loading the .pdf files. These can then be
@@ -341,9 +341,9 @@ are more than happy to OCR images on your behalf.
 -->
 
 <p>Assuming you DO have OCR software...</p>
-<p>If you used Finereader for the scanning, you've already set up a
+<p>If you used FineReader for the scanning, you've already set up a
 batch and the images are already there.</p>
-<p> If not, open up Abbyy FR OCR. Click on File-&gt;New Batch, (Ctrl+N).
+<p> If not, open up ABBYY FineReader OCR. Click on File-&gt;New Batch, (Ctrl+N).
  and name it appropriately. Click File-&gt;Open Image,(Ctrl+O). Select
 all of the images and click on&nbsp; "Open". You might want to open just
  one or two at first to be sure everything is working, then do the rest.
@@ -354,8 +354,8 @@ Depending on how many files you have, the format the images are in and
 how fast your computer is, it will take several seconds to several hours
  to load all of the images. </p>
 When all of the image files are read, check the images in the batch
-window. If they are out of order, under Abbyy 6.0 you can renumber the
-images under the "Batch Processing" menu. In Abbyy 5.0 this is
+window. If they are out of order, under ABBYY 6.0 you can renumber the
+images under the "Batch Processing" menu. In ABBYY 5.0 this is
 non-trivial. Better to start in the right order.
 <p> Check settings under "Tools--&gt;Options". Select the correct
 language for the text. Hit (Ctrl-shift-R) or the "read all" icon, to
@@ -365,14 +365,14 @@ background processing, which allows you to minimize the window and do
 other things while waiting.<br>
 </p>
 <div>For complex or "busy" pages of text and illustrations, some extra
-work may be necessary. Abbyy Finereader tries to analyze the layout of a
+work may be necessary. ABBYY FineReader tries to analyze the layout of a
 page as it does the OCR. For simple, two-column pages it usually gets
 the layout right, but if the columns are broken up by illustrations,
 tables, etc, it will almost certainly get the layout wrong.<br>
 &nbsp;</div>
 <div>It is possible to draw boxes on the scanned image to show
-Finereader which pieces of text to group together. Once the boxes are
-drawn, you can tell Finereader how to order them in the OCR'd text. In
+FineReader which pieces of text to group together. Once the boxes are
+drawn, you can tell FineReader how to order them in the OCR'd text. In
 order to draw the boxes, click on the little box icon at the top of the
 icons along the left-hand side of the window. This is usually the
 default, so clicking on that icon may not be necessary. Find your
@@ -380,31 +380,31 @@ starting point, hold down the mouse button and drag until the box is the
 right size. You can adjust the box in fine detail in the zoomed image
 at the bottom of the window. If you draw the boxes in the order that
 you want them processed then you don't have to do anything else. Just
-hit Cntrl-R and let Finereader OCR the page. Sometimes, however, it's
+hit Cntrl-R and let FineReader OCR the page. Sometimes, however, it's
 not convenient to draw the boxes in the correct order. You can tell
-Finereader what order you want by clicking on the 123 icon on the left
+FineReader what order you want by clicking on the 123 icon on the left
 side of the window. Then click on the text/illustration boxes in the
 order that you want them. The numbers on the boxes will change to
-reflect the final output order. Note that when Finereader is actually
+reflect the final output order. Note that when FineReader is actually
 doing the OCR, it may not process the boxes in the order you specified,
 but the result will come out in the correct order.</div>
 <div>&nbsp;</div>
 <div>When doing OCR on a long, complicated project, it works well to
-let Finereader OCR all the pages, then go through and look briefly at
+let FineReader OCR all the pages, then go through and look briefly at
 each page to see if it needs manual tuning. You can move from page to
 page quite quickly by using Alt-down arrow. When you see a page that
-Finereader didn't get right, you can delete the OCR'd text only or the
+FineReader didn't get right, you can delete the OCR'd text only or the
 OCR'd text AND the text boxes, depending on how badly it got things
 wrong. Fix or redraw the boxes and fix the order as necessary, then move
 on to the next page. If you have Background Processing turned on, it
 will do the OCR while you are looking for the next problem page.</div>
 <div>&nbsp;</div>
 <div>Note also that you can specify different recognition languages for
-different text boxes, but, at least in Finereader 5.0, you must
+different text boxes, but, at least in FineReader 5.0, you must
 manually change the language, and read each box in the correct order,
 making this quite time consuming.</div>
 <div>&nbsp;</div>
-For complicated projects, getting Finereader to group the text
+For complicated projects, getting FineReader to group the text
 correctly and present it in a sensible order saves the proofreaders A LOT of
 time. It is WELL worth the extra time to get it right at the OCR stage.
 <p>When that is done, you'll need to save the text files to do further
@@ -422,14 +422,14 @@ up the text files:</span></big><br>
 <span style="font-weight: bold;"> RTF Markup Extraction:</span><br>
 <br>
 In order to use the dehyphenization features of this script, you NEED
-to save the text from Abbyy FineReader (or possibly other OCR packages,
+to save the text from ABBYY FineReader (or possibly other OCR packages,
 should work as long as they produce standard well formed rtf files) two
 times in two different directories. Assuming you have a project
 directory named "PROJECT", under the project directory you will need two
 directories "textw" and "textwo". "textw" stands for "text with line
 breaks" and "textwo" stands for "text without line breaks". <br>
 <br>
-In Abbyy after all of your images are loaded and OCRed, select&nbsp;
+In ABBYY after all of your images are loaded and OCRed, select&nbsp;
 File =&gt; Save Text As;&nbsp; A dialog box will pop up. <br>
 </p>
 <div style="margin-left: 40px;"> <br>
@@ -568,7 +568,7 @@ project pages and set up your own upload directories, details are given
 on the project managers page.<br>
 <br>
 At this point it is probably safe to delete the batch directory used by
- Finereader under the "Batch" directory. You could always regenerate it
+ FineReader under the "Batch" directory. You could always regenerate it
 from the image files again if necessary. Keep the text and image files
 around at least until the book is done post-processing and has been
 submitted to Project Gutenberg so you can refer back to them, if
@@ -589,15 +589,15 @@ yourself.
 software:</span><br>
 </p>
 
-<p><a href="http://www.abbyyusa.com/">Abbyy Finereader</a> <i>Commercial</i>
+<p><a href="http://www.abbyyusa.com/">ABBYY FineReader</a> <i>Commercial</i>
 [Win32, Mac]  - <i>Current Version 7.0</i> - OCR
 software.&nbsp;&nbsp;&nbsp; Very nice. :-)&nbsp;&nbsp;&nbsp;Quite
 expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-)
 &nbsp;&nbsp;&nbsp;
-See our <a href="<? echo $forums_url; ?>/viewtopic.php?t=5293">Finereader Tips and Tricks forum topic</a>.
+See our <a href="<? echo $forums_url; ?>/viewtopic.php?t=5293">FineReader Tips and Tricks forum topic</a>.
 </p>
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
-and is still available (though not directly from Abbyy software) and
+and is still available (though not directly from ABBYY software) and
 does what is needed. If possible, stick with the Pro version though; the
  Home and Sprint versions don't have necessary features. Good for
 scanning, but a little finicky about which scanners it supports.<br>
