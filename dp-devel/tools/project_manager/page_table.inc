@@ -32,15 +32,22 @@ function echo_page_table(
 
 	$project_phase = get_phase_containing_project_state($state);
 
-	$show_delete = (($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='FIRST' || $project_phase=='SECOND') && $can_edit);
+	$show_delete = (($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='PAGE_EDITING') && $can_edit);
 
-	if ($project_phase <> 'FIRST')
+	if ($project_phase == 'NEW' || $project_phase == 'PR' )
 	{
-		$latest_round_num = 2;
-	}
-       	else 
-	{
+		// Before PAGE_EDITING
 		$latest_round_num = 1;
+	}
+	else if ($project_phase == 'PAGE_EDITING')
+	{
+		$project_prd = get_PRD_for_project_state($state);
+		$latest_round_num = $project_prd->round_number;
+	}
+	else
+	{
+		// After PAGE_EDITING
+		$latest_round_num = MAX_NUM_PAGE_EDITING_ROUNDS;
 	}
 
 	$upload_colspan = 2 + $show_image_size;
@@ -418,7 +425,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	if ($can_edit) {
 		// Anticipate the tests in page_clear()
 		if (
-			($project_phase=='FIRST' || $project_phase=='SECOND') &&
+			$project_phase=='PAGE_EDITING' &&
 			$page_state == $prd->page_save_state
 		)
 		{
