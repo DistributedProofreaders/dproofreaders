@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 
@@ -46,7 +47,7 @@ include($relPath.'project_states.inc');
 
             $dir_name = "$projects_dir/$projectid";
             exec("rm -rf $dir_name");
-            echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+            metarefresh(0, "projectmgr.php", "Project Deleted", "");
 
         } else { // Gives them a warning before deleting a project, explaining why it should not be done.
             echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
@@ -83,7 +84,7 @@ if ($topic_id == "") {
         mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$projectid'");
 
         // TODO: Archive the project
-        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=editproject.php?project=$projectid&posted=1\">";
+        metarefresh(0, "editproject.php?project=$projectid&posted=1", "Project Updated (1)", "body");
     } else if (($newstate == PROJ_PROOF_FIRST_UNAVAILABLE) || ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE) || ($newstate == PROJ_POST_CHECKED_OUT) || ($always == 'yes') ||
         ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE) || ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE) || ($oldstate == PROJ_PROOF_SECOND_UNAVAIL) || ($oldstate == PROJ_POST_CHECKED_OUT) ||
         ($oldstate == PROJ_NEW)) {
@@ -96,13 +97,13 @@ if ($topic_id == "") {
         if (($newstate == PROJ_POST_AVAILABLE) || ($newstate == PROJ_POST_UNAVAILABLE)) $sql = mysql_query("UPDATE projects SET checkedoutby = '' WHERE projectid = '$projectid'");
         if ($newstate == PROJ_POST_CHECKED_OUT) $sql = mysql_query("UPDATE projects SET checkedoutby = '$pguser' WHERE projectid = '$projectid'");
 
-        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+        metarefresh(0, "projectmgr.php", "Project Updated (2)", "");
 
     } else if (($newstate == PROJ_PROOF_FIRST_VERIFY) || ($newstate == PROJ_PROOF_SECOND_VERIFY)) {
 
         // Allows a user to change a project to be checked, but should not be something they do.
 
-        echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=automodify.php?project=$projectid\">";
+        metarefresh(0, "automodify.php?project=$projectid", "?", "");
     } else {
 
         // This option should never appear if they follow the options on the page, only for those that know what they are doing...
