@@ -62,29 +62,33 @@ function showTeamProfile($curTeam) {
 
 	if(empty($curTeam['avatar'])) { $curTeam['avatar'] = "avatar_default.png"; }
 
-	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='95%'>";
-	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'];
-	echo "'><td rowspan='6' align='center' width='30%' bgcolor='" . $theme['color_mainbody_bg']."'>";
+	echo "\n<table cellspacing='0' cellpadding='0' width='95%'>";
+	echo "\n<tr>";
+	echo "<td align='center' width='30%' bgcolor='" . $theme['color_mainbody_bg']."'>";
 	echo "<img border='0' src='$team_avatars_url/";
 	echo $curTeam['avatar'] . "' alt='".strip_tags($curTeam['teamname'])."'></td>";
-	echo "<td align='left' width='70%' valign='top'><center><font color='" . $theme['color_headerbar_font'];
+	echo "<td width='70%'>";
+
+	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='100%'>";
+	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'] . "'>";
+	echo "<td align='left' valign='top'><center><font color='" . $theme['color_headerbar_font'];
 	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b></font>&nbsp;<a href='";
 	echo $GLOBALS['code_url'] . "/stats/teams/teams_xml.php?id=" . $curTeam['id'] . "'><img src='";
 	echo $GLOBALS['code_url'] . "/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align: middle;'></a>";
 	echo $editlink . $joinquitlink . "</center></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Created")."</b>: ";
 	echo date("m/d/Y", $curTeam['created']) . "&nbsp;($daysInExistence "._("days").")</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Leader")."</b>: <a href='";
 	echo $GLOBALS['code_url'] . "/stats/members/mdetail.php?id=" . $curTeam['owner'] . "'>" . $curTeam['createdby'] . "</font></a></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Total Pages")."</b>: ";
 	echo number_format($curTeam['page_count']) . "</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Description")."</b>: ";
 	echo stripslashes($curTeam['team_info'])."</font></td></tr>";
-	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' width='70%' valign='top'><font face='";
+	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Website")."</b>: <a href='";
 	echo $curTeam['webpage'] . "' target='_new'>" . $curTeam['webpage'] . "</a><br><b>"._("Forums")."</b>: <a href='";
 	echo $code_url."/stats/teams/team_topic.php?team=".$curTeam['id']."'>"._("Team Discussion")."</a> ";
@@ -93,6 +97,8 @@ function showTeamProfile($curTeam) {
 	}
 	echo "</font></td></tr>";
 	echo "</table><p>";
+
+	echo "</td></tr></table><p>";
 }
 
 function team_get_member_count_rank( $team_id )
