@@ -1,6 +1,4 @@
 <?PHP
-include($relPath.'db_datestamp.inc');
-
 class db_udb
 {
      var $cookieDomain="";
@@ -77,8 +75,8 @@ function getQueryResult($userID)
           while (list($key,$val) = each($uData))
                {$this->$key = $val;} 
      // update date stamp in users
-     $today=new db_datestamp();
-     $dbQuery="UPDATE users SET last_login = '$today->today' WHERE username = '$userID'";
+     $today=time();
+     $dbQuery="UPDATE users SET last_login = '$today' WHERE username = '$userID'";
      $db_result=mysql_query($dbQuery,$db_lk);
      if (!$this->checkQuery($db_result)) {return 0;}
      return 1;
