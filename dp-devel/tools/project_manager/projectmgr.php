@@ -12,43 +12,10 @@ include_once('projectmgr_select.inc');
 theme("Project Managers", "header");
 
 abort_if_not_manager();
-echo_manager_header();
 
-?>
-	<p><b>Project Manager Notice:</b><br>
-
-	<p>
-	The "Search for Projects" page is now the default PM page.
-
-	<hr width='50%'>
-	<p>
-	The "Pages Left" column of the projects table has been removed.
-	This should speed up assembly of the PM page dramatically,
-	and also reduce the load on the server.
-	Note that the "Pages Remaining to be Proofed" for a project
-	is still available, on its Project Details page.
-
-	<hr width='50%'>
-	<p>
-	Note the new <b>Search Your Projects</b> link above. Try it out!
-
-	<hr width='50%'>
-	<p>
-	There is a new way to upload files to the site without needing anyone to help you:
-	<ol>
-		<li>FTP to <? echo $uploads_host; ?> with username <? echo $uploads_account; ?> and password <? echo $uploads_password; ?>
-		<li>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
-		<li>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
-		<li>Click on the title of the book to view it's details.
-		<li>Click on the link at the top titled "Add Images And Text From <? echo $uploads_account; ?> Account".
-		<li>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
-	</ol>
-	<p>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
-	<p>If you want the projects to go to post-processing automatically, e-mail the <a href='mailto:<? echo $site_manager_email_addr; ?>'>site manager</A>.<br><br>
-	<hr width="75%" align="center"><br>
-
-<?
 	if ( $_GET['show'] == 'search_form' || $_GET['show'] == '' ) {
+		echo_manager_header('project_search_page');
+
 		echo "
 		    <center>
 		    Search for projects matching the following criteria:<br>
@@ -110,6 +77,8 @@ echo_manager_header();
 		    </center>
 		";
 	} else {
+		echo_manager_header('project_listings_page');
+
 		$show_pages_left = 0;
 
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
