@@ -1,5 +1,5 @@
 01 * * * *  lynx -dump http://beryl.ils.unc.edu/~bfish/total_count.txt > <<DYNSTATS_DIR>>/total_count.txt
-01 * * * * lynx -dump <<CODE_URL>>/tools/project_manager/automodify.php
+01 * * * * now=`date +\%Y-\%m-\%d_\%H:\%M:\%S`; lynx -dump <<CODE_URL>>/tools/project_manager/automodify.php > <<DYNSTATS_DIR>>/automodify_logs/$now.txt
 02,17,32,47 * * * * lynx -dump <<CODE_URL>>/stats/stats.php
 01 0 * * * lynx -dump <<CODE_URL>>/stats/update_daily_page_counts.php
 01 0 * * * lynx -dump <<CODE_URL>>/stats/teamstats.php
