@@ -27,10 +27,10 @@ $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['us
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $now = time();
 
-if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $pguser) {
-	$isAnonymousUsername = $curMbr['username'];
-} else {
+if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
 	$isAnonymousUsername = _("Anonymous");
+} else {
+	$isAnonymousUsername = $curMbr['username'];
 }
 
 $desc = sprintf( _("Details for user '%s'"), $isAnonymousUsername );
