@@ -22,7 +22,6 @@ include_once($relPath.'maybe_mail.inc');
         //    project is ready for post-processing.
 
         global $projects_dir;
-	  global $auto_email_addr;
 
         $projectpath = "$projects_dir/$project";
 
@@ -59,27 +58,19 @@ include_once($relPath.'maybe_mail.inc');
         $result = mysql_query("SELECT value FROM usersettings WHERE setting = 'send_to_post' AND username='$username'");
         if ($result != "") { $send_to_post = mysql_result($result, 0, "value"); } else $send_to_post = "no";
 
-        $result = mysql_query("SELECT email FROM users WHERE username = '$username'");
-        $email = mysql_result($result, 0, "email");
-
-        $result = mysql_query("SELECT nameofwork FROM projects WHERE projectid = '$project'");
-        $nameofwork = mysql_result($result, 0, "nameofwork");
-
         // Change state based on user's settings
         if ($send_to_post == "yes") {
             $new_state = PROJ_POST_AVAILABLE;
             $extras = array();
-            $subject_blurb = 'Sent To Post-Processing';
             $body_blurb =
-                "\"$nameofwork\" has completed second round proofreading\n".
+                "This project has completed second round proofreading\n".
                 "and has been made available for someone else to do the post-processing.\n".
                 "You will be notified once it has completed post-processing.";
         } else {
             $new_state = PROJ_POST_CHECKED_OUT;
             $extras = array( 'checkedoutby' => $username );
-            $subject_blurb = 'Ready For You To Post-Process';
             $body_blurb =
-                "\"$nameofwork\" has completed second round proofreading\n".
+                "This project has completed second round proofreading\n".
                 "and is ready for you to do the post-processing.\n".
                 "If you do not want to work on it,\n".
                 "set it to Available for Post-Processing.";
@@ -90,10 +81,8 @@ include_once($relPath.'maybe_mail.inc');
             echo "$error_msg<br>\n";
             return;
         }
-        maybe_mail("$email", "DP: $nameofwork $subject_blurb",
-            "This is an automated message from the Distributed Proofreaders site.\n\n".
-            $body_blurb,
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+        maybe_mail_project_manager( $project, $body_blurb );
+
     }
 
 

@@ -108,24 +108,29 @@ if ($totalBad >= 10) {
 	} 
 }
 
-//Get the email address of the PM
-$result = mysql_query("SELECT * FROM projects WHERE projectID='$projectid'");
-$PMusername = mysql_result($result,0,"username");
-$nameofwork = mysql_result($result,0,"nameofwork");
-$result = mysql_query("SELECT * FROM users WHERE username='$PMusername'");
-$PMemail = mysql_result($result,0,"email");
 
 //If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
 if ($project_is_bad) {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThe project you are managing, $nameofwork (Project ID: $projectid) has been shut down.\nThis is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.\nPlease visit the Project Manager page to view a list of your bad projects and make any necessary changes.\nYou will then be able to put the project back up on the site.\n\nThank You!\nDistributed Proofreaders";
-$subject = "Project Shut Down";
+$message =
+"This project has been shut down.
+This is due to 10 or more problem reports, from at least
+3 unique users, noting errors or problems with this project.
+Please visit the Project Manager page to view a list
+of your bad projects and make any necessary changes.
+You will then be able to put the project back up on the site.";
 } else {
-$message = "*****This is an automated email*****\n\n------------------------------------\n\nThere has been a page marked as bad in the project you are managing, $nameofwork (Project ID: $projectid).\nPlease visit the Project Manager page to view the reason it was marked as bad by the user.\nYou will then be able to make any needed changes and put the page back up for proofing.\nIf 10 pages are marked bad by at least 3 unique users the project will be automatically shut down.\n\nThank You!\nDistributed Proofreaders";
-$subject = "Page Marked as Bad";
+$message =
+"There has been a page marked as bad in this project.
+Please visit the Project Manager page to view
+the reason it was marked as bad by the user.
+You will then be able to make any needed
+changes and put the page back up for proofing.
+If 10 pages are marked bad by at least 3 unique users,
+the project will be automatically shut down.";
 }
 
 //Send the email to the PM
-maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
+maybe_mail_project_manager($projectid, $message); 
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) { 

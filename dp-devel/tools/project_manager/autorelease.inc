@@ -25,21 +25,11 @@ function verifynew($project) {
 
     if ( $errors )
     {
-        $pm = $project['username'];
-        $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
-        $email = mysql_result($temp, 0, "email");
-
-        maybe_mail("$email", "DP: \"$nameofwork\"",
-            "This is an automated message from the Distributed Proofreaders site.\n\n".
-            "Regarding:\n".
-            "  \"$nameofwork\"\n".
-            "  ($projectid)\n".
-            "  $code_url/tools/project_manager/project_detail.php?project=$projectid\n".
-            "\n".
+	maybe_mail_project_manager( $project, 
             "Some errors have been found:\n".
             "$errors\n".
-            "Please correct the errors and put the project back into Waiting for Release.",
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            "Please correct the errors and put the project back into Waiting for Release."
+	);
         $new_state = PROJ_PROOF_FIRST_BAD_PROJECT;
     }
     else
