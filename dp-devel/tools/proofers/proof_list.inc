@@ -26,65 +26,20 @@ if (mysql_num_rows($result) >= 1) {
 	$orderR1old = 'DaysD';
 }
 
+$result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'");
+
+if (mysql_num_rows($result) >= 1) {
+	$orderR2old = mysql_result($result, 0, "value");
+} else {
+	$orderR2old = 'DaysD';
+}
+
+
+// read new sort order from url, if any
 
 $orderR1 = (isset($_GET['orderR1']) ? $_GET['orderR1'] : $orderR1old );
-if ( $orderR1 == 'TitleA' )
-{
-	$orderR1clause = 'nameofwork ASC';
-}
-elseif ( $orderR1 == 'TitleD' )
-{
-	$orderR1clause = 'nameofwork DESC';
-}
-elseif ( $orderR1 == 'AuthorA' )
-{
-	$orderR1clause = 'authorsname ASC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'AuthorD' )
-{
-	$orderR1clause = 'authorsname DESC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'LangA' )
-{
-	$orderR1clause = 'language ASC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'LangD' )
-{
-	$orderR1clause = 'language DESC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'GenreA' )
-{
-	$orderR1clause = 'genre ASC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'GenreD' )
-{
-	$orderR1clause = 'genre DESC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'PMA' )
-{
-	$orderR1clause = 'username ASC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'PMD' )
-{
-	$orderR1clause = 'username DESC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'DaysA' )
-{
-	$orderR1clause = 'days ASC, nameofwork ASC';
-}
-elseif ( $orderR1 == 'DaysD' )
-{
-	$orderR1clause = 'days DESC, nameofwork ASC';
-}
-else
-{
-	echo "proof_list.inc: bad round 1 order value: '$orderR1'";
-	exit;
-}
 
-
-
-
+$orderR2 = (isset($_GET['orderR2']) ? $_GET['orderR2'] : $orderR2old );
 
 
 
@@ -104,7 +59,7 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
     }
 
 
-    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter . $extra, $orderR1clause );
+    show_books_available_for_proofing( 'first', $userP, $tList, $RFilter . $extra, $orderR1);
 
     echo "</table>\n<br>";
   }
@@ -128,7 +83,7 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
          $RFilter = $RFilter . " AND difficulty != 'beginner' ";
       }
 
-      show_books_available_for_proofing( 'second', $userP, $tList, $RFilter );
+      show_books_available_for_proofing( 'second', $userP, $tList, $RFilter, $orderR2 );
       }
   echo "</table>\n<br>";
 }
