@@ -1,5 +1,5 @@
 <?PHP
-  include_once('project_states.inc');
+  include_once($relPath.'project_states.inc');
 
 /*
   PR=Pre Processing
@@ -36,7 +36,7 @@
   define("PROJ_PROOF_SECOND_COMPLETE_TEXT","Completed Second Round");
 
 // PP
-  define("PROJ_POST_UNAVAILABLE_TEXT", "Available for Post-Processing");
+  define("PROJ_POST_UNAVAILABLE_TEXT", "Unavailable for Post-Processing");
   define("PROJ_POST_AVAILABLE_TEXT", "Available for Post-Processing");
   define("PROJ_POST_CHECKED_OUT_TEXT", "In Post-Processing");
   define("PROJ_POST_VERIFY_TEXT", "Verify Post-Processing");
