@@ -3,6 +3,12 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
+echo date("r");
+echo "<BR>\n";
+system("date");
+echo "<BR>\n";
+echo "<hr>\n";
+
 system("pwd");
 echo "<BR>\n";
 echo $_ENV['PWD'];
