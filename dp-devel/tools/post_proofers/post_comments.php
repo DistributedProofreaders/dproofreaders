@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'echo_project_info.inc');
 include($relPath.'theme.inc');
 
-theme('Project Info', 'header');
+theme('Project Information', 'header');
 
 /* $_GET $project, $proofstate, $proofing */
 
