@@ -10,7 +10,7 @@ if ( empty($pageCountArray) )
 	update_pageCountArray();
 }
 
-function show_projects_in_state($state,$table=1)
+function show_projects_in_state($state,$table=1, $where_filter = ' ')
 {
 	global $pguser, $code_url, $pageCountArray;
 
@@ -54,6 +54,7 @@ function show_projects_in_state($state,$table=1)
                         difficulty
 		FROM projects
 		WHERE state='$state'
+                $where_filter 
 	";
 	if (
 		$state == PROJ_POST_FIRST_CHECKED_OUT ||
