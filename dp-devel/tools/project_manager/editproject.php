@@ -9,6 +9,9 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'page_states.inc');
 
+$popHelpDir='./../../faq/pophelp/project_manager/';
+include_once($relPath.'js_newpophelp.inc');
+
 function encodeFormValue($value) {
   return stripslashes(htmlentities($value,ENT_QUOTES));
 }
@@ -266,7 +269,7 @@ function difficulty_list($difficulty_level) {
  		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
 		  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
 		  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                } 
+                }
 	}
 	echo "</td></tr>";
 }
@@ -453,7 +456,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
         echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>";
         echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>";
         if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>"; }
-        echo "<tr><td colspan='2'><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea></td></tr>";
+        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>";
         echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' value='Save and Preview'><input type='button' value='Quit Without Saving' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr></form>";
 	echo "</table>";
 
