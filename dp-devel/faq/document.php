@@ -225,8 +225,8 @@ theme('Proofreading Guidelines','header');
 <h3><a name="comments">Project Comments</a></h3>
 
 <p>On the proofreading interface page (Project Page) where you start proofreading pages, there is a section called
-   "Project Comments" containing information specific to that project (book). <em>Read these
-   before you start proofreading pages!</em> If the Project Manager wants you to format
+   "Project Comments" containing information specific to that project (book). <b>Read these
+   before you start proofreading pages!</b> If the Project Manager wants you to format
    something in this book differently from the way specified in these Guidelines, that
    will be noted here. Instructions in the Project Comments <em>override</em> the rules
    in these Guidelines, so follow them. (This is also where the Project Manager may give
@@ -288,7 +288,7 @@ theme('Proofreading Guidelines','header');
       Sample Image:
       </th>
     </tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top"><img src="title.png" width="500"
           height="700" alt="title page image"><br>
       </td>
@@ -298,7 +298,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
       <p><tt>GREEN FANCY</tt>
       </p>
       <p><tt>BY</tt></p>
@@ -334,7 +334,7 @@ theme('Proofreading Guidelines','header');
       Sample Image:
       </th>
     </tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top">
       <p><img src="tablec.png" alt="" width="500" height="650"></p>
       </td>
@@ -344,7 +344,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
       <p><tt>CONTENTS</tt></p>
       <p><tt>/*<br>
           CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -430,7 +430,7 @@ theme('Proofreading Guidelines','header');
  cellspacing="0" summary="Page Headers and Footers">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top">
       <img src="foot.png" alt="" width="500" height="850"><br>
       </td>
@@ -438,7 +438,7 @@ theme('Proofreading Guidelines','header');
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
     In a bank? In a church? In a college?<br>
     <br>
@@ -527,7 +527,7 @@ theme('Proofreading Guidelines','header');
  cellspacing="0" summary="Chapters">
  <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top"> <img src="chap1.png" alt=""
           width="500" height="725"><br>
       </td>
@@ -535,7 +535,7 @@ theme('Proofreading Guidelines','header');
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>
     GREEN FANCY<br>
     <br>
@@ -611,7 +611,7 @@ theme('Proofreading Guidelines','header');
       <th align="left" bgcolor="cornsilk">Sample Image:</th>
     </tr>
     <tr valign="top">
-      <td width="100%" align="center"><img src="side.png" alt=""
+      <td width="100%" align="left"><img src="side.png" alt=""
           width="550" height="800"><br>
       </td>
     </tr>
@@ -620,7 +620,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr valign="top">
       <td width="100%">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     *[Sidenote: Burning<br>
     discs<br>
@@ -757,7 +757,7 @@ theme('Proofreading Guidelines','header');
       Sample Image:
       </th>
     </tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top"> <img src="illust.png" alt=""
           width="500" height="650"> <br>
       </td>
@@ -767,7 +767,7 @@ theme('Proofreading Guidelines','header');
    </tr>
     <tr>
     <td width="100%" valign="top">
-      <table summary="" border="0" align="center"><tr>
+      <table summary="" border="0" align="left"><tr>
       <td>
       <p><tt>[Illustration: Martha told him that he had always been her ideal and<br>
       that she worshipped him.<br>
@@ -789,7 +789,7 @@ theme('Proofreading Guidelines','header');
    <tr>
      <th align="left" bgcolor="cornsilk">Sample Image: (Illustration in middle of paragraph)</th>
    </tr>
-   <tr align="center">
+   <tr align="left">
      <td width="100%" valign="top"> <img src="illust2.png" alt=""
          width="500" height="514"> <br>
      </td>
@@ -799,7 +799,7 @@ theme('Proofreading Guidelines','header');
    </tr>
     <tr valign="top">
      <td>
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
      <p><tt>
      such study are due to Italians. Several of these instruments<br>
      have already been described in this journal, and on the present<br>
@@ -879,7 +879,7 @@ theme('Proofreading Guidelines','header');
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     The principal persons involved in this argument were Caesar<sup>1</sup>, former military<br>
     leader and Imperator, and the orator Cicero<sup>2</sup>. Both were of the aristocratic<br>
     (Patrician) class, and were quite wealthy.<br>
@@ -894,7 +894,7 @@ theme('Proofreading Guidelines','header');
     </tr>
       <tr valign="top">
       <td>
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>The principal persons involved in this argument were Caesar[1], former military</tt><br>
     <tt>leader and Imperator, and the orator Cicero[2]. Both were of the aristocratic</tt><br>
     <tt>(Patrician) class, and were quite wealthy.</tt><br>
@@ -934,7 +934,7 @@ theme('Proofreading Guidelines','header');
     <tr><th align="left" bgcolor="cornsilk">Original Footnoted Poetry:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     Mary had a little lamb<sup>1</sup><br>
     &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
     And everywhere that Mary went<br>
@@ -948,7 +948,7 @@ theme('Proofreading Guidelines','header');
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>/*<br>
     Mary had a little lamb[1]<br>
     &nbsp;&nbsp;Whose fleece was white as snow<br>
@@ -1176,7 +1176,7 @@ theme('Proofreading Guidelines','header');
 <p>Note: If a em-dash appears at the start or end of a line of your OCR'd text, join it with the
    other line so that there are no spaces or line breaks around it. Only if the
    author used an em-dash to start or end the paragraph or line of poetry or dialog
-   should you leave it at the start or end of a line.
+   should you leave it at the start or end of a line. See the examples below.
 </p>
 <!-- END RR -->
 
@@ -1357,7 +1357,7 @@ theme('Proofreading Guidelines','header');
        cellspacing="0" summary="Poetry Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <th width="100%" valign="top"> <img src="poetry.png" alt=""
           width="500" height="508"> <br>
       </th>
@@ -1366,7 +1366,7 @@ theme('Proofreading Guidelines','header');
     <tr>
       <td width="100%" valign="top">
 
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
 <tt>
 to the scenery of his own country:<br></tt>
 <p><tt>
@@ -1421,7 +1421,7 @@ and he knew, when he had done it, and to his</tt>
        cellspacing="0" summary="Letter Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <th width="100%" valign="top"> <img src="letter.png" alt=""
           width="500" height="217"> <br>
       </th>
@@ -1429,7 +1429,7 @@ and he knew, when he had done it, and to his</tt>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
 <p><tt>&lt;i&gt;John James Audubon to Claude François Rozier&lt;/i&gt;</tt></p>
 <p><tt>[Letter No. 1, addressed]</tt></p>
 <p><tt>/*<br>
@@ -1466,7 +1466,7 @@ pleasure in making our return.</tt>
     <tr><th align="left" bgcolor="cornsilk">Original Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
 <pre>
 Andersen, Hans Christian   Daguerre, Louis J. M.    Melville, Herman
 Bach, Johann Sebastian     Darwin, Charles          Newton, Isaac
@@ -1483,7 +1483,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>
     /*<br>
     Andersen, Hans Christian<br>
@@ -1553,14 +1553,14 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
  cellspacing="0" summary="Block Quotation">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
 	<p><tt>later day was welcomed in their home on the Hudson.<br>
 	Dr. Bakewell's contribution was as follows:[24]</tt></p>
 	<p><tt>/#<br>
@@ -1710,7 +1710,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
  cellspacing="0" summary="Thought Break">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk"> Sample Image:</th></tr>
-    <tr align="center">
+    <tr align="left">
       <td width="100%" valign="top"> <img src="tbreak.png" alt=""
           width="500" height="264"> <br>
       </td>
@@ -1718,7 +1718,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     like the gentleman with the spiritual hydrophobia<br>
     in the latter end of Uncle Tom's Cabin.<br>
@@ -1794,7 +1794,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       </ul>
   </li>
   <li> Keyboard shortcuts.<br>
-       Tables which list these shortcuts are in the Proofreading Guidelines, see below.</li>
+       Tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> which list these shortcuts are in the Proofreading Guidelines.</li>
   <li> Switching to a keyboard layout or locale which supports "deadkey" accents.
        <ul compact>
        <li>Windows: Control Panel (Keyboard, Input Locales)</li>
@@ -1809,7 +1809,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
    using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode.
 </p>
 <!-- END RR -->
-
+<a name="a_chars_win"></a>
 <p><b>For Windows</b>:
 </p>
 <ul compact>
@@ -2037,6 +2037,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 </ul>
 
 <br>
+<a name="a_chars_mac"></a>
 <table align="center" border="6" rules="all" summary="Mac shortcuts">
   <tbody>
   <tr bgcolor="cornsilk"  >
@@ -2393,7 +2394,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     Elizabeth I, her royal Majesty the<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queen, 123, 144-155.<br>
     &nbsp;&nbsp;birth of, 145.<br>
@@ -2408,7 +2409,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>/*<br>
     Elizabeth I, her royal Majesty the Queen, 123, 144-155.<br>
     &nbsp;&nbsp;birth of, 145.<br>
@@ -2428,7 +2429,7 @@ cedilla                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Scanned Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     Hooker, Jos., maj. gen. U. S. V., 345; assigned<br>
     &nbsp;&nbsp;to command Porter's corps, 350; afterwards,<br>
     &nbsp;&nbsp;McDowell's, 367; in pursuit of Lee, 380;<br>
@@ -2448,7 +2449,7 @@ cedilla                      [,x]   [x,]
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="center"><tr><td>
+<table summary="" border="0" align="left"><tr><td>
     <tt>/*<br>
     &nbsp;&nbsp;Hooker, Jos., maj. gen. U.S.V., 345;<br>
     &nbsp;&nbsp;&nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
