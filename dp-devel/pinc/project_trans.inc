@@ -126,8 +126,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			PROJ_SUBMIT_PG_POSTED,
 			),
 		PROJ_POST_SECOND_CHECKED_OUT => array(
-			PROJ_POST_SECOND_AVAILABLE,
 			PROJ_POST_FIRST_CHECKED_OUT,
+			PROJ_POST_SECOND_AVAILABLE,
 			PROJ_POST_COMPLETE,
 			PROJ_SUBMIT_PG_POSTED,
 			),
