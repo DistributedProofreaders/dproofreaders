@@ -9,10 +9,19 @@ $title = _("Details of Special Days/Weeks/Months");
 theme($title, "header");
 
 echo "<br><h2>$title</h2>\n";
+echo "The Name column shows what the colour looks like with a link on top, the Comment with ordinary text"<br><br>;
 dpsql_dump_query("
         SELECT
-                concat('<span style=\"background-color: #',color,'\">',display_name,'</span>') as 'Name',
-                comment as 'Comment',
+                      concat('<span style=\"background-color: #',
+                      color,
+                      '\"><a href=\"show_specials.php?null=',now(),'\">',
+                display_name,
+                      '</a></span>') as 'Name',
+                      concat('<span style=\"background-color: #',
+                      color,
+                      '\">',
+                comment,
+                      '</a></span>') as 'Comment',
                 concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')) as 'Start Date',
                 concat('<a href=\"',info_url,'\">',info_url,'</a>') as 'More Info'
         FROM special_days
