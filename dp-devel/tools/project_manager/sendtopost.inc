@@ -50,6 +50,9 @@
         $result = mysql_query("SELECT email FROM users WHERE username = '$username'");
         $email = mysql_result($result, 0, "email");
 
+        $result = mysql_query("SELECT nameofwork FROM projects WHERE projectid = '$project'");
+        $nameofwork = mysql_result($result, 0, "nameofwork");
+
         // Change state based on user's settings
         if ($send_to_post == "yes") {
             $sql = "UPDATE projects SET state=20, modifieddate = '$todaysdate' WHERE projectid = '$project'";
