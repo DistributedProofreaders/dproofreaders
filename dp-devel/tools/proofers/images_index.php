@@ -16,12 +16,11 @@ echo "
     <HR>
 ";
 
-chdir($projects_dir);
-foreach( glob("$projectid/*.png") as $png_relpath )
+chdir("$projects_dir/$projectid");
+foreach( glob("*.png") as $png_filename )
 {
-    $size = filesize($png_relpath);
-    $png_filename = basename($png_relpath);
-    echo "<A HREF='$projects_url/$png_relpath'><B>$png_filename</B></A>";
+    $size = filesize($png_filename);
+    echo "<A HREF='$projects_url/$projectid/$png_filename'><B>$png_filename</B></A>";
     echo " <I>($size bytes)</I><BR>\n";
 }
 
