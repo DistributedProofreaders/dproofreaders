@@ -2,7 +2,6 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'theme.inc');
@@ -32,41 +31,34 @@ if (!isset($_POST['action'])) {
     $header = _("Bad Page Report");
     theme($header, "header");
 
-    $tb=$htmlC->startTable(0,0,0,1);
-    $tr=$htmlC->startTR(0,0,1);
-    $td1=$htmlC->startTD(2,0,2,0,"center",0,0,1);
-    $td2=$htmlC->startTD(1,0,0,0,"left",0,0,1);
-    $td3=$htmlC->startTD(0,0,0,0,"center",0,0,1);
-    $td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
-    $td5=$htmlC->startTD(0,0,2,0,"center",0,0,1);
     echo "<form action='badpage.php' method='post'>";
     echo "<input type='hidden' name='projectID' value='$projectID'>";
     echo "<input type='hidden' name='fileID' value='$fileID'>";
     echo "<input type='hidden' name='state' value='$state'>";
-    echo $tb;
-    echo $tr.$td1;
+    echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
+    echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
     echo "<B>Bad Page Report</B>";
-    echo $tr.$td2;
+    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Username:</strong>";
-    echo $td3;
+    echo "<td bgcolor='#ffffff' align='center'>";
     echo "$b_User (<a href='$forums_url/privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)";
-    echo $tr.$td2;
+    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Reason:</strong>";
-    echo $td3;
+    echo "<td bgcolor='#ffffff' align='center'>";
     echo $reason_list[$b_Code];
-    echo $tr.$td2;
+    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong>";
-    echo $td3;
+    echo "<td bgcolor='#ffffff' align='center'>";
     echo "<a href='downloadproofed.php?project=$projectID&fileid=$fileid&state=".UNAVAIL_FIRST."' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectID&imagefile=$imageName' target='_new'>View Image</a>";
-    echo $tr.$td2;
+    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Modify:</strong>";
-    echo $td3;
+    echo "<td bgcolor='#ffffff' align='center'>";
     echo "<a href='badpage.php?projectid=$projectID&fileid=$fileid&modify=text'>Original Text</a> | <a href='badpage.php?projectid=$projectID&fileid=$fileid&modify=image'>Original Image</a>";
-    echo $tr.$td2;
+    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>What to do:&nbsp;&nbsp;</strong>";
-    echo $td3;
+    echo "<td bgcolor='#ffffff' align='center'>";
     echo "<input name='action' value='fixed' type='radio'>Fixed&nbsp;<input name='action' value='bad' type='radio'>Bad Report&nbsp;<input name='action' value='unfixed' checked type='radio'>Not Fixed&nbsp;";
-    echo $tr.$td1;
+    echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
     echo "<input type='submit' VALUE='Continue'>";
     echo "</td></tr></table></form></div><br><br>";
 
@@ -85,7 +77,7 @@ if (!isset($_POST['action'])) {
 	  echo "<input type='submit' value='Update Original Text'></form>";
       } elseif ($_POST['modify'] == "text") {
 	  $master_text = $_POST['master_text'];
-	  if ($writeBIGtable) { 
+	  if ($writeBIGtable) {
         	$result = mysql_query("UPDATE project_pages SET master_text='$master_text' WHERE projectid = '$projectID' AND fileid=$fileID");
 	  }
         $result = mysql_query("UPDATE $projectID SET master_text='$master_text' WHERE fileid=$fileID");
@@ -124,12 +116,12 @@ if (!isset($_POST['action'])) {
   //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($action == "fixed") || ($action == "bad")) {
       if ($state == BAD_FIRST) {
-	if ($writeBIGtable) { 
+	if ($writeBIGtable) {
         	$result = mysql_query("UPDATE project_pages SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE projectid = '$projectID' AND fileid=$fileID");
 	}
         $result = mysql_query("UPDATE $projectID SET round1_user='', b_user='', b_code='', state='".AVAIL_FIRST."' WHERE fileid=$fileID");
     } elseif ($state = BAD_SECOND) {
-	if ($writeBIGtable) { 
+	if ($writeBIGtable) {
 	        $result = mysql_query("UPDATE project_pages SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE project_pages = '$projectID' AND fileid=$fileID");
 	}
         $result = mysql_query("UPDATE $projectID SET round2_user='', b_user='', b_code='', state='".AVAIL_SECOND."' WHERE fileid=$fileID");
