@@ -32,14 +32,20 @@
         // Generate joined text file, and a zip of it.
         $savepath = $projectpath."/".$project.".txt";
         $fp = fopen($savepath, "w"); //open file for writing
+        if ( $fp )
+        {
+            join_proofed_text ($project, $fp);
 
-        join_proofed_text ($project, $fp);
+            // close the file
+            fclose ($fp);
 
-        // close the file
-        fclose ($fp);
-
-        //create zip copy of file
-        exec ("zip -j $projectpath/$project.zip $savepath");
+            //create zip copy of file
+            exec ("zip -j $projectpath/$project.zip $savepath");
+        }
+        else
+        {
+            echo "skipping the creation of $savepath and $projectpath/$project.zip<br>\n";
+        }
 
         // Decide whether to send to post-processing or have user work on it.
 
