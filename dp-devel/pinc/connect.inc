@@ -7,9 +7,10 @@ function isMaintenanceMode() {
 
 	if ($maintenance) {
 		if (!user_is_a_sitemanager()) {
-			echo "<html><head><title>Distributed Proofreaders Maintenance</title></head>";
-			echo "<body><center><h2>$pguser We are currently performing maintenance on the server.  Please ";
-			echo "bear with us, we should have the site back up and running shortly.</h2></center></body></html>";
+			$title = _("Distributed Proofreaders Maintenance");
+			$message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
+			echo "<html><head><title>$title</title></head>";
+			echo "<body><center><h2>$pguser $message</h2></center></body></html>";
 			exit();
 		}
 	}
@@ -22,10 +23,10 @@ function dbConnect()
      {$db_info=new db_udb_user();
      $this->db_lk=mysql_connect($db_info->server,$db_info->username,$db_info->password);
      if (!$this->db_lk)
-          {$this->error='Unable to connect to database server.'; return 0;}
+          {$this->error= _("Unable to connect to database server."); return 0;}
 
      if (!mysql_select_db($db_info->dbname,$this->db_lk))
-          {$this->error='Unable to locate database.'; return 0;}
+          {$this->error= _("Unable to locate database."); return 0;}
           else {return 1;}
      }
 
