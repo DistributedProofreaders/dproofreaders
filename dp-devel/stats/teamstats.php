@@ -62,10 +62,10 @@ $max_update = mysql_result($result,0,0);
 		while ($row = mysql_fetch_assoc($result)) {
 			$team_id = $row['id'];
 			if ($row['page_count'] == $lastcompleted) {
-				$rankArray['rank'][$team_id] = $lastrank;
+				$rankArray[$team_id] = $lastrank;
 				$lastrank = $lastrank;
     			} else {
-    				$rankArray['rank'][$team_id] = $i;
+    				$rankArray[$team_id] = $i;
     				$lastrank = $i;
    			}
     			$lastcompleted = $row['page_count'];
@@ -77,7 +77,7 @@ $max_update = mysql_result($result,0,0);
 		while($row = mysql_fetch_assoc($result)) {
 			if ($row['id'] != 1) {
 				$team_id = $row['id'];
-				$rank = $rankArray['rank'][$team_id];
+				$rank = $rankArray[$team_id];
 				$updateRank = maybe_query("UPDATE user_teams_stats SET rank = $rank WHERE team_id = $team_id && date_updated = $midnight");
 			}
 		}
