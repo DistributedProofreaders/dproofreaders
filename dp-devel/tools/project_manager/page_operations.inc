@@ -4,6 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'page_ops.inc');
+include_once($relPath.'page_tally.php');
 
 // -----------------------------------------------------------------------------
 
@@ -62,35 +63,9 @@ function page_clear( $projectid, $fileid )
     }
 
     // ------------------------------------------------
-    // if page is cleared, decrement user's page count
+    // page will be cleared, so decrement page tallies for user & teams
 
-    $sql = "
-        UPDATE users
-        SET pagescompleted = pagescompleted-1
-        WHERE username = '$proofer'
-    ";
-    $result = mysql_query($sql);
-
-    // ------------------------------------------------
-    // also decrement the counts of their teams    
-
-    $result = mysql_query("
-        SELECT team_1, team_2, team_3
-        FROM users
-        WHERE username = '$proofer'
-    ");
-
-    $data = mysql_fetch_array($result);
-    $team1 = $data['team_1'];
-    $team2 = $data['team_2'];
-    $team3 = $data['team_3'];
-
-    $sql = "
-        UPDATE user_teams
-        SET page_count = page_count-1
-        WHERE id=1 OR id=$team1 OR id=$team2 OR id=$team3
-    ";
-    $result = mysql_query($sql);
+    page_tallies_add( $proofer, -1 );
 
     // ------------------------------------------------
     // now clear the page
