@@ -17,44 +17,16 @@ abort_if_not_manager();
 $projectid = $_GET['project'];
 abort_if_cant_edit_project( $projectid );
 
-echo_manager_header();
+echo_manager_header( 'project_detail_page' );
 
-?>
-
-<p><b>Project Manager Notice:</b>
-
+echo "
 <p>
-The "Delete All Text" link (if present) is now at the very bottom of this page,
-to lessen the chance of hitting it by accident.
-This is a temporary measure
-until a proper "Are You Sure?" prompt is implemented.
-
-<hr width='50%'>
-<p>
-You can now specify a directory
-(in the <? echo $uploads_account; ?> account)
-from which to add text+images into your project.
-This means that you are now free to choose the name
-of the upload directory you create,
-instead of having to use the project's ID.
-(E.g., you might choose to give it the same name
-as the corresponding directory on your local machine.)
-Of course, the project's ID will still work fine
-as the name of the directory, and is in fact the default
-for the Add Text+Images button.
-
-<p>
-Moreover, the string you type is actually interpreted as a 'path'
-(relative to the root of the <? echo $uploads_account; ?> account),
-so it can be a directory within a directory.
-For instance, you may find it convenient to create a personal directory
-in the <? echo $uploads_account; ?> account,
-and then create your project-specific directories within it.
-(If you do this, it's recommended that you use your DP login name
-for the name of the personal directory,
-as that may be an assumed default in the future.)
-
-<?
+Reminder for uploads:
+host=<b>$uploads_host</b>
+account=<b>$uploads_account</b>
+password=<b>$uploads_password</b>
+</p>
+";
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
