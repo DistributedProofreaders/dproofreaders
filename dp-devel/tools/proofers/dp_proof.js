@@ -244,6 +244,7 @@ nP=docRef.editform.zmSize.value;
 zP=Math.round(iW*(nP/100));
 reSize(zP)
 docRef.editform.zmSize.value=nP;
+return false;
 }
 
 function showNW()
