@@ -234,6 +234,7 @@ function ldAll(wFace)
   markRef=document.markform;
   if(wFace==1)
     {
+      // enhanced interface, non-spellcheck
       docRef=top.proofframe.document;
       cnSel=docRef.selection? true : false;
       setLayer();
@@ -241,18 +242,21 @@ function ldAll(wFace)
     }
   else if (wFace==0)
     {
+      // standard interface, non-spellcheck
       docRef=top.proofframe.textframe.document;
       cnSel=docRef.selection? true : false;
       if (window.opera) {cnSel=false;}
     }
   else if (wFace==2)
     {
+      // enhanced interface, spellcheck
       docRef=top.proofframe.document;
       cnSel=false;
       setLayer();
     }
   else if (wFace==3)
     {
+      // standard interface, spellcheck
       docRef=top.proofframe.textframe.document;
       cnSel=false;
     }
