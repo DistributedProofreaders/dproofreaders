@@ -34,7 +34,7 @@ $projectinfo = new projectinfo();
 
     // Error checking
     if ($state == PROJ_PROOF_SECOND_AVAILABLE) {
-        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."' AND state != '".BAD_SECOND."'");
+        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."'");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {
             $state = PROJ_PROOF_SECOND_BAD_PROJECT;
@@ -44,7 +44,7 @@ $projectinfo = new projectinfo();
         $projectinfo->availablepages = $projectinfo->avail2_pages;
 
     } else if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
-        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."' AND state != '".BAD_FIRST."'");
+        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."'");
         if ($result != "") { $badpages = mysql_num_rows($result); } else $badpages = 0;
         if ($badpages > 0) {
             $state = PROJ_PROOF_FIRST_BAD_PROJECT;
