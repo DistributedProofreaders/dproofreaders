@@ -89,12 +89,12 @@ $graph->Add( $gbplot);
 
 
 // line plot showing percentage of joining users who proof
-$lplot = new LinePlot ($data3y);
-$lplot->SetColour("blue");
-$lplot->SetWeight(2);
-$lplot->SetLegend(_("% of Newly Joined Users who Proofed"));
+//$lplot = new LinePlot ($data3y);
+//$lplot->SetColour("blue");
+//$lplot->SetWeight(2);
+//$lplot->SetLegend(_("% of Newly Joined Users who Proofed"));
 
-$graph->AddY2($lplot);
+//$graph->AddY2($lplot);
 
 
 
