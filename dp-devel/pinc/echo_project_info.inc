@@ -70,7 +70,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		if ( user_is_PPV_of($project['projectid']) )
 		{
 			$word = _("Clearance Line");
-			echo_row_a($word, $project['clearance'] );
+			echo_row_a($word, htmlspecialchars($project['clearance'],ENT_NOQUOTES) );
 		}
 	}
 
