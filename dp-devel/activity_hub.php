@@ -79,7 +79,7 @@ if ($pagesproofed >= 20)
     show_site_news_for_page("activity_hub.php");
     random_news_item_for_page("activity_hub.php");
     include("./stats/currentstatestats.php");
-    echo "<center>\n";
+    echo "</center>\n";
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
