@@ -22,7 +22,7 @@ theme('Proofing Guidelines','header');
         -->
 
 <h1 align="center">Proofing Guidelines</h1>
-<h3 align="center">Version 1.5, released Jun 19, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.51, released Aug 16, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <!-- Real version:
