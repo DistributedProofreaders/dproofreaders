@@ -332,6 +332,7 @@ CREATE TABLE `project_pages` (
   KEY `round2_user` (`round2_user`),
   KEY `round1_time` (`round1_time`),
   KEY `round2_time` (`round2_time`),
+  KEY `projectid_state` (`projectid`,`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
