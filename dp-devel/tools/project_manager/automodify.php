@@ -32,7 +32,6 @@ $projectinfo = new projectinfo();
   $todaysdate = time();
 
   while ($rownum < $numrows) {
-
     $project = mysql_result($allprojects, $rownum, "projectid");
     $state = mysql_result($allprojects, $rownum, "state");
     $username = mysql_result($allprojects, $rownum, "username");
@@ -41,21 +40,24 @@ $projectinfo = new projectinfo();
     $projectinfo->update($project, $state);
 
     // Error checking
-    if ($state == PROJ_PROOF_SECOND_AVAILABLE) {
-        $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."'");
+    if (($state == PROJ_PROOF_SECOND_AVAILABLE) || ($state == PROJ_PROOF_SECOND_BAD_PROJECT && $one_project)) {
+    	$result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_SECOND."' AND state != '".OUT_SECOND."' AND state != '".SAVE_SECOND."' AND state != '".TEMP_SECOND."'");
         if ($result != "") { $second_badpages = mysql_num_rows($result); } else $second_badpages = 0;
         if ($second_badpages > 0) {
             $state = PROJ_PROOF_SECOND_BAD_PROJECT;
+            mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
+        } else {
+            $state = PROJ_PROOF_SECOND_AVAILABLE;
             mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
         }
         $pagesleft += $projectinfo->avail2_pages;
         $projectinfo->availablepages = $projectinfo->avail2_pages;
 
-    } else if ($state == PROJ_PROOF_FIRST_AVAILABLE || $state == PROJ_PROOF_FIRST_BAD_PROJECT) {
+    } else if (($state == PROJ_PROOF_FIRST_AVAILABLE) || ($state == PROJ_PROOF_FIRST_BAD_PROJECT && $one_project)) {
     	    $result = mysql_query("SELECT fileid FROM $project WHERE state != '".AVAIL_FIRST."' AND state != '".OUT_FIRST."' AND state != '".SAVE_FIRST."' AND state != '".TEMP_FIRST."'");
             if ($result != "") { $first_badpages = mysql_num_rows($result); } else $first_badpages = 0;
             if ($first_badpages >= 10) {
-                $state = PROJ_PROOF_FIRST_BAD_PROJECT;
+            	$state = PROJ_PROOF_FIRST_BAD_PROJECT;
                 mysql_query("UPDATE projects SET state = '$state' WHERE projectid = '$project'");
             } elseif ($first_badpages < 10 && $first_badpages >= 0) {
             	$state = PROJ_PROOF_FIRST_AVAILABLE;
@@ -155,7 +157,7 @@ $projectinfo = new projectinfo();
         $sql = "UPDATE projects SET state = '$state' WHERE projectid = '$project'";
         if ($verbose) echo "New state = $state<P>";
         $result = mysql_query($sql);
-    }
+      }
 
     // Promote Level
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
@@ -174,8 +176,12 @@ $projectinfo = new projectinfo();
     }
     $rownum++;
   }
+  
   if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
 
   if (!$one_project) { autorelease($pagesleft); }
-  else { echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">"; }
+  
+  else {
+  	 echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">"; 
+  	 }
 ?>
