@@ -39,17 +39,32 @@ $db_Connection=new dbConnect();
 			
 		    echo $PPinQuestion . "\n" . $projectslist ."<br><br>\n\n";
 
-		    $message = "This is an automated message.\n\nOur database indicates that you have had ". ($numprojs == 1) ? "a project" : "several projects" . " checked out for more than 90 days:\n\n" 
-. $projectslist . "\n\n 
-If you wish to continue working on ". ($numprojs == 1) ? "this project" : "some or all of these projects" . " and/or need help please 
+		    if ($numprojs == 1) {
+			$message = "This is an automated message.\n\n
+Our database indicates that you have had a PP project checked out for more than 90 days:\n\n
+$projectslist\n\n 
+If you wish to continue working on this project and/or need help please 
 forward this email with a brief description of the status to dphelp@pgdp.net.\n\n
-If you no longer wish to have ". ($numprojs == 1) ? "this text" : "some or all of these texts" . " assigned to you please visit the 
+If you no longer wish to have this text assigned to you please visit the 
 Distributed Proofreaders website Post Processing section and select Return 
-to Available for the ". ($numprojs == 1) ? "book" : "books" . " in question or forward this email to dphelp@pgdp.net and 
-state that you would no longer like to have the ". ($numprojs == 1) ? "book" : "books" . " in question assigned to you so 
-that we may return ".($numprojs == 1) ? "it" : "them" ." to available.\n\n 
+to Available for this book, or forward this email to dphelp@pgdp.net and 
+state that you would no longer like to have the book in question assigned to you so 
+that we may return it to available.\n\n 
 Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
-		
+		    } else {
+			$message = "This is an automated message.\n\n
+Our database indicates that you have had several PP projects checked out for more than 90 days:\n\n 
+$projectslist\n\n 
+If you wish to continue working on some or all of these projects and/or need help please 
+forward this email with a brief description of the status to dphelp@pgdp.net.\n\n
+If you no longer wish to have some or all of these texts assigned to you please visit the 
+Distributed Proofreaders website Post Processing section and select Return 
+to Available for the books in question or forward this email to dphelp@pgdp.net and 
+state that you would no longer like to have the books in question assigned to you so 
+that we may return them to available.\n\n 
+Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
+		    }
+
 //	            maybe_mail("$email", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 // test
