@@ -10,6 +10,21 @@ $team_avatars_url = "$dyn_url/teams/avatar";
 $team_icons_dir   = "$dyn_dir/teams/icon";
 $team_icons_url   = "$dyn_url/teams/icon";
 
+function select_from_teams( $where_body, $other_clauses='' )
+{
+	if ($where_body == '') $where_body = '1';
+
+	$q = "
+		SELECT *
+		FROM user_teams
+		WHERE $where_body
+		$other_clauses
+	";
+	$res = mysql_query($q);
+	if (!$res) die(mysql_error());
+	return $res;
+}
+
 function showTeamProfile($curTeam) {
 	global $theme, $userP;
 	global $team_avatars_url;
