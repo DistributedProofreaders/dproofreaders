@@ -97,4 +97,30 @@
       . ")");
   define("SQL_CONDITION_GOLD",
            "(state='".PROJ_SUBMIT_PG_POSTED."')");
+  define("SQL_CONDITION_ALL",
+	   "(state='".PROJ_PROOF_FIRST_UNAVAILABLE."'"
+      . " OR state='".PROJ_PROOF_SECOND_UNAVAILABLE."'"
+      . " OR state='".PROJ_PROOF_FIRST_WAITING_FOR_RELEASE."'"
+      . " OR state='".PROJ_PROOF_SECOND_WAITING_FOR_RELASE."'"
+      . " OR state='".PROJ_PROOF_FIRST_BAD_PROJECT."'"
+      . " OR state='".PROJ_PROOF_SECOND_BAD_PROJECT."'"
+      . " OR state='".PROJ_PROOF_FIRST_AVAILABLE."'"
+      . " OR state='".PROJ_PROOF_SECOND_AVAILABLE."'"
+      . " OR state='".PROJ_PROOF_FIRST_VERIFY."'"
+      . " OR state='".PROJ_PROOF_SECOND_VERIFY."'"
+      . " OR state='".PROJ_PROOF_FIRST_COMPLETE."'"
+      . " OR state='".PROJ_PROOF_SECOND_COMPLETE."'"
+      . " OR state='".PROJ_POST_UNAVAILABLE."'"
+      . " OR state='".PROJ_POST_AVAILABLE."'"
+      . " OR state='".PROJ_POST_CHECKED_OUT."'"
+      . " OR state='".PROJ_POST_VERIFY."'"
+      . " OR state='".PROJ_POST_VERIFYING."'"
+      . " OR state='".PROJ_POST_COMPLETE."'"
+      . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
+      . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
+      . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
+      . " OR state='".PROJ_SUBMIT_PG_POSTED."'"
+      . " OR state='".PROJ_COMPLETE."'"
+      . " OR state='".PROJ_NEW."'"
+      . ")")
 ?>
