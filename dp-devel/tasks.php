@@ -404,17 +404,17 @@ function TaskDetails($tid) {
 			if (empty($already_notified)) { echo "<a href='tasks.php?f=notifyme&tid=$tid'>Signup for task notifications</a>"; } else { echo "<a href='tasks.php?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>"; }
 			echo "</font></tr>\n";
 			echo "<tr><td width='40%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Task Type&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_array[$row['task_type']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Category&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$categories_array[$row['task_category']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>$task_assignee_username</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System&nbsp;&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$os_array[$row['task_os']]."</font></td></tr>\n";
+			EchoTaskProperty( "Task Type",        $tasks_array[$row['task_type']] );
+			EchoTaskProperty( "Category",         $categories_array[$row['task_category']] );
+			EchoTaskProperty( "Status",           $tasks_status_array[$row['task_status']] );
+			EchoTaskProperty( "Assigned To",      $task_assignee_username );
+			EchoTaskProperty( "Operating System", $os_array[$row['task_os']] );
 			echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Browser&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$browser_array[$row['task_browser']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Severity&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$severity_array[$row['task_severity']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Priority&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$priority_array[$row['task_priority']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Version&nbsp;&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".$versions_array[$row['task_version']]."</font></td></tr>\n";
-			echo "<tr><td width='40%' align='left'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Percent Complete&nbsp;&nbsp;</font></b></td><td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><img src='$code_url/graphics/task_percentages/large_".$row['percent_complete'].".png' width='150' height='10' border='0' alt='".$row['percent_complete']."% Complete'></td></tr>\n";
+			EchoTaskProperty( "Browser",          $browser_array[$row['task_browser']] );
+			EchoTaskProperty( "Severity",         $severity_array[$row['task_severity']] );
+			EchoTaskProperty( "Priority",         $priority_array[$row['task_priority']] );
+			EchoTaskProperty( "Reported Version", $versions_array[$row['task_version']] );
+			EchoTaskProperty( "Percent Complete", "<img src='$code_url/graphics/task_percentages/large_".$row['percent_complete'].".png' width='150' height='10' border='0' alt='".$row['percent_complete']."% Complete'>" );
 			echo "</table></td></tr><tr><td align='left' valign='top'><br>\n";
 			echo "<table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='5%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Details&nbsp;&nbsp;</font></b></td>\n";
 			echo "<td align='left' width='95%' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['task_details']))."</font></td></tr></table></td></tr>\n";
@@ -436,6 +436,28 @@ function TaskDetails($tid) {
 	} else {
 		echo "<tr bgcolor='#ffffff'><td colspan='7'><center><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid was not found!</font></center></td></tr>";
 	}
+}
+
+function EchoTaskProperty($name, $value) {
+	echo "<tr>";
+
+	echo "<td width='40%' align='left'>";
+	echo "<b>";
+	echo "<font face='Verdana' color='#000000' style='font-size: 11px'>";
+	echo $name;
+	echo "&nbsp;&nbsp;";
+	echo "</font>";
+	echo "</b>";
+	echo "</td>";
+
+	echo "<td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'>";
+	echo "<font face='Verdana' color='#000000' style='font-size: 11px'>";
+	echo $value;
+	echo "</font>";
+	echo "</td>";
+
+	echo "</tr>";
+	echo "\n";
 }
 
 function TaskComments($tid) {
