@@ -1,5 +1,5 @@
 <?
-include($relPath.'v_site.inc');
+include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 function showstartexts($etext_limit,$type) {
 global $siteurl;
