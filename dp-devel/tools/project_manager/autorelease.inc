@@ -14,21 +14,16 @@ function numavailpages($projectid, $roundavailstate) {
         if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
 }
 
-function verifynew($project) {
-        global $projects_dir;
-        global $auto_email_addr;
-        global $code_url;
-
-    $projectid = $project['projectid'];
-
-    $currstate = PROJ_PROOF_FIRST_VERIFY;
-    $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
-
-	//Update the total and available pages in the HEAP table
-	update_total_pages($projectid, 1);
+function project_pre_release_check( $project )
+// Check whether the project seems ready to be released.
+// If it is, return an empty string.
+// If it has problems, return a detailed error-message.
+{
+    global $projects_dir;
 
     $errors = '';
 
+    $projectid  = $project['projectid'];
     $nameofwork = $project['nameofwork'];
     $author     = $project['authorsname'];
     $language   = $project['language'];
@@ -58,6 +53,24 @@ function verifynew($project) {
             $errors .= "  $filename: text is empty\n";
         }
     }
+
+    return $errors;
+}
+
+function verifynew($project) {
+        global $auto_email_addr;
+        global $code_url;
+
+    $projectid = $project['projectid'];
+    $nameofwork = $project['nameofwork'];
+
+    $currstate = PROJ_PROOF_FIRST_VERIFY;
+    $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
+
+	//Update the total and available pages in the HEAP table
+	update_total_pages($projectid, 1);
+
+    $errors = project_pre_release_check( $project );
 
     if ( $errors )
     {
