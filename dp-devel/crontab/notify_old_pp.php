@@ -54,7 +54,8 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 //	            maybe_mail("$email", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 // test
-  maybe_mail("big_bill_boy2@yahoo.com.au", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
+//  maybe_mail("big_bill_boy2@yahoo.com.au", "Subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
+echo $message;
 
 		    $projectslist = "";
 		    $numprojs = 0;
