@@ -1,14 +1,8 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 
-$orig_line_i=0;
-$orig_lines=Array();
-$orig_start=0;
-
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
-	global $orig_lines,$orig_line_i,$orig_start;
-
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
 	echo "<input type='hidden' name='text_data' value='" . htmlentities($orig_text) . "'>";
@@ -53,6 +47,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 	// $asr_lines[0] is the identification line, so start at 1.
 	for ( $i = 1; $i < count($asr_lines); $i++ )
 	{
+		$orig_line = $orig_lines[$orig_line_i];
+
 		$asr_line = $asr_lines[$i];
 		if ( $asr_line == '' )
 		{
@@ -60,7 +56,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			// after it has finished with the current input line.
 
 			// Flush any remaining original-text on this line.
-			flush_orig( 1000000 );
+			$orig_str = substr( $orig_line, $orig_start );
+			echo escapeStringEntities($orig_str);
 
 			// Put a line-break in the output.
 			echo "\n\n";
@@ -106,7 +103,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			}
 
 			// Flush any original-text preceding the bad word.
-			flush_orig( $orig_word_offset );
+			$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
+			echo escapeStringEntities($orig_str);
 
 			$n_bad_words++;
 
@@ -153,15 +151,6 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 	echo "</pre>";
 
 	echo "<input type='hidden' name='sptotal' value='$n_bad_words'>";
-}
-
-function flush_orig( $orig_word_offset )
-{
-	global $orig_lines, $orig_line_i, $orig_start;
-
-	$orig_line = $orig_lines[$orig_line_i];
-	$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
-	echo escapeStringEntities($orig_str);
 }
 
 function escapeStringEntities($text)
