@@ -82,7 +82,7 @@ if ($password=="proofer") {
         maybe_mail($email, "Welcome to the Distributed Proofreader's Site!", "
 Hello $real_name,
 
-I want to first thank you for registering on our site. That is the
+We want to first thank you for registering on our site. That is the
 first step in helping us proofread books for Project Gutenberg
 <http://www.gutenberg.net/>.
 
@@ -97,7 +97,7 @@ properly, please check that your browser settings are as follows:
 Also, please ensure your PC clock is set to the correct date
 and time.
 
-As a new user, I recommend you read over our main page
+As a new user, we recommend you read over our main page
 <$code_url/> for an overview of the site,
 a selection of the works that we are working on, along
 with the books that have been completed through the site.
@@ -115,11 +115,11 @@ online copy open in another window) as you proof.
 
 Once you understand the work being done through this site,
 the best thing to do is get started! Here's a step-by-step
-process once you login:
+process once you log in:
 
-- When you login you are taken to your Personal Page. Take
-  special note of the navbar at the top of the screen. It
-  appears on many pages on site, and towards the right contains
+- When you log in you are taken to your Personal Page. Take
+  special note of the navigational bar at the top of the screen.
+  It appears on many pages on site, and towards the right contains
   many useful links, such as to our FAQs (help), the discussion
   Forums, your personal Inbox, etc. Next, scroll down past the
   Site News and Random Rule (feel free to read them!) and you
@@ -131,7 +131,7 @@ process once you login:
 
 - Select a book that you would like to read a little bit on.
 
-- Click on the title you want to work on, this will open
+- Click on the title you want to work on. This will open
   the Project Comments page for this project (book).
 
 - Among the contents of the Project Comments page may be some
@@ -226,7 +226,7 @@ A: If you select a BEGINNERS ONLY project, you are more likely to
 
 
 Remember, every page you do helps make these books available to
-the world, for free, forever, more rapidly. I hope that you will
+the world, for free, forever, more rapidly. We hope that you will
 continue to use our site, and that you enjoy your time on our site.
 We're delighted to have you join us, as each page we proof is
 another small step closer to building the greatest library in history!
