@@ -20,12 +20,10 @@ $teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
 
 // -----------------------------------------------------------------------------
 
-// $users_table_with_tallies = "users";
 $users_table_with_tallies = "users LEFT OUTER JOIN current_tallies ON (holder_type='U' AND holder_id=u_id AND tally_name='P')";
 // A string containing an SQL table-expression that yields a table that
 // has all of the data of the 'users' table, plus a page-tally column.
 
-// $user_P_page_tally_column = "pagescompleted";
 $user_P_page_tally_column = "tally_value";
 // A string containing the name of the column in the above table
 // that gives the user's tally of pages saved-as-done in proofing rounds.
