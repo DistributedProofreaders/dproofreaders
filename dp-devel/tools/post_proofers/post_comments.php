@@ -51,23 +51,6 @@ if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
     echo "<a href='$projects_url/$projectid/{$projectid}_TEI.zip'>";
     echo _("Download Zipped TEI Text");
     echo "</a>\n";
-
-    {
-        // For a while (2003 Feb-Aug?), sendtopost generated TEI files,
-        // but didn't zip them. We could go back and zip them all, or
-        // we can do it here, upon request.
-
-        $TEI_base = "$projects_dir/$projectid/{$projectid}_TEI";
-        $TEI_txt  = "$TEI_base.txt";
-        $TEI_zip  = "$TEI_base.zip";
-
-        if (!file_exists($TEI_zip) && file_exists($TEI_txt) )
-        {
-            // Create the zip
-            // echo "creating the zip...";
-            exec("zip -j $TEI_zip $TEI_txt");
-        }
-    }
 }
 elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
 {
