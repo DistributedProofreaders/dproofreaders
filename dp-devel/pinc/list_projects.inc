@@ -11,6 +11,7 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
 {
     global $pageCountArray;
     global $code_url;
+    global $site_supports_corrections_after_posting;
 
     if ( empty($pageCountArray) )
     {
@@ -103,10 +104,13 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
             if (trim($project['txtlink'])  <> "") echo "<a href='{$project['txtlink']}'>"._("text version")."</a>, ";
             if (trim($project['htmllink']) <> "") echo "<a href='{$project['htmllink']}'>"._("html version")."</a>, ";
 
-            if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
-                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
-            } else {
-                echo _("under review");
+            if ($site_supports_corrections_after_posting)
+            {
+                if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
+                    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
+                } else {
+                    echo _("under review");
+                }
             }
             echo "<br>";
         }
