@@ -262,28 +262,33 @@ Want to help out the site by providing material for us to proof? Check <a href="
 
 <p><p>
 
-<table border=1 width=630>
-<tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>
-<td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>
 <?
+if ($userP['project_listing'] == 1 || $userP['project_listing'] == 3) {
+echo "<table border=1 width=630>";
+echo "<tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>";
+echo "<td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>";
+
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
     showavailablebooks($result,2);
+echo "</table>";
+}
 ?>
 
-</table>
-<table border=1 width=630>
-<br><tr><td bgcolor="CCCCCC" colspan=2><h3>Current Second - Round Projects </h3></td>
-<td bgcolor="CCCCCC" colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.
-See <A HREF="http://www.promo.net/pg/vol/proof.html#What_kinds" target = " ">this page</A> for examples.
-</td></tr>
 <?
+if ($userP['project_listing'] == 2 || $userP['project_listing'] == 3) {
+echo "<table border=1 width=630>";
+echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
+echo "<td bgcolor='CCCCCC' colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";
+echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.";
+echo "</td></tr>";
     //Select all projects in the list for round 2 
     $result = mysql_query("SELECT * FROM projects WHERE state = 12 OR state = 18 ORDER BY nameofwork ASC");
     showavailablebooks($result,12);
     echo "</table>\n<p>";
+}
 
-    echo "<table border=1 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111 width=630>";
+echo "<table border=1 cellpadding=0 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=#111111 width=630>";
 ?>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <?
