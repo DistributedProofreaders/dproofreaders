@@ -333,7 +333,10 @@ include_once($relPath.'maybe_mail.inc');
 
         // On each line with non-blank content,
         // embed that content in an <l> element.
-        $s = preg_replace( '/(\n *)([^ ].*) *(\r)/', '\1<l>\2</l>\3', $s );
+        // replace indentation with an attribute-value pair
+        $s1 = preg_replace( '/(\n)([^ ].*) *(\r)/', '\1<l>\2</l>\3', $s );
+        $s2 = preg_replace( '/(\n)( *)([^ ].*) *(\r)/e', '\1<l rend="indent(' . strlen('\2') . ')">\2\3</l>\4', $s );
+        if ($s==$s1) {$s=$s2;} else {$s=$s1;}
 
         // And put the whole thing in an <lg> element.
         return "\r\n\r\n<!-- poem -->$s<!-- poem -->\r\n\r\n";
