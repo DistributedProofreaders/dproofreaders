@@ -212,7 +212,7 @@ function handle_projectfiles($projectid) {
 }
 
 function insertTextFiles($dir_name, $projectid) {
-	global $uploads_dir, $projects_dir, $pguser;
+	global $uploads_dir, $projects_dir, $pguser, $writeBIGtable;
 	$r = chdir("$uploads_dir/$pguser/$dir_name");
 	$now = time();
 
@@ -220,6 +220,21 @@ function insertTextFiles($dir_name, $projectid) {
 		$file_base = basename(strval($txt_file_name),'.txt');
 		$image_file_name = addslashes("$file_base.png");
 		$txt_file_path = addslashes("$uploads_dir/$pguser/$dir_name/$txt_file_name");
+
+		if ($writeBIGtable) {
+			$sql_command = "
+				INSERT INTO project_pages
+				SET
+					projectid   = '$projectid',
+					fileid      = '$file_base',
+					image       = '$image_file_name',
+					master_text = LOAD_FILE('$txt_file_path'),
+					round1_time = $now,
+					state       = '".AVAIL_FIRST."'
+				";
+			$res = mysql_query($sql_command) or die(mysql_error());
+		}
+
 		$sql_command = "
 			INSERT INTO $projectid
 			SET
