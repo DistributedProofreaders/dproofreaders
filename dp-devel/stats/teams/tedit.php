@@ -7,7 +7,7 @@ include_once('../includes/team.php');
 $popHelpDir='faq/pophelp/teams/edit_';
 
 //Do we need this anymore?
-if (!empty($_POST['tsid'])) { $ntid = $_POST['tsid']; } else { $ntid = $_GET['etid']; }
+if (!empty($_POST['tsid'])) { $tid = $_POST['tsid']; } else { $tid = $_GET['tid']; }
 
 $result = mysql_query("SELECT * FROM user_teams WHERE id = $tid");
 $curTeam = mysql_fetch_assoc($result);
