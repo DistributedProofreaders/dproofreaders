@@ -201,7 +201,7 @@ function pages_indicate_bad_project( $projectid, $round )
         (($state == PROJ_PROOF_FIRST_AVAILABLE) && ($projectinfo->availablepages == 0)) ||
         (($state == PROJ_PROOF_SECOND_AVAILABLE) && ($projectinfo->availablepages == 0))) {
 
-        if ($verbose) echo "Found \"$nameofwork\" to verify = $project<BR>";
+        if ($verbose) echo "Found \"$nameofwork\" to verify = $project<BR>\n";
 
         // Check in MIA pages
         $page_num = 0;
@@ -251,7 +251,7 @@ function pages_indicate_bad_project( $projectid, $round )
 		update_total_pages($project, "");
         	update_avail_pages($project, " = '".$newstate."'");
 
-        if ($verbose) echo "New state = $state<P>";
+        if ($verbose) echo "New state = $state<P>\n";
         $error_msg = project_transition( $project, $state );
         if ($error_msg)
         {
@@ -265,7 +265,7 @@ function pages_indicate_bad_project( $projectid, $round )
     if ($state == PROJ_PROOF_FIRST_COMPLETE) {
 	update_total_pages($project, 1);
 
-        if ($verbose) echo "Found project to promote = $project<BR>";
+        if ($verbose) echo "Found project to promote = $project<BR>\n";
 
         $error_msg = project_transition( $project, PROJ_PROOF_SECOND_AVAILABLE );
         if ($error_msg)
@@ -288,7 +288,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
   if ($trace) echo "<br>\n";
 
-  if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
+  if ($verbose) echo "Total pages available = $pagesleft<BR>\n";
 
   if (!$one_project) { autorelease(); }
 
