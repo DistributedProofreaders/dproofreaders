@@ -6,17 +6,13 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
 
-$tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
 // get cookie
 $npage = getPageCookie();
 
-// set page
-$tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
-
 // get page text
-$npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
+$npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
 
 // get bad page code
       $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");

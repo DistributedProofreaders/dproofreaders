@@ -5,17 +5,13 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
 
-$tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
 // get cookie
 $npage = getPageCookie();
 
-// set page
-$tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
-
 // get page text
-$npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
+$npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
 
 
 // set image and text height and width

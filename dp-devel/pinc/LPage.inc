@@ -8,6 +8,15 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'page_ops.inc');
 
+function nPage_getText( $npage )
+{
+    $tpage = new processpage();
+    $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npage['image'],$npage['proofstate']);
+    return $tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 class processpage
 {
   var $project='';
