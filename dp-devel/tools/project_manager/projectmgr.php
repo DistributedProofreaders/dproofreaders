@@ -112,6 +112,22 @@ theme("Project Managers", "header");
 			    <td>Author</td>
 			    <td><input type='text' name='author'></td>
 			</tr>
+			<tr>
+			    <td>State</td>
+			    <td>
+			    <select name='state'>
+				<option value=''>any state</option>
+		";
+		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
+		{
+		    echo "<option value='$proj_state_in_order'>";
+		    echo project_states_text($proj_state_in_order);
+		    echo "</option>\n";
+		}
+		echo "
+			    </select>
+			    </td>
+			</tr>
 			</table>
 			<input type='submit' value='Search'>
 		    </form>
@@ -148,6 +164,10 @@ theme("Project Managers", "header");
 			if ( $_GET['author'] != '' )
 			{
 			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
+			}
+			if ( $_GET['state'] != '' )
+			{
+			    $condition .= " AND state='{$_GET['state']}'";
 			}
         	} else {
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
