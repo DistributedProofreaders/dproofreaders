@@ -156,16 +156,25 @@ function users_get_page_tally_ranks()
 // -----------------------------------------------------------------------------
 
 function user_get_page_tally_neighborhood( $username, $radius, $consider_privacy )
+//
+// $radius is the (maximum) number of neighbors (on each side) to include in
+// the neighborhood. (It will include fewer that the maximum iff the target
+// user is within $radius of the corresponding end of the ranked list.)
+//
+// Return an array consisting of:
+//
+// -- The page-tally neighborhood of $username.
+//    This is an array:
+//    The keys are integers from the range [-$radius, +$radius],
+//    indicating a user's position relative to the target user (w.r.t. page tally).
+//    (So key=0 refers to the target user.)
+//    For a given key, the corresponding value is a PageTally_Neighbor object
+//    supplying various information about the page-tally neighbor.
+//    
+// -- The maximum current page tally rank of any user.
 {
-    $rankArray = get_user_page_tally_rank_array( $username, $consider_privacy );
-    $neighbors = user_get_page_tally_neighbors( $rankArray, $radius );
-    return array( $neighbors, $rankArray['totalRanks'] );
-}
+    assert( $radius >= 0 );
 
-function get_user_page_tally_rank_array( $username, $consider_privacy )
-// Return an array of information about page-tally ranks for users,
-// biased toward $username.
-{
     $rankArray = array();
 
     $result = mysql_query("
@@ -221,17 +230,6 @@ function get_user_page_tally_rank_array( $username, $consider_privacy )
     $rankArray['curMbrRank'] = $rankArray['rank'][$userindex];
     $rankArray['curMbrIndex'] = $userindex;
 
-    return $rankArray;
-}
-
-// -----------------------------------------------------------------------------
-
-function user_get_page_tally_neighbors( $rankArray, $radius )
-// $radius is the (maximum) number of neighbors (on each side) to include in
-// the neighborhood. (It will include fewer that the maximum iff the target
-// user is within $radius of the corresponding end of the ranked list.)
-{
-    assert( $radius >= 0 );
 
     $neighbors = array();
 
@@ -248,7 +246,7 @@ function user_get_page_tally_neighbors( $rankArray, $radius )
             );
     }
 
-    return $neighbors;
+    return array( $neighbors, $rankArray['totalRanks'] );
 }
 
 class PageTally_Neighbor
