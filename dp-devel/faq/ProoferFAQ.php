@@ -206,7 +206,7 @@ different pages.  This will significantly speed up the proofreading process.
           Project Gutenberg archive.  Combines all the pages into one big file, deals
           with words or paragraphs split across pages, moves footnotes &amp; sidenotes
           to the proper place, and generally makes sure that all the proofreaders were
-          consistent in the way the proofed the text, and then finally sends it on to
+          consistent in the way they proofed the text, and then finally sends it on to
           Project Gutenberg.
       <li><b>Website Help</b>.  We always welcome people to help in the work of
           maintaining and improving this website. Programmers (PHP, mySQL and some Java
