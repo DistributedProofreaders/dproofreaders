@@ -43,7 +43,7 @@ function saveProject() {
 		if (!empty($_FILES['projectfiles']['name'])) {
 			$filename = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip"));
 
-			if (!file_exists($uploads_dir/$pguser)) {
+			if (!file_exists("$uploads_dir/$pguser")) {
 				mkdir("$uploads_dir/$pguser", 0777);
 				chmod("$uploads_dir/$pguser", 0777);
 			}
@@ -84,14 +84,14 @@ function saveProject() {
 		//If the PM gave us a zip file let's upload it
 		if (!empty($_FILES['projectfiles']['name'])) {
 			$filename = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); //The file name w/o the .zip
-			if (!file_exists($uploads_dir/$pguser)) {
+			if (!file_exists("$uploads_dir/$pguser")) {
 				mkdir("$uploads_dir/$pguser", 0777);
 				chmod("$uploads_dir/$pguser", 0777);
 			}
 			mkdir("$uploads_dir/$pguser/$filename", 0777);
 			chmod("$uploads_dir/$pguser/$filename", 0777);
 			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $projects_dir/$projectid");
-			exec("unzip -o -j".$_FILES['projectfiles']['tmp_name']." -d $uploads_dir/$pguser/$filename");
+			exec("unzip -o -j ".$_FILES['projectfiles']['tmp_name']." -d $uploads_dir/$pguser/$filename");
 			insertTextFiles($filename, $projectid);
 			$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_UNAVAILABLE."' WHERE projectid = '$projectid'");
 		}
