@@ -260,7 +260,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$new_state == PROJ_POST_SECOND_AVAILABLE )
 	{
 		global $postcomments;
-		$postcomments = htmlspecialchars($postcomments, ENT_QUOTES);
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
 		$settings .= ", postcomments='{$postcomments}'";
