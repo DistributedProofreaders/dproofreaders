@@ -34,6 +34,9 @@ function echo_cells_for_round($round_num)
 		assert(FALSE);
 	}
 
+	// ------------------------------
+	// Date
+
 	$R_time = mysql_result($res, $rownum, $R_time_field_name);
 	if ($R_time == 0)
 	{
@@ -44,6 +47,9 @@ function echo_cells_for_round($round_num)
 		$R_time_str = date("M j H:i", $R_time);
 	}
 	echo "<td>$R_time_str</td>\n";
+
+	// ------------------------------
+	// User
 
 	$R_username = mysql_result($res, $rownum, $R_user_field_name);
 	if ($R_username == '')
@@ -72,16 +78,22 @@ function echo_cells_for_round($round_num)
 		echo "<td align='center'><a href=mailto:$R_email>$R_display_name</a> ($R_pages_completed)</td>\n";
 	}
 
-	$text_length = mysql_result($res, $rownum, $R_text_length_field_name);
+	// ------------------------------
+	// Text
 
-	if ( $text_length == 0 )
+	$R_text_length = mysql_result($res, $rownum, $R_text_length_field_name);
+
+	if ( $R_text_length == 0 )
 	{
 		echo "<td></td>\n";
 	}
 	else
 	{
-		echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$text_length&nbsp;b</a></td>\n";
+		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$R_text_length&nbsp;b</a></td>\n";
 	}
+
+	// ------------------------------
+	// Clear
 
 	// Anticipate the tests in checkin.php:
 	if (
@@ -284,7 +296,7 @@ function echo_cells_for_round($round_num)
 
 			// Master Text
 			$master_text_length = mysql_result($res, $rownum, "length(master_text)");
-			echo "<td><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">$master_text_length&nbsp;b</a></td>\n";
+			echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=".UNAVAIL_FIRST.">$master_text_length&nbsp;b</a></td>\n";
 
 			// --------------------------------------------
 
