@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'v_site.inc');
+include_once($relPath.'echo_project_info.inc');
 
 function generate_post_files( $project, $make_images_zip )
 // Generate the files needed for post-processing.
@@ -52,6 +53,7 @@ function write_project_comments($project, $fp)
 
     $myresult = mysql_query("SELECT comments FROM projects WHERE projectid = '$project'");
     $comments = mysql_result($myresult, 0, "comments");
+    $comments = parse_project_comments($comments); // insert e.g. templates and biographies
     fputs($fp,$comments);
 
     $footer = "</BODY></HTML>";
