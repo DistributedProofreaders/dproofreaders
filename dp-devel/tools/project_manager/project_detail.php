@@ -20,7 +20,7 @@ if (! user_is_PP_of( $projectid)) {
 }
 
 
-echo_manager_header( 'project_detail_page' );
+
 
 $can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
 
@@ -28,6 +28,8 @@ $can_edit = (user_is_PM_of( $projectid) || user_is_a_site_manager());
 $can_edit = FALSE;
 
 if ($can_edit) {
+
+echo_manager_header( 'project_detail_page' );
 
 echo "
 <p>
