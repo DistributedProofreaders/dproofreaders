@@ -37,22 +37,17 @@ return $to_echo;
 	    <form method=get action='proof_per.php'>
 	    <input type='hidden' name='filter' value='filter_on'>";
 
-    echo   _("Difficulty")."<br>";
-
-
-echo "All <input type='checkbox' name='difficulty1[]' value=''>";
-
-	echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
-echo 'Easy
-<input type="checkbox" name="difficulty1[]" value="easy">
-Average
-<input type="checkbox" name="difficulty1[]" value="average"> 
-Hard
-<input type="checkbox" name="difficulty1[]" value="hard">';
-
-
-
     echo "\r\n<table border=1 width=630>";
+    echo "\r\n<tr>";
+
+    echo _("Difficulty")." : ";
+    echo _("All")."<input type='checkbox' name='difficulty1[]' value=''>";
+    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">';
+    echo _("Easy").'<input type="checkbox" name="difficulty1[]" value="easy">';
+    echo _("Average").'<input type="checkbox" name="difficulty1[]" value="average">'; 
+    echo _("Hard").'<input type="checkbox" name="difficulty1[]" value="hard">';
+
+    echo "\r\n</tr>";
     echo "\r\n<tr>";
 
     echo   "<td>"._("Language")."</td>";
