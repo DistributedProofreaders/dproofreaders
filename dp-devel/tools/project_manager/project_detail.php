@@ -75,7 +75,7 @@ echo "<center>";
 
 
 echo "This is the $page_type Version of the Project Details page for this project."."<br>";
-echo "Also available is the "."<a href='project_detail.php?project=$projectid&type=$other_type>".
+echo "Also available is the "."<a href='project_detail.php?project=$projectid&type=$other_type'>".
 	"$other_type Version"."</a>.<br><br>";
 
 echo_project_info( $projectid, 'proj_post', 0 );
