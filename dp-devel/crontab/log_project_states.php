@@ -39,7 +39,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-	VALUES (date('Y'),date('m'),date('d'),date('Y-m-d'),'". $state."', $num_projects)";
+	VALUES (".date('Y').",".date('m').",".date('d').",".date('Y-m-d')",'". $state."', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -71,7 +71,7 @@ while (list ($state) = mysql_fetch_row ($result)) {
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES (date('Y'),date('m'),date('d'),date('Y-m-d'),'". $state."', 0)";
+               VALUES (".date('Y').",".date('m').",".date('d').",".date('Y-m-d')",'". $state."', 0)";
 	
         if ($testing_this_script)
           {
