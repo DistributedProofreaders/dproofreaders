@@ -65,7 +65,7 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 			if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>, ";
 
 			if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
-				$links=$links."<a href='".$code_url."/tools/correct/uploadcorr.php?project=".$row['projectid']."'>submit corrections</a>";
+				$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>submit corrections</a>";
 			} else {
 				$links=$links."under review";
 			}
