@@ -157,6 +157,19 @@ function autorelease($pagesleft) {
 		$track_by      = $cat['track_by'];
 		$target        = $cat['target'];
 
+		// Release available projects of a given type (defined by $projtype_sql) until a target number of
+		// PROJECTS or PAGES (depending on $track_by) of that type is available for proofing
+
+		// $track_by            what units do we measure by, "project" or "page"?
+		// $projtype_desc       human readable string describing this type of project
+		// $projtype_sql        portion of WHERE clause that defines this type of project
+		// $target              total number of units of this type we want available for proofing
+		// $numReleased            total number of units of this type already released before we start
+		// $count2ndRnd         if "yes", and tracking by "page", consider contribution towards target of second round
+
+		echo "\n";
+		echo "Considering $projtype_desc projects...\n";
+
 		if ($count2ndRnd == 'yes')
 		{
 			$which_rounds_sql = "(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')";
@@ -195,34 +208,12 @@ function autorelease($pagesleft) {
 			}
 		}
 
+		// if there's enough out there already, don't bother
 		if ($numReleased >= $target)
 		{
-			echo "Enough $projtype_desc {$track_by}s ($numReleased) already, no releases through the $projtype_desc Queue\n";
+			echo "  The number of $projtype_desc {$track_by}s ($numReleased) meets or exceeds the target ($target).\n";
+			echo "  So no releases from the $projtype_desc Queue\n";
 			continue;
-		}
-
-		// Release available projects of a given type (defined by $projtype_sql) until a target number of
-		// PROJECTS or PAGES (depending on $track_by) of that type is available for proofing
-
-		// $track_by            what units do we measure by, "project" or "page"?
-		// $projtype_desc       human readable string describing this type of project
-		// $projtype_sql        portion of WHERE clause that defines this type of project
-		// $target              total number of units of this type we want available for proofing
-		// $numReleased            total number of units of this type already released before we start
-		// $count2ndRnd         if "yes", and tracking by "page", consider contribution towards target of second round
-
-		echo "\n";
-		echo "Considering $projtype_desc projects...\n";
-
-		$newpagesreleased = 0;
-		$totalnewreleased = 0;
-		$num_projects_released = 0;
-
-		// if there's enough out there already, don't bother
-		if ($numReleased > $target)
-		{
-		    echo "We're currently exceeding ($numReleased) the target for this category ($target).\n";
-		    continue;
 		}
 
 		// set of candidates for release
@@ -245,6 +236,10 @@ function autorelease($pagesleft) {
 		// or   subject to the "no doubling up of authors" rule
 		// NB No other restrictions; specifically, $pagesneeded cannot influence SPs;
 		// this is so a huge book ariving from another queue won't stop the release of needed SPs
+
+		$newpagesreleased = 0;
+		$totalnewreleased = 0;
+		$num_projects_released = 0;
 
 		while ( $project = mysql_fetch_assoc($waiting_res) )
 		{
