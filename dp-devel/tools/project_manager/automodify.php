@@ -14,6 +14,7 @@ $projectinfo = new projectinfo();
 
 include($relPath.'project_trans.inc');
 include_once($relPath.'bookpages.inc');
+include_once($relPath.'page_ops.inc');
 
 include('autorelease.php');
 include('sendtopost.php');
@@ -224,7 +225,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $timetype = "round1_time";
         $texttype = "round1_text";
         $usertype = "round1_user";
-        $newstate = AVAIL_FIRST;
+        $round_number = 1;
     }
     else if ($state == PROJ_PROOF_SECOND_AVAILABLE ||
         $state == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE ||
@@ -239,7 +240,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $timetype = "round2_time";
         $texttype = "round2_text";
         $usertype = "round2_user";
-        $newstate = AVAIL_SECOND;
+        $round_number = 2;
     }
 
 
@@ -267,11 +268,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                if ($writeBIGtable) {
-	                $sql = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
-		}
-
-                $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                Page_reclaim( $projectid, $fileid, $round_number );
             }
             $page_num++;
         }
@@ -287,10 +284,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                if ($writeBIGtable) {
-	                $sql = mysql_query("UPDATE project_pages SET state = '$newstate', $timetype = '' WHERE projectid = '$projectid' AND fileid = '$fileid'");
-		}
-                $sql = mysql_query("UPDATE $projectid SET state = '$newstate', $timetype = '' WHERE fileid = '$fileid'");
+                Page_reclaim( $projectid, $fileid, $round_number );
             }
             $page_num2++;
         }
