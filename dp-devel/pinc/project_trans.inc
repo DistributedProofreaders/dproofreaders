@@ -302,12 +302,12 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			}
 		}
 
-		// Populate final_pg_count column on projects table with
+		// Populate final_page_count column on projects table with
 		// total number of pages in project when it was posted, so we have a 
 		// permanent record of number of pages in the project; needed for
 		// PP, PM, PPV stats by page
 
-		// Delete from the HEAP table all page counts, storing count in final_pg_count
+		// Delete from the HEAP table all page counts, storing count in final_page_count
 		// This next query can be used BOTH to determine existence of a row for the
 		// project in the HEAP table, and read the total if there is one
 
