@@ -478,6 +478,35 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 }
 
+function bgcol($rownum,$round_word)
+{
+	if ($round_word == 'first')
+	{
+		$bgcolor_odd = '#FFF8DC'; // cornsilk
+		$bgcolor_even = '#FFE4B5'; // mocassin
+	}
+	else if ($round_word == 'second')
+	{
+		$bgcolor_odd = '#D8BFD8'; // thistle
+		$bgcolor_even = '#DDA0DD'; // plum
+	}
+	else
+	{
+		assert(0);
+	}
+
+	if ($rownum % 2) 
+	{
+		$bgcolor = " bgcolor='" . $bgcolor_odd . "'";
+	}
+	else 
+	{
+		$bgcolor = " bgcolor='" . $bgcolor_even . "'";
+	}
+
+	return $bgcolor;
+}
+
 function startswith( $subject, $prefix )
 // Return TRUE iff $subject starts with $prefix.
 {
