@@ -15,6 +15,67 @@ $projectinfo = new projectinfo();
   include('autorelease.php');
   include('sendtopost.php');
 
+$trace = TRUE;
+
+// -----------------------------------------------------------------------------
+
+function pages_indicate_bad_project( $projectid, $round )
+// Do the states of the project's pages (in the given round)
+// indicate that the project is bad?
+{
+    global $trace;
+
+    if ($round == 1)
+    {
+        $BAD_PAGE_STATE = BAD_FIRST;
+        $AVAIL_PAGE_STATE = AVAIL_FIRST;
+    }
+    else if ($round == 2)
+    {
+        $BAD_PAGE_STATE = BAD_SECOND;
+        $AVAIL_PAGE_STATE = AVAIL_SECOND;
+    }
+
+    // If it has no bad pages, it's good.
+    //
+    $n_bad_pages = mysql_result(mysql_query("
+        SELECT COUNT(*) FROM $projectid WHERE state = '$BAD_PAGE_STATE'
+        "),0);
+    if ($trace) echo "n_bad_pages = $n_bad_pages<br>\n";
+    //
+    if ($n_bad_pages == 0) return FALSE;
+
+
+    // If it has at least 10 bad pages,
+    // reported by at least 3 different users, it's bad.
+    //
+    $n_unique_reporters = mysql_result(mysql_query("
+        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$BAD_PAGE_STATE'
+        "),0);
+    if ($trace) echo "n_unique_reporters = $n_unique_reporters<br>\n";
+    //
+    if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
+
+
+    // In round 2, if it has any bad pages
+    // and no available pages, it's bad.
+    //
+    if ($round == 2)
+    {
+        $n_avail_pages = mysql_result(mysql_query("
+            SELECT COUNT(*) FROM $projectid WHERE state = '$AVAIL_PAGE_STATE'
+            "),0);
+        if ($trace) echo "n_avail_pages = $n_avail_pages<br>\n";
+        if ($n_avail_pages == 0) return TRUE;
+    }
+
+    // Otherwise, it's good.
+    //
+    return FALSE;
+}
+
+// -----------------------------------------------------------------------------
+
   $one_project = isset($_GET['project'])?$_GET['project']:0;
   
   if ($one_project) {
@@ -37,52 +98,63 @@ $projectinfo = new projectinfo();
     $username = mysql_result($allprojects, $rownum, "username");
     $nameofwork = mysql_result($allprojects, $rownum, "nameofwork");
 
+    if ($trace)
+    {
+        echo "<br>\n";
+        echo "project = $project<br>\n";
+        echo "state   = $state<br>\n";
+    }
+
     $projectinfo->update($project, $state);
 
 //Bad Page Error Check
-if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
-	$bad_FirstRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_FIRST."'"));
-	$avail_FirstRound = mysql_num_rows(mysql_query("SELECT COUNT(*) FROM $project WHERE state = '".AVAIL_FIRST."'"));
-	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $project WHERE state='".BAD_FIRST."'");
-	$uniqueBadPages_FirstRound = mysql_result($result,0);
-	if ($bad_FirstRound >= 10 && $uniqueBadPages_FirstRound >=3) {
-		 $result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_FIRST_BAD_PROJECT."' WHERE projectid = '$project'");
-		 $state = PROJ_PROOF_FIRST_BAD_PROJECT;
-	}
-	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
-	$projectinfo->availablepages = $projectinfo->avail1_pages;
-} elseif ($state == PROJ_PROOF_FIRST_BAD_PROJECT && $one_project) {
-	$bad_FirstRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_FIRST."'"));
-	$avail_FirstRound = mysql_num_rows(mysql_query("SELECT COUNT(*) FROM $project WHERE state = '".AVAIL_FIRST."'"));
-	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $project WHERE state='".BAD_FIRST."'");
-	$uniqueBadPages_FirstRound = mysql_result($result,0);
-	if (($bad_FirstRound >= 10 && $uniqueBadPages < 3) || ($bad_FirstRound < 10)) {
-		$state = PROJ_PROOF_FIRST_AVAILABLE;
-	}
-	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
-	$projectinfo->availablepages = $projectinfo->avail1_pages;
-} elseif ($state == PROJ_PROOF_SECOND_AVAILABLE) {
-	$bad_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_SECOND."'"));
-	$avail_SecondRound = mysql_num_rows(mysql_query("SELECT COUNT(*) FROM $project WHERE state = '".AVAIL_SECOND."'"));
-	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $project WHERE state='".BAD_SECOND."'");
-	$uniqueBadPages_SecondRound = mysql_result($result,0);
-	if (($bad_SecondRound >= 10 && $uniqueBadPages_SecondRound >= 3) || ($bad_SecondRound > 0 && $avail_SecondRound = 0)) {
-		$result = mysql_query("UPDATE projects SET state = '".PROJ_PROOF_SECOND_BAD_PROJECT."' WHERE projectid = '$project'");
-		$state = PROJ_PROOF_SECOND_BAD_PROJECT;
-	}
-	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
-        $projectinfo->availablepages = $projectinfo->avail1_pages;
-} elseif ($state == PROJ_PROOF_SECOND_BAD_PROJECT && $one_project) {
-	$bad_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_SECOND."'"));
-	$avail_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".AVAIL_SECOND."'"));
-	$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $project WHERE state='".BAD_SECOND."'");
-	$uniqueBadPages_SecondRound = mysql_result($result,0);
-	if (($bad_SecondRound >= 10 && $uniqueBadPages_SecondRound < 3) || ($bad_SecondRound < 10 && $avail_SecondRound > 0)) {
-		$state = PROJ_PROOF_SECOND_AVAILABLE;
-	}
-	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
-        $projectinfo->availablepages = $projectinfo->avail1_pages;  
-}
+
+    foreach (array(1,2) as $round)
+    {
+        if ($round == 1)
+        {
+            $BAD_PROJECT_STATE = PROJ_PROOF_FIRST_BAD_PROJECT;
+            $AVAILABLE_PROJECT_STATE = PROJ_PROOF_FIRST_AVAILABLE;
+        }
+        else if ($round == 2)
+        {
+            $BAD_PROJECT_STATE = PROJ_PROOF_SECOND_BAD_PROJECT;
+            $AVAILABLE_PROJECT_STATE = PROJ_PROOF_SECOND_AVAILABLE;
+        }
+
+        if ( ($state == $AVAILABLE_PROJECT_STATE) || ($state == $BAD_PROJECT_STATE && $one_project) )
+        {
+            if ( pages_indicate_bad_project( $project, $round ) )
+            {
+                // This project's pages indicate that it's bad.
+                // If it isn't marked as such, make it so.
+                if ($trace) echo "project looks bad.<br>\n";
+                if ($state != $BAD_PROJECT_STATE)
+                {
+                    if ($trace) echo "changing its state to $BAD_PROJECT_STATE<br>\n";
+                    $result = mysql_query("UPDATE projects SET state = '$BAD_PROJECT_STATE' WHERE projectid = '$project'");
+                    $state = $BAD_PROJECT_STATE;
+                }
+            }
+            else
+            {
+                // Pages don't indicate that the project is bad.
+                // (Although it could be bad for some other reason. Hmmm.)
+                if ($trace) echo "project looks okay.<br>\n";
+                if ($state == $BAD_PROJECT_STATE)
+                {
+                    // We could change the project's state to
+                    // $AVAILABLE_PROJECT_STATE,
+                    // but we don't have to, because it will be set later
+                    // (either to that, or some other state value).
+                    if ($trace) echo "pretending to change its state to $AVAILABLE_PROJECT_STATE<br>\n";
+                    $state = $AVAILABLE_PROJECT_STATE;
+                }
+            }
+            $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
+            $projectinfo->availablepages = $projectinfo->avail1_pages;
+        }
+    }
 
     $projectinfo->update($project, $state);
     // Decide which round the project is in
@@ -192,6 +264,8 @@ if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
     }
     $rownum++;
   }
+
+  if ($trace) echo "<br>\n";
   
   if ($verbose) print "Total pages available = ".$pagesleft."<BR>";
 
