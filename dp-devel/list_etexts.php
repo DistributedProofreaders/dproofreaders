@@ -1,6 +1,7 @@
 <?php
 $relPath="./pinc/";
 include($relPath.'connect.inc');
+include($relPath.'bookpages.inc');
 $db_Connection=new dbConnect();
 
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
@@ -78,20 +79,25 @@ $links = "<br>";
 }
 
 $moddate = date("l, F jS, Y",$row['modifieddate']);
+$projectid = $row['projectid'];
 
 if ($type == "Gold") {
 $moddate = "Uploaded: ".$moddate;
 } elseif ($type == "Silver") {
 $moddate = "Last Proofed: ".$moddate;
+$pages = bookpages($projectid, "!=0");
+$totalpages = $pages['total'];
 } elseif ($type == "Bronze") {
 $moddate = "Released: ".$moddate;
+$pages = bookpages($projectid, "!=0");
+$totalpages = $pages['total'];
 }
 
-$projectid = $row['projectid'];
-$totalpages = mysql_query("SELECT fileid FROM $projectid");
-$totalpages = mysql_num_rows($totalpages);
+echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
 
-echo "<font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br>$totalpages pages; $moddate<br>$links</font>";
+if ($type != "Gold") echo "$totalpages pages; ";
+
+echo "$moddate<br>$links</font>";
 
 $numofetexts++;
 }
