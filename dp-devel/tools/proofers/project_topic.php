@@ -7,7 +7,8 @@ include($relPath.'dp_main.inc');
 //Declare variables
 $timeposted = time();
 $project_id = $_GET['project'];
-$post_ip = $_SERVER['REMOTE_ADDR'];
+$ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
+$post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
 $owner = 527;
 
 //Get info about project
@@ -27,7 +28,7 @@ $insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic
 $topic_id = mysql_insert_id();
 
 //Add Post into phpbb_posts
-$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, 2, $owner, $timeposted, '$post_ip', NULL, 1, 0, 1, 1, NULL, 0)");
+$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, 2, $owner, $timeposted, '$post_ip', '', 1, 0, 1, 0, NULL, 0)");
 $post_id = mysql_insert_id();
 
 //Add Post Text into phpbb_posts_text
