@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 function generate_post_files( $project, $make_images_zip )
 // Generate the files needed for post-processing.
@@ -316,8 +317,19 @@ function startswith( $subject, $prefix )
 
 function page_info_query( $projectid )
 {
+    $user_fields = "";
+    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $prd = get_PRD_for_round($rn);
+        $user_fields .= ", {$prd->user_column_name}";
+
+        if ( $rn == MAX_NUM_PAGE_EDITING_ROUNDS )
+        {
+            $final_text_column_name = $prd->text_column_name;
+        }
+    }
     $res = mysql_query("
-        SELECT image, round1_user, round2_user, round2_text
+        SELECT $final_text_column_name, image $user_fields
         FROM $projectid
         ORDER BY image
     ");
@@ -332,15 +344,17 @@ function page_info_fetch( $res )
 // -- an array of the usernames of the users who worked on the page in the rounds.
 // If there's no next page, return FALSE;
 {
-    $a = mysql_fetch_array($res);
+    $a = mysql_fetch_row($res);
     if (!$a) return FALSE;
 
-    list($filename,$round1_user,$round2_user,$text_data) = $a;
+    $text_data = $a[0];
+    $filename  = $a[1];
+    $proofer_names = array_slice( $a, 2 );
 
     return array(
         $text_data,
         $filename,
-        array( $round1_user, $round2_user )
+        $proofer_names
     );
 }
 
