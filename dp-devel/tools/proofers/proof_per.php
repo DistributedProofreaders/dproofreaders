@@ -7,7 +7,7 @@ include_once($relPath.'project_states.inc');
 
 
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
-theme("Personal Page for $pguser", "header");
+theme(_("Personal Page for $pguser"), "header");
 
 	// determine number of pages
 
