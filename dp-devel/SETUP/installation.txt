@@ -73,7 +73,7 @@ If you're upgrading from a previous version, things would be different ...
 --- At this point, your DP site should be functional.
     Try visiting it via your browser.
     Register as a new user.
-    Of course, there aren't any projects to proof yet.
+    Of course, there aren't any projects to proofread yet.
 
 --- Define queues...
 
