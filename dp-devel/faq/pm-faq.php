@@ -46,8 +46,6 @@ To become a PM, send an email to <? echo $PM_rights_giver_contact; ?>.
 <li><a href='#create'>Create the project.</a>
 <li><a href='#release'>Release it.</a>
 <li><a href='#shepherd'>Shepherd it through proofreading.</a>
-<li><a href='#postprocess'>Post-process it.</a>
-<li><a href='#submit_to_pg'>Submit it to Project Gutenberg.</a>
 </ol>
 </li>
 
