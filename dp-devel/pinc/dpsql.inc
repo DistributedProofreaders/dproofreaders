@@ -1,5 +1,4 @@
 <?
-$relPath = "../pinc/";
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
                 $theme_name = $userP['i_theme'];
         } else {
