@@ -13,12 +13,6 @@ include_once($relPath.'maybe_mail.inc');
 $popHelpDir='./../../faq/pophelp/project_manager/';
 include_once($relPath.'js_newpophelp.inc');
 
-$nameofwork='';
-$authorsname='';
-$language='';
-$authorsname='';
-$genre='';
-
 function encodeFormValue($value) {
   return htmlentities($value,ENT_QUOTES);
 }
@@ -35,11 +29,8 @@ function saveProject() {
 	if (empty($_POST['authorsname'])) { $errormsg .= "Author is required.<br>"; }
 	if (empty($_POST['pri_language'])) { $errormsg .= "Primary Language is required.<br>"; }
 	if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
-        if (!empty($_FILES['projectfiles']['name'])) { if(substr($_FILES['projectfiles']['name'], -4) != ".zip") { $errormsg 
-.= "File type must be ZIP.<br."; } }
-	if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, 
-strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name 
-of the zip file must be unique.<br>"; } }
+        if (!empty($_FILES['projectfiles']['name'])) { if(substr($_FILES['projectfiles']['name'], -4) != ".zip") { $errormsg .= "File type must be ZIP.<br."; } }
+	if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name of the zip file must be unique.<br>"; } }
 	if (isset($errormsg)) {
 		return $errormsg;
 		exit();
@@ -47,8 +38,7 @@ of the zip file must be unique.<br>"; } }
 
 	//Format the language as pri_language with sec_language if pri_language is set
 	//Otherwise set just the pri_language
-	if (!empty($_POST['sec_language'])) { $language = $_POST['pri_language']." with ".$_POST['sec_language']; } else { 
-$language = $_POST['pri_language']; }
+	if (!empty($_POST['sec_language'])) { $language = $_POST['pri_language']." with ".$_POST['sec_language']; } else { $language = $_POST['pri_language']; }
 
 	//If we are just updated an already existing project
 	if (isset($_POST['projectid'])) {
@@ -80,28 +70,27 @@ $language = $_POST['pri_language']; }
 			FROM marc_records
 			WHERE projectid = '{$_POST['projectid']}'
 		"); //Pull the current MARC record array from the database
-		$rec = mysql_result($result,0,"updated_array"); //Get the updated_marc array field
+		$rec = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); //Get the updated_marc array field
 		$updated_array = update_marc_db($rec); //Update the MARC record array in the database
 		$updated_marc = convert_standard_marc($updated_array); //Convert the updated array to a marc
 		mysql_query("
 			UPDATE marc_records
-			SET updated_marc = '$updated_marc'
-			WHERE projectid = '$_POST[projectid]'"); //Update the database with the updated marc
+			SET updated_marc = '".base64_encode(serialize($updated_marc))."'
+			WHERE projectid = '{$_POST['projectid']}'
+		"); //Update the database with the updated marc
 
 		//Lastly, let's update the Dublin Core file
-		create_dc_xml_oai($_POST['projectid'], $_POST['scannercredit'], $_POST['genre'], $language, 
-$_POST['authorsname'], $_POST['nameofwork'], $updated_array);
+		create_dc_xml_oai($_POST['projectid'], $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
 	} else {
 		global $projectid;
 
 		$projectid = uniqid("projectID"); //The project ID
-		$rec = $_POST['rec']; //get the marc record
+		$rec = unserialize(base64_decode($_POST['rec'])); //Decode the marc record
 
 		//Insert a new row into the projects table
 		mysql_query("
 			INSERT INTO projects
-				(nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, 
-modifieddate, scannercredit, state, clearance)
+				(nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance)
 			VALUES (
 				'{$_POST['nameofwork']}',
 				'{$_POST['authorsname']}',
@@ -134,10 +123,7 @@ modifieddate, scannercredit, state, clearance)
 				state VARCHAR(50) NOT NULL default '',
 				INDEX(state),
 				b_user VARCHAR(25) NOT NULL default '',
-				b_code INT(1) NOT NULL default '',
-                        metadata SET('badscan','blank','illustration','missing','drawing','math','frontmatter','backmatter','division','verse','poetry','letter','toc','footnote','sidenote','epigraph','table','list') NOT NULL default '',
-                        orig_page_num VARCHAR(6) NOT NULL default '',
-
+				b_code INT(1) NOT NULL default ''
 			)
 		");
 
@@ -153,7 +139,9 @@ modifieddate, scannercredit, state, clearance)
 			INSERT INTO marc_records
 				(projectid, original_marc, original_array)
 			VALUES (
-				'$projectid', '$original_marc', '$rec'
+				'$projectid',
+				'".base64_encode(serialize($original_marc))."',
+				'".base64_encode(serialize($rec))."'
 			)
 		");
 
@@ -164,13 +152,12 @@ modifieddate, scannercredit, state, clearance)
 		$updated_marc = convert_standard_marc($updated_array);
 		mysql_query("
 			UPDATE marc_records
-			SET updated_marc = '$updated_marc'
+			SET updated_marc = '".base64_encode(serialize($updated_marc))."'
 			WHERE projectid = '$projectid'
 		");
 
 		//Create a Dublin Core file in the projects_dir directory
-		create_dc_xml_oai($projectid, $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], 
-$_POST['nameofwork'], $updated_array);
+		create_dc_xml_oai($projectid, $_POST['scannercredit'], $_POST['genre'], $language, $_POST['authorsname'], $_POST['nameofwork'], $updated_array);
 	}
 
 	//If the project has been posted to PG let the users know
@@ -313,8 +300,7 @@ function previewProject($nameofwork, $authorsname, $comments) {
 		while ($i <= $template_count) {
 			$comments_backup = $comments;
 			$comments = substr($comments_backup, 0, strpos($comments_backup, "[template="))."<br>";
-			$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, 
-(strpos($comments_backup, "[template=")+10), 8));
+			$comments .= file_get_contents($relPath."templates/comment_files/".substr($comments_backup, (strpos($comments_backup, "[template=")+10), 8));
 			$comments .= "<br>".substr($comments_backup, (strpos($comments_backup, ".txt]")+5));
 			$i++;
 		}
@@ -322,16 +308,13 @@ function previewProject($nameofwork, $authorsname, $comments) {
 
 	echo "<br><table width='90%' border=1>";
 	echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
-	echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the 
-proofreaders.</b></td></tr>";
+	echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>";
 	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$nameofwork</td></tr>";
   	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$authorsname</td></tr>";
   	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>".$GLOBALS['pguser']."</td></tr>";
-  	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".date("l, F jS, Y")." at 
-".date("g:i:sA")."</td></tr>";
+  	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".date("l, F jS, Y")." at ".date("g:i:sA")."</td></tr>";
   	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>";
-  	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when 
-this has been posted to Project Gutenberg.</td></tr>";
+  	echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>";
 	echo "<tr><td colspan=2>$comments</td></tr></table><br><br>";
 }
 
@@ -351,16 +334,14 @@ function language_list($language) {
 	echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td><select name='pri_language'>";
 	echo "<option value=''>Primary Language</option>";
 	for ($i=0;$i<count($array_list);$i++)  {
-                $pri_lang = ($array_list[$i][lang_name]);
-		echo "<option value=$pri_lang";
+		echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
 		if ($pri_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
 		echo ">".$array_list[$i]['lang_name']."</option>";
 		}
 	echo "</select>&nbsp;&nbsp;<select name='sec_language'>";
 	echo "<option value=''>Secondary Language</option>";
 	for ($i=0;$i<count($array_list);$i++)  {
-                $sec_lang = ($array_list[$i][lang_name]);
-		echo "<option value= $sec_lang";
+		echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
 		if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
 		echo ">".$array_list[$i]['lang_name']."</option>";
 	}
@@ -368,13 +349,10 @@ function language_list($language) {
 }
 
 function genre_list($genre) {
-	$array_list = array('Art', 'Autobiography', 'Biography', 'Comedy', 'Comic Strip', 'Cooking', 'Drama', 'Essay', 
-'Fiction', 'Geography', 'Grammar', 'Historical', 'History', 'Humor', 'Letter', 'Linguistics', 'Math', 'Medicine', 'Mixed 
-Form', 'Music', 'Non Fiction', 'Novel', 'Periodical', 'Philosophy', 'Poetry', 'Religious', 'Romance', 'Science', 'Satire', 
-'Short Story', 'Speech', 'Travel', 'Unknown');
+	$array_list = array('Art', 'Autobiography', 'Biography', 'Comedy', 'Comic Strip', 'Cooking', 'Drama', 'Essay', 'Fiction', 'Geography', 'Grammar', 'Historical', 'History', 'Humor', 'Letter', 'Linguistics', 'Math', 'Medicine', 'Mixed Form', 'Music', 'Non Fiction', 'Novel', 'Periodical', 'Philosophy', 'Poetry', 'Religious', 'Romance', 'Science', 'Satire', 'Short Story', 'Speech', 'Travel', 'Unknown');
 	echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td><select name='genre'>";
 	for ($i=0;$i<count($array_list);$i++)  {
-		echo "<option value='$array_list[$i]'";
+		echo "<option value='".encodeFormValue($array_list[$i])."'";
 		if ($genre == $array_list[$i]) { echo " SELECTED"; }
 		echo ">$array_list[$i]</option>";
 		}
@@ -390,8 +368,7 @@ function difficulty_list($difficulty_level) {
         // only show the beginner level to the BEGIN PM or SiteAdmins
 	for ($i=0;$i<count($array_list);$i++)  {
                 if (($i > 0) || ($pguser == "BEGIN") || ($sa)) {
-                 $diff_level = (strtolower($array_list[$i]));
-                 echo "<input type='radio' name='difficulty_level' value='$diff_level'";
+ 		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
 		  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
 		  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
@@ -412,8 +389,7 @@ function query_format() {
 		if (stristr($_POST['author'], ",")) {
 			$author = $_POST['author'];
 		} else {
-			if (stristr($_POST['author'], " ")) { $author = substr($_POST['author'], strrpos($_POST['author'], " 
-")).", ".substr($_POST['author'], 0, strrpos($_POST['author'], " ")); }
+			if (stristr($_POST['author'], " ")) { $author = substr($_POST['author'], strrpos($_POST['author'], " ")).", ".substr($_POST['author'], 0, strrpos($_POST['author'], " ")); }
 		}
 		$fullquery = $fullquery.' @attr 1=1003 "'.trim($author).'"';
 		$attr_set++;
@@ -451,9 +427,7 @@ function query_format() {
 if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 	theme("Search Results", "header");
 	if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
-	if (!empty($_GET['fq'])) { $fullquery = $_GET['fq']; 
-
-      } else { $fullquery = query_format(); }
+	if (!empty($_GET['fq'])) { $fullquery = unserialize(base64_decode($_GET['fq'])); } else { $fullquery = query_format(); }
 
 	$id = yaz_connect("z3950.loc.gov:7090/Voyager");
 	yaz_syntax($id, "usmarc");
@@ -490,38 +464,26 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
         	$isbn = marc_isbn($rec);
 
         	if ($i % 2 == 1) {
-        		echo "<tr><td width='5%' align='center'><input type='radio' name='rec' value='$rec'></td>";
+        		echo "<tr><td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
         		echo "<td width='45%' align='left' valign='top'>";
 			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' 
-valign='top'>$title</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' 
-valign='top'>$author</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' 
-valign='top'>$publisher</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' 
-valign='top'>$language</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' 
-valign='top'>$lccn</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' 
-valign='top'>$isbn</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>";
         		echo "</table><p></td>";
         	} else {
-        		echo "<td width='5%' align='center'><input type='radio' name='rec' value='$rec'></td>";
+        		echo "<td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
         		echo "<td width='45%' align='left' valign='top'>";
        			echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' 
-valign='top'>$title</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' 
-valign='top'>$author</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' 
-valign='top'>$publisher</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' 
-valign='top'>$language</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' 
-valign='top'>$lccn</td></tr>";
-        		echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' 
-valign='top'>$isbn</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>";
+        		echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>";
         		echo "</table><p></td></tr>";
         		}
 
@@ -530,28 +492,21 @@ valign='top'>$isbn</td></tr>";
         }
         if ($i % 2 != 1) { echo "</tr>"; }
 
-        if (isset($_GET['start']) && ($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' 
-valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq='$fullquery'>Previous</a></td>"; } 
-else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
-        if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a 
-href='editproject.php?action=marc_search&start=$start&fq='$fullquery'>Next</a></td></tr>"; } else { echo "<td colspan='2' 
-width='50%'>&nbsp;</td></tr>"; }
+        if (isset($_GET['start']) && ($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
+        if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>"; }
 
         echo "</table><br><center>";
         if (yaz_hits($id) != 0) { echo "<input type='submit' value='Create the Project'>&nbsp;"; }
-        echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"editproject.php\";'>&nbsp;<input 
-type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input 
-type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
+        echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"editproject.php\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
         yaz_close($id);
         theme("", "footer");
 }
 
 // -----------------------------------------------------------------------------
 
-elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || 
-(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
+elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearch" || $_REQUEST['action'] == "createnew")) || (isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
 	if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
-	if (!empty($_POST['rec'])) { $rec = $_POST['rec'];}
+	if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
 	if(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
 		if (empty($_GET['project']) && empty($GLOBALS['projectid'])) {
@@ -584,50 +539,35 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
 	if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
 	if (empty($txtlink)) { $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.txt"; }
 	if (empty($ziplink)) { $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext06/XXXXX10.zip"; }
-	if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofing 
-Guidelines</a>.</p>"; }
+	if (empty($comments)) { $comments = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a>.</p>"; }
 	if (empty($scannercredit)) { $scannercredit = ""; }
 	if (empty($clearance)) { $clearance = ""; }
 	if (empty($htmllink)) { $htmllink = ""; }
 	if (empty($postednum)) { $postednum = ""; }
-	if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = 
-"average"; }
+	if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
 	theme("Create a Project", "header");
 	echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
-	if (!empty($rec)) { echo "<input type='hidden' name='rec' value='$rec'>"; }
+	if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
 	if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
 	if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
 	echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a New Project</font></b></center></td></tr>";
-	if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>Project ID</b></td><td>$projectid<input type='hidden' 
-name='projectid' value='$projectid'></td></tr>"; }
-        echo "<tr><td bgcolor='#CCCCCC'><b>Name of Work</b></td><td><input type='text' size='67' name='nameofwork' 
-value='$nameofwork'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Author's Name</b></td><td><input type='text' size='67' name='authorsname' 
-value='$authorsname'></td></tr>";
+	if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>Project ID</b></td><td>$projectid<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'></td></tr>"; }
+        echo "<tr><td bgcolor='#CCCCCC'><b>Name of Work</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Author's Name</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>";
         echo language_list($language);
         echo genre_list($genre);
         echo difficulty_list($difficulty_level);
-        echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' 
-value='$scannercredit'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' 
-value='$clearance'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' 
-value='$txtlink'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' 
-value='$ziplink'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' 
-value='$htmllink'></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' 
-value='$postednum'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Image Scanner Credit</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Clearance Information</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Text File URL</b></td><td><input type='text' size='67' name='txtlink' value='".encodeFormValue($txtlink)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Zip File URL</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>HTML File URL</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC'><b>Posted Number</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>";
         if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>Project Files</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>"; }
-        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>",$comments,"</textarea><br><b>[<a 
-href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>";
-        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and 
-Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' 
-value='Save and Preview'><input type='button' value='Quit Without Saving' 
-onclick='javascript:location.href=\"projectmgr.php\";'></td></tr></form>";
+        echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">How To Use A Template</a>]</center></td></tr>";
+        echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='Save and Quit'><input type='submit' name='saveAndProject' value='Save and Go To Project'><input type='submit' name='saveAndPreview' value='Save and Preview'><input type='button' value='Quit Without Saving' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr></form>";
 	echo "</table>";
 
 	if(isset($_POST['saveAndPreview'])) {
@@ -642,8 +582,7 @@ elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
 	$errorMsg = saveProject($_POST);
 	if (empty($errorMsg)) {
 		if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", "Save and Quit", ""); }
-		if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", "Save and Go 
-To Project", ""); }
+		if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", "Save and Go To Project", ""); }
 	} else {
 		theme("Project Error!", "header");
 		echo "<br><center><h3><font color='#ff0000'>$errorMsg</font></h3></center>";
@@ -657,8 +596,7 @@ else {
 	theme("Create a Project", "header");
 	if (!function_exists('yaz_connect')) {
 		echo "<br><center><b>PHP is not compiled with YAZ support.  Please do so and try again.</b></center><br>";
-		echo "<center>If you believe you should be seeing the Create Project page please contact a <a 
-href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></center>";
+		echo "<center>If you believe you should be seeing the Create Project page please contact a <a href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></center>";
 	} else {
 		echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
 		echo "<input type='hidden' name='action' value='marc_search'>";
@@ -666,20 +604,13 @@ href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></ce
 		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a Project</font></b></center></td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan='2'><center><font color='".$theme['color_navbar_font']."'>Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.</font></center></td></tr>";
 		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Title</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='title'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Author</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' 
-name='author'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publisher</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' 
-name='publisher'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publication Year (eg: 1912)</font></b></td><td bgcolor='#FFFFFF'><input type='text' 
-size='30' name='pubdate'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISBN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' 
-name='isbn'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISSN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' 
-name='issn'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>LCCN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' 
-name='lccn'></td></tr>";
-		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' 
-value='Search'></center></td></tr></form>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Author</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='author'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publisher</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='publisher'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>Publication Year (eg: 1912)</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='pubdate'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISBN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='isbn'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>ISSN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='issn'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' width='35%'><b><font color='".$theme['color_navbar_font']."'>LCCN</font></b></td><td bgcolor='#FFFFFF'><input type='text' size='30' name='lccn'></td></tr>";
+		echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' value='Search'></center></td></tr></form>";
 		echo "</table></center>";
 	}
 	theme("", "footer");
