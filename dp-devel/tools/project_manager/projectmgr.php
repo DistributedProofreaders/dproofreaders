@@ -250,7 +250,7 @@ abort_if_not_manager();
 
 			// experiment
 			// pink for Saint Valentine's Day
-                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
+                        if ( startswith( $comments, 'SPECIAL: St. Val' ) )
                         {
                                 $bgcolor = " '#FF99FF'";
                         }
