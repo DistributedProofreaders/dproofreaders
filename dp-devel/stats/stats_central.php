@@ -99,10 +99,10 @@ $sub_title = _("Project Management Statistics");
 echo "<tr><td><a href='pm_stats.php'>$sub_title</a></td>";
 
 $sub_title = _("Post-Processing Statistics");
-echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr></table><br>";
+echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr></table>";
 
 $sub_title = _("Post-Processing Verification Statistics");
-echo "<p align='center'><a href='ppv_stats.php'>$sub_title</a></p>";
+echo "<p align='center'><a href='ppv_stats.php'>$sub_title</a></p><br>";
 
 
 echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>";
