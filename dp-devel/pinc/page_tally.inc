@@ -25,8 +25,18 @@ foreach ( $PRD_for_round_id_ as $prd )
 
 // -----------------------------------------------------------------------------
 
-$users_P_page_tallyboard = new TallyBoard( 'P1', 'U' );
-$teams_P_page_tallyboard = new TallyBoard( 'P1', 'T' );
+// The following variables assume that the site has been configured with an
+// "Entry-Level Round" (ELR): a single round where new users start out and
+// become familiar with the site.  The page-tallies from this round are
+// distinguished from others in that they are (deemed to be) a fair indicator
+// of the user's experience.
+
+// This assignment particularly assumes that the ELR is the first round
+// defined in RoundDescriptor.inc.
+$ELR_prd = get_PRD_for_round(1);
+
+$users_P_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'U' );
+$teams_P_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
 
 // See TallyBoard.inc for explanation of these two strings:
 //
