@@ -45,7 +45,7 @@ if (! user_is_PP_of( $projectid)) {
 	abort_if_not_manager();
 }
 
-# insert url into $link_to_other_version
+// insert url into $link_to_other_version
 $link_to_other_version = sprintf($link_to_other_version, "project_detail.php?project=$projectid&type=$other_type");
 
 // project is readonly except for PM of project, site managers,
