@@ -3,7 +3,7 @@
 require_once 'v_site.inc';
 
 /**
- * User Class
+ * User Class.
  *
  * <p>Liberally scavenged from "user_is.inc". All the heavy lifting was developed
  * there by mdyck and big_bill - I simply rearranged it a bit into a class for
@@ -17,9 +17,31 @@ require_once 'v_site.inc';
  * through unit testing successfully.</p>
  */
 
+/*
+ * No class variables should be available outside - everything should be abstracted
+ * to a business-rule level property.
+ * Look for every opportunity to restrict access to internal field values if their
+ * only legitimate use is to support derived business-rule level properties.
+ * Decompose whenever possible. Example: methods with an argument indicating whether
+ * to switch something between True and False (with logic of the form:
+ * func($bool) { if($bool) what; else what-not; should be split into two methods
+ * funcTrue() { what; } and funcFalse() {what-not}.
+ */
+
+/* Questions:
+ *
+ * Is it desirable to make an object of this class simultaneous with a session?
+ * i.e. the constructor would process an submitted username and password pair,
+ * and return '' or an error message, per standard usage. (If it failed, it would
+ * linger as a zombie (all properties returning Null) until it went out of scope
+ * and died. If we can do this, the username/password handling becomes clearer.
+ */
+
+
 class User
 {
     var $users_phpbb;   // this is for one record from mysql, as an array.
+    var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;      // This is for the records from usersettings for this user.
     var $prefs;         // this is for the records from userprofiles for this user.
     var $stats;         // this is for the fields from a summary query from member_stats.
@@ -35,8 +57,11 @@ class User
      * or wherever it is.</p>
      */
 
-    function User($username)
+    function User($username, $password)
     {
+        $username = trim($userName) ;
+        $password = trim($password) ; 
+
         $this->logged_in = False;
         
         $sql = "SELECT u.*, bbu.*
@@ -45,6 +70,12 @@ class User
                 ON u.username = bbu.username
                 WHERE u.username = '$username'";
         $result = mysql_query($sql);
+
+        for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++
+        {
+            $meta = mysql_fetch_field($result, $i);
+            $users_phpbb_meta['$meta->name'] = $meta ;
+        }
 
         // take the result set as an associative array and tuck it away to use whenever
         // somebody asks for an attribute of our user.
@@ -82,7 +113,7 @@ class User
     /**
      * Saves User Information to Database
      *
-     * <p>Once block of code has made changes to the User object, that information
+     * Once block of code has made changes to the User object, that information
      * needs to sometimes go back into the database. This function puts all that
      * information back in.</p>
      *
@@ -105,7 +136,7 @@ class User
      * - returns an error message otherwise
      */
 
-    function logIn($password)
+    function _logIn($password)
     {
         $validUser = $this->validUser();
         $validPassword = $this->validPassword();
@@ -154,19 +185,25 @@ class User
      * - returns an error message explaining why it cannot be used.
      */
 
+     function _fieldLength($fieldname)
+     {
+         return $user_phpbb_meta['$fieldname'] ;
+     }
+
     function validUserName()
     {
-
         // This is the length of the 'username' field in the 'users' table.
-        $username_max_len = 25;
+        // $username_max_len = 25;
 
         if ($this->userName() == '') {
             $error = _("You did not supply a User Name (ID).");
             return $error;
         }
 
-        if (strlen($this->userName()) > $username_max_len) {
-            $error = _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
+        // if (strlen($this->userName()) > $username_max_len)
+        if (strlen($this->userName()) > $this->fieldLength('username')
+        {
+            $error = _("Your User Name is too long.<br>(The maximum is")." $this->fieldLength('username') "._("characters").".)";
             return $error;
         }
 
@@ -175,6 +212,8 @@ class User
             return $error;
         }
 
+        /*
+        // DAK: Just trim username when submitted in case it was inadvertent on the user's part.
         // In order to prevent one class of impersonations,
         // any space character in $this->userName() must have a non-space on either side.
         // Thus, no leading or trailing spaces, and no adjacent spaces.
@@ -183,6 +222,7 @@ class User
             $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
             return $error;
         }
+        */
 
         if (ereg("  ", $this->userName())) {
             $error = _("Your User Name contains adjacent space characters, which is not allowed.");
@@ -268,7 +308,7 @@ class User
      * - returns false otherwise
      */
 
-    function isUpdatesEmailed()
+    function updatesEmailed()
     {
 
     }
@@ -375,6 +415,8 @@ class User
      * <p>Verifies the current e-mail address is a reasonable/acceptable e-mail address.
      * Was taken from pinc/email_address.inc</p>
      *
+     * This belongs here iff no other code needs to check it (which probably is a goal.)
+     *
      * - returns an empty string if it is valid
      * - returns an error message otherwise
      */
@@ -384,18 +426,21 @@ class User
         // This is the length of the 'email' field in the 'users' table.
         $email_address_max_len = 50;
 
-        if ($this->emailAddress() == '') {
+        if ($this->emailAddress() == '')
+        {
             $error = _("You did not supply an E-mail Address.");
             return $error;
         }
 
-        if (strlen($this->emailAddress()) > $email_address_max_len) {
+        if (strlen($this->emailAddress()) > $email_address_max_len)
+        {
             $error = _("Your E-mail Address is too long.<br>(The maximum is")." $email_address_max_len "._("characters").".)";
             return $error;
         }
 
         $parts = explode('@', $this->emailAddress());
-        if (count($parts) == 1) {
+        if (count($parts) == 1)
+        {
             $error = _("Your E-mail Address does not contain an '@' sign.");
             return $error;
         }
@@ -1001,7 +1046,8 @@ class User
     }
 
     /**
-     *
+     * Internal user ID # of the User object.
+     * Should not be useful outside this class.
      */
 
     function setActiveFontFace($name)
@@ -1163,7 +1209,8 @@ class User
     }
 
     /**
-     *
+     * At the 'right time', this stuff should be spun off to
+     * a UI attribute class.
      */
 
     function horiziontalImageZoom()
@@ -1552,7 +1599,7 @@ class User
      * <p>Returns the number of columns of characters for the active proofreading layout.</p>
      */
 
-    function numActiveRows()
+    function numberActiveRows()
     {
         if ($this->isHoriziontalLayout()) {
             return $this->getPref($this->activeProfile(), 'h_tlines');
@@ -1583,7 +1630,7 @@ class User
      * <p>Returns the number of columns of characters for the active proofreading layout.</p>
      */
 
-    function numActiveColumns()
+    function numberActiveColumns()
     {
         if ($this->isHoriziontalLayout()) {
             return $this->getPref($this->activeProfile(), 'h_tchars');
@@ -1753,7 +1800,7 @@ class User
      * - returns "" otherwise
      */
 
-    function needsApostrophe()
+    function _needsApostrophe()
     {
         if ((substr($this->userName(), -1) != "s")
             ||  {
@@ -1784,11 +1831,24 @@ class User
     }
 
     /**
+     * Return the number of days between the dates on 
+     * which two date values occurred, removing funny
+     * stuff for earliness or lateness within day of each.
+     */
+
+    function _daysBetween($earlierdate, $laterdate)
+    {
+        return $laterdate / 24 / 60 / 60 - $earlierdate / 24 / 60 / 60 ;
+    }
+
+    /**
      * Number of Days Since User Account was Created
+     * Abstracted dates should be in native php form, not unix seconds.
      */
 
     function daysSinceCreated()
     {
+        return daysDiff( 
         return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
     }
 
@@ -1816,7 +1876,8 @@ class User
 
     function daysSinceLogin()
     {
-        return number_format(floor((((time() - $this->lastLogin()) / 24) / 60) / 60);
+        return daysBetween( $this->lastLogin(), getdate() ) ;
+        // return number_format(floor((((time() - $this->lastLogin()) / 24) / 60) / 60);
     }
 
     /**
@@ -1952,7 +2013,7 @@ class User
      * and is probably entirely appropriately locally within the class.</p>
      */
 
-    function getSetting($settingname)
+    function _getSetting($settingname)
     {
         return $this->settings[$settingname];
     }
@@ -1965,7 +2026,7 @@ class User
      * and is probably entirely appropriately locally within the class.</p>
      */
 
-    function setSetting($settingname, $value)
+    function _setSetting($settingname, $value)
     {
         $this->settings[$settingname] = $value;
     }
@@ -1980,7 +2041,7 @@ class User
      * <p>Returns the value for that preference</p>
      */
 
-    function getPref($prefname, $itemname)
+    function _getPref($prefname, $itemname)
     {
         if (!$prefname) {
             $prefname = 'default';
@@ -1997,7 +2058,7 @@ class User
      * it will put it into the 'default' preference group.</p>
      */
 
-    function setPref($prefname, $itemname, $value)
+    function _setPref($prefname, $itemname, $value)
     {
         if (!$prefname) {
             $prefname = 'default';
@@ -2014,12 +2075,12 @@ class User
      * <p>Returns the value of that field of the User object</p>
      */
 
-    function rowVal($name)
+    function _rowVal($name)
     {
         return $this->users_phpbb[$name];
     }
 
-    function setRowVal($name, $value)
+    function _setRowVal($name, $value)
     {
         $this->users_phpbb[$name] = $value;
     }
@@ -2077,7 +2138,7 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function enableBoolean($name)
+    function _enableBoolean($name)
     {
         $this->users_phpbb['$name'] = 'yes';
     }
@@ -2089,7 +2150,7 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function disableBoolean($name)
+    function _disableBoolean($name)
     {
         $this->users_phpbb['$name'] = '';
     }
@@ -2101,9 +2162,10 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function enableBooleanSetting($name)
+    function _enableBooleanSetting($name)
     {
-        $this->settings['$name'] = 'yes';
+        // $this->settings['$name'] = 'yes';
+        _enableBoolean($this->settings['$name']) ;
     }
 
     /*
@@ -2113,9 +2175,10 @@ class User
      * as it is dependent upon the current structure of the sub-system.</b></p>
      */
 
-    function disableBooleanSetting($name)
+    function _disableBooleanSetting($name)
     {
-        $this->settings['$name'] = '';
+        // $this->settings['$name'] = '';
+        disableBoolean($this->settings['$name']) ;
     }
 
     /**
@@ -2801,14 +2864,12 @@ class User
         // in mysql. But in the meantime...
 
         if (!isset($best)) {
-            $sql = "SELECT UNIX_TIMESTAMP(date_updated)
-                    AS BestDay
+            $sql = "SELECT UNIX_TIMESTAMP(date_updated) AS BestDay
                     FROM member_stats
-                    WHERE
-                    u_id = $this->userID()
+                    WHERE u_id = $this->userID()
                     AND daily_pagescompleted = $this->bestCountEver()
-                    ORDER BY date_updated
-                    DESC LIMIT 1";
+                    ORDER BY date_updated DESC
+                    LIMIT 1";
             $result = mysql_query($sql);
             $best = mysql_result($result, 0, "BestDay");
             // This is returned in a field that is a 
