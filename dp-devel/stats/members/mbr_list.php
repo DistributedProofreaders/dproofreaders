@@ -23,8 +23,8 @@ if (!empty($_GET['mstart'])) { $mstart = $_GET['mstart']; } else { $mstart = 0; 
 if (!empty($_REQUEST['uname'])) {
 	$mResult = mysql_query("
 		SELECT u_id, username, date_created, u_privacy,
-			$user_P_page_tally_column AS current_P_page_tally
-		FROM users $joined_with_user_P_page_tallies
+			$user_ELR_page_tally_column AS current_P_page_tally
+		FROM users $joined_with_user_ELR_page_tallies
 		WHERE username LIKE '%".$_REQUEST['uname']."%'
 		ORDER BY $order $direction
 		LIMIT $mstart,20
@@ -35,8 +35,8 @@ if (!empty($_REQUEST['uname'])) {
 } else {
 	$mResult=mysql_query("
 		SELECT u_id, username, date_created, u_privacy,
-			$user_P_page_tally_column AS current_P_page_tally
-		FROM users $joined_with_user_P_page_tallies
+			$user_ELR_page_tally_column AS current_P_page_tally
+		FROM users $joined_with_user_ELR_page_tallies
 		ORDER BY $order $direction
 		LIMIT $mstart,20
 	");

@@ -40,7 +40,7 @@ $teams_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
 
 // See TallyBoard.inc for explanation of these two strings:
 //
-list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
+list($joined_with_user_ELR_page_tallies,$user_ELR_page_tally_column) =
     $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
 // -----------------------------------------------------------------------------
@@ -89,11 +89,11 @@ function get_daily_average( $start_time, $total )
 function user_get_page_tally( $username )
 // Return the user's page tally.
 {
-    global $joined_with_user_P_page_tallies, $user_P_page_tally_column;
+    global $joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column;
 
     $res = mysql_query("
-        SELECT $user_P_page_tally_column
-        FROM users $joined_with_user_P_page_tallies
+        SELECT $user_ELR_page_tally_column
+        FROM users $joined_with_user_ELR_page_tallies
         WHERE username='$username'
     ") or die(mysql_error());
 

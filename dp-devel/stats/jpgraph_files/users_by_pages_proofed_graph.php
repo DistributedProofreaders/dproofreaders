@@ -23,7 +23,7 @@ $t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 
 // how many bars in the graph?
 $result0 = mysql_query("
-	SELECT max($user_P_page_tally_column) as maxpages FROM users $joined_with_user_P_page_tallies 
+	SELECT max($user_ELR_page_tally_column) as maxpages FROM users $joined_with_user_ELR_page_tallies 
 ");
 $maxpages = mysql_result($result0, 0,"maxpages");
 
@@ -32,12 +32,12 @@ $maxpages = mysql_result($result0, 0,"maxpages");
 //query db and put results into arrays
 $result = mysql_query("
 	SELECT
-		$user_P_page_tally_column        AS pagescompleted,
+		$user_ELR_page_tally_column        AS pagescompleted,
 		COUNT(*)                         AS n_all,
 		SUM(last_login > $t_90_days_ago) AS n_90d,
 		SUM(last_login > $t_28_days_ago) AS n_28d,
 		SUM(last_login > $t_7_days_ago)  AS n_7d
-	FROM users $joined_with_user_P_page_tallies
+	FROM users $joined_with_user_ELR_page_tallies
 	GROUP BY pagescompleted
 	ORDER BY pagescompleted ASC
 ");

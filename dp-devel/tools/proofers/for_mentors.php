@@ -42,7 +42,7 @@ function page_summary_sql($projectid)
     global $dynstats_url;
     global $users_ELR_page_tallyboard;
 
-    list($joined_with_user_P_page_tallies,$user_P_page_tally_column) =
+    list($joined_with_user_ELR_page_tallies,$user_ELR_page_tally_column) =
 	    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
     return "SELECT 
@@ -52,12 +52,12 @@ function page_summary_sql($projectid)
                     '\">',u.username,'</a>')
                 END AS " . _("Proofreader") . ",
                 COUNT(1) AS '" . _("Pages this project") . "',
-                $user_P_page_tally_column AS '" . _("Total Pages") . "',
+                $user_ELR_page_tally_column AS '" . _("Total Pages") . "',
                 DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
             FROM $projectid  AS p
                 INNER JOIN users AS u ON p.round1_user = u.username
                 INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
-		$joined_with_user_P_page_tallies
+		$joined_with_user_ELR_page_tallies
             GROUP BY p.round1_user" ;
 }
 

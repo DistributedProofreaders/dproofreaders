@@ -20,9 +20,9 @@ $result = mysql_query("
 		  AS month,
 		count(*)
 		  AS num_who_joined,
-		SUM($user_P_page_tally_column > 0)
+		SUM($user_ELR_page_tally_column > 0)
 		  AS num_who_proofed
-	FROM users $joined_with_user_P_page_tallies 
+	FROM users $joined_with_user_ELR_page_tallies 
 	GROUP BY month
 	ORDER BY month
 ");
