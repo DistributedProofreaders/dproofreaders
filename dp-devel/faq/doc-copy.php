@@ -11,6 +11,7 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
   <style TYPE="text/css">
 <!--
   tt {color: red}
+  pre {color: red}
         -->
   </style>
 <!--
@@ -42,6 +43,36 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
     </tr>
   </tbody>
 </table>
+
+<p>
+In mid-1973, the U.S. Copyright Office significantly changed the format
+(and collation order) of the entries in the Catalog of Copyright Entries.
+Thus, we have some different guidelines for the two formats,
+and also some common guidelines.
+</p>
+
+<h3>All years</h3>
+
+<ul>
+    <li>Leave in the special characters such as <b>&copy;</b>, <b>&eacute;</b>,
+        <b>&oacute;</b>, etc.                                                   </li>
+    <li>Follow the normal rules for hyphens (remove hyphens that split a word
+        across lines and join the word back together on the top line).          </li>
+    <li>Check very carefully the sequences like <tt>A867103. R111277</tt>.
+        The usual format is a capital letter followed by 6 numbers, but the OCR
+        scanner often has trouble with this, and frequently mis-reads them.     </li>
+    <li>Contrary to the
+        <a href="<? echo $code_url ?>/faq/document.php#abbrev">General Guidelines</a>,
+	do not remove spaces between initials in names.
+	For example, do not change
+	<tt>G.&nbsp;B.&nbsp;Shaw</tt> to
+	<tt>G.B.&nbsp;Shaw</tt>.
+
+
+</ul>
+
+<h3>1950 to mid-1973</h3>
+
   <ul>
     <li>Leave 2 blank lines before each author's name.                          </li>
     <li>CAPITALIZE the Authors entire name (first line of a main entry).
@@ -52,30 +83,14 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
     <li>Indent 5 spaces for the remaining lines of each sub-entry.              </li>
     <li>Leave 1 blank line between each sub-entry under an author.              </li>
     <li>Leave 2 blank lines between each main entry (each new author).          </li>
-    <li>Leave in the special characters such as <b>&copy;</b>, <b>&eacute;</b>,
-        <b>&oacute;</b>, etc.                                                   </li>
-    <li>Follow the normal rules for hyphens (remove hyphens that split a word
-        across lines and join the word back together on the top line).          </li>
-    <li>Check very carefully the sequences like <tt>A867103. R111277</tt>.
-        The usual format is a capital letter followed by 6 numbers, but the OCR
-        scanner often has trouble with this, and frequently mis-reads them.     </li>
     <li>Capitalize the word SEE when used to refer to another entry.
-        But the name referred to should be in normal case (only first letter
-        capitalized), <i>even if</i> it was in all caps on the printed page.
-        (An exception to our normal rules to "proof it like it was printed", but
-        the consistent format is important to the researchers using these
-        books.)
-        <br>(See a sample in the last entry of the example below.)             </li>
+	For the name that appears after the SEE,
+	reproduce the capitalization that appears in the image.
+	(We used to ask proofers to ensure that the name was in Title Case,
+	retyping it if necessary, but that guideline was withdrawn.)
     <br>
-    <li>Priority of guidelines:
-    <br>First, follow any special guidelines the Project Manager gives about this
-        specific book in the Project Comments.
-    <br>Then follow these general guidelines for Copyright Renewals.
-    <br>Finally, for anything not covered here, follow the standard rules in the
-        <a href="document.php">Proofing Guidelines</a>.</li>
-  </ul>
 
-<p>
+<li>
 <b>Example:</b>
 <table width="50%" border="1"  cellpadding="4"
        cellspacing="0"> <col width="128*">
@@ -117,6 +132,81 @@ BENNETT, MARIE MARGUERITE                                        <br>
     </tr>
   </tbody>
 </table>
+</ul>
+
+<h3>mid-1973 to 1977</h3>
+  <ul>
+    <li> Leave a blank line between each entry.
+         (Two blank lines is fine, too.)
+    </li>
+    <li> Reproduce the capitalization that appears in the image.
+    </li>
+    <li> Reproduce the line-breaks that appear in the image,
+         except to fix exposed hyphens.
+    </li>
+    <li> In each entry:
+      <ul>
+        <li>The first line is flush-left.</li>
+	<li>The second line is indented 3 spaces.</li>
+	<li>Subsequent lines are indented 5 spaces.</li>
+      </ul>
+    </li>
+
+<li>
+<b>Example:</b>
+(for <a href="<? echo $projects_url; ?>/projectID3f5be9a8c1685/269.png">this image</a>)
+<table width="50%" border="1"  cellpadding="4"
+       cellspacing="0"> <col width="128*">
+  <tbody>
+    <tr valign="top">
+      <td>
+      <pre>
+
+R554715.
+   Le Producteur de lait; guide du controle
+     laitier et beurrier. Par Andre
+     Max Leroy, Jacqueline Sentex &amp; Rodolphe
+     Stoeckel. © 21Feb46; AF1301. Andre
+     Max Leroy (A); 28Jun73; R554715.
+
+R554716.
+   Kitchener, marechal de l'Empire
+     britannique. By Leon Lemonnier.
+     © 14Mar46; AF1438. Madame Lemonnier,
+     nee Renee Legrand (W) &amp; Alice Lemonnier
+     (C); 28Jun73; R554716.
+
+R554717.
+   La France bourgeoise, dix huitieme-vingtieme
+     siecles. Par Charles Moraze,
+     pref. de Lucien Febvre. © 8Apr46;
+     AF2001. Charles Moraze (A); 28Jun73;
+     R554717.
+
+R554718.
+   La Maison des deux pigeons. Par
+     Andre DeLaTourrasse, illus. de
+     A. Pecoud. © 9May46; AF2304. Andre
+     DeLaTourrasse (A); 28Jun73; R554718.
+      </pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</ul>
+
+<h3>Priority of guidelines:</h3>
+
+<ul>
+    <li>First, follow any special guidelines the Project Manager gives about this
+        specific book in the Project Comments.
+    <li>Then follow these general guidelines for Copyright Renewals.
+    <li>Finally, for anything not covered here, follow the standard rules in the
+        <a href="document.php">Proofing Guidelines</a>.
+	(Although really, if you find yourself going there to resolve a question,
+	you'd probably be better off asking in the project's discussion topic.)
+    </li>
+</ul>
 
 <table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
 <tr><td width='10'>&nbsp;</td>
