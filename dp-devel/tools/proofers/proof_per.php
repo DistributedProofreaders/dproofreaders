@@ -81,6 +81,16 @@ include($relPath.'showavailablebooks.inc');
         $yourrank = 1;
     }
 
+echo "User Preferences: <b>";
+if ($userP['prefschanged']==1)
+{echo "<a href=\"../../userprefs.php\">Save current changes</a>";}
+else {
+if ($userP['i_prefs']==1)
+{echo "<a href=\"../../userprefs.php\">View</a>";}
+else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
+}
+echo "</b><br>";
+
     echo "Total users who completed at least 1 page:<font color=\"#0000FF\"><b> $totalusers</b></font><br><P>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
@@ -196,6 +206,7 @@ neighbors <input type="submit" name="go" value="Go" /></p>
 <p>
 <p>
 
+<font color=#FF0000><B>If having troubles setting users prefs, <a href="../logout.php">Logout</a> and sign in again. Site cookies have changed to hold the preferences.</B><P></font>
 <b>See whats new in the <a href = "../../phpBB2/index.php">Forums</a></b>
 <?
 
