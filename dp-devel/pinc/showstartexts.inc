@@ -7,10 +7,10 @@ if ($type == "bronze") {
 $state = "state=2 OR state=12 OR state=8 OR state=18";
 $text = " Now Proofing.</font>  The book is currently being processed through this site, sign in and start helping!!!! <br>";
 } elseif ($type == "silver") {
-$state = "state>=19 AND state<=29";
+$state = "state>=60 AND state<79";
 $text = " In Progress.</font>  The book has been processed through this site but not yet posted to the Project Gutenberg archive (going through final proofing/assembly).<br>";
 } elseif ($type == "gold") {
-$state = "state=30";
+$state = "state=79";
 $text = " Complete.</font>  The book has been processed through this site and posted to the Project Gutenberg archive.<br>";
 }
 
