@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
+include_once($relPath.'button_defs.inc');
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
@@ -65,26 +66,26 @@ echo $docType."\r\n";
   echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
   echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
 ?>
-<INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1" title="Save as 'In Progress'">
+<? echo_button(SAVE_AS_IN_PROGRESS,'s'); ?>
 <?PHP
 	if (!isset($editone))
 	{
-		echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\" title=\"Save as 'Done' & Proof Next Page\"> ";
+		echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'s');
 	}
 ?>
-<INPUT TYPE="Submit" accesskey="5" VALUE="Save and Quit" name="button5" title="Save as 'Done'">
-<INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Proofing?'));" VALUE="Quit" name="button3" title="Stop Proofing">
+<? echo_button(SAVE_AS_DONE_AND_QUIT,'s'); ?>
+<? echo_button(QUIT,'s'); ?>
 <BR>
-<INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>">
-<INPUT TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));">
+<? echo_button(CHANGE_LAYOUT,'s'); ?>
+<? echo_button(RETURN_PAGE,'s'); ?>
 <?
 	if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
 	{
-		echo "<INPUT TYPE='submit' accesskey='4' name='button6' ID='button6' value='Report Bad Page'>";
+		echo_button(REPORT_BAD_PAGE,'s');
 	}
 ?>
 <BR>
-<INPUT TYPE="submit" name="button10" ID="button10" value="Spell Check">
+<? echo_button(SPELL_CHECK,'s'); ?>
 <br>
 <?
 //display page number
