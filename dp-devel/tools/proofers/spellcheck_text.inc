@@ -2,13 +2,13 @@
 include_once($relPath.'v_site.inc');
 
 $orig_line_i=0;
-$orig_line='';
+$orig_lines=Array();
 $orig_start=0;
 $n_bad_words=0;
 
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
-	global $orig_line,$orig_line_i,$orig_start,$n_bad_words;
+	global $orig_lines,$orig_line_i,$orig_start,$n_bad_words;
 
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
 
@@ -79,22 +79,22 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 	// print text with html
 	echo "<pre>";
-	$orig_line = '';
 	foreach($asrm_lines as $asrm_line)
 	{
 		if (strcmp($asrm_line,"[ok]")==0)
 		{
 			// print text as is
-			echo escapeStringEntities($orig_lines[$orig_line_i])."<BR>\n";
+			$orig_start = 0;
+			flush_orig( 1000000 );
+			echo "<BR>\n";
 			$orig_line_i++;
 		}
 		else if (strcmp($asrm_line,"[nl]")==0)
 		{
 			// new line
-			echo substr($orig_line,$orig_start);
+			flush_orig( 1000000 );
 			echo "<BR>\n";
 			$orig_start = 0;
-			$orig_line = '';
 			$orig_line_i++;
 		}
 		else if (strcmp($asrm_line{0},'#')==0)
@@ -103,6 +103,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			$asrm_fields = explode(' ',$asrm_line);
 			$orig_word        = $asrm_fields[1];
 			$orig_word_offset = $asrm_fields[2];
+			flush_orig( $orig_word_offset );
 			spellSuggest($orig_word, 0, $orig_word_offset, '');
 		}
 		else if (strcmp($asrm_line{0},'&')==0)
@@ -115,7 +116,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			$n_suggs          = $asrm_fields[2];
 			$orig_word_offset = $asrm_fields[3];
 			$suggs_str        = trim($sug_array[1]);
-			$orig_line        = $orig_lines[$orig_line_i];
+			flush_orig( $orig_word_offset );
 			spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str);
 		}
 		else
@@ -123,19 +124,27 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			echo "Error Processing Aspell return data<BR>\n";
 		}
 	} // end display text for spelling
+	flush_orig( 1000000 );
 	echo "</pre>";
 
 	echo "<input type='hidden' name='sptotal' value='$n_bad_words'>";
 }
 
+function flush_orig( $orig_word_offset )
+{
+	global $orig_lines, $orig_line_i, $orig_start;
+
+	$orig_line = $orig_lines[$orig_line_i];
+	$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
+	echo escapeStringEntities($orig_str);
+}
+
 function spellSuggest($orig_word, $n_suggs, $orig_word_offset, $suggs_str)
 {
 	// echo "spellSuggest( orig_word='$orig_word', n_suggs=$n_suggs, orig_word_offset=$orig_word_offset, suggs_str='$suggs_str' )<br>\n";
-	global $orig_line,$orig_line_i,$orig_start,$n_bad_words;
+	global $orig_line_i,$orig_start,$n_bad_words;
 
 	$n_bad_words++;
-
-	echo escapeStringEntities(substr($orig_line,$orig_start,($orig_word_offset-1)-$orig_start));
 
 	$orig_word = escapeStringEntities($orig_word);
 
