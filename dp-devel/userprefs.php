@@ -2,16 +2,6 @@
 $relPath="./pinc/";
 include($relPath.'dp_main.inc');
 
-function radio_select($db_name, $db_value, $value, $text_name) {
-if (strtolower($db_value) == strtolower($value)) {
-echo "<input type='radio' name='$db_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;&nbsp;&nbsp;";
-} else {
-echo "<input type='radio' name='$db_name' value='$value'>$text_name&nbsp;&nbsp;&nbsp;&nbsp;";
-} }
-
-//TODO Make pretty
-// TODO Make some of the repetitive stuff functions
-
 $uid = $userP['user_id'];
 
 $p_l= array('no rounds','first round','second round','both rounds');
@@ -19,6 +9,26 @@ $u_l= array('English','French','German','Spanish');
 $i_r= array('640x480','800x600','1024x768','1152x864','1280x1024','1600x1200');
 $f_f= array('Browser Default','Courier','Times','Arial','Lucida','Monospaced');
 $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
+
+function radio_select($db_name, $db_value, $value, $text_name) {
+if (strtolower($db_value) == strtolower($value)) {
+echo "<input type='radio' name='$db_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
+} else {
+echo "<input type='radio' name='$db_name' value='$value'>$text_name&nbsp;&nbsp;";
+} }
+
+function dropdown_select($db_name, $db_value, $array) {
+$array_list = explode('|', $array);
+echo "<select name='$db_name' ID='$db_name'>";
+for ($i=0;$i<count($array_list);$i++)  {
+echo "<option value='$i'";
+if ($db_value == $i) { echo " SELECTED"; }
+echo ">$array_list[$i]</option>";
+} echo "</select>"; }
+
+
+
+
 
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
@@ -46,253 +56,149 @@ $email_updates = $userP['email_updates'];
 $project_listing = $userP['project_listing'];
 
 echo "<form action='userprefs.php' method='post'>";
-echo "<center>Preferences Page</center><br><br>";
+echo "<center>Preferences Page for $pguser</center><br><br>";
 echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>";
-echo "<tr>";
-echo "<td width='21%'>Name:</td>";
-echo "<td width='79%'><input type='text' name='real_name' value='$real_name'></td>";
-echo "</tr>";
-echo "<tr>";
-echo "<td width='21%'>Email:</td>";
-echo "<td width='79%'><input type='text' name='email' value='$email'></td>";
-echo "</tr>";
-echo "<tr>";
-echo "<td width='21%'>Email Updates:</td>";
-echo "<td width='79%'>";
+
+echo "<tr><td width='21%'>Name:</td>";
+echo "<td width='79%'><input type='text' name='real_name' value='$real_name'></td></tr>";
+
+echo "<tr><td width='21%'>Email:</td>";
+echo "<td width='79%'><input type='text' name='email' value='$email'></td></tr>";
+
+echo "<tr><td width='21%'>Email Updates:</td><td width='79%'>";
 radio_select('email_updates', $email_updates, '1', 'Yes');
 radio_select('email_updates', $email_updates, '0', 'No');
-echo "</td>";
-echo "</tr>";
-echo "<tr>";
-echo "<td width='21%'>Show projects from:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"project_listing\" ID=\"project_listing\">";
-for ($i=0;$i<count($p_l);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['project_listing']==$i)
-{echo " selected";}
-echo ">$p_l[$i]</option>";}
-echo "</select>";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Language:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"u_lang\" ID=\"u_lang\">";
-for ($i=0;$i<count($u_l);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['u_lang']==$i)
-{echo " selected";}
-echo ">$u_l[$i]</option>";}
-echo "</select>";
+echo "<tr><td width='21%'>Show projects from:</td><td width='79%'>";
+$array = implode('|', $p_l);
+dropdown_select('project_listing', $userP['project_listing'], $array);
+echo "</td></tr>";
+
+echo "<tr><td width='21%'>Language:</td><td width='79%'>";
+$array = implode('|', $u_l);
+dropdown_select('u_lang', $userP['u_lang'], $array);
 echo "</td></tr>";
 
 echo "<tr><td colspan=\"2\" align=\"center\">Interface Preferences</td></tr>";
-echo "<tr>";
-echo "<td width='21%'>Screen Resolution:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"i_res\" ID=\"i_res\">";
-for ($i=0;$i<count($i_r);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['i_res']==$i)
-{echo " selected";}
-echo ">$i_r[$i]</option>";}
-echo "</select>";
+
+echo "<tr><td width='21%'>Screen Resolution:</td><td width='79%'>";
+$array = implode('|', $i_r);
+dropdown_select('i_res', $userP['i_res'], $array);
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Interface Type:</td>";
-if ($userP['i_type'] == "0") {
-echo "<td width='79%'><input type='radio' checked name='i_type' value='0'>Standard&nbsp;&nbsp;<input type='radio' name='i_type' value='1'>Enhanced</td>";
-} else {
-echo "<td width='79%'><input type='radio' name='i_type' value='0'>Standard&nbsp;&nbsp;<input type='radio' checked name='i_type' value='1'>Enhanced</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Interface Type:</td><td width='79%'>";
+radio_select('i_type', $userP['i_type'], 0, 'Standard');
+radio_select('i_type', $userP['i_type'], 1, 'Enhanced');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Interface Layout:</td>";
-if ($userP['i_layout'] == "0") {
-echo "<td width='79%'><input type='radio' checked name='i_layout' value='0'><img src=\"tools/proofers/gfx/bt5.png\" width=\"26\" alt=\"Horizontal\">&nbsp;&nbsp;<input type='radio' name='i_layout' value='1'><img src=\"tools/proofers/gfx/bt4.png\" width=\"26\" alt=\"Vertical\"></td>";
-} else {
-echo "<td width='79%'><input type='radio' name='i_layout' value='0'><img src=\"tools/proofers/gfx/bt5.png\" width=\"26\" alt=\"Horizontal\">&nbsp;&nbsp;<input type='radio' checked name='i_layout' value='1'><img src=\"tools/proofers/gfx/bt4.png\" width=\"26\" alt=\"Vertical\"></td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Interface Layout:</td><td width='79%'>";
+radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt5.png" width="26" alt="Horizontal">');
+radio_select('i_layout', $userP['i_layout'], 1, '<img src="tools/proofers/gfx/bt4.png" width="26" alt="Vertical">');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Launch in New Window:</td>";
-if ($userP['i_newwin'] == "0") {
-echo "<td width='79%'><input type='radio' name='i_newwin' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='i_newwin' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='i_newwin' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='i_newwin' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Launch in New Window:</td><td width='79%'>";
+radio_select('i_newwin', $userP['i_newwin'], 1, 'Yes');
+radio_select('i_newwin', $userP['i_newwin'], 0, 'No');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Show Toolbar:</td>";
-if ($userP['i_toolbar'] == "0") {
-echo "<td width='79%'><input type='radio' name='i_toolbar' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='i_toolbar' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='i_toolbar' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='i_toolbar' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Show Toolbar:</td><td width='79%'>";
+radio_select('i_toolbar', $userP['i_toolbar'], 1, 'Yes');
+radio_select('i_toolbar', $userP['i_toolbar'], 0, 'No');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Show Statusbar:</td>";
-if ($userP['i_statusbar'] == "0") {
-echo "<td width='79%'><input type='radio' name='i_statusbar' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='i_statusbar' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='i_statusbar' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='i_statusbar' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Show Statusbar:</td><td width='79%'>";
+radio_select('i_statusbar', $userP['i_statusbar'], 1, 'Yes');
+radio_select('i_statusbar', $userP['i_statusbar'], 0, 'No');
+echo "</td></tr>";
 
 echo "<tr><td colspan=\"2\" align=\"center\">Vertical Interface Preferences</td></tr>";
-echo "<tr>";
-echo "<td width='21%'>Font Face:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"v_fntf\" ID=\"v_fntf\">";
-for ($i=0;$i<count($f_f);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['v_fntf']==$i)
-{echo " selected";}
-echo ">$f_f[$i]</option>";}
-echo "</select>";
+
+echo "<tr><td width='21%'>Font Face:</td><td width='79%'>";
+$array = implode('|', $f_f);
+dropdown_select('v_fntf', $userP['v_fntf'], $array);
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Font Size:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"v_fnts\" ID=\"v_fnts\">";
-for ($i=0;$i<count($f_s);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['v_fnts']==$i)
-{echo " selected";}
-echo ">$f_s[$i]</option>";}
-echo "</select>";
+echo "<tr><td width='21%'>Font Size:</td><td width='79%'>";
+$array = implode('|', $f_s);
+dropdown_select('v_fnts', $userP['v_fnts'], $array);
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Image Zoom:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Image Zoom:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"v_zoom\" value=\"{$userP['v_zoom']}\" size=\"3\">% of 1000 pixels";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Text Frame Size:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Text Frame Size:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"v_tframe\" value=\"{$userP['v_tframe']}\" size=\"3\">% of browser width";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Scroll Text Frame:</td>";
-if ($userP['v_tscroll'] == "0") {
-echo "<td width='79%'><input type='radio' name='v_tscroll' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='v_tscroll' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='v_tscroll' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='v_tscroll' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Scroll Text Frame:</td><td width='79%'>";
+radio_select('v_tscroll', $userP['v_tscroll'], 1, 'Yes');
+radio_select('v_tscroll', $userP['v_tscroll'], 0, 'No');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Number of Text Lines:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Number of Text Lines:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"v_tlines\" value=\"{$userP['v_tlines']}\" size=\"3\">";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Length of Text Lines:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Length of Text Lines:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"v_tchars\" value=\"{$userP['v_tchars']}\" size=\"3\"> characters";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Wrap Text:</td>";
-if ($userP['v_twrap'] == "0") {
-echo "<td width='79%'><input type='radio' name='v_twrap' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='v_twrap' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='v_twrap' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='v_twrap' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Wrap Text:</td><td width='79%'>";
+radio_select('v_twrap', $userP['v_twrap'], 1, 'Yes');
+radio_select('v_twrap', $userP['v_twrap'], 0, 'No');
+echo "</td></tr>";
 
 echo "<tr><td colspan=\"2\" align=\"center\">Horizontal Interface Preferences</td></tr>";
-echo "<tr>";
-echo "<td width='21%'>Font Face:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"h_fntf\" ID=\"h_fntf\">";
-for ($i=0;$i<count($f_f);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['h_fntf']==$i)
-{echo " selected";}
-echo ">$f_f[$i]</option>";}
-echo "</select>";
+
+echo "<tr><td width='21%'>Font Face:</td><td width='79%'>";
+$array = implode('|', $f_f);
+dropdown_select('h_fntf', $userP['h_fntf'], $array);
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Font Size:</td>";
-echo "<td width='79%'>";
-echo "<select name=\"h_fnts\" ID=\"h_fnts\">";
-for ($i=0;$i<count($f_s);$i++)
-{echo "<option value=\"$i\"";
-if ($userP['h_fnts']==$i)
-{echo " selected";}
-echo ">$f_s[$i]</option>";}
-echo "</select>";
+echo "<tr><td width='21%'>Font Size:</td><td width='79%'>";
+$array = implode('|', $f_s);
+dropdown_select('h_fnts', $userP['h_fnts'], $array);
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Image Zoom:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Image Zoom:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"h_zoom\" value=\"{$userP['h_zoom']}\" size=\"3\">% of 1000 pixels";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Text Frame Size:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Text Frame Size:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"h_tframe\" value=\"{$userP['h_tframe']}\" size=\"3\">% of browser height";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Scroll Text Frame:</td>";
-if ($userP['h_tscroll'] == "0") {
-echo "<td width='79%'><input type='radio' name='h_tscroll' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='h_tscroll' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='h_tscroll' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='h_tscroll' value='0'>No</td>";
-}
-echo "</tr>";
+echo "<tr><td width='21%'>Scroll Text Frame:</td><td width='79%'>";
+radio_select('h_tscroll', $userP['h_tscroll'], 1, 'Yes');
+radio_select('h_tscroll', $userP['h_tscroll'], 0, 'No');
+echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Number of Text Lines:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Number of Text Lines:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"h_tlines\" value=\"{$userP['h_tlines']}\" size=\"3\">";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Length of Text Lines:</td>";
-echo "<td width='79%'>";
+echo "<tr><td width='21%'>Length of Text Lines:</td><td width='79%'>";
 echo "<input type=\"text\" name=\"h_tchars\" value=\"{$userP['h_tchars']}\" size=\"3\"> characters";
 echo "</td></tr>";
 
-echo "<tr>";
-echo "<td width='21%'>Wrap Text:</td>";
-if ($userP['h_twrap'] == "0") {
-echo "<td width='79%'><input type='radio' name='h_twrap' value='1'>Yes&nbsp;&nbsp;<input type='radio' checked name='h_twrap' value='0'>No</td>";
-} else {
-echo "<td width='79%'><input type='radio' checked name='h_twrap' value='1'>Yes&nbsp;&nbsp;<input type='radio' name='h_twrap' value='0'>No</td>";
-}
-echo "</tr>";
-
-
-
-
+echo "<tr><td width='21%'>Wrap Text:</td><td width='79%'>";
+radio_select('h_twrap', $userP['h_twrap'], 1, 'Yes');
+radio_select('h_twrap', $userP['h_twrap'], 0, 'No');
+echo "</td></tr>";
 echo "</table>";
+
+
 if (isset($project) && isset($proofstate))
 {echo "<input type='hidden' name='project' value='$project'>";
 echo "<input type='hidden' name='proofstate' value='$proofstate'>";}
-
 echo "<input type='hidden' name='insertdb' value='true'><br><br>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
-echo "<center><input type='submit' value='Quit' name='quitnc'> ";
 if ($userP['prefschanged']==1)
-{echo "<input type='submit' value='Restore to Saved Preferences' name='restorec'> ";}
-echo "<input type='submit' value='Save Preferences' name='change'></center>";
+{echo "<center><input type='submit' value='Restore to Saved Preferences' name='restorec'> ";}
+echo "<center><input type='submit' value='Save Preferences' name='change'>";
+echo "<input type='submit' value='Quit' name='quitnc'></center>";
 echo "</form></body></html>";
 } else {
 $user_id = $_POST['user_id'];
