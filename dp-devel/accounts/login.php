@@ -26,7 +26,7 @@ $uC=$userC->checkLogin($userNM,$userPW);
 // isn't this the same as the manager field in users?
 //        $result = mysql_query("SELECT value FROM usersettings WHERE username = '$username' AND setting = 'manager'");
 // needs to be included in user.inc, if not....
-          if ($uP->manager=='yes')
+          if ($userC->manager=='yes')
           {echo $htmlStart."project_manager/projectmgr".$htmlMid.$htmlEnd;}
           else {echo $htmlStart."proofers/proof_per".$htmlMid.$htmlEnd;}
           }
