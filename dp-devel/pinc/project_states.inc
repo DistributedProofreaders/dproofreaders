@@ -75,6 +75,58 @@ function get_phase_containing_project_state($state)
 
 // -----------------------------------------------
 
+function declare_project_states_for_round(
+    $round_number,
+    $round_name,
+    $constant_name_part )
+{
+    global $projects_forum_idx;
+    global $waiting_projects_forum_idx;
+
+    declare_project_state(
+        "PROJ_{$constant_name_part}_BAD_PROJECT",
+        "bad_{$round_number}",
+        sprintf( _("Bad %s Project"), $round_name ),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        ''
+    );
+    declare_project_state(
+        "PROJ_{$constant_name_part}_UNAVAILABLE",
+        "unavail_{$round_number}",
+        sprintf( _("Unavailable %s"), $round_name ),
+        ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        'PAGE_EDITING',
+        ''
+    );
+    declare_project_state(
+        "PROJ_{$constant_name_part}_WAITING_FOR_RELEASE",
+        "waiting_{$round_number}",
+        sprintf( _("Waiting for %s Release"), $round_name ),
+        ($round_number == 1 ? $waiting_projects_forum_idx : $projects_forum_idx ),
+        'PAGE_EDITING',
+        ''
+    );
+    declare_project_state(
+        "PROJ_{$constant_name_part}_AVAILABLE",
+        "avail_{$round_number}",
+        sprintf( _("Available for %s"), $round_name ),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        'BRONZE'
+    );
+    declare_project_state(
+        "PROJ_{$constant_name_part}_COMPLETE",
+        "done_{$round_number}",
+        sprintf( _("Completed %s"), $round_name ),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        ''
+    );
+}
+
+// -----------------------------------------------
+
 // Note that the order in which these project states are declared
 // is the order in which they will be displayed in various contexts
 // (via $PROJECT_STATES_IN_ORDER).
@@ -172,89 +224,9 @@ if ($site_supports_metadata)
 
 // PROOF
 
-// first round
-declare_project_state(
-    "PROJ_PROOF_FIRST_BAD_PROJECT",
-    "bad_1",
-    _("Bad First Round Project"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_FIRST_UNAVAILABLE",
-    "unavail_1",
-    _("Unavailable First Round"),
-    $waiting_projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_FIRST_WAITING_FOR_RELEASE",
-    "waiting_1",
-    _("Waiting for First Round Release"),
-    $waiting_projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_FIRST_AVAILABLE",
-    "avail_1",
-    _("Available for First Round"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    'BRONZE'
-);
-declare_project_state(
-    "PROJ_PROOF_FIRST_COMPLETE",
-    "done_1",
-    _("Completed First Round"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
+declare_project_states_for_round( 1, _('First Round'), 'PROOF_FIRST' );
 
-// second round
-declare_project_state(
-    "PROJ_PROOF_SECOND_BAD_PROJECT",
-    "bad_2",
-    _("Bad Second Round Project"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_UNAVAILABLE",
-    "unavail_2",
-    _("Unavailable Second Round"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_WAITING_FOR_RELEASE",
-    "waiting_2",
-    _("Waiting for Second Round Release"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_AVAILABLE",
-    "avail_2",
-    _("Available for Second Round"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    'BRONZE'
-);
-declare_project_state(
-    "PROJ_PROOF_SECOND_COMPLETE",
-    "done_2",
-    _("Completed Second Round"),
-    $projects_forum_idx,
-    'PAGE_EDITING',
-    ''
-);
+declare_project_states_for_round( 2, _('Second Round'), 'PROOF_SECOND' );
 
 
 // POST
