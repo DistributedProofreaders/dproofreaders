@@ -56,27 +56,27 @@
 
 
 // POST
-  define("PROJ_POST_UNAVAILABLE", "60");
-  define("PROJ_POST_AVAILABLE", "61");
+  define("PROJ_POST_UNAVAILABLE", "proj_post_unavailable");
+  define("PROJ_POST_AVAILABLE", "proj_post_available");
 //  define("AVAIL_PP", "62");  this is not the same as db
-  define("PROJ_POST_CHECKED_OUT", "65");
+  define("PROJ_POST_CHECKED_OUT", "Proj_post_checkedout");
 
-  define("PROJ_POST_VERIFY", "67"); // this is not in db 
+  define("PROJ_POST_VERIFY", "proj_post_verify"); // this is not in db 
 
-  define("PROJ_POST_VERIFYING", "68");
-  define("PROJ_POST_COMPLETE", "69");
+  define("PROJ_POST_VERIFYING", "proj_post_verifying");
+  define("PROJ_POST_COMPLETE", "proj_post_complete");
 
 // SUBMIT (was GB)
-  define("PROJ_SUBMIT_PG_UNAVAILABLE", "70");
-  define("PROJ_SUBMIT_PG_AVAILABLE", "71");
-  define("PROJ_SUBMIT_PG_POSTING", "75");
-  define("PROJ_SUBMIT_PG_POSTED", "79");
+  define("PROJ_SUBMIT_PG_UNAVAILABLE", "proj_submit_pgunavailable");
+  define("PROJ_SUBMIT_PG_AVAILABLE", "proj_submit_pgavailable");
+  define("PROJ_SUBMIT_PG_POSTING", "proj_submit_pgposting");
+  define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted");
 
 // for the 'deletion' of a project
-  define("PROJ_DELETE", "99");
+  define("PROJ_DELETE", "project_delete");
 
 // for complete project
-  define("PROJ_COMPLETE", "100");
+  define("PROJ_COMPLETE", "project_complete");
 
 
 // old states
