@@ -226,7 +226,7 @@ id="imagevert"><table
 id="imageframe"><div 
 id="imagedisplay"><a href="JavaScript: //"><img 
 name="scanimage" id="scanimage" title="" alt="" 
-src="../../projects/<?PHP echo $npage['project'].'/'.$npage['image'];?>" 
+src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>" 
 border="0" width="<?PHP 
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}

@@ -22,7 +22,9 @@ include_once($relPath.'maybe_mail.inc');
         // -- Send mail to the project manager, notifying him/her that the
         //    project is ready for post-processing.
 
-        $projectpath = "../../projects/".$project;
+        global $projects_dir;
+
+        $projectpath = "$projects_dir/$project";
 
         // Generate images.html that links to all page-images.
         exec ("perl images.pl $project *.png");
@@ -87,7 +89,8 @@ include_once($relPath.'maybe_mail.inc');
         //
 
         global $EOL;
-		global $siteurl;
+        global $siteurl;
+        global $projects_url;
 
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
         $row = mysql_fetch_row($result);
@@ -127,7 +130,7 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"                and the Online Distributed Proofreading Team at$EOL");
         fputs($fp,"                <$siteurl>.$EOL");
         fputs($fp,"                Page-images available at$EOL");
-        fputs($fp,"                <$siteurl/projects/$project/$EOL");
+        fputs($fp,"                $projects_url/$project/$EOL");
         fputs($fp,"            </projectDesc>$EOL");
         fputs($fp,"        </encodingDesc>$EOL");
         fputs($fp,"    </teiHeader>$EOL");

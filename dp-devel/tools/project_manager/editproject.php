@@ -14,6 +14,7 @@ function encodeFormValue($value) {
 function saveProject() {
   global $project, $clearance, $NameofWork, $AuthorsName, $comments, $Language;
   global $scannercredit, $txtlink, $ziplink, $htmllink, $pguser, $postednum, $genre; 
+  global $projects_dir;
 
   $errormsg;
 
@@ -64,8 +65,8 @@ function saveProject() {
 
     mysql_query($sql);
 
-    mkdir ("../../projects/$project", 0777);
-    chmod ("../../projects/$project", 0777);
+    mkdir ("$projects_dir/$project", 0777);
+    chmod ("$projects_dir/$project", 0777);
 
     //update main projects table with new project info
     $sql = "INSERT INTO projects (NameofWork, AuthorsName, Language, username, 

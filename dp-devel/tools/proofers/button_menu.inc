@@ -1,4 +1,7 @@
-<? // get bad page code
+<?
+include($relPath.'v_site.inc');
+
+// get bad page code
       $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
       $b_code = mysql_result($result, 0, "b_code");
       ?>
@@ -32,7 +35,7 @@ type="text" value="<?PHP
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><INPUT 
 TYPE="image" name="button35" ID="button35" align="top" size="26" alt="Set Image Zoom Percent" title="Set Image Zoom Percent" 
 onclick="return(showIZ());" src="gfx/bt10.png">&nbsp;<a href="#" 
-onclick="top.proofframe.imageframe.document.scanimage.src='../../projects/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><img 
+onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><img 
 src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border="0" width="26" height="26"></a>&nbsp;<INPUT 
 TYPE="image" name="button8" ID="button8" align="top" size="26" alt="Revert to Original Document" title="Revert to Original Document" 
 onclick="return(confirm('Are you sure you want to \r\nrevert to the original text for this round?'));" src="gfx/bt8.png">&nbsp;<?PHP

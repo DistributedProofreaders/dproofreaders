@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'project_states.inc');
 
@@ -43,7 +44,7 @@ include($relPath.'project_states.inc');
             $sql = "DELETE FROM projects WHERE projectid = '$projectid'";
             $result = mysql_query($sql);
 
-            $dir_name = "../../projects/".$projectid;
+            $dir_name = "$projects_dir/$projectid";
             exec("rm -rf $dir_name");
             echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
 

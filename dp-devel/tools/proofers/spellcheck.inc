@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'sp_check_user.inc');
@@ -370,7 +371,7 @@ id="imagevert"><table
 id="imageframe"><div 
 id="imagedisplay"><a href="JavaScript: //"><img 
 name="scanimage" id="scanimage" title="" alt="" 
-src="../../projects/<?PHP echo $npage['project'].'/'.$npage['image'];?>" 
+src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>" 
 border="0" width="<?PHP 
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
@@ -390,7 +391,7 @@ name="spcorrects" action="processtext.php" method="POST"><table
   cellpadding="10" 
   align="center"><tr><?PHP
     if ($userP['i_type'] !=1)
-      {echo "<td id=\"tdbottom\"><a href=\"../../projects/$projectname/$imagefile\" target=\"imageshowwin\">View Image</a></td></tr><tr>";}
+      {echo "<td id=\"tdbottom\"><a href=\"$projects_url/$projectname/$imagefile\" target=\"imageshowwin\">View Image</a></td></tr><tr>";}
 ?><td 
   id="tdtext" 
   valign="top">

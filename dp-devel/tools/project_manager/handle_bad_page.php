@@ -97,7 +97,7 @@ if (!isset($_POST['action'])) {
           $projectID = $_POST['projectid'];
           $fileID = $_POST['fileid'];
 	    if (substr($_FILES['image']['name'], -4) == ".png") {
-	  copy($_FILES['image']['tmp_name'],"./../../projects/$projectID/$master_image") or die("Could not upload new image!");
+	  copy($_FILES['image']['tmp_name'],"$projects_dir/$projectID/$master_image") or die("Could not upload new image!");
 	  echo "<b>Update of Original Image Complete!</b>";
 	    } else {
 	  echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectID&fileid=$fileID&modify=image'>here</a> to return.</b>";	

@@ -70,7 +70,7 @@ theme("Project Managers", "header");
                 $counter = 1; // for index.. need to make adjustable
                 $rownum = 0;
 
-                $path = "../../projects/".$project."/";
+                $path = "$projects_dir/$project/";
 
                 while ($rownum < $projectinfo->total_pages) {
                     $imagename = mysql_result($projectinfo->total_rows, $rownum, "image");
@@ -336,8 +336,8 @@ if ($sitemanager == "yes") {
             echo "</select></form></td><td align=center>";
 
             print "<a href=\"editproject.php?project=$projectid\">Edit</a>";
-            if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"../../projects/$projectid/$projectid.zip\">D/L</A>";
-            if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"../../projects/$projectid/post.zip\">D/L</A>";
+            if ($state==PROJ_POST_UNAVAILABLE || $state==PROJ_POST_AVAILABLE || $state==PROJ_POST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+            if (($state == PROJ_POST_VERIFYING) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/post.zip\">D/L</A>";
             echo "</td></tr>\n";
             //increment row number for background color change
             $rownum++;

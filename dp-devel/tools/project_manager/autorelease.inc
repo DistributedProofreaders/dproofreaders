@@ -1,6 +1,7 @@
 <?
 
 $relPath="./../../pinc/";
+include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 
   // Auto-Release Project
@@ -11,6 +12,7 @@ function numpages($project) {
 }
 
 function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
+	global $projects_dir;
 
     $currstate = PROJ_PROOF_FIRST_VERIFY;
     $result = mysql_query("UPDATE $project SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
@@ -30,7 +32,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
              "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
     }
 
-    $path = "../../projects/".$project."/";
+    $path = "$projects_dir/$project/";
 
     while (($page_num < $projectinfo->avail1_pages) && ($currstate == PROJ_PROOF_FIRST_VERIFY)) {
         $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");

@@ -1,5 +1,6 @@
 <?php
 $relPath="../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'page_states.inc');
 include($relPath.'f_project_states.inc');
@@ -49,7 +50,7 @@ else
     {
         echo "<tr><td>$key</td><td>$value</td></tr>\n";
     }
-    echo "<tr><td>Project Directory</td><td><a href='../../projects/$projectid'>here</a></td></tr>\n";
+    echo "<tr><td>Project Directory</td><td><a href='$projects_url/$projectid'>here</a></td></tr>\n";
     echo "</table>\n";
 
     // ----------------------------------------------------------------
@@ -79,7 +80,7 @@ else
 
     if ( 1 )
     {
-        echo "<li> View page-images <a href='../../projects/$projectid/index.html'>online</a>.</li>\n";
+        echo "<li> View page-images <a href='$projects_url/$projectid/index.html'>online</a>.</li>\n";
         echo "<li> Download a zip of page-images.</li>\n";
     }
 

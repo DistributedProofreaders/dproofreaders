@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
 if ($mode != "upload") {
@@ -40,7 +41,7 @@ if ($mode != "upload") {
 } else {
     $project = $_GET['projectid'];
     if ($file != "none") {
-        copy ($file, "/home/charlz/dproofreaders/projects/$project/post.zip");
+        copy ($file, "$projects_dir/$project/post.zip");
         echo "Project has been uploaded. Back to <a href=\"post_proofers.php\">Post-Processing</a>.";
     } else echo "No file was submitted. Please e-mail the project manager with your file. Back to <a href=\"post_proofers.php\">Post-Processing</a>.";
 }

@@ -89,7 +89,7 @@ TYPE="submit" name="button10" ID="button10" value="Spell Check"><br>
   echo "</b></font>";
   echo "<BR>";
   echo "View: <a href=\"projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-  echo "| <a href=\"../../projects/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">Image</a> ";
+  echo "| <a href=\"$projects_url/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">Image</a> ";
 ?>
 <br>
  Image Resize: <input type="button" value="50%" onclick="resize(690)"><input type="button" value="100%" onclick="resize(1000)"><input type="button" value="200%" onclick="resize(2000)">
