@@ -57,6 +57,7 @@ p.info {
 <tr>
 <td colspan="3">
 <p class="info">
+The Greek glyphs above are <b>clickable</b>.<br>
 Diacritical marks may be ignored except for the rough-breathing mark,
 denoted as <IMG SRC="gfx/greekrough.png" height="12" width="10"> above the
 letter.<br>
@@ -69,7 +70,7 @@ begins with 'r', in which case the 'h' goes <emp>after</emp> the 'r'.
 <tr>
 <td colspan="3">
 For further information, see the Project Gutenberg 
-<a HREF="http://www.gutenberg.net/vol/greek.html" target="_new">
+<a HREF="http://www.promo.net/pg/vol/greek.html" target="_new">
 Greek-ASCII Primer</a>.
 <br>
 <a HREF="#" onclick="window.close()"><b>Close</b></a>
