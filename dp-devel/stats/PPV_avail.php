@@ -18,6 +18,10 @@ elseif ( $order == 'PPer' )
 {
 	$orderclause = 'postproofer ASC';
 }
+elseif ( $order == 'PM' )
+{
+	$orderclause = 'userid ASC';
+}
 else
 {
 	echo "PPV_avail.php: bad order value: '$order'";
@@ -37,7 +41,8 @@ echo "<h2>Books Available for PPV</h2>\n";
 $colspecs = array(
 	'#'                  => 'bogus',
 	'Name of Work'       => 'nameofwork',
-	'Post-Processed By'  => 'postproofer',
+	'Project Manager'    => 'PM',
+	'Post-Processed By'  => 'PPer',
 	'Date Last Modified' => 'modifieddate'
 );
 
@@ -64,6 +69,7 @@ echo "</tr>\n";
 $result = mysql_query("
 	SELECT
 		nameofwork,
+             userid,
 		postproofer,
 		modifieddate
 	FROM projects
@@ -87,6 +93,7 @@ while ( $project = mysql_fetch_object( $result ) )
 		<tr>
 		<td>$rownum</td>
 		<td width='200'>$project->nameofwork</td>
+		<td>$project->userid</td>
 		<td>$project->postproofer</td>
 		<td>$datestamp</td>
 		</tr>
