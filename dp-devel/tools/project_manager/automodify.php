@@ -17,7 +17,7 @@ include($relPath.'project_trans.inc');
   include('autorelease.php');
   include('sendtopost.php');
 
-$trace = TRUE;
+$trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
