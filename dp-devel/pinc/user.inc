@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'cookie.inc');
 include_once($relPath.'session.inc');
+include_once($relPath.'v_site.inc');
 
 class db_udb
 {
@@ -23,7 +24,7 @@ function checkSafe($uInfo,$chktype)
 
 function checkUID($userID)
       {
-      	echo "USER ID: ".$userID & " - " & $_POST['userNM'];
+//      	echo "USER ID: ".$userID & " - " & $_POST['userNM'];
       	if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1))
           {return 1;}
       else {return 0;}
@@ -63,7 +64,13 @@ function checkLogin($userID,$userPW)
           if (!$this->checkQuery($db_result)) {return 0;}
           if (!$this->checkResult($db_result)) {return 0;}
           $userID = mysql_result($db_result,0,'username');
-	  startSession($userID);
+          if($GLOBALS['use_cookies']) {
+	      // set cookie
+              $cookieC=new userCookie();
+              $cookieSet=$cookieC->setCookie($userID);
+          } else {
+	      startSession($userID);
+          }
           return 1;
           }
      else {$this->error='Invalid Login'; return 0;}
