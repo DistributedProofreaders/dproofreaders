@@ -161,12 +161,14 @@ BENNETT, MARIE MARGUERITE                                        <br>
       <td>
       <pre>
 
+
 R554715.
    Le Producteur de lait; guide du controle
      laitier et beurrier. Par Andre
      Max Leroy, Jacqueline Sentex &amp; Rodolphe
      Stoeckel. &copy; 21Feb46; AF1301. Andre
      Max Leroy (A); 28Jun73; R554715.
+
 
 R554716.
    Kitchener, marechal de l'Empire
@@ -175,12 +177,14 @@ R554716.
      nee Renee Legrand (W) &amp; Alice Lemonnier
      (C); 28Jun73; R554716.
 
+
 R554717.
    La France bourgeoise, dix huitieme-vingtieme
      siecles. Par Charles Moraze,
      pref. de Lucien Febvre. &copy; 8Apr46;
      AF2001. Charles Moraze (A); 28Jun73;
      R554717.
+
 
 R554718.
    La Maison des deux pigeons. Par
