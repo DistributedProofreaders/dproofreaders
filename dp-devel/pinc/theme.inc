@@ -321,7 +321,7 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
    //If it is a guest user show the past years completed projects	
         } else {
 		echo "<center><u>Completed Projects:</u></center>\n";
-
+		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
 		$thismonth = date("n");
 		$thisyear = date("Y");
 		for ( $months_ago = 11; $months_ago >= 0; $months_ago-- )
@@ -334,8 +334,10 @@ function html_statsbar($siteurl, $theme, $nameofpage, $theme_name, $userP) {
 
 			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = 'proj_submit_pgposted'");
 			$totalprojects = mysql_result($result,0);
-			echo "&nbsp;$displaydate - $totalprojects<br>\n";
+			//echo "&nbsp;$displaydate - $totalprojects<br>\n";
+			echo "<tr><td width='50%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate</font></td><td width='50%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>$totalprojects&nbsp;</font></td></tr>\n";
 		}
+		echo "</table>\n";
         }	
 	echo "<br></font>\n";
 	echo "<center><a href='$siteurl/previous_stats.html'><font color='".$theme['color_navbar_font']."' size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
