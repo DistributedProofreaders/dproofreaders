@@ -61,6 +61,13 @@ include($relPath.'page_states.inc');
     $totalusers = (mysql_result($users,0,"numusers"));
     echo "\n<br>Total users who completed at least 1 page: $totalusers";
 
+   //get total users active in the last 24 hours
+   $begin_time = time() - (60 * 60 * 24);
+    $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $begin_time");
+    $totalusers = (mysql_result($users,0,"numusers"));
+    echo "\n<br>Proofers active in the last 24 hours: $totalusers";
+
+
     echo"\n <p><b>Your Stats:<br></b>";
     echo "\nYour Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
     echo "\nYour Current Rank: <font color=\"#0000FF\"><b> $currentrank</b></font><br>";
