@@ -107,7 +107,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   if ($userP['i_type'] != 1)
     {include('proof_frame_nj.inc');}
   else
-    {metarefresh(0,"text_frame.php","Proofreading Text Frame","Loading next available page....");}
+    {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading next available page...."));}
   exit;
 } // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 
@@ -125,7 +125,7 @@ else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 {
 	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
-	metarefresh(1,$url,"Save as 'Done' & Proof Next",'Page saved.');
+	metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
 }
 else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAGE_TO_ROUND)
 {

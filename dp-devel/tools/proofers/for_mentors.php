@@ -26,21 +26,21 @@ $result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects W
 while ($row =  mysql_fetch_array($result)) 
 {
 
-echo "<b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>Number of pages by each proofer<br><br>"; 
+echo "<b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>"._("Number of pages by each proofreader")."<br><br>"; 
 
 dpsql_dump_query("
 	SELECT
-		round1_user as 'Proofer', count(image) as 'Pages done in this project'
+		round1_user as '"._("Proofreader")."', count(image) as '"._("Pages done in this project")."'
 	FROM ".$row['projectid']." 
 	GROUP BY 1
 	ORDER BY 1
 ");
 
-echo "<br><br><b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>Which proofer did which page<br><br>"; 
+echo "<br><br><b>".$row['nameofwork']." by ".$row['authorsname']."</b><br>"._("Which proofreader did which page")."<br><br>";
 
 dpsql_dump_query("
 	SELECT
-		SUBSTRING_INDEX(image,'.',1) as 'Page', round1_user as 'Proofer'
+		SUBSTRING_INDEX(image,'.',1) as '"._("Page")."', round1_user as '"._("Proofreader")."'
 	FROM ".$row['projectid']." 
 	ORDER BY 1
 ");

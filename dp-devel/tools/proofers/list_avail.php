@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 
-theme("Available Projects", "header");
+theme(_("Available Projects"), "header");
 echo "<br>";
 
 // $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode

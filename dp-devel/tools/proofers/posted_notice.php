@@ -13,5 +13,5 @@ if (mysql_num_rows($result) == 0) {
     $del = mysql_query("DELETE FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
 }
 
-metarefresh(0, "projects.php?project=$project&proofstate=$proofstate", "Posted Notice", "");
+metarefresh(0, "projects.php?project=$project&proofstate=$proofstate", _("Posted Notice"), "");
 ?>
