@@ -1,5 +1,4 @@
 <?PHP
-include_once($relPath.'fmain.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'session.inc');
 
@@ -7,8 +6,6 @@ include_once($relPath.'session.inc');
 $db_Connection=new dbConnect();
 if ($db_Connection->error !='') {die('Error: Unable to connect to database.');}
 $db_link=$db_Connection->db_lk;
-
-if (0) { include($relPath.'cookiecheck.inc'); }
 
 //all $_GET to globals
 if (!empty($_GET)) {extract($_GET);}
@@ -27,5 +24,16 @@ if (!empty($_SESSION)) {extract($_SESSION);};
 
 //Check to see if we are in a maintenance mode
 isMaintenanceMode();
+
+
+function ptog($varNM)
+{if (isset($_POST[$varNM]))
+{return $_POST[$varNM];}
+else {return NULL;}}
+
+function gtog($varNM)
+{if (isset($_GET[$varNM]))
+{return $_GET[$varNM];}
+else {return NULL;}}
 
 ?>
