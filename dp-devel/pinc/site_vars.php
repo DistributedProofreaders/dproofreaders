@@ -63,4 +63,15 @@ $testing = <<TESTING>>;
 // (1) It prevents email messages from being sent. Instead, the site shows a
 //     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 // (2) metarefresh delays by 15 seconds.
+
+// -----------------------------------------------------------------------------
+
+// If the gettext extension is compiled into PHP, then the function named '_'
+// (an alias for 'gettext') will be defined.
+// If it's not defined (e.g., on dproofreaders.sourceforge.net),
+// define it to simply return its argument.
+if (! function_exists('_') )
+{
+    function _($str) { return $str; }
+}
 ?>
