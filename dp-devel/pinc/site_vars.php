@@ -76,6 +76,15 @@ $aspell_temp_dir = '<<ASPELL_TEMP_DIR>>';
 
 // -----------------------------------------------------------------------------
 
+// location of xgettext executable
+$xgettext_executable = '<<XGETTEXT_EXECUTABLE>>';
+
+// system's locale directory; this is NOT the same as $dyn_locales_dir above;
+// for example, it usually is "/usr/share/locale/"
+$system_locales_dir = '<<GETTEXT_LOCALES_DIR>>';
+
+// -----------------------------------------------------------------------------
+
 $no_reply_email_addr = '<<NO_REPLY_EMAIL_ADDR>>';
 
 $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
@@ -122,8 +131,14 @@ $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 
 // -----------------------------------------------------------------------------
 
-// $charset will hopefully one day apply to all relevant pages on site and can be
-// changed at this one central place
+// whether the site should use Library of Congress's MARC catalogue when
+// creating a project
+$use_MARC = <<USE_MARC>>;
+
+// -----------------------------------------------------------------------------
+
+// $charset selects the charset used by the site, which is applied to all
+// relevant pages on the site
 
 $charset = '<<CHARSET>>';
 
