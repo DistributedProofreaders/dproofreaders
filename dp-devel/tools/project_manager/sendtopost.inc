@@ -1,6 +1,7 @@
 <?
 
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 
     function sendtopost($project, $username, $todaysdate) {
@@ -86,6 +87,7 @@ include_once($relPath.'maybe_mail.inc');
         //
 
         global $EOL;
+		global $siteurl;
 
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
         $row = mysql_fetch_row($result);
@@ -123,9 +125,9 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"            <projectDesc>$EOL");
         fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],$EOL");
         fputs($fp,"                and the Online Distributed Proofreading Team at$EOL");
-        fputs($fp,"                <http://texts01.archive.org/dp>.$EOL");
+        fputs($fp,"                <$siteurl>.$EOL");
         fputs($fp,"                Page-images available at$EOL");
-        fputs($fp,"                <http://texts01.archive.org/dp/projects/$project/$EOL");
+        fputs($fp,"                <$siteurl/projects/$project/$EOL");
         fputs($fp,"            </projectDesc>$EOL");
         fputs($fp,"        </encodingDesc>$EOL");
         fputs($fp,"    </teiHeader>$EOL");
