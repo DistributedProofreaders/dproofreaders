@@ -7,8 +7,8 @@ function notify($project, $proofstate, $pguser) {
     echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Book Completed:</b></td><td colspan=4><a href=\"posted_notice.php?project=$project&proofstate=$proofstate\">";
     $temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
     if (mysql_num_rows($temp) == 0) {
-        echo "Notify me";
-    } else echo "Do not notify me";
+        echo "Yes, I would like to be notified when this has been posted to Project Gutenberg.";
+    } else echo "No, I would like to not be notified when this has been posted to Project Gutenberg.";
     echo "</a></td></tr>";
 }
 
@@ -69,9 +69,6 @@ function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
     while (($rownum % 5) !=0) {echo "<td>&nbsp;</td>"; $rownum++;}
     echo "</tr>";
 }
-
-
-
 
 
 $projectinfo = new projectinfo();
@@ -154,7 +151,7 @@ if (!isset($proofing)) {
         recentlyproofed($project, $proofstate, $pguser,$userP,1);
       }
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
-    echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 1.22</a> for detailed project formatting directions.";
+    echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 2.00</a> for detailed project formatting directions.";
     echo "Instructions below take precedence over the guidelines:<P>";
     echo "$comments</td></tr></table>";
     echo "<BR>";
