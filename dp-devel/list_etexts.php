@@ -81,12 +81,10 @@ if ($type == "Gold") {
 $moddate = "Uploaded: ".$moddate;
 } elseif ($type == "Silver") {
 $moddate = "Last Proofed: ".$moddate;
-$pages = bookpages($projectid, "!=0");
-$totalpages = $pages['total'];
+$totalpages = total_pages($projectid);
 } elseif ($type == "Bronze") {
 $moddate = "Released: ".$moddate;
-$pages = bookpages($projectid, "!=0");
-$totalpages = $pages['total'];
+$totalpages = total_pages($projectid);
 }
 
 echo "<a name='".$row['projectid']."'><font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br></a>";
