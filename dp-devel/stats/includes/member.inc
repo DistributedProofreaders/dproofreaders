@@ -164,9 +164,54 @@ function messageCenter($curMbr) {
 	echo "\n";
 	echo "<tr><td align='center' colspan='2'>".showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])."</td></tr>";
 
-	function echo_tr_mc( $label, $icon_filename, $url, $target='' )
+	$contact_data = array(
+		array(
+			!empty($curMbr['user_viewemail']),
+			_("E-mail"),
+			"icon_email.gif",
+			"mailto:".$curMbr['email'],
+			''
+		),
+		array(
+			TRUE,
+			_("Private Message"),
+			"icon_pm.gif",
+			"$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id'],
+			''
+		),
+		array(
+			!empty($curMbr['user_aim']),
+			"AIM",
+			"icon_aim.gif",
+			"aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP",
+			''
+		),
+		array(
+			!empty($curMbr['user_msnm']),
+			"MSN",
+			"icon_msnm.gif",
+			"javascript:alert(\"".$curMbr['user_msnm']."\")",
+			''
+		),
+		array(
+			!empty($curMbr['user_yim']),
+			"Yahoo Message",
+			"icon_yim.gif",
+			"http://edit.yahoo.com/config/send_webmesg?.target=".$curMbr['user_yim']."&.src=pg",
+			"_new"
+		),
+		array(
+			!empty($curMbr['user_icq']),
+			"ICQ",
+			"icon_icq.gif",
+			"http://wwp.icq.com/scripts/search.dll?to=".$curMbr['user_icq'],
+		       	"_new"
+		),
+	);
+
+	while( list( $condition, $label, $icon_filename, $url, $target ) = next($contact_data) )
 	{
-		global $theme, $forums_url, $curMbr;
+		global $theme;
 		
 		$icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
 		$target_str = ( empty($target) ? '' : " target='$target'" );
@@ -186,48 +231,6 @@ function messageCenter($curMbr) {
 		echo "</tr>";
 	}
 
-	if (!empty($curMbr['user_viewemail'])) {
-		echo_tr_mc(
-			_("E-mail"),
-			"icon_email.gif",
-			"mailto:".$curMbr['email']
-		);
-	}
-	echo_tr_mc(
-			_("Private Message"),
-			"icon_pm.gif",
-			"$forums_url/privmsg.php?mode=post&u=".$curMbr['user_id']
-		);
-	if (!empty($curMbr['user_aim'])) {
-		echo_tr_mc(
-			"AIM",
-			"icon_aim.gif",
-			"aim:goim?screenname=".$curMbr['user_aim']."&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP"
-		);
-	}
-	if (!empty($curMbr['user_msnm'])) {
-		echo_tr_mc(
-			"MSN",
-			"icon_msnm.gif",
-			"javascript:alert(\"".$curMbr['user_msnm']."\")"
-		);
-	}
-	if (!empty($curMbr['user_yim'])) {
-		echo_tr_mc(
-			"Yahoo Message",
-			"icon_yim.gif",
-			"http://edit.yahoo.com/config/send_webmesg?.target=".$curMbr['user_yim']."&.src=pg",
-			"_new"
-		);
-	}
-	if (!empty($curMbr['user_icq'])) {
-		echo_tr_mc(
-			"ICQ",
-			"icon_icq.gif",
-			"http://wwp.icq.com/scripts/search.dll?to=".$curMbr['user_icq'],
-		       	"_new"
-		);
-	}
 	echo "</table>";
 }
 
