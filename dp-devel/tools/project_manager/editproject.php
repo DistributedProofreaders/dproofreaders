@@ -32,7 +32,7 @@ function saveProject() {
    if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
    if (!empty($_POST['checkedoutby'])) {
         $checkedoutby = $_POST['checkedoutby'];
-        $result = mysql_query("SELECT u_id FROM users WHERE STRCMP(username, $checkedoutby) = 0");
+        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$checkedoutby'");
         if (mysql_num_rows($result) == 0) {
              $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>"; 
         }
