@@ -197,6 +197,13 @@ A: You can get help for the various buttons on the proofing interface
    by following some of the discussions. ***We strongly encourage 
    everyone to participate in the Forums!***)
 
+   (By the way, when you register on the main site you are automatically
+   also registered on the site forums, but you will have to log on
+   to them to access them. You do NOT need to register separately for
+   the forums - in fact, if you try to, you will receive a \"username 
+   already exists\" error, since the forums will already have your
+   username recorded from when you registered at the main site!)
+
 Q: How do I know if I'm doing OK?
 
 A: If you select a BEGINNERS ONLY project, you are more likely to 
