@@ -384,5 +384,22 @@ function teams_get_page_tally_ranks()
     return $rankArray;
 }
 
+// -----------------------------------------------------------------------------
+
+function team_get_largest_page_tally_increment_info( $team_id )
+// Return an array consisting of:
+// -- the given team's largest recorded page tally increment, and
+// -- a timestamp for which that increment was recorded.
+{
+    $result = mysql_query("
+        SELECT daily_page_count, date_updated
+        FROM user_teams_stats
+        WHERE team_id=$team_id
+        ORDER BY daily_page_count DESC
+        LIMIT 1
+    ");
+    return mysql_fetch_row($result);
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

@@ -96,9 +96,9 @@ function showTeamStats($curTeam) {
 	$pageCountRank = team_get_page_tally_rank( $curTeam['id'] );
 
 	if ($hasStats) {
-		$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");	
-		$bestDayCount = mysql_result($result, 0, "daily_page_count");
-		$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
+		list($bestDayCount, $bestDayTimestamp) =
+			team_get_largest_page_tally_increment_info($curTeam['id']);
+		$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 	} else {
 			$bestDayCount = 0;
 			$bestDayTime = date("M. jS, Y");
