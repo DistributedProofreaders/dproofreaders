@@ -6,10 +6,12 @@ function showTeamProfile($curTeam) {
 
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Edit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
-	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id']) {
+	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id'] && !empty($userP)) {
 		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Join</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
-	} elseif ($curTeam['id'] != 1) {
+	} elseif ($curTeam['id'] != 1 && !empty($userP)) {
 		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/quitteam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Quit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+	} else {
+		$joinquitlink = "";
 	}
 
 	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
@@ -22,7 +24,7 @@ function showTeamProfile($curTeam) {
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
 	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td rowspan='6' align='center' width='30%' bgcolor='".$theme['color_mainbody_bg']."'>";
 	echo "<img border='0' src='".$GLOBALS['code_url']."/users/teams/avatar/".$curTeam['avatar']."' alt='".strip_tags($curTeam['teamname'])."'></td>";
-	echo "<td align='left' width='70%' valign='top'><center><font color='".$theme['color_headerbar_font']."'><b>".stripslashes($curTeam['teamname'])."</b></font>".$editlink.$joinquitlink."</center></td></tr>";
+	echo "<td align='left' width='70%' valign='top'><center><font color='".$theme['color_headerbar_font']."'><b>".stripslashes($curTeam['teamname'])."</b></font>&nbsp;<a href='".$GLOBALS['code_url']."/stats/teams/teams_xml.php?id=".$curTeam['id']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>".$editlink.$joinquitlink."</center></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Created</b>: ".date("m/d/Y", $curTeam['created'])."&nbsp;($daysInExistence days)</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curTeam['owner']."'>".$curTeam['createdby']."</font></a></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Total Pages</b>: ".number_format($curTeam['page_count'])."</font></td></tr>";
