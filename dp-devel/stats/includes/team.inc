@@ -275,7 +275,7 @@ function showTeamHistory($curTeam) {
 	echo "\n<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Statistics History")."</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='tdetail.php?tid=".$curTeam['id']."&range=7'>"._("Last 7 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=14'>"._("Last 14 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=30'>"._("Last 30 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=60'>"._("Last 60 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=365'>"._("Last 365 Days")."</a> | <a href='tdetail.php?tid=".$curTeam['id']."&range=all'>"._("Lifetime")."</a></font>";
-	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/team_pages_history.php?tid=".$curTeam['id']."&range=$range' width='600' height='300'></center><br></td></tr>";
+	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range' width='600' height='300'></center><br></td></tr>";
 	echo "</table><p>";
 }
 
