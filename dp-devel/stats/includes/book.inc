@@ -1,4 +1,6 @@
 <?
+include_once($relPath.'RoundDescriptor.inc');
+
 //A file full of book statistic functions
 
 
@@ -77,17 +79,10 @@ function activityCenter($curProj) {
 
 // Start Proofing
 
-	if ( $project_phase == 'FIRST' || $project_phase == 'SECOND' )
+	if ( $project_phase == 'PAGE_EDITING' )
 	{
-		if ( $project_phase == 'FIRST' )
-		{
-			$available_state = PROJ_PROOF_FIRST_AVAILABLE;
-		}
-		else
-		{
-			$available_state = PROJ_PROOF_SECOND_AVAILABLE;
-		}
-		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofreading!</a></font></td></tr>\n";
+		$prd = get_PRD_for_project_state($curProj['state']);
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/projects.php?project=$projectid&proofstate={$prd->project_available_state}'>Start Proofreading!</a></font></td></tr>\n";
 	}
 
 //	Book is Posted
