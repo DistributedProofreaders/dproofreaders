@@ -225,7 +225,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		$langarr=uninstalled_langs();
                 foreach($langarr as $v)
                         echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
-                echo "</select><input type=hidden name=returnto value='".$_SERVER['PHP_SELF']."'>\n</form>\n";
+                echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
                 echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
         }
 
