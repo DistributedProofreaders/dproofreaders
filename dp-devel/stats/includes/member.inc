@@ -78,7 +78,7 @@ function showMbrProfile($curMbr) {
 	echo_tr_2_cols(
 		_("Overall Rank"),
 		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
-		. rankPosition($currentRank, $curMbr['u_id'])
+		. showChangeInRank( user_get_latest_saved_page_tally_rank($curMbr['u_id']), $currentRank )
 	);
 	echo_tr_2_cols(
 		_("Highest Rank"),
@@ -172,15 +172,6 @@ function pageCountPercentage($pagescompleted) {
 	    $percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
 	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
 	return $percentTotal;
-}
-
-function rankPosition($rank, $u_id) {
-
-			// $rank is current rank. Compare it to rank as of latest midnight.
-			$currentRank = $rank;
-			$prevRank = user_get_latest_saved_page_tally_rank( $u_id );
-
-	return showChangeInRank($prevRank, $currentRank);
 }
 
 function user_get_latest_saved_page_tally_rank( $u_id )
@@ -278,7 +269,7 @@ function showMbrNeighbors($curMbr) {
 			$username_html = "Anonymous";
 			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
-		echo "<td width='15%'>$rank".rankPosition($rank, $u_id)."</td>";
+		echo "<td width='15%'>$rank" . showChangeInRank( user_get_latest_saved_page_tally_rank($u_id), $rank ) . "</td>";
 		echo "<td width='28%'>$username_html</td>";
 		echo "<td width='28%'>$day_html</td>";
 		echo "<td width='29%'>$pagescompleted</td>";
