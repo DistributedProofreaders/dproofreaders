@@ -10,6 +10,39 @@ include_once($relPath.'page_ops.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser )
+{
+    $prd = get_PRD_for_project_state($proofstate);
+
+    $res = mysql_query("SELECT {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
+    $proofer = mysql_result($res, 0, $prd->user_column_name);
+    if ($pguser != $proofer)
+    {
+        $err = sprintf( _("You (%s) do not have the necessary access to page %s"), $pguser, $imagefile );
+        return $err;
+    }
+
+    if ($pagestate == $prd->page_save_state)
+    {
+        // Page comes from DONE.
+        // When it was saved, the user's page-count was incremented.
+        // Now they 'unsaving' it, so descrement their page-count.
+        // They'll get it back if/when they save-as-done again.
+        // (Plugs a former page-count cheat.)
+
+        $tpage = new processpage();
+        $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
+        $tpage->deleteUserCount($proofstate,$pguser,$userP);
+        $tpage->reOpen($proofstate,$pguser);
+    }
+
+    $saved = 1;
+    $editone = 1;
+    setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,$saved,$editone,0,0,0,0);
+}
+
+// -----------------------------------------------------------------------------
+
 function nPage_getText( $npage )
 {
     $pageround = getPageRound( $npage['pagestate'] );
