@@ -306,7 +306,7 @@ function uploadImages($preview,$tid,$type) {
 
 function deleteImages() {
 	global $code_dir;
-	$oneHourAgo = time() - 10;
+	$oneHourAgo = time() - 600;
 	//Delete unused avatars
 	$result = mysql_query("SELECT id,avatar FROM user_teams");
 	while ($row = mysql_fetch_assoc($result)) {
