@@ -19,7 +19,6 @@ function theme ($nameofpage, $location) {
 				
 	if (isset($GLOBALS['pguser'])) { 
 		$userP = $GLOBALS['userP'];
-		var_dump($userP);
 		$statsbar_align = $userP['u_align'];
 		} else {
 		$statsbar_align = 0;
