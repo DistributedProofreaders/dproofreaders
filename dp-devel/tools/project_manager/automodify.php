@@ -30,8 +30,7 @@
     $tempsql = mysql_query("SELECT * FROM $project WHERE Image_Filename = ''");
     if (mysql_num_rows($tempsql) > 0) { echo "Bad project - $project"; 
        if ($state < 10) { $state = 0; } else $state = 10;
-$updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
-
+       $updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
     }
 
     $level0rows = mysql_query("SELECT * FROM $project WHERE prooflevel = '0' ORDER BY Image_Filename ASC, timestamp ASC");
@@ -45,6 +44,23 @@ $updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = 
 
     $level3rows = mysql_query("SELECT * FROM $project WHERE prooflevel = '3' ORDER BY Image_Filename ASC, timestamp ASC");
     if ($level3rows != "") { $level3pages = (mysql_num_rows($level3rows)); } else $level3pages = 0;
+
+    // Error checking
+    if ($state == 12) {
+        $result = mysql_query("SELECT fileid FROM $project WHERE prooflevel = '0' AND checkedout = 'no'");
+        if ($result != "") { $availablepages = mysql_num_rows($result); } else $availablepages = 0;
+        if (($availablepages > 0) || ($level2pages != $level0pages)) {
+            $state = 10;
+            mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
+        }
+    } else if ($state == 2) {
+        $result = mysql_query("SELECT fileid FROM $project WHERE prooflevel = '2' AND checkedout = 'no'");
+        if ($result != "") { $availablepages = mysql_num_rows($result); } else $availablepages = 0;
+        if ($availablepages > 0) {
+            $state = 0;
+            mysql_query("UPDATE projects SET state = $state WHERE projectid = '$project'");
+        }
+    }
 
     if ($state == 2) {
         $result = mysql_query("SELECT fileid FROM $project WHERE prooflevel = '0' AND checkedout = 'no'");
@@ -183,7 +199,7 @@ $updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = 
     }
     //print ("$project at state = $state<BR>");
     // Promote Level
-    if ($state == 9) {
+    if (($state == 9) && ($level2pages == 0)) {
 
         // Get updated data for promote level
         $level0rows = mysql_query("SELECT prooflevel FROM $project WHERE prooflevel = '0'");
@@ -205,9 +221,8 @@ $updatefile = mysql_query("UPDATE projects SET state = $state WHERE projectid = 
             $newresult = mysql_query($sql);
             $row1num++;
         }
-        $updatefile = mysql_query("UPDATE $project SET prooflevel = '10' WHERE prooflevel = '1'");
         $updatefile = mysql_query("UPDATE projects SET state = 12 WHERE projectid = '$project'");
-    }
+    } else $updatefile = mysql_query("UPDATE projects SET state = 9 WHERE projectid = '$project'");
 
     // Completed Level
     if ($state == 19) {

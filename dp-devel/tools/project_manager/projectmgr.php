@@ -200,7 +200,7 @@ if ($good_login != 1) {
                         $bgcolor = "#FFFFFF"; 
                     }
 
-                    $result = mysql_query("SELECT fileid, proofedby FROM $project WHERE Image_Filename = '$imagename' AND prooflevel = 10");
+                    $result = mysql_query("SELECT fileid, proofedby FROM $project WHERE Image_Filename = '$imagename' AND prooflevel = 1");
                     $oldfileid = mysql_result($result, 0, "fileid");
                     $oldproofedby = mysql_result($result, 0, "proofedby");
 
