@@ -11,11 +11,11 @@ $_SESSION['quiz_data']['lastpage'] = 'start';
 ?>
 <h2>Quiz wizard</h2>
 
-<p>This small application will assist you in setting up a new quiz.</p>
+<p>This small application will assist you in setting up a new quiz. You have to be logged in, or it won't work.</p>
 
 <p>The user interface is probably neither very comfortable nor extremely tolerant.
 But using it can fortunately do absolutly no harm to anything else, so you can play around with it
-without any danger</p>
+without any danger. </p>
 
 <p>Before starting here there are a couple of steps you already should have taken:</p>
 <p><b>1.</b> Decide what you want to include in the quiz. Resist the temptation to
