@@ -283,7 +283,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //Show the site statistics
       echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 	echo "<center><u>" . _("Site Statistics:") . "</u></center>\n";
-	echo "&nbsp;" . sprintf(_("Today: %s pages"), number_format($sitestats['daily'])) . "<br>\n";
+	echo "&nbsp;" . sprintf(_("Today: %s pages"), number_format($sitestats['daily'])) . " (" . strftime("%R") . ")<br>\n";
 	echo "&nbsp;" . date("F: ") . "" . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
@@ -291,7 +291,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	$todaysGoal = mysql_result($result, 0, "dailygoal");
-	echo "&nbsp;".sprintf(_("Today's Goal: %s pages"),number_format($todaysGoal))."<br>\n";
+	echo "&nbsp;".sprintf(_("Today's Goal: %s pages"),number_format($todaysGoal)). "<br>\n";
 
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
 	$yesterdaysGoal = mysql_result($result, 0, "dailygoal");
