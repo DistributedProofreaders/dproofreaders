@@ -16,11 +16,13 @@ my $db_user = "";
 my $db_pass = "";
 
 my ($min, $hour, $day, $month, $year) = (localtime)[1..5];
-my $midnight = timelocal(0, 0, 0, $day, $month, $year);
+my $midnight
+if ($min  < 10) { $min  = "0$min";  } = timelocal(0, 0, 0, $day, $month, $year);
 
 my $dbh = DBI->connect($dsn, $db_user, $db_pass, {RaiseError => 1});
 
-my $sth = $dbh->prepare("SELECT projectid FROM projects WHERE state != 30");
+#limit to looking at projects modified after 1 Jan 2003 as older projects have a different table structure.
+my $sth = $dbh->prepare("SELECT projectid FROM projects WHERE modifieddate > '1041465600O'");
 $sth->execute();
 
 my $total_pages = 0;
