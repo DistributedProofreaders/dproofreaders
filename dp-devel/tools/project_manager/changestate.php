@@ -26,7 +26,13 @@ include_once($relPath.'maybe_mail.inc');
 
     $extras = array();
 
-    if ($newstate == PROJ_DELETE && $always != 'yes')
+    if ($newstate == 'automodify')
+    {
+        metarefresh(0, "automodify.php?project=$projectid", "?", "");
+        // which will leave the project in the appropriate
+	// BAD, AVAILABLE, or COMPLETE state.
+    }
+    else if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.
 	echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
@@ -95,12 +101,6 @@ include_once($relPath.'maybe_mail.inc');
                    "DP Proofreading Started (Manual Release)");
             }
 	}
-    }
-    else if ($newstate == 'automodify')
-    {
-        // Allows a user to change a project to be checked, but should not be something they do.
-
-        metarefresh(0, "automodify.php?project=$projectid", "?", "");
     }
     else
     {
