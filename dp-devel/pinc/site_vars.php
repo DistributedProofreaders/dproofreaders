@@ -17,7 +17,9 @@ $dynstats_dir = '/0/htdocs/stats'; // <<DYNSTATS_DIR>>
 $dynstats_url = 'http://www.pgdp.net/stats'; // <<DYNSTATS_URL>>
 
 $forums_url = '<<FORUMS_URL>>';
-$reset_password_url = "$forums_url/profile.php?mode=sendpassword";
+$reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
+$projects_forum_url        = "$forums_url/viewforum.php?f=2";
+$post_processing_forum_url = "$forums_url/viewforum.php?f=3";
 
 $uploads_dir = '<<UPLOADS_DIR>>';
 
