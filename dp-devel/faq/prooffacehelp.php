@@ -57,6 +57,16 @@ within the project.
 You will be repositioned to the start of the document.
 </TD></TR>
 
+<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt14.png" WIDTH="26" HEIGHT="26" ALT="Report Bad Page" TITLE="Report Bad Page" BORDER="0"></TD><TD>
+<B>Report Bad Page</B><BR>Accelerator key: <B>?</B>
+<P>?
+</TD></TR>
+
+<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt15.png" WIDTH="26" HEIGHT="26" ALT="Return Page to Current Round" TITLE="Return Page to Current Round" BORDER="0"></TD><TD>
+<B>Return Page to Current Round</B><BR>Accelerator key: <B>?</B>
+<P>?
+</TD></TR>
+
 <TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt4.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0">
 <IMG SRC="../tools/proofers/gfx/bt5.png" WIDTH="26" HEIGHT="26" ALT="Change Interface Layout" TITLE="Change Interface Layout" BORDER="0"></TD><TD>
 <B>Change Interface Layout</B><BR>Accelerator key: <B>6</B>
@@ -69,6 +79,7 @@ When in vertical mode, clicking this button will switch you to horizontal mode.
 The document is saved during the switch.
 </TD></TR>
 
+<!--
 <TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt6.png" WIDTH="26" HEIGHT="26" ALT="Check for Common Errors" TITLE="Check for Common Errors" BORDER="0"></TD><TD>
 <B>Check for Common Errors</B>
 <BR>Interactively searches the current text for common errors.
@@ -98,6 +109,12 @@ Check for Common Errors sequence.
 
 <P>The Check for Common Errors sequence <em>does not</em> replace the need for manual proofing.
 </TD></TR>
+-->
+
+<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt16.png" WIDTH="26" HEIGHT="26" ALT="Run Spelling Check" TITLE="Run Spelling Check" BORDER="0"></TD><TD>
+<B>Run Spelling Check</B><BR>Accelerator key: <B>?</B>
+<P>?
+</TD></TR>
 
 <TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt12.png" WIDTH="26" HEIGHT="26" ALT="View Project Comments" TITLE="View Project Comments" BORDER="0"></TD><TD>
 <B>View Project Comments</B>
@@ -122,6 +139,11 @@ back to the last edit before initiating the Check for Common Errors.
 After saving an edit via the save button, this will revert to the last save.
 </TD></TR>
 
+<TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt6.png" WIDTH="26" HEIGHT="26" ALT="Refresh Image" TITLE="Refresh Image" BORDER="0"></TD><TD>
+<B>Refresh Image</B><BR>Accelerator key: <B>?</B>
+<P>?
+</TD></TR>
+
 <TR><TD VALIGN="TOP"><IMG SRC="../tools/proofers/gfx/bt10.png" WIDTH="26" HEIGHT="26" ALT="Set Image Zoom Percent" TITLE="Set Image Zoom Percent" BORDER="0"></TD><TD>
 <B>Set Image Zoom Percent</B>
 <BR>Type a number as a percent into the box to the left of this button and then click this
@@ -136,7 +158,6 @@ button to zoom the scanned image width to the percent indicated.
 <BR>Selection Menu</TD><TD>Select a point size (pt) for the current font
 from the dropdown menu to change the font size of the proofing text.
 </TD></TR>
-<TR><TD ALIGN="CENTER" COLSPAN="2">
 
 <TR><TD VALIGN="TOP"><B>Font Face</B>
 <BR>Selection Menu</TD><TD>Select a named font from the dropdown menu.  If the font is
