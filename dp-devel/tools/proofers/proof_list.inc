@@ -16,49 +16,6 @@ if ($totalpages <= 20) {
 
 }
 
-// read saved sort orders from user_settings table 
-
-$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'";
-$result = mysql_query($qry);
-
-if (mysql_num_rows($result) >= 1) {
-	$orderR1old = mysql_result($result, 0, "value");
-} else {
-	$orderR1old = 'DaysD';
-}
-
-$qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'";
-$result = mysql_query($qry);
-
-
-if (mysql_num_rows($result) >= 1) {
-	$orderR2old = mysql_result($result, 0, "value");
-} else {
-	$orderR2old = 'DaysD';
-}
-
-
-// read new sort order from url, if any
-
-$orderR1 = (isset($_GET['orderR1']) ? $_GET['orderR1'] : $orderR1old );
-
-$orderR2 = (isset($_GET['orderR2']) ? $_GET['orderR2'] : $orderR2old );
-
-
-// if orders have changed, save them to database
-
-if ($orderR1 != $orderR1old) {
-	$qry = "DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'";
-	$result = mysql_query($qry);
-	$qry = "INSERT INTO usersettings VALUES ('$pguser', 'R1order', '$orderR1') ";
-	$result = mysql_query($qry);
-}
-
-if ($orderR2 != $orderR2old) {
-	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'");
-	$result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'R2order', '$orderR2') ");
-}
-
 // print warning if neither round is shown
 $pref_url = "{$GLOBALS['code_url']}/userprefs.php";
 
@@ -76,6 +33,25 @@ if ($userP['u_plist'] == 2 && $totalpages < 50) {
 
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
   {
+    // read saved sort orders from user_settings table 
+    $qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'";
+    $result = mysql_query($qry);
+    if (mysql_num_rows($result) >= 1) {
+        $orderR1old = mysql_result($result, 0, "value");
+    } else {
+        $orderR1old = 'DaysD';
+    }
+
+    // read new sort order from url, if any
+    $orderR1 = (isset($_GET['orderR1']) ? $_GET['orderR1'] : $orderR1old );
+
+    // if orders have changed, save them to database
+    if ($orderR1 != $orderR1old) {
+        $qry = "DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R1order'";
+        $result = mysql_query($qry);
+        $qry = "INSERT INTO usersettings VALUES ('$pguser', 'R1order', '$orderR1') ";
+        $result = mysql_query($qry);
+    }
 
     echo "\n<a name='R1'></a>";
     echo "\r\n<table border=1>";
@@ -98,6 +74,24 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3)
   {
+    // read saved sort orders from user_settings table 
+    $qry = "SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'";
+    $result = mysql_query($qry);
+    if (mysql_num_rows($result) >= 1) {
+        $orderR2old = mysql_result($result, 0, "value");
+    } else {
+        $orderR2old = 'DaysD';
+    }
+
+    // read new sort order from url, if any
+    $orderR2 = (isset($_GET['orderR2']) ? $_GET['orderR2'] : $orderR2old );
+
+    // if orders have changed, save them to database
+    if ($orderR2 != $orderR2old) {
+        $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' AND setting = 'R2order'");
+        $result = mysql_query("INSERT INTO usersettings VALUES ('$pguser', 'R2order', '$orderR2') ");
+    }
+
     echo "\n<a name='R2'></a>";
     echo "\r\n<table border=1>";
     echo "\r\n<tr>";
