@@ -36,7 +36,7 @@ theme("Project Managers", "header");
 		<li>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
 	</ol>
 	<p>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
-	<p>If you want the projects to go to post-processing automatically, e-mail the <a href='mailto:$site_manager_email_addr'>site manager</A>.<br><br>
+	<p>If you want the projects to go to post-processing automatically, e-mail the <a href='mailto:<? echo $site_manager_email_addr; ?>'>site manager</A>.<br><br>
 	<hr width="75%" align="center"><br>
 
 <?
