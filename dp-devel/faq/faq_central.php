@@ -9,12 +9,14 @@ theme('FAQ Central','header');
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.5, released June 19, 2003 </h3>
+<h3 align="right">Version 1.6, released Jul 11, 2003 </h3>
+
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
    files about the Distributed Proofreaders website.</p>
 <table border="0" cellspacing="0" width="100%">
   <tbody>
+
     <tr>
       <td bgcolor="silver">&nbsp;</td>
     </tr>
@@ -26,6 +28,7 @@ theme('FAQ Central','header');
   <dd>Introduction to the site, general overview, beginner's questions.
 
   <dt><a href="summary.pdf">Handy Proofing Guide</a>
+
   <dd>(aka "Summary Guidelines") A printable two-page summary of the most commonly needed
       proofing standards from the Proofing Guidelines, done as one big example!
 
@@ -45,6 +48,7 @@ theme('FAQ Central','header');
       about a book.)
 
   <dt> &nbsp;
+
   <dd> &nbsp;
 
   <dt><a href="pm-faq.php">Project Manager's FAQ</a>
@@ -58,6 +62,7 @@ theme('FAQ Central','header');
   <dd>Basic information on scanners and how to use them, based on our experiences.
 
   <dt> &nbsp;
+
   <dd> &nbsp;
 
   <dt><a href="post_proof.php">Post-Proofing FAQ</a>
@@ -69,9 +74,15 @@ theme('FAQ Central','header');
   <dt><a href="http://beryl.ils.unc.edu/~jtinsley/gutfaq.htm">Project Gutenberg FAQ</a>
   <dd>The <i>massive</i> FAQ from our parent site,
       <a href="http://www.gutenberg.net/">Project Gutenberg</a>
+
       (draft of new version).
       (This url is "unofficial" and "temporary" -- it points to Jim Tinsley's own site
       rather than anywhere on the official PG site -- but useful anyway.)
+
+  <dt><a href="privacy.php">DP Privacy Policy</a>
+  <dd>A link to the Distributed Proofreading Privacy Policy that you saw when you
+      first registered at this site.
+
 
 </dl>
 <table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
@@ -84,6 +95,7 @@ theme('FAQ Central','header');
         &nbsp;&nbsp;&nbsp;
         <a href="http://www.gutenberg.net">Project Gutenberg home page</a>.
         </font>
+
     </td>
 </tr>
 </table>
