@@ -6,6 +6,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'page_ops.inc');
+include_once($relpath.'page_tally.php');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -90,10 +91,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
-        $sql = "UPDATE users SET pagescompleted = pagescompleted-1 WHERE username = '$pguser'";
-        $result = mysql_query($sql);
-        $sql = "UPDATE user_teams SET page_count = page_count-1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
-        $result = mysql_query($sql);
+        page_tallies_add( $pguser, -1 );
 
         // no need to update text, just record state change
         Page_reopen( $project, $fileid, $imagefile, $prd->round_number, $pguser );
@@ -195,10 +193,7 @@ function addUserCount($pguser,$userP)
         if ($curState == $this->prd->page_out_state || $curState == $this->prd->page_temp_state)
         {
           // add to user page count
-          $sql = "UPDATE users SET pagescompleted = pagescompleted+1 WHERE username = '$pguser'";
-          $result = mysql_query($sql);
-          $sql = "UPDATE user_teams SET page_count = page_count+1 WHERE id=1 OR id={$userP['team_1']} OR id={$userP['team_2']} OR id={$userP['team_3']}";
-          $result = mysql_query($sql);
+          page_tallies_add( $pguser, +1 );
         }
     }
 }
