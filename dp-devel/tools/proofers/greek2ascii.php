@@ -33,7 +33,7 @@ p.info {
 
 <body>
 
-<table border="0" cellspacing="1" cellpadding="1" width="620">
+<table border="0" cellspacing="0" cellpadding="0" width="600">
 <tr><td colspan="2" align="center" valign="top">
 <b>Greek-to-ASCII Transliteration</b>
 </td>
