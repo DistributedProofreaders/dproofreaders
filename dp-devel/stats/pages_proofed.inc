@@ -1,7 +1,7 @@
 <?PHP
 include_once($relPath.'project_states.inc');
 
-function get_n_pages_proofed( $start_ts, $end_ts )
+function get_n_pages_proofed( $start_ts, $end_ts, &$n_projects )
 // Return the total number of pages proofed between the two timestamps.
 // (Specifically, pages that (appear to) have been saved-as-done at some time t,
 // where $start_ts <= t < $end_ts.)
@@ -11,6 +11,9 @@ function get_n_pages_proofed( $start_ts, $end_ts )
 // large value for $end_ts, but instead, this feature:
 // -- relieves the caller from having to determine such a value, and
 // -- potentially improves query performance.
+//
+// $n_projects (an 'out' parameter) will be assigned the number of projects
+// examined.
 //
 // (Takes about ?? seconds.)
 {
@@ -46,6 +49,8 @@ function get_n_pages_proofed( $start_ts, $end_ts )
             AND (state != '".PROJ_POST_FIRST_UNAVAILABLE."'          OR modifieddate > $start_ts)
     ")
         or die(mysql_error());
+
+    $n_projects = mysql_num_rows($res);
 
     while ( $project_row = mysql_fetch_array($res) )
     {
