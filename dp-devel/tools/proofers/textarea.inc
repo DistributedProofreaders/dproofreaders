@@ -3,7 +3,7 @@ include_once($relPath.'prefs_options.inc');
 
 function echo_proofing_textarea( $page_text, $enhanced )
 {
-    global $userP, $f_f;
+    global $userP, $f_f, $f_s;
 
     if ( $userP['i_layout']==1 )
     {
@@ -12,6 +12,7 @@ function echo_proofing_textarea( $page_text, $enhanced )
         $n_rows      = $userP['v_tlines'];
         $line_wrap   = $userP['v_twrap'];
         $font_face_i = $userP['v_fntf'];
+        $font_size_i = $userP['v_fnts'];
     }
     else
     {
@@ -20,6 +21,7 @@ function echo_proofing_textarea( $page_text, $enhanced )
         $n_rows      = $userP['h_tlines'];
         $line_wrap   = $userP['h_twrap'];
         $font_face_i = $userP['h_fntf'];
+        $font_size_i = $userP['h_fnts'];
     }
 
     echo "<textarea
@@ -30,10 +32,18 @@ function echo_proofing_textarea( $page_text, $enhanced )
     ";
 
     $font_face = $f_f[$font_face_i];
+    $font_size = $f_s[$font_size_i];
+    echo "style='";
     if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
     {
-        echo "style='font-family: $font_face' ";
+        echo "font-family: $font_face;";
+	echo " ";
     }
+    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+    {
+	echo "font-size: $font_size;";
+    }
+    echo "' ";
 
     if ( !$line_wrap )
     {
