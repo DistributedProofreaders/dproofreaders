@@ -1,8 +1,8 @@
 <?
 $relPath="./pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'dp_main.inc');
-include($relPath.'html_main.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'html_main.inc');
 
 if (!isset($tstart))
   {$tstart=0;}
@@ -96,8 +96,9 @@ function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tme
 // see if they just want a team profile
 if (isset($tid))
   {
-  $htmlC->startHeader("User Teams");
-  echo $beginPage.$menuBar;
+  include_once($relPath.'theme.inc');
+  theme("Welcome", "header");
+  echo "<center><br>";
   $tQuery="SELECT * FROM user_teams WHERE id=$tid";
   $tResult=mysql_query($tQuery);
   $curTeam=mysql_fetch_assoc($tResult);
@@ -108,7 +109,8 @@ if (isset($tid))
   // start display
     showTeamProfile($pguser,$userP,$tstart,$curTeam['id'],$curTeam['teamname'],$curTeam['team_info'],$curTeam['avatar'],
       $curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$ownerName,0);
-    echo $menuBar.$closePage;
+  echo "</center>";
+  theme("", "footer");
   exit;
   } // end of show team profile
 
@@ -155,8 +157,9 @@ if (isset($jtid))
     if ($joinQ=='')
       {
       // all the spaces are filled, which would the like to overwrite?
-        $htmlC->startHeader("User Teams");
-        echo $beginPage.$menuBar;
+        include_once($relPath.'theme.inc');
+        theme("Welcome", "header");
+        echo "<center><br>";
         echo $tb.$tr.$td12."<b>Three Team Maximum</b>";
         echo $tre.$tr.$td12a;
         echo "You have already joined three teams.<br>".
@@ -175,7 +178,9 @@ if (isset($jtid))
         echo "<b><a href=\"userteams.php?jtid=$jtid&amp;otid=3\">".mysql_result($teamR,0,'teamname')."</a></b>&nbsp;&nbsp;&nbsp;&nbsp;".
           $tre.$tr.$td12;
         echo "<br><b><a href=\"userteams.php?tid=$jtid\">Do Not Join Team</a></b>";
-        echo $tre.$tbe.$menuBar.$closePage;
+        echo $tre.$tbe;
+        echo "</center>";
+        theme("", "footer");
       }  
     else if ($joinQ=='mem')
       {
@@ -283,21 +288,25 @@ if (isset($etid) || isset($edPreview) || isset($edMake))
   // start display
   if (isset($etid))
     {
-    $htmlC->startHeader("User Teams");
     include($relPath.'js_newpophelp.inc');
-    echo $beginPage.$menuBar;
+    include_once($relPath.'theme.inc');
+    theme("Welcome", "header");
+    echo "<center><br>";
     showEdit($userP,$tstart,unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),0,$ntid);
-    echo $menuBar.$closePage;
+    echo "</center>";
+    theme("", "footer");
     }
   else if (isset($edPreview))
     {
-    $htmlC->startHeader("User Teams");
     include($relPath.'js_newpophelp.inc');
-    echo $beginPage.$menuBar;
+    include_once($relPath.'theme.inc');
+    theme("Welcome", "header");
+    echo "<center><br>";
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),0,$ntid);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,$ntid,stripAllString($teamname),stripAllString($text_data),0,$curTeam['member_count'],$curTeam['page_count'],$curTeam['created'],$curTeam['createdby'],$pguser,1);
-    echo $menuBar.$closePage;
+    echo "</center>";
+    theme("", "footer");
     }
   else if (isset($edMake))
     {
@@ -317,21 +326,25 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   if (isset($ctid))
     {
     // show creation interface
-    $htmlC->startHeader("User Teams");
     include($relPath.'js_newpophelp.inc');
-    echo $beginPage.$menuBar;
+    include_once($relPath.'theme.inc');
+    theme("Welcome", "header");
+    echo "<center><br>";
     showEdit($userP,$tstart,"","",1,0);
-    echo $menuBar.$closePage;
+    echo "</center>";
+    theme("", "footer");
     }
   else if (isset($mkPreview))
     {
-    $htmlC->startHeader("User Teams");
     include($relPath.'js_newpophelp.inc');
-    echo $beginPage.$menuBar;
+    include_once($relPath.'theme.inc');
+    theme("Welcome", "header");
+    echo "<center><br>";
     showEdit($userP,$tstart,htmlentities(stripslashes($teamname)),stripslashes($text_data),1,0);
     echo "</div><br><div align=\"center\">";
     showTeamProfile($pguser,$userP,$tstart,0,stripAllString($teamname),stripAllString($text_data),0,0,0,time(),$pguser,$pguser,1);
-    echo $menuBar.$closePage;
+    echo "</center>";
+    theme("", "footer");
     }
   else if (isset($mkMake))
     {
@@ -362,8 +375,9 @@ if (isset($ctid) || isset($mkPreview) || isset($mkMake))
   }
 
 // show a list of teams
-  $htmlC->startHeader("User Teams");
-  echo $beginPage.$menuBar;
+  include_once($relPath.'theme.inc');
+  theme("Welcome", "header");
+  echo "<center><br>";
 // the teams table query
 
      //default order is by id
@@ -432,7 +446,9 @@ echo $tde.$td10;
 if ($tRows==20)
   {echo "<strong><a href=\"userteams.php?order=$order&direction=$direction&tstart=".($tstart+20)."\">Next</a></strong>";}
 echo $tre.$tbe."<br>".$tb2.$tr.$td3."<strong><a href=\"userteams.php?ctid=1&amp;tstart=$tstart\">Create New Team</a></strong>";
-echo $tre.$tbe.$menuBar.$closePage;
+echo $tre.$tbe;
+echo "</center>";
+theme("", "footer");
 
 function createThread($tname, $tinfo, $towner, $tid) {
 	//Declare variables
