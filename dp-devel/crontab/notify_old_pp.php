@@ -62,9 +62,6 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 
 	            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
-		// in lieu of a local log			
-		    maybe_mail("big_bill_boy2@yahoo.com.au", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");		
-
 		    $projectslist = "";
 		    $displayprojectslist = "";
 		    $numprojs = 0;
@@ -75,7 +72,7 @@ Thanks!\nThe Distributed Proofreaders Team\n(http://www.pgdp.net)";
 	$numprojs++;
 	
 	$projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n\n";
-        if (numprojs == 1) {
+        if ($numprojs == 1) {
 		$subject = "DP: Status update needed for 1 project checked out for PPing over 90 days";
 	} else {
 		$subject = "DP: Status updates needed for $numprojs projects checked out for PPing over 90 days";
