@@ -40,27 +40,27 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 
 	$result = mysql_query($query);
 
-	echo "<tr>";
+	echo "<tr align=center ".bgcol(1,$round).">";
 	$word = _("Title");
-	tde('<b>'.$word.'</b>',bgcol(1,$round));
+	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Author");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . " align=center");
+	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Language");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . " width=70");
+	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Genre");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . "70");
+	echo "\n<td><b>$word</b></td>";
 
-	$word = _("Project<BR>Manager");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . "60");
+	$word = _("Project Manager");
+	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Pages available for proofreading");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . "100");
+	echo "\n<td><b>$word</b></td>";
 
 	$word = _("Total pages in the book");
-	tde('<b>'.$word.'</b>',bgcol(1,$round) . "100");
+	echo "\n<td><b>$word</b></td>";
 	echo "</tr>";
 
 	global $pageCountArray;
@@ -165,7 +165,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 		if (($round == 'first'  && $book['state'] == PROJ_PROOF_FIRST_AVAILABLE) ||
 		    ($round == 'second' && $book['state'] == PROJ_PROOF_SECOND_AVAILABLE))
 		{
-			echo "<tr>";
+			echo "<tr $bgcolor>";
 			if ($tList==0)
 				{$eURL="proof.php";}
 			else
@@ -176,9 +176,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			else
 				{$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
 			$temp.="{$book['nameofwork']}</a>";
-			tde($temp, $bgcolor);
-			tde($book['authorsname'], $bgcolor);
-			tde($book['language'], $bgcolor);
+			echo "\n<td>$temp</td>";
+			echo "\n<td>$book['authorsname']</td>";
+			echo "\n<td>$book['language']</td>";
 			if ($book['difficulty'] == "beginner")
 			{
 				if  ($round == "first") 
@@ -198,10 +198,10 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			{
 				$genre = $book['genre'];
 			}
-			tde($genre, $bgcolor);
-			tde($book['username'],$bgcolor);
-			tde($pageCountArray[$book['projectid']]['avail_pages'], $bgcolor . " align=center");
-			tde($pageCountArray[$book['projectid']]['total_pages'], $bgcolor . " align=center");
+			echo "\n<td>$genre</td>";
+			echo "\n<td>$book['username']</td>";
+			echo "\n<td align=center>$pageCountArray[$book['projectid']]['avail_pages']</td>";
+			echo "\n<td align=center>$pageCountArray[$book['projectid']]['total_pages']</td>";
 		}
 		else
 		{
