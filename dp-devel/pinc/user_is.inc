@@ -90,7 +90,7 @@ function user_is_PP_of($project)
 
 	if (user_is_a_sitemanager()) return TRUE;
 
-	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND state = 'proj_post_first_checked_out'");
+	$result = mysql_query("SELECT checkedoutby FROM projects WHERE projectid = '$project' AND (state = 'proj_post_first_checked_out' or state = 'proj_post_second_checked_out')");
 	if (mysql_num_rows($result) >= 1) {
 		if (mysql_result($result, 0, "checkedoutby") == $pguser) { return TRUE; } else { return FALSE; }
 	} else {
