@@ -15,6 +15,11 @@ if (!isset($_GET['name']))
 
     echo "<br><h2>$title</h2>\n";
 
+    if (user_is_PM()) {
+        echo "<a href='projectmgr.php'>"._("Back to your PM page")."</a><br><br>";
+    }
+
+
     dpsql_dump_query("
         SELECT
                 concat('<a href=\"show_image_providers.php?name=',image_provider,'\" >',full_name,'</a>') as 'Full Name',
@@ -54,6 +59,7 @@ if (!isset($_GET['name']))
 
     echo "<br><h3>$sub_title</h3><h4>$more_info</h4>\n\n";
 
+    echo  "<a href='show_image_providers.php'>"._("Back to the full listing of Image Providers")."</a><br><br>";
 
     dpsql_dump_query("
         SELECT
