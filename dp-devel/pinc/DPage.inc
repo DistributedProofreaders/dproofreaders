@@ -13,18 +13,24 @@ include_once($relPath.'RoundDescriptor.inc');
 
 function project_allow_pages( $projectid )
 {
+    $columns_for_rounds = "";
+    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $prd = get_PRD_for_round($rn);
+        $columns_for_rounds .= "
+            {$prd->time_column_name}   int(20)     NOT NULL default '0',
+            {$prd->user_column_name}   varchar(25) NOT NULL default '',
+            {$prd->text_column_name}   longtext    NOT NULL,
+        ";
+    }
+
     $res = mysql_query("
         CREATE TABLE $projectid
         (
             fileid        varchar(20) NOT NULL default '', UNIQUE (fileid),
             image         varchar(8)  NOT NULL default '', UNIQUE (image),
             master_text   longtext    NOT NULL,
-            round1_text   longtext    NOT NULL,
-            round2_text   longtext    NOT NULL,
-            round1_user   varchar(25) NOT NULL default '',
-            round2_user   varchar(25) NOT NULL default '',
-            round1_time   int(20)     NOT NULL default '0',
-            round2_time   int(20)     NOT NULL default '0',
+            $columns_for_rounds
             state         VARCHAR(50) NOT NULL default '', INDEX(state),
             b_user        VARCHAR(25) NOT NULL default '',
             b_code        INT(1)      NOT NULL default '',
