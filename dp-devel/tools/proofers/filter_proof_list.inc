@@ -19,6 +19,8 @@ function build_selectlist( $states, $field)
 	    echo "</option>\n";
 	}
 
+return TRUE;
+
 }
 
 
@@ -28,7 +30,7 @@ if ($userP['u_plist'] == 1)
 		 state = '".PROJ_PROOF_FIRST_VERIFY."') ";
 	$label = _("First Round");
 }
-if ($userP['u_plist'] == 2 || 
+if ($userP['u_plist'] == 2)
 {
 	$state_sql = " (state = '".PROJ_PROOF_SECOND_AVAILABLE."' OR
 		 state = '".PROJ_PROOF_SECOND_VERIFY."') ";
