@@ -100,7 +100,7 @@ theme("Project Managers", "header");
 		echo "
 		    <center>
 		    Search for projects matching the following criteria:<br>
-		    (matching is case-insensitive and unanchored)
+		    (matching [except for State] is case-insensitive and unanchored)
 		    <form method=get action='projectmgr.php'>
 			<input type='hidden' name='show' value='search'>
 			<table>
@@ -112,6 +112,17 @@ theme("Project Managers", "header");
 			    <td>Author</td>
 			    <td><input type='text' name='author'></td>
 			</tr>
+		";
+        	if ($userP['sitemanager'] == "yes")
+		{
+		    echo "
+			<tr>
+			    <td>Project Manager</td>
+			    <td><input type='text' name='project_manager'></td>
+			</tr>
+		    ";
+		}
+		echo "
 			<tr>
 			    <td>State</td>
 			    <td>
@@ -164,6 +175,19 @@ theme("Project Managers", "header");
 			if ( $_GET['author'] != '' )
 			{
 			    $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
+			}
+			if ($userP['sitemanager'] == "yes")
+			{
+			    if ( $_GET['project_manager' ] != '' )
+			    {
+				$condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
+			    }
+			}
+			else
+			{
+			    // The user is a project manager, not a site admin,
+			    // so they can only see their own projects.
+			    $condition .= " AND username='$pguser'";
 			}
 			if ( $_GET['state'] != '' )
 			{
