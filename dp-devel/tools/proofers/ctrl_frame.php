@@ -80,7 +80,7 @@ A:active {
 	border="0"
 	cellpadding="0"
 	cellspacing="0"
-><tr><td><select
+><tr><td align="right"><select
 	name="tCharsA"
 	ID="tCharsA"
 	title="A"
@@ -111,7 +111,7 @@ A:active {
 <option value="260">&#260;</option>
 <option value="261">&#261;</option>
 <? } ?>
-</select></td><td><select
+</select></td><td align="right"><select
 	name="tCharsE"
 	ID="tCharsE"
 	title="E"
@@ -140,7 +140,7 @@ A:active {
 <option value="282">&#282;</option>
 <option value="283">&#283;</option>
 <? } ?>
-</select></td><td><select
+</select></td><td align="right"><select
 	name="tCharsI"
 	ID="tCharsI"
 	title="I"
@@ -169,7 +169,7 @@ A:active {
 <option value="304">&#304;</option>
 <option value="305">&#305;</option>
 <? } ?>
-</select></td><td><select
+</select></td><td align="right"><select
 	name="tCharsO"
 	ID="tCharsO"
 	title="O"
@@ -177,7 +177,7 @@ A:active {
 	class="dropchars"
 >
 <option value="0">O</option>
-<option value="0">-</option>
+<option value="0">--</option>
 <option value="210">&#210;</option>
 <option value="242">&#242;</option>
 <option value="211">&#211;</option>
@@ -190,11 +190,13 @@ A:active {
 <option value="246">&#246;</option>
 <option value="216">&#216;</option>
 <option value="248">&#248;</option>
+<? if($utf8_site) { ?>
 <option value="332">&#332;</option>
 <option value="333">&#333;</option>
 <option value="338">&#338;</option>
 <option value="339">&#339;</option>
-</select></td><td><select
+<? } ?>
+</select></td><td align="right"><select
 	name="tCharsU"
 	ID="tCharsU"
 	title="U"
@@ -212,8 +214,10 @@ class="dropchars"
 <option value="220">&#220;</option>
 <option value="252">&#252;</option>
 <option value="181">&#181;</option>
+<? if($utf8_site) { ?>
 <option value="362">&#362;</option>
 <option value="363">&#363;</option>
+<? } ?>
 </select></td><td><select
 	name="tCharsM"
 	ID="tCharsM"
@@ -247,6 +251,10 @@ class="dropchars"
 <option value="222">&#222;</option>
 <option value="254">&#254;</option>
 <option value="223">&#223;</option>
+<? if($utf8_site) { ?>
+<option value="502">&#502;</option>
+<option value="405">&#405;</option>
+<? } ?>
 <option value="0">--</option>
 
 <option value="0">Y</option>
@@ -381,6 +389,7 @@ class="dropchars"
 <option value="343">&#343;</option>
 <option value="344">&#344;</option>
 <option value="345">&#345;</option>
+<option value="223">&#223;</option>
 <option value="346">&#346;</option>
 <option value="347">&#347;</option>
 <option value="348">&#348;</option>
