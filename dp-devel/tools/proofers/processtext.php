@@ -64,6 +64,7 @@ $result = dquery($dbQuery);
 
 function setSaveComplete($project,$prooflevel,$imagefile,$pguser,$fileid)
 {
+addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);
 $timestamp = time();
 $dbQuery="UPDATE $project SET state='";
   if ($prooflevel==2)
@@ -104,8 +105,6 @@ if (!$isOpen)
 // buttons which save
 if (isset($button1) || isset($button2) || isset($button1_x) || isset($button2_x) || isset($button4_x) || isset($button4) || isset($button5_x) || isset($button5))
 {
-if (!isset($saved))
-{addUserCount($project,$prooflevel,$imagefile,$pguser,$fileid);}
 savePage($project,$prooflevel,$imagefile,$text_data,$pguser,$fileid);
 } // end save page
 
