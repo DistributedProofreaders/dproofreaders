@@ -24,13 +24,6 @@ echo "<hr>\n";
 system("ls -l /0/htdocs");
 echo "<hr>\n";
 
-$res = mysql_query("DESCRIBE projects")
-	    or die(mysql_error());
-while( $project_row = mysql_fetch_array($res) )
-{
-    echo $project_row, "\n";
-}
-
 if (0)
 {
     $project_cutoff_ts = gmmktime(0,0,0,1,2,2003);
@@ -58,13 +51,26 @@ if (0)
     echo "<hr>\n";
 }
 
-$res = mysql_query("SELECT username FROM users") or die(mysql_error());
-while( $user_row = mysql_fetch_array($res))
+if (0)
 {
-    list($username) = mysql_fetch_array($res);
-    echo $username, "\n";
+    $res = mysql_query("SELECT username FROM users") or die(mysql_error());
+    while( $user_row = mysql_fetch_array($res))
+    {
+	list($username) = mysql_fetch_array($res);
+	echo $username, "\n";
+    }
+    echo "<hr>\n";
 }
 
 
 echo "</pre>\n";
+
+if (1)
+{
+    include($relPath.'f_dpsql.inc');
+    $res = mysql_query("DESCRIBE projects")
+		or die(mysql_error());
+    dpsql_dump_query_result($res);
+    echo "<HR>\n";
+}
 ?>
