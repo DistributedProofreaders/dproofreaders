@@ -48,6 +48,9 @@ return $to_echo;
     echo _("Hard").'<input type="checkbox" name="difficulty1[]" value="hard"></td>';
 
     echo "\r\n</tr>";
+    echo "</table>\n<br>";
+
+    echo "\r\n<table border=1 width=630>";
     echo "\r\n<tr>";
 
     echo   "<td>"._("Language")."</td>";
