@@ -12,13 +12,13 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
 // if the project is in second round, the number of pages that
 // are available for first-round proofing is zero.)
 {
-    $project_round = projectStateRound($proofstate);
+    $project_phase = get_phase_containing_project_state($proofstate);
 
-    if ( $project_round == 'FIRST' || $project_round == 'NEW' )
+    if ( $project_phase == 'FIRST' || $project_phase == 'NEW' )
     {
         $avail_state = AVAIL_FIRST;
     }
-    else if ( $project_round == 'SECOND' )
+    else if ( $project_phase == 'SECOND' )
     {
         $avail_state = AVAIL_SECOND;
     }

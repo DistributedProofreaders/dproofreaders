@@ -28,15 +28,15 @@ function page_clear( $projectid, $fileid )
     $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
     $projstate = mysql_result($sql, 0, "state");
 
-    $inRound = projectStateRound($projstate);
+    $project_phase = get_phase_containing_project_state($projstate);
 
-    if ($inRound == 'NEW' || $inRound == 'PR' || $inRound == 'FIRST')
+    if ($project_phase == 'NEW' || $project_phase == 'PR' || $project_phase == 'FIRST')
     {
         $round_number = 1;
         $user_field_name = 'round1_user';
         $saved_page_state = SAVE_FIRST;
     }
-    else if ($inRound == 'SECOND')
+    else if ($project_phase == 'SECOND')
     {
         $round_number = 2;
         $user_field_name = 'round2_user';

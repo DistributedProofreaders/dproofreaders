@@ -4,7 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'RoundDescriptor.inc');
-include_once($relPath.'f_project_states.inc'); // projectStateRound
+include_once($relPath.'f_project_states.inc'); // get_phase_containing_project_state
 
 function echo_page_table(
 	$projectid,
@@ -30,11 +30,11 @@ function echo_page_table(
 	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
 	$state = mysql_result($proj_res, 0, "state");
 
-	$inRound = projectStateRound($state);
+	$project_phase = get_phase_containing_project_state($state);
 
-	$show_delete = (($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST' || $inRound=='SECOND') && $can_edit);
+	$show_delete = (($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='FIRST' || $project_phase=='SECOND') && $can_edit);
 
-	if ($inRound <> 'FIRST')
+	if ($project_phase <> 'FIRST')
 	{
 		$latest_round_num = 2;
 	}
@@ -241,7 +241,7 @@ function echo_page_table(
 
 		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
-			echo_cells_for_round($rn, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
+			echo_cells_for_round($rn, $page_res, $projectid, $project_phase, $can_edit, $can_see_names_for_this_page);
 		}
 
 		// (It's annoying that we have to pass all those args,
@@ -303,7 +303,7 @@ function echo_page_table(
 
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
-	$projectid, $inRound, $can_edit, $can_see_names_for_this_page)
+	$projectid, $project_phase, $can_edit, $can_see_names_for_this_page)
 {
 	global $userP, $forums_url, $pguser;
 
@@ -420,11 +420,11 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		if (
 			$round_num == 1 &&
 			$page_state == $prd->page_save_state &&
-			($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST')
+			($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='FIRST')
 			||
 			$round_num == 2 &&
 			$page_state == $prd->page_save_state &&
-			($inRound=='SECOND')
+			($project_phase=='SECOND')
 		)
 		{
 			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";

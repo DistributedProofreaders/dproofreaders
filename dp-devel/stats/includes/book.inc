@@ -59,7 +59,7 @@ function activityCenter($curProj) {
 
 	$projectid = $curProj['projectid'];
 
-	$proj_round = projectStateRound($curProj['state']);
+	$project_phase = get_phase_containing_project_state($curProj['state']);
 
 	echo "<table border='0' width='100%' cellspacing='0' cellpadding='1'>";
 
@@ -77,9 +77,9 @@ function activityCenter($curProj) {
 
 // Start Proofing
 
-	if ( $proj_round == 'FIRST' || $proj_round == 'SECOND' )
+	if ( $project_phase == 'FIRST' || $project_phase == 'SECOND' )
 	{
-		if ( $proj_round == 'FIRST' )
+		if ( $project_phase == 'FIRST' )
 		{
 			$available_state = PROJ_PROOF_FIRST_AVAILABLE;
 		}
@@ -92,7 +92,7 @@ function activityCenter($curProj) {
 
 //	Book is Posted
 
-	if ($proj_round = 'GB') {
+	if ($project_phase = 'GB') {
 
 		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'>";
 		echo get_pg_catalog_link_for_etext( $curProj['postednum'] );

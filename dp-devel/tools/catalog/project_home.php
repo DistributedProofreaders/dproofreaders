@@ -58,7 +58,7 @@ else
     // ----------------------------------------------------------------
 
     $proj_state = $project_res['state'];
-    $proj_round = projectStateRound($proj_state);
+    $project_phase = get_phase_containing_project_state($proj_state);
 
     echo "<h3>Things you can currently do with this project:</h3> (these would all be links)\n";
 
@@ -74,7 +74,7 @@ else
         echo "<li> Sign up to be notified when [something happens].</li>\n";
     }
 
-    if ( $proj_round != 'GB' and $proj_round != 'COMPLETE' and
+    if ( $project_phase != 'GB' and $project_phase != 'COMPLETE' and
         $pguser == $project_res['username'] )
     {
         echo "<li> (You are the project manager.) Upload images or OCR results.</li>\n";
@@ -86,9 +86,9 @@ else
         echo "<li> Download a zip of page-images.</li>\n";
     }
 
-    if ( $proj_round == 'FIRST' || $proj_round == 'SECOND' )
+    if ( $project_phase == 'FIRST' || $project_phase == 'SECOND' )
     {
-        if ( $proj_round == 'FIRST' )
+        if ( $project_phase == 'FIRST' )
         {
             $available_state = PROJ_PROOF_FIRST_AVAILABLE;
         }
@@ -100,12 +100,12 @@ else
         echo "<li> Re-proofread pages (if you've proofread any).</li>\n";
     }
 
-    if ( $proj_round != 'NEW' )
+    if ( $project_phase != 'NEW' )
     {
         echo "<li>View page-texts online.</li>\n";
     }
 
-    if ( $proj_round == 'PP' )
+    if ( $project_phase == 'PP' )
     {
         echo "<li> Download a zip of joined page-texts.</li>\n";
     }
