@@ -22,7 +22,7 @@ theme('Proofing Guidelines','header');
         -->
 
 <h1 align="center">Proofing Guidelines</h1>
-<h3 align="center">Version 1.52, released Sep 7, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.53, released Sep 13, 2003 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <!-- Real version:
@@ -284,15 +284,14 @@ theme('Proofing Guidelines','header');
 </table>
 
 <h3><a name="title_pg"><b>Front/Back Title Page</b></a> </h3>
-<p> Leave only the title and author name, since due to Project Gutenberg procedures,
-    that is all that will be put into the title page for final release of the e-book.
-    Remove all references to year, city of publication, publisher, copyright date, etc.
+<p> Leave only the title and author name, and year of publication/copyright.
+    Remove all references to city of publication, publisher, etc.
     Put the title &amp; author name just as the book has it written, whether all
     capitals, upper &amp; lower case, etc.  Older books often show the first letter as a
     large &amp; ornate graphic--put this as just the letter.  (These pages are left in
     to simplify uploading of the project and for the folder to have the complete book in
     it for future reference.)</p>
-    <!-- What about leaving in the dates on this page (but not publisher info)?  -->
+    <!-- What about leaving in the dates on this page (but not publisher info)? YES! -->
 <table width="100%" border="1"  cellpadding="4"
  cellspacing="0">
   <col width="256*"> <tbody>
