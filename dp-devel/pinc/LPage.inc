@@ -53,10 +53,21 @@ function get_available_page( $project, $proofstate, $pguser )
     }
     $npage = mysql_fetch_assoc($result);
 
-    $tpage = new processpage();
-    $pagestate = $tpage->checkOutPage( $project, $proofstate, $pguser, $npage['fileid'], $npage['image'] );
+    $fileid    = $npage['fileid'];
+    $imagefile = $npage['image'];
 
-    setPageCookie( $project, $proofstate, $npage['fileid'], $npage['image'], $pagestate, 0, 0, 0, 0, 0, 0 );
+    if ($proofstate == PROJ_PROOF_SECOND_AVAILABLE)
+    {
+        $round_number = 2;
+    }
+    else
+    {
+        $round_number = 1;
+    }
+
+    $pagestate = Page_checkout( $project, $fileid, $imagefile, $round_number, $pguser );
+
+    setPageCookie( $project, $proofstate, $fileid, $imagefile, $pagestate, 0, 0, 0, 0, 0, 0 );
 }
 
 // -----------------------------------------------------------------------------
@@ -186,21 +197,6 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 
   $this->prd = get_PRD_for_round( $this->pageround );
 }
-
-function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
-{
-  if ($proofstate==PROJ_PROOF_SECOND_AVAILABLE)
-  {
-    $round_number = 2;
-  }
-  else
-  {
-    $round_number = 1;
-  }
-
-  return Page_checkout( $project, $fileid, $imagefile, $round_number, $pguser );
-}
-
 
 function addUserCount($proofstate,$pguser,$userP)
 {
