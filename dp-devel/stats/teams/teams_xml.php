@@ -54,7 +54,7 @@ $curTeam = mysql_fetch_assoc($result);
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>
 			<rank>".$pageCountRank."/".$totalTeams."</rank>
-			<avgpagesday>".$avg_pages_per_day."</avgpagesday>
+			<avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
 			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
 		</teaminfo>
 	";
