@@ -8,8 +8,8 @@ sub create_daily_pages_graph();
 sub save_graph($$);
 
 $dsn = "DBI:mysql:dproofreaders:localhost";
-$db_user = "swisener";
-$db_pass = "pav3m3nt";
+$db_user = "";
+$db_pass = "";
 
 my $month;
 
