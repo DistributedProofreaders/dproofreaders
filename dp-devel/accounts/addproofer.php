@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'maybe_mail.inc');
 include($relPath.'connect.inc');
 include($relPath.'html_main.inc');
 $db_Connection=new dbConnect();
@@ -51,7 +52,7 @@ if ($password=="proofer") {
             VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
         $result = mysql_query($sql);
 
-        mail($email, "Welcome to the Distributed Proofreader's Site!",
+        maybe_mail($email, "Welcome to the Distributed Proofreader's Site!",
              "Hello $real_name,\n\n".
 "I want to first thank you for registering on our site. That is the first step in helping us proofread books for Project Gutenberg <http://www.gutenberg.net/>.\n\n".
 

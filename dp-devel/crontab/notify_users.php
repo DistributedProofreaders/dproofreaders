@@ -1,6 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'v_site.inc');
+include($relPath.'maybe_mail.inc');
 include($relPath.'dp_main.inc');
 
     $old_date = time() - 13176000; // 30 days less than 1/2 a year.
@@ -17,7 +18,7 @@ include($relPath.'dp_main.inc');
         $email_updates = mysql_result($result, $rownum, "email_updates");
         echo "$username, $email\n<br>";
         if ($email_updates) {
-            mail("$email", "Distributed Proofreaders: Inactive Account $username",
+            maybe_mail("$email", "Distributed Proofreaders: Inactive Account $username",
                  "Hello $real_name,\n\n".
 "This is an automated message and your only e-mail reminder that your account on the
  Distributed Proofreaders site ($siteurl/) has been inactive

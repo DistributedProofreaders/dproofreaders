@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
 include_once($relPath.'project_states.inc');
@@ -90,7 +91,7 @@ $subject = "Page Marked as Bad";
 }
 
 //Send the email to the PM
-mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
+maybe_mail($PMemail, $subject, $message, "From: $no_reply_email_addr <$no_reply_email_addr>\r\n"); 
 
 //Redirect the user to either continue proofing if project is still open or back to their personal page
 if (($_POST['redirect_action'] == "proof") && ($advisePM != 1)) { 
