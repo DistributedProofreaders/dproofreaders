@@ -18,10 +18,10 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 	echo "<br><br><center>"._("Please click the <i>Translate</i> link next to the language you would like to translate to begin:")."</center><br><br>";
 
 	$dir = opendir($dyn_locales_dir);
-	echo "<table border='0' cellspacing='3' cellpadding='' width='100%'><ul>\n";
+	echo "<table border='0' cellspacing='3' cellpadding='0' width='100%'><ul>\n";
  	while (false !== ($file = readdir($dir))) {
  		if ($file != "." && $file != ".." && $file != "CVS" && $file != "translators") {
- 			echo "<tr><td width='50%'><li>".$iso_639[$file]."</li></td><td width='50%'>[ <a href='index.php?func=translate&lang=$file'>"._("Translate")."</a> ]</td></tr>\n";
+ 			echo "<tr><td width='50%'><li>".$iso_639[$file]."</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$file'>"._("Translate")."</a> ]</td></tr>\n";
  		}
  	}
  	echo "</ul></table>\n";
@@ -67,9 +67,9 @@ $translation=array(
 		);
 
 		echo "<table border='0' cellspacing='3' cellpadding='' width='100%'><ul>\n";
-		echo "<tr><td width='50%'><li>"._("All")."</li></td><td width='50%'>[ <a href='index.php?func=translate&lang=$lang&location=all'>"._("Translate")."</a> ]</td></tr>\n";
+		echo "<tr><td width='50%'><li>"._("All")."</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$lang&amp;location=all'>"._("Translate")."</a> ]</td></tr>\n";
 		foreach($locations as $k=>$v)
-			echo "<tr><td width='50%'><li>$k</li></td><td width='50%'>[ <a href='index.php?func=translate&lang=$lang&location=$k'>"._("Translate")."</a> ] (<a href='$code_url/$k' target='_new'>"._("Location")."</a>)</td></tr>\n";
+			echo "<tr><td width='50%'><li>$k</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$lang&amp;location=$k'>"._("Translate")."</a> ] (<a href='$code_url/$k' target='_new'>"._("Location")."</a>)</td></tr>\n";
                 echo "</ul><tr><td width='50%'><form action='save_po.php' method='post'>";
                 echo "<input type='hidden' name='lang' value='$lang'>";
 		echo "<center><input type='submit' name='rebuild_strings' value='"._("Rebuild String List")."'></center><br></form></td></tr></table>\n";

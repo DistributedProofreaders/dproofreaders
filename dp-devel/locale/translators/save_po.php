@@ -111,7 +111,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 
     	echo "<center><b><i><font size='+2'>"._("Strings Rebuilt!")."</font></i></b><br><br>";
     }
-    echo "<a href='index.php?func=translate&lang=$lang'>"._("Please click here to return to translate the ").$iso_639[$lang]." "._("language file").".</a>";
+    echo "<a href='index.php?func=translate&amp;lang=$lang'>"._("Please click here to return to translate the ").$iso_639[$lang]." "._("language file").".</a>";
 }
 
 theme('','footer');
