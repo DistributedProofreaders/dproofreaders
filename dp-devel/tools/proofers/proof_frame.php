@@ -32,15 +32,13 @@ if (isset($editone))
   // set the cookie
     $tpage->setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
 
-
   // plug user page count cheat - if they reopen a saved page, subtract it from their count
   // as it is 'unproofing' it; they will get it back if they save it again
-
   // if page comes from My Recently Completed (???)
   if (($pagestate == SAVE_FIRST) || 
       ($pagestate == SAVE_SECOND))
   {
-     $tpage->deleteUserCount($proofstate, $pguser,$userP);
+     $tpage->newdeleteUserCount($proofstate,$pguser,$userP,$project, $imagefile,$fileid);
   }
 
   // load the frame
