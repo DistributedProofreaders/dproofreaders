@@ -6,7 +6,7 @@ include_once($relPath.'project_edit.inc');
 include_once('projectmgr.inc');
 
 $no_stats=1;
-theme("Difference", "header");
+theme(_("Difference"), "header");
 
 //define a CSS span class to make the diffs display in DPCustomMono2
 echo "<style type='text/css'>";
@@ -42,7 +42,7 @@ function wfMsg($key) {
 $wgOut=new Outputpage();
 
 include("DifferenceEngine.php");
-DifferenceEngine::showDiff($txt[0],$txt[1],"Old text","New text");
+DifferenceEngine::showDiff($txt[0],$txt[1],_("Old text"),_("New text"));
 
 theme("", "footer");
 ?>
