@@ -40,7 +40,11 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			SELECT language FROM projects WHERE projectid='$projectid'
 			"),0);
 		$languages = preg_split('/ with /', $project_language_property );
-		foreach ($languages as $language )
+		// foreach ($languages as $language )
+		// We want to iterate over all of the project's languages,
+		// but aspell can't handle dictionaries from more than one lang,
+		// so instead we specify only the "primary" language.
+		$language = $languages[0];
 		{
 			$langcode = array_search( $language, $iso_639 );
 			if ( $langcode )
