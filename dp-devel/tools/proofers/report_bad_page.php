@@ -15,7 +15,7 @@ $fileid     = $_POST['fileid'];
 // $_POST['badState'] is not defined,
 // $badState is set "manually".
 
-if ($_POST['submitted'] != 'true')
+if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
 	$reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
 	$htmlC->startHeader("Bad Page Report");
