@@ -38,7 +38,7 @@ theme('Proofing Guidelines Revision History','header');
                 <li>Spaced Out text - added </li>
                 <li>Single word at bottom of page - added </li>
                 <li>Poetry/Epigrams - clarification of</li>
-                <li>Lett Indentation - added /* */ markup </li>
+                <li>Letter Indentation - added /* */ markup </li>
                 <li>Block Quotations - now mark with /# #/ </li>
                 <li>Characters with Diacritical marks - added </li>
                 <li>Indexes - leave all page number references </li>
