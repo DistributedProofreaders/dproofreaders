@@ -34,11 +34,15 @@ type="text" value="<?PHP
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
+
 echo_button(SET_IMAGE_ZOOM,'a');
+
 ?>&nbsp;<a href="#"
 onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>&nbsp;<?
+
 echo_button(REVERT_TO_ORIGINAL,'a');
-?>&nbsp;<?PHP
+echo '&nbsp;';
+
   if ($npage['revert']==1 || $npage['saved']==1)
   {
     echo_button(REVERT_TO_LAST_SAVE,'a');
@@ -47,31 +51,38 @@ echo_button(REVERT_TO_ORIGINAL,'a');
   {
     echo_img(REVERT_TO_LAST_SAVE_DISABLED,'a');
   }
+
 ?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>&nbsp;<a
 href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>&nbsp;<?
+
 echo_button(SPELL_CHECK,'a');
-?><?PHP
 /*
 temp disabled
-&nbsp;<?
+echo '&nbsp;';
 echo_button(RUN_COMMON_ERRORS_CHECK,'a');
-?>
 */
-?>&nbsp;<?
+echo '&nbsp;';
 echo_button(CHANGE_LAYOUT,'a');
-?>&nbsp;<?
+echo '&nbsp;';
 echo_button(RETURN_PAGE,'a');
-?>&nbsp;<?
-if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0)) { echo_button(REPORT_BAD_PAGE,'a'); echo "&nbsp;"; }
-?><?
+echo '&nbsp;';
+
+if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
+{
+    echo_button(REPORT_BAD_PAGE,'a');
+    echo "&nbsp;";
+}
+
 echo_button(SAVE_AS_IN_PROGRESS,'a');
-?>&nbsp;<?PHP
+echo '&nbsp;';
+
   if($npage['editone']==0)
   {
-    echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a'); echo '&nbsp;';
+    echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a');
+    echo '&nbsp;';
   }
-?><?
+
 echo_button(SAVE_AS_DONE_AND_QUIT,'a');
-?>&nbsp;<?
+echo '&nbsp;';
 echo_button(QUIT,'a');
 ?>
