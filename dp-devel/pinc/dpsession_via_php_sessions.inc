@@ -167,6 +167,12 @@ function mysql_session_write($sid, $value)
 	// The table has a uniqueness constraint on 'sid',
 	// so $SessionExists must be 0 or 1.
 
+	// $value is a string (constructed by PHP's built-in session
+	// code) that might contain apostrophes (or backslashes?),
+	// which will screw up the SQL queries unless we escape them.
+	$value = addslashes($value);
+	// addslashes will also escape double-quotes, but that's okay.
+
 	if ( $SessionExists == 0 )
 	{
 		$result = mysql_query("
