@@ -46,7 +46,7 @@ function echo_manager_header( $which )
 	echo "</center>";
 
 	echo "
-		<p>
+		<p><center>
 		<font size=-1>
 		Visit the 
 		<a href='$code_url/faq/pm-faq.php#$which'>help section</a>
@@ -54,7 +54,7 @@ function echo_manager_header( $which )
 		<a href='$forums_url/viewtopic.php?t=2793'>forum topic</a>
 		for this page.
 		</font>
-		</p>
+		</center></p>
 	";
 
 }
