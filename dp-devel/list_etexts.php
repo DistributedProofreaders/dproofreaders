@@ -65,7 +65,7 @@ if ($type == "Gold") {
 $links="";
 if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zip version</a>, ";
 if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
-if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>";
+if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>, ";
 if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
 	$links=$links."<a href='".$code_url."/tools/correct/uploadcorr.php?project=".$row['projectid']."'>submit corrections</a>";
 } else {
