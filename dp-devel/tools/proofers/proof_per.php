@@ -209,12 +209,12 @@ neighbors <input type="submit" name="go" value="Go" /></p>
 <P><b>Post Processing:</b><br>
 You can help in the post processing phase of Distributed Proofreaders! After going through two rounds of proofreading, the books need to be massaged into a final e-text and you can help <a href ="../post_proofers/post_proofers.php">here</A>!<P>
 <?
-        $rows = mysql_query("SELECT projectid FROM projects WHERE state=20");
+        $rows = mysql_query("SELECT projectid FROM projects WHERE state=61");
         $postprojects = (mysql_num_rows($rows));
 
         echo "Currently there are <b> $postprojects </b> projects waiting";
 
-        $rows = mysql_query("SELECT projectid FROM projects WHERE checkedoutby = '$pguser' and state=25");
+        $rows = mysql_query("SELECT projectid FROM projects WHERE checkedoutby = '$pguser' and state=65");
         $postprojects = (mysql_num_rows($rows));
 
         if ($postprojects > 0) {
