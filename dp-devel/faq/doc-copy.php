@@ -77,7 +77,7 @@ and also some common guidelines.
     <li>Leave 2 blank lines before each author's name.                          </li>
     <li>On the first line of a main entry,
 	reproduce the capitalization that appears in the image.
-	(We used to ask proofers to capitalize the author's entire name,
+	(We used to ask proofreaders to capitalize the author's entire name,
 	but that guideline was withdrawn.)
     <br>If the name runs over onto the next line (due to narrow columns), join
         it back together so it's all on one line.                               </li>
@@ -89,7 +89,7 @@ and also some common guidelines.
     <li>Capitalize the word SEE when used to refer to another entry.
 	For the name that appears after the SEE,
 	reproduce the capitalization that appears in the image.
-	(We used to ask proofers to ensure that the name was in Title Case,
+	(We used to ask proofreaders to ensure that the name was in Title Case,
 	retyping it if necessary, but that guideline was withdrawn.)
     <br>
 
