@@ -423,56 +423,32 @@ function project_pre_release_check( $project )
 
 	if ($errors) $errors .= "\n";
 
-    if($readBIGtable)
-    {
-        if(!isset($pages) || $pages->projectid != $project)
-            $pages = new Pages($projectid);
-        if($pages->TotalPageCount == 0) $errors .= "  "._("There are no pages.")."\n";
-        foreach($pages->Pages() AS $pg)
-        {
-            if (!file_exists($pg->ImageFilePath())) {
-                $errors .= "  $pg->pageCode: "._("image file is missing")."\n";
-            } else if (filesize($pg->ImageFilePath()) < 100) {
-                $errors .= "  $pg->pageCode: "._("image file is small and probably bad")."\n";
-            }
+	$res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
 
-            if (!file_exists($pg->TextFilePath())) {
-                $errors .= "  $pg->pageCode: "._("master text file is missing.")."\n";
-            } else if (filesize($pg->TextFilePath()) == 0) {
-                $errors .= "  $pg->pageCode: "._("master text file is empty.")."\n";
-            }
-            if(
-        }
-    }
-    else
-    {
-        $res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
-
-        if (!$res)
-        {
-            $errors .= "  "._("There is no page-table.")."\n";
-            return $errors;
-        }
+	if (!$res)
+	{
+		$errors .= "  "._("There is no page-table.")."\n";
+		return $errors;
+	}
 
 
-        if (mysql_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
+	if (mysql_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
 
-        while ( $page = mysql_fetch_assoc($res) )
-        {
-            $filename = $page['image'];
-            $filepath = "$projects_dir/$projectid/$filename";
+	while ( $page = mysql_fetch_assoc($res) )
+	{
+		$filename = $page['image'];
+		$filepath = "$projects_dir/$projectid/$filename";
 
-            if (!file_exists($filepath)) {
-                $errors .= "  $filename: "._("image file is missing")."\n";
-            } else if (filesize($filepath) < 100) {
-                $errors .= "  $filename: "._("image file is small and probably bad")."\n";
-            }
+		if (!file_exists($filepath)) {
+			$errors .= "  $filename: "._("image file is missing")."\n";
+		} else if (filesize($filepath) < 100) {
+			$errors .= "  $filename: "._("image file is small and probably bad")."\n";
+		}
 
-            if ($page['master_text_length'] == 0) {
-                $errors .= "  $filename: "._("text is empty")."\n";
-            }
-        }
-    }
+		if ($page['master_text_length'] == 0) {
+			$errors .= "  $filename: "._("text is empty")."\n";
+		}
+	}
 
 	return $errors;
 }
