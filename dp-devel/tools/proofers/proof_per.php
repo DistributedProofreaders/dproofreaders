@@ -4,6 +4,34 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
+?>
+<style type="text/css">
+<!--
+.orange {
+	background-color: #FF9900;
+}
+.green {
+	background-color: #009900;
+}
+.paleblue {
+	background-color: #99FFFF;
+}
+.richblue {
+	background-color: #3399FF;
+}
+.yellow {
+	background-color: #FFFF00;
+}
+.grey {
+	background-color: #CCCCCC;
+}
+.red {
+	background-color: #FF0000;
+}
+
+-->
+</style>
+<?
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
 
@@ -59,7 +87,19 @@ echo "<br><br>";
     	echo "See the <a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a> section of the <a href='$code_url/faq/document.php'>Proofing Guidelines</a><br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
+?>
 
+
+
+<body bgcolor="#FFFFFF">
+<p><font face="Arial, Helvetica, sans-serif">Legend for Special Books:<br><b><span class="orange"> Halloween </span>&nbsp; 
+<span class="green"> Ramadan </span>&nbsp;<span class="paleblue"> recent authors' birthdays </span>&nbsp;
+  <span class="richblue"> TODAY's author birthdays </span>&nbsp;<span class="yellow"> Children's Book Week </span> 
+   &nbsp;<span class="grey"> Native 
+  American Heritage Month </span></b></font></p>
+
+
+<?
 $tList=0;
 include_once('proof_list.inc');
 ?>
