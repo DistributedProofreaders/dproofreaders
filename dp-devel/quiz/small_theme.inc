@@ -28,7 +28,7 @@ echo "<font face='$font_face' size='1' color='$font_color'>DP</font></a>\n";
 echo "<font face='$font_face' size='1' color='$font_color'> &#187;  Proofreading Quiz</font>\n";
 echo "</td>\n";
 echo "<td /* width='50%' */ align='right' bgcolor='$bgcolor'>\n";
-echo "<a href='$code_url/tools/proofers/proof_per.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Personal Page") . "</font></a>";
+echo "<a href='$code_url/activity_hub.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Activity Hub") . "</font></a>";
 echo "<font face='$font_face' size='1' color='$font_color'>&nbsp;<b>&#183;</b>&nbsp;</font>";
 echo "<a href='$code_url/faq/document.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Proofreading Guidelines") . "</font></a>";
 echo "</td>";

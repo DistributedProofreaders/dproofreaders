@@ -14,12 +14,12 @@ echo "<table border='1' width='630'><tr>";
 echo "<td bgcolor='CCCCCC' align='center'>";
 
 if (empty($userP['i_newwin'])) {
-	echo "<a href='proof_per.php' target='_top'>";
+	echo "<a href='$code_url/activity_hub.php' target='_top'>";
 } else {
-	echo "<a href='#' onclick=\"top.window.opener.location='proof_per.php';top.window.close()\">";
+	echo "<a href='$code_url/activity_hub.php' onclick=\"top.window.opener.location='$code_url/activity_hub.php';top.window.close()\">";
 }
 
-echo _("Personal Page")."</a></td>";
+echo _("Activity Hub")."</a></td>";
 
 // -------
 

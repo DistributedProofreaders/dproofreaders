@@ -135,7 +135,7 @@ else
     }
     else
     {
-        $url = "../tools/proofers/proof_per.php";
+        $url = "../activity_hub.php";
     }
 }
 $title = _("Sign In");

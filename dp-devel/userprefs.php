@@ -65,7 +65,7 @@ if (isset($project) && isset($proofstate))
 }
 else
 {
-    $eURL = "tools/proofers/proof_per.php";
+    $eURL = "activity_hub.php";
 }
 
 //just a way to get them back to someplace on quit button

@@ -332,7 +332,7 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 ></a><a
 	href="<?PHP
   if($userP['i_newwin']==0)
-    {echo "proof_per.php";}
+    {echo "$code_url/activity_hub.php";}
   else
     {echo "JavaScript:window.close();";}
 ?>"

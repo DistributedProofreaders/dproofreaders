@@ -85,7 +85,7 @@ echo "
 Congratulations, no errors found!<p>
 That's it for now! These 5 parts covered the most important things to watch out for in proofreading. When in doubt you should always consult the <a href='$code_url/faq/document.php' target='_top'>Proofreading Guidelines</a> or ask in the forums if that doesn't help.</p>
 <p>
-You'll find books to proofread on your <a href='$code_url/tools/proofers/proof_per.php' target='_top'> Personal Page</a>, or you can <a href='$code_url/faq/quiz/start.php' target='_top'>return to the start of the quiz</a>.";
+You'll find books to proofread via the <a href='$code_url/activity_hub.php' target='_top'>Activity Hub</a>, or you can <a href='$code_url/faq/quiz/start.php' target='_top'>return to the start of the quiz</a>.";
 }
 // they tried to edit the text, or something :roll:
 elseif ($feedb == 'other') {
@@ -109,7 +109,7 @@ political bands which have connected ...
 Not at all we suspect.</textarea>
 <p>
 This is the last step of the quiz.
-Use the link above to return to your Personal Page.</p>";}
+Use the link above to return to the Activity Hub.</p>";}
 //  
 //  
 // otherwise, print the problem
