@@ -14,7 +14,7 @@ if (isset($userP)){
     $intlang = $userP['u_intlang'];
 } else if (isset($_GET['lang'])) {
     $intlang = $_GET['lang'];
-} else {
+} else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
     $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
     $intlang = "";
     foreach($langs as $i) {
@@ -26,6 +26,8 @@ if (isset($userP)){
         }
     }
     if (!$intlang) { $intlang = "en_EN"; }
+} else {
+    $intlang = "en_EN";
 }
 
 $locale = setlocale(LC_ALL, $intlang);
