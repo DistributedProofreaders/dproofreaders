@@ -133,16 +133,16 @@ function users_get_page_tally_ranks()
     $i = 1;
     while ($row = mysql_fetch_assoc($result))
     {
-        $user_id = $row['u_id'];
-        if ($row['pagescompleted'] == 0) { $rankArray[$user_id] = 0; continue; }
+        $u_id = $row['u_id'];
+        if ($row['pagescompleted'] == 0) { $rankArray[$u_id] = 0; continue; }
         if ($row['pagescompleted'] == $latest_page_tally)
         {
-            $rankArray[$user_id] = $latest_rank;
+            $rankArray[$u_id] = $latest_rank;
             $latest_rank = $latest_rank;
         }
         else
         {
-            $rankArray[$user_id] = $i;
+            $rankArray[$u_id] = $i;
             $latest_rank = $i;
         }
         $latest_page_tally = $row['pagescompleted'];
