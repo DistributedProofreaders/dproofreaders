@@ -1,5 +1,5 @@
 <?PHP
-include('db_datestamp.inc');
+include($relPath.'db_datestamp.inc');
 
 class db_udb
 {
