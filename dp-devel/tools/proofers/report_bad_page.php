@@ -8,7 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 
 if ($_POST['submitted'] != 'true') {
-$reason_list = array('','Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
+$reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
 $htmlC->startHeader("Bad Page Report");
 $htmlC->startBody(0,1,0,0);
 $tb=$htmlC->startTable(0,0,0,1);

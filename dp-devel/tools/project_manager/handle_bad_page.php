@@ -8,7 +8,7 @@ include_once($relPath.'page_states.inc');
 
 if (!isset($_POST['action'])) {
   //Get variables to use for form
-    $reason_list = array('','Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
+    $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectID = $_GET['projectid'];
     $fileID = $_GET['fileid'];
   if (!isset($projectID)) { 
