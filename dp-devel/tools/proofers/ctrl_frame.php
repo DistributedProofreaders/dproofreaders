@@ -190,6 +190,8 @@ A:active {
 <option value="246">&#246;</option>
 <option value="216">&#216;</option>
 <option value="248">&#248;</option>
+<option value="332">&#332;</option>
+<option value="333">&#333;</option>
 <option value="338">&#338;</option>
 <option value="339">&#339;</option>
 </select></td><td><select
@@ -210,6 +212,8 @@ class="dropchars"
 <option value="220">&#220;</option>
 <option value="252">&#252;</option>
 <option value="181">&#181;</option>
+<option value="362">&#362;</option>
+<option value="363">&#363;</option>
 </select></td><td><select
 	name="tCharsM"
 	ID="tCharsM"
@@ -303,12 +307,12 @@ class="dropchars"
 ></a></td></tr><tr><td><select
 	name="tCharsC"
 	ID="tCharsC"
-	title="C"
+	title="CD"
 	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
-<option value="0">C</option>
+<option value="0">CD</option>
 <option value="0">--</option>
 <option value="199">&#199;</option>
 <option value="231">&#231;</option>
@@ -322,16 +326,6 @@ class="dropchars"
 <option value="269">&#269;</option>
 <option value="390">&#390;</option>
 <option value="391">&#391;</option>
-</select></td><td><select
-	name="tCharsD"
-	ID="tCharsD"
-	title="D"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">D</option>
-<option value="0">--</option>
 <option value="208">&#208;</option>
 <option value="240">&#240;</option>
 <option value="270">&#270;</option>
@@ -341,15 +335,52 @@ class="dropchars"
 <option value="393">&#393;</option>
 <option value="394">&#394;</option>
 </select></td><td><select
-	name="tCharsS"
-	ID="tCharsS"
-	title="S"
+	name="tCharsD"
+	ID="tCharsD"
+	title="LN"
 	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
-<option value="0">ST</option>
+<option value="0">LN</option>
 <option value="0">--</option>
+<option value="313">&#313;</option>
+<option value="314">&#314;</option>
+<option value="315">&#315;</option>
+<option value="316">&#316;</option>
+<option value="317">&#317;</option>
+<option value="318">&#318;</option>
+<option value="319">&#319;</option>
+<option value="320">&#320;</option>
+<option value="321">&#321;</option>
+<option value="322">&#322;</option>
+<option value="209">&#209;</option>
+<option value="241">&#241;</option>
+<option value="323">&#323;</option>
+<option value="324">&#324;</option>
+<option value="325">&#325;</option>
+<option value="326">&#326;</option>
+<option value="327">&#327;</option>
+<option value="328">&#328;</option>
+<option value="329">&#329;</option>
+<option value="330">&#330;</option>
+<option value="331">&#331;</option>
+</select></td><td><select
+	name="tCharsS"
+	ID="tCharsS"
+	title="RS"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">RS</option>
+<option value="0">--</option>
+<option value="340">&#340;</option>
+<option value="341">&#341;</option>
+<option value="342">&#342;</option>
+<option value="343">&#343;</option>
+<option value="344">&#344;</option>
+<option value="345">&#345;</option>
 <option value="346">&#346;</option>
 <option value="347">&#347;</option>
 <option value="348">&#348;</option>
@@ -358,22 +389,22 @@ class="dropchars"
 <option value="351">&#351;</option>
 <option value="352">&#352;</option>
 <option value="353">&#353;</option>
+</select></td><td><select
+	name="tCharsZ"
+	ID="tCharsZ"
+	title="TZ"
+	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	class="dropchars"
+	<? if(!$utf8_site) echo "disabled"; ?>
+>
+<option value="0">TZ</option>
+<option value="0">--</option>
 <option value="354">&#354;</option>
 <option value="355">&#355;</option>
 <option value="356">&#356;</option>
 <option value="357">&#357;</option>
 <option value="358">&#358;</option>
 <option value="359">&#359;</option>
-</select></td><td><select
-	name="tCharsZ"
-	ID="tCharsZ"
-	title="Z"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">Z</option>
-<option value="0">--</option>
 <option value="377">&#377;</option>
 <option value="378">&#378;</option>
 <option value="379">&#379;</option>
@@ -545,7 +576,7 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 	align="right"
 	valign="top">
 <?
-echo "<b><font color='red'>"._("HELP")."---></font></b>";
+echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 ?>
       <a
 	href="../../faq/<? echo lang_dir(); ?>prooffacehelp.php"
