@@ -25,9 +25,10 @@ $result = mysql_query("
 ");
 
 
-while ( $row = mysql_fetch_object($result) ) {
-        $data1y[] = $row->num_who_joined;
+while ( $row = mysql_fetch_object($result) )
+{
         $datax[]  = $row->month;
+        $data1y[] = $row->num_who_joined;
         $data2y[] = $row->num_who_proofed;
 	$data3y[] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
 }
