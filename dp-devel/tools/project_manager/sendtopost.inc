@@ -11,6 +11,8 @@ include_once($relPath.'maybe_mail.inc');
         // $project: the unique id of the project.
         // $username: the DP username of the owner(?) of the project.
 
+	global $auto_email_addr;
+
         generate_post_files( $project );
 
 
