@@ -98,7 +98,6 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 		echo "
 			<team>
 			<name>".xmlencode($row['teamname'])."</name>
-			<pagescompleted>".$row['page_count']."</pagescompleted>
 			<activemembers>".$row['active_members']."</activemembers>
 			</team>";
 	}
