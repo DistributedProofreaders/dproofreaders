@@ -163,8 +163,7 @@ class Settings
     // Return True iff a row exists and its value is 'yes'. Otherwise, False.
     function get_boolean($settingCode)
     {
-        if (!array_key_exists($settingCode, $this->settings_array)) return false;
-        $val = $this->settings_array[$settingCode] ;
+        if (!array_key_exists($settingCode, $this->settings_array)) return False;
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
 
