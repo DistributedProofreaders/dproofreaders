@@ -48,9 +48,10 @@ The edited text file is then submitted back to the site via the same webpage tha
 submits it to the PG archive.
 <p></td><tr>
 
-<td bgcolor=CCCCCC></td><td bgcolor=CCCCCC align=left><font size="+1">Update: Saturday November 16th</font></td><tr>
+<td bgcolor=CCCCCC></td><td bgcolor=CCCCCC align=left><font size="+1">Update: Saturday December 14th</font></td><tr>
 <td bgcolor=CCCCCC></td><td>
-<B>This is a test site site, not the real site. Visit http://texts01.archive.org/dp/ for the real site.
+I deleted Charlz' message here by accident, the stats are now working, sorry about the troubles!
+<P>Charles Aldarondo
 
 <br>You can view the financial statement for this site <a href="finance.html">here.</a>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -91,7 +92,7 @@ submits it to the PG archive.
     Site Activity from ".$datefromformat." to ".$datethruformat."</font></td><tr>";
     print $blankline."<p>\n";
 
-    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state = '30' and modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate DESC");
+    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state = '79' and modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate DESC");
 
     $rownum = 0;
     $numgold = mysql_num_rows($result);
@@ -107,7 +108,7 @@ submits it to the PG archive.
         print $tailmessage[4];
     }
 
-    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state >= 19 and state <= 29 AND modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate desc");
+    $result = mysql_query("SELECT nameofwork, authorsname FROM projects WHERE state >= 60 and state < 79 AND modifieddate >= '$sqldatefrom' and modifieddate <= '$sqldatethru' ORDER BY modifieddate desc");
 
     $rownum = 0;
     $numsilver = mysql_num_rows($result);
