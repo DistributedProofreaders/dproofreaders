@@ -16,9 +16,9 @@ $text = " " . _("In Progress.") . "</font>  " . _("These books have been process
 $state = SQL_CONDITION_GOLD;
 $text = " " . _("Complete.") . "</font>  " . _("These books have been processed through our site and posted to the Project Gutenberg archive.");
 $text .= "
-	<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'>
+	<a href='$code_url/feeds/backend.php?content=posted'>
 		<img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
-	<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'>
+	<a href='$code_url/feeds/backend.php?content=posted&type=rss'>
 		<img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
 	<br>";
 }
