@@ -220,10 +220,20 @@ if ($sitemanager == "yes") {
 </tr></table>
 <table border=1 width=630 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111>
 <tr><td colspan=6 bgcolor=999999>&nbsp;</td></tr><tr><td colspan=6>
-<B>Project Manager Notice:</B> Please do not put in the "standard comments" in the projects. Place the following instead if you have nothing additional:<p>
-No additional comments, review the <a href="http://texts01.archive.org/dp/faq/document.html">Document Guidelines</a> for formatting.
+<B>Project Manager Notice:</B>
+<P>There is a new way to upload files to the site without needing anyone to help you:
+<OL>
+<LI>FTP to texts01.archive.org with username dpscans and password image$
+<LI>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
+<LI>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
+<LI>Click on the title of the book to view it's details.
+<LI>Click on the link at the top titled "Add Images And Text From dpscans Account".
+<LI>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
+</OL>
 
-<P>Major changes have been made to the flow process of projects. Normal flow of a project has you only create a project with files, put into "Waiting for Release" status and then doing the post-processing yourself or just posting the finished product. Your default settings is to have the projects be assigned to you, if you want them to go to post-processing instead automatically, e-mail Charles Aldarondo. If you have any questions about the new process, e-mail Charles Aldarondo <a HREF="mailto:Charles@Aldarondo.net">Charles@Aldarondo.net</A>.
+<P>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
+
+<P>If you want the projects to go to post-processing automatically, e-mail Charles Aldarondo <a HREF="mailto:Charles@Aldarondo.net">Charles@Aldarondo.net</A>.
 </td></tr>
     <tr>
       <td width="175" align="center" bgcolor="#C0C0C0"><b>Title</b></td>
@@ -301,6 +311,10 @@ No additional comments, review the <a href="http://texts01.archive.org/dp/faq/do
                     }
                 } else if ($state == 2) {
                     if (($id == 0) || ($id == 8)) {
+                        print "<option value=$id>$s_name\n";
+                    }
+                } else if ($state == 8) {
+                   if ($id == 0) {
                         print "<option value=$id>$s_name\n";
                     }
                 } else if ($state == 10) {
