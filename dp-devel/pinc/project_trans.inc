@@ -322,7 +322,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		}
 
 		if (!empty($pgCount)) {
-			$settings .= ", final_pg_count=$pgCount";
+			$settings .= ", final_page_count=$pgCount";
 		} // ELSE automail an error report to dbreq?
 
 	}
