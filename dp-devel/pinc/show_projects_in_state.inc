@@ -13,6 +13,15 @@ if ( empty($pageCountArray) )
 function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = 'DaysD')
 {
 	global $pguser, $code_url, $pageCountArray;
+
+	$flip_title = FALSE;
+	$flip_author = FALSE;
+	$flip_lang = FALSE;
+	$flip_genre = FALSE;
+	$flip_PgTot = FALSE;
+	$flip_Person = FALSE;
+	$flip_days = FALSE;
+
 	$theme = $GLOBALS['theme'];
 	$bgcolor = $theme['color_headerbar_bg'];
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
