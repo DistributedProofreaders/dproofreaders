@@ -105,7 +105,11 @@ else
 {
     // filter block
     echo "<hr width='75%'>\n";
-    include_once('filter_proof_list.inc');
+
+	$state_sql = " (state = '{$prd->project_available_state}') ";
+	$label = $prd->round_name;
+    $filtertype_stem = "proof";
+    include_once($relPath.'filter_project_list.inc');
 }
 if (!isset($RFilter)) { $RFilter = ""; }
 
