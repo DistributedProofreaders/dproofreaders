@@ -160,7 +160,11 @@ echo "<br>";
 }
 
 echo "<br><hr><br><br>";
-include('filter_PP_list.inc');
+
+$label = _("Post-Processing");
+$state_sql = " (state = '".PROJ_POST_FIRST_AVAILABLE."') ";
+$filtertype_stem = "avail_PP";
+include($relPath.'filter_project_list.inc');
 
 echo "<a name='PP'></a>\n";
 echo "<center><b>"._("Books Available for Post Processing:")."</b></center>";
@@ -170,7 +174,12 @@ echo "<br>";
 if ($isPPV) {
 
 echo "<br><hr><br><br>";
-include('filter_PPV_list.inc');
+
+$label = _("Post-Processing Verification");
+$state_sql = " (state = '".PROJ_POST_SECOND_AVAILABLE."') ";
+$filtertype_stem = "avail_PPV";
+include($relPath.'filter_project_list.inc');
+
 echo "<a name='PPV'></a>\n";
 echo "<center><b>"._("Books Available for Post Processing Verification & Posting:")."</b></center>";
 show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter, $orderPPV);
