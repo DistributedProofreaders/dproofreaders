@@ -8,13 +8,23 @@ include_once($relPath.'v_keepmarkup.inc');
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $editone, $savedm $pagestate */
-$project = isset($projectname)?$projectname:0;
+
+if (!isset($projectname))
+{
+    echo "Error: processtext.php: \$projectname is not set.";
+    exit;
+}
+if ($projectname == '')
+{
+    echo "Error: processtext.php: \$projectname is empty.";
+    exit;
+}
+$project = $projectname;
 
 $text_data = isset($text_data) ? $text_data : '';
 
 $tpage=new processpage();
-  if ($project !='')
-  {$tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);}
+$tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
 
 define('B_TEMPSAVE',                1);
 define('B_SAVE_AND_DO_ANOTHER',     2);
