@@ -21,28 +21,24 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	{
 		if ($sub)
 		{
-			echo "<tr><td bgcolor='CCCCCC' align=center><h3><b>";
 			if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
-				echo _("First Round Project")."</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
-				echo "<b>"._("This is a First-Round project, these files are output from the OCR software and have not been looked at.")."</b></td></tr>";
+				$left  = _("First Round Project");
+				$right = _("This is a First-Round project, these files are output from the OCR software and have not been looked at.");
 			} else {
-				echo _("Second Round Project")."</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
-				echo "<b>"._("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._("See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.")."</b></td>";
+				$left  = _("Second Round Project");
+				$right = _("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._("See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.");
 			}
+			echo_row_a( $left, "<b>$right</b>", 1 );
 		}
 	}
 
-	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Title")."</b></td>";
-	echo "<td colspan=4>{$project['nameofwork']}</td></tr>";
-	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Author")."</b></td>";
-	echo "<td colspan=4>{$project['authorsname']}</td></tr>";
-	echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Project Manager")."</b></td>";
-	echo "<td colspan=4>{$project['username']}</td></tr>";
+	echo_row_a( _("Title"),           $project['nameofwork'] );
+	echo_row_a( _("Author"),          $project['authorsname'] );
+	echo_row_a( _("Project Manager"), $project['username'] );
 
 	if ($proofstate == 'proj_post')
 	{
-		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Post Proofer")."</b></td>";
-		echo "<td colspan=4>{$project['postproofer']}</td></tr>";
+		echo_row_a( _("Post Proofer"), $project['postproofer'] );
 	}
 
 	if ($proofstate != 'proj_post')
@@ -58,8 +54,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		} else {
 			$lastproofed=_("Project has not been proofread in this round.");
 		}
-		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>"._("Last Proofread")."</b></td>";
-		echo "<td colspan=4>$lastproofed</td></tr>";
+		echo_row_a( _("Last Proofread"), $lastproofed );
 	}
 
 	$topic_id = $project['topic_id'];
@@ -67,19 +62,15 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
 		$last_post_date = date("l, F jS, Y \a\\t g:i:sA", $last_post_date);
-		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Forum Post</b></td>";
-		echo "<td colspan=4>$last_post_date</td></tr>";
+		echo_row_a( "Last Forum Post", $last_post_date );
 	}
 
-	echo "<tr>";
-	echo "<td bgcolor=\"CCCCCC\" align=center><b>"._("Forum")."</b></td>";
-	echo "<td colspan=4><a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">";
 	if ($topic_id == "") {
-		echo _("Start a discussion about this project");
+		$blurb = _("Start a discussion about this project");
 	} else {
-		echo _("Discuss this project");
+		$blurb = _("Discuss this project");
 	}
-	echo "</a></td></tr>";
+	echo_row_a( _("Forum"), "<a href=\"$code_url/tools/proofers/project_topic.php?project=$projectid\">$blurb</a>" );
 
 	if ($proofstate == 'proj_post')
 	{
@@ -91,10 +82,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
 
-		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Credits line so far</b></td>";
-		echo "<td colspan=4>$creditline</td></tr>";
-		echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Clearance Line:</b></td>";
-		echo "<td colspan=4>{$project['clearance']}</td></tr>";
+		echo_row_a( "Credits line so far", $creditline );
+		echo_row_a( "Clearance Line:", $project['clearance'] );
 
 		echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
 		echo "{$project['postcomments']}</td></tr>";
@@ -133,6 +122,24 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function echo_row_a( $left, $right, $darken_right_background=0 )
+{
+	if ($darken_right_background)
+	{
+		$right_bg = "bgcolor='CCCCCC'";
+	}
+	else
+	{
+		$right_bg = "";
+	}
+	echo "<tr>";
+	echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
+	echo "<td colspan='4' $right_bg>$right</td>";
+	echo "</tr>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function get_real_name( $login_name )
 {
 	if ($login_name == '')
@@ -158,14 +165,13 @@ function get_real_name( $login_name )
 
 function notify($projectid, $proofstate, $pguser)
 {
-	echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>"._("Book Completed:")."</b></td><td colspan=4><a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">";
 	$temp = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$projectid."'");
 	if (mysql_num_rows($temp) == 0) {
-		echo _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
+		$blurb = _("Yes, I would like to be notified when this has been posted to Project Gutenberg.");
 	} else {
-		echo _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
+		$blurb = _("No, I would like to not be notified when this has been posted to Project Gutenberg.");
 	}
-	echo "</a></td></tr>";
+	echo_row_a( _("Book Completed:"), "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
