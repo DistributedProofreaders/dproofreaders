@@ -585,7 +585,7 @@ class TallyBoard
 
         list($obj->best_rank, $obj->best_rank_timestamp) =
             $this->get_info_re_best_rank($holder_id);
-        if ($obj->current_rank <= $obj->best_rank)
+        if ($obj->current_rank < $obj->best_rank)
         {
             $obj->best_rank = $obj->current_rank;
             $obj->best_rank_timestamp = time();
