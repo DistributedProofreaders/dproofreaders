@@ -20,6 +20,9 @@
 
 # ----------------------------------------------------------------------
 
+# $TAG is the CVS-tag used to extract files from the repository.
+TAG=HEAD
+
 # $GROUP is the name of the group that will group-own the files.
 GROUP=$USER
 
