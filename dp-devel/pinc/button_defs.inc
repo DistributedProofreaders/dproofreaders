@@ -53,7 +53,7 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button4",
 				$label      => _("Switch to")." $horvert",
 				'title'     => _("Save and Switch to")." $horvert "._("Layout"),
-				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("Change Layout")."{$CRLF} & {$CRLF}"._("Save the Current Document?")));",
+				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}"._("Change Layout")."{$CRLF}&{$CRLF}"._("Save the Current Document?")."'));",
 				'src'       => "gfx/bt$n.png",
 			);
 			break;
@@ -64,7 +64,7 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button3",
 				$label      => _("Stop Proofreading"),
 				'title'     => _("Stop Proofreading"),
-				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}{$CRLF}"._("Stop Proofreading?")));",
+				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}{$CRLF}"._("Stop Proofreading?")."'));",
 				'src'       => "gfx/bt1.png",
 			);
 			break;
@@ -85,7 +85,7 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button7",
 				$label      => _("Return Page to Round"),
 				'title'     => _("Return Page to Round"),
-				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("return this page to the current round?")));",
+				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}"._("return this page to the current round?")."'));",
 				'src'       => "gfx/bt15.png",
 			);
 			break;
@@ -95,7 +95,7 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button9",
 				$label      => _("Revert to Last Save"),
 				'title'     => _("Revert to Last Save"),
-				'onclick'   => "return(confirm("._("Are you sure you want to")."{$CRLF}"._("revert to your last save?")));",
+				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}"._("revert to your last save?")."'));",
 				'src'       => "gfx/bt7.png",
 			);
 			break;
@@ -105,7 +105,7 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button8",
 				$label      => _("Revert to Original Document"),
 				'title'     => _("Revert to Original Document"),
-				'onclick'   => "return(confirm('Are you sure you want to {$CRLF}revert to the original text for this round?'));",
+				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}"._("revert to the original text for this round?")."'));",
 				'src'       => "gfx/bt8.png",
 			);
 			break;

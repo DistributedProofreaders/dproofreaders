@@ -1,5 +1,7 @@
 <?
 include_once($relPath.'connect.inc');
+include_once($relPath.'gettext_setup.inc');
+
 $db_Connection=new dbConnect();
 
 function mysql_session_open($session_path, $session_name) {
@@ -79,7 +81,8 @@ function checkForActiveSession() {
 		// after the login process.
 		$url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
 		$body="<A HREF=\"$url\">" . _("Please sign in") . "</A>";
-		metarefresh(0,$url,'Please Login',$body);
+		$title = _("Please sign in");
+		metarefresh(0,$url,$title,$body);
 		exit;
 	}
 }

@@ -3,6 +3,7 @@ include_once($relPath.'tdecho.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'gettext_setup.inc');
 
 if ( empty($pageCountArray) )
 {
@@ -188,41 +189,53 @@ function show_projects_in_state($state,$table=1)
 
 		echo "<option selected>"._("Select")."...</option>\n";
 
-		echo_option( 'GET_IMAGES_HTML', _("View Images Online") );
-		echo_option( 'GET_IMAGES_ZIP', _("Download Zipped Images") );
+		$label = _("View Images Online");
+		echo_option( 'GET_IMAGES_HTML', $label);
+		$label = _("Download Zipped Images");
+		echo_option( 'GET_IMAGES_ZIP', $label);
 
 		if ($stage == 'post_1')
 		{
-			echo_option( 'GET_TEXT_POST_1_ZIP', _("Download Zipped Text") );
-			echo_option( 'GET_XML_POST_1_ZIP',  _("Download Zipped TEI Text") );
-			echo_option( 'GET_COMMENTS_POST', _("View Project Comments") );
+			$label = _("Download Zipped Text");
+			echo_option( 'GET_TEXT_POST_1_ZIP', $label);
+			$label = _("Download Zipped TEI Text");
+			echo_option( 'GET_XML_POST_1_ZIP',  $label);
+			$label = _("View Project Comments");
+			echo_option( 'GET_COMMENTS_POST', $label);
 			if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
-	                        echo_option( 'GET_PROJ_DETAILS', _("View Project Details") );
+				$label = _("View Project Details");
+	                        echo_option( 'GET_PROJ_DETAILS', $label);
 			}
 		}
 		elseif ($stage == 'post_2')
 		{
-			echo_option( 'GET_TEXT_POST_2_ZIP', _("Download Zipped Text") );
-			echo_option( 'GET_COMMENTS_POST', _("View Project Comments") );
+			$label = _("Download Zipped Text");
+			echo_option( 'GET_TEXT_POST_2_ZIP', $label);
+			$label = _("View Project Comments");
+			echo_option( 'GET_COMMENTS_POST', $label);
 			if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
-	                        echo_option( 'GET_PROJ_DETAILS', _("View Project Details") );
+				$label = _("View Project Details");
+	                        echo_option( 'GET_PROJ_DETAILS', $label);
 			}
 
 		}
 		elseif ($stage == 'correct')
 		{
-			echo_option( 'GET_TEXT_CORR_ZIP', _("Download Zipped Text") );
+			$label = _("Download Zipped Text");
+			echo_option( 'GET_TEXT_CORR_ZIP', $label);
 		}
 
 		echo_option( $serious_code, $serious_label );
 
 		if ($state == PROJ_POST_FIRST_CHECKED_OUT)
 		{
-			echo_option( PROJ_POST_SECOND_AVAILABLE, _("Upload for Verification") );
+			$label = _("Upload for Verification");
+			echo_option( PROJ_POST_SECOND_AVAILABLE, $label);
 		}
 		elseif ($state == PROJ_CORRECT_CHECKED_OUT)
 		{
-			echo_option(PROJ_SUBMIT_PG_POSTED, _("Posted to Project Gutenberg"));
+			$label = _("Posted to Project Gutenberg");
+			echo_option(PROJ_SUBMIT_PG_POSTED, $label);
 		}
 
 		echo "</select></form></td>\n";

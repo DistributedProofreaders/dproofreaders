@@ -11,17 +11,20 @@ function check_username( $username )
 
     if ( $username == '' )
     {
-	return _("You did not supply a User Name (ID).");
+	$error = _("You did not supply a User Name (ID).");
+	return $error;
     }
 
     if ( strlen($username) > $username_max_len )
     {
-	return _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
+	$error = _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
+	return $error;
     }
 
     if ( ereg( "[^-a-zA-Z0-9@._ ]", $username) )
     {
-	return _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
+	$error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
+	return $error;
     }
 
     // In order to prevent one class of impersonations,
@@ -30,12 +33,14 @@ function check_username( $username )
 
     if ( trim($username) != $username )
     {
-	return _("Your User Name has leading or trailing whitespace, which is not allowed.");
+	$error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
+	return $error;
     }
 
     if ( ereg( "  ", $username ) )
     {
-	return _("Your User Name contains adjacent space characters, which is not allowed.");
+	$error = _("Your User Name contains adjacent space characters, which is not allowed.");
+	return $error;
     }
 
     return '';

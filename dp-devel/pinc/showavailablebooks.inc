@@ -2,6 +2,7 @@
 include_once($relPath.'project_states.inc');
 include_once($relPath.'tdecho.inc');
 include_once($relPath.'bookpages.inc');
+include_once($relPath.'gettext_setup.inc');
 
 function show_books_available_for_proofing( $round, $userP, $tList, $where_filter = " " )
 {
@@ -40,13 +41,26 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 	$result = mysql_query($query);
 
 	echo "<tr>";
-	tde('<b>'._("Title").'</b>',bgcol(1,$round));
-	tde('<b>'._("Author").'</b>',bgcol(1,$round) . " align=center");
-	tde('<b>'._("Language").'</b>',bgcol(1,$round) . " width=70");
-	tde('<b>'._("Genre").'</b>',bgcol(1,$round) . "70");
-	tde('<b>'._("Project<BR>Manager").'</b>',bgcol(1,$round) . "60");
-	tde('<b>'._("Pages available for proofing").'</b>',bgcol(1,$round) . "100");
-	tde('<b>'._("Total pages in the book").'</b>',bgcol(1,$round) . "100");
+	$word = _("Title");
+	tde('<b>'.$word.'</b>',bgcol(1,$round));
+
+	$word = _("Author");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . " align=center");
+
+	$word = _("Language");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . " width=70");
+
+	$word = _("Genre");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . "70");
+
+	$word = _("Project<BR>Manager");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . "60");
+
+	$word = _("Pages available for proofing");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . "100");
+
+	$word = _("Total pages in the book");
+	tde('<b>'.$word.'</b>',bgcol(1,$round) . "100");
 	echo "</tr>";
 
 	global $pageCountArray;

@@ -308,8 +308,8 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         // Today's Numbers
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	$todaysGoal = mysql_result($result, 0, "dailygoal");
-	echo "&nbsp;".sprintf(_("Today's Goal: %s pages"),number_format($todaysGoal)). "<br>\n";
-	echo "&nbsp;" . sprintf(_("Today: %s pages"), number_format($sitestats['daily'])) . " (" . strftime("%R") . ")<br><br>\n";
+	echo "&nbsp;"._("Today's Goal:")." ".number_format($todaysGoal)." "._("pages"). "<br>\n";
+	echo "&nbsp;"._("Today:")." ".number_format($sitestats['daily'])." "._("pages")." (" . strftime("%R") . ")<br><br>\n";
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");

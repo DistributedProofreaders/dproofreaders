@@ -3,6 +3,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'bookpages.inc');
+include_once($relPath.'gettext_setup.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,
@@ -28,7 +29,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	");
 	if (mysql_num_rows($res) == 0)
 	{
-	    return "$projectid: "._("no such project");
+	    $error = "$projectid: "._("no such project");
+	    return $error;
 	}
 
 	$project = mysql_fetch_array($res);
@@ -229,7 +231,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	if ( ! in_array( $new_state, $transition_graph[$current_state] ) )
 	{
 		// Requested transition is illegal.
-		return "$transition_str "._("is illegal");
+		$error = "$transition_str "._("is illegal");
+		return $error;
 	}
 
 	// -------------------------------------------------------------------------
@@ -244,7 +247,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$errors = project_pre_release_check( $project );
 		if ($errors)
 		{
-			return "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
+			$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>"
+			return $error;
 		}
 		$settings .= ", modifieddate='$now'";
 	}
