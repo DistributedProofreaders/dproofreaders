@@ -136,7 +136,8 @@ echo $message;
 <td width = 1 bgcolor=CCCCCC>&nbsp</td><td bgcolor=CCCCCC align=left><font size = "+1">Get Started!</font><td><tr>
 <td width = 1 bgcolor=CCCCCC>&nbsp</td><td>
 <br><u><font size = "+1">Proofreaders:</font></u>
-<br><font size="+1"><a href="accounts/addproofer.php">Create</a></font> an account to get started! You can also read the <a href="faq/ProoferFAQ.html">Frequently Asked Questions (FAQ)</a> to get an
+<br><font size="+1"><a href="accounts/addproofer.php">Create</a></font> an account to get started! 
+You can also read the <a href="faq/faq_central.html">Frequently Asked Questions (FAQs)</a> to get an
  idea of what we do here at this site.
 <p><u><font size=+1>Already have an account?</font></u>
 <br><font size="+1"><a href="accounts/signin.php">Sign In</a></font> and start proofing!!

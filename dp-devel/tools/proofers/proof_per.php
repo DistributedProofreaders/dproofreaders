@@ -239,6 +239,10 @@ of Distributed Proofreaders!
         echo ".";
     }
 ?>
+
+<p><b>Documentation:</b>
+<br>Read the FAQs at <a href="../../faq/faq_central.html">FAQ Central</a>.</p>
+
 <p>Want to help support this site???? We can always use $$ to buy books, 
 software, hardware etc. By clicking on the 'Beg Button' below you can 
 donate with your credit card or PayPal account via PayPal!!
