@@ -15,7 +15,7 @@ $no_stats=1;
 theme("Project Details", "header");
 
 $projectid = $_GET['project'];
-if (not user_is_PP_of( $projectid)) {
+if (! user_is_PP_of( $projectid)) {
 	abort_if_not_manager();
 }
 
