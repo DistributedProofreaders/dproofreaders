@@ -23,9 +23,6 @@ if (mysql_num_rows($result) == 0)
 }
 
 $curMbr = mysql_fetch_assoc($result);
-$result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
-$curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
-$now = time();
 
 if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
 	$user_referent = "#" . $curMbr['u_id'];
@@ -49,6 +46,9 @@ echo "<br><center>";
 echo "<h1>$desc</h1>";
 
 if (is_null($brushoff)) {
+	$result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
+	$curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
+	$now = time();
 	showMbrProfile($curMbr);
 	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
 	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
