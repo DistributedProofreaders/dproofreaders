@@ -4,7 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'user.inc');
 $userC=new db_udb();
-$noLogin="Username or password is incorrect.<BR>If you feel you have received this message in error, please try to <A HREF=\"$siteurl/phpBB2/profile.php?mode=sendpassword\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:charlz@lvcablemodem.com\">webmaster</A>.<BR><A HREF=\"signin.php\">Back</A> to the sign in page.";
+$noLogin="Username or password is incorrect.<BR>If you feel you have received this message in error, please try to <A HREF=\"$reset_password_url\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:charlz@lvcablemodem.com\">webmaster</A>.<BR><A HREF=\"signin.php\">Back</A> to the sign in page.";
 $htmlStart="<HTML><HEAD><TITLE>Login</TITLE>";
 $htmlMid="</HEAD><BODY>";
 $htmlEnd="</BODY></HTML>";

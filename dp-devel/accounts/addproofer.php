@@ -75,7 +75,7 @@ if ($password=="proofer") {
 
 "Thanks,\n
 The Distributed Proofreaders Team\n\nPS - Your user name, in case you forget is $username.
-If your password doesn't work, go to <$siteurl/phpBB2/profile.php?mode=sendpassword> to have it reset.",
+If your password doesn't work, go to <$reset_password_url> to have it reset.",
 "From: dphelp@texts01.archive.org\r\nReply-To: dphelp@texts01.archive.org\r\n");
 
         $htmlC->startHeader("User $username Added Successfully");

@@ -179,7 +179,7 @@ echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('toolbar');\">?</a></b>";
 echo $tre.$tr.$td2;
 echo "<strong>Password:</strong>";
 echo $tde.$td3;
-echo "<a href='$siteurl/phpBB2/profile.php?mode=sendpassword'>Reset Password</a>";
+echo "<a href='$reset_password_url'>Reset Password</a>";
 echo $tde.$td3a."<b><a href=\"JavaScript:newHelpWin('password');\">?</a></b>";
 echo $tde.$td2;
 echo "<strong>Show Statusbar:</strong>";
