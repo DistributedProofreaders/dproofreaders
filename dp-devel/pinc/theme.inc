@@ -207,8 +207,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url, $metadata;
-
-        if(!(isset($userP) && $userP['u_intlang'])) {
+    		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
                 <script language="JavaScript"><!--
                         function submitLang(i) {
@@ -326,7 +325,7 @@ if ($metadata){
     //Show site, personal, team & top ten stats.
     //Provides a link for users to get more stats
     //Shows on all pages
-	include("$dynstats_dir/stats.inc");
+	if (file_exists("$dynstats_dir/stats.inc")) { include("$dynstats_dir/stats.inc"); }
 
     //Show the site statistics
        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
@@ -338,7 +337,7 @@ if ($metadata){
 	$result = mysql_query("SELECT dailygoal FROM pagestats WHERE date = '".date("Y-m-d", time())."'");
 	if (mysql_num_rows($result) > 0) { $todaysGoal = mysql_result($result, 0, "dailygoal"); } else { $todaysGoal = 0; }
 	echo "&nbsp;"._("Today's Goal:")." ".number_format($todaysGoal)."<br>\n";
-	echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n";
+	if (isset($sitestats)) { echo "&nbsp;"._("Today's Total:")." ".number_format($sitestats['daily'])." (" . strftime("%R") . ")<br><br>\n"; }
 
         // Yesterday's Numbers
 	$result = mysql_query("SELECT pages, dailygoal FROM pagestats WHERE date = '".date("Y-m-d", (time()-86400))."'");
@@ -353,11 +352,11 @@ if ($metadata){
 	echo "&nbsp;"._("Yesterday's Total:")." ".number_format($yesterdaysTotal)."<br><br>\n";
 
 	// Month's Numbers
-	$sitestatsgoal = $sitestats['goal'];
+	if (isset($sitestats)) { $sitestatsgoal = $sitestats['goal']; } else { $sitestatsgoal = 0; }
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
 
-	echo "&nbsp;".strftime(_("%B's Goal:")).number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
-	echo "&nbsp;".strftime(_("%B's Total:")).number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n";
+	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Goal:")).number_format($sitestats['goal'])." (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n"; }
+	if (isset($sitestats)) { echo "&nbsp;".strftime(_("%B's Total:")).number_format(($sitestats['monthly']+$sitestats['daily']))."<br>\n"; }
 
        echo "</font><br><hr width='75%' align='center'><br>\n";
 
