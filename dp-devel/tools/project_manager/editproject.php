@@ -178,7 +178,7 @@ function posted_pg($projectid) {
 		$username = mysql_result($result, $rownum, "username");
 		$temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
 		$email = mysql_result($temp, 0, "user_email");
-		maybe_mail($email, "$NameofWork Posted to Project Gutenberg", "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!nn--nDistributed Proofreadersn$code_url/nnThis is an automated message that you had requested, please do not respond directly to this e-mail","From: $auto_email_addrrnReply-To: $auto_email_addrrn");
+		maybe_mail($email, "$NameofWork Posted to Project Gutenberg", "You had requested to be let known once $NameofWork was ready to be available for reading. It has been sent to Project Gutenberg and will soon be available for reading. Most files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so. Download the file at $ziplink and enjoy!nn--nDistributed Proofreadersn$code_url/nnThis is an automated message that you had requested, please do not respond directly to this e-mail","From: $auto_email_addrrnReply-To: $auto_email_addrrn");
             	$rownum++;
         }
 
@@ -257,11 +257,16 @@ function genre_list($genre) {
 function difficulty_list($difficulty_level) {
 	$array_list = array('Beginner', 'Easy', 'Average', 'Hard');
 	echo "<tr><td bgcolor='#CCCCCC'><b>Difficulty Level</b></td><td>";
+        $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
+        if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
+        // only show the beginner level to the BEGIN PM or SiteAdmins
 	for ($i=0;$i<count($array_list);$i++)  {
-		echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
-		if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
-		echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		}
+                if (($i > 0) || ($pguser == "BEGIN") || ($sa)) {
+ 		  echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
+		  if (strtolower($difficulty_level) == strtolower($array_list[$i])) { echo " CHECKED"; }
+		  echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                } 
+	}
 	echo "</td></tr>";
 }
 
@@ -425,7 +430,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
 	if (empty($clearance)) { $clearance = ""; }
 	if (empty($htmllink)) { $htmllink = ""; }
 	if (empty($postednum)) { $postednum = ""; }
-	if (empty($difficulty_level)) { $difficulty_level = "average"; }
+	if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
 	theme("Create a Project", "header");
 	echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
