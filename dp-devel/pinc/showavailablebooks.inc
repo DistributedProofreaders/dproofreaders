@@ -39,12 +39,7 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 	}
 
 	$result = mysql_query($query);
-	showbooklistheader($round);
-	showavailablebooks($result,$state,$userP,$tList,$round);
-}
 
-
-function showbooklistheader($round) {
 echo "<tr>";
 tde('<b>'._("Name&nbsp;of&nbsp;Work").'</b>',bgcol(1,$round));
 tde('<b>'._("Author").'</b>',bgcol(1,$round) . " align=center");
@@ -54,9 +49,7 @@ tde('<b>'._("Project<BR>Manager").'</b>',bgcol(1,$round) . "60");
 tde('<b>'._("Pages available for proofing").'</b>',bgcol(1,$round) . "100");
 tde('<b>'._("Total pages in the book").'</b>',bgcol(1,$round) . "100");
 echo "</tr>";
-}
 
-function showavailablebooks($result,$state,$userP,$tList,$round) {
 	global $pageCountArray;
 	$numrows = mysql_num_rows($result);
 	$rownum = 0;
