@@ -153,6 +153,39 @@ abort_if_not_manager();
 
 		// -------------------------------------------------------------
 
+		function option_to_move( $curr_state, $new_state )
+		{
+		    global $result;
+
+		    $projectids = array();
+		    while ( $project = mysql_fetch_assoc($result) )
+		    {
+			if ( $project['state'] == $curr_state )
+			{
+			    $projectids[] = $project['projectid'];
+			}
+		    }
+		    mysql_data_seek($result, 0);
+
+		    if ( count($projectids) > 0 )
+		    {
+			$curr_blurb = project_states_text($curr_state);
+			$new_blurb  = project_states_text($new_state);
+			$projectids_str = implode( ',', $projectids );
+			
+			echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
+			echo "Move all <b>$curr_blurb</b> projects on this page to <b>$new_blurb</b>";
+			echo "</a>";
+			echo "<br>";
+			echo "<br>";
+		    }
+		}
+
+		option_to_move( PROJ_NEW, PROJ_PROOF_FIRST_UNAVAILABLE );
+		option_to_move( PROJ_PROOF_FIRST_UNAVAILABLE, PROJ_PROOF_FIRST_WAITING_FOR_RELEASE );
+
+		// -------------------------------------------------------------
+
 		// Present the results of the search query.
 
 		$show_pages_left = 0;
