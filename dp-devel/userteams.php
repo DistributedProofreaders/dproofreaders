@@ -26,17 +26,6 @@ $td12=$htmlC->startTD(2,0,3,0,"center",0,0,1);
 $td12a=$htmlC->startTD(0,0,3,0,"center",0,0,1);
 $td13=$htmlC->startTD(1,0,2,0,"center",0,0,1);
 $td13a=$htmlC->startTD(0,0,2,0,"center",0,0,1);
-
-//startTD($tdType,$tdWidth,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags,$return)
-
-/*
-$td1b=$htmlC->startTD(2,0,4,0,"center",0,0,1);
-$td1a=$htmlC->startTD(0,0,2,0,"center",0,0,1);
-$td2=$htmlC->startTD(1,0,0,0,"right",0,0,1);
-$td3=$htmlC->startTD(0,0,0,0,"left",0,0,1);
-$td4=$htmlC->startTD(1,0,2,0,"center",0,0,1);
-$td5=$htmlC->startTD(0,0,4,0,"center",0,0,1);
-*/
 $tde=$htmlC->closeTD(1);
 $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 $tbe=$htmlC->closeTable(1);
@@ -69,7 +58,7 @@ function showTeamProfile($pguser,$userP,$tstart,$tid,$tname,$ttext,$tavatar,$tme
 
     echo $tb.$tr.$td2;
     if (strcmp($tavatar,0)!=0)
-      {echo "<img \r\nsrc=\"./users/teams/icons/$tavatar\" width=\"100\" height=\"100\" alt=\"".strip_tags($tname)."\">";}
+      {echo "<img \r\nsrc=\"./users/teams/avatar/$tavatar\" width=\"100\" height=\"100\" alt=\"".strip_tags($tname)."\">";}
     echo $tde.$td3."<b>".stripslashes($tname)."</b>".
       "<p>Created: ".date("l, F jS, Y \a\\t g:i:sA",$ttime);
     echo $tre.$tbe."<br>";
@@ -388,11 +377,12 @@ $td_ar=array($td2,$td3,$td6a,$td6);
         $teamIcon=$curTeam['icon'];
         $teamID=$curTeam['id'];
         $teamName=$curTeam['teamname'];
+        $teamLink="<a href=\"userteams.php?tid=$teamID&amp;tstart=$tstart\">";
         echo $tre."\r\n".$tr;
-        echo $t_td1."<img src=\"./users/teams/icons/$teamIcon\" width=\"25\" height=\"25\" alt=\"".strip_tags($teamName)."\">".
+        echo $t_td1.$teamLink."<img src=\"./users/teams/icon/$teamIcon\" width=\"25\" height=\"25\" alt=\"".strip_tags($teamName)."\" border=\"0\"></a>".
           "$tde$t_td1<strong>$teamID</strong>$tde$t_td2$teamName$tde".
           "$t_td1{$curTeam['member_count']}$tde$t_td1{$curTeam['page_count']}$tde$t_td1".
-          "<b><a href=\"userteams.php?tid=$teamID&amp;tstart=$tstart\">View</a> ";
+          "<b>".$teamLink."View</a> ";
         if ($curTeam['id']!=1 && $userP['team_1']!=$curTeam['id'] && $userP['team_2']!=$curTeam['id'] && $userP['team_3']!=$curTeam['id'])
           {echo " <a href=\"userteams.php?jtid=$teamID\">Join</a></b>";}
         else if ($teamID !=1)
