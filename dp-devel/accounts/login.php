@@ -1,11 +1,11 @@
 <?PHP
 $relPath="./../pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'username.inc');
-include($relPath.'connect.inc');
-include($relPath.'user.inc');
-include($relPath.'metarefresh.inc');
-include($relPath.'theme.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'username.inc');
+include_once($relPath.'connect.inc');
+include_once($relPath.'user.inc');
+include_once($relPath.'metarefresh.inc');
+include_once($relPath.'theme.inc');
 
 function abort_login( $error )
 {
