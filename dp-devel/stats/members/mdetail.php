@@ -48,13 +48,13 @@ echo "<br><center>";
 
 echo "<h1>$desc</h1>";
 
-if (!is_null($brushoff)) {
-	echo "<p>$brushoff</p>";
-} else {
+if (is_null($brushoff)) {
 	showMbrProfile($curMbr);
 	if (!empty($curMbr['team_1']) || !empty($curMbr['team_2']) || !empty($curMbr['team_3'])) { showMbrTeams($curMbr); }
 	if ($curMbr['pagescompleted'] > 0) { showMbrNeighbors($curMbr); }
 	if (($now - $curMbr['date_created']) > 86400) { showMbrHistory($curMbr); }
+} else {
+	echo "<p>$brushoff</p>";
 }
 
 echo "</center>";
