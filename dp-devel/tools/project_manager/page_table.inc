@@ -11,7 +11,7 @@ function echo_page_table(
 	$disable_editing = FALSE,
 	$pages_of_interest = NULL )
 {
-	global $theme, $projects_dir, $code_url;
+	global $theme, $projects_dir, $code_url, $pguser;
 	
 	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
 
@@ -224,9 +224,32 @@ function echo_page_table(
 
 		// --------------------------------------------
 
-		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_all_pages);
+		if ($can_see_names_for_all_pages)
+		{
+			$can_see_names_for_this_page = TRUE;
+		}
+		else
+		{
+			// The user can see the names of all the proofers for this page
+			// only if they are one of those proofers.
+			$can_see_names_for_this_page = FALSE;
+			foreach ( array('round1_user','round2_user') as $user_field_name )
+			{
+				if (isset($page_res[$user_field_name]) )
+				{
+					$proofer_name = $page_res[$user_field_name];
+					if ( $proofer_name != '' && $proofer_name == $pguser )
+					{
+						$can_see_names_for_this_page = TRUE;
+						break;
+					}
+				}
+			}
+		}
 
-		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_all_pages);
+		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
+
+		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -277,7 +300,7 @@ function echo_page_table(
 
 function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
-	$projectid, $inRound, $can_edit, $can_see_names_for_all_pages)
+	$projectid, $inRound, $can_edit, $can_see_names_for_this_page)
 {
 	global $userP, $forums_url, $pguser;
 
@@ -292,7 +315,6 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round1_diff';
 		$R_time_field_name = 'round1_time';
 		$R_user_field_name = 'round1_user';
-    $R_other_user_field_name = 'round2_user';
 		$R_text_length_field_name = 'length(round1_text)';
 		$R_save_state = SAVE_FIRST;
 		$R_temp_state = TEMP_FIRST;
@@ -304,7 +326,6 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		$R_diff_field_name = 'round2_diff';
 		$R_time_field_name = 'round2_time';
 		$R_user_field_name = 'round2_user';
-    $R_other_user_field_name = 'round1_user';
 		$R_text_length_field_name = 'length(round2_text)';
 		$R_save_state = SAVE_SECOND;
 		$R_temp_state = TEMP_SECOND;
@@ -315,12 +336,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	{
 		assert(FALSE);
 	}
-
-        // who are the people who proofread this page in each round?
-        // we will let people see proofreader names of pages they themselves proofread
-
-        $R_username = $page_res[$R_user_field_name];
-        if (!empty($page_res[$R_other_user_field_name])) { $R_other_username = $page_res[$R_other_user_field_name]; } else { $R_other_username = ""; }
+	$R_username = $page_res[$R_user_field_name];
 
 
        // colour-code pages proofread by the user
@@ -378,7 +394,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         {
                 echo "<td></td>\n";
         }
-        else if ($can_see_names_for_all_pages or ($pguser ==  $R_username) or ($pguser == $R_other_username))
+        else if ($can_see_names_for_this_page)
         {
 
                 $R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
