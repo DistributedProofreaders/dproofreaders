@@ -53,7 +53,11 @@ function stateSelect($project_state,$print_req)
 
 function getSelect($state)
 {
-  $st_sw=array_fill (0, 26, 0);
+// only in the latest v. of php
+//  $st_sw=array_fill (0, 26, 0);
+
+  $st_sw=array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
   if($state==PROJ_PROOF_FIRST_UNAVAILABLE)
     {$st_sw[3]=1;}
   else if($state==PROJ_PROOF_FIRST_WAITING_FOR_RELEASE || $state==PROJ_PROOF_FIRST_BAD_PROJECT || $state==PROJ_PROOF_FIRST_AVAILABLE)
