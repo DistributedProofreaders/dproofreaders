@@ -260,7 +260,14 @@ abort_if_not_manager();
 			if ( $show_pages_total )
 			{
 				$totqry = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
- 				$totpag = mysql_result($totqry,0,"total_pages");
+				if (mysql_num_rows($totqry)) 
+	 				{
+						$totpag = mysql_result($totqry,0,"total_pages");
+					}
+				else
+					{
+						$totpag = 0;
+					}
 
 			    echo "<td align=\"center\">$totpag</td>\n";
 			}
