@@ -22,7 +22,7 @@ CREATE TABLE `marc_records` (
   `updated_marc` text NOT NULL,
   `original_array` text NOT NULL,
   `updated_array` text NOT NULL
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -37,7 +37,7 @@ CREATE TABLE `member_stats` (
   `daily_pagescompleted` mediumint(9) NOT NULL default '0',
   `rank` mediumint(9) NOT NULL default '0',
   KEY `u_id` (`u_id`)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -50,7 +50,7 @@ CREATE TABLE `news` (
   `date_posted` varchar(10) NOT NULL default '',
   `message` text NOT NULL,
   KEY `uid` (`uid`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=34 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 # --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE `page_counts` (
   `total_pages` smallint(4) unsigned NOT NULL default '0',
   `avail_pages` smallint(4) unsigned NOT NULL default '0',
   UNIQUE KEY `projectid` (`projectid`)
-) TYPE=HEAP CHARSET=latin1;
+) TYPE=HEAP CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -78,7 +78,7 @@ CREATE TABLE `pagestats` (
   `date` date NOT NULL default '0000-00-00',
   `pages` int(12) NOT NULL default '0',
   `dailygoal` int(12) NOT NULL default '0'
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -134,7 +134,7 @@ CREATE TABLE `phpbb_users` (
   `user_newpasswd` varchar(32) default NULL,
   PRIMARY KEY  (`user_id`),
   KEY `user_session_time` (`user_session_time`)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -168,7 +168,8 @@ CREATE TABLE `projects` (
   `archived` tinyint(1) NOT NULL default '0',
   `postproofer` varchar(255) NOT NULL default '',
   `postcomments` text NOT NULL
-) TYPE=MyISAM CHARSET=latin1;
+  `thumbs` varchar(9) NOT NULL default 'no'
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -185,7 +186,7 @@ CREATE TABLE `queue_defns` (
   `comment` text,
   UNIQUE KEY `ordering` (`ordering`),
   UNIQUE KEY `name` (`name`)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -199,7 +200,7 @@ CREATE TABLE `rules` (
   `subject` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=58 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=58 ;
 
 # --------------------------------------------------------
 
@@ -213,7 +214,16 @@ CREATE TABLE `themes` (
   `unixname` varchar(100) NOT NULL default '',
   `created_by` varchar(25) NOT NULL default '',
   KEY `theme_id` (`theme_id`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=4 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+#
+# Dumping data for table `themes`
+#
+
+INSERT INTO themes (theme_id, name, unixname, created_by) VALUES (1, 'Project Gutenberg (Default)', 'project_gutenberg', 'USFJoseph');
+INSERT INTO themes (theme_id, name, unixname, created_by) VALUES (2, 'Classic Grey', 'classic_grey', 'USFJoseph');
+INSERT INTO themes (theme_id, name, unixname, created_by) VALUES (3, 'Royal Blues', 'royal_blues', 'USFJoseph');
+
 
 # --------------------------------------------------------
 
@@ -249,7 +259,7 @@ CREATE TABLE `user_profiles` (
   `h_twrap` tinyint(1) default '1',
   PRIMARY KEY  (`id`),
   KEY `u_ref` (`u_ref`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=16691 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=16691 ;
 
 # --------------------------------------------------------
 
@@ -273,7 +283,7 @@ CREATE TABLE `user_teams` (
   `icon` varchar(25) NOT NULL default 'icon_default.png',
   `topic_id` int(10) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=200 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=200 ;
 
 # --------------------------------------------------------
 
@@ -288,7 +298,7 @@ CREATE TABLE `user_teams_stats` (
   `total_page_count` int(11) NOT NULL default '0',
   `rank` smallint(6) NOT NULL default '0',
   KEY `team_id` (`team_id`)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
 
 # --------------------------------------------------------
 
@@ -328,7 +338,7 @@ CREATE TABLE `users` (
   PRIMARY KEY  (`username`),
   UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`)
-) TYPE=MyISAM CHARSET=latin1 AUTO_INCREMENT=15796 ;
+) TYPE=MyISAM CHARSET=utf8 AUTO_INCREMENT=15796 ;
 
 # --------------------------------------------------------
 
@@ -341,4 +351,17 @@ CREATE TABLE `usersettings` (
   `setting` varchar(25) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
   FULLTEXT KEY `setting` (`setting`)
-) TYPE=MyISAM CHARSET=latin1;
+) TYPE=MyISAM CHARSET=utf8;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `phpbb_config`
+#
+
+CREATE TABLE 'phpbb_config' (
+  'config_name' varchar(255) NOT NULL default '',
+  'config_value' varchar(255) NOT NULL default '',
+  PRIMARY KEY  ('config_name')
+) TYPE=MyISAM CHARSET=utf8;
+
