@@ -272,7 +272,7 @@ echo "</table>";
 <?
 if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "\n<table border=1 width=630>";
-echo "<br><tr>"
+echo "<br><tr>";
 tde("<h3>Current Second - Round Projects </h3>", bgcol(1,'first') . " colspan=2");
 if ($totalpages < 50) {
 tde("Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.", bgcol(1,'first') . " colspan=5");
