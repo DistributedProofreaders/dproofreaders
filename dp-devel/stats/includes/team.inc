@@ -184,7 +184,7 @@ function showTeamMbrs($curTeam) {
 	}
 
 	echo "</tr></table>\n<table border='0' width='100%' cellspacing='2' cellpadding='0'>";
-	$mbrQuery = mysql_query("SELECT * FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY $orderby $direction");
+	$mbrQuery = mysql_query("SELECT * FROM users WHERE {$_GET['tid']} IN (team_1, team_2, team_3) ORDER BY $orderby $direction");
 
 	$totalAnonUsers = 0;
 	$totalPagesAnonUsers = 0;

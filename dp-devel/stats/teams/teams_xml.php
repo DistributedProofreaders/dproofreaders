@@ -61,7 +61,7 @@ $curTeam = mysql_fetch_assoc($result);
 
 //Team members portion of $data
 	$data .= "<teammembers>";
-	$mbrQuery = mysql_query("SELECT username, pagescompleted, date_created, u_id, u_privacy FROM users WHERE team_1 = ".$curTeam['id']." || team_2 = ".$curTeam['id']." || team_3 = ".$curTeam['id']." ORDER BY username ASC");
+	$mbrQuery = mysql_query("SELECT username, pagescompleted, date_created, u_id, u_privacy FROM users WHERE {$curTeam['id']} IN (team_1, team_2, team_3) ORDER BY username ASC");
 	while ($curMbr = mysql_fetch_assoc($mbrQuery))
 	{
 		if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
