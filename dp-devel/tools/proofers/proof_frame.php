@@ -18,34 +18,12 @@ $project, $proofstate
 project_continuity_check($project,$proofstate,!isset($editone));
 
 if (isset($saved)) {
-    $prd = get_PRD_for_project_state($proofstate);
-
-    $result = mysql_query("SELECT {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
-    $proofer = mysql_result($result, 0, $prd->user_column_name);
-    if ($pguser != $proofer) {
-        echo sprintf( _("You (%s) do not have the necessary access to page %s"), $pguser, $imagefile );
+    $err = resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser );
+    if ($err)
+    {
+        echo $err;
         exit();
     }
-
-// proof single page
-
-  // set the cookie
-  setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,1,$editone,0,0,0,0);
-
-  // plug user page count cheat - if they reopen a saved page, subtract it from their count
-  // as it is 'unproofreading' it; they will get it back if they save it again
-  // if page comes from DONE (???)
-
-  if ($pagestate == $prd->page_save_state)
-  {
-     // deleteUserCount assumes PageState has been set;
-     // could rewrite to take extra variables instead (see earlier debugging versions)
-     $tpage = new processpage();
-     $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
-     $tpage->deleteUserCount($proofstate,$pguser,$userP);
-     // new function only to be called from here
-     $tpage->reOpen($proofstate,$pguser);
-  }
 }
 else
 {
