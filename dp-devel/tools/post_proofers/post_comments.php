@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
 
@@ -107,7 +108,7 @@ href=\"../proofers/project_topic.php?project=$project\">";
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Post Processor Comments</h3></td></tr><tr><td colspan=5>";
     echo "$postcomments</td></tr>";
     echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>Project Comments</h3></td></tr><tr><td colspan=5>";
-    echo "Follow the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines 2.00</a> for detailed project formatting directions.";
+    echo "Follow the <a href=\"$siteurl/faq/document.html\">Document Guidelines 2.00</a> for detailed project formatting directions.";
     echo "Instructions below take precedence over the guidelines:<P>";
     echo "$comments</td></tr>";
     echo "</table>";
