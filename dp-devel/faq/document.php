@@ -1120,10 +1120,10 @@ And everywhere that Mary went
     since the directional double quotes <font color="red">&ldquo;</font> and <font
     color="red">&rdquo;</font> will have to be replaced to make it ASCII compliant.</p>
 <p> For quotes from non-English languages, use the quotation marks that are appropriate
-    to that language.  For example, in German mark quotations <font color="red">
-    &bdquo;</font><tt>like this</tt><font color="red">&rdquo;</font>; and in French mark
+    to that language, IF THEY ARE AVAILABLE IN Latin-1.  For example, in German mark quotations <font color="red">
+    &bdquo;</font><tt>like this</tt><font color="red">&rdquo;</font> are NOT in Latin-1 but the French mark
     them with guillemets <font color="red">&laquo;</font>&nbsp;<tt>like this</tt>&nbsp;
-    <font color="red">&raquo;</font>.  (As always, the Project Manager might instruct
+    <font color="red">&raquo;</font>, which are.  (As always, the Project Manager might instruct
     you to do these differently for a particular book). </p>
 <p> Also, do not change single quotes to double quotes.  Leave them as the Author wrote
     them.  See the <a href="#chap_head">Chapter Headers</a> image and text for an
