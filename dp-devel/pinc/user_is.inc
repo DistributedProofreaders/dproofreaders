@@ -1,16 +1,16 @@
 <?
 // $Id$
 
+// This file is for functions that ascertain various things about the user?
+// (capabilities, roles)
+
 include_once($relPath.'page_tally.php');
 include_once($relPath.'SettingsClass.inc');
 
 global $userSettings;
 
-if(!isset($userSettings))
+if (!isset($userSettings))
     $userSettings = new Settings();
-
-// This file is for functions that ascertain various things about the user?
-// (capabilities, roles)
 
 function user_is_a_sitemanager()
 {
@@ -85,8 +85,8 @@ function user_is_PPV_of($project)
 {
     global $pguser;
 
-    if(user_is_a_sitemanager()) return True;
-    if(!user_is_post_proof_verifier()) return False;
+    if (user_is_a_sitemanager()) return TRUE;
+    if (!user_is_post_proof_verifier()) return FALSE;
 
     // Note that if someone with PPV-ability is PPing a project,
     // they can (and probably will) directly post to PG,
@@ -122,7 +122,7 @@ function user_can_see_BEGIN_in_round($round_number)
 
     global $pguser;
     $n_pages = user_get_page_tally( $pguser );
-    if($round_number == 1)
+    if ($round_number == 1)
         return $n_pages <= 40;
     else if ($round_number == 2)
         return $n_pages >= 300;
