@@ -298,7 +298,6 @@ different pages.  This will significantly speed up the proofreading process.
       <ol compact type="a">
         <li>Cookies accepted/on*
         <li>Javascript enabled
-        <li>Caching disabled (or Page-Refresh set to 'every time')
          <p>Also, if in your Forum Profile (<a
           href="<? echo $code_url; ?>/userprefs.php">located
           here</a>), "Launch in New Window" is set to "Yes", then there is
@@ -319,7 +318,7 @@ different pages.  This will significantly speed up the proofreading process.
           option to "Accept All Cookies", you can set it to the more restricted option
           "Accept Cookies for the originating website only". </td></tr>
   <tr><td>Pop-up Windows:</td>
-      <td>most browser Pop-up options or pop-up blocking utilities
+      <td>Most browser Pop-up options or pop-up blocking utilities
           offer an option to list specific sites from which you accept pop-ups.  So
           rather than simply setting it to "Accept all pop-ups", you can set the more
           restrictive option of "Suppress all pop-ups" but include the DP website
@@ -328,15 +327,14 @@ different pages.  This will significantly speed up the proofreading process.
           browser.</td></tr>
 </table>
 
-<p> Sometimes a firewall or proxy, on your PC, LAN, or ISP, will save pages in a cache,
-    leading to the <i>'I get the same page to proof over and over again'</i> difficulty.
-    If it's on your PC, you can probably fix it yourself.  If it's in a LAN or ISP, you
-    will need to talk to the people managing that to get this fixed.  See the DPWiki
-    post given above for advice. </p>
+<p> The DP site works with most firewalls and proxy caches, though if you see the
+    <i>'I get the same page to proof over and over again'</i> difficulty, please email us at <a href="mailto:dphelp@pgdp.net">DP Help</a>, including your browser details.
+    </p>
 
 
 <hr align="center" width="66%">
 <h4>Revision History of this Document</h4>
+       05/27/2004 -- Version 1.7: Major changes by pourlean - updated for caching changes
        04/16/2004 -- Version 1.6: Major changes by pourlean - removed all personal email addresses.
    <br>06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
    <br>10/27/2002 -- updated version produced by Charles Franks.
