@@ -10,7 +10,5 @@ Legend for Special Books:
 <span class="flyblue"> Wright Flight Anniversary </span>&nbsp;
 <span class="orange"> Halloween </span>&nbsp;
 <span class="purple"> Other Special </span>
-</b></font>
-</p>
-<br>
+</b>
 
