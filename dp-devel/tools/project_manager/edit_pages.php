@@ -82,24 +82,15 @@ switch ( $operation )
 if ( isset($_GET['confirmed']) and $_GET['confirmed'] == 'yes' )
 {
     // Perform the operation.
-    if ( $selected_pages == 'ALL' )
+
+    foreach ( $selected_pages as $fileid => $setting )
     {
-        $err = $page_func( $projectid, NULL );
+        // Ignore $setting, it's always 'on'.
+        echo "fileid=$fileid:<br>\n";
+        $err = $page_func( $projectid, $fileid );
         echo ( $err ? $err : "success" );
         echo "<br>\n";
         echo "<br>\n";
-    }
-    else
-    {
-        foreach ( $selected_pages as $fileid => $setting )
-        {
-            // Ignore $setting, it's always 'on'.
-            echo "fileid=$fileid:<br>\n";
-            $err = $page_func( $projectid, $fileid );
-            echo ( $err ? $err : "success" );
-            echo "<br>\n";
-            echo "<br>\n";
-        }
     }
     echo "<a href='project_detail.php?project=$projectid&type=Full'>Project Details Page</a><br>\n";
 }
@@ -107,16 +98,9 @@ else
 {
     // Obtain confirmation
 
-    if ( $selected_pages == 'ALL' )
-    {
-        echo _("You selected all pages of the project.") . "<br>\n";
-    }
-    else
-    {
-        echo _("You selected the following page(s):") . "<br>\n";
-        echo "<br>\n";
-        echo_page_table( $projectid, 0, TRUE, $selected_pages );
-    }
+    echo _("You selected the following page(s):") . "<br>\n";
+    echo "<br>\n";
+    echo_page_table( $projectid, 0, TRUE, $selected_pages );
     echo "<br>\n";
     echo "$your_request<br>\n";
     echo "<br>\n";
