@@ -108,7 +108,7 @@ else
 
 	$state_sql = " (state = '{$prd->project_available_state}') ";
 	$label = $prd->round_name;
-    $filtertype_stem = "proof";
+    $filtertype_stem = $prd->round_id;
     include_once($relPath.'filter_project_list.inc');
 }
 if (!isset($RFilter)) { $RFilter = ""; }
