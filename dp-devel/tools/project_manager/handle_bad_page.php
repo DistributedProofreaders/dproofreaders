@@ -6,6 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_ops.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 if (!isset($_POST['action'])) {
   //Get variables to use for form
@@ -124,12 +125,8 @@ if (!isset($_POST['action'])) {
 
   //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($action == "fixed") || ($action == "bad")) {
-      if ($state == BAD_FIRST) {
-        $round_number = 1;
-    } elseif ($state = BAD_SECOND) {
-        $round_number = 2;
-    }
-      Page_eraseBadMark( $projectID, $fileID, $round_number );
+      $prd = get_PRD_for_page_state($state);
+      Page_eraseBadMark( $projectID, $fileID, $prd->round_number );
 }
 
   //Redirect the user back to the project detail page.
