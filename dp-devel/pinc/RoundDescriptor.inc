@@ -32,7 +32,7 @@ class ProofingRoundDescriptor
             // An array of (two) HTML colors that will be used as the bgcolor
             // in alternating rows in the listing of projects in this round.
         $other_rounds_with_visible_usernames
-            // An array of ProofingRoundDescriptor objects.
+            // An array of round_ids.
             // If user X worked on a page in this round, they can see the
             // username of another user Y who worked on the page *if* user Y
             // worked on the page in a round that apppears in this parameter.
@@ -125,7 +125,7 @@ $PRD_2 = new ProofingRoundDescriptor(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
-    array( $PRD_1 )
+    array( 'P1' )
 );
 
 // Although $PRD_1 and $PRD_2 are variables, they should be treated as
