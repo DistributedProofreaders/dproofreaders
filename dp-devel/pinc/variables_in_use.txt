@@ -24,3 +24,5 @@ dp_main.inc
 v_site.inc
      $admin_email = administrators email
      $admin_name = administrators name
+
+	 $siteurl
