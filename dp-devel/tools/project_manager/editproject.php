@@ -1,6 +1,7 @@
 <?
 
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'maybe_mail.inc');
@@ -95,7 +96,7 @@ if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
             maybe_mail($email, "$NameofWork Posted to Project Gutenberg",
 "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
 --\n
-Distributed Proofreaders\nhttp://texts01.archive.org/dp/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
+Distributed Proofreaders\n$siteurl/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
              "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
             $rownum++;
         }
@@ -146,7 +147,7 @@ if ((!isset($errormsg) || strlen($errormsg) == 0)
 if ($txtlink == "") $txtlink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.txt";
 if ($ziplink == "") $ziplink = "http://ibiblio.unc.edu/pub/docs/books/gutenberg/etext05/XXXXX10.zip";
 if ($Language == "") $Language = "English";
-if ($comments == "" ) $comments = "<p>Refer to the <a href=\"http://texts01.archive.org/dp/faq/document.html\">Document Guidelines</a>.</p>";
+if ($comments == "" ) $comments = "<p>Refer to the <a href=\"$siteurl/faq/document.html\">Document Guidelines</a>.</p>";
 ?>
 
 <html>
