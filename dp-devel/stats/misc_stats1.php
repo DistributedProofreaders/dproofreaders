@@ -111,7 +111,6 @@ dpsql_dump_ranked_query("
 	FROM pagestats
 	WHERE pages >= 5000
 	GROUP BY year, month
-	HAVING count(*) > 7
 	ORDER BY 3 DESC
 	LIMIT 10
 ");
@@ -129,7 +128,6 @@ dpsql_dump_ranked_query("
 	FROM pagestats
 	WHERE pages >= 6000
 	GROUP BY year, month
-	HAVING count(*) > 7
 	ORDER BY 3 DESC
 	LIMIT 10
 ");
@@ -147,7 +145,6 @@ dpsql_dump_ranked_query("
 	FROM pagestats
 	WHERE pages >= 7000
 	GROUP BY year, month
-	HAVING count(*) > 7
 	ORDER BY 3 DESC
 	LIMIT 10
 ");
@@ -165,7 +162,6 @@ dpsql_dump_ranked_query("
 	FROM pagestats
 	WHERE pages >= 8000
 	GROUP BY year, month
-	HAVING count(*) > 0
 	ORDER BY 3 DESC
 	LIMIT 10
 ");
