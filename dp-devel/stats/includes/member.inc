@@ -94,7 +94,7 @@ function messageCenter($curMbr) {
 }
 
 function pageCountPercentage($pagescompleted) {
-	$result = mysql_query("SELECT SUM(pagescompleted) AS total_pagescompleted FROM users");
+	$result = mysql_query("SELECT SUM(pages) AS total_pagescompleted FROM page_stats");
 	$total_pagescompleted = mysql_result($result, 0, "total_pagescompleted");
 	$percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
 	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
