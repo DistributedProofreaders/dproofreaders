@@ -13,10 +13,10 @@ $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
       {
         $textWidth=$userP['v_tframe'];
         $imageWidth=(100-$userP['v_tframe'])-1;
-        $textHeight=100;
-        $imageHeight=100;
+        $textHeight=99;
+        $imageHeight=99;
         $textTop="0px";
-        $textLeft=$userP['v_tframe']."%";
+        $textLeft=(100-$userP['v_tframe'])."%";
       }
   else
       {
@@ -65,7 +65,7 @@ body {
   color:#000000;
   background-color:#CDCDC1;
   text-align:center;
-  overflow:hidden;
+  overflow:auto;
   }
 A:link {
   color:#000000;
@@ -124,7 +124,7 @@ A:active {
   ?>
   clip:rect(0px, 100%, 100%, 0px);
   z-index:2;
-  overflow:hidden;
+  overflow:auto;
   text-align:center;
   }
 #imagedisplay {
@@ -368,7 +368,7 @@ id="imagevert"><table
     href="JavaScript:scrollImage('down')"><img 
       src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0"></a></p></td></tr></table></div><div 
 id="imageframe"><div 
-id="imagedisplay"><img 
+id="imagedisplay"><a href="JavaScript: //"><img 
 name="scanimage" id="scanimage" title="" alt="" 
 src="../../projects/<?PHP echo $npage['project'].'/'.$npage['image'];?>" 
 border="0" width="<?PHP 
@@ -377,7 +377,7 @@ border="0" width="<?PHP
   else {$iWidth=$userP['h_zoom'];}
   $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
-?>"></div></div><div 
+?>"></a></div></div><div 
 id="controlframe"><?PHP 
       }
     else
@@ -387,7 +387,8 @@ id="controlframe"><?PHP
 ?><form 
 name="spcorrects" action="processtext.php" method="POST"><table 
   id="tbtext" 
-  cellpadding="10"><tr><?PHP
+  cellpadding="10" 
+  align="center"><tr><?PHP
     if ($userP['i_type'] !=1)
       {echo "<td id=\"tdbottom\"><a href=\"../../projects/$projectname/$imagefile\" target=\"imageshowwin\">View Image</a></td></tr><tr>";}
 ?><td 

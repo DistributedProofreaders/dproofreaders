@@ -18,15 +18,15 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
       {
         $textWidth=$userP['v_tframe'];
         $imageWidth=(100-$userP['v_tframe'])-1;
-        $textHeight=100;
-        $imageHeight=100;
+        $textHeight=99;
+        $imageHeight=99;
         $textTop="0px";
         $textLeft=(100-$userP['v_tframe'])."%";
       }
   else
       {
-        $textWidth=100;
-        $imageWidth=100;
+        $textWidth=99;
+        $imageWidth=99;
         $textHeight=$userP['h_tframe'];
         $imageHeight=(100-$userP['h_tframe'])-1;
         $textTop=(100-$userP['h_tframe'])."%";
@@ -122,7 +122,7 @@ A:active {
   ?>
   clip:rect(0px, 100%, 100%, 0px);
   z-index:2;
-  overflow:hidden;
+  overflow:auto;
   text-align:center;
   }
 #imagedisplay {
@@ -223,7 +223,7 @@ id="imagevert"><table
     href="JavaScript:scrollImage('down')"><img 
       src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0"></a></p></td></tr></table></div><div 
 id="imageframe"><div 
-id="imagedisplay"><img 
+id="imagedisplay"><a href="JavaScript: //"><img 
 name="scanimage" id="scanimage" title="" alt="" 
 src="../../projects/<?PHP echo $npage['project'].'/'.$npage['image'];?>" 
 border="0" width="<?PHP 
@@ -232,7 +232,7 @@ border="0" width="<?PHP
   else {$iWidth=$userP['h_zoom'];}
   $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
-?>"></div></div><div 
+?>"></a></div></div><div 
 id="controlframe" align="center"><form 
       name="editform" id="editform" 
       method="POST" 
