@@ -1,3 +1,4 @@
+<?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
@@ -37,3 +38,4 @@ include_once($relPath.'maybe_mail.inc');
 	fclose($f) or
 	print( "\nProblems writing $images_html\n" );
     }
+?>
