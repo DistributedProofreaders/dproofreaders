@@ -100,7 +100,6 @@ theme("Project Managers", "header");
 		echo "
 		    <center>
 		    Search for projects matching the following criteria:<br>
-		    (matching [except for State] is case-insensitive and unanchored)
 		    <form method=get action='projectmgr.php'>
 			<input type='hidden' name='show' value='search'>
 			<table>
@@ -142,6 +141,8 @@ theme("Project Managers", "header");
 			</table>
 			<input type='submit' value='Search'>
 		    </form>
+		    Matching [except for State] is case-insensitive and unanchored;<br>
+		    so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.
 		    </center>
 		";
 	} else {
