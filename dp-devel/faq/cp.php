@@ -84,7 +84,7 @@ see if a book is already on there.</p>
  href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's
 In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
-If you find your book listed but the clearance date is over a year old
+If you find your book listed but the clearance date is over a few years old
 then it is probably OK to go ahead and do it.
 <!--
 <font style='color: red'>
@@ -170,7 +170,7 @@ Project Gutenberg site, and also registers the book as being a work in
 progress to let other people know it is reserved so as not to duplicate
 effort.<br>
 </p>
-<p>The preferred metheod&nbsp; for submitting clearance requests is the
+<p>The preferred method&nbsp; for submitting clearance requests is the
 web interface at <a href="http://beryl.ils.unc.edu/copy.html">this page</a>
 (http://beryl.ils.unc.edu/copy.html). There are quite a few handy tips
 and links there also.<br>
