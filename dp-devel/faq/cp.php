@@ -26,7 +26,7 @@ ask:&nbsp;&nbsp;"Just how do I submit a text to Distributed Proofreaders
 <p>These Guidelines are here to try to help you through the process.</p>
 
 <p>
-Note that you don't necessarily have to all these steps yourself.
+Note that you don't necessarily have to do all these steps yourself.
 It's quite possible to do some steps and hand off your results
 to someone else.
 <!--
@@ -97,21 +97,22 @@ cycle, with few exceptions, the person who <i>submitted</i> the book is
 expected to <i>post-process</i> the book as well. If you are unable or
 unwilling to do post-processing, you need to make that clear when you
 submit the book. (Or even better, BEFORE you submit it.) <br>
-It is probably better to avoid books which contain a <i>lot</i> of
-illustrations, maps, charts, tables and pictures. While they make for an
- interesting text, they are nearly or completely impossible to render in
- ASCII, and the text loses a large amount of usefulness. (Something like
- that might be better off as a scanned image file on "The Million Book
-Project"... but that's another FAQ.)</p>
+It is probably better to avoid books which contain a lot of illustrations,
+maps, charts, tables and pictures for your first project.
+</p>
+
 <p>Non-English language texts are fine too, within reason. Keep in mind
- that the text will need to be renderable in ASCII, not Unicode, so if
-the language contains a LOT of non-ASCII characters, it will make both
-proofing and post-processing more difficult, and somewhat defeats the
-purpose of using the DP site. European languages seem to be OK. Greek,
-Sanskrit, Arabic, etc, are a problem.</p>
+that PGDP uses Latin-1, not Unicode, so if the language contains a LOT
+of non-ASCII characters, the project will probably be better handled at
+<a href="http://dp.rastko.net/">DP-EU</a>
+which uses Unicode. The procedures for preparing texts are the same
+for both sites, but permission to be a PM must be obtained separately
+from the administrators of each site.
+</p>
+
 <p> It is helpful, though not strictly necessary that you understand the
  language that the book is written in. It will theoretically make it
-easier during post-proofing to be able to tell from context whether
+easier during post-processing to be able to tell from context whether
 paragraph breaks should be at page breaks, however, checking back
 against the original book can get you through too. </p>
 <hr size="3" width="100%" align="left">
@@ -155,7 +156,7 @@ Providers Forum under the topic <a class="maintitle"
  href="<? echo $forums_url ?>/viewtopic.php?p=18049#18049">"Online sources of scanned book images"</a></p>
 Please follow the individual site guidelines regarding acceptable use
 and protocol. We don't want to be bad neighbors.<br>
-If you <i>do</i> go this route, is considered good form to credit the
+If you <i>do</i> go this route, it is considered good form to credit the
 source of the scan when the text is submitted to Project Gutenberg.<br>
 <br>
 
@@ -184,7 +185,7 @@ have my clearance line; Now what?</a></big></p>
 <p>There are too many scanners and scanning packages to give specific
 instructions here. In general, good all-purpose parameters for scanning:
  300dpi, black and white (not grayscale), and average brightness unless
-the paper is very yellow. Higher dpi doesn&#8217;t necessarily make for better
+the paper is very yellow. Higher dpi doesn't necessarily make for better
  OCR unless the text is <i>extremely</i> small. You want to end up with
 good, reasonably clean images that the OCR software won't choke on.</p>
 <p> The following examples and explanations assume that you are using
@@ -240,7 +241,7 @@ without line breaks. These will be explained more later.<br>
 </blockquote>
 Some people like to put the batch from Abbyy in the same directory as
 the png and text directories to keep track of them easier. That is fine
-too if you prefer it that way. Personal preferance and comfort comes
+too if you prefer it that way. Personal preference and comfort comes
 into this a lot.<br>
 <p>&nbsp;When your batch directory is set up, in Abbyy, Select
 File-&gt;Scan Multiple images (Ctrl+Shift+K) to start scanning the book.
@@ -250,7 +251,7 @@ preferences, (acknowledge each scan or have a timed pause between.)
 Obviously, other packages will be different; your best bet is to check
 the help files that came with your specific package.</p>
 <p>
-If the scanner bed will accomodate it,
+If the scanner bed will accommodate it,
 scan 'two-up' images (two book pages per image),
 as this will speed up the scanning process.
 Try to keep the book in the same place on the scanner for each scan
@@ -279,11 +280,9 @@ Generally there are two easy ways to get one-up images from two-up images:
     as they are scanned, set this option.
     (Finereader can do this as long as
     there is some white space between the pages.)
-<li>Use PRTK (See PRTK Help).
-    If you kept the book in the same place on the scanner for each scan,
-    PRTK can easily split the images.
+<li>Use an external program.
 </ul>
-If there&#8217;s any question, it&#8217;s best to test a few scans.
+If there are any question, it's best to test a few scans.
 </p>
 
 <p>
@@ -295,7 +294,7 @@ saving them as jpegs (lossy format) or .bmp bitmaps (huge files). Under
 Finereader, to save all the image files at once, select them all
 first,(click in the thumbnail window and press Ctrl-A) then choose
 File-&gt;Save Images (F12), and be sure to give the images a name since
-it doesn&#8217;t insert the batch name automatically. It will save them in a
+it doesn't insert the batch name automatically. It will save them in a
 series with the specified name, a hyphen, and a four digit counter.
 (Book1 - 0001.png, Book1 - 0002.png... etc.) Save them to the
 "Projects\Book1\pngs" directory.<br>
@@ -335,8 +334,15 @@ at the same place though the path you take may be different.<br>
 <p>If you don't have an OCR package, try to join up with someone who
 does, post a message in the "Content Providers" forum to that effect.
 Most likely, someone will be glad to help. </p>
+
+<!--
+<font style='color: red'>
+[Per JulietS: Add paragraph about the OCR pool and how to use it.]
+</font>
+-->
+
 <p>Assuming you DO have OCR software...</p>
-<p>If you used Finereader for the scanning, you&#8217;ve already set up a
+<p>If you used Finereader for the scanning, you've already set up a
 batch and the images are already there.</p>
 <p> If not, open up Abbyy FR OCR. Click on File-&gt;New Batch, (Ctrl+N).
  and name it appropriately. Click File-&gt;Open Image,(Ctrl+O). Select
@@ -360,7 +366,7 @@ background processing, which allows you to minimize the window and do
 other things while waiting.<br>
 </p>
 <div>For complex or "busy" pages of text and illustrations, some extra
-work may be necessary. ABBYY Finereader tries to analyze the layout of a
+work may be necessary. Abbyy Finereader tries to analyze the layout of a
 page as it does the OCR. For simple, two-column pages it usually gets
 the layout right, but if the columns are broken up by illustrations,
 tables, etc, it will almost certainly get the layout wrong.<br>
@@ -405,8 +411,8 @@ time. It is WELL worth the extra time to get it right at the OCR stage.
 <p>When that is done, you'll need to save the text files to do further
 processing on them. Depending what tools you will use in preprocessing,
 the formats and locations you save them in will vary. To use the guiprep
-/ winprep script (highly recommended) or the cleanup script, you will
-need to do somthing like the following :<br>
+/ winprep script (highly recommended) you will
+need to do something like the following :<br>
 </p>
 An excerpt from the <a
  href="http://mywebpages.comcast.net/thundergnat/guiprep.html">guiprep.pl
@@ -417,14 +423,14 @@ up the text files:</span></big><br>
 <span style="font-weight: bold;"> RTF Markup Extraction:</span><br>
 <br>
 In order to use the dehyphenization features of this script, you NEED
-to save the text from ABBYY FineReader (or possibly other OCR packages,
+to save the text from Abbyy FineReader (or possibly other OCR packages,
 should work as long as they produce standard well formed rtf files) two
 times in two different directories. Assuming you have a project
 directory named "PROJECT", under the project directory you will need two
 directories "textw" and "textwo". "textw" stands for "text with line
 breaks" and "textwo" stands for "text without line breaks". <br>
 <br>
-In ABBYY after all of your images are loaded and OCRed, select&nbsp;
+In Abbyy after all of your images are loaded and OCRed, select&nbsp;
 File =&gt; Save Text As;&nbsp; A dialog box will pop up. <br>
 </p>
 <div style="margin-left: 40px;"> <br>
@@ -461,7 +467,7 @@ give you pretty good results for English and most European languages.
 The site works with ISO Latin-1 so that will be least problematic to fit
 into the character space used. If necessary, you can try other code
 pages but be aware that they may not be as easy to use on the site and
-may not yeild satisfactory results with some of the script functions.<br>
+may not yield satisfactory results with some of the script functions.<br>
 <br>
 The textwo directory should use all of the same settings except that <span
  style="font-weight: bold;">Keep line breaks</span> needs to be
@@ -484,20 +490,16 @@ Dehyphenate under the Process Text tab. It won't hurt to leave them
 checked but the script will complain that it can't find the other
 directories and/or files.<span style="font-weight: bold;"></span><br>
 <span style="font-weight: bold;"> </span></div>
-<p>If you aren't using guiprep or <a
- href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup</a>,
+<p>If you aren't using guiprep 
 just save the files into the "text" directory. Save as plain text, keep
 line breaks, use blank line as paragraph separator.
-(If your OCR program does not have this option,
-PRTK has a tool to assist you with inserting this line.)
-If you are using Finereader for your scanning/OCR, Robert has a set of saved settings that you may find useful.
 </p>
 <hr size="3" width="100%" align="left">
 <p style="font-weight: bold;"><big><a name="process">You're kidding me!
 I'm not done yet?</a></big></p>
 <p>Now you are going to need to do a little preprocessing on those text
- files.&nbsp; The tools you use will dictate how you proceed. The two
-major tools (Guiprep and PRTK) are covered here.<br>
+ files.&nbsp; The tools you use will dictate how you proceed. The
+major tool (Guiprep) is covered here.<br>
 </p>
 <p><span style="font-weight: bold;"><a
  href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
@@ -508,8 +510,8 @@ OCRed text. (save lots of time for proofers), removing the end-of-line
 hyphens and rejoining the broken words, filtering out many, many
 scanning errors, renaming the files in the format need by Distributed
 Proofreaders and checking for zero byte files, all automatically. It
-also provides an interactive mechanism for header removal which is more
-stable and user friendly than PRTKs. The <a
+also provides an interactive mechanism for header removal which is very
+stable and user friendly. The <a
  href="http://mywebpages.comcast.net/thundergnat/guiprep.html">manual</a>
 included with the script is quite comprehensive and should be consulted
 for any detailed questions.<br>
@@ -541,97 +543,20 @@ reduce your upload. It also has a FTP client built in which will
 automate a lot of the upload.<br>
 </p>
 <p>Pre-processing complete.</p>
-<p><span style="font-weight: bold;"><a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>:</span><br>
-</p>
-<p><a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
-Cannot do markup extraction or dehyphenization so you'll need to run <a
- href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">guiprep.pl</a>
-to do extraction and <a
- href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup.pl</a>
-or <a href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">guiprep</a>
-to do dehyphenization before you proceed&nbsp; with PRTK.<br>
-To use guiprep, follow the above instructions. To use cleanup.pl. you
-will need to have the text files saved as stated in <span
- style="font-weight: bold;"> Using the script <span
- style="font-style: italic;">without</span> RTF Markup Extraction</span>
-above. Once that is done, copy cleanup.pl into the parent directory of
-textw and textwo, then run it. It will run dehyphenization on the files
-and save them into a directory named "text", creating it if necessary.<br>
-</p>
-<p>When that is done, you are going to need to fire up <a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
-and have at it, but before you start, <a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
-can't deal very well with zero byte files. When it encounters one,  it
-tends to lock up and die a horrible death. So you need to make sure
-there are no zero byte files among your text files. Go to the directory
-where the text files are stored. Set your file browser view so that
-file  size details are shown, then sort the files smallest to largest.
-Look at the smallest text file. If it is greater than zero bytes you
-are OK. If not, open the file with a text editor and put SOMETHING in
-there. "Blank Page" is popular. (Ah! so THAT'S why they show up
-occasionally when I'm proofing pages.) Actually, it&#8217;s a good idea to
-put two lines of something in there to save aggravation later.<br>
-Something like:</p>
-<p> HEADER<br>
-Blank Page<br>
-</p>
-As long as it is no longer zero bytes. Do this for all of the zero byte
- .txt files  then save them as plain text.
-<p>If you haven't already, you are going to need to rename the image
-files into the format 001.png, 002.png, 003.png.... etc. with no holes
-or skips in the sequence, in the SAME order that the book is in. You
-MUST have the leading zeros and there MUST be only digits in the file
-name. <a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>
-has a tool to allow you to rename your image and/or text files. Click on
-the Tools menu and go to File Renamer.  This will open up a somewhat
-terse dialog allowing you to do just that.  (Or, if you would prefer,
-use one of the other utilities available, <a
- href="http://www.1-4a.com/rename">1-4a Renamer</a> in the <a
- href="#software">software</a> section is very nice.) When that is done,
-do the same thing with the text files. If your book has more than 1000
-pages, (!!) split it into two roughly equal sections and submit it as
-two different projects to go through proofing, then reassemble it in
-post processing.</p>
-<p>You now hopefully have the image files and text files, named in the
-correct format with the corresponding numbers pointing to the same page.
- (one image, one of text) Check several pairs randomly, if they don't
-correspond, you need to figure out why and fix it before the text can be
- submitted. Make sure there are the same number of image and text files.</p>
-<p>In <a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">PRTK</a>,
-open Processing-&gt;Text Batch Pre-Proofing. At the bottom of the
-dialog box, browse to or type in the directory containing the text
-files. In general, it is safe to just leave all of the default checkbox
-and radio button settings. Some foreign language or specialty texts may
-be adversely affected. You may need to experiment on copies to  find a
-good set of options. Most are pretty self-explanatory. The only setting
-which really needs more explanation is the "Remove Headers" button.
-Make sure the directory setting is pointing to the correct directory
-then click on "Enter Headers".<br>
-Click "Read Headers" This will show the top line of every text file.
-Select the check box beside each one you want to get rid of. Usually, it
- is easier to click "Select All" then UNCHECK the ones you DON'T want to
- erase. (Here is where that HEADER line comes in the zero byte files.)
-When you are satisfied with your selection, click "Insert". Then click
-"Done". Then hit "Start" and watch the progress bar fly by. </p>
-<p>Pre-processing complete.</p>
+
 <hr size="3" width="100%" align="left">
 <p><big><a name="submit"><b>OK, I'm finished, how do I submit the
 project?</b></a></big></p>
 <p>If this is your first time submitting a project and/or you are not a
- project manager,&nbsp; send an email or private message to <a
+ project manager,&nbsp; send an email to <a
  href="mailto:juliet.sutherland@verizon.net">JulietS</a>, that includes
 the author, title, etc and, ideally, the clearance line and any comments
 you may want included on the project page. &nbsp;Make sure you include
 your name and a contact email address (if different from the sending
-address). They will contact you with an FTP address and directoryname
+address). She will contact you with an FTP address and directoryname
 where you can upload  the image and text files. Use an FTP client to
 upload all of the .png and .txt files you generated earlier into that
-directory. (There are a few free FTP clients listed in the sofware
+directory. (There are a few free FTP clients listed in the software
 section, or,&nbsp; the guiprep toolkit has an FTP client built in that
 will automate some of the process) When that is done, email back to the
 person who contacted you. Alternately, if you anticipate having several
@@ -672,7 +597,7 @@ Robert Rowe has a set of saved settings for it that you may find useful.
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
 and is still available (though not directly from Abbyy software) and
 does what is needed. If possible, stick with the Pro version though; the
- Home and Sprint versions don&#8217;t have necessary features. Good for
+ Home and Sprint versions don't have necessary features. Good for
 scanning, but a little finicky about which scanners it supports.<br>
   <br>
   </font> </blockquote>
@@ -682,47 +607,21 @@ processing tools:</span><br>
 <a href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
 / <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a> <span
  style="font-style: italic;">Free</span> [Perl - Win32] A tool set
-modelled after PRTK but specifically geared toward pre-processing text
-files for use by Distributed proofreaders. Automatic markup extraction,
+specifically geared toward pre-processing text
+files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.<br>
 </p>
-<p style="margin-left: 40px;"><small>Thse two utilities
+<p style="margin-left: 40px;"><small>These two utilities
 (guiprep/winprep) share the same code. Use guiprep if you have perl on
 your system. Only use Winprep (Windows only) if you don't have perl. It
 is <span style="font-weight: bold;">MUCH</span> larger for the exact
 same program since it essentially includes a perl interpreter.</small><br>
 </p>
-<p><br>
-<a
- href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/dproofreaders/dp-devel/desktop/cleanup.pl">cleanup.pl</a>&nbsp;<span
- style="font-style: italic;">Free</span> [Perl] - Perl script to do
-dehyphenization and zero byte file checking on OCRed text files.
-Equilvalent functionality in guiprep.pl.<br>
-<br>
-</p>
-<p><a
- href="http://texts01.archive.org/%7Echarlz/public/PRTK-1-0-134.zip">Proofreaders
-Toolkit</a> or PRTK. <i>Free</i> [Win32] A nice collection of tools
-specifically geared towards proofreading, bundled into one package.
-Developed specifically for DP by Robert Rowe.
-For those without access to a computer running Windows,
-feel free to
-<a href="mailto:robert_rowe@yahoo.com">email Robert</a> for assistance.
-He has volunteered to run your project through PRTK for you.
-</p>
-<blockquote><font size="-1"> Becoming a little dated. No longer being
-maintained. Some parts of it are tricky to use, some parts are
-flaky,&nbsp; but it is a fairly comprehensive tools suite to work
-with&nbsp; a text from raw OCR to final product. </font></blockquote>
+
 <p><a href="http://gutcheck.sourceforge.net/">Gutcheck</a> <i>Free-GPL</i>
 [Dos/Win, Unix] Gutenberg text checking program. Needed to check
 compliance of text to Gutenberg standards. </p>
-<blockquote><font size="-1"> Gutcheck is integrated into PRTK but the
-version that comes with it is rather old. You should download the latest
- version of Gutcheck and extract it into the PRTK directory, overwriting
- the existing files.&nbsp; (Default directory = "C:\Program
-files\ProofReader's Toolkit") <br>
-  </font></blockquote>
+
 <span style="font-weight: bold; font-style: italic;"><br>
 Image viewing and manipulation:</span><br>
 <p><a href="http://www.irfanview.com/">Irfanview32</a> <i>Free</i>
@@ -788,11 +687,6 @@ use FTP client. Free for-non commercial use.<br>
 <p><a href="http://www.foolabs.com/xpdf/">Xpdf</a> <i>Free-GPL</i>
 [Dos/Win Unix] Utilities to extract images or text from .pdf files among
  other things. </p>
-<a href="http://ole.tange.dk/projekter/dp/">convert-to-dp</a> <i>Free-GPL</i>
-[Perl] Utility to unpack .tif or .pdf files into .png files, crop images
- and also split dual page scans into two separate files.<br>
-<br>
-<br>
 <hr style="width: 100%; height: 2px;"><br>
 
 <?
