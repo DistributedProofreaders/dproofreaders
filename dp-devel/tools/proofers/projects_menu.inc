@@ -23,10 +23,6 @@ echo _("Personal Page")."</a></td>";
 
 // -------
 
-echo "<td bgcolor='CCCCCC' align='center'><a href='$forums_url/index.php' target='forumwin'>"._("Forums")."</a></td>";
-
-// -------
-
 echo "<td bgcolor='CCCCCC' align='center'><a href='list_avail.php' target='_top'>"; 
 echo _("View Available Projects");
 echo "</a></td>";
@@ -38,6 +34,10 @@ $setU = "project=$project&amp;proofstate=$proofstate";
 $setP = "<a href='../../userprefs.php?$setU'>"._("Interface Preferences")."</a>";
 
 echo $setT.$setP."\r\n</td>";
+
+// -------
+
+echo "<td bgcolor='CCCCCC' align='center'><a href='$forums_url/index.php' target='forumwin'>"._("Forums")."</a></td>";
 
 // -------
 
