@@ -20,7 +20,7 @@ if (isset($swProfile))
   {
     // get profile from database
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
-    $cookieC->setUserPrefs($pguser);
+    dpsession_set_preferences_from_db();
     $eURL="userprefs.php";
     if (isset($project) && isset($proofstate))
       {$eURL.="?project=$project&proofstate=$proofstate";}
@@ -74,8 +74,7 @@ exit;
 // restore session values from db
 if (isset($restorec))
 {
-if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
-else { updateSessionPreferences($pguser); }
+dpsession_set_preferences_from_db();
 metarefresh(0, $eURL, "Restore", "");
 exit;
 }
@@ -413,8 +412,7 @@ $users_query.=" WHERE  u_id=$uid AND username='$pguser'";
 $result = mysql_query($users_query);
 
 echo mysql_error();
-if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
-else { updateSessionPreferences($pguser); }
+dpsession_set_preferences_from_db();
 
 metarefresh(0, $eURL, "Save", "");
 }

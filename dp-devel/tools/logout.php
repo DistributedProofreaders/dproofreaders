@@ -1,17 +1,12 @@
 <?
 //clear cookie if one is already set
 $relPath='./../pinc/';
-//include($relPath.'cookie.inc');
-include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'dpsession.inc');
+include_once($relPath.'metarefresh.inc');
 
-if ($use_cookies) {
-	$cookieC=new userCookie();
-	$cookieSet=$cookieC->deleteCookie();
-} else {
-	session_unset();
-	session_destroy();
+if ( dpsession_resume() )
+{
+	dpsession_end();
 }
 
 metarefresh(0, "../default.php", "Logout Complete",

@@ -2,7 +2,6 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
 
 if (empty($_GET['otid'])) { $otid = 0; } else { $otid = $_GET['otid']; }
@@ -54,8 +53,7 @@ if ($tid != 1) {
 }
 
 if ($redirect_team == 1) {
-	if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
-	else { updateSessionPreferences($pguser); }
+	dpsession_set_preferences_from_db();
 	metarefresh(0,"../teams/tdetail.php?tid=$tid",'Join the Team','Joining the team....');
 }
 ?>

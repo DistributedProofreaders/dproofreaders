@@ -74,8 +74,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
         if (isset($zmSize) && $userP['h_zoom']!=$zmSize) {$userP['h_zoom']=$zmSize;$isChg=1;}
       }
     $userP['prefschanged']=$isChg;
-    if ($use_cookies) { $cookieC->setTempPrefs($userP,$pguser); }
-    else { updateTempSessionPreferences($userP,$pguser); }
+    dpsession_set_preferences_temp( $userP );
   }
 
 //Make sure project is still available
@@ -97,8 +96,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
     {
       $userP['i_layout']=$userP['i_layout']==1? 0:1;
       $userP['prefschanged']=1;
-      if ($use_cookies) { $cookieC->setTempPrefs($userP, $pguser); }
-      else { updateTempSessionPreferences($userP,$pguser); }
+      dpsession_set_preferences_temp( $userP );
     } // end change layout prefs
     if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
     else {$npage['revert']=0;}

@@ -55,9 +55,7 @@ if (isset($_POST['mkPreview'])) {
 			$otid=3;
 		}
          }
-	// update cookie
-        if ($use_cookies) { $cookieC->setUserPrefs($pguser); }
-        else { updateSessionPreferences($pguser); }
+        dpsession_set_preferences_from_db();
 
 	$title = _("Join the Team");
 	$desc = _("Creating the team....");
