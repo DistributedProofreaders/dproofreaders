@@ -17,7 +17,7 @@ $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
         $datay[$count] = mysql_result($result, $count,"U_lasthour");
-        $datax[$count] = mysql_result($result, $count,"time_stamp");
+        $datax[$count] = date('Y-M-d',mysql_result($result, $count,"time_stamp"));
             $count++;
         }
 
@@ -34,7 +34,7 @@ $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 $graph->xaxis->SetTextTickInterval(91.25);
 //Set Y axis
-$graph->yaxis->title->Set('Pages');
+$graph->yaxis->title->Set('Fresh Logons');
 $graph->yaxis->SetTitleMargin(45);
 
 //Set background to white
