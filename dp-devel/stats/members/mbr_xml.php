@@ -40,7 +40,7 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 list( $neighbors, $max_page_tally_rank ) =
 	user_get_page_tally_neighborhood(
-		$curMbr['username'], 4 );
+		'P', $curMbr['username'], 4 );
 
 list($bestDayCount,$bestDayTimestamp) =
 	$users_P_page_tallyboard->get_info_re_largest_delta($curMbr['u_id']);

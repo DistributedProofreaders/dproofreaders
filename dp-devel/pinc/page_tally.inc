@@ -142,7 +142,7 @@ function user_page_tally_get_interval_title( $user_page_tally )
 
 // -----------------------------------------------------------------------------
 
-function user_get_page_tally_neighborhood( $username, $radius )
+function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 //
 // $radius is the (maximum) number of neighbors (on each side) to include in
 // the neighborhood. (It will include fewer that the maximum iff the target
@@ -178,15 +178,15 @@ function user_get_page_tally_neighborhood( $username, $radius )
     }
     list($u_id) = mysql_fetch_row($result);
 
-    global $users_P_page_tallyboard;
+    $tallyboard = new TallyBoard( $tally_name, 'U' );
     list($nb,$max_current_rank) =
-        $users_P_page_tallyboard->get_neighborhood(
+        $tallyboard->get_neighborhood(
             $u_id, $radius,
             'users',
             'u_id',
             'username, u_privacy, date_created, u_id',
-            'current_P_page_tally',
-            'P_page_rank'
+            'current_tally',
+            'current_rank'
         );
 
     $neighbors = array();
@@ -207,12 +207,13 @@ function user_get_page_tally_neighborhood( $username, $radius )
 
         $neighbors[$rel_posn] =&
             new PageTally_Neighbor(
+                $tallyboard,
                 $neighbor_is_anonymized,
                 $neighbor_username,
                 $neighbor_date_joined,
                 $row['u_id'],
-                $row['current_P_page_tally'],
-                $row['P_page_rank']
+                $row['current_tally'],
+                $row['current_rank']
             );
     }
 
@@ -221,8 +222,9 @@ function user_get_page_tally_neighborhood( $username, $radius )
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
+    function PageTally_Neighbor( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
     {
+        $this->tallyboard = $tallyboard;
         $this->is_anonymized = $is_anonymized;
         $this->username = $username;
         $this->date_joined = $date_joined;
@@ -240,9 +242,7 @@ class PageTally_Neighbor
 
     function get_latest_saved_page_tally_rank()
     {
-        global $users_P_page_tallyboard;
-
-        $info = $users_P_page_tallyboard->get_info_from_latest_snapshot($this->u_id);
+        $info = $this->tallyboard->get_info_from_latest_snapshot($this->u_id);
 
         return $info['tally_rank'];
     }

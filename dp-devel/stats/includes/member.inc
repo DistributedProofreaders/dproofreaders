@@ -219,7 +219,7 @@ function showMbrPageStats( $curMbr )
 
 	list( $neighbors, $totalRanks ) =
 		user_get_page_tally_neighborhood(
-			$curMbr['username'], 0 );
+			'P', $curMbr['username'], 0 );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
@@ -304,7 +304,7 @@ function showMbrNeighbors($curMbr) {
 
 	list( $neighbors, $max_page_tally_rank ) =
 		user_get_page_tally_neighborhood(
-			$curMbr['username'], 4 );
+			'P', $curMbr['username'], 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$rank = $neighbor->get_current_page_tally_rank();
