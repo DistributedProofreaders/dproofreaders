@@ -67,15 +67,21 @@ theme('FAQ Central','header');
   <dt><a href="scan/scanfaq.php">Scanning FAQ</a>
   <dd>Basic information on scanners and how to use them, based on our experiences.
 
-  <dt> &nbsp;
-
-  <dd> &nbsp;
-
   <dt><a href="post_proof.php">Post-Processing FAQ</a>
   <dd>Information for new and aspiring Post-Processors.  (Post-Processors are people who do
       all the processing  of a particular project ("book") after it has been proofread
       on this site (combining all the pages, making them consistent, fixing problems,
       and submitting it to the Project Gutenberg archive.)
+
+  <dt> &nbsp;
+
+  <dd> &nbsp;
+  <dt><a href="<? echo $code_url ?>/tasks.php">Task Centre</a>
+  <dd>Here you will find a list of feature requests and bugs. You may add tasks after searching to see that the issue isn't already there.
+
+  <dt> &nbsp;
+
+  <dd> &nbsp;
 
   <dt><a href="http://www.gutenberg.net/faq/gutfaq.htm">Project Gutenberg FAQ</a>
   <dd>The <i>massive</i> FAQ from our parent site,
