@@ -212,7 +212,7 @@ function showForumProfile($username) {
 
 function showMbrPageStats( $curMbr )
 {
-	$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
+	$users_tallyboard = new TallyBoard( 'P', 'U' );
 
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
@@ -224,12 +224,12 @@ function showMbrPageStats( $curMbr )
 	$latestSavedRank = $neighbors[0]->get_latest_saved_page_tally_rank();
 
 	list($bestDayCount,$bestDayTimestamp) =
-		$users_P_page_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
+		$users_tallyboard->get_info_re_largest_delta( $curMbr['u_id'] );
 
 	$bestDayTime = date("M. jS, Y", ($bestDayTimestamp-86400));
 
 	list($highestRank, $highestRankDate) =
-		$users_P_page_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
+		$users_tallyboard->get_info_re_best_rank( $curMbr['u_id'] );
 
 
 	if ($daysInExistenceInteger > 0) {
@@ -351,14 +351,14 @@ function showMbrTeams($curMbr) {
 		_("Active Members")
 	);
 
-	$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
+	$teams_tallyboard = new TallyBoard( 'P', 'T' );
 
-	list($joined_with_team_P_page_tallies,$team_P_page_tally_column) =
-		$teams_P_page_tallyboard->get_sql_joinery_for_current_tallies('id');
+	list($joined_with_team_tallies,$team_tally_column) =
+		$teams_tallyboard->get_sql_joinery_for_current_tallies('id');
 
 	$result = mysql_query("
-		SELECT user_teams.*, $team_P_page_tally_column AS page_count
-		FROM user_teams $joined_with_team_P_page_tallies
+		SELECT user_teams.*, $team_tally_column AS page_count
+		FROM user_teams $joined_with_team_tallies
 		WHERE id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})
 	") or die(mysql_error());
 
