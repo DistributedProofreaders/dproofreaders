@@ -39,7 +39,7 @@
   define("PROJ_POST_FIRST_UNAVAILABLE_TEXT", "Unavailable for Post-Processing");
   define("PROJ_POST_FIRST_AVAILABLE_TEXT", "Available for Post-Processing");
   define("PROJ_POST_FIRST_CHECKED_OUT_TEXT", "In Post-Processing");
-  define("PROJ_POST_SECOND_AVAILABLE_TEXT", "Verify Post-Processing");
+  define("PROJ_POST_SECOND_AVAILABLE_TEXT", "Available for Verifying Post-Processing");
   define("PROJ_POST_SECOND_CHECKED_OUT_TEXT", "Verifying Post-Processing");
   define("PROJ_POST_COMPLETE_TEXT", "Completed Post-Processing");
 
