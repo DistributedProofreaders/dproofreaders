@@ -45,7 +45,7 @@ echo "$docType\r\n<HTML><HEAD><TITLE> "._("Project Comments")."</TITLE>";
 
 if (!isset($proofing) && $userP['i_newwin']==1)
 {include($relPath.'js_newwin.inc');}
-echo "</HEAD><BODY>";
+echo "</HEAD><BODY>\r\n";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
