@@ -7,32 +7,41 @@
 include_once($relPath.'page_tally.php');
 include_once($relPath.'SettingsClass.inc');
 
-global $userSettings;
+// $pguser might change (e.g., from unset to set) between the time that
+// this file is loaded and the time that a user_is_* function is called
+// (and conceivably, between calls to user_is_* functions).
+// So rather than creating one Settings object (using $pguser) in a
+// top-level statement, create it/them as needed by calls to user_is_*
+// functions.
+//
+function get_pguser_settings()
+{
+    return new Settings();
+}
 
-if (!isset($userSettings))
-    $userSettings = new Settings();
+// -----------------------------------------------------------------------------
 
 function user_is_a_sitemanager()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return $userSettings->get_boolean("sitemanager");
 }
 
 function user_is_taskcenter_mgr()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
 function user_is_proj_facilitator()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("proj_facilitator");
 }
 
 function user_is_PM()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("manager");
@@ -41,14 +50,14 @@ function user_is_PM()
 function user_is_PP()
 {
     global $pguser;
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor")
         || (user_get_page_tally($pguser) >= 400);
 }
 
 function user_is_post_proof_verifier()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('post_proof_verifier');
 }
 
@@ -102,19 +111,19 @@ function user_is_PPV_of($project)
 
 function user_is_site_news_editor()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_news_editor");
 }
 
 function user_is_site_translator()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
 function user_can_see_BEGIN_in_round($round_number)
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     if (user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("see_BEGIN_R".$round_number))
@@ -133,7 +142,7 @@ function user_can_see_BEGIN_in_round($round_number)
     
 function user_is_authors_db_manager()
 {
-    global $userSettings;
+    $userSettings = get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
 }
 
