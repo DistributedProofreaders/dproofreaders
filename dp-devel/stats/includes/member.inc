@@ -134,13 +134,6 @@ function showMbrStatus($siteadmin, $manager, $postprocessor, $pagescompleted) {
 	return $mbrStatus;
 }
 
-function dailyAverage($u_id) {
-	$avgPageCount = mysql_query("SELECT AVG(daily_pagescompleted) AS avgCount FROM member_stats WHERE u_id = $u_id");
-	$daily_average = mysql_result($avgPageCount, 0, "avgCount");
-	if (empty($daily_average)) { $daily_average = 0; }
-	return $daily_average;
-}
-
 function bestDayEver($u_id) {
 	list($bestDayCount,$bestDayTimestamp) = user_get_largest_page_tally_increment_info($u_id);
 	$bestDay['count'] = $bestDayCount;
