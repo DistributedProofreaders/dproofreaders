@@ -10,9 +10,7 @@ $title = _('Average number of users newly logged in each hour');
 $cache_timeout = 58;
 
 ///////////////////////////////////////////////////
-//Numbers of users logging on in each hopur of  last 24
-
-$startfrom = time() - 86400;
+//Numbers of users logging on in each hour of the day, since the start of stats
 
 
 //query db and put results into arrays
