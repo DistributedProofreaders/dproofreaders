@@ -335,7 +335,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         if ( $second_round_state == PROJ_PROOF_SECOND_UNAVAILABLE )
         {
-            $project['username'] = 'jmdyck'; // temporary hack
             maybe_mail_project_manager(
                 $project,
                 "This project is being held between rounds 1 and 2." ); 
@@ -373,7 +372,8 @@ else
 
 function hold_project_between_rounds( $project )
 {
-    return ( $project['nameofwork'] == 'Copyright Renewals 1950' );
+    return FALSE;
+    // return ( $project['nameofwork'] == 'Copyright Renewals 1950' );
 
     // If holding between rounds becomes popular, we'll obviously
     // want a more flexible way to answer this question.
