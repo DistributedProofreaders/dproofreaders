@@ -140,8 +140,6 @@ $allprojects = mysql_query("
     WHERE $condition
 ");
 
-$pagesleft = 0;
-
 while ( $project = mysql_fetch_assoc($allprojects) ) {
     $have_echoed_blurb_for_this_project = 0;
 
@@ -205,7 +203,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                     $state = $AVAILABLE_PROJECT_STATE;
                 }
             }
-            $pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
             $projectinfo->availablepages = $projectinfo->avail1_pages;
         }
     }
@@ -367,7 +364,6 @@ if ($verbose)
     echo "\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
     echo "\n";
-    echo "Total pages available = $pagesleft\n";
 }
 
 echo "</pre>\n";
