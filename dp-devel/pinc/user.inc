@@ -40,7 +40,7 @@ function checkQuery($db_result)
 
 function checkResult($db_result)
      {if (mysql_num_rows($db_result)==0)
-          {$this->error='User not found!';return 0;}
+          {$this->error=_("User Name (ID) not found!");return 0;}
      else {return 1;}
      }
 
@@ -63,7 +63,7 @@ function checkLogin($userID,$userPW)
 	  startSession($userID);
           return 1;
           }
-     else {$this->error='Invalid Login'; return 0;}
+     else {$this->error=_("Invalid Sign In"); return 0;}
      }
 
 function getQueryResult($userID)
