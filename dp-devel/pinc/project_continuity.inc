@@ -2,7 +2,7 @@
 include_once($relPath.'f_project_states.inc');
 
 function project_continuity_check($projectid,$orig_state,$no_more_pages)
-// $orig_state was the project's state at some time in the past, 
+// $orig_state was the project's state at some time in the past,
 // when some action was presented to the user as being valid.
 // The user has now submitted a request to perform that action.
 // If the project is no longer in that state,
@@ -39,6 +39,4 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		die();
 	}
 }
-
-# vim: ts=4 sw=4
 ?>
