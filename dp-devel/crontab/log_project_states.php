@@ -4,7 +4,7 @@ include($relPath.'connect.inc');
 new dbConnect();
 
 $EOL = "\n";
-$testing_this_script=$_GET['testing'];
+$testing_this_script=$_GET['mytesting'];
 
 
 // script assumes the table has at least one row in it
@@ -30,6 +30,10 @@ if ($X_date == date('Y-m-d')) {
 }
 
 
+$yr = date('Y');
+$mth = date('m');
+$dy = date('d');
+$dte = date('Y-m-d');
 
 // get counts of projects for each state
 
@@ -39,7 +43,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 
     $insert_query =
        "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-	VALUES (".date('Y').",".date('m').",".date('d').",".date('Y-m-d')",'". $state."', $num_projects)";
+	VALUES (".$yr.", ".$mth.", ".$dy.", ".$dte",'". $state."', $num_projects)";
 
     if ($testing_this_script)
     {
@@ -71,7 +75,7 @@ while (list ($state) = mysql_fetch_row ($result)) {
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
-               VALUES (".date('Y').",".date('m').",".date('d').",".date('Y-m-d')",'". $state."', 0)";
+               VALUES (".$yr.", ".$mth.", ".$dy.", ".$dte",'". $state."', 0)";
 	
         if ($testing_this_script)
           {
