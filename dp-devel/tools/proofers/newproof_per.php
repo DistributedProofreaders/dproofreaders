@@ -121,6 +121,9 @@ theme("Personal Page for $pguser", "header");
 
 
                 echo $theme['font_mainbody'] . ">".$news['message']."<hr width='75%'></center></font><br>\n";
+
+		include("./../../stats/currentstatestats.php");
+
         }
 
 
