@@ -15,7 +15,7 @@ include_once($relPath.'f_project_states.inc');
     $sql = mysql_query("SELECT sitemanager FROM users WHERE username = '$pguser'");
     $sitemanager = mysql_result($sql, 0, "sitemanager");
 
-    $inRound=projectStatesRound($projstate);
+    $inRound=projectStateRound($projstate);
     if (($sitemanager != 'yes') && ($pguser != $username)) {
         echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"charlz@lvcablemodem.com\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
