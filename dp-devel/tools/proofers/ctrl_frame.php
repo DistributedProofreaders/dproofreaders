@@ -12,6 +12,10 @@ $menuWidth=$wSize[0]<=800?'99%':'820';
 
 ?>
 <html><head><title>Control Frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
 <script language="JavaScript" src="dp_proof.js" type="text/javascript"></script>
 <script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <style type="text/css">

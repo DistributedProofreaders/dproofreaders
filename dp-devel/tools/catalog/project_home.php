@@ -32,7 +32,14 @@ else
 
     $nameofwork  = $project_res['nameofwork'];
 
-    echo "<head><title>DP home page of \"$nameofwork\"</title></head>\n";
+    echo "<head><title>DP home page of \"$nameofwork\"</title>\n";
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
+</head>
+<?PHP
     echo "<body>\n";
     echo "<h1>DP home page of \"$nameofwork\"</h1>\n";
 
