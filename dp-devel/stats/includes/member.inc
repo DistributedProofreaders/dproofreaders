@@ -3,6 +3,7 @@
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'page_tally.php');
+include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrProfile($curMbr) {
 	global $theme;
@@ -166,42 +167,6 @@ function pageCountPercentage($pagescompleted) {
 	    $percentTotal = number_format((($pagescompleted/$total_pagescompleted)*100), 2);
 	if ($pagescompleted > 0 && $percentTotal == 0.00) { $percentTotal = 0.01; }
 	return $percentTotal;
-}
-
-function showChangeInRank($prevRank, $currentRank)
-// Return a snippet of HTML that visually conveys
-// the change in rank between $prevRank and $currentRank.
-{
-	if (empty($currentRank) || empty($prevRank)) {
-		// Normally, this means that the rank is zero,
-		// which indicates that the user's page tally is zero.
-		// (Uniformity would prefer that a page tally of zero
-		// gave a very high rank number, but it doesn't.)
-		$rankPos = "&nbsp;";
-	} elseif ($currentRank == $prevRank) {
-		// No change in rank.
-		$rankPos = "&nbsp;";
-	} else {
-		// A change in rank! We will highlight it.
-		if ($currentRank < $prevRank) {
-			// The user's rank number has decreased.
-			// (i.e., their rank has improved; they have moved 'up' the chart).
-			$color = 'green';
-			$arrow = 'up';
-			$sign  = '+';
-			$abs   = $prevRank - $currentRank;
-		} else {
-			// The user's rank number has increased.
-			// (i.e., their rank has worsened; they have moved 'down' the chart).
-			$color = 'red';
-			$arrow = 'down';
-			$sign  = '-';
-			$abs   = $currentRank - $prevRank;
-		}
-		$rankPos = "&nbsp;<font color='$color'>(<img src='".$GLOBALS['code_url']."/graphics/$arrow.gif' border='0' alt='$sign$abs'>&nbsp;".number_format($abs).")</font>";
-	}
-
-	return $rankPos;
 }
 
 function showMbrNeighbors($curMbr) {
