@@ -94,7 +94,9 @@ echo "</b><br>";
     echo "Total users who completed at least 1 page:<font color=\"#0000FF\"><b> $totalusers</b></font><br><P>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
+if ( $userP['u_top10'] || $userP['u_neigh'] ) {
 ?>
+
 
 <b>Top 10 Proofers:</b>
 <blockquote>
@@ -138,13 +140,13 @@ echo "</b><br>";
     }
 
     $printedblankline = FALSE; // Note - this may be PHP4 only
-    $show_neighbors = isset($_GET['show_neighbors']) ? $_GET['show_neighbors'] : 5;
+//    $show_neighbors = isset($_GET['show_neighbors']) ? $_GET['show_neighbors'] : 5;
 
     $i = 0;
     while ($i < $numrows) {
         // If ranking is in top ten or is current user or immediate
         // neighbour, print line in table
-        if(($rankings[$i] < 11) || (($i >= $userindex - $show_neighbors) && ($i <= $userindex + $show_neighbors)) && $printedblankline) {
+        if(($rankings[$i] < 11 && $userP['u_top10']) || (($i >= $userindex - $show_neighbors) && ($i <= $userindex + $show_neighbors) && $userP['u_neigh']) && $printedblankline) {
             echo "<TR";
             if ($userindex == $i) {
                 // Highlight current user (#C0C0C0 is grey)
@@ -203,6 +205,7 @@ neighbors <input type="submit" name="go" value="Go" /></p>
 </form>
 <? } ?>
 </blockquote>
+<? } ?>
 <p>
 <p>
 
@@ -266,7 +269,7 @@ Want to help out the site by providing material for us to proof? Check <a href="
 if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
 echo "<tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>";
-echo "<td bgcolor=CCCCCC colspan=4> These files are output from the OCR software and have not been looked at.</tr>";
+echo "<td bgcolor=CCCCCC colspan=5> These files are output from the OCR software and have not been looked at.</tr>";
 
     //Select all projects in the list for round 1
     $result = mysql_query("SELECT * FROM projects WHERE state = 2 or state = 8 ORDER BY modifieddate asc, nameofwork asc");
@@ -280,10 +283,10 @@ if ($userP['u_plist'] == 2 || $userP['u_plist'] == 3) {
 echo "<table border=1 width=630>";
 echo "<br><tr><td bgcolor='CCCCCC' colspan=2><h3>Current Second - Round Projects </h3></td>";
 if ($totalpages < 50) {
-echo "<td bgcolor='#cccccc' colspan=4>Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.";
+echo "<td bgcolor='#cccccc' colspan=5>Second round projects are unavailable until you have proofed more than 50 first round pages.  After 50 pages of first round proofing the second round projects will be unlocked for you.";
 echo "</td></tr></table>\n<p>";
 } else {
-echo "<td bgcolor='CCCCCC' colspan=4>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";
+echo "<td bgcolor='CCCCCC' colspan=5>These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.";
 echo "See <A HREF='http://www.promo.net/pg/vol/proof.html#What_kinds' target='_new'>this page</A> for examples.";
 echo "</td></tr>";
     //Select all projects in the list for round 2 
