@@ -114,7 +114,6 @@ if (!$isPPV) {
 
 	echo "</p><p>";
 	echo _("<b>First Time here?</b>");
-	echo _("Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) is our Post Processing Coordinator.");
 	echo _("Julie Barkley (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>) maintains our");
 	echo " <a href='$code_url/faq/post_proof.php'>";
 	echo _("Post Processing FAQ");
@@ -138,7 +137,6 @@ if (!$isPPV) {
 	echo _("PPV Report Card for each project you PPV");
 	echo "</a>.</font><br />";
 
-	echo _("Tonya Allen (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1486'>Tonya</a>) is our Post Processing Coordinator. ");
 	echo _("Julie Barkley (<a href='http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674'>juliebarkley</a>) maintains our");
 	echo " <a href='$code_url/faq/post_proof.php'>";
 	echo _("Post Processing FAQ");

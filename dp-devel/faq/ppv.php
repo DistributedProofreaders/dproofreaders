@@ -145,7 +145,7 @@ PG's guidelines on HTML are currently being revised; this section may change.
 <h2><a name="track">Tracking PP Progress</a></h2>
 
 <p>
-After a PPer has completed at least 8 projects, if their work is of consistent high quality it may be time to allow them to submit directly to PG and to become PPVers themselves. If you have worked with the same PPer through several projects and feel they are ready to be "promoted", send a private message to Tonya to this effect.
+After a PPer has completed at least 8 projects, if their work is of consistent high quality it may be time to allow them to submit directly to PG and to become PPVers themselves. If you have worked with the same PPer through several projects and feel they are ready to be "promoted", send an email to <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a> to this effect.
 </p>
 
 </div>
