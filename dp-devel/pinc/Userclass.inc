@@ -1,3 +1,5 @@
+//
+// ID: $Id$
 <?php
 
 require_once 'v_site.inc';
@@ -43,7 +45,7 @@ class User
     var $users_phpbb;   // this is for one record from mysql, as an array.
     var $users_phpbb_meta; // metadata for users_phpbb columns.
     var $settings;      // This is for the records from usersettings for this user.
-    var $prefs;         // this is for the records from userprofiles for this user.
+    var $profile;       // this is for the records from userprofiles for this user.
     var $stats;         // this is for the fields from a summary query from member_stats.
     var $logged_in;     // boolean = True when they are and False when they're not.
     var $teams;
@@ -59,7 +61,7 @@ class User
      * or wherever it is.</p>
      */
 
-    function User($username, $password)
+    function User($username)
     {
         $username = trim($userName) ;
         $password = trim($password) ; 
@@ -98,7 +100,7 @@ class User
                 WHERE u.username = '$username'";
         $result = mysql_query($sql);
 
-        for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++
+        for( $i = 0 ; $i < mysql_num_fields( $result ) ; $i++ )
         {
             $meta = mysql_fetch_field($result, $i);
             $users_phpbb_meta[$meta->name] = $meta;
@@ -125,19 +127,11 @@ class User
         mysql_free_result($result);
     }
 
-    function _queryPrefs()
-    {
-        // And the same for preferences,
-        // except here we store multiple rows (full named sets of preferences.)
-        $sql = "SELECT *
-                FROM user_profiles
-                WHERE u_ref = '$this->userid()'";
-        $result = mysql_query($sql);
+        // get the user's profiles ;
+        $this->profiles = new Profiles($this->username());
+        $this->profile = $this->standardProfile() ;
 
-        while ($row = mysql_fetch_object($result)) {
-            $this->prefs[$row['profilename']] = $row;
-        }
-        mysql_free_result($result);
+        // And now we have a configured user!
     }
 
     /**
@@ -147,14 +141,14 @@ class User
      * needs to sometimes go back into the database. This function puts all that
      * information back in.</p>
      *
-     * <p><b>NOTE:</b>If saveUser() is not manually called before end of life of object,
+     * <p><b>NOTE:</b>If save() is not manually called before end of life of object,
      * all changes made to User object will be lost.</p>
      *
      * - returns true if it is successful
      * - returns false otherwise
      */
 
-    function saveUser()
+    function _save()
     {
 
     }
@@ -170,7 +164,7 @@ class User
     {
         $validUser = $this->validUser();
         $validPassword = $this->validPassword();
-        if (!($this->logged_in = (empty($validUser) && empty($validPassword))) {
+        if (!($this->logged_in = (empty($validUser) ) && empty($validPassword))) {
 
             // Sending all error messages back to function caller
             return $validUserName." ".$validPassword;
@@ -185,7 +179,7 @@ class User
      * - returns false if it was unsuccessful logging out
      */
 
-    function logOut()
+    function _logOut()
     {
         $this->logged_in = False; 
 
@@ -220,7 +214,7 @@ class User
          return $user_phpbb_meta[$fieldname];
      }
 
-    function validUserName()
+    function _validUserName()
     {
         // This is the length of the 'username' field in the 'users' table.
         // $username_max_len = 25;
@@ -231,7 +225,7 @@ class User
         }
 
         // if (strlen($this->userName()) > $username_max_len)
-        if (strlen($this->userName()) > $this->fieldLength('username')
+        if (strlen($this->userName()) > $this->fieldLength('username') )
         {
             $error = _("Your User Name is too long.<br>(The maximum is")." $this->fieldLength('username') "._("characters").".)";
             return $error;
@@ -266,14 +260,14 @@ class User
      * Verifies that the User exists on the Site
      *
      * <p>This should be run to verify that the user actually exists on the site.
-     * It is different from isValidUserName() in that it not just verifies the name,
+     * It is different from _isValidUserName() in that it not just verifies the name,
      * but also makes sure that the user has an account with the site.</p>
      *
      * - returns a blank string if the user is valid
      * - returns an error message otherwise
      */
 
-    function validUser()
+    function _validUser()
     {
 
     }
@@ -282,13 +276,13 @@ class User
      * Creates a New User Account
      *
      * <p>Takes the current User instance and creates an account for the user so that
-     * isValidUser() will return true for the user.
+     * _isValidUser() will return true for the user.
      *
      * - returns an empty string if it is successful in creating an account
      * - returns an error message otherwise
      */
 
-    function createNewUser()
+    function _createNewUser()
     {
 
     }
@@ -302,7 +296,7 @@ class User
      * - returns false otherwise
      */
 
-    function isValidRealName($realName)
+    function _isValidRealName($realName)
     {
 
     }
@@ -380,7 +374,7 @@ class User
      * - returns false otherwise
      */
 
-    function setPassword($password)
+    _function setPassword($password)
     {
 
     }
@@ -389,7 +383,7 @@ class User
      * MD5 version of User's Password
      */
 
-    function passwordMD5()
+    _function _passwordMD5()
     {
         return $this->users_phpbb['bbu.password'];
     }
@@ -404,7 +398,7 @@ class User
      * - returns an error message otherwise
      */
 
-    function validPassword($password)
+    function _validPassword($password)
     {
        if (MD5($password) != $this->passwordMD5()) {
            $error = _("Password is invalid.");
@@ -451,7 +445,7 @@ class User
      * - returns an error message otherwise
      */
 
-    function isValidEmailAddress()
+    function _isValidEmailAddress()
     {
         // This is the length of the 'email' field in the 'users' table.
         $email_address_max_len = 50;
@@ -527,22 +521,32 @@ class User
      * Internal user ID # of the User object
      */
 
-    function userId()
+    function _userId()
     {
         return $this->users_phpbb['u_id'];
     }
 
     /**
      * Error Checking on Theme Name
+     * Needs to go to a Theme class.
      */
 
-    function isValidTheme($name)
+    function _isValidTheme($name)
     {
         
     }
 
     /**
-     * Theme Name that User has selected in their preferences
+     * Error Checking to see if the Theme exists
+     */
+
+    function isTheme($name)
+    {
+
+    }
+
+    /**
+     * Returns the user's preferred theme.
      */
 
     function theme()
@@ -563,73 +567,19 @@ class User
     }
 
     /**
-     * All Theme Names
+     * All Theme Names registered with this user.
      */
 
     function allThemes()
     {
-
-    }
-
-    /**
-     * Checks to make sure the profile name is valid
-     */
-
-    function isValidProfile($name)
-    {
-
-    }
-
-    /**
-     * Create a new Profile
-     */
-
-    function createProfile($name)
-    {
-
-    }
-
-    /**
-     * Delete a Profile
-     */
-
-    function deleteProfile($name)
-    {
-
-    }
-
-    /**
-     * Active Profile's Name
-     */
-
-    function profile()
-    {
-        $this->_rowVal('u_profile');
-    }
-
-    /**
-     * All Profile Names
-     */
-
-    function allProfiles()
-    {
-
-    }
-
-    /**
-     * Set Active Profile
-     */
-
-    function setProfile($name)
-    {
-        $this->_setRowVal('u_profile', $name);
+        return True ;
     }
 
     /**
      * Is the Proofreader wanting Round 1 Projects Showing?
      */
 
-    function isShowingR1()
+    function wantsR1()
     {
 
     }
@@ -638,7 +588,7 @@ class User
      * Enable Showing Round 1 Projects to Proofreader
      */
 
-    function enableShowingR1()
+    function enableWantsR1()
     {
 
     }
@@ -647,7 +597,7 @@ class User
      * Disable Showing Round 1 Projects to Proofreader
      */
 
-    function disableShowingR1()
+    function disableWantsR1()
     {
 
     }
@@ -656,7 +606,7 @@ class User
      * Is the Proofreader wanting Round 2 Projects Showing?
      */
 
-    function isShowingR2()
+    function wantsR2()
     {
 
     }
@@ -665,7 +615,7 @@ class User
      * Enable Showing Round 2 Projects to Proofreader
      */
 
-    function enableShowingR2()
+    function enableWantsR2()
     {
 
     }
@@ -674,7 +624,7 @@ class User
      * Disable Showing Round 2 Projects to Proofreader
      */
 
-    function disableShowingR2()
+    function disableWantsR2()
     {
 
     }
@@ -683,7 +633,7 @@ class User
      * Error-checking that the language being selected is a valid language
      */
 
-    function isValidLanguage($name)
+    function _isValidLanguage($name)
     {
 
     }
@@ -749,7 +699,7 @@ class User
 
     function _neighbors($count)
     {
-        if( ! $this->neighbors || count($this->neighbors < $count * 2 )
+        if( ! $this->neighbors || count($this->neighbors < $count * 2 ) )
         {
             $this->_getNeighbors($count) ;
         }
@@ -778,7 +728,7 @@ class User
                        COUNT(1) AS proofercount
                 FROM users AS u
                 INNER JOIN users AS u_me
-                WHERE u_me.username = '$user->UserName()'
+                WHERE u_me.username = '$user->userName()'
                     AND u.pagescompleted >= u_me.pagescompleted
                 ORDER BY u.pagescompleted
                 LIMIT 10" ;
@@ -794,7 +744,7 @@ class User
                        u.u_privacy
                 FROM users AS u
                 INNER JOIN users AS u_me
-                WHERE u_me.username = '$user->UserName()'
+                WHERE u_me.username = '$user->userName()
                     AND u.pagescompleted < u_me.pagescompleted
                     AND u.pagescompleted > 0
                 ORDER BY u.pagescompleted DESC
@@ -812,7 +762,7 @@ class User
      * Error checking on the Number of Rank Neighbors
      */
 
-    function isValidNumRankNeighbors($num)
+    function _isValidNumRankNeighbors($num)
     {
 
     }
@@ -848,7 +798,7 @@ class User
      * Error checking on the interface language provided
      */
 
-    function isValidInterfaceLanguage($lang)
+    function _isValidInterfaceLanguage($lang)
     {
 
     }
@@ -869,955 +819,6 @@ class User
     function allInterfaceLanguages()
     {
 
-    }
-
-    /**
-     * Is Vertical Screen Resolution Valid?
-     */
-
-    function isValidVerticalResolution($num)
-    {
-
-    }
-
-    /**
-     * Set User's Vertical Screen Resolution
-     */
-
-    function setVerticalResolution($num)
-    {
-
-    }
-
-    /**
-     * Returns the User's Vertical Screen Resolution
-     */
-
-    function verticalResolution()
-    {
-
-    }
-
-    /**
-     * Is Horiziontal Screen Resolution Valid?
-     */
-
-    function isValidHoriziontalResolution($num)
-    {
-
-    }
-
-    /**
-     * Set User's Horiziontal Screen Resolution
-     */
-
-    function setHoriziontalResolution($num)
-    {
-
-    }
-
-    /**
-     * Returns the User's Horiziontal Screen Resolution
-     */
-
-    function horiztionalResolution()
-    {
-
-    }
-
-    /**
-     * Is User Proofreading in Standard Interface?
-     */
-
-    function isStandardInterface()
-    {
-
-    }
-
-    /**
-     * Enable Standard Proofreading Interface
-     */
-
-    function enableStandardInterface()
-    {
-
-    }
-
-    /**
-     * Is User Proofreading in Enhanced Interface?
-     */
-
-    function isEnhancedInterface()
-    {
-
-    }
-
-    /**
-     * Enable Enhanced Proofreading Interface
-     */
-
-    function enableEnhancedInterface()
-    {
-
-    }
-
-    /**
-     * Is the Proofreading Interface Launched in a New Window?
-     */
-
-    function isLaunchedNewWindow()
-    {
-
-    }
-
-    /**
-     * Enable Launching of Proofreading Interface in a New Window
-     */
-
-    function enableLaunchNewWindow()
-    {
-
-    }
-
-    /**
-     * Disable Launching of Proofreading Interface in a New Window
-     */
-
-    function disableLaunchNewWindow()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isToolbarShown()
-    {
-        return ($this->_rowVal('i_toolbar') == 1);
-    }
-
-    /**
-     *
-     */
-
-    function enableShowToolbar()
-    {
-        $this->_setRowVal('i_toolbar', 1);
-    }
-
-    /**
-     *
-     */
-
-    function disableShowToolbar()
-    {
-        $this->_setRowVal('i_toolbar', 0);
-    }
-
-    /**
-     *
-     */
-
-    function isStatusBarShown()
-    {
-        return ($this->_rowVal('i_statusbar') == 1);
-    }
-
-    /**
-     *
-     */
-
-    function enableShowStatusBar()
-    {
-        $this->_setRowVal('i_statusbar', 1);
-    }
-
-    /**
-     *
-     */
-
-    function disableShowStatusBar()
-    {
-        $this->_setRowVal('i_statusbar', 0);
-    }
-
-    /**
-     *
-     */
-
-    function isTop10Shown()
-    {
-        return ($this->_rowVal('u_top10') == 1);
-    }
-
-    /**
-     *
-     */
-
-    function enableShowTop10()
-    {
-        $this->_setRowVal('u_top10', 1);
-    }
-
-    /**
-     *
-     */
-
-    function disableShowTop10()
-    {
-        $this->_setRowVal('u_top10', 0);
-    }
-
-    /**
-     *
-     */
-
-    function enableNoStatisticsBar()
-    {
-        $this->_setRowVal('u_align', 2);
-    }
-
-    /**
-     *
-     */
-
-    function isNoStatisticsBar()
-    {
-        return ($this->_rowVal('u_align') == 2);
-    }
-
-    /**
-     *
-     */
-
-    function enableLeftStatisticsBar()
-    {
-        $this->_setRowVal('u_align', 1);
-    }
-
-    /**
-     *
-     */
-
-    function isLeftStatisticsBar()
-    {
-        return ($this->_rowVal('u_align') == 1);
-    }
-
-    /**
-     *
-     */
-
-    function enableRightStatisticsBar()
-    {
-        $this->_setRowVal('u_align', 0);
-    }
-
-    /**
-     *
-     */
-
-    function isRightStatisticsBar()
-    {
-        return ($this->_rowVal('u_align') == 0);
-    }
-
-    /**
-     *
-     */
-
-    function isValidFontFace($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setVerticalFontFace($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setHoriziontalFontFace($name)
-    {
-
-    }
-
-    /**
-     * Internal user ID # of the User object.
-     * Should not be useful outside this class.
-     */
-
-    function setActiveFontFace($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function activeFontFace()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function horiziontalFontFace()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function verticalFontFace()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function allFontFaces()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isValidFontSize($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setVerticalFontSize($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setHoriziontalFontSize($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setActiveFontSize($name)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function activeFontSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function horiziontalFontSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function verticalFontSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function allFontSizes()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isValidImageZoom($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setHoriziontalImageZoom($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setVerticalImageZoom($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setActiveImageZoom($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function activeImageZoom()
-    {
-
-    }
-
-    /**
-     * At the 'right time', this stuff should be spun off to
-     * a UI attribute class.
-     */
-
-    function horiziontalImageZoom()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function verticalImageZoom()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isValidTextFrameSize($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setHoriziontalTextFrameSize($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setVerticalTextFrameSize($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function setActiveTextFrameSize($num)
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function activeTextFrameSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function horiziontalTextFrameSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function verticalTextFrameSize()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isActiveTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableActiveTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableActiveTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableHoriziontalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableHoriziontalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableVerticalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableVerticalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isHoriziontalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isVerticalTextFrameScrolled()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isActiveTextWrapped()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isHoriziontalTextWrapped()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isVerticalTextWrapped()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableActiveWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableActiveWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableHoriziontalWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableHoriziontalWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableVerticalWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function disableVerticalWrapText()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isSearchDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableSearchDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isActiveProjectsDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableActiveProjectsDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isAllProjectsDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableAllProjectsDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isProofreadDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enableProofreadDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function isPostProcessingDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function enablePostProcessingDefaultPage()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function allDefaultPages()
-    {
-
-    }
-
-    /**
-     * Is User's Proofreading Layout Vertical
-     *
-     * - returns true if user wants vertical layout
-     * - returns false otherwise
-     */
-
-    function isVerticalLayout()
-    {
-        return ($this->users_phpbb['i_layout'] == 1);
-    }
-
-    /**
-     * Sets User's Proofreading Layout to Vertical
-     */
-
-    function enableVerticalLayout()
-    {
-        $this->users_phpbb['i_layout'] = 1;
-    }
-
-    /**
-     * Is User's Proofreading Layout Horiziontal
-     *
-     * - returns true if user wants horiziontal layout
-     * - returns false otherwise
-     */
-
-    function isHoriziontalLayout()
-    {
-        return ($this->users_phpbb['i_layout'] == 0);
-    }
-
-    /**
-     * Sets User's Proofreading Layout to Horiziontal
-     */
-
-    function enableHoriziontalLayout()
-    {
-        $this->users_phpbb['i_layout'] = 0;
-    }
-
-    /**
-     * Number of Proofreading Rows for Active Layout & Profile
-     *
-     * <p>Returns the number of columns of characters for the active proofreading layout.</p>
-     */
-
-    function numberActiveRows()
-    {
-        if ($this->isHoriziontalLayout()) {
-            return $this->getPref($this->activeProfile(), 'h_tlines');
-        } else return $this->getPref($this->activeProfile(), 'v_tlines');
-    }
-
-    /**
-     *
-     */
-
-    function numVerticalRows()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function numHoriziontalRows()
-    {
-
-    }
-
-    /**
-     * Number of Proofreading Columns for Active Layout & Profile
-     *
-     * <p>Returns the number of columns of characters for the active proofreading layout.</p>
-     */
-
-    function numberActiveColumns()
-    {
-        if ($this->isHoriziontalLayout()) {
-            return $this->getPref($this->activeProfile(), 'h_tchars');
-        } else return $this->getPref($this->activeProfile(), 'v_tchars');
-    }
-
-    /**
-     *
-     */
-
-    function numVerticalColumns()
-    {
-
-    }
-
-    /**
-     *
-     */
-
-    function numHoriziontalColumns()
-    {
-
-    }
-
-    /**
-     * Set Number of Horiziontal Proofreading Columns For Active Profile
-     * 
-     * - returns true if number given is valid number
-     * - returns false otherwise
-     */
-
-    function setNumHoriziontalColumns($num)
-    {
-        if (($num >= 10) && ($num <= 160)) {
-            $this->setPref($this->activeProfile(), 'h_tchars', $num);
-            return true;
-        } else return false;
-    }
-
-    /**
-     * Set Number of Vertical Proofreading Columns For Active Profile
-     * 
-     * - returns true if number given is valid number
-     * - returns false otherwise
-     */
-
-    function setNumVerticalColumns($num)
-    {
-        if (($num >= 10) && ($num <= 160)) {
-            $this->setPref($this->activeProfile(), 'v_tchars', $num);
-            return true;
-        } else return false;
-    }
-
-    /**
-     * Set Number of Horiziontal Proofreading Rows For Active Profile
-     * 
-     * - returns true if number given is valid number
-     * - returns false otherwise
-     */
-
-    function setNumHoriziontalRows($num)
-    {
-        if (($num >= 1) && ($num <= 100)) {
-            $this->setPref($this->activeProfile(), 'h_tlines', $num);
-            return true;
-        } else return false;
-    }
-
-    /**
-     * Set Number of Vertical Proofreading Rows For Active Profile
-     * 
-     * - returns true if number given is valid number
-     * - returns false otherwise
-     */
-
-    function setNumVerticalRows($num)
-    {
-        if (($num >= 1) && ($num <= 100)) {
-            $this->setPref($this->activeProfile(), 'v_tlines', $num);
-            return true;
-        } else return false;
     }
 
     /**
@@ -1905,6 +906,7 @@ class User
      * - returns "" otherwise
      */
 
+     /*
     function _needsApostrophe()
     {
         if ((substr($this->userName(), -1) != "s")
@@ -1916,6 +918,7 @@ class User
 
         return $needsApostrophe;
     }
+    */
 
     /**
      * Date User Account was Created
@@ -1953,8 +956,8 @@ class User
 
     function daysSinceCreated()
     {
-        return daysDiff( 
-        return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
+        return _daysBetween( $this->dateCreated(), getdate() ) ;
+        // return number_format(floor((((time() - $this->dateCreated()) / 24) / 60) / 60));
     }
 
     /**
@@ -2006,7 +1009,7 @@ class User
      * Tests to see if the location is valid for an Avatar
      */
 
-    function isValidUserAvatar($location)
+    function _isValidUserAvatar($location)
     {
 
     }
@@ -2099,7 +1102,7 @@ class User
         if ($this->pagesCompleted() <= 125000) {
             return _("Professor of Proofreading");
         }
-        return = _("Presidential Proofreader");
+        // return = _("Presidential Proofreader");
     }
 
     /**
@@ -2898,7 +1901,7 @@ class User
                    AVG(daily_pagescompleted) AS avgCount,
                    MAX(daily_pagescompleted) as maxCount
                FROM member_status
-               WHERE u_id = $this->userID()" 
+               WHERE u_id = $this->userID()"  ;
         $result = mysql_query($sql);
         $stats = mysql_fetch_assoc($result);
         mysql_free_result($result);
