@@ -3,6 +3,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'f_project_states.inc'); // projectStateRound
 
 function echo_page_table(
@@ -33,6 +34,15 @@ function echo_page_table(
 
 	$show_delete = (($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST' || $inRound=='SECOND') && $can_edit);
 
+	if ($inRound <> 'FIRST')
+	{
+		$latest_round_num = 2;
+	}
+       	else 
+	{
+		$latest_round_num = 1;
+	}
+
 	$upload_colspan = 2 + $show_image_size;
 
 	if ( $can_edit )
@@ -59,10 +69,10 @@ function echo_page_table(
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-		echo "    <td align='center' colspan='$n_cols_per_round'>"._("Round 1")."</td>\n";
-		if ($inRound <> 'FIRST')
+		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
-			echo "    <td align='center' colspan='$n_cols_per_round'>"._("Round 2")."</td>\n";
+			$round_label = sprintf( _("Round %d"), $rn );
+			echo "    <td align='center' colspan='$n_cols_per_round'>$round_label</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -90,18 +100,7 @@ function echo_page_table(
 
 		echo "{$td_start}"._("Page State")."{$td_end}";
 
-		echo "{$td_start}"._("Diff")."{$td_end}";
-		echo "{$td_start}"._("Date")."{$td_end}";
-		if (TRUE)
-		{
-			echo "{$td_start}"._("User")."{$td_end}";
-		}
-		echo "{$td_start}"._("Text")."{$td_end}";
-		if ($can_edit)
-		{
-			echo "{$td_start}"._("Clear")."{$td_end}";
-		}
-		if ($inRound <> 'FIRST')
+		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
 			echo "{$td_start}"._("Diff")."{$td_end}";
 			echo "{$td_start}"._("Date")."{$td_end}";
@@ -115,6 +114,7 @@ function echo_page_table(
 				echo "{$td_start}"._("Clear")."{$td_end}";
 			}
 		}
+
 		if ($can_edit) echo "{$td_start}"._("Bad/Fix")."{$td_end}";
 
 		if ($show_delete)
@@ -128,22 +128,16 @@ function echo_page_table(
 
 	$path = "$projects_dir/$projectid/";
 
-	if ($inRound <> 'FIRST')
+	$fields_to_get = "fileid, image, length(master_text), state";
+	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
-		$fields_to_get = '
-		fileid, image, length(master_text),
-		state,
-		replace(master_text,\'\r\n\',\'\n\')=replace(round1_text,\'\r\n\',\'\n\') as round1_diff,
-		round1_time, round1_user, length(round1_text),
-		replace(round1_text,\'\r\n\',\'\n\')=replace(round2_text,\'\r\n\',\'\n\') as round2_diff,
-		round2_time, round2_user, length(round2_text)';
-	} else 
-	{
-		$fields_to_get = '
-		fileid, image, length(master_text),
-		state,
-		replace(master_text,\'\r\n\',\'\n\')=replace(round1_text,\'\r\n\',\'\n\') as round1_diff,
-		round1_time, round1_user, length(round1_text)';
+		$prd = get_PRD_for_round($rn);
+		$fields_to_get .= ",
+			REPLACE($prd->prevtext_column_name,'\r\n','\n')=REPLACE($prd->text_column_name,'\r\n','\n') AS $prd->textdiff_column_name,
+			$prd->time_column_name,
+			$prd->user_column_name,
+			length($prd->text_column_name)
+		";
 	}
 
 	$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
@@ -233,23 +227,22 @@ function echo_page_table(
 			// The user can see the names of all the proofers for this page
 			// only if they are one of those proofers.
 			$can_see_names_for_this_page = FALSE;
-			foreach ( array('round1_user','round2_user') as $user_field_name )
+			for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 			{
-				if (isset($page_res[$user_field_name]) )
+				$prd = get_PRD_for_round($rn);
+				$proofer_name = $page_res[$prd->user_column_name];
+				if ( $proofer_name != '' && $proofer_name == $pguser )
 				{
-					$proofer_name = $page_res[$user_field_name];
-					if ( $proofer_name != '' && $proofer_name == $pguser )
-					{
-						$can_see_names_for_this_page = TRUE;
-						break;
-					}
+					$can_see_names_for_this_page = TRUE;
+					break;
 				}
 			}
 		}
 
-		echo_cells_for_round(1, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
-
-		if ($inRound <> 'FIRST') echo_cells_for_round(2, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
+		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+		{
+			echo_cells_for_round($rn, $page_res, $projectid, $inRound, $can_edit, $can_see_names_for_this_page);
+		}
 
 		// (It's annoying that we have to pass all those args,
 		// or else make them global, which I don't want to do.)
@@ -259,8 +252,18 @@ function echo_page_table(
 		if ($can_edit) {
 
 			// Bad Page
+			$page_is_in_bad_state = FALSE;
+			for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+			{
+				$prd = get_PRD_for_round($rn);
+				if ( $page_state == $prd->page_bad_state )
+				{
+					$page_is_in_bad_state = TRUE;
+					break;
+				}
+			}
 			echo "<td>";
-			if (($page_state == BAD_FIRST) || ($page_state == BAD_SECOND)) {
+			if ($page_is_in_bad_state) {
 				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a></center>";
 			} else {
 				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
@@ -310,33 +313,10 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
 
-	if ($round_num == 1)
-	{
-		$R_diff_field_name = 'round1_diff';
-		$R_time_field_name = 'round1_time';
-		$R_user_field_name = 'round1_user';
-		$R_text_length_field_name = 'length(round1_text)';
-		$R_save_state = SAVE_FIRST;
-		$R_temp_state = TEMP_FIRST;
-		$R_out_state = OUT_FIRST;
-		$R_avail_state = AVAIL_FIRST;
-	}
-	elseif ($round_num == 2)
-	{
-		$R_diff_field_name = 'round2_diff';
-		$R_time_field_name = 'round2_time';
-		$R_user_field_name = 'round2_user';
-		$R_text_length_field_name = 'length(round2_text)';
-		$R_save_state = SAVE_SECOND;
-		$R_temp_state = TEMP_SECOND;
-		$R_out_state = OUT_SECOND;
-		$R_avail_state = AVAIL_SECOND;
-	}
-	else
-	{
-		assert(FALSE);
-	}
-	$R_username = $page_res[$R_user_field_name];
+	$prd = get_PRD_for_round($round_num);
+	assert( !is_null($prd) );
+
+	$R_username = $page_res[$prd->user_column_name];
 
 
        // colour-code pages proofread by the user
@@ -346,12 +326,12 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
                 $cellcolorclause = "bgcolor='#FF3366'";
 
                 // a page saved as DONE by the user has a greenish background
-                if ($page_state == $R_save_state) {
+                if ($page_state == $prd->page_save_state) {
                         $cellcolorclause = "bgcolor='#99FF66'";
                 }
 
                 // a page saved as IN PROGRESS by the user has an orangey background
-                if ($page_state == $R_temp_state || $page_state == $R_out_state) {
+                if ($page_state == $prd->page_temp_state || $page_state == $prd->page_out_state) {
                         $cellcolorclause = "bgcolor='#FFCC66'";
                 }
 
@@ -363,8 +343,8 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// Diff
 
 	echo "<td align='center'>";
-	if ($page_state != $R_avail_state) {
-		if($page_res[$R_diff_field_name]) {
+	if ($page_state != $prd->page_avail_state) {
+		if($page_res[$prd->textdiff_column_name]) {
 			echo _("no diff");
 		} else {
 			echo "<a href='diff.php?project=$projectid&file=$fileid&round=$round_num'>"._("diff")."</a>";
@@ -376,7 +356,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Date
 
-	$R_time = $page_res[$R_time_field_name];
+	$R_time = $page_res[$prd->time_column_name];
 	if ($R_time == 0)
 	{
 		$R_time_str = '';
@@ -421,7 +401,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Text
 
-	$R_text_length = $page_res[$R_text_length_field_name];
+	$R_text_length = $page_res["length($prd->text_column_name)"];
 
 	if ( $R_text_length == 0 )
 	{
@@ -429,7 +409,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	else
 	{
-		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$R_save_state>$R_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&state=$prd->page_save_state>$R_text_length&nbsp;b</a></td>\n";
 	}
 
 	// ------------------------------
@@ -439,11 +419,11 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		// Anticipate the tests in page_clear()
 		if (
 			$round_num == 1 &&
-			$page_state == SAVE_FIRST &&
+			$page_state == $prd->page_save_state &&
 			($inRound=='NEW' || $inRound=='PR' || $inRound=='FIRST')
 			||
 			$round_num == 2 &&
-			$page_state == SAVE_SECOND &&
+			$page_state == $prd->page_save_state &&
 			($inRound=='SECOND')
 		)
 		{
