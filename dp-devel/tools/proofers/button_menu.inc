@@ -36,8 +36,7 @@ type="text" value="<?PHP
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
 echo_button(SET_IMAGE_ZOOM,'a');
 ?>&nbsp;<a href="#"
-onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><img
-src="gfx/bt6.png" align="top" alt="Refresh Image" title="Refresh Image" border="0" width="26" height="26"></a>&nbsp;<?
+onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>&nbsp;<?
 echo_button(REVERT_TO_ORIGINAL,'a');
 ?>&nbsp;<?PHP
   if ($npage['revert']==1 || $npage['saved']==1)
@@ -46,12 +45,10 @@ echo_button(REVERT_TO_ORIGINAL,'a');
   }
   else
   {
-    echo "<img src=\"gfx/bt7_n.png\" align=\"top\" alt=\"Revert to Last Save Disabled\" title=\"Revert to Last Save Disabled\" border=\"0\" height=\"26\" width=\"26\">";
+    echo_img(REVERT_TO_LAST_SAVE_DISABLED,'a');
   }
-?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><img
-src="gfx/bt9.png" width="26" height="26" border="0" align="top" alt="Show All Text" title="Show All Text"></a>&nbsp;<a
-href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><img
-src="gfx/bt12.png" width="26" height="26" border="0" align="top" alt="Project Comments" title="Project Comments"></a>&nbsp;<?
+?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>&nbsp;<a
+href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>&nbsp;<?
 echo_button(SPELL_CHECK,'a');
 ?><?PHP
 /*
