@@ -158,6 +158,13 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
                         {
                                 $bgcolor = " bgcolor='#D6D600'";
                         }
+
+			// pink for Saint Valentine's Day
+                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
+                        {
+                                $bgcolor = " bgcolor='#FF99FF'";
+                        }
+
 			
 
 		}
