@@ -4,36 +4,36 @@
 #
 # AUTHOR: D. Garcia (for Distributed Proofreading) 12/15/2002
 #
-# FUNCTIONS:
-#  Fixes common scannos.
+# AUTOMATIC FUNCTIONS:
 #  Removes end-of-line hyphenation and joins words.
-#  The @nojoin (dehyphenation exclusion list) is now functional.
 #  Marks "last line last word" hypen with asterisk.
 #  Removes start/end-of-line spaces.
 #  Collapses multiple adjacent spaces.
 #  Inserts "[Blank Page]" text into zero-byte files.
-#  Supports "strip lines with TEXT" using -s TEXT commandline
-#  Scanno correction is OFF by default, enable with -c
+#
+# CONTROLLABLE FUNCTIONS:
+#  Fixes common scannos with -c (corrections) switch. (default OFF)
+#  Analyze and strip header lines with -s (strip) switch. (default OFF)
+#  The -s option tells the script to analyze the first line by word freqency and capitalization.
 #
 # BUGS:
+#  De-hyphenation does not work properly on texts which scanned as doublespaced lines
 #  Doesn't check de-hyphenated words for scannos. (not a big deal)
-#  Assumes DOS-style CRLF for rewriting line endings. 
 #  Does not (YET) check words with punctuation for scannos.
-#  De-hyphenation does NOT work on texts which scanned as doublespaced lines
 #  Data should eventually be moved into separate files for ease of maintenance
 #  Script needs to be in the path, or called with explicit pathing.
 #
 # CAVEATS:
 #  Probably shouldn't be used on text that isn't primarily English.
-#  The strip text switch and following text MUST be last on the command line
 #  Assumes ALL *.txt files in current directory are to be processed, should set.
+#  Assumes DOS-style CRLF for rewriting line endings. 
 # ==============================================================================
 
 eval 'exec /usr/bin/perl -S $0 ${1+"$@"}'
 	if $running_under_some_shell;
 
 my $striptext="";
-my %corrections = ();
+my (%corrections, %count);
 my $errors = 0;
 my $hyphen = 0;
 my $totalerrors = 0;
@@ -46,11 +46,14 @@ my $sflag = 0;
 my $cflag = 0;
 my $org_line = "";
 my $filename="";
+my $word;
 my $current_dir = ".";
 my @files;
 my @nojoin;
 my $size = 0;
 my $notjoined = 0;
+my ($stripped, $freqmatch, $capmatch);
+my $filecount;
 
 while ($ARGV[0] =~ /^-/) {
     $_ = shift;
@@ -60,21 +63,14 @@ while ($ARGV[0] =~ /^-/) {
     # -c		Enable Scanno correction with
     if (/^-c/) { $cflag++; next; }
 
-    # -s "text"		Strip lines containing "text"
-    if (/^-s/) {
-	$sflag++;
-	while (defined ( $_ = shift)) {
-	    $striptext = $striptext . $_ . " ";
-	}
-	$striptext =~ s/ $//;
-	last;
-    }
+    # -s 		Enable header analysis and stripping
+    if (/^-s/) { $sflag++; next; }
 
     # -?		Explain the options
     if (/^-\?/) {
 	die "Valid switches are:
-	-c		Enable scanno correction
-	-s text		Strip lines containing text (option MUST appear LAST)";
+	-c	Enable scanno correction
+	-s 	Enable header and stripping and analysis";
     }
     die "I don't recognize this switch: $_\n";
 }
@@ -86,8 +82,8 @@ use strict;
 # Program will ALWAYS output a report file in the current directory so the PM
 # can retrive the file (or the php interface can display it) to verify output.
   open REPORT, "> report.out" or die "Could not create report file: $!";
-  print REPORT "INFO: Stripping \"$striptext\" from all files.\n\n" if ($sflag);
-  print REPORT "INFO: Scanno detection enabled.\n\n" if ($cflag);
+  print REPORT "INFO: Page header analysis and stripping enabled.\n\n" if ($sflag);
+  print REPORT "INFO: Scanno detection and correction enabled.\n\n" if ($cflag);
 
 # Read in DATA segment to load the hash table of 'scannos => corrections'
   while (<DATA>) { 
@@ -135,7 +131,7 @@ use strict;
 "storm", "straight", "sub", "sugar", "summer", "sun", "super", "supra", "swan", 
 "sweet", "tempest", "ten", "tender", "terror", "thick", "thin", "third", 
 "thirty", "thought", "thousand", "three", "thrice", "through", "thunder", "time", 
-"toad", "tongue", "top", "town", "tree", "tri", "triple", "true", "twelve", 
+"to", "toad", "tongue", "top", "town", "tree", "tri", "triple", "true", "twelve", 
 "twenty", "twice", "two", "ultra", "under", "vice", "violet", "wall", "water", 
 "well", "west", "white", "wide", "wind", "wing", "winter", "wish", "woe", "wolf", 
 "wonder", "wood", "world", "worm", "wry", "year", "yellow"
@@ -147,10 +143,36 @@ use strict;
   @files = grep { /\.txt$/ } readdir(DIR);
   closedir(DIR);
 
+# Header Analysis
+if ($sflag) {					# Analyze page headers
+    foreach $filename (@files) {
+    open SCANFILE, "< $filename" or die "Couldn't open input file $!";
+SCAN:	while (<SCANFILE>) {
+	my $tmpline = $_;
+	  if ($. < 3) {
+		$_ = $tmpline; $tmpline =~ s/ {2,}/ /g;	# Collapse multispaces
+		$_ = $tmpline; $tmpline =~ s/^ {1,}//g;	# Remove SOL spaces
+		$_ = $tmpline; $tmpline =~ s/ {2,}/ /g;	# Remove EOL spaces
+	        tr/.,:;!?(){}[]\r//d;			# Strip punctuation and CR
+		tr/\t/ /;				# Ditch tabs
+
+		foreach $word (split) { $count{$word}++; }
+	  } else { last SCAN; }
+	    close SCANFILE;
+	}
+    }
+    foreach $word (sort keys %count) {
+	if (($count{$word} > 2) && (length($word) > 3) ) {
+	  $striptext = $striptext . "$word ";
+	}
+    }
+    print REPORT "Header Analysis: Pattern list is \"$striptext\".\n";
+}
+
 # Process each file
   foreach $filename (@files) {
     print REPORT "\nProcessing file: $filename\n";
-
+    $filecount++;
     $size = -s $filename;
     if ($size == 0) {
 	# FIX ZERO BYTE FILES (add blank page text)
@@ -170,10 +192,22 @@ use strict;
     rename $plusfile, $filename;
     }
     print REPORT "File $filename had $errors scannos and $hyphen EOL hyphens.\n";
+    print REPORT "=" x 79, "\n";
     $totalerrors += $errors;
     $totalhyphen += $hyphen;			# Running totals
   }
-  print REPORT "\nTOTALS: Scannos: $totalerrors EOL Hyphens: $totalhyphen Hyphens not joined: $notjoined\n";
+  my $formatline = "%-30s: %5d";
+  print REPORT "\nTOTALS:\n";
+  printf REPORT "$formatline\n","Files processed:",$filecount;
+  print  REPORT "Page header analysis and stripping was enabled.\n\n" if ($sflag);
+  print  REPORT "Scanno detection and correction was enabled.\n\n" if ($cflag);
+  printf REPORT "$formatline\n","Scannos Corrected",$totalerrors if ($cflag);
+  printf REPORT "$formatline\n","EOL Hyphens",$totalhyphen if ($totalhyphen);
+  printf REPORT "$formatline (%4.1f%%)\n","Compound hyphens not joined",$notjoined,$notjoined/$totalhyphen++ * 100 if ($totalhyphen != 0);
+  printf REPORT "$formatline (%4.1f%%)\n","Page Headers stripped",$stripped,$stripped/++$filecount * 100 if ($sflag);
+  printf REPORT "$formatline (%4.1f%%)\n","-  By Word Frequency",$freqmatch,$freqmatch/$stripped * 100 if ($stripped != 0);
+  printf REPORT "$formatline (%4.1f%%)\n","-  By Allcaps",$capmatch,$capmatch/$stripped * 100 if ($stripped != 0);
+  print  REPORT "\nHeader Analysis:\n$striptext\n" if ($sflag);
   close REPORT;
 
 # END OF MAIN
@@ -194,14 +228,35 @@ LINE:   while (<OLDFILE>) {
 	my $j = 0;
 	my $tmpline = "";				# Modified line
 	my $tmphyphen = "";				# Fragment holder
-	$org_line = $_;					# Save original line
+	$org_line = reverse $_;				# Save line backwards
 	my $word;
+	my $matchcount=0;
 
-	if (($sflag) && (/$striptext/)) {		# If we're stripping and match
-	    print REPORT "Stripping line $. : $_";	# Say so and move along
+	# Header Stripping ====================================================
+	if (($sflag) && ($. == 1)) {			# Stripping line 1 only
+	print REPORT "Header $.: $_";
+	if ($_ eq "[Blank Page]\r\n") { print NEWFILE; next LINE;}	# Skip blanks
+	    foreach $word (split( / /, $striptext)) {
+		$matchcount += grep /$word/, $_;
+		}
+	if ($matchcount) {
+	    print REPORT "Removed by matching frequency keyword ($matchcount matching words)\n";
+	    $stripped++;
+	    $freqmatch++;
+	    $matchcount = 0;
 	    next LINE;
+	} else {
+	# No high-frequency match, try all uppercase. Also matches number-only
+	if ( uc($_) eq $_) {
+	    print REPORT "Removed by matching Allcaps/Allnumerics\n";
+	    $capmatch++;
+	    $stripped++;
+	    next LINE;
+	    }
+	}
 	}
 
+	# Hyphenation Joining =================================================
 	$pflag = $hflag;				# Save previous hflag
 	$hflag = ( /-\s$/ || 0 );			# Toggle the hflag
 
