@@ -105,7 +105,7 @@ The Beginning Proofers FAQ <$code_url/faq/ProoferFAQ.php>
 also provides a nice overview of the site. The Proofing
 Guidelines <$code_url/faq/document.php> cover most formatting
 questions, and it is worth browsing through early on, but
-don't feel you have to memorise everything in it immediately -
+don't feel you have to memorize everything in it immediately -
 it really comes into its own as a detailed reference whenever
 you are unsure of how to handle something. You may find that the
 shorter, printable Handy Guide <$code_url/faq/summary.pdf>
@@ -185,11 +185,11 @@ A: You can get help for the various buttons on the proofing interface
 
    If you have specific questions on a book, you can post a message
    in the forum thread reserved for it by following the link
-   labelled \"Discuss this project\" that appears on the Project
+   labeled \"Discuss this project\" that appears on the Project
    Comments page. Each project has a forum thread of its own; you
    can post a question or message via the \"Reply\" button near the
    bottom of the forum screen. It's often worthwhile reading through
-   the discussion on a prohect even if you don't have a specific
+   the discussion on a project even if you don't have a specific
    question, just to see what other proofers have asked and answered
    or warned each other about. (There are also several other forums
    dedicated to various phases of our operation. You can reach them
