@@ -179,7 +179,7 @@ function mGR()
 {
 // greek character window
 winURL='greek2ascii.php';
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=620,height=200,top=180,left=180'";
+newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=640,height=210,top=180,left=180'";
 greekWin=window.open(winURL,"gkasciiWin",newFeatures);
 greekWin.focus();
 }
