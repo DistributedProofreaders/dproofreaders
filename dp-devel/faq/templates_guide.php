@@ -75,7 +75,7 @@ or sent to site development for inclusion here.<br />
 <br />
 Style names are based on User ID where style was first seen:<br />
 <br />
-<strong>Cedron:</strong> <a href="#cedrlayout">Layout</a> / <a href="#cedrcode">Code</a><br />
+
 <strong>Cgehring:</strong> <a href="#cgehlayout">Layout</a> / <a href="#cgehcode">Code</a> 
 
 
@@ -162,82 +162,6 @@ include('../pinc/templates/comment_files/wrrn.txt');
 
 
 <br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- cedron.html info -->		
-
-<!-- This code was made by cedron -->
-<h3><a name="cedrlayout">Cedron's</a> <strong>LAYOUT</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br>
-<p>
-<HR><blockquote>
-<font COLOR="#000099" SIZE="+1">Project vitals : </font> 
-&nbsp;&nbsp;&nbsp;&nbsp;Publication Date: 1000 &nbsp;&nbsp; Author Lifespan: 1000-1000
-</blockquote>
-
-<HR><blockquote>
-<font COLOR="#000099" SIZE="+1">Deviations from the standard Proofing 
-Guidelines :</font>&nbsp;&nbsp; There are no exceptions to the primary 
-guidelines required for&nbsp;this&nbsp;project.
-</blockquote>
-
-<HR><blockquote>
-<font COLOR="#000099" SIZE="+1">Difficulty details :</font> AVERAGE<br>
-&nbsp;&nbsp;This page is 90% Easy, with a few difficult pages and some 
-poor OCR scanning
-</blockquote>
-
-<HR><blockquote>
-<font COLOR="#000099" SIZE="+1">What to watch for :</font> &nbsp;&nbsp; 
-Extra markings such as * . , scattered throughout the pages.
-</blockquote>
-
-<HR><br>
-
-<blockquote>
-
-<font COLOR="#9C9C63" SIZE="+2"><b> ~TITLE~ </b><br>
-By ~AUTHOR~ </font><br><br>
-<b> ~PUBLISHER, CITY, DATE~ </b><br><br><br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;
-
-</blockquote>
-<br>
-</p>
-<hr>
-<br>
-<br>
-<br>
-<h3><a name="cedrcode">Cedron's</a> <strong>CODE</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br>
-<p>
-&lt;p&gt;<br>
-&lt;HR&gt;&lt;blockquote&gt;<br>
-&lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Project vitals : &lt;/font&gt; 
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<br>
-&lt;/blockquote&gt;
-<p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Deviations from the 
-  standard Proofing Guidelines :&lt;/font&gt;&amp;nbsp;&amp;nbsp; <br>
-  &lt;/blockquote&gt;</p>
-<p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;Difficulty details 
-  :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
-  &lt;/blockquote&gt;</p>
-<p>&lt;HR&gt;&lt;blockquote&gt;<br>
-  &lt;font COLOR=&quot;#000099&quot; SIZE=&quot;+1&quot;&gt;What to watch for 
-  :&lt;/font&gt; &amp;nbsp;&amp;nbsp; <br>
-  &lt;/blockquote&gt;</p>
-<p>&lt;HR&gt;&lt;br&gt;</p>
-<p>&lt;blockquote&gt;</p>
-<p>&lt;font COLOR=&quot;#9C9C63&quot; SIZE=&quot;+2&quot;&gt;&lt;b&gt; ~TITLE~ 
-  &lt;/b&gt;&lt;br&gt;<br>
-  By ~AUTHOR~ &lt;/font&gt;&lt;br&gt;&lt;br&gt;<br>
-  &lt;b&gt; ~PUBLISHER, CITY, DATE~ 
-&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</p>
-<p>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</p>
-<p>&lt;/blockquote&gt;&lt;br&gt;</p>
-<p>&lt;/p&gt; </p>
-
-
 
 <br><hr><br>		
 
