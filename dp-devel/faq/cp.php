@@ -5,12 +5,12 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Scanning and Submitting Guidelines','header');
+theme("Content Provider's FAQ",'header');
 ?>
   <meta name="Author" content="Stephen Schulze">
   <meta name="author" content="thundergnat">
 
-<h1>Scanning, Preprocessing &amp; Submitting Guidelines</h1>
+<h1>Content Provider's FAQ</h1>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanfaq.php">Scanning
 FAQ</a></p>
 <hr size="3" width="100%" align="left">
@@ -21,7 +21,7 @@ Or perhaps proofreading just isn't really your cup of tea but you still
 Maybe there's a book that you just can't wait to get on to Project
 Gutenberg.<br>
 Whatever the reason, sooner or later there comes a time when you
-ask:&nbsp;&nbsp;"Just how do I submit a text to Distributed Proofreaders
+ask:&nbsp;&nbsp;"Just how do I provide content to Distributed Proofreaders
  anyway?" </p>
 <p>These Guidelines are here to try to help you through the process.</p>
 
@@ -50,7 +50,7 @@ Proofreaders?</a><br>
 <a href="#scan">OK, I have my book, I have my clearance line; Now what?</a><br>
 <a href="#ocr">Whew! I've got the image files done. What's next?</a><br>
 <a href="#process">You're kidding me! I'm not done yet?</a><br>
-<a href="#submit">OK, I'm finished, how do I submit the project?</a><br>
+<a href="#upload">OK, I'm finished, how do I upload the project?</a><br>
 <a href="#software">Useful Software</a><br>
 <br>
 </p>
@@ -60,13 +60,13 @@ Proofreaders?</a><br>
 Distributed Proofreaders?</b></a></big></p>
 <p>What kinds of books do you have? :-)</p>
 <p>Seriously, there are really few restrictions on what kind of text
-you can submit to DP. The biggest, and probably most important is: The
+you can contribute to DP. The biggest, and probably most important is: The
 book MUST be either in the Public Domain OR the copyright must have
 expired. In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
 it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
-on <a href="http://www.gutenberg.net/howto/copyright-howto.shtml">this</a> page.&nbsp;
+on <a href="http://www.gutenberg.net/howto/copyright-howto">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
  href="http://digital.library.upenn.edu/books/okbooks.html">this</a>
 page.<br>
@@ -77,7 +77,7 @@ site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
 A different <span style="font-style: italic;">version</span> of an
 existing book is OK though. You can check the <a
- href="http://www.gutenberg.net/find.shtml">Project Gutenberg search page</a> to
+ href="http://www.gutenberg.net/catalog/">Project Gutenberg search page</a> to
 see if a book is already on there.</p>
 <p>There is also a site called <a
  href="http://www.dprice48.freeserve.co.uk/GutIP.html">David's
@@ -92,11 +92,7 @@ then it is probably OK to go ahead and do it.
 -->
 </p>
 <p>You might want to stick with a shorter fictional work for the first
-project you submit. Remember, after the book goes through the proofreading
-cycle, with few exceptions, the person who <i>submitted</i> the book is
-expected to <i>post-process</i> the book as well. If you are unable or
-unwilling to do post-processing, you need to make that clear when you
-submit the book. (Or even better, BEFORE you submit it.) <br>
+project you contribute.
 It is probably better to avoid books which contain a lot of illustrations,
 maps, charts, tables and pictures for your first project.
 </p>
@@ -170,7 +166,7 @@ Project Gutenberg site, and also registers the book as being a work in
 progress to let other people know it is reserved so as not to duplicate
 effort.<br>
 </p>
-<p>The preferred method&nbsp; for submitting clearance requests is the
+<p>The preferred method&nbsp; for requesting a copyright clearance is the
 web interface at <a href="http://copy.pglaf.org">this page</a>
 (http://copy.pglaf.org). There are quite a few handy tips
 and links there also.<br>
@@ -331,9 +327,12 @@ Recognition) program. Again, there are too many programs out there to
 give useful specific directions for them all. You will need to wind up
 at the same place though the path you take may be different.<br>
 </p>
-<p>If you don't have an OCR package, try to join up with someone who
-does, post a message in the "Content Providers" forum to that effect.
-Most likely, someone will be glad to help. </p>
+<p>If you don't have an OCR package,
+you can take advantage of the DP
+<a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=4957">OCR Pool</a>.
+Other DP volunteers who do have OCR packages
+are more than happy to OCR images on your behalf.
+</p>
 
 <!--
 <font style='color: red'>
@@ -545,9 +544,9 @@ automate a lot of the upload.<br>
 <p>Pre-processing complete.</p>
 
 <hr size="3" width="100%" align="left">
-<p><big><a name="submit"><b>OK, I'm finished, how do I submit the
+<p><big><a name="upload"><b>OK, I'm finished, how do I upload the
 project?</b></a></big></p>
-<p>If this is your first time submitting a project and/or you are not a
+<p>If this is your first time contributing a project and/or you are not a
  project manager,&nbsp; send an email to <a
  href="mailto:juliet.sutherland@verizon.net">JulietS</a>, that includes
 the author, title, etc and, ideally, the clearance line and any comments
@@ -574,25 +573,28 @@ from the image files again if necessary. Keep the text and image files
 around at least until the book is done post-processing and has been
 submitted to Project Gutenberg so you can refer back to them, if
 necessary, especially if you are going to do the post-processing
-yourself. </p>
+yourself.
+(See the <a href="../post_proof.php">Post-Processing FAQ</a> for more details.)
+</p>
 <p>Wow! That was fun, let's do another! :-)</p>
-<p>Remember, after the text has made it through the site, then you get
-to do post-processing... See the <a href="../post_proof.php">Post-Processing
-FAQ</a> for more details.<br>
 <br>
 </p>
 <hr size="3" width="100%" align="left">
+
 <p><big><a name="software"><b>Useful Software</b></a></big><br>
 <br>
 </p>
+
 <p><span style="font-weight: bold; font-style: italic;">Scanning / OCR
 software:</span><br>
 </p>
+
 <p><a href="http://www.abbyyusa.com/">Abbyy Finereader</a> <i>Commercial</i>
-[Win32, Mac]  - <i>Current Version 6.0</i> - OCR
+[Win32, Mac]  - <i>Current Version 7.0</i> - OCR
 software.&nbsp;&nbsp;&nbsp; Very nice. :-)&nbsp;&nbsp;&nbsp;Quite
-expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-) <br>
-Robert Rowe has a set of saved settings for it that you may find useful.
+expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-)
+&nbsp;&nbsp;&nbsp;
+See our <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=5293">Finereader Tips and Tricks forum topic</a>.
 </p>
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
 and is still available (though not directly from Abbyy software) and
@@ -603,13 +605,15 @@ scanning, but a little finicky about which scanners it supports.<br>
   </font> </blockquote>
 <span style="font-weight: bold; font-style: italic;">Text file
 processing tools:</span><br>
+
 <p><br>
-<a href="http://mywebpages.comcast.net/thundergnat/guiprep.zip">Guiprep</a>
-/ <a href="http://mywebpages.comcast.net/thundergnat/winprep.zip">Winprep</a> <span
- style="font-style: italic;">Free</span> [Perl - Win32] A tool set
+<a href="http://mywebpages.comcast.net/thundergnat/guiprep.html">Guiprep</a>
+<span
+ style="font-style: italic;">Free</span> [Win32, Unix] A tool set
 specifically geared toward pre-processing text
 files for use by Distributed Proofreaders. Automatic markup extraction,
-dehyphenization, filtering, renaming &amp; more.<br>
+dehyphenization, filtering, renaming &amp; more.
+See also <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=2237">this forum topic</a>.
 </p>
 <p style="margin-left: 40px;"><small>These two utilities
 (guiprep/winprep) share the same code. Use guiprep if you have perl on
@@ -624,69 +628,81 @@ compliance of text to Gutenberg standards. </p>
 
 <span style="font-weight: bold; font-style: italic;"><br>
 Image viewing and manipulation:</span><br>
+
 <p><a href="http://www.irfanview.com/">Irfanview32</a> <i>Free</i>
 [Win32] - Nice general purpose image manipulation and conversion
 software.<br>
 </p>
+
 <p><a href="http://www.xnview.com/">XnView</a> <span
  style="font-style: italic;">Free</span> [Win32] - Nice general purpose
 image manipulation and conversion software. </p>
+
 <p><a href="http://www.firehand.com/Ember/index.html">Firehand Ember</a> <span
  style="font-style: italic;">Shareware</span> [Win32] - Another nice
 image viewing and conversion program. <br>
 </p>
+
 <p><br>
 <span style="font-weight: bold; font-style: italic;">Batch file
 renamers:</span><br>
 </p>
+
 <p><a href="http://www.1-4a.com/rename">1-4a-Rename</a> <i>Freeware</i>
 [Win32] Nice very configurable utility for batch renaming files. Very
 point 'n click.<br>
 </p>
-<p><a
- href="http://www.albert.nu/common.asp?sub=programs/default.asp?sub=renamer/main.htm">Renamer</a> <i>Freeware</i>
-[Win32] Another useful utility for batch renaming of files. <br>
-</p>
 <br>
 <span style="font-weight: bold; font-style: italic;">File Archiving and
 Compression tools:</span><br>
+
 <p> <a href="http://www.7-zip.org/">7.zip</a> <i>Free-GPL</i> [win32
 Unix] Free utility to uncompress .zip archives.<br>
 </p>
+
 <p><a href="http://www.iceows.com/HomePageUS.html">ICEOWS</a> &nbsp;<span
  style="font-style: italic;">Freeware</span> [Win32] Compress files in
 ICE and ZIP formats and uncompress nearly any common format. Many
 language interfaces available.<br>
 </p>
+
 <p><a href="http://www.info-zip.org/pub/infozip/">Info-ZIP</a> <span
  style="font-style: italic;">Free-BSD</span> [Nearly all OS's and
 Platforms] A collection of utilities for working with zip format
 compressed files. Support for a large number of platforms and OS's. <br>
 </p>
+
 <p><a href="http://www.filzip.com/en/index.html">FILZIP</a> <span
  style="font-style: italic;">Freeware</span> [Win32] Point and click
 manipulation of compressed files. GUI interface. Multiple file
 extraction. Lots of nice features.<br>
 </p>
+
 <p> <a href="http://www.winzip.com">WinZip</a> <i> Shareware</i> [Win32]
 Utility to create and extract .zip archives. Free trial.<br>
 <br>
 </p>
+
 <p><span style="font-weight: bold; font-style: italic;">FTP tools:</span><br>
 </p>
+
 <p><a href="http://www.ftpplanet.com/download.htm">WS_FTP LE</a> <i>Shareware</i>
 [Win32] Easy to use FTP client. Free for non-commercial use.<br>
 </p>
+
 <p><a href="http://www.smartftp.com/">Smart FTP</a> <span
  style="font-style: italic;">Shareware</span> [Win32] Another easy to
 use FTP client. Free for-non commercial use.<br>
 <br>
 </p>
+
 <p><span style="font-weight: bold; font-style: italic;">Other utilities:</span><br>
 </p>
+
 <p><a href="http://www.foolabs.com/xpdf/">Xpdf</a> <i>Free-GPL</i>
 [Dos/Win Unix] Utilities to extract images or text from .pdf files among
  other things. </p>
+
 <hr style="width: 100%; height: 2px;"><br>
 
 <?
