@@ -98,7 +98,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 		$tds width=\"90\">$tdm<b>"._("Genre")."$tdc
 		$tds width=\"50\">$tdm<b>"._("Pages")."$tdc
 		$tds width=\"75\">$tdm<b>$foo_Header$tdc
-		$tds>$tdm<b>"._("Book Options")."$tdc
 		</tr>
 	";
 
@@ -148,7 +147,8 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 			$foo_cell = $book[$foo_field_name];
 		}
 
-		echo "\n<td $bgcolor> ". $book['nameofwork']. " </td>";
+		$url = "$code_url/tools/post_proofers/post_comments.php?project={$book['projectid']}";
+		echo "\n<td $bgcolor><a href='$url'>". $book['nameofwork']. "</a></td>";
 		echo "\n<td $bgcolor> ". $book['authorsname']. " </td>";
 		echo "\n<td $bgcolor align=center> ". $book['language']. " </td>";
 
@@ -160,103 +160,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 		echo "\n<td $bgcolor align=center>$tpages</td>";
 		echo "\n<td $bgcolor align=center>$foo_cell</td>";
 
-		echo "<td $bgcolor>\n";
-		echo "<form name=\"{$book['projectid']}\" method=\"get\" action=\"$code_url/tools/changestate.php\">";
-		echo "<input type=\"hidden\" name=\"project\" value=\"{$book['projectid']}\">\n";
-		echo "<input type=\"hidden\" name=\"curr_state\" value=\"$state\">\n";
-
-		if ($state==PROJ_POST_FIRST_AVAILABLE)
-		{
-			$serious_code=PROJ_POST_FIRST_CHECKED_OUT;
-			$serious_label= _("Check Out Book");
-			$serious_question= _("Are you sure you want to check this book out for post processing?");
-		}
-		elseif ($state==PROJ_POST_FIRST_CHECKED_OUT)
-		{
-			$serious_code=PROJ_POST_FIRST_AVAILABLE;
-			$serious_label=_("Return to Available");
-			$serious_question=_("Are you sure you want to make this book available to others for post processing?");
-		}
-		elseif ($state==PROJ_POST_SECOND_AVAILABLE)
-		{
-			$serious_code=PROJ_POST_SECOND_CHECKED_OUT;
-			$serious_label= _("Check Out Book");
-			$serious_question=_("Are you sure you want to check this book out for verifying post processing?");
-		}
-		elseif ($state==PROJ_POST_SECOND_CHECKED_OUT)
-		{
-			$serious_code=PROJ_POST_SECOND_AVAILABLE;
-			$serious_label=_("Return to Available");
-			$serious_question=_("Are you sure you want to make this book available to others to verify and lose your work?");
-		}
-		elseif ($state==PROJ_CORRECT_AVAILABLE)
-		{
-			$serious_code=PROJ_CORRECT_CHECKED_OUT;
-			$serious_label= _("Check Out Book");
-			$serious_question=_("Are you sure you want to check this book out to review corrections?");
-		}
-		elseif ($state==PROJ_CORRECT_CHECKED_OUT)
-		{
-			$serious_code=PROJ_CORRECT_AVAILABLE;
-			$serious_label=_("Return to Available");
-			$serious_question=_("Are you sure you want to make this book available to others for reviewing corrections?");
-		}
-		echo "<select name=\"request\" onchange=\"";
-		echo "if (this.value=='$serious_code'){di=confirm('$serious_question');if(di){this.form.submit();}}else {this.form.submit();}";
-		echo "\">\n";
-
-		echo "<option selected>"._("Select")."...</option>\n";
-
-		$label = _("View Images Online");
-		echo_option( 'GET_IMAGES_HTML', $label);
-		$label = _("Download Zipped Images");
-		echo_option( 'GET_IMAGES_ZIP', $label);
-
-		if ($stage == 'post_1')
-		{
-			$label = _("Download Zipped Text");
-			echo_option( 'GET_TEXT_POST_1_ZIP', $label);
-			$label = _("Download Zipped TEI Text");
-			echo_option( 'GET_XML_POST_1_ZIP',  $label);
-			$label = _("View Project Comments");
-			echo_option( 'GET_COMMENTS_POST', $label);
-			if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
-				$label = _("View Project Details");
-	                        echo_option( 'GET_PROJ_DETAILS', $label);
-			}
-		}
-		elseif ($stage == 'post_2')
-		{
-			$label = _("Download Zipped Text");
-			echo_option( 'GET_TEXT_POST_2_ZIP', $label);
-			$label = _("View Project Comments");
-			echo_option( 'GET_COMMENTS_POST', $label);
-			if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
-				$label = _("View Project Details");
-	                        echo_option( 'GET_PROJ_DETAILS', $label);
-			}
-
-		}
-		elseif ($stage == 'correct')
-		{
-			$label = _("Download Zipped Text");
-			echo_option( 'GET_TEXT_CORR_ZIP', $label);
-		}
-
-		echo_option( $serious_code, $serious_label );
-
-		if ($state == PROJ_POST_FIRST_CHECKED_OUT)
-		{
-			$label = _("Upload for Verification");
-			echo_option( PROJ_POST_SECOND_AVAILABLE, $label);
-		}
-		elseif ($state == PROJ_CORRECT_CHECKED_OUT)
-		{
-			$label = _("Posted to Project Gutenberg");
-			echo_option(PROJ_SUBMIT_PG_POSTED, $label);
-		}
-
-		echo "</select></form></td>\n";
 		echo "</tr>\n";
 	}
 
@@ -264,11 +167,6 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 	{
 		echo "</table>\n";
 	}
-}
-
-function echo_option($code,$label)
-{
-	echo "<option value=\"$code\">$label</option>\n";
 }
 
 function startswith( $subject, $prefix )
