@@ -1,6 +1,8 @@
 <?
 //A file full of functions used in team stats
 
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
+
 $team_avatars_dir = "$dyn_dir/teams/avatar";
 $team_avatars_url = "$dyn_url/teams/avatar";
 
@@ -148,7 +150,7 @@ function showTeamMbrs($curTeam) {
 	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>"._("Team Member Details")."</b>";
 	$latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
 	if (mysql_num_rows($latestMbr) > 0) { 
-		if (mysql_result($latestMbr, 0, "Privacy") == 0 || (mysql_result($latestMbr, 0, "Privacy") == 2 && isset($GLOBALS['pguser']))) { echo "<br>Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!"; }
+		if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) { echo "<br>Please welcome <b>".mysql_result($latestMbr, 0, "Username")."</b> as the latest member to join this team!"; }
 	}
 	echo "</font></center></td></tr>";
 	
@@ -185,12 +187,12 @@ function showTeamMbrs($curTeam) {
 	$totalAnonUsers = 0;
 	$totalPagesAnonUsers = 0;
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
-		if ($curMbr['u_privacy'] == 1)
+		if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS)
 		{
 			$totalAnonUsers++;
 			$totalPagesAnonUsers += $curMbr['pagescompleted'];
 		}
-		elseif ($curMbr['u_privacy'] == 2 && !isset($GLOBALS['pguser']))
+		elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($GLOBALS['pguser']))
 		{
 			$totalAnonUsers++;
 			$totalPagesAnonUsers += $curMbr['pagescompleted'];

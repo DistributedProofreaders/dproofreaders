@@ -1,5 +1,6 @@
 <?
 $relPath='../pinc/';
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'f_dpsql.inc');
@@ -46,14 +47,14 @@ if (isset($GLOBALS['pguser']))
 	else
 	{
 		// hide names of users who don't want even logged on people to see their names
-		$proofreader_expr = "IF(u_privacy = 1,'Anonymous', username)";
+		$proofreader_expr = "IF(u_privacy = ".PRIVACY_ANONYMOUS.",'Anonymous', username)";
 	}
 } 
 else
 {
 
 	// hide names of users who don't want unlogged on people to see their names
-	$proofreader_expr = "IF(u_privacy > 0,'Anonymous', username)";
+	$proofreader_expr = "IF(u_privacy > ".PRIVACY_PUBLIC.",'Anonymous', username)";
 }
 dpsql_dump_themed_ranked_query("
 	SELECT

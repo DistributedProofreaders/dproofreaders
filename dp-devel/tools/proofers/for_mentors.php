@@ -10,6 +10,8 @@ $relPath='../..//pinc/';
 include_once($relPath.'dp_main.inc');
 // for dpsql_dump_query
 include_once($relPath.'f_dpsql.inc');
+// for PRIVACY_* constants
+include_once($relPath.'prefs_options.inc');
 // for page marginalia
 include_once($relPath.'theme.inc');
 // for PROJ_ declarations
@@ -38,7 +40,7 @@ function page_summary_sql($projectid)
     global $dynstats_url;
 
     return "SELECT 
-                CASE WHEN u.u_privacy > 0 THEN 'Anonymous'
+                CASE WHEN u.u_privacy > ".PRIVACY_PUBLIC." THEN 'Anonymous'
                 ELSE CONCAT('<a href=\""
                     .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
                     '\">',u.username,'</a>')
@@ -57,7 +59,7 @@ function page_list_sql($projectid)
     return "
     SELECT
         p.fileid AS '" . _('Page') . "',
-        CASE WHEN u.u_privacy=1 THEN 'Anonymous'
+        CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN 'Anonymous'
         ELSE p.round1_user
         END AS " . _('Proofreader') . "
     FROM $projectid AS p

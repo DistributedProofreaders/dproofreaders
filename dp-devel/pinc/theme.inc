@@ -3,6 +3,7 @@ $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
@@ -238,7 +239,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     		$userindex = 0;
 	}
 	$neighborhood['rank'][0] = 1;
-	if ($row['u_privacy'] == 1 && $row['username'] != $GLOBALS['pguser']) {
+	if ($row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $GLOBALS['pguser']) {
 		$neighborhood['username'][0] = _("Anonymous");
 	} else $neighborhood['username'][0] = $row['username'];
 
@@ -254,7 +255,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     		} else {
         		$neighborhood['rank'][$i] = $i+1;
     		}
-		if ($row['u_privacy'] == 1 && $row['username'] != $GLOBALS['pguser']) {
+		if ($row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $GLOBALS['pguser']) {
 			$neighborhood['username'][$i] = _("Anonymous");
 		} else $neighborhood['username'][$i] = $row['username'];
     		$neighborhood['pages'][$i] = $row['pagescompleted'];

@@ -3,6 +3,7 @@
 // ID: $Id$
 
 require_once 'v_site.inc';
+require_once 'prefs_options.inc'; // PRIVACY_*
 require_once 'dpsession.inc';
 require_once "Profileclass.inc";
 
@@ -737,7 +738,7 @@ class User
         $sql = "SELECT
                     u.username,
                     CASE
-                        WHEN u.u_privacy = 1
+                        WHEN u.u_privacy = ".PRIVACY_ANONYMOUS."
                         THEN 'Anonymous'
                         ELSE u.username
                         END AS neighborname,
@@ -834,7 +835,7 @@ class User
             SELECT
                 'Above' AS direction,
                 u.username, 
-                CASE WHEN u.u_privacy = 0
+                CASE WHEN u.u_privacy = ".PRIVACY_PUBLIC."
                     THEN u.username
                     ELSE 'Anonymous' END
                     AS neighborname,
@@ -861,7 +862,7 @@ class User
             SELECT
                 'Below' AS direction,
                 u.username, 
-                CASE WHEN u.u_privacy = 0
+                CASE WHEN u.u_privacy = ".PRIVACY_PUBLIC."
                     THEN u.username
                     ELSE 'Anonymous' END
                     AS neighborname,
@@ -961,7 +962,7 @@ class User
 
     function isPublic()
     {
-        return ($this->users_phpbb['u_privacy'] == 0);
+        return ($this->users_phpbb['u_privacy'] == PRIVACY_PUBLIC);
     }
 
     /**
@@ -972,7 +973,7 @@ class User
 
     function enablePublic()
     {
-        $this->users_phpbb['u_privacy'] = 0;
+        $this->users_phpbb['u_privacy'] = PRIVACY_PUBLIC;
     }
 
     /**
@@ -986,7 +987,7 @@ class User
 
     function isAnonymous()
     {
-        return ($this->users_phpbb['u_privacy'] == 1);
+        return ($this->users_phpbb['u_privacy'] == PRIVACY_ANONYMOUS);
     }
 
     /**
@@ -997,7 +998,7 @@ class User
 
     function enableAnonymous()
     {
-        $this->users_phpbb['u_privacy'] = 1;
+        $this->users_phpbb['u_privacy'] = PRIVACY_ANONYMOUS;
     }
 
     /**
@@ -1011,7 +1012,7 @@ class User
 
     function isPrivate()
     {
-        return ($this->users_phpbb['u_privacy'] == 2);
+        return ($this->users_phpbb['u_privacy'] == PRIVACY_PRIVATE);
     }
 
     /**
@@ -1022,7 +1023,7 @@ class User
 
     function enablePrivate()
     {
-        $this->users_phpbb['u_privacy'] = 2;
+        $this->users_phpbb['u_privacy'] = PRIVACY_PRIVATE;
     }
 
     /**

@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once('../includes/team.php');
@@ -43,7 +44,7 @@ if ($daysInExistence > 0) {
 $data = '';
 
 //User info portion of $data
-if ($curMbr['u_privacy'] != true)
+if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 {
 	$data = "<userinfo id=\"".$curMbr['u_id']."\">
 			<username>".xmlencode($curMbr['username'])."</username>

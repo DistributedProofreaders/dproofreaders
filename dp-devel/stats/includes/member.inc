@@ -1,6 +1,8 @@
 <?
 //A file full of member statistic functions
 
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
+
 function showMbrProfile($curMbr) {
 	global $theme, $isAnonymousUsername, $needsApostrophe;
 
@@ -49,7 +51,7 @@ function showMbrProfile($curMbr) {
         }
 
 	echo "</table></td></tr>";
-	if ($curMbr['u_privacy'] != 1 || $curMbr['username'] == $GLOBALS['pguser']) {
+	if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $GLOBALS['pguser']) {
 		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>"._("Contact")." ".$curMbr['username'].":</b></font></center>";
 		messageCenter($curMbr);
 	}
@@ -201,9 +203,9 @@ function showMbrNeighbors($curMbr) {
 
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
 
-		if (($privacy_enabled == 2 && isset($GLOBALS['pguser'])) ||
-		    ($privacy_enabled == 1 && isset($GLOBALS['pguser']) && $username == $GLOBAL['pguser']) ||
-		    ($privacy_enabled == 0)) {
+		if (($privacy_enabled == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
+		    ($privacy_enabled == PRIVACY_ANONYMOUS && isset($GLOBALS['pguser']) && $username == $GLOBAL['pguser']) ||
+		    ($privacy_enabled == PRIVACY_PUBLIC)) {
 
 			echo "<td width='15%'>$rank".rankPosition($rank, $u_id, 0, $rankArray)."</td><td width='28%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>";
 			echo $username;

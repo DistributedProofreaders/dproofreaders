@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'prefs_options.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once('../includes/team.php');
@@ -65,7 +66,7 @@ $curTeam = mysql_fetch_assoc($result);
 	$mbrQuery = mysql_query("SELECT username, pagescompleted, date_created, u_id, u_privacy FROM users WHERE team_1 = ".$curTeam['id']." || team_2 = ".$curTeam['id']." || team_3 = ".$curTeam['id']." ORDER BY username ASC");
 	while ($curMbr = mysql_fetch_assoc($mbrQuery))
 	{
-		if ($curMbr['u_privacy'] != true)
+		if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 		{
 			$data .= "<member id=\"".$curMbr['u_id']."\">
 				<username>".xmlencode($curMbr['username'])."</username>

@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
+include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.php');
@@ -13,7 +14,7 @@ $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['us
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $now = time();
 
-if ($curMbr['u_privacy'] != 1 || $curMbr['username'] == $pguser) {
+if ($curMbr['u_privacy'] != PRIVACY_ANONYMOUS || $curMbr['username'] == $pguser) {
 	$isAnonymousUsername = $curMbr['username'];
 	if (substr($curMbr['username'], -1) != "s") { $needsApostrophe = "s"; } else { $needsApostrophe = ""; }
 } else {
@@ -28,7 +29,7 @@ echo "<br><center>";
 if (!empty($curMbr['u_id'])) {
 	if ($isAnonymousUsername == _("Anonymous") && $curMbr['username'] != $pguser) {
 		echo "<p>"._("This user has requested to remain anonymous.")."</p>";
-	} elseif ($curMbr['u_privacy'] == 2) {
+	} elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
 		if (!isset($pguser)) {
 			echo "<p>"._("This user has requested their statistics remain private.  Please create an account to view their statistics.")."</p>";
 		} else {
