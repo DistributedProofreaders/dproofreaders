@@ -36,7 +36,7 @@ echo "</center>";
 
 $result = mysql_query("
     SELECT * FROM news 
-    WHERE news_page_id = $news_page AND 
+    WHERE news_page_id = '$news_page' AND 
         (display IS NULL OR display != 1)  AND 
         (archive IS NULL OR archive != 1) 
     ORDER BY uid DESC
