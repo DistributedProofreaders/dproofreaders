@@ -71,26 +71,6 @@ function get_allowed_next_project_states($state)
 
 		case PROJ_POST_COMPLETE:
 			return array(
-				PROJ_SUBMIT_PG_UNAVAILABLE,
-				PROJ_SUBMIT_PG_AVAILABLE,
-				PROJ_SUBMIT_PG_POSTING,
-				PROJ_SUBMIT_PG_POSTED);
-
-		case PROJ_SUBMIT_PG_UNAVAILABLE:
-			return array(
-				PROJ_SUBMIT_PG_AVAILABLE,
-				PROJ_SUBMIT_PG_POSTING);
-
-		case PROJ_SUBMIT_PG_AVAILABLE:
-			return array(
-				PROJ_SUBMIT_PG_UNAVAILABLE,
-				PROJ_SUBMIT_PG_POSTING,
-				PROJ_SUBMIT_PG_POSTED);
-
-		case PROJ_SUBMIT_PG_POSTING:
-			return array(
-				PROJ_SUBMIT_PG_UNAVAILABLE,
-				PROJ_SUBMIT_PG_AVAILABLE,
 				PROJ_SUBMIT_PG_POSTED);
 
 		default:
