@@ -3,12 +3,13 @@ $relPath="./../../pinc/";
 $phpBBPath="./../../phpBB2/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'html_main.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'page_states.inc');
 
 //Get variables from projectmgr.php to use for form
 $reason_list = array('','Image Missing','Image Mismatch','Corrupted Image','Missing Text','Text Mismatch','Other');
 $projectID = $_GET['projectid'];
 $fileID = $_GET['fileid'];
-$imageName = $_GET['imagename'];
 
 //Find out information about the bad page report
 $result = mysql_query("SELECT * FROM $projectID WHERE fileid=$fileID");
@@ -68,8 +69,8 @@ $state = $_POST['state'];
 
 //If the PM fixed the problem or stated the report was bad update the database to reflect
 if (($action == "fixed") || ($action == "bad")) {
-if ($state == 31) { $state = 2; } elseif ($state = 41) { $state = 12; }
-//$result = mysql_query("UPDATE $projectID SET b_user='', b_code='', state=$state WHERE fileid=$fileID");
+if ($state == BAD_FIRST) { $state = AVAIL_FIRST; } elseif ($state = BAD_SECOND) { $state = AVAIL_SECOND; }
+$result = mysql_query("UPDATE $projectID SET b_user='', b_code='', state=$state WHERE fileid=$fileID");
 }
 
 //Redirect the user back to the project detail page.
