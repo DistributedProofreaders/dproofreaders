@@ -28,7 +28,7 @@ $res = dpsql_query("
 ");
 while( list($postednum,$count) = mysql_fetch_row($res) )
 {
-    if ($postednum == 6000) continue;
+    if ($postednum == 6000 || $postednum == 0) continue;
 
     echo "<br>$postednum:\n";
 
