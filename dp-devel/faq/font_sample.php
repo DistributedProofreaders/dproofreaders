@@ -46,6 +46,10 @@ if ($cfont != 'DPCustomMono2') {
 }
 
 
+if (length($tfont) == 0) {
+	$tfont = 'Arial';
+}
+
 
 // echo text
 
@@ -132,21 +136,25 @@ foreach ($f_f as $otherfont) {
 
 echo " | <a href='images/Original.gif'>"._("View original image")."</a></P>\n";
 
-echo "<hr style='width: 546; text-align: left;'>";
-echo "<P>";
-echo _("On this page, the top font is")." <b>$tfont</b>, "._("and the bottom example is").
-        " <b>DPCustomMono2</b>.</P>";
 
-echo "
-        <p><img border='0' src='images/".$tfont."_A.gif' width='415' height='285'></p>
-        <p><img border='0' src='images/DPCustomMono2_A.gif' width='546' height='242'></p>
-        <hr style='width: 546; text-align: left;'>
-        <p><img border='0' src='images/".$tfont."_B.gif' width='414' height='198'></p>
-        <p><img border='0' src='images/DPCustomMono2_B.gif' width='582' height='200'></p>
-        <hr style='width: 546; text-align: left;'>
-        <p><img border='0' src='images/".$tfont."_C.gif' width='402' height='174'></p>
-        <p><img border='0' src='images/DPCustomMono2_C.gif' width='582' height='180'></p>
-";
+if ($tfont != 'DPCustomMono2') {
+
+	echo "<hr style='width: 546; text-align: left;'>";
+	echo "<P>";
+	echo _("On this page, the top font is")." <b>$tfont</b>, "._("and the bottom example is").
+        	" <b>DPCustomMono2</b>.</P>";
+
+	echo "
+	        <p><img border='0' src='images/".$tfont."_A.gif'></p>
+        	<p><img border='0' src='images/DPCustomMono2_A.gif' width='546' height='242'></p>
+        	<hr style='width: 546; text-align: left;'>
+	        <p><img border='0' src='images/".$tfont."_B.gif'></p>
+	        <p><img border='0' src='images/DPCustomMono2_B.gif' width='582' height='200'></p>
+	        <hr style='width: 546; text-align: left;'>
+	        <p><img border='0' src='images/".$tfont."_C.gif'></p>
+	        <p><img border='0' src='images/DPCustomMono2_C.gif' width='582' height='180'></p>
+	";
+}
 
 theme("", "footer");
 ?>
