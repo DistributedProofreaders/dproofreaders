@@ -53,18 +53,16 @@ theme("Personal Page for $pguser", "header");
 		$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     		$pguser_id = mysql_result($result, 0, "user_id");
     	
-	    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
-		if (mysql_num_rows($result) >= 1) {
-    			$numofPMs = mysql_fetch_row($result);
-			if ($numofPMs != "0") {
-				echo "<br><br><font color='red' size=3><b>";
-				echo _("You have received a private message in your Inbox!");
-				echo "</b></font><br><br><font color='red'>";
-				echo _("This could be from somebody sending you feedback on some of the pages you have proofed, earlier. We strongly recommend you READ your messages. Near the upper right of this page there is a link that says Inbox, just click on that to open your Inbox.");
-				echo "</font><br><br><i><font size=-1>";
-				echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there in the corner, and when you have new messages that will be shown in the link)");
-				echo "</font></i><br><br>\n";
-			}
+	    	$result = mysql_query("SELECT COUNT(*) as num FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
+		$numofPMs = (int) mysql_fetch_row($result, 0, "num");
+		if ($numofPMs > 0) {
+			echo "<br><br><font color='red' size=3><b>";
+			echo _("You have received a private message in your Inbox!");
+			echo "</b></font><br><br><font color='red'>";
+			echo _("This could be from somebody sending you feedback on some of the pages you have proofed, earlier. We strongly recommend you READ your messages. Near the upper right of this page there is a link that says Inbox, just click on that to open your Inbox.");
+			echo "</font><br><br><i><font size=-1>";
+			echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there in the corner, and when you have new messages that will be shown in the link)");
+			echo "</font></i><br><br>\n";
 		}
 
 	}
