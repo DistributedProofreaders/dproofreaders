@@ -30,7 +30,7 @@ function echo_proofing_textarea( $page_text, $enhanced )
     ";
 
     $font_face = $f_f[$font_face_i];
-    if ( $font_face != '' && $font_face_i != 0 )
+    if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
     {
         echo "style='font-family: $font_face' ";
     }
