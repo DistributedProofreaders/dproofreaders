@@ -5,6 +5,6 @@
        <tr> <td bgcolor='#FFCC66'> IN PROGRESS (awaiting completion this round)</td>
             <td bgcolor='#99FF66'> DONE (still available for editing this round)</td>
             <td bgcolor='#FF3366'> DONE in a previous round (no longer available for editing)</td>
-       <tr>
+       </tr>
 </table>
 <br><br>
