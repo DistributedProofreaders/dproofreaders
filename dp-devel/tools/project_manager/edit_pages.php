@@ -84,7 +84,10 @@ if ( isset($_GET['confirmed']) and $_GET['confirmed'] == 'yes' )
     // Perform the operation.
     if ( $selected_pages == 'ALL' )
     {
-        $page_func( $projectid, NULL );
+        $err = $page_func( $projectid, NULL );
+        echo ( $err ? $err : "success" );
+        echo "<br>\n";
+        echo "<br>\n";
     }
     else
     {
@@ -93,14 +96,7 @@ if ( isset($_GET['confirmed']) and $_GET['confirmed'] == 'yes' )
             // Ignore $setting, it's always 'on'.
             echo "fileid=$fileid:<br>\n";
             $err = $page_func( $projectid, $fileid );
-            if ( $err )
-            {
-                echo $err;
-            }
-            else
-            {
-                echo "success";
-            }
+            echo ( $err ? $err : "success" );
             echo "<br>\n";
             echo "<br>\n";
         }
