@@ -177,8 +177,8 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				{$temp="<a href=\"#\" onclick=\"newProofWin('$eURL')\">";}
 			$temp.="{$book['nameofwork']}</a>";
 			echo "\n<td>$temp</td>";
-			echo "\n<td>$book['authorsname']</td>";
-			echo "\n<td>$book['language']</td>";
+			echo "\n<td>{$book['authorsname']}</td>";
+			echo "\n<td>{$book['language']}</td>";
 			if ($book['difficulty'] == "beginner")
 			{
 				if  ($round == "first") 
@@ -199,9 +199,9 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 				$genre = $book['genre'];
 			}
 			echo "\n<td>$genre</td>";
-			echo "\n<td>$book['username']</td>";
-			echo "\n<td align=center>$pageCountArray[$book['projectid']]['avail_pages']</td>";
-			echo "\n<td align=center>$pageCountArray[$book['projectid']]['total_pages']</td>";
+			echo "\n<td>{$book['username']}</td>";
+			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
+			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
 		}
 		else
 		{
