@@ -247,7 +247,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$errors = project_pre_release_check( $project );
 		if ($errors)
 		{
-			$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>"
+			$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
 			return $error;
 		}
 		$settings .= ", modifieddate='$now'";
@@ -310,7 +310,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			mysql_query ("DELETE FROM page_counts WHERE projectid = '$projectid'");
 		}
 
-		//Move the forum topic (if there is one) to the projects archive forum 
+		//Move the forum topic (if there is one) to the projects archive forum
 		$result = mysql_query("
 			SELECT topic_id FROM projects WHERE projectid='$projectid'
 		");
@@ -470,7 +470,7 @@ function project_pre_release_check( $project )
 		$errors .= "  "._("There is no page-table.")."\n";
 		return $errors;
 	}
-	
+
 
 	if (mysql_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
 
