@@ -1,6 +1,8 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 
+$correct_text = "";
+
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
@@ -227,7 +229,7 @@ function spellcheck_apply_corrections()
 		// $orig_word).
 		// So we want to the corrections on a line from right to left.
 		// The easiest way to do this is to do all corrections in reverse order.
-		// 
+		//
 		for ( $i = $n_bad_words; $i >= 1; $i-- )
 		{
 			// hidden values line|offset|word length
