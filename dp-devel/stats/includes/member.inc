@@ -169,12 +169,13 @@ function rankPosition($rank, $u_id, $highestrank, $rankArray) {
 		// (Uniformity would prefer that a page tally of zero
 		// gave a very high rank number, but it doesn't.)
 		$rankPos = "&nbsp;";
+	} elseif ($currentRank == $prevRank) {
+		// No change in rank.
+		$rankPos = "&nbsp;";
 	} elseif ($currentRank < $prevRank) {
 		$rankPos = "&nbsp;<font color='green'>(<img src='".$GLOBALS['code_url']."/graphics/up.gif' border='0' alt='+".($prevRank-$currentRank)."'>&nbsp;".number_format(($prevRank-$currentRank)).")</font>";
 	} elseif ($currentRank > $prevRank) {
 		$rankPos = "&nbsp;<font color='red'>(<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($currentRank-$prevRank)."'>&nbsp;".number_format(($currentRank-$prevRank)).")</font>";
-	} else {
-		$rankPos = "&nbsp;";
 	}
 
 	return $rankPos;
