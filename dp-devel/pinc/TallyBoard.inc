@@ -146,6 +146,21 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    function get_num_holders_with_positive_tally()
+    {
+        $res = mysql_query("
+            SELECT COUNT(*)
+            FROM current_tallies
+            WHERE
+                tally_name      = '$this->tally_name'
+                AND holder_type = '$this->holder_type'
+                AND tally_value > 0
+        ") or die(mysql_error());
+        return mysql_result($res,0);
+    }
+
+    // -------------------------------------------------------------------------
+
     function get_current_tally( $holder_id )
     // Return the given holder's current tally on this TallyBoard.
     // (Note that if you want tallies for multiple holders, it's probably
