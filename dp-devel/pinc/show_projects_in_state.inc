@@ -155,7 +155,8 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 			checkedoutby,
 			correctedby,
                         modifieddate,
-              difficulty, 
+                        special,
+                        difficulty, 
 	         round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail,
 			total_pages,
 			comments
