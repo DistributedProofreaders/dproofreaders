@@ -133,8 +133,9 @@ function showTeamMbrs($curTeam) {
 	$mbrQuery = mysql_query("SELECT * FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY $orderby $direction");
 
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
+		if (!empty($curMbr['u_privacy'])) { $username = "Anonymous"; } else { $username = $curMbr['username']; }
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=".$curMbr['u_id']."'>".$curMbr['username']."</a></td>";
+		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$username</a></td>";
 		echo "<td width='35%'>".number_format($curMbr['pagescompleted'])."</td>";
 		echo "<td width='30%'>".date("m/d/Y", $curMbr['date_created'])."</td></tr>";
 	}

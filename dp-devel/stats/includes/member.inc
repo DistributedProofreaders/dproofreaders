@@ -2,7 +2,7 @@
 //A file full of member statistic functions
 
 function showMbrProfile($curMbr) {
-	global $theme;
+	global $theme, $isAnonymousUsername, $needsApostrophe;
 
 	$now = time();
 	$daysInExistence = number_format(floor(($now - $curMbr['date_created'])/86400))." days";
@@ -18,9 +18,9 @@ function showMbrProfile($curMbr) {
 	if (empty($curMbr['user_avatar'])) { $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif"; } else { $avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar']; }
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='".$curMbr['username']."'></td>";
+	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' align='center' height='90'><img border='0' src='$avatar' alt='$isAnonymousUsername'$needsApostrophe'></td>";
 	echo "<td rowspan='2' bgcolor='".$theme['color_navbar_bg']."' align='left' valign='top' width='65%'><table border='0' width='100%' cellspacing='0' cellpadding='1'>";
-	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>".$curMbr['username']."'s Statistics </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
+	echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='2' align='left' valign='top' bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe Statistics </b></font><a href='".$GLOBALS['code_url']."/stats/members/mbr_xml.php?username=".$curMbr['username']."'><img src='".$GLOBALS['code_url']."/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></center></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Date Joined</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['date_created'])."&nbsp;($daysInExistence)</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Last Login</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("m/d/Y", $curMbr['last_login'])."&nbsp;($daysSinceLogin)</font></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Total Pages</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".number_format($curMbr['pagescompleted'])." pages (".pageCountPercentage($curMbr['pagescompleted'])."% of total)</font></td></tr>";
@@ -40,8 +40,10 @@ function showMbrProfile($curMbr) {
         }
 
 	echo "</table></td></tr>";
-	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>Contact ".$curMbr['username'].":</b></font></center>";
-	messageCenter($curMbr);
+	if (empty($curMbr['u_privacy'])) {
+		echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'><center><font face='".$theme['font_mainbody']."' size='2'><b>Contact ".$curMbr['username'].":</b></font></center>";
+		messageCenter($curMbr);
+	}
 	echo "</td></tr></table><p>";
 }
 
@@ -154,12 +156,12 @@ function rankPosition($rank, $u_id) {
 }
 
 function showMbrNeighbors($curMbr) {
-	global $theme;
+	global $theme, $isAnonymousUsername, $needsApostrophe;
 	$rankArray = mbrRank($curMbr['username']);
 	$now = time();
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>".$curMbr['username']."'s Neighbors</b></font></center></td></tr>";
+	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe Neighbors</b></font></center></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td><table border=0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='10%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>Rank</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>Username</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>Date Joined DP</i></u></b></font></td><td width='30%'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b><u><i>Overall Pages Completed</i></u></b></font></td></tr>";
 
@@ -168,9 +170,11 @@ function showMbrNeighbors($curMbr) {
 	while (!empty($i)) {
 		$rank = $rankArray['rank'][$rankArray['curMbrIndex']-$i];
 		$username = $rankArray['username'][$rankArray['curMbrIndex']-$i];
-		$result = mysql_query("SELECT u_id, date_created FROM users WHERE username = '$username'");
+		$result = mysql_query("SELECT u_id, date_created, u_privacy FROM users WHERE username = '$username'");
 		$u_id = mysql_result($result, 0, "u_id");
 		$date_created = mysql_result($result, 0, "date_created");
+		$privacy_enabled = mysql_result($result, 0, "u_privacy");
+		if (!empty($privacy_enabled)) { $username = "Anonymous"; }
 		$pagescompleted = number_format($rankArray['pages'][$rankArray['curMbrIndex']-$i]);
 
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
@@ -179,7 +183,7 @@ function showMbrNeighbors($curMbr) {
 	}
 
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-	echo "<td width='10%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'])."</td><td width='30%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>".$curMbr['username']."</a></td><td width='30%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='30%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
+	echo "<td width='10%'>".$rankArray['rank'][$rankArray['curMbrIndex']].rankPosition($rankArray['rank'][$rankArray['curMbrIndex']], $curMbr['u_id'])."</td><td width='30%'><a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curMbr['u_id']."'>$isAnonymousUsername</a></td><td width='30%'>".date("m/d/Y", $curMbr['date_created'])." <i>(".number_format(floor(($now - $curMbr['date_created'])/86400))." days)</i></td><td width='30%'>".number_format($curMbr['pagescompleted'])."</td></tr>";
 
 	$i = 1;
 	while ($i <= 4) {
@@ -200,10 +204,10 @@ function showMbrNeighbors($curMbr) {
 }
 
 function showMbrTeams($curMbr) {
-	global $theme;
+	global $theme, $isAnonymousUsername, $needsApostrophe;
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='95%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>".$curMbr['username']."'s Teams</b></font></center></td></tr>";
+	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe Teams</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><table border='0' width='100%' cellspacing='0' cellpadding='0'>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='40%'><b><i><u>Team Name</u></b></i></td><td width='30%'><b><i><u>Pages Completed</u></b></i></td><td width='30%'><b><i><u>Active Members</u></b></i></td></tr>";
 	$result = mysql_query("SELECT id, teamname, active_members, page_count FROM user_teams WHERE id = ".$curMbr['team_1']." || id = ".$curMbr['team_2']." || id = ".$curMbr['team_3']."");
@@ -214,10 +218,11 @@ function showMbrTeams($curMbr) {
 }
 
 function showMbrHistory($curMbr) {
-	global $theme;
+	global $theme, $isAnonymousUsername, $needsApostrophe;
+
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='95%'>";
-	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>Name? History</b></font></center></td></tr>";
+	echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."'><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'><b>$isAnonymousUsername'$needsApostrophe History</b></font></center></td></tr>";
 	echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><center><br>";
 	echo "<p><font size='2'><a href='mdetail.php?id=".$curMbr['u_id']."&range=7'>Last 7 days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=14'>Last 14 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=30'>Last 30 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=60'>Last 60 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=365'>Last 365 Days</a> | <a href='mdetail.php?id=".$curMbr['u_id']."&range=all'>Lifetime</a></font>";
 	echo "<p><img src='".$GLOBALS['code_url']."/stats/jpgraph_files/mbr_pages_history.php?id=".$curMbr['u_id']."&range=$range' width='600' height='300'></center><br></td></tr>";

@@ -13,7 +13,16 @@ $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['us
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $now = time();
 
-theme($curMbr['username']."'s Statistics", "header");
+if (empty($curMbr['u_privacy'])) {
+	$isAnonymousUsername = $curMbr['username'];
+	if (substr($curMbr['username'], -1) != "s") { $needsApostrophe = "s"; } else { $needsApostrophe = ""; }
+} else {
+	$isAnonymousUsername = "Anonymous";
+	$needsApostrophe = "";
+}
+
+theme("$isAnonymousUsername'$needsApostrophe Statistics", "header");
+
 echo "<br><center>";
 if (!empty($curMbr['u_id'])) {
 	showMbrProfile($curMbr);
