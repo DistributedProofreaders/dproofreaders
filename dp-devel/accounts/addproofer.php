@@ -79,7 +79,7 @@ If your password doesn't work, go to <http://texts01.archive.org/dp/phpBB2/profi
 
         $htmlC->startHeader("User $username Added Successfully");
         $htmlC->startBody(0, 1, 0, 0);
-        print "User <b>$username</b> added successfully. Please verify your account by following the link provided in the e-mail being sent to you.";
+        print "User <b>$username</b> added successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading.";
         echo "<center>";
         echo "<br><font size=+1>Click here to <a href=\"signin.php\">Sign In</a></font> and start proofing!!";
         echo "<br><a href = \"../default.php\">Back to the Main Page</a>";
