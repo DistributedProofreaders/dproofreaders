@@ -22,11 +22,11 @@ $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > 
 $Users_24h = mysql_result($users,0,"numusers");
 
 //get total users active in the last week
-$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $lasthour");
+$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $lastweek");
 $Users_lastweek = mysql_result($users,0,"numusers");
 
 //get total users active in the last 28 days (4 weeks)
-$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $last24h");
+$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $last28d");
 $Users_last28d = mysql_result($users,0,"numusers");
 
 $yr = date('Y');
