@@ -13,7 +13,7 @@ $owner = 527;
 //Get info about project
 $result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
 while($row = mysql_fetch_array($result)) {
-$title = "".$row['nameofwork']." by ".$row['authorsname']."";
+$title = "\"".$row['nameofwork']."\"    by ".$row['authorsname']."";
 $title = addslashes($title);
 $message =  "
 Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
