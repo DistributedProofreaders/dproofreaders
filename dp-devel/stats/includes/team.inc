@@ -128,10 +128,12 @@ function showTeamStats($curTeam) {
 			elseif ($prevRank < $pageCountRank && !empty($prevRank)) { echo "&nbsp;<img src='".$GLOBALS['code_url']."/graphics/down.gif' border='0' alt='-".($pageCountRank-$prevRank)."'>"; }
 			else { echo "&nbsp;"; }
 		echo "</td></tr>";
+
+	$avg_pages_per_day = get_daily_average($curTeam['created'],$curTeam['page_count']);
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg'] . "\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>"._("Avg. Pages per Day")."<font size='2'></font></td>";
-	echo "<td width='40%'><b>" . number_format($curTeam['daily_average']) . "</b></td></tr>";
+	echo "<td width='40%'><b>" . number_format($avg_pages_per_day) . "</b></td></tr>";
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "' onmouseover='javascript:style.background=\"";
 	echo $theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"" . $theme['color_navbar_bg'] . "\"'>";
 	echo "<td width='60%'>"._("Most Pages Done per Day")."</td>";

@@ -36,6 +36,8 @@ $curTeam = mysql_fetch_assoc($result);
 	$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
 	$totalTeams = (mysql_result($result, 0, "totalTeams") - 1);
 
+	$avg_pages_per_day = get_daily_average( $curTeam['created'], $curTeam['page_count'] );
+
 	$result = mysql_query("SELECT date_updated, daily_page_count FROM user_teams_stats WHERE team_id = ".$curTeam['id']." ORDER BY daily_page_count DESC LIMIT 1");
 	$bestDayCount = mysql_result($result, 0, "daily_page_count");
 	$bestDayTime = date("M. jS, Y", (mysql_result($result, 0, "date_updated")-86400));
@@ -52,7 +54,7 @@ $curTeam = mysql_fetch_assoc($result);
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>
 			<rank>".$pageCountRank."/".$totalTeams."</rank>
-			<avgpagesday>".$curTeam['daily_average']."</avgpagesday>
+			<avgpagesday>".$avg_pages_per_day."</avgpagesday>
 			<mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
 		</teaminfo>
 	";
