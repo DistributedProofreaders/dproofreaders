@@ -9,14 +9,7 @@ include_once($relPath.'page_ops.inc');
 
 function page_del( $projectid, $fileid )
 {
-    if ($fileid == '')
-    {
-        Pages_delete( $projectid );
-    }
-    else
-    {
-        Page_delete( $projectid, $fileid );
-    }
+    Page_delete( $projectid, $fileid );
 }
 
 // -----------------------------------------------------------------------------
