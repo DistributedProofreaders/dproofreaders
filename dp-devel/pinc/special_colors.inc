@@ -97,7 +97,7 @@ function echo_special_legend( $projects_where_clause) {
     while ($sr_row = mysql_fetch_assoc($specs_result)) {
         if (in_array($sr_row['spec_code'], $curr_specs_array)) {
             echo $span_prefix.$sr_row['color'].$span_midfix.$sr_row['display_name'].$span_suffix ;
-            $running_length = $running_length + strlen($csrow['display_name']) + 1;
+            $running_length = $running_length + strlen($sr_row['display_name']) + 1;
             if ($running_length > 60) {
                echo "<br>";
                $running_length = 0;
