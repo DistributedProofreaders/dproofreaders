@@ -56,7 +56,9 @@ function saveProject() {
               round2_user varchar(25) NOT NULL default '',
               round1_time int(20) NOT NULL default '0',
               round2_time int(20) NOT NULL default '0',
-              state VARCHAR(50) NOT NULL default ''
+              state VARCHAR(50) NOT NULL default '',
+	      b_user VARCHAR(25) NOT NULL default '',
+	      b_code INT(1) NOT NULL default ''
             )";
 
     mysql_query($sql);
