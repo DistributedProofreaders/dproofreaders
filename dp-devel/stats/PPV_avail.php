@@ -20,7 +20,7 @@ elseif ( $order == 'PPer' )
 }
 elseif ( $order == 'PM' )
 {
-	$orderclause = 'userid ASC';
+	$orderclause = 'username ASC';
 }
 else
 {
@@ -69,7 +69,7 @@ echo "</tr>\n";
 $result = mysql_query("
 	SELECT
 		nameofwork,
-             userid,
+             username,
 		postproofer,
 		modifieddate
 	FROM projects
@@ -93,7 +93,7 @@ while ( $project = mysql_fetch_object( $result ) )
 		<tr>
 		<td>$rownum</td>
 		<td width='200'>$project->nameofwork</td>
-		<td>$project->userid</td>
+		<td>$project->username</td>
 		<td>$project->postproofer</td>
 		<td>$datestamp</td>
 		</tr>
