@@ -53,6 +53,20 @@ include($relPath.'dp_main.inc');
     } else if ($newstate == 30) {
         // Changing a state to "Posted to Project Gutenberg"
         $sql = mysql_query("UPDATE projects SET state = $newstate WHERE projectid = '$projectid'");
+	
+	//Delete the topic from forum if there is one
+	$result = mysql_query("SELECT topic_id FROM projects WHERE projectid='$projectid'");
+	$topic_id = mysql_result($result, 0, "topic_id");
+	$i = 0;
+	$post_list = mysql_query("SELECT * FROM phpbb_posts WHERE topic_id=$topic_id");
+	while($row = mysql_fetch_array($post_list) ) {
+	$postid = $row['post_id'];
+	$i++;
+	$delete_post_text = mysql_query("DELETE FROM phpbb_posts_text WHERE post_id=$postid");
+	}
+	$delete_post = mysql_query("DELETE FROM phpbb_posts WHERE topic_id=$topic_id");
+	$delete_topic = mysql_query("DELETE FROM phpbb_topics WHERE topic_id=$topic_id");
+
         // TODO: Change Modified Date to New Date
 
         // TODO: Archive the project
