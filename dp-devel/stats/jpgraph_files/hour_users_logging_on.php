@@ -16,7 +16,7 @@ ORDER BY time_stamp");
 $mynumrows = mysql_numrows($result);
         $count = 0;
         while ($count < $mynumrows) {
-        $datay[$count] = mysql_result($result, $count,"pages");
+        $datay[$count] = mysql_result($result, $count,"U_lasthour");
         $datax[$count] = mysql_result($result, $count,"time_stamp");
             $count++;
         }
