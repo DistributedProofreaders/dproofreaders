@@ -215,11 +215,13 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			}
 			echo "\n<td>$genre</td>";
 			echo "\n<td>{$book['username']}</td>";
-			if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) { $availPages = update_total_pages($book['projectid'], 1); } else { $availPages = $pageCountArray[$book['projectid']]['avail_pages']; }
-			if ($pageCountArray[$book['projectid']]['total_pages'] == 0) { $totalPages = update_total_pages($book['projectid'], 1); } else { $totalPages = $pageCountArray[$book['projectid']]['total_pages']; }
+			if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
+				update_total_pages($book['projectid'], 1);
+				update_pageCountArray;
+			}
 
-			echo "\n<td align=center>".$availPages."</td>";
-			echo "\n<td align=center>".$totalPages."</td>";
+			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['avail_pages']}</td>";
+			echo "\n<td align=center>{$pageCountArray[$book['projectid']]['total_pages']}</td>";
 		}
 		else
 		{
