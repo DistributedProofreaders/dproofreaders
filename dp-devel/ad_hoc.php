@@ -12,8 +12,10 @@ echo "<pre>\n";
 
 echo date("r");
 echo "<BR>\n";
+
 system("date");
 echo "<BR>\n";
+
 echo "<hr>\n";
 
 if (0)
