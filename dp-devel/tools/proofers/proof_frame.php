@@ -27,7 +27,6 @@ if (isset($saved)) {
 	}
 }
 
-$tpage=new processpage();
 //deletePageCookie();
 
 // proof single page
@@ -46,6 +45,7 @@ if (isset($editone))
   {
      // deleteUserCount assumes PageState has been set;
      // could rewrite to take extra variables instead (see earlier debugging versions)
+     $tpage = new processpage();
      $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
      $tpage->deleteUserCount($proofstate,$pguser,$userP);
      // new function only to be called from here
@@ -87,6 +87,7 @@ $needPage=1;
               metarefresh(4,"list_avail.php",$title,$body);
               exit;
             } //end no pages left check
+        $tpage = new processpage();
         $pagestate=$tpage->checkOutPage($project,$proofstate,$pguser,$npage['fileid'],$npage['image']);
         setPageCookie($project,$proofstate,$npage['fileid'],$npage['image'],$pagestate,0,0,0,0,0,0);
       }
