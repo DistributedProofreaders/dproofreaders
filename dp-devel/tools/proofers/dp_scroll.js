@@ -257,7 +257,7 @@ function ldAll(wFace)
   else if (wFace==3)
     {
       // standard interface, spellcheck
-      docRef=top.proofframe.textframe.document;
+      docRef=top.proofframe.document;
       cnSel=false;
     }
 
