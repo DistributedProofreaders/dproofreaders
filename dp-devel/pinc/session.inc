@@ -1,6 +1,5 @@
 <?
 include_once($relPath.'connect.inc');
-include_once($relPath.'gettext_setup.inc');
 
 $db_Connection=new dbConnect();
 
