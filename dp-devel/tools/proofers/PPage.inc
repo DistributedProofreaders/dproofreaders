@@ -47,15 +47,25 @@ function echo_page_info( $npage )
     echo "<font size='-1'><b>";
     echo _("Page: $pageNum");
 
-    if (getProjectRound($npage['proofstate']) == 2)
+    $prd = get_PRD_for_project_state($npage['proofstate']);
+    $other_prds = $prd->other_rounds_with_visible_usernames;
+    if (count($other_prds) > 0)
     {
-        $res = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-        $username = mysql_result($res, 0, "round1_user");
+        echo " - ";
+        echo _("Proofread by:");
 
-        $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-        $user_id = mysql_result($res, 0, "user_id");
+        $show_comma = FALSE;
+        foreach ($other_prds as $other_prd)
+        {
+            $res = mysql_query("SELECT {$other_prd->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
+            $username = mysql_result($res, 0, $other_prd->user_column_name);
 
-        echo " - "._("Proofread by:")." <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
+            $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
+            $user_id = mysql_result($res, 0, "user_id");
+
+            if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
+            echo " <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
+        }
     }
     echo "</b></font>\n";
 }
