@@ -11,7 +11,8 @@ theme(_("Translation Center"), "header");
 
 if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
-	chdir($code_dir."/locale/".$_POST['lang']."/LC_MESSAGES/");
+	$lang = $_POST['lang'];
+	chdir($code_dir."/locale/$lang/LC_MESSAGES/");
 	$result = mysql_query("SELECT real_name, email FROM users WHERE username = '$pguser'");
 	$real_name = mysql_result($result, 0, "real_name");
 	$email_addr = mysql_result($result, 0, "email");
@@ -23,7 +24,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 	fputs($po_file, "\"POT-Creation-Date: ".date("Y-m-j h:iO")."\\n\"\n");
 	fputs($po_file, "\"PO-Revision-Date: ".date("Y-m-j h:iO")."\\n\"\n");
 	fputs($po_file, "\"Last-Translator: $real_name &lt;$email_addr&gt;\\n\"\n");
-	fputs($po_file, "\"Language-Team: ".$iso_639[$_POST['lang']]." &lt;$email_addr&gt;\\n\"\n");
+	fputs($po_file, "\"Language-Team: ".$iso_639[$lang]." &lt;$email_addr&gt;\\n\"\n");
 	fputs($po_file, "\"MIME-Version: 1.0\\n\"\n");
 	fputs($po_file, "\"Content-Type: text/plain; charset=UTF-8\\n\"\n");
 	fputs($po_file, "\"Content-Transfer-Encoding: 8bit\\n\"\n\n");
@@ -50,14 +51,15 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
 if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 
-	$translation = parse_po(file($code_dir."/locale/".$_POST['lang']."/LC_MESSAGES/messages.po"));
+	$lang = $_POST['lang'];
+	$translation = parse_po(file($code_dir."/locale/$lang/LC_MESSAGES/messages.po"));
 
 	chdir($code_dir);
-	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p locale/".$_POST['lang']."/LC_MESSAGES/ --keyword=_ -C");
+	exec("xgettext -j `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
 
 	$i=4;
-	$lines = file($code_dir."/locale/".$_POST['lang']."/LC_MESSAGES/messages.po");
-	$po_file = fopen($code_dir."/locale/".$_POST['lang']."/LC_MESSAGES/messages.po", "w");
+	$lines = file($code_dir."/locale/$lang/LC_MESSAGES/messages.po");
+	$po_file = fopen($code_dir."/locale/$lang/LC_MESSAGES/messages.po", "w");
 	fputs($po_file, "# ".str_replace("\n", "\n# ", $_POST['comments'])."\n");
 	while ($i < count($lines)) {
 		fputs($po_file, $lines[$i]);
@@ -66,7 +68,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 	fclose($po_file);
 
 	echo "<center><b><i><font size='+2'>"._("Strings Rebuilt!")."</font></i></b><br><br>";
-	echo "<a href='index.php?func=translate&lang=".$_POST['lang']."'>"._("Please click here to return to translate the ").$iso_639[$_POST['lang']]." "._("language file").".</a>";
+	echo "<a href='index.php?func=translate&lang=$lang'>"._("Please click here to return to translate the ").$iso_639[$lang]." "._("language file").".</a>";
 }
 
 theme('','footer');

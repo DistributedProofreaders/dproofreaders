@@ -30,16 +30,17 @@ if (empty($_GET['lang']) && $func == "newlang") {
 }
 
 if (!empty($_GET['lang']) && $func == "create_newlang") {
-	mkdir($code_dir."/locale/".$_GET['lang'], 0755);
-	mkdir($code_dir."/locale/".$_GET['lang']."/LC_MESSAGES/", 0755);
+	$lang = $_GET['lang'];
+	mkdir($code_dir."/locale/$lang", 0755);
+	mkdir($code_dir."/locale/$lang/LC_MESSAGES/", 0755);
 
 	chdir($code_dir);
-	exec("xgettext `find -name \"*.php\" -o -name \"*.inc\"` -p locale/".$_GET['lang']."/LC_MESSAGES/ --keyword=_ -C");
+	exec("xgettext `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
 
-	chdir($code_dir."/locale/".$_GET['lang']."/LC_MESSAGES/");
+	chdir($code_dir."/locale/$lang/LC_MESSAGES/");
 	exec("msgfmt messages.po -o messages.mo");
 
-	metarefresh(0, "index.php?func=translate&lang=".$_GET['lang']."", "", "");
+	metarefresh(0, "index.php?func=translate&lang=$lang", "", "");
 }
 
 theme('','footer');

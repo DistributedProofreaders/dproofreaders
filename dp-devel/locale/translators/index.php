@@ -27,7 +27,8 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 }
 
 if (!empty($_GET['lang']) && $func == "translate") {
-	$translation = parse_po(file($code_dir."/locale/".$_GET['lang']."/LC_MESSAGES/messages.po"));
+	$lang = $_GET['lang'];
+	$translation = parse_po(file($code_dir."/locale/$lang/LC_MESSAGES/messages.po"));
 	$i = 0;
 	if (!isset($translation['location']))
 	{
@@ -50,7 +51,7 @@ if (!empty($_GET['lang']) && $func == "translate") {
 			}
 
 		echo "<input type='hidden' name='numofTranslations' value='".($numOfTranslations-1)."'>";
-		echo "<input type='hidden' name='lang' value='".$_GET['lang']."'>";
+		echo "<input type='hidden' name='lang' value='$lang'>";
 		echo "<center><input type='submit' name='save_po' value='"._("Save and Compile")."'>&nbsp;";
 		echo "<input type='submit' name='rebuild_strings' value='"._("Rebuild String List")."'></center><br>";
 		echo "</td></tr></table>";
