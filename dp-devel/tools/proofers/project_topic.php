@@ -20,7 +20,7 @@ Discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
 
 The Project Manager is {$row['username']}.
 
-Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id&proofing=1]project comments[/url] before posting.
+Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
 ";
 $message = addslashes($message);
 $topic_id = $row['topic_id'];
