@@ -76,7 +76,7 @@ echo $qry;
 $cnt = mysql_result($result2,0,'cnt');
 echo $cnt;
 	// no row for this state yet today
-	if ( $cnt) == 0) {	
+	if (( $cnt) == 0) {	
 
            $insert_query =
               "INSERT INTO project_state_stats (year, month, day , date , state ,  num_projects)
