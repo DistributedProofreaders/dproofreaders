@@ -76,7 +76,7 @@ if ($testing_this_script)
 
 function get_n_pages_proofed( $start_ts, $end_ts )
 // Return the total number of pages proofed between the two timestamps.
-// (Takes about 30 seconds.)
+// (Takes about ?? seconds.) haven't measured since queries were changed
 {
     $total_n_pages_proofed = 0;
 
@@ -88,27 +88,45 @@ function get_n_pages_proofed( $start_ts, $end_ts )
     {
         list($projectid) = $project_row;
 
-        $res2 = mysql_query("
-            SELECT COUNT(*) FROM $projectid
-            WHERE 
-            state='save_first' 
-                AND round1_time >= $start_ts
-                AND round1_time <  $end_ts
-            OR
-            state='save_second'
-                AND round2_time >= $start_ts
-                AND round2_time <  $end_ts
-            ");
+	// page finished in R1 may have since progressed to R2
 
-        if (!$res2)
+        $pdoneR1 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE         
+		round1_time >= $start_ts
+            AND round1_time <  $end_ts
+            AND (state='save_first' OR state LIKE '%_second%')
+	");   
+
+        if (!$pdoneR1)
         {
             // Probably the project's page-table does not exist.
             // Not sure why.
+	    $pages1 = 0;
             continue;
-        }
+        } else {
+            $row1 = mysql_fetch_row($pdoneR1);
+	    $pages1 = $row1[0];
+	}
 
-        list($n_pages_proofed) = mysql_fetch_array($res2);
+        
+        $pdoneR2 = mysql_query("SELECT COUNT(*) FROM $projectID WHERE
+         	  state='save_second' 
+            AND round2_time >= $start_ts
+            AND round2_time <  $end_ts 
+         ");
 
+        if (!$pdoneR2)
+        {
+            // Probably the project's page-table does not exist.
+            // Not sure why.
+	    $pages2 = 0;
+            continue;
+        } else {
+            $row2 = mysql_fetch_row($pdoneR2);
+            $pages2 = $row2[0];
+	}
+        
+        $n_pages_proofed = $pages1+$pages2;
+        
         $total_n_pages_proofed += $n_pages_proofed;
     }
 
