@@ -4,39 +4,9 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-?>
-<style type="text/css">
-<!--
-.purple {
-	background-color:#9966CC;
-}
-.orange {
-	background-color: #FF9900;
-}
-.green {
-	background-color: #00FF33;
-}
-.paleblue {
-	background-color: #CCFFFF;
-}
-.richblue {
-	background-color: #33CCFF;
-}
-.yellow {
-	background-color: #FFFF33;
-}
-.grey {
-	background-color: #CCCCCC;
-}
-.red {
-	background-color: #FF0000;
-}
-.flyblue {
-	background-color: #0000FF;
-}
--->
-</style>
-<?
+include_once($relPath.'special_colours.inc');
+
+
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
 
@@ -100,18 +70,9 @@ echo "<br><br>";
 ?>
 <p><font face="<? echo $theme['font_mainbody']; ?>">
 
-Legend for Special Books:
-<br><br><b>
-<span class="flyblue"> Wright Flight Anniversary </span>&nbsp;
-<span class="paleblue"> Authors with recent birthdays </span>&nbsp;
-<span class="richblue"> Authors with birthdays today </span>&nbsp;
-<br>
-<span class="yellow"> Children's Book Week </span>&nbsp;
-<span class="orange"> Halloween </span>&nbsp;
-<br>
-<span class="green"> Abolition of Slavery </span>&nbsp;
-<span class="purple"> Other Special </span>
-</b></font>
+<? include('special_legend.php'); ?>
+
+</font>
 </p>
 <br>
 
