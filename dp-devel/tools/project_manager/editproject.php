@@ -71,7 +71,8 @@ function saveProject() {
                 comments='{$_POST['comments']}',
                 scannercredit='{$_POST['scannercredit']}',
                 postednum='{$_POST['postednum']}',
-                clearance='{$_POST['clearance']}'
+                clearance='{$_POST['clearance']}',
+                special='{$_POST['special']}'
             WHERE projectid='{$_POST['projectid']}'
         ");
 
@@ -105,11 +106,11 @@ function saveProject() {
         //Insert a new row into the projects table
         mysql_query("
             INSERT INTO projects
-                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance)
+                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special)
             VALUES (
                 '{$_POST['nameofwork']}',
                 '{$_POST['authorsname']}',
-                                '{$_POST['checkedoutby']}',
+                '{$_POST['checkedoutby']}',
                 '$language',
                 '{$_POST['genre']}',
                 '{$_POST['difficulty_level']}',
@@ -119,7 +120,8 @@ function saveProject() {
                 UNIX_TIMESTAMP(),
                 '{$_POST['scannercredit']}',
                 '".PROJ_NEW."',
-                '{$_POST['clearance']}'
+                '{$_POST['clearance']}',
+                '{$_POST['special']}'
             )
         ");
 
@@ -442,6 +444,39 @@ function difficulty_list($difficulty_level) {
    echo "</td></tr>\n";
 }
 
+function special_list($special) {
+
+    $specs_result = mysql_query("
+            SELECT      spec_code, 
+                        display_name, 
+			DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date' 
+            FROM special_days
+            WHERE enable = 1
+            ORDER BY open_month, open_day
+        ");
+
+    // it'd be nice to make this static, or something, so it only was loaded once
+    $specials_array = array();
+
+    while ($s_row = mysql_fetch_assoc($specs_result)) {
+        $show = $s_row['display_name']." (".$s_row['Start Date'].")";
+        $code = $s_row['spec_code'];
+        $specials_array["$code"] = $show;
+    }
+
+
+   echo "<tr><td bgcolor='#CCCCCC'><b>Special Day (optional)</b></td><td><select name='special'>";
+   echo "<option value=''>NONE</option>";
+   foreach($specials_array as $k=>$v) {
+        echo "<option value='".encodeFormValue($k)."'";
+        if ($special == $k) { echo " SELECTED"; }
+        echo ">$v</option>";
+        }
+   echo "</select>    <a href='show_specials.php'>More info on Special Days</a></td></tr>\n";
+
+}
+
+
 function query_format() {
    $attr_set = 0;
    $fullquery = "";
@@ -595,6 +630,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         $postednum = mysql_result($result, 0, "postednum");
         $genre = mysql_result($result, 0, "genre");
         $difficulty_level = mysql_result($result, 0, "difficulty");
+        $special = mysql_result($result, 0, "special");
    }
 
    if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
@@ -606,6 +642,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
    if (empty($scannercredit)) { $scannercredit = ""; }
    if (empty($clearance)) { $clearance = ""; }
    if (empty($postednum)) { $postednum = ""; }
+   if (empty($special)) { $special = ""; }
    if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
    theme(_("Create a Project"), "header");
@@ -621,6 +658,7 @@ elseif ((isset($_REQUEST['action']) && ($_REQUEST['action'] == "submit_marcsearc
         echo language_list($language);
         echo genre_list($genre);
         echo difficulty_list($difficulty_level);
+        echo special_list($special);
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
