@@ -3,10 +3,11 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
 $uid = $userP['user_id'];
-$result = mysql_query("SELECT * FROM users WHERE id = $uid");
+$result = mysql_query("SELECT * FROM users WHERE id = '$uid'");
+
 if (mysql_result($result,0,"sitemanager") == "yes") {
 
-if ($action == "add") {
+if ($_GET['action'] == "add") {
 $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
 $message = nl2br($message);
 $date_posted = date(U);
@@ -14,7 +15,7 @@ $insert_news = mysql_query("INSERT INTO news (uid, date_posted, message) VALUES 
 header("Location: sitenews.php");
 }
 
-elseif ($action == "view") {
+elseif ($_GET['$action'] == "view") {
 $uid = $_GET['uid'];
 $result = mysql_query("SELECT * FROM news WHERE uid = $uid");
 $date_posted = date("l, F jS, Y",mysql_result($result,0,'date_posted'));
@@ -23,13 +24,13 @@ echo mysql_result($result,0,"message");
 echo "<br><br><a href='javascript:history.back()'>Go Back...</a>";
 }
 
-elseif ($action == "delete") {
+elseif ($_GET['action'] == "delete") {
 $uid = $_GET['uid'];
 $result = mysql_query("DELETE FROM news WHERE uid=$uid");
 header("Location: sitenews.php");
 }
 
-elseif ($action == "edit_update") {
+elseif ($_GET['action'] == "edit_update") {
 $message = $_POST['message'];
 $message = strip_tags($_POST['message'], '<a><b><i><u><font>');
 $message = nl2br($message);
@@ -62,6 +63,7 @@ echo "</body></html>";
 }
 
 } else {
+
 echo "You are not authorized to use this form.";
 }
 
