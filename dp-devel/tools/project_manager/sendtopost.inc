@@ -32,33 +32,27 @@ include_once($relPath.'maybe_mail.inc');
         $zippedimages = $project."images.zip";
         exec ("zip -j $projectpath/$zippedimages $projectpath/*.png");
 
-        // Generate joined text file, and a zip of it.
+        // Generate joined text file
         $savepath = $projectpath."/".$project.".txt";
-        $fp = fopen($savepath, "w"); //open file for writing
-
-		join_proofed_text ($project, $fp);
-
-        // close the file
+        $fp = fopen($savepath, "w");
+        join_proofed_text($project, $fp);
         fclose ($fp);
 
-        //create zip copy of file
+        // Create a zip of that file
         exec ("zip -j $projectpath/$project.zip $savepath");
 
-        // Genereate Joing text file as TEI and a zip of it.
+        // Generate joined text file as TEI
         $savepath = $projectpath."/".$project."_TEI".".txt";
-        $fp = fopen($savepath, "w"); //open file for writing
-
-                join_proofed_text_tei ($project, $fp);
-    
-    // close the file
+        $fp = fopen($savepath, "w");
+        join_proofed_text_tei($project, $fp);
         fclose ($fp);
 
-        // Decide whether to send to post-processing or have user work on it.
+        // Decide whether to send to post-processing or have PM work on it.
 
         $result = mysql_query("SELECT value FROM usersettings WHERE setting = 'send_to_post' AND username='$username'");
         if ($result != "") { $send_to_post = mysql_result($result, 0, "value"); } else $send_to_post = "no";
 
-        // Change state based on user's settings
+        // Change state based on PM's settings
         if ($send_to_post == "yes") {
             $new_state = PROJ_POST_FIRST_AVAILABLE;
             $extras = array();
@@ -87,9 +81,9 @@ include_once($relPath.'maybe_mail.inc');
 
 
     function join_proofed_text ($project, $fp) {
-		// Join the round 2 page-texts of the given project,
-		// and write the result to file-object $fp.
-		//
+        // Join the round 2 page-texts of the given project,
+        // and write the result to file-object $fp.
+        //
         $carriagereturn = chr(13);
         $linefeed = chr(10);
         $indicator1 = "-----------------------File: ";
@@ -104,18 +98,17 @@ include_once($relPath.'maybe_mail.inc');
             $filename = mysql_result($myresult, $count, "image");
             $text_data = mysql_result($myresult, $count, "round2_text");
             $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
-	    // SENDING PAGE-TEXT TO USER
-	    // It's a text-file, so no encoding is necessary.
+            // SENDING PAGE-TEXT TO USER
+            // It's a text-file, so no encoding is necessary.
             fputs($fp,$fileinfo);
             $count++;
-        } //end else
-	}
+        }
+    }
 
 
 
-        $carriagereturn = chr(13);   
-        $linefeed = chr(10);
-
+    $carriagereturn = chr(13);   
+    $linefeed = chr(10);
 
     // Using the Windows end-of-line convention.
     // Tough luck for Mac or Unix users.
@@ -126,11 +119,8 @@ include_once($relPath.'maybe_mail.inc');
         // Join the round 2 page-texts of the given project,
         // and write the result to file-object $fp.
        
-
-
-
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
-//echo mysql_errno().": ".mysql_error()."<BR>";
+        //echo mysql_errno().": ".mysql_error()."<BR>";
         $row = mysql_fetch_row($result);
 
         $nameofwork  = $row[0];
@@ -138,7 +128,7 @@ include_once($relPath.'maybe_mail.inc');
         $language    = $row[2];
         $postednum   = $row[3];
 
-//        fputs($fp,"<TEI.2>\r\n");
+        // fputs($fp,"<TEI.2>\r\n");
         fputs($fp,"<TEI.2>\r\n");
         // Dump the teiHeader.
         // The info for this might preferably come from
@@ -211,10 +201,10 @@ works]</byline>\r\n");
             fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
 
             $text_data = mysql_result($myresult, $count, "round2_text");
-	    // SENDING PAGE-TEXT TO USER
-	    // It's an XML file, so the non-markup angle-brackets and ampersands
-	    // should be entity-encoded, but it's tricky to find them.
-	    put_page_text($text_data, $fp);
+            // SENDING PAGE-TEXT TO USER
+            // It's an XML file, so the non-markup angle-brackets and ampersands
+            // should be entity-encoded, but it's tricky to find them.
+            put_page_text($text_data, $fp);
             $count++;
         } //end else
 
@@ -227,7 +217,7 @@ works]</byline>\r\n");
 
     function put_page_text( $page_text, $fp )
     {
-//        global \r\n;
+        // global \r\n;
 
         $page_text = eregi_replace( "<i>", "<hi rend='i'>", $page_text );
         $page_text = eregi_replace( "</i>", "</hi>", $page_text );
@@ -236,22 +226,22 @@ works]</byline>\r\n");
 
         // Convert [Illustration...] blocks, and ensure that each
         // constitutes a separate "chunk".
-//        $page_text = eregi_replace(
-//            "\[Illustration\]",
-//            "\r\n\r\n<figure></figure>\r\n\r\n",
-//            $page_text );
+        // $page_text = eregi_replace(
+        //     "\[Illustration\]",
+        //     "\r\n\r\n<figure></figure>\r\n\r\n",
+        //     $page_text );
         $page_text = eregi_replace(
-//              "\[Illustration: (.*?)\]",
+            // "\[Illustration: (.*?)\]",
             "\[Illustration: (.*)\]",
             "\r\n\r\n<figure><head>\1</head></figure>\r\n\r\n",
             $page_text );
 
         // Ditto [Footnote: ] blocks.
-//        $page_text = eregi_replace(
-//           "\[Footnote: (*)\]",
-//            "\[Footnote: (.*?)\]",
-//            "\r\n\r\n<note place='foot'>\1</note>\r\n\r\n",
-//            $page_text );
+        // $page_text = eregi_replace(
+        //     "\[Footnote: (*)\]",
+        //     "\[Footnote: (.*?)\]",
+        //     "\r\n\r\n<note place='foot'>\1</note>\r\n\r\n",
+        //     $page_text );
 
         // Ditto preformatted blocks.
         $page_text = preg_replace_callback(
@@ -267,8 +257,8 @@ works]</byline>\r\n");
         // (i.e., sequences of 1 or more blank lines)
         
         // old line, split every character
-               $chunks = preg_split( "/\r\n(\r\n)+/", $page_text );
-    //    $chunks = preg_split( "/\n\n+/", $page_text );
+        $chunks = preg_split( "/\r\n(\r\n)+/", $page_text );
+        // $chunks = preg_split( "/\n\n+/", $page_text );
         // The only remaining EOLs must be singles, embedded within chunks.
 
         // Handle each chunk:
@@ -298,7 +288,7 @@ works]</byline>\r\n");
     // $matches[0] is the whole chunk, including delimiters.
     // $matches[1] is the body of the chunk, between the delimiters.
     {
-    //    global \r\n;
+        // global \r\n;
 
         $s = $matches[1];
 
@@ -316,7 +306,5 @@ works]</byline>\r\n");
         return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 
     }
-
-
 
 ?>
