@@ -42,11 +42,11 @@ theme("Project Managers", "header");
 ?>
 	<p><b>Project Manager Notice:</b><br>There is a new way to upload files to the site without needing anyone to help you:
 	<ol>
-		<li>FTP to pgdp01.archive.org with username dpscans and password image$
+		<li>FTP to <? echo $uploads_host; ?> with username <? echo $uploads_account; ?> and password <? echo $uploads_password; ?>
 		<li>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
 		<li>Upload the text and images to that folder, titled 001.txt, 001.png, 002.txt, 002.png, etc...
 		<li>Click on the title of the book to view it's details.
-		<li>Click on the link at the top titled "Add Images And Text From dpscans Account".
+		<li>Click on the link at the top titled "Add Images And Text From <? echo $uploads_account; ?> Account".
 		<li>It will load them into the database, look over the list of pages before setting it to "Waiting to be Released".
 	</ol>
 	<p>Recent bug fixes include being able to put any characters in the project comments box and preventing books from the same author to be available in the First Round (meaning if you have 4 volumes of a series, you can put them into Waiting to be Released and they will be released as each passes through the First Round).
@@ -88,7 +88,7 @@ theme("Project Managers", "header");
 				echo "Add Text From projects Folder";
 				echo "<input type='hidden' name='source_dir' value=''>\n";
 			} else {
-				echo "Add Text+Images from dpscans Account";
+				echo "Add Text+Images from $uploads_account Account";
 				echo "<br>\n";
 				echo "directory: ";
 				echo "<input type='text' name='source_dir'>";
