@@ -1,14 +1,19 @@
 <p>Please retain page references (like see page number x, or the page numbers
 in the Table of Contents or Index), not actual page numbers at the top or
 bottom of the page.
-<p>Formatting is important; please format TOCs, lists of illustrations, etc.,
-correctly.
+<p>Please make a HTML edition, including any illustrations, if
+any.
+<p><b>Formatting is important; please format TOCs, lists of Illustrations,
+etc., correctly.</b>
+<p>Render the OE/oe ligature as [OE] or [oe], as appropriate.  Also, keep all
+ligatures if they are present in the text.
 <p>Please note any problems, observations, complains, request
 for guidance etc., in that forum. There, we will reach
 consensus and make a decision.
-<p>Please EMAIL me with any problems (missing pages and the like) you may have. I
-check my email several times per day and usually respond within 24 hours.
-<p>I apologize in advance (mea culpa &lt;beats breast&gt;) for any missing pages or other difficulties.
+<p>Please EMAIL me with any problems (missing pages and the like) you may
+have. I check my email several times per day and usually respond within 24
+hours.
+<p>I apologize in advance for any missing pages or other difficulties.
 If you encounter such, please post to the Missing Pages Wiki as well as making
 a note in the appropriate forum and emailing me.
-<p>- Ted<p>
+- Ted
