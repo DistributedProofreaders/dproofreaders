@@ -10,15 +10,13 @@ $user_is_logged_in = dpsession_resume();
 
 include_once($relPath.'gettext_setup.inc');
 
-if(isset($userP['i_theme'])) {
-		include_once($relPath.'templates/'.$userP['i_theme'].'/theme.tpl');
+if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
 		$theme_name = $userP['i_theme'];
-		$theme = ${$theme_name};
 	} else {
-		include_once($relPath.'templates/project_gutenberg/theme.tpl');
 		$theme_name = "project_gutenberg";
-		$theme = ${$theme_name};
 }
+include_once($relPath."templates/$theme_name/theme.tpl");
+$theme = ${$theme_name};
 
 function theme ($nameofpage, $location) {
 
