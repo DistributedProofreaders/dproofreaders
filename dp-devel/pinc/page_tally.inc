@@ -13,6 +13,13 @@
 
 // -----------------------------------------------------------------------------
 
+include_once($relPath.'TallyBoard.inc');
+
+$users_P_page_tallyboard = new TallyBoard( 'P', 'U' );
+$teams_P_page_tallyboard = new TallyBoard( 'P', 'T' );
+
+// -----------------------------------------------------------------------------
+
 // $users_table_with_tallies = "users";
 $users_table_with_tallies = "users LEFT OUTER JOIN current_tallies ON (holder_type='U' AND holder_id=u_id AND tally_name='P')";
 // A string containing an SQL table-expression that yields a table that
@@ -65,18 +72,12 @@ function get_daily_average( $start_time, $total )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_initialize_current_page_tally( $u_id )
+function user_initialize_page_tally( $u_id )
 // Ensure that subsequent queries about the given (new) user's
-// current page-tally will find something.
+// page-tally will find something.
 {
-    mysql_query("
-        INSERT INTO current_tallies
-        SET
-            holder_type = 'U',
-            holder_id   = $u_id,
-            tally_name  = 'P',
-            tally_value = 0
-    ") or die(mysql_error());
+    global $users_P_page_tallyboard;
+    $users_P_page_tallyboard->initialize_tally( $u_id );
 }
 
 // -----------------------------------------------------------------------------
@@ -368,51 +369,6 @@ function should_anonymize( $username, $user_privacy_setting )
 
 // -----------------------------------------------------------------------------
 
-function user_initialize_page_tally_history( $u_id )
-// Ensure that subsequent queries about the given (new) user's page-tally history
-// will find something.
-{
-    // We'll be inserting a record into past_tallies.
-    // The timestamp we use in that record should be the same as the most recent
-    // timestamp used by the periodic snapshot script (mbrstats.php). (If we
-    // use a more recent timestamp, we'll mislead the next run of that script.)
-
-    $result = mysql_query("
-        SELECT MAX(timestamp)
-        FROM past_tallies
-        WHERE holder_type='U' AND tally_name='P'
-    ");
-    $latest_time_in_table = mysql_result($result,0,0);
-
-    if (!is_null($latest_time_in_table))
-    {
-        $time_for_record = $latest_time_in_table;
-    }
-    else
-    {
-        // No such entry in past_tallies.
-        // (This is presumably the very first user.)
-        // The choice of timestamp is arbitrary?
-        // Pick the most recent midnight.
-        $now = getdate();
-        $time_for_record = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
-    }
-
-    $result = mysql_query("
-        INSERT INTO past_tallies
-        SET
-            timestamp   = $time_for_record,
-            holder_type = 'U',
-            holder_id   = $u_id,
-            tally_name  = 'P',
-            tally_delta = 0,
-            tally_value = 0,
-            tally_rank  = 0
-    ");
-}
-
-// -----------------------------------------------------------------------------
-
 function user_get_largest_page_tally_increment_info( $u_id )
 // Return an array consisting of:
 // -- the given user's largest recorded page tally increment, and
@@ -450,18 +406,12 @@ function user_get_best_page_tally_rank_info( $u_id )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function team_initialize_current_page_tally( $team_id )
+function team_initialize_page_tally( $team_id )
 // Ensure that subsequent queries about the given (new) team's
-// current page-tally will find something.
+// page-tally will find something.
 {
-    mysql_query("
-        INSERT INTO current_tallies
-        SET
-            holder_type = 'T',
-            holder_id   = $team_id,
-            tally_name  = 'P',
-            tally_value = 0
-    ") or die(mysql_error());
+    global $teams_P_page_tallyboard;
+    $teams_P_page_tallyboard-> initialize_tally( $team_id );
 }
 
 // -----------------------------------------------------------------------------
