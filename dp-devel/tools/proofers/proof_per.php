@@ -95,15 +95,15 @@ if ($userP['i_prefs']==1)
 else {echo "<a href=\"../../userprefs.php\">Set user preferences</a>";}
 }
 echo "<p>";
-echo "\r\n<b>Your Teams: </b>";
-  echo "<table><tr><td>";
-  echo "<tr><td><a \r\nhref=\"../../userteams.php?tid=1\">Distributed Proofreaders</a></td></tr>";
-    $teamQuery="SELECT teamname,id FROM user_teams WHERE id='{$userP['team_1']}' OR  id='{$userP['team_2']}' OR  id='{$userP['team_3']}'";
+echo "\r\n<b>Your Teams: </b><blockquote>";
+  echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\">";
+  echo "<tr><td><img src=\"../../users/teams/icon/dp_icon.png\" width=\"25\" height=\"25\" alt=\"\"></td><td><a \r\nhref=\"../../userteams.php?tid=1\">Distributed Proofreaders</a></td></tr>";
+    $teamQuery="SELECT teamname,id,icon FROM user_teams WHERE id='{$userP['team_1']}' OR  id='{$userP['team_2']}' OR  id='{$userP['team_3']}'";
     $teamRes=mysql_query($teamQuery);
       while($row = mysql_fetch_assoc($teamRes))
-        {echo "<tr><td><a \r\nhref=\"../../userteams.php?tid={$row['id']}\">{$row['teamname']}</a></td></tr>";}
-echo "<tr><td><a \r\nhref=\"../../userteams.php\">View All Teams</a></td></tr>";
-echo "</table><br>";
+        {echo "<tr><td><img src=\"../../users/teams/icon/{$row['icon']}\" width=\"25\" height=\"25\" alt=\"\"></td><td><a \r\nhref=\"../../userteams.php?tid={$row['id']}\">{$row['teamname']}</a></td></tr>";}
+echo "<tr><td colspan=\"2\" align=\"left\"><a \r\nhref=\"../../userteams.php\">View All Teams</a></td></tr>";
+echo "</table></blockquote><br>";
 
 //Following top ten/your neighbor board provided by David Bridson, modified for looks by Charles Franks, and updated by Curtis Weyant
 if ( $userP['u_top10'] || $userP['u_neigh'] ) {
