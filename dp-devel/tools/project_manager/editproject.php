@@ -245,11 +245,11 @@ function checkProjectDirEmpty() {
 function posted_pg($projectid) {
    global $code_url, $auto_email_addr, $auto_email_addr;
 
-   $result = mysql_query("SELECT nameofwork, ziplink FROM projects WHERE projectid = '$projectid'");
+   $result = mysql_query("SELECT nameofwork, postednum FROM projects WHERE projectid = '$projectid'");
    $NameofWork = mysql_result($result, 0, "nameofwork");
-   $ziplink = mysql_result($result, 0, "ziplink");
+   $postednum = mysql_result($result, 0, "postednum");
 
-   if(substr($ziplink, -7, 1) == "X") { $ziplink = "http://www.pgdp.net/c/list_etexts.php?x=g"; }
+   $url = get_pg_catalog_url_for_etext( $postednum );
 
    $result = mysql_query("SELECT username FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
         $numrows = mysql_numrows($result);
@@ -266,7 +266,7 @@ function posted_pg($projectid) {
             ." It has been sent to Project Gutenberg and will soon be available for reading."
             ." Most files will be ready by the time you receive this mail;"
             ." sometimes there may be a delay of a day or so."
-            ." Download the file at $ziplink and enjoy!"
+            ." You can download the files via PG's online catalog at <$url>."
             ."\n"
             ."\n"
             ."--"
