@@ -286,7 +286,6 @@ function exitInterface($newwin,$editone)
 
 function returnPage($proofstate,$pguser,$userP)
 {
-  $this->deleteUserCount($proofstate,$pguser,$userP);
   $timestamp = time();
   $dbQuery="UPDATE {$this->project} SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
   $dbQuery.=" WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
