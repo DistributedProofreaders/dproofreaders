@@ -10,7 +10,7 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'session.inc');
 include_once($relPath.'theme.inc');
 
-$uid = $userP['id'];
+$uid = $userP['u_id'];
 
 // see if they already have 10 profiles, etc.
     $pf_query=mysql_query("SELECT profilename, id FROM user_profiles WHERE u_ref='{$userP['u_id']}' ORDER BY id ASC");
@@ -19,7 +19,7 @@ $uid = $userP['id'];
 if (isset($swProfile))
   {
     // get profile from database
-    $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE id='$user_id' AND username='$pguser'");
+    $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     $cookieC->setUserPrefs($pguser);
     $eURL="userprefs.php";
     if (isset($project) && isset($proofstate))
@@ -98,7 +98,7 @@ $td5=$htmlC->startTD(0,0,6,0,"center",0,0,1);
 $tde=$htmlC->closeTD(1);
 $tre=$htmlC->closeTD(1).$htmlC->closeTR(1);
 
-$result=mysql_query("SELECT * FROM users WHERE id='$uid' AND username='$pguser'");
+$result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
 $real_name = mysql_result($result,0,"real_name");
 $email = mysql_result($result,0,"email");
 
@@ -409,7 +409,7 @@ email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_align=
 u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme', i_pmdefault='$i_pmdefault', u_intlang='$u_intlang', u_privacy='$u_privacy'";
 if (isset($mkProfile))
   {$users_query.=", u_profile='".mysql_insert_id($db_link)."'";}
-$users_query.=" WHERE id='$user_id' AND username='$pguser'";
+$users_query.=" WHERE  u_id=$uid AND username='$pguser'";
 $result = mysql_query($users_query);
 
 echo mysql_error();
