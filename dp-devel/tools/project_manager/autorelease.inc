@@ -69,7 +69,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     $result = mysql_query("UPDATE projects SET state = '$currstate', modifieddate = '$todaysdate' WHERE projectid = '$project'");
 
     if ($currstate == PROJ_PROOF_FIRST_VERIFY) {
-        print "Released project = $project<BR>";
+        print "Prepared for Release project = $project<BR>";
         return numpages($project);
     } else return 0;
 }
@@ -119,7 +119,13 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
 	  		$project = mysql_result($avail_result, $i, "projectid");
 
 			// "no doubling up of authors" 
-			$author_q = "SELECT projectid FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND authorsname = '$author'";
+
+			// corrected to include books already marked for release
+
+			$author_q = "SELECT projectid FROM projects WHERE 
+				(state = '".PROJ_PROOF_FIRST_AVAILABLE."'
+					OR
+				state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '$author'";
 			
 			if (mysql_num_rows(mysql_query($author_q)) > 0) {
 				// fails the author restriction, don't consider this
@@ -179,15 +185,18 @@ function autorelease($pagesleft) {
 	// NB The arguments for these calls can come out of a table LATER (stage two)...
 	// For now, let's get it out and working, even with hardwired arguments
 	
-	//Beginners Projects - always have a certain number of projects in first round
+	//Beginners Projects - always have a certain number of pages in first round
+	// changed to pages to try to better cover gaps without getting too many projects
+
 	$projtype_sql = "username = 'BEGIN'";
 	$rel_qry = mysql_query("SELECT COUNT(projectid) FROM projects WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."' AND $projtype_sql ORDER BY modifieddate ASC");
 	$numReleased = mysql_result($rel_qry,0);
+
 	
 	if ($beginners_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
-			release_projects("project", "Beginners", $projtype_sql, $beginners_projects, $numReleased, "", $todaysdate);
-	}
+			release_projects("page", "Beginners", $projtype_sql, 40, $numReleased, "no", $todaysdate);
+	} else echo "Enough BEGIN pages already, no releases through the BEGIN Queue";
 	
 	//Easy English Projects - always have a certain number of projects in first round
 	$projtype_sql = "genre LIKE 'EASY%' && language LIKE 'English%'";
@@ -197,7 +206,7 @@ function autorelease($pagesleft) {
 	if ($easy_projects > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("project", "Easy English", $projtype_sql , $easy_projects, $numReleased, "", $todaysdate);
-	}
+	} else echo "Enough EASY English projects already, no releases through the EASY English Queue";
 
 	//Non-English Projects - always have a certain number of pages spread over the two rounds
 	$numReleased = 0;
@@ -219,7 +228,7 @@ function autorelease($pagesleft) {
 	if ($noneng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "Non English", $projtype_sql , $noneng_pagesneeded, $numReleased, "yes", $todaysdate);
-	}
+	} else echo "Enough Non English pages already, no releases through the Non English Queue";
 
 	//English Projects - always have a certain number of pages spread over the two rounds
 	$numReleased = 0;
@@ -236,11 +245,11 @@ function autorelease($pagesleft) {
 			$numReleased = $numReleased + numavailpages($proj, AVAIL_SECOND);
 		}
 		$i++;
-	}
+	} 
 	if ($eng_pagesneeded > $numReleased) {
 		$pagesneeded = $pagesneeded - 
 			release_projects("pages", "English", $projtype_sql , $eng_pagesneeded, $numReleased, "yes", $todaysdate);
-	}
+	} else echo "Enough English pages already, no releases through the English Queue";
 	
 	//Extra Projects - make sure we have a total of at least X pages spread out over the two rounds;
 	// if there's any room left, just release projects from the front of the queue until we have
@@ -262,6 +271,6 @@ function autorelease($pagesleft) {
 			$i++;
 		}
 		release_projects("pages", "Extra", $projtype_sql , $pagesneeded, $numReleased, "yes", $todaysdate);
-	}
+	} else echo "Enough total pages already, no extra releases";
 }
 ?>
