@@ -41,6 +41,8 @@ function showTeamInformation($curTeam, $tally_name)
 {
 	showTeamProfile($curTeam);
 
+	showTeamTallySelector($curTeam, $tally_name );
+
 	if ($curTeam['id'] != 1 && !is_null($tally_name) )
 	{
 		showTeamStats($curTeam, $tally_name);
@@ -203,6 +205,51 @@ function team_get_member_count_rank( $team_id )
 	}
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showTeamTallySelector( $curTeam, $tally_name )
+{
+	global $page_tally_names;
+
+	$team_id = $curTeam['id'];
+
+	$choices = '';
+	foreach ( $page_tally_names as $t_name => $t_gerund )
+	{
+		if (!empty($choices))
+		{
+			$choices .= " | ";
+		}
+
+		$text = $t_gerund;
+		if ($t_name != $tally_name)
+		{
+			$text = "<a href='tdetail.php?tid=$team_id&amp;tally_name=$t_name'>$text</a>";
+		}
+		$choices .= $text;
+	}
+	echo "\n";
+	echo "<center>";
+	echo "<p>";
+	echo _("Display team stats for various activities:") . ' ' . $choices;
+	echo "</p>";
+	echo "</center>";
+
+	echo "\n";
+	echo "<hr width='95%'>";
+
+	if ( is_null($tally_name) ) return;
+
+	$gerund = $page_tally_names[$tally_name];
+	echo "\n";
+	echo "<center>";
+	echo "<p>";
+	echo $gerund;
+	echo "<br>";
+	echo "(Below, 'pages' refers to 'pages saved-as-done in a $tally_name round'.)";
+	echo "</p>";
+	echo "</center>";
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
