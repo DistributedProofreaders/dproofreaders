@@ -14,13 +14,14 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
 {
     $project_phase = get_phase_containing_project_state($proofstate);
 
-    if ( $project_phase == 'FIRST' || $project_phase == 'NEW' )
+    if ( $project_phase == 'NEW' )
     {
         $avail_state = AVAIL_FIRST;
     }
-    else if ( $project_phase == 'SECOND' )
+    else if ( $project_phase == 'PAGE_EDITING' )
     {
-        $avail_state = AVAIL_SECOND;
+        $prd = get_PRD_for_project_state($proofstate);
+        $avail_state = $prd->page_avail_state;
     }
     else
     {
