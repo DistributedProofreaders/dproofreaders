@@ -1,5 +1,6 @@
 <?
 include_once($relPath.'v_site.inc');
+include_once($relPath.'pg.inc');
 include_once($relPath.'f_project_states.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'authors.inc');
@@ -125,7 +126,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 	{
 		$postednum = $project['postednum'];
 		echo_row_a( _("PG etext num"),
-			"<a href='http://www.gutenberg.net/etext/$postednum'>$postednum</a>" );
+			get_pg_catalog_link_for_etext($postednum) );
 	}
 
 	// -------------------------------------------------------------------------
