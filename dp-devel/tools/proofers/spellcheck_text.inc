@@ -208,7 +208,17 @@ function spellcheck_apply_corrections()
 	{
 		// make corrections
 		$text_array = explode("[lf]",$orig_text);
-		for ($i=1;$i<=$n_bad_words;$i++)
+
+		// If there are multiple corrections on a single line,
+		// and you do them from left to right,
+		// any correction (after the first) will have its offset info invalidated
+		// (or at least, rendered harder to use) by the corrections to its left
+		// (if any of them has a $correct_word with a different length from the
+		// $orig_word).
+		// So we want to the corrections on a line from right to left.
+		// The easiest way to do this is to do all corrections in reverse order.
+		// 
+		for ( $i = $n_bad_words; $i >= 1; $i-- )
 		{
 			// hidden values line|offset|word length
 			$inst_array=explode('|',$_POST['posit'.$i]);
