@@ -64,7 +64,7 @@ function dpsql_dump_query_result( $result )
 	print "</table>\n";
 }
 
-dpsql_dump_query_result_with_rank( $result,$start_at)
+function dpsql_dump_query_result_with_rank( $result, $start_at )
 {
 
 	$n_cols = mysql_num_fields($result);
