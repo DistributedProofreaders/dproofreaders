@@ -165,12 +165,12 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 		$createdby .= mysql_result($result, 0, "real_name").", ";
 	}
 	$createdby .= " Charles Franks and the Online Distributed Proofreading Team.";
-
-	$xmlpage = "<"."?"."xml version=\"1.0\" ?".">
+        $sub=marc_subject($rec);
+	$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"UTF-8\" ?".">
 	<dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
-	  <title>".xmlencode($title)."</title>
-	  <creator>".xmlencode($author)."</creator>
-	  <subject>".xmlencode(marc_subject($rec))."</subject>
+	  <title>$title</title>
+	  <creator>$author</creator>
+	  <subject>$rec</subject>
 	  <description>".xmlencode(marc_description($rec))."</description>
 	  <publisher>Project Gutenberg</publisher>
 	  <contributer>".xmlencode($createdby)."</contributer>
@@ -225,7 +225,7 @@ function update_marc_db($rec) {
 	$rec[marc_key_search($rec,"008","")][1] = substr($marc_008, 0, 33)."$key".substr($marc_008, 34);
 
 	//Update the marc_records database with the updated marc record
-	mysql_query("UPDATE marc_records SET updated_array = '".base64_encode(serialize($rec))."' WHERE projectid = '$projectid'");
+	mysql_query("UPDATE marc_records SET updated_array = '$rec)' WHERE projectid = '$projectid'");
 
 	return $rec;
 }
