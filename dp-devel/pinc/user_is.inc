@@ -58,7 +58,7 @@ function user_is_PP()
 
 	$result = mysql_query("SELECT postprocessor, pagescompleted FROM users WHERE username = '$pguser'");
 	if (mysql_num_rows($result) >= 1) {
-		if (mysql_result($result, 0, "postprocessor") == $pguser) { return TRUE; } 
+		if (mysql_result($result, 0, "postprocessor") == 'yes') { return TRUE; } 
 		elseif (mysql_result($result, 0, "pagescompleted") >= 400) { return TRUE; } 
 		else { return FALSE; }
 	} else {
