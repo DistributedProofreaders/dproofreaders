@@ -41,10 +41,24 @@ else
 	}
 }
 
+if (substr($source_dir, -4) == ".zip") {
+	$source_dir = substr($source_dir, 0, strpos($source_dir, ".zip"));
+	$isZipFile = 1;
+}
+
 echo "<pre>\n";
 
 $source_project_dir = "$source_area/$source_dir";
 $dest_project_dir   = "$projects_dir/$projectid";
+
+if ($isZipFile == 1) {
+	if (!file_exists($source_project_dir)) {
+		mkdir("$source_project_dir", 0777);
+		chmod("$source_project_dir", 0777);
+	}
+
+	exec("unzip -o -j ".$source_project_dir.".zip -d $source_project_dir");
+}
 
 // Rather than performing commands from an arbitrary location,
 // using absolute paths, e.g.
