@@ -13,7 +13,7 @@ if ( empty($pageCountArray) )
 function show_projects_in_state($state,$table=1, $where_filter = ' ')
 {
 	global $pguser, $code_url, $pageCountArray;
-
+	$theme = $GLOBALS['theme'];
 	$bgcolor = $theme['color_headerbar_bg'];
 	if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
 	{
@@ -117,7 +117,7 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 
 		$book = mysql_fetch_assoc($result);
 
-		$bgcolor = bgcol($rownum,'blah');
+		$bgcolor = bgcol($rownum,$stage);
 
 		// experimental!
 
@@ -149,9 +149,9 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ')
 			$foo_cell = $book[$foo_field_name];
 		}
 
-		echo "\n<td $bgcolor>$book['nameofwork']</td>";
-		echo "\n<td $bgcolor>$book['authorsname']</td>";
-		echo "\n<td $bgcolor align=center>$book['language']</td>";
+		echo "\n<td $bgcolor> ". $book['nameofwork']. " </td>";
+		echo "\n<td $bgcolor> ". $book['authorsname']. " </td>";
+		echo "\n<td $bgcolor align=center> ". $book['language']. " </td>";
 
 		if ($book['difficulty'] == "easy") { $genre = _("EASY")." ".$book['genre']; }
             		elseif ($book['difficulty'] == "hard") { $genre = _("HARD")." ".$book['genre']; }
