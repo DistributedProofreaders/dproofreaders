@@ -51,7 +51,6 @@ if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
 	}
 	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
 	$projectinfo->availablepages = $projectinfo->avail1_pages;
-	$state = mysql_result($allprojects, $rownum, "state");    
 } elseif ($state == PROJ_PROOF_FIRST_BAD_PROJECT && $one_project) {
 	$bad_FirstRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_FIRST."'"));
 	$avail_FirstRound = mysql_num_rows(mysql_query("SELECT COUNT(*) FROM $project WHERE state = '".AVAIL_FIRST."'"));
@@ -62,7 +61,6 @@ if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
 	}
 	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
 	$projectinfo->availablepages = $projectinfo->avail1_pages;
-	$state = mysql_result($allprojects, $rownum, "state");    
 } elseif ($state == PROJ_PROOF_SECOND_AVAILABLE) {
 	$bad_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_SECOND."'"));
 	$avail_SecondRound = mysql_num_rows(mysql_query("SELECT COUNT(*) FROM $project WHERE state = '".AVAIL_SECOND."'"));
@@ -74,7 +72,6 @@ if ($state == PROJ_PROOF_FIRST_AVAILABLE) {
 	}
 	$pagesleft += ($projectinfo->total_pages + $projectinfo->avail1_pages);
         $projectinfo->availablepages = $projectinfo->avail1_pages;
-        $state = mysql_result($allprojects, $rownum, "state");           	
 } elseif ($state == PROJ_PROOF_SECOND_BAD_PROJECT && $one_project) {
 	$bad_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".BAD_SECOND."'"));
 	$avail_SecondRound = mysql_num_rows(mysql_query("SELECT fileid FROM $project WHERE state = '".AVAIL_SECOND."'"));
