@@ -32,7 +32,7 @@ include($relPath.'project_states.inc');
 
     // Checks the user's permissions to make changes
     if (($sitemanager != 'yes') && ($pguser != $username)) {
-        echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"charlz@lvcablemodem.com\">site manager</a>.";
+        echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
     } else if ($newstate == PROJ_DELETE) {
         // Allows a user to delete a project as a last-case scenario

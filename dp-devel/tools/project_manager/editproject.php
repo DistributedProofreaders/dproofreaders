@@ -98,7 +98,7 @@ if (isset($posted) && (isset($saveAndQuit) || isset($quit))) {
 "You had requested to be let known once $NameofWork was ready to be available for reading and it is now available. Download the file at $ziplink and enjoy!\n\n
 --\n
 Distributed Proofreaders\n$siteurl/\n\nThis is an automated message that you had requested, please do not respond directly to this e-mail",
-             "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
             $rownum++;
         }
         $del = mysql_query("DELETE FROM usersettings WHERE value = '$project' AND setting = 'posted_notice'");

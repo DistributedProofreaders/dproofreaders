@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
     $project = $_GET['project'];
@@ -12,7 +13,7 @@ include($relPath.'dp_main.inc');
     $sitemanager = mysql_result($sql, 0, "sitemanager");
 
     if (($sitemanager != 'yes') && ($pguser != $username)) {
-        echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"charlz@lvcablemodem.com\">site manager</a>.";
+        echo "<P>You are not allowed to change the state on this project. If this message is an error, contact the <a href=\"mailto:$site_manager_email_addr\">site manager</a>.";
         echo "<P>Back to <a href=\"projectmgr.php\">project manager</a> page.";
     } else {
         if ($fileid == '') {

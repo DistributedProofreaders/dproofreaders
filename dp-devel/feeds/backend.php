@@ -69,7 +69,7 @@ $db_Connection=new dbConnect();
 				<link>$siteurl</link>
 				<description>The latest releases from Distributed Proofreaders posted to Project Gutenberg</description>
 				<language>en-us</language>
-				<webMaster>dphelp@texts01.archive.org</webMaster>
+				<webMaster>$site_manager_email_addr</webMaster>
 				<pubDate>$lastupdated</pubDate>
 				<lastBuildDate>$lastupdated</lastBuildDate>
 				$data
@@ -104,7 +104,7 @@ $db_Connection=new dbConnect();
 				<link>$siteurl</link>
 				<description>The latest news related to Distributed Proofreaders</description>
 				<language>en-us</language>
-				<webMaster>dphelp@texts01.archive.org</webMaster>
+				<webMaster>$site_manager_email_addr</webMaster>
 				<pubDate>$lastupdated</pubDate>
 				<lastBuildDate>$lastupdated</lastBuildDate>
 				$data

@@ -23,6 +23,7 @@ include_once($relPath.'maybe_mail.inc');
         //    project is ready for post-processing.
 
         global $projects_dir;
+		global $auto_email_addr;
 
         $projectpath = "$projects_dir/$project";
 
@@ -69,13 +70,13 @@ include_once($relPath.'maybe_mail.inc');
             maybe_mail("$email", "DP: $nameofwork Sent To Post-Processing",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
-                 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         } else {
             $result = mysql_query("UPDATE projects SET state = '".PROJ_POST_CHECKED_OUT."', modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
             maybe_mail("$email", "DP: $nameofwork Ready For You To Post-Process",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",
-                 "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
+                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
     }
 

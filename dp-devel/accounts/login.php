@@ -4,7 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'user.inc');
 $userC=new db_udb();
-$noLogin="Username or password is incorrect.<BR>If you feel you have received this message in error, please try to <A HREF=\"$reset_password_url\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:charlz@lvcablemodem.com\">webmaster</A>.<BR><A HREF=\"signin.php\">Back</A> to the sign in page.";
+$noLogin="Username or password is incorrect.<BR>If you feel you have received this message in error, please try to <A HREF=\"$reset_password_url\">reset</A> your password. If this fails, contact the <A HREF=\"mailto:$site_manager_email_addr\">site manager</A>.<BR><A HREF=\"signin.php\">Back</A> to the sign in page.";
 $htmlStart="<HTML><HEAD><TITLE>Login</TITLE>";
 $htmlMid="</HEAD><BODY>";
 $htmlEnd="</BODY></HTML>";
@@ -13,7 +13,7 @@ extract($_POST);
 
 if (ereg("[^A-Za-z0-9@ ]", $userNM) || ereg("[^A-Za-z0-9@ ]", $userPW) || strlen($userNM) > 25 || strlen($userPW) > 32)
 {
-    echo "Your username or password has invalid characters in it.  Please hit back & try again.  If you have any questions feel free to email <a href='dphelp@texts01.archive.org'>dphelp@texts01.archive.org</a>";
+    echo "Your username or password has invalid characters in it.  Please hit back & try again.  If you have any questions, feel free to contact the <a href='mailto:$site_manager_email_addr'>site manager</a>.";
     exit();
 }
 

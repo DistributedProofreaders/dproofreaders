@@ -19,7 +19,7 @@ theme("Project Managers", "header");
     $sitemanager = mysql_result($users, 0, "sitemanager");
 
     if ($manager == 'no') {
-        echo "<P>You are not listed as a project manager. Please contact the <a href=\"mailto: charlz@lvcablemodem.com\">site manager</A> about resolving this problem.";
+        echo "<P>You are not listed as a project manager. Please contact the <a href=\"mailto:$site_manager_email_addr\">site manager</A> about resolving this problem.";
         echo "<P>Back to <A HREF=\"../../default.php\">home page</A>";
     } else if ($project) {
         //if they have selected a project print out the detailed info for that project
@@ -32,7 +32,7 @@ theme("Project Managers", "header");
         $language = mysql_result($result, 0, "language");
 
         if (($manager != $pguser) && ($sitemanager != 'yes')) {
-            echo "<P>You are not listed as a project manager for this project. Please contact the <a href=\"mailto: charlz@lvcablemodem.com\">site manager</A> about resolving this problem.";
+            echo "<P>You are not listed as a project manager for this project. Please contact the <a href=\"mailto:$site_manager_email_addr\">site manager</A> about resolving this problem.";
             echo "<P>Back to <A HREF=\"projectmgr.php\">manager home page</A>";
         } else {
 

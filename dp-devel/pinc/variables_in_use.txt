@@ -22,7 +22,5 @@ dp_main.inc
             So, $_POST variables will overwrite $_GET variables with the same name.
 
 v_site.inc
-     $admin_email = administrators email
-     $admin_name = administrators name
 
 	 $siteurl

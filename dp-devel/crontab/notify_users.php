@@ -30,7 +30,7 @@ visit ($reset_password_url) to have
 it reset. We hope you care to join us, much has changed since you last saw us.\n\n
 Thanks!\n
 The Distributed Proofreaders Team", 
-"From: dphelp@texts01.archive.org\r\nReply-To: dphelp@texts01.archive.org\r\n");
+"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
 
         $rownum++;
