@@ -97,8 +97,8 @@ function draw_pages_graph(
     global $jpgraph_FF, $jpgraph_FS;
 
     //var_dump($x_dates); echo "<br>"; var_dump($y_actual_n_pages);
-    $n_datapoints = count($x_dates);
-    // assert( count($y_actual_n_pages) == $n_datapoints );
+    $n_datapoints = max( count($y_actual_n_pages), count($y_page_goal) );
+    // assert( count(x_dates$) == $n_datapoints );
     // assert( is_null($y_page_goal) || count($y_page_goal) == $n_datapoints );
 
     assert( $cumulative_or_increments == 'cumulative' || $cumulative_or_increments == 'increments' );
@@ -220,11 +220,11 @@ function draw_projects_graph(
 {
     global $jpgraph_FF, $jpgraph_FS;
 
-    $n_datapoints = count($x_dates);
+    $n_datapoints = count($y_num_projects);
     /*
-    if ( count($y_num_projects) != $n_datapoints )
+    if ( count($x_dates) != $n_datapoints )
     {
-        echo "$n_datapoints X values, but ". count($y_num_projects) ." Y values.<br>";
+        echo "$n_datapoints Y values, but ". count($x_dates) ." X values.<br>";
         die('aborting');
     }
     */
