@@ -107,7 +107,7 @@ function show_books_available_for_proofing( $round, $userP, $tList, $where_filte
 			// green for India
 			if (  startswith( $book['comments'], 'SPECIAL: India') )
 			{
-				$bgcolor = " bgcolor='#33FF66'";
+				$bgcolor = " bgcolor='#33FF99'";
 			}
 
 			// poppy red for Armistice Day, pale red for Christmas

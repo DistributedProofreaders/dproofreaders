@@ -17,7 +17,7 @@
         background-color: #00CC99;
 }
 .midgreen {
-        background-color: #33FF66;
+        background-color: #33FF99;
 }
 .paleblue {
         background-color: #CCFFFF;
