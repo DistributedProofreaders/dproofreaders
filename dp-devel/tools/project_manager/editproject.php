@@ -33,7 +33,7 @@ include($relPath.'dp_main.inc');
   round2_user varchar(25) NOT NULL default '',
   round1_time int(20) NOT NULL default '0',
   round2_time int(20) NOT NULL default '0',
-  state tinyint(3) unsigned NOT NULL default '0')",$db);
+  state tinyint(3) unsigned NOT NULL default '0')");
 
         mkdir ("../../projects/$projectid", 0777);
         chmod ("../../projects/$projectid", 0777);
@@ -45,7 +45,7 @@ modifieddate, clearance) VALUES ('$NameofWork','$AuthorsName','$Language','$pgus
 
 
         $result = mysql_query($sql);
-        echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+        echo "<p><META HTTP-EQUIV=\"refresh\" CONTENT=\"30 ;URL=projectmgr.php\">";
 
     } else if (($button3 != "") && ($action == "update")) {
         $sql = mysql_query("UPDATE projects SET clearance = '$clearance', NameofWork = '$NameofWork', AuthorsName = '$AuthorsName', postednum = '$postednum', comments = '$comments', Language = '$Language', scannercredit = '$scannercredit', txtlink = '$txtlink', ziplink = '$ziplink', htmllink = '$htmllink' WHERE projectid = '$projectid'"); 
