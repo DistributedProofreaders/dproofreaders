@@ -1,4 +1,4 @@
-<?
+﻿<?
 // This include file holds functions needed for various language issues.
 // It is meant to be designed as if it is a class - at first I wanted to make
 // a class, but as it needs no instantiation and PHP does not support static 
@@ -112,7 +112,7 @@ function lang_code($shortcode) {
 	global $locales;
 
 	$l=&$shortcode;
-	if($locales[$l]||$locales[$l=substr($l,0,5)]||$locales[$l=substr($l,0,2)]) return $locales[$l];
+	if(in_array($l, $locales) && ($locales[$l]||$locales[$l=substr($l,0,5)]||$locales[$l=substr($l,0,2)])) return $locales[$l];
 	return FALSE;
 }
 
