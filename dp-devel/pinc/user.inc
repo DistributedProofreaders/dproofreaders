@@ -8,22 +8,22 @@ class db_udb
 function db_udb()
 {$this->cookieDomain=(substr_count($_SERVER['SERVER_NAME'], ".")) > 0? $_SERVER['SERVER_NAME'] : "";}
 
-function checkSafe($uInfo)
+function checkSafe($uInfo,$chktype)
      {
      /*
        insert regular expression check to validate/security check
-       user name and password form data
+       user name (1) and password (2) form data
      */
      return 1;
       }
 
 function checkUID($userID)
-     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID)) 
+     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1)) 
           {return 1;}
       else {return 0;}
      }
 function checkUPW($userPW)
-     {if (strcmp($userPW,$_POST['userPW'])==0 && $this->checkSafe($userPW))
+     {if (strcmp($userPW,$_POST['userPW'])==0 && $this->checkSafe($userPW,2))
           {return 1;}
      else {return 0;}
      }
