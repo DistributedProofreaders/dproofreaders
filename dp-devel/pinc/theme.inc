@@ -131,7 +131,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
     //Create the name of the page
     	echo "<a href='$code_url/default.php'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
-        if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> » $nameofpage</font>\n"; }
+        if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> &#187; $nameofpage</font>\n"; }
 	echo "</td>\n";
 
     //Code to display login form if not logged in

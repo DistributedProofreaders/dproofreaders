@@ -89,20 +89,20 @@ theme('Proofing Guidelines -- Copyright Renewal Books','header');
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translated from the Latin by C. K. <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Scott Moncrieff, with a prefatory  <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; letter by George Moore. (The Blue  <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jade library) © 19Feb26, (pub.     <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jade library) &#169; 19Feb26, (pub.<br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; abroad 17Sep25, AI-7349), A883674. <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R112040, 15May53, Alfred A. Knopf, <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc. (PWH)                         <br>
                                                                                 <br>
             &nbsp;&nbsp;&nbsp; Love letters of Abelard and Heloise,             <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; edited by Lloyd E. Smith. (Little  <br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blue book, no. 871) © 31Aug25,     <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blue book, no. 871) &#169; 31Aug25,<br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A867103. R111277, 23Apr53,         <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Haldeman-Julius Co. (PWH)          <br>
                                                                                 <br>
                                                                                 <br>
           ABBOT, CHARLES G.                                                     <br>
-            &nbsp;&nbsp;&nbsp; The earth and the stars. © 2Sep25,               <br>
+            &nbsp;&nbsp;&nbsp; The earth and the stars. &#169; 2Sep25,          <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A864710. R112347, 20May53,         <br>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Charles G. Abbot (A)               <br>
                                                                                 <br>
