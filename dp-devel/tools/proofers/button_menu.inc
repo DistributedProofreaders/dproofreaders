@@ -2,6 +2,7 @@
 include($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc');
 include($relPath.'button_defs.inc');
+include_once('page_misc.inc');
 
 ?>
 <script language="javascript">
@@ -9,11 +10,6 @@ function disableEnterKey() {
 	if (window.event.keyCode == 13) window.event.keyCode = 0;
 }
 </script>
-<?
-// get bad page code
-      $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-      $b_code = mysql_result($result, 0, "b_code");
-      ?>
 <A
 HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left')"></A><A
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A
@@ -73,7 +69,7 @@ echo "\n";
 ?>
 <a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
-href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
+href="<? echo project_comments_url($npage); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?
 
 echo_button(SPELL_CHECK,'a');
@@ -88,7 +84,7 @@ echo "\n";
 echo_button(RETURN_PAGE,'a');
 echo "\n";
 
-if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
+if (ReportBadPage_button_should_be_shown($npage,$pguser))
 {
     echo_button(REPORT_BAD_PAGE,'a');
     echo "\n";

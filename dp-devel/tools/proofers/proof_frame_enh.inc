@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
+include_once('page_misc.inc');
 
 // get cookie
 $npage = getPageCookie();
@@ -11,9 +12,6 @@ $npage = getPageCookie();
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
 
-// get page language
-$result = mysql_query("SELECT language FROM projects WHERE projectid='".$npage['project']."'");
-$lang=proj_lang_code(mysql_result($result,0,"language"),"primary");
 
 // set image and text height and width
   if ($userP['i_layout']=='1')
@@ -228,7 +226,7 @@ id="imagevert"><table
 id="imageframe"><div
 id="imagedisplay"><a href="JavaScript: //"><img
 name="scanimage" id="scanimage" title="" alt=""
-src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>"
+src="<?PHP echo page_image_url($npage);?>"
 border="0" width="<?PHP
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
@@ -240,17 +238,9 @@ id="controlframe" align="center"><form
       name="editform" id="editform"
       method="POST"
       action="processtext.php"><?PHP
-// set values for hidden form fields
-  $sHidFS="<input \r\ntype=\"hidden\" value=\"";
-  $sHidFM="\" name=\"";
-  $sHidFM2="\" id=\"";
-  $sHidFE="\">";
-  echo $sHidFS.$npage['image'].$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
-  echo $sHidFS.$npage['fileid'].$sHidFM.'fileid'.$sHidFM2.'fileid'.$sHidFE;
-  echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate'.$sHidFM2.'proofstate'.$sHidFE;
-  echo $sHidFS.$npage['pagestate'].$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
-  echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-  echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
+
+echo_hidden_fields($npage);
+
 ?><table
   id="tbtext"
   cellspacing="0"
@@ -267,18 +257,9 @@ id="controlframe" align="center"><form
 ?></td></tr><tr><td
   id="tdbottom"
   valign="top"><?PHP
-//display page number
-  $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><b>"._("Page: $pageNum");
-    if (getProjectRound($npage['proofstate']) == 2)
-    {
-      $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-      $username = mysql_result($result, 0, "round1_user");
-      $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-      $user_id = mysql_result($result, 0, "user_id");
-      echo " - "._("Proofread by:")." <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
-    }
-  echo "</b></font>";
+
+echo_page_info($npage);
+
 ?>
   </td>
   </tr>

@@ -5,16 +5,13 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once('textarea.inc');
+include_once('page_misc.inc');
 
 // get cookie
 $npage = getPageCookie();
 
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
-
-// get bad page code
-      $result = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-      $b_code = mysql_result($result, 0, "b_code");
 
 if ($npage['spcheck']==2)
   {
@@ -24,9 +21,6 @@ if ($npage['spcheck']==2)
     $npage['text'] = implode( '', file("$aspell_temp_dir/$text_file") );
   }
 
-// get page language
-	$result = mysql_query("SELECT language FROM projects WHERE projectid='".$npage['project']."'");
-	$lang=proj_lang_code(mysql_result($result,0,"language"),"primary");
 
 slim_header("Text Frame",TRUE,FALSE);
 ?>
@@ -47,17 +41,7 @@ slim_header("Text Frame",TRUE,FALSE);
 ?>
 <BR>
 <?
-// set values for hidden form fields
-  $sHidFS="<input type=\"hidden\" value=\"";
-  $sHidFM="\" name=\"";
-  $sHidFM2="\" id=\"";
-  $sHidFE="\">\n";
-  echo $sHidFS.$npage['image'].$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
-  echo $sHidFS.$npage['fileid'].$sHidFM.'fileid'.$sHidFM2.'fileid'.$sHidFE;
-  echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate'.$sHidFM2.'proofstate'.$sHidFE;
-  echo $sHidFS.$npage['pagestate'].$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
-  echo $sHidFS.$npage['project'].$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-  echo $sHidFS.$lang.$sHidFM.'lang'.$sHidFM2.'lang'.$sHidFE;
+	echo_hidden_fields($npage);
 
 	echo_button(SAVE_AS_IN_PROGRESS,'s');
 	if (!isset($editone))
@@ -71,7 +55,8 @@ slim_header("Text Frame",TRUE,FALSE);
 
 	echo_button(CHANGE_LAYOUT,'s');
 	echo_button(RETURN_PAGE,'s');
-	if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
+
+	if ( ReportBadPage_button_should_be_shown($npage,$pguser) )
 	{
 		echo_button(REPORT_BAD_PAGE,'s');
 	}
@@ -82,21 +67,13 @@ slim_header("Text Frame",TRUE,FALSE);
 
 	echo "<br>\n";
 
-//display page number
-  $pageNum=substr($npage['image'],0,-4);
-  echo "<font size=\"-1\"><b>"._("Page: $pageNum");
-    if (getProjectRound($npage['proofstate']) == 2)
-    {
-      $result = mysql_query("SELECT round1_user FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-      $username = mysql_result($result, 0, "round1_user");
-      $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-      $user_id = mysql_result($result, 0, "user_id");
-      echo " - "._("Proofread by:")." <a href=\"$forums_url/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>";
-    }
-  echo "</b></font>\n";
+	echo_page_info($npage);
+
   echo "<BR>\n";
-  echo _("View:")." <a href=\"projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1\" target=\"viewcomments\">"._("Project Comments")."</a> ";
-  echo "| <a href=\"$projects_url/{$npage['project']}/{$npage['image']}\" target=\"lg_image\">"._("Image")."</a> ";
+  $comments_url = project_comments_url($npage);
+  echo _("View:")." <a href=\"$comments_url\" target=\"viewcomments\">"._("Project Comments")."</a> ";
+  $image_url = page_image_url($npage);
+  echo "| <a href=\"$image_url\" target=\"lg_image\">"._("Image")."</a> ";
 ?>
 <br>
 <? echo _("Image Resize:"); ?>
