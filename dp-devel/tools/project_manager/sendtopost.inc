@@ -1,10 +1,9 @@
 <?
-
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 
-    function sendtopost($project, $username, $todaysdate) {
+//    function sendtopost($project, $username, $todaysdate) {
         // Prepare a project for post-processing.
         //
         // $project: the unique id of the project.
@@ -23,7 +22,7 @@ include_once($relPath.'maybe_mail.inc');
         //    project is ready for post-processing.
 
         global $projects_dir;
-		global $auto_email_addr;
+	  global $auto_email_addr;
 
         $projectpath = "$projects_dir/$project";
 
@@ -37,20 +36,21 @@ include_once($relPath.'maybe_mail.inc');
         // Generate joined text file, and a zip of it.
         $savepath = $projectpath."/".$project.".txt";
         $fp = fopen($savepath, "w"); //open file for writing
-        if ( $fp )
-        {
-            join_proofed_text ($project, $fp);
 
-            // close the file
-            fclose ($fp);
+		join_proofed_text ($project, $fp);
 
-            //create zip copy of file
-            exec ("zip -j $projectpath/$project.zip $savepath");
-        }
-        else
-        {
-            echo "skipping the creation of $savepath and $projectpath/$project.zip<br>\n";
-        }
+        // Genereate Joing text file as TEI and a zip of it.
+        $savepath = $projectpath."/".$project."_TEI".".txt";
+        $fp = fopen($savepath, "w"); //open file for writing
+
+                join_proofed_text_tei ($project, $fp);
+    
+echo "got this far";
+    // close the file
+        fclose ($fp);
+
+        //create zip copy of file
+        exec ("zip -j $projectpath/$project.zip $savepath");
 
         // Decide whether to send to post-processing or have user work on it.
 
@@ -67,33 +67,64 @@ include_once($relPath.'maybe_mail.inc');
         if ($send_to_post == "yes") {
             $sql = "UPDATE projects SET state='".PROJ_POST_AVAILABLE."', modifieddate = '$todaysdate' WHERE projectid = '$project'";
             $result = mysql_query($sql);
-            maybe_mail("$email", "DP: $nameofwork Sent To Post-Processing",
+            mail("$email", "DP: $nameofwork Sent To Post-Processing",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
                  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         } else {
             $result = mysql_query("UPDATE projects SET state = '".PROJ_POST_CHECKED_OUT."', modifieddate = '$todaysdate', checkedoutby = '$username' WHERE projectid = '$project'");
-            maybe_mail("$email", "DP: $nameofwork Ready For You To Post-Process",
+            mail("$email", "DP: $nameofwork Ready For You To Post-Process",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",
                  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
-    }
+//    }
 
-    $EOL="\r\n";
+
+    function join_proofed_text ($project, $fp) {
+		// Join the round 2 page-texts of the given project,
+		// and write the result to file-object $fp.
+		//
+        $carriagereturn = chr(13);
+        $linefeed = chr(10);
+        $indicator1 = "-----------------------File: ";
+        $indicator2 = "----------------------------";
+        $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
+        $pagebreak2 = $indicator2.$carriagereturn.$linefeed;
+
+        $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
+        $mynumrows = mysql_numrows($myresult);
+        $count = 0;
+        while ($count < $mynumrows) {
+            $filename = mysql_result($myresult, $count, "image");
+            $text_data = mysql_result($myresult, $count, "round2_text");
+
+            $fileinfo = $pagebreak1.$filename.$pagebreak2.$text_data;
+            fputs($fp,$fileinfo);
+            $count++;
+        } //end else
+	}
+
+
+
+        $carriagereturn = chr(13);   
+        $linefeed = chr(10);
+
+
     // Using the Windows end-of-line convention.
     // Tough luck for Mac or Unix users.
 
-    function join_proofed_text ($project, $fp) {
+
+
+    function join_proofed_text_tei ($project, $fp) {
         // Join the round 2 page-texts of the given project,
         // and write the result to file-object $fp.
-        //
+       
 
-        global $EOL;
-        global $siteurl;
-        global $projects_url;
+
 
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
+//echo mysql_errno().": ".mysql_error()."<BR>";
         $row = mysql_fetch_row($result);
 
         $nameofwork  = $row[0];
@@ -101,76 +132,77 @@ include_once($relPath.'maybe_mail.inc');
         $language    = $row[2];
         $postednum   = $row[3];
 
-        fputs($fp,"<TEI.2>$EOL");
-
+//        fputs($fp,"<TEI.2>\r\n");
+        fputs($fp,"<TEI.2>\r\n");
         // Dump the teiHeader.
         // The info for this might preferably come from
         // a database of MARC records.
-        fputs($fp,"    <teiHeader>$EOL");
-        fputs($fp,"        <fileDesc>$EOL");
-        fputs($fp,"            <titleStmt>$EOL");
-        fputs($fp,"                <title>$nameofwork</title>$EOL");
-        fputs($fp,"                <author>$authorsname</author>$EOL");
-        fputs($fp,"            </titleStmt>$EOL");
-        fputs($fp,"            <publicationStmt>$EOL");
-        fputs($fp,"                <publisher>Project Gutenberg</publisher>$EOL");
-        fputs($fp,"                <pubPlace>Urbana</pubPlace>$EOL");
-        fputs($fp,"                <date>2003</date>$EOL");
-        fputs($fp,"                <idno type='PGnum'>$postednum</idno>$EOL");
-        fputs($fp,"                <idno type='DPid'>$project</idno>$EOL");
-        fputs($fp,"                <availability>Public Domain</availability>$EOL");
-        fputs($fp,"            </publicationStmt>$EOL");
-        fputs($fp,"            <sourceDesc>$EOL");
-        fputs($fp,"                (Project Gutenberg doesn't like to be specific$EOL");
-        fputs($fp,"                as to particular source edition.)$EOL");
-        fputs($fp,"            </sourceDesc>$EOL");
-        fputs($fp,"        </fileDesc>$EOL");
-        fputs($fp,"        <encodingDesc>$EOL");
-        fputs($fp,"            <projectDesc>$EOL");
-        fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],$EOL");
-        fputs($fp,"                and the Online Distributed Proofreading Team at$EOL");
-        fputs($fp,"                <$siteurl>.$EOL");
-        fputs($fp,"                Page-images available at$EOL");
-        fputs($fp,"                $projects_url/$project/$EOL");
-        fputs($fp,"            </projectDesc>$EOL");
-        fputs($fp,"        </encodingDesc>$EOL");
-        fputs($fp,"    </teiHeader>$EOL");
+        fputs($fp,"    <teiHeader>\r\n");
+        fputs($fp,"        <fileDesc>\r\n");
+        fputs($fp,"            <titleStmt>\r\n");
+        fputs($fp,"                <title>$nameofwork</title>\r\n");
+        fputs($fp,"                <author>$authorsname</author>\r\n");
+        fputs($fp,"            </titleStmt>\r\n");
+        fputs($fp,"            <publicationStmt>\r\n");
+        fputs($fp,"                <publisher>Project Gutenberg</publisher>\r\n");
+        fputs($fp,"                <pubPlace>Urbana</pubPlace>\r\n");
+        fputs($fp,"                <date>2003</date>\r\n");
+        fputs($fp,"                <idno type='PGnum'>$postednum</idno>\r\n");
+        fputs($fp,"                <idno type='DPid'>$project</idno>\r\n");
+        fputs($fp,"                <availability>Public Domain</availability>\r\n");
+        fputs($fp,"            </publicationStmt>\r\n");
+        fputs($fp,"            <sourceDesc>\r\n");
+        fputs($fp,"                (Project Gutenberg doesn't like to be specific\r\n");
+        fputs($fp,"                as to particular source edition.)\r\n");
+        fputs($fp,"            </sourceDesc>\r\n");
+        fputs($fp,"        </fileDesc>\r\n");
+        fputs($fp,"        <encodingDesc>\r\n");
+        fputs($fp,"            <projectDesc>\r\n");
+        fputs($fp,"                Produced by [project manager], [post-processor], [scanner?],\r\n");
+        fputs($fp,"                and the Online Distributed Proofreading Team at\r\n");
+        fputs($fp,"                <$siteurl>.\r\n");
+        fputs($fp,"                Page-images available at\r\n");
+        fputs($fp,"                <$projects_url/$project/\r\n");
+        fputs($fp,"            </projectDesc>\r\n");
+        fputs($fp,"        </encodingDesc>\r\n");
+        fputs($fp,"    </teiHeader>\r\n");
 
-        fputs($fp,"    <text>$EOL");
-        fputs($fp,"        <front>$EOL");
-        fputs($fp,"            <titlePage>$EOL");
-        fputs($fp,"                <!--$EOL");
-        fputs($fp,"                Move Title Page text to here.$EOL");
-        fputs($fp,"                Mark it up something like this example:$EOL");
-        fputs($fp,"                <docTitle>$EOL");
-        fputs($fp,"                    <titlePart type='main'>LOST ON THE MOON</titlePart>$EOL");
-        fputs($fp,"                    <titlePart>OR</titlePart>$EOL");
-        fputs($fp,"                    <titlePart type='alt'>IN QUEST OF THE FIELD OF DIAMONDS</titlePart>$EOL");
-        fputs($fp,"                    <byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other works]</byline>$EOL");
-        fputs($fp,"                    <docDate>1911</docDate>$EOL");
-        fputs($fp,"                </docTitle>$EOL");
-        fputs($fp,"                -->$EOL");
-        fputs($fp,"            </titlePage>$EOL");
-        fputs($fp,"            <div type='contents'>$EOL");
-        fputs($fp,"                <!--$EOL");
-        fputs($fp,"                Move Table of Contents text to here.$EOL");
-        fputs($fp,"                Mark it up like so:$EOL");
-        fputs($fp,"                <list type='ordered'>$EOL");
-        fputs($fp,"                <item>[title of chapter one]</item>$EOL");
-        fputs($fp,"                <item>[title of chapter two]</item>$EOL");
-        fputs($fp,"                ...$EOL");
-        fputs($fp,"                </list>$EOL");
-        fputs($fp,"                -->$EOL");
-        fputs($fp,"            </div>$EOL");
-        fputs($fp,"        </front>$EOL");
-        fputs($fp,"        <body>$EOL");
+        fputs($fp,"    <text>\r\n");
+        fputs($fp,"        <front>\r\n");
+        fputs($fp,"            <titlePage>\r\n");
+        fputs($fp,"                <!--\r\n");
+        fputs($fp,"                Move Title Page text to here.\r\n");
+        fputs($fp,"                Mark it up something like this example:\r\n");
+        fputs($fp,"                <docTitle>\r\n");
+        fputs($fp,"                    <titlePart type='main'>LOST ON THE MOON</titlePart>\r\n");
+        fputs($fp,"                    <titlePart>OR</titlePart>\r\n");
+        fputs($fp,"                    <titlePart type='alt'>IN QUEST OF THE FIELD OF DIAMONDS</titlePart>\r\n");
+        fputs($fp,"                    <byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other 
+works]</byline>\r\n");
+        fputs($fp,"                    <docDate>1911</docDate>\r\n");
+        fputs($fp,"                </docTitle>\r\n");
+        fputs($fp,"                -->\r\n");
+        fputs($fp,"            </titlePage>\r\n");
+        fputs($fp,"            <div type='contents'>\r\n");
+        fputs($fp,"                <!--\r\n");
+        fputs($fp,"                Move Table of Contents text to here.\r\n");
+        fputs($fp,"                Mark it up like so:\r\n");
+        fputs($fp,"                <list type='ordered'>\r\n");
+        fputs($fp,"                <item>[title of chapter one]</item>\r\n");
+        fputs($fp,"                <item>[title of chapter two]</item>\r\n");
+        fputs($fp,"                ...\r\n");
+        fputs($fp,"                </list>\r\n");
+        fputs($fp,"                -->\r\n");
+        fputs($fp,"            </div>\r\n");
+        fputs($fp,"        </front>\r\n");
+        fputs($fp,"        <body>\r\n");
 
         $myresult = mysql_query("SELECT image, round2_text FROM $project ORDER BY image");
         $mynumrows = mysql_numrows($myresult);
         $count = 0;
         while ($count < $mynumrows) {
             $filename = mysql_result($myresult, $count, "image");
-            fputs($fp,"<pb n='$filename'/>$EOL");
+            fputs($fp,"\r\n\r\n<pb n='$filename'/>\r\n\r\n");
 
             $text_data = mysql_result($myresult, $count, "round2_text");
             put_page_text($text_data, $fp);
@@ -178,16 +210,16 @@ include_once($relPath.'maybe_mail.inc');
             $count++;
         } //end else
 
-        fputs($fp,"        </body>$EOL");
-        fputs($fp,"        <back>$EOL");
-        fputs($fp,"        </back>$EOL");
-        fputs($fp,"    </text>$EOL");
-        fputs($fp,"</TEI.2>$EOL");
+        fputs($fp,"        </body>\r\n");
+        fputs($fp,"        <back>\r\n");
+        fputs($fp,"        </back>\r\n");
+        fputs($fp,"    </text>\r\n");
+        fputs($fp,"</TEI.2>\r\n");
     }
 
     function put_page_text( $page_text, $fp )
     {
-        global $EOL;
+//        global \r\n;
 
         $page_text = eregi_replace( "<i>", "<hi rend='i'>", $page_text );
         $page_text = eregi_replace( "</i>", "</hi>", $page_text );
@@ -196,20 +228,22 @@ include_once($relPath.'maybe_mail.inc');
 
         // Convert [Illustration...] blocks, and ensure that each
         // constitutes a separate "chunk".
+//        $page_text = eregi_replace(
+//            "\[Illustration\]",
+//            "\r\n\r\n<figure></figure>\r\n\r\n",
+//            $page_text );
         $page_text = eregi_replace(
-            "\[Illustration\]",
-            "$EOL$EOL<figure></figure>$EOL$EOL",
-            $page_text );
-        $page_text = eregi_replace(
-            "\[Illustration: (.*?)\]",
-            "$EOL$EOL<figure><head>\1</head></figure>$EOL$EOL",
+//              "\[Illustration: (.*?)\]",
+            "\[Illustration: (.*)\]",
+            "\r\n\r\n<figure><head>\1</head></figure>\r\n\r\n",
             $page_text );
 
         // Ditto [Footnote: ] blocks.
-        $page_text = eregi_replace(
-            "\[Footnote: (.*?)\]",
-            "$EOL$EOL<note place='foot'>\1</note>$EOL$EOL",
-            $page_text );
+//        $page_text = eregi_replace(
+//           "\[Footnote: (*)\]",
+//            "\[Footnote: (.*?)\]",
+//            "\r\n\r\n<note place='foot'>\1</note>\r\n\r\n",
+//            $page_text );
 
         // Ditto preformatted blocks.
         $page_text = preg_replace_callback(
@@ -219,9 +253,14 @@ include_once($relPath.'maybe_mail.inc');
         // Remove whitespace (including EOLs) at the start or end of the page.
         $page_text = trim( $page_text );
 
+
+
         // Now split the content of the page on sequences of 2 or more EOLs
         // (i.e., sequences of 1 or more blank lines)
-        $chunks = preg_split( "/$EOL($EOL)+/", $page_text );
+        
+        // old line, split every character
+               $chunks = preg_split( "/\r\n(\r\n)+/", $page_text );
+    //    $chunks = preg_split( "/\n\n+/", $page_text );
         // The only remaining EOLs must be singles, embedded within chunks.
 
         // Handle each chunk:
@@ -232,16 +271,16 @@ include_once($relPath.'maybe_mail.inc');
             // Separate chunks with a blank line.
             if ( $i > 0 )
             {
-                fputs($fp, $EOL);
+                fputs($fp, "\r\n");
             }
 
             if ( startswith( $chunk, '<figure>' ) || startswith( $chunk, '<lg>' ) )
             {
-                fputs($fp, "$chunk$EOL");
+                fputs($fp, "$chunk\r\n");
             }
             else
             {
-                fputs($fp, "<p>$EOL$chunk$EOL</p>$EOL");
+                fputs($fp, "<p>\r\n$chunk\r\n</p>\r\n");
             }
         }
     }
@@ -251,7 +290,7 @@ include_once($relPath.'maybe_mail.inc');
     // $matches[0] is the whole chunk, including delimiters.
     // $matches[1] is the body of the chunk, between the delimiters.
     {
-        global $EOL;
+    //    global \r\n;
 
         $s = $matches[1];
 
@@ -260,7 +299,7 @@ include_once($relPath.'maybe_mail.inc');
         $s = preg_replace( '/(\n *)([^ ].*) *(\r)/', '\1<l>\2</l>\3', $s );
 
         // And put the whole thing in an <lg> element.
-        return "$EOL$EOL<lg>$s</lg>$EOL$EOL";
+        return "\r\n\r\n<lg>$s</lg>\r\n\r\n";
     }
 
     function startswith( $subject, $prefix )
@@ -269,5 +308,7 @@ include_once($relPath.'maybe_mail.inc');
         return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 
     }
+
+
 
 ?>
