@@ -152,6 +152,71 @@ function users_get_page_tally_ranks()
 
     return $rankArray;
 }
+
+// -----------------------------------------------------------------------------
+
+function get_user_page_tally_rank_array( $username, $consider_privacy )
+// Return an array of information about page-tally ranks for users,
+// biased toward $username.
+{
+    $rankArray = array();
+
+    $result = mysql_query("
+        SELECT username, pagescompleted, u_privacy
+        FROM users
+        WHERE pagescompleted > 0
+        ORDER BY pagescompleted DESC
+    ");
+    $i = 0;
+    $lastcompleted = -1000; // A value that the first $row['pagescompleted'] will not be equal to.
+    while ($row = mysql_fetch_assoc($result))
+    {
+        if ($row['username'] == $username)
+        {
+            $userindex = $i;
+        }
+
+        if ($row['pagescompleted'] == $lastcompleted)
+        {
+            $rankArray['rank'][$i] = $rankArray['rank'][$i - 1];
+        }
+        else
+        {
+            $rankArray['rank'][$i] = $i+1;
+        }
+
+        if ($consider_privacy && $row['u_privacy'] == PRIVACY_ANONYMOUS && $row['username'] != $username)
+        {
+            $rankArray['username'][$i] = _("Anonymous");
+        }
+        else
+        {
+            $rankArray['username'][$i] = $row['username'];
+        }
+        $rankArray['pages'][$i] = $row['pagescompleted'];
+        $lastcompleted = $row['pagescompleted'];
+        $i++;
+    }
+
+    if (!isset($userindex))
+    {
+        $userindex = $i;
+        $rankArray['username'][$userindex] = $username;
+        $rankArray['pages'][$userindex] = 0;
+        $rankArray['rank'][$userindex] = $userindex+1;
+        $rankArray['totalRanks'] = $userindex+1;
+    }
+    else
+    {
+        $rankArray['totalRanks'] = $rankArray['rank'][$i-1];
+    }
+
+    $rankArray['curMbrRank'] = $rankArray['rank'][$userindex];
+    $rankArray['curMbrIndex'] = $userindex;
+
+    return $rankArray;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function team_get_page_tally_rank( $team_id )
