@@ -175,9 +175,24 @@ if ($tbutton==102)
   // just give them the text
     $correct_text=str_replace("[lf]","\r\n",stripslashes($text_data));
     $npage=$tpage->getPageCookie();
-    $npage['spcheck']=0;
+    if ($userP['i_type']==1)
+      {$npage['spcheck']=0;}
+    else
+      {$npage['spcheck']=2;}
     $tpage->setTempPageCookie($npage);
     $inCheck=1;
-    include('text_frame.php');
+    if ($userP['i_type']==1)
+      {include('text_frame.php');}
+    else
+      {
+        // write file
+          include_once($relPath.'sp_check_user.inc');
+          $text_file= $project.substr($imagefile,0,-4).".txt";
+          $text_array= explode("[lf]",$text_data);
+          $correct_text.=implode("\r\n",$text_array);
+          if ($fd=fopen($text_dir.$text_file,"w"))
+            {fwrite($fd,stripslashes($correct_text));}
+        include ('proof_frame_nj.inc');
+      }
 } // end exit spelling corrections
 ?>

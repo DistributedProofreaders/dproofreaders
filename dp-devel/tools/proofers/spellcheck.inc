@@ -36,7 +36,12 @@ echo $docType."\r\n";
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.menuframe.ldAll(1);}
+{top.menuframe.ldAll(<?PHP
+  if ($userP['i_type']==1)
+    {echo "2";}
+  else
+    {echo "3";}
+?>);}
 function scrollImage(sDir)
 {top.menuframe.scrollImage(sDir);}
 function scrollOver(sDir)
@@ -147,6 +152,17 @@ A:active {
     echo "height:".$textHeight."%;\r\n";
   ?>
   clip:rect(0px, 100%, 100%, 0px);
+  background-color:#CDCDC1;
+  overflow:auto;
+  text-align:center;
+  z-index:6;
+  }
+#allframe { 
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height=100%;
   background-color:#CDCDC1;
   overflow:auto;
   text-align:center;
@@ -321,6 +337,8 @@ if ($fd=fopen($text_dir.$text_file,"w"))
   } // end  spellNoSuggest
 
   // print basic image html
+    if ($userP['i_type']==1)
+      {
 ?>
 <div 
 id="imagehorz"><table 
@@ -360,10 +378,19 @@ border="0" width="<?PHP
   $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
 ?>"></div></div><div 
-id="controlframe"><form 
+id="controlframe"><?PHP 
+      }
+    else
+      {
+       echo "<div \r\nid=\"allframe\">";
+      }
+?><form 
 name="spcorrects" action="processtext.php" method="POST"><table 
   id="tbtext" 
-  cellpadding="10"><tr><td 
+  cellpadding="10"><tr><?PHP
+    if ($userP['i_type'] !=1)
+      {echo "<td id=\"tdbottom\"><a href=\"../../projects/$projectname/$imagefile\" target=\"imageshowwin\">View Image</a></td></tr><tr>";}
+?><td 
   id="tdtext" 
   valign="top">
 <?PHP

@@ -1,6 +1,6 @@
 <?PHP
-include($relPath.'doctype.inc');
-include($relPath.'c_pages.inc');
+include_once($relPath.'doctype.inc');
+include_once($relPath.'c_pages.inc');
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
 
@@ -13,6 +13,16 @@ $tpage->setPageState($npage['pagestate'],$npage['project'],$npage['fileid'],$npa
 // get page text
 $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate'],$npage['saved'],$npage['revert']);
 
+if ($npage['spcheck']==2)
+  {
+    include_once($relPath.'sp_check_user.inc');
+    $text_file= $npage['project'].substr($npage['image'],0,-4).".txt";
+    $npage['spcheck']=0;
+    $tpage->setTempPageCookie($npage);
+    $loadFile=1;
+  }
+else
+  {$loadFile=0;}
 echo $docType."\r\n";
 ?>
 <html><head><TITLE>Text Frame</TITLE></head><body 
@@ -33,7 +43,10 @@ function resize(newsize)
     else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
   $twrap=$twrap==1? '': " wrap=\"off\"";
   echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
-  echo $npage['text'];
+  if ($loadFile==1)
+    {include($text_dir.$text_file);}
+  else
+    {echo $npage['text'];}
 ?></textarea>
 <BR>
 <?
@@ -55,7 +68,8 @@ if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save 
 <INPUT TYPE="Submit" accesskey="9" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit?'));" VALUE="Quit" name="button3" title="Quit without Saving"><BR>
 <INPUT TYPE="submit" accesskey="6" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" name="button4" ID="button4" title="Save and Change Interface Layout" VALUE="Switch to <?PHP if ($userP['i_layout']==1) {echo "Horizontal";} else {echo "Vertical";} ?>"> <INPUT 
 TYPE="submit" accesskey="3" name="button7" ID="button7" value="Return Page to Round" onclick="return(confirm('Are you sure you want to \r\nreturn this page to the current round?'));"> <INPUT 
-TYPE="submit" accesskey="4" name="button6" ID="button6" value="Report Bad Page" onclick="return(confirm('Are you sure you want to \r\nreport this page as bad?'));"><BR>
+TYPE="submit" accesskey="4" name="button6" ID="button6" value="Report Bad Page" onclick="return(confirm('Are you sure you want to \r\nreport this page as bad?'));"><BR><INPUT 
+TYPE="submit" name="button10" ID="button10" value="Spell Check"><br>
 <?
 //display page number
   $pageNum=substr($npage['image'],0,-4);

@@ -230,12 +230,23 @@ function ldAll(wFace)
       cnSel=docRef.selection? true : false;
       setLayer();
     }
-  else
+  else if (wFace==0)
     {
       docRef=top.proofframe.textframe.document;
       cnSel=docRef.selection? true : false;
 //      cnSel=false;
       //doBU();
+    }
+  else if (wFace==2)
+    {
+      docRef=top.proofframe.document;
+      cnSel=false;
+      setLayer();
+    }
+  else if (wFace==3)
+    {
+      docRef=top.proofframe.textframe.document;
+      cnSel=false;
     }
 }
 inProof=0;
