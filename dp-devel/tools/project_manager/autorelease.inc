@@ -190,37 +190,45 @@ function autorelease()
 
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
+            $is_special = ( substr($project['comments'], 0, strlen('SPECIAL:')) == 'SPECIAL:' );
 
-            // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
-            // Otherwise we only allow one book by the author to be available in first round
-
-		  // TODO: Add a flag to some queues that all have identical authors that allows
-		  // a queue-defined limit of identical authors - eg some of the periodicals that have short
-            // issues
-
-            if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
-                (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
-                (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
-		            (array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
+            if ($is_special)
             {
-                echo "        Its author, $authorsname, already has a project(s) in first round.\n";
-                continue;
+                echo "        It's special, so it's exempt from release restrictions.\n";
             }
-
-            // If a PM has more than 10 books already in round 1, their books should be skipped
-
-            if ((array_key_exists($pm, $first_round_pms)) && ($first_round_pms[$pm] > 10))
+            else
             {
-                echo "        The PM, $pm, already has $first_round_pms[$pm] projects in first round.\n";
-                continue;
-            }
+                // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
+                // Otherwise we only allow one book by the author to be available in first round
 
-            // If a PM has had a book released in this execution of the script, pass over it until next time
+                // TODO: Add a flag to some queues that all have identical authors that allows
+                // a queue-defined limit of identical authors - eg some of the periodicals that have short
+                // issues
 
-            if (array_key_exists($pm, $fresh_released_pms))
-            {
-                echo "        The PM, $pm, already has had a project released during this execution of the release script.\n";
-                continue;
+                if ((($authorsname == 'Anonymous') && ($first_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Unknown') && ($first_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Various') && ($first_round_authors[$authorsname] > 3)) ||
+                    (array_key_exists($authorsname, $first_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
+                {
+                    echo "        Its author, $authorsname, already has a project(s) in first round.\n";
+                    continue;
+                }
+
+                // If a PM has more than 10 books already in round 1, their books should be skipped
+
+                if ((array_key_exists($pm, $first_round_pms)) && ($first_round_pms[$pm] > 10))
+                {
+                    echo "        The PM, $pm, already has $first_round_pms[$pm] projects in first round.\n";
+                    continue;
+                }
+
+                // If a PM has had a book released in this execution of the script, pass over it until next time
+
+                if (array_key_exists($pm, $fresh_released_pms))
+                {
+                    echo "        The PM, $pm, already has had a project released during this execution of the release script.\n";
+                    continue;
+                }
             }
 
 
