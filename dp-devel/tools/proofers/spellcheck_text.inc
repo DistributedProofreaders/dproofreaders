@@ -102,8 +102,14 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 				return;
 			}
 
+			// Because we wrote aspell's input file with a '^' at the start
+			// of each line, the offsets it gives us are one more than
+			// we'd get by looking at the original line.
+			// So decrease $orig_word_offset by 1.
+			$orig_word_offset -= 1;
+
 			// Flush any original-text preceding the bad word.
-			$orig_str = substr( $orig_line, $orig_start, ($orig_word_offset-1)-$orig_start );
+			$orig_str = substr( $orig_line, $orig_start, $orig_word_offset-$orig_start );
 			echo html_safe($orig_str);
 
 			$n_bad_words++;
@@ -146,7 +152,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			echo "</select>";
 
 			// Advance $orig_start
-			$orig_start = ($orig_word_offset-1) + $orig_word_len;
+			$orig_start = $orig_word_offset + $orig_word_len;
 		}
 	}
 
@@ -232,9 +238,9 @@ function spellcheck_apply_corrections()
 			$correct_word=stripslashes($_POST['wd'.$i]);
 			// replace word in string
 			$text_array[$orig_line_i] =
-				substr($text_array[$orig_line_i],0,$orig_word_offset-1) .
+				substr($text_array[$orig_line_i],0,$orig_word_offset) .
 				$correct_word .
-				substr($text_array[$orig_line_i],($orig_word_offset+$orig_word_length)-1);
+				substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
 		}
 		$correct_text .= implode("\r\n",$text_array);
 	}
