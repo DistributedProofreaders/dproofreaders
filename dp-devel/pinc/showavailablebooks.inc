@@ -47,7 +47,11 @@ function showavailablebooks($result,$state,$userP,$tList,$round) {
             tde($temp, bgcol($rownum, $round));
             tde($book['authorsname'], bgcol($rownum, $round));
             tde($book['language'], bgcol($rownum, $round));
-	    tde($book['genre'], bgcol($rownum, $round));
+            	if ($book['difficulty'] == "beginner") { $genre = "Beginner ".$book['genre']; }
+            	elseif ($book['difficulty'] == "easy") { $genre = "Easy ".$book['genre']; }
+            	elseif ($book['difficulty'] == "hard") { $genre = "Hard ".$book['genre']; }
+            	else { $genre = $book['genre']; }
+            tde($genre, bgcol($rownum, $round));
             tde($book['username'],bgcol($rownum, $round));
             tde($pageCountArray[$book['projectid']]['avail_pages'], bgcol($rownum, $round) . " align=center");
             tde($pageCountArray[$book['projectid']]['total_pages'], bgcol($rownum, $round) . " align=center");
