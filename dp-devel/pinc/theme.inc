@@ -287,7 +287,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "&nbsp;" . date("F: ") . "" . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
-	echo "&nbsp;" . _("Goal: " . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
+	echo "&nbsp;" . _("Goal: ") . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
     //If the user is logged in show personal & team stats
