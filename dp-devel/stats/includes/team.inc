@@ -6,9 +6,6 @@ function showTeamProfile($curTeam) {
 
 	if ($curTeam['createdby'] == $GLOBALS['pguser']) { $editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='tedit.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Edit</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>"; } else { $editlink = ""; }
 
-	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$curTeam['createdby']."'");
-	$createdbyID = mysql_result($result, 0, "user_id");
-
 	if ($curTeam['id'] != 1 && $userP['team_1'] != $curTeam['id'] && $userP['team_2'] != $curTeam['id'] && $userP['team_3'] != $curTeam['id']) {
 		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='../members/jointeam.php?tid=".$curTeam['id']."'><font color='".$theme['color_headerbar_font']."' size='2'>Join</font></a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
 	} elseif ($curTeam['id'] != 1) {
@@ -27,7 +24,7 @@ function showTeamProfile($curTeam) {
 	echo "<img border='0' src='".$GLOBALS['code_url']."/users/teams/avatar/".$curTeam['avatar']."' alt='".strip_tags($curTeam['teamname'])."'></td>";
 	echo "<td align='left' width='70%' valign='top'><center><font color='".$theme['color_headerbar_font']."'><b>".stripslashes($curTeam['teamname'])."</b></font>".$editlink.$joinquitlink."</center></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Created</b>: ".date("m/d/Y", $curTeam['created'])."&nbsp;($daysInExistence days)</font></td></tr>";
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$createdbyID'>".$curTeam['createdby']."</font></a></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Leader</b>: <a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=".$curTeam['owner']."'>".$curTeam['createdby']."</font></a></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Total Pages</b>: ".number_format($curTeam['page_count'])."</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Description</b>: ".stripslashes($curTeam['team_info'])."</font></td></tr>";
 	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='left' width='70%' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Website</b>: <a href='".$curTeam['webpage']."' target='_new'>".$curTeam['webpage']."</a><br><b>Forums</b>: <a href='".$GLOBALS['forums_url']."/viewtopic.php?t=".$curTeam['topic_id']."'>Team Discussion</a> (Last Post: $last_post_date)</font></td></tr>";
@@ -129,10 +126,8 @@ function showTeamMbrs($curTeam) {
 	$pagesQuery = mysql_query("SELECT username FROM users WHERE team_1 = ".$_GET['tid']." || team_2 = ".$_GET['tid']." || team_3 = ".$_GET['tid']." ORDER BY pagescompleted DESC");
 
 	while ($curMbr = mysql_fetch_assoc($mbrQuery)) {
-        	$userIDQuery = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$curMbr['username']."'");
-		$user_id = mysql_result($userIDQuery,0,"user_id");
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."' onmouseover='javascript:style.background=\"".$theme['color_mainbody_bg']."\"' onmouseout='javascript:style.background=\"".$theme['color_navbar_bg']."\"'>";
-		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=$user_id'>".$curMbr['username']."</a></td>";
+		echo "<td width='35%'><a href='$code_url/stats/members/mdetail.php?id=".$curMbr['u_id']."'>".$curMbr['username']."</a></td>";
 		echo "<td width='35%'>".number_format($curMbr['pagescompleted'])."</td>";
 		echo "<td width='30%'>".date("m/d/Y", $curMbr['date_created'])."</td></tr>";
 	}
