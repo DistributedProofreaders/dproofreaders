@@ -86,9 +86,9 @@ $projectinfo = new projectinfo();
                     printf("<tr><td>$counter</td><td bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td = $bgcolor>$imagesize<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td>".strlen($master_text)."</td><td>$date_txt</td><td><a href=deletefile.php?project=$project&fileid=$fileid>Delete</a></td><td>");
 
 		    if (($project_state == 31) || ($project_state == 41)) {
-		        printf("<center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
-		        printf("&nbsp;</td></tr>\n"); 
+		       printf("&nbsp;</td></tr>\n"); 
 		    } 
 
                     $counter++;
@@ -128,9 +128,9 @@ $projectinfo = new projectinfo();
                     printf("<tr><td>$counter</td><td bgcolor = $bgcolor><a href=displayimage.php?project=$project&imagefile=$imagename>$imagename</a></td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td>$date_txt</td><td><a href = mailto:$email>$real_name</td><td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=0>View</a></td><td><a href=checkin.php?project=$project&fileid=$fileid&state=9>Delete</a></td><td>");
 
 		    if (($project_state == 9) || ($project_state == 41)) {
-		        printf("<center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		       printf("<center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
-		        printf("&nbsp;</td></tr>\n"); 
+		       printf("&nbsp;</td></tr>\n"); 
 		    } 
 
                     $counter++;
@@ -188,7 +188,7 @@ $projectinfo = new projectinfo();
                     printf("<td><a href=downloadproofed.php?project=$project&fileid=$fileid&state=9>View</a></td><td><a href=mailto:$oldemail>$oldreal_name</A></td>");
                     if ($state < 20) { printf("<td><a href=checkin.php?project=$project&fileid=$fileid&state=19>Delete</a></td>"); }
 		    if (($project_state == 9) || ($project_state == 41)) {
-		        printf("<td><center><a href='badpage.php?id=$fileid'>X</a></center></td></tr>\n"); 
+		        printf("<td><center><a href='badpage.php?projectid=$project&fileid=$fileid'>X</a></center></td></tr>\n"); 
 		    } else { 	                
 		        printf("<td>&nbsp;</td></tr>\n"); 
 		    } 
