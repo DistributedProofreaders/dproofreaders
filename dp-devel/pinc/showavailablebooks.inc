@@ -72,6 +72,14 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			// but couldn't figure out how to make link-text orange,
 			// and it was pretty unreadable as is on a black background.
 
+			// green for Ramadan
+			if ( startswith( $book['comments'], 'SPECIAL: Ramadan' ) )
+			{
+				$bgcolor = " bgcolor='green'";
+			}
+
+
+
 			// poppy red for Armistice Day
 			if ( startswith( $book['comments'], 'SPECIAL:Nov 11' ) )
 			{
