@@ -7,6 +7,7 @@ include($relPath.'bookpages.inc');
 include($relPath.'show_projects_in_state.inc');
 include_once($relPath.'user_is.inc');
 
+
 theme("Post Processing", "header");
 
 $isPPV = user_is_post_proof_verifier();
@@ -65,8 +66,10 @@ show_projects_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 echo "<br>";
 }
 
+include('filter_PP_list.inc');
+
 echo "<center><b>Books Available for Post Processing:</b></center>";
-show_projects_in_state(PROJ_POST_FIRST_AVAILABLE);
+show_projects_in_state(PROJ_POST_FIRST_AVAILABLE, 1, $RFilter);
 echo "<br>";
 
 if ($isPPV) {
