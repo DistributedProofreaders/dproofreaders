@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+ob_start();
 include_once($relPath.'theme.inc');
 theme("Site News Update", "header");
 
@@ -69,4 +70,5 @@ echo "You are not authorized to use this form.";
 }
 
 theme("", "footer");
+ob_end_flush();
 ?>
