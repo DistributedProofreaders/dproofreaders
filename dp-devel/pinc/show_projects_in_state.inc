@@ -142,9 +142,9 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 	         round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail,
 			total_pages,
 			comments
-		FROM projects, page_counts 
-		WHERE projects.projectid = page_counts.projectid AND
-			 state='$state'
+		FROM projects
+			LEFT OUTER JOIN page_counts USING (projectid)
+		WHERE state='$state'
                 $where_filter 
 	";
 	if (
