@@ -6,6 +6,7 @@ include($relPath.'dp_main.inc');
 include($relPath.'html_main.inc');
 include($relPath.'doctype.inc');
 include_once($relPath.'theme.inc');
+include($relPath.'gettext_setup.inc');
 
 $uid = $userP['user_id'];
 
@@ -28,11 +29,13 @@ $uid = $userP['user_id'];
 
 include_once($relPath.'v_resolution.inc');
 $p_l= array('no rounds','first round','second round','both rounds');
-$u_l= array('English','French','German','Spanish', 'Italian');
+$u_l= array('English','French','German','Spanish', 'Italian', 'Portuguese');
 $i_r= $i_resolutions;
 $f_f= array('Browser Default','Courier','Times','Arial','Lucida','Monospaced');
 $f_s= array('Browser Default','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
+$u_il= array('English','French','German','Spanish', 'Italian', 'Portuguese');
+$u_iloc= array('en_EN','fr_FR','de_DE','es_ES', 'it_IT', 'pt_PT');
 
 function radio_select($db_name, $db_value, $value, $text_name) {
 if (strtolower($db_value) == strtolower($value)) {
@@ -47,6 +50,15 @@ echo "<select name='$db_name' ID='$db_name'>";
 for ($i=0;$i<count($array_list);$i++)  {
 echo "<option value='$i'";
 if ($db_value == $i) { echo " SELECTED"; }
+echo ">$array_list[$i]</option>";
+} echo "</select>"; }
+
+function dropdown_select_complex($db_name, $db_value, $array, $values) {
+$array_list = explode('|', $array);
+echo "<select name='$db_name' ID='$db_name'>";
+for ($i=0;$i<count($array_list);$i++)  {
+echo "<option value='$values[$i]'";
+if ($db_value == $values[$i]) { echo " SELECTED"; }
 echo ">$array_list[$i]</option>";
 } echo "</select>"; }
 
@@ -228,6 +240,18 @@ radio_select('u_align', $userP['u_align'], 1, 'Left');
 radio_select('u_align', $userP['u_align'], 0, 'Right');
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('align');\">?</a>&nbsp;</b>";
 
+echo $tre.$tr.$td2;
+echo "<strong>Interface Language:</strong>";
+echo $tde.$td3;
+$array = implode('|', $u_il);
+dropdown_select_complex('u_intlang', $userP['u_intlang'], $array, $u_iloc);
+echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
+echo $tde.$td2;
+echo $userP['u_intlang'];
+echo $tde.$td3;
+echo " ";
+echo $tde.$td3a." ";
+
 echo $tre.$tr.$td4;
 echo "<img src='tools/proofers/gfx/bt4.png'><b>Vertical Interface Preferences</b>";
 echo $tde.$td3a."<b>&nbsp;<a href=\"JavaScript:newHelpWin('vertprefs');\">?</a>&nbsp;</b>";
@@ -374,7 +398,7 @@ echo mysql_error();
 // set users values
 $users_query="UPDATE users SET real_name='$real_name', email='$email', 
 email_updates='$email_updates', u_plist='$u_plist', u_top10='$u_top10', u_align='$u_align', u_neigh='$u_neigh',
-u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme'";
+u_lang='$u_lang' , i_prefs='1', i_theme='$i_theme' , u_intlang='$u_intlang' ";
 if (isset($mkProfile))
   {$users_query.=", u_profile='".mysql_insert_id($db_link)."'";}
 $users_query.=" WHERE id='$user_id' AND username='$pguser'";

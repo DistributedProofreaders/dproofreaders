@@ -242,6 +242,7 @@ CREATE TABLE `users` (
   `team_1` int(10) unsigned NOT NULL default '0',
   `team_2` int(10) unsigned NOT NULL default '0',
   `team_3` int(10) unsigned NOT NULL default '0',
+  `u_intlang` varchar(5) default 'en_EN',
   PRIMARY KEY  (`username`),
   UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`)

@@ -2,8 +2,8 @@
 //Declare all variables
 $db_schema = "db_schema.sql";
 $db_host = "localhost";
-$db_user = "username";
-$db_pass = "password";
+$db_user = "root";
+$db_pass = "";
 $db_name = "dproofreaders";
 
 //Connect to the sql database

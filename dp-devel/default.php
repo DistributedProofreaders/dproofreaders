@@ -3,10 +3,12 @@ $relPath="./pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include($relPath.'gettext_setup.inc');
 $db_Connection=new dbConnect();
 include($relPath.'showstartexts.inc');
 theme("Welcome", "header");
 $etext_limit = 10;
+
 
 //get total number of users
 $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE pagescompleted >=1");
@@ -18,9 +20,10 @@ $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > 
 $activeusers = mysql_result($users,0,"numusers");
 ?>
 
-<center><i><b><? echo number_format($activeusers); ?> active users out of <? echo number_format($totalusers); ?> total users in the past twenty-four hours.</b></i></center><br>
-<font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b>About This Site</b></font><br>
-Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='http://www.gutenberg.net' target='_new'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official Project Gutenberg site and as such is supported by Project Gutenberg. If you have any questions or comments regarding this site please e-mail: <a href='mailto:<? echo $general_help_email_addr ?>'><? echo $general_help_email_addr ?></a>.<br><br>
+<center><i><b><? echo number_format($activeusers); echo _(" active users out of "); echo number_format($totalusers); echo _(" total users in the past twenty-four hours.") ?></b></i></center><br>
+
+<font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b><? echo _("About This Site") ?></b></font><br>
+<? echo _("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='http://www.gutenberg.net' target='_new'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official Project Gutenberg site and as such is supported by Project Gutenberg. If you have any questions or comments regarding this site please e-mail: ")?><a href='mailto:<? echo $general_help_email_addr ?>'><? echo $general_help_email_addr ?></a>.<br><br>
 
 <font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b>Site Concept</b></font><br>
 This site provides a web-based method of easing the proofreading work associated with the digitization of Public Domain books into Project Gutenberg e-books. By breaking the work into individual pages many proofreaders can be working on the same book at the same time. This significantly speeds up the proofreading/e-book creation process.
