@@ -22,7 +22,7 @@ $mynumrows = mysql_numrows($result);
 
 // Create the graph. These two calls are always required
 //Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",1);
+$graph = new Graph(640,400,"auto",1440);
 $graph->SetScale("textint");
 
 //set X axis
