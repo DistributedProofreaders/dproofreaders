@@ -2,42 +2,11 @@
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'v_site.inc');
+include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'udb_user.php');
-include_once($relPath.'cookie.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'session.inc');
 
-if(!$use_cookies) {
-//Let's see if the users session has already been started
-	$session_id = session_id();
-	if (empty($session_id)) {
-		session_set_save_handler("mysql_session_open", "mysql_session_close", "mysql_session_select", "mysql_session_write", "mysql_session_destroy", "mysql_session_garbage_collect");
-		session_start();
-		if (!isset($_SESSION['userP']) || empty($_SESSION['userP'])) {
-			session_unset();
-			session_destroy();
-		} else {
-			if (!isset($pguser)) {
-				extract($_SESSION);
-			}
-		}
-	}
-} else {
-
-//Let's check to see if the user has a cookie already
-	$cookieC=new userCookie();
-	$cookieSet=$cookieC->checkCookie();
-	if ($cookieSet) { $pguser=$cookieC->userID;
-		if (isset($_COOKIE[$pguser.'_prefs'])){
-			$cookieC->deleteOldPrefs($pguser);
-			$cookieC->setUserPrefs($pguser);
-			echo _("Cookie reset by site update.  Please refresh current page.");
-			exit;
-		}
-	$userP=$cookieC->getUserPrefs($pguser);
-}
-}
+$user_is_logged_in = dpsession_resume();
 
 include_once($relPath.'gettext_setup.inc');
 

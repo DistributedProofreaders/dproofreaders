@@ -1,5 +1,6 @@
 <?PHP
 
+include_once($relPath.'dpsession.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
@@ -109,29 +110,20 @@ function getAvailablePage($project,$proofstate,$pguser)
 
 function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
 {
-  global $use_cookies;
-
   //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
   $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
-  if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
-  else { $_SESSION['userPage'] = $pagerefs; }
+  dpsession_page_set($pagerefs);
 }
 
 function setTempPageCookie($tempPrefs)
 {
-  global $use_cookies;
-
   $pagerefs=implode("|",$tempPrefs);
-  if ($use_cookies) { setcookie("userPage",$pagerefs,time() + 86400,"/",$this->cookieDomain,0); }
-  else { $_SESSION['userPage'] = $pagerefs; }
+  dpsession_page_set($pagerefs);
 }
 
 function getPageCookie()
 {
-  global $use_cookies;
-
-  if ($use_cookies) { @$cPage=explode("|",$_COOKIE['userPage']); }
-  else { @$cPage=explode("|",$_SESSION['userPage']); }
+  @$cPage=explode("|", dpsession_page_get() );
   $uPage=array();
   $i=0;
   @$uPage['project']=$cPage[$i++];
@@ -150,11 +142,9 @@ function getPageCookie()
   return $uPage;
 }
 
-function deletePageCookie() {
-  global $use_cookies;
-
-	if ($use_cookies) { setcookie("userPage","",time() - 86400,"/",$this->cookieDomain,0); }
-  	else { $_SESSION['userPage'] = NULL; }
+function deletePageCookie()
+{
+	dpsession_page_end();
 }
 
 function checkOutPage($project,$proofstate,$pguser,$fileid,$imagefile)
@@ -370,7 +360,7 @@ function returnPage($proofstate,$pguser,$userP)
 
   $timestamp = time();
 
-  if ($$writeBIGtable) {
+  if ($writeBIGtable) {
     $dbQuery="UPDATE project_pages SET {$this->save_time}='$timestamp', state='{$this->return_state}', {$this->save_user}='$pguser'";
     $dbQuery.=" WHERE projectid = '{$this->project}' AND fileid='{$this->fileid}'";
     $result = mysql_query($dbQuery);
