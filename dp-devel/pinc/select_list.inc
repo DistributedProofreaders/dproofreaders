@@ -1,4 +1,4 @@
-
+<?
 
 function build_selectlist( $states, $field)
 {
@@ -23,3 +23,5 @@ function build_selectlist( $states, $field)
 	}
 		return $to_echo;
 }
+
+?>
