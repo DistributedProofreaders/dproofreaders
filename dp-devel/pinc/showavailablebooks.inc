@@ -109,7 +109,7 @@ function show_books_available_for_proofing( $round, $userP, $tList )
                                 $bgcolor = " bgcolor='#33CCFF'";
                         }
 
-			// Native Anerican Heritage Month 
+			// Native American Heritage Month 
 			if ( startswith( $book['comments'], 'SPECIAL: NAHM' ) )
 			{
 				$bgcolor = " bgcolor='#CCCCCC'";
@@ -121,6 +121,12 @@ function show_books_available_for_proofing( $round, $userP, $tList )
 			{
 				$bgcolor = " bgcolor='#FFFF33'";
 			}
+
+                               // nice green for Abolition of Slavery
+                        if ( startswith( $book['comments'], 'SPECIAL: Abolition' ) )
+                        {
+                                $bgcolor = " bgcolor='#00CC99'";
+                        }
 
 			
 
