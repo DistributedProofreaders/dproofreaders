@@ -4,6 +4,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'page_states.inc');
 include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'page_ops.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,
@@ -75,12 +76,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	// A project can be deleted when it's in any state.
 	if ( $new_state == PROJ_DELETE )
 	{
-
-		if ($writeBIGtable) {
-			$result = mysql_query("DELETE FROM project_pages WHERE projectid = '$projectid'");
-		}		
-
-		$result = mysql_query("DROP TABLE $projectid");
+		project_drop_pages( $projectid );
 
 		$result = mysql_query("
 			DELETE FROM projects WHERE projectid = '$projectid'
