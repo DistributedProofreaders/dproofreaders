@@ -8,6 +8,23 @@ include($relPath.'project_trans.inc');
 include($relPath.'project_edit.inc');
 include_once($relPath.'maybe_mail.inc');
 
+function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
+{
+    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    {
+        $prd = get_PRD_for_round($rn);
+        if (
+            $newstate == $prd->project_unavailable_state ||
+            $oldstate == $prd->project_unavailable_state ||
+            $oldstate == $prd->project_waiting_state
+        )
+        {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
     // Get Passed parameters to code
     $projectid = $_GET['project'];
     $newstate = $_GET['state'];
@@ -45,16 +62,12 @@ include_once($relPath.'maybe_mail.inc');
     }
     else if (
 	   ($newstate == PROJ_DELETE && $always == 'yes')
-	|| ($newstate == PROJ_PROOF_FIRST_UNAVAILABLE)
-	|| ($newstate == PROJ_PROOF_SECOND_UNAVAILABLE)
 	|| ($newstate == PROJ_POST_FIRST_CHECKED_OUT)
 	|| ($always == 'yes')
-	|| ($oldstate == PROJ_PROOF_FIRST_UNAVAILABLE)
-	|| ($oldstate == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE)
-	|| ($oldstate == PROJ_PROOF_SECOND_UNAVAILABLE)
-	|| ($oldstate == PROJ_PROOF_SECOND_WAITING_FOR_RELEASE)
 	|| ($oldstate == PROJ_POST_FIRST_CHECKED_OUT)
-	|| ($oldstate == PROJ_NEW))
+	|| ($oldstate == PROJ_NEW)
+	|| is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
+    )
     {
         // The above are valid changes that can be made to a project
 
