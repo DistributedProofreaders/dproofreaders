@@ -5,7 +5,7 @@ include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();
 include($relPath.'showstartexts.inc');
-theme("Welcome", "header");
+theme(_("Welcome"), "header");
 $etext_limit = 10;
 
 $real_site_url = 'http://www.pgdp.net';

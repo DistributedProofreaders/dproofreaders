@@ -15,7 +15,7 @@ include_once($relPath.'user_is.inc');
 		if (isset($_COOKIE[$pguser.'_prefs'])){
 			$cookieC->deleteOldPrefs($pguser);
 			$cookieC->setUserPrefs($pguser);
-			echo 'Cookie reset by site update.  Please refresh current page.';
+			echo _("Cookie reset by site update.  Please refresh current page.");
 			exit;
 		}
 	$userP=$cookieC->getUserPrefs($pguser);
@@ -110,7 +110,7 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders Logo' border='0'></a>\n";
+	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
 	// show number of projects left till 10,000
 	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] . "' align='center' valign='middle'>\n";
@@ -124,9 +124,15 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	}
 	$numProjectsLeft = 10000 - $line;
 	if ($numProjectsLeft > 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>".number_format($numProjectsLeft)." books left till number 10,000 is posted to PG!</font>\n";
+		echo "<font color='" . $theme['color_navbar_font'] . "' face='";
+		echo $theme['font_navbar'] . "' size='2'>";
+		printf(_("%s books left till number 10,000 is posted to PG!"), number_format($numProjectsLeft));
+		echo "</font>\n";
 		} elseif ($numProjectsLeft <= 0) {
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b><i><u>WE MADE IT!!  10,000 Books Posted to Project Gutenberg!!</u></i></b></font>\n";
+		echo "<font color='" . $theme['color_navbar_font'] . "' face='";
+		echo $theme['font_navbar'] . "' size='2'><b><i><u>";
+		echo _("WE MADE IT!! 10,000 Books Posted to Project Gutenberg!!");
+		echo "</u></i></b></font>\n";
 	}
 	echo "</td>\n";
 	echo "</tr>\n";
@@ -154,13 +160,13 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<form action='$code_url/accounts/login.php' method='post'>\n";
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
-	echo "ID:<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-	echo "Password:<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-	echo "<input type='submit' value='Sign In' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
+	echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+	echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+	echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Register</font></a>";
+	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>&nbsp;</font>\n";
+	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	echo "</form>\n";
 	} else {
@@ -175,19 +181,19 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "<td width='50%' align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
 	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
-	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Help</font></a>";
+	echo "<a href='$code_url/faq/faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Forums</font></a>";
+	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Inbox</a>";
+	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Inbox") . "</a>";
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
 	echo "</font>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Preferences</font></a>";
+	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Preferences") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Statistics</font></a>";
+	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Statistics") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;";
-	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>Log Out</font></a>&nbsp;</font>\n";
+	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Log Out") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
 	}
 
@@ -241,28 +247,28 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
 
 		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") {
-			echo "<a href='$code_url/tools/proofers/proof_per.php'>Proofread Projects</a>";
+			echo "<a href='$code_url/tools/proofers/proof_per.php'>" . _("Proofread Projects") . "</a>";
 			$divider = 1;
 		}
 		if ($userP['manager'] == "yes" && substr($_SERVER['PHP_SELF'], -14) != "projectmgr.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
-			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>Manage Projects</a>";
+			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage Projects") . "</a>";
 			$divider = 1;
 		}
 		if (($userP['postprocessor'] == "yes" || $neighborhood['pages'][$userindex] >= 400) && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
-			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>Post Processing</a>";
+			echo "<a href='$code_url/tools/post_proofers/post_proofers.php'>" . _("Post Processing") . "</a>";
 			$divider = 1;
 		}
 		if (user_is_a_sitemanager() && substr($_SERVER['PHP_SELF'], -12) != "sitenews.php") {
 			if (isset($divider)) {
 				echo " | ";
 			}
-			echo "<a href='$code_url/tools/site_admin/sitenews.php'>News Update</a>";
+			echo "<a href='$code_url/tools/site_admin/sitenews.php'>" . _("News Update") . "</a>";
 			$divider = 1;
 		}
 		echo "</center></font>\n";
@@ -276,12 +282,12 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
     //Show the site statistics
       echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-	echo "<center><u>Site Statistics:</u></center>\n";
-	echo "&nbsp;Today: " . number_format($sitestats['daily']) . " pages<br>\n";
+	echo "<center><u>" . _("Site Statistics:") . "</u></center>\n";
+	echo "&nbsp;" . _("Today: " . number_format($sitestats['daily']) . " pages<br>\n";
 	echo "&nbsp;" . date("F: ") . "" . number_format(($sitestats['monthly']+$sitestats['daily'])) . " pages<br>\n";
 	$sitestatsgoal = $sitestats['goal'];
 	if ($sitestatsgoal=="0") {$sitestatsgoal=="1";}
-	echo "&nbsp;Goal: " . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
+	echo "&nbsp;" . _("Goal: " . number_format($sitestats['goal']) . " pages (" . number_format((($sitestats['monthly']+$sitestats['daily'])/$sitestatsgoal)*100, 2) . "%)<br>\n";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
     //If the user is logged in show personal & team stats
@@ -363,7 +369,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	echo "<br><hr width='75%' align='center'><br>\n";
 
 	//Show the team statistics
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Your Teams:</u></font></center>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Your Teams:") . "</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=1'>Distributed Proofreaders</a></font><br>\n";
 	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id='{$userP['team_1']}' OR id='{$userP['team_2']}' OR id='{$userP['team_3']}'");
 		while($row = mysql_fetch_assoc($teamRes)) {
@@ -374,7 +380,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         //Show the Top Ten users is user has the option set
         if ($userP['u_top10']) {
         	echo "<br><hr width='75%' align='center'><br>\n";
-        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Top Ten Proofers:</u></font></center>\n";
+        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>" . _("Top Ten Proofers:") . "</u></font></center>\n";
 		$i = 0;
 		$p = 1;
 		while ($p <= 10) {
@@ -413,7 +419,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 
    //If it is a guest user show the past years completed projects
         } else {
-		echo "<center><u>Completed Projects:</u></center>\n";
+		echo "<center><u>" . _("Completed Projects:") . "</u></center>\n";
 		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
 		$thismonth = date("n");
 		$thisyear = date("Y");
@@ -433,7 +439,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 		echo "</table>\n";
         }
 	echo "<br></font>\n";
-	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>See more statistics here...</font></a></center>\n";
+	echo "<center><a href='$code_url/stats/stats_central.php'><font size='1' face='".$theme['font_navbar']."'>" . _("See more statistics here...") . "</font></a></center>\n";
 
 	if (!empty($userP)) {
 		echo "<br><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><center><u>Key Help Documents:</u></center></font>\n";

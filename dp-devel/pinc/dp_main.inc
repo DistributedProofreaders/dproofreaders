@@ -21,7 +21,7 @@ $pguser=$cookieID;
 if (isset($_COOKIE[$pguser.'_prefs'])){
 $cookieC->deleteOldPrefs($pguser);
 $cookieC->setUserPrefs($pguser);
-echo 'Cookie reset by site update.  Please refresh current page.';
+echo _("Cookie reset by site update.  Please refresh current page.");
 exit;}
 $userP=$cookieC->getUserPrefs($pguser);
 ?>

@@ -55,8 +55,8 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_a( "Project ID",     $project['projectid'] );
-		echo_row_a( "Clearance Line", $project['clearance'] );
+		echo_row_a( _("Project ID"),     $project['projectid'] );
+		echo_row_a( _("Clearance Line"), $project['clearance'] );
 	}
 
 	// -------------------------------------------------------------------------
@@ -74,7 +74,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 		$creditline = $scannercredit.', '.$managercredit.', '.$postproofername.' and the Online Distributed Proofreading Team.';
 
-		echo_row_a( "Credits line so far", $creditline );
+		echo_row_a( _("Credits line so far"), $creditline );
 	}
 
 	// -------------------------------------------------------------------------
@@ -104,7 +104,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
 		$last_post_date = date("l, F jS, Y \a\\t g:i:sA", $last_post_date);
-		echo_row_a( "Last Forum Post", $last_post_date );
+		echo_row_a( _("Last Forum Post"), $last_post_date );
 	}
 
 	if ($topic_id == "") {
@@ -140,7 +140,7 @@ function echo_project_info( $projectid, $proofstate, $sub )
 
 	if ($proofstate == 'proj_post')
 	{
-		echo_row_b( "Post Processor Comments", '' );
+		echo_row_b( _("Post Processor Comments"), '' );
 		echo_row_c( $project['postcomments'] );
 	}
 

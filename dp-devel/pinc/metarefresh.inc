@@ -24,16 +24,13 @@ echo $body, "\r\n";
 
 if ($testing)
 {
-    echo "
-<HR>
-<i>
-Normally, you would be directed to the next page in $seconds seconds.
+	echo "\n<hr>\n<i>";
+	echo _("Normally, you would be directed to the next page in $seconds seconds.
 However, as we are in testing mode, this has been increased to $sec seconds.
 If you don't want to wait that long,
 or if you want this page inserted into your browser history,
-<a href='$url'>click here</a>.
-</i>
-";
+<a href='$url'>click here</a>.");
+	echo "</i>";
 }
 
 echo "</BODY></HTML>";

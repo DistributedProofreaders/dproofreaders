@@ -8,13 +8,13 @@ $i = 1;
 
 if ($type == "bronze") {
 $state = SQL_CONDITION_BRONZE;
-$text = " Now Proofing.</font>  These books are currently being processed through our site; sign in and start helping!!!! <br>";
+$text = " " . _("Now Proofing.") . "</font>  " . _("These books are currently being processed through our site; sign in and start helping!!!!") . " <br>";
 } elseif ($type == "silver") {
 $state = SQL_CONDITION_SILVER;
-$text = " In Progress.</font>  These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).<br>";
+$text = " " . _("In Progress.") . "</font>  " . _("These books have been processed through our site but have not yet posted to the Project Gutenberg archive (currently going through their final proofing/assembly).") . " <br>";
 } elseif ($type == "gold") {
 $state = SQL_CONDITION_GOLD;
-$text = " Complete.</font>  These books have been processed through our site and posted to the Project Gutenberg archive. ";
+$text = " " . _("Complete.") . "</font>  " . _("These books have been processed through our site and posted to the Project Gutenberg archive.");
 $text .= "<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>&nbsp;<a href='".$GLOBALS['xmlfeeds_url']."/backend.php?content=posted&type=rss'><img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' style='vertical-align:middle'></a><br>";
 }
 
@@ -31,11 +31,11 @@ echo "<font face='Verdana' size='1'>, ".$row['authorsname']."<br>";
 if ($type == "gold") {
 $links="";
 
-if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>zip version</a>, ";
+if (trim($row['ziplink']) <> "") $links=$links."<a href='".$row['ziplink']."'>" . _("zip version") . "</a>, ";
 
-if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>text version</a>, ";
+if (trim($row['txtlink']) <> "") $links=$links."<a href='".$row['txtlink']."'>" . _("text version") . "</a>, ";
 
-if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>html version</a>, ";
+if (trim($row['htmllink']) <> "") $links=$links."<a href='".$row['htmllink']."'>" . _("html version") . "</a>, ";
 
 if ($row['state'] == PROJ_SUBMIT_PG_POSTED) {
 	$links=$links."<a href='$code_url/tools/upload_text.php?project={$row['projectid']}&stage=correct'>submit corrections</a>";

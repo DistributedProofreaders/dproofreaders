@@ -14,7 +14,7 @@ if ($cookieSet) {
 	// Remember the current REQUEST_URI, so that we can send the user there
 	// after the login process.
 	$url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
-	$body="<A HREF=\"$url\">Please sign in.</A>";
+	$body="<A HREF=\"$url\">" . _("Please sign in") . "</A>";
 	metarefresh(0,$url,'Please Login',$body);
 	exit;
 }
