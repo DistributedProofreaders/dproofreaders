@@ -1,4 +1,0 @@
-The following changes must be made for these files to work on a specific system:
-
-udb_user.inc:
-     Must change class variables to match the information for your local database.
