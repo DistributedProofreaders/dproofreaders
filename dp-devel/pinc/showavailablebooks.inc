@@ -8,12 +8,8 @@ function show_block_for_round( $round_number, $projects_filter )
 	global $pguser, $userP;
 
 	$prd = get_PRD_for_round($round_number);
-	$round_name  = $prd->round_name;
-	$title       = $prd->title;
-	$description = $prd->description;
-	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
 
-	$setting = "{$round_name}order";
+	$setting = "{$prd->round_name}order";
 
 	// read saved sort orders from user_settings table 
 	$result = mysql_query("
@@ -31,7 +27,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 
 	// read new sort order from url, if any
-	$url_param = "order{$round_name}";
+	$url_param = "order{$prd->round_name}";
 	$order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
 
 	// if orders have changed, save them to database
@@ -54,10 +50,12 @@ function show_block_for_round( $round_number, $projects_filter )
 	");
 	$pagescompleted = mysql_result($result,0);
 
-	echo "\n<a name='$round_name'></a>";
+	echo "\n<a name='{$prd->round_name}'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr " . bgcol(1,$prd) . ">";
-	echo "\n<td colspan=2><h3>$title</h3></td>";
+	echo "\n<td colspan=2><h3>{$prd->title}</h3></td>";
+
+	$min_num_pages_to_see_this_round = $prd->minimum_user_pages;
 	if ($pagescompleted < $min_num_pages_to_see_this_round)
 	{
 		$sorry = sprintf(
@@ -69,7 +67,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 	else
 	{
-		echo "\n<td colspan=6>$description</td>";
+		echo "\n<td colspan=6>{$prd->description}</td>";
 		echo "</tr>";
 
 		if (! user_can_see_BEGIN_in_round($prd->round_number))
@@ -209,7 +207,6 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 
 
-	$project_available_state = $prd->project_available_state;
 	$linkbase = "<a href=proof_per.php?order{$prd->round_name}=";
 	$linkend = "#{$prd->round_name}";
 
@@ -221,7 +218,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 		FROM projects, page_counts
 		WHERE
 			projects.projectid = page_counts.projectid
-		       	AND (state = '$project_available_state')
+		       	AND (state = '{$prd->project_available_state}')
 			$where_filter
 		ORDER BY
 			is_beginner DESC,
@@ -456,17 +453,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 function bgcol($rownum,$prd)
 {
-	$bgcolor_odd  = $prd->listing_bgcolors[1];
-	$bgcolor_even = $prd->listing_bgcolors[0];
-
-	if ($rownum % 2) 
-	{
-		$bgcolor = " bgcolor='" . $bgcolor_odd . "'";
-	}
-	else 
-	{
-		$bgcolor = " bgcolor='" . $bgcolor_even . "'";
-	}
+	$bgcolor = " bgcolor='" .  $prd->listing_bgcolors[$rownum % 2] . "'";
 
 	return $bgcolor;
 }
