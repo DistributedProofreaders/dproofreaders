@@ -63,6 +63,10 @@
 
   define("PROJ_POST_VERIFYING", "proj_post_verifying"); // 67
   define("PROJ_POST_COMPLETE", "proj_post_complete"); // 69
+  define("PROJ_POST_AVAIL_SECOND", "proj_post_avail_second");
+  define("PROJ_POST_CHECKEDOUT_SECOND", "proj_post_checkedout_second");
+
+
 
 // SUBMIT (was GB)
   define("PROJ_SUBMIT_PG_UNAVAILABLE", "proj_submit_pgunavailable"); // 70
@@ -94,6 +98,8 @@
       . " OR state='".PROJ_SUBMIT_PG_UNAVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_AVAILABLE."'"
       . " OR state='".PROJ_SUBMIT_PG_POSTING."'"
+      . " OR state='".PROJ_POST_AVAIL_SECOND."'"
+      . " OR state='".PROJ_POST_CHECKEDOUT_SECOND."'"
       . ")");
   define("SQL_CONDITION_GOLD",
            "(state='".PROJ_SUBMIT_PG_POSTED."')");
