@@ -21,7 +21,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	// error_reporting(E_ALL);
 
 	$res = mysql_query("
-		SELECT state, checkedoutby, postproofer
+		SELECT *
 		FROM projects
 		WHERE projectid = '$projectid'
 	");
@@ -217,12 +217,11 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	if ( $current_state == PROJ_PROOF_FIRST_UNAVAILABLE &&
 	     $new_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE )
 	{
-        // A project cannot be released if it has no pages.
-        $result = mysql_query("SELECT fileid FROM $projectid");
-        if (mysql_num_rows($result) == 0)
+		$errors = project_pre_release_check( $project );
+		if ($errors)
 		{
-            return "$transition_str is disallowed because project has no pages";
-        }
+			return "$transition_str: disallowed because of project problems:\n<pre>\n$errors</pre>";
+		}
 		$settings .= ", modifieddate='$now'";
 	}
 	else if ( $current_state == PROJ_PROOF_FIRST_WAITING_FOR_RELEASE &&
