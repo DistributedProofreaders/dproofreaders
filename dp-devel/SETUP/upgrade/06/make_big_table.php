@@ -39,15 +39,15 @@ while ($row = mysql_fetch_assoc($result)) {
                ".$row1['b_code'].")");
 		}
         */
-        $result2 = mysql_query( \
-               "INSERT project_pages \
-                SELECT '$projectid', `fileid` , `image` , `master_text` ,\
-                `round1_text` , `round2_text` , `round1_user` , `round2_user` , \
-                `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , \
-                NULL, NULL \
+        $result2 = mysql_query( 
+               "INSERT project_pages 
+                SELECT '$projectid', `fileid` , `image` , `master_text` ,
+                `round1_text` , `round2_text` , `round1_user` , `round2_user` , 
+                `round1_time` , `round2_time` , `state` , `b_user` , `b_code` , 
+                NULL, NULL 
                 FROM $projectid" ) ;
 
-	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result1)) {
+	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result1))) {
 		echo $row['projectid']." -- Incomplete move to project_pages table<br>";
 	} else {
 		echo $row['projectid']." -- Moved to project_pages table<br>";
