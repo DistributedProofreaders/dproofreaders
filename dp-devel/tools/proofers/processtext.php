@@ -9,9 +9,7 @@ include_once($relPath.'v_keepmarkup.inc');
           $button3_x, $button4_x, $editone, $savedm $pagestate */
 $project = isset($projectname)?$projectname:0;
 
-$text_data = isset($text_data)?strip_tags(htmlspecialchars($text_data), PROOF_SECOND_TAGS_KEEP):'';
-$text_data = str_replace("&lt;", "<", $text_data);
-$text_data = str_replace("&gt;", ">", $text_data);
+$text_data = isset($text_data) ? $text_data : '';
 
 $tpage=new processpage();
   if ($project !='')
