@@ -71,9 +71,11 @@ function showMbrDpProfile( $curMbr )
 		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
 	);
 
+	global $users_P_page_tallyboard;
+	$current_P_page_tally = $users_P_page_tallyboard->get_current_tally( $curMbr['u_id'] );
 	$t->row(
 		_('Roles'),
-		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $curMbr['current_P_page_tally'])
+		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $curMbr['postprocessor'], $current_P_page_tally)
 	);
 
 	$t->end();
@@ -214,6 +216,8 @@ function showMbrPageStats( $curMbr )
 {
 	$users_tallyboard = new TallyBoard( 'P', 'U' );
 
+	$current_tally = $users_tallyboard->get_current_tally( $curMbr['u_id'] );
+
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 
@@ -233,7 +237,7 @@ function showMbrPageStats( $curMbr )
 
 
 	if ($daysInExistenceInteger > 0) {
-	        $daily_Average = $curMbr['current_P_page_tally']/$daysInExistenceInteger;
+	        $daily_Average = $current_tally/$daysInExistenceInteger;
 	} else {
 		$daily_Average = 0;
 	}
@@ -248,8 +252,8 @@ function showMbrPageStats( $curMbr )
 
 	$t->row(
 		_("Total Pages"),
-		number_format($curMbr['current_P_page_tally']) . " " . _("pages")
-		. " (" . pageCountPercentage($curMbr['current_P_page_tally']) . _("% of total") . ")"
+		number_format($current_tally) . " " . _("pages")
+		. " (" . pageCountPercentage($current_tally) . _("% of total") . ")"
 	);
 	$t->row(
 		_("Overall Rank"),
