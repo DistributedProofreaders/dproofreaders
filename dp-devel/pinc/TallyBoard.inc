@@ -251,7 +251,7 @@ class TallyBoard
                     AND holder_id   = $holder_id_expr
                 )
             WHERE tally_value > 0 OR holder_id='$target_holder_id'
-            ORDER BY tally_value DESC
+            ORDER BY tally_value DESC, holder_id ASC
         ");
         // Note that for the purposes of this function,
         // we pretend that holders with tally_value <= 0 don't exist,
