@@ -65,6 +65,8 @@ if (1)
 	    SET
 		projectid='jmd_$i',
 		nameofwork='$state_constant_name',
+		authorsname='anon',
+		username='jmdyck',
 		state='$state_value'
 	") or die(mysql_error());
     }
