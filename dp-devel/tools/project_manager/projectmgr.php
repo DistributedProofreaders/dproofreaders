@@ -40,7 +40,40 @@ theme("Project Managers", "header");
 	echo "</center><br>";
 	if (!isset($_GET['project']) || $_GET['show'] == "all") {
 ?>
-	<p><b>Project Manager Notice:</b><br>There is a new way to upload files to the site without needing anyone to help you:
+	<p><b>Project Manager Notice:</b><br>
+
+	<p>
+	On the Project Details page,
+	you can now specify a directory
+	(in the <? echo $uploads_account; ?> account)
+	from which to add text+images into your project.
+	This means that you are now free to choose the name
+	of the upload directory you create,
+	instead of having to use the project's ID.
+	(E.g., you might choose to give it the same name
+	as the corresponding directory on your local machine.)
+	Of course, the project's ID will still work fine
+	as the name of the directory, and is in fact the default
+	for the Add Text+Images button.
+
+	<p>
+	Moreover, the string you type is actually interpreted as a 'path'
+	(relative to the root of the <? echo $uploads_account; ?> account),
+	so it can be a directory within a directory.
+	For instance, you may find it convenient to create a personal directory
+	in the <? echo $uploads_account; ?> account,
+	and then create your project-specific directories within it.
+	(If you do this, it's recommended that you use your DP login name
+	for the name of the personal directory,
+	as that may be an assumed default in the future.)
+
+	<hr width='50%'>
+	<p>
+	Note the new <b>Search Your Projects</b> link above. Try it out!
+	
+	<hr width='50%'>
+	<p>
+	There is a new way to upload files to the site without needing anyone to help you:
 	<ol>
 		<li>FTP to <? echo $uploads_host; ?> with username <? echo $uploads_account; ?> and password <? echo $uploads_password; ?>
 		<li>Make a directory named what the projectID is (look in the URL of the project when you click on the title, labeled project=projectIDXXX, use entire projectIDXXX for the folder)
