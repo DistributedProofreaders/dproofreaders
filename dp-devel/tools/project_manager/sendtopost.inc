@@ -97,7 +97,7 @@ include_once($relPath.'maybe_mail.inc');
             $text_data = mysql_result($myresult, $count, "round2_text");
 	    $round1_user = mysql_result($myresult, $count, "round1_user");
 	    $round2_user = mysql_result($myresult, $count, "round2_user");
-            $dashes_todo = 78 - 20 - strlen($round1_user) - strlen($round2_user);
+            $dashes_todo = 78 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
             $dashes = "";
             for ($i = 1; $i <= $dashes_todo; $i++) {
                $dashes += "-";
