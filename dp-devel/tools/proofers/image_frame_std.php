@@ -11,6 +11,8 @@ $npage=$tpage->getPageCookie();
 
 ?>
 <html><head><title>Image Frame</title>
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
 </head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img
 name="scanimage" id="scanimage" title="" alt=""
 src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>"
