@@ -85,7 +85,7 @@ if ($tbutton==1 || $tbutton==4 || $tbutton==8 || $tbutton==9)
   $npage['errcheck']=0;
   $tpage->setTempPageCookie($npage);
   if ($userP['i_type'] != 1)
-    {include($relPath.'proof_frame_nj.inc');}
+    {include('proof_frame_nj.inc');}
   else
     {metarefresh(0,"text_frame.php","Proofing Text Frame","Loading next available page....");}
   exit;
