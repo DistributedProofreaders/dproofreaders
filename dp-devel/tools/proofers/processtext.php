@@ -62,6 +62,17 @@ $dbQuery.=" WHERE fileid='$fileid'";
 $result = dquery($dbQuery);
 }
 
+function setSaveComplete()
+{
+$timestamp = time();
+$dbQuery="UPDATE $project SET state='";
+  if ($prooflevel==2)
+  {$dbQuery.="19', round2_time='$timestamp', round2_user='$pguser'";}
+  else {$dbQuery.="9', round1_time='$timestamp', round1_user='$pguser'";}
+$dbQuery.=" WHERE fileid='$fileid'";
+$result = dquery($dbQuery);
+}
+
 function isOpenProject($project,$prooflevel)
 {
 $result = dquery("SELECT state FROM projects WHERE projectid = '$project'");
@@ -122,6 +133,7 @@ metarefresh(0,$frame1,' ',' ');
 // save and do another send back to proof.php for a new page
 if (isset($button2) || isset($button2_x))
 {
+setSaveComplete();
 $project = 'project='.$project;
 $prooflevel = '&prooflevel='.$prooflevel;
 $newjs='&js='.$js;
@@ -141,6 +153,7 @@ if (!isset($saved))
   $dbQuery.=$prooflevel==2?"12":"2";
   $dbQuery.="' WHERE image = '$imagefile'";
   $result = mysql_query($dbQuery);}
+else {setSaveComplete();}
 if ($js==0)
   {metarefresh(0,'proof_per.php',' ',' ');}
   else {
