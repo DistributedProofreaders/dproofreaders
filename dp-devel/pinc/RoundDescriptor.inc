@@ -12,6 +12,7 @@ $PRD_for_round_id_      = array();
 $PRD_for_round_number_  = array();
 $PRD_for_project_state_ = array();
 $PRD_for_page_state_    = array();
+$PAGE_STATES_IN_ORDER   = array();
 
 class ProofingRoundDescriptor
 // A container for various constants relating to a particular round of proofing.
@@ -93,6 +94,13 @@ class ProofingRoundDescriptor
         $PRD_for_page_state_[$this->page_temp_state ] =& $this;
         $PRD_for_page_state_[$this->page_save_state ] =& $this;
         $PRD_for_page_state_[$this->page_bad_state  ] =& $this;
+
+        global $PAGE_STATES_IN_ORDER;
+        $PAGE_STATES_IN_ORDER[] = $this->page_avail_state;
+        $PAGE_STATES_IN_ORDER[] = $this->page_out_state;
+        $PAGE_STATES_IN_ORDER[] = $this->page_temp_state;
+        $PAGE_STATES_IN_ORDER[] = $this->page_save_state;
+        $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
 }
 
@@ -161,19 +169,6 @@ function get_PRD_for_page_state( $page_state )
 {
     global $PRD_for_page_state_;
     return array_get( $PRD_for_page_state_, $page_state, NULL );
-}
-
-// -------------------------------------
-
-$PAGE_STATES_IN_ORDER = array();
-for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-{
-    $prd = get_PRD_for_round($rn);
-    $PAGE_STATES_IN_ORDER[] = $prd->page_avail_state;
-    $PAGE_STATES_IN_ORDER[] = $prd->page_out_state;
-    $PAGE_STATES_IN_ORDER[] = $prd->page_temp_state;
-    $PAGE_STATES_IN_ORDER[] = $prd->page_save_state;
-    $PAGE_STATES_IN_ORDER[] = $prd->page_bad_state;
 }
 
 // vim: sw=4 ts=4 expandtab
