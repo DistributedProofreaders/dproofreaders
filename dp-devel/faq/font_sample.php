@@ -51,8 +51,18 @@ if ($cfont != 'DPCustomMono2') {
 
 
 
-$exp_text = "
-        <H1>DPCustomMono2</H1>
+$exp_text = "<H1><font face='DPCustomMono2'>DPCustomMono2</font>";
+
+if (($tfont != _("Browser Default")) AND 
+	($tfont != 'DPCustomMono2') AND
+	($tfont != _("Monospaced"))) {
+
+$exp_text .= " vs. $tfont";
+}
+
+
+$exp_text .=
+	"</H1>
         <P>"
         ._("DPCustomMono2 is a font adapted by DP's own big_bill,
         based on the suggestions and ideas of many experienced proofreaders,
@@ -60,7 +70,9 @@ $exp_text = "
         You can change the font that you use for proofing in your")
         ." <a href='$code_url/userprefs.php'>"._("preferences")."</a>. "
         ._("Here are some samples that compare DPCustomMono2 to other fonts.
-        For information on installing and using the font, read the"). " <a href='$forums_url/viewtopic.php?p=31521#31521'>"._("Wiki about this")
+        For information on installing and using the font, read the"). 
+	" <a href='$forums_url/viewtopic.php?p=31521#31521'>".
+	_("DPWiki post")
         ."</a></P>";
 
 echo $exp_text;
