@@ -79,12 +79,12 @@ if ($password=="proofer") {
             VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
         $result = mysql_query($sql);
 
-        maybe_mail($email, "Welcome to the Distributed Proofreader's Site!", "
+        maybe_mail($email, "Welcome to the Distributed Proofreaders' Site!", "
 Hello $real_name,
 
 We want to first thank you for registering on our site. That is the
 first step in helping us proofread books for Project Gutenberg
-<http://www.gutenberg.net/>.
+<http://www.gutenberg.net>.
 
 To make sure you will be able to access and use our web site
 properly, please check that your browser settings are as follows:
@@ -193,13 +193,14 @@ A: You can get help for the various buttons on the proofing interface
    question, just to see what other proofers have asked and answered
    or warned each other about. (There are also several other forums
    dedicated to various phases of our operation. You can reach them
-   by following the Forums link near the right hand end of the navbar
-   at the top of many of the pages on site. The General Forum in
-   particular is a great place to get your feet wet, browse and start
-   to get a sense of the community of proofreaders here, to make
-   suggestions or to ask general questions. You can learn a lot just
-   by following some of the discussions. ***We strongly encourage
-   everyone to participate in the Forums!***)
+   by following the Forums link near the right hand end of the 
+   navigation bar at the top of many of the pages on site. The 
+   General Forum in particular is a great place to get your feet 
+   wet, browse and start to get a sense of the community of 
+   proofreaders here, to make suggestions or to ask general 
+   questions. You can learn a lot just by following some of the 
+   discussions. ***We strongly encourage everyone to participate in 
+   the Forums!***)
 
    (By the way, when you register on the main site you are automatically
    also registered on the site forums, but you will have to log on
