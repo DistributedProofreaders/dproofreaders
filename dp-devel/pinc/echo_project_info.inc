@@ -235,36 +235,44 @@ function get_real_name( $login_name )
 
 function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 {
-	if ($wlist==0) {
-		$top = _("DONE");
-		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
-	} else {
-		$top = _("IN PROGRESS");
-		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
-	}
-	echo_row_b( $top, $bottom );
-	$recentNum=5;
-
-	$sql = "SELECT image, fileid, state, ";
-	$whichTime = $proofstate==PROJ_PROOF_FIRST_AVAILABLE ? "round1_time" : "round2_time";
-	$sql.=$whichTime." FROM $projectid WHERE ";
-	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {$sql.="round1_user";} else {$sql.="round2_user";}
-	$sql.="='$pguser' AND ";
-	if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE)
+	if ($proofstate == PROJ_PROOF_FIRST_AVAILABLE)
 	{
-		if ($wlist==0)
-		{$sql.="state ='".SAVE_FIRST."'";}
-		else
-		{$sql.="(state ='".TEMP_FIRST."' OR state ='".OUT_FIRST."')";}
+		$user_field = "round1_user";
+		$time_field = "round1_time";
+		$save_state = SAVE_FIRST;
+		$temp_state = TEMP_FIRST;
+		$out_state  = OUT_FIRST;
 	}
 	else
 	{
-		if ($wlist==0)
-		{$sql.="state ='".SAVE_SECOND."'";}
-		else
-		{$sql.="(state ='".TEMP_SECOND."' OR state ='".OUT_SECOND."')";}
+		$user_field = "round2_user";
+		$time_field = "round2_time";
+		$save_state = SAVE_SECOND;
+		$temp_state = TEMP_SECOND;
+		$out_state  = OUT_SECOND;
 	}
-	$sql.=" ORDER BY ".$whichTime." DESC LIMIT $recentNum";
+
+	if ($wlist==0) {
+		$top = _("DONE");
+		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
+		$state_condition = "state='$save_state'";
+	} else {
+		$top = _("IN PROGRESS");
+		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
+		$state_condition = "(state='$temp_state' OR state='$out_state')";
+	}
+
+	echo_row_b( $top, $bottom );
+
+	$recentNum=5;
+
+	$sql = "
+		SELECT image, fileid, state, $time_field
+		FROM $projectid
+		WHERE $user_field='$pguser' AND $state_condition
+		ORDER BY $time_field DESC
+		LIMIT $recentNum
+	";
 	$result = mysql_query($sql);
 	$rownum = 0;
 	$numrows = mysql_num_rows($result);
@@ -272,7 +280,7 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 	while (($rownum < $recentNum) && ($rownum < $numrows)) {
 		$imagefile = mysql_result($result, $rownum, "image");
 		$fileid = mysql_result($result, $rownum, "fileid");
-		$timestamp = mysql_result($result, $rownum, $whichTime);
+		$timestamp = mysql_result($result, $rownum, $time_field);
 		$pagestate = mysql_result($result, $rownum, "state");
 		$newproject = "project=$projectid";
 		$newfileid="&amp;fileid=$fileid";
