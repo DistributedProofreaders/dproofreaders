@@ -41,14 +41,19 @@ function showTeamInformation($curTeam)
 {
 	showTeamProfile($curTeam);
 
+	$tally_name = 'P';
+
 	if ($curTeam['id'] != 1)
 	{
-		showTeamStats($curTeam);
-		showTeamMbrs($curTeam);
+		showTeamStats($curTeam, $tally_name);
+		showTeamMbrs($curTeam, $tally_name);
 
 		// Only show the team history if they are more than a day old
 		$now = time();
-		if (($now - $curTeam['created']) > 86400) { showTeamHistory($curTeam); }
+		if (($now - $curTeam['created']) > 86400)
+		{
+			showTeamHistory($curTeam, $tally_name);
+		}
 	}
 }
 
@@ -200,11 +205,14 @@ function team_get_member_count_rank( $team_id )
 	}
 }
 
-function showTeamStats($curTeam) {
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showTeamStats($curTeam, $tally_name) {
 
 	$team_id = $curTeam['id'];
 
-	$teams_tallyboard = new TallyBoard( 'P', 'T' );
+	$teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 
 	$snapshot_info =
 		$teams_tallyboard->get_info_from_latest_snapshot($team_id);
@@ -253,7 +261,7 @@ function showTeamStats($curTeam) {
 	$t->end();
 }
 
-function showTeamMbrs($curTeam) {
+function showTeamMbrs($curTeam, $tally_name) {
 	global $code_url;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
@@ -321,7 +329,7 @@ function showTeamMbrs($curTeam) {
 
 	$t->column_headers( $header_content_ );
 
-	$users_tallyboard = new TallyBoard( 'P', 'U' );
+	$users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
 	list( $joined_with_user_tallies, $user_tally_column ) =
 		$users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
@@ -372,7 +380,7 @@ function showTeamMbrs($curTeam) {
 	$t->end();
 }
 
-function showTeamHistory($curTeam) {
+function showTeamHistory($curTeam, $tally_name) {
 	if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
 
 	$choices = array();
@@ -386,7 +394,7 @@ function showTeamHistory($curTeam) {
 	}
 	$choices_str = join( $choices, ' | ' );
 
-	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=P&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range";
+	$image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range";
 
 	$t = new ThemedTable(
 		1,
