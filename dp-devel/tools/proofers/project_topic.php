@@ -1,74 +1,74 @@
 <?
+// DP includes
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 
-//Declare variables
-$timeposted = time();
+// PHPBB includes (from the standard installation)
+define('IN_PHPBB', true);
+$phpbb_root_path = $forums_dir.'/';
+include($phpbb_root_path . 'extension.inc');
+include($phpbb_root_path . 'common.'.$phpEx);
+include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
+include($phpbb_root_path . 'includes/functions_post.'.$phpEx);
+
+// include the custom PHPBB file
+include($relPath . 'functions_insert_post.'.$phpEx);
+
+// Which project?
 $project_id = $_GET['project'];
-$ip_sep = explode('.', $_SERVER['REMOTE_ADDR']);
-$post_ip = sprintf('%02x%02x%02x%02x', $ip_sep[0], $ip_sep[1], $ip_sep[2], $ip_sep[3]);
 
+// Get info about project
+$proj_result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
 
-//Get info about project
-$result = mysql_query("SELECT nameofwork, authorsname, topic_id, username FROM projects WHERE projectid='$project_id'");
-while($row = mysql_fetch_array($result)) {
-$title = "\"".$row['nameofwork']."\"    by ".$row['authorsname']."";
-$title = addslashes($title);
-$message =  "
-This thread is for discussion of \"{$row['nameofwork']}\" by {$row['authorsname']}.
+$row = mysql_fetch_array($proj_result);
 
-Please review the <a href='$code_url/tools/proofers/projects.php?project=$project_id&proofing=1'>project comments</a> before posting.
+$topic_id = $row['topic_id'];
+
+//Determine if there is an existing topic or not; if not, create one
+if(($topic_id == "") || ($topic_id == 0))
+{
+        $nameofwork = $row['nameofwork'];
+        $authorsname = $row['authorsname'];
+        $proj_mgr = $row['username'];
+
+        $post_subject = "\"".$nameofwork."\"    by ".$authorsname;
+
+        $message =  "
+This thread is for discussion specific to \"$nameofwork\" by $authorsname.
+
+Please review the [url=$code_url/tools/proofers/projects.php?project=$project_id&proofing=1]project comments[/url] before posting, as well as any posts below, as your question may already be answered there.
 
 (This post is automatically generated.)
 ";
-$message = addslashes($message);
-$topic_id = $row['topic_id'];
 
-// determine forums ID of PM
+        // determine forums ID and signature preference of PM
 
-$id_result = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$row['username']."'");
-$id_row = mysql_fetch_array($id_result);
-$owner = $id_row[0];
+        $id_result = mysql_query("SELECT user_id, user_attachsig FROM phpbb_users WHERE username = '".$proj_mgr."'");
+        $id_row = mysql_fetch_array($id_result);
+
+        $owner = $id_row['user_id'];
+        $sig = $id_row['user_attachsig'];
+        if ($sig == '') {$sig = 1;}
+
+        // create the post
+        $post_result =  insert_post(
+                $message,
+                $post_subject,
+                2,                                      // forum_id - only temporaily hardcoded
+                $owner,
+                $proj_mgr,
+                $sig);
+
+        $topic_id = $post_result['topic_id'];
+
+        //Update project_db with topic_id so it can be moved later
+        $update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
 
 }
 
-//Determine if there is an existing topic or not
-if(($topic_id == "") || ($topic_id == 0)) {
+// By here, either we had a topic or we've just created one, so redirect to it
 
-
-
-//Add Topic into phpbb_topics
-$insert_topic = mysql_query("INSERT INTO phpbb_topics (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, topic_last_post_id, topic_moved_id) VALUES (NULL, 2, '$title', $owner, $timeposted, 0, 0, 0, 0, 0, 1, 1, 0)");
-$topic_id = mysql_insert_id();
-
-//Add Post into phpbb_posts
-$insert_post = mysql_query("INSERT INTO phpbb_posts (post_id, topic_id, forum_id, poster_id, post_time, poster_ip, post_username, enable_bbcode, enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count) VALUES (NULL,$topic_id, 2, $owner, $timeposted, '$post_ip', '', 1, 0, 1, 0, NULL, 0)");
-$post_id = mysql_insert_id();
-
-//Add Post Text into phpbb_posts_text
-$insert_post_text = mysql_query("INSERT INTO phpbb_posts_text (post_id, bbcode_uid, post_subject, post_text) VALUES ($post_id, '', '$title', '$message')");
-
-//Update phpbb_topics with post_id
-$update_topic = mysql_query("UPDATE phpbb_topics SET topic_first_post_id=$post_id, topic_last_post_id=$post_id WHERE topic_id=$topic_id");
-
-//Update forum post count
-$get_count = mysql_query("SELECT forum_posts, forum_topics FROM phpbb_forums WHERE forum_id=2");
-while($row = mysql_fetch_array($get_count)) {
-$forum_posts = $row['forum_posts'];
-$forum_topics = $row['forum_topics'];
-$forum_posts++;
-$forum_topics++;
-$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics, forum_last_post_id=$post_id WHERE forum_id=2");
-}
-
-//Update project_db with topic_id so it can be moved later
-$update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
-
-//Redirect to the topic
 $redirect_url = "$forums_url/viewtopic.php?t=$topic_id";
-header("Location: $redirect_url"); 
-} else {
-$redirect_url = "$forums_url/viewtopic.php?t=$topic_id";
-header("Location: $redirect_url"); 
-}
+header("Location: $redirect_url");
+?>
