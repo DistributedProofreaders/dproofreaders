@@ -181,8 +181,44 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	
 function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     global $dynstats_dir, $dynstats_url;
-    //If logged in & either a Post Processor or Project Manager display links
+    
 	if (isset($GLOBALS['pguser'])) {
+	
+	//Get the personal statistics array
+	$result = mysql_query("SELECT username, pagescompleted FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
+	$i = 0;
+	$row = mysql_fetch_assoc($result);
+	if ($row['username'] == $GLOBALS['pguser']) {
+    		$userindex = 0;
+	}
+	$neighborhood['rank'][0] = 1;
+	$neighborhood['username'][0] = $row['username'];
+	$neighborhood['pages'][0] = $row['pagescompleted'];
+	$lastcompleted = $row['pagescompleted'];
+	$i++;
+	while ($row = mysql_fetch_assoc($result)) {
+    		if ($row['username'] == $GLOBALS['pguser']) {
+        		$userindex = $i;
+    		}
+    		if ($row['pagescompleted'] == $lastcompleted) { 
+        		$neighborhood['rank'][$i] = $neighborhood['rank'][$i - 1];
+    		} else {
+        		$neighborhood['rank'][$i] = $i+1;
+    		}
+    		$neighborhood['username'][$i] = $row['username'];
+    		$neighborhood['pages'][$i] = $row['pagescompleted'];
+    		$lastcompleted = $row['pagescompleted'];
+    		$i++;
+	}
+	
+		if (!isset($userindex)) { 
+		$userindex = $i-1;
+		$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
+		$neighborhood['pages'][$userindex] = 0;
+		$neighborhood['rank'][$userindex] = $userindex;
+		}
+		
+		//If logged in & either a Post Processor or Project Manager display links
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'><center>&nbsp;";
 				
 		if (substr($_SERVER['PHP_SELF'], -13) != "proof_per.php") { 
@@ -196,7 +232,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<a href='$code_url/tools/project_manager/projectmgr.php'>Manage Projects</a>";
 			$divider = 1;
 		}
-		if ($userP['postprocessor'] == "yes" && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
+		if (($userP['postprocessor'] == "yes" || $neighborhood['pages'][$userindex] >= 400) && substr($_SERVER['PHP_SELF'], -17) != "post_proofers.php") {
 			if (isset($divider)) { 
 				echo " | ";
 			}
@@ -230,40 +266,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
     //If the user is logged in show personal & team stats
 	if (isset($GLOBALS['pguser'])) {
     //Show the personal statistics
-	$result = mysql_query("SELECT username, pagescompleted FROM users WHERE pagescompleted > 0 ORDER BY pagescompleted DESC");
-	
-	$i = 0;
-	$row = mysql_fetch_assoc($result);
-	if ($row['username'] == $GLOBALS['pguser']) {
-    		$userindex = 0;
-	}
-	$neighborhood['rank'][0] = 1;
-	$neighborhood['username'][0] = $row['username'];
-	$neighborhood['pages'][0] = $row['pagescompleted'];
-	$lastcompleted = $row['pagescompleted'];
-	$i++;
-	while ($row = mysql_fetch_assoc($result)) {
-    		if ($row['username'] == $GLOBALS['pguser']) {
-        		$userindex = $i;
-    		}
-    		if ($row['pagescompleted'] == $lastcompleted) { 
-        		$neighborhood['rank'][$i] = $neighborhood['rank'][$i - 1];
-    		} else {
-        		$neighborhood['rank'][$i] = $i+1;
-    		}
-    		$neighborhood['username'][$i] = $row['username'];
-    		$neighborhood['pages'][$i] = $row['pagescompleted'];
-    		$lastcompleted = $row['pagescompleted'];
-    		$i++;
-	}
-	
-		if (!isset($userindex)) { 
-		$userindex = $i-1;
-		$neighborhood['username'][$userindex] = $GLOBALS['pguser'];
-		$neighborhood['pages'][$userindex] = 0;
-		$neighborhood['rank'][$userindex] = $userindex;
-		}
-	
 	//get rank    
 	if ($neighborhood['pages'][$userindex] >= 0) {
 	 $rankname = "Newbie";
@@ -315,12 +317,14 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
         if ($userP['u_top10']) {
         	echo "<br><hr width='75%' align='center'><br>\n";
         	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Top Ten Proofers:</u></font></center>\n";
-		$i = 1;
-		while ($i <= 10) {
+		$i = 0;
+		$p = 1;
+		while ($p <= 10) {
 			if ($neighborhood['username'][$i] == $GLOBALS['pguser']) { echo "<b><i>"; }
-			echo "&nbsp;$i.) ".$neighborhood['username'][$i]." - ".number_format($neighborhood['pages'][$i])."<br>\n";
+			echo "&nbsp;$p.) ".$neighborhood['username'][$i]." - ".number_format($neighborhood['pages'][$i])."<br>\n";
 			if ($neighborhood['username'][$i] == $GLOBALS['pguser']) { echo "</b></i>"; }
 			$i++;
+			$p++;
 		}
         }
         
