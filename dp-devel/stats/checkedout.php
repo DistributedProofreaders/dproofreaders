@@ -12,6 +12,7 @@ if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
 elseif ( $state == PROJ_POST_SECOND_CHECKED_OUT )
 {
 	$activity = _('Post Processing Verification');
+       $inPPV = 1;
 }
 else
 {
@@ -27,6 +28,10 @@ if ( $order == 'nameofwork' )
 elseif ( $order == 'checkedoutby' )
 {
 	$orderclause = 'checkedoutby ASC, modifieddate ASC';
+}
+elseif ( $order == 'postproofer' )
+{
+	$orderclause = 'postproofer ASC, modifieddate ASC';
 }
 elseif ( $order == 'modifieddate' )
 {
@@ -53,6 +58,20 @@ echo "<br><h2>$title</h2>\n";
 
 // Header row
 
+if (isset($inPPV)) {
+    $colspecs = array(
+	'#'                  => 'bogus',
+	'Name of Work'       => 'nameofwork',
+       'PPer'              => 'postproofer',
+	'Checked Out To'     => 'checkedoutby',
+	'Date Last Modified' => 'modifieddate',
+	'User Last Login'    => 'holder_last_login'
+   );
+
+   $numcols = 6;
+
+} else {
+
 $colspecs = array(
 	'#'                  => 'bogus',
 	'Name of Work'       => 'nameofwork',
@@ -61,8 +80,14 @@ $colspecs = array(
 	'User Last Login'    => 'holder_last_login'
 );
 
+   $numcols = 5;
+
+}
+
+
+
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
-echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
+echo "<tr><td colspan='$numcols' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_header => $col_order )
@@ -86,6 +111,7 @@ echo "</tr>\n";
 $result = mysql_query("
 	SELECT
 		nameofwork,
+             postproofer,
 		checkedoutby,
 		modifieddate,
 		users.last_login as holder_last_login
@@ -119,6 +145,13 @@ while ( $project = mysql_fetch_object( $result ) )
 		<tr bgcolor='".$theme['color_navbar_bg']."'>
 		<td>$rownum</td>
 		<td width='200'>$project->nameofwork</td>
+      ";
+     
+      if (isset($inPPV)) { 
+
+            echo "	<td>$project->postproofer</td>";
+      }
+      echo "       
 		<td>$project->checkedoutby</td>
 		<td>$datestamp</td>
 		<td>$lastlogindate</td>
