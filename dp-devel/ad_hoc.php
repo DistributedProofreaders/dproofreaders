@@ -42,6 +42,59 @@ function end_timer()
 
 if (0)
 {
+	include_once($relPath.'v_site.inc');
+	include_once($relPath.'misc.inc');
+
+	$allscripts = array_merge(
+		all_possible_concatenations(
+			array(
+				'cumulative_month_proj.php',
+				'cumulative_total_proj_graph.php',
+				'curr_month_proj.php',
+				'total_proj_graph.php'
+			),
+			'?which=',
+			array( 'created', 'proofed', 'PPd', 'posted' )
+		),
+
+		array(
+			'cumulative_month_pages.php',
+			'cumulative_total_pages_graph.php',
+			'curr_month_pages_graph.php',
+			'prev_month_pages_graph.php',
+			'total_pages_by_month_graph.php',
+			'total_pages_graph.php',
+
+			'average_hour_users_logging_on.php',
+			'percent_users_who_proof.php',
+		),
+
+		all_possible_concatenations(
+			'users_logging_on.php?',
+			array(
+				'past=day&preceding=hour',
+				'past=year&preceding=hour',
+				'past=year&preceding=day',
+				'past=year&preceding=week',
+				'past=year&preceding=fourweek',
+			)
+		)
+	);
+
+	// tallyboard_deltas.php
+
+	foreach ( $allscripts as $script )
+	{
+		echo "\n";
+		echo "$script\n";
+		$connector = ( strpos($script,'?') !== FALSE ? '&' : '?' );
+		readfile("$code_url/stats/jpgraph_files/$script{$connector}echo_graph_data=1");
+	}
+
+}
+
+if (0)
+{
 	// Time trials
 
 	$N = 10;
