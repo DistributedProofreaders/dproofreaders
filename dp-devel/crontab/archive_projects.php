@@ -15,23 +15,25 @@ $n_days_ago = 7;
 
 $old_date = time() - ($n_days_ago * 24 * 60 * 60);
 
-$result = dpsql_query("
+$result = mysql_query("
     SELECT projectid, FROM_UNIXTIME(modifieddate), nameofwork
     FROM projects
     WHERE
         modifieddate <= $old_date
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
-");
+") or die(mysql_error());
+
 echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
+
 while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
-    dpsql_query("
+    mysql_query("
         UPDATE projects
         SET archived = '1'
         WHERE projectid='$projectid'
-    ");
+    ") or die(mysql_error());
 }
 
 
