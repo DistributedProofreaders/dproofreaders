@@ -67,21 +67,14 @@ function join_proofed_text ($project, $fp)
     //
     $carriagereturn = chr(13);
     $linefeed = chr(10);
-    $indicator1 = "-----File: ";
-    $indicator2 = "---\\";
-    $pagebreak1 = $carriagereturn.$linefeed.$indicator1;
-    $pagebreak2 = $carriagereturn.$linefeed;
+    $eol = $carriagereturn.$linefeed;
 
     $myresult = mysql_query("SELECT image, round1_user, round2_user, round2_text FROM $project ORDER BY image");
     while( list($filename,$round1_user,$round2_user,$text_data) = mysql_fetch_array($myresult) )
     {
-        $dashes_todo = 74 - 16 - strlen($filename) - strlen($round1_user) - strlen($round2_user);
-        $dashes = "";
-        for ($i = 1; $i <= $dashes_todo; $i++) {
-           $dashes .= "-";
-        }
-        $separator = $pagebreak1.$filename.$indicator2.$round1_user."\\".$round2_user."\\".$dashes.$pagebreak2;
-        $fileinfo = $separator.$text_data;
+        $info_str = "-----File: $filename---\\$round1_user\\$round2_user\\";
+        $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
+        $fileinfo = $eol . $separator_line . $eol . $text_data;
         // SENDING PAGE-TEXT TO USER
         // It's a text-file, so no encoding is necessary.
         fputs($fp,$fileinfo);
