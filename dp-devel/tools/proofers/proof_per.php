@@ -18,7 +18,9 @@ include($relPath.'showavailablebooks.inc');
     include("../../stats/hourly.txt");
     echo" <p><b>Your Stats:<br></b>";
     //get total pages completed
-    $totalpages = $userP['pagescompleted'];
+    $pagessql = "SELECT pagescompleted FROM users WHERE username = '$pguser' LIMIT 1";
+    $pages = mysql_query($pagessql);
+    $totalpages = mysql_result($pages, 0, "pagescompleted");
     echo "Your Total Pages:<font color=\"#0000FF\"><b> $totalpages</b></font><br>";
 
     //get rank
