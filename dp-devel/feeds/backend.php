@@ -27,7 +27,7 @@ $refreshdelay = time()-($refreshdelay*60); //Find out how long ago $refreshdelay
 if (($content != "posted") & ($content != "proofing") & ($content != "news")) { $content = "posted"; }
 
 //Determine if we should display a 0.91 compliant RSS feed or our own feed
-if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir.$content."_rss.xml"; } else { $xmlfile = $xmlfeeds_dir.$content.".xml"; }
+if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir."/".$content."_rss.xml"; } else { $xmlfile = $xmlfeeds_dir."/".$content.".xml"; }
 
 //If the file does not exist let's create it and then set the refresh delay to now so it updates
 if (!file_exists($xmlfile)) { 
