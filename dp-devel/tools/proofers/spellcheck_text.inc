@@ -177,4 +177,47 @@ function escapeStringEntities($text)
 	return $text;
 }
 
+// --------------------------------------------
+
+function spellcheck_quit()
+{
+	$text_data = $_POST['text_data'];
+	return str_replace( "[lf]", "\r\n", stripslashes($text_data) );
+}
+
+function spellcheck_apply_corrections()
+{
+	$text_data = $_POST['text_data'];
+
+	// were there any corrections?
+	$spell_count=isset($_POST['sptotal'])?$_POST['sptotal']:0;
+	if ($spell_count==0)
+	{
+		// just give them the text
+		$correct_text = str_replace("[lf]","\r\n",$text_data);
+	}
+	else
+	{
+		// make corrections
+		$text_array = explode("[lf]",$text_data);
+		for ($i=1;$i<=$spell_count;$i++)
+		{
+			// hidden values line|offset|word length
+			$inst_array=explode('|',$_POST['posit'.$i]);
+			$text_line=$inst_array[0];
+			$text_offset=$inst_array[1];
+			$word_length=$inst_array[2];
+			// hidden word
+			$correct_word=stripslashes($_POST['wd'.$i]);
+			// replace word in string
+			$text_array[$text_line] =
+				substr($text_array[$text_line],0,$text_offset-1) .
+				$correct_word .
+				substr($text_array[$text_line],($text_offset+$word_length)-1);
+		}
+		$correct_text .= implode("\r\n",$text_array);
+	}
+	return $correct_text;
+}
+
 ?>
