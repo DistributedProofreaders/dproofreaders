@@ -235,7 +235,7 @@ theme('Proofreading Guidelines','header');
 <p> On the interface page where you start proofreading pages, there is a section called
     "Project Comments" containing info specific to that project (book). <em>Read these
     before you start proofreading pages!</em> If the Project Manager wants you to format
-    something in this book different than the general rules in these Guidelines, that
+    something in this book differently from the way specified in these Guidelines, that
     will be noted here.  Instructions in the Project Comments <em>override</em> the rules
     in these Guidelines, so follow them.  (This is also where the Project Manager gives
     you interesting tidbits of information about the books, like where the source came
@@ -733,9 +733,9 @@ theme('Proofreading Guidelines','header');
     done automatically in post-processing.) </p>
  
 <h3><a name="mult_col">Multiple Columns</a> </h3>
-<p> Break up multiple-column text into a single column.  Place the left-most column
-    first and then the next one after it, and so on. You don't need to do anything
-    to mark where the columns were split, just run them all together.
+<p> Assemble multiple-column text into a single column, by placing the text from the left-most column
+    first and that from the next one after it, and so on. You don't need to do anything
+    to mark where the columns were split, just run them all together. (This does not apply to tables.)
     </p>
 
 <h3><a name="illust">Illustrations</a> </h3>
@@ -854,8 +854,8 @@ theme('Proofreading Guidelines','header');
           former military                                                        <br>
           leader and Imperator, and the orator Cicero[2].
           Both were of the aristocratic                                          <br>
-          (Patrician) class, and were quite wealthy.</tt>
-     <hr align="left" width="50%" noshade size=2>
+          (Patrician) class, and were quite wealthy.</tt>			<br>
+										<br>
          <tt>[Footnote 1: Gaius Julius Caesar.]                                 <br>
                                                                                 <br>
          [Footnote 2: Marcus Tullius Cicero.]</tt>
@@ -863,6 +863,10 @@ theme('Proofreading Guidelines','header');
     </tr>  
   </tbody>
 </table>
+<p> In some books, footnotes are separated from the main text by a horizontal line. 
+    We don't keep this so please just leave a blank line between the main text and the footnotes. 
+    (See example above.)
+</p>
 
 <p> <b>Endnotes</b> are just footnotes that have been located together at the end of a
     chapter or at the end of the book, instead of on the bottom of each page. So these
@@ -1441,7 +1445,7 @@ image/text for an example.</p>
     <tt>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
     </tt>
-    Remove extra dots, if any, to reduce the number to three (or four) as appropriate.
+    Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.
     </p>
     
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a> </h3>
@@ -1814,7 +1818,7 @@ cedilla                      [,x]*  [x,]
       <td align="center">&tilde; &sim;</td>
       <td align="center"><tt>[~x]</tt></td>
       <td align="center"><tt>[x~]</tt>*</td> </tr>
-  <tr><td>acute (égu) accent</td>
+  <tr><td>acute accent (aigu)</td>
       <td align="center">&acute;</td>
       <td align="center"><tt>['x]</tt> or <tt>[/x]</tt></td>
       <td align="center"><tt>[x']</tt> or <tt>[x/]</tt>*</td>
@@ -1832,10 +1836,10 @@ cedilla                      [,x]*  [x,]
    proofer knows which letter it applies to.  They will eventually replace these with
    whatever symbol works in each version of the text they produce, like 7-bit ASCII,
    8-bit, Unicode, html, etc.  </p>
-<p>Note that when these marks appear on some characters (mainly vowels) our standard
+<p>Note that when soem of these marks appear on some characters (mainly vowels) our standard
    Latin-1 character set already includes that character, with the marking.  So in that
-   case, you can use either the Latin-1 character (see <a href="#a_chars">here</a>) or
-   this coding, whichever you prefer. </p>
+   case, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
+   drop down lists in the proofreading interface. </p>
 
     
     <h3><a name="f_chars">Non-English Characters</a> </h3>
