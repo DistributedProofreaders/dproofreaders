@@ -121,7 +121,7 @@ e.g.: ~ ` @ # $ % ^ & + = | \ « » </li>
 </p>
 
 <p>
-PG's guidelines on HTML are currently being revised; this section may change.
+PG's guidelines on HTML can be found here: http://gutenberg.net/faq/H-4
 </p>
 
 <ol>
