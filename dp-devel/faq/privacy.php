@@ -1,3 +1,7 @@
+<?php
+include_once($relPath.'v_site.inc');
+?>
+
 <p align="center"><font size="+2">Privacy Statement:</font></p>
 
 <p><font size="+1">Usage of information:</font></p>
@@ -13,7 +17,17 @@ will be removed based on its age.</p>
 
 <p><font size="+1">Access of information:</font></p>
 
-<p>Only the web site manager will have full access to the information in this form.
+<p>Only the web site manager
+<?
+if ($testing)
+{
+    echo "<font style='color: red'>";
+    echo "and (because this is a testing site) developers with login access to this host";
+    echo "</font>";
+    echo "\n";
+}
+?>
+will have full access to the information in this form.
 Project managers will have access to e-mail you directly if needed. Any public
 information you fill out in the phpBB forum or profile will be accessible to other
 users.</p>
