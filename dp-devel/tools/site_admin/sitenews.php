@@ -2,8 +2,7 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 
-$uid = $userP['user_id'];
-$result = mysql_query("SELECT * FROM users WHERE id = '$uid'");
+$result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
 
 if (mysql_result($result,0,"sitemanager") == "yes") {
 
