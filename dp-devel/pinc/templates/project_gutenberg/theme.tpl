@@ -11,7 +11,7 @@ $project_gutenberg['template_unix_name'] = "project_gutenberg";
 $project_gutenberg['template_description'] = "The default theme using the green colors of Project Gutenberg";
 $project_gutenberg['template_creator'] = "Joseph Gruber (USFJoseph)";
 
-$project_gutenberg['body_bgcolor'] = "#cccccc";
+$project_gutenberg['body_bgcolor'] = "#ffffff";
 $project_gutenberg['body_text'] = "#000000";
 $project_gutenberg['body_link'] = "#0000ff";
 $project_gutenberg['body_vlink'] = "#990099";
