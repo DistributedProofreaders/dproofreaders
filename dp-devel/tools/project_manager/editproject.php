@@ -95,6 +95,7 @@ Distributed Proofreaders\nhttp://texts01.archive.org/dp/\n\nThis is an automated
             $rownum++;
         }
         $del = mysql_query("DELETE FROM usersettings WHERE value = '$project' AND setting = 'posted_notice'");
+        $ins = mysql_query("UPDATE projects SET int_level = '$numrows' WHERE project = '$projectid'");
 
 }
 
