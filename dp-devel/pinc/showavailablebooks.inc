@@ -273,7 +273,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
                         }
 
                         // Earth blue for Earth Day
-                        if ( startswith( $book['comments'], 'SPECIAL: Earth' ) )
+                        if ( startswith( $book['comments'], 'SPECIAL: Earth' ) or
+				startswith( $book['comments'], 'SPECIAL: DP-5000' ))
                         {
                                 $bgcolor = " bgcolor='#669CFF'";
                         }
