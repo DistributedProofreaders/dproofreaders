@@ -10,11 +10,11 @@ $htmlMid="</HEAD><BODY>";
 $htmlEnd="</BODY></HTML>";
 $noLogin=$htmlStart.$htmlMid.$noLogin.$htmlEnd;
 
-if (isset($userNM) && isset($userPW))
+if (isset($_POST['userNM']) && isset($_POST['userPW']))
 {
 // $userNM = str_replace("\'", "''", $userNM);
 
-$uC=$userC->checkLogin($userNM,$userPW);
+$uC=$userC->checkLogin($_POST['userNM'],$_POST['userPW']);
      if ($uC)
      {
      $uP=$userC->getUserPrefs($userNM);
