@@ -143,7 +143,7 @@ abort_if_not_manager();
 			$condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
         	}
 		$result = mysql_query("
-			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username
+			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username, comments
 			FROM projects
 			WHERE $condition
 			ORDER BY nameofwork asc
@@ -239,12 +239,21 @@ abort_if_not_manager();
                         $diff = strtoupper(substr(mysql_result($result, $rownum, "difficulty"),0,1));
             		$projectid = mysql_result($result, $rownum, "projectid");
             		$outby = mysql_result($result, $rownum, "checkedoutby");
+			$comments = mysql_result($result, $rownum, "comments");
 
 			if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_mainbody_bg'];
                 	} else {
                 		$bgcolor = $theme['color_navbar_bg'];
             		}
+
+
+			// experiment
+			// pink for Saint Valentine's Day
+                        if ( startswith( $book['comments'], 'SPECIAL: St. Val' ) )
+                        {
+                                $bgcolor = " '#FF99FF'";
+                        }
 
             		echo "<tr bgcolor=$bgcolor>\n";
 
@@ -305,7 +314,7 @@ abort_if_not_manager();
 
 			// Project Status
 
-			if (user_is_a_sitemanager() or user_is_PM_of($projectid)) {
+			if (user_is_a_sitemanager() or user_is_PM_of($projectid) or user_is_proj_facilitator()) {
 
 				echo "
 				    <td valign=center>
@@ -343,6 +352,13 @@ abort_if_not_manager();
 		}
 		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table>";
 	}
+
+
+function startswith( $subject, $prefix )
+// Return TRUE iff $subject starts with $prefix.
+{
+	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
+}
 
 echo "<br>";
 theme("","footer");
