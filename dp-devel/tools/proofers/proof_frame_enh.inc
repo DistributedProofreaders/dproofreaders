@@ -31,6 +31,7 @@ echo $sHidFS.$fntS.$sHidFM.'fntS'.$sHidFM2.'fntS'.$sHidFE;
 //echo $sHidFS.$zmSize.$sHidFM.'zmSize'.$sHidFM2.'zmSize'.$sHidFE;
 echo $sHidFS.$sTags.$sHidFM.'sTags'.$sHidFM2.'sTags'.$sHidFE;
 if (isset($editone)) { echo $sHidFS.$editone.$sHidFM.'editone'.$sHidFM2.'editone'.$sHidFE;}
+if (isset($saved)) { echo $sHidFS.$saved.$sHidFM.'saved'.$sHidFM2.'saved'.$sHidFE;}
 ?>
 <TABLE 
 CELLPADDING="0" CELLSPACING="0">
@@ -96,7 +97,7 @@ else {
 }
 
 //this is to finish off any lang
-echo " | <A \nHREF=\"#\" onclick=\"mNA()\">More</A></FONT>";
+echo " | <a \r\nhref=\"#\" onclick=\"mNA()\" title=\"Extended Latin-1 Character Set\">More</A></FONT>";
 }
 ?>
 </TD></TR></TABLE></FORM></CENTER></BODY></HTML>

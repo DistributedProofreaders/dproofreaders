@@ -23,12 +23,13 @@ type="text" value="<? echo $zmSize; ?>" name="zmSize" ID="zmSize" size="3" title
 src="gfx/bt10.png" border="0" alt="Set Image Zoom Percent" title="Set Image Zoom Percent"></a>&nbsp;<a href="#" onclick="doRV()"><img 
 src="gfx/bt8.png" border="0" alt="Revert to Original Document" title="Revert to Original Document"></a>&nbsp;<a href="#" onclick="udoRV()"><img 
 src="gfx/bt7.png" border="0" alt="Undo Revert" title="Undo Revert"></a>&nbsp;<a href="#" onclick="showNW()"><img 
-src="gfx/bt9.png" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a href="projects.php?project=<?PHP echo $project; ?>&amp;proofing=1" TARGET="viewcomments"><img 
+src="gfx/bt9.png" border="0" alt="Show All Text" title="Show All Text"></a>&nbsp;<a href="projects.php?project=<?PHP echo "$project&amp;prooflevel=$prooflevel"; ?>&amp;proofing=1" TARGET="viewcomments"><img 
 src="gfx/bt12.png" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<a href="#" onclick="cFCE()"><img 
 src="gfx/bt6.png" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;<INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" title="Change Interface Layout" src="gfx/bt<?PHP if ($orient==1) {echo "4";} else {echo "5";} ?>.png">&nbsp;<INPUT 
 TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" onclick="return(confirm('Are you sure you want to \r\n\r\nSave the Current Document?'));" src="gfx/bt3.png">&nbsp;<?PHP 
 if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" title=\"Save and Proof Next Page\" onclick=\"return(confirm('Are you sure you want to ".'\r\n\r\n'."Save and Proof Next Page?'));\" src=\"gfx/bt2.png\">".'&nbsp;';}
-?><a href="#" onclick="confirmClose()"><img 
-src="gfx/bt1.png" accesskey="9" border="0" alt="Quit Without Saving" title="Quit Without Saving"></a>&nbsp;<a href="../../faq/prooffacehelp.html" target="helpNewWin"><img 
+?><INPUT 
+TYPE="image" accesskey="9" name="button3" ID="button3" title="Quit without Saving" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Without Saving?'));" src="gfx/bt1.png">&nbsp;<a 
+href="../../faq/prooffacehelp.html" target="helpNewWin"><img 
 src="gfx/bt11.png" border="" alt="Help" TITLE="Help"></a>

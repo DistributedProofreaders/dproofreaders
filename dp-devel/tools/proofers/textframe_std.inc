@@ -1,8 +1,6 @@
 <html><head><TITLE></TITLE></head><body><center><form method="post" action="processtext.php" target="_top">
 <script language="JavaScript">
 <!--
-  javascript:window.history.forward(1);
-
 function resize(newsize)
 {
   parent.imageframe.document.scanimage.width=newsize;
@@ -48,6 +46,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$js\" name=\"js\">";
     echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$orient\" name=\"orient\">";
 if (isset($editone)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$editone\" name=\"editone\">";}
+if (isset($saved)) {    echo "<INPUT \r\nTYPE=\"hidden\" VALUE=\"$saved\" name=\"saved\">";}
 ?>
 <INPUT TYPE="Submit" accesskey="7" VALUE="Save" name="button1"> <?PHP 
 if (!isset($editone)){echo "<INPUT TYPE=\"Submit\" accesskey=\"8\" VALUE=\"Save and Do Another\" name=\"button2\"> ";}
@@ -63,7 +62,7 @@ echo "<B>Page Number: $pageNum ";
         echo " - Proofed by: <a href=\"../../phpBB2/privmsg.php?mode=post&u=".$user_id."\" target=\"comments\">".$username."</a>"; 
     }
 echo "</B><BR>";
-    echo "View: <a href=\"projects.php?project=$project&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
+    echo "View: <a href=\"projects.php?project=$project&amp;prooflevel=$prooflevel&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
     echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a>";
 
 ?>

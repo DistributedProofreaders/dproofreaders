@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 /* $_POST $imagefile, $fileid, $prooflevel, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
-          $button3_x, $button4_x, $editone */
+          $button3_x, $button4_x, $editone, $saved */
 
 $project = $projectname;
 $text_data = strip_tags($text_data, '<i>');
@@ -136,10 +136,18 @@ metarefresh(0,$frame1,' ',' ');
 // if quit without saving send back to projects page
 if (isset($button3) || isset($button3_x))
 {
-$dbQuery="UPDATE $project SET state='";
-$dbQuery.=$prooflevel==2?"12":"2";
-$dbQuery.="' WHERE image = '$imagefile'";
-$result = mysql_query($dbQuery);
-metarefresh(0,'proof_per.php',' ',' ');
+if (!isset($saved))
+  {$dbQuery="UPDATE $project SET state='";
+  $dbQuery.=$prooflevel==2?"12":"2";
+  $dbQuery.="' WHERE image = '$imagefile'";
+  $result = mysql_query($dbQuery);}
+if ($js==0)
+  {metarefresh(0,'proof_per.php',' ',' ');}
+  else {
+  include($relPath.'doctype.inc');
+  echo "$docType\r\n<HTML><HEAD><TITLE>Quit</TITLE></HEAD><BODY>";
+?><SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">window.opener.location.href="proof_per.php";window.close();</SCRIPT><?PHP
+  echo "Please <A HREF=\"#\" onclick=\"window.close()\">click here</A> to close the proofing window.";
+  echo "</BODY></HTML>";}
 } // end button 3 quit
 ?>

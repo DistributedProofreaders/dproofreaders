@@ -1,7 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-/* $_GET $project, $prooflevel */
+/* $_GET $project, $prooflevel, $proofing */
 
     $result = mysql_query("SELECT nameofwork, authorsname, comments, username FROM projects WHERE projectid = '$project'");
     $nameofwork = mysql_result($result, 0, "nameofwork");
@@ -11,6 +11,17 @@ include($relPath.'dp_main.inc');
 if (isset($proofing))
 {   $phpuser = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$pguser'");
    $user_id = mysql_result($phpuser, 0, "user_id");
+}
+if (isset($prooflevel)){
+   if ($prooflevel==0)
+   {$wTime="round1_time";
+    $wState=8;}
+   else {$wTime="round2_time";
+         $wState=18;}
+$proofdate=mysql_query("SELECT $wTime FROM $project WHERE state='$wState' ORDER BY $wTime DESC LIMIT 1");
+  if (mysql_num_rows($proofdate)!=0)
+     {$lastproofed=date("l, F jS, Y \a\\t g:i:sA",mysql_result($proofdate,0,$wTime))."&nbsp;&nbsp;&nbsp; (Current Time: ".date("g:i:sA",time()).")";}
+  else {$lastproofed="Project has not been proofread in this round.";}
 }
 include($relPath.'doctype.inc');
 echo "$docType\r\n<HTML><HEAD><TITLE> Project Comments</TITLE>";
@@ -59,14 +70,17 @@ else {
 <?PHP
 }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Name of Work</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Name of Work</b></td>";
     echo "<td>$nameofwork</td></tr>";
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Author</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Author</b></td>";
     echo "<td>$authorsname</td></tr>";
-    echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Project Manager</b></td>";
+    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Project Manager</b></td>";
     echo "<td>$username</td></tr>";
+if (isset($prooflevel))
+{    echo "<tr><td bgcolor=\"CCCCCC\" align=\"center\"><b>Last Proofread</b></td>";
+    echo "<td>$lastproofed</td></tr>";}
 if (!isset($proofing))
-  {echo "<tr><td bgcolor = \"CCCCCC\"><h3>Project Comments</h3></td><td>$comments</td></tr></table>";}
+  {  echo "<tr><td bgcolor = \"CCCCCC\" align=center><h3>Project Comments</h3></td><td>$comments</td></tr></table>";}
 else {echo "<tr><td bgcolor=\"CCCCCC\" align=center><b>Forum</b></td>";
       echo "<td><a href=\"project_topic.php?project=$project&amp;user_id=$user_id&amp;action=c\">Discuss this Project in the Forum</td></tr>";
       echo "<tr><td bgcolor = \"CCCCCC\" colspan=\"2\" align=\"center\"><h3>Project Comments</h3></td></tr><tr><td colspan=\"2\">$comments</td></tr></table>";
