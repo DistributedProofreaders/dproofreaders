@@ -81,10 +81,12 @@ include_once('filter_proof_list.inc');
 $result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'round_filter'");
 if (mysql_num_rows($result) >= 1) {
 	$RFilter = mysql_result($result, 0, "value");
+echo "rfilter read from DB is ".$Rfilter;
 }
 $result = mysql_query("SELECT value FROM usersettings WHERE username = '$pguser' AND setting = 'display_filter'");
 if (mysql_num_rows($result) >= 1) {
 	$display_filter = mysql_result($result, 0, "value");
+echo "dfilter read from DB is ".$display_filter;
 }
 
 
@@ -214,10 +216,12 @@ if ( isset($_GET['filter']) and ($_GET['filter'] == 'filter_on')) {
 		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'round_filter', '$Rfilter')
 		";
 	$result = mysql_query($query);
+echo $query;
 	$query = "
 		INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'display_filter', '$display_filter')
 		";
 	$result = mysql_query($query);
+echo $query;
 
 
 }
