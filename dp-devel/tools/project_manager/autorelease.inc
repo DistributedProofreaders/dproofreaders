@@ -1,6 +1,7 @@
 <?
 
-include_once 'maybe_mail.inc';
+$relPath="./../../pinc/";
+include_once($relPath.'maybe_mail.inc');
 
   // Auto-Release Project
 

@@ -3,7 +3,7 @@
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-include_once 'maybe_mail.inc';
+include_once($relPath.'maybe_mail.inc');
 
 // Encodes a form parameter to allow it to contain double quotes.
 function encodeFormValue($value) {
