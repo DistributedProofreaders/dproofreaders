@@ -1593,7 +1593,7 @@ image/text for an example.</p>
       <td align=center bgcolor=mistyrose>&Ntilde; </td><td>Alt-0209</td>
       <td align=center bgcolor=mistyrose>&iexcl;  </td><td>Alt-0161</td>
       <td>                                        </td><td>        </td>
-      <td align=center bgcolor=mistyrose>&deg;    </td><td>Alt-0186</td>
+      <td align=center bgcolor=mistyrose>&deg;    </td><td>Alt-0176</td>
   </tbody>
 </table>
 <p>  &dagger;&nbsp;
