@@ -250,100 +250,17 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
                 echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
         }
 
+	// Show statistics that are pertinent to the particular request.
+	// (i.e., to the main content of the page).
+
 	$tally_name = @$_REQUEST['tally_name'];
 	if (empty($tally_name)) $tally_name = @$_REQUEST['round_id'];
 	if (empty($tally_name)) $tally_name = 'P1'; // for now
 
-    //Show site, personal, team & top ten stats.
-    //Provides a link for users to get more stats
-    //Shows on all pages
-	$site_stats = get_site_page_tally_summary($tally_name);
+	show_tally_specific_stats( $tally_name, $theme, $userP );
 
-    //Show the site statistics
-        global $page_tally_names;
-       echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-        echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
-        echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-
-
-        // Today's Numbers
-	echo "&nbsp;"._("Today's Goal:")." "
-		. number_format($site_stats->curr_day_goal)
-		. "<br>\n";
-	echo "&nbsp;"._("Today's Total:")." "
-		. number_format($site_stats->curr_day_actual)
-		. " (" . strftime("%R") . ")<br><br>\n";
-
-        // Yesterday's Numbers
-	echo "&nbsp;"._("Yesterday's Goal:")." "
-		. number_format($site_stats->prev_day_goal)
-		. "<br>\n";
-	echo "&nbsp;"._("Yesterday's Total:")." "
-		. number_format($site_stats->prev_day_actual)
-		. "<br><br>\n";
-
-	// Month's Numbers
-	echo "&nbsp;".strftime(_("%B's Goal:"))." "
-		. number_format($site_stats->curr_month_goal)
-		. ($site_stats->curr_month_goal
-			? (" (" . number_format(($site_stats->curr_month_actual/$site_stats->curr_month_goal)*100, 2) . "%)")
-			: ""
-		)
-		. "<br>\n";
-	echo "&nbsp;".strftime(_("%B's Total:"))." "
-		. number_format($site_stats->curr_month_actual)
-		. "<br>\n";
-	echo "<br>\n";
-
-	$res = mysql_query("SELECT COUNT(*) FROM users" );
-	list($num_users) = mysql_fetch_row($res);
-	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
-
-	if ( $tally_name )
-	{
-		$tallyboard = new TallyBoard( $tally_name, 'U' );
-		$num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
-		echo '&nbsp;',
-			sprintf(
-				_('%s users with at least 1 page'),
-				number_format($num_positive_users) ),
-			"<br>\n";
-	}
-
-	echo "<br></font>\n";
-	echo "<center><font size='2'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
-
-	echo "</font><br><hr width='75%' align='center'><br>\n";
-
-
-    //If the user is logged in show personal & team stats
+    //If the user is logged in show team stats
 	if (isset($GLOBALS['pguser'])) {
-    //Show the personal statistics
-
-	//Get the personal statistics array
-	$neighbors =
-		user_get_page_tally_neighborhood(
-			$tally_name, $GLOBALS['pguser'], $userP['u_neigh']);
-	$usern = $neighbors[0];
-
-	//get rank
-	$rankname = user_page_tally_get_interval_title(
-		$usern->get_current_page_tally() );
-
-	// Get userid for personal stats link
-	$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-	$u_id = mysql_result($result, 0, "u_id");
-
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
-	echo number_format($usern->get_current_page_tally())."<br>\n";
-	echo "&nbsp;" . _("Current Position: ");
-	echo number_format($usern->get_current_page_tally_rank())."<br>\n";
-	echo "&nbsp;" . _("Current Rank: ");
-	echo "$rankname<br></font>\n";
-	echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
-	echo "<" . "!-- " . $userP['u_id'] . " -->";
 	echo "<br><hr width='75%' align='center'><br>\n";
 
 	//Show the team statistics
@@ -353,24 +270,6 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
 		}
         echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
-
-        //Show the Neighbor table if the user has requested so
-        if ($userP['u_neigh']) {
-        	echo "<br><hr width='75%' align='center'><br>\n";
-        	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>Your Neighborhood:</b></font></center>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-
-		foreach ( $neighbors as $rel_posn => $neighbor )
-		{
-			echo "&nbsp;";
-			if ($rel_posn==0) echo "<b><i>";
-			echo $neighbor->get_current_page_tally_rank(), ".) ";
-			echo ( $neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username() ), " - ";
-			echo number_format($neighbor->get_current_page_tally());
-			if ($rel_posn==0) echo "</i></b>";
-			echo "<br>\n";
-		}
-	}
 
    //If it is a guest user show the past years completed projects
         } else {
@@ -412,6 +311,123 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_tally_specific_stats( $tally_name, $theme, $userP )
+{
+	global $code_url;
+
+	// Show the site statistics
+
+	$site_stats = get_site_page_tally_summary($tally_name);
+
+	global $page_tally_names;
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+	echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
+	echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+
+
+	// Today's Numbers
+	echo "&nbsp;"._("Today's Goal:")." "
+		. number_format($site_stats->curr_day_goal)
+		. "<br>\n";
+	echo "&nbsp;"._("Today's Total:")." "
+		. number_format($site_stats->curr_day_actual)
+		. " (" . strftime("%R") . ")<br><br>\n";
+
+	// Yesterday's Numbers
+	echo "&nbsp;"._("Yesterday's Goal:")." "
+		. number_format($site_stats->prev_day_goal)
+		. "<br>\n";
+	echo "&nbsp;"._("Yesterday's Total:")." "
+		. number_format($site_stats->prev_day_actual)
+		. "<br><br>\n";
+
+	// Month's Numbers
+	echo "&nbsp;".strftime(_("%B's Goal:"))." "
+		. number_format($site_stats->curr_month_goal)
+		. ($site_stats->curr_month_goal
+			? (" (" . number_format(($site_stats->curr_month_actual/$site_stats->curr_month_goal)*100, 2) . "%)")
+			: ""
+		)
+		. "<br>\n";
+	echo "&nbsp;".strftime(_("%B's Total:"))." "
+		. number_format($site_stats->curr_month_actual)
+		. "<br>\n";
+	echo "<br>\n";
+
+	// Number of users
+	$res = mysql_query("SELECT COUNT(*) FROM users" );
+	list($num_users) = mysql_fetch_row($res);
+	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
+
+	$tallyboard = new TallyBoard( $tally_name, 'U' );
+	$num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
+	echo '&nbsp;',
+		sprintf(
+			_('%s users with at least 1 page'),
+			number_format($num_positive_users) ),
+		"<br>\n";
+
+	echo "<br></font>\n";
+	echo "<center><font size='2'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
+
+	echo "</font><br><hr width='75%' align='center'><br>\n";
+	// ---------------------------------------------------------------------
+
+	if (isset($GLOBALS['pguser']))
+	{
+		// The requestor is a logged-in user.
+		// Show the user's personal statistics
+
+		//Get the personal statistics array
+		$neighbors =
+			user_get_page_tally_neighborhood(
+				$tally_name, $GLOBALS['pguser'], $userP['u_neigh']);
+		$usern = $neighbors[0];
+
+		//get rank
+		$rankname = user_page_tally_get_interval_title(
+			$usern->get_current_page_tally() );
+
+		// Get userid for personal stats link
+		$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+		$u_id = mysql_result($result, 0, "u_id");
+
+		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
+		echo number_format($usern->get_current_page_tally())."<br>\n";
+		echo "&nbsp;" . _("Current Position: ");
+		echo number_format($usern->get_current_page_tally_rank())."<br>\n";
+		echo "&nbsp;" . _("Current Rank: ");
+		echo "$rankname<br></font>\n";
+		echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
+		echo "<" . "!-- " . $userP['u_id'] . " -->";
+
+		// -------------------------------------------------------------
+		//Show the Neighbor table if the user has requested so
+		if ($userP['u_neigh']) {
+			echo "<br><hr width='75%' align='center'><br>\n";
+			echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>Your Neighborhood:</b></font></center>\n";
+			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+
+			foreach ( $neighbors as $rel_posn => $neighbor )
+			{
+				echo "&nbsp;";
+				if ($rel_posn==0) echo "<b><i>";
+				echo $neighbor->get_current_page_tally_rank(), ".) ";
+				echo ( $neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username() ), " - ";
+				echo number_format($neighbor->get_current_page_tally());
+				if ($rel_posn==0) echo "</i></b>";
+				echo "<br>\n";
+			}
+		}
+	}
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function html_footer($code_url, $theme, $theme_name) {
 	$mtime = explode(" ",microtime());
