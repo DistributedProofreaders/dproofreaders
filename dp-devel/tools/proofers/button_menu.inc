@@ -33,8 +33,8 @@ href="projects.php?project=<?PHP echo "$project&amp;prooflevel=$prooflevel"; ?>&
 src="gfx/bt12.png" border="0" alt="Project Comments" title="Project Comments"></a>&nbsp;<a href="#" onclick="cFCE()"><img 
 src="gfx/bt6.png" border="0" alt="Check for Common Errors" title="Check for Common Errors"></a>&nbsp;<INPUT 
 TYPE="image" accesskey="6" name="button4" ID="button4" title="Save and Change Interface Layout" onclick="return(confirm('Are you sure you want to \r\nChange Layout\r\n and \r\nSave the Current Document?'));" src="gfx/bt<?PHP if ($orient=="vert") {echo "5";} else {echo "4";} ?>.png">&nbsp;<INPUT 
-TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" onclick="return(confirm('Are you sure you want to \r\n\r\nSave the Current Document?'));" src="gfx/bt3.png">&nbsp;<?PHP 
-if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" title=\"Save and Proof Next Page\" onclick=\"return(confirm('Are you sure you want to ".'\r\n\r\n'."Save and Proof Next Page?'));\" src=\"gfx/bt2.png\">".'&nbsp;';}
+TYPE="image" accesskey="7" name="button1" ID="button1" title="Save" src="gfx/bt3.png">&nbsp;<?PHP 
+if(!isset($editone)) {echo "<INPUT \r\nTYPE=\"image\" accesskey=\"8\" name=\"button2\" ID=\"button2\" title=\"Save and Proof Next Page\" src=\"gfx/bt2.png\">".'&nbsp;';}
 ?><INPUT 
 TYPE="image" accesskey="9" name="button3" ID="button3" title="Quit without Saving" onclick="return(confirm('Are you sure you want to \r\n\r\nQuit Without Saving\r\nthe Current Document?'));" src="gfx/bt1.png">&nbsp;<a 
 href="../../faq/prooffacehelp.html" accesskey="1" target="helpNewWin"><img 
