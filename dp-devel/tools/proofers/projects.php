@@ -14,6 +14,7 @@ if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
 } else {
 	$projectinfo->update_avail($project,PROJ_PROOF_SECOND_AVAILABLE);
 }
+$pages_are_available = ( $projectinfo->availablepages > 0 );
 
 
 /* $_GET $project, $proofstate, $proofing */
