@@ -20,13 +20,11 @@ switch ( $past )
 	case 'year':
 		$min_timestamp = time() - 366 * $seconds_per_day;
 		$date_format = 'Y-M-d H';
-		$set_tick_interval = TRUE;
 		break;
 
 	case 'day':
 		$min_timestamp = time() - $seconds_per_day;
 		$date_format = 'd H';
-		$set_tick_interval = FALSE;
 		break;
 
 	default:
@@ -92,22 +90,22 @@ $graph->SetScale("textint");
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-if ($set_tick_interval)
-{
-	// calculate tick interval based on number of datapoints
-	// the data is hourly, there are 168 hours in a week
-	// once we have more than about 30 labels, the axis is getting too crowded
-	if ($mynumrows < (30 * 168)) {
-		$tick = 168;            // one label per week
-	} else if ($mynumrows < (30 * 168 * 4)) {
-		$tick = 168 * 4;        // one label per 4 weeks (pseudo-month)
-	} else if ($mynumrows < (30 * 168 * 13)) {
-		$tick = 168 * 13;       // one label per quarter
-	} else {
-		$tick = 168 * 52;       // one label per year
-	}
-	$graph->xaxis->SetTextTickInterval($tick);
+
+// calculate tick interval based on number of datapoints
+// the data is hourly, there are 168 hours in a week
+// once we have more than about 30 labels, the axis is getting too crowded
+if ($mynumrows < 30) {
+	$tick = 1;              // one label per hour
+} else if ($mynumrows < (30 * 168)) {
+	$tick = 168;            // one label per week
+} else if ($mynumrows < (30 * 168 * 4)) {
+	$tick = 168 * 4;        // one label per 4 weeks (pseudo-month)
+} else if ($mynumrows < (30 * 168 * 13)) {
+	$tick = 168 * 13;       // one label per quarter
+} else {
+	$tick = 168 * 52;       // one label per year
 }
+$graph->xaxis->SetTextTickInterval($tick);
 
 //Set Y axis
 $graph->yaxis->title->Set(_('Fresh Logons'));
