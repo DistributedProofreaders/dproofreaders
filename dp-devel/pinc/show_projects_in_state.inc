@@ -177,37 +177,37 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 
 	$tds="<td bgcolor='".$bgcolor."' align=\"center\"";
 	$tdm="<font color='".$theme['color_headerbar_font']."'>";
-	$tdc="</b></a></td>";
+	$tdc="</b></font></a></td>";
 
 	echo "<tr>";
 
 	$word = _("Title");
  	$link = $linkbase.($flip_title?"TitleD":"TitleA").">";
-	echo "$tds width=\"185\">$link<b>$word$tdc\n";
+	echo "$tds width=\"185\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Author");
  	$link = $linkbase.($flip_author?"AuthorD":"AuthorA").">";
-	echo	"$tds width=\"95\">$link<b>$word$tdc\n";
+	echo	"$tds width=\"95\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Language");
  	$link = $linkbase.($flip_lang?"LangD":"LangA").">";
-	echo	"$tds width=\"85\">$link<b>$word$tdc\n";
+	echo	"$tds width=\"85\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Genre");
  	$link = $linkbase.($flip_genre?"GenreD":"GenreA").">";
-	echo "$tds width=\"85\">$link<b>$word$tdc\n";
+	echo "$tds width=\"85\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Pages");
  	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").">";
-	echo	"$tds width=\"45\">$link<b>$word$tdc\n";
+	echo	"$tds width=\"45\">$link$tdm<b>$word$tdc\n";
 
 	$word = $foo_Header;
  	$link = $linkbase.($flip_Person?"PersonD":"PersonA").">";
-	echo "$tds width=\"70\">$link<b>$word$tdc\n";
+	echo "$tds width=\"70\">$link$tdm<b>$word$tdc\n";
 
 	$word = _("Days");
  	$link = $linkbase.($flip_days?"DaysD":"DaysA").">";
-	echo "$tds width=\"35\">$link<b>$word$tdc\n";
+	echo "$tds width=\"35\">$link$tdm<b>$word$tdc\n";
 
 	echo "</tr>";
 
