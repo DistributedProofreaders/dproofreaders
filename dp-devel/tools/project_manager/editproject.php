@@ -47,19 +47,19 @@ function saveProject() {
 		//Update the projects database with the updated info
 		mysql_query("
 			UPDATE projects SET
-				nameofwork='".$_POST['nameofwork']."',
-				authorsname='".$_POST['authorsname']."',
+				nameofwork='{$_POST['nameofwork']}',
+				authorsname='{$_POST['authorsname']}',
 				language='$language',
-				genre='".$_POST['genre']."',
-				difficulty='".$_POST['difficulty_level']."',
-				comments='".$_POST['comments']."',
-				scannercredit='".$_POST['scannercredit']."',
-				txtlink='".$_POST['txtlink']."',
-				ziplink='".$_POST['ziplink']."',
-				htmllink='".$_POST['htmllink']."',
-				postednum='".$_POST['postednum']."',
-				clearance='".$_POST['clearance']."'
-			WHERE projectid='".$_POST['projectid']."'
+				genre='{$_POST['genre']}',
+				difficulty='{$_POST['difficulty_level']}',
+				comments='{$_POST['comments']}',
+				scannercredit='{$_POST['scannercredit']}',
+				txtlink='{$_POST['txtlink']}',
+				ziplink='{$_POST['ziplink']}',
+				htmllink='{$_POST['htmllink']}',
+				postednum='{$_POST['postednum']}',
+				clearance='{$_POST['clearance']}'
+			WHERE projectid='{$_POST['projectid']}'
 		");
 
 		$projectid = $_POST['projectid'];
@@ -70,7 +70,7 @@ function saveProject() {
 		$result = mysql_query("
 			SELECT updated_array
 			FROM marc_records
-			WHERE projectid = '".$_POST['projectid']."'
+			WHERE projectid = '{$_POST['projectid']}'
 		"); //Pull the current MARC record array from the database
 		$rec = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); //Get the updated_marc array field
 		$updated_array = update_marc_db($rec); //Update the MARC record array in the database
@@ -78,7 +78,7 @@ function saveProject() {
 		mysql_query("
 			UPDATE marc_records
 			SET updated_marc = '".base64_encode(serialize($updated_marc))."'
-			WHERE projectid = '".$_POST['projectid']."'
+			WHERE projectid = '{$_POST['projectid']}'
 		"); //Update the database with the updated marc
 
 		//Lastly, let's update the Dublin Core file
@@ -94,18 +94,18 @@ function saveProject() {
 			INSERT INTO projects
 				(nameofwork, authorsname, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance)
 			VALUES (
-				'".$_POST['nameofwork']."',
-				'".$_POST['authorsname']."',
+				'{$_POST['nameofwork']}',
+				'{$_POST['authorsname']}',
 				'$language',
-				'".$_POST['genre']."',
-				'".$_POST['difficulty_level']."',
-				'".$GLOBALS['pguser']."',
-				'".$_POST['comments']."',
+				'{$_POST['genre']}',
+				'{$_POST['difficulty_level']}',
+				'{$GLOBALS['pguser']}',
+				'{$_POST['comments']}',
 				'$projectid',
 				UNIX_TIMESTAMP(),
-				'".$_POST['scannercredit']."',
+				'{$_POST['scannercredit']}',
 				'".PROJ_NEW."',
-				'".$_POST['clearance']."'
+				'{$_POST['clearance']}'
 			)
 		");
 
