@@ -11,7 +11,7 @@ $array_of_langs = array();
 $array_of_genres = array();
 $array_of_PMs = array();
 $array_of_diffs = array();
-
+$array_of_specials = array();
 
 // get legal languages
 
@@ -57,6 +57,27 @@ while ($a_res = @mysql_fetch_row($result))
     $i++;
 }
 
+
+// get legal Special day codes
+
+// slightly different array structure, as we want to display one value and filter on another
+
+// note this query does not include Birthday or Otherday Specials
+
+$query = "
+        SELECT  DISTINCT special, display_name
+        FROM projects, special_days
+        WHERE projects.special = special_days.spec_code AND $state_sql ORDER BY display_name
+	";
+$result = mysql_query($query);
+while ($a_res = @mysql_fetch_row($result))
+{
+    $spec_code = $a_res[0];	
+    $val = $a_res[1];	
+    $array_of_specials[$spec_code] = $val;
+}
+
+
 // legal difficulties 
 
 // TO DO: take into account visibility of beginner?
@@ -99,6 +120,7 @@ echo "\r\n<tr>";
 echo   "<td>"._("Language")."</td>";
 echo   "<td>"._("Genre")."</td>";
 echo   "<td>"._("Project Manager")."</td>";
+echo   "<td>"._("Special Days")."</td>";
 
 echo "\r\n</tr>";
 echo "\r\n<tr>";
@@ -157,6 +179,24 @@ echo "
 ";
 
 
+
+// SPECIAL Days filter
+
+echo "
+    <td>
+    <select name='special1[]' size=5  multiple>
+	<option value=''>"._("All Special Days")."</option>
+";
+
+foreach ($array_of_specials as $key => $display) {
+    echo "<option value='$key'>$display</option>\n";
+}
+echo "
+    </select>
+    </td>
+";
+
+
 echo "</tr>";
 echo "</table>\n<br>";
 
@@ -200,7 +240,6 @@ $result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser'
 if (mysql_num_rows($result) >= 1) {
 	$display_filter = mysql_result($result, 0, "value");
 }
-
 
 
 // get new filters from passed arguments (if any) in HTTP request
@@ -285,6 +324,31 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 	    }
 	    $condition1 .= ")";
 	}
+
+	// construct Special day clause of new filter
+        // note that for specials we use key for matching but display value
+
+	if ( isset($_POST['special1']) && count($_POST['special1']) > 0 )
+	{
+	    $condition1 .= " AND (0";
+	    $display_filter .= "<br>Special Days=";
+	    foreach( $_POST['special1'] as $special )
+	    {
+		if ( $special == '' )
+		{
+		    $condition1 .= " OR 1";
+		}
+		else
+		{
+		    if (!array_key_exists($special, $array_of_specials )) { echo "UHOH" & exit(); }
+		    $condition1 .= " OR special='$special'";
+                    $display_filter .= $array_of_specials[$special]." ";
+		    $show_df = TRUE;
+		}
+	    }
+	    $condition1 .= ")";
+	}
+
 
 
 	// construct difficulty clause of new filter
