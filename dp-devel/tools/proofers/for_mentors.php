@@ -17,19 +17,19 @@ echo "<br>\n";
 
 echo "<h3>Currently Available MENTORS ONLY projects</h3><br><br>\n";
 
-$result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects WHERE difficulty = 'beginner' AND
-			state='".PROJ_PROOF_SECOND_AVAILABLE."' || state='".PROJ_PROOF_SECOND_VERIFY."'
+$result = mysql_query("SELECT projectid, nameofwork, authorsname FROM projects WHERE difficulty = 'beginner' AND (
+			state='".PROJ_PROOF_SECOND_AVAILABLE."' || state='".PROJ_PROOF_SECOND_VERIFY."')
 			ORDER BY modifieddate ASC");
 
 while ($row =  mysql_fetch_array($result)) 
 {
 
-echo "$row['nameofwork'] $row['authorsname']<br><br>"; 
+echo "<b>".$row['nameofwork']." ".$row['authorsname']."</b><br><br>"; 
 
 dpsql_dump_query("
 	SELECT
 		SUBSTRING_INDEX(image,'.',1) as 'Page', round1_user as 'Proofer'
-	FROM $row['projectid']
+	FROM ".$row['projectid']." 
 	ORDER BY 1
 ");
 
@@ -38,7 +38,7 @@ echo "<br><br>";
 dpsql_dump_query("
 	SELECT
 		round1_user as 'Proofer', count(image) as 'Pages done in this project'
-	FROM $row['projectid']
+	FROM ".$row['projectid']." 
 	GROUP BY 1
 	ORDER BY 1
 ");
@@ -49,12 +49,6 @@ echo "<br><br><br>\n";
 }
 
 
-
-dpsql_dump_query("
-	SELECT
-		SUM(pages) as 'Total Pages Proofed So Far'
-	FROM pagestats
-");
 
 
 
