@@ -132,7 +132,7 @@ if (!isset($proofing)) {
         echo "<b>"._("This is a First-Round project, these files are output from the OCR software and have not been looked at.")."</b></td></tr>";
     } else {
         echo _("Second Round Project")."</b></h3></td><td bgcolor = \"CCCCCC\" colspan=4>";
-        echo "<b>"._("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._(See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.")."</b></td>";
+        echo "<b>"._("These are files that have already been proofed once, but now need to be examined <B>closely</B> for small errors that may have been missed.")." "._("See <A HREF=\"http://www.promo.net/pg/vol/proof.html#What_kinds\" target=\" \">this page</A> for examples.")."</b></td>";
     }
 } else {
 ?>
