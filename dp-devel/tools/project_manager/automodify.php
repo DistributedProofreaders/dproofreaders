@@ -12,8 +12,8 @@ $db_Connection=new dbConnect();
 include($relPath.'projectinfo.inc');
 $projectinfo = new projectinfo();
 
-  include 'autorelease.php';
-  include 'sendtopost.php';
+  include('autorelease.php');
+  include('sendtopost.php');
 
   $one_project = isset($_GET['project'])?$_GET['project']:0;
 
