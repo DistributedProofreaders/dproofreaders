@@ -142,6 +142,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 				. $orderclause."	
 		";
 		$linkbase = "<a href=proof_per.php?orderR1=";
+		$linkend = '#R1';
 	}
 	else if ( $round == 'second' )
 	{
@@ -160,6 +161,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 				.$orderclause."
 		";
 		$linkbase = "<a href=proof_per.php?orderR2=";
+		$linkend = '#R2';
 	}
 
 	$result = mysql_query($query);
@@ -167,35 +169,35 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	echo "<tr align=center ".bgcol(1,$round).">";
 
 	$word = _("Title");
- 	$link = $linkbase.($flip_title?"TitleD":"TitleA").">";
+ 	$link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Author");
- 	$link = $linkbase.($flip_author?"AuthorD":"AuthorA").">";
+ 	$link = $linkbase.($flip_author?"AuthorD":"AuthorA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Language");
- 	$link = $linkbase.($flip_lang?"LangD":"LangA").">";
+ 	$link = $linkbase.($flip_lang?"LangD":"LangA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Genre");
- 	$link = $linkbase.($flip_genre?"GenreD":"GenreA").">";
+ 	$link = $linkbase.($flip_genre?"GenreD":"GenreA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Project Manager");
- 	$link = $linkbase.($flip_PM?"PMD":"PMA").">";
+ 	$link = $linkbase.($flip_PM?"PMD":"PMA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Available Pages");
- 	$link = $linkbase.($flip_PgAv?"PgAvD":"PgAvA").">";
+ 	$link = $linkbase.($flip_PgAv?"PgAvD":"PgAvA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Total Pages");
- 	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").">";
+ 	$link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	$word = _("Days");
- 	$link = $linkbase.($flip_days?"DaysD":"DaysA").">";
+ 	$link = $linkbase.($flip_days?"DaysD":"DaysA")."$linkend>";
 	echo "\n<td>$link<b>$word</b></a></td>";
 
 	echo "</tr>";
