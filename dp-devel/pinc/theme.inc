@@ -194,9 +194,9 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
 	echo "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Preferences") . "</font></a>";
+	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("My Preferences") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Statistics") . "</font></a>";
+	echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("My Statistics") . "</font></a>";
 	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
 	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Log Out") . "</font></a>&nbsp;</font>\n";
 	echo "</td>\n";
