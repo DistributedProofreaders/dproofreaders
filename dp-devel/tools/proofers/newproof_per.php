@@ -4,6 +4,34 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
+?>
+<style type="text/css">
+<!--
+.orange {
+	background-color: #FF9900;
+}
+.green {
+	background-color: #00FF33;
+}
+.paleblue {
+	background-color: #CCFFFF;
+}
+.richblue {
+	background-color: #33CCFF;
+}
+.yellow {
+	background-color: #FFFF33;
+}
+.grey {
+	background-color: #CCCCCC;
+}
+.red {
+	background-color: #FF0000;
+}
+-->
+</style>
+<?
+
 if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 theme("Personal Page for $pguser", "header");
 
@@ -18,7 +46,7 @@ theme("Personal Page for $pguser", "header");
 	// Beginners Info
 
 	if ($pagesproofed <= 40) {
-		echo "<font face=" . $theme['font_mainbody'] ." size=3><b>";
+		echo "<font face=" . $theme['font_mainbody'] ." size=3><br><br><b>";
 		echo _("Welcome"); 
 		echo "</b></font><br><br><font face=" . $theme['font_mainbody'] .">";
 		echo _("Please see our");
@@ -39,7 +67,7 @@ theme("Personal Page for $pguser", "header");
 		echo "</b><br><br>";
 
 		echo _("1) Don't rewrap lines. Leave the ends of lines where they are in the image.");
-		echo "<br>";
+		echo "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo _("a) except, please put words that are broken across lines back together.");
 		echo "<br><br>";
 		echo _("2) Use a blank line between paragraphs and don't indent at the beginning of a paragraph.");
@@ -100,8 +128,10 @@ theme("Personal Page for $pguser", "header");
 	}
 
 	// If Post Processor give link to post processing page.
+// DEMO VERSION uses pagecount only
+//    	if ($userP['postprocessor'] == "yes" || $pagesproofed >= 400) {
+    	if ( $pagesproofed >= 400) {
 
-    	if ($userP['postprocessor'] == "yes" || $pagesproofed >= 400) {
     		$result = mysql_query("SELECT count(projectid) FROM projects WHERE state='".PROJ_POST_FIRST_AVAILABLE."' || state='".PROJ_POST_SECOND_AVAILABLE."'");
         	$numprojects = mysql_result($result,0);
         	$result = mysql_query("SELECT count(projectid) FROM projects WHERE checkedoutby='$pguser' && state='".PROJ_POST_FIRST_CHECKED_OUT."'");
@@ -112,11 +142,11 @@ theme("Personal Page for $pguser", "header");
 		echo "<font face=" . $theme['font_mainbody'] ."><b>";
 		echo _("Post Processing"); 
 		echo "</b></font><br>";
-		echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the"); 
+		echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text. You can help in the "); 
 		echo "<a href =" . $code_url . "/tools/post_proofers/post_proofers.php>";
 		echo _("post processing"); 
 		echo "</a> "; 
-		echo _("phase of Distributed Proofreaders!  Currently there are"); 
+		echo _(" phase of Distributed Proofreaders!  Currently there are"); 
 		echo " <b>".$numprojects."</b> ";
 		echo _("projects waiting."); 
 
