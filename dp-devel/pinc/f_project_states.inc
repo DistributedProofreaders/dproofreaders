@@ -94,6 +94,10 @@ function project_states_text($state)
       return PROJ_SUBMIT_PG_POSTING_TEXT;
     case PROJ_SUBMIT_PG_POSTED:
       return PROJ_SUBMIT_PG_POSTED_TEXT;
+    case PROJ_CORRECT_AVAILABLE:
+	return PROJ_CORRECT_AVAILABLE_TEXT;
+    case PROJ_CORRECT_CHECKED_OUT: 
+	return PROJ_CORRECT_CHECKED_OUT_TEXT;
     case PROJ_DELETE:
       return PROJ_DELETE_TEXT;
     case PROJ_COMPLETE:
