@@ -8,10 +8,7 @@ include_once('projectmgr.inc');
 $no_stats=1;
 theme("Difference", "header");
 
-abort_if_not_manager();
-
 $projectid = $_GET['project'];
-abort_if_cant_edit_project( $projectid );
 
 $fileid=$_GET['file'];
 $round=$_GET['round'];
