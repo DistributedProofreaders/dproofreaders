@@ -27,7 +27,7 @@ $dbQuery="SELECT $wText FROM $project WHERE fileid = '$fileid'";
     $result = mysql_query($dbQuery);
     $myrow = mysql_fetch_row($result);
     $text_data = mysql_result($result, 0, $wText);
-    if ($prooflevel != 0) {
+    if ($prooflevel != 0 || isset($saved)) {
         $text_data = strip_tags($text_data, '<i>&');
     } else {
         $search = array("'>'i", "'<'i");
