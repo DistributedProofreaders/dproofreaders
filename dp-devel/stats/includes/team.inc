@@ -13,15 +13,18 @@ $team_icons_url   = "$dyn_url/teams/icon";
 
 function select_from_teams( $where_body, $other_clauses='' )
 {
+	global $teams_P_page_tallyboard;
+	list($joined_with_team_P_page_tallies,$team_P_page_tally_column) =
+		$teams_P_page_tallyboard->get_sql_joinery_for_current_tallies('id');
+
 	if ($where_body == '') $where_body = '1';
 
 	$q = "
 		SELECT
 			user_teams.*,
-			current_tallies.tally_value AS page_count
+			$team_P_page_tally_column AS page_count
 		FROM user_teams
-			LEFT OUTER JOIN current_tallies
-			ON (holder_type='T' AND holder_id=id AND tally_name='P')
+			$joined_with_team_P_page_tallies
 		WHERE $where_body
 		$other_clauses
 	";
