@@ -33,7 +33,8 @@ name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange
     {$optP.=" selected";}
   $optP.=">$f_s[$i]</option>";
   echo $optP;}
-?></select>&nbsp;<input
+?></select>
+<input
 type="text" value="<?PHP
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
@@ -41,14 +42,16 @@ type="text" value="<?PHP
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %"><?
 
 echo_button(SET_IMAGE_ZOOM,'a');
-echo '&nbsp;';
+echo "\n";
 echo_button(SET_IMAGE_ACTUAL,'a');
 
-?>&nbsp;<a href="#"
-onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>&nbsp;<?
+?>
+<a href="#"
+onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>
+<?
 
 echo_button(REVERT_TO_ORIGINAL,'a');
-echo '&nbsp;';
+echo "\n";
 
   if ($npage['revert']==1 || $npage['saved']==1)
   {
@@ -59,37 +62,40 @@ echo '&nbsp;';
     echo_img(REVERT_TO_LAST_SAVE_DISABLED,'a');
   }
 
-?>&nbsp;<a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>&nbsp;<a
-href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>&nbsp;<?
+?>
+<a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
+<a
+href="projects.php?project=<?PHP echo "{$npage['project']}&amp;proofstate={$npage['proofstate']}"; ?>&amp;proofing=1" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
+<?
 
 echo_button(SPELL_CHECK,'a');
 /*
 temp disabled
-echo '&nbsp;';
+echo "\n";
 echo_button(RUN_COMMON_ERRORS_CHECK,'a');
 */
-echo '&nbsp;';
+echo "\n";
 echo_button(CHANGE_LAYOUT,'a');
-echo '&nbsp;';
+echo "\n";
 echo_button(RETURN_PAGE,'a');
-echo '&nbsp;';
+echo "\n";
 
 if ((($npage['proofstate'] == PROJ_PROOF_FIRST_AVAILABLE) && ($totalpages >= 50)) || ($b_code > 0))
 {
     echo_button(REPORT_BAD_PAGE,'a');
-    echo "&nbsp;";
+    echo "\n";
 }
 
 echo_button(SAVE_AS_IN_PROGRESS,'a');
-echo '&nbsp;';
+echo "\n";
 
   if($npage['editone']==0)
   {
     echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a');
-    echo '&nbsp;';
+    echo "\n";
   }
 
 echo_button(SAVE_AS_DONE_AND_QUIT,'a');
-echo '&nbsp;';
+echo "\n";
 echo_button(QUIT,'a');
 ?>
