@@ -47,6 +47,9 @@ while ($row = mysql_fetch_assoc($result)) {
                 NULL, NULL \
                 FROM $projectid" ) ;
 
+	if ($result2 == FALSE || (mysql_num_rows($result1) != mysql_num_rows($result1)) {
+		echo $row['projectid']." -- Incomplete move to project_pages table<br>";
+	} else {
 		echo $row['projectid']." -- Moved to project_pages table<br>";
 	}
 }
