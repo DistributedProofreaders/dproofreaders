@@ -107,7 +107,7 @@ e.g.: ~ ` @ # $ % ^ & + = | \ « » </li>
 
 <li>Check that chapter spacing is consistent and that all chapter headings are present.</li>
 
-<li>Check general formatting of title page info; remove word "Copyright" if it is present (but leave publication year and publisher info).</li>
+<li>Check general formatting of title page info, leaving in publication year and publisher info.</li>
 
 <li>Gutcheck</li>
 </ol>
