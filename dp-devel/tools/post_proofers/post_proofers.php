@@ -1,6 +1,8 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include($relPath.'bookpages.inc');
+include($relPath.'showavailablepost.inc');
 ?>
 
 <html><title>Post Processing</title> 
@@ -20,7 +22,7 @@ include($relPath.'dp_main.inc');
 <td width="126" align="center" bgcolor="#cccccc">&nbsp;</td>
 <td width=126 bgcolor =CCCCCC align=center><a href ="../proofers/proof_per.php">Proofread Books</a></td>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../logout.php">Logout</a></td></tr></table>
-
+<P>
 <table border="1" width="630" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" bordercolor="#111111">
 <tr><td colspan="6" bgcolor="CCCCCC">
 
@@ -33,113 +35,19 @@ steps that we normally take to post proof an etext. There is a <a href=http://te
 started on (usually fiction with a low page count is a good starter book) and write <a href = 
 "mailto:juliet.sutherland@verizon.net"> Juliet</a> with any questions/comments.<p></td></tr>
 <tr><td colspan="6" align="center" bgcolor="999999"><B>My Checked Out Post-Processing Books</B></td></tr>
-<tr><td width=190 align="center" bgcolor="CCCCCC"><b>Title</b></td>
-    <td width="100" align="center" bgcolor="CCCCCC"><b>Author</b></td>
-    <td width="90" align="center" bgcolor="CCCCCC"><b>Language</b></td>
-    <td width="50" align="center" bgcolor="CCCCCC"><b>Pages</b></td>
-    <td width="75" align="center" bgcolor="CCCCCC"><b>Manager</b></td>
-    <td align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
-</tr>
-
 <?
-
-    $rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language FROM projects WHERE checkedoutby = '$pguser' AND state=25");
-
-    $rownum = 0;
-    $numrow = mysql_numrows($rows);
-    while ($rownum < $numrow) {
-        $projectid = mysql_result($rows, $rownum, "projectid");
-        $nameofwork = mysql_result($rows, $rownum, "nameofwork");
-        $authorsname = mysql_result($rows, $rownum, "authorsname");
-        $username = mysql_result($rows, $rownum, "username");
-        $lang = mysql_result($rows, $rownum, "language");
-
-        // get number of pages in project
-        $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
-        $totalpages = (mysql_num_rows($pages));
-
-        //alternate colors for each project
-        if ($rownum % 2 ) {
-            $bgcolor = "\"#CCCCCC\"";
-        } else {
-            $bgcolor = "\"#999999\"";
-        }
- 
-        echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-        echo "<td bgcolor = $bgcolor align=center>$lang</td>";
-        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
-        echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
-        echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
-?>
-        <select name="state" onchange="if (this.value ==20){di=confirm('Are you sure you want to make this book available to others for post processing?');if(di){this.form.submit();}}else {this.form.submit();}">
-        <option selected>Select...</option>
-        <option value="0">Download Zipped Text</option>
-        <option value="1">Download Zipped Images</option>
-        <option value="2">View Images Online</option>
-        <option value="3">View Project Comments</option>
-        <option value="20">Return to Available</option>
-        </select></form></td>
-<?
-        echo "</tr>\n";
-        //increment row number for background color change
-        $rownum++;
-    }
+$rows = mysql_query("SELECT projectid, nameofwork, authorsname, username, scannercredit, language FROM projects WHERE checkedoutby = '$pguser' AND state=25");
+showavailablepost($rows,20);
 ?>
 <tr><td colspan="6" align="center" bgcolor="999999"><B>Available Post-Processing Books</B></td></tr>
-<tr><td width=190 align="center" bgcolor="CCCCCC"><b>Title</b></td>
-    <td width="100" align="center" bgcolor="CCCCCC"><b>Author</b></td>
-    <td width="90" align="center" bgcolor="CCCCCC"><b>Language</b></td>
-    <td width="50" align="center" bgcolor="CCCCCC"><b>Pages</b></td>
-    <td width="75" align="center" bgcolor="CCCCCC"><b>Manager</b></td>
-    <td align="center" bgcolor="CCCCCC"><b>Book Options</b></td>
-</tr>
 <?
 
     // list projects which are available for post proofing
     $rows = mysql_query("SELECT username, projectid, nameofwork, authorsname, language FROM projects WHERE state=20");
-      
-    $rownum = 0;
-    $numrow = mysql_numrows($rows);
-
-    while ($rownum < $numrow) {
-        $projectid = mysql_result($rows, $rownum, "projectid");
-        $nameofwork = mysql_result($rows, $rownum, "nameofwork");
-        $authorsname = mysql_result($rows, $rownum, "authorsname");
-        $username = mysql_result($rows, $rownum, "username");
-        $lang = mysql_result($rows, $rownum, "language");
-
-        // get number of pages in project
-        $pages = mysql_query("SELECT fileid FROM $projectid WHERE state>=20");
-        $totalpages = (mysql_num_rows($pages));
-
-        //alternate colors for each project
-        if ($rownum % 2 ) {
-            $bgcolor = "\"#CCCCCC\"";
-        } else {
-            $bgcolor = "\"#999999\"";
-        }
-
-        echo "<tr><td bgcolor = $bgcolor>$nameofwork</td><td bgcolor = $bgcolor>$authorsname</td>";
-        echo "<td bgcolor = $bgcolor align=center>$lang</td>";
-        echo "<td bgcolor = $bgcolor align=center>$totalpages</td><td bgcolor = $bgcolor>$username</td>";
-        echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
-        echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
-?>
-        <select name="state" onchange="if (this.value ==25){di=confirm('Are you sure you want to check this book out for post processing?');if(di){this.form.submit();}}else {this.form.submit();}">
-        <option>Select...</option>
-        <option value="0">Download Zipped Text</option>
-        <option value="1">Download Zipped Images</option>
-        <option value="2">View Images Online</option>
-        <option value="25">Check Out Book</option>
-        </select></form></td>
-<?
-        echo "</tr>\n";
-        //increment row number for background color change
-        $rownum++;
-    }
+    showavailablepost($rows,25);
 ?>
 <tr><td bgcolor="#999999" colspan="6">&nbsp;</td></tr></table>
-<table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111 width=630>
+<P><table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor=#111111 width=630>
 <td width=126 bgcolor ="CCCCCC" align=center><a href ="../../phpBB2/index.php">Forums</a></td>
 <td width=126 bgcolor =CCCCCC align=center><?
 
