@@ -16,12 +16,12 @@ function notify($project, $proofstate, $pguser) {
 
 function recentlyproofed($project, $proofstate, $pguser,$userP,$wlist) {
 
-    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><h3>";
+    echo "<tr><td colspan=5 bgcolor=CCCCCC align=center><font size='+1'><b>";
         if ($wlist==0)
           {echo _("DONE");}
         else
           {echo _("IN PROGRESS");}
-    echo "</h3>";
+    echo "</b></font><br>";
     if ($wlist==0)
     {
 	echo "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofing, that are still available for correction)");
@@ -188,7 +188,7 @@ if (!isset($proofing)) {
 	}
     }
 
-    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><h3>"._("Project Comments")."</h3>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
+    echo "<tr><td bgcolor=\"CCCCCC\" colspan=5 align=center><font size='+1'><b>"._("Project Comments")."</b></font><br>("._("Please check below for Guideline Modifications").")</td></tr><tr><td colspan=5>";
     echo _("Follow the current <a href=\"$code_url/faq/document.php\">Proofing Guidelines</a> for detailed project formatting directions. ");
     echo "<b>"._("Instructions below take precedence over the guidelines")."</b>:<P>";
     echo "$comments</td></tr></table>";
