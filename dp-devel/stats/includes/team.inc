@@ -113,7 +113,7 @@ function showTeamProfile($curTeam) {
 		stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
 		array( 'width' => 100 )
 	);
-	$t->set_column_widths( 20, 80 );
+	$t->set_column_widths( 25, 75 );
 
 	$t->row(
 		_("Created"),
@@ -125,11 +125,6 @@ function showTeamProfile($curTeam) {
 	$t->row(
 		_("Leader"),
 		"<a href='$owner_url'>" . $curTeam['createdby'] . "</a>"
-	);
-
-	$t->row(
-		_("Total Pages"),
-		number_format($curTeam['page_count'])
 	);
 
 	$t->row(
@@ -148,6 +143,22 @@ function showTeamProfile($curTeam) {
 		_("Forums"),
 		"<a href='$topic_url'>"._("Team Discussion")."</a> "
 		. ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
+	);
+
+	$mbrCountRank = team_get_member_count_rank($team_id);
+	$t->row(
+		_("Members")
+			. " <i>("._("Rank").")</i>",
+		number_format($curTeam['member_count'])
+			. "&nbsp;<i>(#$mbrCountRank)</i>"
+	);
+	$t->row(
+		_("Current Members"),
+		number_format($curTeam['active_members'])
+	);
+	$t->row(
+		_("Retired Members"),
+		number_format($curTeam['member_count'] - $curTeam['active_members'])
 	);
 
 	$t->end();
@@ -182,8 +193,6 @@ function showTeamStats($curTeam) {
 
 	$prevRank = $snapshot_info['tally_rank'];
 
-	$mbrCountRank = team_get_member_count_rank($team_id);
-
 	$pageCountRank = $teams_P_page_tallyboard->get_rank($team_id);
 
 	list($bestDayCount, $bestDayTimestamp) =
@@ -201,20 +210,6 @@ function showTeamStats($curTeam) {
 	);
 	$t->set_column_widths( 60, 40 );
 
-	$t->row(
-		_("Members")
-			. " <i>("._("Rank").")</i>",
-		"<b>" . number_format($curTeam['member_count']) . "</b>"
-			. "&nbsp;<i>(#$mbrCountRank)</i>"
-	);
-	$t->row(
-		_("Current Members"),
-		"<b>" . number_format($curTeam['active_members']) . "</b>"
-	);
-	$t->row(
-		_("Retired Members"),
-		"<b>" . number_format($curTeam['member_count'] - $curTeam['active_members']) . "</b>"
-	);
 	$t->row(
 		_("Total Pages")
 			. " <i>("._("Rank").")</i>",
