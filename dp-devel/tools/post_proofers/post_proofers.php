@@ -68,7 +68,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
 ?>
-        <select name="state" onchange="this.form.submit()">
+        <select name="state" onchange="if (this.value ==20){di=confirm('Are you sure you want to make this book available to others for post processing?');if(di){this.form.submit();}}else {this.form.submit();}">
         <option selected>Select...</option>
         <option value="0">Download Zipped Text</option>
         <option value="1">Download Zipped Images</option>
@@ -119,7 +119,7 @@ started on (usually fiction with a low page count is a good starter book) and wr
         echo "<td bgcolor = $bgcolor><form name=\"$projectid\" method=\"get\" action=\"changestate.php\">";
         echo "<input type=\"hidden\" name=\"project\" value=\"$projectid\">\n";
 ?>
-        <select name="state" onchange="this.form.submit()">
+        <select name="state" onchange="if (this.value ==25){di=confirm('Are you sure you want to check this book out for post processing?');if(di){this.form.submit();}}else {this.form.submit();}">
         <option>Select...</option>
         <option value="0">Download Zipped Text</option>
         <option value="1">Download Zipped Images</option>
