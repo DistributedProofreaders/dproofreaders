@@ -6,7 +6,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 
-$title = _("Statistics Central");
+$title = _("(Test) Statistics Central");
 theme($title,'header');
 //Member/team stats
 
@@ -83,23 +83,69 @@ echo "<table border='0' align='center' width='60%' cellspacing='2' cellpadding='
 echo "</table>";
 echo "<br>";
 
-$sub_title = _("Miscellaneous Statistics (Top Proofreading Days and Months, etc)");
-echo "<a href='misc_stats1.php'>$sub_title</a><br><br>";
 
 $sub_title = _("See All Waiting Queues");
-echo "<a href='release_queue.php'>$sub_title</a><br><br>";
+echo "<p align='center'><a href='release_queue.php'>$sub_title</a></p>";
+
+echo "<table border='0' align='center' width='80%' cellspacing='2' cellpadding='2'>";
+
+$sub_title = _("Top Proofreading Days and Months, etc");
+echo "<tr><td><a href='misc_stats1.php'>$sub_title</a></td>";
 
 $sub_title = _("User Logon Statistics");
-echo "<a href='user_logon_stats.php'>$sub_title</a><br><br>";
+echo "<td><a href='user_logon_stats.php'>$sub_title</a></td></tr>";
 
-echo "<center><img src=\"jpgraph_files/curr_month_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_month_pages.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_pages_graph.php\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_total_pages_graph.php\"></center><br>";
+$sub_title = _("Project Management Statistics");
+echo "<tr><td><a href='pm_stats.php'>$sub_title</a></td>";
 
-//echo "<hr><br><br>Special temporary graphs showing last month's results:<br><br>";
-//echo "<center><img src=\"jpgraph_files/prev_month_pages_graph.php\"></center><br>";
-//echo "<center><img src=\"jpgraph_files/cumulative_prev_month_pages.php\"></center><br>";
+$sub_title = _("Post-Processing Statistics");
+echo "<td><a href='pp_stats.php'>$sub_title</a></td></tr></table><br>";
+
+
+echo "<table border='1' align='center' width='95%' cellspacing='2' cellpadding='2'>";
+echo "<tr><td>&nbsp;</td><td>";
+echo _("Track by Project");
+echo "</td><td>";
+echo _("Track by Pages");
+echo "</td></tr><tr><td>";
+
+echo _("Creating");
+echo "</td><td>";
+
+$sub_title = _("Projects Created Graphs");
+echo "<a href='proj_created_graphs.php'>$sub_title</a><br><br>";
+echo "</td><td>Coming soon</td></tr>";
+
+echo "<tr><td>";
+echo _("Proofreading");
+echo "</td><td>";
+
+$sub_title = _("Projects Proofed Graphs");
+echo "<a href='proj_proofed_graphs.php'>$sub_title</a><br><br>";
+echo "</td><td>";
+$sub_title = _("Pages Proofed Graphs");
+echo "<a href='pages_proofed_graphs.php'>$sub_title</a><br><br>";
+echo "</td></tr>";
+
+
+echo "<tr><td>";
+echo _("PPing");
+echo "</td><td>";
+
+$sub_title = _("Projects PPd Graphs");
+echo "<a href='proj_PPd_graphs.php'>$sub_title</a><br><br>";
+echo "</td><td>Coming soon</td></tr>";
+
+echo "<tr><td>";
+echo _("Posting");
+echo "</td><td>";
+
+$sub_title = _("Projects Posted Graphs");
+echo "<a href='proj_posted_graphs.php'>$sub_title</a><br><br>";
+echo "</td><td>Coming soon</td></tr></table><br>";
+
+echo "<center><img src=\"jpgraph_files/cumulative_total_proj_summary_graph.php\"></center><br>";
+echo "<br><br>";
 
 
 theme('','footer');
