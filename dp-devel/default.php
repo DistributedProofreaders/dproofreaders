@@ -1,7 +1,7 @@
 <?php
 $relPath="./pinc/";
 include($relPath.'v_site.inc');
-if (isset($pguser)) { header("Location: http://www.josephgruber.com/dp-devel/tools/proofers/proof_per.php");  }
+if (isset($pguser)) { header("Location: $siteurl/tools/proofers/proof_per.php");  }
 include($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 $db_Connection=new dbConnect();
