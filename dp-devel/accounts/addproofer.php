@@ -167,7 +167,7 @@ process once you log in:
   carefully as they supersede the Proofreading Guidelines, for that
   project.
 
-- Follow the \"Start Proofreading\" link near the top of the page,
+- Follow the \"Start Proofreading\" link near the bottom of the page,
   this will open the proofreading interface.
 
 - Compare the text in the text box to what is in the image, making
