@@ -265,7 +265,9 @@ id="controlframe" align="center"><form
   else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
   $twrap=$twrap==1? '': " \r\nwrap=\"off\"";
   echo "<textarea \r\nname=\"text_data\" id=\"text_data\" \r\ncols=\"$tcols\" \r\nrows=\"$trows\" \r\nonselect=\"getCurSel()\" \r\nonclick=\"getCurCaret()\" \r\nonkeyup=\"getCurCaret()\"$twrap>";
-  echo $npage['text'];
+  // SENDING PAGE-TEXT TO USER
+  // We're sending it in an HTML document, so encode special characters.
+  echo htmlspecialchars($npage['text'],ENT_NOQUOTES);
 ?></textarea></td></tr><tr><td 
   id="tdbottom" 
   valign="top"><?PHP 

@@ -48,10 +48,13 @@ function resize(newsize)
     else {$tcols=$userP['h_tchars'];$trows=$userP['h_tlines'];$twrap=$userP['h_twrap'];}
   $twrap=$twrap==1? '': " wrap=\"off\"";
   echo "<textarea name=\"text_data\" COLS=\"$tcols\" ROWS=\"$trows\"$twrap>";
+  // SENDING PAGE-TEXT TO USER
+  // We're sending it in an HTML document, so encode special characters.
   if ($loadFile==1)
+    // How should I handle encoding here?
     {include($text_dir.$text_file);}
   else
-    {echo $npage['text'];}
+    {echo htmlspecialchars($npage['text'],ENT_NOQUOTES);}
 ?></textarea>
 <BR>
 <?
