@@ -2,7 +2,7 @@
 
 // Change these according to site
 
-//$src='/home/dpscans';
+//$src='$uploads_dir';
 //$archive='/0/home/ftp/pub/gutenberg-images/dproofreaders';
 //$dest='../../project';
 
