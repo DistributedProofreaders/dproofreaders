@@ -5,7 +5,19 @@ $relPath="./../pinc/";
 include($relPath.'connect.inc');
 new dbConnect();
 
-$result = mysql_query("SELECT * FROM user_teams_stats WHERE team_id = ".$_GET['tid']." ORDER BY date_updated ASC");
+if ($_GET['range'] == 7 || $_GET['range'] == 14 || $_GET['range'] == 30 || $_GET['range'] == 60 || $_GET['range'] == 365 || $_GET['range'] == "all") {
+	$range = $_GET['range'];
+} else {
+	$range = 30;
+}
+
+if ($range != "all") {
+	$range = time() - ($range * 86400);
+	$result = mysql_query("SELECT * FROM user_teams_stats WHERE team_id = ".$_GET['tid']." && date_updated >= $range ORDER BY date_updated ASC");
+} else {
+	$result = mysql_query("SELECT * FROM user_teams_stats WHERE team_id = ".$_GET['tid']." ORDER BY date_updated ASC");
+}
+
 $i = 0;
 while ($row = mysql_fetch_assoc($result)) {
 	$datay[$i] = $row['daily_page_count'];
@@ -19,7 +31,6 @@ $graph->SetScale("textint");
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-//$graph->xaxis->SetTextTickInterval(91.25);
 //Set Y axis
 $graph->yaxis->title->Set('Pages');
 $graph->yaxis->SetTitleMargin(45);
