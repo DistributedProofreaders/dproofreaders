@@ -54,7 +54,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
 			<pagescompleted>".$curMbr['pagescompleted']."</pagescompleted>
-			<overallrank>".$rankArray['curMbrRank']."</overallrank>
+			<overallrank>".$neighbors[0]->get_current_page_tally_rank()."</overallrank>
 			<bestdayever>
 				<pages>".$bestDay['count']."</pages>
 				<date>".$bestDay['time']."</date>

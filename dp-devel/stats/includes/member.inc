@@ -14,8 +14,10 @@ function showMbrProfile($curMbr) {
 	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
 	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
-	$currentRank = $rankArray['curMbrRank'];
+	$neighbors = user_get_page_tally_neighbors( $rankArray, 0 );
+	$currentRank = $neighbors[0]->get_current_page_tally_rank();
 	$totalRanks = $rankArray['totalRanks'];
+
 	$bestDay = bestDayEver($curMbr['u_id']);
 	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
 	$highestRank = mysql_result($result, 0, "rank");
