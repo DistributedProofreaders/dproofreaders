@@ -57,6 +57,9 @@ include($relPath.'dp_main.inc');
 	//Delete the topic from forum if there is one
 	$result = mysql_query("SELECT topic_id FROM projects WHERE projectid='$projectid'");
 	$topic_id = mysql_result($result, 0, "topic_id");
+if ($topic_id == "") {
+//Do Nothing
+} else {
 	$i = 0;
 	$post_list = mysql_query("SELECT * FROM phpbb_posts WHERE topic_id=$topic_id");
 	while($row = mysql_fetch_array($post_list) ) {
@@ -72,6 +75,7 @@ include($relPath.'dp_main.inc');
 	$forum_topics = $forum_topics-1;
 	$forum_posts = $forum_posts-$i;
 	$update_count = mysql_query("UPDATE phpbb_forums SET forum_posts=$forum_posts, forum_topics=$forum_topics WHERE forum_id=2");
+}
 
 
         // TODO: Change Modified Date to New Date
