@@ -17,6 +17,7 @@ function showMbrProfile($curMbr) {
 		user_get_page_tally_neighborhood(
 			$curMbr['username'], 0, FALSE );
 	$currentRank = $neighbors[0]->get_current_page_tally_rank();
+	$latestSavedRank = user_get_latest_saved_page_tally_rank($curMbr['u_id']);
 
 	$bestDay = bestDayEver($curMbr['u_id']);
 	$result = mysql_query("SELECT date_updated, rank FROM member_stats WHERE u_id = ".$curMbr['u_id']." ORDER BY rank ASC LIMIT 1");
@@ -78,7 +79,7 @@ function showMbrProfile($curMbr) {
 	echo_tr_2_cols(
 		_("Overall Rank"),
 		number_format($currentRank) . " " . _("out of") . " " . number_format($totalRanks)
-		. showChangeInRank( user_get_latest_saved_page_tally_rank($curMbr['u_id']), $currentRank )
+		. showChangeInRank( $latestSavedRank, $currentRank )
 	);
 	echo_tr_2_cols(
 		_("Highest Rank"),
@@ -254,6 +255,7 @@ function showMbrNeighbors($curMbr) {
 		$u_id = mysql_result($result, 0, "u_id");
 		$date_created = mysql_result($result, 0, "date_created");
 		$privacy_enabled = mysql_result($result, 0, "u_privacy");
+		$latestSavedRank = user_get_latest_saved_page_tally_rank($u_id);
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
 		start_tr_with_rollover_highlight();
@@ -269,7 +271,7 @@ function showMbrNeighbors($curMbr) {
 			$username_html = "Anonymous";
 			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
-		echo "<td width='15%'>$rank" . showChangeInRank( user_get_latest_saved_page_tally_rank($u_id), $rank ) . "</td>";
+		echo "<td width='15%'>$rank" . showChangeInRank( $latestSavedRank, $rank ) . "</td>";
 		echo "<td width='28%'>$username_html</td>";
 		echo "<td width='28%'>$day_html</td>";
 		echo "<td width='29%'>$pagescompleted</td>";
