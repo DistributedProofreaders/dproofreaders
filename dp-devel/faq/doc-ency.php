@@ -36,7 +36,7 @@ theme('Proofing Guidelines -- Encyclopedias','header');
     <li>Article titles: Leave in UPPER CASE like the original printed form. Do not mark them as boldface.</li>
     <li>Greek: Please transliterate and place in square brackets with the word
         "Greek:".  Translate each Greek character into the matching Latin
-        letter using the <a href="http://promo.net/pg/vol/greek.html"> PG
+        letter using the <a href="http://gutenberg.net/howto/greek/"> PG
         Greek transliteration guidelines</a>.  Example: <tt>like a fish [Greek:
         ichthus]</tt>.                                                          </li>
     <li>Sidenotes: Place at beginning of the paragraph, without a blank line following. If there are additional

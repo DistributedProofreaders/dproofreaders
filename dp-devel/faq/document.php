@@ -1860,7 +1860,7 @@ cedilla                      [,x]*  [x,]
 
 <ul compact>
   <li> Greek:
-       <a href="http://promo.net/pg/vol/greek.html">Greek to ASCII Primer</a> (from
+       <a href="http://gutenberg.net/howto/greek/">Greek HOWTO</a> (from
        Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li> Cyrillic:
