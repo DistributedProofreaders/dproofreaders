@@ -215,16 +215,20 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	else
 	{
 		$R_ures = mysql_query("SELECT pagescompleted FROM users WHERE username = '$R_username'");
-		$R_phpbbid = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
 		if (mysql_num_rows($R_ures) == 0) {
-			$R_email = "";
 			$R_pages_completed = 0;
 		} else {
-			$R_email = mysql_result($R_phpbbid, 0, "user_id");
 			$R_pages_completed = mysql_result($R_ures, 0, "pagescompleted");
 		}
 
-		echo "<td align='center'><a href=$forums_url/privmsg.php?mode=post&u=$R_email>$R_username</a> ($R_pages_completed)</td>\n";
+		$R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
+		if (mysql_num_rows($R_bbres) == 0) {
+			$R_bb_user_id = "";
+		} else {
+			$R_bb_user_id = mysql_result($R_bbres, 0, "user_id");
+		}
+
+		echo "<td align='center'><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
 	}
 
 	// ------------------------------
