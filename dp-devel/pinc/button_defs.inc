@@ -11,6 +11,7 @@ define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT',       'I');
 define('SAVE_AS_IN_PROGRESS',         'J');
 define('SET_IMAGE_ZOOM',              'K');
+define('SET_IMAGE_ACTUAL',            'Q');
 define('SPELL_CHECK',                 'L');
 
 define('PROJECT_COMMENTS',            'M');
