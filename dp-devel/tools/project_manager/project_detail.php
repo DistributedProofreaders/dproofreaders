@@ -175,7 +175,7 @@ echo "</table>\n";
 
 if ($page_type == "Full") {
 
-	echo_page_detail($projectid, 1);
+	echo_page_table($projectid, 1);
 
       // -----------------------------------------------------------------------------
 
