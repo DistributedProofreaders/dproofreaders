@@ -28,12 +28,15 @@ $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 $now = time();
 
 if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
-	$user_referent = _("Anonymous");
+	$user_referent = "#" . $curMbr['u_id'];
+	// Note that this doesn't reveal anything;
+	// the requestor already knows the subject's u_id,
+	// because it was included in the request.
 } else {
-	$user_referent = $curMbr['username'];
+	$user_referent = "'" . $curMbr['username'] . "'";
 }
 
-$desc = sprintf( _("Details for user '%s'"), $user_referent );
+$desc = sprintf( _("Details for user %s"), $user_referent );
 theme($desc, "header");
 
 echo "<br><center>";
