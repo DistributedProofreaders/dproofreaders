@@ -1,10 +1,10 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
-include($relPath.'bookpages.inc');
-include($relPath.'showavailablebooks.inc');
-include($relPath.'project_states.inc');
-include($relPath.'page_states.inc');
+include_once($relPath.'dp_main.inc');
+include_once($relPath.'bookpages.inc');
+include_once($relPath.'showavailablebooks.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'page_states.inc');
 
 // $userP['prefschanged'] will be set ==1 if they have changed prefs while in proofing mode
 // should offer link to save changes and|or restore defaults
