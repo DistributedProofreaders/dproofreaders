@@ -2,7 +2,7 @@
 
 global $array_of_langs, $array_of_genres , $array_of_PMs, $array_of_diffs;
 
-function build_selectlist( $states, $field, $array)
+function build_selectlist( $states, $field, &$array)
 {
 
 	$to_echo = "";
