@@ -83,8 +83,9 @@ echo "<B>Page Number: $pageNum ";
     }
 echo "</B><BR>";
     echo "View: <a href=\"projects.php?project=$project&amp;proofstate=$proofstate&amp;proofing=1\" target=\"viewcomments\">Project Comments</a> ";
-    echo "<a href=\"#\" onclick=\"mNA()\">Extended Characters</a> ";
-    echo "<a href=\"#\" onclick=\"mGR()\">Greek Characters</a> ";
+    echo "Characters: ";
+    echo "<a href=\"#\" onclick=\"mNA()\">Extended</a> ";
+    echo "<a href=\"#\" onclick=\"mGR()\">Greek</a> ";
     echo "<a href=\"../../projects/$project/$imagefile\" target=\"lg_image\">Image</a> ";
 ?>
 <br>
