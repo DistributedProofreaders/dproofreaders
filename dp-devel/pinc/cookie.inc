@@ -20,7 +20,7 @@ function checkCookie()
 function setUserPrefs($userID)
 {
           $db_query="SELECT 
-u_lang, email_updates, u_plist, 
+u_lang, email_updates, u_plist, u_top10, u_neigh,
 i_prefs, i_res, i_type, i_layout, i_toolbar, 
 i_statusbar, i_newwin, v_fnts, v_fntf, v_zoom, 
 v_tframe, v_tlines, v_tchars, v_tscroll, v_twrap, h_fnts, 
@@ -59,6 +59,8 @@ $i=0;
 @$uPrefs['u_lang']=$cPrefs[$i++];
 @$uPrefs['email_updates']=$cPrefs[$i++];
 @$uPrefs['u_plist']=$cPrefs[$i++];
+@$uPrefs['u_top10']=$cPrefs[$i++];
+@$uPrefs['u_neigh']=$cPrefs[$i++];
 @$uPrefs['i_prefs']=$cPrefs[$i++];
 @$uPrefs['i_res']=$cPrefs[$i++];
 @$uPrefs['i_type']=$cPrefs[$i++];
