@@ -636,20 +636,86 @@ theme('Proofreading Guidelines','header');
       </td>
       <td width="50%">
         <p><tt>
-          [Sidenote: The comparative size of the image depends on <br>
-          the amount of light (30-39).]                           <br>
-                                                                  <br>
-          The eye will hold and retain in itself                  <br>
-          the image of a luminous body better than                <br>
-          that of a shaded object. The reason is that             <br>
-          the eye is in itself perfectly dark and since           <br>
-          two things that are alike cannot be distinguished,      <br>
-          therefore the night, and other dark                     <br>
-          objects cannot be seen or recognised by                 <br>
-          the eye. Light is total contrary and gives              <br>
-          more distinctness, and counteracts and differs          <br>
-          from the usual darkness of the eye, hence               <br>
-          it leaves the impression of its image.                  <br>
+               *[Sidenote: Burning                                                  <br>
+               discs                                                                <br>
+               thrown into                                                          <br>
+               the air.]                                                            <br>
+                                                                                    <br>
+               that such as looked at the fire holding a bit of larkspur            <br>
+               before their face would be troubled by no malady of the              <br>
+               eyes throughout the year.[1] Further, it was customary at            <br>
+               Würzburg, in the sixteenth century, for the bishop's followers       <br>
+               to throw burning discs of wood into the air from a mountain          <br>
+               which overhangs the town. The discs were discharged by               <br>
+               means of flexible rods, and in their flight through the darkness     <br>
+               presented the appearance of fiery dragons.[2]                        <br>
+                                                                                    <br>
+               [Sidenote: The Midsummer                                             <br>
+               fires in                                                             <br>
+               Swabia.]                                                             <br>
+                                                                                    <br>
+               [Sidenote: Omens                                                     <br>
+               drawn from                                                           <br>
+               the leaps                                                            <br>
+               over the                                                             <br>
+               fires.]                                                              <br>
+                                                                                    <br>
+               [Sidenote: Burning                                                   <br>
+               wheels                                                               <br>
+               rolled                                                               <br>
+               down hill.]                                                          <br>
+                                                                                    <br>
+               In the valley of the Lech, which divides Upper Bavaria               <br>
+               from Swabia, the midsummer customs and beliefs are, or               <br>
+               used to be, very similar. Bonfires are kindled on the                <br>
+               mountains on Midsummer Day; and besides the bonfire                  <br>
+               a tall beam, thickly wrapt in straw and surmounted by a              <br>
+               cross-piece, is burned in many places. Round this cross as           <br>
+               it burns the lads dance with loud shouts; and when the               <br>
+               flames have subsided, the young people leap over the fire in         <br>
+               pairs, a young man and a young woman together. If they               <br>
+               escape unsmirched, the man will not suffer from fever, and           <br>
+               the girl will not become a mother within the year. Further,          <br>
+               it is believed that the flax will grow that year as high as          <br>
+               they leap over the fire; and that if a charred billet be taken       <br>
+               from the fire and stuck in a flax-field it will promote the          <br>
+               growth of the flax.[3] Similarly in Swabia, lads and lasses,         <br>
+               hand in hand, leap over the midsummer bonfire, praying               <br>
+               that the hemp may grow three ells high, and they set fire            <br>
+               to wheels of straw and send them rolling down the hill.              <br>
+               Among the places where burning wheels were thus bowled               <br>
+               down hill at Midsummer were the Hohenstaufen mountains               <br>
+               in Wurtemberg and the Frauenberg near Gerhausen.[4]                  <br>
+               At Deffingen, in Swabia, as the people sprang over the mid-*         <br>
+                                                                                    <br>
+               [Footnote 1: <i>Op. cit.</i> iv. i. p. 242. We have                  <br>
+               seen (p. 163) that in the sixteenth                                  <br>
+               century these customs and beliefs were                               <br>
+               common in Germany. It is also a                                      <br>
+               German superstition that a house which                               <br>
+               contains a brand from the midsummer                                  <br>
+               bonfire will not be struck by lightning                              <br>
+               (J.W. Wolf, <i>Beiträge, zur deutschen                               <br>
+               Mythologie</i>, i. p. 217, § 185).]                                  <br>
+                                                                                    <br>
+               [Footnote 2: J. Boemus, <i>Mores, leges et ritus                     <br>
+               omnium gentium</i> (Lyons, 1541), p.                                 <br>
+               226.]                                                                <br>
+                                                                                    <br>
+               [Footnote 3: Karl Freiherr von Leoprechting,                         <br>
+               <i>Aus dem Lechrain</i> (Munich, 1855),                              <br>
+               pp. 181 <i>sqq.</i>; W. Mannhardt, <i>Der                            <br>
+               Baumkultus</i>, p. 510.]                                             <br>
+                                                                                    <br>
+               [Footnote 4: A. Birlinger, <i>Volksthümliches aus                    <br>
+               Schwaben</i> (Freiburg im Breisgau, 1861-1862),                      <br>
+               ii. pp. 96 <i>sqq.</i>, § 128, pp. 103                               <br>
+               <i>sq.</i>, § 129; <i>id., Aus Schwaben</i> (Wiesbaden,              <br>
+               1874), ii. 116-120; E. Meier,                                        <br>
+               <i>Deutsche Sagen, Sitten und Gebräuche                              <br>
+               aus Schwaben</i> (Stuttgart, 1852), pp.                              <br>
+               423 <i>sqq.</i>; W. Mannhardt, <i>Der Baumkultus</i>,                <br>
+               p. 510.]                                                             <br>
         </tt></p>
       </td>
     </tr>
