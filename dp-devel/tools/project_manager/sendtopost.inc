@@ -37,8 +37,14 @@ include_once($relPath.'maybe_mail.inc');
         join_proofed_text($project, $fp);
         fclose ($fp);
 
+	// Generate comments html file
+	$htmlpath = $projectpath."/".$project."_comments.html";
+	$fp = fopen($htmlpath, "w");
+	project_comments($project, $fp);
+	fclose ($fp);
+
         // Create a zip of that file
-        exec ("zip -j $projectpath/$project.zip $savepath");
+        exec ("zip -j $projectpath/$project.zip $savepath $htmlpath");
 
         // Generate joined text file as TEI
         $savepath = $projectpath."/".$project."_TEI".".txt";
@@ -47,7 +53,7 @@ include_once($relPath.'maybe_mail.inc');
         fclose ($fp);
 
         // Create a zip of that file
-        exec ("zip -j $projectpath/{$project}_TEI.zip $savepath");
+        exec ("zip -j $projectpath/{$project}_TEI.zip $savepath $htmlpath");
 
         // Decide whether to send to post-processing or have PM work on it.
 
@@ -76,6 +82,19 @@ include_once($relPath.'maybe_mail.inc');
         }
         maybe_mail_project_manager( $project, $body_blurb );
 
+    }
+
+    function project_comments ($project, $fp) {
+
+	$header = "<HTML><BODY>";
+	fputs($fp,$header);
+
+        $myresult = mysql_query("SELECT comments FROM projects WHERE projectid = '$project'");
+	$comments = mysql_result($myresult, 0, "comments");
+        fputs($fp,$comments);
+
+	$footer = "</BODY></HTML>";
+	fputs($fp,$footer);
     }
 
     function join_proofed_text ($project, $fp) {
