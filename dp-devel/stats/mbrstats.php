@@ -42,12 +42,12 @@ $max_update = mysql_result($result,0,0);
 
 		while ($row = mysql_fetch_assoc($result)) {
 			$user_id = $row['u_id'];
-			if ($row['pagescompleted'] == 0) { $rankArray['rank'][$user_id] = 0; continue; }
+			if ($row['pagescompleted'] == 0) { $rankArray[$user_id] = 0; continue; }
 			if ($row['pagescompleted'] == $lastcompleted) {
-				$rankArray['rank'][$user_id] = $lastrank;
+				$rankArray[$user_id] = $lastrank;
 				$lastrank = $lastrank;
     			} else {
-    				$rankArray['rank'][$user_id] = $i;
+    				$rankArray[$user_id] = $i;
     				$lastrank = $i;
    			}
     			$lastcompleted = $row['pagescompleted'];
@@ -64,7 +64,7 @@ $max_update = mysql_result($result,0,0);
 	$result = mysql_query("SELECT u_id, pagescompleted FROM users");
 		while($row = mysql_fetch_assoc($result)) {
 			$todaysCount = $row['pagescompleted'] - $prevDayCount[$row['u_id']]['total_pagescompleted'];
-			$updateCount = maybe_query("INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank) VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray['rank'][$row['u_id']].")");
+			$updateCount = maybe_query("INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank) VALUES (".$row['u_id'].", $midnight, $todaysCount, ".$row['pagescompleted'].", ".$rankArray[$row['u_id']].")");
 		}
 		$tracetimea = time();
 		$tooktime = $tracetimea - $tracetime;
