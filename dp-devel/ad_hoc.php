@@ -20,6 +20,73 @@ echo "<BR>\n";
 
 echo "<hr>\n";
 
+
+if (0)
+{
+	include_once($relPath.'project_states.inc');
+	var_dump( $PROJECT_STATES_IN_ORDER );
+	var_dump( $project_state_label_ );
+	var_dump( $project_state_forum_ );
+	var_dump( $project_state_phase_ );
+	var_dump( $project_states_for_star_metal_ );
+}
+
+if (0)
+{
+	// Find projectID* tables that aren't referenced by the projects table.
+	$referenced = array();
+	$res1 = mysql_query("SELECT projectid FROM projects");
+	while (list($projectid) = mysql_fetch_row($res1) )
+	{
+		$referenced[] = $projectid;
+	}
+
+	$res2 = mysql_query("SHOW TABLES LIKE 'projectID%'");
+	while (list($projectid) = mysql_fetch_row($res2) )
+	{
+		if (!in_array($projectid, $referenced))
+		{
+			echo "$projectid\n";
+		}
+	}
+}
+
+if (0)
+{
+	$project_res = dpsql_query("
+		SELECT projectid
+		FROM projects
+	");
+
+	while ( list($projectid) = mysql_fetch_row($project_res) )
+	{
+		// First check whether the page-table exists.
+		if (!mysql_query("DESCRIBE $projectid"))
+		{
+			// page-table doesn't exist (has been archived).
+			// echo "$projectid doesn't exist\n";
+			continue;
+		}
+
+		echo "$projectid:";
+
+		$res = dpsql_query("
+			SELECT fileid, state
+			FROM project_pages
+			WHERE projectid='$projectid'
+		");
+		echo " transferring states for ". mysql_num_rows($res) ." rows\n";
+		while ( list($fileid,$state) = mysql_fetch_row($res) )
+		{
+			dpsql_query("
+				UPDATE $projectid
+				SET state='$state'
+				WHERE fileid='$fileid'
+			");
+		}
+	}
+}
+
 if (0)
 {
 	include_once($relPath.'../locale/translators/parse_po.inc');
@@ -54,11 +121,37 @@ if (0)
 	// project_update_page_counts('FOO');
 
 	include_once($relPath.'RoundDescriptor.inc');
+
+	echo "\nget_PRD_for_round_id:\n";
+	foreach (array('P1','P2','F1') as $round_id)
+	{
+		$prd = get_PRD_for_round_id($round_id);
+		echo "$round_id\t$prd->round_id\n";
+	}
+
+	echo "\nget_PRD_for_round:\n";
+	foreach (array(1,2,3) as $round_number)
+	{
+		$prd = get_PRD_for_round($round_number);
+		echo "$round_number\t$prd->round_id\n";
+	}
+
+	echo "\nget_PRD_for_project_state:\n";
+	foreach ($PROJECT_STATES_IN_ORDER as $project_state)
+	{
+		$prd = get_PRD_for_project_state($project_state);
+		echo "$project_state\t$prd->round_id\n";
+	}
+
+	echo "\nget_PRD_for_page_state:\n";
 	foreach ($PAGE_STATES_IN_ORDER as $page_state)
 	{
 		$prd = get_PRD_for_page_state($page_state);
 		echo "$page_state\t$prd->round_id\n";
 	}
+
+	var_dump($P1);
+	var_dump($P2);
 }
 
 if (0)
@@ -166,11 +259,16 @@ if (0)
 {
     // For each possible project state, create a project in that state.
     include($relPath.'project_states.inc');
+    dpsql_query("
+	DELETE FROM projects
+	WHERE nameofwork LIKE 'ADHOC: %'
+    ");
+
     $i = 0;
     foreach ( $project_state_label_ as $project_state => $label )
     {
 	$i += 1;
-	mysql_query("
+	dpsql_query("
 	    INSERT INTO projects
 	    SET
 		projectid='jmd_$i',
@@ -178,7 +276,7 @@ if (0)
 		authorsname='anon',
 		username='jmdyck',
 		state='$project_state'
-	") or die(mysql_error());
+	");
     }
 }
 
