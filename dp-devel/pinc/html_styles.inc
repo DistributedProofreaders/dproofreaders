@@ -6,19 +6,23 @@ class htmlStyles
 // BODY
 // onload can be set in the specific function
 var $body = array(
+0=> array(
 'BACKGROUND'=>NULL,
-'BGCOLOR'=>"#999999",
+'BGCOLOR'=>"#666666",
 'TEXT'=>"#000000",
 'LINK'=>"#000066",
 'VLINK'=>"#660000",
 'ALINK'=>"#006600",
 'STYLE'=>NULL,
 'CLASS'=>NULL
+)
+
 );
 
 // TABLE
 //width can be set in the specific function
 var $table = array(
+0=> array(
 'ID'=>NULL,
 'BGCOLOR'=>"#FFFFFF",
 'BORDER'=>"1",
@@ -27,6 +31,7 @@ var $table = array(
 'CELLPADDING'=>"0",
 'STYLE'=>"BORDER-COLLAPSE: collapse",
 'CLASS'=>NULL
+)
 );
 
 //TR's

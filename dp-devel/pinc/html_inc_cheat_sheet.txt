@@ -17,38 +17,43 @@ Class Variables:
 function startHeader($docTitle)
      $docTitle = the text string you would like displayed as the window title
 
-
-function startBody($centerAll,$extraTags)
+function startBody($bodyType,$centerAll,$extraTags,$return)
+     $bodyType =  0=default
      $centerAll = boolean to add <center><div align="center"> tags at the start of the document.
                   1(true)|0(false)
      $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
                   They must be formatted in correct HTML syntax. The preceeding space will be added.
+     $return = 0=echo tags | 1=return html as string
      closes : <head> if $headO=1
 
 
-function startTable($tableWidth,$extraTags)
+function startTable($bodyType,$tableWidth,$extraTags,$return)
+     $tableType =  0=default
      $tableWidth = the width of the table (set =0 to allow browser to determine a default width)
      $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
                   They must be formatted in correct HTML syntax. The preceeding space will be added.
+     $return = 0=echo tags | 1=return html as string
      closes : <td> if $tdO=1; <tr> if $trO=1; <table> if $tableO=1 (does not allow for nested tables)
      nesting : must temp set $tableO=0; startTable() for new; echo '</TABLE>' to end table nested table
 
-function startTR($trType,$extraTags)
+function startTR($trType,$extraTags,$return)
      $trType =  0=default, 1=goes with td light, 2=goes with td dark styles
      $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
                   They must be formatted in correct HTML syntax. The preceeding space will be added.
+     $return = 0=echo tags | 1=return html as string
      closes : <td> if $tdO=1; <tr> if $trO=1
 
 
-function startTD($tdType,$tdWidth,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags)
+function startTD($tdType,$tdWidth,$tdCols,$tdRows,$tdAlign,$tdVAlign,$extraTags,$return)
      $tdType =  0=default, 1=light, 2=dark styles
      $tdWidth = the width of the cell (set =0 to allow browser to determine a default width)
      $tdCols = value for COLSPAN attribute
      $tdRows = value for ROWSPAN attribute
      $tdAlign = "left"|"center"|"right" horizontal alignment of cell contents
-     $tdVAlign = "top"|"middle"|"bottom" vertical alignment of cell contents
+     $tdVAlign = "top"|"center"|"bottom" vertical alignment of cell contents
      $extraTags = these can be any extra attributes that you would like sent to the BODY tag.
                   They must be formatted in correct HTML syntax. The preceeding space will be added.
+     $return = 0=echo tags | 1=return html as string
      closes : <td> if $td=1
 
 
