@@ -42,7 +42,7 @@ $activeusers = mysql_result($users,0,"numusers");
 <?
 echo sprintf( _("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s' target='_new'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official Project Gutenberg site and as such is supported by Project Gutenberg. All our proofreaders, managers, developers and so on are volunteers."), $PG_home_url );
 echo sprintf( _("If you have any questions or comments regarding this site, please e-mail <a href='mailto:%s'>%s</a>."), $general_help_email_addr, $general_help_email_addr );
-
+echo "<br><br>";
 show_site_news_for_page("default.php");
 random_news_item_for_page("default.php");
 ?>
@@ -55,6 +55,8 @@ random_news_item_for_page("default.php");
 
 <p><font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b><? echo _("How You Can Help"); ?></b></font><br>
 <? echo sprintf(_("The first step to take to help us out would be to <a href='accounts/addproofer.php'>register</a> to be a new proofreader. (A 'Register' link also appears at the top of the screen.)  After you register be sure to read over both the email you receive as well as  <a href='%s/faq/faq_central.php'>FAQ Central</a> which provides helpful resources on how to proofread.  (See also the 'Help' at the top of any screen.)  After you have registered &amp; read through some of the intro documents choose an interesting-looking book from our Current Projects and try proofreading a page or two."),$code_url); ?></p>
+
+<p><? echo _("You don't even have to register to have a look at the <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading Pool Preview</a>, though you do to upload corrections. Follow the link for more information."); ?></p>
 
 <p><? echo _("Remember that there is no commitment expected on this site. Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'."); ?></p>
 
