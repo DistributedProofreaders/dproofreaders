@@ -35,6 +35,7 @@ while ($count < $mynumrows) {
         $total = mysql_result($result, $count, "PC");
         $datay1[$count] = $total;
         $datay1[$count-1] = $total - $datay1[$count-1];
+	if ($datay1[$count-1] < 0) $datay1[$count-1] = 0;
         $datax[$count] = mysql_result($result, $count, "date");
         $count++;
 }
