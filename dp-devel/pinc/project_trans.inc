@@ -279,7 +279,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			$from_forum_id = mysql_result($result, 0, "forum_id");  
 
 			if ($from_forum_id !=  $projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+				move_forum_thread( $topic_id, $from_forum_id, $projects_forum_idx);
 			}
 		}
 
@@ -311,7 +311,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			$from_forum_id = mysql_result($result, 0, "forum_id");  
 
 			if ($from_forum_id !=  $pp_projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+				move_forum_thread( $topic_id, $from_forum_id, $pp_projects_forum_idx);
 			}
 		}
 
@@ -340,7 +340,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			$from_forum_id = mysql_result($result, 0, "forum_id");  
 
 			if ($from_forum_id !=  $pp_projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
+				move_forum_thread( $topic_id, $from_forum_id, $pp_projects_forum_idx);
 			}
 		}
 
