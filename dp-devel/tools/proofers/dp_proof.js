@@ -1,4 +1,4 @@
-// start of code byCarel
+// start of code by Carel
 
 docRef=null;
 markRef=null;
@@ -167,30 +167,37 @@ if (!cnSel || !cR)
 
 //fancy
 if (curSel != '' && docRef.selection.createRange().text == curSel)
-{docRef.editform.text_data.focus();
-docRef.selection.createRange().text=wOT + curSel + wCT;
-curCaret='';
-curSel='';
-docRef.editform.text_data.focus();}
+	{
+	docRef.editform.text_data.focus();
+	docRef.selection.createRange().text=wOT + curSel + wCT;
+	curCaret='';
+	curSel='';
+	docRef.editform.text_data.focus();
+	}
 else { 
-if (cR && curSel=='')
-{cT=wOT;
-putCT(cT);}
-     }
+	if (cR && curSel=='')
+	{
+	cT=wOT;
+	putCT(cT);
+	}
+}
+
 if(wM==1)
 {docRef.editform.text_data.value=wOT;}
 }}
 
 // start of general interface functions
+
 function mGR()
 {
-// greek character window
-winURL='greek2ascii.php';
-newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=640,height=210,top=180,left=180'";
-greekWin=window.open(winURL,"gkasciiWin",newFeatures);
-greekWin.focus();
+	// greek character window
+	winURL='greek2ascii.php';
+	newFeatures="'toolbars=0,location=0,directories=0;status=0;menubar=0,scrollbars=1,resizable=1,width=640,height=210,top=180,left=180'";
+	greekWin=window.open(winURL,"gkasciiWin",newFeatures);
+	greekWin.focus();
 }
 
+// Font Face Selection values
 aFnt=new Array();
 aFnt[1]='Courier New';
 aFnt[2]='Times New Roman';
@@ -198,6 +205,8 @@ aFnt[3]='Arial';
 aFnt[4]='Lucida Sans Typewriter';
 aFnt[5]='monospaced';
 aFnt[6]='DPCustomMono2';
+
+// Font Size Selection values
 bFnt=new Array();
 bFnt[1]='8';
 bFnt[2]='9';
@@ -216,15 +225,17 @@ ieH=0;
 ieL=0;
 ieT=0;
 ieSt=0;
+
 function setText()
 {
 //if (document.all && !ieSt)
 if (!ieSt)
-{
-ieW=docRef.editform.text_data.style.width;
-ieH=docRef.editform.text_data.style.height;
-ieSt=1;
-}}
+	{
+	ieW=docRef.editform.text_data.style.width;
+	ieH=docRef.editform.text_data.style.height;
+	ieSt=1;
+	}
+}
 
 function fixText()
 {
@@ -321,7 +332,7 @@ function dSI(sdir)
 // Modified from the script by Philip Serracino Inglott
 
 targ=top.imageframe.window;
-ammt =20; 		// this is the ammout to scroll in pixels
+ammt =20; 		// this is the amount to scroll in pixels
 			// should be user configurable
 switch (sdir) {
   case "up" :
@@ -342,8 +353,8 @@ return true;}
 
 
 // just for the old ptags list
-otO=new Array();
-otC=new Array();
+otO=new Array(); // Opening tags
+otC=new Array(); // Closing tags
 otO[0]='*';
 otC[0]='';
 otO[1]='[Footnote #: ';
@@ -360,6 +371,8 @@ otO[6]='[Blank Page]';
 otC[6]='';
 otO[7]='/#'; // This index number is relied upon below
 otC[7]='#/';
+otO[8]='[Greek: ';
+otC[8]=']';
 
 // standard tag selection
 function iMUO(wM)
