@@ -4,6 +4,7 @@ include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include($relPath.'page_states.inc');
 include($relPath.'f_project_states.inc');
+include_once($relPath.'RoundDescriptor.inc');
 
 function format_time( $time_sse )
 // $time_sse (expressed in seconds since epoch)
@@ -86,17 +87,10 @@ else
         echo "<li> Download a zip of page-images.</li>\n";
     }
 
-    if ( $project_phase == 'FIRST' || $project_phase == 'SECOND' )
+    if ( $project_phase == 'PAGE_EDITING' )
     {
-        if ( $project_phase == 'FIRST' )
-        {
-            $available_state = PROJ_PROOF_FIRST_AVAILABLE;
-        }
-        else
-        {
-            $available_state = PROJ_PROOF_SECOND_AVAILABLE;
-        }
-        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate=$available_state'>Start Proofreading!</a></li>\n";
+        $prd = get_PRD_for_project_state($proj_state);
+        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate={$prd->project_available_state}'>Start Proofreading!</a></li>\n";
         echo "<li> Re-proofread pages (if you've proofread any).</li>\n";
     }
 
