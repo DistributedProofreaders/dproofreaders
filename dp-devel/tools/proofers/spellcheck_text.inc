@@ -66,7 +66,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 			echo html_safe($orig_str);
 
 			// Put a line-break in the output.
-			echo "\n\n";
+			echo "<br>\n";
 			// (A single '\n' would do, but it makes the lines too squished.)
 
 			// And proceed to the next original-line.
