@@ -22,7 +22,6 @@ function abort_login( $error )
 <p>Please attempt again to log in above. If problems persist, review the following possible fixes:
 <ol>
 <?
-$testing=TRUE;
 if ($testing)
 {
 	echo "<li>Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)\n";
