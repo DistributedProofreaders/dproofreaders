@@ -69,7 +69,8 @@ theme("Personal Page for $pguser", "header");
 
         // Beginners Info
 
-        if ($pagesproofed <= 40) {
+        if ($pagesproofed <= 100) {
+
                 echo '<font face="'. $theme['font_mainbody'] .'" color = "blue" size=+3><br><b>';
                 echo _("Welcome");
                 echo "</b></font><br><br>";
@@ -80,43 +81,17 @@ theme("Personal Page for $pguser", "header");
                 echo _("for answers to common questions.");
                 echo "<br><br>\n";
 
-                if ($pagesproofed > 30) {
+                if ($pagesproofed > 80) {
                         echo "<i>";
-                        echo _("After you do a few more pages, the following introductory Simple Proofing Rules will be removed from this page.");
+                        echo _("After you proof a few more pages, the following introductory Simple Proofing Rules will be removed from this page. However, they are permanently available ");
+ 	                echo "<a href =" . $code_url . "/faq/simple_proof_rules.php>";
+			echo _("here");
+			echo "</a> ";
+			echo _("if you wish to refer to them later. (You can bookmark that link if you like.)");
                         echo "</i><br><br>";
                 }
 
-                echo "<font face=" . $theme['font_mainbody'] ."><b>";
-                echo _("Simple Proofing Rules:");
-                echo "</b></font><br><br>";
-
-                echo _("1) Don't rewrap lines. Leave the ends of lines where they are in the image.");
-                echo "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;";
-                echo _("a) except, please put words that are broken across lines back together.");
-                echo "<br><br>";
-                echo _("2) Use a blank line between paragraphs and don't indent at the beginning of a paragraph.");
-                echo "<br><br>";
-                echo _("3) Remove spaces around punctuation and in contractions.");
-                echo "<br><br>";
-                echo _("4) Don't correct the original spelling.");
-                echo "<br><br>";
-                echo _("5) When in doubt, make it look like the original and use * to flag the spot.");
-                echo "<br><br>\n\n";
-
-
-                echo "<i>";
-                echo _("The");
-                echo " <a href='".$code_url."'/faq/summary.pdf>";
-                echo _("Handy Proofing Guide");
-                echo "</a> ";
-                echo _("(printable) and");
-                echo " <a href='".$code_url."'/faq/document.php>";
-                echo _("Proofing Guidelines");
-                echo "</a> ";
-                echo _("(for reference) provide much more detail.");
-                echo "</i><br><br>\n";
-                echo _("BEGINNERS ONLY projects are reserved for new proofers. After you have done 5-15 pages from these projects, please leave them for proofers who are newer than you. EASY projects make a good next step.");
-                echo "<br><br>\n";
+		include($relPath.'simple_proof_text.inc');
 
                 echo "<center><hr width='75%'></center><br>";
 
@@ -128,8 +103,10 @@ theme("Personal Page for $pguser", "header");
         if ($pagesproofed >= 20) {
                 if ($pagesproofed < 40) {
                         echo "<font face=" . $theme['font_mainbody'] . "><i>";
-                        echo _("Now you have proofed 20 pages you can see the Site News. This explanatory line will eventually vanish.");
-                        echo "</i></font><br><br>";
+                        echo _("Now that you have proofed 20 pages you can see the Site News. This is update regularly with announcements from the administrators.");
+			echo "<br>";
+			echo _("(This explanatory line will eventually vanish.");
+                        echo "</i></font><br><br>\n";
                 }
 
                 $result = mysql_query("SELECT date_posted, message FROM news ORDER BY uid DESC LIMIT 1");
@@ -199,7 +176,13 @@ theme("Personal Page for $pguser", "header");
 
                 if ($pagesproofed < 40) {
                         echo "<font face=" . $theme['font_mainbody'] . "><i>";
-                        echo _("Now you have proofed 10 pages you can see the Random Rule. This explanatory line will eventually vanish.");
+                        echo _("Now that you have proofed 10 pages you can see the Random Rule. Every time this page is refreshed, a randomly select rule from the");
+			echo " <a href=" . $code_url . "/faq/document.php>";
+			echo _("Proofing Guidelines");
+			echo "</a> ";
+			echo _("is displayed in this section");
+			echo "<br>";
+			echo _("(This explanatory line will eventually vanish.");
                         echo "</i></font><br><br>";
                 }
 
@@ -219,10 +202,23 @@ theme("Personal Page for $pguser", "header");
 
         }
 
+        if ($pagesproofed >= 40) {
+                if ($pagesproofed < 50) {
+                        echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
+                        echo _("Soon you will be able to see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
+			echo "<br>";
+			echo _("(This explanatory line will eventually vanish.");
+                        echo "</i></font><br><br>";
+                }
+        }
+
+
         if ($pagesproofed >= 50) {
                 if ($pagesproofed < 75) {
                         echo "<font face=" . $theme['font_mainbody'] . "><br><br><i>";
-                        echo _("Now you have proofed 50 pages you can see the books in Second Round. This explanatory line will eventually vanish.");
+                        echo _("Now that you have proofed 50 pages you can see the books in Second Round. Every page that is proofed in First Round is proofed again, by someone else, in Second Round, to check for any errors that may have been missed.");
+			echo "<br>";
+			echo _("(This explanatory line will eventually vanish.");
                         echo "</i></font><br><br>";
                 }
         }
