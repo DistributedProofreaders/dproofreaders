@@ -47,7 +47,11 @@ function showavailablebooks($result,$state,$userP,$tList,$round) {
             tde($temp, bgcol($rownum, $round));
             tde($book['authorsname'], bgcol($rownum, $round));
             tde($book['language'], bgcol($rownum, $round));
-            	if ($book['difficulty'] == "beginner") { $genre = "Beginner ".$book['genre']; }
+            	if ($book['difficulty'] == "beginner") {
+                    if  $round == "first" 
+                      $genre = "BEGINNERS ONLY ".$book['genre'];
+                    else 
+                      $genre = "MENTORS ONLY ".$book['genre'];  }
             	elseif ($book['difficulty'] == "easy") { $genre = "Easy ".$book['genre']; }
             	elseif ($book['difficulty'] == "hard") { $genre = "Hard ".$book['genre']; }
             	else { $genre = $book['genre']; }
