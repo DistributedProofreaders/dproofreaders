@@ -21,12 +21,12 @@
 // PI
 
   // unavailable
-  define("PROJ_PROOF_FIRST_UNAVAILABLE_TEXT",_("Unavailable First Round");
-  define("PROJ_PROOF_SECOND_UNAVAILABLE_TEXT",_("Unavailable Second Round");
+  define("PROJ_PROOF_FIRST_UNAVAILABLE_TEXT",_("Unavailable First Round"));
+  define("PROJ_PROOF_SECOND_UNAVAILABLE_TEXT",_("Unavailable Second Round"));
 
   // waiting for release
-  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE_TEXT",_("Waiting for First Round Release");
-  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE_TEXT",_("Waiting for Second Round Release");
+  define("PROJ_PROOF_FIRST_WAITING_FOR_RELEASE_TEXT",_("Waiting for First Round Release"));
+  define("PROJ_PROOF_SECOND_WAITING_FOR_RELEASE_TEXT",_("Waiting for Second Round Release"));
 
   // bad project
   define("PROJ_PROOF_FIRST_BAD_PROJECT_TEXT",_("Bad First Round Project"));
