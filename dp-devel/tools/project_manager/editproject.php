@@ -13,6 +13,12 @@ include_once($relPath.'maybe_mail.inc');
 $popHelpDir='./../../faq/pophelp/project_manager/';
 include_once($relPath.'js_newpophelp.inc');
 
+$nameofwork='';
+$authorsname='';
+$language='';
+$authorsname='';
+$genre='';
+
 function encodeFormValue($value) {
   return htmlentities($value,ENT_QUOTES);
 }
@@ -128,7 +134,10 @@ modifieddate, scannercredit, state, clearance)
 				state VARCHAR(50) NOT NULL default '',
 				INDEX(state),
 				b_user VARCHAR(25) NOT NULL default '',
-				b_code INT(1) NOT NULL default ''
+				b_code INT(1) NOT NULL default '',
+                        metadata SET('badscan','blank','illustration','missing','drawing','math','frontmatter','backmatter','division','verse','poetry','letter','toc','footnote','sidenote','epigraph','table','list') NOT NULL default '',
+                        orig_page_num VARCHAR(6) NOT NULL default '',
+
 			)
 		");
 
