@@ -30,8 +30,24 @@ function saveProject() {
    if (empty($_POST['authorsname'])) { $errormsg .= "Author is required.<br>"; }
    if (empty($_POST['pri_language'])) { $errormsg .= "Primary Language is required.<br>"; }
    if (empty($_POST['genre'])) { $errormsg .= "Genre is required.<br>"; }
-        if (!empty($_FILES['projectfiles']['name'])) { if(substr($_FILES['projectfiles']['name'], -4) != ".zip") { $errormsg .= "File type must be ZIP.<br."; } }
-   if (!empty($_FILES['projectfiles']['name'])) { $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip")); if (file_exists("$uploads_dir/$pguser/$dir_name")) { $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>"; } }
+   if (!empty($_POST['checkedoutby'])) {
+        $checkedoutby = $_POST['checkedoutby'];
+        $result = mysql_query("SELECT u_id FROM users WHERE username = '$checkedoutby'");
+        if (mysql_num_rows($result) == 0) {
+             $errormsg .= "PPer/PPVer must be an existing user.<br>"; 
+        }
+   }
+   if (!empty($_FILES['projectfiles']['name'])) { 
+         if (substr($_FILES['projectfiles']['name'], -4) != ".zip") { 
+             $errormsg .= "File type must be ZIP.<br>";
+         } 
+   }
+   if (!empty($_FILES['projectfiles']['name'])) { 
+        $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip"));
+        if (file_exists("$uploads_dir/$pguser/$dir_name")) { 
+            $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>"; 
+        } 
+   }
    if (isset($errormsg)) {
         return $errormsg;
         exit();
