@@ -224,7 +224,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 ?>
 <table border="1" width="630">
 <tr>
-  <td bgcolor="#CCCCCC">Random Rule</td>
+  <td bgcolor="#CCCCCC"><h3>Random Rule</h3></td>
 </tr>
 <tr>
   <td>
@@ -236,6 +236,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 </tr>
 </table>
 
+<p><p>
 
 <table border=1 width=630>
 <tr><td bgcolor=CCCCCC colspan=2><h3>Current First - Round Projects</h3></td>
