@@ -15,6 +15,11 @@ function bgcol($row,$round)
 		$bgcolor_odd = '#D8BFD8'; // thistle
 		$bgcolor_even = '#DDA0DD'; // plum
 	}
+	if ($round == 'post_2')
+	{
+		$bgcolor_odd = '#EAF7D7'; // "paledarkskyblue"
+		$bgcolor_even = '#99FFFF'; // "harshflourolightblue"
+	}
 	if ($row % 2) 
 	{
 		$bgcolor = " bgcolor='" . $bgcolor_odd . "'";
