@@ -160,7 +160,7 @@ dpsql_dump_ranked_query("
 		year as 'Year',
 		month as 'Month',
 		count(*) as 'Number of Days',
-		IF(MONTH(NOW()) = month AND YEAR(NOW()) = year), '*******',' ') as 'This Month?'
+		IF (MONTH(NOW()) = month AND YEAR(NOW()) = year, '******',' ') as 'This Month?'
 	FROM pagestats
 	WHERE pages >= 7000
 	GROUP BY year, month
