@@ -1,5 +1,7 @@
 <?PHP
 include_once($relPath.'v_site.inc');
+include_once($relPath.'connect.inc');
+include_once($relPath.'languages.inc');
 
 $correct_text = "";
 
@@ -31,8 +33,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 		fclose($fd);
 
 		global $aspell_executable, $aspell_prefix;
-		$aspell_dict="en.multi";
-		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} --master={$aspell_dict} --ignore-accents -H -a";
+		$aspell_dict=aspell_dict(mysql_result(mysql_query("SELECT language FROM projects WHERE projectid='$projectid'"),0));
+		$aspell_command="cat $tmp_file_path | {$aspell_executable} --prefix={$aspell_prefix} {$aspell_dict} -H -a";
+		// echo $aspell_command; // Very useful for debugging
 		// run aspell
 		// "asr" stands for "aspell result"
 		$asr_text = `$aspell_command`;
