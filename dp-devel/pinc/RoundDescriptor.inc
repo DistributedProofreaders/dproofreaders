@@ -13,11 +13,23 @@ class ProofingRoundDescriptor
 {
     function ProofingRoundDescriptor(
         $round_id,
+            // A very short mnemonic identifier for the round.
+            // (Should probably conform to the rules for a PHP variable name.)
         $minimum_user_pages,
+            // The minimum number of pages that a user must complete
+            // in order to be allowed to participate in this round.
         $title,
+            // A title that appears above the list of projects in this round.
         $description,
+            // A sentence or two explaining what happens in this round.
         $listing_bgcolors,
+            // An array of (two) HTML colors that will be used as the bgcolor
+            // in alternating rows in the listing of projects in this round.
         $other_rounds_with_visible_usernames
+            // An array of ProofingRoundDescriptor objects.
+            // If user X worked on a page in this round, they can see the
+            // username of another user Y who worked on the page *if* user Y
+            // worked on the page in a round that apppears in this parameter.
     )
     {
         global $n_rounds;
