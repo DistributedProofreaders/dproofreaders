@@ -69,82 +69,41 @@ function user_page_tally_get_interval_title( $user_page_tally )
 // "rank", but that just muddies the waters.)
 // Return the title for the interval containing $user_page_tally.
 {
-    if ($user_page_tally >= 0) {
-        $rankname = _("Newbie");
+    $thresholds = array(
+        125001 => _("Professor of Proofreading"),
+        120001 => _("Presidential Proofer"),
+        110001 => _("Proofer Extraordinaire"),
+        101001 => _("Proofer of Proofers"),
+        100001 => _("Prishan of Proofers"),
+         99501 => _("Doctor of Proofreading"),
+         99001 => _("Master of Proofreading"),
+         90001 => _("Prooferissimo"),
+         80001 => _("Proofer Supreme"),
+         75001 => _("Proofer Magnifico"),
+         70001 => _("Primordial Proofer"),
+         60001 => _("Peerless Proofer"),
+         50101 => _("Prime Proofreader"),
+         50001 => _("Prishan Level Proofreader"),
+         40001 => _("Priceless Proofreader"),
+         30001 => _("Profound Proofreader"),
+         20001 => _("Super Proofreader"),
+         10001 => _("Rare Talent"),
+          5001 => _("Connoisseur"),
+          2001 => _("Maestro"),
+          1001 => _("Master Proofreader"),
+           401 => _("Proofreader Savant"),
+           151 => _("Ace"),
+            26 => _("Proofreader"),
+             0 => _("Newbie"),
+    );
+
+    foreach ( $thresholds as $threshold => $title )
+    {
+        if ($user_page_tally >= $threshold)
+        {
+            return $title;
+        }
     }
-    if ($user_page_tally >= 26) {
-        $rankname = _("Proofreader");
-    }
-    if ($user_page_tally >= 151) {
-        $rankname = _("Ace");
-    }
-    if ($user_page_tally >= 401) {
-        $rankname = _("Proofreader Savant");
-    }
-    if ($user_page_tally >= 1001) {
-        $rankname = _("Master Proofreader");
-    }
-    if ($user_page_tally >= 2001) {
-        $rankname = _("Maestro");
-    }
-    if ($user_page_tally >= 5001) {
-        $rankname = _("Connoisseur");
-    }
-    if ($user_page_tally >= 10001) {
-        $rankname = _("Rare Talent");
-    }
-    if ($user_page_tally >= 20001) {
-        $rankname = _("Super Proofreader");
-    }
-    if ($user_page_tally >= 30001) {
-        $rankname = _("Profound Proofreader");
-    }
-    if ($user_page_tally >= 40001) {
-        $rankname = _("Priceless Proofreader");
-    }
-    if ($user_page_tally >= 50001) {
-        $rankname = _("Prishan Level Proofreader");
-    }
-    if ($user_page_tally >= 50101) {
-        $rankname = _("Prime Proofreader");
-    }
-    if ($user_page_tally >= 60001) {
-        $rankname = _("Peerless Proofer");
-    }
-    if ($user_page_tally >= 70001) {
-        $rankname = _("Primordial Proofer");
-    }
-    if ($user_page_tally >= 75001) {
-        $rankname = _("Proofer Magnifico");
-    }
-    if ($user_page_tally >= 80001) {
-        $rankname = _("Proofer Supreme");
-    }
-    if ($user_page_tally >= 90001) {
-        $rankname = _("Prooferissimo");
-    }
-    if ($user_page_tally >= 99001) {
-        $rankname = _("Master of Proofreading");
-    }
-    if ($user_page_tally >= 99501) {
-        $rankname = _("Doctor of Proofreading");
-    }
-    if ($user_page_tally >= 100001) {
-        $rankname = _("Prishan of Proofers");
-    }
-    if ($user_page_tally >= 101001) {
-        $rankname = _("Proofer of Proofers");
-    }
-    if ($user_page_tally >= 110001) {
-        $rankname = _("Proofer Extraordinaire");
-    }
-    if ($user_page_tally >= 120001) {
-        $rankname = _("Presidential Proofer");
-    }
-    if ($user_page_tally >= 125001) {
-        $rankname = _("Professor of Proofreading");
-    }
-    return $rankname;
 }
 
 // vim: sw=4 ts=4 expandtab
