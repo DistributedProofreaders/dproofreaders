@@ -127,6 +127,12 @@ function show_books_available_for_proofing( $round, $userP, $tList )
                         {
                                 $bgcolor = " bgcolor='#00CC99'";
                         }
+	
+	               // blue for Wright Bros
+                        if ( startswith( $book['comments'], 'SPECIAL: FLY100' ) )
+                        {
+                                $bgcolor = " bgcolor='#0000FF'";
+                        }
 
 			
 

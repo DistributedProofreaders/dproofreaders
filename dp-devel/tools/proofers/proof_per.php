@@ -31,6 +31,9 @@ include_once($relPath.'project_states.inc');
 .red {
 	background-color: #FF0000;
 }
+.flyblue {
+	background-color: #0000FF;
+}
 -->
 </style>
 <?
@@ -90,12 +93,22 @@ echo "<br><br>";
 
 	echo "<center><hr width='75%'></center><br>";
 ?>
-<p><font face="<? echo $theme['font_mainbody']; ?>">Legend for Special Books:<br><br><b><span class="orange"> Halloween </span>&nbsp; 
-<span class="paleblue"> recent authors' birthdays </span>&nbsp;
-  <span class="richblue"> TODAY's author birthdays </span>&nbsp;<br><span class="yellow"> Children's Book Week </span> 
-   &nbsp;<span class="grey"> Native American Heritage Month </span>
-&nbsp;<br><span class="purple"> Other Special </span></b></font></p><br>
+<p><font face="<? echo $theme['font_mainbody']; ?>">
 
+Legend for Special Books:
+<br><br><b>
+<span class="flyblue"> Wright Flight Anniversary </span>&nbsp;
+<span class="paleblue"> Authors with recent birthdays </span>&nbsp;
+<span class="richblue"> Authors with birthdays today </span>&nbsp;
+<br>
+<span class="yellow"> Children's Book Week </span>&nbsp;
+<span class="orange"> Halloween </span>&nbsp;
+<br>
+<span class="green"> Abolition of Slavery </span>&nbsp;
+<span class="purple"> Other Special </span>
+</b></font>
+</p>
+<br>
 
 <?
 $tList=0;
