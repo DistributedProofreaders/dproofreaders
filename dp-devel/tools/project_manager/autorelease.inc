@@ -14,10 +14,12 @@ function numavailpages($projectid, $roundavailstate) {
         if ($level0rows != "") { return (mysql_result($level0rows,0,0)); } else return 0;
 }
 
-function verifynew($projectid, $author, $nameofwork, $language, $clearance, $email) {
+function verifynew($project) {
         global $projects_dir;
         global $auto_email_addr;
         global $code_url;
+
+    $projectid = $project['projectid'];
 
     $currstate = PROJ_PROOF_FIRST_VERIFY;
     $result = mysql_query("UPDATE $projectid SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
@@ -31,6 +33,11 @@ function verifynew($projectid, $author, $nameofwork, $language, $clearance, $ema
     $page_num = 0;
 
     $errors = '';
+
+    $nameofwork = $project['nameofwork'];
+    $author     = $project['authorsname'];
+    $language   = $project['language'];
+    $clearance  = $project['clearance'];
 
     if ($nameofwork == '') $errors .= "  The 'Title' field is blank.\n";
     if ($author == '')     $errors .= "  The 'Author' field is blank.\n";
@@ -60,6 +67,10 @@ function verifynew($projectid, $author, $nameofwork, $language, $clearance, $ema
 
     if ( $errors )
     {
+        $pm = $project['username'];
+        $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
+        $email = mysql_result($temp, 0, "email");
+
         maybe_mail("$email", "DP: \"$nameofwork\"",
             "This is an automated message from the Distributed Proofreaders site.\n\n".
             "Regarding:\n".
@@ -126,9 +137,9 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
         while ( $project = mysql_fetch_assoc($avail_result) ) {
 
                 echo "considering project \"{$project['nameofwork']}\"...<br>\n";
+
                 // check the date
-                $modifieddate = $project['modifieddate'];
-                if ($modifieddate == $todaysdate) {
+                if ($project['modifieddate'] == $todaysdate) {
                         // since projects are sorted by date, if we reach here we have already
                         // considered and rejected all remaining candidates under the author rule
                         // and can stop checking
@@ -138,10 +149,6 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                 // if we haven't already earlier today rejected (under the "no doubling up of authors" rule),
                 // this candidate for early release, consider it now
                 {
-                        $author = $project['authorsname'];
-                        $projectid = $project['projectid'];
-
-
                         // "no doubling up of authors"
 
 
@@ -150,25 +157,17 @@ function release_projects($track_by, $projtype_desc, $projtype_sql, $target, $re
                         $author_q = "SELECT projectid FROM projects WHERE
                                 (state = '".PROJ_PROOF_FIRST_AVAILABLE."'
                                         OR
-                                state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '$author'";
+                                state = '".PROJ_PROOF_FIRST_VERIFY."') AND authorsname = '{$project['authorsname']}'";
 
                         if (mysql_num_rows(mysql_query($author_q)) > 0) {
                                 // fails the author restriction,
 				// push this back two day's worth (in terms of order, not delay!) in the queue
-                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '$projectid'");
+                                $temp = mysql_query("UPDATE projects SET modifieddate = modifieddate + 172800 WHERE projectid = '{$project['projectid']}'");
                         } else {
                                 // OK to release
-                                // get the other data
-                                $nameofwork = $project['nameofwork'];
-                                $language = $project['language'];
-                                $clearance = $project['clearance'];
-                                $pm = $project['username'];
-                                $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
-                                $email = mysql_result($temp, 0, "email");
-
                                 // release the project for proofing, and keep track of
                                 // its contribution to reducing our total page shortfall
-                                $newpagesreleased = verifynew($projectid, $author, $nameofwork, $language, $clearance, $email);
+                                $newpagesreleased = verifynew($project);
                                 $totalnewreleased = $totalnewreleased + (2 * $newpagesreleased);
                                 $numReleased++;
 
