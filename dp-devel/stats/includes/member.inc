@@ -148,23 +148,24 @@ function showBBProfile($curMbr) {
 		$editlink = '';
 	}
 
-	if (empty($curMbr['user_avatar']))
-	{
-		$avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif";
-	}
-	else
-	{
-		$avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar'];
-	}
-
 	$t = new ThemedTable(
 		2,
 		_("phpBB Profile") . $editlink,
 		array( 'width'=>100 )
 	);
+
+	if (empty($curMbr['user_avatar']))
+	{
+		$rhs = '(none)';
+	}
+	else
+	{
+		$avatar = $GLOBALS['forums_url']."/images/avatars/".$curMbr['user_avatar'];
+		$rhs = "<img border='0' src='$avatar' alt='avatar'>";
+	}
 	$t->row(
 		_("Avatar"),
-		"<img border='0' src='$avatar' alt='avatar'>"
+		$rhs
 	);
 
 	if (!empty($curMbr['user_from']) || !empty($curMbr['user_occ']) || !empty($curMbr['user_interests']) || !empty($curMbr['user_website'])) { $t->hr( 90 ); }
