@@ -2,17 +2,16 @@
 $relPath="./../../pinc/";
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'doctype.inc');
 include_once($relPath.'v_site.inc');
-echo $docType."\r\n";
 
 include_once($relPath.'v_resolution.inc');
 $i_r= $i_resolutions;
 $wSize=explode("x",$i_r[$userP['i_res']*1]);
 $menuWidth=$wSize[0]<=800?'99%':'820';
 
+include($relPath.'slim_header.inc');
+slim_header("Control Frame");
 ?>
-<html><head><title>Control Frame</title>
 <script language="JavaScript" src="dp_proof.js" type="text/javascript"></script>
 <script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <style type="text/css">
@@ -54,7 +53,7 @@ A:active {
 //#EEDFCC;
   }
 -->
-</style></head><body><a
+</style><a
 href="#" accesskey="=" onfocus="focusText()"></a><form
 name="markform" id="markform" onsubmit="return(false);" action="ctrl_frame.php"><table cellpadding="0" cellspacing="0"
 align="center" width="<?PHP echo $menuWidth; ?>" border="0"><tr><td valign="top"><select

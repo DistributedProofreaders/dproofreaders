@@ -1,10 +1,10 @@
 <?PHP
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
-include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'slim_header.inc');
 
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
@@ -29,11 +29,9 @@ if ($npage['spcheck']==2)
     $tpage->setTempPageCookie($npage);
     $npage['text'] = implode( '', file("$aspell_temp_dir/$text_file") );
   }
-echo $docType."\r\n";
+slim_header("Text Frame",TRUE,FALSE);
 ?>
-<html>
-<head>
-<TITLE>Text Frame</TITLE></head>
+</head>
 <body onload="top.menuframe.ldAll(0)">
 <center>
 <form name="editform" method="post" action="processtext.php" target="proofframe">

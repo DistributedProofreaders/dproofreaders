@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'doctype.inc');
+include_once($relPath.'slim_header.inc');
 include_once('spellcheck_text.inc');
 
 $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
@@ -27,10 +27,8 @@ $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
         $textLeft="1%";
       }
 echo $docType."\r\n";
+slim_header("Spell Check",TRUE,FALSE);
 ?>
-<html> 
-<head> 
-<title>Spell Check</title> 
 <SCRIPT LANGUAGE="JavaScript" SRC="dpspell.js" TYPE="text/javascript"></SCRIPT>
 <script language="JavaScript" type="text/javascript">
 <!--

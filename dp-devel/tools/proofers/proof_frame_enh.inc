@@ -1,9 +1,9 @@
 <?PHP
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
-include_once($relPath.'doctype.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'slim_header.inc');
 
 $tpage=new processpage();
 $lang=isset($lang)?$lang:1;
@@ -38,11 +38,8 @@ $npage['text']=isset($inCheck)?$correct_text:$tpage->getText($npage['pagestate']
         $textLeft="1%";
       }
 
-echo $docType."\r\n";
+slim_header("Proofreading Page",TRUE,FALSE);
 ?>
-<html><head>
-<title>Proofreading Page</title>
-
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()

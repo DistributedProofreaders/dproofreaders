@@ -4,15 +4,14 @@ include($relPath.'http_headers.inc');
 include($relPath.'v_site.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
-include($relPath."doctype.inc");
 
 // get cookie
 $tpage=new processpage();
 $npage=$tpage->getPageCookie();
 
+include($relPath.'slim_header.inc');
+slim_header("Image Frame",TRUE,FALSE);
 ?>
-<html><head>
-<title>Image Frame</title>
 </head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img
 name="scanimage" id="scanimage" title="" alt=""
 src="<?PHP echo $projects_url.'/'.$npage['project'].'/'.$npage['image'];?>"

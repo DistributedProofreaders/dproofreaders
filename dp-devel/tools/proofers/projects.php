@@ -18,12 +18,11 @@ if ($proofstate==PROJ_PROOF_FIRST_AVAILABLE) {
 
 /* $_GET $project, $proofstate, $proofing */
 
-include($relPath.'doctype.inc');
-echo "$docType\r\n<HTML><HEAD><TITLE> "._("Project Comments")."</TITLE>";
+include($relPath.'slim_header.inc');
+slim_header(_("Project Comments"));
 
 if (!isset($proofing) && $userP['i_newwin']==1)
 {include($relPath.'js_newwin.inc');}
-echo "</HEAD><BODY>\r\n";
 if (!isset($proofing)) {
     include('./projects_menu.inc');
 ?>
