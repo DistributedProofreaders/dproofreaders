@@ -318,8 +318,40 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	 $rankname = "Priceless Proofer";
 	}
 	if ($neighborhood['pages'][$userindex] >= 50001) {
+	 $rankname = "Prishan Level Proofer";
+	}
+	if ($neighborhood['pages'][$userindex] >= 50101) {
 	 $rankname = "Prime Proofer";
 	}
+	if ($neighborhood['pages'][$userindex] >= 60001) {
+	 $rankname = "Peerless Proofer";
+	}
+	if ($neighborhood['pages'][$userindex] >= 70001) {
+	 $rankname = "Primordial Proofer";
+	}
+	if ($neighborhood['pages'][$userindex] >= 75001) {
+	 $rankname = "Proofer Magnifico";
+	}
+	if ($neighborhood['pages'][$userindex] >= 80001) {
+	 $rankname = "Proofer Supreme";
+	}
+	if ($neighborhood['pages'][$userindex] >= 90001) {
+	 $rankname = "Prooferissimo";
+	}
+	if ($neighborhood['pages'][$userindex] >= 99001) {
+	 $rankname = "Master of Proofing";
+	}
+	if ($neighborhood['pages'][$userindex] >= 99501) {
+	 $rankname = "Doctor of Proofing";
+	}
+	if ($neighborhood['pages'][$userindex] >= 100001) {
+	 $rankname = "Proofer of Proofers";
+	}
+
+
+
+
+
 
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><u>Personal Statistics:</u></font></center>\n";
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;Total Pages: ";
