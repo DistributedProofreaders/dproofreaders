@@ -100,7 +100,7 @@ while($row = mysql_fetch_array($result)) {
 
 	echo "<a name='".$row['projectid']."'><font face='Verdana' size='1' color='#444444'><b>$numofetexts) \"".$row['nameofwork']."\"</b></font><font face='Verdana' size='1'>, ".$row['authorsname']."<br></a>";
 
-	if ($type != "Gold") echo "$totalpages pages; ";
+	if ($type != "Gold" && !empty($totalpages)) echo "$totalpages pages; ";
 
 	echo "$moddate<br>$links</font>\n";
 
