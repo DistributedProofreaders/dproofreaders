@@ -153,6 +153,7 @@ function review( $projectid_ )
         $res = mysql_query("
             SELECT image, fileid
             FROM $projectid
+            ORDER BY image
         ") or die(mysql_error());
 
         $n_pages = mysql_num_rows($res);
