@@ -22,7 +22,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 //     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
-	global $waiting_projects_forum_idx;
 	global $projects_forum_idx;
 	global $pp_projects_forum_idx;
 	global $posted_projects_forum_idx;
@@ -264,25 +263,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 
-		//Move the forum topic (if there is one) to the proofing projects forum
-		$result = mysql_query("
-			SELECT topic_id FROM projects WHERE projectid='$projectid'
-		");
-		$topic_id = mysql_result($result, 0, "topic_id");
-
-		if ($topic_id != "")  // there is a project thread
-		{
-			$result = mysql_query("
-				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
-			");
-
-			$from_forum_id = mysql_result($result, 0, "forum_id");  
-
-			if ($from_forum_id !=  $projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $projects_forum_idx);
-			}
-		}
-
 	}
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
@@ -294,28 +274,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 	}
-	else if ( $new_state == PROJ_POST_FIRST_AVAILABLE )
-	{
-		//Move the forum topic (if there is one) to the PPing projects forum
-		$result = mysql_query("
-			SELECT topic_id FROM projects WHERE projectid='$projectid'
-		");
-		$topic_id = mysql_result($result, 0, "topic_id");
-
-		if ($topic_id != "")  // there is a project thread
-		{
-			$result = mysql_query("
-				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
-			");
-
-			$from_forum_id = mysql_result($result, 0, "forum_id");  
-
-			if ($from_forum_id !=  $pp_projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $pp_projects_forum_idx);
-			}
-		}
-
-	}
 	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
 	{
 		if ( $extras['checkedoutby'] == '' )
@@ -324,27 +282,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		}
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
-
-		//Move the forum topic (if there is one) to the PPing projects forum
-		$result = mysql_query("
-			SELECT topic_id FROM projects WHERE projectid='$projectid'
-		");
-		$topic_id = mysql_result($result, 0, "topic_id");
-
-		if ($topic_id != "")  // there is a project thread
-		{
-			$result = mysql_query("
-				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
-			");
-
-			$from_forum_id = mysql_result($result, 0, "forum_id");  
-
-			if ($from_forum_id !=  $pp_projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $pp_projects_forum_idx);
-			}
-		}
-
-
 	}
 	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
 		$new_state == PROJ_POST_SECOND_AVAILABLE )
@@ -393,25 +330,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$rowExists = mysql_result($result, 0, "rowExists");
 		if (!empty($rowExists)) {
 			mysql_query ("DELETE FROM page_counts WHERE projectid = '$projectid'");
-		}
-
-		//Move the forum topic (if there is one) to the projects archive forum
-		$result = mysql_query("
-			SELECT topic_id FROM projects WHERE projectid='$projectid'
-		");
-		$topic_id = mysql_result($result, 0, "topic_id");
-
-		if ($topic_id != "")  // there is a project thread
-		{
-			$result = mysql_query("
-				SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
-			");
-
-			$from_forum_id = mysql_result($result, 0, "forum_id");  
-
-			if ($from_forum_id !=  $posted_projects_forum_idx) { 
-				move_forum_thread( $topic_id, $from_forum_id, $posted_projects_forum_idx);
-			}
 		}
 
 		// TODO: Archive the project
@@ -472,6 +390,23 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// Update the page_counts table.
 		project_update_page_counts( $projectid );
 	}
+
+
+	// move the project topic in synch with the project's progress
+
+	if ($new_state == PROJ_PROOF_FIRST_AVAILABLE) 
+	{
+		move_project_thread( $projectid, $projects_forum_idx);
+	}
+	else if (($new_state == PROJ_POST_FIRST_AVAILABLE) or ($new_state == PROJ_POST_FIRST_CHECKED_OUT))
+	{
+		move_project_thread( $projectid, $pp_projects_forum_idx);
+	}
+	else if ($new_state == PROJ_SUBMIT_PG_POSTED)
+	{
+		move_project_thread( $projectid, $posted_projects_forum_idx);
+	}
+
 
 	// (All the stuff under PROJ_SUBMIT_PG_POSTED, except for the assignment
 	// to $settings, should probably be moved here.)
