@@ -11,8 +11,8 @@ function numpages($project) {
 
 function verifynew($project, $author, $nameofwork, $language, $clearance, $email) {
 
-    $currstate = 8;
-    $result = mysql_query("UPDATE $project SET state = 2 WHERE state = 0");
+    $currstate = VERIFY_PI_FIRST;
+    $result = mysql_query("UPDATE $project SET state = '".AVAIL_FIRST."' WHERE state = '".UNAVAIL_FIRST."'");
     $projectinfo = new projectinfo();
 
     $projectinfo->update($project, $state);
@@ -20,7 +20,7 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     $page_num = 0;
 
     if (($author == "") || ($nameofwork == "") || ($language == "") || ($clearance == "")) {
-        $currstate = 0;
+        $currstate = BAD_PI_FIRST;
         maybe_mail("$email", "DP: $nameofwork has an empty field.",
              "This is an automated message from the Distributed Proofreaders site.\n\n".
              "$nameofwork has one of the following parameters blank:\n\n".
@@ -31,25 +31,25 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
 
     $path = "../../projects/".$project."/";
 
-    while (($page_num < $projectinfo->avail1_pages) && ($currstate == 8)) {
+    while (($page_num < $projectinfo->avail1_pages) && ($currstate == VERIFY_PI_FIRST)) {
         $fileid = mysql_result($projectinfo->avail1_rows, $page_num, "fileid");
         $text = mysql_result($projectinfo->avail1_rows, $page_num, "master_text");
         $filename = mysql_result($projectinfo->avail1_rows, $page_num, "image");
 
         if (!file_exists($path.$filename)) {
-            $currstate = 0;
+            $currstate = BAD_PI_FIRST;
             maybe_mail("$email", "DP: $nameofwork has missing image $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename image that is missing. Please correct, check other pages, and put back into Waiting for Release.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         } else if (filesize($path.$filename) < 100) {
-            $currstate = 0;
+            $currstate = BAD_PI_FIRST;
             maybe_mail("$email", "DP: $nameofwork has bad image $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename image with a small file size. Please correct, check other pages, and put back into Waiting for Release.",
                  "From: charlz@lvcablemodem.com\r\nReply-To: charlz@lvcablemodem.com\r\n");
         } else if ($text == "") {
-            $currstate = 0;
+            $currstate = BAD_PI_FIRST;
             maybe_mail("$email", "DP: $nameofwork has empty text for $filename.",
                  "This is an automated message from the Distributed Proofreaders site.\n\n".
                  "$nameofwork has $filename with a small text size. Please correct, check other pages, and put back into Waiting for Release.",
@@ -60,9 +60,9 @@ function verifynew($project, $author, $nameofwork, $language, $clearance, $email
     }
 
     $todaysdate = time();
-    $result = mysql_query("UPDATE projects SET state = $currstate, modifieddate = '$todaysdate' WHERE projectid = '$project'");
+    $result = mysql_query("UPDATE projects SET state = '$currstate', modifieddate = '$todaysdate' WHERE projectid = '$project'");
 
-    if ($currstate == 8) {
+    if ($currstate == VERIFY_PI_FIRST) {
         print "Released project = $project<BR>";
         return numpages($project);
     } else return 0;
@@ -75,7 +75,7 @@ function autorelease($pagesleft) {
   
   // NON-English Books
 
-  $non_english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language != 'English' ORDER BY modifieddate ASC");
+  $non_english = mysql_query("SELECT * FROM projects WHERE state = '".WAITING_PI_FIRST."' AND language != 'English' ORDER BY modifieddate ASC");
   $done = 0;
 
   while (($pagesleft < $pagesneeded) && (mysql_num_rows($non_english) != 0) && ($done != 1)) {
@@ -91,17 +91,17 @@ function autorelease($pagesleft) {
     $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
     $email = mysql_result($temp, 0, "email");
 
-    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = 2 AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
+    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = '".AVAIL_PI_FIRST."' AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
       $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
     } else if ($modifieddate != $todaysdate) {
       $pagesleft += (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
     } else $done = 1;
-    $non_english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language != 'English' ORDER BY modifieddate ASC");
+    $non_english = mysql_query("SELECT * FROM projects WHERE state = '".WAITING_PI_FIRST."' AND language != 'English' ORDER BY modifieddate ASC");
   }
 
   // English Books
 
-  $english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language = 'English' ORDER BY modifieddate ASC");
+  $english = mysql_query("SELECT * FROM projects WHERE state = '".WAITING_PI_FIRST."' AND language = 'English' ORDER BY modifieddate ASC");
   $done = 0;
 
   while (($pagesleft < $pagesneeded) && (mysql_num_rows($english) != 0) && ($done != 1)) {
@@ -116,12 +116,12 @@ function autorelease($pagesleft) {
     $temp = mysql_query("SELECT email FROM users WHERE username = '$pm'");
     $email = mysql_result($temp, 0, "email");
 
-    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = 2 AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
+    if ((mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE state = '".AVAIL_PI_FIRST."' AND authorsname = '$author'")) > 0) && ($modifieddate != $todaysdate)) {
       $temp = mysql_query("UPDATE projects SET modifieddate = '$todaysdate' WHERE projectid = '$project'");
     } else if ($modifieddate != $todaysdate) {
       $pagesleft += (2 * verifynew($project, $author, $nameofwork, $language, $clearance, $email));
     } else  $done = 1;
-    $english = mysql_query("SELECT * FROM projects WHERE state = 1 AND language = 'English' ORDER BY modifieddate ASC");
+    $english = mysql_query("SELECT * FROM projects WHERE state = '".WAITING_PI_FIRST."' AND language = 'English' ORDER BY modifieddate ASC");
   }
 }
 ?>
