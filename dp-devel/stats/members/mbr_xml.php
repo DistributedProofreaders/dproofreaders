@@ -80,7 +80,6 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 
 
 //Neighbor info portion of $data
-	$curMbr_i = $rankArray['curMbrIndex'];
 	$data .= "<neighborinfo>";
 	$neighbors = user_get_page_tally_neighbors( $rankArray, 4 );
 	foreach ( $neighbors as $rel_posn => $neighbor )
