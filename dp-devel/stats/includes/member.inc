@@ -13,7 +13,7 @@ function showMbrProfile($curMbr) {
 	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
 	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
 
-	$rankArray = mbrRank($curMbr['username']);
+	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
 	$currentRank = $rankArray['curMbrRank'];
 	$totalRanks = $rankArray['totalRanks'];
 	$bestDay = bestDayEver($curMbr['u_id']);
@@ -172,10 +172,6 @@ function pageCountPercentage($pagescompleted) {
 	return $percentTotal;
 }
 
-function mbrRank($username) {
-	return get_user_page_tally_rank_array($username, FALSE);
-}
-
 function rankPosition($rank, $u_id) {
 
 			// $rank is current rank. Compare it to rank as of latest midnight.
@@ -224,7 +220,7 @@ function showChangeInRank($prevRank, $currentRank)
 
 function showMbrNeighbors($curMbr) {
 	global $theme;
-	$rankArray = mbrRank($curMbr['username']);
+	$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
 	$now = time();
 
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>";

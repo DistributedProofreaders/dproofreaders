@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
+include_once($relPath.'page_tally.php');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();
@@ -28,7 +29,7 @@ $curMbr = mysql_fetch_assoc($result);
 $result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
-$rankArray = mbrRank($curMbr['username']);
+$rankArray = get_user_page_tally_rank_array($curMbr['username'], FALSE);
 $bestDay = bestDayEver($curMbr['u_id']);
 
 $now = time();
