@@ -303,17 +303,8 @@ function user_get_largest_page_tally_increment_info( $u_id )
 // -- the given user's largest recorded page tally increment, and
 // -- a timestamp for which that increment was recorded.
 {
-    $result = mysql_query("
-        SELECT tally_delta, timestamp
-        FROM past_tallies
-        WHERE
-            holder_type='U'
-            AND holder_id=$u_id
-            AND tally_name='P'
-        ORDER BY tally_delta DESC
-        LIMIT 1
-    ");
-    return mysql_fetch_row($result);
+    global $users_P_page_tallyboard;
+    return $users_P_page_tallyboard->get_info_re_largest_delta( $u_id );
 }
 
 // -----------------------------------------------------------------------------
@@ -360,17 +351,8 @@ function team_get_largest_page_tally_increment_info( $team_id )
 // -- the given team's largest recorded page tally increment, and
 // -- a timestamp for which that increment was recorded.
 {
-    $result = mysql_query("
-        SELECT tally_delta, timestamp
-        FROM past_tallies
-        WHERE
-            holder_type='T'
-            AND holder_id=$team_id
-            AND tally_name='P'
-        ORDER BY tally_delta DESC
-        LIMIT 1
-    ");
-    return mysql_fetch_row($result);
+    global $teams_P_page_tallyboard;
+    return $teams_P_page_tallyboard->get_info_re_largest_delta( $team_id );
 }
 
 // vim: sw=4 ts=4 expandtab
