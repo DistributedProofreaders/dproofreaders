@@ -13,6 +13,22 @@
 
 // -----------------------------------------------------------------------------
 
+$users_table_with_tallies = "users";
+// A string containing an SQL table-expression that yields a table that
+// has all of the data of the 'users' table, plus a page-tally column.
+// Currently, the 'users' table *has* a page-tally column, so the table-expr
+// is simply the table-name 'users'.
+// Eventually, however, page-tallies will be stored in a separate table,
+// and this table-expr will be a join of 'users' and that table. E.g.:
+// $users_table_with_tallies = "users LEFT OUTER JOIN current_tallies ON (holder_type='U' AND holder_id=u_id AND tally_name='P')";
+
+$user_P_page_tally_column = "pagescompleted";
+// A string containing the name of the column in the above table
+// that gives the user's tally of pages saved-as-done in proofing rounds.
+// $user_P_page_tally_column = "tally_value";
+
+// -----------------------------------------------------------------------------
+
 function page_tallies_add( $username, $amount )
 // Add $amount to the user's page tally,
 // and to the page tally of each team that the user currently belongs to.
