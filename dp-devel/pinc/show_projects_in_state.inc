@@ -62,6 +62,8 @@ function show_projects_in_state($state,$table=1)
 		// We're only interested if it's checked out to the current user.
 		$query .= " AND checkedoutby = '$pguser'";
 	}
+
+	$query .= " ORDER BY modifieddate";
 	$result = mysql_query($query);
 
 
