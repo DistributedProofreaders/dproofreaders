@@ -65,11 +65,6 @@ function attempt_to_release($project)
 function autorelease($pagesleft) {
         $todaysdate = time();
         $pagesneeded = $GLOBALS['pagesneeded'] - $pagesleft;
-        $noneng_pagesneeded = $GLOBALS['noneng_pagesneeded'];
-        $eng_pagesneeded = $GLOBALS['eng_pagesneeded'];
-        $beginners_pagesneeded = $GLOBALS['beginners_pagesneeded'];
-        $easy_projects = $GLOBALS['easy_projects'];
-
 
 	echo "<pre>\n";
 	echo "Starting autorelease\n";
@@ -89,7 +84,7 @@ function autorelease($pagesleft) {
 			'projtype_sql'  => "username = 'BEGIN'",
 			'count2ndRnd'   => "",
 			'track_by'      => "page",
-			'target'        => $beginners_pagesneeded,
+			'target'        => $GLOBALS['beginners_pagesneeded'],
 		),
 		array(
 			// Easy English Projects
@@ -98,7 +93,7 @@ function autorelease($pagesleft) {
 			'projtype_sql'  => "genre LIKE 'EASY%' && language LIKE 'English%'",
 			'count2ndRnd'   => "",
 			'track_by'      => "project",
-			'target'        => $easy_projects,
+			'target'        => $GLOBALS['easy_projects'],
 		),
 		array(
 			// Non-English Projects
@@ -107,7 +102,7 @@ function autorelease($pagesleft) {
 			'projtype_sql'  => "language NOT LIKE 'English%'",
 			'count2ndRnd'   => "yes",
 			'track_by'      => "page",
-			'target'        => $noneng_pagesneeded,
+			'target'        => $GLOBALS['noneng_pagesneeded'],
 		),
 		array(
 			// English Projects
@@ -116,7 +111,7 @@ function autorelease($pagesleft) {
 			'projtype_sql'  => "language LIKE 'English%'",
 			'count2ndRnd'   => "yes",
 			'track_by'      => "page",
-			'target'        => $eng_pagesneeded,
+			'target'        => $GLOBALS['eng_pagesneeded'],
 		),
 		array(
 			// Extra Projects
