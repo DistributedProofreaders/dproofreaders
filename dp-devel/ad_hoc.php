@@ -20,6 +20,23 @@ echo "<BR>\n";
 
 echo "<hr>\n";
 
+if (0)
+{
+	// Get Settings twice for the same user.
+       	// Change one, see if the other changes.
+	include_once($relPath.'SettingsClass.inc');
+	$user_name = 'a';
+	$setting_name = uniqid('s_');
+	$s1 =& Settings::get_settings($user_name);
+	$s2 =& Settings::get_settings($user_name);
+	echo "before:\n";
+	echo "  s1.foo: "; var_dump( $s1->get_boolean($setting_name) ); echo "\n";
+	echo "  s2.foo: "; var_dump( $s2->get_boolean($setting_name) ); echo "\n";
+	$s1->set_boolean($setting_name,TRUE);
+	echo "after:\n";
+	echo "  s1.foo: "; var_dump( $s1->get_boolean($setting_name) ); echo "\n";
+	echo "  s2.foo: "; var_dump( $s2->get_boolean($setting_name) ); echo "\n";
+}
 
 if (0)
 {
