@@ -67,7 +67,6 @@ echo "<br>";
 }
 
 echo "<br><hr><br><br>";
-
 include('filter_PP_list.inc');
 
 echo "<center><b>Books Available for Post Processing:</b></center>";
@@ -76,8 +75,11 @@ echo "<br>";
 
 if ($isPPV) {
 
+echo "<br><hr><br><br>";
+include('filter_PPV_list.inc');
+
 echo "<center><b>Books Available for Post Processing Verification & Posting:</b></center>";
-show_projects_in_state(PROJ_POST_SECOND_AVAILABLE);
+show_projects_in_state(PROJ_POST_SECOND_AVAILABLE, 1, $RFilter);
 echo "<br>";
 }
 
