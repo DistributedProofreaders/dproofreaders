@@ -67,28 +67,33 @@ include_once($relPath.'maybe_mail.inc');
 
         // Change state based on user's settings
         if ($send_to_post == "yes") {
-	    $error_msg = project_transition( $project, PROJ_POST_AVAILABLE );
-	    if ( $error_msg )
-	    {
-		echo "$error_msg<br>\n";
-		return;
-	    }
-            maybe_mail("$email", "DP: $nameofwork Sent To Post-Processing",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has been sent to post-processing for others to do the post-processing. You will be notified once it has completed post-processing.",
-                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $new_state = PROJ_POST_AVAILABLE;
+            $extras = array();
+            $subject_blurb = 'Sent To Post-Processing';
+            $body_blurb =
+                "$nameofwork has been sent to post-processing\n".
+                "for others to do the post-processing.\n".
+                "You will be notified once it has completed post-processing.";
         } else {
-	    $error_msg = project_transition( $project, PROJ_POST_CHECKED_OUT, array( 'checkedoutby' => $username ) );
-	    if ( $error_msg )
-	    {
-		echo "$error_msg<br>\n";
-		return;
-	    }
-            maybe_mail("$email", "DP: $nameofwork Ready For You To Post-Process",
-                 "This is an automated message from the Distributed Proofreaders site.\n\n".
-                 "$nameofwork has completed second round proofreading and is ready for you to do the post-processing. If you do not want to work on it, set it to Available for Post-Processing.",
-                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $new_state = PROJ_POST_CHECKED_OUT;
+            $extras = array( 'checkedoutby' => $username );
+            $subject_blurb = 'Ready For You To Post-Process';
+            $body_blurb =
+                "$nameofwork has completed second round proofreading\n".
+                "and is ready for you to do the post-processing.\n".
+                "If you do not want to work on it,\n".
+                "set it to Available for Post-Processing.";
         }
+        $error_msg = project_transition( $project, $new_state, $extras );
+        if ( $error_msg )
+        {
+            echo "$error_msg<br>\n";
+            return;
+        }
+        maybe_mail("$email", "DP: $nameofwork $subject_blurb",
+            "This is an automated message from the Distributed Proofreaders site.\n\n".
+            $body_blurb,
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
     }
 
 
