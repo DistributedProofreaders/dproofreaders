@@ -58,7 +58,7 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<website>".xmlencode($curMbr['user_website'])."</website>";
 
 
-	foreach ( $page_tally_names as $tally_name => $gerund )
+	foreach ( $page_tally_names as $tally_name => $tally_title )
 	{
 		$tallyboard = new TallyBoard( $tally_name, 'U' );
 

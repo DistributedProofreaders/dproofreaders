@@ -227,14 +227,14 @@ function showMbrTallySelector( $u_id, $tally_name )
 	global $page_tally_names;
 
 	$choices = '';
-	foreach ( $page_tally_names as $t_name => $t_gerund )
+	foreach ( $page_tally_names as $t_name => $t_title )
 	{
 		if (!empty($choices))
 		{
 			$choices .= " | ";
 		}
 
-		$text = $t_gerund;
+		$text = $t_title;
 		if ($t_name != $tally_name)
 		{
 			$text = "<a href='mdetail.php?id=$u_id&amp;tally_name=$t_name'>$text</a>";
@@ -253,11 +253,11 @@ function showMbrTallySelector( $u_id, $tally_name )
 
 	if ( is_null($tally_name) ) return;
 
-	$gerund = $page_tally_names[$tally_name];
+	$tally_title = $page_tally_names[$tally_name];
 	echo "\n";
 	echo "<center>";
 	echo "<p>";
-	echo $gerund;
+	echo $tally_title;
 	echo "<br>";
 	echo "(Below, 'pages' refers to 'pages saved-as-done in a $tally_name round'.)";
 	echo "</p>";

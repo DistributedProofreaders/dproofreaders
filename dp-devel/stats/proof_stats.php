@@ -49,7 +49,7 @@ else
 	$proofreader_expr = "IF(u_privacy != ".PRIVACY_PUBLIC.",'Anonymous', username)";
 }
 
-foreach ( $page_tally_names as $tally_name => $gerund )
+foreach ( $page_tally_names as $tally_name => $tally_title )
 {
 	echo "<h3>" . _("Most Prolific Proofreaders") . ': ' . $tally_name . "</h3>\n";
 
