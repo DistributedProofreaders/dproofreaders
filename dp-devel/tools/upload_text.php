@@ -47,7 +47,7 @@ else if ($stage == 'smooth_done')
 {
 	$what = _("Smooth Read Version");
       $for_what = "";
-	$indicator = "_smooth_done_".$pg_user;
+	$indicator = "_smooth_done_".$pguser;
 	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	$extras = array();
 	$back_url = "$code_url/tools/post_proofers/SR_info.php?project=$project";
