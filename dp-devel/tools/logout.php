@@ -9,6 +9,6 @@ if ( dpsession_resume() )
 	dpsession_end();
 }
 
-metarefresh(0, "../default.php", "Logout Complete",
-     "<A HREF=\"../default.php\">Return to DP Home Page.</A>");
+metarefresh(0, "../default.php", _("Logout Complete"),
+     "<A HREF=\"../default.php\">"._("Return to DP Home Page.")."</A>");
 ?>
