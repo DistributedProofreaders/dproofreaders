@@ -1080,12 +1080,12 @@ class TableDiffFormatter extends DiffFormatter
 
 	function addedLine( $line ) {
 		return "<td>+</td><td bgcolor='#ccffcc'>" .
-		  "<small>{$line}</small></td>";
+		  "<small><span class='custom_font'>{$line}</span></small></td>";
 	}
 
 	function deletedLine( $line ) {
 		return "<td>-</td><td bgcolor='#ffffaa'>" .
-		  "<small>{$line}</small></td>";
+		  "<small><span class='custom_font'>{$line}</span></small></td>";
 	}
 
 	function emptyLine() {
@@ -1093,7 +1093,7 @@ class TableDiffFormatter extends DiffFormatter
 	}
 
 	function contextLine( $line ) {
-		return "<td> </td><td bgcolor='white'><small>{$line}</small></td>";
+		return "<td> </td><td bgcolor='white'><small><span class='custom_font'>{$line}</span></small></td>";
 	}
     
     function _added($lines) {
