@@ -160,7 +160,7 @@ class TallyBoard
     // by the current tallies on this TallyBoard.
     {
         $result = mysql_query("
-            SELECT holder_id
+            SELECT holder_id, tally_value
             FROM current_tallies
             WHERE
                 tally_name      = '$this->tally_name'
@@ -168,11 +168,11 @@ class TallyBoard
                 AND $this->rank_exclusion_kludge
             ORDER BY tally_value DESC
         ");
-        $i = 1;
-        while ($row = mysql_fetch_assoc($result))
+        $ranker = new Ranker(FALSE);
+        while (list($h_id,$tally_value) = mysql_fetch_row($result))
         {
-            if ($row['holder_id'] == $holder_id) { return $i; }
-            $i++;
+            $rank = $ranker->next( $tally_value );
+            if ($h_id == $holder_id) { return $rank; }
         }
         // assert(FALSE); ?
         return NULL;
