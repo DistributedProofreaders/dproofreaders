@@ -41,7 +41,7 @@ $mynumrows = mysql_numrows($result1);
 
         $count = 0;
         while ($count < $mynumrows) {
-        $data3y[$count] = 100.0 * $data2y[$count]/ $data1y[$count];
+	        $data3y[$count] = 100.0 * $data2y[$count]/ $data1y[$count];
             $count++;
         }
 
@@ -91,7 +91,7 @@ $graph->Add( $gbplot);
 // line plot showing percentage of joining users who proof
 $lplot = new LinePlot ($data3y);
 $lplot->SetColour("blue");
-$lplot->SetWeighColour(2);
+$lplot->SetWeight(2);
 $lplot->SetLegend(_("% of Newly Joined Users who Proofed"));
 
 $graph->AddY2($lplot);
