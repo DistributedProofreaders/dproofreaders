@@ -5,9 +5,9 @@ include_once($relPath.'user_is.inc');
 
 function abort_if_not_manager()
 {
-	global $userP, $site_manager_email_addr, $code_url;
+	global $site_manager_email_addr, $code_url;
 
-	if ( $userP['manager'] != "yes") {
+	if ( !user_is_PM()) {
 		echo "
 			<p>
 			You are not listed as a project manager.
