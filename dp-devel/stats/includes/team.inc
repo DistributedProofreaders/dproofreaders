@@ -51,7 +51,7 @@ function showTeamProfile($curTeam) {
 		$op_url = "tedit.php?tid=$team_id";
 		$text = _('Edit');
 		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-		$editlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='$op_url'>$colored_text</a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+		$editlink = "&nbsp;[<a href='$op_url'>$colored_text</a>]";
 	}
 	else
 	{
@@ -84,7 +84,7 @@ function showTeamProfile($curTeam) {
 		}
 		$op_url = "../members/$op.php?tid=$team_id";
 		$colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-		$joinquitlink = "&nbsp;<font color='".$theme['color_headerbar_font']."' size='2'>[</font><a href='$op_url'>$colored_text</a><font color='".$theme['color_headerbar_font']."' size='2'>]</font>";
+		$joinquitlink = "&nbsp;[<a href='$op_url'>$colored_text</a>]";
 	}
 
 	$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
@@ -110,9 +110,9 @@ function showTeamProfile($curTeam) {
 	echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse;' width='100%'>";
 	echo "\n<tr bgcolor='" . $theme['color_headerbar_bg'] . "'>";
 	echo "<td align='left' valign='top'><center><font color='" . $theme['color_headerbar_font'];
-	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b></font>&nbsp;";
+	echo "'><b>" . stripslashes($curTeam['teamname']) . "</b>&nbsp;";
 	echo $xml_button;
-	echo $editlink . $joinquitlink . "</center></td></tr>";
+	echo $editlink . $joinquitlink . "</font></center></td></tr>";
 
 	echo "\n<tr bgcolor='" . $theme['color_navbar_bg'] . "'><td align='left' valign='top'><font face='";
 	echo $theme['font_navbar'] . "' color='" . $theme['color_navbar_font'] . "' size='2'><b>"._("Created")."</b>: ";
