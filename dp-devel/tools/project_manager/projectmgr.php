@@ -9,6 +9,8 @@ include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'iso_lang_list.inc');
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'special_colors.inc');
 include_once('projectmgr.inc');
 include_once('projectmgr_select.inc');
 
@@ -253,20 +255,27 @@ abort_if_not_manager();
       		echo_header_cell(  50, _("Options") );
       		echo "</tr>";
 
+		// Determine whether to use special colors or not
+		// (this does not affect the alternating between two
+		// background colors) in the project listing.
+		$userSettings = Settings::get_Settings($pguser);
+		$show_special_colors = !$userSettings->get_boolean('hide_special_colors');
+
 		$tr_num = 0;
 		foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
 		{
-        	   $rownum = 0;
-        	   while ($rownum < $numrows) {
-            	     $state = mysql_result($result, $rownum, "state");
+                   // Reset internal row pointer (we know that $numrows > 0 so this is ok)
+                   mysql_data_seek($result, 0);
+        	   while ($project = mysql_fetch_assoc($result)) {
+            	     $state = $project['state'];
 		     if ($state == $proj_state_in_order)
 		     {
-            		$name = mysql_result($result, $rownum, "nameofwork");
-            		$author = mysql_result($result, $rownum, "authorsname");
-                        $diff = strtoupper(substr(mysql_result($result, $rownum, "difficulty"),0,1));
-            		$projectid = mysql_result($result, $rownum, "projectid");
-            		$outby = mysql_result($result, $rownum, "checkedoutby");
-			$comments = mysql_result($result, $rownum, "comments");
+            		$name = $project['nameofwork'];
+            		$author = $project['authorsname'];
+                        $diff = strtoupper(substr($project['difficulty'],0,1));
+            		$projectid = $project['projectid'];
+            		$outby = $project['checkedoutby'];
+			$comments = $project['comments'];
 
 			if ($tr_num % 2 ) {
                 		$bgcolor = $theme['color_mainbody_bg'];
@@ -274,13 +283,14 @@ abort_if_not_manager();
                 		$bgcolor = $theme['color_navbar_bg'];
             		}
 
-
-			// experiment
-			// pink for Saint Valentine's Day
-                        if ( startswith( $comments, 'SPECIAL: St. Val' ) )
-                        {
-                                $bgcolor = " '#FF99FF'";
-                        }
+			// Special colours for special books of various types
+			if ($show_special_colors)
+			{
+				$special_color = get_special_color_for_project($project);
+				if (!is_null($special_color)) {
+					$bgcolor = "'$special_color'";
+				}
+			}
 
             		echo "<tr bgcolor=$bgcolor>\n";
 
@@ -329,7 +339,7 @@ abort_if_not_manager();
 			// Owner
 			echo "<td align=\"center\">";
             		if ($_GET['show'] == 'site') {
-                		print mysql_result($result, $rownum, "username");
+                		print $project['username'];
             		} else if ($outby != "") {
 				// Maybe we should get this info via a
 				// left outer join in the big select query.
@@ -374,10 +384,24 @@ abort_if_not_manager();
 
 			$tr_num++;
 		     }
-		     $rownum++;
         	   }
 		}
-		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table>";
+		echo "<tr><td colspan=6 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+
+		// special colours legend
+		// Don't display if the user has selected the
+		// setting "Show Special Colors: No".
+		// The legend has been put at the bottom of the page
+		// because the use of colors is presumably mostly
+		// useful as a check that no typo was made. The
+		// exact color probably doesn't matter and,
+		// furthermore, the PM 'knows' the project and
+		// what's so special about it.
+		if (!$userSettings->get_boolean('hide_special_colors')) {
+		    echo "<p><font face='{$theme['font_mainbody']}'>\n";
+		    include('../proofers/special_legend.php');
+		    echo "</font></p><br>\n";
+		}
 	}
 
 echo "<br>";
