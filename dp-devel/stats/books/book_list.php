@@ -75,6 +75,7 @@ echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type
 echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=desc&field_name=modifieddate&search_char=$search_char&show_total=$show_total'>desc</a>";
 
 ?>
+</center>
 <hr width="75%" align="center"><br>
 
 <?
