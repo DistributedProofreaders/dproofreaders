@@ -21,7 +21,7 @@ function user_is_a_sitemanager()
 function user_is_taskcenter_mgr()
 {
     global $userSettings;
-    return $userSettings->get_boolean("task_center_mgr");
+    return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
 function user_is_proj_facilitator()
@@ -40,8 +40,10 @@ function user_is_PM()
 
 function user_is_PP()
 {
+    global $pguser;
     global $userSettings;
-    return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor");
+    return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor")
+        || (user_get_page_tally($pguser) >= 400);
 }
 
 function user_is_post_proof_verifier()
@@ -76,11 +78,13 @@ function user_is_PP_of($project)
                             AND state IN ('proj_post_first_checked_out',
                                             'proj_post_second_checked_out')");
     if (mysql_num_rows($result) == 0) return FALSE;
-    return (mysql_result($result, 0, "username") == $pguser);
+    return (mysql_result($result, 0, "checkedoutby") == $pguser);
 }
 
 function user_is_PPV_of($project)
 {
+    global $pguser;
+
     if(user_is_a_sitemanager()) return True;
     if(!user_is_post_proof_verifier()) return False;
 
@@ -116,17 +120,25 @@ function user_can_see_BEGIN_in_round($round_number)
             || $userSettings->get_boolean("see_BEGIN_R".$round_number))
         return TRUE;
 
+    global $pguser;
     $n_pages = user_get_page_tally( $pguser );
     if($round_number == 1)
         return $n_pages <= 40;
-    else
+    else if ($round_number == 2)
         return $n_pages >= 300;
+    else
+        return TRUE;
+        // The round-restriction is sufficient.
 }
     
 function user_is_authors_db_manager()
 {
     global $userSettings;
     return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
+}
+
+function user_is_authors_db_editor() {
+  return user_is_PM();
 }
 
 // vim: sw=4 ts=4 expandtab
