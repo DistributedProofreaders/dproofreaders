@@ -49,22 +49,41 @@ if (isset($_GET['tid'])) {
     	echo "</center><br>";
     	theme("", "footer");
 } elseif (isset($_POST['edMake'])) {
-	if (!empty($_POST['tavatar'])) {
-    		mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
-    	} elseif (!empty($_FILES['teamavatar'])) {
-    		uploadImages(0,$tid,"avatar");
+	$result = mysql_query("SELECT id FROM user_teams WHERE id != ".$tid." AND teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
+	if (mysql_num_rows($result) > 0) {
+			include($relPath.'js_newpophelp.inc');
+			$preview = _("Preview");
+    	theme($preview, "header");
+    	$teamimages = uploadImages(1,$tid,"both");
+    	if (!empty($_FILES['teamavatar']['tmp_name'])) {
+    		$curTeam['avatar'] = $teamimages['avatar'];
+    		$tavatar = 1;
     	}
-	if (!empty($_POST['ticon'])) {
-    		mysql_query("UPDATE user_teams SET icon='".$_POST['ticon']."' WHERE id = $tid");
-    	} elseif (!empty($_FILES['teamicon'])) {
-    		uploadImages(0,$tid,"icon");
+    	if (!empty($_FILES['teamicon']['tmp_name'])) {
+    		$ticon = 1;
     	}
-
-    	mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString(trim($_POST['teamname'])))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
-
-	$title = _("Saving Team Update");
-	$desc = _("Updating team....");
-      	metarefresh(0,"tdetail.php?tid=$tid",$title, $desc);
+    	echo "<center><br>The team name must be unique.  Please make any changes and resubmit.<br>";
+			showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),0,$tid,$tavatar,$ticon);
+    	echo "<br></center><br>";
+    	theme("", "footer");
+	} else {
+		if (!empty($_POST['tavatar'])) {
+	    		mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
+	    	} elseif (!empty($_FILES['teamavatar'])) {
+	    		uploadImages(0,$tid,"avatar");
+	    	}
+		if (!empty($_POST['ticon'])) {
+	    		mysql_query("UPDATE user_teams SET icon='".$_POST['ticon']."' WHERE id = $tid");
+	    	} elseif (!empty($_FILES['teamicon'])) {
+	    		uploadImages(0,$tid,"icon");
+	    	}
+	
+	    	mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString(trim($_POST['teamname'])))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
+	
+		$title = _("Saving Team Update");
+		$desc = _("Updating team....");
+	  metarefresh(0,"tdetail.php?tid=$tid",$title, $desc);
+	}
 }
 
 ?>
