@@ -132,27 +132,10 @@ if ($userP['u_plist'] == 1 || $userP['u_plist'] == 3)
 	    <td>
 	    <select name='difficulty1[]' size=5 multiple>
 		<option value=''>All difficulties</option>
-	";
-
-	$query = "
-		SELECT distinct difficulty
-		FROM projects
-			WHERE
-				(state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR
-				state = '".PROJ_PROOF_FIRST_VERIFY."') 
-			ORDER BY difficulty
-		";
-
-	$result = mysql_query($query);
-
-	while ($a_res = mysql_fetch_row($result))
-	{
-	    $val = $a_res[0];	
-	    echo "<option value='$val'>";
-	    echo $val;
-	    echo "</option>\n";
-	}
-	echo "
+		<option value='beginner'>Beginners Only</option>
+		<option value='easy'>Easy</option>
+		<option value='average'>Average</option>
+		<option value='hard'>Hard</option>
 	    </select>
 	    </td>
 	";
