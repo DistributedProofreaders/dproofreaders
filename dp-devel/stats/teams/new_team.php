@@ -61,7 +61,7 @@ if (isset($_POST['mkPreview'])) {
 	    	} elseif (!empty($_FILES['teamicon'])) {
 	    		uploadImages(0, $tid, "icon");
 	    	}
-		createThread($_POST['teamname'],$_POST['text_data'],$pguser,$tid);
+
 		//figure out which team to overwrite
 		$otid=0;
 		if (!isset($_POST['teamall'])) {
