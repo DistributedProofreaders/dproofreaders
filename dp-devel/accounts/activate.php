@@ -81,7 +81,7 @@ $now = getdate();
 $midnight = mktime(0,0,0,$now['mon'],$now['mday'],$now['year']);
 
 $sql = "INSERT INTO member_stats (u_id, date_updated, daily_pagescompleted, total_pagescompleted, rank)
-    VALUES ('$this_uid', $midnight, 0 , 0 , '$total')";
+    VALUES ('$this_uid', $midnight, 0 , 0 , 0)";
 $result = mysql_query($sql);
 
 // Send them an introduction e-mail
