@@ -1,6 +1,8 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'v_site.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'project_trans.inc');
 include_once($relPath.'maybe_mail.inc');
 
     function sendtopost($project, $username, $todaysdate) {
@@ -50,10 +52,7 @@ include_once($relPath.'maybe_mail.inc');
         // Decide whether to send to post-processing or have PM work on it.
 
         $result = mysql_query("SELECT value FROM usersettings WHERE setting = 'send_to_post' AND username='$username'");
-        if ($result != "") { $send_to_post = mysql_result($result, 0, "value"); } else $send_to_post = "no";
-
-        // Change state based on PM's settings
-        if ($send_to_post == "yes") {
+        if (mysql_num_rows($result) > 0 && mysql_result($result, 0) == 'yes') {
             $new_state = PROJ_POST_FIRST_AVAILABLE;
             $extras = array();
             $body_blurb =
@@ -118,6 +117,8 @@ include_once($relPath.'maybe_mail.inc');
     function join_proofed_text_tei ($project, $fp) {
         // Join the round 2 page-texts of the given project,
         // and write the result to file-object $fp.
+
+	global $code_url, $projects_url;
        
         $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
         //echo mysql_errno().": ".mysql_error()."<BR>";
@@ -173,8 +174,7 @@ include_once($relPath.'maybe_mail.inc');
         fputs($fp,"                    <titlePart type='main'>LOST ON THE MOON</titlePart>\r\n");
         fputs($fp,"                    <titlePart>OR</titlePart>\r\n");
         fputs($fp,"                    <titlePart type='alt'>IN QUEST OF THE FIELD OF DIAMONDS</titlePart>\r\n");
-        fputs($fp,"                    <byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other 
-works]</byline>\r\n");
+        fputs($fp,"                    <byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other works]</byline>\r\n");
         fputs($fp,"                    <docDate>1911</docDate>\r\n");
         fputs($fp,"                </docTitle>\r\n");
         fputs($fp,"                -->\r\n");
