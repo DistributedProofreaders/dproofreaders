@@ -94,6 +94,13 @@ function draw_pages_graph(
 )
 // Draw various kinds of 'pages completed vs. time' graphs.
 {
+    if ( @$_GET['echo_graph_data'] )
+    {
+        echo "$title\n\n";
+        echo_graph_data( $x_dates, $y_actual_n_pages, $y_page_goal );
+        return;
+    }
+
     global $jpgraph_FF, $jpgraph_FS;
 
     //var_dump($x_dates); echo "<br>"; var_dump($y_actual_n_pages);
@@ -218,6 +225,13 @@ function draw_projects_graph(
 )
 // Draw various kinds of 'number of projects vs. time' graphs.
 {
+    if ( @$_GET['echo_graph_data'] )
+    {
+        echo "$title\n\n";
+        echo_graph_data( $x_dates, $y_num_projects );
+        return;
+    }
+
     global $jpgraph_FF, $jpgraph_FS;
 
     $n_datapoints = count($y_num_projects);
@@ -337,6 +351,13 @@ function draw_simple_bar_graph(
     $cache_timeout
 )
 {
+    if ( @$_GET['echo_graph_data'] )
+    {
+        echo "$title\n\n";
+        echo_graph_data( $datax, $datay );
+        return;
+    }
+
     global $jpgraph_FF, $jpgraph_FS;
 
     // Create the graph. These two calls are always required
@@ -382,6 +403,31 @@ function draw_simple_bar_graph(
 
     // Display the graph
     $graph->Stroke();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function echo_graph_data()
+{
+    $args = func_get_args();
+    $args = array_filter($args);
+    assert( count($args) >= 2 );
+
+    $max_length = 0;
+    foreach ( $args as $column )
+    {
+        $max_length = max( $max_length, count($column) );
+    }
+
+    for ( $i = 0; $i < $max_length; $i++ )
+    {
+        echo "($i)\t";
+        foreach ( $args as $column )
+        {
+            echo ( isset($column[$i]) ? $column[$i] : 'unset' ), "\t";
+        }
+        echo "\n";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
