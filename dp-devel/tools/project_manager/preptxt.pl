@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 #
 # Project Manager file prep tool to be used on the raw OCR output files
 #
@@ -11,36 +11,80 @@
 #  Removes start/end-of-line spaces.
 #  Collapses doublespaces.
 #  Inserts "[Blank Page]" text into zero-byte files.
+#  Supports "strip lines with TEXT" using -s TEXT commandline
+#  Scanno correction is OFF by default, enable with -c
 #
-# BUGS:
+# BUGS: (and caveats)
 #  Doesn't check de-hyphenated words for scannos.
+#  The @nojoin (exclusion list) is broken at the moment.
 #  Assumes DOS-style CRLF for rewriting line endings. 
 #  Does not (YET) check words with punctuation for scannos.
 #  De-hyphenation does NOT work on texts which scanned as doublespaced lines
 #  Assumes ALL *.txt files in current directory are to be processed, should set.
-#  Doesn't (YET) support "strip TEXT from file(s)"
 #  Script needs to be in the path, or called with explicit pathing.
 #  Probably shouldn't be used on text that isn't primarily English.
+#  The strip text switch and following text MUST be last on the command line
+#  Data should eventually be moved into spearate files for ease of maintenance
 # ==============================================================================
 
-use strict;
+eval 'exec /usr/bin/perl -S $0 ${1+"$@"}'
+	if $running_under_some_shell;
 
+my $striptext="";
 my %corrections = ();
 my $errors = 0;
 my $hyphen = 0;
+my $totalerrors = 0;
+my $totalhyphen = 0;
 my $eflag = 0;
 my $hflag = 0;
 my $bflag = 0;
 my $pflag = 0;
+my $sflag = 0;
+my $cflag = 0;
 my $org_line = "";
 my $filename="";
 my $current_dir = ".";
 my @files;
-my $size =0;
+my @nojoin;
+my $size = 0;
+
+while ($ARGV[0] =~ /^-/) {
+    $_ = shift;
+  last if /^--/;
+#   Default operation is to NOT do scanno correction
+
+    # -c		Enable Scanno correction with
+    if (/^-c/) { $cflag++; next; }
+
+    # -s "text"		Strip lines containing "text"
+    if (/^-s/) {
+	$sflag++;
+	while (defined ( $_ = shift)) {
+	    $striptext = $striptext . $_ . " ";
+	}
+	$striptext =~ s/ $//;
+	last;
+    }
+
+    # -?		Explain the options
+    if (/^-\?/) {
+	die "Valid switches are:
+	-c		Enable scanno correction
+	-s text		Strip lines containing text (option MUST appear LAST)";
+    }
+    die "I don't recognize this switch: $_\n";
+}
+
+# ==============================================================================
+
+use strict;
 
 # Program will ALWAYS output a report file in the current directory so the PM
 # can retrive the file (or the php interface can display it) to verify output.
-  open REPORT, "> report.out" or die "Couldn't open report file: $!";
+  open REPORT, "> report.out" or die "Could not create report file: $!";
+  print REPORT "INFO: Stripping \"$striptext\" from all files.\n\n" if ($sflag);
+  print REPORT "INFO: Scanno detection enabled.\n\n" if ($cflag);
 
 # Read in DATA segment to load the hash table of 'scannos => corrections'
   while (<DATA>) { 
@@ -50,6 +94,21 @@ my $size =0;
     $corrections{$typo} = $fix;
   }
 
+# Enhanced: List of hypenated words that should NOT be de-hyphenated when at
+# the end of a line. (common compound words, first half)
+# Lazy, this really should be using "dictionary" files instead of inlined data
+
+@nojoin = ("a ", "above ", "air ", "all ", "anti ", "arch ", "awe ", "before ", "blood ", "blue ", "broken ", "cap ", "cat ",
+ "church ", "coffee ", "counter ", "country ", "dark ", "death ", "deep ", "dining ", "dinner ", "dull ", "dumb ", "eight ",
+ "eighty ", "eight ", "even ", "ever ", "evil ", "extra ", "far ", "fellow ", "ferry ", "fifth ", "fifty ", "fire ", "first ",
+ "five ","fore ", "forty ", "four ", "fourth ", "full ", "gentle ", "go ", "good ", "grand ", "gray ", "green ", "grey ", "half ", 
+ "hand ", "hard ", "head ", "heart ", "hiding ", "home ", "house ", "hundred ", "hundredth ", "ill ", "kind ", "land ", "light ", 
+ "long ", "low ", "main ", "much ", "never ", "new ", "night ", "nine ", "ninety ", "ninth ", "non ", "oft ", "oil ", "one ", "out ", "over ", 
+ "play ", "pocket ", "pre ", "quarter ", "round ", "second ", "self ", "seven ", "seventh ", "seventy ", "six ", "sixth ", 
+ "sixty ", "slow ", "soul ", "street ", "strong ", "sub ", "supper ", "table ", "tea ", "ten ", "tenth ", "third ", "thirty ", 
+ "thorn ", "three ", "top ", "true ", "twenty ", "two ", "watch ", "water ", "well ", "west ", "wheel ", "white ", "wide ", "wild "
+);
+
 # Get a list of all txt files in the current directory
   opendir(DIR, $current_dir);
   @files = grep { /\.txt$/ } readdir(DIR);
@@ -57,6 +116,8 @@ my $size =0;
 
 # Process each file
   foreach $filename (@files) {
+    print REPORT "\nProcessing file: $filename\n";
+
     $size = -s $filename;
     if ($size == 0) {
 	# FIX ZERO BYTE FILES (add blank page text)
@@ -75,7 +136,11 @@ my $size =0;
     rename $filename, $minusfile;
     rename $plusfile, $filename;
     }
+    print REPORT "File $filename had $errors scannos and $hyphen EOL hyphens.\n";
+    $totalerrors += $errors;
+    $totalhyphen += $hyphen;			# Running totals
   }
+  print REPORT "\nTOTALS: Scannos: $totalerrors EOL Hyphens: $totalhyphen\n";
   close REPORT;
 
 # END OF MAIN
@@ -89,28 +154,51 @@ sub process_file {
 
     # Read the input file:
 
-    while (<OLDFILE>) { 
+LINE:   while (<OLDFILE>) { 
 	$eflag = 0;
 	my $i = 0;
+	my $j = 0;
 	my $tmpline = "";				# Modified line
-	$org_line = $_;				# Save original line
+	my $tmphyphen = "";				# Fragment holder
+	$org_line = $_;					# Save original line
+	my @wlist;
 
-	$pflag = $hflag;				# Savve previous hflag
+	if (($sflag) && (/$striptext/)) {		# If we're stripping and match
+	    print REPORT "Stripping line $. : $_";	# Say so and move along
+	    next LINE;
+	}
+
+	$pflag = $hflag;				# Save previous hflag
 	$hflag = ( /-\s$/ || 0 );			# Toggle the hflag
 
-	if ($hflag) {				# Ditch the newlines and hyphen
-	    $_ =~ s/(\r|\n|-)$//g; 	$_ =~ s/-$//;
-	    $hyphen++;				# Count EOL hyphens
+	if ($hflag) {					# If we're on a hyphen
+	    $_ =~ s/(\r|\n|-)$//g;			# Ditch the line termination
+
+	    $tmphyphen = ( split /\s/, $_) [-1];	# Get last word of line
+	    $tmphyphen =~ s/(\r|\n)//g;			# and strip its line termination
+	    $tmphyphen =~ s/-$//;			# Get the non-hyphen part
+	    $j = grep { / $tmphyphen/ } @nojoin;	# See if there's a match
+
+	    # Note that the nojoin exclusion stuff is not working but regular dehyphenation is
+	    
+	    if (not $j) {				# If string NOT in nojoin list
+		$_ =~ s/-$//;				# Remove the hypen
+	    } else {
+	    $_ = $_ . "-";				# Put it back.
+	    print REPORT "Not joining hyphenated $tmphyphen at line $.\n";
 	    }
+	    $hyphen++;					# Count EOL hyphens
+	}
 
-	for (split /(\s+)/, $_, -1) {
-	    $i++;					# Word $i in line
+    for (split /(\s+)/, $_, -1) {
+    $i++;						# Word $i in line
 
+        if ($cflag) {
 	    # If replacement exists and not on 1st word of line after hypen, fix.
 	    if (($corrections{$_}) && not ($i == 1) && not ($hflag)) {
-	        $errors++;				# Track errors in page.
+	        $errors += 1;				# Track errors in page.
 	        $eflag=1;				# Set flag if errors.
-	        print REPORT "Correcting \"$_\" to \"$corrections{$_}\" line $. in $filename\n";
+	        print REPORT "Correcting \"$_\" to \"$corrections{$_}\" at line $.\n";
 	    }
 	    # The following line appends (to $tmpline):
 	    # 1) The original word if there is no entry in the hash table, or
@@ -119,20 +207,22 @@ sub process_file {
 
 	    # Drop in the newline after a dehyphenated fragment and clear the flag
 	    if (($i == 1) && ($pflag)) { $tmpline = $tmpline . "\r\n"; $pflag=0; }
-        }
+        } else {
+	# Not doing corrections
+	$tmpline = $tmpline . $_ ;
+	}
+    }
+
         $_ = $tmpline; $tmpline =~ s/ {2,}/ /g;		# collapse multispaces
         $_ = $tmpline; $tmpline =~ s/^ {1,}//g;		# remove SOL spaces
         $_ = $tmpline; $tmpline =~ s/ {1,}$//g;		# Remove EOL spaces
         $_ = $tmpline; $tmpline =~ s/\r\n /\r\n/g;	# ditch space after dehyphening
 
         print NEWFILE $tmpline;				# Write the modified line
-        print REPORT "Orig: $org_line\n" if ($eflag);	# Report corrections
     }
     # Add hyphen AND ASTERISK and newline if hflag is still set
     # (Because we removed them, and this is the end of a page!)
     print NEWFILE "-*\r\n" if ($hflag);
-
-    print REPORT "File: $filename, Scannos: $errors  Hyphens: $hyphen\n";
 }
 
 
