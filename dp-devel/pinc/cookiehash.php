@@ -1,5 +1,5 @@
 <?PHP
-
+if (0) {
 function getCookieHash($userID)
 {
   $hashID="akdgao7wnkezqo390akdlal";
@@ -14,5 +14,6 @@ function checkCookieHash($userID,$cookieHash)
     {return true;}
   else
     {return false;}
+}
 }
 ?>

@@ -1,13 +1,14 @@
 <?PHP
 include_once($relPath.'fmain.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'session.inc');
 
 //global db vars
 $db_Connection=new dbConnect();
 if ($db_Connection->error !='') {die('Error: Unable to connect to database.');}
 $db_link=$db_Connection->db_lk;
 
-include($relPath.'cookiecheck.inc');
+if (0) { include($relPath.'cookiecheck.inc'); }
 
 //all $_GET to globals
 if (!empty($_GET)) {extract($_GET);}
@@ -15,16 +16,16 @@ if (!empty($_GET)) {extract($_GET);}
 //all $_POST to globals
 if (!empty($_POST)) {extract($_POST);}
 
-//Global Variables
+//Start the PHP session
+startSession('');
 
-$pguser=$cookieID;
-if (isset($_COOKIE[$pguser.'_prefs'])){
-$cookieC->deleteOldPrefs($pguser);
-$cookieC->setUserPrefs($pguser);
-echo _("Cookie reset by site update.  Please refresh current page.");
-exit;}
-$userP=$cookieC->getUserPrefs($pguser);
+//Check to see if the session is active or not
+checkForActiveSession();
 
+//all $_SESSION to globals
+if (!empty($_SESSION)) {extract($_SESSION);};
+
+//Check to see if we are in a maintenance mode
 isMaintenanceMode();
 
 ?>

@@ -1,23 +1,25 @@
-<?PHP
-include($relPath.'cookie.inc');
-include_once($relPath.'cookiehash.php');
+<?
+if (0) {
+	include($relPath.'cookie.inc');
+	include_once($relPath.'cookiehash.php');
 
-$cookieC=new userCookie();
-$cookieSet=$cookieC->checkCookie();
+	$cookieC=new userCookie();
+	$cookieSet=$cookieC->checkCookie();
 
-if ($cookieSet) {
-	$cookieID=$cookieC->userID;
-	$cookieVal=$cookieID.'|'.getCookieHash($cookieID);
-	$cookieName=md5($cookieID."_prefs");
-	$userPrefs = $_COOKIE[$cookieName];
-	setCookie("pguser","$cookieVal",time()+86400,"/",$cookieC->cookieDomain,0);
-	setCookie("$cookieName",$userPrefs,time()+86400,"/",$cookieC->cookieDomain,0);
-} else {
-	// Remember the current REQUEST_URI, so that we can send the user there
-	// after the login process.
-	$url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
-	$body="<A HREF=\"$url\">" . _("Please sign in") . "</A>";
-	metarefresh(0,$url,'Please Login',$body);
-	exit;
+	if ($cookieSet) {
+		$cookieID=$cookieC->userID;
+		$cookieVal=$cookieID.'|'.getCookieHash($cookieID);
+		$cookieName=md5($cookieID."_prefs");
+		$userPrefs = $_COOKIE[$cookieName];
+		setCookie("pguser","$cookieVal",time()+86400,"/",$cookieC->cookieDomain,0);
+		setCookie("$cookieName",$userPrefs,time()+86400,"/",$cookieC->cookieDomain,0);
+	} else {
+		// Remember the current REQUEST_URI, so that we can send the user there
+		// after the login process.
+		$url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
+		$body="<A HREF=\"$url\">" . _("Please sign in") . "</A>";
+		metarefresh(0,$url,'Please Login',$body);
+		exit;
+	}
 }
 ?>

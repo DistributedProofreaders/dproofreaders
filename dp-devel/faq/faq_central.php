@@ -1,8 +1,8 @@
 <?
 $relPath='../pinc/';
-include($relPath.'v_site.inc');
-if (!isset($_COOKIE['pguser'])) { include($relPath.'connect.inc'); } else { include($relPath.'dp_main.inc'); }
-include($relPath.'theme.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'connect.inc');
+include_once($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
 theme('FAQ Central','header');

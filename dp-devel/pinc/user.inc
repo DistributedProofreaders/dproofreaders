@@ -1,5 +1,7 @@
 <?PHP
 include_once($relPath.'cookie.inc');
+include_once($relPath.'session.inc');
+
 class db_udb
 {
      var $cookieDomain="";
@@ -20,7 +22,7 @@ function checkSafe($uInfo,$chktype)
       }
 
 function checkUID($userID)
-     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1)) 
+     {if (strcmp($userID,$_POST['userNM'])==0 && $this->checkSafe($userID,1))
           {return 1;}
       else {return 0;}
      }
@@ -57,10 +59,8 @@ function checkLogin($userID,$userPW)
           $db_result=mysql_query($dbQuery,$db_lk);
           if (!$this->checkQuery($db_result)) {return 0;}
           if (!$this->checkResult($db_result)) {return 0;}
-          // set cookie
-          $cookieC=new userCookie();
           $userID = mysql_result($db_result,0,'username');
-          $cookieSet=$cookieC->setCookie($userID);
+	  startSession($userID);
           return 1;
           }
      else {$this->error='Invalid Login'; return 0;}
@@ -79,7 +79,7 @@ function getQueryResult($userID)
      if (!$this->checkResult($db_result)) {return 0;}
      $uData=mysql_fetch_assoc($db_result);
           while (list($key,$val) = each($uData))
-               {$this->$key = $val;} 
+               {$this->$key = $val;}
      // update date stamp in users
      $today=time();
      $dbQuery="UPDATE users SET last_login = '$today' WHERE username = '$userID'";

@@ -1,4 +1,6 @@
 <?PHP
+if (0) {
+
 include_once($relPath.'cookiehash.php');
 class userCookie
 {
@@ -149,5 +151,6 @@ return $uPrefs;
 else {return false;}
 }
 
+}
 }
 ?>

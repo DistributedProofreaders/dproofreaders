@@ -40,10 +40,10 @@ if (isset($editone))
   // as it is 'unproofing' it; they will get it back if they save it again
   // if page comes from DONE (???)
 
-  if (($pagestate == SAVE_FIRST) || 
+  if (($pagestate == SAVE_FIRST) ||
       ($pagestate == SAVE_SECOND))
   {
-     // deleteUserCount assumes PageState has been set; 
+     // deleteUserCount assumes PageState has been set;
      // could rewrite to take extra variables instead (see earlier debugging versions)
      $tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
      $tpage->deleteUserCount($proofstate,$pguser,$userP);
@@ -64,7 +64,8 @@ if (isset($editone))
 $needPage=1;
 
   // 1 see if there is a cookie
-    if (isset($_COOKIE['userPage']))
+    if (0) { if (isset($_COOKIE['userPage'])) {}  }
+    if (isset($_SESSION['userPage']))
     {
       // see if the cookie is older than 3 seconds
         $npage=$tpage->getPageCookie();

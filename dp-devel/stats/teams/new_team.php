@@ -55,7 +55,8 @@ if (isset($_POST['mkPreview'])) {
 		}
          }
 	// update cookie
-        $cookieC->setUserPrefs($pguser);
+        if (0) { $cookieC->setUserPrefs($pguser); }
+        updateSessionPreferences($pguser);
 	metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",'Join the Team','Creating the team....');
 } else {
 	include($relPath.'js_newpophelp.inc');

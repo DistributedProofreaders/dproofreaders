@@ -54,7 +54,8 @@ if ($tid != 1) {
 }
 
 if ($redirect_team == 1) {
-	$cookieC->setUserPrefs($pguser);
+	if (0) { $cookieC->setUserPrefs($pguser); }
+	updateSessionPreferences($pguser);
 	metarefresh(0,"../teams/tdetail.php?tid=$tid",'Join the Team','Joining the team....');
 }
 ?>

@@ -2,7 +2,7 @@
 $relPath='./../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'project_states.inc');
-if (!isset($_COOKIE['pguser'])) { include($relPath.'connect.inc'); } else { include($relPath.'dp_main.inc'); }
+include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 
