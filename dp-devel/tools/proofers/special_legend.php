@@ -1,6 +1,8 @@
 
 Legend for Special Books:
 <br><br><b>
+<span class="khaki">Boer War Anniversary</span>&nbsp;
+<br>
 <span class="red">WWI Anniversary</span>&nbsp;
 <span class="midgreen">George Sand Anniversary</span>&nbsp;
 <br>

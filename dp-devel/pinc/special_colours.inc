@@ -55,6 +55,9 @@
 .earthblue {
         background-color: #669CFF;
 }
+.khaki {
+        background-color: #E8E0C0;
+}
 -->
 </style>
                                                 
