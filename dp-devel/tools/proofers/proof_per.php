@@ -238,7 +238,7 @@ You can help in the post processing phase of Distributed Proofreaders! After goi
 <p>Want to help support this site???? We can always use $$ to buy books, software, hardware etc. By clicking on the 'Beg Button' below you can donate with your credit card or PayPal account via PayPal!!
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_xclick">
-<input type="hidden" name="business" value="charlz@lvcablemodem.com">
+<input type="hidden" name="business" value="donate@gutenberg.net">
 <input type="image" src="http://images.paypal.com/images/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
 </form>
 <p><p>
