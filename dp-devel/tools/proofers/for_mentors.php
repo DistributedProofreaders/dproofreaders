@@ -40,7 +40,7 @@ function page_summary_sql($projectid)
     global $dynstats_url;
 
     return "SELECT 
-                CASE WHEN u.u_privacy != ".PRIVACY_PUBLIC." THEN 'Anonymous'
+                CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
                 ELSE CONCAT('<a href=\""
                     .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
                     '\">',u.username,'</a>')
