@@ -141,7 +141,9 @@ function autorelease()
 
         // $q_name       human readable string describing this type of project
         // $project_selector        portion of WHERE clause that defines this type of project
-        // $release_criterion   logical expression using projects1|2, pages1|2
+        // $release_criterion   logical expression involving 'projects' and 'pages':
+	//                      the number of projects of this type in round 1,
+	//                      and their total number of unproofed pages.
 
         echo "\n";
         echo "Considering $q_name projects...\n";
@@ -279,13 +281,10 @@ function autorelease()
 
 function AP_setup()
 // Set up temporary table active_page_counts,
-// containing a row for each project in round 1 or 2.
+// containing a row for each project in round 1.
 // fields:
 //     projectid
-//     pages1 = number of pages yet to receive 1st proofreading
-//     pages2 = number of pages yet to receive 2nd proofreading
-// Note that, by definition, pages1 <= pages2, since
-// a page can only receive 2nd proofreading after 1st proofreading.
+//     pages = number of pages yet to receive 1st proofreading
 //
 // This table is similar to page_counts,
 // but contains slightly different information.
@@ -302,8 +301,7 @@ function AP_setup()
 		    CREATE TEMPORARY TABLE active_page_counts
 		    (
             projectid  TEXT NOT NULL,
-            pages1     INT(4),
-            pages2     INT(4)
+            pages      INT(4),
         )
     ") or die(mysql_error());
 
@@ -312,7 +310,7 @@ function AP_setup()
         mysql_query("
         SELECT projectid
         FROM projects
-        WHERE (state = '".PROJ_PROOF_FIRST_AVAILABLE."' OR state = '".PROJ_PROOF_SECOND_AVAILABLE."')
+	WHERE state = '".PROJ_PROOF_FIRST_AVAILABLE."'
 		") or die(mysql_error());
 
     // Run through them and fill up the table.
@@ -333,10 +331,7 @@ function AP_add_project( $projectid )
             state = '".AVAIL_FIRST."' OR
             state = '".OUT_FIRST."' OR
             state = '".TEMP_FIRST."'
-        ) as pages1,
-        SUM(
-            state != '".SAVE_SECOND."'
-        ) as pages2
+        ) as pages
         FROM $projectid
     ") or die(mysql_error());
 }
@@ -344,13 +339,11 @@ function AP_add_project( $projectid )
 function AP_evaluate_criteria( $project_selector, $release_criterion )
 {
     // Get the criterion-evaluation environment
-    // (values for projects1|2, pages1|2)
+    // (values for 'projects', 'pages')
     $res = mysql_query("
         SELECT
-        SUM(projects.state='".PROJ_PROOF_FIRST_AVAILABLE."') as projects1,
-        SUM(projects.state='".PROJ_PROOF_SECOND_AVAILABLE."') as projects2,
-        SUM(active_page_counts.pages1) as pages1,
-        SUM(active_page_counts.pages2) as pages2
+        SUM(projects.state='".PROJ_PROOF_FIRST_AVAILABLE."') as projects,
+        SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $project_selector
     ") or die(mysql_error());
