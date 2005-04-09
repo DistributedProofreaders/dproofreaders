@@ -312,7 +312,8 @@ class="dropchars"
 	align="top"
 	alt="Greek Transliteration"
 	title="<? echo _("Open Greek Transliteration Window"); ?>"
-></a></td></tr><tr><td><select
+></a></td></tr><tr><td	
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsC"
 	ID="tCharsC"
 	title="CD"
@@ -342,7 +343,8 @@ class="dropchars"
 <option value="273">&#273;</option>
 <option value="393">&#393;</option>
 <option value="394">&#394;</option>
-</select></td><td><select
+</select></td><td	
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsD"
 	ID="tCharsD"
 	title="LN"
@@ -373,7 +375,8 @@ class="dropchars"
 <option value="329">&#329;</option>
 <option value="330">&#330;</option>
 <option value="331">&#331;</option>
-</select></td><td><select
+</select></td><td	
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsS"
 	ID="tCharsS"
 	title="RS"
@@ -398,7 +401,8 @@ class="dropchars"
 <option value="351">&#351;</option>
 <option value="352">&#352;</option>
 <option value="353">&#353;</option>
-</select></td><td><select
+</select></td><td	
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsZ"
 	ID="tCharsZ"
 	title="TZ"
@@ -420,7 +424,8 @@ class="dropchars"
 <option value="380">&#380;</option>
 <option value="381">&#381;</option>
 <option value="382">&#382;</option>
-</select></td><td><select
+</select></td><td
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsCyr"
 	ID="tCharsCyr"
 	title="Cyrillic"
@@ -478,7 +483,8 @@ class="dropchars"
 <option value="1102">&#1102;</option>
 <option value="1071">&#1071;</option>
 <option value="1103">&#1103;</option>
-</select></td><td><select
+</select></td><td	
+<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsOCyr"
 	ID="tCharsOCyr"
 	title="OldCyrillic"
