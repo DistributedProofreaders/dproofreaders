@@ -63,7 +63,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input type='submit' value='"._("Submit Report")."'>";
 	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
-	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to your personal page.");
+	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to the Activity Hub.");
 	echo "</td></tr></table></form></center></div>";
 	theme("", "footer");
 }
