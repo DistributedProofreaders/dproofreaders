@@ -399,7 +399,7 @@ function show_quick_links()
 			// Otherwise the link could be split across a
 			// line-break, which makes it harder to recognize.
 
-			if ( endswith( $_SERVER['PHP_SELF'], $rel_url ) )
+			if ( strpos( $_SERVER['REQUEST_URI'], $rel_url ) !== FALSE )
 			{
 				// We're at that page; no point to link to it.
 				echo $link_text;
