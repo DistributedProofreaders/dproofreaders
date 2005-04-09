@@ -88,7 +88,7 @@ function theme ($nameofpage, $location) {
 }
 
 function html_header($nameofpage) {
-	global $code_url, $theme;
+	global $code_url, $theme, $userP;
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 	echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
@@ -98,6 +98,13 @@ function html_header($nameofpage) {
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
 	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
+
+	// Currently, the only call to theme() that needs this include() is the
+	// one in round.php (because it includes showavailablebooks.inc,
+	// which generates the only calls to newProofWin).
+	// Maybe we'll add a mechanism to do this only when necessary.
+	if (@$userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
+
 	echo "</head>\n\n";
 	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text']; 
 	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink']; 
