@@ -29,7 +29,17 @@ if (is_null($round_id))
     exit;
 }
 
-theme( $prd->round_name, 'header');
+if ($userP['i_newwin']==1)
+{
+    $newProofWin_js = include($relPath.'js_newwin.inc');
+    $theme_extras = array( 'js_data' => $newProofWin_js );
+}
+else
+{
+    $theme_extras = array();
+}
+
+theme( $prd->round_name, 'header', $theme_extras );
 
 echo "<h1>{$prd->round_name}</h1>\n";
 

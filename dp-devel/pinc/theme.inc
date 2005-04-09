@@ -114,11 +114,6 @@ function html_header($nameofpage, $extra_args = array()) {
 	          $extra_args['js_data'] .
 	          "</script>\n";
       }
-	// Currently, the only call to theme() that needs this include() is the
-	// one in round.php (because it includes showavailablebooks.inc,
-	// which generates the only calls to newProofWin).
-	// Maybe we'll add a mechanism to do this only when necessary.
-	if (@$userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 
 	echo "</head>\n\n";
 	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text'];
