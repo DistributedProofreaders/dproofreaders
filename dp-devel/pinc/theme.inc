@@ -23,7 +23,7 @@ if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
 include_once($relPath."templates/$theme_name/theme.tpl");
 $theme = ${$theme_name};
 
-function theme ($nameofpage, $location) {
+function theme ($nameofpage, $location, $extra_args = array()) {
 
 	global $code_url, $theme, $theme_name;
 
@@ -57,7 +57,7 @@ function theme ($nameofpage, $location) {
 			}
 		} else {
 			if ($location == "header") {
-				html_header($nameofpage);
+				html_header($nameofpage, $extra_args);
 				html_logobar($nameofpage);
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
@@ -74,7 +74,7 @@ function theme ($nameofpage, $location) {
 		}
 	} else {
 		if ($location == "header") {
-			html_header($nameofpage);
+			html_header($nameofpage, $extra_args);
 			html_logobar($nameofpage);
 			echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
@@ -87,7 +87,7 @@ function theme ($nameofpage, $location) {
 	}
 }
 
-function html_header($nameofpage) {
+function html_header($nameofpage, $extra_args = array()) {
 	global $code_url, $theme, $userP;
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
@@ -96,9 +96,24 @@ function html_header($nameofpage) {
       if (isset($nameofpage)) { echo " -- $nameofpage"; }
         echo "</title>\n";
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
+	// Global theme CSS
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
 	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
-
+	// Per-page CSS
+	if (isset($extra_args['css_data']))
+      {
+	    echo "<style type='text/css'>" .
+	          $extra_args['css_data'] .
+	          "</style>";
+      }
+ 
+ 	// Per-page Javascript
+	if (isset($extra_args['js_data']))
+      {
+	    echo "<script type='text/javascript'>" .
+	          $extra_args['js_data'] .
+	          "</script>";
+      }
 	// Currently, the only call to theme() that needs this include() is the
 	// one in round.php (because it includes showavailablebooks.inc,
 	// which generates the only calls to newProofWin).
@@ -106,9 +121,9 @@ function html_header($nameofpage) {
 	if (@$userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
 
 	echo "</head>\n\n";
-	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text']; 
-	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink']; 
-	echo "' alink='" . $theme['body_alink']; 
+	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text'];
+	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink'];
+	echo "' alink='" . $theme['body_alink'];
 	echo "' topmargin='0' leftmargin='0' marginheight='0' marginwidth='0'>\n\n";
 }
 
@@ -283,7 +298,7 @@ function html_statsbar($nameofpage) {
 		}
         echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
 
-   //If it is a guest user show the past years completed projects
+   //If it is a guest user show the past year's completed projects
         } else {
 		echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
 		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
@@ -384,7 +399,7 @@ function show_quick_links()
 			// Otherwise the link could be split across a
 			// line-break, which makes it harder to recognize.
 
-			if ( endswith( $_SERVER['REQUEST_URI'], $rel_url ) )
+			if ( endswith( $_SERVER['PHP_SELF'], $rel_url ) )
 			{
 				// We're at that page; no point to link to it.
 				echo $link_text;
