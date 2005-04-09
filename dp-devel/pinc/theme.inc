@@ -260,6 +260,8 @@ function html_statsbar($nameofpage) {
                 echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
         }
 
+	show_quick_links();
+
 	// Show statistics that are pertinent to the particular request.
 	// (i.e., to the main content of the page).
 
@@ -320,6 +322,82 @@ function html_statsbar($nameofpage) {
 <input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
 echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
 	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_quick_links()
+// This parallels the Activity Hub.
+{
+	global $site_supports_metadata, $code_url, $theme;
+
+	$links = array();
+
+	if (user_is_PM())
+	{
+		$links['tools/project_manager/projectmgr.php'] =
+			_('Manage Projects');
+	}
+
+	// _('Providing Content')
+
+	if ($site_supports_metadata)
+	{
+		if (user_is_a_sitemanager())
+		{
+			$links['tools/site_admin/proj_approvals.php'] =
+				_('Clearance Approvals');
+		}
+
+		$links['tools/proofers/md_available.php'] =
+			_('Metadata Collection');
+	}
+
+	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	{
+		$prd = get_PRD_for_round($rn);
+		$links["tools/proofers/round.php?round_id={$prd->round_id}"] =
+			$prd->round_id;
+	}
+
+	if (user_is_PP())
+	{
+		$links['tools/post_proofers/post_proofers.php'] =
+			_('Post Processing');
+	}
+
+	$links['tools/post_proofers/smooth_reading.php'] =
+		_('Smooth Reading');
+
+	if ( count($links) > 0 )
+	{
+		echo "<center>";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;";
+
+		$i = 0;
+		foreach( $links as $rel_url => $link_text )
+		{
+			$i++;
+			if ($i > 1) echo ' | ';
+
+			$link_text = str_replace( ' ', '&nbsp;', $link_text );
+			// Otherwise the link could be split across a
+			// line-break, which makes it harder to recognize.
+
+			if ( endswith( $_SERVER['REQUEST_URI'], $rel_url ) )
+			{
+				// We're at that page; no point to link to it.
+				echo $link_text;
+			}
+			else
+			{
+				echo "<a href='$code_url/$rel_url'>$link_text</a>";
+			}
+		}
+
+		echo "</font>";
+		echo "</center>\n";
+	}
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
