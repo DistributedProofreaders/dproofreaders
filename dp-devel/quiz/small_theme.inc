@@ -4,7 +4,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
 // from theme.inc
-html_header($code_url, $theme, '');
+html_header('');
 
 // make a pretty little logobar with links to pers. page and proofing guidelines
 echo "<table cellspacing=0 cellpadding=0 width='100%'>";
