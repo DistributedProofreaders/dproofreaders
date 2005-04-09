@@ -70,7 +70,7 @@ GUIDELINES</a>! Use the tags.
 <p>--<b>Most of all--Have fun!</b></p>
 
 <p>SHARING INFORMATION, ASKING QUESTIONS, REPORTING PROBLEMS:</p>
-<p>This site has an internal message system. Your personal page shows how many private messages are waiting in your inbox (in the dark green navbar). Please go to the forums and login to read messages from round 2 proofreaders. If you have questions that need a more immediate answer, please click on the "discuss this project" link above. That will take you to a forum thread that is specific to this project where you can see what other new people have asked and can get reasonably quick responses from experienced proofreaders. There are also several other forums that you may use to ask questions or make comments that are not project-specific.</p>
+<p>This site has an internal message system. The activity hub shows how many private messages are waiting in your inbox (in the dark green navbar). Please go to the forums and login to read messages from round 2 proofreaders. If you have questions that need a more immediate answer, please click on the "discuss this project" link above. That will take you to a forum thread that is specific to this project where you can see what other new people have asked and can get reasonably quick responses from experienced proofreaders. There are also several other forums that you may use to ask questions or make comments that are not project-specific.</p>
 
 <p>This scanned and OCR'd pretty cleanly, but if you notice <b>recurring</b> OCR errors, please post a message in the discussion forum (as described above). That way, we will be alert for them in post-processing.</p>
 
