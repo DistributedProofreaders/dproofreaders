@@ -20,6 +20,12 @@ function startswith( $subject, $prefix )
 	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 }
 
+function endswith( $subject, $suffix )
+// Return TRUE iff $subject ends with $suffix.
+{
+    return ( substr( $subject, -strlen($suffix) ) == $suffix );
+}
+
 function mkdir_recursive( $dir, $mode )
 // Like mkdir, but recursively creates any parent directories too.
 // (PHP 5's mkdir has this capability built-in.)
