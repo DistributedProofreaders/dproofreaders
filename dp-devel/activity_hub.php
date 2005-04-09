@@ -88,10 +88,12 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 echo "\n<hr>\n";
 
+echo "<ul>\n";
+
 if ( user_is_PM() )
 {
     echo "<br>\n";
-    echo "<a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage My Projects") . "</a>";
+    echo "<li><a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage My Projects") . "</a></li>";
     echo "<br>\n";
 }
 
@@ -208,7 +210,7 @@ function summarize_projects( $project_states, $filtertype_stem )
 
 }
 
-echo "<ul>\n";
+
 
 // Providing Content
 {
