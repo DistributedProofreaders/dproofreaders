@@ -299,9 +299,9 @@ function echo_page_table(
 
 			echo "<td>";
 			if ($page_is_in_bad_state) {
-				echo "<center><font color='red'><b>";
+				echo "<center><b>";
 				echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a>";
-				echo "</b></font></center>";
+				echo "</b></center>";
 			} else {
 				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
 			}
