@@ -25,6 +25,8 @@ $theme = ${$theme_name};
 
 function theme ($nameofpage, $location) {
 
+	global $code_url, $theme, $theme_name;
+
 	if (isset($GLOBALS['pguser'])) {
 		$userP = $GLOBALS['userP'];
 		$statsbar_align = $userP['u_align'];
@@ -37,30 +39,26 @@ function theme ($nameofpage, $location) {
 	//	$result = mysql_query("UPDATE users SET last_login = ".time()." WHERE u_id = ".$userP['u_id']."");
 	//}
 
-	$code_url = $GLOBALS['code_url'];
-	$theme_name = $GLOBALS['theme_name'];
-	$theme = $GLOBALS['theme'];
-
 	if (!isset($GLOBALS['no_stats'])) {
 		if ($statsbar_align == 1) {
 			if ($location == "header") {
-				html_header($code_url, $theme, $nameofpage);
-				html_logobar($code_url, $theme, $nameofpage, $theme_name);
+				html_header($nameofpage);
+				html_logobar($nameofpage);
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
-				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
+				html_statsbar($nameofpage);
 				echo "</td>\n";
 				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
 				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td></tr></table>\n";
-				html_footer($code_url, $theme, $theme_name);
+				html_footer();
 			}
 		} else {
 			if ($location == "header") {
-				html_header($code_url, $theme, $nameofpage);
-				html_logobar($code_url, $theme, $nameofpage, $theme_name);
+				html_header($nameofpage);
+				html_logobar($nameofpage);
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
@@ -69,27 +67,28 @@ function theme ($nameofpage, $location) {
 				echo "</td>\n";
 				echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
 				echo "<td align='left' valign='top' width='25%' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
-				html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP);
+				html_statsbar($nameofpage);
 				echo "</td></tr></table>\n";
-				html_footer($code_url, $theme, $theme_name);
+				html_footer();
 			}
 		}
 	} else {
 		if ($location == "header") {
-			html_header($code_url, $theme, $nameofpage);
-			html_logobar($code_url, $theme, $nameofpage, $theme_name);
+			html_header($nameofpage);
+			html_logobar($nameofpage);
 			echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 			echo "<tr>\n";
 			echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
 			echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 		} elseif ($location == "footer") {
 			echo "</td></tr></table>\n";
-			html_footer($code_url, $theme, $theme_name);
+			html_footer();
 		}
 	}
 }
 
-function html_header($code_url, $theme, $nameofpage) {
+function html_header($nameofpage) {
+	global $code_url, $theme;
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 	echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
@@ -106,7 +105,8 @@ function html_header($code_url, $theme, $nameofpage) {
 	echo "' topmargin='0' leftmargin='0' marginheight='0' marginwidth='0'>\n\n";
 }
 
-function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
+function html_logobar($nameofpage) {
+	global $code_url, $theme, $theme_name;
 	global $dynstats_dir, $maintenance;
 	echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
@@ -226,7 +226,8 @@ function html_logobar($code_url, $theme, $nameofpage, $theme_name) {
 	echo "</table>\n";
 }
 
-function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
+function html_statsbar($nameofpage) {
+    global $code_url, $theme, $theme_name, $userP;
     global $dynstats_dir, $dynstats_url, $site_supports_metadata;
     global $PG_paypal_business_id, $PG_donation_url;
 
@@ -259,7 +260,7 @@ function html_statsbar($code_url, $theme, $nameofpage, $theme_name, $userP) {
 	if (empty($tally_name)) $tally_name = @$_REQUEST['round_id'];
 	if (empty($tally_name)) $tally_name = 'P1'; // for now
 
-	show_tally_specific_stats( $tally_name, $theme, $userP );
+	show_tally_specific_stats( $tally_name );
 
     //If the user is logged in show team stats
 	if (isset($GLOBALS['pguser'])) {
@@ -316,9 +317,9 @@ echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme[
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_tally_specific_stats( $tally_name, $theme, $userP )
+function show_tally_specific_stats( $tally_name )
 {
-	global $code_url;
+	global $code_url, $theme, $userP;
 
 	// Put the whole thing in a table, just so we can put a box around it.
 	echo "<br>";
@@ -442,7 +443,9 @@ function show_tally_specific_stats( $tally_name, $theme, $userP )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function html_footer($code_url, $theme, $theme_name) {
+function html_footer() {
+	global $code_url, $theme;
+
 	$mtime = explode(" ",microtime());
 	$endtime = $mtime[1] + $mtime[0];
 	$totaltime = ($endtime - $GLOBALS['starttime']);
@@ -459,7 +462,7 @@ function html_footer($code_url, $theme, $theme_name) {
 	echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
 	echo "</font>";
 
-	echo "<a href='".$GLOBALS['code_url']."/tasks.php'>";
+	echo "<a href='$code_url/tasks.php'>";
 	echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
 	echo _("Report a Bug");
 	echo "</font>";
