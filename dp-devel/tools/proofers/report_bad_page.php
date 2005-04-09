@@ -128,16 +128,22 @@ the project will automatically be made unavailable.";
 	//Send the email to the PM
 	maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 
-	//Redirect the user to either continue proofreading if project is still open or back to the activity hub
+	// Redirect the user to either continue proofreading if project is still open
+  // or present a link back to the activity hub
 	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
 		$frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
 		$title = _("Bad Page Report");
 		$body = _("Continuing to Proofread");
-	} else {
-		$frame1 = "projects.php?project={$projectid}&amp;proofstate={$proofstate}";
+	  metarefresh(0,$frame1, $title, $body);
+  } else {
+		$frame1 = "../../activity_hub.php";
 		$title = _("Stop Proofreading");
 		$body = _("Exiting proofreading interface");
+		$body = sprintf(_("Return to the %s Activity Hub%s."),
+                                       "<a href='$frame1' target='_top'>","</a>");
+    echo "<html><head><title>$title</title></head><body>$body</body></html>";
+    exit;
 	}
-	metarefresh(0,$frame1, $title, $body);
+
 }
 ?>
