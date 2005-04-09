@@ -14,10 +14,11 @@ echo "<html><head></head><body>";
 
 <form method="get" action="displayimage.php">
 
-<input type=hidden name="project" value="<?echo $project;?>">
-<input type=hidden name="imagefile" value="<?echo $imagefile;?>">
+<input type="hidden" name="project" value="<?echo $project;?>">
+<input type="hidden" name="imagefile" value="<?echo $imagefile;?>">
 Resize:
-<input type="text" maxlength="3" name="percent" size="3"> % <input type="submit" value="Resize" size="3">
+<input type="text" maxlength="3" name="percent" size="3" value="<?echo
+$_GET['percent'];?>"> % <input type="submit" value="Resize" size="3">
 Jump to:
 <select name="jumpto" onChange="this.form.imagefile.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();">
 <?
@@ -51,6 +52,6 @@ echo ">\n";
 
 </form>
 
-<? printf ("<img src=\"$projects_url/%s/%s\" width=$width border=0>", $project, $imagefile); ?>
+<? printf ("<img src=\"$projects_url/%s/%s\" width=\"$width\" border=\"0\">", $project, $imagefile); ?>
 </body></html>
 
