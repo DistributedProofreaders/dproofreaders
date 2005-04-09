@@ -449,7 +449,25 @@ function html_footer($code_url, $theme, $theme_name) {
 
     //Bottom Copyright Text
 	echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
-	echo "<tr><td width='10'>&nbsp;</td><td width='100%'><center><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Copyright")." "._("Distributed Proofreaders")." ("._("Page Build Time").": ".substr($totaltime, 0, 5).") </font><a href='".$GLOBALS['code_url']."/tasks.php'><font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>"._("Report a Bug")."</font></a></center></td></tr>\n";
+	echo "<tr>";
+	echo "<td width='10'>&nbsp;</td>";
+	echo "<td width='100%'>";
+	echo "<center>";
+
+	echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
+	echo _("Copyright")." "._("Distributed Proofreaders");
+	echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
+	echo "</font>";
+
+	echo "<a href='".$GLOBALS['code_url']."/tasks.php'>";
+	echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
+	echo _("Report a Bug");
+	echo "</font>";
+	echo "</a>";
+
+	echo "</center>";
+	echo "</td>";
+	echo "</tr>\n";
 	echo "</table>\n";
 
     //The End
