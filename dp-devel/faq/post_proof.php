@@ -152,9 +152,9 @@ with a relatively small number of pages. Here's why:
         which could be difficult for a new post-processor to deal with; and  
     <li>a low page count makes the work go faster and is easier to handle. 
 	</ul>
- 
+
 <p>
-Take a look at the Post-Processing section of your Personal Page 
+Take a look at the Post-Processing section of the Activity Hub
 to see all of the works available for post-processing.
 Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofreaders.  
 These books are relatively easy, and would make good first projects.
@@ -1419,7 +1419,7 @@ how to handle particular formatting issues and make global format changes.
 </p>
  
 <p>
-If your common sense and personal judgement aren't helping you solve 
+If your common sense and personal judgement aren't helping you solve
 some particular problem, post your question in the 
 <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>. 
 Other post-processors can then tell you how they would handle the situation. 

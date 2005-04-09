@@ -90,16 +90,16 @@ Once you understand the work being done through this site,
 the best thing to do is get started! Here's a step-by-step
 process once you log in:
 
-- When you log in you are taken to your Personal Page. Take
+- When you log in you are taken to the Activity Hub. Take
   special note of the navigational bar at the top of the screen.
   It appears on many pages on site, and towards the right contains
   many useful links, such as to our FAQs (help), the discussion
-  Forums, your personal Inbox, etc. Next, scroll down and you
-  will see a listing of the books currently available in first
-  round. Each book on the site goes through two rounds of
-  proofreading. When you first start you are only shown the
-  books in the first round. Second round will be available to
-  you later on.
+  Forums, your personal Inbox, etc. Next, scroll down and follow 
+  the \"Proofreading Round 1\" link to see a listing of the books 
+  currently available in first round. Each book on the site goes 
+  through multiple rounds of proofreading. When you first start, 
+  you are only shown the books in the first round. Other rounds 
+  will be available to you later on.
 
 - Select a book that you would like to read a little bit on.
 
