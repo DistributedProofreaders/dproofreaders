@@ -14,16 +14,16 @@ theme('Project Manager\'s Guide','header');
 <p>
 The
 <a href="scan/submitting.php">Content Provider's FAQ</a>
-describe the life of a Distributed Proofreaders project
-up to the point at which the image files and text files
-have been uploaded to the DP server.
-This document describes everything that happens after that,
-from the point of view of a Project Manager (PM).
+describe the life of a Distributed Proofreaders project up to the point
+at which the image files and text files have been uploaded to the DP
+server. This document describes everything that happens after that, from
+the point of view of a Project Manager (PM).
+
 </p>
 
 <p>
-PMs are welcome to do the prep work on their project,
-or they can choose to manage a project that someone else has prepared.
+PMs are welcome to do the prep work on their project, or they can choose
+to manage a project that someone else has prepared.
 <!--
 <font style='color:red'>
 [How do they see what's available to be claimed?]
@@ -72,27 +72,29 @@ and what the PMs do.
 <ol>
 <li><a name='create'><b>Create the project on the DP website.</b></a>
     <blockquote>
-    On the main PM page (at the top) is a link to the "Create Project" page.
-    After you create your project, it will be listed on your PM page.
-    Each project has an "Edit Comments" link.
-    HTML is allowed in the comments including links to example pictures.
-    You should be able to use any characters in the comments.
+	<p>
+	On the main PM page (at the top) is a link to the "Create Project" page.
+	After you create your project, it will be listed on your PM page. Each
+	project has an "Edit Comments" link. HTML is allowed in the comments
+	including links to example pictures. You should be able to use any
+	characters in the comments.
+	</p>
     </blockquote>
 </li>
 
 <li><a name='release'><b>Release the project for proofreading.</b></a>
     <blockquote>
     <p>
-    This is done by toggling the "Availability" of the project on the PM's page.
-    The project will be added to the site's queueing system,
-    which tries to ensure an even mix of books in proofreading.
+	This is done by toggling the "Availability" of the project on the PM's
+	page. The project will be added to the site's queueing system, which
+	tries to ensure an even mix of books in proofreading.
     </p>
     <p>
-    In particular, it won't allow more than one book by the same author
-    in First Round at the same time.
-    So if you have 4 volumes of a series, all by the same author,
-    you can put them all into 'Waiting to be Released' at once,
-    but the software will only allow one of them in First Round at a time.
+	In particular, it won't allow more than one book by the same author in
+	First Round at the same time. So if you have 4 volumes of a series, all
+	by the same author, you can put them all into 'Waiting to be Released'
+	at once, but the software will only allow one of them in First Round at
+	a time.
     </p>
     </blockquote>
 </li>
@@ -101,8 +103,9 @@ and what the PMs do.
 
     <blockquote>
     <p>
-    There are 4 main tasks you will need to perform to assure your project runs smoothly through the site.
-    All these tasks are done via the Project Page using the links provided.
+	There are 4 main tasks you will need to perform to assure your project
+	runs smoothly through the site. All these tasks are done via the Project
+	Page using the links provided.
     </p>
 
     <ol>
@@ -110,29 +113,38 @@ and what the PMs do.
     <li>
     <b>Answer proofreader's questions.</b>
     <p>
-    Depending on the project, you may get a lot of questions in the Project Forum thread for the project.
-    If you get a lot of the same questions you may consider modifying your project comments.
+	Depending on the project, you may get a lot of questions in the Project
+	Forum thread for the project. If you get a lot of the same questions you
+	may consider modifying your project comments.
     </p>
     </li>
 
     <li>
     <b>Delete duplicate pages.</b>
     <p>
-    Sometimes a page will be scanned more than once in a project. If you have duplicate pages, you can delete the duplicates by using the 'Delete' button on the Project Detail page.
+	Sometimes a page will be scanned more than once in a project. If you
+	have duplicate pages, you can delete the duplicates by using the
+	'Delete' button on the Project Detail page.
     </p>
     </li>
 
     <li>
     <b>Clear effects of round.</b>
     <p>
-    If a page has not been proofed well, you have the option of clearing the page. This will clear the effects of the round and make the page available again. It will also decrement the page count for the proofer. You should send the proofer feedback if you clear pages from your projects.
+	If a page has not been proofed well, you have the option of clearing the
+	page. This will clear the effects of the round and make the page
+	available again. It will also decrement the page count for the proofer.
+	You should send the proofer feedback if you clear pages from your
+	projects.
     </p>
     </li>
 
     <li>
     <b>Bad page handling.</b>
     <p>
-    If a proofer marks a page bad in R1, the project will stall until you resolve the report. Click on the 'X' on the project details page for the project and follow the instructions on the screen.
+	If a proofer marks a page bad in R1, the project will stall until you
+	resolve the report. Click on the 'X' on the project details page for the
+	project and follow the instructions on the screen.
     </p>
     </li>
     </ol>
@@ -146,22 +158,21 @@ and what the PMs do.
 <h3><a name='project_search_page'>Project Search Page</a></h3>
 
 <p>
-This page is the default PM page.
-That is, it is the page that a PM will normally be directed to after signing in
-and after various other operations.
-You can also get to it from the other PM pages
-by clicking on the "Search Your Projects" link near the top of the page.
+This page is the default PM page. That is, it is the page that a PM will
+normally be directed to after signing in and after various other
+operations. You can also get to it from the other PM pages by clicking
+on the "Search Your Projects" link near the top of the page.
 </p>
 
 <p>
-Matching for fields other than <i>State</i>
-is case-insensitive and unanchored.
-So, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.
+Matching for fields other than <i>State</i> is case-insensitive and
+unanchored. So, for instance, 'jim' matches both 'Jimmy Olsen' and
+'piggyjimjams'.
 </p>
 
 <p>
-If desired, you should be able to select multiple values
-for <i>State</i> (e.g., by holding down Ctrl).
+If desired, you should be able to select multiple values for
+<i>State</i> (e.g., by holding down Ctrl).
 </p>
 
 <h3><a name='project_listings_page'>Project Listings Page</a></h3>
@@ -170,11 +181,10 @@ for <i>State</i> (e.g., by holding down Ctrl).
 Click on the title of a project to view its details.
 </p>
 <p>
-The "Pages Left" column of the projects table was removed
-to speed up assembly of the PM page,
-and reduce the load on the server.
-Note that the "Pages Remaining to be Proofread" for a project
-is still available, on its Project Details page.
+The "Pages Left" column of the projects table was removed to speed up
+assembly of the PM page, and reduce the load on the server. Note that
+the "Pages Remaining to be Proofread" for a project is still available,
+on its Project Details page.
 </p>
 
 <h3><a name='project_detail_page'>Project Detail Page</a></h3>
@@ -182,67 +192,40 @@ is still available, on its Project Details page.
 <h4>Add Text+Images from <? echo $uploads_account; ?> Account</h4>
 
 <p>
-You can now specify a directory
-(in the <? echo $uploads_account; ?> account)
-from which to add text+images into your project.
-This means that you are now free to choose the name
-of the upload directory you create,
-instead of having to use the project's ID.
-(E.g., you might choose to give it the same name
-as the corresponding directory on your local machine.)
-Of course, the project's ID will still work fine
-as the name of the directory, and is in fact the default
-for the Add Text+Images button.
+You can now specify a directory (in the <? echo $uploads_account; ?>
+account) from which to add text+images into your project. This means
+that you are now free to choose the name of the upload directory you
+create, instead of having to use the project's ID. (E.g., you might
+choose to give it the same name as the corresponding directory on your
+local machine.) Of course, the project's ID will still work fine as the
+name of the directory, and is in fact the default for the Add
+Text+Images button.
 </p>
 <p>
 Moreover, the string you type is actually interpreted as a 'path'
-(relative to the root of the <? echo $uploads_account; ?> account),
-so it can be a directory within a directory.
-For instance, you may find it convenient to create a personal directory
-in the <? echo $uploads_account; ?> account,
-and then create your project-specific directories within it.
-(If you do this, it's recommended that you use your DP login name
-for the name of the personal directory,
-as that may be an assumed default in the future.)
+(relative to the root of the <? echo $uploads_account; ?> account), so
+it can be a directory within a directory. For instance, you may find it
+convenient to create a personal directory in the <? echo $uploads_account; ?>
+account, and then create your project-specific directories within it.
+(If you do this, it's recommended that you use your DP login name for
+the name of the personal directory, as that may be an assumed default in
+the future.)
 </p>
 
 <p>
-When you click on the "Add" button,
-it copies all .png files into the project's directory,
-and adds the page-texts to the project's page-table.
+When you click on the "Add" button, it copies all .png files into the
+project's directory, adds the page-text files to the project's
+page-table, and also copies any illustration files to the project's
+directory.
 </p>
 
 <h4>Delete All Text</h4>
 
 <p>
-The "Delete All Text" link (if present) is now at the very bottom of this page,
-to lessen the chance of hitting it by accident.
-This is a temporary measure
-until a proper "Are You Sure?" prompt is implemented.
+The "Delete All Text" link (if present) is now at the very bottom of
+this page, to lessen the chance of hitting it by accident. This is a
+temporary measure until a proper "Are You Sure?" prompt is implemented.
 </p>
-<hr>
-<h4>Document History</h4>
-
-<ul>
-<li>2001-12-17: first written by
-    Charles Franks
-    <a href="mailto:charlz@lvcablemodem.com">charlz@lvcablemodem.com</a>
-    and
-    Robert Rowe
-    <a href="mailto:robert_rowe@yahoo.com">robert_rowe@yahoo.com</a></li>
-<li>2002-06-02: Updated</li>
-<li>2003-07-25: jmdyck: eliminated overlap with the
-<a href='scan/submitting.php'>Content Provider's FAQ</a> and the
-<a href='post_proof.php'>Post-Processing FAQ</a>.
-Reorganized the remainder.
-(It still needs updating, but that should be easier now.)</li>
-<li>2003-07-25: jmdyck: added notes on PM pages.</li>
-<li>2004-05-24: jmdyck: minor edits to eliminate remarks in red.</li>
-<li>2004-07-25: donovan: minor edits to conform to post-process* terminology and valid html compliance.</li>
-<li>2004-07-31: donovan: minor edits to conform to proofreading* terminology.</li>
-</ul>
-
-<br>
 
 <?
 theme('','footer');
