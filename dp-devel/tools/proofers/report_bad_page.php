@@ -128,7 +128,7 @@ the project will automatically be made unavailable.";
 	//Send the email to the PM
 	maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 
-	//Redirect the user to either continue proofreading if project is still open or back to their personal page
+	//Redirect the user to either continue proofreading if project is still open or back to the activity hub
 	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
 		$frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
 		$title = _("Bad Page Report");
