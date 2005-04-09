@@ -98,21 +98,21 @@ function html_header($nameofpage, $extra_args = array()) {
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	// Global theme CSS
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
-	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>";
+	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>\n";
 	// Per-page CSS
 	if (isset($extra_args['css_data']))
       {
-	    echo "<style type='text/css'>" .
+	    echo "<style type='text/css'>\n" .
 	          $extra_args['css_data'] .
-	          "</style>";
+	          "</style>\n";
       }
  
  	// Per-page Javascript
 	if (isset($extra_args['js_data']))
       {
-	    echo "<script type='text/javascript'>" .
+	    echo "<script type='text/javascript'>\n" .
 	          $extra_args['js_data'] .
-	          "</script>";
+	          "</script>\n";
       }
 	// Currently, the only call to theme() that needs this include() is the
 	// one in round.php (because it includes showavailablebooks.inc,
