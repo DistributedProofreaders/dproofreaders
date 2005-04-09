@@ -19,9 +19,6 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 
 
-
-if ($userP['i_newwin']==1) { include($relPath.'js_newwin.inc'); }
-
 theme(_("Activity Hub"), "header");
 
 echo "<center><h1>Activity Hub</h1></center>\n";

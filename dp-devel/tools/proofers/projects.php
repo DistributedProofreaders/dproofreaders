@@ -16,11 +16,6 @@ if (!isset($proofing))
     // The user arrived here in the usual way, e.g. by clicking on a project
     // name in the list of projects available for proofing.
 
-    if ($userP['i_newwin']==1)
-    {
-        include($relPath.'js_newwin.inc');
-    }
-
     include('./projects_menu.inc');
 
     function echo_blurb_box( $blurb )
