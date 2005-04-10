@@ -39,7 +39,7 @@ Thanks,
 The Distributed Proofreaders Team
 
 PS - Your user name, in case you forget, is %s.
-  ", $real_name, "<$code_url/accounts/activate.php?id=$ID>", $username),
+  ", $real_name, "$code_url/accounts/activate.php?id=$ID", $username),
   "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 }
 
