@@ -67,6 +67,27 @@ class ProofingRoundDescriptor
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
+        global $testing;
+        if ($testing && !is_null($this->access_minima))
+        {
+            // Relax minima.
+            foreach ( $this->access_minima as $criterion_code => $minimum )
+            {
+                if ( $criterion_code == 'quiz' )
+                {
+                    // skip
+                }
+                else if ( $criterion_code == 'days since reg' )
+                {
+                    $this->access_minima[$criterion_code] = intval($minimum / 7);
+                }
+                else
+                {
+                    $this->access_minima[$criterion_code] = intval($minimum / 30);
+                }
+            }
+        }
+
         $this->project_unavailable_state = constant("PROJ_{$round_id}_UNAVAILABLE");
         $this->project_waiting_state     = constant("PROJ_{$round_id}_WAITING_FOR_RELEASE");
         $this->project_bad_state         = constant("PROJ_{$round_id}_BAD_PROJECT");
