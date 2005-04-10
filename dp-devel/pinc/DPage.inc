@@ -216,11 +216,10 @@ function Page_delete( $projectid, $fileid )
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyStartingText( $projectid, $fileid, $page_text )
+function Page_modifyText( $projectid, $fileid, $page_text, $text_column )
 {
-    _Page_UPDATE( $projectid, $fileid, "
-        master_text='$page_text'
-    " );
+    _Page_UPDATE( $projectid, $fileid, 
+        $text_column."='$page_text'");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
