@@ -23,6 +23,8 @@ if (!isset($_POST['resolution'])) {
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
     $b_Code = mysql_result($result,0,"b_code");
+    
+    $prd = get_PRD_for_page_state($state);
 
     //Display form
     $header = _("Bad Page Report");
@@ -54,14 +56,16 @@ if (!isset($_POST['resolution'])) {
         echo $reason_list[$b_Code]."</td></tr>";
     }
     
+    $prev_round_num = $prd->round_number - 1;
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=0' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectid&imagefile=$imageName' target='_new'>View Image</a></td></tr>";
+    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectid&imagefile=$imageName' target='_new'>View Image</a></td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=text'>Original Text</a> | <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a></td></tr>";
+    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a> | <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a></td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     
     if (!empty($b_User) && !empty($b_Code)) {
@@ -81,21 +85,27 @@ if (!isset($_POST['resolution'])) {
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-        $result = mysql_query("SELECT master_text FROM $projectid where fileid='$fileid'");
-        $master_text = mysql_result($result, 0, "master_text");
+        $prevtext_column = $prd->prevtext_column_name;
+        $result = mysql_query("SELECT $prevtext_column FROM $projectid where fileid='$fileid'");
+        $prev_text = mysql_result($result, 0, $prevtext_column);
+
         echo "<form action='badpage.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
-        echo "<textarea name='master_text' cols=70 rows=10>";
+        echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
+
+        echo "<textarea name='prev_text' cols=70 rows=10>";
         // SENDING PAGE-TEXT TO USER
-        echo htmlspecialchars($master_text,ENT_NOQUOTES);
+        echo htmlspecialchars($prev_text,ENT_NOQUOTES);
         echo "</textarea><br><br>";
-        echo "<input type='submit' value='Update Original Text'></form>";
+        echo "<input type='submit' value='Update Text From Previous Round'></form>";
+
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
-        $master_text = $_POST['master_text'];
-        Page_modifyStartingText( $projectid, $fileid, $master_text );
-        echo "<b>Update of Original Text Complete!</b>";
+        $prev_text = $_POST['prev_text'];
+        $prevtext_column = $_POST['prevtext_column'];
+        Page_modifyText( $projectid, $fileid, $prev_text, $prevtext_column );
+        echo "<b>Update of Text from Previous Round Complete!</b>";
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
         $result = mysql_query("SELECT image FROM $projectid where fileid='$fileid'");
         $master_image = mysql_result($result, 0, "image");
