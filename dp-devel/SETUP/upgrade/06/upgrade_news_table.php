@@ -73,7 +73,7 @@ INSERT INTO `news_pages` VALUES ('default.php', 'FRONT', 'Front Page',UNIX_TIMES
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('post_proofers.php', 'PP', 'Post Processing',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('pool.php?pool_id=PP', 'PP', 'Post Processing',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 

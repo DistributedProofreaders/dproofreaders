@@ -312,7 +312,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
     echo "<li>\n";
 
-    echo "(PP) <a href='$code_url/tools/post_proofers/post_proofers.php'>Post-Processing</a>";
+    echo "(PP) <a href='$code_url/tools/pool.php?pool_id=PP'>Post-Processing</a>";
     echo "<br>\n";
 
     echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text.");
@@ -385,7 +385,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
     echo "<li>\n";
 
-    echo "(PPV) <a href='$code_url/tools/post_proofers/post_proofers.php'>Post-Processing Verification</a>";
+    echo "(PPV) <a href='$code_url/tools/pool.php?pool_id=PPV'>Post-Processing Verification</a>";
     echo "<br>\n";
 
     echo _("Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.");

@@ -29,11 +29,11 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 		$foo_Header = _("Manager");
 		$foo_field_name = 'username';
   		if ($state==PROJ_POST_FIRST_CHECKED_OUT) {
-			$linkbase = "<a href=post_proofers.php?orderChPP=";
-                        $linkend  = '#ChPP>';
+			$linkbase = "<a href=pool.php?pool_id=PP&order_checkedout=";
+                        $linkend  = '#checkedout>';
 		} else {
-			$linkbase = "<a href=post_proofers.php?orderPP=";
-                        $linkend  = '#PP>';
+			$linkbase = "<a href=pool.php?pool_id=PP&order_available=";
+                        $linkend  = '#available>';
 		}
 		$bgcolor_odd = $theme['color_mainbody_bg'];
 		$bgcolor_even = $theme['color_navbar_bg'];
@@ -44,11 +44,11 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 		$foo_Header = _("Post Processor");
 		$foo_field_name = 'postproofer';
   		if ($state==PROJ_POST_SECOND_CHECKED_OUT) {
-			$linkbase = "<a href=post_proofers.php?orderChPPV=";
-                        $linkend  = '#ChPPV>';
+			$linkbase = "<a href=pool.php?pool_id=PPV&order_checkedout=";
+                        $linkend  = '#checkedout>';
 		} else {
-			$linkbase = "<a href=post_proofers.php?orderPPV=";
-                        $linkend  = '#PPV>';
+			$linkbase = "<a href=pool.php?pool_id=PPV&order_available=";
+                        $linkend  = '#available>';
 		}
 		$bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
 		$bgcolor_even = '#99FFFF'; // "harshflourolightblue"

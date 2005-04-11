@@ -16,7 +16,7 @@ if ($stage == 'post_1')
 	$indicator = "_second";
 	$new_state = PROJ_POST_SECOND_AVAILABLE;
 	$extras = array();
-	$back_url = "$code_url/tools/post_proofers/post_proofers.php";
+	$back_url = "$code_url/tools/pool.php?pool_id=PP";
 	$back_blurb = _("Back to Post Proofers Page");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 }

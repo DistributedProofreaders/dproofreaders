@@ -372,8 +372,12 @@ function show_quick_links()
 
 	if (user_is_PP())
 	{
-		$links['tools/post_proofers/post_proofers.php'] =
-			_('Post Processing');
+		$links['tools/pool.php?pool_id=PP'] = 'PP';
+	}
+
+	if (user_is_post_proof_verifier())
+	{
+		$links['tools/pool.php?pool_id=PPV'] = 'PPV';
 	}
 
 	$links['tools/post_proofers/smooth_reading.php'] =

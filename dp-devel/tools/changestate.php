@@ -77,13 +77,13 @@ if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
     $reqd_state == PROJ_POST_FIRST_AVAILABLE)
 {
 	$do_what = "do the post-processing";
-	$refresh_url = "post_proofers/post_proofers.php";
+	$refresh_url = "pool.php?pool_id=PP";
 }
 else if ($curr_state == PROJ_POST_SECOND_CHECKED_OUT &&
          $reqd_state == PROJ_POST_SECOND_AVAILABLE)
 {
 	$do_what = "verify the post-processing";
-	$refresh_url = "post_proofers/post_proofers.php";
+	$refresh_url = "pool.php?pool_id=PPV";
 }
 else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
          $reqd_state == PROJ_CORRECT_AVAILABLE)
@@ -129,7 +129,7 @@ else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
 else if ($curr_state == PROJ_POST_SECOND_CHECKED_OUT &&
          $reqd_state == PROJ_POST_FIRST_CHECKED_OUT)
 {
-	$refresh_url = "post_proofers/post_proofers.php";
+	$refresh_url = "pool.php?pool_id=PPV";
 	$error_msg = project_transition( $projectid, $reqd_state );
 	if ($error_msg == '')
 	{
