@@ -398,7 +398,8 @@ function show_quick_links()
 			// Otherwise the link could be split across a
 			// line-break, which makes it harder to recognize.
 
-			if ( strpos( $_SERVER['REQUEST_URI'], $rel_url ) !== FALSE )
+			$rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
+			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
 			{
 				// We're at that page; no point to link to it.
 				echo $link_text;
