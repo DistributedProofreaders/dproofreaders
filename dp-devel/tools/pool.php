@@ -94,8 +94,6 @@ else
 
 $pool->id = $pool_id;
 
-$checkedout_order_setting_name = "{$pool->id}_ch_order";
-$available_order_setting_name = "{$pool->id}_av_order";
 $available_filtertype_stem = "{$pool->id}_av";
 
 // -----------------------------------------------------------------------------
@@ -161,12 +159,7 @@ $header = _('Books I Have Checked Out');
 echo "<h2 align='center'>$header</h2>";
 
 echo "<a name='checkedout'></a>\n";
-show_projects_in_state_plus(
-    $pool->checkedout_proj_state,
-    " ",
-    $checkedout_order_setting_name,
-    'order_checkedout'
-);
+show_projects_in_state_plus( $pool, 'checkedout', " " );
 echo "<br>";
 echo "<br>";
 
@@ -187,12 +180,7 @@ if (!isset($RFilter)) { $RFilter = ""; }
 
 echo "<a name='available'></a>\n";
 echo "<center><b>$header</b></center>";
-show_projects_in_state_plus(
-    $pool->available_proj_state,
-    $RFilter,
-    $available_order_setting_name,
-    'order_available'
-);
+show_projects_in_state_plus( $pool, 'available', $RFilter );
 echo "<br>";
 echo "<br>";
 
@@ -201,15 +189,18 @@ theme("", "footer");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function show_projects_in_state_plus(
-    $proj_state,
-    $RFilter,
-    $order_setting_name,
-    $order_param_name
+    $pool,
+    $checkedout_or_available,
+    $RFilter
 )
 // A wrapped version of show_projects_in_state
 // that handles getting and saving the table's sort order.
 {
     global $pguser;
+
+    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $order_setting_name = "{$pool->id}_{$ch_or_av}_order";
+    $order_param_name = "order_{$checkedout_or_available}";
 
     // Get saved sort order
     $res = mysql_query("
@@ -259,48 +250,25 @@ function show_projects_in_state_plus(
 
     $theme = $GLOBALS['theme'];
     $bgcolor = $theme['color_headerbar_bg'];
-    if ($proj_state==PROJ_POST_FIRST_AVAILABLE || $proj_state==PROJ_POST_FIRST_CHECKED_OUT)
+    if ( $pool->id == 'PP' )
     {
         $foo_Header = _("Manager");
         $foo_field_name = 'username';
-        if ($proj_state==PROJ_POST_FIRST_CHECKED_OUT)
-        {
-            $linkbase = "<a href=pool.php?pool_id=PP&order_checkedout=";
-            $linkend  = '#checkedout>';
-        }
-        else
-        {
-            $linkbase = "<a href=pool.php?pool_id=PP&order_available=";
-            $linkend  = '#available>';
-        }
         $bgcolor_odd = $theme['color_mainbody_bg'];
         $bgcolor_even = $theme['color_navbar_bg'];
     }
-    elseif ($proj_state==PROJ_POST_SECOND_AVAILABLE || $proj_state==PROJ_POST_SECOND_CHECKED_OUT)
+    elseif ( $pool->id == 'PPV' )
     {
         $bgcolor = '#66ccff';
         $foo_Header = _("Post Processor");
         $foo_field_name = 'postproofer';
-        if ($proj_state==PROJ_POST_SECOND_CHECKED_OUT)
-        {
-            $linkbase = "<a href=pool.php?pool_id=PPV&order_checkedout=";
-            $linkend  = '#checkedout>';
-        }
-        else
-        {
-            $linkbase = "<a href=pool.php?pool_id=PPV&order_available=";
-            $linkend  = '#available>';
-        }
         $bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
         $bgcolor_even = '#99FFFF'; // "harshflourolightblue"
     }
-    elseif ($proj_state==PROJ_CORRECT_AVAILABLE || $proj_state==PROJ_CORRECT_CHECKED_OUT)
+    elseif ( $pool->id == 'CR' )
     {
         $foo_Header = _("Editor");
         $foo_field_name = 'correctedby';
-        // no sorting in CORRECT mode yet
-        $linkbase = " ";
-        $linkend  = " ";
         $bgcolor_odd = $theme['color_mainbody_bg'];
         $bgcolor_even = $theme['color_navbar_bg'];
     }
@@ -383,6 +351,19 @@ function show_projects_in_state_plus(
     }
 
 
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        $proj_state = $pool->checkedout_proj_state;
+    }
+    elseif ( $checkedout_or_available == 'available' )
+    {
+        $proj_state = $pool->available_proj_state;
+    }
+    else
+    {
+        assert( FALSE );
+    }
+
     $query = "
         SELECT
             projects.projectid,
@@ -441,6 +422,9 @@ function show_projects_in_state_plus(
     $tdc="</b></font></a></td>";
 
     echo "<tr>";
+
+    $linkbase = "<a href=pool.php?pool_id={$pool->id}&{$order_param_name}=";
+    $linkend  = "#{$checkedout_or_available}>";
 
     $word = _("Title");
     $link = $linkbase.($flip_title?"TitleD":"TitleA").$linkend;
