@@ -19,10 +19,10 @@ $PRD_for_project_state_ = array();
 $PRD_for_page_state_    = array();
 $PAGE_STATES_IN_ORDER   = array();
 
-class ProofingRoundDescriptor extends Stage
+class Round extends Stage
 // A container for various constants relating to a particular round of proofing.
 {
-    function ProofingRoundDescriptor(
+    function Round(
         $round_id,
         $round_name,
         $access_minima,
@@ -121,7 +121,7 @@ class ProofingRoundDescriptor extends Stage
     }
 }
 
-$P1 = new ProofingRoundDescriptor(
+$P1 = new Round(
     'P1',
     _('Proofreading Round 1'),
     array(),
@@ -133,7 +133,7 @@ $P1 = new ProofingRoundDescriptor(
     array()
 );
 
-$P2 = new ProofingRoundDescriptor(
+$P2 = new Round(
     'P2',
     _('Proofreading Round 2'),
     array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
@@ -145,7 +145,7 @@ $P2 = new ProofingRoundDescriptor(
     array( 'P1' )
 );
 
-$F1 = new ProofingRoundDescriptor(
+$F1 = new Round(
     'F1',
     _('Formatting Round 1'),
     array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
@@ -157,7 +157,7 @@ $F1 = new ProofingRoundDescriptor(
     array()
 );
 
-$F2 = new ProofingRoundDescriptor(
+$F2 = new Round(
     'F2',
     _('Formatting Round 2'),
     NULL,
@@ -188,7 +188,7 @@ function get_PRD_for_round_id( $round_id )
 
 function get_PRD_for_round( $round_number )
 // If $round_number is a valid proofing-round number (currently 1 or 2),
-// return the appropriate ProofingRoundDescriptor instance.
+// return the appropriate Round instance.
 // Otherwise, return NULL.
 {
     global $PRD_for_round_number_;
