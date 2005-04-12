@@ -33,16 +33,6 @@ class ProofingRoundDescriptor
             // (barring special permission).
             // If empty array, no minima: everyone can participate.
             // If NULL, users cannot qualify for this round by satisfying minima.
-        $users_can_be_granted_access,
-            // If TRUE, a user can be given access to this round (regardless
-            // of how they stand w.r.t access minima) via a notation in the
-            // database (specific to that user and this round).
-            // (Theoretically, this param is unnecessary. We could act as if it
-            // were always TRUE, i.e. always check the db for such a notation;
-            // in the cases where this arg *would* be FALSE, we would presumably
-            // find nothing in the db, and so arrive at the same answer.
-            // However, this param is useful as an optimization and as
-            // documentation of intent.)
         $description,
             // A sentence or two explaining what happens in this round.
         $listing_bgcolors,
@@ -62,7 +52,6 @@ class ProofingRoundDescriptor
         $this->round_id           = $round_id;
         $this->round_name         = $round_name;
         $this->access_minima      = $access_minima;
-        $this->users_can_be_granted_access = $users_can_be_granted_access;
         $this->description        = $description;
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
@@ -228,9 +217,11 @@ class ProofingRoundDescriptor
         }
 
         // Considering special grant of access:
+        // A user can be given access to this round (regardless
+        // of how they stand w.r.t access minima) via a notation in the
+        // database (specific to that user and this round).
         if (!$can)
         {
-            if ( $this->users_can_be_granted_access )
             {
                 if ( $this->user_has_been_granted_access($username) )
                 {
@@ -243,11 +234,6 @@ class ProofingRoundDescriptor
                     // Don't mention possibility of special permission.
                     // $sentences[] = _("However, you can be granted access to this round. See XXX for details.");
                 }
-            }
-            else
-            {
-                // There is no granting of access for this round.
-                $can = FALSE;
             }
         }
 
@@ -284,7 +270,6 @@ $P1 = new ProofingRoundDescriptor(
     'P1',
     _('Proofreading Round 1'),
     array(),
-    FALSE,
     _("The page-texts are the output from OCR software and have not been looked at."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -297,7 +282,6 @@ $P2 = new ProofingRoundDescriptor(
     'P2',
     _('Proofreading Round 2'),
     array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
-    FALSE,
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     array(
         0 => '#DDA0DD', // plum
@@ -310,7 +294,6 @@ $F1 = new ProofingRoundDescriptor(
     'F1',
     _('Formatting Round 1'),
     array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
-    FALSE,
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -323,7 +306,6 @@ $F2 = new ProofingRoundDescriptor(
     'F2',
     _('Formatting Round 2'),
     NULL,
-    TRUE,
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     array(
         0 => '#DDA0DD', // plum
