@@ -12,7 +12,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 	$prd = get_PRD_for_round($round_number);
 
-	$setting = "{$prd->round_id}order";
+	$setting = "{$prd->round_id}_order";
 
 	// read saved sort orders from user_settings table 
 	$result = mysql_query("

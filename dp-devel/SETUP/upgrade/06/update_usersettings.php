@@ -8,8 +8,8 @@ echo "<pre>\n";
 
 $old_to_new = array(
 	// Change R1+R2 to P1+P2
-	'R1order'    => 'P1order',
-	'R2order'    => 'P2order',
+	'R1order'    => 'P1_order',
+	'R2order'    => 'P2_order',
 
 	// Rationalize setting names for pool-related sort orders.
 	'ChPPorder'  => 'PP_ch_order',
