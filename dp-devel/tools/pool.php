@@ -386,11 +386,7 @@ function show_projects_in_state_plus(
         WHERE state='$proj_state'
             $RFilter 
     ";
-    if (
-        $proj_state == PROJ_POST_FIRST_CHECKED_OUT ||
-        $proj_state == PROJ_POST_SECOND_CHECKED_OUT ||
-        $proj_state == PROJ_CORRECT_CHECKED_OUT
-    )
+    if ( $checkedout_or_available == 'checkedout' )
     {
         // The project must be checked-out to somebody.
         // We're only interested if it's checked out to the current user.
