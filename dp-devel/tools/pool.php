@@ -243,14 +243,11 @@ function show_projects_in_state_plus(
         ") or die(mysql_error());
     }
 
-    show_projects_in_state($proj_state, 1, $RFilter, $new_order);
-}
+    // -------------------------------------------------------------------
 
-// -----------------------------------------------------------------------------
+    $table = 1;
 
-function show_projects_in_state($proj_state,$table=1, $RFilter = ' ', $new_order = 'DaysD')
-{
-    global $pguser, $code_url, $pageCountArray;
+    global $code_url, $pageCountArray;
 
     $flip_title = FALSE;
     $flip_author = FALSE;
