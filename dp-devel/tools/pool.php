@@ -29,6 +29,12 @@ if ( $pool_id == 'PP' )
     $pool->available_proj_state = PROJ_POST_FIRST_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_PP';
 
+    $pool->foo_Header = _("Manager");
+    $pool->foo_field_name = 'username';
+    $pool->bgcolor      = $theme['color_headerbar_bg'];
+    $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
+    $pool->bgcolor_even = $theme['color_navbar_bg'];
+
     $pool->blather = array(
         "<p>",
         _("The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text."),
@@ -54,6 +60,12 @@ elseif ( $pool_id == 'PPV' )
     $pool->available_proj_state = PROJ_POST_SECOND_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_post_proof_verifier';
 
+    $pool->foo_Header = _("Post Processor");
+    $pool->foo_field_name = 'postproofer';
+    $pool->bgcolor      = '#66ccff';
+    $pool->bgcolor_odd  = '#EAF7F7'; // "paledarkskyblue"
+    $pool->bgcolor_even = '#99FFFF'; // "harshflourolightblue"
+
     $pool->blather = array(
         "<p>",
         _("As an experienced volunteer, you have access to do verification of texts that have been Post Processed already, if you wish."),
@@ -77,6 +89,12 @@ elseif ( $pool_id == 'CR' )
     $pool->checkedout_proj_state = PROJ_CORRECT_CHECKED_OUT;
     $pool->available_proj_state = PROJ_CORRECT_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_PP';
+
+    $pool->foo_Header = _("Editor");
+    $pool->foo_field_name = 'correctedby';
+    $pool->bgcolor      = $theme['color_headerbar_bg'];
+    $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
+    $pool->bgcolor_even = $theme['color_navbar_bg'];
 
     $pool->blather = array(
         "<p>",
@@ -249,35 +267,6 @@ function show_projects_in_state_plus(
     $flip_days = FALSE;
 
     $theme = $GLOBALS['theme'];
-    $bgcolor = $theme['color_headerbar_bg'];
-    if ( $pool->id == 'PP' )
-    {
-        $foo_Header = _("Manager");
-        $foo_field_name = 'username';
-        $bgcolor_odd = $theme['color_mainbody_bg'];
-        $bgcolor_even = $theme['color_navbar_bg'];
-    }
-    elseif ( $pool->id == 'PPV' )
-    {
-        $bgcolor = '#66ccff';
-        $foo_Header = _("Post Processor");
-        $foo_field_name = 'postproofer';
-        $bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
-        $bgcolor_even = '#99FFFF'; // "harshflourolightblue"
-    }
-    elseif ( $pool->id == 'CR' )
-    {
-        $foo_Header = _("Editor");
-        $foo_field_name = 'correctedby';
-        $bgcolor_odd = $theme['color_mainbody_bg'];
-        $bgcolor_even = $theme['color_navbar_bg'];
-    }
-    else
-    {
-        // This function doesn't handle anything else so far.
-        assert(0);
-    }
-
 
     if ( $new_order == 'TitleA' )
     {
@@ -326,12 +315,12 @@ function show_projects_in_state_plus(
     }
     elseif ( $new_order == 'PersonA' )
     {
-        $orderclause = "$foo_field_name ASC, nameofwork ASC";
+        $orderclause = "{$pool->foo_field_name} ASC, nameofwork ASC";
         $flip_Person = TRUE;
     }
     elseif ( $new_order == 'PersonD' )
     {
-        $orderclause = "$foo_field_name DESC, nameofwork ASC";
+        $orderclause = "{$pool->foo_field_name} DESC, nameofwork ASC";
     }
     
     // note that we SHOW "days since M", but *order* by M, so the logic is flipped
@@ -413,7 +402,7 @@ function show_projects_in_state_plus(
         ";
     }
 
-    $tds="<td bgcolor='".$bgcolor."' align=\"center\"";
+    $tds="<td bgcolor='{$pool->bgcolor}' align=\"center\"";
     $tdm="<font color='".$theme['color_headerbar_font']."'>";
     $tdc="</b></font></a></td>";
 
@@ -442,7 +431,7 @@ function show_projects_in_state_plus(
     $link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA").$linkend;
     echo "$tds width=\"45\">$link$tdm<b>$word$tdc\n";
 
-    $word = $foo_Header;
+    $word = $pool->foo_Header;
     $link = $linkbase.($flip_Person?"PersonD":"PersonA").$linkend;
     echo "$tds width=\"70\">$link$tdm<b>$word$tdc\n";
 
@@ -473,11 +462,11 @@ function show_projects_in_state_plus(
 
         if ($rownum % 2) 
         {
-            $bgcolor_attr = " bgcolor='$bgcolor_odd'";
+            $bgcolor_attr = " bgcolor='$pool->bgcolor_odd'";
         }
         else 
         {
-            $bgcolor_attr = " bgcolor='$bgcolor_even'";
+            $bgcolor_attr = " bgcolor='$pool->bgcolor_even'";
         }
 
         // Special colours for special books of various types
@@ -490,7 +479,7 @@ function show_projects_in_state_plus(
             }
         }
 
-        $foo_username = $book[$foo_field_name];
+        $foo_username = $book[$pool->foo_field_name];
         $users = mysql_query("SELECT user_id, user_email FROM phpbb_users WHERE username = '$foo_username'");
         
         if ( mysql_num_rows($users) > 0 )
@@ -498,17 +487,17 @@ function show_projects_in_state_plus(
             if ($show_email)
             {
                 $foo_email = mysql_result($users, 0, "user_email");
-                $foo_cell = "<A HREF=\"mailto:$foo_email\">".$book[$foo_field_name]."</A>";
+                $foo_cell = "<A HREF=\"mailto:$foo_email\">".$book[$pool->foo_field_name]."</A>";
             }
             else
             {
                 $foo_userid = mysql_result($users, 0, "user_id");
-                $foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$foo_field_name]."</A>";
+                $foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$pool->foo_field_name]."</A>";
             }
         }
         else
         {
-            $foo_cell = $book[$foo_field_name];
+            $foo_cell = $book[$pool->foo_field_name];
         }
 
         $url = "$code_url/tools/post_proofers/post_comments.php?project={$book['projectid']}";
