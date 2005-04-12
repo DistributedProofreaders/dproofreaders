@@ -383,12 +383,10 @@ function show_quick_links()
 		echo "<center>";
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;";
 
-		$i = 0;
 		while ( list($i, list($rel_url, $text, $title)) = each($links) )
 		{
 
-			$i++;
-			if ($i > 1) echo ' | ';
+			if ($i > 0) echo ' | ';
 
 			$rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
 			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
