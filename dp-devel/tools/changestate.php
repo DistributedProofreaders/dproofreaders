@@ -47,7 +47,7 @@ else if ($curr_state == PROJ_CORRECT_AVAILABLE &&
          $reqd_state == PROJ_CORRECT_CHECKED_OUT)
 {
 	$do_what = "verify corrections";
-	$refresh_url = "correct/index.php";
+	$refresh_url = "pool.php?pool_id=CR";
 }
 
 if ($refresh_url != '')
@@ -89,7 +89,7 @@ else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
          $reqd_state == PROJ_CORRECT_AVAILABLE)
 {
 	$do_what = "verify the corrections";
-	$refresh_url = "correct/index.php";
+	$refresh_url = "pool.php?pool_id=CR";
 }
 
 if ( $refresh_url != '' )

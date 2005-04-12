@@ -66,6 +66,22 @@ elseif ( $pool_id == 'PPV' )
         "</p>",
     );
 }
+elseif ( $pool_id == 'CR' )
+{
+    $pool_name = _('Corrections Review');
+    $checkedout_proj_state = PROJ_CORRECT_CHECKED_OUT;
+    $available_proj_state = PROJ_CORRECT_AVAILABLE;
+    $user_is_allowed_fn = 'user_is_PP';
+
+    $blather = array(
+        "<p>",
+        _("The books listed below have already been posted to Project Gutenberg, but a reader has found errors and submitted a corrected text."),
+        _("We need you to review the corrections to see if they're valid."),
+        _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
+        _("When you have finished your work on the book, send the book to Project Gutenberg to be posted."),
+        "</p>",
+    );
+}
 else
 {
     die("bad 'pool_id' parameter: '$pool_id'");
