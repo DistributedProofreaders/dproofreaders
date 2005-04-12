@@ -59,11 +59,11 @@ echo "<tr>\n";
 echo "<th>Title</th>\n";
 echo "<th>State</th>\n";
 echo "<th>Pages</th>\n";
-foreach ($rounds as $round)
+foreach ($rounds as $which_round)
 {
 	foreach ($done_left as $dl)
 	{
-		echo "<th bgcolor='#{$bgcolor[$round][$dl]}'>$dl</th>\n";
+		echo "<th bgcolor='#{$bgcolor[$which_round][$dl]}'>$dl</th>\n";
 	}
 }
 
@@ -169,15 +169,15 @@ for ( $year = 1950; $year < 1978; $year ++ )
 	echo "<td>$nameofwork</td>\n";
 	echo "<td>$state_str</td>\n";
 	echo "<td align='right'>$n_pages</td>\n";
-	foreach ( $rounds as $round )
+	foreach ( $rounds as $which_round )
 	{
 		foreach ( $done_left as $dl )
 		{
-			echo "<td align='right' bgcolor='#{$bgcolor[$round][$dl]}'>";
-			echo $n_proofings[$round][$dl];
+			echo "<td align='right' bgcolor='#{$bgcolor[$which_round][$dl]}'>";
+			echo $n_proofings[$which_round][$dl];
 			echo "</td>\n";
 
-			$n_proofings_total[$round][$dl] += $n_proofings[$round][$dl];
+			$n_proofings_total[$which_round][$dl] += $n_proofings[$which_round][$dl];
 		}
 	}
 	echo "<td>\n";
@@ -196,12 +196,12 @@ echo "<tr>\n";
 echo "<th>-</th>\n";
 echo "<th>-</th>\n";
 echo "<th align='right'>$n_pages_total</th>\n";
-foreach ( $rounds as $round )
+foreach ( $rounds as $which_round )
 {
 	foreach ( $done_left as $dl )
 	{
-		echo "<th align='right' bgcolor='#{$bgcolor[$round][$dl]}'>\n";
-		echo $n_proofings_total[$round][$dl];
+		echo "<th align='right' bgcolor='#{$bgcolor[$which_round][$dl]}'>\n";
+		echo $n_proofings_total[$which_round][$dl];
 		echo "</td>\n";
 	}
 }
