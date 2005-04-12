@@ -24,7 +24,7 @@ if ( $pool_id == 'PP' )
     $available_proj_state = PROJ_POST_FIRST_AVAILABLE;
     $checkedout_order_setting_name = 'ChPPorder';
     $available_order_setting_name = 'PPorder';
-    $available_filtertype_stem = 'avail_PP';
+    $available_filtertype_stem = 'PP_av';
     $user_is_allowed_fn = 'user_is_PP';
 
     $blather = array(
@@ -52,7 +52,7 @@ elseif ( $pool_id == 'PPV' )
     $available_proj_state = PROJ_POST_SECOND_AVAILABLE;
     $checkedout_order_setting_name = 'ChPPVorder';
     $available_order_setting_name = 'PPVorder';
-    $available_filtertype_stem = 'avail_PPV';
+    $available_filtertype_stem = 'PPV_av';
     $user_is_allowed_fn = 'user_is_post_proof_verifier';
 
     $blather = array(

@@ -32,6 +32,24 @@ mysql_query("
 ") or die(mysql_error());
 echo mysql_affected_rows(), " rows affected\n";
 
+// Handle rationalization of filtertypes for pool-related filters.
+
+echo "Pool-related filters...\n";
+$old_to_new = array(
+	'avail_PP_'   => 'PP_av_',
+	'avail_PPV_'  => 'PPV_av_',
+);
+foreach( $old_to_new as $old_stem => $new_stem )
+{
+	echo "Changing '$old_stem' to '$new_stem'...\n";
+	mysql_query("
+		UPDATE user_filters
+		SET filtertype = REPLACE( filtertype, '$old_stem', '$new_stem' )
+		WHERE filtertype LIKE '$old_stem%'
+	") or die(mysql_error());
+	echo mysql_affected_rows(), " rows affected\n";
+}
+
 echo "done.\n";
 echo "</pre>\n";
 ?>
