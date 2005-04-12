@@ -3,13 +3,19 @@ $relPath = './pinc/';
 include_once($relPath.'connect.inc');
 new dbConnect();
 
-// Change R1+R2 to P1+P2
 
 echo "<pre>\n";
 
 $old_to_new = array(
+	// Change R1+R2 to P1+P2
 	'R1order'    => 'P1order',
 	'R2order'    => 'P2order',
+
+	// Rationalize setting names for pool-related sort orders.
+	'ChPPorder'  => 'PP_ch_order',
+	'PPorder'    => 'PP_av_order',
+	'ChPPVorder' => 'PPV_ch_order',
+	'PPVorder'   => 'PPV_av_order',
 );
 
 foreach ( $old_to_new as $old => $new )
