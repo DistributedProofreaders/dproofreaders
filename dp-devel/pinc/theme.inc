@@ -345,8 +345,7 @@ function show_quick_links()
 
 	if (user_is_PM())
 	{
-		$links['tools/project_manager/projectmgr.php'] =
-			_('Manage Projects');
+		$links[] = array('tools/project_manager/projectmgr.php','PM',_('Manage Projects'));
 	}
 
 	// _('Providing Content')
@@ -355,33 +354,29 @@ function show_quick_links()
 	{
 		if (user_is_a_sitemanager())
 		{
-			$links['tools/site_admin/proj_approvals.php'] =
-				_('Clearance Approvals');
+			$links[] = array('tools/site_admin/proj_approvals.php','CA',_('Clearance Approvals'));
 		}
 
-		$links['tools/proofers/md_available.php'] =
-			_('Metadata Collection');
+		$links[] = array('tools/proofers/md_available.php','MD',_('Metadata Collection'));
 	}
 
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
 		$prd = get_PRD_for_round($rn);
-		$links["tools/proofers/round.php?round_id={$prd->round_id}"] =
-			$prd->round_id;
+		$links[] = array("tools/proofers/round.php?round_id={$prd->round_id}",$prd->round_id,$prd->round_name);
 	}
 
 	if (user_is_PP())
 	{
-		$links['tools/pool.php?pool_id=PP'] = 'PP';
+		$links[] = array('tools/pool.php?pool_id=PP','PP',_('Post-Processing'));
 	}
 
 	if (user_is_post_proof_verifier())
 	{
-		$links['tools/pool.php?pool_id=PPV'] = 'PPV';
+		$links[] = array('tools/pool.php?pool_id=PPV','PPV',_('Post-Processing Verification'));
 	}
 
-	$links['tools/post_proofers/smooth_reading.php'] =
-		_('Smooth Reading');
+	$links[] = array('tools/post_proofers/smooth_reading.php','SR',_('Smooth Reading'));
 
 	if ( count($links) > 0 )
 	{
@@ -389,26 +384,23 @@ function show_quick_links()
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;";
 
 		$i = 0;
-		foreach( $links as $rel_url => $link_text )
+		while ( list($i, list($rel_url, $text, $title)) = each($links) )
 		{
+
 			$i++;
 			if ($i > 1) echo ' | ';
-
-			$link_text = str_replace( ' ', '&nbsp;', $link_text );
-			// Otherwise the link could be split across a
-			// line-break, which makes it harder to recognize.
 
 			$rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
 			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
 			{
 				// We're at that page; no point to link to it.
-				echo $link_text;
+				echo "<span title='$title'>$text</span>";
 			}
 			else
 			{
-				echo "<a href='$code_url/$rel_url'>$link_text</a>";
-			}
-		}
+        echo "<a href='$code_url/$rel_url' title='$title'>$text</a>";
+      }
+ 		}
 
 		echo "</font>";
 		echo "</center>\n";
