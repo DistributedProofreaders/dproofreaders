@@ -81,7 +81,7 @@ if (!$logged_in OR !$locuserSettings->get_boolean('hide_special_colors'))
 // read saved sort orders from user_settings table;
 // there won't be any for non-logged in visitors
 
-$setting = 'orderSR';
+$setting = 'SR_order';
 
 if (!$logged_in) {
         $order_old = 'DaysA';
