@@ -20,14 +20,16 @@ $someone_maintains_the_PP_faq =
         'juliebarkley',
         "$code_url/faq/post_proof.php" );
 
+$pool = new StdClass;
+
 if ( $pool_id == 'PP' )
 {
-    $pool_name = _('Post-Processing');
-    $checkedout_proj_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $available_proj_state = PROJ_POST_FIRST_AVAILABLE;
-    $user_is_allowed_fn = 'user_is_PP';
+    $pool->name = _('Post-Processing');
+    $pool->checkedout_proj_state = PROJ_POST_FIRST_CHECKED_OUT;
+    $pool->available_proj_state = PROJ_POST_FIRST_AVAILABLE;
+    $pool->user_is_allowed_fn = 'user_is_PP';
 
-    $blather = array(
+    $pool->blather = array(
         "<p>",
         _("The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text."),
         _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
@@ -47,12 +49,12 @@ if ( $pool_id == 'PP' )
 }
 elseif ( $pool_id == 'PPV' )
 {
-    $pool_name = _('Post-Processing Verification');
-    $checkedout_proj_state = PROJ_POST_SECOND_CHECKED_OUT;
-    $available_proj_state = PROJ_POST_SECOND_AVAILABLE;
-    $user_is_allowed_fn = 'user_is_post_proof_verifier';
+    $pool->name = _('Post-Processing Verification');
+    $pool->checkedout_proj_state = PROJ_POST_SECOND_CHECKED_OUT;
+    $pool->available_proj_state = PROJ_POST_SECOND_AVAILABLE;
+    $pool->user_is_allowed_fn = 'user_is_post_proof_verifier';
 
-    $blather = array(
+    $pool->blather = array(
         "<p>",
         _("As an experienced volunteer, you have access to do verification of texts that have been Post Processed already, if you wish."),
         "<font color='red' size=4>",
@@ -71,12 +73,12 @@ elseif ( $pool_id == 'PPV' )
 }
 elseif ( $pool_id == 'CR' )
 {
-    $pool_name = _('Corrections Review');
-    $checkedout_proj_state = PROJ_CORRECT_CHECKED_OUT;
-    $available_proj_state = PROJ_CORRECT_AVAILABLE;
-    $user_is_allowed_fn = 'user_is_PP';
+    $pool->name = _('Corrections Review');
+    $pool->checkedout_proj_state = PROJ_CORRECT_CHECKED_OUT;
+    $pool->available_proj_state = PROJ_CORRECT_AVAILABLE;
+    $pool->user_is_allowed_fn = 'user_is_PP';
 
-    $blather = array(
+    $pool->blather = array(
         "<p>",
         _("The books listed below have already been posted to Project Gutenberg, but a reader has found errors and submitted a corrected text."),
         _("We need you to review the corrections to see if they're valid."),
@@ -90,20 +92,23 @@ else
     die("bad 'pool_id' parameter: '$pool_id'");
 }
 
-$checkedout_order_setting_name = "{$pool_id}_ch_order";
-$available_order_setting_name = "{$pool_id}_av_order";
-$available_filtertype_stem = "{$pool_id}_av";
+$pool->id = $pool_id;
+
+$checkedout_order_setting_name = "{$pool->id}_ch_order";
+$available_order_setting_name = "{$pool->id}_av_order";
+$available_filtertype_stem = "{$pool->id}_av";
 
 // -----------------------------------------------------------------------------
 
-theme($pool_name, "header");
+theme($pool->name, "header");
 
-echo "<h1 align='center'>$pool_id: $pool_name</h1>";
+echo "<h1 align='center'>{$pool->id}: {$pool->name}</h1>";
 
 global $pguser;
 $userSettings = Settings::get_Settings($pguser);
 
-if (!$user_is_allowed_fn())
+$fn = $pool->user_is_allowed_fn;
+if (!$fn())
 {
     echo _("You're not allowed to work in this pool. If you feel this is an error, please contact the site administration.");
     exit();
@@ -111,12 +116,12 @@ if (!$user_is_allowed_fn())
 
 
 
-show_site_news_for_page("pool.php?pool_id=$pool_id");
-random_news_item_for_page("pool.php?pool_id=$pool_id");
+show_site_news_for_page("pool.php?pool_id={$pool->id}");
+random_news_item_for_page("pool.php?pool_id={$pool->id}");
 
 
 echo "<br>\n";
-echo implode( "\n", $blather );
+echo implode( "\n", $pool->blather );
 
 echo "
 <br>
@@ -157,7 +162,7 @@ echo "<h2 align='center'>$header</h2>";
 
 echo "<a name='checkedout'></a>\n";
 show_projects_in_state_plus(
-    $checkedout_proj_state,
+    $pool->checkedout_proj_state,
     " ",
     $checkedout_order_setting_name,
     'order_checkedout'
@@ -173,8 +178,8 @@ $header = _('Books Available for Checkout');
 echo "<h2 align='center'>$header</h2>";
 
 // -------
-$label = $pool_name;
-$state_sql = " (state = '$available_proj_state') ";
+$label = $pool->name;
+$state_sql = " (state = '{$pool->available_proj_state}') ";
 $filtertype_stem = $available_filtertype_stem;
 include($relPath.'filter_project_list.inc');
 if (!isset($RFilter)) { $RFilter = ""; }
@@ -183,7 +188,7 @@ if (!isset($RFilter)) { $RFilter = ""; }
 echo "<a name='available'></a>\n";
 echo "<center><b>$header</b></center>";
 show_projects_in_state_plus(
-    $available_proj_state,
+    $pool->available_proj_state,
     $RFilter,
     $available_order_setting_name,
     'order_available'
