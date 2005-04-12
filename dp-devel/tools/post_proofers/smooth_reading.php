@@ -81,13 +81,15 @@ if (!$logged_in OR !$locuserSettings->get_boolean('hide_special_colors'))
 // read saved sort orders from user_settings table;
 // there won't be any for non-logged in visitors
 
+$setting = 'orderSR';
+
 if (!$logged_in) {
         $order_old = 'DaysA';
 } else {
     $result = mysql_query("
         SELECT value
         FROM usersettings
-        WHERE username = '$pguser' AND setting = 'orderSR'
+        WHERE username = '$pguser' AND setting = '$setting'
     ");
     if (mysql_num_rows($result) >= 1)  {
         $order_old = mysql_result($result, 0, "value");
@@ -106,7 +108,7 @@ if ($logged_in AND ($order_new != $order_old))
 {
         $result = mysql_query("
                 DELETE FROM usersettings
-                WHERE username = '$pguser' AND setting = 'orderSR'
+                WHERE username = '$pguser' AND setting = '$setting'
         ");
         $result = mysql_query("
                 INSERT INTO usersettings
