@@ -473,11 +473,11 @@ function show_projects_in_state_plus(
 
         if ($rownum % 2) 
         {
-            $bgcolor = " bgcolor='$bgcolor_odd'";
+            $bgcolor_attr = " bgcolor='$bgcolor_odd'";
         }
         else 
         {
-            $bgcolor = " bgcolor='$bgcolor_even'";
+            $bgcolor_attr = " bgcolor='$bgcolor_even'";
         }
 
         // Special colours for special books of various types
@@ -486,7 +486,7 @@ function show_projects_in_state_plus(
             $special_color = get_special_color_for_project($book);
             if (!is_null($special_color))
             {
-                $bgcolor = " bgcolor='$special_color'";
+                $bgcolor_attr = " bgcolor='$special_color'";
             }
         }
 
@@ -512,9 +512,9 @@ function show_projects_in_state_plus(
         }
 
         $url = "$code_url/tools/post_proofers/post_comments.php?project={$book['projectid']}";
-        echo "\n<td $bgcolor><a href='$url'>". $book['nameofwork']. "</a></td>";
-        echo "\n<td $bgcolor> ". $book['authorsname']. " </td>";
-        echo "\n<td $bgcolor align=center> ". $book['language']. " </td>";
+        echo "\n<td $bgcolor_attr><a href='$url'>". $book['nameofwork']. "</a></td>";
+        echo "\n<td $bgcolor_attr> ". $book['authorsname']. " </td>";
+        echo "\n<td $bgcolor_attr align=center> ". $book['language']. " </td>";
 
         if ($book['difficulty'] == "easy")
         {
@@ -529,10 +529,10 @@ function show_projects_in_state_plus(
             $genre = $book['genre'];
         }
 
-        echo "\n<td $bgcolor align=center>$genre</td>";
-        echo "\n<td $bgcolor align=center> ". $book['total_pages']. " </td>";
-        echo "\n<td $bgcolor align=center>$foo_cell</td>";
-        echo "\n<td $bgcolor align=center> ". $book['days_avail']. " </td>";
+        echo "\n<td $bgcolor_attr align=center>$genre</td>";
+        echo "\n<td $bgcolor_attr align=center> ". $book['total_pages']. " </td>";
+        echo "\n<td $bgcolor_attr align=center>$foo_cell</td>";
+        echo "\n<td $bgcolor_attr align=center> ". $book['days_avail']. " </td>";
 
         echo "</tr>\n";
     }
