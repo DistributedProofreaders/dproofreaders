@@ -7,11 +7,13 @@ new dbConnect();
 
 echo "<pre>\n";
 
-for ( $rn = 1; $rn <= 2; $rn++ )
-{
-	$old = "R{$rn}order";
-	$new = "P{$rn}order";
+$old_to_new = array(
+	'R1order'    => 'P1order',
+	'R2order'    => 'P2order',
+);
 
+foreach ( $old_to_new as $old => $new )
+{
 	echo "In 'setting' column, changing $old to $new ...\n";
 
 	mysql_query("
@@ -19,6 +21,7 @@ for ( $rn = 1; $rn <= 2; $rn++ )
 		SET setting='$new'
 		WHERE setting='$old'
 	") or die(mysql_error());
+	echo "    ", mysql_affected_rows(), " rows affected.\n";
 }
 
 echo "done.\n";
