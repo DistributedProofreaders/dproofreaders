@@ -22,9 +22,6 @@ if ( $pool_id == 'PP' )
     $pool_name = _('Post-Processing');
     $checkedout_proj_state = PROJ_POST_FIRST_CHECKED_OUT;
     $available_proj_state = PROJ_POST_FIRST_AVAILABLE;
-    $checkedout_order_setting_name = 'PP_ch_order';
-    $available_order_setting_name = 'PP_av_order';
-    $available_filtertype_stem = 'PP_av';
     $user_is_allowed_fn = 'user_is_PP';
 
     $blather = array(
@@ -50,9 +47,6 @@ elseif ( $pool_id == 'PPV' )
     $pool_name = _('Post-Processing Verification');
     $checkedout_proj_state = PROJ_POST_SECOND_CHECKED_OUT;
     $available_proj_state = PROJ_POST_SECOND_AVAILABLE;
-    $checkedout_order_setting_name = 'PPV_ch_order';
-    $available_order_setting_name = 'PPV_av_order';
-    $available_filtertype_stem = 'PPV_av';
     $user_is_allowed_fn = 'user_is_post_proof_verifier';
 
     $blather = array(
@@ -76,6 +70,10 @@ else
 {
     die("bad 'pool_id' parameter: '$pool_id'");
 }
+
+$checkedout_order_setting_name = "{$pool_id}_ch_order";
+$available_order_setting_name = "{$pool_id}_av_order";
+$available_filtertype_stem = "{$pool_id}_av";
 
 // -----------------------------------------------------------------------------
 
