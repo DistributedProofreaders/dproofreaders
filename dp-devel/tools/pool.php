@@ -248,7 +248,7 @@ function show_projects_in_state_plus(
 
 // -----------------------------------------------------------------------------
 
-function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = 'DaysD')
+function show_projects_in_state($proj_state,$table=1, $RFilter = ' ', $new_order = 'DaysD')
 {
     global $pguser, $code_url, $pageCountArray;
 
@@ -262,11 +262,11 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
 
     $theme = $GLOBALS['theme'];
     $bgcolor = $theme['color_headerbar_bg'];
-    if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
+    if ($proj_state==PROJ_POST_FIRST_AVAILABLE || $proj_state==PROJ_POST_FIRST_CHECKED_OUT)
     {
         $foo_Header = _("Manager");
         $foo_field_name = 'username';
-        if ($state==PROJ_POST_FIRST_CHECKED_OUT)
+        if ($proj_state==PROJ_POST_FIRST_CHECKED_OUT)
         {
             $linkbase = "<a href=pool.php?pool_id=PP&order_checkedout=";
             $linkend  = '#checkedout>';
@@ -279,12 +279,12 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
         $bgcolor_odd = $theme['color_mainbody_bg'];
         $bgcolor_even = $theme['color_navbar_bg'];
     }
-    elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
+    elseif ($proj_state==PROJ_POST_SECOND_AVAILABLE || $proj_state==PROJ_POST_SECOND_CHECKED_OUT)
     {
         $bgcolor = '#66ccff';
         $foo_Header = _("Post Processor");
         $foo_field_name = 'postproofer';
-        if ($state==PROJ_POST_SECOND_CHECKED_OUT)
+        if ($proj_state==PROJ_POST_SECOND_CHECKED_OUT)
         {
             $linkbase = "<a href=pool.php?pool_id=PPV&order_checkedout=";
             $linkend  = '#checkedout>';
@@ -297,7 +297,7 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
         $bgcolor_odd = '#EAF7F7'; // "paledarkskyblue"
         $bgcolor_even = '#99FFFF'; // "harshflourolightblue"
     }
-    elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
+    elseif ($proj_state==PROJ_CORRECT_AVAILABLE || $proj_state==PROJ_CORRECT_CHECKED_OUT)
     {
         $foo_Header = _("Editor");
         $foo_field_name = 'correctedby';
@@ -314,74 +314,74 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
     }
 
 
-    if ( $order == 'TitleA' )
+    if ( $new_order == 'TitleA' )
     {
         $orderclause = 'nameofwork ASC';
         $flip_title = TRUE;
     }
-    elseif ( $order == 'TitleD' )
+    elseif ( $new_order == 'TitleD' )
     {
         $orderclause = 'nameofwork DESC';
     }
-    elseif ( $order == 'AuthorA' )
+    elseif ( $new_order == 'AuthorA' )
     {
         $orderclause = 'authorsname ASC, nameofwork ASC';
         $flip_author = TRUE;
     }
-    elseif ( $order == 'AuthorD' )
+    elseif ( $new_order == 'AuthorD' )
     {
         $orderclause = 'authorsname DESC, nameofwork ASC';
     }
-    elseif ( $order == 'LangA' )
+    elseif ( $new_order == 'LangA' )
     {
         $orderclause = 'language ASC, nameofwork ASC';
         $flip_lang = TRUE;
     }
-    elseif ( $order == 'LangD' )
+    elseif ( $new_order == 'LangD' )
     {
         $orderclause = 'language DESC, nameofwork ASC';
     }
-    elseif ( $order == 'GenreA' )
+    elseif ( $new_order == 'GenreA' )
     {
         $orderclause = 'genre ASC, nameofwork ASC';
         $flip_genre = TRUE;
     }
-    elseif ( $order == 'GenreD' )
+    elseif ( $new_order == 'GenreD' )
     {
         $orderclause = 'genre DESC, nameofwork ASC';
     }
-    elseif ( $order == 'PgTotA' )
+    elseif ( $new_order == 'PgTotA' )
     {
         $orderclause = 'total_pages ASC, nameofwork ASC';
         $flip_PgTot = TRUE;
     }
-    elseif ( $order == 'PgTotD' )
+    elseif ( $new_order == 'PgTotD' )
     {
         $orderclause = 'total_pages DESC, nameofwork ASC';
     }
-    elseif ( $order == 'PersonA' )
+    elseif ( $new_order == 'PersonA' )
     {
         $orderclause = "$foo_field_name ASC, nameofwork ASC";
         $flip_Person = TRUE;
     }
-    elseif ( $order == 'PersonD' )
+    elseif ( $new_order == 'PersonD' )
     {
         $orderclause = "$foo_field_name DESC, nameofwork ASC";
     }
     
     // note that we SHOW "days since M", but *order* by M, so the logic is flipped
-    elseif ( $order == 'DaysA' )
+    elseif ( $new_order == 'DaysA' )
     {
         $orderclause = 'modifieddate DESC, nameofwork ASC';
         $flip_days = TRUE;
     }
-    elseif ( $order == 'DaysD' )
+    elseif ( $new_order == 'DaysD' )
     {
         $orderclause = 'modifieddate ASC, nameofwork ASC';
     }
     else
     {
-        echo "show_projects_in_state.inc: bad order value: '$order'";
+        echo "show_projects_in_state.inc: bad order value: '$new_order'";
         exit;
     }
 
@@ -405,13 +405,13 @@ function show_projects_in_state($state,$table=1, $where_filter = ' ', $order = '
             comments
         FROM projects
             LEFT OUTER JOIN page_counts USING (projectid)
-        WHERE state='$state'
-            $where_filter 
+        WHERE state='$proj_state'
+            $RFilter 
     ";
     if (
-        $state == PROJ_POST_FIRST_CHECKED_OUT ||
-        $state == PROJ_POST_SECOND_CHECKED_OUT ||
-        $state == PROJ_CORRECT_CHECKED_OUT
+        $proj_state == PROJ_POST_FIRST_CHECKED_OUT ||
+        $proj_state == PROJ_POST_SECOND_CHECKED_OUT ||
+        $proj_state == PROJ_CORRECT_CHECKED_OUT
     )
     {
         // The project must be checked-out to somebody.
