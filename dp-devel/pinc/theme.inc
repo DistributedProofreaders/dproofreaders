@@ -42,7 +42,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 	if (!isset($GLOBALS['no_stats'])) {
 		if ($statsbar_align == 1) {
 			if ($location == "header") {
-				html_header($nameofpage);
+				html_header($nameofpage, $extra_args);
 				html_logobar($nameofpage);
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
