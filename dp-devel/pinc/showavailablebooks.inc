@@ -10,9 +10,9 @@ function show_block_for_round( $round_number, $projects_filter )
 {
 	global $pguser, $userP;
 
-	$prd = get_PRD_for_round($round_number);
+	$round = get_Round_for_round_number($round_number);
 
-	$setting = "{$prd->round_id}_order";
+	$setting = "{$round->round_id}_order";
 
 	// read saved sort orders from user_settings table 
 	$result = mysql_query("
@@ -30,7 +30,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 
 	// read new sort order from url, if any
-	$url_param = "order{$prd->round_id}";
+	$url_param = "order{$round->round_id}";
 	$order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
 
 	// if orders have changed, save them to database
@@ -46,14 +46,14 @@ function show_block_for_round( $round_number, $projects_filter )
 		");
 	}
 
-	echo "\n<a name='{$prd->round_id}'></a>";
+	echo "\n<a name='{$round->round_id}'></a>";
 	echo "\r\n<table border=1>";
-	echo "\r\n<tr bgcolor='{$prd->listing_bgcolors[1]}'>";
+	echo "\r\n<tr bgcolor='{$round->listing_bgcolors[1]}'>";
 
 	$title = _('Projects Currently Available');
 	echo "\n<td colspan=2><h3>$title</h3></td>";
 
-	list($can_access,$minima_table,$sentences) = $prd->user_access( $pguser );
+	list($can_access,$minima_table,$sentences) = $round->user_access( $pguser );
 	if ( !$can_access )
 	{
 		// skip $minima_table for now?
@@ -63,22 +63,22 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 	else
 	{
-		echo "\n<td colspan=6>{$prd->description}</td>";
+		echo "\n<td colspan=6>{$round->description}</td>";
 		echo "</tr>";
 
-		if (! user_can_see_BEGIN_in_round($prd->round_number))
+		if (! user_can_see_BEGIN_in_round($round->round_number))
 		{
 			$projects_filter .= " AND difficulty != 'beginner' ";
 		}
 
-		show_books_available_for_proofing( $prd, $userP, $projects_filter, $order_new );
+		show_books_available_for_proofing( $round, $userP, $projects_filter, $order_new );
 	}
 	echo "</table>\n<br>";
 }
 
 // -----------------------------------------------------------------------------
 
-function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $order = "DaysD" )
+function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
 {
 
 	$flip_title = FALSE;
@@ -184,7 +184,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	$query = "
 		SELECT projectid
 		FROM projects
-		WHERE state = '{$prd->project_available_state}'
+		WHERE state = '{$round->project_available_state}'
 	";
 
 	$result = mysql_query($query);
@@ -203,7 +203,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 
 
-	$order_param = "order{$prd->round_id}";
+	$order_param = "order{$round->round_id}";
 
 	// The originating request may have query-string settings (other than
 	// for $order_param). We should preserve those, and just append the
@@ -218,7 +218,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	}
 
 	$linkbase = "<a href='?{$other_settings}{$order_param}=";
-	$linkend = "#{$prd->round_id}'";
+	$linkend = "#{$round->round_id}'";
 
 	// Always put the BEGIN projects at the top.
 	$query = "
@@ -228,7 +228,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 		FROM projects, page_counts
 		WHERE
 			projects.projectid = page_counts.projectid
-		       	AND (state = '{$prd->project_available_state}')
+		       	AND (state = '{$round->project_available_state}')
 			$where_filter
 		ORDER BY
 			is_beginner DESC,
@@ -236,7 +236,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 	";
 	$result = mysql_query($query);
 
-	echo "<tr align=center bgcolor='{$prd->listing_bgcolors[1]}'>";
+	echo "<tr align=center bgcolor='{$round->listing_bgcolors[1]}'>";
 
 	$word = _("Title");
  	$link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
@@ -288,7 +288,7 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 
 	while ($rownum2 < $numrows) {
 		$book=mysql_fetch_assoc($result);
-		$bgcolor = $prd->listing_bgcolors[$rownum % 2];
+		$bgcolor = $round->listing_bgcolors[$rownum % 2];
 
 		// Special colours for special books of various types
 		if ($show_special_colors)
@@ -315,9 +315,9 @@ function show_books_available_for_proofing( $prd, $userP, $where_filter = " ", $
 			echo "\n<td>{$book['language']}</td>";
 			if ($book['difficulty'] == "beginner")
 			{
-				if  ($prd->round_number == 1)
+				if  ($round->round_number == 1)
 					$genre = _("BEGINNERS ONLY")." ".$book['genre'];
-				else if ($prd->round_number == 2)
+				else if ($round->round_number == 2)
 					$genre = _("MENTORS ONLY")." ".$book['genre'];
 				else
 					$genre = $book['genre'];

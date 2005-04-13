@@ -7,13 +7,13 @@ new dbConnect();
 $items_for_rounds = "";
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
-    $prd = get_PRD_for_round($rn);
+    $round = get_Round_for_round_number($rn);
     $items_for_rounds .= "
-        {$prd->time_column_name}   int( 20 )     NOT NULL default '0',
-        {$prd->user_column_name}   varchar( 25 ) NOT NULL default '',
-        {$prd->text_column_name}   longtext      NOT NULL,
-        KEY {$prd->time_column_name} ( {$prd->time_column_name} ),
-        KEY {$prd->user_column_name} ( {$prd->user_column_name} ),
+        {$round->time_column_name}   int( 20 )     NOT NULL default '0',
+        {$round->user_column_name}   varchar( 25 ) NOT NULL default '',
+        {$round->text_column_name}   longtext      NOT NULL,
+        KEY {$round->time_column_name} ( {$round->time_column_name} ),
+        KEY {$round->user_column_name} ( {$round->user_column_name} ),
     ";
 }
 

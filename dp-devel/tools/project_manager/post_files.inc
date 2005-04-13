@@ -314,12 +314,12 @@ function page_info_query( $projectid )
     $user_fields = "";
     for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
-        $prd = get_PRD_for_round($rn);
-        $user_fields .= ", {$prd->user_column_name}";
+        $round = get_Round_for_round_number($rn);
+        $user_fields .= ", {$round->user_column_name}";
 
         if ( $rn == MAX_NUM_PAGE_EDITING_ROUNDS )
         {
-            $final_text_column_name = $prd->text_column_name;
+            $final_text_column_name = $round->text_column_name;
         }
     }
     $res = mysql_query("

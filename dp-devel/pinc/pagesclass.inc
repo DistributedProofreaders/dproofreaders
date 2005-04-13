@@ -338,8 +338,8 @@ class Page
 
     function Load()
     {
-        $prd = get_PRD_for_round(1);
-        $state = $prd->page_avail_state;
+        $round = get_Round_for_round_number(1);
+        $state = $round->page_avail_state;
 
         echo "Adding page for ($this->pagerow->pageCode\n";
         $sql = "

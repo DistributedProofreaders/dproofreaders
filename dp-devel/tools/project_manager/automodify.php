@@ -22,7 +22,7 @@ $trace = FALSE;
 
 // -----------------------------------------------------------------------------
 
-function pages_indicate_bad_project( $projectid, $prd )
+function pages_indicate_bad_project( $projectid, $round )
 // Do the states of the project's pages (in the given round)
 // indicate that the project is bad?
 {
@@ -31,7 +31,7 @@ function pages_indicate_bad_project( $projectid, $prd )
     // If it has no bad pages, it's good.
     //
     $n_bad_pages = mysql_result(mysql_query("
-        SELECT COUNT(*) FROM $projectid WHERE state = '$prd->page_bad_state'
+        SELECT COUNT(*) FROM $projectid WHERE state = '$round->page_bad_state'
         "),0);
     if ($trace) echo "n_bad_pages = $n_bad_pages\n";
     //
@@ -42,7 +42,7 @@ function pages_indicate_bad_project( $projectid, $prd )
     // reported by at least 3 different users, it's bad.
     //
     $n_unique_reporters = mysql_result(mysql_query("
-        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$prd->page_bad_state'
+        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$round->page_bad_state'
         "),0);
     if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
     //
@@ -52,10 +52,10 @@ function pages_indicate_bad_project( $projectid, $prd )
     // In round 2, if it has any bad pages
     // and no available pages, it's bad.
     //
-    if ($prd->round_number == 2)
+    if ($round->round_number == 2)
     {
         $n_avail_pages = mysql_result(mysql_query("
-            SELECT COUNT(*) FROM $projectid WHERE state = '$prd->page_avail_state'
+            SELECT COUNT(*) FROM $projectid WHERE state = '$round->page_avail_state'
             "),0);
         if ($trace) echo "n_avail_pages = $n_avail_pages\n";
         if ($n_avail_pages == 0) return TRUE;
@@ -109,11 +109,11 @@ if ($one_project) {
     $condition = "0";
     for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
-        $prd = get_PRD_for_round($rn);
+        $round = get_Round_for_round_number($rn);
         $condition .= "
-            OR state = '{$prd->project_available_state}'
-            OR state = '{$prd->project_complete_state}'
-            OR state = '{$prd->project_bad_state}'
+            OR state = '{$round->project_available_state}'
+            OR state = '{$round->project_complete_state}'
+            OR state = '{$round->project_bad_state}'
         ";
     }
 
@@ -144,8 +144,8 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     }
 
     // Decide which round the project is in
-    $prd = get_PRD_for_project_state($state);
-    if ( is_null($prd) )
+    $round = get_Round_for_project_state($state);
+    if ( is_null($round) )
     {
         echo "    automodify.php: unexpected state $state for project $projectid\n";
         continue;
@@ -153,21 +153,21 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     //Bad Page Error Check
     {
-        if ( ($state == $prd->project_available_state) || ($state == $prd->project_bad_state) )
+        if ( ($state == $round->project_available_state) || ($state == $round->project_bad_state) )
         {
-            if ( pages_indicate_bad_project( $projectid, $prd ) )
+            if ( pages_indicate_bad_project( $projectid, $round ) )
             {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
                 if ($trace) echo "project looks bad.\n";
-                $appropriate_state = $prd->project_bad_state;
+                $appropriate_state = $round->project_bad_state;
             }
             else
             {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
                 if ($trace) echo "project looks okay.\n";
-                $appropriate_state = $prd->project_available_state;
+                $appropriate_state = $round->project_available_state;
             }
 
             if ($state != $appropriate_state)
@@ -185,8 +185,8 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
     if (
         ($one_project) ||
-        (($state == $prd->project_available_state) &&
-           (Project_getNumPagesInState($projectid, $prd->page_avail_state) == 0))
+        (($state == $round->project_available_state) &&
+           (Project_getNumPagesInState($projectid, $round->page_avail_state) == 0))
     )
     {
 
@@ -198,10 +198,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA pages
 
-        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$prd->page_out_state' ORDER BY image ASC");
+        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$round->page_out_state' ORDER BY image ASC");
         if ($outtable != "") { $numoutrows = (mysql_num_rows($outtable)); } else $numoutrows = 0;
 
-        if ($verbose) echo "        examining $numoutrows pages in '$prd->page_out_state'\n";
+        if ($verbose) echo "        examining $numoutrows pages in '$round->page_out_state'\n";
 
         $n_reclaimed = 0;
         $page_num = 0;
@@ -210,12 +210,12 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         while ($page_num < $numoutrows) {
 
             $fileid = mysql_result($outtable, $page_num, "fileid");
-            $timestamp = mysql_result($outtable, $page_num, $prd->time_column_name);
+            $timestamp = mysql_result($outtable, $page_num, $round->time_column_name);
 
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                Page_reclaim( $projectid, $fileid, $prd->round_number );
+                Page_reclaim( $projectid, $fileid, $round->round_number );
                 $n_reclaimed++;
             }
             $page_num++;
@@ -226,10 +226,10 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA temp pages
 
-        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$prd->page_temp_state' ORDER BY image ASC");
+        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$round->page_temp_state' ORDER BY image ASC");
         if ($temptable != "") { $numtemprows = (mysql_num_rows($temptable)); } else $numtemprows = 0;
 
-        if ($verbose) echo "        examining $numtemprows pages in '$prd->page_temp_state'\n";
+        if ($verbose) echo "        examining $numtemprows pages in '$round->page_temp_state'\n";
 
         $n_reclaimed = 0;
         $page_num2 = 0;
@@ -237,12 +237,12 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         while ($page_num2 < $numtemprows) {
 
             $fileid = mysql_result($temptable, $page_num2, "fileid");
-            $timestamp = mysql_result($temptable, $page_num2, $prd->time_column_name);
+            $timestamp = mysql_result($temptable, $page_num2, $round->time_column_name);
 
             if ($timestamp == "") $timestamp = $dietime;
 
             if ($timestamp <= $dietime) {
-                Page_reclaim( $projectid, $fileid, $prd->round_number );
+                Page_reclaim( $projectid, $fileid, $round->round_number );
                 $n_reclaimed++;
             }
             $page_num2++;
@@ -252,20 +252,20 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
 
         // Decide whether the project is finished its current round.
-        if ( $state == $prd->project_available_state )
+        if ( $state == $round->project_available_state )
         {
-            $num_done_pages  = Project_getNumPagesInState($projectid, $prd->page_save_state);
+            $num_done_pages  = Project_getNumPagesInState($projectid, $round->page_save_state);
             $num_total_pages = Project_getNumPages($projectid);
 
             if ($num_done_pages == $num_total_pages)
             {
-                if ($verbose) echo "    All $num_total_pages pages are in '$prd->page_save_state'.\n";
-                $state = $prd->project_complete_state;
+                if ($verbose) echo "    All $num_total_pages pages are in '$round->page_save_state'.\n";
+                $state = $round->project_complete_state;
             }
             else
             {
-                if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$prd->page_save_state'.\n";
-                $state = $prd->project_available_state;
+                if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$round->page_save_state'.\n";
+                $state = $round->project_available_state;
             }
         }
 
@@ -286,20 +286,20 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
 
     // Promote Level
-    if ($state == $prd->project_complete_state
-        && $prd->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
+    if ($state == $round->project_complete_state
+        && $round->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
     {
-        $next_prd = get_PRD_for_round( 1 + $prd->round_number );
+        $next_round = get_Round_for_round_number( 1 + $round->round_number );
 
         project_update_page_counts( $projectid );
 
         if ( hold_project_between_rounds( $project ) )
         {
-            $next_round_state = $next_prd->project_unavailable_state;
+            $next_round_state = $next_round->project_unavailable_state;
         }
         else
         {
-            $next_round_state = $next_prd->project_waiting_state;
+            $next_round_state = $next_round->project_waiting_state;
         }
 
         if ($verbose)
@@ -315,20 +315,20 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             continue;
         }
 
-        Pages_prepForRound( $projectid, $next_prd->round_number );
+        Pages_prepForRound( $projectid, $next_round->round_number );
 
-        if ( $next_round_state == $next_prd->project_unavailable_state )
+        if ( $next_round_state == $next_round->project_unavailable_state )
         {
             maybe_mail_project_manager(
                 $project,
-                "This project is being held between rounds $prd->round_number and $next_prd->round_number.",
+                "This project is being held between rounds $round->round_number and $next_round->round_number.",
                 "DP Project Held Between Rounds"); 
         }
     }
 
     // Completed Level
-    if ($state == $prd->project_complete_state
-        && $prd->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
+    if ($state == $round->project_complete_state
+        && $round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
     {
         sendtopost($projectid, $username);
     }

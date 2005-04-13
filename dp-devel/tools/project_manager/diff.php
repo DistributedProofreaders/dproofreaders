@@ -19,9 +19,9 @@ $projectid = $_GET['project'];
 $fileid=$_GET['file'];
 $round_num=$_GET['round_num'];
 
-$prd = get_PRD_for_round($round_num);
+$round = get_Round_for_round_number($round_num);
 
-$res = mysql_query("SELECT $prd->prevtext_column_name, $prd->text_column_name, image FROM $projectid WHERE fileid='$fileid'");
+$res = mysql_query("SELECT $round->prevtext_column_name, $round->text_column_name, image FROM $projectid WHERE fileid='$fileid'");
 
 $txt=mysql_fetch_row($res);
 $image_name = $txt[2];

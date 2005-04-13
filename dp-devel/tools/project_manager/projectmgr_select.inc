@@ -50,25 +50,25 @@ if ($site_supports_metadata)
 
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
-	$prd = get_PRD_for_round($rn);
+	$round = get_Round_for_round_number($rn);
 
-	$transition_options_[ $prd->project_unavailable_state ] =
+	$transition_options_[ $round->project_unavailable_state ] =
 			array(
-				$prd->project_waiting_state);
+				$round->project_waiting_state);
 
-	$transition_options_[ $prd->project_waiting_state ] =
+	$transition_options_[ $round->project_waiting_state ] =
 			array(
-				$prd->project_unavailable_state,
-				$prd->project_available_state);
+				$round->project_unavailable_state,
+				$round->project_available_state);
 
-	$transition_options_[ $prd->project_bad_state ] =
+	$transition_options_[ $round->project_bad_state ] =
 			array(
-				$prd->project_unavailable_state,
+				$round->project_unavailable_state,
 				'automodify');
 
-	$transition_options_[ $prd->project_available_state ] =
+	$transition_options_[ $round->project_available_state ] =
 			array(
-				$prd->project_unavailable_state,
+				$round->project_unavailable_state,
 				'automodify');
 }
 

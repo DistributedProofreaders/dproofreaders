@@ -46,8 +46,8 @@ function echo_page_info( $npage )
     echo "<font size='-1'><b>";
     echo _("Page: $pageNum");
 
-    $prd = get_PRD_for_project_state($npage['proofstate']);
-    $other_round_ids = $prd->other_rounds_with_visible_usernames;
+    $round = get_Round_for_project_state($npage['proofstate']);
+    $other_round_ids = $round->other_rounds_with_visible_usernames;
     if (count($other_round_ids) > 0)
     {
         echo " - ";
@@ -56,9 +56,9 @@ function echo_page_info( $npage )
         $show_comma = FALSE;
         foreach ($other_round_ids as $other_round_id)
         {
-            $other_prd = get_PRD_for_round_id($other_round_id);
-            $res = mysql_query("SELECT {$other_prd->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
-            $username = mysql_result($res, 0, $other_prd->user_column_name);
+            $other_round = get_Round_for_round_id($other_round_id);
+            $res = mysql_query("SELECT {$other_round->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
+            $username = mysql_result($res, 0, $other_round->user_column_name);
 
             $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
             $user_id = mysql_result($res, 0, "user_id");

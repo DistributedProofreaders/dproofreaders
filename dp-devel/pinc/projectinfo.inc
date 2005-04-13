@@ -20,8 +20,8 @@ function Project_getNumAvailablePagesInRound( $projectid, $proofstate )
     }
     else if ( $project_phase == 'PAGE_EDITING' )
     {
-        $prd = get_PRD_for_project_state($proofstate);
-        $avail_state = $prd->page_avail_state;
+        $round = get_Round_for_project_state($proofstate);
+        $avail_state = $round->page_avail_state;
         return Project_getNumPagesInState( $projectid, $avail_state );
     }
     else

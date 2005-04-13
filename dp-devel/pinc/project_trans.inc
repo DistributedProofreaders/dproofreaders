@@ -160,38 +160,38 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
+		$round = get_Round_for_round_number($rn);
 
-		$transition_graph[ $prd->project_bad_state ] = array(
-			$prd->project_unavailable_state,
-			$prd->project_available_state,
-			$prd->project_complete_state,
+		$transition_graph[ $round->project_bad_state ] = array(
+			$round->project_unavailable_state,
+			$round->project_available_state,
+			$round->project_complete_state,
 			);
-		$transition_graph[ $prd->project_unavailable_state ] = array(
-			$prd->project_waiting_state,
+		$transition_graph[ $round->project_unavailable_state ] = array(
+			$round->project_waiting_state,
 			);
-		$transition_graph[ $prd->project_waiting_state ] = array(
-			$prd->project_bad_state,
-			$prd->project_unavailable_state,
-			$prd->project_available_state,
+		$transition_graph[ $round->project_waiting_state ] = array(
+			$round->project_bad_state,
+			$round->project_unavailable_state,
+			$round->project_available_state,
 			);
-		$transition_graph[ $prd->project_available_state ] = array(
-			$prd->project_bad_state,
-			$prd->project_unavailable_state,
-			$prd->project_complete_state,
+		$transition_graph[ $round->project_available_state ] = array(
+			$round->project_bad_state,
+			$round->project_unavailable_state,
+			$round->project_complete_state,
 			);
 
 		if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
 		{
-			$next_prd = get_PRD_for_round($rn+1);
-			$transition_graph[ $prd->project_complete_state ] = array(
-				$next_prd->project_unavailable_state,
-				$next_prd->project_waiting_state,
+			$next_round = get_Round_for_round_number($rn+1);
+			$transition_graph[ $round->project_complete_state ] = array(
+				$next_round->project_unavailable_state,
+				$next_round->project_waiting_state,
 				);
 		}
 		else
 		{
-			$transition_graph[ $prd->project_complete_state ] = array(
+			$transition_graph[ $round->project_complete_state ] = array(
 				PROJ_POST_FIRST_CHECKED_OUT,
 				PROJ_POST_FIRST_AVAILABLE,
 				);
@@ -211,10 +211,10 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	$settings = "state='$new_state'";
 
-	$prd = get_PRD_for_project_state($new_state);
-	if ( !is_null($prd) )
+	$round = get_Round_for_project_state($new_state);
+	if ( !is_null($round) )
 	{
-		if ( $new_state == $prd->project_waiting_state )
+		if ( $new_state == $round->project_waiting_state )
 		{
 			$errors = project_pre_release_check( $project );
 			if ($errors)
@@ -226,8 +226,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			// The time when projects enter the 'waiting for release' state
 			// is the overall ordering criterion for the "release queue".
 		}
-		else if ( $current_state != $prd->project_bad_state &&
-			  $new_state     == $prd->project_available_state )
+		else if ( $current_state != $round->project_bad_state &&
+			  $new_state     == $round->project_available_state )
 		{
 			$settings .= ", modifieddate='$now'";
 			// The time when projects enter the 'available' state

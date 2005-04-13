@@ -13,8 +13,8 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 {
 	global $code_url, $pguser, $userP;
 
-	$prd = get_PRD_for_project_state($proofstate);
-	// Note that $prd may be NULL;
+	$round = get_Round_for_project_state($proofstate);
+	// Note that $round may be NULL;
 
 	echo "<table border=1 width=630>";
 
@@ -72,9 +72,9 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// The state of the project
 
 	$right = project_states_text($project['state']);
-	if ($prd)
+	if ($round)
 	{
-		$extra = $prd->description;
+		$extra = $round->description;
 		$right = "$right ($extra)";
 	}
 	echo_row_a( _("Project State"), $right );
@@ -144,17 +144,17 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// -------------------------------------------------------------------------
 	// Current activity
 
-	if ($prd)
+	if ($round)
 	{
 		$proofdate = mysql_query("
-			SELECT {$prd->time_column_name}
+			SELECT {$round->time_column_name}
 		       	FROM $projectid
-		       	WHERE state='{$prd->page_save_state}'
-		       	ORDER BY {$prd->time_column_name} DESC
+		       	WHERE state='{$round->page_save_state}'
+		       	ORDER BY {$round->time_column_name} DESC
 		       	LIMIT 1
 		");
 		if (mysql_num_rows($proofdate)!=0) {
-			$lastproofed=strftime(_("%A, %B %e, %Y at %X"),mysql_result($proofdate,0,$prd->time_column_name))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".strftime(_("%X"),time()).")";
+			$lastproofed=strftime(_("%A, %B %e, %Y at %X"),mysql_result($proofdate,0,$round->time_column_name))."&nbsp;&nbsp;&nbsp; ("._("Current Time:")." ".strftime(_("%X"),time()).")";
 		} else {
 			$lastproofed=_("Project has not been proofread in this round.");
 		}
@@ -216,7 +216,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 		$word = _("Book Completed:");
 		echo_row_a($word, "<a href=\"posted_notice.php?project=$projectid&proofstate=$proofstate\">$blurb</a>" );
 
-		if ($sub && $prd)
+		if ($sub && $round)
 		{
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,0);
 			recentlyproofed($projectid, $proofstate, $pguser,$userP,1);
@@ -395,18 +395,18 @@ function get_credit_name( $login_name )
 
 function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 {
-	$prd = get_PRD_for_project_state($proofstate);
-	assert($prd);
+	$round = get_Round_for_project_state($proofstate);
+	assert($round);
 
 	if ($wlist==0) {
 		$top = _("DONE");
 		$bottom = "(<b>"._("My Recently Completed")."</b> - "._("pages I've finished proofreading, that are still available for correction)");
-		$state_condition = "state='{$prd->page_save_state}'";
+		$state_condition = "state='{$round->page_save_state}'";
              $bg_color = '99FF66';
 	} else {
 		$top = _("IN PROGRESS");
 		$bottom = "(<b>"._("My Recently Proofread")."</b> - "._("pages I haven't yet completed)");
-		$state_condition = "(state='{$prd->page_temp_state}' OR state='{$prd->page_out_state}')";
+		$state_condition = "(state='{$round->page_temp_state}' OR state='{$round->page_out_state}')";
              $bg_color = 'FFCC66';
 	}
 
@@ -415,10 +415,10 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 	$recentNum=5;
 
 	$sql = "
-		SELECT image, fileid, state, {$prd->time_column_name}
+		SELECT image, fileid, state, {$round->time_column_name}
 		FROM $projectid
-		WHERE {$prd->user_column_name}='$pguser' AND $state_condition
-		ORDER BY {$prd->time_column_name} DESC
+		WHERE {$round->user_column_name}='$pguser' AND $state_condition
+		ORDER BY {$round->time_column_name} DESC
 		LIMIT $recentNum
 	";
 	$result = mysql_query($sql);
@@ -428,7 +428,7 @@ function recentlyproofed($projectid, $proofstate, $pguser,$userP,$wlist)
 	while (($rownum < $recentNum) && ($rownum < $numrows)) {
 		$imagefile = mysql_result($result, $rownum, "image");
 		$fileid = mysql_result($result, $rownum, "fileid");
-		$timestamp = mysql_result($result, $rownum, $prd->time_column_name);
+		$timestamp = mysql_result($result, $rownum, $round->time_column_name);
 		$pagestate = mysql_result($result, $rownum, "state");
 		$newproject = "project=$projectid";
 		$newfileid="&amp;fileid=$fileid";

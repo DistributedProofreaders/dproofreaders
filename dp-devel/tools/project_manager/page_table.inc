@@ -41,8 +41,8 @@ function echo_page_table(
 	}
 	else if ($project_phase == 'PAGE_EDITING')
 	{
-		$project_prd = get_PRD_for_project_state($state);
-		$latest_round_num = $project_prd->round_number;
+		$project_round = get_Round_for_project_state($state);
+		$latest_round_num = $project_round->round_number;
 	}
 	else
 	{
@@ -149,12 +149,12 @@ function echo_page_table(
 	$fields_to_get = "fileid, image, length(master_text), state";
 	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
+		$round = get_Round_for_round_number($rn);
 		$fields_to_get .= ",
-			BINARY REPLACE($prd->prevtext_column_name,'\r\n','\n')=REPLACE($prd->text_column_name,'\r\n','\n') AS $prd->textdiff_column_name,
-			$prd->time_column_name,
-			$prd->user_column_name,
-			length($prd->text_column_name)
+			BINARY REPLACE($round->prevtext_column_name,'\r\n','\n')=REPLACE($round->text_column_name,'\r\n','\n') AS $round->textdiff_column_name,
+			$round->time_column_name,
+			$round->user_column_name,
+			length($round->text_column_name)
 		";
 	}
 
@@ -251,8 +251,8 @@ function echo_page_table(
 			$can_see_names_for_this_page = FALSE;
 			for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 			{
-				$prd = get_PRD_for_round($rn);
-				$proofer_name = $page_res[$prd->user_column_name];
+				$round = get_Round_for_round_number($rn);
+				$proofer_name = $page_res[$round->user_column_name];
 				if ( $proofer_name != '' && $proofer_name == $pguser )
 				{
 					$can_see_names_for_this_page = TRUE;
@@ -273,8 +273,8 @@ function echo_page_table(
 		// Link to proofing interface
 		if ($project_phase == 'PAGE_EDITING')
 		{
-			if ($page_res[$project_prd->user_column_name] == $pguser
-				&& $page_state != $project_prd->page_avail_state)  
+			if ($page_res[$project_round->user_column_name] == $pguser
+				&& $page_state != $project_round->page_avail_state)  
 			{
 				$url = "../proofers/proof_frame.php?";
 				$url .= "project=$projectid";
@@ -386,10 +386,10 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
 
-	$prd = get_PRD_for_round($round_num);
-	assert( !is_null($prd) );
+	$round = get_Round_for_round_number($round_num);
+	assert( !is_null($round) );
 
-	$R_username = $page_res[$prd->user_column_name];
+	$R_username = $page_res[$round->user_column_name];
 
         $cellcolorclause = " ";
 
@@ -397,18 +397,18 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         if ($R_username == $pguser) {
 
                 // a page saved as DONE by the user has a greenish background
-                if ($page_state == $prd->page_save_state) {
+                if ($page_state == $round->page_save_state) {
                         $cellcolorclause = "bgcolor='#99FF66'";
                 }
 
                 // a page saved as IN PROGRESS by the user has an orangey background
-                else if ($page_state == $prd->page_temp_state 
-                    || $page_state == $prd->page_out_state) {
+                else if ($page_state == $round->page_temp_state 
+                    || $page_state == $round->page_out_state) {
                         $cellcolorclause = "bgcolor='#FFCC66'";
                 }
 
                 // a page by the user but not available for editing has a reddish background
-                else if ($page_state != $prd->page_avail_state)
+                else if ($page_state != $round->page_avail_state)
                 {
                         $cellcolorclause = "bgcolor='#FF3366'";
                 }
@@ -418,8 +418,8 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// Diff
 
 	echo "<td align='center'>";
-	if ($page_state != $prd->page_avail_state) {
-		if($page_res[$prd->textdiff_column_name]) {
+	if ($page_state != $round->page_avail_state) {
+		if($page_res[$round->textdiff_column_name]) {
 			echo _("no diff");
 		} else {
 			echo "<a href='diff.php?project=$projectid&file=$fileid&round_num=$round_num'>"._("diff")."</a>";
@@ -431,7 +431,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Date
 
-	$R_time = $page_res[$prd->time_column_name];
+	$R_time = $page_res[$round->time_column_name];
 	if ($R_time == 0)
 	{
 		$R_time_str = '';
@@ -470,7 +470,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	// ------------------------------
 	// Text
 
-	$R_text_length = $page_res["length($prd->text_column_name)"];
+	$R_text_length = $page_res["length($round->text_column_name)"];
 
 	if ( $R_text_length == 0 )
 	{
@@ -488,7 +488,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		// Anticipate the tests in page_clear()
 		if (
 			$project_phase=='PAGE_EDITING' &&
-			$page_state == $prd->page_save_state
+			$page_state == $round->page_save_state
 		)
 		{
 			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
@@ -508,8 +508,8 @@ function page_state_is_an_avail_state($page_state)
 {
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		if ( $page_state == $prd->page_avail_state )
+		$round = get_Round_for_round_number($rn);
+		if ( $page_state == $round->page_avail_state )
 		{
 			return TRUE;
 		}
@@ -521,8 +521,8 @@ function page_state_is_a_bad_state($page_state)
 {
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		if ( $page_state == $prd->page_bad_state )
+		$round = get_Round_for_round_number($rn);
+		if ( $page_state == $round->page_bad_state )
 		{
 			return TRUE;
 		}

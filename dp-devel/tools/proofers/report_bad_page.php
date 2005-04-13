@@ -82,8 +82,8 @@ else
 	}
 
 	//Update the page the user was working on to reflect a bad page.
-	$prd = get_PRD_for_page_state($badState);
-	Page_markAsBad( $projectid, $fileid, $imagefile, $prd->round_number, $pguser, $reason );
+	$round = get_Round_for_page_state($badState);
+	Page_markAsBad( $projectid, $fileid, $imagefile, $round->round_number, $pguser, $reason );
 
 	//Find out how many pages have been marked bad
 	$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
@@ -94,7 +94,7 @@ else
 		$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$badState'");
 		$uniqueBadPages = mysql_result($result,0);
 		if ($uniqueBadPages >= 3) {
-			$error_msg = project_transition( $projectid, $prd->project_bad_state );
+			$error_msg = project_transition( $projectid, $round->project_bad_state );
 			if ($error_msg)
 			{
 				echo "$error_msg<br>\n";

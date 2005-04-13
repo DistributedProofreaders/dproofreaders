@@ -26,10 +26,10 @@ $comments_url3 = mysql_escape_string("</a>");
 $state_condition = '0';
 for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
-    $prd = get_PRD_for_round($rn);
+    $round = get_Round_for_round_number($rn);
     $state_condition .= "
-        OR state='{$prd->project_waiting_state}'
-        OR state='{$prd->project_available_state}'
+        OR state='{$round->project_waiting_state}'
+        OR state='{$round->project_available_state}'
     ";
 }
 dpsql_dump_themed_ranked_query("

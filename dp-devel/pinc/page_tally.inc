@@ -17,10 +17,10 @@ include_once($relPath.'RoundDescriptor.inc');
 // -----------------------------------------------------------------------------
 
 $page_tally_names = array();
-foreach ( $PRD_for_round_id_ as $prd )
+foreach ( $Round_for_round_id_ as $round )
 {
-    $page_tally_names[$prd->round_id] =
-        sprintf( _('Pages saved-as-done in round %s'), $prd->round_id );
+    $page_tally_names[$round->round_id] =
+        sprintf( _('Pages saved-as-done in round %s'), $round->round_id );
 }
 
 // -----------------------------------------------------------------------------
@@ -33,10 +33,10 @@ foreach ( $PRD_for_round_id_ as $prd )
 
 // This assignment particularly assumes that the ELR is the first round
 // defined in RoundDescriptor.inc.
-$ELR_prd = get_PRD_for_round(1);
+$ELR_round = get_Round_for_round_number(1);
 
-$users_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'U' );
-$teams_ELR_page_tallyboard = new TallyBoard( $ELR_prd->round_id, 'T' );
+$users_ELR_page_tallyboard = new TallyBoard( $ELR_round->round_id, 'U' );
+$teams_ELR_page_tallyboard = new TallyBoard( $ELR_round->round_id, 'T' );
 
 // See TallyBoard.inc for explanation of these two strings:
 //

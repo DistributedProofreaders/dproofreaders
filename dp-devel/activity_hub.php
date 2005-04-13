@@ -279,29 +279,29 @@ if ($site_supports_metadata)
 // Page-Editing Rounds
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
-    $prd = get_PRD_for_round($rn);
+    $round = get_Round_for_round_number($rn);
     echo "<li>\n";
 
-    echo "({$prd->round_id}) <a href='$code_url/tools/proofers/round.php?round_id={$prd->round_id}'>{$prd->round_name}</a>";
+    echo "({$round->round_id}) <a href='$code_url/tools/proofers/round.php?round_id={$round->round_id}'>{$round->round_name}</a>";
     echo "<br>\n";
 
-    echo $prd->description;
+    echo $round->description;
     echo "<br>\n";
 
     echo "<br>\n";
 
-	list($can_access, $minima_table, $sentences) = $prd->user_access( $pguser, $pagesproofed );
+	list($can_access, $minima_table, $sentences) = $round->user_access( $pguser, $pagesproofed );
     show_entrance_requirements( $minima_table, $sentences );
     echo "<br>\n";
 
     summarize_projects( array(
-        $prd->project_waiting_state,
-        $prd->project_available_state,
-        // $prd->project_complete_state,
-        // $prd->project_unavailable_state,
-        // $prd->project_bad_state
+        $round->project_waiting_state,
+        $round->project_available_state,
+        // $round->project_complete_state,
+        // $round->project_unavailable_state,
+        // $round->project_bad_state
         ),
-        $prd->round_id
+        $round->round_id
     );
 
     echo "</li>\n";

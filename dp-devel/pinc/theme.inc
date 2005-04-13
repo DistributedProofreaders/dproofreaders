@@ -362,8 +362,8 @@ function show_quick_links()
 
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		$links[] = array("tools/proofers/round.php?round_id={$prd->round_id}",$prd->round_id,$prd->round_name);
+		$round = get_Round_for_round_number($rn);
+		$links[] = array("tools/proofers/round.php?round_id={$round->round_id}",$round->round_id,$round->round_name);
 	}
 
 	if (user_is_PP())

@@ -22,19 +22,19 @@ if (is_null($round_num))
 	echo "<ul>\n";
 	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		echo "<li><a href='release_queue.php?round_num=$rn'>{$prd->round_id}</a></li>\n";
+		$round = get_Round_for_round_number($rn);
+		echo "<li><a href='release_queue.php?round_num=$rn'>{$round->round_id}</a></li>\n";
 	}
 	echo "</ul>\n";
 	theme("", "footer");
 	return;
 }
 
-$prd = get_PRD_for_round($round_num);
+$round = get_Round_for_round_number($round_num);
 
 if (!isset($_GET['name']))
 {
-	$title = sprintf( _("Release Queues for Round '%s'"), $prd->round_id);
+	$title = sprintf( _("Release Queues for Round '%s'"), $round->round_id);
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
@@ -73,7 +73,7 @@ if (!isset($_GET['name']))
 				SELECT COUNT(*)
 				FROM projects
 				WHERE ({$qd['project_selector']})
-					AND state='{$prd->project_waiting_state}'
+					AND state='{$round->project_waiting_state}'
 			"),0);
 		echo "<td>$current_length</td>\n";
 		if ($user_is_a_sitemanager)
@@ -127,7 +127,7 @@ else
 			FROM_UNIXTIME(modifieddate) as 'Date Last Modified'
 		FROM projects
 		WHERE ($project_selector)
-			AND state='{$prd->project_waiting_state}'
+			AND state='{$round->project_waiting_state}'
 		ORDER BY modifieddate
 	");
 }

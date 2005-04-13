@@ -51,15 +51,15 @@ function update_table( $table_name )
 	$adds_sql = "";
 	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		if ( !array_key_exists( $prd->time_column_name, $existing_column_names ) )
+		$round = get_Round_for_round_number($rn);
+		if ( !array_key_exists( $round->time_column_name, $existing_column_names ) )
 		{
 			$n_columns_to_add += 3;
 			if ($adds_sql) $adds_sql .= ',';
 			$adds_sql .= "
-				ADD COLUMN {$prd->time_column_name} int(20)     NOT NULL default '0',
-				ADD COLUMN {$prd->user_column_name} varchar(25) NOT NULL default '',
-				ADD COLUMN {$prd->text_column_name} longtext    NOT NULL
+				ADD COLUMN {$round->time_column_name} int(20)     NOT NULL default '0',
+				ADD COLUMN {$round->user_column_name} varchar(25) NOT NULL default '',
+				ADD COLUMN {$round->text_column_name} longtext    NOT NULL
 			";
 		}
 	}

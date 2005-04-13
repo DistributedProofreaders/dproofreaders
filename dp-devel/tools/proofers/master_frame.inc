@@ -7,8 +7,8 @@ $res = mysql_fetch_assoc(mysql_query("
 $nameofwork = $res['nameofwork'];
 // Add name of round before nameofwork
 // Since this is included from proof.php, we can for now safely assume $proofstate is set.
-$prd = get_PRD_for_project_state($proofstate);
-$rn = $prd->round_id;
+$round = get_Round_for_project_state($proofstate);
+$rn = $round->round_id;
 $nameofwork = "[" . $rn . "] " . $nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
 ?>

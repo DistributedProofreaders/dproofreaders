@@ -13,10 +13,10 @@ define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
 // -----------------------------------------------------------------------------
 
 $n_rounds = 0;
-$PRD_for_round_id_      = array();
-$PRD_for_round_number_  = array();
-$PRD_for_project_state_ = array();
-$PRD_for_page_state_    = array();
+$Round_for_round_id_      = array();
+$Round_for_round_number_  = array();
+$Round_for_project_state_ = array();
+$Round_for_page_state_    = array();
 $PAGE_STATES_IN_ORDER   = array();
 
 class Round extends Stage
@@ -87,25 +87,25 @@ class Round extends Stage
             $this->prevtext_column_name = "round{$prev_round_number}_text";
         }
 
-        global $PRD_for_round_id_;
-        $PRD_for_round_id_[$this->round_id] =& $this;
+        global $Round_for_round_id_;
+        $Round_for_round_id_[$this->round_id] =& $this;
 
-        global $PRD_for_round_number_;
-        $PRD_for_round_number_[$this->round_number] =& $this;
+        global $Round_for_round_number_;
+        $Round_for_round_number_[$this->round_number] =& $this;
 
-        global $PRD_for_project_state_;
-        $PRD_for_project_state_[$this->project_unavailable_state] =& $this;
-        $PRD_for_project_state_[$this->project_waiting_state    ] =& $this;
-        $PRD_for_project_state_[$this->project_bad_state        ] =& $this;
-        $PRD_for_project_state_[$this->project_available_state  ] =& $this;
-        $PRD_for_project_state_[$this->project_complete_state   ] =& $this;
+        global $Round_for_project_state_;
+        $Round_for_project_state_[$this->project_unavailable_state] =& $this;
+        $Round_for_project_state_[$this->project_waiting_state    ] =& $this;
+        $Round_for_project_state_[$this->project_bad_state        ] =& $this;
+        $Round_for_project_state_[$this->project_available_state  ] =& $this;
+        $Round_for_project_state_[$this->project_complete_state   ] =& $this;
 
-        global $PRD_for_page_state_;
-        $PRD_for_page_state_[$this->page_avail_state] =& $this;
-        $PRD_for_page_state_[$this->page_out_state  ] =& $this;
-        $PRD_for_page_state_[$this->page_temp_state ] =& $this;
-        $PRD_for_page_state_[$this->page_save_state ] =& $this;
-        $PRD_for_page_state_[$this->page_bad_state  ] =& $this;
+        global $Round_for_page_state_;
+        $Round_for_page_state_[$this->page_avail_state] =& $this;
+        $Round_for_page_state_[$this->page_out_state  ] =& $this;
+        $Round_for_page_state_[$this->page_temp_state ] =& $this;
+        $Round_for_page_state_[$this->page_save_state ] =& $this;
+        $Round_for_page_state_[$this->page_bad_state  ] =& $this;
 
         global $PAGE_STATES_IN_ORDER;
         $PAGE_STATES_IN_ORDER[] = $this->page_avail_state;
@@ -178,37 +178,37 @@ assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 
 // ---------------------------
 
-function get_PRD_for_round_id( $round_id )
+function get_Round_for_round_id( $round_id )
 {
-    global $PRD_for_round_id_;
-    return array_get( $PRD_for_round_id_, $round_id, NULL );
+    global $Round_for_round_id_;
+    return array_get( $Round_for_round_id_, $round_id, NULL );
 }
 
 // ---------------------------
 
-function get_PRD_for_round( $round_number )
+function get_Round_for_round_number( $round_number )
 // If $round_number is a valid proofing-round number (currently 1 or 2),
 // return the appropriate Round instance.
 // Otherwise, return NULL.
 {
-    global $PRD_for_round_number_;
-    return array_get( $PRD_for_round_number_, $round_number, NULL );
+    global $Round_for_round_number_;
+    return array_get( $Round_for_round_number_, $round_number, NULL );
 }
 
 // ---------------------------
 
-function get_PRD_for_project_state( $project_state )
+function get_Round_for_project_state( $project_state )
 {
-    global $PRD_for_project_state_;
-    return array_get( $PRD_for_project_state_, $project_state, NULL );
+    global $Round_for_project_state_;
+    return array_get( $Round_for_project_state_, $project_state, NULL );
 }
 
 // ---------------------------
 
-function get_PRD_for_page_state( $page_state )
+function get_Round_for_page_state( $page_state )
 {
-    global $PRD_for_page_state_;
-    return array_get( $PRD_for_page_state_, $page_state, NULL );
+    global $Round_for_page_state_;
+    return array_get( $Round_for_page_state_, $page_state, NULL );
 }
 
 // vim: sw=4 ts=4 expandtab

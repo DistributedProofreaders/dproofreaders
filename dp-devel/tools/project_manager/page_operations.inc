@@ -40,15 +40,15 @@ function page_clear( $projectid, $fileid )
     $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
     $projstate = mysql_result($sql, 0, "state");
 
-    $prd = get_PRD_for_project_state($projstate);
+    $round = get_Round_for_project_state($projstate);
 
-    if (is_null($prd))
+    if (is_null($round))
     {
         return _("The project is not in a state that allows pages to be cleared.");
     }
 
     $result = mysql_query("
-        SELECT state, {$prd->user_column_name}
+        SELECT state, {$round->user_column_name}
         FROM $projectid
         WHERE fileid = '$fileid'
     ");
@@ -57,7 +57,7 @@ function page_clear( $projectid, $fileid )
         return _("There is no page with that fileid.");
     }
     list($page_state, $proofer) = mysql_fetch_row($result);
-    if ( $page_state != $prd->page_save_state )
+    if ( $page_state != $round->page_save_state )
     {
         return _("The page is not in a state that allows it to be cleared.");
     }
@@ -65,12 +65,12 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // page will be cleared, so decrement page tallies for user & teams
 
-    page_tallies_add( $prd->round_id, $proofer, -1 );
+    page_tallies_add( $round->round_id, $proofer, -1 );
 
     // ------------------------------------------------
     // now clear the page
 
-    Page_clearRound( $projectid, $fileid, $prd->round_number );
+    Page_clearRound( $projectid, $fileid, $round->round_number );
 }
 
 ?>

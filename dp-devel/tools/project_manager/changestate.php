@@ -10,16 +10,16 @@ include_once($relPath.'maybe_mail.inc');
 
 function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
 {
-    $prd_old = get_PRD_for_project_state($oldstate);
-    $prd_new = get_PRD_for_project_state($newstate);
+    $round_old = get_Round_for_project_state($oldstate);
+    $round_new = get_Round_for_project_state($newstate);
 
-    if ( is_null($prd_old) || is_null($prd_new) )
+    if ( is_null($round_old) || is_null($round_new) )
     {
 	// Transition to or from a non-round state.
        	return FALSE;
     }
    
-    if ( $prd_old != $prd_new )
+    if ( $round_old != $round_new )
     {
 	// Transition between different rounds.
 	// (Normally, this page doesn't see such transitions.)
@@ -27,15 +27,15 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     }
 
     // States belong to same round.
-    $prd = $prd_old;
+    $round = $round_old;
 
     if (
-	$newstate == $prd->project_unavailable_state ||
-	$oldstate == $prd->project_unavailable_state ||
-	$oldstate == $prd->project_waiting_state
+	$newstate == $round->project_unavailable_state ||
+	$oldstate == $round->project_unavailable_state ||
+	$oldstate == $round->project_waiting_state
     )
     {
-	return $prd;
+	return $round;
     }
     else
     {
@@ -97,14 +97,14 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     }
     else if (
 	// assignment-in-condition
-	$prd = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
+	$round = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
     {
 	$do_transition = TRUE;
 	$refresh_url = "projectmgr.php";
 
-	if ( $oldstate == $prd->project_waiting_state &&
-	     $newstate == $prd->project_available_state )
+	if ( $oldstate == $round->project_waiting_state &&
+	     $newstate == $round->project_available_state )
 	{
 	    $errors = project_pre_release_check( $project );
 	    if ($errors)
@@ -116,7 +116,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 		echo "The project has been marked bad.\n";
 		echo "Please fix the problems and resubmit.\n";
 		echo "</pre>\n";
-		$newstate = $prd->project_bad_state;
+		$newstate = $round->project_bad_state;
 		$refresh_url = '';
 	    }
 	    else if ( ! user_is_a_sitemanager() && ! user_is_proj_facilitator() )
@@ -134,7 +134,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
             else
             {
                 maybe_mail_project_manager( $project,
-             	   "This project has been manually released by $pguser and has just become available in '{$prd->round_name}'.",
+             	   "This project has been manually released by $pguser and has just become available in '{$round->round_name}'.",
                    "DP Proofreading Started (Manual Release)");
             }
 	}

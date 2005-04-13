@@ -13,14 +13,14 @@ function autorelease()
 
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
-        $prd = get_PRD_for_round($rn);
-        autorelease_for_round($prd);
+        $round = get_Round_for_round_number($rn);
+        autorelease_for_round($round);
     }
 
     echo "</pre>\n";
 }
 
-function attempt_to_release( $prd, $project )
+function attempt_to_release( $round, $project )
 {
     $projectid = $project['projectid'];
 
@@ -34,11 +34,11 @@ function attempt_to_release( $prd, $project )
             "Please correct the errors and put the project back into Waiting for Release.",
             "DP Errors Before Release"
         );
-        $new_state = $prd->project_bad_state;
+        $new_state = $round->project_bad_state;
     }
     else
     {
-        $new_state = $prd->project_available_state;
+        $new_state = $round->project_available_state;
     }
 
 
@@ -49,14 +49,14 @@ function attempt_to_release( $prd, $project )
         return FALSE;
     }
 
-    if ($new_state == $prd->project_bad_state)
+    if ($new_state == $round->project_bad_state)
     {
         // nothing else to do
         return FALSE;
     }
 
     maybe_mail_project_manager( $project,
-        "This project has just become available for work in round {$prd->round_id}.",
+        "This project has just become available for work in round {$round->round_id}.",
         "DP Proofreading Started");
 
     return TRUE;
@@ -65,15 +65,15 @@ function attempt_to_release( $prd, $project )
 
 
 
-function autorelease_for_round( $prd )
+function autorelease_for_round( $round )
 {
     echo "\n";
-    echo "Starting autorelease for round {$prd->round_id}...\n";
+    echo "Starting autorelease for round {$round->round_id}...\n";
 
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
-        WHERE round_number={$prd->round_number}
+        WHERE round_number={$round->round_number}
         ORDER BY ordering
     ") or die(mysql_error());
 
@@ -88,7 +88,7 @@ function autorelease_for_round( $prd )
         $waiting_res = mysql_query("
             SELECT *
             FROM projects
-            WHERE state = '{$prd->project_waiting_state}'
+            WHERE state = '{$round->project_waiting_state}'
             ORDER BY modifieddate ASC
         ");
 
@@ -101,7 +101,7 @@ function autorelease_for_round( $prd )
             echo "\n";
             echo "    considering project \"{$project['nameofwork']}\"...\n";
 
-            if (!attempt_to_release($prd, $project))
+            if (!attempt_to_release($round, $project))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -111,7 +111,7 @@ function autorelease_for_round( $prd )
         }
 
         echo "\n";
-        echo "Finished round {$prd->round_id}\n";
+        echo "Finished round {$round->round_id}\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
         return;
     }
@@ -127,7 +127,7 @@ function autorelease_for_round( $prd )
             mysql_query("
                 SELECT authorsname
                 FROM projects
-                WHERE state = '{$prd->project_available_state}'
+                WHERE state = '{$round->project_available_state}'
                 ORDER BY authorsname
             ") or die(mysql_error());
         while ( $author_row = mysql_fetch_assoc($author_res) )
@@ -150,7 +150,7 @@ function autorelease_for_round( $prd )
             mysql_query("
                 SELECT username
                 FROM projects
-                WHERE state = '{$prd->project_available_state}'
+                WHERE state = '{$round->project_available_state}'
                 ORDER BY username
             ") or die(mysql_error());
         while ( $pm_row = mysql_fetch_assoc($pm_res) )
@@ -178,7 +178,7 @@ function autorelease_for_round( $prd )
 
     // -------------------------------------------------------------------------
 
-    AP_setup($prd);
+    AP_setup($round);
 
     // -------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ function autorelease_for_round( $prd )
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
-        WHERE enabled AND round_number={$prd->round_number}
+        WHERE enabled AND round_number={$round->round_number}
         ORDER BY ordering
     ") or die(mysql_error());
 
@@ -215,7 +215,7 @@ function autorelease_for_round( $prd )
         echo "    release if: $release_criterion\n";
 
         // Does the $release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria( $prd, $project_selector, $release_criterion ) )
+        if (! AP_evaluate_criteria( $round, $project_selector, $release_criterion ) )
         {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
@@ -227,7 +227,7 @@ function autorelease_for_round( $prd )
         $waiting_res = mysql_query("
             SELECT *
             FROM projects
-            WHERE state = '{$prd->project_waiting_state}' AND ($project_selector)
+            WHERE state = '{$round->project_waiting_state}' AND ($project_selector)
             ORDER BY modifieddate ASC
         ");
 
@@ -298,7 +298,7 @@ function autorelease_for_round( $prd )
             // OK to release
             // release the project for proofreading, and keep track of
             // its contribution to reducing our total page shortfall
-            if (!attempt_to_release($prd, $project))
+            if (!attempt_to_release($round, $project))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -325,9 +325,9 @@ function autorelease_for_round( $prd )
             // (The release of this project will affect the release-ability
             // of other projects in this category, and possibly of projects
             // in other categories.)
-            AP_add_project( $prd, $project['projectid'] );
+            AP_add_project( $round, $project['projectid'] );
 
-            if (! AP_evaluate_criteria( $prd, $project_selector, $release_criterion ) )
+            if (! AP_evaluate_criteria( $round, $project_selector, $release_criterion ) )
             {
                 echo "    The release criterion now fails, so no further projects released in this category.\n";
                 break;
@@ -337,16 +337,16 @@ function autorelease_for_round( $prd )
         echo "    Released <b>$num_projects_released</b> $q_name projects.\n";
     }
 
-    AP_teardown($prd);
+    AP_teardown($round);
 
     echo "\n";
-    echo "Finished round {$prd->round_id}\n";
+    echo "Finished round {$round->round_id}\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function AP_setup( $prd )
+function AP_setup( $round )
 // Set up temporary table active_page_counts,
 // containing a row for each project in this round.
 // fields:
@@ -377,41 +377,41 @@ function AP_setup( $prd )
         mysql_query("
         SELECT projectid
         FROM projects
-        WHERE state = '{$prd->project_available_state}'
+        WHERE state = '{$round->project_available_state}'
     ") or die(mysql_error());
 
     // Run through them and fill up the table.
     while( $project = mysql_fetch_assoc($projects_res) )
     {
-        AP_add_project( $prd, $project['projectid'] );
+        AP_add_project( $round, $project['projectid'] );
     }
 }
 
-function AP_teardown( $prd )
+function AP_teardown( $round )
 {
     mysql_query("
         DROP TABLE active_page_counts
     ") or die(mysql_error());
 }
 
-function AP_add_project( $prd, $projectid )
+function AP_add_project( $round, $projectid )
 {
     mysql_query("
         INSERT INTO active_page_counts
         SELECT
             '$projectid',
-            SUM( state != '{$prd->page_save_state}' ) as pages
+            SUM( state != '{$round->page_save_state}' ) as pages
         FROM $projectid
     ") or die(mysql_error());
 }
 
-function AP_evaluate_criteria( $prd, $project_selector, $release_criterion )
+function AP_evaluate_criteria( $round, $project_selector, $release_criterion )
 {
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
     $res = mysql_query("
         SELECT
-            SUM(projects.state='{$prd->project_available_state}') as projects,
+            SUM(projects.state='{$round->project_available_state}') as projects,
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $project_selector

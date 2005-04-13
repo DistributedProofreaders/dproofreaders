@@ -72,12 +72,12 @@ if (!isset($proofing))
 
         // Has the user saved a page of this project since the comments were
         // last changed?  If not, it's unlikely they've seen the revised comments.
-        $prd = get_PRD_for_project_state($proofstate);
+        $round = get_Round_for_project_state($proofstate);
         $res = mysql_query("
-            SELECT {$prd->time_column_name}
+            SELECT {$round->time_column_name}
             FROM $project
-            WHERE state='{$prd->page_save_state}' AND {$prd->user_column_name}='$pguser'
-            ORDER BY {$prd->time_column_name} DESC
+            WHERE state='{$round->page_save_state}' AND {$round->user_column_name}='$pguser'
+            ORDER BY {$round->time_column_name} DESC
             LIMIT 1
         ");
         if (mysql_num_rows($res) == 0)
@@ -93,7 +93,7 @@ if (!isset($proofing))
         else
         {
             // The user has saved a page for this project.
-            $my_latest_save_timestamp = mysql_result($res,0,$prd->time_column_name);
+            $my_latest_save_timestamp = mysql_result($res,0,$round->time_column_name);
 
             if ($my_latest_save_timestamp < $comments_timestamp)
             {

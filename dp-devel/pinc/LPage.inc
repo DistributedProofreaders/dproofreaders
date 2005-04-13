@@ -12,18 +12,18 @@ include_once($relPath.'page_tally.php');
 
 function get_available_page( $project, $proofstate, $pguser )
 {
-    $prd = get_PRD_for_project_state($proofstate);
+    $round = get_Round_for_project_state($proofstate);
 
     // If $project is a BEGIN project in R1, people can only get a new page 
     // if they've done less than X pages on this project so far;
     // X is currently, let's say, 20
     //
-    if ($prd->round_number == 1)
+    if ($round->round_number == 1)
     {
         $dbQuery = "
             SELECT COUNT(fileid) as pagesdone
             FROM $project, projects 
-            WHERE {$prd->user_column_name} = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
+            WHERE {$round->user_column_name} = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
         "; 
         $result = mysql_query($dbQuery);
         $pagesdone = mysql_result($result, 0, "pagesdone" );
@@ -36,11 +36,11 @@ function get_available_page( $project, $proofstate, $pguser )
 
     // Find page to be proofed.
     // (It appears that a simultaneous query from someone else would return the same page.)
-    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='{$prd->page_avail_state}'";
-    for ( $rn = 1; $rn < $prd->round_number; $rn++ )
+    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='{$round->page_avail_state}'";
+    for ( $rn = 1; $rn < $round->round_number; $rn++ )
     {
-        $earlier_prd = get_PRD_for_round( $rn );
-        $dbQuery .= " AND {$earlier_prd->user_column_name} != '$pguser'";
+        $earlier_round = get_Round_for_round_number( $rn );
+        $dbQuery .= " AND {$earlier_round->user_column_name} != '$pguser'";
     }
     $dbQuery .= " ORDER BY image ASC LIMIT 1";
     $result = mysql_query($dbQuery);
@@ -55,7 +55,7 @@ function get_available_page( $project, $proofstate, $pguser )
     $fileid    = $npage['fileid'];
     $imagefile = $npage['image'];
 
-    $pagestate = Page_checkout( $project, $fileid, $imagefile, $prd->round_number, $pguser );
+    $pagestate = Page_checkout( $project, $fileid, $imagefile, $round->round_number, $pguser );
 
     setPageCookie( $project, $proofstate, $fileid, $imagefile, $pagestate, 0, 0, 0, 0, 0, 0 );
 }
@@ -64,9 +64,9 @@ function get_available_page( $project, $proofstate, $pguser )
 
 function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser, $userP )
 {
-    $prd = get_PRD_for_project_state($proofstate);
+    $round = get_Round_for_project_state($proofstate);
 
-    $res = mysql_query("SELECT state, {$prd->user_column_name} FROM $project WHERE fileid = '$fileid'");
+    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE fileid = '$fileid'");
     list($current_page_state, $current_round_user) = mysql_fetch_row($res);
 
     if ($pguser != $current_round_user)
@@ -83,7 +83,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         return $err;
     }
 
-    if ($pagestate == $prd->page_save_state)
+    if ($pagestate == $round->page_save_state)
     {
         // Page comes from DONE.
         // When it was saved, the user's page-count was incremented.
@@ -91,10 +91,10 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
-        page_tallies_add( $prd->round_id, $pguser, -1 );
+        page_tallies_add( $round->round_id, $pguser, -1 );
 
         // no need to update text, just record state change
-        Page_reopen( $project, $fileid, $imagefile, $prd->round_number, $pguser );
+        Page_reopen( $project, $fileid, $imagefile, $round->round_number, $pguser );
     }
 
     $saved = 1;
@@ -106,23 +106,23 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 
 function nPage_getText( $npage )
 {
-    $prd = get_PRD_for_page_state( $npage['pagestate'] );
+    $round = get_Round_for_page_state( $npage['pagestate'] );
 
-    if ( $npage['revert']==1 || $npage['pagestate']==$prd->page_out_state )
+    if ( $npage['revert']==1 || $npage['pagestate']==$round->page_out_state )
     {
-        $desired_column_name = $prd->prevtext_column_name;
+        $desired_column_name = $round->prevtext_column_name;
     }
     else if ( $npage['saved']==1 )
     {
-        $desired_column_name = $prd->text_column_name;
+        $desired_column_name = $round->text_column_name;
     }
-    else if ( $npage['pagestate']==$prd->page_avail_state || $npage['pagestate']==$prd->page_out_state )
+    else if ( $npage['pagestate']==$round->page_avail_state || $npage['pagestate']==$round->page_out_state )
     {
-        $desired_column_name = $prd->prevtext_column_name;
+        $desired_column_name = $round->prevtext_column_name;
     }
     else
     {
-        $desired_column_name = $prd->text_column_name;
+        $desired_column_name = $round->text_column_name;
     }
 
     $q = "
@@ -164,7 +164,7 @@ class processpage
   var $fileid='';
   var $imagefile='';
   var $round_number=NULL;
-  var $prd=NULL;
+  var $round=NULL;
 
 function processpage()
 {
@@ -178,8 +178,8 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->pagestate=$pagestate;
   $this->proofstate=$proofstate;
 
-  $this->prd = get_PRD_for_page_state($pagestate);
-  $this->round_number = $this->prd->round_number;
+  $this->round = get_Round_for_page_state($pagestate);
+  $this->round_number = $this->round->round_number;
 }
 
 function addUserCount($pguser,$userP)
@@ -190,10 +190,10 @@ function addUserCount($pguser,$userP)
     if ($rows !=0)
     {
       $curState=mysql_result($result,0,'state');
-        if ($curState == $this->prd->page_out_state || $curState == $this->prd->page_temp_state)
+        if ($curState == $this->round->page_out_state || $curState == $this->round->page_temp_state)
         {
           // add to user page count
-          page_tallies_add( $this->prd->round_id, $pguser, +1 );
+          page_tallies_add( $this->round->round_id, $pguser, +1 );
         }
     }
 }
@@ -212,7 +212,7 @@ function saveComplete($text_data,$pguser,$userP)
 
 function getRevertState()
 {
-  return $this->prd->page_temp_state;
+  return $this->round->page_temp_state;
 }
 
 function exitInterface($newwin,$editone)

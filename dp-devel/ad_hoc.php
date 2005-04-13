@@ -401,32 +401,32 @@ if (0)
 
 	include_once($relPath.'RoundDescriptor.inc');
 
-	echo "\nget_PRD_for_round_id:\n";
+	echo "\nget_Round_for_round_id:\n";
 	foreach (array('P1','P2','F1') as $round_id)
 	{
-		$prd = get_PRD_for_round_id($round_id);
-		echo "$round_id\t$prd->round_id\n";
+		$round = get_Round_for_round_id($round_id);
+		echo "$round_id\t$round->round_id\n";
 	}
 
-	echo "\nget_PRD_for_round:\n";
+	echo "\nget_Round_for_round_number:\n";
 	foreach (array(1,2,3) as $round_number)
 	{
-		$prd = get_PRD_for_round($round_number);
-		echo "$round_number\t$prd->round_id\n";
+		$round = get_Round_for_round_number($round_number);
+		echo "$round_number\t$round->round_id\n";
 	}
 
-	echo "\nget_PRD_for_project_state:\n";
+	echo "\nget_Round_for_project_state:\n";
 	foreach ($PROJECT_STATES_IN_ORDER as $project_state)
 	{
-		$prd = get_PRD_for_project_state($project_state);
-		echo "$project_state\t$prd->round_id\n";
+		$round = get_Round_for_project_state($project_state);
+		echo "$project_state\t$round->round_id\n";
 	}
 
-	echo "\nget_PRD_for_page_state:\n";
+	echo "\nget_Round_for_page_state:\n";
 	foreach ($PAGE_STATES_IN_ORDER as $page_state)
 	{
-		$prd = get_PRD_for_page_state($page_state);
-		echo "$page_state\t$prd->round_id\n";
+		$round = get_Round_for_page_state($page_state);
+		echo "$page_state\t$round->round_id\n";
 	}
 
 	var_dump($P1);

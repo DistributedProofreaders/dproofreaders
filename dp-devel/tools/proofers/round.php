@@ -22,7 +22,7 @@ if (is_null($round_id))
     exit;
 }
 
-$prd = get_PRD_for_round_id($round_id);
+$round = get_Round_for_round_id($round_id);
 if (is_null($round_id))
 {
     echo "round.php invoked with invalid round_id='$round_id'.";
@@ -39,9 +39,9 @@ else
     $theme_extras = array();
 }
 
-theme( $prd->round_name, 'header', $theme_extras );
+theme( $round->round_name, 'header', $theme_extras );
 
-echo "<h1>{$prd->round_name}</h1>\n";
+echo "<h1>{$round->round_name}</h1>\n";
 
 // ---------------------------------------
 
@@ -123,9 +123,9 @@ else
     // filter block
     echo "<hr width='75%'>\n";
 
-	$state_sql = " (state = '{$prd->project_available_state}') ";
-	$label = $prd->round_name;
-    $filtertype_stem = $prd->round_id;
+	$state_sql = " (state = '{$round->project_available_state}') ";
+	$label = $round->round_name;
+    $filtertype_stem = $round->round_id;
     include_once($relPath.'filter_project_list.inc');
 }
 if (!isset($RFilter)) { $RFilter = ""; }
@@ -141,13 +141,13 @@ if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
     echo "<hr width='75%'>\n";
     echo "<p><font face='{$theme['font_mainbody']}'>\n";
     if (!isset($state_sql)) {
-        $state_sql = " (state = '{$prd->project_available_state}') ";
+        $state_sql = " (state = '{$round->project_available_state}') ";
     }
     echo_special_legend($state_sql);
     echo "</font></p><br>\n";
 }
 
-show_block_for_round($prd->round_number, $RFilter);
+show_block_for_round($round->round_number, $RFilter);
 
 theme('', 'footer');
 

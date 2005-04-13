@@ -228,7 +228,7 @@ if (empty($pageCountArray)) {
 $query = "
           SELECT projectid
           FROM projects
-          WHERE state = '{$prd->project_available_state}'
+          WHERE state = '{$round->project_available_state}'
 ";
 
 $result = mysql_query($query);

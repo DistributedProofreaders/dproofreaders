@@ -28,11 +28,11 @@ while ($row = mysql_fetch_assoc($result)) {
         $columns_for_rounds = "";
         for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         {
-            $prd = get_PRD_for_round($rn);
+            $round = get_Round_for_round_number($rn);
             $columns_for_rounds .= "
-                {$prd->time_column_name} ,
-                {$prd->user_column_name} ,
-                {$prd->text_column_name} ,
+                {$round->time_column_name} ,
+                {$round->user_column_name} ,
+                {$round->text_column_name} ,
             ";
         }
         $result2 = mysql_query( 

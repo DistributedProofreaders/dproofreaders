@@ -88,8 +88,8 @@ else
 
     if ( $project_phase == 'PAGE_EDITING' )
     {
-        $prd = get_PRD_for_project_state($proj_state);
-        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate={$prd->project_available_state}'>Start Proofreading!</a></li>\n";
+        $round = get_Round_for_project_state($proj_state);
+        echo "<li><a href='../proofers/projects.php?project=$projectid&proofstate={$round->project_available_state}'>Start Proofreading!</a></li>\n";
         echo "<li> Re-proofread pages (if you've proofread any).</li>\n";
     }
 

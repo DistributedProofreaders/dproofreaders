@@ -24,8 +24,8 @@ function project_update_page_counts($projectid) {
 	$is_avail = "0";
 	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 	{
-		$prd = get_PRD_for_round($rn);
-		$is_avail .= " || state='$prd->page_avail_state'";
+		$round = get_Round_for_round_number($rn);
+		$is_avail .= " || state='$round->page_avail_state'";
 	}
 	$result = mysql_query("
 		SELECT

@@ -10,12 +10,12 @@ include_once($relPath.'RoundDescriptor.inc');
     if ($round_num == 0) {
         $text_column_name = 'master_text';
     } else {
-        $prd = get_PRD_for_round($round_num);
-        if ( is_null($prd) )
+        $round = get_Round_for_round_number($round_num);
+        if ( is_null($round) )
         {
             die("downloadproofed.php: unexpected parameter round_num = '$round_num'");
         }
-        $text_column_name = $prd->text_column_name;
+        $text_column_name = $round->text_column_name;
     }
 
     $result = mysql_query("SELECT $text_column_name FROM $project WHERE fileid = '$fileid'"); 

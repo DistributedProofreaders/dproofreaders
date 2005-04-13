@@ -16,11 +16,11 @@ function project_allow_pages( $projectid )
     $columns_for_rounds = "";
     for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     {
-        $prd = get_PRD_for_round($rn);
+        $round = get_Round_for_round_number($rn);
         $columns_for_rounds .= "
-            {$prd->time_column_name}   int(20)     NOT NULL default '0',
-            {$prd->user_column_name}   varchar(25) NOT NULL default '',
-            {$prd->text_column_name}   longtext    NOT NULL,
+            {$round->time_column_name}   int(20)     NOT NULL default '0',
+            {$round->user_column_name}   varchar(25) NOT NULL default '',
+            {$round->text_column_name}   longtext    NOT NULL,
         ";
     }
 
@@ -79,7 +79,7 @@ function Pages_prepForRound( $projectid, $round_number )
     // is PROJ_P1_COMPLETE to PROJ_P2_AVAILABLE, and the
     // project can't go through that transition twice.
 
-    $prd = get_PRD_for_round($round_number);
+    $round = get_Round_for_round_number($round_number);
     if ( $round_number == 1 )
     {
         // Yes, these queries are pointless.
@@ -88,7 +88,7 @@ function Pages_prepForRound( $projectid, $round_number )
 
         $result = mysql_query("
             UPDATE $projectid
-            SET state = '{$prd->page_avail_state}'
+            SET state = '{$round->page_avail_state}'
             WHERE 0
         ");
 
@@ -96,7 +96,7 @@ function Pages_prepForRound( $projectid, $round_number )
         {
             $result = mysql_query("
                 UPDATE project_pages
-                SET state = '{$prd->page_avail_state}'
+                SET state = '{$round->page_avail_state}'
                 WHERE projectid = '$projectid' AND 0
             ");
         }
@@ -108,8 +108,8 @@ function Pages_prepForRound( $projectid, $round_number )
         $result = mysql_query("
             UPDATE $projectid
             SET
-                state = '{$prd->page_avail_state}',
-                {$prd->time_column_name} = '$timestamp'
+                state = '{$round->page_avail_state}',
+                {$round->time_column_name} = '$timestamp'
         ");
     
         if ($writeBIGtable)
@@ -117,8 +117,8 @@ function Pages_prepForRound( $projectid, $round_number )
             $result = mysql_query("
                 UPDATE project_pages
                 SET
-                    state = '{$prd->page_avail_state}',
-                    {$prd->time_column_name} = '$timestamp'
+                    state = '{$round->page_avail_state}',
+                    {$round->time_column_name} = '$timestamp'
                 WHERE projectid = '$projectid'
             ");
         }
@@ -154,8 +154,8 @@ function project_add_page(
         $txt_expr = "'" . addslashes($txt) . "'";
     }
 
-    $prd = get_PRD_for_round(1);
-    $page_state = $prd->page_avail_state;
+    $round = get_Round_for_round_number(1);
+    $page_state = $round->page_avail_state;
 
     $errs = '';
 
@@ -228,15 +228,15 @@ function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
 {
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_out_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user'
+        state='{$round->page_out_state}',
+        {$round->time_column_name}='$timestamp',
+        {$round->user_column_name}='$user'
     " );
 
-    return $prd->page_out_state;
+    return $round->page_out_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -245,16 +245,16 @@ function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $use
 {
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_temp_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user',
-        {$prd->text_column_name}='$page_text'
+        state='{$round->page_temp_state}',
+        {$round->time_column_name}='$timestamp',
+        {$round->user_column_name}='$user',
+        {$round->text_column_name}='$page_text'
     " );
 
-    return $prd->page_temp_state;
+    return $round->page_temp_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -263,16 +263,16 @@ function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $pa
 {
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_save_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user',
-        {$prd->text_column_name}='$page_text'
+        state='{$round->page_save_state}',
+        {$round->time_column_name}='$timestamp',
+        {$round->user_column_name}='$user',
+        {$round->text_column_name}='$page_text'
     " );
 
-    return $prd->page_save_state;
+    return $round->page_save_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -281,15 +281,15 @@ function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
 {
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_temp_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user'
+        state='{$round->page_temp_state}',
+        {$round->time_column_name}='$timestamp',
+        {$round->user_column_name}='$user'
     " );
 
-    return $prd->page_temp_state;
+    return $round->page_temp_state;
 }
 
 // -----------------------------------------------------------------------------
@@ -298,26 +298,26 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 {
     $timestamp = time();
 
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}='$timestamp',
-        {$prd->user_column_name}='$user'
+        state='{$round->page_avail_state}',
+        {$round->time_column_name}='$timestamp',
+        {$round->user_column_name}='$user'
     " );
 
-    return $prd->page_avail_state;
+    return $round->page_avail_state;
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_reclaim( $projectid, $fileid, $round_number )
 {
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}=''
+        state='{$round->page_avail_state}',
+        {$round->time_column_name}=''
     " );
 }
 
@@ -325,13 +325,13 @@ function Page_reclaim( $projectid, $fileid, $round_number )
 
 function Page_clearRound( $projectid, $fileid, $round_number )
 {
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
-        {$prd->time_column_name}='',
-        {$prd->user_column_name}='',
-        {$prd->text_column_name}=''
+        state='{$round->page_avail_state}',
+        {$round->time_column_name}='',
+        {$round->user_column_name}='',
+        {$round->text_column_name}=''
     ");
 }
 
@@ -339,13 +339,13 @@ function Page_clearRound( $projectid, $fileid, $round_number )
 
 function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
 {
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_bad_state}',
+        state='{$round->page_bad_state}',
         b_user='$user',
         b_code=$reason,
-        {$prd->text_column_name}={$prd->prevtext_column_name}
+        {$round->text_column_name}={$round->prevtext_column_name}
     " );
 }
 
@@ -353,13 +353,13 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
 
 function Page_eraseBadMark( $projectid, $fileid, $round_number )
 {
-    $prd = get_PRD_for_round( $round_number );
+    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $fileid, "
-        state='{$prd->page_avail_state}',
+        state='{$round->page_avail_state}',
         b_user='',
         b_code='',
-        {$prd->user_column_name}=''
+        {$round->user_column_name}=''
     " );
 }
 

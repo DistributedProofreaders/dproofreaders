@@ -24,7 +24,7 @@ if (!isset($_POST['resolution'])) {
     $b_User = mysql_result($result,0,"b_user");
     $b_Code = mysql_result($result,0,"b_code");
     
-    $prd = get_PRD_for_page_state($state);
+    $round = get_Round_for_page_state($state);
 
     //Display form
     $header = _("Bad Page Report");
@@ -56,7 +56,7 @@ if (!isset($_POST['resolution'])) {
         echo $reason_list[$b_Code]."</td></tr>";
     }
     
-    $prev_round_num = $prd->round_number - 1;
+    $prev_round_num = $round->round_number - 1;
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
@@ -85,7 +85,7 @@ if (!isset($_POST['resolution'])) {
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-        $prevtext_column = $prd->prevtext_column_name;
+        $prevtext_column = $round->prevtext_column_name;
         $result = mysql_query("SELECT $prevtext_column FROM $projectid where fileid='$fileid'");
         $prev_text = mysql_result($result, 0, $prevtext_column);
 
@@ -139,8 +139,8 @@ if (!isset($_POST['resolution'])) {
 
     //If the PM fixed the problem or stated the report was bad update the database to reflect
     if (($resolution == "fixed") || ($resolution == "bad")) {
-        $prd = get_PRD_for_page_state($state);
-        Page_eraseBadMark( $projectid, $fileid, $prd->round_number );
+        $round = get_Round_for_page_state($state);
+        Page_eraseBadMark( $projectid, $fileid, $round->round_number );
     }
 
     //Redirect the user back to the project detail page.
