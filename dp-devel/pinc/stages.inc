@@ -118,6 +118,20 @@ new Pool(
 
 // -----------------------------------------------------------------------------
 
+new Stage(
+    'SR',
+    _('Smooth Reading'),
+    array(),
+    _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.'),
+    array(
+        '#CCFFCC',
+        '#CCFF99',
+    ),
+    "tools/post_proofers/smooth_reading.php"
+);
+
+// -----------------------------------------------------------------------------
+
 new Pool(
     'PPV',
     _('Post-Processing Verification'),
