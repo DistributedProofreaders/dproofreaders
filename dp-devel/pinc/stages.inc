@@ -19,7 +19,7 @@ $someone_maintains_the_PP_faq =
         "$code_url/faq/post_proof.php" );
 
 new Pool(
-    $pool_id,
+    'PP',
     _('Post-Processing'),
     array( 'F1' => 400 ),
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
