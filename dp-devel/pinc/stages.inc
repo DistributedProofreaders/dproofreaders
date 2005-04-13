@@ -9,7 +9,70 @@ include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+new Round(
+    'P1',
+    _('Proofreading Round 1'),
+    array(),
+    _("The page-texts are the output from OCR software and have not been looked at."),
+    array(
+        0 => '#FFE4B5', // mocassin
+        1 => '#FFF8DC', // cornsilk
+    ),
+    array()
+);
+
 // -----------------------------------------------------------------------------
+
+new Round(
+    'P2',
+    _('Proofreading Round 2'),
+    array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
+    _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
+    array(
+        0 => '#DDA0DD', // plum
+        1 => '#D8BFD8', // thistle
+    ),
+    array( 'P1' )
+);
+
+// -----------------------------------------------------------------------------
+
+new Round(
+    'F1',
+    _('Formatting Round 1'),
+    array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
+    _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
+    array(
+        0 => '#FFE4B5', // mocassin
+        1 => '#FFF8DC', // cornsilk
+    ),
+    array()
+);
+
+// -----------------------------------------------------------------------------
+
+new Round(
+    'F2',
+    _('Formatting Round 2'),
+    NULL,
+    _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
+    array(
+        0 => '#DDA0DD', // plum
+        1 => '#D8BFD8', // thistle
+    ),
+    array( 'F1' )
+);
+
+// ---------------------------
+
+// After creating all rounds:
+
+define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
+assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $someone_maintains_the_PP_faq =
     sprintf( _("%s (<a href='%s'>%s</a>) maintains our <a href='%s'>Post Processing FAQ</a>."),
