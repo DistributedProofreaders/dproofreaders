@@ -3,6 +3,7 @@ $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
+include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
 include_once($relPath.'dpsession.inc');
@@ -339,7 +340,7 @@ echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme[
 function show_quick_links()
 // This parallels the Activity Hub.
 {
-	global $site_supports_metadata, $code_url, $theme;
+	global $site_supports_metadata, $code_url, $theme, $Stage_for_id_, $pguser;
 
 	$links = array();
 
@@ -348,35 +349,14 @@ function show_quick_links()
 		$links[] = array('tools/project_manager/projectmgr.php','PM',_('Manage Projects'));
 	}
 
-	// _('Providing Content')
-
-	if ($site_supports_metadata)
+	foreach ( $Stage_for_id_ as $stage )
 	{
-		if (user_is_a_sitemanager())
+		list($can_access,$_,$_) = $stage->user_access($pguser);
+		if ($can_access)
 		{
-			$links[] = array('tools/site_admin/proj_approvals.php','CA',_('Clearance Approvals'));
+			$links[] = array($stage->relative_url, $stage->id, $stage->name);
 		}
-
-		$links[] = array('tools/proofers/md_available.php','MD',_('Metadata Collection'));
 	}
-
-	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-	{
-		$round = get_Round_for_round_number($rn);
-		$links[] = array("tools/proofers/round.php?round_id={$round->id}",$round->id,$round->name);
-	}
-
-	if (user_is_PP())
-	{
-		$links[] = array('tools/pool.php?pool_id=PP','PP',_('Post-Processing'));
-	}
-
-	if (user_is_post_proof_verifier())
-	{
-		$links[] = array('tools/pool.php?pool_id=PPV','PPV',_('Post-Processing Verification'));
-	}
-
-	$links[] = array('tools/post_proofers/smooth_reading.php','SR',_('Smooth Reading'));
 
 	if ( count($links) > 0 )
 	{
