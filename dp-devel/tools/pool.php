@@ -31,8 +31,10 @@ if ( $pool_id == 'PP' )
 
     $pool->foo_Header = _("Manager");
     $pool->foo_field_name = 'username';
-    $pool->bgcolor_odd  = '#ffffff';
-    $pool->bgcolor_even = '#cccccc';
+    $pool->listing_bgcolors = array(
+        '#cccccc',
+        '#ffffff'
+    );
 
     $pool->blather = array(
         "<p>",
@@ -61,8 +63,10 @@ elseif ( $pool_id == 'PPV' )
 
     $pool->foo_Header = _("Post Processor");
     $pool->foo_field_name = 'postproofer';
-    $pool->bgcolor_odd  = '#EAF7F7'; // "paledarkskyblue"
-    $pool->bgcolor_even = '#99FFFF'; // "harshflourolightblue"
+    $pool->listing_bgcolors = array(
+        '#99FFFF', // "harshflourolightblue"
+        '#EAF7F7', // "paledarkskyblue"
+    );
 
     $pool->blather = array(
         "<p>",
@@ -90,8 +94,10 @@ elseif ( $pool_id == 'CR' )
 
     $pool->foo_Header = _("Editor");
     $pool->foo_field_name = 'correctedby';
-    $pool->bgcolor_odd  = '#ffffff';
-    $pool->bgcolor_even = '#e0e8dd';
+    $pool->listing_bgcolors = array(
+        '#e0e8dd',
+        '#ffffff',
+    );
 
     $pool->blather = array(
         "<p>",
@@ -457,14 +463,8 @@ function show_projects_in_state_plus(
 
         $book = mysql_fetch_assoc($result);
 
-        if ($rownum % 2) 
-        {
-            $bgcolor_attr = " bgcolor='$pool->bgcolor_odd'";
-        }
-        else 
-        {
-            $bgcolor_attr = " bgcolor='$pool->bgcolor_even'";
-        }
+        $bgcolor = $pool->listing_bgcolors[$rownum % 2];
+        $bgcolor_attr = " bgcolor='$bgcolor'";
 
         // Special colours for special books of various types
         if ($show_special_colors)
