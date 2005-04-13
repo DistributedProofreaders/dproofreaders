@@ -381,12 +381,12 @@ function show_quick_links()
 	if ( count($links) > 0 )
 	{
 		echo "<center>";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;\n";
 
 		while ( list($i, list($rel_url, $text, $title)) = each($links) )
 		{
 
-			if ($i > 0) echo ' | ';
+			if ($i > 0) echo " |\n";
 
 			$rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
 			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
@@ -396,9 +396,10 @@ function show_quick_links()
 			}
 			else
 			{
-        echo "<a href='$code_url/$rel_url' title='$title'>$text</a>";
-      }
- 		}
+				echo "<a href='$code_url/$rel_url' title='$title'>$text</a>";
+			}
+			echo "\n";
+		}
 
 		echo "</font>";
 		echo "</center>\n";
