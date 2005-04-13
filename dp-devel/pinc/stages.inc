@@ -11,6 +11,44 @@ include_once($relPath.'Pool.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+if ($site_supports_metadata)
+{
+
+new Stage(
+    'CA',
+    _('Clearance Approvals'),
+    NULL,
+    _('A qualified person must confirm that the work is in the public domain.'),
+    array(
+        'a',
+        'b',
+    ),
+    "tools/site_admin/proj_approvals.php"
+);
+
+}
+
+// -----------------------------------------------------------------------------
+
+if ($site_supports_metadata)
+{
+
+new Stage(
+    'MD',
+    _('Metadata Collection'),
+    NULL,
+    _('We collect various bits of metadata for each page in a project.'),
+    array(
+        'a',
+        'b',
+    ),
+    "tools/proofers/md_available.php"
+);
+
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 new Round(
     'P1',
     _('Proofreading Round 1'),
