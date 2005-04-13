@@ -1,6 +1,6 @@
 <?PHP
 $relPath="./../../pinc/";
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');

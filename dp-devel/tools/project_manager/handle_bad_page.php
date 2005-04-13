@@ -5,7 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_ops.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form

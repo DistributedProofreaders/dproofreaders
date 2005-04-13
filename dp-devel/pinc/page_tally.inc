@@ -12,7 +12,7 @@
 // This file is for code dealing with page tallies.
 
 include_once($relPath.'TallyBoard.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ foreach ( $Round_for_round_id_ as $round )
 // of the user's experience.
 
 // This assignment particularly assumes that the ELR is the first round
-// defined in RoundDescriptor.inc.
+// defined in stages.inc.
 $ELR_round = get_Round_for_round_number(1);
 
 $users_ELR_page_tallyboard = new TallyBoard( $ELR_round->id, 'U' );

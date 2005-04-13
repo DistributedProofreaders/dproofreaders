@@ -1,7 +1,7 @@
 <?PHP
 $relPath = './pinc/';
 include_once($relPath.'connect.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 new dbConnect();
 
 $items_for_rounds = "";

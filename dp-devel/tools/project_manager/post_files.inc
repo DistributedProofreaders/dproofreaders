@@ -2,7 +2,7 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 
 function generate_post_files( $project, $make_images_zip )
 // Generate the files needed for post-processing.

@@ -1,7 +1,7 @@
 <?
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 
 $transition_options_ = array(
 	PROJ_NEW =>

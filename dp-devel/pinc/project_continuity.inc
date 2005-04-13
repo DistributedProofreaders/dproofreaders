@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'project_states.inc');
-include_once($relPath.'RoundDescriptor.inc');
+include_once($relPath.'stages.inc');
 
 function project_continuity_check($projectid,$orig_state,$no_more_pages)
 // $orig_state was the project's state at some time in the past,
