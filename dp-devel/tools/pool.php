@@ -25,8 +25,8 @@ $pool = new StdClass;
 if ( $pool_id == 'PP' )
 {
     $pool->name = _('Post-Processing');
-    $pool->checkedout_proj_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $pool->available_proj_state = PROJ_POST_FIRST_AVAILABLE;
+    $pool->project_checkedout_state = PROJ_POST_FIRST_CHECKED_OUT;
+    $pool->project_available_state = PROJ_POST_FIRST_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_PP';
 
     $pool->foo_Header = _("Manager");
@@ -57,8 +57,8 @@ if ( $pool_id == 'PP' )
 elseif ( $pool_id == 'PPV' )
 {
     $pool->name = _('Post-Processing Verification');
-    $pool->checkedout_proj_state = PROJ_POST_SECOND_CHECKED_OUT;
-    $pool->available_proj_state = PROJ_POST_SECOND_AVAILABLE;
+    $pool->project_checkedout_state = PROJ_POST_SECOND_CHECKED_OUT;
+    $pool->project_available_state = PROJ_POST_SECOND_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_post_proof_verifier';
 
     $pool->foo_Header = _("Post Processor");
@@ -88,8 +88,8 @@ elseif ( $pool_id == 'PPV' )
 elseif ( $pool_id == 'CR' )
 {
     $pool->name = _('Corrections Review');
-    $pool->checkedout_proj_state = PROJ_CORRECT_CHECKED_OUT;
-    $pool->available_proj_state = PROJ_CORRECT_AVAILABLE;
+    $pool->project_checkedout_state = PROJ_CORRECT_CHECKED_OUT;
+    $pool->project_available_state = PROJ_CORRECT_AVAILABLE;
     $pool->user_is_allowed_fn = 'user_is_PP';
 
     $pool->foo_Header = _("Editor");
@@ -193,7 +193,7 @@ echo "<h2 align='center'>$header</h2>";
 
 // -------
 $label = $pool->name;
-$state_sql = " (state = '{$pool->available_proj_state}') ";
+$state_sql = " (state = '{$pool->project_available_state}') ";
 $filtertype_stem = $available_filtertype_stem;
 include($relPath.'filter_project_list.inc');
 if (!isset($RFilter)) { $RFilter = ""; }
@@ -345,11 +345,11 @@ function show_projects_in_state_plus(
 
     if ( $checkedout_or_available == 'checkedout' )
     {
-        $proj_state = $pool->checkedout_proj_state;
+        $proj_state = $pool->project_checkedout_state;
     }
     elseif ( $checkedout_or_available == 'available' )
     {
-        $proj_state = $pool->available_proj_state;
+        $proj_state = $pool->project_available_state;
     }
     else
     {
