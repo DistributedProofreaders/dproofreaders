@@ -228,11 +228,12 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 
 	if ($proofstate == 'proj_post')
 	{
-		$word = _("Post Processor Comments");
-             if (!$inSR) {
- 		    echo_row_b($word, '' );
-		    echo_row_c( htmlspecialchars($project['postcomments']) );
-             }
+		if ( user_is_PP_of($projectid) || user_is_PPV_of($projectid) )
+		{
+			$word = _("Post Processor Comments");
+			echo_row_b($word, '' );
+			echo_row_c( htmlspecialchars($project['postcomments']) );
+		}
 	}
 
 	$comments = $project['comments'];
