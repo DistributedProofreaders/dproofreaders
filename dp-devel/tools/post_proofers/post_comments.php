@@ -5,11 +5,6 @@ include($relPath.'theme.inc');
 
 theme(_("Project Information"), 'header');
 
-if (!user_is_PP()) {
-	echo _("You're not recorded as a post processor. If you feel this is an error, please contact the site administration.");
-	exit();
-}
-
 /* $_GET $projectid, $proofstate, $proofing */
 
 $projectid = $_GET['project'];
@@ -32,7 +27,12 @@ if (($smooth_dead > time()) AND ($state==PROJ_POST_FIRST_CHECKED_OUT) ) {
 }
 echo "<br />";
 
-
+if (!user_is_PP()) {
+	echo _("You're not recorded as a post processor, so that's all you get to see."), "\n";
+    echo _("If you feel this is an error, please contact the site administration."), "\n";
+    theme('', 'footer');
+	return;
+}
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
