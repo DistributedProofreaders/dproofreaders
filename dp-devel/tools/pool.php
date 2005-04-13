@@ -31,8 +31,8 @@ if ( $pool_id == 'PP' )
 
     $pool->foo_Header = _("Manager");
     $pool->foo_field_name = 'username';
-    $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
-    $pool->bgcolor_even = $theme['color_navbar_bg'];
+    $pool->bgcolor_odd  = '#ffffff';
+    $pool->bgcolor_even = '#cccccc';
 
     $pool->blather = array(
         "<p>",
@@ -90,8 +90,8 @@ elseif ( $pool_id == 'CR' )
 
     $pool->foo_Header = _("Editor");
     $pool->foo_field_name = 'correctedby';
-    $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
-    $pool->bgcolor_even = $theme['color_navbar_bg'];
+    $pool->bgcolor_odd  = '#ffffff';
+    $pool->bgcolor_even = '#e0e8dd';
 
     $pool->blather = array(
         "<p>",
