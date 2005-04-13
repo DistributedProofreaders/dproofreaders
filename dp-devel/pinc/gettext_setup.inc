@@ -1,6 +1,7 @@
 <?PHP
 // Localization setup
 include_once('languages.inc');
+include_once($relPath.'v_site.inc'); // $charset $dyn_locales_dir $system_locales_dir
 
 /* Explanation of logic:
 
