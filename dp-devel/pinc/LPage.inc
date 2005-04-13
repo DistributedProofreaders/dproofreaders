@@ -163,7 +163,7 @@ class processpage
   var $project='';
   var $fileid='';
   var $imagefile='';
-  var $pageround=NULL;
+  var $round_number=NULL;
   var $prd=NULL;
 
 function processpage()
@@ -179,7 +179,7 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
   $this->proofstate=$proofstate;
 
   $this->prd = get_PRD_for_page_state($pagestate);
-  $this->pageround = $this->prd->round_number;
+  $this->round_number = $this->prd->round_number;
 }
 
 function addUserCount($pguser,$userP)
@@ -201,13 +201,13 @@ function addUserCount($pguser,$userP)
 
 function saveTemp($text_data,$pguser)
 {
-  return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
+  return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser, $text_data );
 }
 
 function saveComplete($text_data,$pguser,$userP)
 {
   $this->addUserCount($pguser,$userP);
-  return Page_saveAsDone( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser, $text_data );
+  return Page_saveAsDone( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser, $text_data );
 }
 
 function getRevertState()
@@ -233,7 +233,7 @@ function exitInterface($newwin,$editone)
 
 function returnPage($pguser,$userP)
 {
-  return Page_returnToRound( $this->project, $this->fileid, $this->imagefile, $this->pageround, $pguser );
+  return Page_returnToRound( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser );
 }
 
 } // end class
