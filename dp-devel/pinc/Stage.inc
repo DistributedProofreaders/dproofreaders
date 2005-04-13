@@ -28,6 +28,10 @@ class Stage
             // If NULL, users cannot qualify for this stage by satisfying minima.
         $description,
             // A sentence or two explaining what happens in this stage.
+        $listing_bgcolors,
+            // An array of (two) HTML colors that will be used as the bgcolor
+            // in alternating rows in the listing of projects in this round.
+
         $relative_url
             // The "home" location (relative to $code_url/) of the stage.
     )
@@ -37,6 +41,7 @@ class Stage
         $this->access_minima = $access_minima;
         $this->description   = $description;
         $this->relative_url  = $relative_url;
+        $this->listing_bgcolors = $listing_bgcolors;
 
         global $testing;
         if ($testing && !is_null($this->access_minima))

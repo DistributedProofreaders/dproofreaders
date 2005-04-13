@@ -27,13 +27,11 @@ class Round extends Stage
         $round_name,
         $access_minima,
         $description,
+        $listing_bgcolors,
             // These parameters have the same semantics as the
             // corresponding parameters of the Stage constructor.
             // See Stage.inc for documentation.
 
-        $listing_bgcolors,
-            // An array of (two) HTML colors that will be used as the bgcolor
-            // in alternating rows in the listing of projects in this round.
         $other_rounds_with_visible_usernames
             // An array of round_ids.
             // If user X worked on a page in this round, they can see the
@@ -46,6 +44,7 @@ class Round extends Stage
             $round_name,
             $access_minima,
             $description,
+            $listing_bgcolors,
             "tools/proofers/round.php?round_id=$round_id"
         );
 
@@ -53,7 +52,6 @@ class Round extends Stage
         $n_rounds++;
         $this->round_number       = $n_rounds;
 
-        $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
         $this->project_unavailable_state = constant("PROJ_{$round_id}_UNAVAILABLE");
