@@ -10,6 +10,8 @@
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'TallyBoard.inc');
 
+$Stage_for_id_ = array();
+
 class Stage
 {
     function Stage(
@@ -56,6 +58,9 @@ class Stage
                 }
             }
         }
+
+        global $Stage_for_id_;
+        $Stage_for_id_[$id] =& $this;
     }
 
     function user_access( $username, $n_pages_completed=null )
@@ -185,6 +190,19 @@ class Stage
         return (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes');
     }
 
+}
+
+function & get_Stage_for_id( $id )
+{
+    global $Stage_for_id_;
+    if ( array_key_exists( $id, $Stage_for_id_ ) )
+    {
+        return $Stage_for_id_[$id];
+    }
+    else
+    {
+        die( "There is no stage with id='$id'." );
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
