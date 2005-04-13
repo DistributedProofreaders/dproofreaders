@@ -7,6 +7,9 @@
 //
 // It's a generalization of the existing ideas of 'round' and 'pool'.
 
+include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'TallyBoard.inc');
+
 class Stage
 {
     function Stage(
