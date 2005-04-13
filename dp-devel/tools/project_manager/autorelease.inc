@@ -56,7 +56,7 @@ function attempt_to_release( $round, $project )
     }
 
     maybe_mail_project_manager( $project,
-        "This project has just become available for work in round {$round->round_id}.",
+        "This project has just become available for work in round {$round->id}.",
         "DP Proofreading Started");
 
     return TRUE;
@@ -68,7 +68,7 @@ function attempt_to_release( $round, $project )
 function autorelease_for_round( $round )
 {
     echo "\n";
-    echo "Starting autorelease for round {$round->round_id}...\n";
+    echo "Starting autorelease for round {$round->id}...\n";
 
     $q_res = mysql_query("
         SELECT *
@@ -111,7 +111,7 @@ function autorelease_for_round( $round )
         }
 
         echo "\n";
-        echo "Finished round {$round->round_id}\n";
+        echo "Finished round {$round->id}\n";
         echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
         return;
     }
@@ -340,7 +340,7 @@ function autorelease_for_round( $round )
     AP_teardown($round);
 
     echo "\n";
-    echo "Finished round {$round->round_id}\n";
+    echo "Finished round {$round->id}\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 }
 

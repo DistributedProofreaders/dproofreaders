@@ -24,8 +24,8 @@ echo _("Activity Hub")."</a></td>";
 // -------
 
 $round = get_Round_for_project_state($proofstate);
-echo "<td bgcolor='CCCCCC' align='center'><a href='round.php?round_id={$round->round_id}' target='_top'>"; 
-echo $round->round_name;
+echo "<td bgcolor='CCCCCC' align='center'><a href='round.php?round_id={$round->id}' target='_top'>"; 
+echo $round->name;
 echo "</a></td>";
 
 // -------

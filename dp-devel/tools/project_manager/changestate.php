@@ -134,7 +134,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
             else
             {
                 maybe_mail_project_manager( $project,
-             	   "This project has been manually released by $pguser and has just become available in '{$round->round_name}'.",
+             	   "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
                    "DP Proofreading Started (Manual Release)");
             }
 	}

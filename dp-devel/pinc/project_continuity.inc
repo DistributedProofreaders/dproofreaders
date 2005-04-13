@@ -36,7 +36,7 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		global $code_url;
 		$round = get_Round_for_project_state($orig_state);
 		echo "<p>";
-		echo "<a href='$code_url/tools/proofers/round.php?round_id={$round->round_id}' target=\"_top\">{$round->round_name}</a>";
+		echo "<a href='$code_url/tools/proofers/round.php?round_id={$round->id}' target=\"_top\">{$round->name}</a>";
 		echo "</p>\n";
 
 		die();

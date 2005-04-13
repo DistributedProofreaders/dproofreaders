@@ -91,7 +91,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         // They'll get it back if/when they save-as-done again.
         // (Plugs a former page-count cheat.)
 
-        page_tallies_add( $round->round_id, $pguser, -1 );
+        page_tallies_add( $round->id, $pguser, -1 );
 
         // no need to update text, just record state change
         Page_reopen( $project, $fileid, $imagefile, $round->round_number, $pguser );
@@ -193,7 +193,7 @@ function addUserCount($pguser,$userP)
         if ($curState == $this->round->page_out_state || $curState == $this->round->page_temp_state)
         {
           // add to user page count
-          page_tallies_add( $this->round->round_id, $pguser, +1 );
+          page_tallies_add( $this->round->id, $pguser, +1 );
         }
     }
 }

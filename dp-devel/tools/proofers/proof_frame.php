@@ -49,7 +49,7 @@ $needPage=1;
             {
 	      $round = get_Round_for_project_state($proofstate);
               $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
-                                                 "<a href='round.php?round_id={$round->round_id}' target='_top'>","</a>");
+                                                 "<a href='round.php?round_id={$round->id}' target='_top'>","</a>");
               $title = _("Unable to get an available page");
               echo "<html><head><title>$title</title></head><body>$body</body></html>";
               exit;

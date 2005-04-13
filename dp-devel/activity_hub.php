@@ -282,7 +282,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     $round = get_Round_for_round_number($rn);
     echo "<li>\n";
 
-    echo "({$round->round_id}) <a href='$code_url/tools/proofers/round.php?round_id={$round->round_id}'>{$round->round_name}</a>";
+    echo "({$round->id}) <a href='$code_url/tools/proofers/round.php?round_id={$round->id}'>{$round->name}</a>";
     echo "<br>\n";
 
     echo $round->description;
@@ -301,7 +301,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         // $round->project_unavailable_state,
         // $round->project_bad_state
         ),
-        $round->round_id
+        $round->id
     );
 
     echo "</li>\n";

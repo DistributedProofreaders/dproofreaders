@@ -53,11 +53,6 @@ class Round extends Stage
         $n_rounds++;
         $this->round_number       = $n_rounds;
 
-        // These two attributes should be phased out,
-        // in favour of Stage::$id and Stage::$name.
-        $this->round_id           = $round_id;
-        $this->round_name         = $round_name;
-
         $this->listing_bgcolors   = $listing_bgcolors;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
 
@@ -88,7 +83,7 @@ class Round extends Stage
         }
 
         global $Round_for_round_id_;
-        $Round_for_round_id_[$this->round_id] =& $this;
+        $Round_for_round_id_[$this->id] =& $this;
 
         global $Round_for_round_number_;
         $Round_for_round_number_[$this->round_number] =& $this;
@@ -117,7 +112,7 @@ class Round extends Stage
 
     function roundCode()
     {
-        return $this->round_id;
+        return $this->id;
     }
 }
 

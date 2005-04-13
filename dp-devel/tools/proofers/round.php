@@ -39,9 +39,9 @@ else
     $theme_extras = array();
 }
 
-theme( $round->round_name, 'header', $theme_extras );
+theme( $round->name, 'header', $theme_extras );
 
-echo "<h1>{$round->round_name}</h1>\n";
+echo "<h1>{$round->name}</h1>\n";
 
 // ---------------------------------------
 
@@ -124,8 +124,8 @@ else
     echo "<hr width='75%'>\n";
 
 	$state_sql = " (state = '{$round->project_available_state}') ";
-	$label = $round->round_name;
-    $filtertype_stem = $round->round_id;
+	$label = $round->name;
+    $filtertype_stem = $round->id;
     include_once($relPath.'filter_project_list.inc');
 }
 if (!isset($RFilter)) { $RFilter = ""; }

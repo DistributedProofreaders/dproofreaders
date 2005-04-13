@@ -405,28 +405,28 @@ if (0)
 	foreach (array('P1','P2','F1') as $round_id)
 	{
 		$round = get_Round_for_round_id($round_id);
-		echo "$round_id\t$round->round_id\n";
+		echo "$round_id\t$round->id\n";
 	}
 
 	echo "\nget_Round_for_round_number:\n";
 	foreach (array(1,2,3) as $round_number)
 	{
 		$round = get_Round_for_round_number($round_number);
-		echo "$round_number\t$round->round_id\n";
+		echo "$round_number\t$round->id\n";
 	}
 
 	echo "\nget_Round_for_project_state:\n";
 	foreach ($PROJECT_STATES_IN_ORDER as $project_state)
 	{
 		$round = get_Round_for_project_state($project_state);
-		echo "$project_state\t$round->round_id\n";
+		echo "$project_state\t$round->id\n";
 	}
 
 	echo "\nget_Round_for_page_state:\n";
 	foreach ($PAGE_STATES_IN_ORDER as $page_state)
 	{
 		$round = get_Round_for_page_state($page_state);
-		echo "$page_state\t$round->round_id\n";
+		echo "$page_state\t$round->id\n";
 	}
 
 	var_dump($P1);

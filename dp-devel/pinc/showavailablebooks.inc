@@ -12,7 +12,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 	$round = get_Round_for_round_number($round_number);
 
-	$setting = "{$round->round_id}_order";
+	$setting = "{$round->id}_order";
 
 	// read saved sort orders from user_settings table 
 	$result = mysql_query("
@@ -30,7 +30,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 
 	// read new sort order from url, if any
-	$url_param = "order{$round->round_id}";
+	$url_param = "order{$round->id}";
 	$order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
 
 	// if orders have changed, save them to database
@@ -46,7 +46,7 @@ function show_block_for_round( $round_number, $projects_filter )
 		");
 	}
 
-	echo "\n<a name='{$round->round_id}'></a>";
+	echo "\n<a name='{$round->id}'></a>";
 	echo "\r\n<table border=1>";
 	echo "\r\n<tr bgcolor='{$round->listing_bgcolors[1]}'>";
 
@@ -203,7 +203,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
 
 
-	$order_param = "order{$round->round_id}";
+	$order_param = "order{$round->id}";
 
 	// The originating request may have query-string settings (other than
 	// for $order_param). We should preserve those, and just append the
@@ -218,7 +218,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	}
 
 	$linkbase = "<a href='?{$other_settings}{$order_param}=";
-	$linkend = "#{$round->round_id}'";
+	$linkend = "#{$round->id}'";
 
 	// Always put the BEGIN projects at the top.
 	$query = "
