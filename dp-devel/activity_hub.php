@@ -256,99 +256,50 @@ function summarize_projects( $project_states, $filtertype_stem )
     echo "<br>\n";
 }
 
-if ($site_supports_metadata)
+foreach ( $Stage_for_id_ as $stage )
 {
-    // Clearance Approvals
-    if (user_is_a_sitemanager())
-    {
-        echo "<li>\n";
-        echo "<a href='$code_url/tools/site_admin/proj_approvals.php'>" . _("Clearance Approvals") . "</a>";
-        echo "</li>\n";
-        echo "<br>\n";
-    }
-
-    // Metadata Collection
-    {
-        echo "<li>\n";
-        echo "<a href='$code_url/tools/proofers/md_available.php'>" . _("Metadata Collection") . "</a>";
-        echo "</li>\n";
-        echo "<br>\n";
-    }
-}
-
-// Page-Editing Rounds
-for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-{
-    $round = get_Round_for_round_number($rn);
     echo "<li>\n";
 
-    echo "({$round->id}) <a href='$code_url/tools/proofers/round.php?round_id={$round->id}'>{$round->name}</a>";
+    echo "({$stage->id}) <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a>";
     echo "<br>\n";
 
-    echo $round->description;
+    echo $stage->description;
     echo "<br>\n";
 
     echo "<br>\n";
 
-	list($can_access, $minima_table, $sentences) = $round->user_access( $pguser, $pagesproofed );
+	list($can_access, $minima_table, $sentences) = $stage->user_access( $pguser, $pagesproofed );
     show_entrance_requirements( $minima_table, $sentences );
     echo "<br>\n";
 
-    summarize_projects( array(
-        $round->project_waiting_state,
-        $round->project_available_state,
-        // $round->project_complete_state,
-        // $round->project_unavailable_state,
-        // $round->project_bad_state
-        ),
-        $round->id
-    );
-
-    echo "</li>\n";
-    echo "<br>\n";
-}
-
-// Post-Processing
-{
-    echo "<li>\n";
-
-    echo "(PP) <a href='$code_url/tools/pool.php?pool_id=PP'>Post-Processing</a>";
-    echo "<br>\n";
-
-    echo _("After going through two rounds of proofreading, the books need to be massaged into a final e-text.");
-    echo "<br>\n";
-
-    $minimum_user_pages = 400;
-    if ( $minimum_user_pages > 0 )
+    if ( is_a( $stage, 'Round' ) )
     {
-        if ( $pagesproofed >= $minimum_user_pages )
-        {
-            echo _("You have proofed enough pages to work in this stage.");
-        }
-        else
-        {
-            echo sprintf(
-                _("You must proof %d more pages to work in this stage."),
-                $minimum_user_pages - $pagesproofed );
-        }
-        echo "<br>\n";
+        summarize_projects( array(
+            $stage->project_waiting_state,
+            $stage->project_available_state,
+            // $stage->project_complete_state,
+            // $stage->project_unavailable_state,
+            // $stage->project_bad_state
+            ),
+            $stage->id
+        );
     }
-
-    summarize_projects( array(
-        // PROJ_POST_FIRST_UNAVAILABLE,
-        PROJ_POST_FIRST_AVAILABLE,
-        PROJ_POST_FIRST_CHECKED_OUT
-        ),
-        'avail_PP'
-    );
-
+    elseif ( is_a($stage, 'Pool' ) )
     {
-        $result = mysql_query("
+        summarize_projects( array(
+            // $stage->project_unavailable_state,
+            $stage->project_available_state,
+            $stage->project_checkedout_state,
+            ),
+            "{$stage->id}_av"
+        );
+
+        $res = mysql_query("
             SELECT COUNT(*)
             FROM projects
-            WHERE checkedoutby='$pguser' && state='".PROJ_POST_FIRST_CHECKED_OUT."'
+            WHERE checkedoutby='$pguser' && state='{$stage->project_checkedout_state}'
         ");
-        $n_projects_checked_out_to_user = mysql_result($result,0);
+        $n_projects_checked_out_to_user = mysql_result($res,0);
         if ($n_projects_checked_out_to_user  > 0)
         {
             echo sprintf(
@@ -361,78 +312,6 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     echo "</li>\n";
     echo "<br>\n";
 }
-
-
-// Smooth Reading
-{
-    echo "<li>\n";
-
-    echo "(SR) <a href='$code_url/tools/post_proofers/smooth_reading.php'>Smooth Reading Pool</a>";
-    echo "<br>\n";
-
-    echo _("Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.");
-    echo "<br>\n";
-
-    echo _("Every DP user can participate in this stage.");
-    echo "<br><br>\n";
-
-
-
-}
-
-
-// Post-Processing Verification
-{
-    echo "<li>\n";
-
-    echo "(PPV) <a href='$code_url/tools/pool.php?pool_id=PPV'>Post-Processing Verification</a>";
-    echo "<br>\n";
-
-    echo _("Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.");
-    echo "<br>\n";
-
-    echo _("PPVers are promoted from the ranks of PPers by peer review.");
-    echo "<br>\n";
-    if ( user_is_post_proof_verifier() )
-    {
-        echo _("You are allowed to participate in this stage.");
-    }
-    else
-    {
-        echo _("You are not allowed to participate in this stage.");
-    }
-    echo "<br>\n";
-
-    summarize_projects( array(
-        PROJ_POST_SECOND_AVAILABLE,
-        PROJ_POST_SECOND_CHECKED_OUT,
-        // PROJ_POST_COMPLETE
-        ),
-        'avail_PPV'
-    );
-
-    {
-        $result = mysql_query("
-            SELECT COUNT(*)
-            FROM projects
-            WHERE checkedoutby='$pguser' && state='".PROJ_POST_SECOND_CHECKED_OUT."'
-        ");
-        $n_projects_checked_out_to_user = mysql_result($result,0);
-        if ($n_projects_checked_out_to_user  > 0)
-        {
-            echo sprintf(
-                _("You currently have %d projects checked out in this stage."),
-                $n_projects_checked_out_to_user );
-            echo "<br>\n";
-        }
-    }
-
-    echo "</li>\n";
-    echo "<br>\n";
-}
-
-
-
 
 echo "</ul>\n";
 
