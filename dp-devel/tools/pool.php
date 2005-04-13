@@ -126,8 +126,8 @@ $userSettings = Settings::get_Settings($pguser);
 $fn = $pool->user_is_allowed_fn;
 if (!$fn())
 {
-    echo _("You're not allowed to work in this pool. If you feel this is an error, please contact the site administration.");
-    exit();
+    echo _("You're not allowed to work in this pool, just visit."), "\n";
+    echo _("If you feel this is an error, please contact the site administration."), "\n";
 }
 
 
