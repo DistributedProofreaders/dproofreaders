@@ -193,6 +193,10 @@ A:active {
 <? if($utf8_site) { ?>
 <option value="332">&#332;</option>
 <option value="333">&#333;</option>
+<option value="334">&#334;</option>
+<option value="335">&#335;</option>
+<option value="336">&#336;</option>
+<option value="337">&#337;</option>
 <option value="338">&#338;</option>
 <option value="339">&#339;</option>
 <? } ?>
@@ -217,8 +221,10 @@ class="dropchars"
 <? if($utf8_site) { ?>
 <option value="362">&#362;</option>
 <option value="363">&#363;</option>
+<option value="368">&#368;</option>
+<option value="369">&#369;</option>
 <? } ?>
-</select></td><td><select
+</select></td><td align="right"><select
 	name="tCharsM"
 	ID="tCharsM"
 	title="More"
