@@ -31,7 +31,6 @@ if ( $pool_id == 'PP' )
 
     $pool->foo_Header = _("Manager");
     $pool->foo_field_name = 'username';
-    $pool->bgcolor      = $theme['color_headerbar_bg'];
     $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
     $pool->bgcolor_even = $theme['color_navbar_bg'];
 
@@ -62,7 +61,6 @@ elseif ( $pool_id == 'PPV' )
 
     $pool->foo_Header = _("Post Processor");
     $pool->foo_field_name = 'postproofer';
-    $pool->bgcolor      = '#66ccff';
     $pool->bgcolor_odd  = '#EAF7F7'; // "paledarkskyblue"
     $pool->bgcolor_even = '#99FFFF'; // "harshflourolightblue"
 
@@ -92,7 +90,6 @@ elseif ( $pool_id == 'CR' )
 
     $pool->foo_Header = _("Editor");
     $pool->foo_field_name = 'correctedby';
-    $pool->bgcolor      = $theme['color_headerbar_bg'];
     $pool->bgcolor_odd  = $theme['color_mainbody_bg'];
     $pool->bgcolor_even = $theme['color_navbar_bg'];
 
@@ -402,7 +399,7 @@ function show_projects_in_state_plus(
         ";
     }
 
-    $tds="<td bgcolor='{$pool->bgcolor}' align=\"center\"";
+    $tds="<td bgcolor='".$theme['color_headerbar_bg']."' align=\"center\"";
     $tdm="<font color='".$theme['color_headerbar_font']."'>";
     $tdc="</b></font></a></td>";
 
