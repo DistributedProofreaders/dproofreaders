@@ -342,6 +342,10 @@ function show_quick_links()
 {
 	global $site_supports_metadata, $code_url, $theme, $Stage_for_id_, $pguser;
 
+	if (is_null($pguser)) return;
+	// Should show links to stages that are accessible to people
+	// that aren't logged in? (i.e., SR)? 
+
 	$links = array();
 
 	if (user_is_PM())
