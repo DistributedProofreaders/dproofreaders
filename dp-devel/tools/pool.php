@@ -2,7 +2,7 @@
 $relPath="./../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'project_states.inc');
+include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
@@ -13,107 +13,11 @@ include_once($relPath.'site_news.inc');
 
 $pool_id = @$_GET['pool_id'];
 
-$someone_maintains_the_PP_faq =
-    sprintf( _("%s (<a href='%s'>%s</a>) maintains our <a href='%s'>Post Processing FAQ</a>."),
-        'Julie Barkley',
-        'http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674',
-        'juliebarkley',
-        "$code_url/faq/post_proof.php" );
-
-$pool = new StdClass;
-
-if ( $pool_id == 'PP' )
-{
-    $pool->name = _('Post-Processing');
-    $pool->project_checkedout_state = PROJ_POST_FIRST_CHECKED_OUT;
-    $pool->project_available_state = PROJ_POST_FIRST_AVAILABLE;
-    $pool->user_is_allowed_fn = 'user_is_PP';
-
-    $pool->foo_Header = _("Manager");
-    $pool->foo_field_name = 'username';
-    $pool->listing_bgcolors = array(
-        '#cccccc',
-        '#ffffff'
-    );
-
-    $pool->blather = array(
-        "<p>",
-        _("The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text."),
-        _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
-        _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project."),
-        _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first."),
-        "</p>",
-
-        "<p>",
-        "<b>" . _("First Time Here?") . "</b>",
-        $someone_maintains_the_PP_faq,
-        _("Please read the FAQ as it covers all the steps needed to post process an e-text."),
-        _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post processor)."),
-        sprintf( _("Check out the <a href='%s'>Post Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
-        _("If nothing interests you right now, check back later and there will be more!"),
-        "</p>",
-    );
-}
-elseif ( $pool_id == 'PPV' )
-{
-    $pool->name = _('Post-Processing Verification');
-    $pool->project_checkedout_state = PROJ_POST_SECOND_CHECKED_OUT;
-    $pool->project_available_state = PROJ_POST_SECOND_AVAILABLE;
-    $pool->user_is_allowed_fn = 'user_is_post_proof_verifier';
-
-    $pool->foo_Header = _("Post Processor");
-    $pool->foo_field_name = 'postproofer';
-    $pool->listing_bgcolors = array(
-        '#99FFFF', // "harshflourolightblue"
-        '#EAF7F7', // "paledarkskyblue"
-    );
-
-    $pool->blather = array(
-        "<p>",
-        _("As an experienced volunteer, you have access to do verification of texts that have been Post Processed already, if you wish."),
-        "<font color='red' size=4>",
-        sprintf( _("Make sure you read the <b>new</b> <a href='%s'>Post Processing Verification Guidelines</a> and use the <a href='%s'>PPV Report Card</a> for each project you PPV."),
-            "$code_url/faq/ppv.php",
-            "$code_url/faq/ppv_report.txt" ),
-        "</font>",
-        "</p>",
-
-        "<p>",
-        $someone_maintains_the_PP_faq,
-        sprintf( _("As always, the <a href='%s'>Post Processing Forum</a> is available for any of your questions."),
-            $post_processing_forum_url ),
-        "</p>",
-    );
-}
-elseif ( $pool_id == 'CR' )
-{
-    $pool->name = _('Corrections Review');
-    $pool->project_checkedout_state = PROJ_CORRECT_CHECKED_OUT;
-    $pool->project_available_state = PROJ_CORRECT_AVAILABLE;
-    $pool->user_is_allowed_fn = 'user_is_PP';
-
-    $pool->foo_Header = _("Editor");
-    $pool->foo_field_name = 'correctedby';
-    $pool->listing_bgcolors = array(
-        '#e0e8dd',
-        '#ffffff',
-    );
-
-    $pool->blather = array(
-        "<p>",
-        _("The books listed below have already been posted to Project Gutenberg, but a reader has found errors and submitted a corrected text."),
-        _("We need you to review the corrections to see if they're valid."),
-        _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
-        _("When you have finished your work on the book, send the book to Project Gutenberg to be posted."),
-        "</p>",
-    );
-}
-else
+$pool = get_Pool_for_id($pool_id);
+if ( is_null($pool) )
 {
     die("bad 'pool_id' parameter: '$pool_id'");
 }
-
-$pool->id = $pool_id;
 
 $available_filtertype_stem = "{$pool->id}_av";
 
@@ -126,8 +30,8 @@ echo "<h1 align='center'>{$pool->id}: {$pool->name}</h1>";
 global $pguser;
 $userSettings = Settings::get_Settings($pguser);
 
-$fn = $pool->user_is_allowed_fn;
-if (!$fn())
+list($can_access,$minima_table,$sentences) = $pool->user_access($pguser);
+if (!$can_access)
 {
     echo _("You're not allowed to work in this pool, just visit."), "\n";
     echo _("If you feel this is an error, please contact the site administration."), "\n";
