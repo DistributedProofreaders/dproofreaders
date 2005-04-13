@@ -110,10 +110,6 @@ class Round extends Stage
         $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
 
-    function roundCode()
-    {
-        return $this->id;
-    }
 }
 
 $P1 = new Round(
