@@ -263,7 +263,9 @@ $linkbase = "<a href='?{$other_settings}{$order_param}=";
 $linkend = "'";
 
 $query = "
-        SELECT *,
+        SELECT projects.*,
+                page_counts.total_pages,
+                phpbb_users.user_id, 
                 round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left,
                 projects.username as PM
         FROM projects
