@@ -18,12 +18,12 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 
 	echo "<table border=1 width=630>";
 
-	$project = mysql_fetch_assoc(mysql_query("
+	$project = mysql_fetch_object(mysql_query("
 	    SELECT * FROM projects WHERE projectid = '$projectid'
 	"));
 
-        if (isset($project['special'])) {
-           $spec_code = $project['special'];
+        if (isset($project->special)) {
+           $spec_code = $project->special;
            if ((strncmp($spec_code,'Birthday',8) == 0 ) or
                (strncmp($spec_code,'Otherday',8) == 0 )) {
                $spec_display = $spec_code;
@@ -35,8 +35,8 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
            }
         }
 
-        if (isset($project['image_provider'])) {
-           $imp_code = $project['image_provider'];
+        if (isset($project->image_provider)) {
+           $imp_code = $project->image_provider;
            if (strcmp($imp_code,'DP User') != 0 ) {
                 if (strncmp($imp_code,'O:',2) == 0 ) {
                     $imp_display = substr($imp_code,2);
@@ -62,7 +62,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	{
 		$word = _("Instructions for Smooth Reading");
 		echo_row_b($word, '' );
-		echo_row_c( htmlspecialchars($project['postcomments']) );
+		echo_row_c( htmlspecialchars($project->postcomments) );
 		$word = _("Other Project Information");
 		echo_row_b($word, '' );
 
@@ -71,7 +71,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// -------------------------------------------------------------------------
 	// The state of the project
 
-	$right = project_states_text($project['state']);
+	$right = project_states_text($project->state);
 	if ($round)
 	{
 		$extra = $round->description;
@@ -83,15 +83,15 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// Information about the work itself (independent of DP)
 
 	$word =  _("Title");
-	echo_row_a($word,           $project['nameofwork'] );
+	echo_row_a($word,           $project->nameofwork );
 	$word = _("Author");
-	echo_row_a($word,          $project['authorsname'] );
+	echo_row_a($word,          $project->authorsname );
 	$word = _("Language");
-	echo_row_a($word,        $project['language'] );
+	echo_row_a($word,        $project->language );
 	$word = _("Genre");
-	echo_row_a($word,           $project['genre'] );
+	echo_row_a($word,           $project->genre );
 	$word =  _("Difficulty");
-	echo_row_a($word,      $project['difficulty'] );
+	echo_row_a($word,      $project->difficulty );
 
 
 	// -------------------------------------------------------------------------
@@ -110,15 +110,15 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	if ($proofstate == 'proj_post')
 	{
 		$word = _("Project ID");
-		echo_row_a($word,     $project['projectid'] );
+		echo_row_a($word,     $project->projectid );
 
 		// The clearance line normally contains the email address of the
 		// person who submitted the clearance request. Since this is
 		// private information, we restrict who can see it.
-		if ( user_is_PPV_of($project['projectid']) )
+		if ( user_is_PPV_of($project->projectid) )
 		{
 			$word = _("Clearance Line");
-			echo_row_a($word, htmlspecialchars($project['clearance'],ENT_NOQUOTES) );
+			echo_row_a($word, htmlspecialchars($project->clearance,ENT_NOQUOTES) );
 		}
 	}
 
@@ -126,12 +126,12 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// People who have certain roles with respect to the project
 
 	$word = _("Project Manager");
-	echo_row_a($word, $project['username'] );
+	echo_row_a($word, $project->username );
 
 	if ($proofstate == 'proj_post')
 	{
 		$word = _("Post Processor");
-		echo_row_a($word, $project['postproofer'] );
+		echo_row_a($word, $project->postproofer );
 
 		$creditline = create_credit_line($project);
 
@@ -164,12 +164,12 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 
 	// -------------------------------------------------------------------------
 
-	$state = $project['state'];
+	$state = $project->state;
 	if ( $state == PROJ_SUBMIT_PG_POSTED
 	  || $state == PROJ_CORRECT_AVAILABLE
 	  || $state == PROJ_CORRECT_CHECKED_OUT )
 	{
-		$postednum = $project['postednum'];
+		$postednum = $project->postednum;
 		echo_row_a( _("PG etext number"),
 			get_pg_catalog_link_for_etext($postednum, $postednum) );
 	}
@@ -177,7 +177,7 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 	// -------------------------------------------------------------------------
 	// Forum topic
 
-	$topic_id = $project['topic_id'];
+	$topic_id = $project->topic_id;
 	if (!empty($topic_id)) {
 		$last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
 		$last_post_date = mysql_result($last_post,0,"post_time");
@@ -232,15 +232,15 @@ function echo_project_info( $projectid, $proofstate, $sub, $inSR = 0 )
 		{
 			$word = _("Post Processor Comments");
 			echo_row_b($word, '' );
-			echo_row_c( htmlspecialchars($project['postcomments']) );
+			echo_row_c( htmlspecialchars($project->postcomments) );
 		}
 	}
 
-	$comments = $project['comments'];
+	$comments = $project->comments;
 
 
         // automatically prepend R2 intro for Beginners Only
-        if  ($project['difficulty'] == "beginner")
+        if  ($project->difficulty == "beginner")
 	{
 		if ($proofstate==PROJ_P2_AVAILABLE) {
 	             $comments = "[template=BGr2.txt]".$comments;
@@ -306,10 +306,10 @@ function echo_row_c( $content )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// $project should preferrably be an associative array matching
-// the record in the projects table. The array doesn't
+// $project should preferrably be an object matching
+// the record in the projects table. The object doesn't
 // *have* to contain all the data for this to work. Currently,
-// the keys 'username', 'scannercredit' and 'postproofer' are
+// the properties 'username', 'scannercredit' and 'postproofer' are
 // enough.
 //
 // The string will not be localized, since it should be ready
@@ -323,7 +323,7 @@ function create_credit_line( $project )
 	// The code to check whether/how to credit is rather generic, so
 	// define two arrays and loop over them.
 	$roles = array('cp', 'pm', 'pp');
-	$usernames = array($project['scannercredit'], $project['username'], $project['postproofer']);
+	$usernames = array($project->scannercredit, $project->username, $project->postproofer);
 
 	$i = 0;
 	foreach ($roles as $role) {
