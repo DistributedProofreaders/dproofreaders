@@ -266,11 +266,13 @@ $query = "
         SELECT *,
                 round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left,
                 projects.username as PM
-        FROM projects, page_counts, phpbb_users
+        FROM projects
+            LEFT OUTER JOIN page_counts
+                USING (projectid)
+            LEFT OUTER JOIN phpbb_users
+                ON (phpbb_users.username = projects.checkedoutby)
         WHERE
-                projects.projectid = page_counts.projectid
-                AND projects.checkedoutby = phpbb_users.username
-                AND state = 'proj_post_first_checked_out'
+                state = 'proj_post_first_checked_out'
                 AND smoothread_deadline > UNIX_TIMESTAMP()
                 $RFilter
         ORDER BY
