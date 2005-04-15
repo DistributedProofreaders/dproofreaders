@@ -176,6 +176,6 @@ $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHE
 
 echo "</pre>\n";
 echo "<hr>\n";
-echo "Return to <a href='$code_url/project.php?id=$projectid&verbosity=3'>Project Page</a>.\n";
+echo "Return to <a href='$code_url/project.php?id=$projectid&verbosity=4'>Project Page</a>.\n";
 
 ?>

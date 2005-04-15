@@ -28,7 +28,7 @@ $projectid      = @$_GET['id'];
 $expected_state = @$_GET['expected_state'];
 $verbosity      = @$_GET['verbosity'];
 
-$VALID_VERBOSITIES = array('1','2','3');
+$VALID_VERBOSITIES = array('1','2','3','4');
 if ( is_null($verbosity) )
 {
     // unspecified
@@ -102,14 +102,21 @@ else
     do_project_info_table();
     do_edit_above();
     do_blurb_box( $bottom_blurb );
-    do_early_uploads();
-    do_images();
-    do_post_downloads();
-    do_smooth_reading();
-    do_change_state();
-    do_page_summary();
-    do_page_table();
-    do_verbosity_switch();
+
+    if ($verbosity >= 3)
+    {
+        do_early_uploads();
+        do_images();
+        do_post_downloads();
+        do_smooth_reading();
+        do_change_state();
+        do_page_summary();
+        if ($verbosity >= 4)
+        {
+            do_page_table();
+        }
+        do_verbosity_switch();
+    }
 
     theme('', 'footer');
 }
@@ -1202,9 +1209,8 @@ function do_page_summary()
 
 function do_page_table()
 {
-    global $project, $verbosity;
+    global $project;
 
-    if ($verbosity == 3)
     {
         global $relPath;
         include($relPath.'../tools/project_manager/detail_legend.inc');
