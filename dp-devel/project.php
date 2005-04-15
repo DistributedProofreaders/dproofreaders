@@ -201,9 +201,9 @@ function decide_blurbs()
     else
     {
         // If there's any proofreading to be done, this is the link to use.
-        $url = "$code_url/tools/proofers/proof_frame.php?project=$projectid&amp;proofstate=$state";
+        $url = "$code_url/tools/proofers/proof.php?project=$projectid&amp;proofstate=$state";
         $label = _("Start Proofreading");
-        $proofreading_link = "<b><a href='$url' target='proofframe'>$label</a></b>";
+        $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
         // When were the project comments last modified?
         $comments_timestamp = $project->modifieddate;
@@ -759,9 +759,9 @@ function recentlyproofed( $wlist )
         $saved="&amp;saved=1";
         $editone="&amp;editone=1";
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="$code_url/tools/proofers/proof_frame.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
+        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved.$editone;
         echo "<TD ALIGN=\"center\">";
-        echo "<A HREF=\"$eURL\" target=\"proofframe\">";
+        echo "<A HREF=\"$eURL\">";
         echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
         $rownum++;
     }

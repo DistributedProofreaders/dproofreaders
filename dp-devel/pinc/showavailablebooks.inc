@@ -80,6 +80,7 @@ function show_block_for_round( $round_number, $projects_filter )
 
 function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
 {
+	global $code_url;
 
 	$flip_title = FALSE;
 	$flip_author = FALSE;
@@ -303,8 +304,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 		if (TRUE)
 		{
 			echo "<tr bgcolor='$bgcolor'>";
-			$eURL="proof.php";
-			$eURL.="?project={$book['projectid']}&amp;proofstate={$book['state']}";
+			$eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
 			if ($userP['i_newwin']==0)
 				{$temp="<a href=\"$eURL\">";}
 			else
