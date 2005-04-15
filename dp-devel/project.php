@@ -1204,8 +1204,6 @@ function do_page_table()
 {
     global $project, $verbosity;
 
-    if ( !user_is_PM() ) return;
-
     if ($verbosity == 3)
     {
         global $relPath;
