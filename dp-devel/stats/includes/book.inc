@@ -81,7 +81,7 @@ function activityCenter($curProj) {
 	if ( $project_phase == 'PAGE_EDITING' )
 	{
 		$round = get_Round_for_project_state($curProj['state']);
-		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/projects.php?project=$projectid&proofstate={$round->project_available_state}'>Start Proofreading!</a></font></td></tr>\n";
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/project.php?id=$projectid&amp;expected_state={$round->project_available_state}'>Start Proofreading!</a></font></td></tr>\n";
 	}
 
 //	Book is Posted

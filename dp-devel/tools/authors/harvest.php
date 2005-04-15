@@ -128,12 +128,12 @@
 
       if ($count == 0) {
         echo 'It seems the biography in this project was not properly marked. Please check manually:';
-        echo " $code_url/tools/proofers/projects.php?project=$project_id";
+        echo " $code_url/project.php?id=$project_id";
         continue;
       }
 
       // This is added to each bio, so that we'll know where it came from (yes, URL may become stale!).
-      $project_reference = "<!-- biography harvested from project $project_id\n($code_url/tools/proofers/projects.php?project=$project_id). -->\n\n";
+      $project_reference = "<!-- biography harvested from project $project_id\n($code_url/project.php?id=$project_id). -->\n\n";
 
       foreach ($matches as $match) {
         // $match is an array matching the regexp above.

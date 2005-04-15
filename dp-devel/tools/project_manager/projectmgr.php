@@ -330,7 +330,7 @@ abort_if_not_manager();
             		echo "<tr bgcolor=$bgcolor>\n";
 
 			// Title
-			echo "<td><a href=\"project_detail.php?project=$projectid\">$name</a></td>\n";
+			echo "<td><a href='$code_url/project.php?id=$projectid'>$name</a></td>\n";
 
 			// Author
 			echo "<td>$author</td>\n";

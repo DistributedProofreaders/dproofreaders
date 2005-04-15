@@ -114,7 +114,6 @@ function loc_eq($loc) {
 		"pinc/prefs_options.inc" => "userprefs.php",
 		"pinc/showavailablebooks.inc" => "tools/proofers/round.php",
 		"pinc/showstartexts.inc" => "default.php",
-		"tools/proofers/projects_menu.inc" => "tools/proofers/projects.php",
 //		...
         );
 

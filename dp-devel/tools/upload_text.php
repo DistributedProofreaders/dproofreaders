@@ -38,8 +38,8 @@ else if ($stage == 'smooth_avail')
 	$indicator = "_smooth_avail";
 	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	$extras = array();
-	$back_url = "$code_url/tools/post_proofers/post_comments.php?project=$project";
-	$back_blurb = _("Back to Project Information Page");
+	$back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
+	$back_blurb = _("Back to Project Page");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
       $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
@@ -50,8 +50,8 @@ else if ($stage == 'smooth_done')
 	$indicator = "_smooth_done_".$pguser;
 	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	$extras = array();
-	$back_url = "$code_url/tools/post_proofers/SR_info.php?project=$project";
-	$back_blurb = _("Back to Smooth Reading Project Information Page");
+	$back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
+	$back_blurb = _("Back to Project Page");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
       $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 

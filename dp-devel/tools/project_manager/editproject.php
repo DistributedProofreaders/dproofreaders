@@ -1180,7 +1180,7 @@ elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
    $errorMsg = saveProject($_POST);
    if (empty($errorMsg)) {
         if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", _("Save and Quit"), ""); }
-        if (isset($_POST['saveAndProject'])) { metarefresh(0, "project_detail.php?project=$projectid", _("Save and Go To Project"), ""); }
+        if (isset($_POST['saveAndProject'])) { metarefresh(0, "$code_url/project.php?id=$projectid", _("Save and Go To Project"), ""); }
    } else {
         theme(_("Project Error!"), "header");
         echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";

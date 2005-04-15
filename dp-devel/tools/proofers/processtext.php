@@ -145,7 +145,7 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 		$body=_("Page Returned to Round.");
 	}
 	$body .= _(" Exiting proofreading interface....");
-	$url = "projects.php?project=$project&amp;proofstate=$proofstate";
+	$url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
 	metarefresh(1,$url,$title,$body);
 
 	// $editone=isset($editone)?$editone:0;

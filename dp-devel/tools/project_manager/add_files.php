@@ -43,7 +43,7 @@ else
 	{
 		echo "Source directory '$source_dir' is not acceptable.";
 		echo "<hr>\n";
-		echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
+		echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
 		return;
 	}
 }
@@ -95,7 +95,7 @@ if ( !$r )
 {
 	echo "Directory '$source_project_dir' does not exist, or is inaccessible.\n";
 	echo "<hr>\n";
-	echo "Return to <a href='project_detail.php?project=$projectid'>Project Page</a>.\n";
+	echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
 	return;
 }
 
@@ -176,6 +176,6 @@ $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHE
 
 echo "</pre>\n";
 echo "<hr>\n";
-echo "Return to <a href='project_detail.php?project=$projectid&type=Full'>Project Page</a>.\n";
+echo "Return to <a href='$code_url/project.php?id=$projectid&verbosity=3'>Project Page</a>.\n";
 
 ?>

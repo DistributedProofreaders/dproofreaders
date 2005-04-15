@@ -35,13 +35,13 @@ if ($curr_state == PROJ_POST_FIRST_AVAILABLE &&
     $reqd_state == PROJ_POST_FIRST_CHECKED_OUT)
 {
 	$do_what = "do post-processing";
-	$refresh_url = "post_proofers/post_comments.php?project=$projectid";
+	$refresh_url = "$code_url/project.php?id=$projectid&amp;expected_state=$reqd_state";
 }
 else if ($curr_state == PROJ_POST_SECOND_AVAILABLE &&
          $reqd_state == PROJ_POST_SECOND_CHECKED_OUT)
 {
 	$do_what = "verify post-processing";
-	$refresh_url = "post_proofers/post_comments.php?project=$projectid";
+	$refresh_url = "$code_url/project.php?id=$projectid&amp;expected_state=$reqd_state";
 }
 else if ($curr_state == PROJ_CORRECT_AVAILABLE &&
          $reqd_state == PROJ_CORRECT_CHECKED_OUT)

@@ -58,9 +58,9 @@ $row = mysql_fetch_assoc($myresult);
 $state = $row['state'];
 $title = $row['nameofwork'];
 
-$label = _("Return to Project Comments page for");
+$label = _("Return to Project Page for");
 
-echo "<a href='$code_url/tools/proofers/projects.php?project=$project&amp;proofstate=$state'>$label $title</a>";
+echo "<a href='$code_url/project.php?id=$project&amp;expected_state=$state'>$label $title</a>";
 echo "<br>\n";
 
 printf ("<img src=\"$projects_url/%s/%s\" width=\"$width\" border=\"0\">", $project, $imagefile);

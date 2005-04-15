@@ -144,7 +144,7 @@ if (!isset($_POST['resolution'])) {
     }
 
     //Redirect the user back to the project detail page.
-    header("Location: project_detail.php?project=$projectid&type=Full");
+    header("Location: $code_url/project.php?id=$projectid&amp;verbosity=3");
 }
 
 // vim: sw=4 ts=4 expandtab

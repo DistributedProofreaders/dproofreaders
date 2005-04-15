@@ -117,8 +117,8 @@ function textfield_for_setting($setting, $default='') {
 
 if (isset($project) && isset($proofstate))
 {
-    $query_string = "project=$project&proofstate=$proofstate";
-    $eURL = "tools/proofers/projects.php?$query_string";
+    $query_string = "id=$project&expected_state=$proofstate";
+    $eURL = "$code_url/project.php?$query_string";
 }
 else
 {

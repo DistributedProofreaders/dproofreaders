@@ -71,7 +71,7 @@ clearance.</td><tr></tr>\n";
 		}
 		
       echo "<tr bgcolor='$row_color'>";
-      echo "<td align='right'><a href = \"../project_manager/project_detail.php?project=$projectid\">$name</a></td>\n";
+      echo "<td align='right'><a href = '$code_url/project.php?id=$projectid'>$name</a></td>\n";
       echo "<td align='right'>$author</td>\n";
       echo "<td><input type='text' size='67' name='clearance' value='$clearance'></td>";
       echo "<td><form action = \"proj_approvals.php?project=$projectid\"><input type ='hidden' name ='update' value 

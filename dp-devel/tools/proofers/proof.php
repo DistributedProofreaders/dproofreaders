@@ -9,7 +9,7 @@ include($relPath.'dp_main.inc');
 $project, $proofstate
 */
 
-$frameGet="?project={$project}&amp;proofstate={$proofstate}";
+$frameGet="?id={$project}&amp;expected_state={$proofstate}";
 
 //load the master frameset
     include('master_frame.inc');

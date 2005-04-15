@@ -401,7 +401,7 @@ function show_projects_in_state_plus(
             $foo_cell = $book[$pool->foo_field_name];
         }
 
-        $url = "$code_url/tools/post_proofers/post_comments.php?project={$book['projectid']}";
+        $url = "$code_url/project.php?id={$book['projectid']}&amp;expected_state=$proj_state";
         echo "\n<td $bgcolor_attr><a href='$url'>". $book['nameofwork']. "</a></td>";
         echo "\n<td $bgcolor_attr> ". $book['authorsname']. " </td>";
         echo "\n<td $bgcolor_attr align=center> ". $book['language']. " </td>";

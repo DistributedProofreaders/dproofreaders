@@ -14,7 +14,7 @@ echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n
 
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Being Proofread") . "</h2><br>\n";
 
-$comments_url1 = mysql_escape_string("<a href='".$code_url."/tools/proofers/projects.php?project=");
+$comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
 $comments_url2 = mysql_escape_string("'>");
 $comments_url3 = mysql_escape_string("</a>");
 
@@ -51,7 +51,7 @@ dpsql_dump_themed_ranked_query("
 echo "<br>\n";
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books In Post-Processing") . "</h2><br>\n";
 
-//        $post_url1 = mysql_escape_string("<a href='".$code_url."/tools/post_proofers/post_comments.php?project=");
+//        $post_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
 
 dpsql_dump_themed_ranked_query("
     SELECT

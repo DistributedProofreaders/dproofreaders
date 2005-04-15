@@ -50,7 +50,7 @@ _("This is an automated message from the Distributed Proofreaders site.")."
 "._("Regarding").":
 \"$nameofwork\"
   ($projectid)
-  $code_url/tools/project_manager/project_detail.php?project=$projectid
+  $code_url/project.php?id=$projectid
 
 $info
 

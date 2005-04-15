@@ -72,7 +72,7 @@ function echo_page_info( $npage )
 
 function project_comments_url( $npage )
 {
-    return "projects.php?project={$npage['project']}&amp;proofstate={$npage['proofstate']}&amp;proofing=1";
+    return "$code_url/project.php?id={$npage['project']}&amp;expected_state={$npage['proofstate']}&amp;verbosity=1";
 }
 
 function page_image_url( $npage )

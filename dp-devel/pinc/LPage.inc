@@ -219,7 +219,7 @@ function exitInterface($newwin,$editone)
 {
   $returnURL =
         $editone==1
-        ? "projects.php?project={$this->project}&proofstate={$this->proofstate}"
+        ? "$code_url/project.php?id={$this->project}&mp;expected_state={$this->proofstate}"
         : "$code_url/activity_hub.php";
     if ($newwin==0)
       {metarefresh(0,"$returnURL",' ',' ');}

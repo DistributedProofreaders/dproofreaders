@@ -111,7 +111,7 @@ else
 	// Add Back to to Release Queues link
 	echo "<p><a href='".$code_url."/stats/release_queue.php?round_num=$round_num'>"._("Back to Release Queues")."</a></p>\n";
 
-        $comments_url1 = mysql_escape_string("<a href='".$code_url."/tools/proofers/projects.php?project=");
+        $comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
         $comments_url2 = mysql_escape_string("'>");
         $comments_url3 = mysql_escape_string("</a>");
 
