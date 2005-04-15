@@ -1,6 +1,7 @@
 <?PHP
 $relPath='./pinc/';
 
+include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'stages.inc');
@@ -12,7 +13,6 @@ include_once($relPath.'../tools/project_manager/page_table.inc'); // echo_page_t
 include_once($relPath.'user_is.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
 
