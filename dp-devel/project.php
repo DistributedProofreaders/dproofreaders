@@ -437,7 +437,7 @@ function do_project_info_table()
         if (mysql_num_rows($proofdate)!=0)
         {
             $latest_save_time = mysql_result($proofdate,0,$round->time_column_name);
-            $formatted_lst = strftime(_("%A, %B %e, %Y at %X"), $t);
+            $formatted_lst = strftime(_("%A, %B %e, %Y at %X"), $latest_save_time);
             $formatted_now = strftime(_("%X"),time());
             $lastproofed = "$formatted_lst&nbsp;&nbsp;&nbsp; ("._("Current Time:")." $formatted_now)";
         }
