@@ -240,9 +240,6 @@ class Settings
     //
     function & get_Settings($username)
     {
-        if (!isset($username))
-          return Null;
-
         static $Settings_for_ = array();
         if (array_key_exists($username, $Settings_for_))
         {
