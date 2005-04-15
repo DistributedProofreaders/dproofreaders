@@ -216,7 +216,7 @@ function echo_page_table(
 			$bgcolor = "#FF0000";
 			if ($show_image_size) $imagesize = "X";
 		}
-		echo "<td bgcolor='$bgcolor'><a href=displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
+		echo "<td bgcolor='$bgcolor'><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename'>$imagename</a></td>\n";
 
 		// Image Size
 		if ($show_image_size)
@@ -226,7 +226,7 @@ function echo_page_table(
 
 		// Master Text
 		$master_text_length = $page_res['length(master_text)'];
-		echo "<td align='right'><a href=downloadproofed.php?project=$projectid&fileid=$fileid&round_num=0>$master_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&fileid=$fileid&round_num=0'>$master_text_length&nbsp;b</a></td>\n";
 
 		// --------------------------------------------
 
@@ -276,7 +276,7 @@ function echo_page_table(
 			if ($page_res[$project_round->user_column_name] == $pguser
 				&& $page_state != $project_round->page_avail_state)  
 			{
-				$url = "../proofers/proof_frame.php?";
+				$url = "$code_url/tools/proofers/proof_frame.php?";
 				$url .= "project=$projectid";
 				$url .= "&amp;fileid=$fileid";
 				$url .= "&amp;imagefile=$imagename";
@@ -300,17 +300,17 @@ function echo_page_table(
 			echo "<td>";
 			if ($page_is_in_bad_state) {
 				echo "<center><b>";
-				echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a>";
+				echo "<a href='$code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a>";
 				echo "</b></center>";
 			} else {
-				echo "<center><a href='badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
+				echo "<center><a href='$code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
 			}
 			echo "</td>\n";
 
 			// Delete
 			if ($show_delete)
 			{
-				echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=delete'>Delete</a></td>\n";
+				echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=delete'>Delete</a></td>\n";
 			}
 		}
 
@@ -378,7 +378,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	$page_res,
 	$projectid, $project_phase, $can_edit, $can_see_names_for_this_page)
 {
-	global $userP, $forums_url, $pguser;
+	global $userP, $forums_url, $pguser, $code_url;
 
 	// test
 	//$can_edit = FALSE;
@@ -422,7 +422,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		if($page_res[$round->textdiff_column_name]) {
 			echo _("no diff");
 		} else {
-			echo "<a href='diff.php?project=$projectid&file=$fileid&round_num=$round_num'>"._("diff")."</a>";
+			echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&file=$fileid&round_num=$round_num'>"._("diff")."</a>";
 		}
 	}
 	echo "</td>\n";
@@ -478,7 +478,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 	}
 	else
 	{
-		echo "<td align='right' $cellcolorclause ><a href=downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$round_num>$R_text_length&nbsp;b</a></td>\n";
+		echo "<td align='right' $cellcolorclause ><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
 	}
 
 	// ------------------------------
@@ -491,7 +491,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 			$page_state == $round->page_save_state
 		)
 		{
-			echo "<td><a href='edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
+			echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
 		}
 		else
 		{
