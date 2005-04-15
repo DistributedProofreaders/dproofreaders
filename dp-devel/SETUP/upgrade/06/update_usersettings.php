@@ -16,6 +16,9 @@ $old_to_new = array(
 	'PPorder'    => 'PP_av_order',
 	'ChPPVorder' => 'PPV_ch_order',
 	'PPVorder'   => 'PPV_av_order',
+
+	// Rationalize setting names for stage-access
+	'post_proof_verifier' => 'PPV.access',
 );
 
 foreach ( $old_to_new as $old => $new )
