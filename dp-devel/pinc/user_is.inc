@@ -6,53 +6,39 @@
 include_once($relPath.'page_tally.php');
 include_once($relPath.'SettingsClass.inc');
 
-// The Settings object used internally in this module is now hidden
-// in a static variable in a function for the purpose,
-// instead of global. If the code somewhere else wants one, they can
-// make their own.
-
-// For each invocation of every function, we verify that the Settings
-// available match the current user as identified by $pguser. If not,
-// we query for new settings that do (if a non-null username is provided.)
-
 // This function reuturns the Settings object for $pguser.
 // It should work properly (by returning appropriate null-type values) if
 // the user is not logged on.
 
-function get_pguser_settings()
+function & get_pguser_settings()
 {
-    // if this is hidden here, only this function can make it.
-    static $mysettings;
     global $pguser;
-
-    if(!isset($mysettings) || $mysettings->IsActiveUser())
-        $mysettings = new Settings($pguser);
-    return $mysettings;
+    return Settings::get_settings($pguser);
 }
 
 // -----------------------------------------------------------------------------
 
 function user_is_a_sitemanager()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return $userSettings->get_boolean("sitemanager");
 }
 
 function user_is_taskcenter_mgr()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
 function user_is_proj_facilitator()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("proj_facilitator");
 }
 
 function user_is_PM()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
 
     return user_is_a_sitemanager()
             || user_is_proj_facilitator()
@@ -62,14 +48,14 @@ function user_is_PM()
 function user_is_PP()
 {
     global $pguser;
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor")
         || (user_get_ELR_page_tally($pguser) >= 400);
 }
 
 function user_is_post_proof_verifier()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('post_proof_verifier');
 }
 
@@ -121,19 +107,19 @@ function user_is_PPV_of($project)
 
 function user_is_site_news_editor()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_news_editor");
 }
 
 function user_is_site_translator()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
 function user_can_see_BEGIN_in_round($round_number)
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     if (user_is_a_sitemanager()
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("see_BEGIN_R".$round_number))
@@ -152,7 +138,7 @@ function user_can_see_BEGIN_in_round($round_number)
     
 function user_is_authors_db_manager()
 {
-    $userSettings = get_pguser_settings();
+    $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
 }
 
