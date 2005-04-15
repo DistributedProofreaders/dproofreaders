@@ -103,12 +103,13 @@ else
     do_edit_above();
     do_blurb_box( $bottom_blurb );
 
+    do_smooth_reading();
+
     if ($verbosity >= 3)
     {
         do_early_uploads();
         do_images();
         do_post_downloads();
-        do_smooth_reading();
         do_change_state();
         do_page_summary();
         if ($verbosity >= 4)
