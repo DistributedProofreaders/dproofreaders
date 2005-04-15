@@ -52,10 +52,7 @@ Example setting: posted_notice, value "projectID3dfe7f4b3c2ca"
         Setting and Getting: Set and get exactly what's provided.
 
 12/30/04 (DAK) Removed last vestige of a preference for/default of the logged on user.
-               The constructor now requires a username argument. (There is still a
-               reference to $pguser in the function that returns whether the subject
-               user is also the logged-on user, and another to verify that *someone* is
-               logged on.)
+               The constructor now requires a username argument.
 */
         
 
@@ -75,11 +72,9 @@ class Settings
 
     function Settings($name)
     {
-        global $pguser;
-        // don't let them do anything if not logged in.
-        // But they get back a "null-value-filled" object.
-        if(!isset($pguser) || !$name)
+        if(!$name)
         {
+            // Return a Settings object with an empty $settings_array.
             return;
         }
 
@@ -133,14 +128,6 @@ class Settings
             case 'postprocessor':
                 return false;
         }
-    }
-
-    // I could require the $pguser value to be an argument, but this
-    // is less likely to be faked.
-    function IsActiveUser()
-    {
-        global $pguser;
-        return $this->username == $pguser;
     }
 
     // whom do I describe?
@@ -248,7 +235,7 @@ class Settings
     // the originally created object, rather than copies of it.
     // (See the PHP manual under "Assignment Operators" and "References Explained".)
     // Callers should also use assignment-by-reference, e.g.
-    //     $settings =& Settings::get_settings($pguser);
+    //     $settings =& Settings::get_settings($username);
     // to ensure that changes in settings are visible everywhere they should be.
     //
     function & get_Settings($username)
