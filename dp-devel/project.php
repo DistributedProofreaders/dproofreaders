@@ -85,6 +85,10 @@ if ($verbosity==1)
 }
 else
 {
+    // Verbosity level 2 (the default) should show the information
+    // that is usually wanted by the people who usually work with
+    // the project in its current state.
+
     // don't show the stats column
     $no_stats=1;
     theme($title, "header");
@@ -103,13 +107,15 @@ else
     do_edit_above();
     do_blurb_box( $bottom_blurb );
 
+    do_early_uploads();
+    do_post_downloads();
     do_smooth_reading();
 
     if ($verbosity >= 3)
     {
-        do_early_uploads();
+        // Stuff that's (usually) only of interest to
+        // PMs/PFs/SAs and curious others.
         do_images();
-        do_post_downloads();
         do_change_state();
         do_page_summary();
         if ($verbosity >= 4)
