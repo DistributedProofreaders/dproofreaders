@@ -11,7 +11,7 @@ $wSize=explode("x",$i_r[$userP['i_res']*1]);
 $menuWidth=$wSize[0]<=800?'99%':'820';
 */
 
-$utf8_site=strcasecmp($charset,"UTF-8");
+$utf8_site=!strcasecmp($charset,"UTF-8");
 
 include($relPath.'slim_header.inc');
 slim_header("Control Frame",TRUE,FALSE);
