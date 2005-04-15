@@ -967,7 +967,7 @@ function echo_download_zip( $projectid, $link_text, $discriminator )
 
 function do_smooth_reading()
 {
-    global $project;
+    global $project, $code_url;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
