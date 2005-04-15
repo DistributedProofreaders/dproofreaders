@@ -144,9 +144,10 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 		$title=_("Return to Round");
 		$body=_("Page Returned to Round.");
 	}
-	$body .= _(" Exiting proofreading interface....");
+
+	$text = _("Please click here to return to Project Page.");
 	$url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
-	metarefresh(1,$url,$title,$body);
+	echo "<a href='$url' target='_top'>$text</a>";
 
 	// $editone=isset($editone)?$editone:0;
 	// $tpage->exitInterface($userP['i_newwin'],$editone);
