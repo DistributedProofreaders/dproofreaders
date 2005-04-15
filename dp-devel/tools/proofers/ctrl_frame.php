@@ -4,18 +4,21 @@ include_once($relPath.'http_headers.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
 
+/*
 include_once($relPath.'v_resolution.inc');
 $i_r= $i_resolutions;
 $wSize=explode("x",$i_r[$userP['i_res']*1]);
 $menuWidth=$wSize[0]<=800?'99%':'820';
+*/
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
+$utf8_site=strcasecmp($charset,"UTF-8");
 
 include($relPath.'slim_header.inc');
 slim_header("Control Frame",TRUE,FALSE);
 ?>
 <style type="text/css">
 <!--
+table { margin: 0; padding: 0; }
 body {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 12px;
@@ -71,11 +74,11 @@ A:active {
 	cellpadding="0"
 	cellspacing="0"
 	align="center"
-	width="<?PHP echo $menuWidth; ?>"
+	width="99%"
 	border="0"
 ><tr><td
 	valign="top"
-	rowspan="2"
+	<? if($utf8_site) echo "rowspan=\"2\""; ?>
 ><table
 	border="0"
 	cellpadding="0"
@@ -298,7 +301,7 @@ class="dropchars"
 <option value="190">&#190;</option>
 <option value="215">&#215;</option>
 <option value="247">&#247;</option>
-</select></td><td rowspan="2"><input
+</select></td><td valign="top" <? if($utf8_site) echo "rowspan='2'"; ?>><input
 	TYPE="text"
 	VALUE=""
 	accesskey="\"
@@ -306,19 +309,7 @@ class="dropchars"
 	class="dropnormal"
 	size="1"
 	onclick="this.select()"
-><br><a
-	href="#"
-	onclick="mGR()"
-	title="Greek-to-ASCII Transliteration"
-><img
-	src="gfx/tags/greek.png"
-	width="62"
-	height="22"
-	border="0"
-	align="top"
-	alt="Greek Transliteration"
-	title="<? echo _("Open Greek Transliteration Window"); ?>"
-></a></td></tr><tr><td	
+></td></tr><tr><td
 <? if(!$utf8_site) echo "style='display: none;'"; ?>><select
 	name="tCharsC"
 	ID="tCharsC"
@@ -578,6 +569,18 @@ class="dropchars"
 	align="top"
 	title="<? echo _("Bold"); ?>"
 	alt="<? echo _("Bold"); ?>"
+></a><a
+	href="#"
+	onclick="mGR()"
+	title="Greek-to-ASCII Transliteration"
+><img
+	src="gfx/tags/greek.png"
+	width="62"
+	height="22"
+	border="0"
+	align="top"
+	alt="Greek Transliteration"
+	title="<? echo _("Open Greek Transliteration Window"); ?>"
 ></a><?PHP
 
 
@@ -630,10 +633,10 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	title="<? echo _("Exit"); ?>"
 ></a></td></tr><tr><td
 	valign="top"
-	colspan="2"
+	colspan="3"
 	align="center">
 <?PHP 
-echo "<font size=-1><i>"._("Markup shortcuts").":</i> </font>";
+echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> </font>";
 include('ptags.inc'); 
 ?>
 <br>
