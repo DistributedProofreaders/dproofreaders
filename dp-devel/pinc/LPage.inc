@@ -217,7 +217,10 @@ function getRevertState()
 
 function exitInterface($newwin,$editone)
 {
-  $returnURL=$editone==1?"projects.php?project={$this->project}&proofstate={$this->proofstate}":"$code_url/activity_hub.php";
+  $returnURL =
+        $editone==1
+        ? "projects.php?project={$this->project}&proofstate={$this->proofstate}"
+        : "$code_url/activity_hub.php";
     if ($newwin==0)
       {metarefresh(0,"$returnURL",' ',' ');}
     else
