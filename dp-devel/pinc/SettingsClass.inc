@@ -72,7 +72,7 @@ class Settings
 
     function Settings($name)
     {
-        if(!$name)
+        if($name == '')
         {
             // Return a Settings object with an empty $settings_array.
             return;
