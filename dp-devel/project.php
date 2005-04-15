@@ -879,11 +879,6 @@ function do_images()
     echo "</a>";
     echo "</li>\n";
 
-    if (user_is_PP())
-    {
-        echo_download_zip( $projectid, _("Download Zipped Images"), 'images' );
-    }
-
     echo "</ul>\n";
 }
 
@@ -902,6 +897,8 @@ function do_post_downloads()
     echo "</h4>\n";
 
     echo "<ul>";
+
+    echo_download_zip( $projectid, _("Download Zipped Images"), 'images' );
 
     if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
     {
