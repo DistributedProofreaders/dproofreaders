@@ -1,6 +1,7 @@
 // New version
 // start of code by Carel
 
+// These four variables set from initializeStuff() in dp_scroll.js
 docRef=null;
 markRef=null;
 cRef=null;
