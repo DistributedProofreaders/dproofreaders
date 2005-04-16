@@ -197,6 +197,8 @@ class Stage
 
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function & get_Stage_for_id( $id )
 {
     global $Stage_for_id_;
@@ -208,6 +210,15 @@ function & get_Stage_for_id( $id )
     {
         die( "There is no stage with id='$id'." );
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function user_can_work_in_stage( $username, $stage_id )
+{
+    $stage = get_Stage_for_id($stage_id);
+    list($can_access,$_,$_) = $stage->user_access($username);
+    return $can_access;
 }
 
 // vim: sw=4 ts=4 expandtab
