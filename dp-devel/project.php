@@ -892,8 +892,9 @@ function do_images()
 
 function do_post_downloads()
 {
-    global $project;
-    if (!user_is_PP()) return;
+    global $project, $pguser;
+
+    if ( !user_can_work_in_stage($pguser, 'PP') ) return;
 
     $projectid = $project->projectid;
     $state = $project->state;
