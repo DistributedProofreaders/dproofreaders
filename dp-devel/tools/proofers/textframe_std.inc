@@ -25,7 +25,7 @@ if ($npage['spcheck']==2)
 slim_header("Text Frame",TRUE,FALSE);
 ?>
 </head>
-<body onload="top.menuframe.ldAll(0)">
+<body onload="top.menuframe.initializeStuff(0)">
 <center>
 <form name="editform" method="post" action="processtext.php" target="proofframe">
 <script language="JavaScript" type="text/javascript">

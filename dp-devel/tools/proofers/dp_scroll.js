@@ -224,7 +224,7 @@ if (isLded && inProof)
   {docRef.editform.text_data.focus();}
 }
 
-function ldAll(wFace)
+function initializeStuff(wFace)
 {
   frameRef=top.proofframe.document;
   isLded=1;

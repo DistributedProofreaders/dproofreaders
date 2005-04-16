@@ -33,7 +33,7 @@ slim_header("Spell Check",TRUE,FALSE);
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.menuframe.ldAll(<?PHP
+{top.menuframe.initializeStuff(<?PHP
   if ($userP['i_type']==1)
     {echo "2";}
   else

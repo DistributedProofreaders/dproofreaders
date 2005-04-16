@@ -38,7 +38,7 @@ slim_header("Proofreading Page",TRUE,FALSE);
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.menuframe.ldAll(1);}
+{top.menuframe.initializeStuff(1);}
 function scrollImage(sDir)
 {top.menuframe.scrollImage(sDir);}
 function scrollOver(sDir)
