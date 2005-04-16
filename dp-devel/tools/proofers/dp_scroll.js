@@ -1,6 +1,6 @@
 imgX=0;
 imgY=0;
-frameRef=null;
+frameRef=null; // used by dp_proof.js
 imgWin=null;
 imgblock=null;
 imgWinstyle=null;
@@ -122,6 +122,9 @@ function setLayer()
       imgstyle.left=0+bPX;
     }
 }
+
+// ------------------------------------------------
+// The following functions are the "exported" ones.
 
 function scrollImage(sDir)
 {
@@ -263,6 +266,6 @@ function initializeStuff(wFace)
 
 
 }
-inProof=0;
+inProof=0; // used by dp_proof.js
 isLded=0;
 inFace=0;
