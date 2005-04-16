@@ -45,14 +45,6 @@ function user_is_PM()
             || $userSettings->get_boolean("manager");
 }
 
-function user_is_PP()
-{
-    global $pguser;
-    $userSettings =& get_pguser_settings();
-    return user_is_a_sitemanager() || $userSettings->get_boolean("postprocessor")
-        || (user_get_ELR_page_tally($pguser) >= 400);
-}
-
 function user_is_post_proof_verifier()
 {
     $userSettings =& get_pguser_settings();
