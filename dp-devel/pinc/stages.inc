@@ -173,7 +173,7 @@ new Stage(
 new Pool(
     'PPV',
     _('Post-Processing Verification'),
-    NULL,
+    array( 'F2' => 400 ), // and then review of PPing by existing PPVers
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     array(
         '#99FFFF', // "harshflourolightblue"
