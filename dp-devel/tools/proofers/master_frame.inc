@@ -12,6 +12,8 @@ $rn = $round->id;
 $nameofwork = "[" . $rn . "] " . $nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
 ?>
+<script language="JavaScript" type="text/javascript" src="dp_proof.js?1.33.1"></script>
+<script language="JavaScript" type="text/javascript" src="dp_scroll.js"></script>
 </head><frameset rows="*,73">
 <frame name="proofframe" src="<?PHP echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
 <frame name="menuframe" src="ctrl_frame.php" marginwidth="2" marginheight="2" frameborder="0">

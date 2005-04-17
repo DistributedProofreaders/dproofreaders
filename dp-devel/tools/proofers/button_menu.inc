@@ -15,7 +15,7 @@ HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left'
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A
 HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"></A><A
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
-name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.menuframe.chFFace(this.selectedIndex)"><?PHP
+name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.chFFace(this.selectedIndex)"><?PHP
   $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
 //  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
   $ff_len = count($f_f);
@@ -26,7 +26,7 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange
   $optP.=">$f_f[$i]</option>";
   echo $optP;}
 ?></select><select
-name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.menuframe.chFSize(this.selectedIndex)"><?PHP
+name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.chFSize(this.selectedIndex)"><?PHP
   $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
 //  $f_f= array('Size','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
   $fs_len = count($f_s);
@@ -67,7 +67,7 @@ echo "\n";
   }
 
 ?>
-<a href="#" onclick="top.menuframe.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
+<a href="#" onclick="top.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
 href="<? echo project_comments_url($npage); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?

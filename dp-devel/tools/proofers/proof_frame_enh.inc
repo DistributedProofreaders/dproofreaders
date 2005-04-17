@@ -38,22 +38,22 @@ slim_header("Proofreading Page",TRUE,FALSE);
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.menuframe.initializeStuff(1);}
+{top.initializeStuff(1);}
 function scrollImage(sDir)
-{top.menuframe.scrollImage(sDir);}
+{top.scrollImage(sDir);}
 function scrollOver(sDir)
-{top.menuframe.scrollOver(sDir);}
+{top.scrollOver(sDir);}
 function stopOver()
-{top.menuframe.stopOver();}
+{top.stopOver();}
 function getCurSel()
-{top.menuframe.getCurSel();}
+{top.getCurSel();}
 function getCurCaret()
-{top.menuframe.getCurCaret();}
+{top.getCurCaret();}
 function showIZ()
-{top.menuframe.showIZ();
+{top.showIZ();
 return false;}
 function showActual()
-{ return top.menuframe.showActual(); }
+{ return top.showActual(); }
 // -->
 </script>
 <style type="text/css">

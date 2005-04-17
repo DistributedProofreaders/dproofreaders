@@ -33,24 +33,24 @@ slim_header("Spell Check",TRUE,FALSE);
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.menuframe.initializeStuff(<?PHP
+{top.initializeStuff(<?PHP
   if ($userP['i_type']==1)
     {echo "2";}
   else
     {echo "3";}
 ?>);}
 function scrollImage(sDir)
-{top.menuframe.scrollImage(sDir);}
+{top.scrollImage(sDir);}
 function scrollOver(sDir)
-{top.menuframe.scrollOver(sDir);}
+{top.scrollOver(sDir);}
 function stopOver()
-{top.menuframe.stopOver();}
+{top.stopOver();}
 function getCurSel()
-{top.menuframe.getCurSel();}
+{top.getCurSel();}
 function getCurCaret()
-{top.menuframe.getCurCaret();}
+{top.getCurCaret();}
 function showIZ()
-{top.menuframe.showIZ();alert('done it');
+{top.showIZ();alert('done it');
 return false;}
 // -->
 </script>

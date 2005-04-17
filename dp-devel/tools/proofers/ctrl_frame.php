@@ -59,12 +59,10 @@ A:active {
 </style>
 </head>
 <body>
-<script language="JavaScript" src="dp_proof.js?1.33.1" type="text/javascript"></script>
-<script language="JavaScript" src="dp_scroll.js" type="text/javascript"></script>
 <a
 	href="#"
 	accesskey="="
-	onfocus="focusText()"
+	onfocus="top.focusText()"
 ></a><form
 	name="markform"
 	id="markform"
@@ -87,7 +85,7 @@ A:active {
 	name="tCharsA"
 	ID="tCharsA"
 	title="A"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">A</option>
@@ -118,7 +116,7 @@ A:active {
 	name="tCharsE"
 	ID="tCharsE"
 	title="E"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">E</option>
@@ -147,7 +145,7 @@ A:active {
 	name="tCharsI"
 	ID="tCharsI"
 	title="I"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">I</option>
@@ -176,7 +174,7 @@ A:active {
 	name="tCharsO"
 	ID="tCharsO"
 	title="O"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">O</option>
@@ -207,7 +205,7 @@ A:active {
 	name="tCharsU"
 	ID="tCharsU"
 	title="U"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 class="dropchars"
 >
 <option value="0">U</option>
@@ -231,7 +229,7 @@ class="dropchars"
 	name="tCharsM"
 	ID="tCharsM"
 	title="More"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 >
 <option value="0">+</option>
@@ -314,7 +312,7 @@ class="dropchars"
 	name="tCharsC"
 	ID="tCharsC"
 	title="CD"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -345,7 +343,7 @@ class="dropchars"
 	name="tCharsD"
 	ID="tCharsD"
 	title="LN"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -377,7 +375,7 @@ class="dropchars"
 	name="tCharsS"
 	ID="tCharsS"
 	title="RS"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -403,7 +401,7 @@ class="dropchars"
 	name="tCharsZ"
 	ID="tCharsZ"
 	title="TZ"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -426,7 +424,7 @@ class="dropchars"
 	name="tCharsCyr"
 	ID="tCharsCyr"
 	title="Cyrillic"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -485,7 +483,7 @@ class="dropchars"
 	name="tCharsOCyr"
 	ID="tCharsOCyr"
 	title="OldCyrillic"
-	onchange="if (this.options[selectedIndex].value !=0){new_iMUc(this.options[selectedIndex].value);}"
+	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
 	class="dropchars"
 	<? if(!$utf8_site) echo "disabled"; ?>
 >
@@ -547,7 +545,7 @@ class="dropchars"
 	onclick="this.select()"
 ><a
 	href="#"
-	onclick="new_iMU('<i>','</i>')"
+	onclick="top.new_iMU('<i>','</i>')"
 	accesskey="i"
 ><img
 	src="gfx/tags/italic.png"
@@ -559,7 +557,7 @@ class="dropchars"
 	alt="<? echo _("Italics"); ?>"
 ></a><a
 	href="#"
-	onclick="new_iMU('<b>','</b>')"
+	onclick="top.new_iMU('<b>','</b>')"
 	accesskey="b"
 ><img
 	src="gfx/tags/bold.png"
@@ -571,7 +569,7 @@ class="dropchars"
 	alt="<? echo _("Bold"); ?>"
 ></a><a
 	href="#"
-	onclick="mGR()"
+	onclick="top.mGR()"
 	title="Greek-to-ASCII Transliteration"
 ><img
 	src="gfx/tags/greek.png"
@@ -586,13 +584,13 @@ class="dropchars"
 
 /* temp disabled
 <a
-href="#" onclick="iMU(23)"><img
+href="#" onclick="top.iMU(23)"><img
 src="gfx/tags/underline.png" width="22" height="22" border="0" align="top" title="underline" alt="underline"></a><a
-href="#" onclick="iMU(24)"><img
+href="#" onclick="top.iMU(24)"><img
 src="gfx/tags/caps.png" width="42" height="22" border="0" align="top" title="caps" alt="caps"></a><a
-href="#" onclick="iMU(25)"><img
+href="#" onclick="top.iMU(25)"><img
 src="gfx/tags/sup.png" width="22" height="22" border="0" align="top" title="superscript" alt="superscript"></a><a
-href="#" onclick="iMU(26)"><img
+href="#" onclick="top.iMU(26)"><img
 src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subscript" alt="subscript"></a>
 */
 
