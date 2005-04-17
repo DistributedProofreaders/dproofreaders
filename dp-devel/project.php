@@ -1119,6 +1119,11 @@ function do_change_state()
             _("Return to Available"),
             _("Are you sure you want to make this book available to others for post processing?")
         );
+    
+        echo_option(
+            PROJ_POST_SECOND_AVAILABLE,
+            _("Upload for Verification")
+        );
     }
     elseif ($state==PROJ_POST_SECOND_AVAILABLE)
     {
@@ -1157,17 +1162,11 @@ function do_change_state()
             _("Return to Available"),
             _("Are you sure you want to make this book available to others for reviewing corrections?")
         );
-    }
 
-    if ($state == PROJ_POST_FIRST_CHECKED_OUT)
-    {
-        $label = _("Upload for Verification");
-        echo_option( PROJ_POST_SECOND_AVAILABLE, $label);
-    }
-    elseif ($state == PROJ_CORRECT_CHECKED_OUT)
-    {
-        $label = _("Posted to Project Gutenberg");
-        echo_option(PROJ_SUBMIT_PG_POSTED, $label);
+        echo_option(
+            PROJ_SUBMIT_PG_POSTED,
+            _("Posted to Project Gutenberg")
+        );
     }
 
     echo "</select></form>\n";
