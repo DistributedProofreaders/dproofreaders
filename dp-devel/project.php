@@ -57,7 +57,7 @@ if (mysql_num_rows($res) == 0)
 }
 $project = mysql_fetch_object($res);
 
-$project->current_user_can_edit =
+$project->can_be_managed_by_current_user =
     ( user_is_PM_of($project->projectid)
     || user_is_a_sitemanager()
     || user_is_proj_facilitator() );
@@ -138,7 +138,7 @@ else
 function do_pm_header()
 {
     global $project;
-    if (!$project->current_user_can_edit) return;
+    if (!$project->can_be_managed_by_current_user) return;
 
     echo_manager_header( 'project_detail_page' );
 }
@@ -786,7 +786,7 @@ function recentlyproofed( $wlist )
 function do_edit_above()
 {
     global $project, $code_url;
-    if (!$project->current_user_can_edit) return;
+    if (!$project->can_be_managed_by_current_user) return;
 
     echo "<p>";
     echo "<a href='$code_url/tools/project_manager/editproject.php?project=$project->projectid'>";
@@ -800,7 +800,7 @@ function do_edit_above()
 function do_early_uploads()
 {
     global $project, $code_url, $uploads_account;
-    if (!$project->current_user_can_edit) return;
+    if (!$project->can_be_managed_by_current_user) return;
 
     $projectid = $project->projectid;
     $state = $project->state;
