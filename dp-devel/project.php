@@ -62,6 +62,10 @@ $project->current_user_can_edit =
     || user_is_a_sitemanager()
     || user_is_proj_facilitator() );
 
+$project->PPer_is_current_user = user_is_PP_of($project->projectid);
+
+$project->PPVer_is_current_user = user_is_PPV_of($project->projectid);
+
 // -----------------------------------------------------------------------------
 
 $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
@@ -391,7 +395,7 @@ function do_project_info_table()
     // The clearance line normally contains the email address of the
     // person who submitted the clearance request. Since this is
     // private information, we restrict who can see it.
-    if ( user_is_PPV_of($project->projectid) )
+    if ( $project->PPVer_is_current_user )
     {
         echo_row_a( _("Clearance Line"), htmlspecialchars($project->clearance,ENT_NOQUOTES) );
     }
@@ -543,7 +547,7 @@ function do_project_info_table()
             echo_row_b( _("Instructions for Smooth Reading"), '' );
             echo_row_c( htmlspecialchars($project->postcomments) );
         }
-        elseif ( user_is_PP_of($projectid) || user_is_PPV_of($projectid) )
+        elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user )
         {
             echo_row_b( _("Post Processor Comments"), '' );
             echo_row_c( htmlspecialchars($project->postcomments) );
@@ -978,8 +982,6 @@ function do_smooth_reading()
 
     $projectid = $project->projectid;
 
-    $user_is_PP_of_project = user_is_PP_of($projectid);
-
     echo "<h4>", _('Smooth Reading'), "</h4>";
     echo "<ul>";
 
@@ -989,7 +991,7 @@ function do_smooth_reading()
         echo _('This project has not been made available for smooth reading.');
         echo "</li>";
 
-        if ($user_is_PP_of_project)
+        if ($project->PPer_is_current_user)
         {
             echo "<li>";
             echo _("But as the project's PPer, you can make it available.");
@@ -1021,7 +1023,7 @@ function do_smooth_reading()
             echo $sr_sentence;
             echo "</li>\n";
 
-            if (!$user_is_PP_of_project)
+            if (!$project->PPer_is_current_user)
             {
                 global $projects_url;
                 echo "<li>";
@@ -1046,7 +1048,7 @@ function do_smooth_reading()
             echo "</li>";
         }
 
-        if ($user_is_PP_of_project)
+        if ($project->PPer_is_current_user)
         {
             echo "<li>";
             global $projects_dir;
@@ -1083,7 +1085,7 @@ function do_change_state()
     $projectid = $project->projectid;
     $state = $project->state;
 
-    if (!user_is_PP_of($projectid)) return;
+    if (!$project->PPer_is_current_user) return;
 
     echo "<h4>";
     echo _("Change Project State");
