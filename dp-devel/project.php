@@ -114,13 +114,13 @@ else
     do_early_uploads();
     do_post_downloads();
     do_smooth_reading();
+    do_change_state();
 
     if ($verbosity >= 3)
     {
         // Stuff that's (usually) only of interest to
         // PMs/PFs/SAs and curious others.
         do_images();
-        do_change_state();
         do_page_summary();
         if ($verbosity >= 4)
         {
