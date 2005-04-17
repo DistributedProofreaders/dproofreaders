@@ -1080,12 +1080,10 @@ function do_smooth_reading()
 
 function do_change_state()
 {
-    global $project, $code_url;
+    global $project, $code_url, $pguser;
 
     $projectid = $project->projectid;
     $state = $project->state;
-
-    if (!$project->PPer_is_current_user) return;
 
     echo "<h4>";
     echo _("Change Project State");
@@ -1104,7 +1102,7 @@ function do_change_state()
 
     echo "<option selected>"._("Select")."...</option>\n";
 
-    if ($state==PROJ_POST_FIRST_AVAILABLE)
+    if ($state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser, 'PP') )
     {
         echo_serious_option(
             PROJ_POST_FIRST_CHECKED_OUT,
@@ -1112,7 +1110,7 @@ function do_change_state()
             _("Are you sure you want to check this book out for post processing?")
         );
     }
-    elseif ($state==PROJ_POST_FIRST_CHECKED_OUT)
+    elseif ($state==PROJ_POST_FIRST_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
         echo_serious_option(
             PROJ_POST_FIRST_AVAILABLE,
@@ -1125,7 +1123,7 @@ function do_change_state()
             _("Upload for Verification")
         );
     }
-    elseif ($state==PROJ_POST_SECOND_AVAILABLE)
+    elseif ($state==PROJ_POST_SECOND_AVAILABLE && user_can_work_in_stage($pguser, 'PPV') )
     {
         echo_serious_option(
             PROJ_POST_SECOND_CHECKED_OUT,
@@ -1133,7 +1131,7 @@ function do_change_state()
             _("Are you sure you want to check this book out for verifying post processing?")
         );
     }
-    elseif ($state==PROJ_POST_SECOND_CHECKED_OUT)
+    elseif ($state==PROJ_POST_SECOND_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
         echo_serious_option(
             PROJ_POST_SECOND_AVAILABLE,
@@ -1147,7 +1145,7 @@ function do_change_state()
             _("Are you sure you want to return this book to the post-processor for further work?")
         );
     }
-    elseif ($state==PROJ_CORRECT_AVAILABLE)
+    elseif ($state==PROJ_CORRECT_AVAILABLE && user_can_work_in_stage($pguser, 'CR') )
     {
         echo_serious_option(
             PROJ_CORRECT_CHECKED_OUT,
@@ -1155,7 +1153,7 @@ function do_change_state()
             _("Are you sure you want to check this book out to review corrections?")
         );
     }
-    elseif ($state==PROJ_CORRECT_CHECKED_OUT)
+    elseif ($state==PROJ_CORRECT_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
         echo_serious_option(
             PROJ_CORRECT_AVAILABLE,
