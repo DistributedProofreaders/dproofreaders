@@ -1106,49 +1106,58 @@ function do_change_state()
 
     if ($state==PROJ_POST_FIRST_AVAILABLE)
     {
-        $serious_code=PROJ_POST_FIRST_CHECKED_OUT;
-        $serious_label= _("Check Out Book");
-        $serious_question= _("Are you sure you want to check this book out for post processing?");
+        echo_serious_option(
+            PROJ_POST_FIRST_CHECKED_OUT,
+            _("Check Out Book"),
+            _("Are you sure you want to check this book out for post processing?")
+        );
     }
     elseif ($state==PROJ_POST_FIRST_CHECKED_OUT)
     {
-        $serious_code=PROJ_POST_FIRST_AVAILABLE;
-        $serious_label=_("Return to Available");
-        $serious_question=_("Are you sure you want to make this book available to others for post processing?");
+        echo_serious_option(
+            PROJ_POST_FIRST_AVAILABLE,
+            _("Return to Available"),
+            _("Are you sure you want to make this book available to others for post processing?")
+        );
     }
     elseif ($state==PROJ_POST_SECOND_AVAILABLE)
     {
-        $serious_code=PROJ_POST_SECOND_CHECKED_OUT;
-        $serious_label= _("Check Out Book");
-        $serious_question=_("Are you sure you want to check this book out for verifying post processing?");
+        echo_serious_option(
+            PROJ_POST_SECOND_CHECKED_OUT,
+            _("Check Out Book"),
+            _("Are you sure you want to check this book out for verifying post processing?")
+        );
     }
     elseif ($state==PROJ_POST_SECOND_CHECKED_OUT)
     {
-        $serious_code=PROJ_POST_SECOND_AVAILABLE;
-        $serious_label=_("Return to Available");
-        $serious_question=_("Are you sure you want to make this book available to others to verify and lose your work?");
+        echo_serious_option(
+            PROJ_POST_SECOND_AVAILABLE,
+            _("Return to Available"),
+            _("Are you sure you want to make this book available to others to verify and lose your work?")
+        );
 
-        // Echo existing serious option now
-        echo_serious_option( $serious_code, $serious_label, $serious_question );
-
-        // New option will echo at end of block as normal
-        $serious_code=PROJ_POST_FIRST_CHECKED_OUT;
-        $serious_label=_("Return to Post-Processor");
-        $serious_question=_("Are you sure you want to return this book to the post-processor for further work?");
+        echo_serious_option(
+            PROJ_POST_FIRST_CHECKED_OUT,
+            _("Return to Post-Processor"),
+            _("Are you sure you want to return this book to the post-processor for further work?")
+        );
     }
     elseif ($state==PROJ_CORRECT_AVAILABLE)
     {
-        $serious_code=PROJ_CORRECT_CHECKED_OUT;
-        $serious_label= _("Check Out Book");
-        $serious_question=_("Are you sure you want to check this book out to review corrections?");
+        echo_serious_option(
+            PROJ_CORRECT_CHECKED_OUT,
+            _("Check Out Book"),
+            _("Are you sure you want to check this book out to review corrections?")
+        );
     }
     elseif ($state==PROJ_CORRECT_CHECKED_OUT)
     {
-        $serious_code=PROJ_CORRECT_AVAILABLE;
-        $serious_label=_("Return to Available");
-        $serious_question=_("Are you sure you want to make this book available to others for reviewing corrections?");
+        echo_serious_option(
+            PROJ_CORRECT_AVAILABLE,
+            _("Return to Available"),
+            _("Are you sure you want to make this book available to others for reviewing corrections?")
+        );
     }
-    echo_serious_option( $serious_code, $serious_label, $serious_question );
 
     if ($state == PROJ_POST_FIRST_CHECKED_OUT)
     {
