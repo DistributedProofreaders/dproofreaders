@@ -523,7 +523,7 @@ function do_project_info_table()
     {
         $blurb = _("Click here to <b>undo</b> registration for automatic email notification of when this has been posted to Project Gutenberg.");
     }
-    $url = "posted_notice.php?project=$projectid&proofstate=$state";
+    $url = "$code_url/tools/proofers/posted_notice.php?project=$projectid&proofstate=$state";
     echo_row_a( _("Book Completed:"), "<a href='$url'>$blurb</a>" );
 
     global $verbosity;
@@ -781,11 +781,11 @@ function recentlyproofed( $wlist )
 
 function do_edit_above()
 {
-    global $project;
+    global $project, $code_url;
     if (!$project->current_user_can_edit) return;
 
     echo "<p>";
-    echo "<a href='editproject.php?project=$project->projectid'>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?project=$project->projectid'>";
     echo _("Edit the above information");
     echo "</a>";
     echo "</p>";
@@ -795,7 +795,7 @@ function do_edit_above()
 
 function do_early_uploads()
 {
-    global $project;
+    global $project, $code_url, $uploads_account;
     if (!$project->current_user_can_edit) return;
 
     $projectid = $project->projectid;
@@ -810,7 +810,7 @@ function do_early_uploads()
         if ($state == PROJ_NEW)
         {
             echo "<br>\n";
-            echo "<form method='get' action='add_files.php'>\n";
+            echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
             echo "<input type='hidden' name='project' value='$projectid'>\n";
             echo "<input type='hidden' name='tpnv' value='1'>\n";
             echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
@@ -834,7 +834,7 @@ function do_early_uploads()
     )
     {
         echo "<br>\n";
-        echo "<form method='get' action='add_files.php'>\n";
+        echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
         //Used to be different how a SA would load projects. Changed due to no reason of having this anymore
         //but left just in case we need it in the future.
