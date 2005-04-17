@@ -30,9 +30,18 @@ slim_header("Text Frame",TRUE,FALSE);
 <form name="editform" method="post" action="processtext.php" target="proofframe">
 <script language="JavaScript" type="text/javascript">
 	<!--
-	function resize(newsize)
+	function resize(factor)
 	{
+	if (factor == -1)
+	{
+		parent.imageframe.document.scanimage.width=1000;
+	}
+	else
+	{
+		currentsize=parent.imageframe.document.scanimage.width;
+		newsize=currentsize*factor;
 		parent.imageframe.document.scanimage.width=newsize;
+	}
 	}
 	//-->
 </script>
@@ -51,7 +60,7 @@ slim_header("Text Frame",TRUE,FALSE);
 	echo_button(SAVE_AS_DONE_AND_QUIT,'s');
 	echo_button(QUIT,'s');
 
-	echo "<BR>\n";
+	echo "<br>\n";
 
 	echo_button(CHANGE_LAYOUT,'s');
 	echo_button(RETURN_PAGE,'s');
@@ -61,7 +70,7 @@ slim_header("Text Frame",TRUE,FALSE);
 		echo_button(REPORT_BAD_PAGE,'s');
 	}
 
-	echo "<BR>\n";
+	echo "<br>\n";
 
 	echo_button(SPELL_CHECK,'s');
 
@@ -69,17 +78,17 @@ slim_header("Text Frame",TRUE,FALSE);
 
 	echo_page_info($npage);
 
-  echo "<BR>\n";
+  echo "&nbsp;";
   $comments_url = project_comments_url($npage);
-  echo _("View:")." <a href=\"$comments_url\" target=\"viewcomments\">"._("Project Comments")."</a> ";
+  echo _("View:")." <a href=\"$comments_url\" title=\"". _("View Project Comments in New Window")."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
   $image_url = page_image_url($npage);
-  echo "| <a href=\"$image_url\" target=\"lg_image\">"._("Image")."</a> ";
+  echo "| <a href=\"$image_url\" title=\"". _("View Image in New Window")."\" target=\"lg_image\">"._("Image")."</a> ";
 ?>
 <br>
 <? echo _("Image Resize:"); ?>
-<input type="button" value="50%" onclick="resize(690)">
-<input type="button" value="100%" onclick="resize(1000)">
-<input type="button" value="200%" onclick="resize(2000)">
+<input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="resize(0.75)">
+<input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="resize(1.25)">
+<input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="resize(-1)">
 
 </form>
 </center>
