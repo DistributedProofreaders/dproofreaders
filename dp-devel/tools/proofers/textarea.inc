@@ -44,7 +44,7 @@ function echo_proofing_textarea( $page_text, $enhanced )
     {
 	echo "font-size: $font_size;";
     }
-    echo "' ";
+    echo "padding-left: 0.25em;' ";
 
     if ( !$line_wrap )
     {
