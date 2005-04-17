@@ -996,7 +996,7 @@ function do_smooth_reading()
             echo "<li>";
             echo _("But as the project's PPer, you can make it available.");
             echo _('Choose how long you want to make it available for.');
-            $linkstart = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
+            $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
             echo "<ul>";
             echo "<li>$link_start=1'>"._("one week")."</a>";
             echo "<li>$link_start=2'>"._("two weeks")."</a>";
