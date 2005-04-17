@@ -28,21 +28,21 @@ function echo_manager_header( $which )
 
 	echo "<p>";
 	echo "<center>";
-	echo "<a href='projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
+	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
 	echo " | ";
-	echo "<a href='projectmgr.php?show=all'>"._("Show All of Your Projects"),"</a>";
+	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
-	echo "<a href='editproject.php'>"._("Create Project")."</a>";
+	echo "<a href='$code_url/tools/project_manager/editproject.php'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{ 
-		echo "<a href='projectmgr.php?show=site'>"._("Show All Projects")."</a>"; 
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site'>"._("Show All Projects")."</a>"; 
 		echo " | ";
-		echo "<a href='projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>"; 
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>"; 
 	}
 	else
 	{
-		echo "<a href='projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
 	echo "</center>";
 
