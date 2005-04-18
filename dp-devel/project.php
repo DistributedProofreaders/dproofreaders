@@ -378,7 +378,7 @@ function do_project_info_table()
     // The clearance line normally contains the email address of the
     // person who submitted the clearance request. Since this is
     // private information, we restrict who can see it.
-    if ( $project->PPVer_is_current_user )
+    if ( $project->PPVer_is_current_user || user_is_a_sitemanager() )
     {
         echo_row_a( _("Clearance Line"), htmlspecialchars($project->clearance,ENT_NOQUOTES) );
     }
@@ -530,7 +530,8 @@ function do_project_info_table()
             echo_row_b( _("Instructions for Smooth Reading"), '' );
             echo_row_c( htmlspecialchars($project->postcomments) );
         }
-        elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user )
+        elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user
+            || user_is_a_sitemanager() )
         {
             echo_row_b( _("Post Processor Comments"), '' );
             echo_row_c( htmlspecialchars($project->postcomments) );

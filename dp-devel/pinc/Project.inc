@@ -37,18 +37,14 @@ class Project
                 || user_is_proj_facilitator() );
 
             $this->PPer_is_current_user =
-                user_is_a_sitemanager()
-                || ( $this->state == 'proj_post_first_checked_out'
-                    && $this->checkedoutby == $pguser );
+                $this->state == 'proj_post_first_checked_out'
+                && $this->checkedoutby == $pguser;
 
             $this->PPVer_is_current_user =
-                user_is_a_sitemanager()
-                || (
-                    ( $this->state == 'proj_post_first_checked_out'
-                        || $this->state == 'proj_post_second_checked_out' )
-                    && $this->checkedoutby == $pguser
-                    && user_is_post_proof_verifier()
-                );
+                ( $this->state == 'proj_post_first_checked_out'
+                    || $this->state == 'proj_post_second_checked_out' )
+                && $this->checkedoutby == $pguser
+                && user_is_post_proof_verifier();
             // You might think that we should only allow
             //     $this->state == 'proj_post_second_checked_out'
             // But if someone with PPV-ability is PPing a project,
