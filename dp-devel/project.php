@@ -1088,7 +1088,7 @@ function do_change_state()
 
     if ($state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser, 'PP') )
     {
-        echo_serious_option(
+        echo_option(
             PROJ_POST_FIRST_CHECKED_OUT,
             _("Check Out Book"),
             _("Are you sure you want to check this book out for post processing?")
@@ -1096,7 +1096,7 @@ function do_change_state()
     }
     elseif ($state==PROJ_POST_FIRST_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
-        echo_serious_option(
+        echo_option(
             PROJ_POST_FIRST_AVAILABLE,
             _("Return to Available"),
             _("Are you sure you want to make this book available to others for post processing?")
@@ -1104,12 +1104,13 @@ function do_change_state()
     
         echo_option(
             PROJ_POST_SECOND_AVAILABLE,
-            _("Upload for Verification")
+            _("Upload for Verification"),
+            NULL
         );
     }
     elseif ($state==PROJ_POST_SECOND_AVAILABLE && user_can_work_in_stage($pguser, 'PPV') )
     {
-        echo_serious_option(
+        echo_option(
             PROJ_POST_SECOND_CHECKED_OUT,
             _("Check Out Book"),
             _("Are you sure you want to check this book out for verifying post processing?")
@@ -1117,13 +1118,13 @@ function do_change_state()
     }
     elseif ($state==PROJ_POST_SECOND_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
-        echo_serious_option(
+        echo_option(
             PROJ_POST_SECOND_AVAILABLE,
             _("Return to Available"),
             _("Are you sure you want to make this book available to others to verify and lose your work?")
         );
 
-        echo_serious_option(
+        echo_option(
             PROJ_POST_FIRST_CHECKED_OUT,
             _("Return to Post-Processor"),
             _("Are you sure you want to return this book to the post-processor for further work?")
@@ -1131,7 +1132,7 @@ function do_change_state()
     }
     elseif ($state==PROJ_CORRECT_AVAILABLE && user_can_work_in_stage($pguser, 'CR') )
     {
-        echo_serious_option(
+        echo_option(
             PROJ_CORRECT_CHECKED_OUT,
             _("Check Out Book"),
             _("Are you sure you want to check this book out to review corrections?")
@@ -1139,7 +1140,7 @@ function do_change_state()
     }
     elseif ($state==PROJ_CORRECT_CHECKED_OUT && $project->checkedoutby == $pguser)
     {
-        echo_serious_option(
+        echo_option(
             PROJ_CORRECT_AVAILABLE,
             _("Return to Available"),
             _("Are you sure you want to make this book available to others for reviewing corrections?")
@@ -1147,22 +1148,18 @@ function do_change_state()
 
         echo_option(
             PROJ_SUBMIT_PG_POSTED,
-            _("Posted to Project Gutenberg")
+            _("Posted to Project Gutenberg"),
+            NULL
         );
     }
 
     echo "</select></form>\n";
 }
 
-// These options do not require a confirmation, and MUST NOT have a title attribute
-function echo_option($code,$label)
+function echo_option($code,$label,$question)
 {
-    echo "<option value=\"$code\">$label</option>\n";
-}
-// These options DO require a confirmation, and MUST have a title attribute
-function echo_serious_option($code,$label,$question)
-{
-    echo "<option title=\"$question\" value=\"$code\">$label</option>\n";
+    $title_attr = ( is_null($question) ? '' : "title='$question'" );
+    echo "<option $title_attr value=\"$code\">$label</option>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
