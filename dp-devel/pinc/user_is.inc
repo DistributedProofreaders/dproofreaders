@@ -72,8 +72,7 @@ function user_is_PP_of($project)
 
     $result = mysql_query("SELECT checkedoutby FROM projects
                            WHERE projectid = '$project'
-                            AND state IN ('proj_post_first_checked_out',
-                                            'proj_post_second_checked_out')");
+                            AND state = 'proj_post_first_checked_out'");
     if (mysql_num_rows($result) == 0) return FALSE;
     return (mysql_result($result, 0, "checkedoutby") == $pguser);
 }
