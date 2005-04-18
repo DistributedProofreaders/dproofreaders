@@ -6,15 +6,17 @@ include($relPath.'slim_header.inc');
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-/* $_GET register_globals:
-$project, $proofstate
-*/
+$projectid      = @$_GET['project'];
+$expected_state = @$_GET['proofstate'];
+
+if (empty($projectid))      die( "parameter 'project' is empty" );
+if (empty($expected_state)) die( "parameter 'proofstate' is empty" );
 
 $res = mysql_fetch_assoc(mysql_query("
-    SELECT nameofwork FROM projects WHERE projectid = '$project';
+    SELECT nameofwork FROM projects WHERE projectid = '$projectid';
 "));
 $nameofwork = $res['nameofwork'];
-$round = get_Round_for_project_state($proofstate);
+$round = get_Round_for_project_state($expected_state);
 
 //load the master frameset
 ?>
