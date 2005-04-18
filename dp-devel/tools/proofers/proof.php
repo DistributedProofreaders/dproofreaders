@@ -15,6 +15,7 @@ if (empty($expected_state)) die( "parameter 'proofstate' is empty" );
 $project = mysql_fetch_object(mysql_query("
     SELECT nameofwork FROM projects WHERE projectid = '$projectid';
 "));
+if (!$project) die( "no project with projectid='$projectid'" );
 
 $round = get_Round_for_project_state($expected_state);
 
