@@ -386,7 +386,7 @@ abort_if_not_manager();
 
 			// Project Status
 
-			if (user_is_a_sitemanager() or user_is_PM_of($projectid) or user_is_proj_facilitator()) {
+			if (user_is_a_sitemanager() or ($project['username']==$pguser) or user_is_proj_facilitator()) {
 
 				echo "
 				    <td valign=center>
