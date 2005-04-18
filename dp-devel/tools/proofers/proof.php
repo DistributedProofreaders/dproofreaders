@@ -45,7 +45,32 @@ if ($expected_state != $project->state)
     return;
 }
 
+// Check user's access to the project's current round
 $round = get_Round_for_project_state($project->state);
+list($can_access,$minima_table,$sentences) = $round->user_access($pguser);
+if (!$can_access)
+{
+    slim_header( $project->nameofwork, TRUE, TRUE );
+
+    echo "<p>";
+    echo sprintf(
+        _('Error: The project "%s" is in "%s", and you are not yet allowed to work in that round.'),
+        $project->nameofwork,
+        $round->name
+    );
+    echo "</p>\n";
+
+    echo "<p>";
+    echo sprintf(
+        _('Back to <a href="%s">%s</a>'),
+        "$code_url/activity_hub.php",
+        _('Activity Hub')
+    );
+    echo "</p>\n";
+
+    return;
+}
+
 
 //load the master frameset
 ?>
