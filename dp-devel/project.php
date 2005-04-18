@@ -177,7 +177,8 @@ function decide_blurbs()
     $projectid = $project->projectid;
     $state = $project->state;
 
-    if (get_phase_containing_project_state($state) != 'PAGE_EDITING' )
+    $round = get_Round_for_project_state($state);
+    if (is_null($round))
     {
         return array(null,null);
     }
@@ -224,7 +225,6 @@ function decide_blurbs()
         // Has the user saved a page of this project since the comments were
         // last changed? If not, it's unlikely they've seen the revised comments.
         global $pguser;
-        $round = get_Round_for_project_state($state);
         $res = mysql_query("
             SELECT {$round->time_column_name}
             FROM $projectid
