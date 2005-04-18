@@ -45,6 +45,16 @@ echo "<h1>{$round->name}</h1>\n";
 
 // ---------------------------------------
 
+list($can_access,$minima_table,$sentences) = $round->user_access( $pguser );
+if ( !$can_access )
+{
+    // skip $minima_table for now?
+    echo join( "\n", $sentences );
+    echo "\n";
+    echo _('So you are just visiting this round.');
+    echo "\n";
+}
+
 $pagesproofed = get_pages_proofed_maybe_simulated();
 
 
@@ -112,11 +122,14 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 if ($pagesproofed <= 20)
 {
-    echo "<hr width='75%'>\n";
+    if ($can_access)
+    {
+        echo "<hr width='75%'>\n";
 
-    echo "<font face=" . $theme['font_mainbody'] ."><b>";
-    echo _("Click on the name of a book in the list below to start proofreading.");
-    echo "</b></font><br><br>\n";
+        echo "<font face=" . $theme['font_mainbody'] ."><b>";
+        echo _("Click on the name of a book in the list below to start proofreading.");
+        echo "</b></font><br><br>\n";
+    }
 }
 else
 {

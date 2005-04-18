@@ -53,15 +53,6 @@ function show_block_for_round( $round_number, $projects_filter )
 	$title = _('Projects Currently Available');
 	echo "\n<td colspan=2><h3>$title</h3></td>";
 
-	list($can_access,$minima_table,$sentences) = $round->user_access( $pguser );
-	if ( !$can_access )
-	{
-		// skip $minima_table for now?
-		$explanation = implode( ' ', $sentences );
-		echo "\n<td colspan=6>$explanation</td>";
-		echo "</tr>";
-	}
-	else
 	{
 		echo "\n<td colspan=6>{$round->description}</td>";
 		echo "</tr>";

@@ -172,7 +172,7 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $code_url;
+    global $project, $code_url, $pguser;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -181,6 +181,14 @@ function decide_blurbs()
     if (is_null($round))
     {
         return array(null,null);
+    }
+
+    list($can_access,$minima_table,$sentences) = $round->user_access($pguser);
+
+    if ( !$can_access )
+    {
+        $text = _('You are not permitted to work in this round.');
+        return array( $text, $text );
     }
 
     project_update_page_counts( $projectid );
@@ -224,7 +232,6 @@ function decide_blurbs()
 
         // Has the user saved a page of this project since the comments were
         // last changed? If not, it's unlikely they've seen the revised comments.
-        global $pguser;
         $res = mysql_query("
             SELECT {$round->time_column_name}
             FROM $projectid
