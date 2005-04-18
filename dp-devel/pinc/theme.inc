@@ -94,7 +94,7 @@ function html_header($nameofpage, $extra_args = array()) {
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 	echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
-      if (isset($nameofpage)) { echo " -- $nameofpage"; }
+      if (isset($nameofpage)) { echo ": $nameofpage"; }
         echo "</title>\n";
 	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	// Global theme CSS
