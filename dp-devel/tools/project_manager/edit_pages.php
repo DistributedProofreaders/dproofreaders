@@ -2,6 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'Project.inc');
 include_once('page_table.inc');
 include_once('page_operations.inc');
 
@@ -32,6 +33,7 @@ $projectid      = $_REQUEST['projectid'];
 $selected_pages = $_REQUEST['selected_pages'];
 $operation      = $_REQUEST['operation'];
 
+$project = new Project( $projectid );
 
 abort_if_cant_edit_project( $projectid );
 
@@ -100,7 +102,7 @@ else
 
     echo _("You selected the following page(s):") . "<br>\n";
     echo "<br>\n";
-    echo_page_table( $projectid, 0, TRUE, $selected_pages );
+    echo_page_table( $project, 0, TRUE, $selected_pages );
     echo "<br>\n";
     echo "$your_request<br>\n";
     echo "<br>\n";

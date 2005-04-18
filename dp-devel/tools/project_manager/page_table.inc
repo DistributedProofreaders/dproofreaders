@@ -7,17 +7,17 @@ include_once($relPath.'project_states.inc'); // get_phase_containing_project_sta
 include_once($relPath.'page_tally.php');
 
 function echo_page_table(
-	$projectid,
+	$project,
 	$show_image_size,
 	$disable_editing = FALSE,
 	$pages_of_interest = NULL )
 {
 	global $theme, $projects_dir, $code_url, $pguser;
 	
-	$can_edit = (user_is_PM_of( $projectid) || user_is_a_sitemanager() || user_is_proj_facilitator());
+	$can_edit = $project->can_be_managed_by_current_user;
 
 	// want PPers able to see names
-	$can_see_names_for_all_pages = ($can_edit || user_is_PP_of( $projectid));
+	$can_see_names_for_all_pages = ($can_edit || $project->PPer_is_current_user);
 
 	if ( $disable_editing )
 	{
@@ -27,8 +27,8 @@ function echo_page_table(
 		// But they still get to see names.
 	}
 
-	$proj_res = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'") or die(mysql_error());
-	$state = mysql_result($proj_res, 0, "state");
+	$projectid = $project->projectid;
+	$state = $project->state;
 
 	$project_phase = get_phase_containing_project_state($state);
 
