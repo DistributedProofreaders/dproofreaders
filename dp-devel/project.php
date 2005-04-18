@@ -1069,9 +1069,12 @@ function do_change_state()
     $projectid = $project->projectid;
     $state = $project->state;
 
+    /*
+    Commented out until it's easy to suppress when no options are echoed.
     echo "<h4>";
     echo _("Change Project State");
     echo "</h4>\n";
+    */
 
     echo "<form name='$projectid' method='get' action='$code_url/tools/changestate.php'>";
     echo "<input type='hidden' name='project' value='$projectid'>\n";
@@ -1079,12 +1082,6 @@ function do_change_state()
 
     // You would think it would be simpler to use an onClick for each option.
     // And it might be, and that works in Opera/Moz/FF. But not in IE.
-
-    echo "<select name='request' onchange=\"";
-    echo "if(this.form.request[this.form.request.selectedIndex].title != '') {di=confirm(this.form.request[this.form.request.selectedIndex].title);if(di){this.form.submit();}} else {this.form.submit();}";
-    echo "\">\n";
-
-    echo "<option selected>"._("Select")."...</option>\n";
 
     if ($state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser, 'PP') )
     {
@@ -1153,13 +1150,22 @@ function do_change_state()
         );
     }
 
-    echo "</select></form>\n";
+    echo "</form>\n";
 }
 
 function echo_option($code,$label,$question)
 {
-    $title_attr = ( is_null($question) ? '' : "title='$question'" );
-    echo "<option $title_attr value=\"$code\">$label</option>\n";
+    if ( is_null($question) )
+    {
+        $onClick_condition = "";
+    }
+    else
+    {
+        $onClick_condition = "if(confirm(\"$question\"))";
+    }
+    $onclick_attr = "onClick='$onClick_condition{this.value=\"$code\"; this.form.submit();}'";
+    echo "<input type='submit' name='request' value='$label' $onclick_attr>";
+    echo "<br>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
