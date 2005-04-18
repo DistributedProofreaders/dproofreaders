@@ -12,10 +12,10 @@ $expected_state = @$_GET['proofstate'];
 if (empty($projectid))      die( "parameter 'project' is empty" );
 if (empty($expected_state)) die( "parameter 'proofstate' is empty" );
 
-$res = mysql_fetch_assoc(mysql_query("
+$project = mysql_fetch_object(mysql_query("
     SELECT nameofwork FROM projects WHERE projectid = '$projectid';
 "));
-$nameofwork = $res['nameofwork'];
+
 $round = get_Round_for_project_state($expected_state);
 
 //load the master frameset
@@ -25,7 +25,7 @@ $round = get_Round_for_project_state($expected_state);
 
 // Add name of round before nameofwork
 $rn = $round->id;
-$nameofwork = "[" . $rn . "] " . $nameofwork;
+$nameofwork = "[" . $rn . "] " . $project->nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
 $frameGet="?" . $_SERVER['QUERY_STRING'];
 ?>
