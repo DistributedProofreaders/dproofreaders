@@ -13,11 +13,39 @@ if (empty($projectid))      die( "parameter 'project' is empty" );
 if (empty($expected_state)) die( "parameter 'proofstate' is empty" );
 
 $project = mysql_fetch_object(mysql_query("
-    SELECT nameofwork FROM projects WHERE projectid = '$projectid';
+    SELECT nameofwork, state FROM projects WHERE projectid = '$projectid';
 "));
 if (!$project) die( "no project with projectid='$projectid'" );
 
-$round = get_Round_for_project_state($expected_state);
+// Check $expected_state.
+$expected_state_text = project_states_text($expected_state);
+if (empty($expected_state_text)) die( "parameter 'proofstate' has bad value: '$expected_state'" );
+if ($expected_state != $project->state)
+{
+    slim_header( $project->nameofwork, TRUE, TRUE );
+
+    echo "<p>";
+    echo sprintf(
+        _('Warning: The project "%s" is no longer in state "%s"; it is now in state "%s".'),
+        $project->nameofwork,
+        $expected_state_text,
+        project_states_text($project->state)
+    );
+    echo "</p>\n";
+
+    $expected_round = get_Round_for_project_state($expected_state);
+    echo "<p>";
+    echo sprintf(
+        _('Back to <a href="%s">%s</a>'),
+        "$code_url/tools/proofers/round.php?round_id={$expected_round->id}",
+        $expected_round->name
+    );
+    echo "</p>\n";
+
+    return;
+}
+
+$round = get_Round_for_project_state($project->state);
 
 //load the master frameset
 ?>
