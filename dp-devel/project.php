@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'projectinfo.inc'); // project_getnumavailablepagesinround()
 include_once($relPath.'bookpages.inc');   // project_update_page_counts()
@@ -46,25 +47,7 @@ else
 
 // -----
 
-$res = mysql_query("
-    SELECT *
-    FROM projects
-    WHERE projectid = '$projectid'
-") or die(mysql_error());
-if (mysql_num_rows($res) == 0)
-{
-    die("no project with projectid='$projectid'");
-}
-$project = mysql_fetch_object($res);
-
-$project->can_be_managed_by_current_user =
-    ( user_is_PM_of($project->projectid)
-    || user_is_a_sitemanager()
-    || user_is_proj_facilitator() );
-
-$project->PPer_is_current_user = user_is_PP_of($project->projectid);
-
-$project->PPVer_is_current_user = user_is_PPV_of($project->projectid);
+$project = new Project( $projectid );
 
 // -----------------------------------------------------------------------------
 
