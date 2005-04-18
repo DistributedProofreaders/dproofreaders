@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
+include($relPath.'slim_header.inc');
 
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
@@ -9,23 +10,22 @@ include($relPath.'dp_main.inc');
 $project, $proofstate
 */
 
-$frameGet="?" . $_SERVER['QUERY_STRING'];
+$res = mysql_fetch_assoc(mysql_query("
+    SELECT nameofwork FROM projects WHERE projectid = '$project';
+"));
+$nameofwork = $res['nameofwork'];
+$round = get_Round_for_project_state($proofstate);
 
 //load the master frameset
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <?php
-include("./../../pinc/slim_header.inc");
-$res = mysql_fetch_assoc(mysql_query("
-    SELECT nameofwork FROM projects WHERE projectid = '$project';
-"));
-$nameofwork = $res['nameofwork'];
+
 // Add name of round before nameofwork
-// Since this is included from proof.php, we can for now safely assume $proofstate is set.
-$round = get_Round_for_project_state($proofstate);
 $rn = $round->id;
 $nameofwork = "[" . $rn . "] " . $nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
+$frameGet="?" . $_SERVER['QUERY_STRING'];
 ?>
 <script language="JavaScript" type="text/javascript" src="dp_proof.js?1.33.1"></script>
 <script language="JavaScript" type="text/javascript" src="dp_scroll.js"></script>
