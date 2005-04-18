@@ -51,6 +51,12 @@ $project = new Project( $projectid );
 
 // -----------------------------------------------------------------------------
 
+// In a tabbed browser, the page-title passed to theme() will appear in
+// the tab, which tends to be small, as soon as you have a few of them.
+// So, put the distinctive part of the page-title (i.e. the name of the
+// project) first.
+$title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
+
 $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
 if ($verbosity==1)
@@ -78,7 +84,7 @@ else
 
     // don't show the stats column
     $no_stats=1;
-    theme($title, "header");
+    theme($title_for_theme, "header");
 
     do_pm_header();
 
