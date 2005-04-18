@@ -44,7 +44,7 @@ class Project
                 ( $this->state == 'proj_post_first_checked_out'
                     || $this->state == 'proj_post_second_checked_out' )
                 && $this->checkedoutby == $pguser
-                && user_is_post_proof_verifier();
+                && user_can_work_in_stage($pguser, 'PPV');
             // You might think that we should only allow
             //     $this->state == 'proj_post_second_checked_out'
             // But if someone with PPV-ability is PPing a project,
