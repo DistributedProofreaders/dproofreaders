@@ -21,7 +21,7 @@ dpsql_dump_themed_ranked_query("
 	FROM  `projects` , usersettings
 	WHERE 1  AND checkedoutby != postproofer AND $psd->state_selector
 		and checkedoutby = usersettings.username 
-		and setting = 'post_proof_verifier' and value = 'yes' 
+		and setting = 'PPV.access' and value = 'yes' 
 	GROUP  BY 1 
 	ORDER  BY 2  DESC ");
 
