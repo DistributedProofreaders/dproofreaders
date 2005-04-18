@@ -45,12 +45,6 @@ function user_is_PM()
             || $userSettings->get_boolean("manager");
 }
 
-function user_is_post_proof_verifier()
-{
-    $userSettings =& get_pguser_settings();
-    return user_is_a_sitemanager() || $userSettings->get_boolean('post_proof_verifier');
-}
-
 function user_is_site_news_editor()
 {
     $userSettings =& get_pguser_settings();
