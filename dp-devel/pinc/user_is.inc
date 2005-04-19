@@ -36,6 +36,23 @@ function user_is_proj_facilitator()
     return user_is_a_sitemanager() || $userSettings->get_boolean("proj_facilitator");
 }
 
+function user_can_modify_access()
+{
+    if ( user_is_a_sitemanager() )
+    {
+        $can_grant = TRUE; $can_revoke = TRUE;
+    }
+    elseif ( user_is_proj_facilitator() )
+    {
+        $can_grant = TRUE; $can_revoke = FALSE;
+    }
+    else
+    {
+        $can_grant = FALSE; $can_revoke = FALSE;
+    }
+    return array( $can_grant, $can_revoke );
+}
+
 function user_is_PM()
 {
     $userSettings =& get_pguser_settings();
