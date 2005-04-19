@@ -110,40 +110,6 @@ while ( list($project_state,$count) = mysql_fetch_row($res) )
 
 // -----------
 
-function show_user_access_object( $uao )
-{
-    if ( $uao->minima_table )
-    {
-        echo _('Entrance Requirements') . ":\n";
-        echo "<table border='1'>\n";
-
-        echo "<tr>";
-        echo "<th>" . _('Criterion') . "</th>";
-        echo "<th>" . _('Minimum')  . "</th>";
-        echo "<th>" . _('You')      . "</th>";
-        echo "</tr>\n";
-
-        foreach ( $uao->minima_table as $row )
-        {
-            list($criterion_str, $minimum, $user_value, $satisfied) = $row;
-            $bgcolor = ( $satisfied ? '#ccffcc' : '#ffcccc' );
-            echo "<tr>";
-            echo "<td>$criterion_str</td>";
-            echo "<td>$minimum</td>";
-            echo "<td bgcolor='$bgcolor'>$user_value</td>";
-            echo "</tr>\n";
-        }
-        echo "</table>\n";
-    }
-    foreach ( $uao->sentences as $sentence )
-    {
-        echo "$sentence\n";
-    }
-    echo "<br>\n";
-}
-
-// -----------
-
 function summarize_projects( $project_states, $filtertype_stem )
 {
     global $n_projects_in_state_;
