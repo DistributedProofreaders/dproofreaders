@@ -183,7 +183,7 @@ function saveProject() {
             )
         ");
 
-        //Update the marc database with any changes we've recieved
+        //Update the marc database with any changes we've received
         $updated_array = update_marc_db($rec);
 
         //Add the update marc record to the database
@@ -832,15 +832,16 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
    if (yaz_hits($id) == 0) {
         echo "<br><center><b>There were no results returned.</b><br>Please search again or click 'No Matches' to create the project manually.</center><br>";
    } else {
-        echo "<br><center><b>Please pick a result from below:</b></center>";
+        echo "<br><center><b>".yaz_hits($id)." results returned. Note that some non-book results may not be displayed.<br>Please pick a result from below:</b></center>";
    }
 
        echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
        echo "<input type='hidden' name='action' value='submit_marcsearch'>";
        echo "<table border='0 width='100%' cellpadding='0' cellspacing='0'>";
 
+       $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
        $i = 1;
-       while (($start <= yaz_hits($id) && $i <= 10)) {
+       while (($start <= yaz_hits($id) && $i <= $hits_per_page)) {
             $rec = yaz_record($id, $start, "array");
             //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
             $title = marc_title($rec);
@@ -879,8 +880,8 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == "marc_search") {
         }
         if ($i % 2 != 1) { echo "</tr>\n"; }
 
-        if (isset($_GET['start']) && ($_GET['start']-10) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-10)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
-        if (($start+10) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>\n"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>\n"; }
+        if (isset($_GET['start']) && ($_GET['start']-$hits_per_page) > 0) { echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='editproject.php?action=marc_search&start=".($_GET['start']-$hits_per_page)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>"; } else { echo "<tr><td colspan='2' width='50%'>&nbsp;</td>"; }
+        if (($start+$hits_per_page) <= yaz_hits($id)) { echo "<td colspan='2' width='50%' align='right' valign='top'><a href='editproject.php?action=marc_search&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>\n"; } else { echo "<td colspan='2' width='50%'>&nbsp;</td></tr>\n"; }
 
         echo "</table><br><center>";
         if (yaz_hits($id) != 0) { echo "<input type='submit' value='Create the Project'>&nbsp;"; }
