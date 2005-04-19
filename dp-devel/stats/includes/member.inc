@@ -4,6 +4,7 @@
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'page_tally.php');
 include_once($relPath.'ThemedTable.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
@@ -13,7 +14,11 @@ function showMbrInformation( $curMbr, $tally_name )
 
 	showMbrTallySelector( $curMbr['u_id'], $tally_name );
 
-	if ( !is_null($tally_name) )
+	if ( is_null($tally_name) )
+	{
+		showMbrAccess($curMbr);
+	}
+	else
 	{
 		showMbrPageStats($curMbr, $tally_name);
 		showMbrTeams($curMbr, $tally_name);
@@ -218,6 +223,16 @@ function showForumProfile($username) {
 	}
 
 	$t->end();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function showMbrAccess( $curMbr )
+{
+	list($can_grant,$can_revoke) = user_can_modify_access();
+	if ( !$can_grant ) return;
+
+	show_user_access_chart( $curMbr['username'] );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
