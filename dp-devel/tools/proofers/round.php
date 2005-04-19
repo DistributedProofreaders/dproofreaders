@@ -48,10 +48,7 @@ echo "<h1>{$round->name}</h1>\n";
 $uao = $round->user_access( $pguser );
 if ( !$uao->can_access )
 {
-    // skip $uao->minima_table for now?
-    echo join( "\n", $uao->sentences );
-    echo "\n";
-    echo _('So you are just visiting this round.');
+    echo _("You're not yet allowed to work in this round, so you're just visiting.");
     echo "\n";
 }
 
