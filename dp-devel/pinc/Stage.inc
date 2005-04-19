@@ -343,6 +343,126 @@ function show_user_access_object( $uao )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function show_user_access_chart( $username )
+{
+    global $CRITERIA, $code_url;
+
+    echo "<table border='1'>";
+
+    // top header line
+    {
+        $n_criteria = count($CRITERIA);
+        echo "<tr>";
+        echo "<th></th>";
+        echo "<th colspan='$n_criteria'>Criteria</th>";
+        echo "<th rowspan='3'>all sat?</th>";
+        echo "<th rowspan='3'>request</th>";
+        echo "<th rowspan='3'>ACCESS?</th>";
+        echo "</tr>\n";
+    }
+
+    // bottom header line
+    {
+        echo "<tr>";
+        echo "<th></th>";
+        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        {
+            echo "<th>$criterion_code</th>";
+        }
+        echo "</tr>\n";
+    }
+
+    // user scores line
+    {
+        $user_scores = get_user_scores($username);
+
+        echo "<tr>";
+        echo "<th>user score:</th>";
+        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        {
+            $user_score = $user_scores[$criterion_code];
+            echo "<td align='right'>$user_score</td>";
+        }
+        echo "</tr>\n";
+    }
+
+    // stage lines
+	global $Stage_for_id_;
+	foreach ( $Stage_for_id_ as $stage )
+    {
+		$uao = $stage->user_access($username);
+
+        echo "<tr>";
+        echo "<th>$stage->id</th>";
+        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        {
+            $row = @$uao->minima_table[$criterion_code];
+            if (is_null($row))
+            {
+                echo "<td></td>";
+            }
+            else
+            {
+                list($criterion_str, $minimum, $user_score, $satisfied) = $row;
+                echo td_w_bgcolor( $minimum, $satisfied );
+            }
+        }
+
+        echo td_w_bgcolor(
+            ($uao->all_minima_satisfied ? 'yes' : 'no'),
+            $uao->all_minima_satisfied );
+
+        $could_grant = FALSE;
+        $could_revoke = FALSE;
+        global $code_url;
+        echo "<td>";
+        switch( $uao->request_status )
+        {
+            case 'sat-unneeded':
+                echo 'unnec';
+                break;
+
+            case 'sat-granted':
+            case 'unsat-granted':
+                echo 'granted';
+                $could_revoke = TRUE;
+                break;
+
+            case 'sat-requested':
+                echo 'requested';
+                $could_grant = TRUE;
+                break;
+
+            case 'sat-available':
+                echo 'not yet';
+                $could_grant = TRUE;
+                break;
+
+            case 'unsat-ungranted':
+                $could_grant = TRUE;
+                break;
+
+            default:
+                die( "bad request_status '$uao->request_status'" );
+        }
+        echo "</td>";
+
+        echo td_w_bgcolor( ($uao->can_access?'YES':'NO'), $uao->can_access );
+
+        echo "</tr>\n";
+    }
+
+    echo "</table>\n";
+}
+
+function td_w_bgcolor( $text, $bool )
+{
+	$bgcolor = ( $bool ? '#ccffcc' : '#ffcccc' );
+	return "<td align='right' bgcolor='$bgcolor'>$text</td>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function & get_Stage_for_id( $id )
 {
     global $Stage_for_id_;
