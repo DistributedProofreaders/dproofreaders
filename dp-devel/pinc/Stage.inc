@@ -94,7 +94,7 @@ class Stage
     //         a boolean: TRUE iff the user can access this stage.
     // -- minima_table:
     //         an array of arrays (4-tuples):
-    //         ( $criterion_str, $minimum, $user_value, $satisfied )
+    //         ( $criterion_str, $minimum, $user_score, $satisfied )
     // -- all_minima_satisfied:
     //         boolean
     // -- request_status:
@@ -141,10 +141,10 @@ class Stage
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
                 $criterion_str = $CRITERIA[$criterion_code];
-                $user_value = $user_scores[$criterion_code];
+                $user_score = $user_scores[$criterion_code];
 
-                $satisfied = ( $user_value >= $minimum );
-                $uao->minima_table[$criterion_code] = array( $criterion_str, $minimum, $user_value, $satisfied );
+                $satisfied = ( $user_score >= $minimum );
+                $uao->minima_table[$criterion_code] = array( $criterion_str, $minimum, $user_score, $satisfied );
                 if ( !$satisfied ) $uao->all_minima_satisfied = FALSE;
             }
 
@@ -282,12 +282,12 @@ function show_user_access_object( $uao )
 
         foreach ( $uao->minima_table as $row )
         {
-            list($criterion_str, $minimum, $user_value, $satisfied) = $row;
+            list($criterion_str, $minimum, $user_score, $satisfied) = $row;
             $bgcolor = ( $satisfied ? '#ccffcc' : '#ffcccc' );
             echo "<tr>";
             echo "<td>$criterion_str</td>";
             echo "<td>$minimum</td>";
-            echo "<td bgcolor='$bgcolor'>$user_value</td>";
+            echo "<td bgcolor='$bgcolor'>$user_score</td>";
             echo "</tr>\n";
         }
         echo "</table>\n";
