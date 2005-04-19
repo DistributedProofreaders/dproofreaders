@@ -86,8 +86,6 @@ class Stage
     //         boolean
     // -- request_status:
     //         enumerated type
-    // -- sitemanager_trumps:
-    //         boolean
     // 
     // UNIMPLEMENTED:
     // If $n_pages_completed is non-null, use it as the number of pages
@@ -227,17 +225,6 @@ class Stage
             }
         }
 
-        // Site managers can go anywhere.
-        $uao->sitemanager_trumps = FALSE;
-        if ( !$uao->can_access )
-        {
-            if ($user_obj->sitemanager == 'yes')
-            {
-                $uao->can_access = TRUE;
-                $uao->sitemanager_trumps = TRUE;
-            }
-        }
-
         return $uao;
     }
 
@@ -322,12 +309,6 @@ function show_user_access_object( $uao )
     }
     echo "\n";
     
-    if ( $uao->sitemanager_trumps )
-    {
-        echo _("But ultimately, you're a site manager, so you have access to everywhere.");
-    }
-    echo "\n";
-
     echo "<br>\n";
 }
 
