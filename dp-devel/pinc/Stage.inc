@@ -347,6 +347,14 @@ function show_user_access_chart( $username )
 {
     global $CRITERIA, $code_url;
 
+    list($allow_grant,$allow_revoke) = user_can_modify_access();
+
+    if ( $allow_grant || $allow_revoke )
+    {
+        echo "<form method='post' action='$code_url/tools/modify_access.php'>\n";
+        echo "<input type='hidden' name='subject_username' value='$username'>\n";
+    }
+
     echo "<table border='1'>";
 
     // top header line
@@ -358,6 +366,14 @@ function show_user_access_chart( $username )
         echo "<th rowspan='3'>all sat?</th>";
         echo "<th rowspan='3'>request</th>";
         echo "<th rowspan='3'>ACCESS?</th>";
+        if ( $allow_grant )
+        {
+            echo "<th rowspan='3'>grant?</th>";
+        }
+        if ( $allow_revoke )
+        {
+            echo "<th rowspan='3'>revoke?</th>";
+        }
         echo "</tr>\n";
     }
 
@@ -449,10 +465,36 @@ function show_user_access_chart( $username )
 
         echo td_w_bgcolor( ($uao->can_access?'YES':'NO'), $uao->can_access );
 
+        if ( $allow_grant )
+        {
+            echo "<td>";
+            if ( $could_grant )
+            {
+                echo "<input type='checkbox' name='{$stage->id}|grant'>";
+            }
+            echo "</td>";
+        }
+
+        if ( $allow_revoke )
+        {
+            echo "<td>";
+            if ( $could_revoke )
+            {
+                echo "<input type='checkbox' name='{$stage->id}|revoke'>";
+            }
+            echo "</td>";
+        }
+
         echo "</tr>\n";
     }
 
     echo "</table>\n";
+
+    if ( $allow_grant || $allow_revoke )
+    {
+        echo "<input type='submit' value='Submit Changes'>\n";
+        echo "</form>\n";
+    }
 }
 
 function td_w_bgcolor( $text, $bool )
