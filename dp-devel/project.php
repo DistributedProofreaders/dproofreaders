@@ -189,9 +189,9 @@ function decide_blurbs()
         return array(null,null);
     }
 
-    list($can_access,$minima_table,$sentences) = $round->user_access($pguser);
+    $uao = $round->user_access($pguser);
 
-    if ( !$can_access )
+    if ( !$uao->can_access )
     {
         $text = _('You are not permitted to work in this round.');
         return array( $text, $text );

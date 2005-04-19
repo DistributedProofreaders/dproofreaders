@@ -268,8 +268,8 @@ foreach ( $Stage_for_id_ as $stage )
 
     echo "<br>\n";
 
-	list($can_access, $minima_table, $sentences) = $stage->user_access( $pguser, $pagesproofed );
-    show_entrance_requirements( $minima_table, $sentences );
+	$uao = $stage->user_access( $pguser, $pagesproofed );
+    show_entrance_requirements( $uao->minima_table, $uao->sentences );
     echo "<br>\n";
 
     if ( is_a( $stage, 'Round' ) )

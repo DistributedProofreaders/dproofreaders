@@ -47,8 +47,8 @@ if ($expected_state != $project->state)
 
 // Check user's access to the project's current round
 $round = get_Round_for_project_state($project->state);
-list($can_access,$minima_table,$sentences) = $round->user_access($pguser);
-if (!$can_access)
+$uao = $round->user_access($pguser);
+if (!$uao->can_access)
 {
     slim_header( $project->nameofwork, TRUE, TRUE );
 

@@ -355,8 +355,8 @@ function show_quick_links()
 
 	foreach ( $Stage_for_id_ as $stage )
 	{
-		list($can_access,$_,$_) = $stage->user_access($pguser);
-		if ($can_access)
+		$uao = $stage->user_access($pguser);
+		if ($uao->can_access)
 		{
 			$links[] = array($stage->relative_url, $stage->id, $stage->name);
 		}

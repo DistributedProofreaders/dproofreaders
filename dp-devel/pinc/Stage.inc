@@ -69,11 +69,14 @@ class Stage
     }
 
     function user_access( $username, $n_pages_completed=null )
-    // Return an array containing:
-    // -- a boolean: TRUE iff the user can access this stage.
-    // -- NULL or an array of arrays (4-tuples):
+    // Return an object with the following properties:
+    // -- can_access:
+    //         a boolean: TRUE iff the user can access this stage.
+    // -- minima_table:
+    //         NULL or an array of arrays (4-tuples):
     //         ( $criterion_str, $minimum, $user_value, $satisfied )
-    // -- a non-empty array of strings: sentences (addressed to "you")
+    // -- sentences:
+    //         a non-empty array of strings: sentences (addressed to "you")
     //         saying why you or don't have access.
     // 
     // UNIMPLEMENTED:
@@ -93,26 +96,27 @@ class Stage
 
         $user_obj = mysql_fetch_object($res);
 
+        $uao = new StdClass; // user access object
 
-        $minima_table = null;
-        $sentences = array();
+        $uao->minima_table = null;
+        $uao->sentences = array();
 
         // Considering the minima...
 
         if ( is_null($this->access_minima) )
         {
-            $sentences[] = _("Users cannot qualify for this stage by satisfying minima.");
-            $can = FALSE;
+            $uao->sentences[] = _("Users cannot qualify for this stage by satisfying minima.");
+            $uao->can_access = FALSE;
         }
         else if ( empty($this->access_minima) )
         {
-            $minima_table = null;
-            $sentences[] = _("All users can work in this stage.");
-            $can = TRUE;
+            $uao->minima_table = null;
+            $uao->sentences[] = _("All users can work in this stage.");
+            $uao->can_access = TRUE;
         }
         else
         {
-            $minima_table = array();
+            $uao->minima_table = array();
             $all_minima_satisfied = TRUE;
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
@@ -137,19 +141,19 @@ class Stage
                     $user_value = $tallyboard->get_current_tally( $user_obj->u_id );
                 }
                 $satisfied = ( $user_value >= $minimum );
-                $minima_table[] = array( $criterion_str, $minimum, $user_value, $satisfied );
+                $uao->minima_table[] = array( $criterion_str, $minimum, $user_value, $satisfied );
                 if ( !$satisfied ) $all_minima_satisfied = FALSE;
             }
 
             if ( $all_minima_satisfied )
             {
-                $sentences[] = _('You satisfy the minima, so you are allowed in the stage.');
-                $can = TRUE;
+                $uao->sentences[] = _('You satisfy the minima, so you are allowed in the stage.');
+                $uao->can_access = TRUE;
             }
             else
             {
-                $sentences[] = _('You do not satisfy the minima.');
-                $can = FALSE;
+                $uao->sentences[] = _('You do not satisfy the minima.');
+                $uao->can_access = FALSE;
             }
         }
 
@@ -157,32 +161,32 @@ class Stage
         // A user can be given access to this stage (regardless
         // of how they stand w.r.t access minima) via a notation in the
         // database (specific to that user and this stage).
-        if (!$can)
+        if (!$uao->can_access)
         {
             if ( $this->user_has_been_granted_access($username) )
             {
-                $can = TRUE;
-                $sentences[] = _("However, you have been granted access to this stage.");
+                $uao->can_access = TRUE;
+                $uao->sentences[] = _("However, you have been granted access to this stage.");
             }
             else
             {
-                $can = FALSE;
+                $uao->can_access = FALSE;
                 // Don't mention possibility of special permission.
-                // $sentences[] = _("However, you can be granted access to this stage. See XXX for details.");
+                // $uao->sentences[] = _("However, you can be granted access to this stage. See XXX for details.");
             }
         }
 
         // Site managers can go anywhere.
-        if ( !$can )
+        if ( !$uao->can_access )
         {
             if ($user_obj->sitemanager == 'yes')
             {
-                $can = TRUE;
-                $sentences[] = _("But ultimately, you're a site manager, so you have access to everywhere.");
+                $uao->can_access = TRUE;
+                $uao->sentences[] = _("But ultimately, you're a site manager, so you have access to everywhere.");
             }
         }
 
-        return array( $can, $minima_table, $sentences );
+        return $uao;
     }
 
     function user_has_been_granted_access( $username )
@@ -217,8 +221,8 @@ function & get_Stage_for_id( $id )
 function user_can_work_in_stage( $username, $stage_id )
 {
     $stage = get_Stage_for_id($stage_id);
-    list($can_access,$_,$_) = $stage->user_access($username);
-    return $can_access;
+    $uao = $stage->user_access($username);
+    return $uao->can_access;
 }
 
 // vim: sw=4 ts=4 expandtab

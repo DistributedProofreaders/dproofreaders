@@ -45,11 +45,11 @@ echo "<h1>{$round->name}</h1>\n";
 
 // ---------------------------------------
 
-list($can_access,$minima_table,$sentences) = $round->user_access( $pguser );
-if ( !$can_access )
+$uao = $round->user_access( $pguser );
+if ( !$uao->can_access )
 {
-    // skip $minima_table for now?
-    echo join( "\n", $sentences );
+    // skip $uao->minima_table for now?
+    echo join( "\n", $uao->sentences );
     echo "\n";
     echo _('So you are just visiting this round.');
     echo "\n";
@@ -122,7 +122,7 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 if ($pagesproofed <= 20)
 {
-    if ($can_access)
+    if ($uao->can_access)
     {
         echo "<hr width='75%'>\n";
 

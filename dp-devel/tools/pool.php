@@ -30,8 +30,8 @@ echo "<h1 align='center'>{$pool->id}: {$pool->name}</h1>";
 global $pguser;
 $userSettings = Settings::get_Settings($pguser);
 
-list($can_access,$minima_table,$sentences) = $pool->user_access($pguser);
-if (!$can_access)
+$uao = $pool->user_access($pguser);
+if (!$uao->can_access)
 {
     echo _("You're not allowed to work in this pool, just visit."), "\n";
     echo _("If you feel this is an error, please contact the site administration."), "\n";
