@@ -26,6 +26,12 @@ class Stage
             // (barring special permission).
             // If empty array, no minima: everyone can participate.
             // If NULL, users cannot qualify for this stage by satisfying minima.
+        $after_satisfying_minima,
+            // After satisfying the above minima, does the user have to do
+            // anything else to work in this stage?
+            //     'IMMEDIATE'  Nope, they get immediate access.
+            //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
+            //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
         $description,
             // A sentence or two explaining what happens in this stage.
         $listing_bgcolors,
@@ -39,6 +45,7 @@ class Stage
         $this->id            = $id;
         $this->name          = $name;
         $this->access_minima = $access_minima;
+        $this->after_satisfying_minima = $after_satisfying_minima;
         $this->description   = $description;
         $this->relative_url  = $relative_url;
         $this->listing_bgcolors = $listing_bgcolors;
@@ -73,11 +80,14 @@ class Stage
     // -- can_access:
     //         a boolean: TRUE iff the user can access this stage.
     // -- minima_table:
-    //         NULL or an array of arrays (4-tuples):
+    //         an array of arrays (4-tuples):
     //         ( $criterion_str, $minimum, $user_value, $satisfied )
-    // -- sentences:
-    //         a non-empty array of strings: sentences (addressed to "you")
-    //         saying why you or don't have access.
+    // -- all_minima_satisfied:
+    //         boolean
+    // -- request_status:
+    //         enumerated type
+    // -- sitemanager_trumps:
+    //         boolean
     // 
     // UNIMPLEMENTED:
     // If $n_pages_completed is non-null, use it as the number of pages
@@ -96,28 +106,37 @@ class Stage
 
         $user_obj = mysql_fetch_object($res);
 
-        $uao = new StdClass; // user access object
+        // -----------------------------------
 
-        $uao->minima_table = null;
-        $uao->sentences = array();
-
-        // Considering the minima...
-
-        if ( is_null($this->access_minima) )
+        $res = mysql_query("
+            SELECT value
+            FROM usersettings
+            WHERE username='$username' AND setting='{$this->id}.access'
+        ") or die(mysql_error());
+        if ( mysql_num_rows($res) == 0 )
         {
-            $uao->sentences[] = _("Users cannot qualify for this stage by satisfying minima.");
-            $uao->can_access = FALSE;
+            $recorded_access = 'no';
         }
-        else if ( empty($this->access_minima) )
+        elseif ( mysql_num_rows($res) == 1 )
         {
-            $uao->minima_table = null;
-            $uao->sentences[] = _("All users can work in this stage.");
-            $uao->can_access = TRUE;
+            $recorded_access = mysql_result($res,0);
         }
         else
         {
+            // Not sure what to do.
+            $recorded_access = mysql_result($res,0);
+        }
+
+        // -----------------------------------
+
+        $uao = new StdClass; // user access object
+
+        $uao->stage_id = $this->id;
+
+        // Considering the minima...
+        {
             $uao->minima_table = array();
-            $all_minima_satisfied = TRUE;
+            $uao->all_minima_satisfied = TRUE;
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
                 if ( $criterion_code == 'days since reg' )
@@ -141,62 +160,85 @@ class Stage
                     $user_value = $tallyboard->get_current_tally( $user_obj->u_id );
                 }
                 $satisfied = ( $user_value >= $minimum );
-                $uao->minima_table[] = array( $criterion_str, $minimum, $user_value, $satisfied );
-                if ( !$satisfied ) $all_minima_satisfied = FALSE;
+                $uao->minima_table[$criterion_code] = array( $criterion_str, $minimum, $user_value, $satisfied );
+                if ( !$satisfied ) $uao->all_minima_satisfied = FALSE;
             }
 
-            if ( $all_minima_satisfied )
-            {
-                $uao->sentences[] = _('You satisfy the minima, so you are allowed in the stage.');
-                $uao->can_access = TRUE;
-            }
-            else
-            {
-                $uao->sentences[] = _('You do not satisfy the minima.');
-                $uao->can_access = FALSE;
-            }
         }
 
-        // Considering special grant of access:
-        // A user can be given access to this stage (regardless
-        // of how they stand w.r.t access minima) via a notation in the
-        // database (specific to that user and this stage).
-        if (!$uao->can_access)
+        if ($uao->all_minima_satisfied)
         {
-            if ( $this->user_has_been_granted_access($username) )
+            switch ($this->after_satisfying_minima)
             {
+                case 'IMMEDIATE':
+                    // They get immediate access.
+                    $uao->request_status = 'sat-unneeded';
+                    $uao->can_access = TRUE;
+                    break;
+
+                case 'REQ-AUTO':
+                    // They must ask for access, but it is auto-granted.
+                    if ( $recorded_access == 'yes' )
+                    {
+                        $uao->request_status = 'sat-granted';
+                        $uao->can_access = TRUE;
+                    }
+                    else
+                    {
+                        $uao->request_status = 'sat-available';
+                        $uao->can_access = FALSE;
+                    }
+                    break;
+
+                case 'REQ-HUMAN':
+                    // They must ask for access, and it must be human-granted.
+                    if ( $recorded_access == 'yes' )
+                    {
+                        $uao->request_status = 'sat-granted';
+                        $uao->can_access = TRUE;
+                    }
+                    elseif ( $recorded_access == 'requested' )
+                    {
+                        $uao->request_status = 'sat-requested';
+                        $uao->can_access = FALSE;
+                    }
+                    else
+                    {
+                        $uao->request_status = 'sat-available';
+                        $uao->can_access = FALSE;
+                    }
+                    break;
+
+                default:
+                    die( "bad after_satisfying_minima value: '$this->after_satisfying_minima'" );
+            }
+        }
+        else
+        {
+            if ( $recorded_access == 'yes' )
+            {
+                $uao->request_status = 'unsat-granted';
                 $uao->can_access = TRUE;
-                $uao->sentences[] = _("However, you have been granted access to this stage.");
             }
             else
             {
+                $uao->request_status = 'unsat-ungranted';
                 $uao->can_access = FALSE;
-                // Don't mention possibility of special permission.
-                // $uao->sentences[] = _("However, you can be granted access to this stage. See XXX for details.");
             }
         }
 
         // Site managers can go anywhere.
+        $uao->sitemanager_trumps = FALSE;
         if ( !$uao->can_access )
         {
             if ($user_obj->sitemanager == 'yes')
             {
                 $uao->can_access = TRUE;
-                $uao->sentences[] = _("But ultimately, you're a site manager, so you have access to everywhere.");
+                $uao->sitemanager_trumps = TRUE;
             }
         }
 
         return $uao;
-    }
-
-    function user_has_been_granted_access( $username )
-    {
-        $res = mysql_query("
-            SELECT value
-            FROM usersettings
-            WHERE username='$username' AND setting='{$this->id}.access'
-        ") or die(mysql_error());
-        return (mysql_num_rows($res) >= 1 and mysql_result($res,0) == 'yes');
     }
 
 }
@@ -205,7 +247,13 @@ class Stage
 
 function show_user_access_object( $uao )
 {
-    if ( $uao->minima_table )
+    global $code_url;
+
+    if ( count($uao->minima_table) == 0 )
+    {
+        echo _("There are no minimum requirements associated with this stage.");
+    }
+    else
     {
         echo _('Entrance Requirements') . ":\n";
         echo "<table border='1'>\n";
@@ -227,11 +275,59 @@ function show_user_access_object( $uao )
             echo "</tr>\n";
         }
         echo "</table>\n";
+
+        if ( $uao->all_minima_satisfied )
+        {
+            echo _('You satisfy the requirements.');
+        }
+        else
+        {
+            echo _('You do not satisfy the requirements.');
+        }
     }
-    foreach ( $uao->sentences as $sentence )
+    echo "\n";
+
+    switch( $uao->request_status )
     {
-        echo "$sentence\n";
+        case 'sat-unneeded':
+            echo _('So you are allowed to work in this stage.');
+            break;
+
+        case 'sat-granted':
+            echo _('You have requested and received permission.');
+            break;
+
+        case 'sat-requested':
+            echo _('You have requested permission, but it has not been granted yet.');
+            break;
+
+        case 'sat-available':
+            echo sprintf(
+                _('If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
+                "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
+            );
+            break;
+
+        case 'unsat-granted':
+            echo _("However, you have been granted access to this stage.");
+            break;
+
+        case 'unsat-ungranted':
+            // Don't mention possibility of special permission.
+            // echo _("However, you can be granted access to this stage. See XXX for details.");
+            break;
+
+        default:
+            die( "bad request_status '$uao->request_status'" );
     }
+    echo "\n";
+    
+    if ( $uao->sitemanager_trumps )
+    {
+        echo _("But ultimately, you're a site manager, so you have access to everywhere.");
+    }
+    echo "\n";
+
     echo "<br>\n";
 }
 

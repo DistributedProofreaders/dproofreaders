@@ -17,7 +17,8 @@ if ($site_supports_metadata)
 new Stage(
     'CA',
     _('Clearance Approvals'),
-    NULL,
+    array(),
+    'REQ-HUMAN',
     _('A qualified person must confirm that the work is in the public domain.'),
     array(
         'a',
@@ -36,7 +37,8 @@ if ($site_supports_metadata)
 new Stage(
     'MD',
     _('Metadata Collection'),
-    NULL,
+    array(),
+    'REQ-HUMAN',
     _('We collect various bits of metadata for each page in a project.'),
     array(
         'a',
@@ -53,6 +55,7 @@ new Round(
     'P1',
     _('Proofreading Round 1'),
     array(),
+    'IMMEDIATE',
     _("The page-texts are the output from OCR software and have not been looked at."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -67,6 +70,7 @@ new Round(
     'P2',
     _('Proofreading Round 2'),
     array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
+    'REQ-HUMAN',
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     array(
         0 => '#DDA0DD', // plum
@@ -81,6 +85,7 @@ new Round(
     'F1',
     _('Formatting Round 1'),
     array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
+    'REQ-AUTO',
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
     array(
         0 => '#FFE4B5', // mocassin
@@ -94,7 +99,8 @@ new Round(
 new Round(
     'F2',
     _('Formatting Round 2'),
-    NULL,
+    array( 'F1' => 400 ),
+    'REQ-HUMAN',
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     array(
         0 => '#DDA0DD', // plum
@@ -123,6 +129,7 @@ new Pool(
     'PP',
     _('Post-Processing'),
     array( 'F1' => 400 ),
+    'REQ-AUTO',
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     array(
         '#cccccc',
@@ -160,6 +167,7 @@ new Stage(
     'SR',
     _('Smooth Reading'),
     array(),
+    'IMMEDIATE',
     _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.'),
     array(
         '#CCFFCC',
@@ -174,6 +182,7 @@ new Pool(
     'PPV',
     _('Post-Processing Verification'),
     array( 'F2' => 400 ), // and then review of PPing by existing PPVers
+    'REQ-HUMAN',
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     array(
         '#99FFFF', // "harshflourolightblue"
@@ -213,6 +222,7 @@ new Pool(
     'CR',
     _('Corrections Review'),
     array( 'F1' => 400 ),
+    'REQ-AUTO',
     _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
     array(
         '#e0e8dd',
