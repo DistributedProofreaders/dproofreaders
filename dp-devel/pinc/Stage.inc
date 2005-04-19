@@ -12,6 +12,12 @@ include_once($relPath.'TallyBoard.inc');
 
 $Stage_for_id_ = array();
 
+$CRITERIA = array(
+    'days since reg' => _('days since registration'),
+    'quiz'           => _('proofreading quiz pass'),
+);
+// extended with round-ids as they are declared
+
 class Stage
 {
     function Stage(
@@ -73,6 +79,13 @@ class Stage
 
         global $Stage_for_id_;
         $Stage_for_id_[$id] =& $this;
+
+        global $CRITERIA;
+        if (is_a($this,'Round'))
+        {
+            $CRITERIA[$this->id] =
+                sprintf( _("'%s' pages completed"), $this->id );
+        }
     }
 
     function user_access( $username, $n_pages_completed=null )
@@ -132,20 +145,20 @@ class Stage
         $uao->stage_id = $this->id;
 
         // Considering the minima...
+        global $CRITERIA;
         {
             $uao->minima_table = array();
             $uao->all_minima_satisfied = TRUE;
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
+                $criterion_str = $CRITERIA[$criterion_code];
                 if ( $criterion_code == 'days since reg' )
                 {
-                    $criterion_str = _('days since registration');
                     $user_value = sprintf( '%.1f', ( time() - $user_obj->date_created ) / 86400 );
                 }
                 else if ( $criterion_code == 'quiz' )
                 {
                     assert( $minimum == 1 );
-                    $criterion_str = _('proofreading quiz pass');
                     // UNIMPLEMENTED
                     // For now, say they have passed.
                     $user_value = 1;
@@ -153,7 +166,6 @@ class Stage
                 else
                 {
                     $tally_name = $criterion_code;
-                    $criterion_str = sprintf( _("'%s' pages completed"), $tally_name );
                     $tallyboard = new TallyBoard( $tally_name, 'U' );
                     $user_value = $tallyboard->get_current_tally( $user_obj->u_id );
                 }
