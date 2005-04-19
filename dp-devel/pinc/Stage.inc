@@ -104,18 +104,7 @@ class Stage
     // If $n_pages_completed is non-null, use it as the number of pages
     // that the user has completed. Otherwise, consult the database.
     {
-        $res = mysql_query("
-            SELECT *
-            FROM users
-            WHERE username='$username'
-        ") or die(mysql_error());
-
-        if ( mysql_num_rows($res) == 0 )
-        {
-            die( "User '$username' does not exist." );
-        }
-
-        $user_obj = mysql_fetch_object($res);
+        $user_scores = get_user_scores($username);
 
         // -----------------------------------
 
@@ -152,23 +141,8 @@ class Stage
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
                 $criterion_str = $CRITERIA[$criterion_code];
-                if ( $criterion_code == 'days since reg' )
-                {
-                    $user_value = sprintf( '%.1f', ( time() - $user_obj->date_created ) / 86400 );
-                }
-                else if ( $criterion_code == 'quiz' )
-                {
-                    assert( $minimum == 1 );
-                    // UNIMPLEMENTED
-                    // For now, say they have passed.
-                    $user_value = 1;
-                }
-                else
-                {
-                    $tally_name = $criterion_code;
-                    $tallyboard = new TallyBoard( $tally_name, 'U' );
-                    $user_value = $tallyboard->get_current_tally( $user_obj->u_id );
-                }
+                $user_value = $user_scores[$criterion_code];
+
                 $satisfied = ( $user_value >= $minimum );
                 $uao->minima_table[$criterion_code] = array( $criterion_str, $minimum, $user_value, $satisfied );
                 if ( !$satisfied ) $uao->all_minima_satisfied = FALSE;
@@ -240,6 +214,49 @@ class Stage
         return $uao;
     }
 
+}
+
+// --------------------------------------------------------------------------
+
+function get_user_scores($username)
+{
+    global $CRITERIA;
+
+    $res = mysql_query("
+        SELECT *
+        FROM users
+        WHERE username='$username'
+    ") or die(mysql_error());
+
+    if ( mysql_num_rows($res) == 0 )
+    {
+        die( "User '$username' does not exist." );
+    }
+
+    $user_obj = mysql_fetch_object($res);
+
+    $user_scores = array();
+    foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+    {
+        if ( $criterion_code == 'days since reg' )
+        {
+            $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
+        }
+        else if ( $criterion_code == 'quiz' )
+        {
+            // UNIMPLEMENTED
+            // For now, say they have passed.
+            $user_score = 1;
+        }
+        else
+        {
+            $tally_name = $criterion_code;
+            $tallyboard = new TallyBoard( $tally_name, 'U' );
+            $user_score = $tallyboard->get_current_tally( $user_obj->u_id );
+        }
+        $user_scores[$criterion_code] = $user_score;
+    }
+    return $user_scores;
 }
 
 // --------------------------------------------------------------------------
