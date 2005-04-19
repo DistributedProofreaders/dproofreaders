@@ -110,9 +110,9 @@ while ( list($project_state,$count) = mysql_fetch_row($res) )
 
 // -----------
 
-function show_entrance_requirements( $minima_table, $sentences )
+function show_user_access_object( $uao )
 {
-    if ( $minima_table )
+    if ( $uao->minima_table )
     {
         echo _('Entrance Requirements') . ":\n";
         echo "<table border='1'>\n";
@@ -123,7 +123,7 @@ function show_entrance_requirements( $minima_table, $sentences )
         echo "<th>" . _('You')      . "</th>";
         echo "</tr>\n";
 
-        foreach ( $minima_table as $row )
+        foreach ( $uao->minima_table as $row )
         {
             list($criterion_str, $minimum, $user_value, $satisfied) = $row;
             $bgcolor = ( $satisfied ? '#ccffcc' : '#ffcccc' );
@@ -135,7 +135,7 @@ function show_entrance_requirements( $minima_table, $sentences )
         }
         echo "</table>\n";
     }
-    foreach ( $sentences as $sentence )
+    foreach ( $uao->sentences as $sentence )
     {
         echo "$sentence\n";
     }
@@ -269,7 +269,7 @@ foreach ( $Stage_for_id_ as $stage )
     echo "<br>\n";
 
 	$uao = $stage->user_access( $pguser, $pagesproofed );
-    show_entrance_requirements( $uao->minima_table, $uao->sentences );
+    show_user_access_object( $uao );
     echo "<br>\n";
 
     if ( is_a( $stage, 'Round' ) )
