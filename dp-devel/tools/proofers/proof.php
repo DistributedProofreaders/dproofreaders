@@ -82,9 +82,20 @@ $rn = $round->id;
 $nameofwork = "[" . $rn . "] " . $project->nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
 $frameGet="?" . $_SERVER['QUERY_STRING'];
+
+// Re src="dp_foo.js?1.xx" in the following <script> tags:
+// When a JS script file changes, the browser should note this and update its
+// cached version. However, it appears that some browsers are not very good
+// at this, and continue to use a cached version after it is out of date.
+// To thwart this, we add a query string to the src reference, and update it
+// when the JS script file changes. (The query string can be anything, but
+// it makes sense to just use the CVS rev number. An alternatve would be date.)
+// The browser sees that the src URL no longer matches that of its cached
+// script, and so fetches the new version. (Of course, the JS script doesn't
+// do anything with the query string, but the browser doesn't know that.)
 ?>
-<script language="JavaScript" type="text/javascript" src="dp_proof.js?1.33.1"></script>
-<script language="JavaScript" type="text/javascript" src="dp_scroll.js"></script>
+<script language="JavaScript" type="text/javascript" src="dp_proof.js?1.34"></script>
+<script language="JavaScript" type="text/javascript" src="dp_scroll.js?1.14"></script>
 </head>
 <frameset rows="*,73">
 <frame name="proofframe" src="<?PHP echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
