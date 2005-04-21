@@ -42,7 +42,11 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
 {
     echo "$projectid  $mod_time  \"$nameofwork\"\n";
 
-    if ($dry_run)
+    if (!mysql_query("DESCRIBE $projectid"))
+    {
+        echo "    Table $projectid does not exist.\n";
+    }
+    elseif ($dry_run)
     {
         echo "    Move table $projectid to dp_archive.\n";
     }
