@@ -63,9 +63,10 @@ _FORUMS_URL=$base_url/phpBB2
 # ----------------------------------------------------------------------
 
 _DB_SERVER=localhost
-_DB_NAME=PICK_A_DB_NAME
 _DB_USER=PICK_A_USER_NAME
 _DB_PASSWORD=PICK_A_HARD_PASSWORD
+_DB_NAME=PICK_A_DB_NAME
+_ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
 _UPLOADS_DIR=/home/dpscans
 _UPLOADS_HOST=www.example.org
