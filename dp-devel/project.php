@@ -110,6 +110,7 @@ else
         // Stuff that's (usually) only of interest to
         // PMs/PFs/SAs and curious others.
         do_images();
+        do_extra_files();
         do_page_summary();
         if ($verbosity >= 4)
         {
@@ -887,6 +888,61 @@ function do_images()
     echo "</li>\n";
 
     echo "</ul>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_extra_files()
+{
+    global $project, $projects_dir, $projects_url;
+
+    if ( !$project->can_be_managed_by_current_user
+        && !$project->PPer_is_current_user )
+    {
+        return;
+    }
+
+    echo "<h4>", _('Extra Files in Project Directory'), "</h4>";
+
+    $project_dir = "$projects_dir/$project->projectid";
+    $project_url = "$projects_url/$project->projectid";
+
+    chdir($project_dir);
+    $filenames = glob("*" );
+
+    echo "<ul>";
+
+    if ( count($filenames) == 0 )
+    {
+        echo "<li>(none)</li>\n";
+    }
+    else
+    {
+        $res = mysql_query("
+            SELECT image
+            FROM $project->projectid
+        ") or die(mysql_error());
+        $excluded_filenames = array();
+        while ( list($excluded_filename) = mysql_fetch_row($res) )
+        {
+                $excluded_filenames[$excluded_filename] = 1;
+        }
+        // These three appear under "Post Downloads":
+        $excluded_filenames[$project->projectid . 'images.zip'] = 1;
+        $excluded_filenames[$project->projectid . '.zip'] = 1;
+        $excluded_filenames[$project->projectid . '_TEI.zip'] = 1;
+
+        foreach ($filenames as $filename)
+        {
+            if ( !array_key_exists( $filename, $excluded_filenames ) )
+            {
+                echo "<li><a href='$project_url/$filename'>$filename</a></li>";
+            }
+        }
+    }
+
+    echo "</ul>";
+
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
