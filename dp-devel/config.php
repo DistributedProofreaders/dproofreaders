@@ -85,75 +85,128 @@ if (!$auth) {
 
 	echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Basic Configuration</font></b></center></td></tr>";
+	start_section( 'Basic Configuration' );
 	echo "<tr><td align='right' width='30%' valign='top'>Testing Mode:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'>";
-	if ($testing) { echo "<input type='radio' name='testing' value='TRUE' checked>On&nbsp;<input type='radio' name='testing' value='FALSE'>Off"; } else { echo "<input type='radio' name='testing' value='TRUE'>On&nbsp;<input type='radio' name='testing' value='FALSE' checked>Off"; }
-	echo "</td></tr></center></table>";
+	if ($testing) {
+		$true_checked = 'checked'; $false_checked = '';
+	} else {
+		$true_checked = '';        $false_checked = 'checked';
+	}
+	echo "<input type='radio' name='testing' value='TRUE' $true_checked>On";
+	echo "&nbsp;";
+	echo "<input type='radio' name='testing' value='FALSE' $false_checked>Off";
+	echo "</td></tr>";
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Directory Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Code Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='code_dir' value='$code_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Code URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='code_url' value='$code_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Projects Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='projects_dir' value='$projects_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Projects URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='projects_url' value='$projects_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Dynamics Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='dyn_dir' value='$dyn_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Dynamics URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='dyn_url' value='$dyn_url'></td></tr>";
-	echo "</center></table>";
+	start_section( 'Directory Configuration' );
+	tr_text_1( 'Code Directory',     'code_dir',     $code_dir );
+	tr_text_1( 'Code URL',           'code_url',     $code_url );
+	tr_text_1( 'Projects Directory', 'projects_dir', $projects_dir );
+	tr_text_1( 'Projects URL',       'projects_url', $projects_url );
+	tr_text_1( 'Dynamics Directory', 'dyn_dir',      $dyn_dir );
+	tr_text_1( 'Dynamics URL',       'dyn_url',      $dyn_url );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Forums Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Forums Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='forums_dir' value='$forums_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Forums URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='forums_url' value='$forums_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Reset Password URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='reset_password_url' value='$reset_password_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>General Forum URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='general_forum_url' value='$general_forum_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Projects Forum URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='projects_forum_url' value='$projects_forum_url'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Post Processing Forum URL:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='80' name='post_processing_forum_url' value='$post_processing_forum_url'></td></tr>";
-	echo "</center></table>";
+	start_section( 'Forums Configuration' );
+	tr_text_1( 'Forums Directory',          'forums_dir',                $forums_dir );
+	tr_text_1( 'Forums URL',                'forums_url',                $forums_url );
+	tr_text_1( 'Reset Password URL',        'reset_password_url',        $reset_password_url );
+	tr_text_1( 'General Forum URL',         'general_forum_url',         $general_forum_url );
+	tr_text_1( 'Projects Forum URL',        'projects_forum_url',        $projects_forum_url );
+	tr_text_1( 'Post Processing Forum URL', 'post_processing_forum_url', $post_processing_forum_url );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Uploads Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Uploads Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='uploads_dir' value='$uploads_dir'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Uploads Hostname:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='uploads_host' value='$uploads_host'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Uploads Username:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='uploads_account' value='$uploads_account'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Uploads Password:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='uploads_password' value='$uploads_password'></td></tr>";
-	echo "</center></table>";
+	start_section( 'Uploads Configuration' );
+	tr_text_2( 'Uploads Directory', 'uploads_dir',      $uploads_dir );
+	tr_text_2( 'Uploads Hostname',  'uploads_host',     $uploads_host );
+	tr_text_2( 'Uploads Username',  'uploads_account',  $uploads_account );
+	tr_text_2( 'Uploads Password',  'uploads_password', $uploads_password );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>aspell Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>aspell Executable:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='aspell_executable' value='$aspell_executable'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>aspell Prefix:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='aspell_prefix' value='$aspell_prefix'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>aspell Temporary Directory:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='aspell_temp_dir' value='$aspell_temp_dir'></td></tr>";
-	echo "</center></table>";
+	start_section( 'aspell Configuration' );
+	tr_text_2( 'aspell Executable',          'aspell_executable', $aspell_executable );
+	tr_text_2( 'aspell Prefix',              'aspell_prefix',     $aspell_prefix );
+	tr_text_2( 'aspell Temporary Directory', 'aspell_temp_dir',   $aspell_temp_dir );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>e-Mail Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>No Reply e-Mail Address:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='no_reply_email_addr' value='$no_reply_email_addr'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>General Help e-Mail Address:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='general_help_email_addr' value='$general_help_email_addr'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Site Manager e-Mail Address:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='site_manager_email_addr' value='$site_manager_email_addr'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Auto e-Mail Address:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='auto_email_addr' value='$auto_email_addr'></td></tr>";
-	echo "</center></table>";
+	start_section( 'e-Mail Configuration' );
+	tr_text_2( 'No Reply e-Mail Address',     'no_reply_email_addr',     $no_reply_email_addr );
+	tr_text_2( 'General Help e-Mail Address', 'general_help_email_addr', $general_help_email_addr );
+	tr_text_2( 'Site Manager e-Mail Address', 'site_manager_email_addr', $site_manager_email_addr );
+	tr_text_2( 'Auto e-Mail Address',         'auto_email_addr',         $auto_email_addr );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Project Allocation Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Total Pages Needed:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='pagesneeded' value='$pagesneeded'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Non-English Pages Needed:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='noneng_pagesneeded' value='$noneng_pagesneeded'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>English Pages Needed:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='eng_pagesneeded' value='$eng_pagesneeded'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Beginners Projects Needed:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='beginners_projects' value='$beginners_projects'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Easy Projects Needed:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='easy_projects' value='$easy_projects'></td></tr>";
-	echo "</center></table>";
+	start_section( 'Project Allocation Configuration' );
+	tr_text_2( 'Total Pages Needed',        'pagesneeded',        $pagesneeded );
+	tr_text_2( 'Non-English Pages Needed',  'noneng_pagesneeded', $noneng_pagesneeded );
+	tr_text_2( 'English Pages Needed',      'eng_pagesneeded',    $eng_pagesneeded );
+	tr_text_2( 'Beginners Projects Needed', 'beginners_projects', $beginners_projects );
+	tr_text_2( 'Easy Projects Needed',      'easy_projects',      $easy_projects );
+	end_section();
 
-	echo "<center><table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
-	echo "<tr><td bgcolor='#006699' colspan='2' align='center' valign='top'><center><b><font color='#ff9966' face='Verdana' size='2'>Database Configuration</font></b></center></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Database Server Hostname:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='server' value='$db_info->server'></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Database Username:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='username' value='$db_info->username'>&nbsp;<font size='2'>Does not actually change the database username.</font></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Database Password:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='password' value='$db_info->password'>&nbsp;<font size='2'>Does not actually change the database password.</font></td></tr>";
-	echo "<tr><td align='right' width='30%' valign='top'>Database Name:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'><input type='text' size='30' name='dbname' value='$db_info->dbname'></td></tr>";
-	echo "</center></table>";
+	start_section( 'Database Configuration' );
+	tr_text_2( 'Database Server Hostname', 'server',   $db_info->server );
+	tr_text_2( 'Database Username',        'username', $db_info->username, "Does not actually change the database username." );
+	tr_text_2( 'Database Password',        'password', $db_info->password, "Does not actually change the database password." );
+	tr_text_2( 'Database Name',            'dbname',   $db_info->dbname );
+	end_section();
 
 	echo "<input type='hidden' name='posted' value='1'>";
 	echo "<p><center><input type='submit' name='submit' value='Update'>&nbsp;<input type='button' name='quit' value='Quit' onclick='javascript:location.href(\"default.php\")'></center>";
 	echo "<br><br>";
 	theme("", "footer");
 }
+
+function start_section( $label )
+{
+	echo "<center>";
+	echo "<table border='1' style='border-collapse: collapse' width='90%' cellpadding='2' cellspacing='0'>";
+	echo "\n";
+
+	echo "<tr>";
+	echo   "<td bgcolor='#006699' colspan='2' align='center' valign='top'>";
+	echo     "<center>";
+	echo       "<b>";
+	echo         "<font color='#ff9966' face='Verdana' size='2'>";
+	echo           $label;
+	echo         "</font>";
+	echo       "</b>";
+	echo     "</center>";
+	echo   "</td>";
+	echo "</tr>";
+	echo "\n";
+}
+
+function end_section()
+{
+	echo "</table>";
+	echo "</center>";
+	echo "\n";
+}
+
+function tr_text_1( $label, $name, $value )
+{
+	tr_text( $label, 80, $name, $value, NULL );
+}
+
+function tr_text_2( $label, $name, $value, $note=NULL )
+{
+	tr_text( $label, 30, $name, $value, $note );
+}
+
+function tr_text( $label, $size, $name, $value, $note=NULL )
+{
+	echo "<tr>";
+	echo   "<td align='right' width='30%' valign='top'>$label:</td>";
+	echo   "<td bgcolor='#dee3e7' align='left' width='70%' valign='top'>";
+	echo     "<input type='text' size='$size' name='$name' value='$value'>";
+	if (!is_null($note))
+	{
+		echo "&nbsp;<font size='2'>$note</font>";
+	}
+	echo   "</td>";
+	echo "</tr>";
+	echo "\n";
+}
+
 ?>
