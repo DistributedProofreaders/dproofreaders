@@ -907,6 +907,8 @@ function do_extra_files()
     $project_dir = "$projects_dir/$project->projectid";
     $project_url = "$projects_url/$project->projectid";
 
+    $saved_dir = getcwd();
+
     chdir($project_dir);
     $filenames = glob("*" );
 
@@ -943,6 +945,7 @@ function do_extra_files()
 
     echo "</ul>";
 
+    chdir($saved_dir);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
