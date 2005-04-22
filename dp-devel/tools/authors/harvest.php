@@ -253,13 +253,6 @@
   // Returns true if the table exists, false otherwise.
   // the database used is that specified in pinc/db_udb_user.php .
   function table_exists($tableName) {
-    $db_udb_user = new db_udb_user();
-    $databaseName = $db_udb_user->dbname;
-
-    $tablesResult = mysql_list_tables($databaseName);
-    while ($row = mysql_fetch_row($tablesResult))
-      if ($row[0] == $tableName)
-        return true;
-    return false;
+    return ( mysql_query("DESCRIBE $tableName") != FALSE );
   }
 ?>
