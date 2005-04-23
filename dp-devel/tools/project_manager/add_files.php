@@ -11,8 +11,6 @@ $projectid = $_GET['project'];
 
 abort_if_cant_edit_project( $projectid );
 
-$source_area = $uploads_dir;
-
 $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 
 if ( $_GET['source_dir'] == '' )
@@ -21,7 +19,6 @@ if ( $_GET['source_dir'] == '' )
      if ( $loading_tpnv )
      {
          $source_dir = "$projectid/tpnv";
-         $source_area = $uploads_dir;
      }
      else
      {
@@ -48,7 +45,7 @@ if ($isZipFile) {
 
 echo "<pre>\n";
 
-$source_project_dir = "$source_area/$source_dir";
+$source_project_dir = "$uploads_dir/$source_dir";
 
 //if they are uploading tpnv files then put them in /tpnv 
 if ( $loading_tpnv )
