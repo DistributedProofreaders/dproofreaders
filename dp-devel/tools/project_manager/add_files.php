@@ -12,13 +12,6 @@ $projectid = $_GET['project'];
 abort_if_cant_edit_project( $projectid );
 
 $source_area = $uploads_dir;
-// Formerly, we assumed that anyone with site-manager privileges
-// would upload their files directly into the projects area,
-// but we discontinued that practice.
-// if (user_is_a_sitemanager())
-// {
-// 	$source_area = $projects_dir;
-// }
 
 $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 

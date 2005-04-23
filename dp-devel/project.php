@@ -838,18 +838,11 @@ function do_early_uploads()
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
-        //Used to be different how a SA would load projects. Changed due to no reason of having this anymore
-        //but left just in case we need it in the future.
-        //if (user_is_a_sitemanager()) {
-        //    echo "Add Text From projects Folder";
-        //    echo "<input type='hidden' name='source_dir' value=''>\n";
-        //} else {
             echo sprintf(_("Add Text+Images from %s Account"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
             echo "<input type='text' name='source_dir'>";
             echo sprintf(_(" (defaults to %s )"),$projectid);
-        //}
         echo "<br>\n";
         echo "<input type='submit' value='Add'>";
         echo "<br>\n";
