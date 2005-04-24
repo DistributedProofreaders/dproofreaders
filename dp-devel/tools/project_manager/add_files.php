@@ -38,14 +38,19 @@ else
     }
 }
 
-$isZipFile = (substr($rel_source, -4) == ".zip");
+$abs_source = "$uploads_dir/$rel_source";
+
+$isZipFile = (substr($abs_source, -4) == ".zip");
 if ($isZipFile) {
-    $rel_source = substr($rel_source, 0, strpos($rel_source, ".zip"));
+    $source_project_dir = substr($abs_source, 0, -4);
+}
+else
+{
+    $source_project_dir = $abs_source;
 }
 
 echo "<pre>\n";
 
-$source_project_dir = "$uploads_dir/$rel_source";
 
 //if they are uploading tpnv files then put them in /tpnv 
 if ( $loading_tpnv )
