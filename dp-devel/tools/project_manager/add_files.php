@@ -13,39 +13,39 @@ abort_if_cant_edit_project( $projectid );
 
 $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 
-if ( $_GET['source_dir'] == '' )
+if ( $_GET['rel_source'] == '' )
 {
     //if they are uploading tpnv files then get them from /tpnv 
     if ( $loading_tpnv )
     {
-        $source_dir = "$projectid/tpnv";
+        $rel_source = "$projectid/tpnv";
     }
     else
     {
-        $source_dir = $projectid;
+        $rel_source = $projectid;
     }
 }
 else
 {
-    $source_dir = stripslashes($_GET['source_dir']);
+    $rel_source = stripslashes($_GET['rel_source']);
     // Prevent sneaky parent-link tricks.
-    if ( ereg( '\.\.', $source_dir ) )
+    if ( ereg( '\.\.', $rel_source ) )
     {
-        echo "Source directory '$source_dir' is not acceptable.";
+        echo "Source directory '$rel_source' is not acceptable.";
         echo "<hr>\n";
         echo "Return to <a href='$code_url/project.php?id=$projectid'>Project Page</a>.\n";
         return;
     }
 }
 
-$isZipFile = (substr($source_dir, -4) == ".zip");
+$isZipFile = (substr($rel_source, -4) == ".zip");
 if ($isZipFile) {
-    $source_dir = substr($source_dir, 0, strpos($source_dir, ".zip"));
+    $rel_source = substr($rel_source, 0, strpos($rel_source, ".zip"));
 }
 
 echo "<pre>\n";
 
-$source_project_dir = "$uploads_dir/$source_dir";
+$source_project_dir = "$uploads_dir/$rel_source";
 
 //if they are uploading tpnv files then put them in /tpnv 
 if ( $loading_tpnv )

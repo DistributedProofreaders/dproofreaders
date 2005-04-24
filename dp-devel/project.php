@@ -818,7 +818,7 @@ function do_early_uploads()
             echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            echo "<input type='text' name='source_dir'>";
+            echo "<input type='text' name='rel_source'>";
             echo sprintf(_(" (defaults to %s)")."$projectid/tpnv");
             echo "<br>\n";
             echo "<input type='submit' value='Add'>";
@@ -841,7 +841,7 @@ function do_early_uploads()
             echo sprintf(_("Add Text+Images from %s Account"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            echo "<input type='text' name='source_dir'>";
+            echo "<input type='text' name='rel_source'>";
             echo sprintf(_(" (defaults to %s )"),$projectid);
         echo "<br>\n";
         echo "<input type='submit' value='Add'>";
