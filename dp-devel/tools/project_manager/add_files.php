@@ -40,10 +40,12 @@ else
 
 $abs_source = "$uploads_dir/$rel_source";
 
-$isZipFile = (substr($abs_source, -4) == ".zip");
-if ($isZipFile) {
-    $source_project_dir = substr($abs_source, 0, -4);
+if ( substr($abs_source, -4) == ".zip" )
+{
+    // $abs_source is a zip file containing the project files
 
+    // We will unpack it to a sibling directory.
+    $source_project_dir = substr($abs_source, 0, -4);
     if (!file_exists($source_project_dir))
     {
         mkdir($source_project_dir, 0777);
@@ -51,6 +53,8 @@ if ($isZipFile) {
     }
 
     exec("unzip -o -j $abs_source -d $source_project_dir");
+
+    // (Assuming the unzip worked), remove the zip file.
     unlink($abs_source);
 }
 else
