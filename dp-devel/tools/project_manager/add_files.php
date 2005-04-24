@@ -43,6 +43,15 @@ $abs_source = "$uploads_dir/$rel_source";
 $isZipFile = (substr($abs_source, -4) == ".zip");
 if ($isZipFile) {
     $source_project_dir = substr($abs_source, 0, -4);
+
+    if (!file_exists($source_project_dir))
+    {
+        mkdir($source_project_dir, 0777);
+        chmod($source_project_dir, 0777);
+    }
+
+    exec("unzip -o -j $abs_source -d $source_project_dir");
+    unlink($abs_source);
 }
 else
 {
@@ -66,16 +75,6 @@ else
     $dest_project_dir   = "$projects_dir/$projectid";
 }
 
-
-if ($isZipFile == 1) {
-    if (!file_exists($source_project_dir)) {
-        mkdir("$source_project_dir", 0777);
-        chmod("$source_project_dir", 0777);
-    }
-
-    exec("unzip -o -j ".$source_project_dir.".zip -d $source_project_dir");
-    unlink($source_project_dir.".zip");
-}
 
 // Rather than performing commands from an arbitrary location,
 // using absolute paths, e.g.
