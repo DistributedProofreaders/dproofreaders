@@ -258,7 +258,6 @@ abort_if_not_manager();
 
 		// Present the results of the search query.
 
-		$show_pages_left = 0;
 		$show_pages_total = 1;
 
 		echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
@@ -277,10 +276,6 @@ abort_if_not_manager();
       		echo_header_cell( 175, _("Title") );
       		echo_header_cell( 100, _("Author") );
       		echo_header_cell( 25, _("Diff.") );
-		if ( $show_pages_left )
-		{
-		    echo_header_cell( 50, _("Left") );
-		}
 		if ( $show_pages_total )
 		{
 		    echo_header_cell( 50, _("Total") );
@@ -337,14 +332,6 @@ abort_if_not_manager();
 
 			// Difficulty
 			echo "<td align=\"center\">$diff</td>\n";
-
-
-			// Left
-			if ( $show_pages_left )
-			{
-			    $num_available_pages = Project_getNumAvailablePagesInRound($projectid, $state);
-			    echo "<td align=\"center\">$num_available_pages</td>\n";
-			}
 
 
 			// Total
