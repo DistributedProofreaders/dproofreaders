@@ -62,7 +62,6 @@ else
     $source_project_dir = $abs_source;
 }
 
-echo "<pre>\n";
 
 
 //if they are uploading tpnv files then put them in /tpnv 
@@ -99,21 +98,29 @@ if ( !$r )
 
 
 
+if ( $loading_tpnv )
 {
+    echo "<pre>\n";
     echo "copying page-images from\n";
     echo "    $source_project_dir\n";
     echo "to\n";
     echo "    $dest_project_dir\n";
     system("cp *.png $dest_project_dir");
     system("cp *.jpg $dest_project_dir");
-}
+    echo "</pre>\n";
 
-if ( $loading_tpnv )
-{
     $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
 }
 else
 {
+    echo "<pre>\n";
+    echo "copying page-images from\n";
+    echo "    $source_project_dir\n";
+    echo "to\n";
+    echo "    $dest_project_dir\n";
+    system("cp *.png $dest_project_dir");
+    system("cp *.jpg $dest_project_dir");
+
     $n_txt_files_found = 0;
     $n_rows_inserted = 0;
 
@@ -167,9 +174,9 @@ else
     echo "\n";
     echo "$n_txt_files_found text-files found.\n";
     echo "$n_rows_inserted rows inserted into table.\n";
+    echo "</pre>\n";
 }
 
-echo "</pre>\n";
 echo "<hr>\n";
 echo "Return to <a href='$code_url/project.php?id=$projectid&verbosity=4'>Project Page</a>.\n";
 
