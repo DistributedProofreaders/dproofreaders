@@ -16,7 +16,7 @@ slim_header( $title, TRUE, TRUE );
 
 echo "<h2>$title</h2>\n";
 
-$email_addr = 'db-req@pgdp.net';
+$email_addr = $db_requests_email_addr;
 
 echo "<p>";
 echo sprintf( _('(In case of problems, please send email to %s.)'), $email_addr );

@@ -131,7 +131,7 @@ else
 	// (If something's there, rename it.)
       // EXCEPT: let people overwrite their finished SR files as often as they want
 	{
-             global $stage;
+             global $stage, $db_requests_email_addr;
 
 		if ( file_exists($path) )
 		{
@@ -146,7 +146,7 @@ else
 				    // It will already have printed a warning.
 				    echo sprintf(
 				           	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-					     'db-req@pgdp.net' );
+					     $db_requests_email_addr );
 				   exit;
 			    }
                   } else {

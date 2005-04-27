@@ -60,7 +60,7 @@ Sometimes a PPVer will decide to ask the PPer to revise and resubmit. This is an
 <h3>How to request a revise and resubmit:</h3>
 
 <ol>
-<li>Send an email to db-req@pgdp.net to request that the project be returned to the PPer's PP queue, so that they can revise and upload again.</li>
+<li>Send an email to <? echo $db_requests_email_addr; ?> to request that the project be returned to the PPer's PP queue, so that they can revise and upload again.</li>
 
 <li>Send a private message or email to the PPer letting them know to expect the project to show up in their queue again, explaining the corrections that need to be made before re-uploading for PPV, and stating that if they do not wish/do not have time to revise, they can return the project to the PP queue so that someone else can work on it. Try to be as tactful and helpful as possible. Point them to posted projects to show them what the final product is supposed to look like. Provide links to relevant parts of the PP guidelines which they overlooked.</li>
 </ol>
