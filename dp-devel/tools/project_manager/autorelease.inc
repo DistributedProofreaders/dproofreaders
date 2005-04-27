@@ -241,8 +241,6 @@ function autorelease_for_round( $round )
         //      the $release_criterion fails
         // or   we run out of SP ready to release
         // or   subject to the "no doubling up of authors" rule
-        // NB No other restrictions; specifically, $GLOBALS['pagesneeded'] cannot influence SPs;
-        // this is so a huge book ariving from another queue won't stop the release of needed SPs
 
         $num_projects_released = 0;
 
