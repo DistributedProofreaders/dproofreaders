@@ -93,6 +93,8 @@ $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
 $site_manager_email_addr = $general_help_email_addr;
 $auto_email_addr = $general_help_email_addr;
 
+$db_requests_email_addr = '<<DB_REQUESTS_EMAIL_ADDR>>';
+
 // -----------------------------------------------------------------------------
 
 // So far, the effects of setting $testing to TRUE are:
