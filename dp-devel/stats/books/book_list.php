@@ -51,7 +51,7 @@ if ($type == "gold") {
     echo_other_type( 'bronze' );
     echo " | ";
 
-    echo_other_type( 'silver' );
+    echo_other_type( 'gold' );
 
 } elseif ($type == "bronze") {
 
