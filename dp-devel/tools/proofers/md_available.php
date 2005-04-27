@@ -8,7 +8,6 @@ include_once($relPath.'project_states.inc');
 //include_once($relPath.'project_edit.inc');
 //include_once('projectmgr.inc');
 //include_once('page_table.inc');
-include_once($relPath.'bookpages.inc');
 
 theme("Image Metadata Collection", "header");
 
