@@ -190,6 +190,12 @@ function decide_blurbs()
         return array(null,null);
     }
 
+    if ( $state != $round->project_available_state )
+    {
+        $text = _('Users are not allowed to work on the project in its current state');
+        return array( $text, $text );
+    }
+
     $uao = $round->user_access($pguser);
 
     if ( !$uao->can_access )
