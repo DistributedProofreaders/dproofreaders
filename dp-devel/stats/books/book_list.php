@@ -41,66 +41,43 @@ theme("$type E-Texts", "header");
 
 <center>
 <?
-if ($type == "gold") {
-    echo_other_type( 'silver' );
-    echo " | ";
 
-    echo_other_type( 'bronze' );
-
-} elseif ($type == "silver") {
-    echo_other_type( 'bronze' );
-    echo " | ";
-
-    echo_other_type( 'gold' );
-
-} elseif ($type == "bronze") {
-
-    echo_other_type( 'gold' );
-    echo " | ";
-
-    echo_other_type( 'silver' );
-
-} else {
-
-    echo_other_type( 'bronze' );
-    echo " | ";
-
-    echo_other_type( 'silver' );
-    echo " | ";
-
-    echo_other_type( 'gold' );
+$i = 0;
+foreach ( array('gold','silver','bronze') as $metal )
+{
+    if ( $metal != $type )
+    {
+        $i++;
+        if ( $i > 1 ) echo " | ";
+        echo_other_type( $metal );
+    }
 }
+
 ?>
 </center><br>
 
 <center>
-<i>Title:</i> 
 <?
 
-    echo_other_order( 'nameofwork', 'asc' );
+$field_map = array(
+    'nameofwork'   => _('Title'),
+    'author'       => _('Author'),
+    'modifieddate' => _('Submitted Date'),
+);
+
+$i = 0;
+foreach ( array('nameofwork', 'author', 'modifieddate') as $other_field_name )
+{
+    $i++;
+    if ( $i > 1 ) echo " | ";
+
+    $field_name_t = $field_map[$other_field_name];
+    echo "<i>$field_name_t:</i>\n";
+
+    echo_other_order( $other_field_name, 'asc' );
     echo " or ";
-
-    echo_other_order( 'nameofwork', 'desc' );
-    echo " | ";
-
-?>
-<i>Author:</i> 
-<?
-
-    echo_other_order( 'author', 'asc' );
-    echo " or ";
-
-    echo_other_order( 'author', 'desc' );
-    echo " | ";
-
-?>
-<i>Submitted Date:</i> 
-<?
-
-    echo_other_order( 'modifieddate', 'asc' );
-    echo " or ";
-
-    echo_other_order( 'modifieddate', 'desc' );
+    echo_other_order( $other_field_name, 'desc' );
+}
 
 ?>
 </center>
