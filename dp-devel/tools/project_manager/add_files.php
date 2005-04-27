@@ -99,7 +99,6 @@ if ( !$r )
 
 
 
-if ($source_project_dir != $dest_project_dir)
 {
     echo "copying page-images from\n";
     echo "    $source_project_dir\n";
