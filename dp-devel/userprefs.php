@@ -30,20 +30,20 @@ if (isset($swProfile))
 
 include_once($relPath.'v_resolution.inc');
 
-function radio_select($field_name, $db_value, $value, $text_name) {
-  if (strtolower($db_value) == strtolower($value)) {
+function radio_select($field_name, $current_value, $value, $text_name) {
+  if (strtolower($current_value) == strtolower($value)) {
     echo "<input type='radio' name='$field_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
   } else {
     echo "<input type='radio' name='$field_name' value='$value'>$text_name&nbsp;&nbsp;";
   }
 }
 
-function dropdown_select($field_name, $db_value, $array) {
+function dropdown_select($field_name, $current_value, $array) {
   $array_list = explode('|', $array);
   echo "<select name='$field_name' ID='$field_name'>";
   for ($i=0;$i<count($array_list);$i++)  {
     echo "<option value='$i'";
-    if ($db_value == $i) { echo " SELECTED"; }
+    if ($current_value == $i) { echo " SELECTED"; }
     echo ">$array_list[$i]</option>";
   }
   echo "</select>";
@@ -69,7 +69,7 @@ $window_onload_event= '';
 // something resembling a hack has been introduced. Always refer to the form
 // as the variable f, and always use the variable t to refer to the dropdown.
 // DO NOT USE this.form and this, respectively!!!
-function dropdown_select_values_and_labels($field_name, $db_value, $values, $labels, $on_change='') {
+function dropdown_select_values_and_labels($field_name, $current_value, $values, $labels, $on_change='') {
   global $event_id, $window_onload_event;
 
   $function_name = 'event' . ++$event_id;
@@ -80,7 +80,7 @@ function dropdown_select_values_and_labels($field_name, $db_value, $values, $lab
   echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
   for ($i=0;$i<count($values);$i++)  {
     echo "<option value='$values[$i]'";
-    if ($db_value == $values[$i]) { echo " SELECTED"; }
+    if ($current_value == $values[$i]) { echo " SELECTED"; }
     echo ">".htmlspecialchars($labels[$i])."</option>";
   }
   echo "</select>";
@@ -99,12 +99,12 @@ function dropdown_select_yesno($field_name, $yes_selected) {
   echo "</select>\n";
 }
 
-function dropdown_select_complex($field_name, $db_value, $array, $values) {
+function dropdown_select_complex($field_name, $current_value, $array, $values) {
   $array_list = explode('|', $array);
   echo "<select name='$field_name' ID='$field_name'>";
   for ($i=0;$i<count($array_list);$i++)  {
     echo "<option value='$values[$i]'";
-    if ($db_value == $values[$i]) { echo " SELECTED"; }
+    if ($current_value == $values[$i]) { echo " SELECTED"; }
     echo ">$array_list[$i]</option>";
   }
   echo "</select>";
