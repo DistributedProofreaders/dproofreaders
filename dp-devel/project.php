@@ -843,13 +843,13 @@ function do_early_uploads()
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
-            echo sprintf(_("Add Text+Images from %s Account"),$uploads_account);
+            echo sprintf(_("Add/Replace Text+Images from %s Account"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
             echo "<input type='text' name='rel_source'>";
             echo sprintf(_(" (defaults to %s )"),$projectid);
         echo "<br>\n";
-        echo "<input type='submit' value='Add'>";
+        echo "<input type='submit' value='Add/Replace'>";
         echo "<br>\n";
         echo "</form>\n";
         $add_reminder = TRUE;
