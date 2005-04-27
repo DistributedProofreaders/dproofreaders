@@ -206,7 +206,9 @@ function decide_blurbs()
 
     project_update_page_counts( $projectid );
 
-    $num_pages_available = Project_getNumAvailablePagesInRound( $projectid, $state );
+    $num_pages_available =
+        Project_getNumPagesInState( $projectid, $round->page_avail_state );
+
     if ( $num_pages_available == 0 )
     {
         $top_blurb = $bottom_blurb =
