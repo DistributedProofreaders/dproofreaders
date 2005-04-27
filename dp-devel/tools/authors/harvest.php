@@ -250,8 +250,7 @@
 
   theme('', 'footer');
 
-  // Returns true if the table exists, false otherwise.
-  // the database used is that specified in pinc/db_udb_user.php .
+  // Returns true if the table exists in the current database, false otherwise.
   function table_exists($tableName) {
     return ( mysql_query("DESCRIBE $tableName") != FALSE );
   }
