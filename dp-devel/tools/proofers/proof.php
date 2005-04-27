@@ -45,8 +45,34 @@ if ($expected_state != $project->state)
     return;
 }
 
-// Check user's access to the project's current round
+// Check that the project is in a proofable state
 $round = get_Round_for_project_state($project->state);
+if ( is_null($round) || $project->state != $round->project_available_state )
+{
+    // I think this can only happen via URL-tweaking.
+
+    slim_header( $project->nameofwork, TRUE, TRUE );
+
+    echo "<p>";
+    echo sprintf(
+        _('The project "%s" is in state "%s", so users are not allowed to proof it.'),
+        $project->nameofwork,
+        project_states_text($project->state)
+    );
+    echo "</p>\n";
+
+    echo "<p>";
+    echo sprintf(
+        _('Back to <a href="%s">%s</a>'),
+        "$code_url/activity_hub.php",
+        _('Activity Hub')
+    );
+    echo "</p>\n";
+
+    return;
+}
+
+// Check user's access to the project's current round
 $uao = $round->user_access($pguser);
 if (!$uao->can_access)
 {
