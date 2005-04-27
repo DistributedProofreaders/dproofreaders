@@ -316,8 +316,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 theme("", "footer");
 
-function dropdown_select($db_name, $db_value, $array, $sort_type) {
-	echo "<select size='1' name='$db_name' ID='$db_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
+function dropdown_select($field_name, $db_value, $array, $sort_type) {
+	echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
 	if (empty($sort_type)) { asort($array); } else { ksort($array); }
 	while (list($key, $val) = each($array)) {
 		echo "<option value='$key'";

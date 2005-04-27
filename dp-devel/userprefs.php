@@ -30,17 +30,17 @@ if (isset($swProfile))
 
 include_once($relPath.'v_resolution.inc');
 
-function radio_select($db_name, $db_value, $value, $text_name) {
+function radio_select($field_name, $db_value, $value, $text_name) {
   if (strtolower($db_value) == strtolower($value)) {
-    echo "<input type='radio' name='$db_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
+    echo "<input type='radio' name='$field_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
   } else {
-    echo "<input type='radio' name='$db_name' value='$value'>$text_name&nbsp;&nbsp;";
+    echo "<input type='radio' name='$field_name' value='$value'>$text_name&nbsp;&nbsp;";
   }
 }
 
-function dropdown_select($db_name, $db_value, $array) {
+function dropdown_select($field_name, $db_value, $array) {
   $array_list = explode('|', $array);
-  echo "<select name='$db_name' ID='$db_name'>";
+  echo "<select name='$field_name' ID='$field_name'>";
   for ($i=0;$i<count($array_list);$i++)  {
     echo "<option value='$i'";
     if ($db_value == $i) { echo " SELECTED"; }
@@ -69,15 +69,15 @@ $window_onload_event= '';
 // something resembling a hack has been introduced. Always refer to the form
 // as the variable f, and always use the variable t to refer to the dropdown.
 // DO NOT USE this.form and this, respectively!!!
-function dropdown_select_values_and_labels($db_name, $db_value, $values, $labels, $on_change='') {
+function dropdown_select_values_and_labels($field_name, $db_value, $values, $labels, $on_change='') {
   global $event_id, $window_onload_event;
 
   $function_name = 'event' . ++$event_id;
-  $jscode = "var f=document.forms[0];\nvar t=f.$db_name;\n$on_change";
+  $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
 
   echo "<script language='javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
 
-  echo "<select name='$db_name' ID='$db_name' onChange=\"$function_name()\">";
+  echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
   for ($i=0;$i<count($values);$i++)  {
     echo "<option value='$values[$i]'";
     if ($db_value == $values[$i]) { echo " SELECTED"; }
@@ -88,8 +88,8 @@ function dropdown_select_values_and_labels($db_name, $db_value, $values, $labels
   $window_onload_event .= "$function_name();\n";
 }
 
-function dropdown_select_yesno($db_name, $yes_selected) {
-  echo "<select name='$db_name' ID='$db_name'>\n";
+function dropdown_select_yesno($field_name, $yes_selected) {
+  echo "<select name='$field_name' ID='$field_name'>\n";
   echo "<option value='yes'";
   if ($yes_selected) { echo ' SELECTED'; }
   echo '>'._('Yes')."</option>\n";
@@ -99,9 +99,9 @@ function dropdown_select_yesno($db_name, $yes_selected) {
   echo "</select>\n";
 }
 
-function dropdown_select_complex($db_name, $db_value, $array, $values) {
+function dropdown_select_complex($field_name, $db_value, $array, $values) {
   $array_list = explode('|', $array);
-  echo "<select name='$db_name' ID='$db_name'>";
+  echo "<select name='$field_name' ID='$field_name'>";
   for ($i=0;$i<count($array_list);$i++)  {
     echo "<option value='$values[$i]'";
     if ($db_value == $values[$i]) { echo " SELECTED"; }
