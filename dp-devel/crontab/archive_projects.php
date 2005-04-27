@@ -2,6 +2,7 @@
 $relPath="./../pinc/";
 include($relPath.'misc.inc');
 include($relPath.'v_site.inc');
+include($relPath.'udb_user.php');
 include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
@@ -48,20 +49,20 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
     }
     elseif ($dry_run)
     {
-        echo "    Move table $projectid to dp_archive.\n";
+        echo "    Move table $projectid to $archive_db_name.\n";
     }
     else
     {
         mysql_query("
             ALTER TABLE $projectid
-            RENAME AS dp_archive.$projectid
+            RENAME AS $archive_db_name.$projectid
         ") or die(mysql_error());
     }
 
     $project_dir = "$projects_dir/$projectid";
     if (file_exists($project_dir))
     {
-        $new_dir = "/data/htdocs/out/$projectid";
+        $new_dir = "$archive_projects_dir/$projectid";
         if ($dry_run)
         {
             echo "    Move $project_dir to $new_dir.\n";
