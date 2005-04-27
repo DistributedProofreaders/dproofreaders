@@ -26,6 +26,18 @@ function endswith( $subject, $suffix )
     return ( substr( $subject, -strlen($suffix) ) == $suffix );
 }
 
+// -----------------------------------------------------------------------------
+
+// file_get_contents() is predefined in PHP 4.3.0 and on.
+if ( !function_exists('file_get_contents') )
+{
+    function file_get_contents( $filepath )
+    {
+        $array = file($filepath);
+        return ( $array === FALSE ? FALSE : implode('', $array) );
+    }
+} 
+
 function mkdir_recursive( $dir, $mode )
 // Like mkdir, but recursively creates any parent directories too.
 // (PHP 5's mkdir has this capability built-in.)
