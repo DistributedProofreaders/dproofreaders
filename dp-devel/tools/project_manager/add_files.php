@@ -108,7 +108,11 @@ if ( !$r )
     system("cp *.jpg $dest_project_dir");
 }
 
-if ( ! $loading_tpnv )
+if ( $loading_tpnv )
+{
+    $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
+}
+else
 {
     $n_txt_files_found = 0;
     $n_rows_inserted = 0;
@@ -163,12 +167,6 @@ if ( ! $loading_tpnv )
     echo "\n";
     echo "$n_txt_files_found text-files found.\n";
     echo "$n_rows_inserted rows inserted into table.\n";
-}
-
-//if uploaded tpnv files set project to project_new_waiting_app
-if ( $loading_tpnv )
-{
-    $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
 }
 
 echo "</pre>\n";
