@@ -1,9 +1,8 @@
 <?PHP
-class db_udb_user
-{
-var $server   = '<<DB_SERVER>>';
-var $username = '<<DB_USER>>';
-var $password = '<<DB_PASSWORD>>';
-var $dbname   = '<<DB_NAME>>';
-}
+
+$db_server   = '<<DB_SERVER>>';
+$db_user     = '<<DB_USER>>';
+$db_password = '<<DB_PASSWORD>>';
+$db_name     = '<<DB_NAME>>';
+
 ?>

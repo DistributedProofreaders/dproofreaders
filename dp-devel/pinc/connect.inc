@@ -5,13 +5,13 @@ class dbConnect
 {
   var $error='';
   function dbConnect() {
-    $db_info=new db_udb_user();
-    $this->db_lk=mysql_connect($db_info->server,$db_info->username,$db_info->password);
+    global $db_server, $db_user, $db_password, $db_name;
+    $this->db_lk=mysql_connect($db_server,$db_user,$db_password);
     if (!$this->db_lk) {
       $this->error= _("Unable to connect to database server."); return 0;
     }
 
-    if (!mysql_select_db($db_info->dbname,$this->db_lk)) {
+    if (!mysql_select_db($db_name,$this->db_lk)) {
       $this->error= _("Unable to locate database."); return 0;
     }
     else {

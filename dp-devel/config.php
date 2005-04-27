@@ -31,10 +31,10 @@ if (!$auth) {
 		$udb_user_file = fopen($relPath.'udb_user.php', "w");
 		$i=0;
 		while ($i < count($lines)) {
-			if (substr($lines[$i], 5, 6) == "server") { fputs($udb_user_file, "var \$server   = '".$_POST['server']."';\n"); }
-			elseif (substr($lines[$i], 5, 8) == "username") { fputs($udb_user_file, "var \$username = '".$_POST['username']."';\n"); }
-			elseif (substr($lines[$i], 5, 8) == "password") { fputs($udb_user_file, "var \$password = '".$_POST['password']."';\n"); }
-			elseif (substr($lines[$i], 5, 6) == "dbname") { fputs($udb_user_file, "var \$dbname   = '".$_POST['dbname']."';\n"); }
+			if (substr($lines[$i], 1, 9) == "db_server") { fputs($udb_user_file, "\$db_server = '".$_POST['db_server']."';\n"); }
+			elseif (substr($lines[$i], 1, 7) == "db_user") { fputs($udb_user_file, "\$db_user = '".$_POST['db_user']."';\n"); }
+			elseif (substr($lines[$i], 1, 11) == "db_password") { fputs($udb_user_file, "\$db_password = '".$_POST['db_password']."';\n"); }
+			elseif (substr($lines[$i], 1, 7) == "db_name") { fputs($udb_user_file, "\$db_name = '".$_POST['db_name']."';\n"); }
 			else { fputs($udb_user_file, trim($lines[$i])."\n"); }
 		$i++;
 		}
@@ -76,7 +76,6 @@ if (!$auth) {
 		echo "<br><center><b>Update Completed!</b></center>";
 	}
 	include($relPath.'v_site.inc');
-	$db_info=new db_udb_user();
 
 	echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
 
@@ -132,10 +131,10 @@ if (!$auth) {
 	end_section();
 
 	start_section( 'Database Configuration' );
-	tr_text_2( 'Database Server Hostname', 'server',   $db_info->server );
-	tr_text_2( 'Database Username',        'username', $db_info->username, "Does not actually change the database username." );
-	tr_text_2( 'Database Password',        'password', $db_info->password, "Does not actually change the database password." );
-	tr_text_2( 'Database Name',            'dbname',   $db_info->dbname );
+	tr_text_2( 'Database Server Hostname', 'db_server',   $db_server );
+	tr_text_2( 'Database Username',        'db_user',     $db_user, "Does not actually change the database username." );
+	tr_text_2( 'Database Password',        'db_password', $db_password, "Does not actually change the database password." );
+	tr_text_2( 'Database Name',            'db_name',     $db_name );
 	end_section();
 
 	echo "<input type='hidden' name='posted' value='1'>";
