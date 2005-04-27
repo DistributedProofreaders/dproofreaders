@@ -8,7 +8,6 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'projectinfo.inc'); // project_getnumavailablepagesinround()
-include_once($relPath.'bookpages.inc');   // project_update_page_counts()
 include_once($relPath.'comment_inclusions.inc'); // parse_project_comments()
 include_once($relPath.'../tools/project_manager/page_table.inc'); // echo_page_table
 include_once($relPath.'user_is.inc');
@@ -203,8 +202,6 @@ function decide_blurbs()
         $text = _('You are not permitted to work in this round.');
         return array( $text, $text );
     }
-
-    project_update_page_counts( $projectid );
 
     $num_pages_available =
         Project_getNumPagesInState( $projectid, $round->page_avail_state );
