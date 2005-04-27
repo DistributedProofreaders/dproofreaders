@@ -68,11 +68,6 @@ if (!$auth) {
 			elseif (substr($lines[$i], 1, 23) == "general_help_email_addr") { fputs($v_site_file, "\$general_help_email_addr = '".$_POST['general_help_email_addr']."';\n"); }
 			elseif (substr($lines[$i], 1, 23) == "site_manager_email_addr") { fputs($v_site_file, "\$site_manager_email_addr = '".$_POST['site_manager_email_addr']."';\n"); }
 			elseif (substr($lines[$i], 1, 15) == "auto_email_addr") { fputs($v_site_file, "\$auto_email_addr = '".$_POST['auto_email_addr']."';\n"); }
-			elseif (substr($lines[$i], 1, 11) == "pagesneeded") { fputs($v_site_file, "\$pagesneeded = ".$_POST['pagesneeded'].";\n"); }
-			elseif (substr($lines[$i], 1, 18) == "noneng_pagesneeded") { fputs($v_site_file, "\$noneng_pagesneeded = ".$_POST['noneng_pagesneeded'].";\n"); }
-			elseif (substr($lines[$i], 1, 15) == "eng_pagesneeded") { fputs($v_site_file, "\$eng_pagesneeded = ".$_POST['eng_pagesneeded'].";\n"); }
-			elseif (substr($lines[$i], 1, 18) == "beginners_projects") { fputs($v_site_file, "\$beginners_projects = ".$_POST['beginners_projects'].";\n"); }
-			elseif (substr($lines[$i], 1, 13) == "easy_projects") { fputs($v_site_file, "\$easy_projects = ".$_POST['easy_projects'].";\n"); }
 			elseif (substr($lines[$i], 1, 7) == "testing") { fputs($v_site_file, "\$testing = ".$_POST['testing'].";\n"); }
 			else { fputs($v_site_file, trim($lines[$i])."\n"); }
 		$i++;
@@ -134,14 +129,6 @@ if (!$auth) {
 	tr_text_2( 'General Help e-Mail Address', 'general_help_email_addr', $general_help_email_addr );
 	tr_text_2( 'Site Manager e-Mail Address', 'site_manager_email_addr', $site_manager_email_addr );
 	tr_text_2( 'Auto e-Mail Address',         'auto_email_addr',         $auto_email_addr );
-	end_section();
-
-	start_section( 'Project Allocation Configuration' );
-	tr_text_2( 'Total Pages Needed',        'pagesneeded',        $pagesneeded );
-	tr_text_2( 'Non-English Pages Needed',  'noneng_pagesneeded', $noneng_pagesneeded );
-	tr_text_2( 'English Pages Needed',      'eng_pagesneeded',    $eng_pagesneeded );
-	tr_text_2( 'Beginners Projects Needed', 'beginners_projects', $beginners_projects );
-	tr_text_2( 'Easy Projects Needed',      'easy_projects',      $easy_projects );
 	end_section();
 
 	start_section( 'Database Configuration' );
