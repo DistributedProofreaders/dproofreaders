@@ -25,6 +25,8 @@ $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
+$archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
+
 $forums_dir = '<<FORUMS_DIR>>';
 $forums_url = '<<FORUMS_URL>>';
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
