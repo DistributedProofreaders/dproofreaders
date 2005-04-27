@@ -3,7 +3,6 @@ $relPath="../../pinc/";
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'theme.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'showtexts.inc');
 
