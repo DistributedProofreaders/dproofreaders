@@ -15,6 +15,25 @@ $field_name = $_GET['field_name'];
 $search_char = $_GET['search_char'];
 $show_total = $_GET['show_total'];
 
+$metal_map = array(
+    'bronze' => _('Bronze'),
+    'silver' => _('Silver'),
+    'gold'   => _('Gold'),
+);
+
+function echo_other_type( $other_type )
+{
+    global $code_url, $etext_limit, $orderby, $field_name, $search_char, $show_total, $metal_map;
+    $metal_name = $metal_map[$other_type];
+    echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$other_type&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>$metal_name</a>";
+}
+
+function echo_other_order( $other_field_name, $other_direction )
+{
+    global $code_url, $etext_limit, $type, $search_char, $show_total;
+    echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=$other_direction&field_name=$other_field_name&search_char=$search_char&show_total=$show_total'>$other_direction</a>";
+}
+
 theme("$type E-Texts", "header");
 ?>
 
@@ -23,28 +42,33 @@ theme("$type E-Texts", "header");
 <center>
 <?
 if ($type == "gold") {
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=silver&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Silver</a> | ";
+    echo_other_type( 'silver' );
+    echo " | ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=bronze&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Bronze</a>";
+    echo_other_type( 'bronze' );
 
 } elseif ($type == "silver") {
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=bronze&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Bronze</a> | ";
+    echo_other_type( 'bronze' );
+    echo " | ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=silver&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Silver</a>";
+    echo_other_type( 'silver' );
 
 } elseif ($type == "bronze") {
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=gold&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Gold</a> | ";
+    echo_other_type( 'gold' );
+    echo " | ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=silver&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Silver</a>";
+    echo_other_type( 'silver' );
 
 } else {
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=bronze&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Bronze</a> | ";
+    echo_other_type( 'bronze' );
+    echo " | ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=silver&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Silver</a> | ";
+    echo_other_type( 'silver' );
+    echo " | ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=gold&orderby=$orderby&field_name=$field_name&search_char=$search_char&show_total=$show_total'>Gold</a>";
+    echo_other_type( 'gold' );
 }
 ?>
 </center><br>
@@ -53,25 +77,30 @@ echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type
 <i>Title:</i> 
 <?
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=asc&field_name=nameofwork&search_char=$search_char&show_total=$show_total'>asc</a> or ";
+    echo_other_order( 'nameofwork', 'asc' );
+    echo " or ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=desc&field_name=nameofwork&search_char=$search_char&show_total=$show_total'>desc</a> | ";
+    echo_other_order( 'nameofwork', 'desc' );
+    echo " | ";
 
 ?>
 <i>Author:</i> 
 <?
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=asc&field_name=author&search_char=$search_char&show_total=$show_total'>asc</a> or ";
+    echo_other_order( 'author', 'asc' );
+    echo " or ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=desc&field_name=author&search_char=$search_char&show_total=$show_total'>desc</a> | ";
+    echo_other_order( 'author', 'desc' );
+    echo " | ";
 
 ?>
 <i>Submitted Date:</i> 
 <?
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=asc&field_name=modifieddate&search_char=$search_char&show_total=$show_total'>asc</a> or ";
+    echo_other_order( 'modifieddate', 'asc' );
+    echo " or ";
 
-echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=desc&field_name=modifieddate&search_char=$search_char&show_total=$show_total'>desc</a>";
+    echo_other_order( 'modifieddate', 'desc' );
 
 ?>
 </center>
