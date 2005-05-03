@@ -11,14 +11,6 @@ function generate_post_files( $project, $make_images_zip )
 
     $projectpath = "$projects_dir/$project";
 
-    if ($make_images_zip)
-    {
-        // Make a zip all page-images (and any other images).
-        // (for "Download Zipped Images")
-        $zippedimages = "{$project}images.zip";
-        exec ("zip -j $projectpath/$zippedimages $projectpath/*.png $projectpath/*.jpg");
-    }
-
     // Generate comments html file.
     $comments_path = "$projectpath/{$project}_comments.html";
     $fp = fopen($comments_path, "w");
