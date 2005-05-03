@@ -699,7 +699,7 @@ class Loader
     {
         assert( $this->n_errors == 0 );
 
-        $this->dry_run = TRUE;
+        $this->dry_run = FALSE;
 
         // Non-page files
         foreach ( $this->non_page_files as $filename )
