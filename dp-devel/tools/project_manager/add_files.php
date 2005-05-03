@@ -65,6 +65,10 @@ else
     $source_project_dir = $abs_source;
 }
 
+// Attempt to make everything all-readable.
+// (This will probably only succeed if we have just upacked
+// a zip file [above], but no harm in trying in all cases.)
+exec("chmod -R a+r $source_project_dir");
 
 
 //if they are uploading tpnv files then put them in /tpnv 
