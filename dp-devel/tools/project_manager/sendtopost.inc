@@ -13,7 +13,7 @@ include_once('./post_files.inc');
 
 	global $auto_email_addr;
 
-        generate_post_files( $project, TRUE );
+        generate_post_files( $project );
 
 
         // if reserved for a PPer, check it out to them
