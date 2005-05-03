@@ -435,6 +435,11 @@ class Loader
             return _('not a regular file');
         }
 
+        if ( !is_readable($filename) )
+        {
+            return _('file is unreadable by server process');
+        }
+
         if ( !preg_match('/^[-.\w]+$/', $filename ) )
         {
             return _('filename has disallowed characters');
@@ -497,7 +502,35 @@ class Loader
         list($src_ext) = $src_exts;
         $src_file = $base . $src_ext;
 
-        if ( $toi == 'image' )
+        if ( $toi == 'text' )
+        {
+            // File must be world-readable, or
+            // MySQL's LOAD_FILE() will return NULL.
+
+            $perms = fileperms($src_file);
+            if ( $perms === FALSE )
+            {
+                return array(
+                    'error',
+                    sprintf(
+                        _('Unable to get permissions on %s.'),
+                        $src_file
+                    )
+                );
+            }
+
+            if ( ($perms & 0x0004) == 0 )
+            {
+                return array(
+                    'error',
+                    sprintf(
+                        _('%s is not world-readable.'),
+                        $src_file
+                    )
+                );
+            }
+        }
+        elseif ( $toi == 'image' )
         {
             // Check that image filename will fit in db
             if ( strlen($src_file) > $this->image_field_len )
@@ -510,6 +543,10 @@ class Loader
                     )
                 );
             }
+        }
+        else
+        {
+            assert( FALSE );
         }
 
         if ( count($db_exts) == 0 )
