@@ -169,7 +169,7 @@ cRef.tCharsCyr.selectedIndex=0;
 cRef.tCharsOCyr.selectedIndex=0;
 
 cRef.markBoxChar.value=String.fromCharCode(wM);
-insertTags(String.fromCharCode(wM),'','');
+insertTags(String.fromCharCode(wM),'','',true);
 }
 
 // standard tag selection
@@ -224,7 +224,7 @@ function new_iMU(wOT,wCT)
 markRef.markBox.value=wOT;
 markRef.markBoxEnd.value=wCT;
 
-insertTags(wOT,wCT,'');
+insertTags(wOT,wCT,'',false);
 }
 
 // start of general interface functions
@@ -512,12 +512,13 @@ var is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spo
 // apply tagOpen/tagClose to selection in textarea,
 // use sampleText instead of selection if there is none
 // copied and adapted from phpBB
-function insertTags(tagOpen, tagClose, sampleText) {
+function insertTags(tagOpen, tagClose, sampleText, replace) {
 	var txtarea = docRef.editform.text_data;
 	// IE
 	if(docRef.selection  && !is_gecko) {
 		var theSelection = docRef.selection.createRange().text;
 		if(!theSelection) { theSelection=sampleText;}
+		if(replace) { theSelection=''; }
 		txtarea.focus();
 		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
 			theSelection = theSelection.substring(0, theSelection.length - 1);
@@ -533,6 +534,7 @@ function insertTags(tagOpen, tagClose, sampleText) {
 		var scrollTop=txtarea.scrollTop;
 		var myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
+		if(replace) { myText=''; }
 		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
 		} else {
@@ -561,6 +563,7 @@ function insertTags(tagOpen, tagClose, sampleText) {
 			text="";
 		}
 		if(!text) { text=sampleText;}
+		if(replace) { text=''; }
 		text=tagOpen+text+tagClose;
 		docRef.infoform.infobox.value=text;
 		// in Safari this causes scrolling
