@@ -463,10 +463,26 @@ function project_pre_release_check( $project )
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function add_postcomments( $projectid, $postcomments )
-// Sets the 'postcomments' field in the 'projects' table.
+// Appends to the 'postcomments' field in the 'projects' table.
+// The poster's username and the current date is included in a
+// separator preceding the post.
 {
+	global $pguser;
+
+	$res = mysql_query("SELECT postcomments FROM projects WHERE projectid = '$projectid'");
+	$current_value = mysql_result($res, 0, 'postcomments');
+
+	$date = date('l, F j, Y');
+
+	// $postcomments have slashes added automatically, but not
+	// the old comments or the separator.
+	$separator = addslashes("===== $pguser on $date =====\n");
+
+	$new_value = ($current_value != '') ? addslashes($current_value) . "\n\n" : '';
+	$new_value .= $separator . $postcomments;
+
 	mysql_query("
-		UPDATE projects SET postcomments='$postcomments' WHERE projectid = '$projectid'
+		UPDATE projects SET postcomments='$new_value' WHERE projectid = '$projectid'
 	");
 }
 
