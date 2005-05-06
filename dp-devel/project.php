@@ -547,13 +547,13 @@ function do_project_info_table()
         if ( $available_for_SR )
         {
             echo_row_b( _("Instructions for Smooth Reading"), '' );
-            echo_row_c( htmlspecialchars($project->postcomments) );
+            echo_row_c( htmlspecialcharswithnewlines($project->postcomments) );
         }
         elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user
             || $project->can_be_managed_by_current_user )
         {
             echo_row_b( _("Post Processor Comments"), '' );
-            echo_row_c( htmlspecialchars($project->postcomments) );
+            echo_row_c( htmlspecialcharswithnewlines($project->postcomments) );
         }
     }
 
@@ -584,6 +584,15 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
 
     echo "</table>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function htmlspecialcharswithnewlines($string)
+{
+  $string = htmlspecialchars($string);
+  $string = str_replace("\n", "<br />", $string);
+  return $string;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
