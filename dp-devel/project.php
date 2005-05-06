@@ -58,6 +58,8 @@ $title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
 
 $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
+do_update_pp_activity();
+
 if ($verbosity==1)
 {
     echo "<h1>$title</h1>\n";
@@ -123,6 +125,33 @@ else
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_update_pp_activity()
+{
+// If the project has been checked out for more than 90 days and
+// the pp-er loads the page, it's interpreted as a sign of
+// activity. Update the database accordingly.
+
+    global $project;
+
+    if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
+
+    if (! $project->PPer_is_current_user) return;
+
+    // 7776000 = 90*24*60*60 seconds
+    if ($project->modifieddate < time()-7776000) {
+      // Modified more than 90 days ago. The PP-er,
+      // by loading this page, is reporting
+      // activity.
+
+      $projectid = $project->projectid;
+      $now = time();
+      mysql_query("UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
+      $project->modifieddate = $now;
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function do_pm_header()
