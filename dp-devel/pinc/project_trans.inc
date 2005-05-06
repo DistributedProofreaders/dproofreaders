@@ -481,8 +481,9 @@ function add_postcomments( $projectid, $postcomments )
 	$new_value = ($current_value != '') ? addslashes($current_value) . "\n\n" : '';
 	$new_value .= $separator . $postcomments;
 
+	$now = time();
 	mysql_query("
-		UPDATE projects SET postcomments='$new_value' WHERE projectid = '$projectid'
+		UPDATE projects SET postcomments='$new_value', modifieddate='$now' WHERE projectid = '$projectid'
 	");
 }
 
