@@ -270,7 +270,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		global $postcomments;
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		add_postcomments($projectid, $postcomments);
+		add_postcomments($projectid, $postcomments, $project['checkedoutby']);
 	}
 	else if ( ( $current_state == PROJ_POST_FIRST_CHECKED_OUT ||
 		    $current_state == PROJ_POST_SECOND_AVAILABLE )
@@ -462,12 +462,11 @@ function project_pre_release_check( $project )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function add_postcomments( $projectid, $postcomments )
+function add_postcomments( $projectid, $postcomments, $user )
 // Appends to the 'postcomments' field in the 'projects' table.
 // The poster's username and the current date is included in a
 // separator preceding the post.
 {
-	global $pguser;
 
 	$res = mysql_query("SELECT postcomments FROM projects WHERE projectid = '$projectid'");
 	$current_value = mysql_result($res, 0, 'postcomments');
@@ -476,7 +475,7 @@ function add_postcomments( $projectid, $postcomments )
 
 	// $postcomments have slashes added automatically, but not
 	// the old comments or the separator.
-	$separator = addslashes("===== $pguser on $date =====\n");
+	$separator = addslashes("===== $user on $date =====\n");
 
 	$new_value = ($current_value != '') ? addslashes($current_value) . "\n\n" : '';
 	$new_value .= $separator . $postcomments;
