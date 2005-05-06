@@ -270,7 +270,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		global $postcomments;
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		add_postcomments($projectid, $postcomments, $project['checkedoutby']);
+		$settings .= ", postcomments=" . get_postcomments_updater($projectid, $postcomments, $project['checkedoutby']);
 	}
 	else if ( ( $current_state == PROJ_POST_FIRST_CHECKED_OUT ||
 		    $current_state == PROJ_POST_SECOND_AVAILABLE )
@@ -466,8 +466,37 @@ function add_postcomments( $projectid, $postcomments, $user )
 // Appends to the 'postcomments' field in the 'projects' table.
 // The poster's username and the current date is included in a
 // separator preceding the post.
+//
+// This function should only be used when the postcomments field
+// (and the modifieddate) is all that should be changed. If
+// more changes should be made to the projects table,
+// use the get_postcomments_updater($postcomments, $user) function
+// to issue a call such as
+// UPDATE projects SET a='b', c='d', postcomments=xxx WHERE ...
+// where xxx is the string returned from the postcomments function.
 {
+	$now = time();
+	$updater = get_postcomments_updater($projectid, $postcomments, $user);
+	mysql_query("
+		UPDATE projects SET postcomments=$updater, modifieddate='$now'
+		WHERE projectid = '$projectid'
+	");
+}
 
+function get_postcomments_updater( $projectid, $postcomments, $user )
+// Creates a part of an SQL query to append to the 'postcomments'
+// field in the 'projects' table.
+// The poster's username and the current date is included in a
+// separator preceding the post.
+//
+// This function should be used such as this:
+// $updater = get_postcomments_updater($projectid, $postcomments, $user);
+// mysql_query("
+//   UPDATE projects SET a='b', c='d', postcomments=$updater WHERE ...
+// ");
+//
+// Note that the returned value is enclosed within single quotes.
+{
 	$res = mysql_query("SELECT postcomments FROM projects WHERE projectid = '$projectid'");
 	$current_value = mysql_result($res, 0, 'postcomments');
 
@@ -480,10 +509,7 @@ function add_postcomments( $projectid, $postcomments, $user )
 	$new_value = ($current_value != '') ? addslashes($current_value) . "\n\n" : '';
 	$new_value .= $separator . $postcomments;
 
-	$now = time();
-	mysql_query("
-		UPDATE projects SET postcomments='$new_value', modifieddate='$now' WHERE projectid = '$projectid'
-	");
+	return "'$new_value'";
 }
 
 ?>
