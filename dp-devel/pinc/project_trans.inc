@@ -270,7 +270,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		global $postcomments;
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		$settings .= ", postcomments='{$postcomments}'";
+		add_postcomments($projectid, $postcomments);
 	}
 	else if ( ( $current_state == PROJ_POST_FIRST_CHECKED_OUT ||
 		    $current_state == PROJ_POST_SECOND_AVAILABLE )
@@ -458,6 +458,16 @@ function project_pre_release_check( $project )
 	}
 
 	return $errors;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function add_postcomments( $projectid, $postcomments )
+// Sets the 'postcomments' field in the 'projects' table.
+{
+	mysql_query("
+		UPDATE projects SET postcomments='$postcomments' WHERE projectid = '$projectid'
+	");
 }
 
 ?>
