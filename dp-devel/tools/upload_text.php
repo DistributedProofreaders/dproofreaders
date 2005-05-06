@@ -181,7 +181,7 @@ else
                           UPDATE projects SET smoothread_deadline = $deadline
                           WHERE projectid = '$project'
                       ");
-                      add_postcomments($project, $postcomments);
+                      add_postcomments($project, $postcomments, $pguser);
 
                    }
 

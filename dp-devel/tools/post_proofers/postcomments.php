@@ -14,7 +14,7 @@ if (! $project->PPer_is_current_user) {
   exit;
 }
 
-add_postcomments($projectid, $postcomments);
+add_postcomments($projectid, $postcomments, $pguser);
 
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);
