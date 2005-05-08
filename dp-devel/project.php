@@ -15,6 +15,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
+include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
 
 error_reporting(E_ALL);
 
@@ -572,18 +573,20 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Comments
 
-    if ($project->postcomments != '')
+    $postcomments = get_formatted_postcomments($project->projectid);
+
+    if ($postcomments != '')
     {
         if ( $available_for_SR )
         {
             echo_row_b( _("Instructions for Smooth Reading"), '' );
-            echo_row_c( htmlspecialcharswithnewlines($project->postcomments) );
+            echo_row_c( $postcomments );
         }
         elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user
             || $project->can_be_managed_by_current_user )
         {
             echo_row_b( _("Post Processor Comments"), '' );
-            echo_row_c( htmlspecialcharswithnewlines($project->postcomments) );
+            echo_row_c( $postcomments );
         }
     }
 
@@ -614,15 +617,6 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
 
     echo "</table>";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function htmlspecialcharswithnewlines($string)
-{
-  $string = htmlspecialchars($string);
-  $string = str_replace("\n", "<br />", $string);
-  return $string;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
