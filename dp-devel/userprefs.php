@@ -10,10 +10,16 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'misc.inc'); // startswith(...)
 
 // The url the user viewed immediately before coming to the preferences.
 // Not all browsers provide this, though.
-if (!isset($origin) && array_key_exists('HTTP_REFERER', $_SERVER))
+// If the user came to userprefs.php by entering the URL manually,
+// $origin will be uninitialized, in which case it could be set
+// to ".../userprefs.php..." at the next calls. Avoid this.
+if (!isset($origin)
+    && array_key_exists('HTTP_REFERER', $_SERVER)
+    && !startswith($_SERVER['HTTP_REFERER'], "$code_url/userprefs.php"))
   $origin = $_SERVER['HTTP_REFERER'];
 // From now on, keep the value of $origin through the browsing of tabs, saving prefs, etc.
 
