@@ -22,8 +22,6 @@ if (isset($swProfile))
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     dpsession_set_preferences_from_db();
     $eURL="userprefs.php?tab=$tab";
-    if (isset($project) && isset($proofstate))
-      {$eURL.="&project=$project&proofstate=$proofstate";}
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
     exit;
   }
@@ -115,16 +113,7 @@ function textfield_for_setting($setting, $default='') {
   echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
 }
 
-if (isset($project) && isset($proofstate))
-{
-    $query_string = "id=$project&expected_state=$proofstate";
-    $eURL = "$code_url/project.php?$query_string";
-}
-else
-{
-    $query_string = '';
-    $eURL = "activity_hub.php";
-}
+$eURL = "activity_hub.php";
 
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
@@ -161,22 +150,8 @@ if (@$_POST["insertdb"] != "") {
   else if ($selected_tab == 2)
     save_pm_tab();
 
-  // Do one of:
-  // * Return to project comments if the user came from there
-  // * Show the same tab that was just saved
-  //
-  // Saving used to redirect you to the activity hub or
-  // the project comments of a project you just left. In
-  // the former case, the behaviour has changed now that
-  // we have multiple tabs. They might want to change
-  // more on other tabs.
-  // However, if someone came from the proofreading
-  // interface, they'll be redirected there at once.
-  if (isset($project) && isset($proofstate)) {
-    metarefresh(0, $eURL, _('Saving preferences'), _('Returning to proofreading interface....'));
-  }
-  else
-    metarefresh(0, "?tab=$selected_tab", _('Saving preferences'), _('Reloading current tab....'));
+  // Show the same tab that was just saved
+  metarefresh(0, "?tab=$selected_tab", _('Saving preferences'), _('Reloading current tab....'));
   exit;
 }
 
@@ -214,7 +189,7 @@ echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"._("Prefe
 echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</font></i>\n";
 echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i></td></tr>";
 
-echo_tabs($tabs, $selected_tab, $query_string);
+echo_tabs($tabs, $selected_tab);
 
 echo "<input type='hidden' name='tab' value='$selected_tab' />";
 
@@ -227,11 +202,6 @@ else if ($selected_tab == 2 && user_is_PM())
 else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
   echo_general_tab();
 
-if (isset($project) && isset($proofstate))
-{
-  echo "<input type='hidden' name='project' value='$project'>";
-  echo "<input type='hidden' name='proofstate' value='$proofstate'>";
-}
 echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
 
@@ -816,10 +786,7 @@ function save_pm_tab() {
 /*************** TO GENERATE TABS ***************/
 
 // Produce tabs (display as an unordered list of links to non-CSS browsers)
-// $query_string is used to pass on parameters in the URLs that link to the tabs
-function echo_tabs($tab_names, $selected_tab, $query_string) {
-  if ($query_string != '')
-    $query_string .= '&';
+function echo_tabs($tab_names, $selected_tab) {
   echo "<tr><td colspan='6' align='left'>\n";
   echo "  <div id='tabs'>\n    <ul>\n";
   foreach (array_keys($tab_names) as $index) {
@@ -828,7 +795,7 @@ function echo_tabs($tab_names, $selected_tab, $query_string) {
     } else {
       echo "<li>";
     }
-    echo "<a href='?{$query_string}tab=$index'>{$tab_names[$index]}</a></li>\n";
+    echo "<a href='?tab=$index'>{$tab_names[$index]}</a></li>\n";
   }
   echo "    </ul>\n  </div>\n</td></tr>\n";
 }
