@@ -898,6 +898,11 @@ elseif ((isset( $_REQUEST['action']) &&
                 $_REQUEST['action'] == 'createnewfromuber')) ||
         (isset( $_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
 
+    // Within this if-clause, $header_shown is used to indicate whether or not
+    // theme(..., 'header') has been run.
+    $header_shown = false;
+
+
     if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
     if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
@@ -996,7 +1001,7 @@ elseif ((isset( $_REQUEST['action']) &&
 
         }
 
-        if (!$header_shown) { theme(_("Create a Project"), "header");}
+        if (!$header_shown) { theme(_("Create a Project"), "header"); $header_shown = true;}
     }
 
     if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
@@ -1015,6 +1020,12 @@ elseif ((isset( $_REQUEST['action']) &&
 
     if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'submit_marcsearch')) {
         theme(_("Create a Project"), "header");
+        $header_shown = true;
+    }
+
+    if (!$header_shown) {
+        theme(_("Create a Project"), "header");
+        $header_shown = true;
     }
 
     echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
