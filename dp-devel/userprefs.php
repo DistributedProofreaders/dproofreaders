@@ -11,6 +11,12 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 
+// The url the user viewed immediately before coming to the preferences.
+// Not all browsers provide this, though.
+if (!isset($origin) && array_key_exists('HTTP_REFERER', $_SERVER))
+  $origin = $_SERVER['HTTP_REFERER'];
+// From now on, keep the value of $origin through the browsing of tabs, saving prefs, etc.
+
 $uid = $userP['u_id'];
 
 $userSettings = Settings::get_Settings($pguser);
@@ -22,6 +28,8 @@ if (isset($swProfile))
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     dpsession_set_preferences_from_db();
     $eURL="userprefs.php?tab=$tab";
+    if (isset($origin))
+      $eURL .= '&origin=' . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
     exit;
   }
@@ -113,7 +121,7 @@ function textfield_for_setting($setting, $default='') {
   echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
 }
 
-$eURL = "activity_hub.php";
+$eURL = isset($origin) ? $origin : 'activity_hub.php';
 
 //just a way to get them back to someplace on quit button
 if (isset($quitnc))
@@ -151,7 +159,10 @@ if (@$_POST["insertdb"] != "") {
     save_pm_tab();
 
   // Show the same tab that was just saved
-  metarefresh(0, "?tab=$selected_tab", _('Saving preferences'), _('Reloading current tab....'));
+  $url = "?tab=$selected_tab";
+  if (isset($origin))
+    $url .= '&origin=' . urlencode($origin);
+  metarefresh(0, $url, _('Saving preferences'), _('Reloading current tab....'));
   exit;
 }
 
@@ -201,6 +212,10 @@ else if ($selected_tab == 2 && user_is_PM())
   echo_pm_tab();
 else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
   echo_general_tab();
+
+// Keep remembering the URL from which the preferences where entered.
+if (isset($origin))
+  echo "<input type='hidden' name='origin' value='".htmlspecialchars($origin, ENT_QUOTES)."' />\n";
 
 echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
@@ -787,6 +802,8 @@ function save_pm_tab() {
 
 // Produce tabs (display as an unordered list of links to non-CSS browsers)
 function echo_tabs($tab_names, $selected_tab) {
+  global $origin;
+
   echo "<tr><td colspan='6' align='left'>\n";
   echo "  <div id='tabs'>\n    <ul>\n";
   foreach (array_keys($tab_names) as $index) {
@@ -795,7 +812,10 @@ function echo_tabs($tab_names, $selected_tab) {
     } else {
       echo "<li>";
     }
-    echo "<a href='?tab=$index'>{$tab_names[$index]}</a></li>\n";
+    $url = "?tab=$index";
+    if (isset($origin))
+      $url .= '&origin=' . urlencode($origin);
+    echo "<a href='$url'>{$tab_names[$index]}</a></li>\n";
   }
   echo "    </ul>\n  </div>\n</td></tr>\n";
 }
