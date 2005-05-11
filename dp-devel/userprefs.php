@@ -82,12 +82,21 @@ if (@$_POST["insertdb"] != "") {
   else if ($selected_tab == 2)
     save_pm_tab();
 
-  // Show the same tab that was just saved
-  $url = "?tab=$selected_tab";
-  if (isset($origin))
-    $url .= '&origin=' . urlencode($origin);
-  metarefresh(0, $url, _('Saving preferences'), _('Reloading current tab....'));
-  exit;
+  if (isset($saveAndQuit) || isset($mkProfileAndQuit))
+  {
+    // Quit immediately after saving
+    metarefresh(0, $eURL, _("Quit"), "");
+    exit;
+  }
+  else
+  {
+    // Show the same tab that was just saved
+    $url = "?tab=$selected_tab";
+    if (isset($origin))
+      $url .= '&origin=' . urlencode($origin);
+    metarefresh(0, $url, _('Saving preferences'), _('Reloading current tab....'));
+    exit;
+  }
 }
 
 // header, start of table, form, etc. common to all tabs
@@ -239,6 +248,7 @@ function textfield_for_setting($setting, $default='') {
 function echo_bottom_button_row() {
   echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
   echo "<input type='submit' value="._("'Save Preferences'")." name='change'> &nbsp;";
+  echo "<input type='submit' value="._("'Save Preferences and Quit'")." name='saveAndQuit'> &nbsp;";
   echo "<input type='submit' value="._("'Quit'")." name='quitnc'>";
   echo "</td></tr>\n";
 }
@@ -690,16 +700,18 @@ function echo_proofreading_tab() {
     echo "<input type='submit' value="._("'Restore to Saved Preferences'")." name='restorec'> &nbsp;";
   }
   echo "<input type='submit' value="._("'Save Preferences'")." name='change'> &nbsp;";
+  echo "<input type='submit' value="._("'Save Preferences and Quit'")." name='saveAndQuit'> &nbsp;";
   if ($pf_num < 10)
   {
     echo "<input type='submit' value="._("'Save as New Profile'")." name='mkProfile'> &nbsp;";
+    echo "<input type='submit' value="._("'Save as New Profile and Quit'")." name='mkProfileAndQuit'> &nbsp;";
   }
   echo "<input type='submit' value="._("'Quit'")." name='quitnc'>";
   echo "</td></tr>\n";
 }
 
 function save_proofreading_tab() {
-  global $mkProfile, $userP, $uid, $pguser, $db_link;
+  global $mkProfile, $mkProfileAndQuit, $userP, $uid, $pguser, $db_link;
   global $u_plist;
   global $profilename, $i_res, $i_type, $i_layout, $i_newwin, $i_toolbar, $i_statusbar;
   global $v_fntf, $v_fnts, $v_zoom, $v_tframe, $v_tscroll, $v_tlines, $v_tchars, $v_twrap;
@@ -708,7 +720,7 @@ function save_proofreading_tab() {
   global $show_special_colors;
 
   // set/create user_profile values
-  if (isset($mkProfile))
+  if (isset($mkProfile) || isset($mkProfileAndQuit))
   {
     $prefs_query="INSERT INTO user_profiles SET u_ref='{$userP['u_id']}', ";
   }
@@ -723,7 +735,7 @@ function save_proofreading_tab() {
   v_tlines='$v_tlines', v_tchars='$v_tchars', v_twrap='$v_twrap',
   h_fntf='$h_fntf', h_fnts='$h_fnts', h_zoom='$h_zoom', h_tframe='$h_tframe', h_tscroll='$h_tscroll',
   h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'";
-  if (!isset($mkProfile))
+  if (!(isset($mkProfile) || isset($mkProfileAndQuit)))
   {
     $prefs_query.=" WHERE u_ref='{$userP['u_id']}' AND id='{$userP['u_profile']}'";
   }
@@ -736,7 +748,7 @@ function save_proofreading_tab() {
     u_plist is "Show projects from XXX round(s)"
   */
   $users_query="UPDATE users SET u_plist='$u_plist'";
-  if (isset($mkProfile))
+  if (isset($mkProfile) || isset($mkProfileAndQuit))
   {
     $users_query.=", u_profile='".mysql_insert_id($db_link)."'";
   }
