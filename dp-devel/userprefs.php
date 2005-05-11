@@ -42,90 +42,8 @@ if (isset($swProfile))
 
 include_once($relPath.'v_resolution.inc');
 
-function radio_select($field_name, $current_value, $value, $text_name) {
-  if (strtolower($current_value) == strtolower($value)) {
-    echo "<input type='radio' name='$field_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
-  } else {
-    echo "<input type='radio' name='$field_name' value='$value'>$text_name&nbsp;&nbsp;";
-  }
-}
-
-function dropdown_select($field_name, $current_value, $array) {
-  $array_list = explode('|', $array);
-  echo "<select name='$field_name' ID='$field_name'>";
-  for ($i=0;$i<count($array_list);$i++)  {
-    echo "<option value='$i'";
-    if ($current_value == $i) { echo " SELECTED"; }
-    echo ">$array_list[$i]</option>";
-  }
-  echo "</select>";
-}
-
 $event_id = 0;
 $window_onload_event= '';
-
-// Unlike in dropdown_select, the third argument should be a 'real' array.
-// The labels will be displayed to the user,
-// one of the values will be passed back from the browser as the selected value.
-//
-// The fifth (optional argument), $on_change, is used as a javascript event handler
-// on the dropdown. It will be made into a function so quote marks should not
-// be any problems.
-// Example value: "alert('Hi'+\"!\");"
-// Using this as the $on_change-argument will popup an alert displaying the string
-// 'Hi!' (without quotes).
-// The use of these event handlers are foremost to enable/disable certain preferences
-// depending on the values set in other preferences.
-//
-// The event handler will also be run on page-load and in order to achieve this,
-// something resembling a hack has been introduced. Always refer to the form
-// as the variable f, and always use the variable t to refer to the dropdown.
-// DO NOT USE this.form and this, respectively!!!
-function dropdown_select_values_and_labels($field_name, $current_value, $values, $labels, $on_change='') {
-  global $event_id, $window_onload_event;
-
-  $function_name = 'event' . ++$event_id;
-  $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
-
-  echo "<script language='javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
-
-  echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
-  for ($i=0;$i<count($values);$i++)  {
-    echo "<option value='$values[$i]'";
-    if ($current_value == $values[$i]) { echo " SELECTED"; }
-    echo ">".htmlspecialchars($labels[$i])."</option>";
-  }
-  echo "</select>";
-
-  $window_onload_event .= "$function_name();\n";
-}
-
-function dropdown_select_yesno($field_name, $yes_selected) {
-  echo "<select name='$field_name' ID='$field_name'>\n";
-  echo "<option value='yes'";
-  if ($yes_selected) { echo ' SELECTED'; }
-  echo '>'._('Yes')."</option>\n";
-  echo "<option value='no'";
-  if (!$yes_selected) { echo ' SELECTED'; }
-  echo '>'._('No')."</option>\n";
-  echo "</select>\n";
-}
-
-function dropdown_select_complex($field_name, $current_value, $array, $values) {
-  $array_list = explode('|', $array);
-  echo "<select name='$field_name' ID='$field_name'>";
-  for ($i=0;$i<count($array_list);$i++)  {
-    echo "<option value='$values[$i]'";
-    if ($current_value == $values[$i]) { echo " SELECTED"; }
-    echo ">$array_list[$i]</option>";
-  }
-  echo "</select>";
-}
-
-function textfield_for_setting($setting, $default='') {
-  global $userSettings;
-  echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
-}
 
 $eURL = isset($origin) ? $origin : 'activity_hub.php';
 
@@ -235,6 +153,88 @@ echo "\n\n<script language='javascript'><!--\nwindow.onload = function() \{$wind
 theme("", "footer");
 
 // End main code. Functions below.
+
+function radio_select($field_name, $current_value, $value, $text_name) {
+  if (strtolower($current_value) == strtolower($value)) {
+    echo "<input type='radio' name='$field_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
+  } else {
+    echo "<input type='radio' name='$field_name' value='$value'>$text_name&nbsp;&nbsp;";
+  }
+}
+
+function dropdown_select($field_name, $current_value, $array) {
+  $array_list = explode('|', $array);
+  echo "<select name='$field_name' ID='$field_name'>";
+  for ($i=0;$i<count($array_list);$i++)  {
+    echo "<option value='$i'";
+    if ($current_value == $i) { echo " SELECTED"; }
+    echo ">$array_list[$i]</option>";
+  }
+  echo "</select>";
+}
+
+// Unlike in dropdown_select, the third argument should be a 'real' array.
+// The labels will be displayed to the user,
+// one of the values will be passed back from the browser as the selected value.
+//
+// The fifth (optional argument), $on_change, is used as a javascript event handler
+// on the dropdown. It will be made into a function so quote marks should not
+// be any problems.
+// Example value: "alert('Hi'+\"!\");"
+// Using this as the $on_change-argument will popup an alert displaying the string
+// 'Hi!' (without quotes).
+// The use of these event handlers are foremost to enable/disable certain preferences
+// depending on the values set in other preferences.
+//
+// The event handler will also be run on page-load and in order to achieve this,
+// something resembling a hack has been introduced. Always refer to the form
+// as the variable f, and always use the variable t to refer to the dropdown.
+// DO NOT USE this.form and this, respectively!!!
+function dropdown_select_values_and_labels($field_name, $current_value, $values, $labels, $on_change='') {
+  global $event_id, $window_onload_event;
+
+  $function_name = 'event' . ++$event_id;
+  $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
+
+  echo "<script language='javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
+
+  echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
+  for ($i=0;$i<count($values);$i++)  {
+    echo "<option value='$values[$i]'";
+    if ($current_value == $values[$i]) { echo " SELECTED"; }
+    echo ">".htmlspecialchars($labels[$i])."</option>";
+  }
+  echo "</select>";
+
+  $window_onload_event .= "$function_name();\n";
+}
+
+function dropdown_select_yesno($field_name, $yes_selected) {
+  echo "<select name='$field_name' ID='$field_name'>\n";
+  echo "<option value='yes'";
+  if ($yes_selected) { echo ' SELECTED'; }
+  echo '>'._('Yes')."</option>\n";
+  echo "<option value='no'";
+  if (!$yes_selected) { echo ' SELECTED'; }
+  echo '>'._('No')."</option>\n";
+  echo "</select>\n";
+}
+
+function dropdown_select_complex($field_name, $current_value, $array, $values) {
+  $array_list = explode('|', $array);
+  echo "<select name='$field_name' ID='$field_name'>";
+  for ($i=0;$i<count($array_list);$i++)  {
+    echo "<option value='$values[$i]'";
+    if ($current_value == $values[$i]) { echo " SELECTED"; }
+    echo ">$array_list[$i]</option>";
+  }
+  echo "</select>";
+}
+
+function textfield_for_setting($setting, $default='') {
+  global $userSettings;
+  echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
+}
 
 function echo_bottom_button_row() {
   echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
