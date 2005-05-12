@@ -6,10 +6,9 @@ $db_Connection=new dbConnect();
 
 $result = mysql_query("SELECT DISTINCT(postproofer) FROM projects WHERE postproofer is not null");
 while (list($postproofer) = mysql_fetch_row($result)) {
-	$isPPQuery = mysql_query("SELECT postprocessor FROM users WHERE username = '$postproofer'");
-	$isPP = mysql_result($isPPQuery, 0, "postprocessor");
-	if ($isPP != "yes") {
-		$updatePPQuery = mysql_query("UPDATE users SET postprocessor = 'yes' WHERE username = '$postproofer'");
+	mysql_query("UPDATE users SET postprocessor = 'yes' WHERE username = '$postproofer'");
+	if ( mysql_affected_rows() > 0 )
+	{
 		echo "Added: $postproofer<br>";
 	}
 }
