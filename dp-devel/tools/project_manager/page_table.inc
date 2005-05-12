@@ -276,7 +276,7 @@ function echo_page_table(
 			if ($page_res[$project_round->user_column_name] == $pguser
 				&& $page_state != $project_round->page_avail_state)  
 			{
-				$url = "$code_url/tools/proofers/proof_frame.php?";
+				$url = "$code_url/tools/proofers/proof.php?";
 				$url .= "project=$projectid";
 				$url .= "&amp;fileid=$fileid";
 				$url .= "&amp;imagefile=$imagename";
