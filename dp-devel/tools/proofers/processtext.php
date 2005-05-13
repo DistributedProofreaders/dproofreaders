@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'project_continuity.inc');
+include_once($relPath.'slim_header.inc');
 
 /* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $lang, $js, $button1_x, $button2_x,
@@ -145,9 +146,12 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 		$body=_("Page Returned to Round.");
 	}
 
+	slim_header( $title );
 	$text = _("Please click here to return to Project Page.");
 	$url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
 	echo "<a href='$url' target='_top'>$text</a>";
+	echo "</body>";
+	echo "</html>";
 
 	// $editone=isset($editone)?$editone:0;
 	// $tpage->exitInterface($userP['i_newwin'],$editone);
