@@ -276,19 +276,22 @@ function html_statsbar($nameofpage) {
 
 	$tally_name = @$_REQUEST['tally_name'];
 	if (empty($tally_name)) $tally_name = @$_REQUEST['round_id'];
-	if (empty($tally_name)) $tally_name = 'P1'; // for now
 
-	show_tally_specific_stats( $tally_name );
+	if (empty($tally_name))
+	{
+		echo "<br>\n";
+		show_completed_projects();
+	}
+	else
+	{
+		show_tally_specific_stats( $tally_name );
+	}
 
     //If the user is logged in show team stats
 	if (isset($GLOBALS['pguser'])) {
 	echo "<br><hr width='75%' align='center'><br>\n";
 
 	show_user_teams();
-
-   //If it is a guest user show the past year's completed projects
-        } else {
-		show_completed_projects();
 
         }
 
