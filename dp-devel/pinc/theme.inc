@@ -245,29 +245,8 @@ function html_logobar($nameofpage) {
 }
 
 function html_statsbar($nameofpage) {
-    global $code_url, $userP;
 
-    		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
-                ?>
-                <script language="JavaScript"><!--
-                        function submitLang(i) {
-                                top.document.langform.submit();
-                        }
-                // --></script>
-                <?
-
-                echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
-		$langarr=installed_langs();
-                foreach($langarr as $v)
-                        echo "<option value='".$v."'".(($v==$GLOBALS['intlang'])?" selected":"").">".bilingual_name($v)."</option>\n";
-                echo "<option value='en_EN' disabled>-------------------</option>\n";
-                echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
-		$langarr=uninstalled_langs();
-                foreach($langarr as $v)
-                        echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
-                echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
-                echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
-        }
+	maybe_show_language_selector();
 
 	show_quick_links();
 
@@ -303,6 +282,36 @@ function html_statsbar($nameofpage) {
     //Should be the last thing displayed in the right hand column
 	echo "<br>";
 	show_donation_stuff();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function maybe_show_language_selector()
+{
+	global $code_url, $userP;
+
+	if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang'])))
+	{
+		?>
+		<script language="JavaScript"><!--
+			function submitLang(i) {
+				top.document.langform.submit();
+			}
+		// --></script>
+		<?
+
+		echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
+		$langarr=installed_langs();
+		foreach($langarr as $v)
+			echo "<option value='".$v."'".(($v==$GLOBALS['intlang'])?" selected":"").">".bilingual_name($v)."</option>\n";
+		echo "<option value='en_EN' disabled>-------------------</option>\n";
+		echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
+		$langarr=uninstalled_langs();
+		foreach($langarr as $v)
+			echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
+		echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
+		echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
+	}
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
