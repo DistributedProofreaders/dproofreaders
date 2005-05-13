@@ -546,10 +546,28 @@ function show_completed_projects()
 
 		$displaydate = strftime(_("%b %Y"), $begindate );
 
-		$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = '".PROJ_SUBMIT_PG_POSTED."'");
+		$result = mysql_query("
+			SELECT COUNT(projectid)
+			FROM projects
+			WHERE modifieddate >= $begindate
+				&& modifieddate <= $enddate
+				&& state = '".PROJ_SUBMIT_PG_POSTED."'
+		");
 		$totalprojects = mysql_result($result,0);
 		//echo "&nbsp;$displaydate - $totalprojects<br>\n";
-		echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";
+		echo "<tr>";
+		echo   "<td width='60%' align='right'>";
+		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		echo       "&nbsp;$displaydate&nbsp;-";
+		echo     "</font>";
+		echo   "</td>";
+		echo   "<td width='40%' align='left'>";
+		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		echo       "&nbsp;$totalprojects&nbsp;";
+		echo     "</font>";
+		echo   "</td>";
+		echo "</tr>";
+		echo "\n";
 	}
 	echo "</table>\n";
 }
