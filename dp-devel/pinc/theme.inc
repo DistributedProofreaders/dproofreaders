@@ -245,9 +245,7 @@ function html_logobar($nameofpage) {
 }
 
 function html_statsbar($nameofpage) {
-    global $code_url, $theme, $theme_name, $userP;
-    global $dynstats_dir, $dynstats_url, $site_supports_metadata;
-    global $PG_paypal_business_id, $PG_donation_url;
+    global $code_url, $userP;
 
     		if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang']))) {    		
                 ?>
@@ -296,21 +294,14 @@ function html_statsbar($nameofpage) {
 
 	if (!empty($userP)) {
 		echo "<br><hr width='75%' align='center'><br>\n";
-		echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>"._("Key Help Documents:")."</b></font></center>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)</font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
+		show_key_help_links();
 	}
 
 
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column
-	echo "<br><center>";
-	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
-<input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
-echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
+	echo "<br>";
+	show_donation_stuff();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -570,6 +561,33 @@ function show_completed_projects()
 		echo "\n";
 	}
 	echo "</table>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_key_help_links()
+{
+	global $theme, $code_url;
+
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>"._("Key Help Documents:")."</b></font></center>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)</font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_donation_stuff()
+{
+	global $theme, $theme_name, $code_url;
+	global $PG_paypal_business_id, $PG_donation_url;
+
+	echo "<center>";
+	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
+<input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
+	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
