@@ -287,15 +287,13 @@ function html_statsbar($nameofpage) {
 		show_tally_specific_stats( $tally_name );
 	}
 
-    //If the user is logged in show team stats
-	if (isset($GLOBALS['pguser'])) {
-	echo "<br><hr width='75%' align='center'><br>\n";
+	if (isset($GLOBALS['pguser']))
+	{
+		// requestor is a logged-in user.
 
-	show_user_teams();
+		echo "<br><hr width='75%' align='center'><br>\n";
+		show_user_teams();
 
-        }
-
-	if (!empty($userP)) {
 		echo "<br><hr width='75%' align='center'><br>\n";
 		show_key_help_links();
 	}
