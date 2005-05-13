@@ -290,24 +290,8 @@ function html_statsbar($nameofpage) {
 
    //If it is a guest user show the past year's completed projects
         } else {
-		echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
-		echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
-		$thismonth = date("n");
-		$thisyear = date("Y");
-		for ( $months_ago = 11; $months_ago >= 0; $months_ago-- )
-		{
-			// midnight that begins the 1st day of this month and the next:
-			$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
-			$enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
+		show_completed_projects();
 
-			$displaydate = strftime(_("%b %Y"), $begindate );
-
-			$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = '".PROJ_SUBMIT_PG_POSTED."'");
-			$totalprojects = mysql_result($result,0);
-			//echo "&nbsp;$displaydate - $totalprojects<br>\n";
-			echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";
-		}
-		echo "</table>\n";
         }
 
 	if (!empty($userP)) {
@@ -542,6 +526,32 @@ function show_user_teams()
 	echo "</font>";
 	echo "</center>";
 	echo "\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_completed_projects()
+{
+	global $theme;
+
+	echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
+	echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
+	$thismonth = date("n");
+	$thisyear = date("Y");
+	for ( $months_ago = 11; $months_ago >= 0; $months_ago-- )
+	{
+		// midnight that begins the 1st day of this month and the next:
+		$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
+		$enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
+
+		$displaydate = strftime(_("%b %Y"), $begindate );
+
+		$result = mysql_query("SELECT COUNT(projectid) FROM projects WHERE modifieddate >= $begindate && modifieddate <= $enddate && state = '".PROJ_SUBMIT_PG_POSTED."'");
+		$totalprojects = mysql_result($result,0);
+		//echo "&nbsp;$displaydate - $totalprojects<br>\n";
+		echo "<tr><td width='60%' align='right'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$displaydate&nbsp;-</font></td><td width='40%' align='left'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>&nbsp;$totalprojects&nbsp;</font></td></tr>\n";
+	}
+	echo "</table>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
