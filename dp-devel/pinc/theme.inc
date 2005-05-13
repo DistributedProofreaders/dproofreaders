@@ -569,11 +569,32 @@ function show_key_help_links()
 {
 	global $theme, $code_url;
 
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>"._("Key Help Documents:")."</b></font></center>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a></font><br>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a> (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)</font><br>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a></font><br>\n";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><a href='$code_url/tasks.php'>"._("Support Request")."</a></font><br>\n";
+	echo "<center>";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<b>"._("Key Help Documents:")."</b>";
+	echo "</font>";
+	echo "</center>\n";
+
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
+	echo "</font>";
+	echo "<br>\n";
+
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a>";
+	echo " (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)";
+	echo "</font>";
+	echo "<br>\n";
+
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
+	echo "</font>";
+	echo "<br>\n";
+
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<a href='$code_url/tasks.php'>"._("Support Request")."</a>";
+	echo "</font>";
+	echo "<br>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -584,10 +605,18 @@ function show_donation_stuff()
 	global $PG_paypal_business_id, $PG_donation_url;
 
 	echo "<center>";
-	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
-<input type='hidden' name='cmd' value='_xclick'><input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
-	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name."".$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'></form></center>\n";
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>"._("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541")."</font></center>\n";
+	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
+	echo "<input type='hidden' name='cmd' value='_xclick'>\n";
+	echo "<input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
+	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'>\n";
+	echo "</form>";
+	echo "</center>\n";
+
+	echo "<center>";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>";
+	echo _("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541");
+	echo "</font>";
+	echo "</center>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
