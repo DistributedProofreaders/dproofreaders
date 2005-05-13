@@ -286,13 +286,7 @@ function html_statsbar($nameofpage) {
 	if (isset($GLOBALS['pguser'])) {
 	echo "<br><hr width='75%' align='center'><br>\n";
 
-	//Show the team statistics
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Your Teams:") . "</b></font></center>\n";
-	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
-		while($row = mysql_fetch_assoc($teamRes)) {
-			echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
-		}
-        echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
+	show_user_teams();
 
    //If it is a guest user show the past year's completed projects
         } else {
@@ -514,6 +508,21 @@ function show_tally_specific_stats( $tally_name )
 	echo "<br>";
 	echo "</td></tr></table>";
 	echo "</center>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_user_teams()
+{
+	global $theme, $code_url, $userP;
+
+	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Your Teams:") . "</b></font></center>\n";
+	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
+	while($row = mysql_fetch_assoc($teamRes))
+	{
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
+	}
+        echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
