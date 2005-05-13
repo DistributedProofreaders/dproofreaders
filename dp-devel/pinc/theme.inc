@@ -516,13 +516,32 @@ function show_user_teams()
 {
 	global $theme, $code_url, $userP;
 
-	echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Your Teams:") . "</b></font></center>\n";
-	$teamRes=mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
+	echo "<center>";
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo "<b>" .  _("Your Teams:") . "</b>";
+	echo "</font>";
+	echo "</center>";
+	echo "\n";
+	$teamRes=mysql_query("
+		SELECT teamname, id
+		FROM user_teams
+		WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})
+	");
 	while($row = mysql_fetch_assoc($teamRes))
 	{
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a></font><br>\n";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+		echo "&nbsp;";
+		echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a>";
+		echo "</font>";
+		echo "<br>";
+		echo "\n";
 	}
-        echo "<center><font size='2'><a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a></font></center>\n";
+        echo "<center>";
+	echo "<font size='2'>";
+	echo "<a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a>";
+	echo "</font>";
+	echo "</center>";
+	echo "\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
