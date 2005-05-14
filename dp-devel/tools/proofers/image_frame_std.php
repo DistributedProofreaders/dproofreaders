@@ -1,15 +1,15 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'http_headers.inc');
-include($relPath.'v_site.inc');
-include($relPath.'dp_main.inc');
+include_once($relPath.'http_headers.inc');
+include_once($relPath.'v_site.inc');
+include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once('page_misc.inc');
 
 // get cookie
 $npage = getPageCookie();
 
-include($relPath.'slim_header.inc');
+include_once($relPath.'slim_header.inc');
 slim_header("Image Frame",TRUE,FALSE);
 ?>
 </head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img

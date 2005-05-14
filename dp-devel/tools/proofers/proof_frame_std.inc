@@ -7,7 +7,7 @@
     include_once($relPath.'http_headers.inc');
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \r\n".
       "\"http://www.w3.org/TR/html4/frameset.dtd\">\r\n";
-    include($relPath.'slim_header.inc');
+    include_once($relPath.'slim_header.inc');
     slim_header($project,FALSE,FALSE);
     echo "<HTML><HEAD><TITLE>$project</TITLE>\r\n";
     echo "</HEAD>\r\n<FRAMESET \r\n";

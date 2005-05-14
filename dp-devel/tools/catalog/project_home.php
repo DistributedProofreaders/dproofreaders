@@ -32,7 +32,7 @@ else
 
     $nameofwork  = $project_res['nameofwork'];
 
-    include($relPath.'slim_header.inc');
+    include_once($relPath.'slim_header.inc');
     slim_header($nameofwork);
 
     echo "<h1>DP home page of \"$nameofwork\"</h1>\n";
