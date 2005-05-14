@@ -17,6 +17,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'mentorbanner.inc');
 
 
 theme(_("Activity Hub"), "header");
@@ -80,6 +81,13 @@ if ($pagesproofed >= 20)
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
+
+
+if(user_can_see_BEGIN_in_round(2))
+    mentor_banner(get_Round_for_round_number(2));
+if(user_can_work_in_stage($pguser, 'F2'))
+    mentor_banner(get_Round_for_round_number(4));
+
 
 // =============================================================================
 

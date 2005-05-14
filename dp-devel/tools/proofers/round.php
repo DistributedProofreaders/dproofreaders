@@ -12,6 +12,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'mentorbanner.inc');
 
 $userSettings = Settings::get_Settings($pguser);
 
@@ -116,6 +117,17 @@ if ($pagesproofed >= 10)
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
+
+if($round_id == 'P2')
+{
+    if(user_can_see_BEGIN_in_round(2))
+        mentor_banner($round);
+}
+if($round_id == 'F2')
+{
+    if(user_can_work_in_stage($pguser, 'F2'))
+        mentor_banner($round);
+}
 
 if ($pagesproofed <= 20)
 {
