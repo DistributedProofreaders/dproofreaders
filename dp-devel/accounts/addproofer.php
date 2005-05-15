@@ -104,7 +104,8 @@ if ($password=="proofer") {
 
     echo "<center><form method='post' action='addproofer.php'><input type=hidden name='password' value='proofer'>";
     echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse:collapse' width='400'>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><b>Note: Please choose your username carefully, your username will be visible to other DP users and cannot be changed.</b></td></tr>";
+    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><b>Note: Please choose your username carefully. Your username will be visible to other DP users and cannot be changed. <br>
+    Please make sure your email address is correct. You will be emailed a confirmation link which you will need to follow in order for your DP userid to be activated.</b></td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='center'><b>"._("Real Name").":</b>";
     echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='real_name' size=20>";
     echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("User Name").":</b>";
