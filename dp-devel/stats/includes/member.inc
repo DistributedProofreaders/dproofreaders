@@ -89,11 +89,11 @@ function showMbrDpProfile( $curMbr )
 	global $users_ELR_page_tallyboard;
 	$current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $curMbr['u_id'] );
 	$facilitator = @mysql_result(mysql_query("SELECT * FROM `usersettings`
-							 	 						  WHERE `setting` ='proj_facilitator'
-															AND `username` = '".$curMbr['username']."'"),0,"value");
+		WHERE `setting` ='proj_facilitator'
+			AND `username` = '".$curMbr['username']."'"),0,"value");
 	$ppver = @mysql_result(mysql_query("SELECT * FROM `usersettings`
-							 	 						  WHERE `setting` ='PPV.access'
-															AND `username` = '".$curMbr['username']."'"),0,"value");
+		WHERE `setting` ='PPV.access'
+			AND `username` = '".$curMbr['username']."'"),0,"value");
 	$t->row(
 		_('Roles'),
 		showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $facilitator, $curMbr['postprocessor'], $ppver, $current_P_page_tally)
