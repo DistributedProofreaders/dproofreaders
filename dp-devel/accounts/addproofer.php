@@ -116,7 +116,7 @@ if ($password=="proofer") {
     echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email' size=20>";
     echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Updates").":</b>";
     echo "</td><td bgcolor='#ffffff' align='center'><input type='radio' name='email_updates' value='1' checked>"._("Yes")."&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>"._("No");
-    echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Create Account")."'>&nbsp;&nbsp;<input type='reset'>";
+    echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Send E-Mail required to activate account")."'>&nbsp;&nbsp;<input type='reset'>";
     echo "</td></tr><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
 
     if(file_exists($code_dir.'/faq/'.lang_dir().'privacy.php')) {
