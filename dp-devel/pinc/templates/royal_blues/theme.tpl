@@ -42,7 +42,7 @@ $royal_blues['font_copyright'] = "verdana, arial";
 
 $royal_blues['tabs'] = array(
     'background' => '#ffffff',
-    'background-position' => 'bottom',
-    'padding-left' => '19px',
+    'background-position' => 'top',
+    'padding-left' => '9px',
 );
 ?>
