@@ -266,6 +266,16 @@ function html_statsbar($nameofpage) {
 		show_tally_specific_stats( $tally_name );
 	}
 
+	global $code_url;
+	echo "<br>";
+	echo "<center>";
+	echo "<font size='2'>";
+	echo "<a href='$code_url/stats/stats_central.php'>";
+	echo _("More Statistics...");
+	echo "</a>";
+	echo "</font>";
+	echo "</center>\n";
+
 	if (isset($GLOBALS['pguser']))
 	{
 		// requestor is a logged-in user.
@@ -434,9 +444,6 @@ function show_tally_specific_stats( $tally_name )
 			_('%s users with at least 1 page'),
 			number_format($num_positive_users) ),
 		"<br>\n";
-
-	echo "<br></font>\n";
-	echo "<center><font size='2'><a href='$code_url/stats/stats_central.php'>"._("More Statistics...")."</a></center>\n";
 
 	echo "</font><br><hr width='75%' align='center'><br>\n";
 	// ---------------------------------------------------------------------
