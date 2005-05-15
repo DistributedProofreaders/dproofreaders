@@ -1,0 +1,34 @@
+How to create a tab-set resembling that of theme "Project Gutenberg" using Photoshop
+------------------------------------------------------------------------------------
+
+Edit theme.tpl
+* It should contain something like
+  $royal_blues['tabs'] = array(
+      'background' => '#ffffff',
+      'background-position' => 'top',
+      'padding-left' => '9px',
+  );
+* '9px' is the width of tabs_left.png created below and shouldn't need to be changed
+* Obviously, '$royal_blues' should be something else
+* '#ffffff' should likely be something else
+
+Create background image
+* Create a new image, 10 pixels wide and 90 pixels high (approximately)
+* Play around with the gradient tool, creating a vertical gradient
+* Save as tabs_bg.png
+
+Note: In all of the four files referenced below, you may want to tweak the color of the border.
+
+Create parts of active tabs
+For each of tabs_left_on.png and tabs_right_on.png, do this:
+* Open the file from the gutenberg theme
+* Select the greenish color using the sampler and "Select->Color Range..."
+* Fill the selected area with the new color
+* Save using the same filename but in the new directory using "Help->Export transparent image"
+
+Create parts of inactive tabs
+For each of tabs_left.png and tabs_right.png, do this:
+* Open the file from the gutenberg theme
+* Select the greenish color using the sampler and "Select->Color Range..."
+* Fill the selected area with approximately 70% of the new color
+* Save using the same filename but in the new directory using "Help->Export transparent image"
