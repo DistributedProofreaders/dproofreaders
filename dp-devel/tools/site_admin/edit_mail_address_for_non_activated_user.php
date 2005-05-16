@@ -16,7 +16,7 @@ if (!user_is_a_sitemanager()) {
 
 if (!isset($_GET['action'])) {
   ?>
-  This form should be used when a mail has been recieved from a user who has not recieved
+  This form should be used when a mail has been received from a user who has not received
   his or her welcome email due to entering a bad email address when registering.
   To change the address, please enter the name of the user below or
   <a href="?action=list_all">list all user accounts awaiting activation</a>.
