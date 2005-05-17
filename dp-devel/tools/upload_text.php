@@ -178,10 +178,9 @@ else
                    // but still needs some changes recorded in project table
                    if ($stage == 'smooth_avail') {
                       $qry =  mysql_query("
-                          UPDATE projects SET smoothread_deadline = $deadline
+                          UPDATE projects SET smoothread_deadline = $deadline,  postcomments = '$postcomments'
                           WHERE projectid = '$project'
                       ");
-                      add_postcomments($project, $postcomments, $pguser);
 
                    }
 
