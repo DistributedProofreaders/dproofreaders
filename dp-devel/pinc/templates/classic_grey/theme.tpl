@@ -42,7 +42,7 @@ $classic_grey['font_copyright'] = "verdana, helvetica, sans-serif";
 
 $classic_grey['tabs'] = array(
     'background' => '#cccccc',
-    'background-position' => 'bottom',
-    'padding-left' => '5px',
+    'background-position' => 'top',
+    'padding-left' => '9px',
 );
 ?>
