@@ -138,21 +138,7 @@ function project_add_page(
 
     $image_file_name_e = addslashes( $image_file_name );
 
-    $have_file_privilege = TRUE;
-    if ($have_file_privilege)
-    {
-        $txt_file_path_e = addslashes( $txt_file_path );
-        $txt_expr = "LOAD_FILE('$txt_file_path_e')";
-    }
-    else
-    {
-        $txt = file_get_contents( $txt_file_path );
-        if ( $txt === FALSE )
-        {
-            return "Unable to read file '$txt_file_path'";
-        }
-        $txt_expr = "'" . addslashes($txt) . "'";
-    }
+    $txt_expr = file_content_expr( $txt_file_path );
 
     $round = get_Round_for_round_number(1);
     $page_state = $round->page_avail_state;
@@ -196,6 +182,29 @@ function project_add_page(
     }
 
     return $errs;
+}
+
+function file_content_expr( $file_path )
+// Return an SQL expression that will yield:
+// -- the contents of the given file as a string
+// -- or NULL if the file can't be read.
+// $file_path must be absolute.
+{
+    $have_file_privilege = TRUE;
+    if ($have_file_privilege)
+    {
+        $file_path_e = addslashes( $file_path );
+        return "LOAD_FILE('$file_path_e')";
+    }
+    else
+    {
+        $txt = file_get_contents( $file_path );
+        if ( $txt === FALSE )
+        {
+            return 'NULL';
+        }
+        return "'" . addslashes($txt) . "'";
+    }
 }
 
 // -----------------------------------------------------------------------------
