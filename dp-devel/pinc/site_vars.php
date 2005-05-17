@@ -95,6 +95,8 @@ $auto_email_addr = $general_help_email_addr;
 
 $db_requests_email_addr = '<<DB_REQUESTS_EMAIL_ADDR>>';
 
+$ppv_reporting_email_addr = '<<PPV_REPORTING_EMAIL_ADDR>>';
+
 // -----------------------------------------------------------------------------
 
 // So far, the effects of setting $testing to TRUE are:
