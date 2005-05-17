@@ -801,12 +801,22 @@ class Loader
             {
                 if ( $text_a == 'replace' )
                 {
-                    // THIS IGNORES $writeBIGtable!
-                    $this->_do_query("
-                        UPDATE $this->projectid
-                        SET master_text=LOAD_FILE('$src_text_file_path')
-                        WHERE image='$db_image_file_name'
-                    ");
+                    if ( $this->dry_run )
+                    {
+                        echo "
+                            Page_replaceText(
+                                $this->projectid,
+                                $db_image_file_name,
+                                $src_text_file_path );
+                        ";
+                    }
+                    else
+                    {
+                        Page_replaceText(
+                            $this->projectid,
+                            $db_image_file_name,
+                            $src_text_file_path );
+                    }
                 }
 
                 if ( $image_a == 'replace' )
@@ -815,12 +825,22 @@ class Loader
                     {
                         // e.g., replacing 001.png with 001.jpg
 
-                        // THIS IGNORES $writeBIGtable!
-                        $this->_do_query("
-                            UPDATE $this->projectid
-                            SET image='$src_image_file_name'
-                            WHERE image='$db_image_file_name'
-                        ");
+                        if ( $this->dry_run )
+                        {
+                            echo "
+                                Page_replaceImage(
+                                    $this->projectid,
+                                    $db_image_file_name,
+                                    $src_image_file_name );
+                            ";
+                        }
+                        else
+                        {
+                            Page_replaceImage(
+                                $this->projectid,
+                                $db_image_file_name,
+                                $src_image_file_name );
+                        }
 
                         $this->_do_command(
                             "rm $this->dest_project_dir/$db_image_file_name" );
@@ -847,18 +867,6 @@ class Loader
                 echo "$cmd:<br>";
                 echo "exit status was $exit_status<br>";
             }
-        }
-    }
-
-    function _do_query( $query )
-    {
-        if ( $this->dry_run )
-        {
-            echo $query;
-        }
-        else
-        {
-            mysql_query($query) or die(mysql_error());
         }
     }
 }

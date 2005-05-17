@@ -225,6 +225,32 @@ function Page_delete( $projectid, $fileid )
 
 // -----------------------------------------------------------------------------
 
+function Page_replaceImage( $projectid, $image, $new_image )
+// e.g., replace 001.png with 001.jpg
+{
+    mysql_query("
+        UPDATE $projectid
+        SET image='$new_image'
+        WHERE image='$image'
+    ") or die(mysql_error());
+    // THIS IGNORES $writeBIGtable!
+}
+
+// -----------------------------------------------------------------------------
+
+function Page_replaceText( $projectid, $image, $text_file_path )
+{
+    $text_file_content_expr = file_content_expr( $text_file_path );
+    mysql_query("
+        UPDATE $projectid
+        SET master_text=$text_file_content_expr
+        WHERE image='$image'
+    ") or die(mysql_error());
+    // THIS IGNORES $writeBIGtable!
+}
+
+// -----------------------------------------------------------------------------
+
 function Page_modifyText( $projectid, $fileid, $page_text, $text_column )
 {
     _Page_UPDATE( $projectid, $fileid, 
