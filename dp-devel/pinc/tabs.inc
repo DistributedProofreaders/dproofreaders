@@ -57,7 +57,7 @@ function echo_stylesheet_for_tabs() {
 
 <style type="text/css"><!--
    
-// style sheet to create nice tabs from a list
+/* style sheet to create nice tabs from a list */
    
 body {
   margin:0;
@@ -95,8 +95,8 @@ body {
   color:#765;
 }
 
-// IE5-Mac has problems when a floated element gets an
-// auto-width block-level element inserted into it
+/* IE5-Mac has problems when a floated element gets an
+   auto-width block-level element inserted into it */
 /* Commented Backslash Hack
    hides rule from IE5-Mac \*/
 #tabs a {float:none;}
