@@ -34,7 +34,21 @@ if ($password=="proofer") {
     $username = $_POST['userNM'];
     $userpass = $_POST['userPW'];
     $email = $_POST['email'];
+    $userpass2 = $_POST['userPW2'];
+    $email2 = $_POST['email2'];
     $email_updates = $_POST['email_updates'];
+
+    // Make sure that password and confirmed password are equal.
+    if ($userpass != $userpass2)
+    {
+        abort_registration( _("The passwords you entered where not equal.") );
+    }
+
+    // Make sure that email and confirmed email are equal.
+    if ($email != $email2)
+    {
+        abort_registration( _("The email addresses you entered where not equal.") );
+    }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
 
@@ -112,8 +126,12 @@ if ($password=="proofer") {
     echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='userNM' size=20>";
     echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Password").":</b>";
     echo "<td bgcolor='#ffffff' align='center'><input type='password' maxlength=70 name='userPW' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Confirm Password").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='password' maxlength=70 name='userPW2' size=20>";
     echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Address").":</b>";
     echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email' size=20>";
+    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Confirm E-mail Address").":</b>";
+    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email2' size=20>";
     echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Updates").":</b>";
     echo "</td><td bgcolor='#ffffff' align='center'><input type='radio' name='email_updates' value='1' checked>"._("Yes")."&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>"._("No");
     echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Send E-Mail required to activate account")."'>&nbsp;&nbsp;<input type='reset'>";
