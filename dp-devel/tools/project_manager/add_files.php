@@ -16,15 +16,7 @@ $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 
 if ( $_GET['rel_source'] == '' )
 {
-    //if they are uploading tpnv files then get them from /tpnv 
-    if ( $loading_tpnv )
-    {
-        $rel_source = "$projectid/tpnv";
-    }
-    else
-    {
-        $rel_source = $projectid;
-    }
+    die('rel_source parameter is empty or unset');
 }
 else
 {
