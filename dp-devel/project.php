@@ -856,8 +856,8 @@ function do_early_uploads()
             echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            echo "<input type='text' name='rel_source'>";
-            echo sprintf(_(" (defaults to %s)")."$projectid/tpnv");
+            $initial_rel_source = "$projectid/tpnv";
+            echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
             echo "<br>\n";
             echo "<input type='submit' value='Add'>";
             echo "<br>\n";
@@ -879,8 +879,8 @@ function do_early_uploads()
             echo sprintf(_("Add/Replace Text+Images from %s Account"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            echo "<input type='text' name='rel_source'>";
-            echo sprintf(_(" (defaults to %s )"),$projectid);
+            $initial_rel_source = $projectid;
+            echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
         echo "<br>\n";
         echo "<input type='submit' value='Add/Replace'>";
         echo "<br>\n";
