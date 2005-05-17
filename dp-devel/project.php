@@ -1089,7 +1089,9 @@ function do_postcomments()
                      _("Note that your old comments will be replaced by those you enter here.") . '</p>';
 
       echo "<form name='pp_update' method='post' action='$code_url/tools/post_proofers/postcomments.php'>\n";
-      echo "<textarea name='postcomments' cols='60' rows='6'></textarea>\n";
+      echo "<textarea name='postcomments' cols='60' rows='6'>\n";
+      echo htmlspecialchars($project->postcomments);
+      echo "</textarea>\n";
       echo "<input type='hidden' name='projectid' value='$projectid' />\n";
       echo "<br /><input type='submit' value='" . _('Update comment and project status') . "'/>";
       echo "</form>\n";
