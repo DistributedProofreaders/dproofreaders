@@ -14,7 +14,10 @@ if (! $project->PPer_is_current_user) {
   exit;
 }
 
-add_postcomments($projectid, $postcomments, $pguser);
+$qry =  mysql_query("
+    UPDATE projects SET postcomments = '$postcomments'
+    WHERE projectid = '$projectid'
+");
 
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);

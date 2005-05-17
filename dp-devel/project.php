@@ -1085,12 +1085,13 @@ function do_postcomments()
                      missing pages, etc. (if you are waiting on missing images or page
                      scans, please add the details to the <a href='%2\$s'>Missing Page
                      Wiki</a>)."),
-                     90, "$forums_url/viewtopic.php?t=7584") . '</p>';
+                     90, "$forums_url/viewtopic.php?t=7584") . ' ' .
+                     _("Note that your old comments will be replaced by those you enter here.") . '</p>';
 
       echo "<form name='pp_update' method='post' action='$code_url/tools/post_proofers/postcomments.php'>\n";
       echo "<textarea name='postcomments' cols='60' rows='6'></textarea>\n";
       echo "<input type='hidden' name='projectid' value='$projectid' />\n";
-      echo "<br /><input type='submit' value='" . _('Add comment and update project status') . "'/>";
+      echo "<br /><input type='submit' value='" . _('Update comment and project status') . "'/>";
       echo "</form>\n";
 
     }
