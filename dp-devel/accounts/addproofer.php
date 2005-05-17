@@ -41,13 +41,13 @@ if ($password=="proofer") {
     // Make sure that password and confirmed password are equal.
     if ($userpass != $userpass2)
     {
-        abort_registration( _("The passwords you entered where not equal.") );
+        abort_registration( _("The passwords you entered were not equal.") );
     }
 
     // Make sure that email and confirmed email are equal.
     if ($email != $email2)
     {
-        abort_registration( _("The email addresses you entered where not equal.") );
+        abort_registration( _("The email addresses you entered were not equal.") );
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
