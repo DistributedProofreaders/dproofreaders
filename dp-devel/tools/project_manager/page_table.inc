@@ -83,8 +83,8 @@ function echo_page_table(
 				$n_cols_per_round++;
 			}
 
-			$round_label = sprintf( _("Round %d"), $rn );
-			echo "    <td align='center' colspan='$n_cols_per_round'>$round_label</td>\n";
+			$round = get_Round_for_round_number($rn);
+			echo "    <td align='center' colspan='$n_cols_per_round'>$round->id</td>\n";
 		}
 		echo "</tr>\n";
 	}
