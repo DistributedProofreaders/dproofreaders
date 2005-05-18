@@ -8,6 +8,7 @@ href="#" onclick="top.new_iMU('[Footnote #: ',']')" title="[Footnote #:">[Footno
 href="#" onclick="top.new_iMU('/*\n','\n*/')" title="<? echo _("Start poetry/table"); ?>">/* */</a> | <a
 href="#" onclick="top.new_iMU('/#\n','\n#/')" title="<? echo _("Start block quote"); ?>">/# #/</a> | <a
 href="#" onclick="top.new_iMU('       *       *       *       *       *','')" title="       *       *       *       *       *'">*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*&nbsp;&nbsp;*</a> | <a
-href="#" onclick="top.iMUO(6)" title="[Blank Page]">[Blank Page]</a>
+href="#" onclick="top.iMUO(6)" title="[Blank Page]">[Blank Page]</a> | 
+<a href="#" onclick="top.new_iMU('<sc>','</sc>')" title="Small Caps"><span style='font-variant:small-caps;'>Small Caps</span></a>
 </font>
 
