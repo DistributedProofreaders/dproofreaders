@@ -50,8 +50,7 @@ function echo_page_info( $npage )
     $other_round_ids = $round->other_rounds_with_visible_usernames;
     if (count($other_round_ids) > 0)
     {
-        echo " - ";
-        echo _("Proofread by:");
+        echo " -- ";
 
         $show_comma = FALSE;
         foreach ($other_round_ids as $other_round_id)
@@ -64,7 +63,7 @@ function echo_page_info( $npage )
             $user_id = mysql_result($res, 0, "user_id");
 
             if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
-            echo " <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a> ($other_round->id)";
+            echo "$other_round->id: <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
         }
     }
     echo "</b></font>\n";
