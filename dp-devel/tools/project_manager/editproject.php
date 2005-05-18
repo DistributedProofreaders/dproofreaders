@@ -38,17 +38,6 @@ function saveProject() {
              $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>";
         }
    }
-   if (!empty($_FILES['projectfiles']['name'])) {
-         if (substr($_FILES['projectfiles']['name'], -4) != ".zip") {
-             $errormsg .= "File type must be ZIP.<br>";
-         }
-   }
-   if (!empty($_FILES['projectfiles']['name'])) {
-        $dir_name = substr($_FILES['projectfiles']['name'], 0, strpos($_FILES['projectfiles']['name'], ".zip"));
-        if (file_exists("$uploads_dir/$pguser/$dir_name")) {
-            $errormsg .= "The name of the zip file ($uploads_dir/$pguser/$dir_name) must be unique.<br>";
-        }
-   }
    if (!empty($_POST['special'])) {
       $special = $_POST['special'];
       if (    (strncmp($special, 'Birthday', 8) == 0)
@@ -113,8 +102,6 @@ function saveProject() {
 
         $projectid = $_POST['projectid'];
 
-        handle_projectfiles($projectid);
-
         //Update the MARC record in the database
         $result = mysql_query("
             SELECT updated_array
@@ -168,8 +155,6 @@ function saveProject() {
         //Make a directory in the projects_dir for this project
         mkdir("$projects_dir/$projectid", 0777);
         chmod("$projects_dir/$projectid", 0777);
-
-        handle_projectfiles( $projectid );
 
         //Add the original marc record to the database
         $original_marc = convert_standard_marc($rec);
@@ -337,83 +322,6 @@ function saveUberProject() {
 
 }
 
-
-
-function handle_projectfiles($projectid) {
-   // If the PM uploaded a zip file, unzip it and put the files in the uploads and projects directories.
-   global $uploads_dir, $pguser, $projects_dir;
-
-   $original_filename = $_FILES['projectfiles']['name'];
-   if (empty($original_filename)) {
-        return; // No file uploaded.
-   }
-
-   $dir_name = substr($original_filename, 0, strpos($original_filename, ".zip"));
-
-   if (!file_exists("$uploads_dir/$pguser")) {
-        # echo "creating $uploads_dir/$pguser ...<br>\n";
-        mkdir("$uploads_dir/$pguser", 0777);
-        chmod("$uploads_dir/$pguser", 0777);
-   }
-
-   # echo "creating $uploads_dir/$pguser/$dir_name ...<br>\n";
-   mkdir("$uploads_dir/$pguser/$dir_name", 0777);
-   chmod("$uploads_dir/$pguser/$dir_name", 0777);
-
-   $local_zipfile = $_FILES['projectfiles']['tmp_name'];
-
-   # echo "unzipping to $projects_dir/$projectid ...<br>\n";
-   exec("unzip -o -j $local_zipfile -d $projects_dir/$projectid");
-
-   # echo "unzipping to $uploads_dir/$pguser/$dir_name ...<br>\n";
-   exec("unzip -o -j $local_zipfile -d '$uploads_dir/$pguser/$dir_name'");
-   // Put target dir in quotes because $pguser might contain a space char.
-
-   # echo "insertTextFiles($dir_name, $projectid) ...<br>\n";
-   insertTextFiles($dir_name, $projectid);
-
-   $error_msg = project_transition( $projectid, PROJ_P1_UNAVAILABLE );
-   if ($error_msg)
-   {
-        echo "$error_msg<br>\n";
-   }
-}
-
-function insertTextFiles($dir_name, $projectid) {
-   global $uploads_dir, $projects_dir, $pguser;
-   $r = chdir("$uploads_dir/$pguser/$dir_name");
-   $now = time();
-
-   foreach (glob("*.txt") as $txt_file_name) {
-        $file_base = basename(strval($txt_file_name),'.txt');
-        $image_file_name = "$file_base.png";
-        $txt_file_path = "$uploads_dir/$pguser/$dir_name/$txt_file_name";
-
-        $errs = project_add_page( $projectid, $file_base, $image_file_name, $txt_file_path, $now );
-        if ($errs) die($errs);
-   }
-
-   $r = chdir("$projects_dir/$projectid");
-   foreach (glob("*.txt") as $txt_file_name) {
-        unlink($txt_file_name);
-   }
-}
-
-function checkProjectDirEmpty() {
-   global $projectid, $projects_dir;
-   $i = 0;
-
-   $dir = opendir("$projects_dir/$projectid");
-   while (false !== ($file = readdir($dir))) {
-        if ($i > 0) { break; }
-            if ($file != "." && $file != ".." && $file != "dc.xml") {
-                $i++;
-        }
-   }
-   closedir($dir);
-
-   if ($i > 0) { return false; } else { return true; }
-}
 
 function posted_pg($projectid) {
    global $code_url, $auto_email_addr, $auto_email_addr;
@@ -1051,7 +959,6 @@ elseif ((isset( $_REQUEST['action']) &&
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Zip File URL")."</b></td><td><input type='text' size='67' name='ziplink' value='".encodeFormValue($ziplink)."'></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("HTML File URL")."</b></td><td><input type='text' size='67' name='htmllink' value='".encodeFormValue($htmllink)."'></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
-    if (empty($projectid) || checkProjectDirEmpty()) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Files")."</b></td><td><input type='file' name='projectfiles' size='67'></td></tr>\n"; }
     echo "<tr><td colspan='2'><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>] [<a href=\"JavaScript:newHelpWin('biography');\">"._("How To Use A Biography")."</a>]</b></center></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
     echo "</table>";
