@@ -64,7 +64,7 @@ function echo_page_info( $npage )
             $user_id = mysql_result($res, 0, "user_id");
 
             if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
-            echo " <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
+            echo " <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a> ($other_round->id)";
         }
     }
     echo "</b></font>\n";
