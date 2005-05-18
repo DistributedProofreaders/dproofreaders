@@ -229,6 +229,7 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 	if(docRef.selection  && !is_gecko) {
 		var theSelection = docRef.selection.createRange().text;
 		if(!theSelection) { theSelection=sampleText;}
+		if(tagOpen=='<sc>') { theSelection=title_case(theSelection);}
 		if(replace) { theSelection=''; }
 		txtarea.focus();
 		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
@@ -245,6 +246,7 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		var scrollTop=txtarea.scrollTop;
 		var myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
+		if(tagOpen=='<sc>') { myText=title_case(myText);}
 		if(replace) { myText=''; }
 		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
@@ -273,7 +275,8 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		} else {
 			text="";
 		}
-		if(!text) { text=sampleText;}
+		if(!text) { text=sampleText;}		
+		if(tagOpen=='<sc>') { text=title_case(text);}
 		if(replace) { text=''; }
 		text=tagOpen+text+tagClose;
 		docRef.infoform.infobox.value=text;
@@ -285,4 +288,19 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 	}
 	// reposition cursor if possible
 	if (txtarea.createTextRange) txtarea.caretPos = docRef.selection.createRange().duplicate();
+}
+
+function title_case(str)
+{
+str    = str.toLowerCase(),
+newStr = '';
+
+for ( var i = 0, l = str.length; i < l; i++ )
+{
+  newStr += ( i == 0 || str.charAt( i - 1 ) ==  ' ' )?
+  str.charAt( i ).toUpperCase():
+  str.charAt( i );
+}
+
+return newStr;
 }
