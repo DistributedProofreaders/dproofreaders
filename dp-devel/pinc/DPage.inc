@@ -228,45 +228,19 @@ function Page_delete( $projectid, $fileid, $image )
 function Page_replaceImage( $projectid, $image, $new_image )
 // e.g., replace 001.png with 001.jpg
 {
-    global $writeBIGtable;
-
-    mysql_query("
-        UPDATE $projectid
-        SET image='$new_image'
-        WHERE image='$image'
-    ") or die(mysql_error());
-
-    if ($writeBIGtable)
-    {
-        mysql_query("
-            UPDATE project_pages
-            SET image='$new_image'
-            WHERE projectid='$projectid' AND image='$image'
-        ") or die(mysql_error());
-    }
+    _Page_UPDATE( $projectid, $image, "
+        image='$new_image'
+    ");
 }
 
 // -----------------------------------------------------------------------------
 
 function Page_replaceText( $projectid, $image, $text_file_path )
 {
-    global $writeBIGtable;
-
     $text_file_content_expr = file_content_expr( $text_file_path );
-    mysql_query("
-        UPDATE $projectid
-        SET master_text=$text_file_content_expr
-        WHERE image='$image'
-    ") or die(mysql_error());
-
-    if ($writeBIGtable)
-    {
-        mysql_query("
-            UPDATE project_pages
-            SET master_text=$text_file_content_expr
-            WHERE projectid='$projectid' AND image='$image'
-        ") or die(mysql_error());
-    }
+    _Page_UPDATE( $projectid, $image, "
+        master_text=$text_file_content_expr
+    ");
 }
 
 // -----------------------------------------------------------------------------
