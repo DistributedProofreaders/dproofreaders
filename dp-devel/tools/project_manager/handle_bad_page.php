@@ -60,18 +60,27 @@ if (!isset($_POST['resolution'])) {
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a></td></tr>";
+    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a>";
+    echo " | ";
+    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a>";
+    echo "</td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
 
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a> | <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a></td></tr>";
+    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a>";
+    echo " | ";
+    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a>";
+    echo "</td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     
     if (!empty($b_User) && !empty($b_Code)) {
         echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;<input name='resolution' value='bad' type='radio'>Bad Report&nbsp;<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;</td></tr>";
+        echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;";
+        echo "<input name='resolution' value='bad' type='radio'>Bad Report&nbsp;";
+        echo "<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;";
+        echo "</td></tr>";
     }
     else
     {
