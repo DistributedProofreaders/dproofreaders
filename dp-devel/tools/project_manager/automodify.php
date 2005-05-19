@@ -198,6 +198,9 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA pages
 
+	$n_hours_to_wait = 4;
+	$max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
+
         $res = mysql_query("
             SELECT *
             FROM $projectid
@@ -210,16 +213,15 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         $n_reclaimed = 0;
         $page_num = 0;
-        $dietime = time() - 14400; // 4 Hour TTL
 
         while ($page_num < $numrows) {
 
             $fileid = mysql_result($res, $page_num, "fileid");
             $timestamp = mysql_result($res, $page_num, $round->time_column_name);
 
-            if ($timestamp == "") $timestamp = $dietime;
+            if ($timestamp == "") $timestamp = $max_reclaimable_time;
 
-            if ($timestamp <= $dietime) {
+            if ($timestamp <= $max_reclaimable_time) {
                 Page_reclaim( $projectid, $fileid, $round->round_number );
                 $n_reclaimed++;
             }
