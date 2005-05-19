@@ -33,6 +33,11 @@ else
 
 $abs_source = "$uploads_dir/$rel_source";
 
+if ( !file_exists($abs_source) )
+{
+    die( "source does not exist: $abs_source" );
+}
+
 if ( substr($abs_source, -4) == ".zip" )
 {
     // $abs_source is a zip file containing the project files
