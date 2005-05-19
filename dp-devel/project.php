@@ -835,13 +835,15 @@ function do_edit_above()
 
 function do_early_uploads()
 {
-    global $project, $code_url, $uploads_account;
+    global $project, $code_url, $uploads_account, $pguser;
     if (!$project->can_be_managed_by_current_user) return;
 
     $projectid = $project->projectid;
     $state = $project->state;
 
     $add_reminder = FALSE;
+
+    $user_dir = str_replace( ' ', '_', $pguser );
 
     // Load TP&V images
     global $site_supports_metadata;
@@ -856,7 +858,7 @@ function do_early_uploads()
             echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            $initial_rel_source = "$projectid/tpnv";
+            $initial_rel_source = "$user_dir/";
             echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
             echo "<br>\n";
             echo "<input type='submit' value='Add'>";
@@ -879,7 +881,7 @@ function do_early_uploads()
             echo sprintf(_("Add/Replace Text+Images from %s Account"),$uploads_account);
             echo "<br>\n";
             echo _("directory: ");
-            $initial_rel_source = $projectid;
+            $initial_rel_source = "$user_dir/";
             echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
         echo "<br>\n";
         echo "<input type='submit' value='Add/Replace'>";
