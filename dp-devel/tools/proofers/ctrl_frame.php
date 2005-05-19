@@ -55,6 +55,15 @@ A:active {
 //#CDCDC1;
 //#EEDFCC;
   }
+.proofbutton {
+border:1px solid black;
+text-align: center;
+background: #FFF8DC;
+display:inline;
+margin: 0 1px;
+padding-top: 1px;
+}
+
 -->
 </style>
 </head>
@@ -543,43 +552,61 @@ class="dropchars"
 	class="dropnormal"
 	size="9"
 	onclick="this.select()"
-><a
+>
+<?
+$amazing_button_pushing_action = <<<BUTTONS
+onmousedown="this.style.position = 'relative';this.style.top = '1px';this.style.left = '1px'"
+onmouseup="this.style.top = '0px';this.style.left = '0px'"
+BUTTONS;
+
+# IE, not surprisingly, differs from all other browsers
+# in rendering the buttons. The difference is in the centering
+# of the labels, and only Opera gets it wrong if pretending to be IE
+$spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
+?>
+<a
 	href="#"
 	onclick="top.new_iMU('<i>','</i>')"
 	accesskey="i"
-><img
-	src="gfx/tags/italic.png"
-	width="22"
-	height="22"
-	border="0"
+>
+<div
+  class='proofbutton'
+  style='width: 22px; height: 22px;'
+  <?=$amazing_button_pushing_action?>
 	align="top"
-	title="<? echo _("Italics"); ?>"
-	alt="<? echo _("Italics"); ?>"
-></a><a
+	title="<?=_("Italics")?>"><i><?=$spc?>i</i>
+</div>
+</a><a
 	href="#"
 	onclick="top.new_iMU('<b>','</b>')"
 	accesskey="b"
-><img
-	src="gfx/tags/bold.png"
-	width="22"
-	height="22"
-	border="0"
+><div
+  class='proofbutton'
+  style='width: 22px; height: 22px;'
+  <?=$amazing_button_pushing_action?>
 	align="top"
-	title="<? echo _("Bold"); ?>"
-	alt="<? echo _("Bold"); ?>"
-></a><a
+	title="<?=_("Bold")?>"><b><?=$spc?>B</b>
+</div></a>
+<a
+	href="#"
+	onclick="top.new_iMU('<sc>','</sc>')"
+><div
+  class='proofbutton'
+  style='height: 22px; padding-left: 2px; padding-right: 2px; font-variant: small-caps;'
+  <?=$amazing_button_pushing_action?>
+	align="top"
+	title="<?=_("Small Caps")?>"><?=$spc?>Abc
+</div></a>
+<a
 	href="#"
 	onclick="top.mGR()"
-	title="Greek-to-ASCII Transliteration"
-><img
-	src="gfx/tags/greek.png"
-	width="62"
-	height="22"
-	border="0"
+><div
+  class='proofbutton'
+  style='height: 22px; padding-left: 2px; padding-right: 2px;'
+  <?=$amazing_button_pushing_action?>
 	align="top"
-	alt="Greek Transliteration"
-	title="<? echo _("Open Greek Transliteration Window"); ?>"
-></a><?PHP
+	title="<?=_("Open Greek Transliteration Window")?>"><?=dgettext("iso_639","Greek")?>
+</div></a><?PHP
 
 
 /* temp disabled
@@ -635,7 +662,7 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	align="center">
 <?PHP 
 echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> </font>";
-include('ptags.inc'); 
+include('ptags.inc');
 ?>
 <br>
 <font size="-1">
