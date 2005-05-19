@@ -19,7 +19,7 @@ if (!isset($_POST['resolution'])) {
 
     //Find out information about the bad page report
     $result = mysql_query("SELECT * FROM $projectid WHERE fileid='$fileid'");
-    $imageName = mysql_result($result,0,"image");
+    $image = mysql_result($result,0,"image");
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
     $b_Code = mysql_result($result,0,"b_code");
@@ -60,7 +60,7 @@ if (!isset($_POST['resolution'])) {
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectid&imagefile=$imageName' target='_new'>View Image</a></td></tr>";
+    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a> | <a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a></td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
 
     echo "<strong>Modify:</strong></td>";
