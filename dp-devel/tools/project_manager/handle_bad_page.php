@@ -78,7 +78,7 @@ if (!isset($_POST['resolution'])) {
         echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
         echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;";
-        echo "<input name='resolution' value='bad' type='radio'>Bad Report&nbsp;";
+        echo "<input name='resolution' value='invalid' type='radio'>Invalid Report&nbsp;";
         echo "<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;";
         echo "</td></tr>";
     }
@@ -146,8 +146,8 @@ if (!isset($_POST['resolution'])) {
     $fileid = $_POST['fileid'];
     $state = $_POST['state'];
 
-    //If the PM fixed the problem or stated the report was bad update the database to reflect
-    if (($resolution == "fixed") || ($resolution == "bad")) {
+    //If the PM fixed the problem or stated the report was invalid update the database to reflect
+    if (($resolution == "fixed") || ($resolution == "invalid")) {
         $round = get_Round_for_page_state($state);
         Page_eraseBadMark( $projectid, $fileid, $round->round_number );
     }
