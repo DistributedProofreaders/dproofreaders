@@ -25,7 +25,7 @@ $project = $projectname;
 $text_data = isset($text_data) ? $text_data : '';
 
 $tpage=new processpage();
-$tpage->setPageState($pagestate,$project,$fileid,$imagefile,$proofstate);
+$tpage->setPageState($pagestate,$project,$imagefile,$proofstate);
 
 define('B_TEMPSAVE',                1);
 define('B_SAVE_AND_DO_ANOTHER',     2);
