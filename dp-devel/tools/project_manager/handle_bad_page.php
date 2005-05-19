@@ -33,6 +33,7 @@ if (!isset($_POST['resolution'])) {
     echo "<form action='badpage.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<input type='hidden' name='fileid' value='$fileid'>";
+    echo "<input type='hidden' name='image' value='$image'>";
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
@@ -140,6 +141,7 @@ if (!isset($_POST['resolution'])) {
     //Get variables passed from form
     $projectid = $_POST['projectid'];
     $fileid = $_POST['fileid'];
+    $image = $_POST['image'];
     $state = $_POST['state'];
 
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
