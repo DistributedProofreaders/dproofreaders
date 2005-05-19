@@ -125,9 +125,6 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='file' name='image_upload' size=30><br><br>";
         echo "<input type='submit' value='Update Original Image'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
-        $image = $_POST['image'];
-        $projectid = $_POST['projectid'];
-        $fileid = $_POST['fileid'];
         if (substr($_FILES['image_upload']['name'], -4) == ".png") {
             copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
             echo "<b>Update of Original Image Complete!</b>";
