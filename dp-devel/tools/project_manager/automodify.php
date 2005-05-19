@@ -198,19 +198,24 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA pages
 
-        $outtable = mysql_query("SELECT * FROM $projectid WHERE state = '$round->page_out_state' ORDER BY image ASC");
-        if ($outtable != "") { $numoutrows = (mysql_num_rows($outtable)); } else $numoutrows = 0;
+        $res = mysql_query("
+            SELECT *
+            FROM $projectid
+            WHERE state IN ('$round->page_out_state','$round->page_temp_state')
+            ORDER BY image ASC
+        ") or die(mysql_error());
+        if ($res != "") { $numrows = (mysql_num_rows($res)); } else $numrows = 0;
 
-        if ($verbose) echo "        examining $numoutrows pages in '$round->page_out_state'\n";
+        if ($verbose) echo "        examining $numrows pages in 'out' or 'temp' states\n";
 
         $n_reclaimed = 0;
         $page_num = 0;
         $dietime = time() - 14400; // 4 Hour TTL
 
-        while ($page_num < $numoutrows) {
+        while ($page_num < $numrows) {
 
-            $fileid = mysql_result($outtable, $page_num, "fileid");
-            $timestamp = mysql_result($outtable, $page_num, $round->time_column_name);
+            $fileid = mysql_result($res, $page_num, "fileid");
+            $timestamp = mysql_result($res, $page_num, $round->time_column_name);
 
             if ($timestamp == "") $timestamp = $dietime;
 
@@ -219,33 +224,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                 $n_reclaimed++;
             }
             $page_num++;
-        }
-
-        if ($verbose) echo "            $n_reclaimed pages reclaimed\n";
-
-
-        // Check in MIA temp pages
-
-        $temptable = mysql_query("SELECT * FROM $projectid WHERE state = '$round->page_temp_state' ORDER BY image ASC");
-        if ($temptable != "") { $numtemprows = (mysql_num_rows($temptable)); } else $numtemprows = 0;
-
-        if ($verbose) echo "        examining $numtemprows pages in '$round->page_temp_state'\n";
-
-        $n_reclaimed = 0;
-        $page_num2 = 0;
-
-        while ($page_num2 < $numtemprows) {
-
-            $fileid = mysql_result($temptable, $page_num2, "fileid");
-            $timestamp = mysql_result($temptable, $page_num2, $round->time_column_name);
-
-            if ($timestamp == "") $timestamp = $dietime;
-
-            if ($timestamp <= $dietime) {
-                Page_reclaim( $projectid, $fileid, $round->round_number );
-                $n_reclaimed++;
-            }
-            $page_num2++;
         }
 
         if ($verbose) echo "            $n_reclaimed pages reclaimed\n";
