@@ -205,30 +205,23 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             SELECT *
             FROM $projectid
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
+		AND $round->time_column_name <= $max_reclaimable_time
             ORDER BY image ASC
         ") or die(mysql_error());
         if ($res != "") { $numrows = (mysql_num_rows($res)); } else $numrows = 0;
 
-        if ($verbose) echo "        examining $numrows pages in 'out' or 'temp' states\n";
+        if ($verbose) echo "        reclaiming $numrows pages\n";
 
-        $n_reclaimed = 0;
         $page_num = 0;
 
         while ($page_num < $numrows) {
 
             $fileid = mysql_result($res, $page_num, "fileid");
-            $timestamp = mysql_result($res, $page_num, $round->time_column_name);
 
-            if ($timestamp == "") $timestamp = $max_reclaimable_time;
-
-            if ($timestamp <= $max_reclaimable_time) {
                 Page_reclaim( $projectid, $fileid, $round->round_number );
-                $n_reclaimed++;
-            }
             $page_num++;
         }
 
-        if ($verbose) echo "            $n_reclaimed pages reclaimed\n";
 
 
         // Decide whether the project is finished its current round.
