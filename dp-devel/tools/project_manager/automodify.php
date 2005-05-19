@@ -214,7 +214,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         while ( list($fileid,$image) = mysql_fetch_row($res) )
         {
-            Page_reclaim( $projectid, $fileid, $image, $round->round_number );
+            Page_reclaim( $projectid, $image, $round->round_number );
         }
 
 

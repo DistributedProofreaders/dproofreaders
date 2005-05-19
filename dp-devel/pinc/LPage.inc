@@ -55,7 +55,7 @@ function get_available_page( $project, $proofstate, $pguser )
     $fileid    = $npage['fileid'];
     $imagefile = $npage['image'];
 
-    $pagestate = Page_checkout( $project, $fileid, $imagefile, $round->round_number, $pguser );
+    $pagestate = Page_checkout( $project, $imagefile, $round->round_number, $pguser );
 
     setPageCookie( $project, $proofstate, $fileid, $imagefile, $pagestate, 0, 0, 0, 0, 0, 0 );
 }
@@ -94,7 +94,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         page_tallies_add( $round->id, $pguser, -1 );
 
         // no need to update text, just record state change
-        Page_reopen( $project, $fileid, $imagefile, $round->round_number, $pguser );
+        Page_reopen( $project, $imagefile, $round->round_number, $pguser );
     }
 
     $saved = 1;
@@ -201,13 +201,13 @@ function addUserCount($pguser,$userP)
 
 function saveTemp($text_data,$pguser)
 {
-  return Page_saveAsInProgress( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser, $text_data );
+  return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round_number, $pguser, $text_data );
 }
 
 function saveComplete($text_data,$pguser,$userP)
 {
   $this->addUserCount($pguser,$userP);
-  return Page_saveAsDone( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser, $text_data );
+  return Page_saveAsDone( $this->project, $this->imagefile, $this->round_number, $pguser, $text_data );
 }
 
 function getRevertState()
@@ -236,7 +236,7 @@ function exitInterface($newwin,$editone)
 
 function returnPage($pguser,$userP)
 {
-  return Page_returnToRound( $this->project, $this->fileid, $this->imagefile, $this->round_number, $pguser );
+  return Page_returnToRound( $this->project, $this->imagefile, $this->round_number, $pguser );
 }
 
 } // end class

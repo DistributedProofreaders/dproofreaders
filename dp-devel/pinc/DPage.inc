@@ -209,7 +209,7 @@ function file_content_expr( $file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_delete( $projectid, $fileid, $image )
+function Page_delete( $projectid, $image )
 {
     global $writeBIGtable;
 
@@ -245,7 +245,7 @@ function Page_replaceText( $projectid, $image, $text_file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyText( $projectid, $fileid, $image, $page_text, $text_column )
+function Page_modifyText( $projectid, $image, $page_text, $text_column )
 {
     _Page_UPDATE( $projectid, $image, 
         $text_column."='$page_text'");
@@ -253,7 +253,7 @@ function Page_modifyText( $projectid, $fileid, $image, $page_text, $text_column 
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
+function Page_checkout( $projectid, $image, $round_number, $user )
 {
     $timestamp = time();
 
@@ -270,7 +270,7 @@ function Page_checkout( $projectid, $fileid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $user, $page_text )
+function Page_saveAsInProgress( $projectid, $image, $round_number, $user, $page_text )
 {
     $timestamp = time();
 
@@ -288,7 +288,7 @@ function Page_saveAsInProgress( $projectid, $fileid, $image, $round_number, $use
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $page_text )
+function Page_saveAsDone( $projectid, $image, $round_number, $user, $page_text )
 {
     $timestamp = time();
 
@@ -306,7 +306,7 @@ function Page_saveAsDone( $projectid, $fileid, $image, $round_number, $user, $pa
 
 // -----------------------------------------------------------------------------
 
-function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
+function Page_reopen( $projectid, $image, $round_number, $user )
 {
     $timestamp = time();
 
@@ -323,7 +323,7 @@ function Page_reopen( $projectid, $fileid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
+function Page_returnToRound( $projectid, $image, $round_number, $user )
 {
     $timestamp = time();
 
@@ -340,7 +340,7 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim( $projectid, $fileid, $image, $round_number )
+function Page_reclaim( $projectid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 
@@ -352,7 +352,7 @@ function Page_reclaim( $projectid, $fileid, $image, $round_number )
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound( $projectid, $fileid, $image, $round_number )
+function Page_clearRound( $projectid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 
@@ -366,7 +366,7 @@ function Page_clearRound( $projectid, $fileid, $image, $round_number )
 
 // -----------------------------------------------------------------------------
 
-function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $reason )
+function Page_markAsBad( $projectid, $image, $round_number, $user, $reason )
 {
     $round = get_Round_for_round_number( $round_number );
 
@@ -380,7 +380,7 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark( $projectid, $fileid, $image, $round_number )
+function Page_eraseBadMark( $projectid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 

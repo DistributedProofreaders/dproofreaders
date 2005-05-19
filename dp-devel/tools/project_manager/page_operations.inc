@@ -28,7 +28,7 @@ function page_del( $projectid, $fileid )
         return sprintf( _('Unable to remove file %s'), $image_path );
     }
 
-    Page_delete( $projectid, $fileid, $image );
+    Page_delete( $projectid, $image );
 }
 
 // -----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // now clear the page
 
-    Page_clearRound( $projectid, $fileid, $image, $round->round_number );
+    Page_clearRound( $projectid, $image, $round->round_number );
 }
 
 ?>
