@@ -202,7 +202,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
         $res = mysql_query("
-            SELECT fileid
+            SELECT fileid, image
             FROM $projectid
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
                 AND $round->time_column_name <= $max_reclaimable_time
@@ -212,9 +212,9 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $n_reclaimable_pages = mysql_num_rows($res);
         if ($verbose) echo "        reclaiming $n_reclaimable_pages pages\n";
 
-        while ( list($fileid) = mysql_fetch_row($res) )
+        while ( list($fileid,$image) = mysql_fetch_row($res) )
         {
-            Page_reclaim( $projectid, $fileid, $round->round_number );
+            Page_reclaim( $projectid, $fileid, $image, $round->round_number );
         }
 
 

@@ -28,7 +28,7 @@ function page_del( $projectid, $fileid )
         return sprintf( _('Unable to remove file %s'), $image_path );
     }
 
-    Page_delete( $projectid, $fileid );
+    Page_delete( $projectid, $fileid, $image );
 }
 
 // -----------------------------------------------------------------------------
@@ -48,7 +48,7 @@ function page_clear( $projectid, $fileid )
     }
 
     $result = mysql_query("
-        SELECT state, {$round->user_column_name}
+        SELECT image, state, {$round->user_column_name}
         FROM $projectid
         WHERE fileid = '$fileid'
     ");
@@ -56,7 +56,7 @@ function page_clear( $projectid, $fileid )
     {
         return _("There is no page with that fileid.");
     }
-    list($page_state, $proofer) = mysql_fetch_row($result);
+    list($image, $page_state, $proofer) = mysql_fetch_row($result);
     if ( $page_state != $round->page_save_state )
     {
         return _("The page is not in a state that allows it to be cleared.");
@@ -70,7 +70,7 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // now clear the page
 
-    Page_clearRound( $projectid, $fileid, $round->round_number );
+    Page_clearRound( $projectid, $fileid, $image, $round->round_number );
 }
 
 ?>

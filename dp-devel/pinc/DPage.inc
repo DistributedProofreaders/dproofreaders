@@ -209,7 +209,7 @@ function file_content_expr( $file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_delete( $projectid, $fileid )
+function Page_delete( $projectid, $fileid, $image )
 {
     global $writeBIGtable;
 
@@ -271,7 +271,7 @@ function Page_replaceText( $projectid, $image, $text_file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyText( $projectid, $fileid, $page_text, $text_column )
+function Page_modifyText( $projectid, $fileid, $image, $page_text, $text_column )
 {
     _Page_UPDATE( $projectid, $fileid, 
         $text_column."='$page_text'");
@@ -366,7 +366,7 @@ function Page_returnToRound( $projectid, $fileid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim( $projectid, $fileid, $round_number )
+function Page_reclaim( $projectid, $fileid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 
@@ -378,7 +378,7 @@ function Page_reclaim( $projectid, $fileid, $round_number )
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound( $projectid, $fileid, $round_number )
+function Page_clearRound( $projectid, $fileid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 
@@ -406,7 +406,7 @@ function Page_markAsBad( $projectid, $fileid, $image, $round_number, $user, $rea
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark( $projectid, $fileid, $round_number )
+function Page_eraseBadMark( $projectid, $fileid, $image, $round_number )
 {
     $round = get_Round_for_round_number( $round_number );
 
