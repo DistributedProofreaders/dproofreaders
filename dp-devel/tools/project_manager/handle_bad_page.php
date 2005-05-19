@@ -147,7 +147,7 @@ if (!isset($_POST['resolution'])) {
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
         $round = get_Round_for_page_state($state);
-        Page_eraseBadMark( $projectid, $image, $round->round_number );
+        Page_eraseBadMark( $projectid, $image, $round );
     }
 
     //Redirect the user back to the project detail page.

@@ -83,7 +83,7 @@ else
 
 	//Update the page the user was working on to reflect a bad page.
 	$round = get_Round_for_page_state($badState);
-	Page_markAsBad( $projectid, $imagefile, $round->round_number, $pguser, $reason );
+	Page_markAsBad( $projectid, $imagefile, $round, $pguser, $reason );
 
 	//Find out how many pages have been marked bad
 	$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));

@@ -253,11 +253,9 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function Page_checkout( $projectid, $image, $round_number, $user )
+function Page_checkout( $projectid, $image, $round, $user )
 {
     $timestamp = time();
-
-    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_out_state}',
@@ -270,11 +268,9 @@ function Page_checkout( $projectid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsInProgress( $projectid, $image, $round_number, $user, $page_text )
+function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 {
     $timestamp = time();
-
-    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_temp_state}',
@@ -288,11 +284,9 @@ function Page_saveAsInProgress( $projectid, $image, $round_number, $user, $page_
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsDone( $projectid, $image, $round_number, $user, $page_text )
+function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 {
     $timestamp = time();
-
-    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_save_state}',
@@ -306,11 +300,9 @@ function Page_saveAsDone( $projectid, $image, $round_number, $user, $page_text )
 
 // -----------------------------------------------------------------------------
 
-function Page_reopen( $projectid, $image, $round_number, $user )
+function Page_reopen( $projectid, $image, $round, $user )
 {
     $timestamp = time();
-
-    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_temp_state}',
@@ -323,11 +315,9 @@ function Page_reopen( $projectid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_returnToRound( $projectid, $image, $round_number, $user )
+function Page_returnToRound( $projectid, $image, $round, $user )
 {
     $timestamp = time();
-
-    $round = get_Round_for_round_number( $round_number );
 
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
@@ -340,10 +330,8 @@ function Page_returnToRound( $projectid, $image, $round_number, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim( $projectid, $image, $round_number )
+function Page_reclaim( $projectid, $image, $round )
 {
-    $round = get_Round_for_round_number( $round_number );
-
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         {$round->time_column_name}=''
@@ -352,10 +340,8 @@ function Page_reclaim( $projectid, $image, $round_number )
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound( $projectid, $image, $round_number )
+function Page_clearRound( $projectid, $image, $round )
 {
-    $round = get_Round_for_round_number( $round_number );
-
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         {$round->time_column_name}='',
@@ -366,10 +352,8 @@ function Page_clearRound( $projectid, $image, $round_number )
 
 // -----------------------------------------------------------------------------
 
-function Page_markAsBad( $projectid, $image, $round_number, $user, $reason )
+function Page_markAsBad( $projectid, $image, $round, $user, $reason )
 {
-    $round = get_Round_for_round_number( $round_number );
-
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_bad_state}',
         b_user='$user',
@@ -380,10 +364,8 @@ function Page_markAsBad( $projectid, $image, $round_number, $user, $reason )
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark( $projectid, $image, $round_number )
+function Page_eraseBadMark( $projectid, $image, $round )
 {
-    $round = get_Round_for_round_number( $round_number );
-
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         b_user='',
