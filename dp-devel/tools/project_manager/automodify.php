@@ -190,38 +190,32 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     )
     {
 
+        // Reclaim MIA pages
+
         if ($verbose)
         {
             ensure_project_blurb( $project );
             echo "    Reclaiming any MIA pages\n";
         }
 
-        // Check in MIA pages
-
         $n_hours_to_wait = 4;
         $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
         $res = mysql_query("
-            SELECT *
+            SELECT fileid
             FROM $projectid
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
                 AND $round->time_column_name <= $max_reclaimable_time
             ORDER BY image ASC
         ") or die(mysql_error());
-        if ($res != "") { $numrows = (mysql_num_rows($res)); } else $numrows = 0;
 
-        if ($verbose) echo "        reclaiming $numrows pages\n";
+        $n_reclaimable_pages = mysql_num_rows($res);
+        if ($verbose) echo "        reclaiming $n_reclaimable_pages pages\n";
 
-        $page_num = 0;
-
-        while ($page_num < $numrows) {
-
-            $fileid = mysql_result($res, $page_num, "fileid");
-
-                Page_reclaim( $projectid, $fileid, $round->round_number );
-            $page_num++;
+        while ( list($fileid) = mysql_fetch_row($res) )
+        {
+            Page_reclaim( $projectid, $fileid, $round->round_number );
         }
-
 
 
         // Decide whether the project is finished its current round.
