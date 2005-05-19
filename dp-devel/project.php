@@ -855,11 +855,10 @@ function do_early_uploads()
             echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
             echo "<input type='hidden' name='project' value='$projectid'>\n";
             echo "<input type='hidden' name='tpnv' value='1'>\n";
-            echo sprintf(_("<b>Add Title Page and Verso from %s Account</b>"),$uploads_account);
+            echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
             echo "<br>\n";
-            echo _("directory: ");
             $initial_rel_source = "$user_dir/";
-            echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
+            echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
             echo "<br>\n";
             echo "<input type='submit' value='Add'>";
             echo "<br>\n";
@@ -878,11 +877,10 @@ function do_early_uploads()
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
         echo "<input type='hidden' name='project' value='$projectid'>\n";
-            echo sprintf(_("Add/Replace Text+Images from %s Account"),$uploads_account);
+            echo _("Add/Replace text and images from directory or zip file:");
             echo "<br>\n";
-            echo _("directory: ");
             $initial_rel_source = "$user_dir/";
-            echo "<input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
+            echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
         echo "<br>\n";
         echo "<input type='submit' value='Add/Replace'>";
         echo "<br>\n";
