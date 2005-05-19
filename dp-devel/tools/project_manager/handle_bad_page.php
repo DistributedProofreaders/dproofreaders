@@ -115,6 +115,7 @@ if (!isset($_POST['resolution'])) {
         $prevtext_column = $_POST['prevtext_column'];
         Page_modifyText( $projectid, $fileid, $prev_text, $prevtext_column );
         echo "<b>Update of Text from Previous Round Complete!</b>";
+
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
         $result = mysql_query("SELECT image FROM $projectid where fileid='$fileid'");
         $master_image = mysql_result($result, 0, "image");
@@ -123,14 +124,14 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
         echo "<input type='hidden' name='master_image' value='$master_image'>";
-        echo "<input type='file' name='image' size=30><br><br>";
+        echo "<input type='file' name='image_upload' size=30><br><br>";
         echo "<input type='submit' value='Update Original Image'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
         $master_image = $_POST['master_image'];
         $projectid = $_POST['projectid'];
         $fileid = $_POST['fileid'];
-        if (substr($_FILES['image']['name'], -4) == ".png") {
-            copy($_FILES['image']['tmp_name'],"$projects_dir/$projectid/$master_image") or die("Could not upload new image!");
+        if (substr($_FILES['image_upload']['name'], -4) == ".png") {
+            copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$master_image") or die("Could not upload new image!");
             echo "<b>Update of Original Image Complete!</b>";
         } else {
             echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>here</a> to return.</b>";
