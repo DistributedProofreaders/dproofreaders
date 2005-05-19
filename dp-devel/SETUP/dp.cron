@@ -9,12 +9,12 @@
 
 # daily:
 01  0 * * * lynx -dump http://127.0.0.1/c/crontab/take_tally_snapshots.php
-01  0 * * * lynx -dump http://127.0.0.1/c/crontab/log_project_states.php
-10  0 * * * lynx -dump http://127.0.0.1/c/crontab/archive_projects.php
+01  0 * * * lynx -dump -width=100 http://127.0.0.1/c/crontab/log_project_states.php
+10  0 * * * lynx -dump -width=300 http://127.0.0.1/c/crontab/archive_projects.php
 15  0 * * * /home/dpadmin/mysql_backup.pl
 50  0 * * * lynx -dump http://127.0.0.1/c/crontab/clean_tmp.php > /dev/null
 55  0 * * * lynx -dump http://127.0.0.1/c/crontab/extend_site_tally_goals.php
-45 23 * * * lynx -dump http://127.0.0.1/c/crontab/update_birthday_queues.php
+45 23 * * * lynx -dump -width=110 http://127.0.0.1/c/crontab/update_birthday_queues.php
 
 # weekly (ish):
 04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/crontab/update_ppers.php
