@@ -128,7 +128,7 @@ function nPage_getText( $npage )
     $q = "
         SELECT $desired_column_name
         FROM {$npage['project']}
-        WHERE fileid = '{$npage['fileid']}' AND image='{$npage['image']}'
+        WHERE image='{$npage['image']}'
     ";
     $res = mysql_query($q);
     list($page_text) = mysql_fetch_row($res);
