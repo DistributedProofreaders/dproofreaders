@@ -162,7 +162,6 @@ class processpage
 {
   var $project='';
   var $imagefile='';
-  var $round_number=NULL;
   var $round=NULL;
 
 function processpage()
@@ -177,7 +176,6 @@ function setPageState($pagestate,$project,$imagefile,$proofstate)
   $this->proofstate=$proofstate;
 
   $this->round = get_Round_for_page_state($pagestate);
-  $this->round_number = $this->round->round_number;
 }
 
 function addUserCount($pguser,$userP)
