@@ -198,14 +198,14 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         // Check in MIA pages
 
-	$n_hours_to_wait = 4;
-	$max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
+        $n_hours_to_wait = 4;
+        $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
         $res = mysql_query("
             SELECT *
             FROM $projectid
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
-		AND $round->time_column_name <= $max_reclaimable_time
+                AND $round->time_column_name <= $max_reclaimable_time
             ORDER BY image ASC
         ") or die(mysql_error());
         if ($res != "") { $numrows = (mysql_num_rows($res)); } else $numrows = 0;
@@ -359,4 +359,5 @@ function hold_project_between_rounds( $project )
     // want a more flexible way to answer this question.
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
