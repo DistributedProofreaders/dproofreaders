@@ -213,12 +213,12 @@ function Page_delete( $projectid, $fileid, $image )
 {
     global $writeBIGtable;
 
-    $sql = "DELETE FROM $projectid WHERE fileid = '$fileid'";
+    $sql = "DELETE FROM $projectid WHERE image = '$image'";
     mysql_query($sql);
 
     if ($writeBIGtable)
     {
-        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND fileid = '$fileid'";
+        $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND image = '$image'";
         mysql_query($sql);
     }
 }
