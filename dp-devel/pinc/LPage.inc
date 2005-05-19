@@ -161,7 +161,6 @@ function nPage_getText( $npage )
 class processpage
 {
   var $project='';
-  var $fileid='';
   var $imagefile='';
   var $round_number=NULL;
   var $round=NULL;
@@ -170,10 +169,9 @@ function processpage()
 {
 }
 
-function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
+function setPageState($pagestate,$project,$imagefile,$proofstate)
 {
   $this->project=$project;
-  $this->fileid=$fileid;
   $this->imagefile=$imagefile;
   $this->pagestate=$pagestate;
   $this->proofstate=$proofstate;
@@ -184,7 +182,7 @@ function setPageState($pagestate,$project,$fileid,$imagefile,$proofstate)
 
 function addUserCount($pguser,$userP)
 {
-  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}' AND fileid='{$this->fileid}'";
+  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}'";
   $result=mysql_query($sql);
   $rows=mysql_num_rows($result);
     if ($rows !=0)
