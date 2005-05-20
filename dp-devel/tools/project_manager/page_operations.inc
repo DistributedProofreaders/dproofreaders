@@ -22,13 +22,14 @@ function page_del( $projectid, $fileid )
         return _("There is no page with that fileid.");
     }
     list($image) = mysql_fetch_row($result);
+
+    Page_delete( $projectid, $image );
+
     $image_path = "$projects_dir/$projectid/$image";
     if ( ! unlink($image_path) )
     {
         return sprintf( _('Unable to remove file %s'), $image_path );
     }
-
-    Page_delete( $projectid, $image );
 }
 
 // -----------------------------------------------------------------------------
