@@ -57,6 +57,8 @@ function project_drop_pages( $projectid )
     if ($writeBIGtable) {
         $result = mysql_query("DELETE FROM project_pages WHERE projectid = '$projectid'");
     }
+
+    _project_adjust_n_pages( $projectid, 'NONE' );
 }
 
 // -----------------------------------------------------------------------------
@@ -122,6 +124,8 @@ function Pages_prepForRound( $projectid, $round_number )
                 WHERE projectid = '$projectid'
             ");
         }
+
+        _project_adjust_n_available_pages( $projectid, 'ALL' );
     }
 }
 
@@ -181,6 +185,9 @@ function project_add_page(
         }
     }
 
+    _project_adjust_n_pages( $projectid, +1 );
+    _project_adjust_n_available_pages( $projectid, +1 );
+
     return $errs;
 }
 
@@ -221,6 +228,8 @@ function Page_delete( $projectid, $image )
         $sql = "DELETE FROM project_pages WHERE projectid = '$projectid' AND image = '$image'";
         mysql_query($sql);
     }
+
+    _project_adjust_n_pages( $projectid, -1 );
 }
 
 // -----------------------------------------------------------------------------
@@ -262,6 +271,8 @@ function Page_checkout( $projectid, $image, $round, $user )
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user'
     " );
+
+    _project_adjust_n_available_pages( $projectid, -1 );
 
     return $round->page_out_state;
 }
@@ -325,6 +336,8 @@ function Page_returnToRound( $projectid, $image, $round, $user )
         {$round->user_column_name}='$user'
     " );
 
+    _project_adjust_n_available_pages( $projectid, +1 );
+
     return $round->page_avail_state;
 }
 
@@ -336,6 +349,8 @@ function Page_reclaim( $projectid, $image, $round )
         state='{$round->page_avail_state}',
         {$round->time_column_name}=''
     " );
+
+    _project_adjust_n_available_pages( $projectid, +1 );
 }
 
 // -----------------------------------------------------------------------------
@@ -348,6 +363,8 @@ function Page_clearRound( $projectid, $image, $round )
         {$round->user_column_name}='',
         {$round->text_column_name}=''
     ");
+
+    _project_adjust_n_available_pages( $projectid, +1 );
 }
 
 // -----------------------------------------------------------------------------
@@ -372,6 +389,8 @@ function Page_eraseBadMark( $projectid, $image, $round )
         b_code='',
         {$round->user_column_name}=''
     " );
+
+    _project_adjust_n_available_pages( $projectid, +1 );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -388,6 +407,44 @@ function _Page_UPDATE( $projectid, $image, $settings )
         $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND image='$image'";
         $res = mysql_query($sql) or die(mysql_error());
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _project_adjust_n_pages( $projectid, $adjustment )
+{
+    if ( $adjustment == 'NONE' )
+    {
+        $expr = '0';
+    }
+    else
+    {
+        $expr = "n_pages + $adjustment";
+    }
+
+    mysql_query("
+        UPDATE projects
+        SET n_pages = $expr
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
+}
+
+function _project_adjust_n_available_pages( $projectid, $adjustment )
+{
+    if ( $adjustment == 'ALL' )
+    {
+        $expr = 'n_pages';
+    }
+    else
+    {
+        $expr = "n_available_pages + $adjustment";
+    }
+
+    mysql_query("
+        UPDATE projects
+        SET n_available_pages = $expr
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
 }
 
 // vim: sw=4 ts=4 expandtab
