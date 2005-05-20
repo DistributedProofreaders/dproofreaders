@@ -425,7 +425,7 @@ function _Page_UPDATE( $projectid, $image, $settings )
 
 function _project_adjust_n_pages( $projectid, $adjustment )
 {
-    if ( $adjustment == 'NONE' )
+    if ( $adjustment === 'NONE' )
     {
         $expr = '0';
     }
@@ -443,11 +443,11 @@ function _project_adjust_n_pages( $projectid, $adjustment )
 
 function _project_adjust_n_available_pages( $projectid, $adjustment )
 {
-    if ( $adjustment == 'NONE' )
+    if ( $adjustment === 'NONE' )
     {
         $expr = '0';
     }
-    else if ( $adjustment == 'ALL' )
+    else if ( $adjustment === 'ALL' )
     {
         $expr = 'n_pages';
     }
