@@ -59,6 +59,7 @@ function project_drop_pages( $projectid )
     }
 
     _project_adjust_n_pages( $projectid, 'NONE' );
+    _project_adjust_n_available_pages( $projectid, 'NONE' );
 }
 
 // -----------------------------------------------------------------------------
@@ -220,6 +221,13 @@ function Page_delete( $projectid, $image )
 {
     global $writeBIGtable;
 
+    $res = mysql_query("
+        SELECT COUNT(*)
+        FROM $projectid
+        WHERE image = '$image' AND state LIKE '%avail%'
+    ");
+    list($page_was_available) = mysql_fetch_row($res); // either 0 or 1
+
     $sql = "DELETE FROM $projectid WHERE image = '$image'";
     mysql_query($sql);
 
@@ -230,6 +238,10 @@ function Page_delete( $projectid, $image )
     }
 
     _project_adjust_n_pages( $projectid, -1 );
+    if ($page_was_available)
+    {
+        _project_adjust_n_available_pages( $projectid, -1 );
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -431,7 +443,11 @@ function _project_adjust_n_pages( $projectid, $adjustment )
 
 function _project_adjust_n_available_pages( $projectid, $adjustment )
 {
-    if ( $adjustment == 'ALL' )
+    if ( $adjustment == 'NONE' )
+    {
+        $expr = '0';
+    }
+    else if ( $adjustment == 'ALL' )
     {
         $expr = 'n_pages';
     }
