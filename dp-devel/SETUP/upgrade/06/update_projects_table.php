@@ -10,7 +10,6 @@ mysql_query("
         ADD special             VARCHAR(20) AFTER projectid,
         ADD n_pages             SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
         ADD n_available_pages   SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
-        ADD final_page_count    SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
         ADD ppverifier          VARCHAR(25),
         ADD image_provider      VARCHAR(10),
         ADD smoothread_deadline INT(20)     DEFAULT '0' NOT NULL,
