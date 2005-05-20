@@ -7,7 +7,6 @@ include_once($relPath.'dpsession.inc');
 include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'special_colors.inc');
 
 // the user_is functions don't work unless this has been executed previously!
@@ -193,12 +192,12 @@ elseif ( $order == 'PPD' )
 
 elseif ( $order == 'PgTotA' )
 {
-        $orderclause = 'total_pages ASC, nameofwork ASC';
+        $orderclause = 'n_pages ASC, nameofwork ASC';
         $flip_PgTot = TRUE;
 }
 elseif ( $order == 'PgTotD' )
 {
-        $orderclause = 'total_pages DESC, nameofwork ASC';
+        $orderclause = 'n_pages DESC, nameofwork ASC';
 }
 elseif ( $order == 'DaysA' )
 {
@@ -213,36 +212,6 @@ else
 {
         echo "smooth_reading.php: bad order value: '$order'";
         exit;
-}
-
-
-global $pageCountArray;
-
-if (empty($pageCountArray)) {
-    update_pageCountArray();
-}
-
-
-// make sure we have a figure for total pages of every available book
-
-$query = "
-          SELECT projectid
-          FROM projects
-          WHERE state = '{$round->project_available_state}'
-";
-
-$result = mysql_query($query);
-
-$numrows = mysql_num_rows($result);
-$rownum = 0;
-
-while ($rownum < $numrows) {
-        $book=mysql_fetch_assoc($result);
-        if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
-                project_update_page_counts( $book['projectid'] );
-                update_pageCountArray();
-        }
-        $rownum++;
 }
 
 $order_param = "orderSR";
@@ -264,13 +233,11 @@ $linkend = "'";
 
 $query = "
         SELECT projects.*,
-                page_counts.total_pages,
+                n_pages,
                 phpbb_users.user_id, 
                 round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left,
                 projects.username as PM
         FROM projects
-            LEFT OUTER JOIN page_counts
-                USING (projectid)
             LEFT OUTER JOIN phpbb_users
                 ON (phpbb_users.username = projects.checkedoutby)
         WHERE
@@ -400,7 +367,7 @@ while ($rownum2 < $numrows) {
 
             } 
 
-            echo "\n<td align=center>{$book['total_pages']}</td>";
+            echo "\n<td align=center>{$book['n_pages']}</td>";
 
             echo "\n<td align=center>{$book['days_left']}</td>";
 

@@ -207,7 +207,7 @@ abort_if_not_manager();
              }
 
 		$result = mysql_query("
-			SELECT projectid, nameofwork, authorsname, difficulty, checkedoutby, state, username, comments, special
+			SELECT *
 			FROM projects
 			WHERE $condition
 			ORDER BY nameofwork asc
@@ -337,22 +337,7 @@ abort_if_not_manager();
 			// Total
 			if ( $show_pages_total )
 			{
-
-				// get the total from the HEAP table if possible, only look at projectID table if have to
-				$totqry = mysql_query("SELECT total_pages FROM page_counts WHERE projectid = '$projectid'");
-				if (mysql_num_rows($totqry))
-	 				{
-						$totpag = mysql_result($totqry,0,"total_pages");
-					}
-				else
-					{
-						$dbQ = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
-						if ($dbQ != "") { $totpag=mysql_result($dbQ,0,"totalpages"); }
-						else
-							{
-								$totpag = 0;
-							}
-					}
+				$totpag = $project['n_pages'];
 
 			    echo "<td align=\"center\">$totpag</td>\n";
 			}

@@ -1,7 +1,6 @@
 <?
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
@@ -129,21 +128,21 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	}
 	elseif ( $order == 'PgAvA' )
 	{
-		$orderclause = 'avail_pages ASC, nameofwork ASC';
+		$orderclause = 'n_available_pages ASC, nameofwork ASC';
 		$flip_PgAv = TRUE;
 	}
 	elseif ( $order == 'PgAvD' )
 	{
-		$orderclause = 'avail_pages DESC, nameofwork ASC';
+		$orderclause = 'n_available_pages DESC, nameofwork ASC';
 	}
 	elseif ( $order == 'PgTotA' )
 	{
-		$orderclause = 'total_pages ASC, nameofwork ASC';
+		$orderclause = 'n_pages ASC, nameofwork ASC';
 		$flip_PgTot = TRUE;
 	}
 	elseif ( $order == 'PgTotD' )
 	{
-		$orderclause = 'total_pages DESC, nameofwork ASC';
+		$orderclause = 'n_pages DESC, nameofwork ASC';
 	}
 
 	// note that we SHOW "days since M", but *order* by M, so the logic is flipped
@@ -162,38 +161,6 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 		echo "showavailablebooks.inc: bad order value: '$order'";
 		exit;
 	}
-
-
-	global $pageCountArray;
-
-	if (empty($pageCountArray)) {
-		update_pageCountArray();
-	}
-
-
-	// make sure we have a figure for total pages of every available book
-
-	$query = "
-		SELECT projectid
-		FROM projects
-		WHERE state = '{$round->project_available_state}'
-	";
-
-	$result = mysql_query($query);
-
-	$numrows = mysql_num_rows($result);
-	$rownum = 0;
-
-	while ($rownum < $numrows) {
-		$book=mysql_fetch_assoc($result);
-		if ($pageCountArray[$book['projectid']]['avail_pages'] == 0) {
-			project_update_page_counts( $book['projectid'] );
-			update_pageCountArray();
-		}
-		$rownum++;
-	}
-
-
 
 	$order_param = "order{$round->id}";
 
@@ -217,10 +184,9 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 		SELECT *,
 			(difficulty = 'beginner') AS is_beginner,
 			round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
-		FROM projects, page_counts
+		FROM projects
 		WHERE
-			projects.projectid = page_counts.projectid
-		       	AND (state = '{$round->project_available_state}')
+		       	(state = '{$round->project_available_state}')
 			$where_filter
 		ORDER BY
 			is_beginner DESC,
@@ -328,8 +294,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 			echo "\n<td>$genre</td>";
 			echo "\n<td>{$book['username']}</td>";
 
-			echo "\n<td align=center>{$book['avail_pages']}</td>";
-			echo "\n<td align=center>{$book['total_pages']}</td>";
+			echo "\n<td align=center>{$book['n_available_pages']}</td>";
+			echo "\n<td align=center>{$book['n_pages']}</td>";
 
 			echo "\n<td align=center>{$book['days_avail']}</td>";
 

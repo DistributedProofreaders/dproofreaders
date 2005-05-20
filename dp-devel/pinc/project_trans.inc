@@ -4,7 +4,6 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'f_move_post.inc');
@@ -360,9 +359,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		// Releasing the project.
 		// Update the corresponding projectID* table.
 		Pages_prepForRound( $projectid, 1 );
-
-		// Update the page_counts table.
-		project_update_page_counts( $projectid );
 	}
 
 

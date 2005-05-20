@@ -12,7 +12,6 @@ $db_Connection=new dbConnect();
 include_once($relPath.'stages.inc');
 include($relPath.'projectinfo.inc');
 include($relPath.'project_trans.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'page_ops.inc');
 
 include('autorelease.php');
@@ -236,8 +235,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             }
         }
 
-        project_update_page_counts( $projectid );
-
         if ($verbose)
         {
             ensure_project_blurb( $project );
@@ -257,8 +254,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         && $round->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
     {
         $next_round = get_Round_for_round_number( 1 + $round->round_number );
-
-        project_update_page_counts( $projectid );
 
         if ( hold_project_between_rounds( $project ) )
         {

@@ -350,7 +350,7 @@ function AP_setup( $round )
 //     projectid
 //     pages = number of pages yet to receive proofreading in this round
 //
-// This table is similar to page_counts,
+// This table is similar to projects.n_available_pages
 // but contains slightly different information.
 // Maybe they could be merged.
 {

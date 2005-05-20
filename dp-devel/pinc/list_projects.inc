@@ -2,7 +2,6 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'pg.inc');
 new dbConnect();
 
@@ -10,14 +9,8 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
 // List the specified projects,
 // giving brief information about each.
 {
-    global $pageCountArray;
     global $code_url;
     global $site_supports_corrections_after_posting;
-
-    if ( empty($pageCountArray) )
-    {
-        update_pageCountArray();
-    }
 
     $result = mysql_query("
         SELECT *
@@ -62,30 +55,8 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
         // Second line
 
         // Number of pages
-        if (0)
-        {
-            $res = mysql_query("SELECT COUNT(*) FROM $projectid");
-            if ($res)
-            {
-                $totalpages = mysql_result($res,0);
-            }
-            else
-            {
-                // Probably the $projectid table is gone.
-                $totalpages = 0;
-            }
-        }
-        else
-        {
-            if ( isset($pageCountArray[$projectid]) )
-            {
-                $totalpages = $pageCountArray[$projectid]['total_pages'];
-            }
-            else
-            {
-                $totalpages = 0;
-            }
-        }
+        $totalpages = $project['n_pages'];
+
         if ($totalpages != 0)
         {
             echo "$totalpages " . _("pages") . "; ";

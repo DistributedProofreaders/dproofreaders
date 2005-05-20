@@ -7,7 +7,6 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'bookpages.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
 
@@ -59,11 +58,6 @@ The page will let you see the project comments
   as well as download the associated text and image files.
 </p>
 ";
-
-if ( empty($pageCountArray) )
-{
-    update_pageCountArray();
-}
 
 // special colours legend
 // Don't display if the user has selected the
@@ -163,7 +157,7 @@ function show_projects_in_state_plus(
 
     $table = 1;
 
-    global $code_url, $pageCountArray;
+    global $code_url;
 
     $flip_title = FALSE;
     $flip_author = FALSE;
@@ -213,12 +207,12 @@ function show_projects_in_state_plus(
     }
     elseif ( $new_order == 'PgTotA' )
     {
-        $orderclause = 'total_pages ASC, nameofwork ASC';
+        $orderclause = 'n_pages ASC, nameofwork ASC';
         $flip_PgTot = TRUE;
     }
     elseif ( $new_order == 'PgTotD' )
     {
-        $orderclause = 'total_pages DESC, nameofwork ASC';
+        $orderclause = 'n_pages DESC, nameofwork ASC';
     }
     elseif ( $new_order == 'PersonA' )
     {
@@ -262,7 +256,7 @@ function show_projects_in_state_plus(
 
     $query = "
         SELECT
-            projects.projectid,
+            projectid,
             nameofwork,
             authorsname,
             language,
@@ -275,10 +269,9 @@ function show_projects_in_state_plus(
             special,
             difficulty, 
             round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail,
-            total_pages,
+            n_pages,
             comments
         FROM projects
-            LEFT OUTER JOIN page_counts USING (projectid)
         WHERE state='$proj_state'
             $RFilter 
     ";
@@ -420,7 +413,7 @@ function show_projects_in_state_plus(
         }
 
         echo "\n<td $bgcolor_attr align=center>$genre</td>";
-        echo "\n<td $bgcolor_attr align=center> ". $book['total_pages']. " </td>";
+        echo "\n<td $bgcolor_attr align=center> ". $book['n_pages']. " </td>";
         echo "\n<td $bgcolor_attr align=center>$foo_cell</td>";
         echo "\n<td $bgcolor_attr align=center> ". $book['days_avail']. " </td>";
 

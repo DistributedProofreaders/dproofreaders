@@ -396,9 +396,6 @@ if (0)
 	// include_once($relPath.'../tools/project_manager/projectmgr_select.inc');
 	// ksort($transition_options_); var_dump($transition_options_);
 
-	// include_once($relPath.'bookpages.inc');
-	// project_update_page_counts('FOO');
-
 	include_once($relPath.'stages.inc');
 
 	echo "\nget_Round_for_round_id:\n";
@@ -462,28 +459,6 @@ if (0)
 		";
 		$res2 = mysql_query($q) or die( "$projectid: " . mysql_error() );
 		if ( mysql_num_rows($res2) > 0 ) echo "$projectid\n";
-	}
-}
-
-if (0)
-{
-	// Regenerate page counts for projects in Post.
-	include_once($relPath.'bookpages.inc');
-	$res = mysql_query("
-		SELECT projectid,nameofwork
-		FROM projects
-		WHERE 0
-		OR state='".PROJ_POST_FIRST_UNAVAILABLE."'
-		OR state='".PROJ_POST_FIRST_AVAILABLE."'
-		OR state='".PROJ_POST_FIRST_CHECKED_OUT."'
-		OR state='".PROJ_POST_SECOND_AVAILABLE."'
-		OR state='".PROJ_POST_SECOND_CHECKED_OUT."'
-		OR state='".PROJ_POST_COMPLETE."'
-	");
-	while ( list($projectid,$nameofwork) = mysql_fetch_row($res) )
-	{
-		echo "$nameofwork<br>";
-		project_update_page_counts($projectid);
 	}
 }
 
