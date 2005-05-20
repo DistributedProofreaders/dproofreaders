@@ -1,7 +1,10 @@
 <?PHP
-
+include_once($relPath."Quiz.inc");
 function quizsolved()
 {
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"step3","pass");
 }
 
 $browser_title                = "DP -- Proofreading Quiz";

@@ -1,14 +1,17 @@
 <?PHP
-
+include_once($relPath."Quiz.inc");
 function quizsolved()
 {
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"step1","pass");
 }
 
 $browser_title                = "DP -- Proofreading Quiz";
 $ocr_text                     = "Good-natured and unsuspicious,\nperhaps also not sufficiently vigilant,\nHarvey was long in discovering how\nhe was pillaged. Cartwright, the\nname of tbe person who was preying\non his employer, was not a young\nman. He was between forty and fifty\nyears of age, and had been in various\nsituations, where he had always given";  
 $solutions                    = array("Good-natured and unsuspicious,\nperhaps also not sufficiently <i>vigilant</i>,\nHarvey was long in discovering how\nhe was pillaged. <b>Cartwright</b>, the\nname of the person who was preying\non his employer, was not a young\nman. He was between forty and fifty\nyears of age, and had been in various\nsituations, where he had always given");
 $showsolution                 = TRUE;
-$welcome                 = "<h2>Quiz, part 1</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
+$welcome                      = "<h2>Quiz, part 1</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 1 of quiz successfully solved</h2>\nCongratulations, no errors found!";
 $links_out                    = "<a href='../2/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step2' target='_top'>Next step of quiz</a>";
 
