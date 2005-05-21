@@ -22,6 +22,7 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("/*"), "case_se
 $tests[] = array("type" => "expectedtext", "searchtext" => array("*/"), "case_sensitive" => TRUE, "error" => "nopoetry");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("/#"), "case_sensitive" => TRUE, "error" => "nobc");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("#/"), "case_sensitive" => TRUE, "error" => "nobc");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "<b>Byron's</b>", "case_sensitive" => TRUE, "error" => "boldfont");
 $tests[] = array("type" => "wrongtextorder", "firsttext" => "words", "secondtext" => "/#", "case_sensitive" => TRUE, "error" => "bqtoomuch");
 $tests[] = array("type" => "wrongtextorder", "firsttext" => "#/", "secondtext" => "Not at", "case_sensitive" => TRUE, "error" => "bqtoomuch");
 $tests[] = array("type" => "expectedlinebreaks", "number" => 2, "starttext" => "Byron's poem", "stoptext" => "/*", "case_sensitive" => TRUE, "errorhigh" => "pmspacing", "errorlow" => "pmspacing");
@@ -57,7 +58,7 @@ $messages["plinenotjoined"] = array("message_text" => "<h2>Poetry line not joine
 $messages["pmspacing"] = array("message_text" => "<h2>Poetry markup</h2>\nPlease leave exactly one empty line before the poetry starting marker /*. Also leave one blank line after the poetry closing marker */.", "hints" => array());
 $messages["poetrymarkerown"] = array("message_text" => "<h2>Problem with Poetry or Block Quotation markup</h2>\nPlease put the poetry markers /* and */ and block quotation markers /# and #/ each on a line of their own.", "hints" => array());
 $messages["bqtoomuch"] = array("message_text" => "<h2>Block quotation markup wrong</h2>\nYou've included too much text in the block quotation.", "hints" => array());
-
+$messages["boldfont"] = array("message_text" => "<h2>Font change marked as bold</h2>\nYou've marked a change in font as bold. In general, ignore changes in font or font size.", "hints" => array());
 ?>
 
 
