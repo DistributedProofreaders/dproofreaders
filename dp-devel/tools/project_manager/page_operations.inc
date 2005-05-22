@@ -10,8 +10,6 @@ include_once($relPath.'page_tally.php');
 
 function page_del( $projectid, $fileid )
 {
-    // Delete the image file from the project directory.
-    global $projects_dir;
     $result = mysql_query("
         SELECT image
         FROM $projectid
@@ -25,6 +23,8 @@ function page_del( $projectid, $fileid )
 
     Page_delete( $projectid, $image );
 
+    // Delete the image file from the project directory.
+    global $projects_dir;
     $image_path = "$projects_dir/$projectid/$image";
     if ( ! unlink($image_path) )
     {
