@@ -19,8 +19,7 @@ dpsql_query("
         tally_name   CHAR(2)          NOT NULL,
         tally_value  INT(8)           NOT NULL,
 
-        PRIMARY KEY (holder_type, holder_id, tally_name),
-        INDEX rank_arena (holder_type, tally_name),
+        PRIMARY KEY (tally_name, holder_type, holder_id)
     )
 ") or die("Aborting.");
 
