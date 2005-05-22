@@ -735,6 +735,8 @@ class Loader
 
     function execute()
     {
+        global $pguser;
+
         assert( $this->n_errors == 0 );
 
         $this->dry_run = FALSE;
@@ -773,6 +775,7 @@ class Loader
                             $base,
                             $src_image_file_name,
                             $src_text_file_path,
+                            $pguser,
                             $now );<br>
                     ";
                 }
@@ -783,6 +786,7 @@ class Loader
                         $base,
                         $src_image_file_name,
                         $src_text_file_path,
+                        $pguser,
                         $now );
                     if ( $errs )
                     {
@@ -804,7 +808,8 @@ class Loader
                             Page_replaceText(
                                 $this->projectid,
                                 $db_image_file_name,
-                                $src_text_file_path );
+                                $src_text_file_path,
+                                $pguser );
                         ";
                     }
                     else
@@ -812,7 +817,8 @@ class Loader
                         Page_replaceText(
                             $this->projectid,
                             $db_image_file_name,
-                            $src_text_file_path );
+                            $src_text_file_path,
+                            $pguser );
                     }
                 }
 
@@ -828,7 +834,8 @@ class Loader
                                 Page_replaceImage(
                                     $this->projectid,
                                     $db_image_file_name,
-                                    $src_image_file_name );
+                                    $src_image_file_name,
+                                    $pguser );
                             ";
                         }
                         else
@@ -836,7 +843,8 @@ class Loader
                             Page_replaceImage(
                                 $this->projectid,
                                 $db_image_file_name,
-                                $src_image_file_name );
+                                $src_image_file_name,
+                                $pguser );
                         }
 
                         $this->_do_command(

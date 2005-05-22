@@ -114,7 +114,7 @@ if (!isset($_POST['resolution'])) {
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
         $prev_text = $_POST['prev_text'];
         $prevtext_column = $_POST['prevtext_column'];
-        Page_modifyText( $projectid, $image, $prev_text, $prevtext_column );
+        Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
         echo "<b>Update of Text from Previous Round Complete!</b>";
 
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
@@ -147,7 +147,7 @@ if (!isset($_POST['resolution'])) {
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
         $round = get_Round_for_page_state($state);
-        Page_eraseBadMark( $projectid, $image, $round );
+        Page_eraseBadMark( $projectid, $image, $round, $pguser );
     }
 
     //Redirect the user back to the project detail page.

@@ -213,7 +213,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
         while ( list($image) = mysql_fetch_row($res) )
         {
-            Page_reclaim( $projectid, $image, $round );
+            Page_reclaim( $projectid, $image, $round, '[automodify.php]' );
         }
 
 

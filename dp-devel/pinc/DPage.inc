@@ -137,6 +137,7 @@ function project_add_page(
     $fileid,
     $image_file_name,
     $txt_file_path, // must be absolute for LOAD_FILE
+    $user,
     $now )
 {
     global $writeBIGtable;
@@ -217,7 +218,7 @@ function file_content_expr( $file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_delete( $projectid, $image )
+function Page_delete( $projectid, $image, $user )
 {
     global $writeBIGtable;
 
@@ -246,7 +247,7 @@ function Page_delete( $projectid, $image )
 
 // -----------------------------------------------------------------------------
 
-function Page_replaceImage( $projectid, $image, $new_image )
+function Page_replaceImage( $projectid, $image, $new_image, $user )
 // e.g., replace 001.png with 001.jpg
 {
     _Page_UPDATE( $projectid, $image, "
@@ -256,7 +257,7 @@ function Page_replaceImage( $projectid, $image, $new_image )
 
 // -----------------------------------------------------------------------------
 
-function Page_replaceText( $projectid, $image, $text_file_path )
+function Page_replaceText( $projectid, $image, $text_file_path, $user )
 {
     $text_file_content_expr = file_content_expr( $text_file_path );
     _Page_UPDATE( $projectid, $image, "
@@ -266,7 +267,7 @@ function Page_replaceText( $projectid, $image, $text_file_path )
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyText( $projectid, $image, $page_text, $text_column )
+function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
     _Page_UPDATE( $projectid, $image, 
         $text_column."='$page_text'");
@@ -355,7 +356,7 @@ function Page_returnToRound( $projectid, $image, $round, $user )
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim( $projectid, $image, $round )
+function Page_reclaim( $projectid, $image, $round, $user )
 {
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
@@ -367,7 +368,7 @@ function Page_reclaim( $projectid, $image, $round )
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound( $projectid, $image, $round )
+function Page_clearRound( $projectid, $image, $round, $user )
 {
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
@@ -393,7 +394,7 @@ function Page_markAsBad( $projectid, $image, $round, $user, $reason )
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark( $projectid, $image, $round )
+function Page_eraseBadMark( $projectid, $image, $round, $user )
 {
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',

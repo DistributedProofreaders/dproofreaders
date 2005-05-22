@@ -21,7 +21,8 @@ function page_del( $projectid, $fileid )
     }
     list($image) = mysql_fetch_row($result);
 
-    Page_delete( $projectid, $image );
+    global $pguser;
+    Page_delete( $projectid, $image, $pguser );
 
     // Delete the image file from the project directory.
     global $projects_dir;
@@ -71,7 +72,8 @@ function page_clear( $projectid, $fileid )
     // ------------------------------------------------
     // now clear the page
 
-    Page_clearRound( $projectid, $image, $round );
+    global $pguser;
+    Page_clearRound( $projectid, $image, $round, $pguser );
 }
 
 ?>
