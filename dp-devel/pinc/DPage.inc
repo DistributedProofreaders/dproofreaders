@@ -187,6 +187,8 @@ function project_add_page(
         }
     }
 
+    _log_page_event( $projectid, $image_file_name, 'add', $user, NULL );
+
     _project_adjust_n_pages( $projectid, +1 );
     _project_adjust_n_available_pages( $projectid, +1 );
 
@@ -238,6 +240,8 @@ function Page_delete( $projectid, $image, $user )
         mysql_query($sql);
     }
 
+    _log_page_event( $projectid, $image, 'delete', $user, NULL );
+
     _project_adjust_n_pages( $projectid, -1 );
     if ($page_was_available)
     {
@@ -253,6 +257,8 @@ function Page_replaceImage( $projectid, $image, $new_image, $user )
     _Page_UPDATE( $projectid, $image, "
         image='$new_image'
     ");
+
+    _log_page_event( $projectid, $image, 'replaceImage', $user, NULL ); // $new_image
 }
 
 // -----------------------------------------------------------------------------
@@ -263,6 +269,8 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
     _Page_UPDATE( $projectid, $image, "
         master_text=$text_file_content_expr
     ");
+
+    _log_page_event( $projectid, $image, 'replaceText', $user, NULL );
 }
 
 // -----------------------------------------------------------------------------
@@ -271,6 +279,8 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
     _Page_UPDATE( $projectid, $image, 
         $text_column."='$page_text'");
+
+    _log_page_event( $projectid, $image, 'modifyText', $user, NULL );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -284,6 +294,8 @@ function Page_checkout( $projectid, $image, $round, $user )
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user'
     " );
+
+    _log_page_event( $projectid, $image, 'checkout', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, -1 );
 
@@ -303,6 +315,8 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
         {$round->text_column_name}='$page_text'
     " );
 
+    _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round );
+
     return $round->page_temp_state;
 }
 
@@ -319,6 +333,8 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
         {$round->text_column_name}='$page_text'
     " );
 
+    _log_page_event( $projectid, $image, 'saveAsDone', $user, $round );
+
     return $round->page_save_state;
 }
 
@@ -333,6 +349,8 @@ function Page_reopen( $projectid, $image, $round, $user )
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user'
     " );
+
+    _log_page_event( $projectid, $image, 'reopen', $user, $round );
 
     return $round->page_temp_state;
 }
@@ -349,6 +367,8 @@ function Page_returnToRound( $projectid, $image, $round, $user )
         {$round->user_column_name}='$user'
     " );
 
+    _log_page_event( $projectid, $image, 'returnToRound', $user, $round );
+
     _project_adjust_n_available_pages( $projectid, +1 );
 
     return $round->page_avail_state;
@@ -362,6 +382,8 @@ function Page_reclaim( $projectid, $image, $round, $user )
         state='{$round->page_avail_state}',
         {$round->time_column_name}=''
     " );
+
+    _log_page_event( $projectid, $image, 'reclaim', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -377,6 +399,8 @@ function Page_clearRound( $projectid, $image, $round, $user )
         {$round->text_column_name}=''
     ");
 
+    _log_page_event( $projectid, $image, 'clearRound', $user, $round );
+
     _project_adjust_n_available_pages( $projectid, +1 );
 }
 
@@ -390,6 +414,8 @@ function Page_markAsBad( $projectid, $image, $round, $user, $reason )
         b_code=$reason,
         {$round->text_column_name}={$round->prevtext_column_name}
     " );
+
+    _log_page_event( $projectid, $image, 'markAsBad', $user, $round );
 }
 
 // -----------------------------------------------------------------------------
@@ -402,6 +428,8 @@ function Page_eraseBadMark( $projectid, $image, $round, $user )
         b_code='',
         {$round->user_column_name}=''
     " );
+
+    _log_page_event( $projectid, $image, 'eraseBadMark', $user, $round );
 
     _project_adjust_n_available_pages( $projectid, +1 );
 }
@@ -420,6 +448,26 @@ function _Page_UPDATE( $projectid, $image, $settings )
         $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND image='$image'";
         $res = mysql_query($sql) or die(mysql_error());
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _log_page_event( $projectid, $image, $event_type, $username, $round )
+{
+    assert( strlen($event_type) <= 16 );
+
+    $round_id_setting = ( is_null($round) ? 'NULL' : "'$round->id'" );
+
+    mysql_query("
+        INSERT INTO page_events
+        SET
+            timestamp    = UNIX_TIMESTAMP(),
+            projectid    = '$projectid',
+            image        = '$image',
+            event_type   = '$event_type',
+            username     = '$username',
+            round_id     = $round_id_setting
+    ") or die(mysql_error());
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
