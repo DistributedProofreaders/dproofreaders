@@ -116,11 +116,11 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
 
 if ($tbutton==B_SAVE_AND_DO_ANOTHER || $tbutton==B_SAVE_AND_QUIT)
 {
-	$tpage->saveComplete($text_data,$pguser,$userP);
+	$tpage->saveComplete($text_data,$pguser);
 }
 else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 {
-	$tpage->returnPage($pguser,$userP);
+	$tpage->returnPage($pguser);
 }
 
 if ($tbutton==B_SAVE_AND_DO_ANOTHER)

@@ -62,7 +62,7 @@ function get_available_page( $project, $proofstate, $pguser )
 
 // -----------------------------------------------------------------------------
 
-function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser, $userP )
+function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser )
 {
     $round = get_Round_for_project_state($proofstate);
 
@@ -178,7 +178,7 @@ function setPageState($pagestate,$project,$imagefile,$proofstate)
   $this->round = get_Round_for_page_state($pagestate);
 }
 
-function addUserCount($pguser,$userP)
+function addUserCount($pguser)
 {
   $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}'";
   $result=mysql_query($sql);
@@ -200,9 +200,9 @@ function saveTemp($text_data,$pguser)
   return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
 }
 
-function saveComplete($text_data,$pguser,$userP)
+function saveComplete($text_data,$pguser)
 {
-  $this->addUserCount($pguser,$userP);
+  $this->addUserCount($pguser);
   return Page_saveAsDone( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
 }
 
@@ -230,7 +230,7 @@ function exitInterface($newwin,$editone)
       }
 }
 
-function returnPage($pguser,$userP)
+function returnPage($pguser)
 {
   return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
 }
