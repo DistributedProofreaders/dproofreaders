@@ -32,7 +32,7 @@ echo "Copying user page-tallies from 'member_stats' table to 'past_tallies'...\n
 
 dpsql_query("
     INSERT INTO past_tallies
-    SELECT date_updated, 'U', u_id, 'P', daily_pagescompleted, total_pagescompleted, rank
+    SELECT date_updated, 'U', u_id, 'R*', daily_pagescompleted, total_pagescompleted, rank
     FROM member_stats
 ") or die("Aborting.");
 
@@ -50,7 +50,7 @@ echo "Copying team page-tallies from 'user_teams_stats' table to 'past_tallies'.
 
 dpsql_query("
     INSERT INTO past_tallies
-    SELECT date_updated, 'T', team_id, 'P', daily_page_count, total_page_count, rank
+    SELECT date_updated, 'T', team_id, 'R*', daily_page_count, total_page_count, rank
     FROM user_teams_stats
 ") or die("Aborting.");
 

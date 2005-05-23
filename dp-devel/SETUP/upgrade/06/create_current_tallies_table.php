@@ -28,7 +28,7 @@ dpsql_query("
 
 dpsql_query("
     INSERT INTO current_tallies
-    SELECT 'P', 'U', u_id, pagescompleted
+    SELECT 'R*', 'U', u_id, pagescompleted
     FROM users
     ORDER BY u_id
 ") or die("Aborting.");
@@ -48,7 +48,7 @@ dpsql_query("
 
 dpsql_query("
     INSERT INTO current_tallies
-    SELECT 'P', IF(id=1,'S','T'), id, page_count
+    SELECT 'R*', IF(id=1,'S','T'), id, page_count
     FROM user_teams
     ORDER BY id
 ") or die("Aborting.");
