@@ -499,19 +499,17 @@ class TallyBoard
     // -- the earliest timestamp for which that rank was recorded.
     {
         $result = mysql_query("
-            SELECT tally_rank, timestamp
-            FROM past_tallies
+            SELECT best_rank, best_rank_timestamp
+            FROM best_tally_rank
             WHERE
                 tally_name      = '$this->tally_name'
                 AND holder_type = '$this->holder_type'
                 AND holder_id   = $holder_id
-            ORDER BY tally_rank ASC, timestamp ASC
-            LIMIT 1
         ") or die(mysql_error());
 
         if ( mysql_num_rows($result) == 0 )
         {
-            // That holder does not appear in any snapshot for this TallyBoard.
+            // That holder does not appear on this TallyBoard.
             $best_rank = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
             return array( $best_rank, $timestamp );
