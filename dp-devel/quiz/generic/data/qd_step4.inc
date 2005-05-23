@@ -13,7 +13,7 @@ $solutions                    = array("printing would be good for nothing but\nw
 $showsolution                 = TRUE;
 $welcome                      = "<h2>Quiz, part 4</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 4 of quiz successfully solved</h2>\nCongratulations, no errors found!";
-$links_out                    = "<a href='../5/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step5' target='_top'>Next step of quiz</a>";
+$links_out                    = "<a href='../tuts/tut5.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step5' target='_top'>Next step of quiz</a>";
 
 
 

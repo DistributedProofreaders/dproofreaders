@@ -13,7 +13,7 @@ $solutions                    = array("repentant and remorseful agony.\n\n\n\n\n
 $showsolution                 = TRUE;
 $welcome                 = "<h2>Quiz, part 3</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 3 of quiz successfully solved</h2>\nCongratulations, no errors found!";
-$links_out                    = "<a href='../4/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step4' target='_top'>Next step of quiz</a>";
+$links_out                    = "<a href='../tuts/tut4.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step4' target='_top'>Next step of quiz</a>";
 
 
 

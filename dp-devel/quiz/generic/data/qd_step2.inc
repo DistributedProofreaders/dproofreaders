@@ -13,7 +13,7 @@ $solutions                    = array("a detective, why was he watching? There w
 $showsolution                 = TRUE;
 $welcome                 = "<h2>Quiz, part 2</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 2 of quiz successfully solved</h2>\nCongratulations, no errors found!";
-$links_out                    = "<a href='../3/tut.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step3' target='_top'>Next step of quiz</a>";
+$links_out                    = "<a href='../tuts/tut3.php' target='_top'>Next step of tutorial</a><br>\n<a href='../generic/main.php?type=step3' target='_top'>Next step of quiz</a>";
 
 
 
