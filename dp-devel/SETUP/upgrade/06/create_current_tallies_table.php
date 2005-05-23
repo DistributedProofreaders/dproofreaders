@@ -14,12 +14,12 @@ header('Content-type: text/plain');
 
 dpsql_query("
     CREATE TABLE current_tallies (
+        tally_name   CHAR(2)          NOT NULL,
         holder_type  CHAR(1)          NOT NULL,
         holder_id    INT(6)  UNSIGNED NOT NULL,
-        tally_name   CHAR(2)          NOT NULL,
-        tally_value  INT(8)           NOT NULL,
+        PRIMARY KEY (tally_name, holder_type, holder_id),
 
-        PRIMARY KEY (tally_name, holder_type, holder_id)
+        tally_value  INT(8)           NOT NULL,
     )
 ") or die("Aborting.");
 
@@ -28,7 +28,7 @@ dpsql_query("
 
 dpsql_query("
     INSERT INTO current_tallies
-    SELECT 'U', u_id, 'P', pagescompleted
+    SELECT 'P', 'U', u_id, pagescompleted
     FROM users
     ORDER BY u_id
 ") or die("Aborting.");
@@ -48,7 +48,7 @@ dpsql_query("
 
 dpsql_query("
     INSERT INTO current_tallies
-    SELECT IF(id=1,'S','T'), id, 'P', page_count
+    SELECT 'P', IF(id=1,'S','T'), id, page_count
     FROM user_teams
     ORDER BY id
 ") or die("Aborting.");
