@@ -639,24 +639,8 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	align="top"
 	alt="<? echo _("Help"); ?>"
 	title="<? echo _("Help"); ?>"
-></a><a
-	href="<?PHP
-  if($userP['i_newwin']==0)
-    {echo "$code_url/activity_hub.php";}
-  else
-    {echo "JavaScript:window.parent.close();";}
-?>"
-	target="_top"
-	onclick="return(confirm('Are you sure you want to \r\n\r\nExit the Interface?'));"
-	><img
-	src="gfx/tags/exit.png"
-	width="18"
-	height="18"
-	border="0"
-	align="top"
-	alt="<? echo _("Exit"); ?>"
-	title="<? echo _("Exit"); ?>"
-></a></td></tr><tr><td
+></a>
+</td></tr><tr><td
 	valign="top"
 	colspan="3"
 	align="center">
