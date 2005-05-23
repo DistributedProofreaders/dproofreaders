@@ -318,6 +318,7 @@ class TallyBoard
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
         $prev_tally_for_ = array();
+        $best_rank_for_  = array();
         if ( is_null($prev_ascribe_time) )
         {
             // No previous snapshot on this TallyBoard.
@@ -347,6 +348,19 @@ class TallyBoard
             while ( list($holder_id, $prev_tally_value) = mysql_fetch_row($result) )
             {
                 $prev_tally_for_[$holder_id] = $prev_tally_value;
+            }
+
+            // Get everyone's best tally-rank so far.
+            $result = mysql_query("
+                SELECT holder_id, best_rank
+                FROM best_tally_rank
+                WHERE
+                    tally_name      = '$this->tally_name'
+                    AND holder_type = '$this->holder_type'
+            ") or die(mysql_error());
+            while ( list($holder_id, $best_rank ) = mysql_fetch_row($result) )
+            {
+                $best_rank_for_[$holder_id] = $best_rank;
             }
         }
 
@@ -386,6 +400,29 @@ class TallyBoard
             else
             {
                 mysql_query($query) or die(mysql_error());
+            }
+
+            if ( $rank > 0 && ( !isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id] ) )
+            {
+                $query = "
+                    REPLACE INTO best_tally_rank
+                    SET
+                        tally_name  = '$this->tally_name',
+                        holder_type = '$this->holder_type',
+                        holder_id   = $holder_id,
+                        best_rank   = $rank,
+                        best_rank_timestamp = $ascribe_time
+                ";
+                if ($dry_run)
+                {
+                    // Normalize whitespace
+                    $query = preg_replace('/\s+/', ' ', trim($query));
+                    echo "$query\n";
+                }
+                else
+                {
+                    mysql_query($query) or die(mysql_error());
+                }
             }
         }
     }
