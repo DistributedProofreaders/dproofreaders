@@ -1,14 +1,17 @@
 <?PHP
 
-// One-time script to create & populate 'past_tallies' table
+// One-time script to create 'past_tallies' table
+// and populate it from 'member_stats' and 'user_teams_stats'.
 
 $relPath='../../../pinc/';
 include_once($relPath.'connect.inc');
 include_once($relPath.'f_dpsql.inc');
 new dbConnect();
 
+header( 'Content-type: text/plain');
+
 // -----------------------------------------------
-// Create 'past_tallies' table.
+echo "Creating 'past_tallies' table...\n";
 
 dpsql_query("
     CREATE TABLE past_tallies (
@@ -25,7 +28,7 @@ dpsql_query("
 ") or die("Aborting.");
 
 // -----------------------------------------------
-// Move user page-tallies from 'member_stats' table.
+echo "Copying user page-tallies from 'member_stats' table to 'past_tallies'...\n";
 
 dpsql_query("
     INSERT INTO past_tallies
@@ -33,6 +36,7 @@ dpsql_query("
     FROM member_stats
 ") or die("Aborting.");
 
+echo "Renaming 'member_stats' table...\n";
 // For ease of backing out during testing,
 // merely rename 'member_stats' table, rather than dropping it.
 dpsql_query("
@@ -42,7 +46,7 @@ dpsql_query("
 // DROP TABLE member_stats
 
 // -----------------------------------------------
-// Move team page-tallies from 'user_teams_stats' table.
+echo "Copying team page-tallies from 'user_teams_stats' table to 'past_tallies'...\n";
 
 dpsql_query("
     INSERT INTO past_tallies
@@ -50,6 +54,7 @@ dpsql_query("
     FROM user_teams_stats
 ") or die("Aborting.");
 
+echo "Renaming 'user_teams_stats' table...\n";
 // For ease of backing out during testing,
 // merely rename 'user_teams_stats' table, rather than dropping it.
 dpsql_query("
@@ -60,7 +65,7 @@ dpsql_query("
 
 // -----------------------------------------------
 
-echo "Done!";
+echo "Done!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>
