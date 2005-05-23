@@ -251,13 +251,6 @@ class PageTally_Neighbor
     function get_u_id()                    { return $this->u_id; }
     function get_current_page_tally()      { return $this->current_page_tally; }
     function get_current_page_tally_rank() { return $this->current_page_tally_rank; }
-
-    function get_latest_saved_page_tally_rank()
-    {
-        $info = $this->tallyboard->get_info_from_latest_snapshot($this->u_id);
-
-        return $info['tally_rank'];
-    }
 }
 
 // -----------------------------------------------------------------------------

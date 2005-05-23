@@ -388,8 +388,7 @@ class TallyBoard
                     holder_type = '$this->holder_type',
                     holder_id   = $holder_id,
                     tally_delta = $tally_delta,
-                    tally_value = $current_tally,
-                    tally_rank  = $rank
+                    tally_value = $current_tally
             ";
             if ($dry_run)
             {
@@ -459,10 +458,9 @@ class TallyBoard
     //     'timestamp'
     //     'tally_delta'
     //     'tally_value'
-    //     'tally_rank'
     {
         $result = mysql_query("
-            SELECT timestamp, tally_delta, tally_value, tally_rank
+            SELECT timestamp, tally_delta, tally_value
             FROM past_tallies
             WHERE
                 tally_name      = '$this->tally_name'
@@ -485,8 +483,7 @@ class TallyBoard
             $info = array(
                 'timestamp' => $timestamp,
                 'tally_delta' => 0,
-                'tally_value' => 0,
-                'tally_rank'  => 0
+                'tally_value' => 0
             );
         }
         else
@@ -628,7 +625,6 @@ class TallyBoard
         $obj->latest_snapshot_timestamp = $snapshot_info['timestamp'];
         $obj->latest_snapshot_delta     = $snapshot_info['tally_delta'];
         $obj->latest_snapshot_tally     = $snapshot_info['tally_value'];
-        $obj->latest_snapshot_rank      = $snapshot_info['tally_rank'];
 
         list($obj->best_delta, $obj->best_delta_timestamp) =
             $this->get_info_re_largest_delta($holder_id);

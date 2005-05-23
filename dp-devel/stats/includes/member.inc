@@ -317,7 +317,6 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$t->row(
 		_("Overall Rank"),
 		number_format($vitals->current_rank)
-		. showChangeInRank( $vitals->latest_snapshot_rank, $vitals->current_rank )
 	);
 	$t->row(
 		_("Highest Rank"),
@@ -360,7 +359,6 @@ function showMbrNeighbors($curMbr, $tally_name) {
 	foreach ( $neighbors as $rel_posn => $neighbor )
 	{
 		$rank = $neighbor->get_current_page_tally_rank();
-		$latestSavedRank = $neighbor->get_latest_saved_page_tally_rank();
 		$pagescompleted = number_format($neighbor->get_current_page_tally());
 
 		if (!$neighbor->is_anonymized()) {
@@ -377,7 +375,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 			$day_html = "--/--/-- <i>(--- "._("days").")</i>";
 		}
 		$t->row(
-			$rank . showChangeInRank( $latestSavedRank, $rank ),
+			$rank,
 			$username_html,
 			$day_html,
 			$pagescompleted

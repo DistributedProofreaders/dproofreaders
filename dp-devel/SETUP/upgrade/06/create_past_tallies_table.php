@@ -78,7 +78,6 @@ dpsql_query("
         tally_name   CHAR(2)          NOT NULL,
         tally_delta  INT(8)           NOT NULL,
         tally_value  INT(8)           NOT NULL,
-        tally_rank   INT(6)           NOT NULL,
 
         PRIMARY KEY (timestamp,holder_type, holder_id, tally_name)
     )
@@ -89,7 +88,7 @@ echo "Copying user page-tallies from 'member_stats' table to 'past_tallies'...\n
 
 dpsql_query("
     INSERT INTO past_tallies
-    SELECT date_updated, 'U', u_id, 'R*', daily_pagescompleted, total_pagescompleted, rank
+    SELECT date_updated, 'U', u_id, 'R*', daily_pagescompleted, total_pagescompleted
     FROM member_stats
 ") or die("Aborting.");
 
@@ -107,7 +106,7 @@ echo "Copying team page-tallies from 'user_teams_stats' table to 'past_tallies'.
 
 dpsql_query("
     INSERT INTO past_tallies
-    SELECT date_updated, IF(team_id=1,'S','T'), team_id, 'R*', daily_page_count, total_page_count, rank
+    SELECT date_updated, IF(team_id=1,'S','T'), team_id, 'R*', daily_page_count, total_page_count
     FROM user_teams_stats
 ") or die("Aborting.");
 

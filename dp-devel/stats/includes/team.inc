@@ -270,7 +270,6 @@ function showTeamStats($curTeam, $tally_name) {
 			. " <i>("._("Rank").")</i>",
 		"<b>" . number_format($vitals->current_tally) . "</b>"
 			. "&nbsp;<i>(#$vitals->current_rank)</i>"
-			. showChangeInRank( $vitals->latest_snapshot_rank, $vitals->current_rank )
 	);
 
 	$avg_pages_per_day = get_daily_average($curTeam['created'],$vitals->current_tally);
