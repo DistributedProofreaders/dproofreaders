@@ -59,7 +59,7 @@ while ( list($team_id) = mysql_fetch_row($res) )
 {
     dpsql_query("
         INSERT INTO best_tally_rank
-        SELECT 'R*', 'T', team_id, rank, date_updated
+        SELECT 'R*', IF(team_id=1,'S','T'), team_id, rank, date_updated
         FROM user_teams_stats
         WHERE team_id=$team_id AND rank>0
         ORDER BY rank ASC
@@ -107,7 +107,7 @@ echo "Copying team page-tallies from 'user_teams_stats' table to 'past_tallies'.
 
 dpsql_query("
     INSERT INTO past_tallies
-    SELECT date_updated, 'T', team_id, 'R*', daily_page_count, total_page_count, rank
+    SELECT date_updated, IF(team_id=1,'S','T'), team_id, 'R*', daily_page_count, total_page_count, rank
     FROM user_teams_stats
 ") or die("Aborting.");
 
