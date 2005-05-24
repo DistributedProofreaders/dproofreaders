@@ -665,7 +665,7 @@ function create_credit_line()
 // The string will not be localized, since it should be ready
 // to be included with the finished project.
 {
-    global $project, $code_url;
+    global $project, $site_url;
 
     $credits = array();
 
@@ -689,11 +689,11 @@ function create_credit_line()
 
     if (count($credits) > 0)
     {
-        $creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $code_url.";
+        $creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url.";
     }
     else
     {
-        $creditline = "The Online Distributed Proofreading Team at $code_url.";
+        $creditline = "The Online Distributed Proofreading Team at $site_url.";
     }
 
     return $creditline;
