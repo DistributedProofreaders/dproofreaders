@@ -62,6 +62,8 @@ _FORUMS_URL=$base_url/phpBB2
 
 # ----------------------------------------------------------------------
 
+_SITE_URL=$_CODE_URL
+
 _DB_SERVER=localhost
 _DB_USER=PICK_A_USER_NAME
 _DB_PASSWORD=PICK_A_HARD_PASSWORD
