@@ -187,7 +187,7 @@ function html_logobar($nameofpage) {
 
   echo headerbar_text("DP","$code_url/default.php");
 
-	if (isset($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
+	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
 
     //Code to display login form if not logged in
