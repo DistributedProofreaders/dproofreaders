@@ -181,16 +181,18 @@ function html_logobar($nameofpage) {
 	echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 	echo "<tr>\n";
 	echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
-	echo "<td align='left' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+	echo "<td align='left' style='padding-bottom:1px;' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 
     //Create the name of the page
-    	echo "<a href='$code_url/default.php'>\n";
-	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>DP</font></a>\n";
-        if (isset($nameofpage)) { echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'> &#187; $nameofpage</font>\n"; }
-	echo "</td>\n";
+
+  echo headerbar_text("DP","$code_url/default.php");
+
+	if (isset($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
+
 
     //Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
+	echo "</td>\n";
 	// If you put the form element inside the td element (which would
 	// seem to make sense), Netscape and IE both render the cell
 	// (and thus the row and the table) twice as tall as it needs to be.
@@ -217,38 +219,56 @@ function html_logobar($nameofpage) {
     	$numofPMs = mysql_fetch_row($result);
     	$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
     	$datecreated = mysql_result($result, 0, "date_created");
-	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-    	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
-	if ((time() - $datecreated) < 604800) { echo "Start Here -->&nbsp;"; }
-	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/activity_hub.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Activity Hub") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='".$GLOBALS['forums_url']."/'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Forums") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	if(lang_forum()) {
-		echo "<a href='".$GLOBALS['forums_url']."/".lang_forum()."'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>"._("Your language forums")."</font></a>";
-		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	}
-	echo "<a href='".$GLOBALS['forums_url']."/privmsg.php?folder=inbox'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>". _("My Inbox") ;
-	if ($numofPMs[0] > 0) { echo " ($numofPMs[0] unread)"; }
-	echo "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/userprefs.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("My Preferences") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/tools/logout.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Log Out") . "</font></a>&nbsp;</font>\n";
-	echo "</td>\n";
+  echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;";
+	if ((time() - $datecreated) < 604800)
+	   echo headerbar_text(" Start Here -->&nbsp;",'',true);
+	echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
+	echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
+  echo headerbar_text(_("Forums"),$GLOBALS['forums_url'],true);
+	if(lang_forum())
+	{
+	  echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
+  }
+  $inbox_text = _("My Inbox");
+  if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
+  echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
+  echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
+  echo headerbar_text(_("Log Out"),"$code_url/tools/logout.php",true);
+	echo "</font></td>\n";
+	echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
+	      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
+	show_quick_links();
+  echo "&nbsp;</font></td>";
 	}
 
 	echo "</tr>\n";
 	echo "</table>\n";
 }
 
+function headerbar_text($text, $link = '', $with_divider = false)
+{
+global $theme, $code_url;
+$out = "";
+
+if ($with_divider)
+    $out .= "&nbsp;&#183;&nbsp;\n";
+
+if(!empty($link))
+    $out .= "<a href='$link'>\n";
+
+$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
+        . $text .
+		    "</font>\n";
+
+if(!empty($link))
+    $out .= "</a>\n";
+
+return $out;
+}
+
 function html_statsbar($nameofpage) {
 
 	maybe_show_language_selector();
-
-	show_quick_links();
 
 	// Show statistics that are pertinent to the particular request.
 	// (i.e., to the main content of the page).
@@ -353,29 +373,24 @@ function show_quick_links()
 
 	if ( count($links) > 0 )
 	{
-		echo "<center>";
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>&nbsp;\n";
 
 		while ( list($i, list($rel_url, $text, $title)) = each($links) )
 		{
 
-			if ($i > 0) echo " |\n";
+			$divider = ($i > 0) ? true : false;
 
 			$rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
 			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
 			{
 				// We're at that page; no point to link to it.
-				echo "<span title='$title'>$text</span>";
+				echo headerbar_text("<span title='$title'>$text</span>",'',$divider);
 			}
 			else
 			{
-				echo "<a href='$code_url/$rel_url' title='$title'>$text</a>";
+				echo headerbar_text("<span title='$title'>$text</span>","$code_url/$rel_url",$divider);
 			}
 			echo "\n";
 		}
-
-		echo "</font>";
-		echo "</center>\n";
 	}
 }
 
