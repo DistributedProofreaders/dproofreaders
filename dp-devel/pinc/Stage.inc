@@ -9,6 +9,7 @@
 
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'TallyBoard.inc');
+include_once($relPath.'quizzes.inc');
 
 $Stage_for_id_ = array();
 
@@ -220,7 +221,7 @@ class Stage
 
 function get_user_scores($username)
 {
-    global $CRITERIA;
+    global $CRITERIA, $PQ;
 
     $res = mysql_query("
         SELECT *
@@ -244,9 +245,7 @@ function get_user_scores($username)
         }
         else if ( $criterion_code == 'quiz' )
         {
-            // UNIMPLEMENTED
-            // For now, say they have passed.
-            $user_score = 1;
+            $user_score = $PQ->user_has_passed($username) ? 1 : 0;
         }
         else
         {
