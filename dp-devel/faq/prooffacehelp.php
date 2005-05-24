@@ -40,6 +40,7 @@ else
     <tr><td>Updated</td><td>12/15/2002</td><td>Tim Bonham</td></tr>
     <tr><td>Updated</td><td>06/17/2003</td><td>Bill Keir</td></tr>
     <tr><td>Updated</td><td>06/23/2003</td><td>Bill Keir</td></tr>
+    <tr><td>Updated</td><td>05/24/2005</td><td>pourlean</td></tr>
     </table>
     </center>
     ";
@@ -645,11 +646,8 @@ Currently, this is the only method for scrolling the image.<BR>
 </p>
 <p>
     For any of the dropdown lists, select the character you want.
-    It should appear in the small text box
-    immediately to the left of the 'Greek' button.
-    From there you can drag (Internet Explorer)
-    or cut-and-paste (other browsers)
-    it into the correct place in the text you are correcting.
+    It should appear at the insertion point in the text area of the
+    proofreading interface.
 </p>
 <p>
     Some people experience problems with these lists,
@@ -701,70 +699,36 @@ Currently, this is the only method for scrolling the image.<BR>
 <h4>Common Tags</h4>
 
 <p>
+    &lt;i&gt;,
+    &lt;/i&gt; (<i>italic</i> text),
+    &lt;b&gt;,
+    &lt;/b&gt; (<b>bold</b> text),
+    &lt;sc&gt;,
+    &lt;/sc&gt; (<span style='font-variant: small-caps'>Small Caps</span> text),
     Sidenote,
     Illustration,
     *,
+    [],
     Footnote,
     /*,
     */,
-    *&nbsp;*&nbsp;*&nbsp;*&nbsp;* (thought break)
-    and
-    Blank Page
+    /#,
+    #/,
+    *&nbsp;*&nbsp;*&nbsp;*&nbsp;* (thought break),
+    Blank Page,
 </p>
 <p>
     Along the lower line of the proofreading toolbar
     in the lower pane of the proofreading interface
     are controls labelled with the common tags listed above.
-    Clicking on any of these puts the corresponding tags in the left
-    (and, where appropriate, right) text boxes
-    immediately to the right of the i and B (italic and bold) buttons.
-    From here, they can be
-    dragged (Internet Explorer) or cut-and-pasted (other browsers)
-    into the appropriate places in the text you are proofreading.
-    They are provided as a convenience;
+    You can use these buttons to place tags into the proofreading text area.
+    If you select text before you click on a button in the toolbar, the text will be
+    surrounded by the respective tag.
+    The tags will also appear in the text boxes to the left of the Italic button. You 
+    can also copy and paste the tags from the text box if the select and surround feature does not
+    work in your browser.
+    These features are provided as a convenience;
     if you'd really rather type the tags in by hand you are welcome to.
-</p>
-<p>
-    Note that [Blank Page] will clear any existing text in the proofreading window.
-</p>
-<p>
-    Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
-</p>
-
-
-<h4>Italics and Bold tag buttons</h4>
-
-<p>
-    The 
-    <img src='../tools/proofers/gfx/tags/italic.png'
-	width='18' height='18' border='0'
-	alt='italics' title='italics'>
-    and 
-    <img src='../tools/proofers/gfx/tags/bold.png'
-	width='18' height='18' border='0'
-	alt='bold' title='bold'>
-    buttons put paired italic and bold tags respectively
-    in the left and right text boxes next to them,
-    whence they can be
-    dragged (Internet Explorer) or cut-and-pasted (other browsers)
-    into the appropriate places in the proofreading window.
-</p>
-<p>
-    Also see <a href='#tagtip'>Tag Insertion Tip</a>, below.
-</p>
-
-
-<h4><a name='tagtip'>Tag Insertion Tip</a></h4>
-
-<p>
-    The following will not work in all browsers,
-    but can be a time-saver in those in which it does:
-    you can select a character (or word, or line, or paragraph)
-    to be wrapped in paired tags
-    (such as Sidenote, Illustration, Footnote, italic, bold)
-    before you press the tag link in the proofreading toolbar,
-    to have the tags automatically positioned at the start
-    and end of the selected text.
 </p>
 <p>
     For example, if the caption for an illustration is in your page,
@@ -783,10 +747,11 @@ Currently, this is the only method for scrolling the image.<BR>
     and it will be positioned there when you click the tag link.
 </p>
 <p>
-    Remember, this may not work in all browsers.
+    The "select and surround" feature may not work in all browsers.
 </p>
-
-
+<p>
+    Note that [Blank Page] will clear any existing text in the proofreading window.
+</p>
 
 <dl>
 <dt>
@@ -800,20 +765,6 @@ Currently, this is the only method for scrolling the image.<BR>
     </p>
 </dd>
 
-<dt>
-    <img src='../tools/proofers/gfx/tags/exit.png'
-	width='30' height='30' border='0'
-	alt='Exit' title='Exit'>
-</dt>
-<dd>
-    <p>
-    Quit, equivalent to the 'Stop Proofing' button.
-    </p>
-    <p>
-    The page you are proofreading is not saved,
-    and is <a href='#progr'>IN PROGRESS</a>.
-    </p>
-</dd>
 </dl>
 
 <!--
