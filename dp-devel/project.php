@@ -689,11 +689,11 @@ function create_credit_line()
 
     if (count($credits) > 0)
     {
-        $creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url.";
+        $creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url";
     }
     else
     {
-        $creditline = "The Online Distributed Proofreading Team at $site_url.";
+        $creditline = "The Online Distributed Proofreading Team at $site_url";
     }
 
     return $creditline;
