@@ -724,6 +724,8 @@ Currently, this is the only method for scrolling the image.<BR>
     You can use these buttons to place tags into the proofreading text area.
     If you select text before you click on a button in the toolbar, the text will be
     surrounded by the respective tag.
+</p>
+<p>
     The tags will also appear in the text boxes to the left of the Italic button. You 
     can also copy and paste the tags from the text box if the select and surround feature does not
     work in your browser.
@@ -745,9 +747,6 @@ Currently, this is the only method for scrolling the image.<BR>
     you can select, say, a space character in the text
     where you want the tag to be added,
     and it will be positioned there when you click the tag link.
-</p>
-<p>
-    The "select and surround" feature may not work in all browsers.
 </p>
 <p>
     Note that [Blank Page] will clear any existing text in the proofreading window.
