@@ -250,8 +250,6 @@ function showTeamStats($curTeam, $tally_name) {
 
 	$vitals = $teams_tallyboard->get_vitals( $curTeam['id'] );
 
-	$lastupdated = date("n/d/Y h:i:s A T", ($vitals->latest_snapshot_timestamp-1));
-
 	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
 	$t = new ThemedTable(
@@ -259,7 +257,6 @@ function showTeamStats($curTeam, $tally_name) {
 		_("Team Statistics"),
 		array(
 			'width' => 95,
-			'subtitle' => "("._('Last Updated:')." $lastupdated)",
 			'rollover_highlight' => TRUE
 		)
 	);
