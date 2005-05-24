@@ -10,6 +10,16 @@ $code_dir = '<<CODE_DIR>>';
 $code_url='<<CODE_URL>>';
 // This is the HTTP URL that resolves to the directory described above.
 
+$site_url = '<<SITE_URL>>';
+// You can think of this as the "publishable" HTTP URL for the site.
+// So far, it's only used when generating credit lines.
+// -- It could be exactly the same as $code_url.
+// -- Or it might be a more memorable or more permanent URL that simply
+//    redirects to $code_url.
+// -- Or it might be the address of some site-specific content, perhaps
+//    a pre-introduction, which would presumably include a link to $code_url.
+// (DP-US uses the second option, because PG didn't want us to use the first.)
+
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
 
