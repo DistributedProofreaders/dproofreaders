@@ -15,7 +15,7 @@ $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
-    'quiz'           => _('proofreading quiz pass'),
+    'quiz'           => sprintf(_("<a href='%s'>proofreading quiz</a> pass"),"$code_url/faq/quiz/start.php"),
 );
 // extended with round-ids as they are declared
 
