@@ -79,7 +79,7 @@ dpsql_query("
         tally_delta  INT(8)           NOT NULL,
         tally_value  INT(8)           NOT NULL,
 
-        PRIMARY KEY (timestamp,holder_type, holder_id, tally_name)
+        PRIMARY KEY (tally_name, holder_type, holder_id, timestamp)
     )
 ") or die("Aborting.");
 
