@@ -708,14 +708,14 @@ Currently, this is the only method for scrolling the image.<BR>
     Sidenote,
     Illustration,
     *,
-    [],
+    [&nbsp;],
     Footnote,
     /*,
-    */,
+    */ (poetry),
     /#,
-    #/,
+    #/ (blockquote),
     *&nbsp;*&nbsp;*&nbsp;*&nbsp;* (thought break),
-    Blank Page,
+    Blank Page
 </p>
 <p>
     Along the lower line of the proofreading toolbar
