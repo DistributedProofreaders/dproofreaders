@@ -69,8 +69,10 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'P1' => 1000, 'F1' => 300, 'days since reg' => 91, 'quiz' => 1 ),
+    array( 'P1' => 1000, 'F1' => 50, 'days since reg' => 91 ),
     'REQ-HUMAN',
+        // "10 random P1 pages proofed within the last week will be reviewed.
+        // If 2 or fewer proofing errors are found, approval will be given."
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     array(
         0 => '#DDA0DD', // plum
@@ -99,8 +101,8 @@ new Round(
 new Round(
     'F2',
     _('Formatting Round 2'),
-    array( 'F1' => 400 ),
-    'REQ-HUMAN',
+    array( 'F1' => 1000, 'days since reg' => 91 ),
+    'REQ-HUMAN', // "peer approval"
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     array(
         0 => '#DDA0DD', // plum
@@ -181,8 +183,8 @@ new Stage(
 new Pool(
     'PPV',
     _('Post-Processing Verification'),
-    array( 'F2' => 400 ), // and then review of PPing by existing PPVers
-    'REQ-HUMAN',
+    array(),
+    'NOREQ', // "Peer approval. Also gives F2 access."
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     array(
         '#99FFFF', // "harshflourolightblue"
