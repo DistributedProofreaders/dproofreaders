@@ -194,6 +194,22 @@ class Stage
                     }
                     break;
 
+                case 'NOREQ':
+                    // They don't request access (or at least, we don't supply a link
+                    // by which to request access). Instead, they just wait until
+                    // they are approved.
+                    if ( $recorded_access == 'yes' )
+                    {
+                        $uao->request_status = 'sat-granted';
+                        $uao->can_access = TRUE;
+                    }
+                    else
+                    {
+                        $uao->request_status = 'sat-wait';
+                        $uao->can_access = FALSE;
+                    }
+                    break;
+
                 default:
                     die( "bad after_satisfying_minima value: '$this->after_satisfying_minima'" );
             }
@@ -309,7 +325,7 @@ function show_user_access_object( $uao )
             break;
 
         case 'sat-granted':
-            echo _('You have requested and received permission.');
+            echo _('You have received permission to work in this stage.');
             break;
 
         case 'sat-requested':
@@ -321,6 +337,10 @@ function show_user_access_object( $uao )
                 _('If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
                 "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
             );
+            break;
+
+        case 'sat-wait':
+            echo _('However, you must wait for approval to work in this stage.');
             break;
 
         case 'unsat-granted':
@@ -445,6 +465,11 @@ function show_user_access_chart( $username )
 
             case 'sat-requested':
                 echo 'requested';
+                $could_grant = TRUE;
+                break;
+
+            case 'sat-wait':
+                echo 'waiting';
                 $could_grant = TRUE;
                 break;
 
