@@ -17,6 +17,11 @@ include_once($relPath.'stages.inc');
 // -----------------------------------------------------------------------------
 
 $page_tally_names = array();
+if ( TRUE )
+{
+    $page_tally_names['R*'] =
+        _('Pages saved-as-done in old rounds R1+R2');
+}
 foreach ( $Round_for_round_id_ as $round )
 {
     $page_tally_names[$round->id] =
