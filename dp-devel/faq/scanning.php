@@ -1,5 +1,5 @@
 <?
-$relPath='../../pinc/';
+$relPath='../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
@@ -9,7 +9,7 @@ theme('Scanning FAQ','header');
 ?>
 
 <h1>Scanning FAQ</h1>
-<p>See also <a href="./submitting.php">Content Provider's FAQ</a>.</p>
+<p>See also <a href="./cp.php">Content Provider's FAQ</a>.</p>
 <hr> <a href="#1"><b>Do I <i>have</i> to use Abbyy Finereader?<br>
 </b></a> <a href="#2"><b>What kind of scanner should I get?<br>
 </b></a> <a href="#3"><b>Should I get a scanner with an automatic

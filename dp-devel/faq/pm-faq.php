@@ -13,7 +13,7 @@ theme('Project Manager\'s Guide','header');
 
 <p>
 The
-<a href="scan/submitting.php">Content Provider's FAQ</a>
+<a href="cp.php">Content Provider's FAQ</a>
 describe the life of a Distributed Proofreaders project up to the point
 at which the image files and text files have been uploaded to the DP
 server. This document describes everything that happens after that, from

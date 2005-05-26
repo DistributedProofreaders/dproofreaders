@@ -1,5 +1,5 @@
 <?
-$relPath='../../pinc/';
+$relPath='../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'faq.inc');
 include($relPath.'pg.inc');
@@ -13,7 +13,7 @@ theme("Content Provider's FAQ",'header');
   <meta name="author" content="thundergnat">
 
 <h1>Content Provider's FAQ</h1>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanfaq.php">Scanning
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;See also: <a href="./scanning.php">Scanning
 FAQ</a></p>
 <hr size="3" width="100%" align="left">
 <p>So you've reached the rank of "Proofreader Extraordinaire" and figured
@@ -38,10 +38,10 @@ to someone else.
 -->
 You can also elect to manage the project once the necessary files have
 been uploaded to the DP server.
-See the <a href='../pm-faq.php'>Project's Manager's FAQ</a> for details.
+See the <a href='./pm-faq.php'>Project's Manager's FAQ</a> for details.
 </p>
 
-<hr size="3" width="100%" align="left"> <a href="./scanfaq.php">Frequently
+<hr size="3" width="100%" align="left"> <a href="./scanning.php">Frequently
 asked Questions</a>&nbsp; -&nbsp; (separate page) Some common questions
 that are related to scanning, OCR, etc. that are not covered here.<br>
 <p><br>
@@ -244,7 +244,7 @@ without line breaks. These will be explained more later.<br>
 </p>
 <p>Here's a little graphic to demonstrate. Assuming a book named Book1:<br>
 </p>
-<blockquote> <img src="structure.png"
+<blockquote> <img src="FineReader_folders.png"
  style="border: 3px solid ; width: 234px; height: 165px;"
  alt="Directory Structure" title=""><br>
   <br>
@@ -596,7 +596,7 @@ around at least until the book is done post-processing and has been
 submitted to Project Gutenberg so you can refer back to them, if
 necessary, especially if you are going to do the post-processing
 yourself.
-(See the <a href="../post_proof.php">Post-Processing FAQ</a> for more details.)
+(See the <a href="./post_proof.php">Post-Processing FAQ</a> for more details.)
 </p>
 <p>Wow! That was fun, let's do another! :-)</p>
 <br>

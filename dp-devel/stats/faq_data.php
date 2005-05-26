@@ -13,8 +13,8 @@ $faq_file=array(
 	"post_proof.php"=>TRUE,
 	"ppv.php"=>TRUE,
 	"privacy.php"=>TRUE,
-	"scanfaq.php"=>TRUE,
-	"submitting.php"=>TRUE,
+	"scanning.php"=>TRUE,
+	"cp.php"=>TRUE,
 );
 
 if($f=fopen("$dynstats_dir/faq_data.inc","w")) {
@@ -34,7 +34,7 @@ function read_dir($a)
 	$d=opendir("$code_dir/faq/$a");
 
 	while(($n=readdir($d))!==FALSE) {
-		if(preg_match("/^([a-z][a-z]|scan)$/",$n)) {
+		if(preg_match("/^([a-z][a-z])$/",$n)) {
 			read_dir("$a/$n");
 		} else if($faq_file[$n] && filesize("$code_dir/faq/$a/$n")>1024) {
 			fwrite($f,"'".substr("$a/",1).$n."',\n");

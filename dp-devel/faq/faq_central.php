@@ -71,10 +71,10 @@ random_news_item_for_page("faq_central.php");
   <dd>Information for new or aspiring Project Managers.  (Project Managers are people who
       manage the progress of a particular project ("book") through this site.)
 
-  <dt><a href="scan/submitting.php">Content Provider's FAQ</a>
+  <dt><a href="cp.php">Content Provider's FAQ</a>
   <dd>Overview for people who want to contribute material to be proofread on this site.
 
-  <dt><a href="scan/scanfaq.php">Scanning FAQ</a>
+  <dt><a href="scanning.php">Scanning FAQ</a>
   <dd>Basic information on scanners and how to use them, based on our experiences.
 
   <dt><a href="post_proof.php">Post-Processing FAQ</a>
