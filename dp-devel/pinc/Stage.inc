@@ -15,7 +15,7 @@ $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
-    'quiz'           => sprintf(_("<a href='%s'>proofreading quiz</a> pass"),"$code_url/faq/quiz/start.php"),
+    'quiz'           => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/faq/quiz/quiz_status.php"),
 );
 if ( TRUE )
 {
@@ -242,7 +242,7 @@ class Stage
 
 function get_user_scores($username)
 {
-    global $CRITERIA, $PQ;
+    global $CRITERIA, $FQ;
 
     $res = mysql_query("
         SELECT *
@@ -266,7 +266,7 @@ function get_user_scores($username)
         }
         else if ( $criterion_code == 'quiz' )
         {
-            $user_score = $PQ->user_has_passed($username) ? 1 : 0;
+            $user_score = $FQ->user_has_passed($username) ? 1 : 0;
         }
         else if ( $criterion_code == 'R*+P1' )
         {
