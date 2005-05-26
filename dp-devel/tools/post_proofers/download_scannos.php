@@ -4,17 +4,19 @@
 // Guiguts' .rc files should be in the format 'scanno' => 'scanno',\n
 // enclosed in %scannoslist = ( );.
 
+$relPath="../../pinc/";
+include($relPath.'v_site.inc');
+include($relPath.'theme.inc');
+
+
 // Currently valid languages: eng, fr, ger
 $lang = $_GET['language'];
 // Currently valid types: common, rare, suspect
 $flavour = $_GET['type'];
 
-$filename = "stealth_scannos_".$lang."_".$flavour.".txt";
+$filename = "$code_dir/faq/stealth_scannos_".$lang."_".$flavour.".txt";
 
 if (!file_exists($filename)) {
-    $relPath="../pinc/";
-    include($relPath.'v_site.inc');
-    include($relPath.'theme.inc');
 
     theme(_("Download Stealth Scannos"),"header");
     echo "<h1>"._("Download Stealth Scannos")."</h1>
