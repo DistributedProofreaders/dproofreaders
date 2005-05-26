@@ -25,7 +25,11 @@ theme(_("Activity Hub"), "header");
 echo "<center><h1>Activity Hub</h1></center>\n";
 
 echo "<p>\n";
-echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production. The information below is customised for you, and details the phases of production in which you can particpate. Follow the links to the specific areas of the site.");
+echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production.");
+echo "\n";
+echo _("The information below is customised for you, and details the phases of production in which you can particpate.");
+echo "\n";
+echo _("Follow the links to the specific areas of the site.");
 echo "</p>\n";
 
 
