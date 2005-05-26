@@ -27,8 +27,10 @@ echo "<center><h1>Activity Hub</h1></center>\n";
 echo "<p>\n";
 echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production.");
 echo "\n";
+/*
 echo _("The information below is customised for you, and details the phases of production in which you can particpate.");
 echo "\n";
+*/
 echo _("Follow the links to the specific areas of the site.");
 echo "</p>\n";
 
@@ -246,9 +248,11 @@ foreach ( $Stage_for_id_ as $stage )
 
     echo "<br>\n";
 
+    /*
 	$uao = $stage->user_access( $pguser, $pagesproofed );
     show_user_access_object( $uao );
     echo "<br>\n";
+    */
 
     if ( is_a( $stage, 'Round' ) )
     {
