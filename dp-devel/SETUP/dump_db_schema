@@ -42,7 +42,7 @@ get_table_names()
         ' |
         grep -v -x -e active_page_counts -e cur -e old |
             # active_page_counts is a temporary table.
-            # cur and old are tables referenced in DifferenceEngine.php,
+            # cur and old are tables referenced in DifferenceEngine.inc,
             # by code that we presumably don't execute.
         sort -u
     fi

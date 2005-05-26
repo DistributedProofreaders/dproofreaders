@@ -38,7 +38,7 @@ function wfMsg($key) {
 
 $wgOut=new Outputpage();
 
-include("DifferenceEngine.php");
+include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
