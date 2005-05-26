@@ -32,8 +32,10 @@ $userSettings = Settings::get_Settings($pguser);
 $uao = $pool->user_access($pguser);
 if (!$uao->can_access)
 {
+    echo "<p align='center'>";
     echo _("You're not allowed to work in this pool, just visit."), "\n";
     echo _("If you feel this is an error, please contact the site administration."), "\n";
+    echo "</p>\n";
 }
 
 
