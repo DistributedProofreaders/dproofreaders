@@ -36,7 +36,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<li>"._("If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information below.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.");
 	echo "</ul></td></tr></table></div></center></font>";
 	echo "<br><br><center>";
-	echo "<form action='badpage.php' method='post'>";
+	echo "<form action='report_bad_page.php' method='post'>";
 	echo "<input type='hidden' name='fileid' value='$fileid'>";
 	echo "<input type='hidden' name='imagefile' value='$imagefile'>";
 	echo "<input type='hidden' name='projectname' value='$projectid'>";
@@ -118,7 +118,7 @@ You will then be able to put the project back up on the site.";
 		$message =
 "Page $imagefile of this project has been marked bad due to $reason_list[$reason].
 Please visit
-    $code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid
+    $code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&fileid=$fileid
 to make any needed changes and make the page available for proofreading again.
 Until this report has been resolved, the project will not be able to leave
 the current round. If 10 pages are marked bad by at least 3 different users,

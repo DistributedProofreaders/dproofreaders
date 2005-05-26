@@ -300,10 +300,10 @@ function echo_page_table(
 			echo "<td>";
 			if ($page_is_in_bad_state) {
 				echo "<center><b>";
-				echo "<a href='$code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid'>Bad</a>";
+				echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&fileid=$fileid'>Bad</a>";
 				echo "</b></center>";
 			} else {
-				echo "<center><a href='$code_url/tools/project_manager/badpage.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
+				echo "<center><a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&fileid=$fileid'>Fix</a></center>\n";
 			}
 			echo "</td>\n";
 

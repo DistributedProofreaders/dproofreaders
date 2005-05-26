@@ -162,7 +162,7 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 if ($tbutton==B_REPORT_BAD_PAGE)
 {
 $badState=$tpage->round->page_bad_state;
-include('badpage.php');
+include('report_bad_page.php');
 } // end B_REPORT_BAD_PAGE
 
 if ($tbutton==B_RUN_SPELL_CHECK)

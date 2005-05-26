@@ -30,7 +30,7 @@ if (!isset($_POST['resolution'])) {
     $header = _("Bad Page Report");
     theme($header, "header");
 
-    echo "<form action='badpage.php' method='post'>";
+    echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<input type='hidden' name='fileid' value='$fileid'>";
     echo "<input type='hidden' name='image' value='$image'>";
@@ -69,9 +69,9 @@ if (!isset($_POST['resolution'])) {
 
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a>";
     echo " | ";
-    echo "<a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a>";
     echo "</td></tr>";
     echo "<tr><td bgcolor='#e0e8dd' align='left'>";
     
@@ -99,7 +99,7 @@ if (!isset($_POST['resolution'])) {
         $result = mysql_query("SELECT $prevtext_column FROM $projectid where fileid='$fileid'");
         $prev_text = mysql_result($result, 0, $prevtext_column);
 
-        echo "<form action='badpage.php' method='post'>";
+        echo "<form action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
@@ -118,7 +118,7 @@ if (!isset($_POST['resolution'])) {
         echo "<b>Update of Text from Previous Round Complete!</b>";
 
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
-        echo "<form enctype='multipart/form-data' action='badpage.php' method='post'>";
+        echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='image'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
@@ -130,7 +130,7 @@ if (!isset($_POST['resolution'])) {
             copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
             echo "<b>Update of Original Image Complete!</b>";
         } else {
-            echo "<b>The uploaded file must be a PNG file! Click <a href='badpage.php?projectid=$projectid&fileid=$fileid&modify=image'>here</a> to return.</b>";
+            echo "<b>The uploaded file must be a PNG file! Click <a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>here</a> to return.</b>";
         }
     }
 
