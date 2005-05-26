@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
-include_once('../includes/team.php');
+include_once('../includes/team.inc');
 $db_Connection=new dbConnect();
 
 if (empty($_GET['order'])) {

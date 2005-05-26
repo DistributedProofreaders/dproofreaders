@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once('../includes/team.php');
+include_once('../includes/team.inc');
 
 if (empty($_GET['otid'])) { $otid = 0; } else { $otid = $_GET['otid']; }
 if (empty($_GET['tid'])) { die("parameter 'tid' is empty"); } else { $tid = $_GET['tid']; }

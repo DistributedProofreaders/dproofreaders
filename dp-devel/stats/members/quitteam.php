@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once('../includes/team.php');
+include_once('../includes/team.inc');
 
 if ($userP['team_1'] == $_GET['tid'] || $userP['team_2'] == $_GET['tid'] || $userP['team_3'] == $_GET['tid']) {
     	$quitQuery = "UPDATE users SET ";

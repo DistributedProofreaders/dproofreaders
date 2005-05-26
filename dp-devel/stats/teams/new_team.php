@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once('../includes/team.php');
+include_once('../includes/team.inc');
 $popHelpDir="$code_url/faq/pophelp/teams/edit_";
 
 if (isset($_POST['mkPreview'])) {
