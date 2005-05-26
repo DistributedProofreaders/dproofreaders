@@ -465,7 +465,7 @@ if (0)
 if (0)
 {
 	// Regenerate joined text files
-	include_once('sendtopost.php');
+	include_once('sendtopost.inc');
 	$res = dpsql_query( "
 		SELECT projectid
 		FROM projects 

@@ -15,7 +15,7 @@ include($relPath.'project_trans.inc');
 include_once($relPath.'page_ops.inc');
 
 include('autorelease.inc');
-include('sendtopost.php');
+include('sendtopost.inc');
 
 $trace = FALSE;
 
