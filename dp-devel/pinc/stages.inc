@@ -69,7 +69,7 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'P1' => 1000, 'F1' => 50, 'days since reg' => 91 ),
+    array( 'P1' => 400, 'F1' => 50, 'days since reg' => 91 ), // 'P1' => 1000, 3 months after rollout
     'REQ-HUMAN',
         // "10 random P1 pages proofed within the last week will be reviewed.
         // If 2 or fewer proofing errors are found, approval will be given."
@@ -86,7 +86,7 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
+    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
     'REQ-AUTO',
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
     array(
@@ -101,7 +101,7 @@ new Round(
 new Round(
     'F2',
     _('Formatting Round 2'),
-    array( 'F1' => 1000, 'days since reg' => 91 ),
+    array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     array(

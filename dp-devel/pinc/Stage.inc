@@ -17,6 +17,11 @@ $CRITERIA = array(
     'days since reg' => _('days since registration'),
     'quiz'           => sprintf(_("<a href='%s'>proofreading quiz</a> pass"),"$code_url/faq/quiz/start.php"),
 );
+if ( TRUE )
+{
+    // kludge
+    $CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
+}
 // extended with round-ids as they are declared
 
 class Stage
@@ -262,6 +267,15 @@ function get_user_scores($username)
         else if ( $criterion_code == 'quiz' )
         {
             $user_score = $PQ->user_has_passed($username) ? 1 : 0;
+        }
+        else if ( $criterion_code == 'R*+P1' )
+        {
+            // kludge
+            $tallyboard1 = new TallyBoard( 'R*', 'U' );
+            $tallyboard2 = new TallyBoard( 'P1', 'U' );
+            $user_score =
+                $tallyboard1->get_current_tally( $user_obj->u_id ) +
+                $tallyboard2->get_current_tally( $user_obj->u_id );
         }
         else
         {
