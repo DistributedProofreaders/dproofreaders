@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'page_tally.inc');
 include_once('../includes/team.php');
-include_once('../includes/member.php');
+include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
 
 if (empty($_GET['order'])) {

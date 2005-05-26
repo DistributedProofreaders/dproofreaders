@@ -6,7 +6,7 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 include_once('../includes/team.php');
-include_once('../includes/member.php');
+include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
 
 $tally_name = array_get( $_GET, 'tally_name', null );
