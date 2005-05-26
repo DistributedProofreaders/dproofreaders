@@ -1,5 +1,5 @@
 <?
-$relPath='../../../pinc/';
+$relPath='../../pinc/';
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');

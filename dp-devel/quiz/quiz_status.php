@@ -1,5 +1,5 @@
 <?
-$relPath = "../../pinc/";
+$relPath='../pinc/';
 include_once($relPath."quizzes.inc");
 include_once($relPath."theme.inc");
 include_once($relPath."dp_main.inc");

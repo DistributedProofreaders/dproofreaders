@@ -33,7 +33,7 @@ theme('Proofreading Guidelines','header');
 <h4>Proofreading Guidelines <a href="guidelines_francaises.html">in French</a> /
     Directives de Formatage <a href="guidelines_francaises.html">en fran&ccedil;ais</a></h4>
 
-<h4>Check out the <a href="quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
+<h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 
 <table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
   <tbody>

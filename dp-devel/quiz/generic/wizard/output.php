@@ -1,5 +1,5 @@
 <?
-$relPath='../../../../pinc/';
+$relPath='../../../pinc/';
 include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
@@ -186,11 +186,11 @@ function make_output()
 <p>Below you will find some prepared php code. Choose a unique name for your quiz (&lt;yourquizname&gt;),
 copy the code in an editor and save it under the name qd_&lt;yourquizname&gt;.inc. Save the image you've prepared 
 under the name qi_&lt;yourquizname&gt;.png. For testing the quiz it is highly recommended to contact a developer with
-a sandbox on the DP test server (www.pgdp.org). The inc file has to be placed in /faq/quiz/generic/data and the image in 
-/faq/quiz/generic/images. When that has happened you can call your quiz under the URL http://www.pgdp.org/~&lt;user&gt;/c/faq/quiz/generic/main.php?type=&lt;yourquizname&gt;, 
+a sandbox on the DP test server (www.pgdp.org). The inc file has to be placed in /quiz/generic/data and the image in 
+/quiz/generic/images. When that has happened you can call your quiz under the URL http://www.pgdp.org/~&lt;user&gt;/c/quiz/generic/main.php?type=&lt;yourquizname&gt;, 
 where &lt;user&gt; is the username of the sandbox 'owner'.
 
-Once it is on the real site, the URL will be  http://www.pgdp.net/c/faq/quiz/generic/main.php?type=&lt;yourquizname&gt;</p>
+Once it is on the real site, the URL will be  http://www.pgdp.net/c/quiz/generic/main.php?type=&lt;yourquizname&gt;</p>
 
 <p>You can also <a href="./messages.php">and enter more <a href="./messages.php">error messages</a>
 or <a href="./checks.php">error tests</a> if you missed any.</p>

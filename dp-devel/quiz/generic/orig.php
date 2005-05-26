@@ -1,4 +1,4 @@
-<? $relPath='../../../pinc/';
+<? $relPath='../../pinc/';
 include_once($relPath.'v_site.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
