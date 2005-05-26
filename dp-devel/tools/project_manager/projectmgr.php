@@ -411,6 +411,17 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     }
 
 
+    list_uber_projects( $can_see_all );
+}
+echo "<br>";
+theme("","footer");
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function list_uber_projects( $can_see_all )
+{
+    global $pguser, $theme;
+
     // site managers and project facilitors can see all uber projects
 
     if ($can_see_all) {
@@ -564,8 +575,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "<tr><td colspan=8 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     }
 }
-echo "<br>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab
 ?>
