@@ -106,7 +106,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   $npage['errcheck']=0;
   setTempPageCookie($npage);
   if ($userP['i_type'] != 1)
-    {include('proof_frame_nj.inc');}
+    {include('proof_frame_std.inc');}
   else
     {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading next available page...."));}
   exit;
@@ -223,7 +223,7 @@ if ($tbutton==101 || $tbutton==102)
           $text_file= $project.substr($imagefile,0,-4).".txt";
           if ($fd=fopen("$aspell_temp_dir/$text_file","w"))
             {fwrite($fd,$correct_text); fclose($fd);}
-        include('proof_frame_nj.inc');
+        include('proof_frame_std.inc');
       }
 }
 

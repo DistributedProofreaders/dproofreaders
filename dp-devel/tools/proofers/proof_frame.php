@@ -59,7 +59,7 @@ $needPage=1;
 
 //load the frame
 if ($userP['i_type'] != 1)
-  {include('proof_frame_nj.inc');}
+  {include('proof_frame_std.inc');}
 else
   {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading page...."));}
 ?>
