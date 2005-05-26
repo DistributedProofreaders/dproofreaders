@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'showstartexts.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 
 abort_if_in_maintenance_mode();

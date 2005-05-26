@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 new dbConnect();
 
 

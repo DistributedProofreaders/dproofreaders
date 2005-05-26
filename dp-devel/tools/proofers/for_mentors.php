@@ -17,7 +17,7 @@ include_once($relPath.'theme.inc');
 // for PROJ_ declarations
 include_once($relPath.'project_states.inc');
 // for $users_ELR_page_tallyboard
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 
 function project_sql()
 {

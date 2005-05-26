@@ -3,7 +3,7 @@
 
 // This file provides settings (mostly permissions) for the logged-on user.
 
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 include_once($relPath.'SettingsClass.inc');
 
 // This function reuturns the Settings object for $pguser.

@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'v_site.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.
 

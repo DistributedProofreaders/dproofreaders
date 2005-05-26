@@ -5,7 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 
 $taly_name = @$_GET['tally_name'];
 if (empty($tally_name))

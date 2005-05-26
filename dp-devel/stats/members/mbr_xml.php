@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 include_once('../includes/team.php');
 include_once('../includes/member.php');
 $db_Connection=new dbConnect();

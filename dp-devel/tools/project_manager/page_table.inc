@@ -4,7 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
-include_once($relPath.'page_tally.php');
+include_once($relPath.'page_tally.inc');
 
 function echo_page_table(
 	$project,
