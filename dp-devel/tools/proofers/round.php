@@ -154,6 +154,11 @@ else
 }
 if (!isset($RFilter)) { $RFilter = ""; }
 
+if ( !$uao->can_access )
+{
+    echo "<hr width='75%'>\n";
+    show_user_access_object( $uao );
+}
 
 // special colours legend
 // Don't display if the user has selected the
