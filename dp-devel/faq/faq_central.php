@@ -7,11 +7,19 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 new dbConnect();
 $no_stats=1;
-theme('FAQ Central','header');
+$theme_args = array("css_data" => "
+table.faqs td {font-family: Tahoma, sans-serif;}
+td.faqheader {background: $theme[color_headerbar_bg];
+              color: $theme[color_headerbar_font];
+              font-weight: bold;
+              vertical-align: middle;}
+table#faqtable table {align: left;}
+");
+theme('FAQ Central','header', $theme_args);
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.8, released August 17, 2004 </h3>
+<h3 align="right">Version 1.9, released May 27th, 2005</h3>
 
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
@@ -22,89 +30,148 @@ show_site_news_for_page("faq_central.php");
 random_news_item_for_page("faq_central.php");
 ?>
 
-<table border="0" cellspacing="0" width="100%">
-  <tbody>
-
+<table width='100%' border='0' cellspacing='0' cellpadding='0' class='faqs' id='faqtable'>
+<tr>
+<td width='5'>&nbsp;</td>
+  <td width='49%' valign='top'>
+  <table width='100%' cellpadding='4'>
     <tr>
-      <td bgcolor="silver">&nbsp;</td>
+      <td class='faqheader'>
+        Proofreading and Formatting
+      </td>
     </tr>
-  </tbody>
-</table>
+    <tr>
+     <td>
 
-<dl compact>
-  <dt><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a>
-  <dd>Introduction to the site, general overview, beginner's questions.
+   <p><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a><br>
+   <font size="-1">Introduction to the site, general overview, beginner's questions.</font></p>
 
-  <dt><a href="../quiz/start.php">Proofreading Quiz &amp; Tutorial </a>
-  <dd>Try the proofreading quiz and tutorial. It is a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.
+  <p><a href="../quiz/start.php">Proofreading Quiz &amp; Tutorial </a><br>
+  <font size="-1">Try the proofreading quiz and tutorial.
+  It is a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.</font></p>
 
-  <dt><a href="summary.pdf">Handy Proofreading Guide</a>
+  <p><a href="summary.pdf">Handy Proofreading Guide</a><br>
+  <font size="-1">A printable (.pdf) two-page summary of the most commonly needed
+  proofreading standards from the Proofreading Guidelines, done as one big example! </font></p>
 
-  <dd>(aka "Summary Guidelines") A printable (.pdf) two-page summary of the most commonly needed
-      proofreading standards from the Proofreading Guidelines, done as one big example! You may need to download and install a .pdf reader to print or view the summary. You can get one free from Adobe&reg; <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
+  <p><a href="document.php">Proofreading Guidelines</a><br>
+  <font size="-1">The full details of the guidelines we use for proofreading documents.</font></p>
+  
+  <p><a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a><br>
+  <font size="-1">Help for the Standard Proofreading Interface.</font></p>
 
-  <dt><a href="document.php">Proofreading Guidelines</a>
-  <dd>The full details of the guidelines we use for proofreading documents.
+  <p><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a><br>
+  <font size="-1">Help for the Enhanced Proofreading Interface.</font></p>
 
-  <dt><a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a>
-  <dd>A help-file for the Standard Proofreading Interface.
+  <p><a href="<?=$code_url?>/tools/proofers/for_mentors.php">Mentors' Page</a><br>
+  <font size="-1">A page detailing currently available mentor projects.</font></p>
 
-  <dt><a href="prooffacehelp.php?i_type=1">Enhanced Proofreading Interface Help</a>
-  <dd>A help-file for the Enhanced Proofreading Interface.
+  </td>
+  </tr>
+ </table>
+ <br />
+ <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Suggestions, Bugs, and Development</td>
+  </tr>
+  <tr>
+    <td>
 
-  <dt><a href="font_sample.php">DP Custom Proofreading Font Page</a>
-  <dd>Home of the DP Custom Proofreading Font. Font Samples and download and installation instructions.
+  <p><a href="<?=$code_url?>/tasks.php">Task Center</a><br>
+  <font size="-1">Here you will find a list of feature requests and bugs. 
+  You may add tasks after searching to see that the issue isn't already there.</font></p>
 
-  <dt><a href="<? echo $code_url ?>/tools/proofers/for_mentors.php">Mentors Page</a>
-  <dd>A page detailing currently available mentor projects.
+  <p><a href="dev_process.php">Development Process</a><br>
+  <font size="-1">Information and guidelines for developers.</font></p>
+  </tr>
+ </table>
 
-  <dt><a href="<? echo $forums_url ?>/faq.php">Forums FAQ</a>
-  <dd>Information on using the Forum software (our "bulletin board" system for
-      communication between all the people working on a book: the proofreaders, the
-      Project Manager, and the Post-Processor.  This is the place to ask your questions
-      about a book.)
+ <br />
+  <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Privacy</td>
+  </tr>
+  <tr>
+  <td>
+  <p><a href="privacy.php">DP Privacy Policy</a><br>
+  <font size="-1">The Distributed Proofreaders Privacy Policy
+   that you saw when you first registered at this site.</font></p>
+  </td>
+  </tr>
+ </table>
 
-  <dt> &nbsp;
-  <dd> &nbsp;
+</td>
+<td width='5'>&nbsp;</td>
+<td width='49%' valign='top' align='left'>
 
-  <dt><a href="pm-faq.php">Project Manager's FAQ</a>
-  <dd>Information for new or aspiring Project Managers.  (Project Managers are people who
-      manage the progress of a particular project ("book") through this site.)
+ <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Creating and Managing Projects</td>
+  </tr>
+  <tr>
+    <td>
 
-  <dt><a href="cp.php">Content Provider's FAQ</a>
-  <dd>Overview for people who want to contribute material to be proofread on this site.
+  <p><a href="pm-faq.php">Project Managers' FAQ</a><br>
+  <font size="-1">Information for new or aspiring Project Managers.  (Project Managers are people who
+      manage the progress of a particular project ("book") through this site.)</font></p>
 
-  <dt><a href="scanning.php">Scanning FAQ</a>
-  <dd>Basic information on scanners and how to use them, based on our experiences.
+  <p><a href="cp.php">Content Providers' FAQ</a><br>
+  <font size="-1">Overview for people who want to contribute material to be proofread on this site.</font></p>
 
-  <dt><a href="post_proof.php">Post-Processing FAQ</a>
-  <dd>Information for new and aspiring Post-Processors.  (Post-Processors are people who do
-      all the processing  of a particular project ("book") after it has been proofread
+  <p><a href="scanning.php">Scanning FAQ</a><br>
+  <font size="-1">Basic information on scanners and how to use them, based on our experiences.</font></p>
+  </tr>
+ </table>
+<br /><br />
+  <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Post-Processing and Verification</td>
+  </tr>
+  <tr>
+    <td>
+
+  <p><a href="post_proof.php">Post-Processing FAQ</a><br>
+  <font size="-1">Information for new and aspiring Post-Processors.  (Post-Processors are people who do
+      all the processing  of a particular project after it has been proofread
       on this site (combining all the pages, making them consistent, fixing problems,
-      and submitting it to the Project Gutenberg archive.)
+      and submitting it to Project Gutenberg).</font></p>
 
-  <dt> &nbsp;
-  <dd> &nbsp;
+  <p><a href="ppv.php">Post-Processing Verification Guidelines</a><br>
+  <font size="-1">Information for Post-Processing Verifiers.</font></p>
+  </tr>
+ </table>
+<br /><br />
+  <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Mailing Lists</td>
+  </tr>
+  <tr>
+  <td>
+  <p><a href="http://www.pgdp.net/mailman/listinfo">Mailing Lists for Users</a><br>
+  <font size="-1">Information about the email lists DP has available for users.</font></p>
+  </td>
+  </tr>
+ </table>
 
-  <dt><a href="<? echo $code_url ?>/tasks.php">Task Center</a>
-  <dd>Here you will find a list of feature requests and bugs. You may add tasks after searching to see that the issue isn't already there.
+<br /><br />
+  <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;Project Gutenberg</td>
+  </tr>
+  <tr>
+  <td>
+  <p><a href="<?=$PG_faq_url?>">Project Gutenberg FAQ</a><br>
+  <font size="-1">The <i>massive</i> FAQ from our parent site,
+      <a href="<?=$PG_home_url?>">Project Gutenberg</a>.</font></p>
+  </td>
+  </tr>
+ </table>
+</td>
+<td width='5'>&nbsp;</td>
+</tr>
+</table>
+<br><br>
 
-  <dt><a href="http://www.pgdp.net/mailman/listinfo">Mailing Lists for Users</a>
-  <dd>Here you will find information about the email lists DP has available for users.
-
-  <dt> &nbsp;
-  <dd> &nbsp;
-
-  <dt><a href="<? echo $PG_faq_url; ?>">Project Gutenberg FAQ</a>
-  <dd>The <i>massive</i> FAQ from our parent site,
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>.
-
-  <dt><a href="privacy.php">DP Privacy Policy</a>
-  <dd>A link to the Distributed Proofreading Privacy Policy that you saw when you
-      first registered at this site.
-
-
-</dl>
 <table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='silver'>
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
