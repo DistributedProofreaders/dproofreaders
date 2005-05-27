@@ -94,7 +94,7 @@ if ( isset($_REQUEST['confirmed']) and $_REQUEST['confirmed'] == 'yes' )
         echo "<br>\n";
         echo "<br>\n";
     }
-    echo "<a href='$code_url/project.php?id=$projectid&amp;verbosity=4'>Project Page</a><br>\n";
+    echo "<a href='$code_url/project.php?id=$projectid&amp;detail_level=4'>Project Page</a><br>\n";
 }
 else
 {

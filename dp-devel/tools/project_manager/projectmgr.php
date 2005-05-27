@@ -325,7 +325,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 echo "<tr bgcolor=$bgcolor>\n";
 
                 // Title
-                echo "<td><a href='$code_url/project.php?id=$projectid&amp;verbosity=3'>$name</a></td>\n";
+                echo "<td><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>$name</a></td>\n";
 
                 // Author
                 echo "<td>$author</td>\n";

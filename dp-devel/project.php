@@ -27,22 +27,22 @@ error_reporting(E_ALL);
 
 $projectid      = @$_GET['id'];
 $expected_state = @$_GET['expected_state'];
-$verbosity      = @$_GET['verbosity'];
+$detail_level   = @$_GET['detail_level'];
 
-$VALID_VERBOSITIES = array('1','2','3','4');
-if ( is_null($verbosity) )
+$VALID_DETAIL_LEVELS = array('1','2','3','4');
+if ( is_null($detail_level) )
 {
     // unspecified
-    $verbosity = 2;
+    $detail_level = 2;
 }
-elseif ( in_array($verbosity, $VALID_VERBOSITIES ) )
+elseif ( in_array($detail_level, $VALID_DETAIL_LEVELS ) )
 {
     // fine
-    $verbosity = intval($verbosity);
+    $detail_level = intval($detail_level);
 }
 else
 {
-    die("bad 'verbosity' parameter: '$verbosity'");
+    die("bad 'detail_level' parameter: '$detail_level'");
 }
 
 // -----
@@ -61,12 +61,12 @@ $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
 do_update_pp_activity();
 
-if ($verbosity==1)
+if ($detail_level==1)
 {
     echo "<h1>$title</h1>\n";
 
     do_expected_state();
-    do_verbosity_switch();
+    do_detail_level_switch();
 
     do_project_info_table();
 
@@ -80,7 +80,7 @@ if ($verbosity==1)
 }
 else
 {
-    // Verbosity level 2 (the default) should show the information
+    // Detail level 2 (the default) should show the information
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
@@ -92,7 +92,7 @@ else
 
     echo "<h1>$title</h1>\n";
 
-    do_verbosity_switch();
+    do_detail_level_switch();
     do_expected_state();
 
     list($top_blurb, $bottom_blurb) = decide_blurbs();
@@ -108,18 +108,18 @@ else
     do_smooth_reading();
     do_change_state();
 
-    if ($verbosity >= 3)
+    if ($detail_level >= 3)
     {
         // Stuff that's (usually) only of interest to
         // PMs/PFs/SAs and curious others.
         do_images();
         do_extra_files();
         do_page_summary();
-        if ($verbosity >= 4)
+        if ($detail_level >= 4)
         {
             do_page_table();
         }
-        do_verbosity_switch();
+        do_detail_level_switch();
     }
 
     theme('', 'footer');
@@ -165,21 +165,21 @@ function do_pm_header()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_verbosity_switch()
+function do_detail_level_switch()
 {
-    global $project, $verbosity, $VALID_VERBOSITIES;
+    global $project, $detail_level, $VALID_DETAIL_LEVELS;
 
     echo sprintf(
-        _('This page is being presented at verbosity level %d.'),
-        $verbosity
+        _('This page is being presented at detail level %d.'),
+        $detail_level
     );
     echo "\n";
     echo _('Switch to:'), "\n";
-    foreach( $VALID_VERBOSITIES as $v )
+    foreach( $VALID_DETAIL_LEVELS as $v )
     {
-        if ( $v != $verbosity )
+        if ( $v != $detail_level )
         {
-            $url = "project.php?id={$project->projectid}&amp;expected_state={$project->state}&amp;verbosity=$v";
+            $url = "project.php?id={$project->projectid}&amp;expected_state={$project->state}&amp;detail_level=$v";
             echo "<a href='$url'>$v</a>\n";
         }
     }
@@ -563,8 +563,8 @@ function do_project_info_table()
     $url = "$code_url/tools/proofers/posted_notice.php?project=$projectid&proofstate=$state";
     echo_row_a( _("Book Completed:"), "<a href='$url'>$blurb</a>" );
 
-    global $verbosity;
-    if ($round && $verbosity > 1)
+    global $detail_level;
+    if ($round && $detail_level > 1)
     {
         recentlyproofed(0);
         recentlyproofed(1);

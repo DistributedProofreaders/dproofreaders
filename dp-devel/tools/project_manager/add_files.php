@@ -159,7 +159,7 @@ else
 }
 
 echo "<hr>\n";
-echo "Return to <a href='$code_url/project.php?id=$projectid&verbosity=4'>Project Page</a>.\n";
+echo "Return to <a href='$code_url/project.php?id=$projectid&detail_level=4'>Project Page</a>.\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

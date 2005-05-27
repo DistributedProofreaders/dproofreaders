@@ -42,7 +42,7 @@ if(($topic_id == "") || ($topic_id == 0))
         $message =  "
 This thread is for discussion specific to \"$nameofwork\" by $authorsname.
 
-Please review the [url=$code_url/project.php?id=$project_id&verbosity=1]project comments[/url] before posting, as well as any posts below, as your question may already be answered there.
+Please review the [url=$code_url/project.php?id=$project_id&detail_level=1]project comments[/url] before posting, as well as any posts below, as your question may already be answered there.
 
 (This post is automatically generated.)
 ";

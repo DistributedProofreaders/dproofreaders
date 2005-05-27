@@ -67,7 +67,7 @@ while ( list($post_id, $post_text) = mysql_fetch_row($res) )
 
     $new_post_text = preg_replace(
         '#/tools/proofers/projects.php\?project=(projectID\w+)(&amp;|&)proofing=1#',
-        '/project.php?id=\1&amp;verbosity=1',
+        '/project.php?id=\1&amp;detail_level=1',
         $post_text );
 
     if ($new_post_text == $post_text)
