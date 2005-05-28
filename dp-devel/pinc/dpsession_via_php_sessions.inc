@@ -220,7 +220,17 @@ function mysql_session_garbage_collect($lifetime)
 
 function do_session_query( $query )
 {
+	// write_to_session_log( $query );
 	$result = mysql_query($query) or die(mysql_error());
 	return $result;
 }
+
+function write_to_session_log( $msg )
+{
+	$time = strftime('%Y-%m-%d %H:%M:%S');
+	$f = fopen('/tmp/session_query_log','a');
+	fwrite( $f, "------\n$time\n$msg\n" );
+	fclose($f);
+}
+
 ?>
