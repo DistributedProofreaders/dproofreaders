@@ -1,6 +1,6 @@
 <?
 /*
-    Test version of for_mentors.php.  Displays information useful to Mentors
+     Displays information useful to Mentors.
     (i.e. those who are second-round proofreading projects with difficulty = "BEGINNER")
 
     ************************************
@@ -19,9 +19,9 @@ include_once($relPath.'project_states.inc');
 // for $users_ELR_page_tallyboard
 include_once($relPath.'page_tally.inc');
 
-function project_sql()
+function project_sql($round_id)
 {
-    return 
+    return
         "SELECT
             projectid,
             nameofwork,
@@ -31,33 +31,33 @@ function project_sql()
         WHERE
             difficulty = 'BEGINNER'
         AND
-            state='".PROJ_P2_AVAILABLE."'
+            state='".constant("PROJ_{$round_id}_AVAILABLE")."'
         ORDER BY
             modifieddate ASC" ;
 }
 
 function page_summary_sql($projectid)
 {
-    global $forums_url;
-    global $dynstats_url;
-    global $users_ELR_page_tallyboard;
+    global $forums_url,$code_url,$mentored_round_id;
 
-    list($joined_with_user_ELR_page_tallies,$user_ELR_page_tally_column) =
-	    $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
+    $round_tallyboard = new TallyBoard($mentored_round_id, 'U' );
 
-    return "SELECT 
+    list($joined_with_user_page_tallies,$user_page_tally_column) =
+	    $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
+
+    return "SELECT
                 CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
                 ELSE CONCAT('<a href=\""
-                    .$dynstats_url . "/members/mdetail.php?&id=',u.u_id,
+                    .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
                     '\">',u.username,'</a>')
                 END AS " . _("Proofreader") . ",
                 COUNT(1) AS '" . _("Pages this project") . "',
-                $user_ELR_page_tally_column AS '" . _("Total Pages") . "',
+                $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round_id) . "',
                 DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
             FROM $projectid  AS p
                 INNER JOIN users AS u ON p.round1_user = u.username
                 INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
-		$joined_with_user_ELR_page_tallies
+		$joined_with_user_page_tallies
             GROUP BY p.round1_user" ;
 }
 
@@ -89,18 +89,38 @@ function page_list_sql($projectid)
     // Display page header.
 
     theme(_("For Mentors"), "header");
-    // echo "<hr><h3>" . _("TEST VERSION") . "</h3>"  ;
-    echo "<h2>" . _("Second Round pages available to Mentors") . "</h2>";
-    echo "<br>" . _("Listed oldest project first.") . "<br>";
+    if (!isset($_GET['round_id']))
+    {
+      # If they're coming to this page from a MENTOR book in F2, 
+      # referrer should contain &expected_state=F2.proj_avail.
+      # Otherwise, default to the ELR round, P2.
+      $round_id = (strstr($_SERVER['HTTP_REFERER'],"F2.proj_avail")) ? 'F2' : 'P2';
+    }
+    else
+    {
+      $round_id = $_GET['round_id'];
+    }
 
-    $result = mysql_query(project_sql()) ;
+    echo "<h2>" . _("Pages available to Mentors in round $round_id") . "</h2>";
+    echo "<br>" . _("Oldest project listed first.") . "<br>";
+    echo "<p>Show projects from: ";
+    if ($round_id == 'P2')
+    {
+      echo "<b>P2</b> <a href='$code_url/tools/proofers/for_mentors.php?round_id=F2'>F2</a>";
+    }
+    else
+    {
+      echo "<a href='$code_url/tools/proofers/for_mentors.php?round_id=P2'>P2</a> <b>F2</b>";
+    }
+    echo "</p>.";
+    $mentored_round_id = substr_replace($round_id,'1',-1);
+    $result = mysql_query(project_sql($round_id));
     while ($proj =  mysql_fetch_object($result))
     {
         // Display project summary info
         echo "<br>" ;
         echo "<b>$proj->nameofwork by $proj->authorsname</b>" ;
         echo "<br>" ;
-        print $dynstats_url;
 
         dpsql_dump_query(page_summary_sql($proj->projectid));
 
