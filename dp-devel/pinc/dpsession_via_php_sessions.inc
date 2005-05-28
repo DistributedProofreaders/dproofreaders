@@ -158,7 +158,7 @@ function mysql_session_close()
 
 function mysql_session_select($sid)
 {
-	$result = mysql_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."") or die(mysql_error());
+	$result = do_session_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."");
 	if (mysql_num_rows($result) == 1)
 	{
 		return mysql_result($result, 0);
@@ -172,7 +172,7 @@ function mysql_session_select($sid)
 function mysql_session_write($sid, $value)
 {
 	$expiration = time() + ini_get("session.gc_maxlifetime");
-	$result = mysql_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
+	$result = do_session_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
 	$SessionExists = mysql_result($result, 0);
 	// The table has a uniqueness constraint on 'sid',
 	// so $SessionExists must be 0 or 1.
@@ -185,36 +185,42 @@ function mysql_session_write($sid, $value)
 
 	if ( $SessionExists == 0 )
 	{
-		$result = mysql_query("
+		$query = "
 			INSERT INTO sessions
 				(sid, expiration, value)
 			VALUES
 				('$sid', '$expiration', '$value')
-			") or die(mysql_error());
+			";
 	}
 	else
 	{
-		$result = mysql_query("
+		$query = "
 			UPDATE sessions
 			SET
 				expiration = '$expiration',
 				value = '$value'
 			WHERE sid = '$sid' AND expiration > ".time()
-			) or die(mysql_error());
+			;
 	}
+	$result = do_session_query($query);
 	return $result;
 }
 
 function mysql_session_destroy($sid)
 {
-	$result = mysql_query("DELETE FROM sessions WHERE sid = '$sid'") or die(mysql_error());
+	$result = do_session_query("DELETE FROM sessions WHERE sid = '$sid'");
 	return $result;
 }
 
 function mysql_session_garbage_collect($lifetime)
 {
-	$result = mysql_query("DELETE FROM sessions WHERE expiration < ". (time()-$lifetime) ."") or die(mysql_error());
+	$result = do_session_query("DELETE FROM sessions WHERE expiration < ". (time()-$lifetime) ."");
 	return $result;
 }
 
+function do_session_query( $query )
+{
+	$result = mysql_query($query) or die(mysql_error());
+	return $result;
+}
 ?>
