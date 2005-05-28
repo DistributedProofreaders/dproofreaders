@@ -1,8 +1,59 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'http_headers.inc');
-include_once($relPath.'dp_main.inc');
+//include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
+
+/*
+Until we get rid of the PageCookie functions and $_SESSION['userPage'], DO NOT
+include dp_main.inc (or anything that results in a call to dpsession_resume)
+from this script.
+
+Here's how things are supposed to work:
+-- User clicks on "Start Proofreading"; browser requests proof.php.
+-- proof.php sends a frameset response.
+-- Frameset requires proof_frame.php and ctrl_frame.php; browser requests them,
+   pretty much simultaneously.
+-- ctrl_frame.php sends the "AEIOU Greek" content to the browser (bottom
+   frame).
+-- proof_frame.php finds an available page, assigns it to user by calling
+   setPageCookie(), which puts the page-id into $_SESSION['userPage'],
+   which causes an update of the session-entry (in the 'sessions' table).
+   The script also sends the standard or enhanced proofing interface to
+   the browser (top frame), which involves callbacks for text_frame.php
+   (and maybe image_frame.php).
+-- text_frame.php (or image_frame.php) calls getPageCookie, which uses
+   $_SESSION['userPage'] (as read from session-entry) to determine
+   what text/image to put in the proofing interface.
+
+Now, if ctrl_frame.php (this script) includes dp_main.inc, that calls
+dpsession_resume(), which calls session_start(), which also causes an update
+of the session-entry (I think just to bump the expiration time), using the
+existing value for $_SESSION['userPage'].
+
+So a problem occurs (I think) when the server interleaves the processing of
+proof_frame.php and ctrl_frame.php in a particular way. Specifically:
+-- The server starts processing ctrl_frame.php first, and it gets its
+   idea of "the existing value for $_SESSION['userPage']", i.e. the
+   *previous* page that the user worked on. 
+-- The server processes proof_frame.php, which saves the value for the *new*
+   page in $_SESSION['userPage'].
+-- The server then finishes processing ctrl_frame.php, which saves the 
+   value for the *previous* page in $_SESSION['userPage'].
+-- text_frame.php (or image_frame.php) reads $_SESSION['userPage'], and
+   puts up the text/image for the *previous* page.
+
+(One user, using Firefox 1.0.4 on Windows XP2, was particularly good at
+reproducing the problem behaviour.)
+
+By commenting out the include of dp_main.inc, ctrl_frame.php no longer
+updates the session-entry, so the possible interleaving doesn't matter.
+
+In the past, this script has needed to include dp_main.inc (in order to
+define $userP), and it might need to do so in the future as well, so this
+is only a temporary fix. The long-term fix will be to eliminate the
+PageCookie functions and $_SESSION['userPage'].
+*/
 
 /*
 include_once($relPath.'v_resolution.inc');
