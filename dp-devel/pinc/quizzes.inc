@@ -2,12 +2,17 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 
-$defined_quizzes = array('PQ','FQ');
+$defined_quizzes = array('FQ','PQ');
 
 $FQ = new Quiz(
  "FQ",
- "Formatting Quiz",
- array('formatting1','formatting2','formatting3','formatting4','formatting5'),
+ _("Formatting Quiz"),
+ array(
+ _('Page one: Italics, bold, and small caps') => 'formatting1',
+ _('Page two: Section headings, hyphens and em-dashes') => 'formatting2',
+ _('Page three: Chapter headings and thought breaks') => 'formatting3',
+ _('Page four: Poetry, blockquotes and lists') => 'formatting4',
+ _('Page five: Illustrations and footnotes') => 'formatting5'),
  array()
 );
 
@@ -15,16 +20,13 @@ $FQ = new Quiz(
 $PQ = new Quiz(
  "PQ",
  "Proofreading Quiz",
- array('step1','step2','step3','step4','step5'),
+ array(
+ _('Page One') => 'step1',
+ _('Page Two') => 'step2',
+ _('Page Three') => 'step3',
+ _('Page Four') => 'step4',
+ _('Page Five') => 'step5'),
  array()
 );
 
-
-
-# $PT = new Quiz(
-#  "PT",
-#  "Test Quiz",
-#  array('step1','step3'),
-#  array()
-# );
 ?>
