@@ -43,7 +43,7 @@ echo "News_pages table creation...Done!";
 
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('activity_hub.php', 'ACT', 'Activity Hub',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('activity_hub.php', 'HUB', 'Activity Hub',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
