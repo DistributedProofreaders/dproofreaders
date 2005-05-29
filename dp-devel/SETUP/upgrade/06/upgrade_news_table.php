@@ -27,11 +27,10 @@ echo "News table alteration...Done!";
 
 dpsql_query("
 CREATE TABLE `news_pages` (
-  `display_page` varchar(255) NOT NULL default '',
   `news_page_id` varchar(8) NOT NULL default '',
   `news_type` varchar(40) NOT NULL default '',
   `modifieddate` varchar(10) 
-) TYPE=MyISAM COMMENT='maps urls of display_page to a news_page_id'
+) TYPE=MyISAM
 ") 
 or die("Aborting.");
 
@@ -43,49 +42,50 @@ echo "News_pages table creation...Done!";
 
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('activity_hub.php', 'HUB', 'Activity Hub',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('HUB', 'Activity Hub',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('round.php?round_id=P1', 'P1', 'First Round Proofreading',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('P1', 'First Round Proofreading',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('round.php?round_id=P2', 'P2', 'Second Round Proofreading',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('P2', 'Second Round Proofreading',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('round.php?round_id=F1', 'F1', 'First Round Formatting',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('F1', 'First Round Formatting',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('round.php?round_id=F2', 'F2', 'Second Round Formatting',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('F2', 'Second Round Formatting',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('default.php', 'FRONT', 'Front Page',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('FRONT', 'Front Page',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('pool.php?pool_id=PP', 'PP', 'Post Processing',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('PP', 'Post Processing',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('faq_central.php', 'FAQ', 'FAQ CENTRAL',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('FAQ', 'FAQ CENTRAL',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
 dpsql_query("
-INSERT INTO `news_pages` VALUES ('stats_central.php', 'STATS', 'Stats Central',UNIX_TIMESTAMP());
+INSERT INTO `news_pages` VALUES ('STATS', 'Stats Central',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
+
 
 
 echo "News_pages table population...Done!";    
