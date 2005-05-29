@@ -40,8 +40,8 @@ if (!$uao->can_access)
 
 
 
-show_site_news_for_page("pool.php?pool_id={$pool->id}");
-random_news_item_for_page("pool.php?pool_id={$pool->id}");
+show_site_news_for_page($pool->id);
+random_news_item_for_page($pool->id);
 
 
 echo "<br>\n";

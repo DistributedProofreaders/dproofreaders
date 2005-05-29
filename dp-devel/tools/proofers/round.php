@@ -61,8 +61,8 @@ $pagesproofed = get_pages_proofed_maybe_simulated();
 welcome_see_beginner_forum( $pagesproofed );
 
 
-show_site_news_for_page("round.php?round_id=".$round_id);
-random_news_item_for_page("round.php?round_id=".$round_id);
+show_site_news_for_page($round_id);
+random_news_item_for_page($round_id);
 
 
 if ($pagesproofed <= 100)

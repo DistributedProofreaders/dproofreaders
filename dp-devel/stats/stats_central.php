@@ -13,8 +13,8 @@ theme($title,'header');
 
 echo "<br><h2>" . _("Statistics Central") . "</h2>";
 
-show_site_news_for_page("stats_central.php");
-random_news_item_for_page("stats_central.php");
+show_site_news_for_page("STATS");
+random_news_item_for_page("STATS");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //Member/team stats searches and listings

@@ -9,7 +9,7 @@
 // If $show_header != 1, the introductory header identifying the news
 // as news is suppressed
 
-function show_site_news_for_page( $web_page_url, $show_header = 1 )
+function show_site_news_for_page( $news_page_id, $show_header = 1 )
 // Output the current set of enabled, non-archived site-news news-items 
 // defined for the web page $web_page_url
 {
@@ -18,16 +18,15 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
     global $code_url;
 
     $result0 = mysql_query("
-        SELECT news_page_id, news_type , modifieddate
+        SELECT news_type , modifieddate
         FROM news_pages 
-        WHERE display_page = '$web_page_url'
+        WHERE news_page_id = '$news_page_id'
     ");
 
     // this is a valid page that may potentially have news items
     if ($result0 AND mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
-        $news_page_id = $news_page['news_page_id'];
         $news_type = _($news_page['news_type']);
         $date_changed = $news_page['modifieddate'];
  
@@ -82,7 +81,7 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
 }
 
 
-function random_news_item_for_page( $web_page_url)
+function random_news_item_for_page( $news_page_id )
 // Output a randomly selected news item from the current set of 
 // non-displayed, non-archived site-news news-items 
 // defined for the web page $web_page_url
@@ -92,16 +91,15 @@ function random_news_item_for_page( $web_page_url)
     global $code_url;
 
     $result0 = mysql_query("
-        SELECT news_page_id, news_type , modifieddate
+        SELECT news_type , modifieddate
         FROM news_pages 
-        WHERE display_page = '$web_page_url'
+        WHERE news_page_id  = '$news_page_id '
     ");
 
     // this is a valid page that may potentially have news items
     if ($result0 AND mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
-        $news_page_id = $news_page['news_page_id'];
         $news_type = _($news_page['news_type']);
         $date_changed = $news_page['modifieddate'];
  

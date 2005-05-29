@@ -33,16 +33,16 @@ if ($logged_in) {
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
-    show_site_news_for_page("smooth_reading.php");
-    random_news_item_for_page("smooth_reading.php");
+    show_site_news_for_page("SR");
+    random_news_item_for_page("SR");
 } else {
     $showPMsF = FALSE;
     $tcolspan = 6;
     $header_text = _("Smooth Reading Pool Preview");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
-    show_site_news_for_page("smooth_reading.phpPUBLIC");
-    random_news_item_for_page("smooth_reading.phpPUBLIC");
+    show_site_news_for_page("SR_PREV");
+    random_news_item_for_page("SR_PREV");
 };
 
 
