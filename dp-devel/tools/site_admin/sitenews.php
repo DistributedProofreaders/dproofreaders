@@ -60,7 +60,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         header("Location: sitenews.php?news_page=$news_page");
     }
     // View a specific site news item
-    elseif (isset($_GET['action']) && $_GET['$action'] == "view") {
+    elseif (isset($_GET['action']) && $_GET['action'] == "view") {
         $uid = $_GET['uid'];
         $result = mysql_query("SELECT * FROM news WHERE uid = $uid");
         $date_posted = strftime(_("%A, %B %e, %Y"),mysql_result($result,0,'date_posted'));
