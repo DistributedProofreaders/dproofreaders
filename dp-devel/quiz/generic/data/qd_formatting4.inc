@@ -14,7 +14,7 @@ $ocr_text                     = "When listening to amateur poetry, says Wellingt
 $solutions                    = array("\nWhen listening to amateur poetry, says Wellington\nBunn:\n\n/#\nTo safeguard one's person ... one must be equipped with\nall manner of defensive objects.\n#/\n\nBunn goes on to list these objects, among them\n\n/*\n1. a spoon, and\n2. two sporks.\n*/\n\nSo equipped, the reader may undertake to listen to\npoetry such as that of Skelton:\n\n/*\nGup, gorbellyd Godfrey, gup, Garnysche, gaudy fole!\n  To turney or to tante with me ye ar to fare to seke:\nFor thes twayne whypslouens calle for a coke stole:\n  Thow mantycore, ye marmoset, garnyshte lyke a Greke.\n*/\n\nTruer words ne'er were spoken.");
 $showsolution                 = TRUE;
 $solved_message               = "<h2>Quiz successfully solved</h2> Congratulations, no errors found!";
-$links_out                    = "<a href='../generic/main.php?type=formatting5' target='_top'>Next step of quiz</a>";
+$links_out                    = "<a href='../generic/main.php?type=formatting5&quiz_id=FQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>";
 
 
 // error messages

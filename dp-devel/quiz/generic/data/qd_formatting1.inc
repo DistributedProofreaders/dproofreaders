@@ -13,7 +13,7 @@ $ocr_text                     = "Accordingly, he suggested to the manager of the
 $solutions                    = array("\nAccordingly, he suggested to the manager of the\nhouse that the front be brightened up at night by\nelectrical signs, one row of lights spelling his name\n\"<sc>Burton</sc>\" and another row of lights spelling the\nname \"<sc>Holmes</sc>.\"\n\nThe <b>manager</b> told him it was too much of an\ninnovation for <i>him</i> to authorize and referred him to\nthe owner of the theatre. Mr. Holmes travelled\nseveral hours into the country to consult with the\nowner, who referred him to his agent in the city. The\nagent in turn sent Mr. Holmes to the janitor of the\ntheatre.");
 $showsolution                 = TRUE;
 $solved_message               = "<h2>Quiz solved!</h2> Congratulations, no errors found!";
-$links_out                    = "";
+$links_out                    = "<a href='../generic/main.php?type=formatting2&quiz_id=FQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>";
 
 
 // error messages
@@ -40,4 +40,7 @@ $tests[] = array("type" => "markupcorrupt", "opentext" => "<b>", "closetext" => 
 $tests[] = array("type" => "markupcorrupt", "opentext" => "<sc>", "closetext" => "</sc>", "case_sensitive" => FALSE, "error" => "smcapcorrupt");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nAccordingly"), "case_sensitive" => TRUE, "error" => "missingline");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nThe "), "case_sensitive" => TRUE, "error" => "missingline");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("s</sc>"), "case_sensitive" => TRUE, "error" => "smcapcorrupt");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("n</sc>"), "case_sensitive" => TRUE, "error" => "smcapcorrupt");
+
 ?>

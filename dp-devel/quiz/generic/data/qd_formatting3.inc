@@ -14,7 +14,7 @@ $ocr_text                     = "Chapter 8\n\nTHE MERMAIDS' LAGOON\nIn which our
 $solutions                    = array("\n\n\n\nChapter 8\n\nTHE MERMAIDS' LAGOON\n\nIn which our heroes discover the perils of ignoring thought breaks.\n\n\nIf you shut your eyes and are a lucky one, you may see\nat times a shapeless pool of lovely pale colours\nsuspended in the darkness; then if you squeeze your\neyes tighter, the pool begins to take shape, and the\ncolours become so vivid that with another squeeze they\nmust go on fire. But just before they go on fire you see\nthe lagoon.\n\n       *       *       *       *       *\n\nThe children often spent long summer days on this\nlagoon, swimming or floating most of the time, playing\nthe mermaid games in the water, and so forth. You");
 $showsolution                 = TRUE;
 $solved_message               = "<h2>Quiz successfully solved</h2> Congratulations, no errors found!";
-$links_out                    = "<a href='../generic/main.php?type=formatting4' target='_top'>Next step of quiz</a>";
+$links_out                    = "<a href='../generic/main.php?type=formatting4&quiz_id=FQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>";
 
 
 // error messages
