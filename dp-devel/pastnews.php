@@ -3,7 +3,7 @@ $relPath="./pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 
-// Very basic display of the recent inactive but unarchived news stories for the given news page
+// Very basic display of the 'hidden' news stories for the given news page
 //
 // Sorts the news by their id's and then prints one by one.
 
@@ -37,8 +37,7 @@ echo "</center>";
 $result = mysql_query("
     SELECT * FROM news 
     WHERE news_page_id = '$news_page' AND 
-        (display IS NULL OR display != 1)  AND 
-        (archive IS NULL OR archive != 1) 
+        status = 'hidden'
     ORDER BY uid DESC
 ".$num);
 

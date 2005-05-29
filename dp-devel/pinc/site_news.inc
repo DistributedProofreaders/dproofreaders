@@ -3,8 +3,8 @@
 function show_news_for_page( $news_page_id )
 // Show the news block for the given page, consisting of:
 // -- a header,
-// -- all the 'display=1', non-archived news items,
-// -- a randomly-chosen 'display=0' news item,
+// -- all the 'visible' news items,
+// -- a randomly-chosen 'hidden' news item,
 // where the news items are designated for the given page,
 // or for every page.
 {
@@ -19,7 +19,7 @@ function show_news_for_page( $news_page_id )
 // as news is suppressed
 
 function show_site_news_for_page( $news_page_id, $show_header = 1 )
-// Output the current set of enabled, non-archived site-news news-items 
+// Output the current set of 'visible' site-news news-items 
 // defined for the given page.
 {
 
@@ -42,7 +42,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
         $result = mysql_query("
             SELECT date_posted, message 
             FROM news 
-            WHERE display = 1 AND (archive IS NULL OR archive != 1) 
+            WHERE status = 'visible' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY ORDERING DESC
         ");
@@ -92,7 +92,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 
 function random_news_item_for_page( $news_page_id )
 // Output a randomly selected news item from the current set of 
-// non-displayed, non-archived site-news news-items 
+// 'hidden' site-news news-items 
 // defined for the given page.
 {
 
@@ -115,7 +115,7 @@ function random_news_item_for_page( $news_page_id )
         $result = mysql_query("
             SELECT message 
             FROM news 
-            WHERE display = 0 AND (archive IS NULL OR archive != 1) 
+            WHERE status = 'hidden' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY RAND() LIMIT 1
         ");

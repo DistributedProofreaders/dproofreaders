@@ -49,8 +49,8 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $message = nl2br($message);
         $date_posted = time();
         $insert_news = mysql_query("
-            INSERT INTO news (news_page_id,uid, display, date_posted, message) 
-            VALUES ('$news_page',NULL, 1,'$date_posted', '$message')
+            INSERT INTO news (news_page_id,uid, status, date_posted, message) 
+            VALUES ('$news_page',NULL, 'visible','$date_posted', '$message')
         ");
         // by default, new items go at the top
         $update_news = mysql_query("
@@ -77,27 +77,27 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
     // Display a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "display") {
         $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news SET display = 1 WHERE uid=$uid");
+        $result = mysql_query("UPDATE news SET status = 'visible' WHERE uid=$uid");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Hide a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "hide") {
         $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news SET display = 0 WHERE uid=$uid");
+        $result = mysql_query("UPDATE news SET status = 'hidden' WHERE uid=$uid");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Archive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "archive") {
         $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news SET archive = 1, display = 0 WHERE uid=$uid");
+        $result = mysql_query("UPDATE news SET status = 'archived' WHERE uid=$uid");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Unarchive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "unarchive") {
         $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news SET archive = 0, display = 0 WHERE uid=$uid");
+        $result = mysql_query("UPDATE news SET status = 'hidden' WHERE uid=$uid");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item higher in the display list
@@ -121,9 +121,9 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $message = nl2br($message);
         $uid = $_POST['uid'];
         $result = mysql_query("UPDATE news SET message='$message' WHERE uid=$uid");
-        $result = mysql_query("SELECT display FROM news WHERE uid=$uid");
+        $result = mysql_query("SELECT status FROM news WHERE uid=$uid");
         $row = mysql_fetch_assoc($result);
-        $visible_change_made = ($row['display'] == 1);
+        $visible_change_made = ($row['status'] == 'visible');
         if ($visible_change_made) {news_change_made($news_page);}
         header("Location: sitenews.php?news_page=$news_page");
     }
@@ -153,8 +153,8 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $result = mysql_query("
             SELECT * 
             FROM news 
-            WHERE news_page_id = '$news_page' AND (archive IS NULL OR archive != 1) 
-            ORDER BY display DESC, ordering DESC
+            WHERE news_page_id = '$news_page' AND status != 'archived' 
+            ORDER BY status DESC, ordering DESC
         ");
 
         if (mysql_numrows($result) > 0) {
@@ -169,9 +169,9 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
             while($row = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
-                $visible = $row['display'];
+                $status = $row['status'];
                 $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
-                if ($visible == 1) {
+                if ($status == 'visible') {
                     echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
                     if ($first_vis == 1) {
                        $first_vis = 0;
@@ -198,7 +198,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $result = mysql_query("
             SELECT * 
             FROM news 
-            WHERE news_page_id = '$news_page' AND archive = 1 
+            WHERE news_page_id = '$news_page' AND status = 'archived' 
             ORDER BY uid DESC;
         ");
 
@@ -209,7 +209,6 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
             while($row = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
-                $visible = $row['display'];
                 $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
                 echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";        
                 echo $base_url."edit'>Edit</a>]&nbsp;";
@@ -236,7 +235,7 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
     $result = mysql_query("
         SELECT * FROM news 
         WHERE news_page_id = '$news_page_id' AND 
-           display = 1  AND (archive IS NULL OR archive != 1) 
+           status = 'visible' 
         ORDER BY ordering
     ");
 
@@ -254,7 +253,7 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
         if ($direction == 'up') {
             $result = mysql_query("
                 UPDATE news SET ordering = $old_pos 
-                WHERE news_page_id = '$news_page_id' AND display = 1 AND ordering = ($old_pos + 1)
+                WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos + 1)
             ");
             $result = mysql_query("
                 UPDATE news SET ordering = $old_pos + 1 WHERE uid = $uid_to_move
@@ -262,7 +261,7 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
         } else {
             $result = mysql_query("
                 UPDATE news SET ordering = $old_pos 
-                WHERE news_page_id = '$news_page_id' AND display = 1 AND ordering = ($old_pos - 1)
+                WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos - 1)
             ");
             $result = mysql_query("
                 UPDATE news SET ordering = $old_pos - 1 WHERE uid = $uid_to_move
