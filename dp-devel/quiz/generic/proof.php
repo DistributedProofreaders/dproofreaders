@@ -17,7 +17,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body bgcolor='#ffffff'>
-<form action="./returnfeed.php?type=<?php echo $_REQUEST['type']; ?>" target="right" method="post">
+<form action="./returnfeed.php?type=<?=$_REQUEST['type']?>&quiz_id=<?=$_REQUEST['quiz_id']?>" target="right" method="post">
 <textarea rows="12" cols="60" name="output" id='output' wrap="off">
 <?php echo $ocr_text; ?>
 </textarea> <p>

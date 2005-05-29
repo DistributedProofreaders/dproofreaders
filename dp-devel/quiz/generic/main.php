@@ -13,8 +13,8 @@ include './data/qd_' . $_REQUEST['type'] . '.inc';
 <frameset cols="60%,*">
 <frameset name="left" rows="40%,*">
 <frame src="orig.php?type=<?php echo $_REQUEST['type']; ?>">
-<frame name="pf" src="proof.php?type=<?php echo $_REQUEST['type']; ?>">
+<frame name="pf" src="proof.php?type=<?=$_REQUEST['type']?>&quiz_id=<?=$_REQUEST['quiz_id']?>">
 </frameset>
-<frame name="right" src="right.php?type=<?php echo $_REQUEST['type']; ?>">
+<frame name="right" src="right.php?type=<?=$_REQUEST['type']?>&quiz_id=<?=$_REQUEST['quiz_id']?>">
 </frameset>
 </html>
