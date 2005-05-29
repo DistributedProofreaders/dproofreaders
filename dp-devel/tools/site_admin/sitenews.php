@@ -49,8 +49,13 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $message = nl2br($message);
         $date_posted = time();
         $insert_news = mysql_query("
-            INSERT INTO news (news_page_id,uid, status, date_posted, message) 
-            VALUES ('$news_page',NULL, 'visible','$date_posted', '$message')
+            INSERT INTO news
+            SET
+                uid          = NULL,
+                news_page_id = '$news_page',
+                status       = 'visible',
+                date_posted  = '$date_posted',
+                message      = '$message'
         ");
         // by default, new items go at the top
         $update_news = mysql_query("
@@ -275,4 +280,6 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
 
 theme("", "footer");
 ob_end_flush();
+
+// vim: sw=4 ts=4 expandtab
 ?>
