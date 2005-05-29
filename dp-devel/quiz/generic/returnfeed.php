@@ -1,4 +1,4 @@
-<? 
+<?
 $relPath='../../pinc/';
 include_once($relPath.'connect.inc');
 include_once('../small_theme.inc');
@@ -94,7 +94,7 @@ function finddiff()
   {
     echo '<p>' . $qt_frstdiff . '<br>';
     echo "<pre>\n";
-    echo $d;
+    echo htmlspecialchars($d);
     echo "\n</pre></p>";
   }
   else
