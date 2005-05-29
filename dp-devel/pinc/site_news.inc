@@ -2,16 +2,13 @@
 
 // -----------------------------------------------------------------------------
 
-// Echos the visible site news designated to be shown on the page
-// whose filename is $web_page_url
-// This value is a key into the news_pages table to determine which
-// set of news items (defined by a news_page_id) to show
+// Echos the visible site news designated to be shown on the given page.
 // If $show_header != 1, the introductory header identifying the news
 // as news is suppressed
 
 function show_site_news_for_page( $news_page_id, $show_header = 1 )
 // Output the current set of enabled, non-archived site-news news-items 
-// defined for the web page $web_page_url
+// defined for the given page.
 {
 
     global $theme;
@@ -84,7 +81,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 function random_news_item_for_page( $news_page_id )
 // Output a randomly selected news item from the current set of 
 // non-displayed, non-archived site-news news-items 
-// defined for the web page $web_page_url
+// defined for the given page.
 {
 
     global $theme;
