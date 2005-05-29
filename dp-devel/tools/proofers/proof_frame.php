@@ -28,14 +28,28 @@ if (isset($saved)) {
 }
 else
 {
+    // The user clicked "Start Proofreading".
 
 // see if they need a new page or not
 $needPage=1;
 
-  // 1 see if there is a cookie
+    // Consider the page (if any) that this user most recently "opened" in
+    // this session, either via 'Start Proofreading' or via the 'Done' or
+    // 'In Progress' trays. If the time at which that page was opened is
+    // less than 3 seconds ago, and the page was from the same project as
+    // the current one, we do *not* give the user a new page, but rather
+    // leave the "page cookie" with its previous value, causing the proofing
+    // interface to load the previous page again.
+
+    // It's not clear why this is done. (The code has been here since rev 1.1.)
+    // You might think it's meant to thwart click-through artists, but 3 seconds
+    // isn't much of a delay. Probably it's some kind of request de-bouncer,
+    // filtering out extraneous repeated HTTP requests for this script. I
+    // suspect it's meant to detect users who click "Start Proofreading", and,
+    // not seeing an immediate response, click it again a couple seconds later.
+
     if ( dpsession_page_is_set() )
     {
-      // see if the cookie is older than 3 seconds
         $npage=getPageCookie();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
           {$needPage=0;}
