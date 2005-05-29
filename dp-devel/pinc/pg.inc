@@ -15,7 +15,7 @@ $PG_mailing_lists_url   = "http://www.gutenberg.org/howto/subscribe-howto";
 
 $PG_in_progress_url     = "http://www.dprice48.freeserve.co.uk/GutIP.html"; 
 
-$PG_paypal_business_id  = "donate@gutenberg.net";
+$PG_paypal_business_id  = "donate@gutenberg.org";
 
 // -----------------------------------------------------------------------------
 
