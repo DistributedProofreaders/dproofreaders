@@ -50,7 +50,7 @@ class Quiz
     }
 
     // At this point, if a user has passed the quiz, the $pages_required_results array should
-    // have only pagename => timestamp  rows. If any false values remain, the user has not passed
+    // have only pagename => timestamp  rows. If any "no" values remain, the user has not passed
     // all the pages required, or the result of that page is invalid (e.g. too old).
     if (array_search("no",$pages_required_results) !== false)
     {
@@ -60,6 +60,28 @@ class Quiz
     {
       return true;
     }
+  }
+  
+  function show_results_table($username)
+  {
+    global $theme;
+    echo "<p>
+          <table border='1'>
+          <tr><th colspan='3'>$this->name</th></tr>";
+    $pages = $this->pages;
+    foreach ($pages as $desc => $page)
+    {
+      echo "<tr><td>$desc</td> <td><a href='generic/main.php?type=$page'>Quizzle!</a></td>";
+      $passed = user_has_passed_quiz_page($username, $page);
+      $text = $passed ? _("Passed") : _("Not passed");
+      $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
+      echo "<td bgcolor='$bgcolor'>$text</td></tr>";
+    }
+    $total_pass = $this->user_has_passed($username);
+    $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
+    $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
+    echo "<tr><td colspan='3'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>
+    </table></p>";
   }
 }
 
@@ -95,4 +117,7 @@ function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = a
   }
   return true;
 }
+
+
+
 ?>
