@@ -26,8 +26,7 @@ theme('FAQ Central','header', $theme_args);
    files about the Distributed Proofreaders website.</p>
 
 <?
-show_site_news_for_page("FAQ");
-random_news_item_for_page("FAQ");
+show_news_for_page("FAQ");
 ?>
 
 <table width='100%' border='0' cellspacing='0' cellpadding='0' class='faqs' id='faqtable'>

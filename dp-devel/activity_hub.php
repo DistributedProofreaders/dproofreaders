@@ -80,8 +80,8 @@ if ($pagesproofed >= 20)
         echo "</i></font><br><br>\n";
     }
 
-    show_site_news_for_page("HUB");
-    random_news_item_for_page("HUB");
+    show_news_for_page("HUB");
+
     include("./stats/currentstatestats.inc");
     echo "</center>\n";
 }

@@ -1,5 +1,17 @@
 <?PHP
 
+function show_news_for_page( $news_page_id )
+// Show the news block for the given page, consisting of:
+// -- a header,
+// -- all the 'display=1', non-archived news items,
+// -- a randomly-chosen 'display=0' news item,
+// where the news items are designated for the given page,
+// or for every page.
+{
+    show_site_news_for_page( $news_page_id );
+    random_news_item_for_page( $news_page_id );
+}
+
 // -----------------------------------------------------------------------------
 
 // Echos the visible site news designated to be shown on the given page.

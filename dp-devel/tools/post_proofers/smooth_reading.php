@@ -33,16 +33,14 @@ if ($logged_in) {
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
-    show_site_news_for_page("SR");
-    random_news_item_for_page("SR");
+    show_news_for_page("SR");
 } else {
     $showPMsF = FALSE;
     $tcolspan = 6;
     $header_text = _("Smooth Reading Pool Preview");
     theme( $header_text, 'header');
     echo "<h1>{$header_text}</h1>\n";
-    show_site_news_for_page("SR_PREV");
-    random_news_item_for_page("SR_PREV");
+    show_news_for_page("SR_PREV");
 };
 
 
