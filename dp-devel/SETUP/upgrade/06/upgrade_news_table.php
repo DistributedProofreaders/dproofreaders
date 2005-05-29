@@ -12,9 +12,9 @@ new dbConnect();
 
 dpsql_query("
     ALTER TABLE `news` 
-    ADD `news_page_id` VARCHAR(8) FIRST,
-    ADD `status`   CHAR(8) AFTER `uid`,
-    ADD `ordering` TINYINT AFTER `status`
+        ADD news_page_id VARCHAR(8)       AFTER date_posted,
+        ADD status       CHAR(8) NOT NULL AFTER news_page_id,
+        ADD ordering     TINYINT NOT NULL AFTER status
 ") 
 or die("Aborting.");
 
