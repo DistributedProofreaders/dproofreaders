@@ -5,7 +5,7 @@
 // Echos the visible site news designated to be shown on the page
 // whose filename is $web_page_url
 // This value is a key into the news_pages table to determine which
-// set of news items (defined by a site_news_id) to show
+// set of news items (defined by a news_page_id) to show
 // If $show_header != 1, the introductory header identifying the news
 // as news is suppressed
 
@@ -18,7 +18,7 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
     global $code_url;
 
     $result0 = mysql_query("
-        SELECT site_news_id, news_type , modifieddate
+        SELECT news_page_id, news_type , modifieddate
         FROM news_pages 
         WHERE display_page = '$web_page_url'
     ");
@@ -27,7 +27,7 @@ function show_site_news_for_page( $web_page_url, $show_header = 1 )
     if ($result0 AND mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
-        $news_page_id = $news_page['site_news_id'];
+        $news_page_id = $news_page['news_page_id'];
         $news_type = _($news_page['news_type']);
         $date_changed = $news_page['modifieddate'];
  
@@ -92,7 +92,7 @@ function random_news_item_for_page( $web_page_url)
     global $code_url;
 
     $result0 = mysql_query("
-        SELECT site_news_id, news_type , modifieddate
+        SELECT news_page_id, news_type , modifieddate
         FROM news_pages 
         WHERE display_page = '$web_page_url'
     ");
@@ -101,7 +101,7 @@ function random_news_item_for_page( $web_page_url)
     if ($result0 AND mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
-        $news_page_id = $news_page['site_news_id'];
+        $news_page_id = $news_page['news_page_id'];
         $news_type = _($news_page['news_type']);
         $date_changed = $news_page['modifieddate'];
  

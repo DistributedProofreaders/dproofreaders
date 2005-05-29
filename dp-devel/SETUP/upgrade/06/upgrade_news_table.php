@@ -28,10 +28,10 @@ echo "News table alteration...Done!";
 dpsql_query("
 CREATE TABLE `news_pages` (
   `display_page` varchar(255) NOT NULL default '',
-  `site_news_id` varchar(8) NOT NULL default '',
+  `news_page_id` varchar(8) NOT NULL default '',
   `news_type` varchar(40) NOT NULL default '',
   `modifieddate` varchar(10) 
-) TYPE=MyISAM COMMENT='maps urls of display_page to a site_news_id'
+) TYPE=MyISAM COMMENT='maps urls of display_page to a news_page_id'
 ") 
 or die("Aborting.");
 

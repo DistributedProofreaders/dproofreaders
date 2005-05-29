@@ -9,7 +9,7 @@ include_once($relPath.'theme.inc');
 
 if (isset($_GET['news_page'])) {
     $news_page = $_GET['news_page'];
-    $type_result = mysql_query("SELECT * FROM news_pages WHERE site_news_id = '$news_page'");
+    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
         $news_type = _($news_type_row['news_type']);        
         theme("Recent Site News Items for ".$news_type, "header");

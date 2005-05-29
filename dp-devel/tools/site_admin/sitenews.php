@@ -9,7 +9,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
     if (isset($_GET['news_page'])) {
         $news_page = $_GET['news_page'];
-        $type_result = mysql_query("SELECT * FROM news_pages WHERE site_news_id = '$news_page'");
+        $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page'");
         if ($news_type_row = mysql_fetch_assoc($type_result)) {
             $news_type = _($news_type_row['news_type']);       
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']); 
@@ -30,10 +30,10 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             echo "<h1>"._("Site News Central")."</h1>";
             echo "<br><br><font size = +1><ul>";
             while ($news_type_row = mysql_fetch_assoc($type_result)) {
-                $site_news_id = $news_type_row['site_news_id'];
+                $news_page_id = $news_type_row['news_page_id'];
                 $news_type = _($news_type_row['news_type']);       
                 $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']); 
-                echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$site_news_id."'>".
+                echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$news_page_id."'>".
                     $news_type."</a> "._("Last modified : ").$last_modified."<br><br>";
              }
              echo "</ul></font>";
@@ -227,7 +227,7 @@ else {
 function news_change_made ($news_page) {
     $date_changed = time();
     $result = mysql_query("
-            UPDATE news_pages SET modifieddate = $date_changed WHERE site_news_id = '$news_page'
+            UPDATE news_pages SET modifieddate = $date_changed WHERE news_page_id = '$news_page'
     ");
 }
 
