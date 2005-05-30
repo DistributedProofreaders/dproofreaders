@@ -162,7 +162,7 @@ class Settings
     function set_boolean($settingCode, $boolval)
     {
         if(!$this->_isSettable($settingCode)) return;
-        if($boolval == 'yes')
+        if($boolval)
             $this->set_true($settingCode);
         else
             $this->set_false($settingCode);
