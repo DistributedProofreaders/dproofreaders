@@ -175,17 +175,13 @@ class Settings
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
 
-    // If $value and $default are both equivalent to PHP Null, set_false.
-    // If $value equivalent to PHP Null and $default is not, set Value to $default.
-    // If $value is not equivalent to PHP Null, set Value to $value.
-    function set_value($settingCode, $value, $default = Null)
+    // If $value is NULL, set_false.
+    // Otherwise, set Value to $value.
+    function set_value($settingCode, $value)
     {
         if(!$this->_isSettable($settingCode)) return;
 
-        if(!$value)
-            $value = $default;
-
-        if(!$value && ($default != Null))
+        if(is_null($value))
         {
             $this->set_false($settingCode);
         }
