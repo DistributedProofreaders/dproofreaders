@@ -139,13 +139,7 @@ class Settings
     // Setting to True
     function set_true($settingCode)
     {
-        if(!$this->_isSettable($settingCode)) return;
-        
-        ExecSQL("REPLACE INTO usersettings
-                SET value = 'yes',
-                    username = '$this->username',
-                    setting = '$settingCode'");
-        $this->settings_array[$settingCode] = 'yes';
+        $this->set_value($settingCode,'yes');
     }
 
     // Setting to False
