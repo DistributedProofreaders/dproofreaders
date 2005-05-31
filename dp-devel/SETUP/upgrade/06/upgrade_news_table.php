@@ -41,7 +41,7 @@ dpsql_query("
         news_page_id VARCHAR(8)           default NULL,
         status       VARCHAR(8)  NOT NULL default '',
         ordering     TINYINT     NOT NULL default '0',
-        message      TEXT        NOT NULL,
+        content      TEXT        NOT NULL,
         KEY uid (uid)
     ) TYPE=MyISAM
 ") 

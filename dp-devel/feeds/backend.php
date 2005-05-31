@@ -96,7 +96,7 @@ $db_Connection=new dbConnect();
 				$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
 				<link>$code_url/pastnews.php?#".$news_item['uid']."</link>
-				<description>".xmlencode(strip_tags($news_item['message']))."</description>
+				<description>".xmlencode(strip_tags($news_item['content']))."</description>
 				</item>
 				";
 		}

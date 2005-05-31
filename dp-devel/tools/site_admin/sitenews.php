@@ -45,8 +45,8 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
     // Save a new site news item
     if (isset($_GET['action']) && $_GET['action'] == "add") {
-        $message = strip_tags($_POST['message'], '<a><b><i><u><font><img>');
-        $message = nl2br($message);
+        $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
+        $content = nl2br($content);
         $date_posted = time();
         $insert_news = mysql_query("
             INSERT INTO news_items
@@ -55,7 +55,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 news_page_id = '$news_page',
                 status       = 'visible',
                 date_posted  = '$date_posted',
-                message      = '$message'
+                content      = '$content'
         ");
         // by default, new items go at the top
         $update_news = mysql_query("
@@ -70,7 +70,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $result = mysql_query("SELECT * FROM news_items WHERE uid = $uid");
         $date_posted = strftime(_("%A, %B %e, %Y"),mysql_result($result,0,'date_posted'));
         echo "<b>$date_posted</b><br>";
-        echo mysql_result($result,0,"message");
+        echo mysql_result($result,0,"content");
         echo "<br><br><a href='javascript:history.back()'>Go Back...</a>";
     }
     // Delete a specific site news item
@@ -121,11 +121,11 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
     }
     // Save an update to a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "edit_update") {
-        $message = $_POST['message'];
-        $message = strip_tags($_POST['message'], '<a><b><i><u><font><img>');
-        $message = nl2br($message);
+        $content = $_POST['content'];
+        $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
+        $content = nl2br($content);
         $uid = $_POST['uid'];
-        $result = mysql_query("UPDATE news_items SET message='$message' WHERE uid=$uid");
+        $result = mysql_query("UPDATE news_items SET content='$content' WHERE uid=$uid");
         $result = mysql_query("SELECT status FROM news_items WHERE uid=$uid");
         $row = mysql_fetch_assoc($result);
         $visible_change_made = ($row['status'] == 'visible');
@@ -139,14 +139,14 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         if (isset($_GET['action']) && $_GET['action'] == "edit") {
             $uid = $_GET['uid'];
             $result = mysql_query("SELECT * FROM news_items WHERE uid=$uid");
-            $message = mysql_result($result,0,"message");
+            $content = mysql_result($result,0,"content");
             $action = "edit_update";
             $submit_query = "Edit Site News Item for ".$news_type;
         }
-        if (empty($message)) { $message = ""; }
+        if (empty($content)) { $content = ""; }
 
         echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
-        echo "<center><textarea name='message' cols=50 rows=5>$message</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
+        echo "<center><textarea name='content' cols=50 rows=5>$content</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
         echo "<input type='hidden' name='uid' value='$uid'></form>";
 
         // show all news items for this page
@@ -196,7 +196,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 }
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
-                echo $news_item['message']."<br><br>";
+                echo $news_item['content']."<br><br>";
             }
         }
 
@@ -218,7 +218,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";        
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
-                echo $news_item['message']."<br><br>";
+                echo $news_item['content']."<br><br>";
             }
         }
     }

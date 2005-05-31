@@ -48,7 +48,7 @@ if (mysql_numrows($result)== 0) {
 } else {
     while($news_item = mysql_fetch_array($result)) {
         $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-        echo "<br><a name='".$news_item['uid']."'><b>$date_posted</b><br>".$news_item['message']."<br><hr align='center' width='75%'><br>";
+        echo "<br><a name='".$news_item['uid']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr align='center' width='75%'><br>";
     }
 }
 

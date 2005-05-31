@@ -40,7 +40,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
         $date_changed = $news_page['modifieddate'];
  
         $result = mysql_query("
-            SELECT date_posted, message 
+            SELECT date_posted, content 
             FROM news_items 
             WHERE status = 'visible' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
@@ -70,9 +70,9 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
             echo "<br><font size='2' face='";
 
             echo $theme['font_mainbody'] . "'>";
-            echo $news_item['message'];
+            echo $news_item['content'];
             while  ($news_item = mysql_fetch_assoc($result)) {
-                echo "<br><br>".$news_item['message'];
+                echo "<br><br>".$news_item['content'];
             }
             echo "</center></font>\n";
         }
@@ -113,7 +113,7 @@ function random_news_item_for_page( $news_page_id )
         $date_changed = $news_page['modifieddate'];
  
         $result = mysql_query("
-            SELECT message 
+            SELECT content 
             FROM news_items 
             WHERE status = 'hidden' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
@@ -128,7 +128,7 @@ function random_news_item_for_page( $news_page_id )
             echo "<center>";
             echo "<br><font size=2 face=";
             echo $theme['font_mainbody'] . ">";
-            echo $news_item['message'];
+            echo $news_item['content'];
             echo "</center></font><br>\n";
         }
         echo "<br>\n";
