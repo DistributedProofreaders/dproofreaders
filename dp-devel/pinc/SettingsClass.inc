@@ -139,24 +139,19 @@ class Settings
     // Setting to True
     function set_true($settingCode)
     {
-        $this->set_value($settingCode,'yes');
+        $this->set_boolean($settingCode,TRUE);
     }
 
     // Setting to False
     function set_false($settingCode)
     {
-        $this->set_value($settingCode,NULL);
+        $this->set_boolean($settingCode,FALSE);
     }
 
-    // Either set_true (if $boolval == True, by any php interpretation,
-    // otherwise set_false (i.e. in the usersettings table anyway, delete).
     function set_boolean($settingCode, $boolval)
+    // A wrapper around set_value() for boolean values.
     {
-        if(!$this->_isSettable($settingCode)) return;
-        if($boolval)
-            $this->set_true($settingCode);
-        else
-            $this->set_false($settingCode);
+        $this->set_value($settingCode, ($boolval ? 'yes' : NULL) );
     }
 
     // Return True iff a row exists and its value is 'yes'. Otherwise, return False.
