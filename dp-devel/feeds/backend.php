@@ -91,12 +91,12 @@ $db_Connection=new dbConnect();
 
 	if ($content == "news") {
 	$result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
-		while ($row = mysql_fetch_array($result)) {
-		$posteddate = date("l, F jS, Y",($row['date_posted']));
+		while ($news_item = mysql_fetch_array($result)) {
+		$posteddate = date("l, F jS, Y",($news_item['date_posted']));
 				$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
-				<link>$code_url/pastnews.php?#".$row['uid']."</link>
-				<description>".xmlencode(strip_tags($row['message']))."</description>
+				<link>$code_url/pastnews.php?#".$news_item['uid']."</link>
+				<description>".xmlencode(strip_tags($news_item['message']))."</description>
 				</item>
 				";
 		}
