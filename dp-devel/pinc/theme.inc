@@ -187,8 +187,6 @@ function html_logobar($nameofpage) {
 
   echo headerbar_text("DP","$code_url/default.php");
 
-	if (isset($GLOBALS['pguser'])) echo headerbar_text(" » $GLOBALS[pguser] ")."\n";
-
 	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
     //Code to display login form if not logged in
@@ -235,6 +233,7 @@ function html_logobar($nameofpage) {
   echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
   echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
   echo headerbar_text(_("Log Out"),"$code_url/tools/logout.php",true);
+  echo headerbar_text($GLOBALS['pguser'],'',true);
 	echo "</font></td>\n";
 	echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
 	      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
