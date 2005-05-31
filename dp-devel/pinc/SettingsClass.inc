@@ -145,10 +145,7 @@ class Settings
     // Setting to False
     function set_false($settingCode)
     {
-        if(!$this->_isSettable($settingCode)) return;
-        ExecSQL("DELETE FROM usersettings 
-                WHERE username = '$this->username' AND setting = '$settingCode'");
-        unset($this->settings_array[$settingCode]);
+        $this->set_value($settingCode,NULL);
     }
 
     // Either set_true (if $boolval == True, by any php interpretation,
@@ -169,7 +166,7 @@ class Settings
         return ($this->settings_array[$settingCode] == 'yes') ? True : False;
     }
 
-    // If $value is NULL, set_false.
+    // If $value is NULL, remove the setting.
     // Otherwise, set Value to $value.
     function set_value($settingCode, $value)
     {
@@ -177,7 +174,11 @@ class Settings
 
         if(is_null($value))
         {
-            $this->set_false($settingCode);
+            $sql = "DELETE FROM usersettings 
+                    WHERE username = '$this->username'
+                    AND setting = '$settingCode'" ;
+            ExecSQL($sql);
+            unset($this->settings_array[$settingCode]);
         }
         else
         {
