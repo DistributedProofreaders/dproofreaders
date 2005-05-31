@@ -614,6 +614,12 @@ function do_project_info_table()
     // insert e.g. templates and biographies
     $comments = parse_project_comments($comments);
 
+    if ( $comments == '' )
+    {
+        // Put in *something*, otherwise it'll probably look odd.
+        $comments = '&nbsp;';
+    }
+
     if ($round)
     {
         $a = sprintf(
