@@ -165,7 +165,10 @@ class Settings
     // Otherwise, set Value to $value.
     function set_value($settingCode, $value)
     {
-        if(!$this->_isSettable($settingCode)) return;
+        if(!$this->_isSettable($settingCode))
+        {
+            die("Error: cannot set '$settingCode'");
+        }
 
         if(is_null($value))
         {
