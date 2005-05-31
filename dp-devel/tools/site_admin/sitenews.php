@@ -51,7 +51,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $insert_news = mysql_query("
             INSERT INTO news_items
             SET
-                uid          = NULL,
+                id           = NULL,
                 news_page_id = '$news_page',
                 status       = 'visible',
                 date_posted  = '$date_posted',
@@ -59,15 +59,15 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         ");
         // by default, new items go at the top
         $update_news = mysql_query("
-            UPDATE news_items SET ordering = uid WHERE uid = LAST_INSERT_ID()
+            UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
         ");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // View a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "view") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("SELECT * FROM news_items WHERE uid = $uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("SELECT * FROM news_items WHERE id = $item_id");
         $date_posted = strftime(_("%A, %B %e, %Y"),mysql_result($result,0,'date_posted'));
         echo "<b>$date_posted</b><br>";
         echo mysql_result($result,0,"content");
@@ -75,47 +75,47 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
     }
     // Delete a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "delete") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("DELETE FROM news_items WHERE uid=$uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("DELETE FROM news_items WHERE id=$item_id");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Display a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "display") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news_items SET status = 'visible' WHERE uid=$uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("UPDATE news_items SET status = 'visible' WHERE id=$item_id");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Hide a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "hide") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE uid=$uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE id=$item_id");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Archive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "archive") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news_items SET status = 'archived' WHERE uid=$uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("UPDATE news_items SET status = 'archived' WHERE id=$item_id");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Unarchive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "unarchive") {
-        $uid = $_GET['uid'];
-        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE uid=$uid");
+        $item_id = $_GET['item_id'];
+        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE id=$item_id");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item higher in the display list
     elseif (isset($_GET['action']) && $_GET['action'] == "moveup") {
-        $uid = $_GET['uid'];
-        move_news_item ($news_page, $uid, 'up');
+        $item_id = $_GET['item_id'];
+        move_news_item ($news_page, $item_id, 'up');
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item lower in the display list
     elseif (isset($_GET['action']) && $_GET['action'] == "movedown") {
-        $uid = $_GET['uid'];
-        move_news_item ($news_page, $uid, 'down');
+        $item_id = $_GET['item_id'];
+        move_news_item ($news_page, $item_id, 'down');
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
@@ -124,9 +124,9 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $content = $_POST['content'];
         $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
         $content = nl2br($content);
-        $uid = $_POST['uid'];
-        $result = mysql_query("UPDATE news_items SET content='$content' WHERE uid=$uid");
-        $result = mysql_query("SELECT status FROM news_items WHERE uid=$uid");
+        $item_id = $_POST['item_id'];
+        $result = mysql_query("UPDATE news_items SET content='$content' WHERE id=$item_id");
+        $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
         $row = mysql_fetch_assoc($result);
         $visible_change_made = ($row['status'] == 'visible');
         if ($visible_change_made) {news_change_made($news_page);}
@@ -137,8 +137,8 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $action = "add";
         $submit_query = "Add Site News Item for ".$news_type;
         if (isset($_GET['action']) && $_GET['action'] == "edit") {
-            $uid = $_GET['uid'];
-            $result = mysql_query("SELECT * FROM news_items WHERE uid=$uid");
+            $item_id = $_GET['item_id'];
+            $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
             $content = mysql_result($result,0,"content");
             $action = "edit_update";
             $submit_query = "Edit Site News Item for ".$news_type;
@@ -147,7 +147,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
         echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
         echo "<center><textarea name='content' cols=50 rows=5>$content</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
-        echo "<input type='hidden' name='uid' value='$uid'></form>";
+        echo "<input type='hidden' name='item_id' value='$item_id'></form>";
 
         // show all news items for this page
         // three categories:
@@ -175,7 +175,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             while($news_item = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
                 $status = $news_item['status'];
-                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$news_item['uid']."&action="; 
+                $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action="; 
                 if ($status == 'visible') {
                     echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
                     if ($first_vis == 1) {
@@ -204,7 +204,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             SELECT * 
             FROM news_items 
             WHERE news_page_id = '$news_page' AND status = 'archived' 
-            ORDER BY uid DESC;
+            ORDER BY id DESC;
         ");
 
         if (mysql_numrows($result) > 0) {
@@ -214,7 +214,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
             while($news_item = mysql_fetch_array($result)) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$news_item['uid']."&action="; 
+                $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action="; 
                 echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";        
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
@@ -235,7 +235,7 @@ function news_change_made ($news_page) {
     ");
 }
 
-function move_news_item ($news_page_id, $uid_to_move, $direction) {
+function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 
     $result = mysql_query("
         SELECT * FROM news_items 
@@ -246,11 +246,11 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
 
     $i = 1 ;   
     while ($news_item = mysql_fetch_assoc($result)) {
-        $curr_uid = $news_item['uid'];
+        $curr_id = $news_item['id'];
         $update_query = mysql_query("
-            UPDATE news_items SET ordering = $i WHERE uid = $curr_uid
+            UPDATE news_items SET ordering = $i WHERE id = $curr_id
         ");
-        if (intval($curr_uid) == intval($uid_to_move)) {$old_pos = $i;}
+        if (intval($curr_id) == intval($id_of_item_to_move)) {$old_pos = $i;}
         $i++;
     }
 
@@ -261,7 +261,7 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
                 WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos + 1)
             ");
             $result = mysql_query("
-                UPDATE news_items SET ordering = $old_pos + 1 WHERE uid = $uid_to_move
+                UPDATE news_items SET ordering = $old_pos + 1 WHERE id = $id_of_item_to_move
             ");
         } else {
             $result = mysql_query("
@@ -269,7 +269,7 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
                 WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos - 1)
             ");
             $result = mysql_query("
-                UPDATE news_items SET ordering = $old_pos - 1 WHERE uid = $uid_to_move
+                UPDATE news_items SET ordering = $old_pos - 1 WHERE id = $id_of_item_to_move
             ");
         }
     }

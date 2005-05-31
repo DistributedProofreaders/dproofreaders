@@ -36,13 +36,13 @@ echo "Creating the new 'news_items' table...\n";
 
 dpsql_query("
     CREATE TABLE news_items (
-        uid          INT         NOT NULL auto_increment,
+        id           INT         NOT NULL auto_increment,
         date_posted  VARCHAR(10) NOT NULL default '',
         news_page_id VARCHAR(8)           default NULL,
         status       VARCHAR(8)  NOT NULL default '',
         ordering     TINYINT     NOT NULL default '0',
         content      TEXT        NOT NULL,
-        KEY uid (uid)
+        KEY id (id)
     ) TYPE=MyISAM
 ") 
 or die("Aborting.");
