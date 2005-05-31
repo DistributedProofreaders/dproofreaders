@@ -7,6 +7,8 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'f_dpsql.inc');
 new dbConnect();
 
+header('Content-type: text/plain');
+
 /*
 In the old 'news' table, each 'message' was a largish concatenation
 of several items. But in the new table, each 'message' is (meant
@@ -21,12 +23,16 @@ and create a new one.
 // -----------------------------------------------
 // Mothball the old news table
 
+echo "Mothballing the old 'news' table...\n";
+
 dpsql_query("
     RENAME TABLE news TO old_site_news
 ") or die("Aborting.");
 
 // -----------------------------------------------
 // Create new news table.
+
+echo "Creating the new 'news' table...\n";
 
 dpsql_query("
     CREATE TABLE news (
@@ -41,11 +47,10 @@ dpsql_query("
 ") 
 or die("Aborting.");
 
-echo "News table alteration...Done!";
-
-
 // -----------------------------------------------
 // Create news_pages table
+
+echo "Creating 'news_pages' table...\n";
 
 dpsql_query("
 CREATE TABLE `news_pages` (
@@ -56,12 +61,10 @@ CREATE TABLE `news_pages` (
 ") 
 or die("Aborting.");
 
-echo "News_pages table creation...Done!";
-
-
 // -----------------------------------------------
 // Populate news_pages table with default values
 
+echo "Populating 'news_pages' table...\n";
 
 dpsql_query("
 INSERT INTO `news_pages` VALUES ('HUB', 'Activity Hub',UNIX_TIMESTAMP());
@@ -108,9 +111,6 @@ INSERT INTO `news_pages` VALUES ('STATS', 'Stats Central',UNIX_TIMESTAMP());
 ") 
 or die("Aborting.");
 
-
-
-echo "News_pages table population...Done!";    
 
 echo "All done!";
 
