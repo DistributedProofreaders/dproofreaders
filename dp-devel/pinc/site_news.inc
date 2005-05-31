@@ -50,7 +50,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
         // we have some news items to display 
         if ($result AND  mysql_num_rows ($result) > 0) {
  
-            $news = mysql_fetch_assoc($result);
+            $news_item = mysql_fetch_assoc($result);
 
             if ($show_header) {
                 echo "<font size='2' face='" . $theme['font_mainbody'] . "'><center><font size=4><b>";
@@ -70,9 +70,9 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
             echo "<br><font size='2' face='";
 
             echo $theme['font_mainbody'] . "'>";
-            echo $news['message'];
-            while  ($news = mysql_fetch_assoc($result)) {
-                echo "<br><br>".$news['message'];
+            echo $news_item['message'];
+            while  ($news_item = mysql_fetch_assoc($result)) {
+                echo "<br><br>".$news_item['message'];
             }
             echo "</center></font>\n";
         }
@@ -123,12 +123,12 @@ function random_news_item_for_page( $news_page_id )
         // we have a random news items to display 
         if ($result AND mysql_num_rows ($result) == 1) {
  
-            $news = mysql_fetch_assoc($result);
+            $news_item = mysql_fetch_assoc($result);
 
             echo "<center>";
             echo "<br><font size=2 face=";
             echo $theme['font_mainbody'] . ">";
-            echo $news['message'];
+            echo $news_item['message'];
             echo "</center></font><br>\n";
         }
         echo "<br>\n";

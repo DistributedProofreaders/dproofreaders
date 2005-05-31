@@ -172,10 +172,10 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
             echo _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed.")."<br><br>";
 
-            while($row = mysql_fetch_array($result)) {
-                $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
-                $status = $row['status'];
-                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
+            while($news_item = mysql_fetch_array($result)) {
+                $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
+                $status = $news_item['status'];
+                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$news_item['uid']."&action="; 
                 if ($status == 'visible') {
                     echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
                     if ($first_vis == 1) {
@@ -196,7 +196,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 }
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
-                echo $row['message']."<br><br>";
+                echo $news_item['message']."<br><br>";
             }
         }
 
@@ -212,13 +212,13 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             echo "<font size=+2><b>"._("Archived News Items for ").$news_type.
                            _(" (Only visible on this page)")."</b></font><hr><br><br>";
             echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
-            while($row = mysql_fetch_array($result)) {
-                $date_posted = strftime(_("%A, %B %e, %Y"),$row['date_posted']);
-                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$row['uid']."&action="; 
+            while($news_item = mysql_fetch_array($result)) {
+                $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
+                $base_url = "[<a href='sitenews.php?news_page=$news_page&uid=".$news_item['uid']."&action="; 
                 echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";        
                 echo $base_url."edit'>Edit</a>]&nbsp;";
                 echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
-                echo $row['message']."<br><br>";
+                echo $news_item['message']."<br><br>";
             }
         }
     }
@@ -245,8 +245,8 @@ function move_news_item ($news_page_id, $uid_to_move, $direction) {
     ");
 
     $i = 1 ;   
-    while ($row = mysql_fetch_assoc($result)) {
-        $curr_uid = $row['uid'];
+    while ($news_item = mysql_fetch_assoc($result)) {
+        $curr_uid = $news_item['uid'];
         $update_query = mysql_query("
             UPDATE news_items SET ordering = $i WHERE uid = $curr_uid
         ");
