@@ -32,10 +32,10 @@ dpsql_query("
 // -----------------------------------------------
 // Create new news table.
 
-echo "Creating the new 'news' table...\n";
+echo "Creating the new 'news_items' table...\n";
 
 dpsql_query("
-    CREATE TABLE news (
+    CREATE TABLE news_items (
         uid          INT         NOT NULL auto_increment,
         date_posted  VARCHAR(10) NOT NULL default '',
         news_page_id VARCHAR(8)           default NULL,

@@ -35,7 +35,7 @@ if (isset($_GET['num'])) {
 echo "</center>";
 
 $result = mysql_query("
-    SELECT * FROM news 
+    SELECT * FROM news_items 
     WHERE news_page_id = '$news_page' AND 
         status = 'hidden'
     ORDER BY uid DESC

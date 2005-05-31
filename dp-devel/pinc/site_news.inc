@@ -41,7 +41,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
  
         $result = mysql_query("
             SELECT date_posted, message 
-            FROM news 
+            FROM news_items 
             WHERE status = 'visible' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY ORDERING DESC
@@ -114,7 +114,7 @@ function random_news_item_for_page( $news_page_id )
  
         $result = mysql_query("
             SELECT message 
-            FROM news 
+            FROM news_items 
             WHERE status = 'hidden' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY RAND() LIMIT 1

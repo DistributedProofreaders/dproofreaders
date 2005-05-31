@@ -90,7 +90,7 @@ $db_Connection=new dbConnect();
 	}
 
 	if ($content == "news") {
-	$result = mysql_query("SELECT * FROM news ORDER BY date_posted DESC LIMIT 10");
+	$result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
 		$posteddate = date("l, F jS, Y",($row['date_posted']));
 				$data .= "<item>
