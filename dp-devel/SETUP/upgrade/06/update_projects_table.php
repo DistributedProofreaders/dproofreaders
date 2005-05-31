@@ -1,9 +1,32 @@
 <?php
 $relPath='../../../pinc/';
+include_once($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
+
+// -----------------------------------------------------------------------------
+
+echo "Deleting 'Refer to the Guidelines' from project comments...\n";
+
+mysql_query("
+    UPDATE projects
+    SET comments=REPLACE(comments,'$text_to_delete','')
+") or die(mysql_error());
+echo mysql_affected_rows(), " project comments changed.\n";
+
+$res = mysql_query("
+    SELECT COUNT(*)
+    FROM projects
+    WHERE INSTR(comments,'document.php')
+") or die(mysql_error());
+$num_left = mysql_result($res,0);
+echo "There are still $num_left project comments left that mention document.php in some way.\n";
+
+// -----------------------------------------------------------------------------
+
+echo "Adding various fields to `projects` table...\n";
 
 mysql_query("
     ALTER TABLE projects
@@ -17,7 +40,7 @@ mysql_query("
         ADD INDEX (special)
 ") or die(mysql_error());
 
-echo "Addition of various fields to `projects` table is complete!\n";
+echo "Addition of fields is complete!\n";
 echo "\n";
 echo "Now, filling in n_pages and n_available_pages. This could take a while...\n";
 
