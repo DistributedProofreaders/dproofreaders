@@ -193,15 +193,13 @@ class Settings
         }
     }
 
-    // If no record exists, return Null.
-    // If Value column maps to PHP Null equivalent, return $default (even if Null.)
+    // If no record exists, return $default.
     // Otherwise return what's in the Value column.
     // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
     function get_value($settingCode, $default = Null)
     {
-        if (!array_key_exists($settingCode, $this->settings_array)) return null;
-        $val = $this->settings_array[$settingCode];
-        return $val ? $val : $default;
+        if (!array_key_exists($settingCode, $this->settings_array)) return $default;
+        return $this->settings_array[$settingCode];
     }
 
     function settings_count()
