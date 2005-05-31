@@ -93,7 +93,7 @@ new Round(
     array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
     'REQ-AUTO',
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
-    'formatting_guidelines.php',
+    'document.php',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -109,7 +109,7 @@ new Round(
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
-    'formatting_guidelines.php',
+    'document.php',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
