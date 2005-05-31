@@ -76,7 +76,7 @@ a selection of the works that we are working on, along
 with the books that have been completed through the site.
 The Beginning Proofreaders FAQ <$code_url/faq/ProoferFAQ.php>
 also provides a nice overview of the site. The Proofreading
-Guidelines <$code_url/faq/document.php> cover most formatting
+Guidelines <$code_url/faq/proofreading_guidelines.php> cover most proofreading
 questions, and it is worth browsing through early on, but
 don't feel you have to memorize everything in it immediately -
 it really comes into its own as a detailed reference whenever
