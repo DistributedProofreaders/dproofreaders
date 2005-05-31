@@ -154,11 +154,11 @@ class Settings
         $this->set_value($settingCode, ($boolval ? 'yes' : NULL) );
     }
 
-    // Return True iff a row exists and its value is 'yes'. Otherwise, return False.
+    // Return True iff the setting exists and its value is 'yes'.
+    // Otherwise, return False.
     function get_boolean($settingCode)
     {
-        if (!array_key_exists($settingCode, $this->settings_array)) return False;
-        return ($this->settings_array[$settingCode] == 'yes') ? True : False;
+        return ( $this->get_value($settingCode) === 'yes' );
     }
 
     // If $value is NULL, remove the setting.
