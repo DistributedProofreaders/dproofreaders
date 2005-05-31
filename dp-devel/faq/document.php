@@ -183,8 +183,8 @@ theme('Proofreading Guidelines','header');
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
    For example, we rejoin words that were broken at the end of a line (<a href="#eol_hyphen">End-of-line Hyphenation</a>).
    Changes such as these help us produce a <em>consistently formatted</em> version of the book.
-   The proofreading rules we follow are designed to achieve this result. Please carefully read the rest of the
-   Proofreading Guidelines with this concept in mind.
+   The proofreading rules we follow are designed to achieve this result. Please carefully read the rest of
+   these Guidelines with this concept in mind.
 </p>
 <p>To assist the next proofreader and the post-processor, we also preserve <a href="#line_br">line breaks</a>.
    This allows them to easily compare the lines in the text to the lines in the image.
@@ -201,7 +201,7 @@ theme('Proofreading Guidelines','header');
 
 <h3><a name="summary">Summary Guidelines</a></h3>
 <p>The <a href="summary.pdf">Summary of Guidelines</a> is a short, 2-page
-   printer-friendly (.pdf) document that summarizes the main points of the Proofreading
+   printer-friendly (.pdf) document that summarizes the main points of these
    Guidelines, and gives examples of how to proofread. Beginning Proofreaders are
    encouraged to print out this document and keep it handy while proofreading.
 </p>
@@ -737,7 +737,7 @@ theme('Proofreading Guidelines','header');
    Leave a blank line between these markers and the rest of the text.
 </p>
 <p>See also the <a href="#bk_index">Indexes</a>, <a href="#lists">Lists of Items</a> and
-   <a href="#tables">Tables</a> sections of the Proofreading Guidelines.
+   <a href="#tables">Tables</a> sections of these Guidelines.
 </p>
 
 <h3><a name="illust">Illustrations</a></h3>
@@ -1265,7 +1265,7 @@ theme('Proofreading Guidelines','header');
    the two halves and remove the hyphen. Keep the joined word on the top line, and put
    a line break after it to preserve the line formatting&mdash;this makes it easier for
    the 2nd Round Proofreader. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
-   of the Proofreading Guidelines for examples of each kind (nar-row turns into narrow,
+   of these Guidelines for examples of each kind (nar-row turns into narrow,
    but low-lying keeps the hyphen). If the word is followed
    by punctuation, then carry that punctuation onto the top line, too.
 </p>
@@ -1898,7 +1898,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
   <li>An on-line program, such as <a
    href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
   <li> Keyboard shortcuts.<br>
-       Tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> which list these shortcuts are in the Proofreading Guidelines.</li>
+       (See tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> below.)</li>
   <li> Switching to a keyboard layout or locale which supports "deadkey" accents.
        <ul compact>
        <li>Windows: Control Panel (Keyboard, Input Locales)</li>
