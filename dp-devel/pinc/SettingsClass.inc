@@ -136,6 +136,8 @@ class Settings
         return $this->username ? $this->username : "[none]";
     }
 
+    // -------------------------------------------------------------------------
+
     // Setting to True
     function set_true($settingCode)
     {
@@ -160,6 +162,8 @@ class Settings
     {
         return ( $this->get_value($settingCode) === 'yes' );
     }
+
+    // -------------------------------------------------------------------------
 
     // If $value is NULL, remove the setting.
     // Otherwise, set Value to $value.
@@ -204,6 +208,8 @@ class Settings
         if (!array_key_exists($settingCode, $this->settings_array)) return $default;
         return $this->settings_array[$settingCode];
     }
+
+    // -------------------------------------------------------------------------
 
     function settings_count()
     {
