@@ -3,8 +3,8 @@
 function show_news_for_page( $news_page_id )
 // Show the news block for the given page, consisting of:
 // -- a header,
-// -- all the 'visible' news items,
-// -- a randomly-chosen 'hidden' news item,
+// -- all the 'current' news items,
+// -- a randomly-chosen 'recent' news item,
 // where the news items are designated for the given page,
 // or for every page.
 {
@@ -14,12 +14,12 @@ function show_news_for_page( $news_page_id )
 
 // -----------------------------------------------------------------------------
 
-// Echos the visible site news designated to be shown on the given page.
+// Echos the current site news designated to be shown on the given page.
 // If $show_header != 1, the introductory header identifying the news
 // as news is suppressed
 
 function show_site_news_for_page( $news_page_id, $show_header = 1 )
-// Output the current set of 'visible' site-news news-items 
+// Output the set of 'current' news items 
 // defined for the given page.
 {
 
@@ -42,7 +42,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
         $result = mysql_query("
             SELECT date_posted, content 
             FROM news_items 
-            WHERE status = 'visible' 
+            WHERE status = 'current' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY ORDERING DESC
         ");
@@ -91,8 +91,8 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 
 
 function random_news_item_for_page( $news_page_id )
-// Output a randomly selected news item from the current set of 
-// 'hidden' site-news news-items 
+// Output a randomly selected news item from the set of 
+// 'recent' news items 
 // defined for the given page.
 {
 
@@ -115,7 +115,7 @@ function random_news_item_for_page( $news_page_id )
         $result = mysql_query("
             SELECT content 
             FROM news_items 
-            WHERE status = 'hidden' 
+            WHERE status = 'recent' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY RAND() LIMIT 1
         ");

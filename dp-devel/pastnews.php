@@ -3,7 +3,7 @@ $relPath="./pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 
-// Very basic display of the 'hidden' news stories for the given news page
+// Very basic display of the 'recent' news stories for the given news page
 //
 // Sorts the news by their id's and then prints one by one.
 
@@ -37,7 +37,7 @@ echo "</center>";
 $result = mysql_query("
     SELECT * FROM news_items 
     WHERE news_page_id = '$news_page' AND 
-        status = 'hidden'
+        status = 'recent'
     ORDER BY id DESC
 ".$num);
 

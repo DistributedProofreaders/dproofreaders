@@ -53,7 +53,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             SET
                 id           = NULL,
                 news_page_id = '$news_page',
-                status       = 'visible',
+                status       = 'current',
                 date_posted  = '$date_posted',
                 content      = '$content'
         ");
@@ -82,14 +82,14 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
     // Display a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "display") {
         $item_id = $_GET['item_id'];
-        $result = mysql_query("UPDATE news_items SET status = 'visible' WHERE id=$item_id");
+        $result = mysql_query("UPDATE news_items SET status = 'current' WHERE id=$item_id");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Hide a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "hide") {
         $item_id = $_GET['item_id'];
-        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE id=$item_id");
+        $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
@@ -102,7 +102,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
     // Unarchive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "unarchive") {
         $item_id = $_GET['item_id'];
-        $result = mysql_query("UPDATE news_items SET status = 'hidden' WHERE id=$item_id");
+        $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
         header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item higher in the display list
@@ -128,7 +128,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         $result = mysql_query("UPDATE news_items SET content='$content' WHERE id=$item_id");
         $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
         $row = mysql_fetch_assoc($result);
-        $visible_change_made = ($row['status'] == 'visible');
+        $visible_change_made = ($row['status'] == 'current');
         if ($visible_change_made) {news_change_made($news_page);}
         header("Location: sitenews.php?news_page=$news_page");
     }
@@ -151,20 +151,20 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 
         // show all news items for this page
         // three categories:
-        // 1) visible (currently displayed on page every time)
-        // 2) hidden (displayed on "Recent News", and one shown as Random)
+        // 1) current (currently displayed on page every time)
+        // 2) recent (displayed on "Recent News", and one shown as Random)
         // 3) archived (not visible to users at all, saved for later use or historical interest)
 
         $result = mysql_query("
             SELECT * 
             FROM news_items 
             WHERE news_page_id = '$news_page' AND status != 'archived' 
-            ORDER BY status DESC, ordering DESC
+            ORDER BY status ASC, ordering DESC
         ");
 
         if (mysql_numrows($result) > 0) {
 
-            $first_hidden = 1;
+            $first_recent = 1;
             $first_vis = 1;
 
             echo "<font size=+2><b>"._("Fixed News Items for ").$news_type.
@@ -176,7 +176,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                 $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
                 $status = $news_item['status'];
                 $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action="; 
-                if ($status == 'visible') {
+                if ($status == 'current') {
                     echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
                     if ($first_vis == 1) {
                        $first_vis = 0;
@@ -185,11 +185,11 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
                     }
                    echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
                 } else {
-                    if ($first_hidden == 1) {
+                    if ($first_recent == 1) {
                         echo "<br><br><font size=+2><b>"._("Random News Items for ").$news_type.
                            _(" (Also appear as 'Recent News')")."</b></font><hr><br><br>";
                        echo _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed.")."<br><br>";
-                       $first_hidden = 0;
+                       $first_recent = 0;
                     }
                     echo $base_url."display'>Make Fixed</a>]&nbsp;";        
                     echo $base_url."archive'>Archive Item</a>]&nbsp;";        
@@ -240,7 +240,7 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
     $result = mysql_query("
         SELECT * FROM news_items 
         WHERE news_page_id = '$news_page_id' AND 
-           status = 'visible' 
+           status = 'current' 
         ORDER BY ordering
     ");
 
@@ -258,7 +258,7 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
         if ($direction == 'up') {
             $result = mysql_query("
                 UPDATE news_items SET ordering = $old_pos 
-                WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos + 1)
+                WHERE news_page_id = '$news_page_id' AND status = 'current' AND ordering = ($old_pos + 1)
             ");
             $result = mysql_query("
                 UPDATE news_items SET ordering = $old_pos + 1 WHERE id = $id_of_item_to_move
@@ -266,7 +266,7 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
         } else {
             $result = mysql_query("
                 UPDATE news_items SET ordering = $old_pos 
-                WHERE news_page_id = '$news_page_id' AND status = 'visible' AND ordering = ($old_pos - 1)
+                WHERE news_page_id = '$news_page_id' AND status = 'current' AND ordering = ($old_pos - 1)
             ");
             $result = mysql_query("
                 UPDATE news_items SET ordering = $old_pos - 1 WHERE id = $id_of_item_to_move
