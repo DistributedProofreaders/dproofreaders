@@ -42,7 +42,7 @@ dpsql_query("
         status       VARCHAR(8)  NOT NULL default '',
         ordering     TINYINT     NOT NULL default '0',
         content      TEXT        NOT NULL,
-        KEY id (id)
+        PRIMARY KEY id (id)
     ) TYPE=MyISAM
 ") 
 or die("Aborting.");
