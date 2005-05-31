@@ -200,8 +200,8 @@ different pages.  This will significantly speed up the proofreading process.
 
 <h3><a name="5">5. How do I handle ...?  </a></h3>
 <p> There are no set "Rules" enforced by Project Gutenberg, but in order to allow the
-    distributed proofreading to work, we have written up our own <a
-    href="document.php">Proofreading Guidelines</a>.
+    distributed proofreading to work, we have written up our own 
+    <a href="proofreading_guidelines.php">Proofreading Guidelines</a> and <a href="document.php">Formatting Guidelines</a>.
     Please read these and any project comments that a project manager may have provided
     before starting to proofread.  The main goal is to preserve as much formatting as
     possible, marked the same way, while making the etext readable on a computer. If you
