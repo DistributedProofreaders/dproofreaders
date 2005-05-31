@@ -614,13 +614,22 @@ function do_project_info_table()
     // insert e.g. templates and biographies
     $comments = parse_project_comments($comments);
 
-    $details = _("(Please check below for guideline modifications.)");
-    echo_row_b( _("Project Comments"), $details);
+    if ($round)
+    {
+        $a = sprintf(
+                _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
+                "$code_url/faq/{$round->document}"
+            );
+        $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
+        $comments_blurb = "$a<br>$b";
+    }
+    else
+    {
+        $comments_blurb = "";
+    }
+    echo_row_b( _("Project Comments"), $comments_blurb );
 
-    $a = _("Follow the current <a href='%s'>Proofreading Guidelines</a> for detailed project formatting directions.");
-    $a = sprintf( $a, "$code_url/faq/document.php" );
-    $b = _("Instructions below take precedence over the guidelines");
-    echo_row_c( "$a <b>$b:</b><P>$comments" );
+    echo_row_c( $comments );
 
     // -------------------------------------------------------------------------
 
