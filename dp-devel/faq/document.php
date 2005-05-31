@@ -7,7 +7,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofreading Guidelines','header');
+theme('Formatting Guidelines','header');
 ?>
 
 <!-- NOTE TO MAINTAINERS AND DEVELOPERS:
@@ -25,17 +25,17 @@ theme('Proofreading Guidelines','header');
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Proofreading Guidelines</h1>
+<h1 align="center">Formatting Guidelines</h1>
 
 <h3 align="center">Version 1.7, generated August 31, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
-<h4>Proofreading Guidelines <a href="guidelines_francaises.html">in French</a> /
+<h4>Formatting Guidelines <a href="guidelines_francaises.html">in French</a> /
     Directives de Formatage <a href="guidelines_francaises.html">en fran&ccedil;ais</a></h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 
-<table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
+<table border="0" cellspacing="0" width="100%" summary="Formatting Guidelines">
   <tbody>
   <tr>
     <td width="1" bgcolor="silver">&nbsp;</td>
