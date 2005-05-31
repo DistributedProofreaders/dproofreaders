@@ -46,6 +46,10 @@ class Stage
             //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
         $description,
             // A sentence or two explaining what happens in this stage.
+        $document,
+            // The path (relative to $code_url/faq/) of a document that tells you
+            // everything you need to know about working in this stage.
+            // Or NULL if there is no such document.
         $listing_bgcolors,
             // An array of (two) HTML colors that will be used as the bgcolor
             // in alternating rows in the listing of projects in this round.
@@ -59,6 +63,7 @@ class Stage
         $this->access_minima = $access_minima;
         $this->after_satisfying_minima = $after_satisfying_minima;
         $this->description   = $description;
+        $this->document      = $document;
         $this->relative_url  = $relative_url;
         $this->listing_bgcolors = $listing_bgcolors;
 

@@ -20,6 +20,7 @@ new Stage(
     array(),
     'REQ-HUMAN',
     _('A qualified person must confirm that the work is in the public domain.'),
+    NULL,
     array(
         'a',
         'b',
@@ -40,6 +41,7 @@ new Stage(
     array(),
     'REQ-HUMAN',
     _('We collect various bits of metadata for each page in a project.'),
+    NULL,
     array(
         'a',
         'b',
@@ -57,6 +59,7 @@ new Round(
     array(),
     'IMMEDIATE',
     _("The page-texts are the output from OCR software and have not been looked at."),
+    'proofreading_guidelines.php',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -74,6 +77,7 @@ new Round(
         // "10 random P1 pages proofed within the last week will be reviewed.
         // If 2 or fewer proofing errors are found, approval will be given."
     _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
+    'proofreading_guidelines.php',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
@@ -89,6 +93,7 @@ new Round(
     array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
     'REQ-AUTO',
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
+    'formatting_guidelines.php',
     array(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
@@ -104,6 +109,7 @@ new Round(
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
+    'formatting_guidelines.php',
     array(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
@@ -133,6 +139,7 @@ new Pool(
     array( 'F1' => 400 ),
     'REQ-AUTO',
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
+    'post_proof.php',
     array(
         '#cccccc',
         '#ffffff'
@@ -171,6 +178,7 @@ new Stage(
     array(),
     'IMMEDIATE',
     _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.'),
+    NULL,
     array(
         '#CCFFCC',
         '#CCFF99',
@@ -186,6 +194,7 @@ new Pool(
     array(),
     'NOREQ', // "Peer approval. Also gives F2 access."
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
+    'ppv.php',
     array(
         '#99FFFF', // "harshflourolightblue"
         '#EAF7F7', // "paledarkskyblue"
@@ -226,6 +235,7 @@ new Pool(
     array( 'F1' => 400 ),
     'REQ-AUTO',
     _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
+    NULL,
     array(
         '#e0e8dd',
         '#ffffff',

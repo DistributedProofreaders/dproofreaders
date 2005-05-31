@@ -16,6 +16,7 @@ class Pool extends Stage
         $access_minima,
         $after_satisfying_minima,
         $description,
+        $document,
         $listing_bgcolors,
             // These parameters have the same semantics as the
             // corresponding parameters of the Stage constructor.
@@ -39,6 +40,7 @@ class Pool extends Stage
             $access_minima,
             $after_satisfying_minima,
             $description,
+            $document,
             $listing_bgcolors,
             "tools/pool.php?pool_id=$pool_id"
         );

@@ -23,6 +23,7 @@ class Round extends Stage
         $access_minima,
         $after_satisfying_minima,
         $description,
+        $document,
         $listing_bgcolors,
             // These parameters have the same semantics as the
             // corresponding parameters of the Stage constructor.
@@ -41,6 +42,7 @@ class Round extends Stage
             $access_minima,
             $after_satisfying_minima,
             $description,
+            $document,
             $listing_bgcolors,
             "tools/proofers/round.php?round_id=$round_id"
         );
