@@ -43,6 +43,61 @@ if ($logged_in) {
     show_news_for_page("SR_PREV");
 };
 
+if ($logged_in)
+{
+    echo "
+    <p>
+    <font size=+1>
+        The goal of 'Smooth Reading' is to read the text attentively, as for pleasure,
+        with just a little more attention than usual to punctuation, etc.
+        This is NOT full scale proof-reading, and comparison with the scans is not needed.
+        Just read it as your normal, sensitized-to-proofing-errors self,
+        and report any problem that disrupts the sense or the flow of the book.
+        Note that some of these will be due to the author and/or publisher.
+    </font>
+    </p>
+
+    <p>
+    The way to report errors is by adding a comment of the form
+        <blockquote>
+        <font color='red'>[*correction or query]</font><br>
+        </blockquote>
+    immediately after the problem spot.
+    Do not correct or change the problem, just note it in the above format.
+    </p>
+
+    <p>
+    Examples:
+    <ul>
+    <li>that was the end,[*.] However, the next day</li>
+    <li>that was the end[*.] However, the next day</li>
+    <li>that was the emd.[*end] However, the next day</li>
+    </ul>
+    </p>
+
+    <p>
+    For more information on the origin of smoothreading,
+    see <a href='http://www.pgdp.net/phpBB2/viewtopic.php?t=3429'>this thread</a>.
+    </p>
+    ";
+}
+else
+{
+    echo "
+    <p>
+    <font size=+1>
+    This Preview page shows which books are currently available for Smooth Reading.
+    You can download the books by clicking on their titles.
+    </font>
+    </p>
+
+    <p>
+    To be able to upload corrections, join DP.
+    There is a register link near the upper right corner of this page.
+    </p>
+    ";
+}
+
 
 // filter block
 echo "<hr width='75%'>\n";
