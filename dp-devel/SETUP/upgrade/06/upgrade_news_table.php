@@ -7,14 +7,37 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'f_dpsql.inc');
 new dbConnect();
 
+/*
+In the old 'news' table, each 'message' was a largish concatenation
+of several items. But in the new table, each 'message' is (meant
+to be) a single item.  Thus, it wouldn't be very useful to have
+the old messages as-is in the new table.  (Though if old messages
+could be broken into items, those might be useful.)
+
+So, rather than altering the existing 'news' table, mothball it
+and create a new one.
+*/
+
 // -----------------------------------------------
-// Add new columns to news table
+// Mothball the old news table
 
 dpsql_query("
-    ALTER TABLE `news` 
-        ADD news_page_id VARCHAR(8)       AFTER date_posted,
-        ADD status       CHAR(8) NOT NULL AFTER news_page_id,
-        ADD ordering     TINYINT NOT NULL AFTER status
+    RENAME TABLE news TO old_site_news
+") or die("Aborting.");
+
+// -----------------------------------------------
+// Create new news table.
+
+dpsql_query("
+    CREATE TABLE news (
+        uid          INT         NOT NULL auto_increment,
+        date_posted  VARCHAR(10) NOT NULL default '',
+        news_page_id VARCHAR(8)           default NULL,
+        status       VARCHAR(8)  NOT NULL default '',
+        ordering     TINYINT     NOT NULL default '0',
+        message      TEXT        NOT NULL,
+        KEY uid (uid)
+    ) TYPE=MyISAM
 ") 
 or die("Aborting.");
 
