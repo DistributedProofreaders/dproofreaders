@@ -1,5 +1,5 @@
 <?PHP
-$relPath = './pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 new dbConnect();

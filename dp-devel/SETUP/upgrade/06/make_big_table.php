@@ -2,7 +2,7 @@
 set_time_limit(0);
 error_reporting(0);
 
-$relPath='./pinc/';
+$relPath='../../../pinc/';
 include($relPath.'connect.inc');
 include_once($relPath.'stages.inc');
 $db_Connection=new dbConnect();

@@ -1,5 +1,5 @@
 <?php
-$relPath='./pinc/';
+$relPath='../../../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
 

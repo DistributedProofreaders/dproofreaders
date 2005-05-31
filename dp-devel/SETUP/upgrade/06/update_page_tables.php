@@ -1,5 +1,5 @@
 <?PHP
-$relPath = './pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'connect.inc');
