@@ -246,6 +246,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
+		$settings .= ", smoothread_deadline='0'";
 	}
 	// Allow PPV to return to PPer directly
 	else if ( $current_state == PROJ_POST_SECOND_CHECKED_OUT &&
