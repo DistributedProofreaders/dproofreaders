@@ -187,8 +187,9 @@ function html_logobar($nameofpage) {
 
   echo headerbar_text("DP","$code_url/default.php");
 
-	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
+	if (isset($GLOBALS['pguser'])) echo headerbar_text(" » $GLOBALS[pguser] ")."\n";
 
+	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
     //Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
@@ -318,7 +319,9 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-	global $code_url, $userP;
+	global $code_url, $userP, $charset;
+	$utf8_site = ($charset == 'utf-8') ? true : false;
+	if (!$utf8_site) return;
 
 	if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang'])))
 	{
