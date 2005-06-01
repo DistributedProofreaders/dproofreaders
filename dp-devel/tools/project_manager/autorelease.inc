@@ -250,7 +250,7 @@ function autorelease_for_round( $round )
 
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
-            $is_special = startswith($project['comments'], 'SPECIAL:');
+            $is_special = !empty($project['special']);
 
             if ($is_special)
             {
