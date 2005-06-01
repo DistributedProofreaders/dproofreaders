@@ -118,51 +118,6 @@ function user_get_ELR_page_tally( $username )
 
 // -----------------------------------------------------------------------------
 
-function user_page_tally_get_interval_title( $user_page_tally )
-// The spectrum of user page tallies is partitioned into intervals,
-// each with a different title. (The interface refers to it as
-// "rank", but that just muddies the waters.)
-// Return the title for the interval containing $user_page_tally.
-{
-    $thresholds = array(
-        125001 => _("Professor of Proofreading"),
-        120001 => _("Presidential Proofer"),
-        110001 => _("Proofer Extraordinaire"),
-        101001 => _("Proofer of Proofers"),
-        100001 => _("Prishan of Proofers"),
-         99501 => _("Doctor of Proofreading"),
-         99001 => _("Master of Proofreading"),
-         90001 => _("Prooferissimo"),
-         80001 => _("Proofer Supreme"),
-         75001 => _("Proofer Magnifico"),
-         70001 => _("Primordial Proofer"),
-         60001 => _("Peerless Proofer"),
-         50101 => _("Prime Proofreader"),
-         50001 => _("Prishan Level Proofreader"),
-         40001 => _("Priceless Proofreader"),
-         30001 => _("Profound Proofreader"),
-         20001 => _("Super Proofreader"),
-         10001 => _("Rare Talent"),
-          5001 => _("Connoisseur"),
-          2001 => _("Maestro"),
-          1001 => _("Master Proofreader"),
-           401 => _("Proofreader Savant"),
-           151 => _("Ace"),
-            26 => _("Proofreader"),
-             0 => _("Newbie"),
-    );
-
-    foreach ( $thresholds as $threshold => $title )
-    {
-        if ($user_page_tally >= $threshold)
-        {
-            return $title;
-        }
-    }
-}
-
-// -----------------------------------------------------------------------------
-
 function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 //
 // $radius is the (maximum) number of neighbors (on each side) to include in
