@@ -477,7 +477,8 @@ function show_tally_specific_stats( $tally_name )
 		$usern = $neighbors[0];
 
 		//get rank
-		$rankname = user_page_tally_get_interval_title(
+		$round = get_Round_for_round_id( $tally_name );
+		$rankname = $round->get_honorific_for_page_tally(
 			$usern->get_current_page_tally() );
 
 		// Get userid for personal stats link
