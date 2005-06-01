@@ -14,24 +14,26 @@ function get_special_color_for_project($book) {
 
     $bgcolor = null;
 
+    $special_code = $book['special'];
+
     // first three are (for now) special cases, the rest will be data-driven
     // from the SPECIAL_DAYS table
 
     // default Special colour (will be over-ridden by any specific matches below)
-    if (!is_null($book['special']) and strlen($book['special']))
+    if (!is_null($special_code) and strlen($special_code))
     {
         $bgcolor = '#FFFF66'; // fadedyellow
     }
 
     // very light blue for birthday books still available after the day
-    if ( startswith( $book['special'], 'Birthday' ) )
+    if ( startswith( $special_code, 'Birthday' ) )
     {
         $bgcolor = '#CCFFFF';
     }
 
     // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
-    if ( startswith( $book['special'], "Birthday $bday" ) )
+    if ( startswith( $special_code, "Birthday $bday" ) )
     {
         $bgcolor = '#33CCFF';
     }
@@ -51,7 +53,7 @@ function get_special_color_for_project($book) {
     }
 
     // if we recognise the special code, use the associated colour
-    $book_special = $book['special'];
+    $book_special = $special_code;
     if (array_key_exists("$book_special", $specials_array)) {
         $bgcolor = "#".$specials_array["$book_special"];
     }
