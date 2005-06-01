@@ -193,7 +193,7 @@ function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CC
     }
 
     // drop down select box for which special day
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='special'>";
+    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='special_code'>";
 
     // add special case values first
     echo "<option value=''>NONE</option>";
