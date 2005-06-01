@@ -207,11 +207,13 @@ function tweak_queue_defn( $ordering, $project_selector )
     $new_project_selector =
         preg_replace(
             array(
+                '/comments like (["\'])SPECIAL: (birthday|otherday)%\1/i',
                 '/comments like (["\'])SPECIAL: ([^%]+)%\1/i',
                 '/comments like (["\'])SPECIAL:%\1/i',
                 '/comments not like (["\'])SPECIAL:%\1/i',
             ),
             array(
+                'special_code like "\2%"',
                 'special_code = "\2"',
                 "special_code != ''",
                 "special_code = ''",
