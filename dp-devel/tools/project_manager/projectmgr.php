@@ -410,8 +410,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "</font></p><br>\n";
     }
 
-
-    list_uber_projects( $can_see_all );
+    // Commented out until it's working.
+    // list_uber_projects( $can_see_all );
 }
 echo "<br>";
 theme("","footer");
