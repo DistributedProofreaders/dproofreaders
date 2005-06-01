@@ -14,7 +14,7 @@ function get_special_color_for_project($book) {
 
     $bgcolor = null;
 
-    $special_code = $book['special'];
+    $special_code = $book['special_code'];
 
     // first three are (for now) special cases, the rest will be data-driven
     // from the SPECIAL_DAYS table
@@ -74,7 +74,7 @@ function echo_special_legend( $projects_where_clause) {
     echo "<br><br><b>";
 
     $currspecs_result = mysql_query("
-            SELECT distinct special as spec FROM projects
+            SELECT distinct special_code as spec FROM projects
             WHERE $projects_where_clause
         ");
 

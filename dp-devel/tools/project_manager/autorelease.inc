@@ -250,7 +250,7 @@ function autorelease_for_round( $round )
 
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
-            $is_special = !empty($project['special']);
+            $is_special = !empty($project['special_code']);
 
             if ($is_special)
             {

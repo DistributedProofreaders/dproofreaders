@@ -273,7 +273,7 @@ function show_projects_in_state_plus(
             checkedoutby,
             correctedby,
             modifieddate,
-            special,
+            special_code,
             difficulty, 
             round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) as days_avail,
             n_pages,

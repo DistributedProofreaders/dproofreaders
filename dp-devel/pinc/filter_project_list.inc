@@ -105,9 +105,9 @@ if ($showPPersF) {
 // note this query does not include Birthday or Otherday Specials
 if ($showSpecialF) {
     $query = "
-            SELECT  DISTINCT special, display_name
+            SELECT  DISTINCT special_code, display_name
             FROM projects, special_days
-            WHERE projects.special = special_days.spec_code AND $state_sql ORDER BY display_name
+            WHERE projects.special_code = special_days.spec_code AND $state_sql ORDER BY display_name
    	    ";
     $result = mysql_query($query);
     while ($a_res = @mysql_fetch_row($result))
@@ -430,7 +430,7 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 		else
 		{
 		    if (!array_key_exists($special, $array_of_specials )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR special='$special'";
+		    $condition1 .= " OR special_code='$special'";
                     $display_filter .= $array_of_specials[$special]." ";
 		    $show_df = TRUE;
 		}

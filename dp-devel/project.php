@@ -395,9 +395,9 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Basic DP info
 
-    if (isset($project->special))
+    if (isset($project->special_code))
     {
-        $spec_code = $project->special;
+        $spec_code = $project->special_code;
         if (
             (strncmp($spec_code,'Birthday',8) == 0 ) or
             (strncmp($spec_code,'Otherday',8) == 0 )

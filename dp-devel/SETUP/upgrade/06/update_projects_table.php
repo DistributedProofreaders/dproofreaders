@@ -8,14 +8,14 @@ header('Content-type: text/plain');
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
-echo "Adding 'special' column...\n";
+echo "Adding 'special_code' column...\n";
 
 mysql_query("
     ALTER TABLE projects
-        ADD special VARCHAR(20) AFTER projectid
+        ADD special_code VARCHAR(20) AFTER projectid
 ") or die(mysql_error());
 
-echo "Populating 'special' column by extracting info from 'comments' column...\n";
+echo "Populating 'special_code' column by extracting info from 'comments' column...\n";
 
 $res = mysql_query("
     SELECT projectid, comments
@@ -68,7 +68,7 @@ mysql_query("
         ADD image_provider      VARCHAR(10),
         ADD smoothread_deadline INT(20)     DEFAULT '0' NOT NULL,
         ADD up_projectid        INT(10)     DEFAULT '0',
-        ADD INDEX (special)
+        ADD INDEX (special_code)
 ") or die(mysql_error());
 
 echo "Addition of fields is complete!\n";
@@ -125,7 +125,7 @@ echo "Done!\n";
 
 function move_special_info( $projectid, $comments )
 // $comments matches /^special:/i
-// Extract the special_code from $comments and move it to the 'special' column.
+// Extract the special_code from $comments and move it to the 'special_code' column.
 {
     $subpatterns = array(
         '((birth|other)day \d\d\d\d)\b\s*',
@@ -159,7 +159,7 @@ function move_special_info( $projectid, $comments )
             $res = mysql_query("
                 UPDATE projects
                 SET
-                    special  = '$special_code',
+                    special_code = '$special_code',
                     comments = SUBSTRING(comments,$c+1)
                 WHERE projectid='$projectid'
             ") or die(mysql_error());

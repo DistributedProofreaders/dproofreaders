@@ -48,7 +48,7 @@ if (date('H') == "23") {
 
 
 
-$Qdefn = 'special = "Birthday '.$today.'"';
+$Qdefn = 'special_code = "Birthday '.$today.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 250";
 
@@ -63,7 +63,7 @@ else
         mysql_query($update_query) or die(mysql_error());
     }
 
-$Qdefn = 'special = "Birthday '.$tomorrow.'"';
+$Qdefn = 'special_code = "Birthday '.$tomorrow.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 251";
 
@@ -80,7 +80,7 @@ else
 
 
 
-$Qdefn = 'special = "Otherday '.$today.'"';
+$Qdefn = 'special_code = "Otherday '.$today.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 255";
 
@@ -95,7 +95,7 @@ else
         mysql_query($update_query) or die(mysql_error());
     }
 
-$Qdefn = 'special = "Otherday '.$tomorrow.'"';
+$Qdefn = 'special_code = "Otherday '.$tomorrow.'"';
 $update_query =
 	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 256";
 
@@ -124,7 +124,7 @@ $rownum = 0;
 while ($rownum < $numrows) 
 {
 	$to_open=mysql_fetch_assoc($open_these);
-	$selector = "%special = '".$to_open['spec_code']."'%";
+	$selector = "%special_code = '".$to_open['spec_code']."'%";
 	$update_query =
 		"UPDATE queue_defns SET enabled = 1 WHERE  project_selector like \"$selector\"";
 
@@ -152,7 +152,7 @@ $rownum = 0;
 while ($rownum < $numrows) 
 {
 	$to_close=mysql_fetch_assoc($close_these);
-	$selector = "%special = '".$to_close['spec_code']."'%";
+	$selector = "%special_code = '".$to_close['spec_code']."'%";
 	$update_query =
 		"UPDATE queue_defns SET enabled = 0 WHERE  project_selector like \"$selector\"";
 

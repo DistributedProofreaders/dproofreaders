@@ -35,10 +35,10 @@ function saveProject() {
              $errormsg .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>";
         }
    }
-   if (!empty($_POST['special'])) {
-      $special = $_POST['special'];
-      if (    (strncmp($special, 'Birthday', 8) == 0)
-           or (strncmp($special, 'Otherday', 8) == 0)) {
+   if (!empty($_POST['special_code'])) {
+      $special_code = $_POST['special_code'];
+      if (    (strncmp($special_code, 'Birthday', 8) == 0)
+           or (strncmp($special_code, 'Otherday', 8) == 0)) {
            if (empty($_POST['bdayday']) or empty($_POST['bdaymonth'])) {
               $errormsg .= "Month and Day are required for Birthday or Otherday Specials.<br>";
           } else {
@@ -47,7 +47,7 @@ function saveProject() {
              if (!checkdate ( $bdaymonth, $bdayday, 2000)) {
                  $errormsg .= "Invalid date supplied for Birthday or Otherday Special.<br>";
              } else {
-                 if (strlen($special) == 8) { $special = $special." ".$bdaymonth.$bdayday; }
+                 if (strlen($special_code) == 8) { $special_code = $special_code." ".$bdaymonth.$bdayday; }
              }
           }
       }
@@ -90,7 +90,7 @@ function saveProject() {
                 scannercredit='{$_POST['scannercredit']}',
                 postednum='{$_POST['postednum']}',
                 clearance='{$_POST['clearance']}',
-                special='$special',
+                special_code='$special_code',
                 image_provider = '$image_provider',
                 up_projectid ='{$_POST['up_projectid']}'
 
@@ -125,7 +125,7 @@ function saveProject() {
         //Insert a new row into the projects table
         mysql_query("
             INSERT INTO projects
-                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special, image_provider, up_projectid)
+                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special_code, image_provider, up_projectid)
             VALUES (
                 '{$_POST['nameofwork']}',
                 '{$_POST['authorsname']}',
@@ -140,7 +140,7 @@ function saveProject() {
                 '{$_POST['scannercredit']}',
                 '".PROJ_NEW."',
                 '{$_POST['clearance']}',
-                '$special',
+                '$special_code',
                 '$image_provider',
                 '{$_POST['up_projectid']}'
 
@@ -430,7 +430,7 @@ elseif ((isset( $_REQUEST['action']) &&
                     $postednum = $up_info['d_postednum'];
                     $genre = $up_info['d_genre'];
                     $difficulty_level = $up_info['d_difficulty'];
-                    $special = $up_info['d_special'];
+                    $special_code = $up_info['d_special'];
                     $image_provider = $up_info['d_image_provider'];
                     // $year = $up_info['d_year'];
 
@@ -476,7 +476,7 @@ elseif ((isset( $_REQUEST['action']) &&
             $postednum = mysql_result($result, 0, "postednum");
             $genre = mysql_result($result, 0, "genre");
             $difficulty_level = mysql_result($result, 0, "difficulty");
-            $special = mysql_result($result, 0, "special");
+            $special_code = mysql_result($result, 0, "special_code");
             $image_provider = mysql_result($result, 0, "image_provider");
             $up_projectid = mysql_result($result, 0, "up_projectid");
 
@@ -505,7 +505,7 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($clearance)) { $clearance = ""; }
     // Do not display db default value(s).
     if ($postednum == 6000 || $postednum == 0) { $postednum = ""; }
-    if (empty($special)) { $special = ""; }
+    if (empty($special_code)) { $special_code = ""; }
     if (empty($image_provider)) { $image_provider = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
@@ -533,7 +533,7 @@ elseif ((isset( $_REQUEST['action']) &&
     echo language_list($language);
     echo genre_list($genre);
     echo difficulty_list($difficulty_level);
-    echo special_list($special);
+    echo special_list($special_code);
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
     echo image_provider_list($image_provider);
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
