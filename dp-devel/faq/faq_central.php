@@ -53,9 +53,12 @@ show_news_for_page("FAQ");
   <font size="-1">A printable (.pdf) two-page summary of the most commonly needed
   proofreading standards from the Proofreading Guidelines, done as one big example! </font></p>
 
-  <p><a href="document.php">Proofreading Guidelines</a><br>
-  <font size="-1">The full details of the guidelines we use for proofreading documents.</font></p>
-  
+  <p><a href="proofreading_guidelines.php">Proofreading Guidelines</a><br>
+  <font size="-1">The details of the guidelines we use for proofreading documents.</font></p>
+
+  <p><a href="document.php">Formatting Guidelines</a><br>
+  <font size="-1">The full details of the guidelines we use for proofreading and formatting documents.</font></p>
+
   <p><a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a><br>
   <font size="-1">Help for the Standard Proofreading Interface.</font></p>
 
