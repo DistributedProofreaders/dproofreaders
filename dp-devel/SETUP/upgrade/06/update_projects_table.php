@@ -12,7 +12,7 @@ echo "Adding 'special_code' column...\n";
 
 mysql_query("
     ALTER TABLE projects
-        ADD special_code VARCHAR(20) AFTER projectid
+        ADD special_code VARCHAR(20) NOT NULL DEFAULT '' AFTER projectid
 ") or die(mysql_error());
 
 echo "Populating 'special_code' column by extracting info from 'comments' column...\n";
