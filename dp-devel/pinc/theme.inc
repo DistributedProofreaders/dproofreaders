@@ -169,7 +169,7 @@ function html_logobar($nameofpage) {
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
 		echo sprintf(
-			_('%d titles preserved for the world!'),
+			_('%s titles preserved for the world!'),
 			number_format($numproj));
 		echo "</b></font>\n";
 	}
