@@ -22,7 +22,7 @@ include_once($relPath.'mentorbanner.inc');
 
 theme(_("Activity Hub"), "header");
 
-echo "<center><h1>Activity Hub</h1></center>\n";
+echo "<center><img src=http://www.pgdp.net/c/graphics/Activity_Hub.jpg width=350 height=60 border=0 title=\"Activity Hub\" alt=\"Activity Hub\"></center>\n";
 
 echo "<p>\n";
 echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production.");
