@@ -36,6 +36,26 @@ $res = mysql_query("
 $num_left = mysql_result($res,0);
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
+echo "Chaging queue_defns to get special info from special_code field...\n";
+
+$res = mysql_query("
+    SELECT ordering, project_selector
+    FROM queue_defns
+    WHERE INSTR(project_selector,'special:')
+") or die(mysql_error());
+while ( list($ordering,$project_selector) = mysql_fetch_row($res) )
+{
+    tweak_queue_defn( $ordering, $project_selector );
+}
+$res = mysql_query("
+    SELECT COUNT(*)
+    FROM queue_defns
+    WHERE INSTR(project_selector,'special:')
+") or die(mysql_error());
+$num_left = mysql_result($res,0);
+echo "There are $num_left queue_defns left whose project_selector mentions 'SPECIAL:'.\n";
+
+
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Deleting 'Refer to the Guidelines' from project comments...\n";
@@ -176,6 +196,38 @@ function move_special_info( $projectid, $comments )
     echo "Unable to extract comments for $projectid. Comments start:\n";
     echo addcslashes(substr($comments,0,50),"\r\n"), "\n";
     echo "^^^^^^^^^^^^^^^^^\n";
+}
+
+function tweak_queue_defn( $ordering, $project_selector )
+{
+    $new_project_selector =
+        preg_replace(
+            array(
+                '/comments like (["\'])SPECIAL: ([^%]+)%\1/i',
+                '/comments like (["\'])SPECIAL:%\1/i',
+                '/comments not like (["\'])SPECIAL:%\1/i',
+            ),
+            array(
+                "special_code = '\2'",
+                "special_code != ''",
+                "special_code = ''",
+            ),
+            $project_selector );
+    if (1)
+    {
+        echo "\n";
+        echo "$project_selector\n";
+        echo "$new_project_selector\n";
+    }
+    else
+    {
+        $new_project_selector = mysql_escape_string($new_project_selector);
+        mysql_query("
+            UPDATE queue_defns
+            SET project_selector='$new_project_selector'
+            WHERE ordering='$ordering'
+        ") or die(mysql_error());
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
