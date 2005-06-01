@@ -477,9 +477,19 @@ function show_tally_specific_stats( $tally_name )
 		$usern = $neighbors[0];
 
 		//get rank
-		$round = get_Round_for_round_id( $tally_name );
-		$rankname = $round->get_honorific_for_page_tally(
-			$usern->get_current_page_tally() );
+		global $testing;
+		if ($testing)
+		{
+			// Don't let people discover the honorifics by
+			// playing with inflated pagecounts at test-site.
+			$rankname = 'Valued Tester';
+		}
+		else
+		{
+			$round = get_Round_for_round_id( $tally_name );
+			$rankname = $round->get_honorific_for_page_tally(
+				$usern->get_current_page_tally() );
+		}
 
 		// Get userid for personal stats link
 		$result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
