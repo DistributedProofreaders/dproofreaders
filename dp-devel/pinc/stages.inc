@@ -64,7 +64,32 @@ new Round(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
     ),
-    array()
+    array(),
+    array(
+             0 => _('Novice'),
+            25 => _('Proofreading Pupil'),
+           100 => _('Proofreading Apprentice'),
+           500 => _('Proofreading Scholar'),
+          1000 => _('Proofreading Prodigy'),
+          2500 => _('Prefect of Proofreaders'),
+          5000 => _('Proofreading Graduate'),
+         10000 => _('Proofreading Alumnus'),
+         20000 => _('Fellow of Proofreading'),
+         30000 => _('Doctor of Proofreading'),
+         40000 => _('Proofreading Don'),
+         50000 => _('Dean of Proofreading'),
+         60000 => _('Proofreading Proctor'),
+         70000 => _('Principal Proofreader'),
+         80000 => _('Master Proofreader'),
+         90000 => _('Prefect of Proofreaders'),
+         99000 => _('Supervising Proofreader'),
+        100000 => _('Proofreading Professor'),
+        110000 => _('Peer of Proofreading'),
+        120000 => _('Doyen of Proofreading'),
+        130000 => _('Proofreading Chancellor'),
+        140000 => _('Proofreading Primate'),
+        150000 => _('Paramount Proofreader'),
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -82,7 +107,32 @@ new Round(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
-    array( 'P1' )
+    array( 'P1' ),
+    array(
+             0 => _('Specialist Proofreader'),
+            25 => _('Precious Proofreader'),
+           100 => _('Prized Proofreader'),
+           500 => _('Premiere Proofreader'),
+          1000 => _('Proofreading Perfectionist'),
+          2500 => _('Pillar of Proofreading'),
+          5000 => _('Proofreading Purist'),
+         10000 => _('Proofreader of Precision'),
+         20000 => _('Archetypal Proofreader'),
+         30000 => _('Proofreading Nonpareil'),
+         40000 => _('Paradigmatic Proofreader'),
+         50000 => _('Preeminent Proofreader'),
+         60000 => _('Prime Proofreader'),
+         70000 => _('Proofreader of Plenariness'),
+         80000 => _('Perpetual Proofreader'),
+         90000 => _('Prefect of Proofreaders'),
+         99000 => _('Impeccable Proofreader'),
+        100000 => _('Proofreader of Persistence'),
+        110000 => _('Patent Proofreader'),
+        120000 => _('Proofreading Philosopher'),
+        130000 => _('Patron of Proofreaders'),
+        140000 => _('Proofreading Partner'),
+        150000 => _('Pioneer of Proofreaders'),
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -98,7 +148,32 @@ new Round(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
     ),
-    array()
+    array(),
+    array(
+             0 => _('Formatting Neophyte'),
+            25 => _('Formatting Intern'),
+           100 => _('Journeyman Formatter'),
+           500 => _('Crafter of Texts'),
+          1000 => _('Detailer of Books'),
+          2500 => _('Fastidious Formatter'),
+          5000 => _('Foremost Formatter'),
+         10000 => _('Fine Formatter'),
+         20000 => _('Flamboyant Formatter'),
+         30000 => _('Fabulous Formatter'),
+         40000 => _('Upgrader of Texts'),
+         50000 => _('Famous Formatter'),
+         60000 => _('Indefatigible Formatter'),
+         70000 => _('Finisher of Texts'),
+         80000 => _('Formatter of Choice'),
+         90000 => _('Capital Formatter'),
+         99000 => _('Formatter with Flair'),
+        100000 => _('Formatter of Finesse'),
+        110000 => _('Formatter with Forte'),
+        120000 => _('First-Class Formatter'),
+        130000 => _('Formatter of Favour'),
+        140000 => _('Formatter of Refinement'),
+        150000 => _('Flawless Formatter'),
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -114,7 +189,32 @@ new Round(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
-    array( 'F1' )
+    array( 'F1' ),
+    array(
+             0 => _('Refurbisher of Texts'),
+            25 => _('Sprucer of Texts'),
+           100 => _('Formatter Savant'),
+           500 => _('Formatting Wunderkind'),
+          1000 => _('Elite Formatter'),
+          2500 => _('Polisher of Texts'),
+          5000 => _('Formatting Artiste'),
+         10000 => _('Cultivator of Texts'),
+         20000 => _('Formatter of Enrichment'),
+         30000 => _('Designing Formatter'),
+         40000 => _('Formatting Artisan'),
+         50000 => _('Formatting Afficiando'),
+         60000 => _('Guru of Formatters'),
+         70000 => _('Formatting Familiar'),
+         80000 => _('Formatting Virtuoso'),
+         90000 => _('Formatter of Excellence'),
+         99000 => _('Exquisite Formatter'),
+        100000 => _('Elite Formatter'),
+        110000 => _('Formatting Genius'),
+        120000 => _('Formatter of Fine Feats'),
+        130000 => _('Harmoniser of Texts'),
+        140000 => _('Formatting Architect'),
+        150000 => _('Preserver of Texts'),
+    )
 );
 
 // ---------------------------
