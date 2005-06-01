@@ -29,11 +29,20 @@ class Round extends Stage
             // corresponding parameters of the Stage constructor.
             // See Stage.inc for documentation.
 
-        $other_rounds_with_visible_usernames
+        $other_rounds_with_visible_usernames,
             // An array of round_ids.
             // If user X worked on a page in this round, they can see the
             // username of another user Y who worked on the page *if* user Y
             // worked on the page in a round that apppears in this parameter.
+
+        $honorifics
+            // An array of integer => string items that determine a user's
+            // "title" on the basis of their page tally in this round.
+            // In each item:
+            // -- The number is a page-tally threshold.
+            // -- The string is the honorific for someone who has achieved that
+            //    threshold, but not the next higher.
+            // (Needn't be in a particular order.)
     )
     {
         $this->Stage(
@@ -52,6 +61,8 @@ class Round extends Stage
         $this->round_number       = $n_rounds;
 
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
+        $this->honorifics = $honorifics;
+        krsort($this->honorifics);
 
         $this->project_unavailable_state = constant("PROJ_{$round_id}_UNAVAILABLE");
         $this->project_waiting_state     = constant("PROJ_{$round_id}_WAITING_FOR_RELEASE");
@@ -107,6 +118,22 @@ class Round extends Stage
         $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
 
+    function get_honorific_for_page_tally( $page_tally )
+    {
+        // Note that krsort($this->honorifics) put it in descending order.
+        foreach ( $this->honorifics as $threshold => $honorific )
+        {
+            if ( $page_tally >= $threshold )
+            {
+                return $honorific;
+            }
+        }
+        // $page_tally is less than the least threshold.
+        // Unusual, since the least threshold is usually zero,
+        // but it can happen.
+        // Give them the lowest honorific.
+        return $honorific;
+    }
 }
 
 // ---------------------------
