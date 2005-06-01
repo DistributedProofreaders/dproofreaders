@@ -6,8 +6,8 @@ $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 
-// -----------------------------------------------------------------------------
-
+echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Deleting 'Refer to the Guidelines' from project comments...\n";
 
 $text_to_delete = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>";
@@ -26,8 +26,8 @@ $res = mysql_query("
 $num_left = mysql_result($res,0);
 echo "There are still $num_left project comments left that mention document.php in some way.\n";
 
-// -----------------------------------------------------------------------------
-
+echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Adding various fields to `projects` table...\n";
 
 mysql_query("
@@ -43,7 +43,9 @@ mysql_query("
 ") or die(mysql_error());
 
 echo "Addition of fields is complete!\n";
+
 echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Now, filling in n_pages and n_available_pages. This could take a while...\n";
 
 $res = mysql_query("
