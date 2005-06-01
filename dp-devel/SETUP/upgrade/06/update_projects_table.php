@@ -212,7 +212,7 @@ function tweak_queue_defn( $ordering, $project_selector )
                 '/comments not like (["\'])SPECIAL:%\1/i',
             ),
             array(
-                "special_code = '\2'",
+                'special_code = "\2"',
                 "special_code != ''",
                 "special_code = ''",
             ),
