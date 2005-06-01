@@ -15,6 +15,8 @@ mysql_query("
         ADD special_code VARCHAR(20) NOT NULL DEFAULT '' AFTER projectid
 ") or die(mysql_error());
 
+echo "\n";
+echo "----------------------------------\n";
 echo "Populating 'special_code' column by extracting info from 'comments' column...\n";
 
 $res = mysql_query("
@@ -36,6 +38,8 @@ $res = mysql_query("
 $num_left = mysql_result($res,0);
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
+echo "\n";
+echo "----------------------------------\n";
 echo "Chaging queue_defns to get special info from special_code field...\n";
 
 $res = mysql_query("
