@@ -395,7 +395,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Basic DP info
 
-    if (isset($project->special_code))
+    if (!empty($project->special_code))
     {
         $spec_code = $project->special_code;
         if (
@@ -412,12 +412,16 @@ function do_project_info_table()
                 FROM special_days
                 WHERE spec_code = '$spec_code'
             "));
-            $spec_display = $spec_res['display_name'];
+            if ($spec_res)
+            {
+                $spec_display = $spec_res['display_name'];
+            }
+            else
+            {
+                $spec_display = "($spec_code)";
+            }
         }
-    }
 
-    if (isset($spec_display))
-    {
         echo_row_a( _("Special Day"), $spec_display );
     }
 
