@@ -70,8 +70,8 @@ class Quiz
     $pages = $this->pages;
     foreach ($pages as $desc => $page)
     {
-      echo "<tr><td>$desc</td> 
-            <td><a href='generic/main.php?type=$page&quiz_id=$this->id'>Quizzle!</a></td>";
+      echo "<tr><td>$desc</td>
+            <td><a href='generic/main.php?type=$page&quiz_id=$this->id'>Attempt this page</a></td>";
       $passed = user_has_passed_quiz_page($username, $page);
       $text = $passed ? _("Passed") : _("Not passed");
       $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
