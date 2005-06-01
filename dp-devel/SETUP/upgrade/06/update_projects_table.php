@@ -10,6 +10,8 @@ header('Content-type: text/plain');
 
 echo "Deleting 'Refer to the Guidelines' from project comments...\n";
 
+$text_to_delete = "<p>Refer to the <a href=\"$code_url/faq/document.php\">Proofreading Guidelines</a>.</p>";
+
 mysql_query("
     UPDATE projects
     SET comments=REPLACE(comments,'$text_to_delete','')
