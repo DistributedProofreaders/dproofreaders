@@ -213,7 +213,7 @@ function tweak_queue_defn( $ordering, $project_selector )
                 "special_code = ''",
             ),
             $project_selector );
-    if (1)
+    if (0)
     {
         echo "\n";
         echo "$project_selector\n";
