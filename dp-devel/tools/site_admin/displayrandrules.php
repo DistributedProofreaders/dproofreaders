@@ -15,11 +15,11 @@ theme("Random Rule Database Validation", "header");
 
 for ($i=1;$i<=$num_rules;$i++)
     {
-    $query = "SELECT subject,rule,doc FROM rules WHERE id=$i";
+    $query = "SELECT document,anchor,subject,rule FROM rules WHERE id = '$i'";
     $result = mysql_query($query);
     $rule = mysql_fetch_assoc($result);
     echo "<hr>";
-    echo "<p><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[doc]\")</p>";
+    echo "<p><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</p>";
     echo "<p>$rule[rule]</p>";
     }
 
