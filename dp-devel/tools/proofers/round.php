@@ -82,6 +82,9 @@ if ($pagesproofed <= 100)
     include($relPath.'simple_proof_text.inc');
 }
 
+// What guideline document are we needing?
+$round_doc_url = "$code_url/faq/$round->document";
+
 if ($pagesproofed >= 10)
 {
     echo "<hr width='75%'>\n";
@@ -90,10 +93,10 @@ if ($pagesproofed >= 10)
     {
         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
         echo _("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the");
-        echo " <a href=" . $code_url . "/faq/document.php>";
-        echo _("Proofreading Guidelines");
+        echo " <a href=" . $round_doc_url . ">";
+        echo _("Guidelines");
         echo "</a> ";
-        echo _("is displayed in this section");
+        echo _("and displayed in this section");
         echo "<br>";
         echo _("(This explanatory line will eventually vanish.)");
         echo "</i></font><br><br>";
@@ -105,15 +108,15 @@ if ($pagesproofed >= 10)
     echo "</b></font><br>";
 
 
-    $result = dpsql_query("SELECT subject,rule,doc FROM rules ORDER BY RAND(NOW()) LIMIT 1");
+    $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
     $rule = mysql_fetch_assoc($result);
     echo "<i>".$rule['subject']."</i><br>";
     echo "".$rule['rule']."<br>";
     echo _("See the ");
-    echo "<a href='$code_url/faq/document.php#".$rule['doc']."'>".$rule['subject']."</a>";
+    echo "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>";
     echo _(" section of the ");
-    echo "<a href='$code_url/faq/document.php'>";
-    echo _("Proofreading Guidelines");
+    echo "<a href='$round_doc_url'>";
+    echo _("Guidelines");
     echo "</a><br><br>";
 }
 
