@@ -703,7 +703,9 @@ include('ptags.inc');
 <font size="-1">
 <? 
 echo "<i>"._("Reference Information").":</i> ";
-echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."document.php' target='_blank'>". _('Proofreading Guidelines')."</a>] ";
+// Until ctrl_frame knows about round id, just display two links
+echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."proofreading_guidelines.php' target='_blank'>". _('Proofreading')."</a> and ";
+echo "<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."document.php' target='_blank'>". _('Formatting')."</a> ". _('Guidelines') . "] ";
 echo "<i>"._("Proofreading Diagrams:")."</i>"; ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
