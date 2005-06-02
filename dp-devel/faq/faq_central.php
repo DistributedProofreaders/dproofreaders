@@ -45,9 +45,9 @@ show_news_for_page("FAQ");
    <p><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a><br>
    <font size="-1">Introduction to the site, general overview, beginner's questions.</font></p>
 
-  <p><a href="../quiz/start.php">Proofreading Quiz &amp; Tutorial </a><br>
-  <font size="-1">Try the proofreading quiz and tutorial.
-  It is a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.</font></p>
+  <p><a href="../quiz/start.php">Proofreading &amp; Formatting Quizzes &amp; Tutorials </a><br>
+  <font size="-1">Try the proofreading and formatting quizzes and tutorials.
+  They are a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.</font></p>
 
   <p><a href="summary.pdf">Handy Proofreading Guide</a><br>
   <font size="-1">A printable (.pdf) two-page summary of the most commonly needed
