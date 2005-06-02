@@ -172,7 +172,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 
 
 <h3><a name="about">About This Document</a></h3>
-<p>This document is written to explain the proofreading rules we user to maintain consistency when proofreading
+<p>This document is written to explain the proofreading rules we use to maintain consistency when proofreading
    a single book that is distributed among many proofreaders, each of whom is working on different pages.
    This helps us all do proofreading <em>the same way</em>, which in turn makes it
    easier for the formatter and for the post-processor who will complete the work on this e-book.
@@ -1253,9 +1253,9 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     <br>
     CHAPTER XXXV.<br>
     <br>
-    &lt;sc&gt;Commercial Paper&lt;/sc&gt;.<br>
+    Commercial Paper.<br>
     <br>
-    Kinds and Uses.&mdash;If a man wishes to buy some commodity<br>
+    Kinds and Uses.--If a man wishes to buy some commodity<br>
     from another but has not the money to pay for<br>
     it, he may secure what he wants by giving his written<br>
     promise to pay at some future time. This written<br>
