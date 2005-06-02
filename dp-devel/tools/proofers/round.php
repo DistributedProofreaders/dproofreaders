@@ -127,11 +127,13 @@ if($round_id == 'P2')
     if(user_can_see_BEGIN_in_round(2))
         mentor_banner($round);
 }
+/*
 if($round_id == 'F2')
 {
     if(user_can_work_in_stage($pguser, 'F2'))
         mentor_banner($round);
 }
+*/
 
 if ($pagesproofed <= 20)
 {
