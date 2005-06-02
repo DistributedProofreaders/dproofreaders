@@ -79,6 +79,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#supers">Superscripts</a></li>
         <li><a href="#subscr">Subscripts</a></li>
         <li><a href="#font_sz">Font Size Changes</a></li>
+	<li><a href="#small_caps">Words in Small Caps</a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
         <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
         <li><a href="#d_chars">Characters with Diacritical marks</a></li>
@@ -86,6 +87,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#fract_s">Fractions</a></li>
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
+        <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
         <li><a href="#initials">Initials</a></li>
         <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
         <li><a href="#mult_col">Multiple Columns</a></li>
@@ -393,6 +395,9 @@ the formatters can easily find them.
 <p>Do not mark changes in font size. The formatters will take care of this later in the process.
 </p>
 
+<h3><a name="small_caps">Words in Small Caps</a></h3>
+<p>Do not worry about changing <span style="font-variant: small-caps;">Small Caps</span> to the correct case, please just make sure that the letters are in the correct order. If they are all-capped, leave them all-capped, etc. Please do not remove or insert the mark-up.
+</p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
 <p>Proofread large and ornate graphic first letters of a chapter, section, or paragraph
@@ -1154,6 +1159,29 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
    <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
    processor, who has access to all the pages, and can determine how the author
    typically wrote this word.
+</p>
+
+<h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
+<p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
+  the hyphen.<br>
+  For example, proofread:<br>
+  &nbsp;<br>
+  &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
+
+  as:<br>
+  &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>On pages that start with part of a word from the previous page, place a <tt>*</tt> before the partial word.<br>
+  To continue the above example, proofread:<br>
+
+  &nbsp;<br>
+  &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+  as:<br>
+  &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
+
+</p>
+<p>These markings indicate to the post-processor that the word must be rejoined when the pages are
+  combined to produce the final e-book.
 </p>
 
 
