@@ -35,7 +35,7 @@ $display_mapping = array(
 $trace = FALSE;
 $start_from_scratch = TRUE;
 
-$remote_catalog_url = "http://www.gutenberg.org/browse/rdf/catalog.rdf.bz2";
+$remote_catalog_url = "http://www.gutenberg.org/feeds/catalog.rdf.bz2";
 $local_temp_file    = "/tmp/catalog.rdf.bz2";
 $local_catalog_file = "$dyn_dir/pg/catalog.rdf";
 
