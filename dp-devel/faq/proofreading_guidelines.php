@@ -104,8 +104,6 @@ theme('Proofreading Guidelines','header');
         <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
 
-        <li><a href="#quote_ea">Quote Marks on each line</a></li>
-
       </ul>
     </td>
   </tr>
@@ -1591,7 +1589,7 @@ and he knew, when he had done it, and to his</tt>
     that such as looked at the fire holding a bit of larkspur<br>
     before their face would be troubled by no malady of the<br>
     eyes throughout the year.[1] Further, it was customary at<br>
-    WÃ¼rzburg, in the sixteenth century, for the bishop's followers<br>
+    Würzburg, in the sixteenth century, for the bishop's followers<br>
     to throw burning discs of wood into the air from a mountain<br>
     which overhangs the town. The discs were discharged by<br>
     means of flexible rods, and in their flight through the darkness<br>
@@ -1643,8 +1641,8 @@ and he knew, when he had done it, and to his</tt>
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J.W. Wolf, BeitrÃ¤ge zur deutschen<br>
-    Mythologie, i. p. 217, Â§ 185).<br>
+    (J.W. Wolf, Beiträge zur deutschen<br>
+    Mythologie, i. p. 217, § 185).<br>
     <br>
     2 J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
     omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
@@ -1655,12 +1653,12 @@ and he knew, when he had done it, and to his</tt>
     pp. 181 &lt;i&gt;sqq.;&lt;/i&gt; W. Mannhardt, &lt;i&gt;Der<br>
     Baumkultus&lt;/i&gt;, p. 510.<br>
     <br>
-    4 A. Birlinger, &lt;i&gt;VolksthÃ¼mliches aus<br>
+    4 A. Birlinger, &lt;i&gt;Volksthümliches aus<br>
     Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 sqq., Â§ 128, pp. 103<br>
-    sq., Â§ 129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    ii. pp. 96 sqq., § 128, pp. 103<br>
+    sq., § 129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und GebrÃ¤uche<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebräuche<br>
     aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
     423 sqq.; W. Mannhardt, Der Baumkultus,<br>
     p. 510.<br>
