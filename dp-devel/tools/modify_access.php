@@ -28,25 +28,25 @@ foreach ( $_POST as $name => $value )
     $a = explode( '|', $name );
     if ( count($a) != 2 ) die( "Error: bad parameter name '$name'" );
 
-    list( $stage_id, $grant_or_revoke ) = $a;
+    list( $activity_id, $grant_or_revoke ) = $a;
 
     if ( $grant_or_revoke != 'grant' && $grant_or_revoke != 'revoke' )
     {
         die( "Error: bad parameter name '$name'" );
     }
 
-    $stage = get_Stage_for_id( $stage_id );
+    $stage = get_Stage_for_id( $activity_id );
     if ( is_null($stage) )
     {
-        die( "Error: no stage named '$stage_id'" );
+        die( "Error: no stage named '$activity_id'" );
     }
 
     // Okay, it's a meaningful request.
-    echo "    i.e., $grant_or_revoke access to/from $stage_id\n";
+    echo "    i.e., $grant_or_revoke access to/from $activity_id\n";
 
-    if ( array_key_exists( $stage_id, $actions ) )
+    if ( array_key_exists( $activity_id, $actions ) )
     {
-        die( "Error: You have more than one modification for $stage_id" );
+        die( "Error: You have more than one modification for $activity_id" );
     }
 
     if ( $grant_or_revoke == 'grant' && !$can_grant )
@@ -66,14 +66,14 @@ foreach ( $_POST as $name => $value )
     {
         if ( $uao->can_access )
         {
-            die( "Error: The user already has access to $stage_id" );
+            die( "Error: The user already has access to $activity_id" );
         }
     } 
     elseif ( $grant_or_revoke == 'revoke' )
     {
         if ( !$uao->can_access )
         {
-            die( "Error: The user does not have access to $stage_id" );
+            die( "Error: The user does not have access to $activity_id" );
         }
 
         if ($uao->request_status == 'sat-unneeded' )
@@ -96,7 +96,7 @@ foreach ( $_POST as $name => $value )
     // So put it on the queue.
     // (Don't execute any requests unless they're all valid.)
 
-    $actions[$stage_id] = $grant_or_revoke;
+    $actions[$activity_id] = $grant_or_revoke;
 }
 
 if ( count($actions) == 0 )
@@ -108,12 +108,12 @@ echo "\n";
 echo "Those modifications appear to be valid.\n";
 echo "Performing them now...\n";
 
-foreach ( $actions as $stage_id => $grant_or_revoke )
+foreach ( $actions as $activity_id => $grant_or_revoke )
 {
     echo "\n";
-    echo "$grant_or_revoke $stage_id ...\n";
+    echo "$grant_or_revoke $activity_id ...\n";
     $yesno = ( $grant_or_revoke == 'grant' ? 'yes' : 'no' );
-    delete_and_insert( $subject_username, "$stage_id.access", $yesno );
+    delete_and_insert( $subject_username, "$activity_id.access", $yesno );
 }
 
 echo "\n";
