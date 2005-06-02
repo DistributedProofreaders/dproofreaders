@@ -89,8 +89,9 @@ if ($pagesproofed >= 20)
 thoughts_re_mentor_feedback( $pagesproofed );
 
 
-if(user_can_see_BEGIN_in_round(2))
-    mentor_banner(get_Round_for_round_number(2));
+$mentoring_round = get_Round_for_round_id('P2');
+if(user_can_see_BEGIN_in_round($mentoring_round))
+    mentor_banner($mentoring_round);
 /*
 if(user_can_work_in_stage($pguser, 'F2'))
     mentor_banner(get_Round_for_round_number(4));

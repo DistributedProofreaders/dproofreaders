@@ -56,7 +56,7 @@ function show_block_for_round( $round_number, $projects_filter )
 		echo "\n<td colspan=6>{$round->description}</td>";
 		echo "</tr>";
 
-		if (! user_can_see_BEGIN_in_round($round->round_number))
+		if (! user_can_see_BEGIN_in_round($round))
 		{
 			$projects_filter .= " AND difficulty != 'beginner' ";
 		}
