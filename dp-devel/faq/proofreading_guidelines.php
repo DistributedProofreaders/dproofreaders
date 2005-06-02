@@ -1171,7 +1171,7 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
   as:<br>
   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
-<p>On pages that start with part of a word from the previous page, place a <tt>*</tt> before the partial word.<br>
+<p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
   To continue the above example, proofread:<br>
 
   &nbsp;<br>
