@@ -261,7 +261,6 @@ new Pool(
 
         "<p>",
         "<b>" . _("First Time Here?") . "</b>",
-        $someone_maintains_the_PP_faq,
         _("Please read the FAQ as it covers all the steps needed to post process an e-text."),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post processor)."),
         sprintf( _("Check out the <a href='%s'>Post Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
@@ -317,7 +316,6 @@ new Pool(
         "</p>",
 
         "<p>",
-        $someone_maintains_the_PP_faq,
         sprintf( _("As always, the <a href='%s'>Post Processing Forum</a> is available for any of your questions."),
             $post_processing_forum_url ),
         "</p>",
