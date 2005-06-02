@@ -80,7 +80,9 @@ function user_can_see_BEGIN_in_round($round)
     $userSettings =& get_pguser_settings();
     if (user_is_a_sitemanager()
             || user_is_proj_facilitator()
-            || $userSettings->get_boolean("see_BEGIN_R".$round_number))
+            || $userSettings->get_boolean("see_BEGIN_R".$round_number)
+            || $userSettings->get_boolean("{$round->id}_mentor.access")
+        )
         return TRUE;
 
     global $pguser;
@@ -88,7 +90,8 @@ function user_can_see_BEGIN_in_round($round)
     if ($round_number == 1)
         return $n_pages <= 40;
     else if ($round_number == 2)
-        return $n_pages >= 300;
+        // Can't qualify by page-count. Must qualify by mentor.access above.
+        return FALSE;
     else
         return TRUE;
         // The round-restriction is sufficient.
