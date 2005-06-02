@@ -626,7 +626,8 @@ function show_key_help_links()
 	echo "<br>\n";
 
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-	echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Proofreading Guidelines")."</a>";
+	echo "<a href='$code_url/faq/".lang_dir()."proofing_guidelines.php'>"._("Proofreading Guidelines")."</a>";
+	echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>";
 	echo " (<a href='$code_url/faq/".lang_dir()."summary.pdf'>"._("PDF Summary")."</a>)";
 	echo "</font>";
 	echo "<br>\n";
