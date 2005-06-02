@@ -46,7 +46,6 @@ theme('Proofreading Guidelines','header');
     <td bgcolor="white" align="left">
     <ul>
       <li><a href="#prime">The Primary Rule</a></li>
-      <li><a href="#summary">Summary Guidelines</a></li>
       <li><a href="#about">About This Document</a></li>
       <li><a href="#comments">Project Comments</a></li>
       <li><a href="#forums">Forum/Discuss this Project</a></li>
