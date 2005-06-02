@@ -15,7 +15,7 @@
 50  0 * * * lynx -dump http://127.0.0.1/c/crontab/clean_tmp.php > /dev/null
 55  0 * * * lynx -dump http://127.0.0.1/c/crontab/extend_site_tally_goals.php
 45 23 * * * lynx -dump -width=110 http://127.0.0.1/c/crontab/update_birthday_queues.php
-45  1 * * * lynx -dump -width=110 http://127.0.0.1/c/crontab/import_pg_catalog.php
+45  3 * * * lynx -dump -width=110 http://127.0.0.1/c/crontab/import_pg_catalog.php
 
 # weekly (ish):
 04 4 7,14,21,28 * * lynx -dump http://127.0.0.1/c/crontab/update_ppers.php
