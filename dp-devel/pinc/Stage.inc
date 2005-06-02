@@ -9,6 +9,7 @@
 
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'TallyBoard.inc');
+include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc');
 
 $Stage_for_id_ = array();
@@ -528,6 +529,61 @@ function show_user_access_chart( $username )
             echo "</td>";
         }
 
+        echo "</tr>\n";
+    }
+
+    // kludge for P2_mentor
+    $activity_id = 'P2_mentor';
+    {
+        echo "<tr>";
+        echo "<th>$activity_id</th>";
+        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        {
+            echo "<td></td>";
+        }
+
+        echo td_w_bgcolor( 'yes', TRUE );
+
+        $settings =& Settings::get_Settings($username);
+        $can_access = $settings->get_boolean("$activity_id.access");
+
+        $could_grant = FALSE;
+        $could_revoke = FALSE;
+
+        echo "<td>";
+        if ( $can_access )
+        {
+            echo 'granted';
+            $could_revoke = TRUE;
+        }
+        else
+        {
+            echo "can't";
+            $could_grant = TRUE;
+        }
+        echo "</td>";
+
+        echo td_w_bgcolor( ($can_access?'YES':'NO'), $can_access );
+
+        if ( $allow_grant )
+        {
+            echo "<td>";
+            if ( $could_grant )
+            {
+                echo "<input type='checkbox' name='{$activity_id}|grant'>";
+            }
+            echo "</td>";
+        }
+
+        if ( $allow_revoke )
+        {
+            echo "<td>";
+            if ( $could_revoke )
+            {
+                echo "<input type='checkbox' name='{$activity_id}|revoke'>";
+            }
+            echo "</td>";
+        }
         echo "</tr>\n";
     }
 

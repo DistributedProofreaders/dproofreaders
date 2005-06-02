@@ -3,6 +3,7 @@ $relPath = '../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'SettingsClass.inc');
 
 header('Content-type: text/plain');
 
@@ -35,10 +36,17 @@ foreach ( $_POST as $name => $value )
         die( "Error: bad parameter name '$name'" );
     }
 
-    $stage = get_Stage_for_id( $activity_id );
-    if ( is_null($stage) )
+    if ( $activity_id == 'P2_mentor' )
     {
-        die( "Error: no stage named '$activity_id'" );
+        // fine
+    }
+    else
+    {
+        $stage = get_Stage_for_id( $activity_id );
+        if ( is_null($stage) )
+        {
+            die( "Error: no activity named '$activity_id'" );
+        }
     }
 
     // Okay, it's a meaningful request.
@@ -60,7 +68,18 @@ foreach ( $_POST as $name => $value )
 
     // And it's a request that the current user is permitted to make.
 
-    $uao = $stage->user_access($subject_username);
+    if ( $activity_id == 'P2_mentor' )
+    {
+        $settings =& Settings::get_Settings($subject_username);
+
+        $uao = new StdClass;
+        $uao->can_access = $settings->get_boolean("$activity_id.access");
+        $uao->request_status = 'place-holder';
+    }
+    else
+    {
+        $uao = $stage->user_access($subject_username);
+    }
 
     if ( $grant_or_revoke == 'grant' )
     {
@@ -81,7 +100,7 @@ foreach ( $_POST as $name => $value )
             die( "Error: you can't revoke access when it's IMMEDIATE" );
         }
 
-        if ($stage->after_satisfying_minima == 'REQ-AUTO')
+        if (isset($stage) && $stage->after_satisfying_minima == 'REQ-AUTO')
         {
             echo "Warning: you can revoke access, but it can just be auto-granted again.\n";
         }
