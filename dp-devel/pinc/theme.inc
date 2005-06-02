@@ -626,7 +626,7 @@ function show_key_help_links()
 	echo "<br>\n";
 
 	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-	echo "<a href='$code_url/faq/".lang_dir()."proofing_guidelines.php'>"._("Proofreading Guidelines")."</a>";
+	echo "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>";
 	echo "</font>";
 	echo "<br>\n";
 
