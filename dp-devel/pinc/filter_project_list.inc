@@ -381,7 +381,7 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 		else
 		{
 		    if (!in_array($PM, $array_of_PMs )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR username='$PM'";
+		    $condition1 .= " OR projects.username='$PM'";
                     $display_filter .= $PM." ";
 		    $show_df = TRUE;
 		}
