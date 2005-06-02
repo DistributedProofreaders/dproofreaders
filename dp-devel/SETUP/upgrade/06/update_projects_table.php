@@ -82,6 +82,31 @@ echo "There are still $num_left project comments left that mention document.php 
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
+echo "Inserting transitional warning into project comments of in-rounds projects...\n";
+
+$R1_msg = "This project was in R1 at the cutover from the old 2-round system. It may contain formatting that was added in R1.";
+$R2_msg = "This project was in R2 at the cutover from the old 2-round system. It may contain formatting that was added in R1 and may need additional proofing in F1.";
+
+$R1_msg = mysql_escape_string("<p><font color='red'>$R1_msg</font></p>\n");
+$R2_msg = mysql_escape_string("<p><font color='red'>$R2_msg</font></p>\n");
+
+// Use old and new state strings, so that there's no ordering depdency
+// between this script and update_project_states.php
+
+mysql_query("
+    UPDATE projects
+    SET comments=CONCAT('$R1_msg',comments)
+    WHERE state IN ('avail_1','P1.proj_avail')
+") or die(mysql_error());
+
+mysql_query("
+    UPDATE projects
+    SET comments=CONCAT('$R2_msg',comments)
+    WHERE state IN ('avail_2','P2.proj_avail')
+") or die(mysql_error());
+
+echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Adding various fields to `projects` table...\n";
 
 mysql_query("
