@@ -19,7 +19,7 @@ theme('FAQ Central','header', $theme_args);
 ?>
 
 <h1>FAQ Central</h1>
-<h3 align="right">Version 1.9, released May 27th, 2005</h3>
+<h3 align="right">Version 1.9, released June 3rd, 2005</h3>
 
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
@@ -106,6 +106,8 @@ show_news_for_page("FAQ");
 <td width='5'>&nbsp;</td>
 <td width='49%' valign='top' align='left'>
 
+
+
  <table width='100%' cellpadding='4'>
   <tr>
    <td class='faqheader'>&nbsp;Creating and Managing Projects</td>
@@ -124,7 +126,7 @@ show_news_for_page("FAQ");
   <font size="-1">Basic information on scanners and how to use them, based on our experiences.</font></p>
   </tr>
  </table>
-<br /><br />
+<br />
   <table width='100%' cellpadding='4'>
   <tr>
    <td class='faqheader'>&nbsp;Post-Processing and Verification</td>
@@ -142,7 +144,24 @@ show_news_for_page("FAQ");
   <font size="-1">Information for Post-Processing Verifiers.</font></p>
   </tr>
  </table>
-<br /><br />
+ 
+ <br />
+  <table width='100%' cellpadding='4'>
+  <tr>
+   <td class='faqheader'>&nbsp;DP Tools</td>
+  </tr>
+  
+  <!-- As well as the font, this section should also hold any PP 
+       tools, &c. that are stored on site -->
+
+  <tr>
+  <td>
+  <p><a href="font_sample.php">DP Custom Proofreading Font</a><br>
+  <font size="-1">Sample and download the custom DP font.</font></p>
+  </td>
+  </tr>
+  </table>
+<br />
   <table width='100%' cellpadding='4'>
   <tr>
    <td class='faqheader'>&nbsp;Mailing Lists</td>
