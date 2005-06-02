@@ -842,7 +842,7 @@ the formatters can easily find them.
    the normal Latin A..Z character. These are called <i>diacritical marks</i> and
    indicate a special pronunciation for this character.
    For proofreading, we indicate them in our normal ASCII text by using a
-   specific coding, such as: ă becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
+   specific coding, such as: &#259; becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
    above an a, or <tt>[a)]</tt> for a breve below.
 </p>
 <p>Be sure to include the square brackets (<tt>[&nbsp;]</tt>) around these, so the post-processor
