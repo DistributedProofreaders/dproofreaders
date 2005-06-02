@@ -147,9 +147,14 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 	}
 
 	slim_header( $title );
-	$text = _("Please click here to return to Project Page.");
+//	$text = _("Please click here to return to Project Page.");
+	$text =  _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
 	$url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
-	echo "<a href='$url' target='_top'>$text</a>";
+//	echo "<a href='$url' target='_top'>$text</a>";
+	echo sprintf($text, $url);
+	echo "<script language='JavaScript'><!--\n";
+	echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
+	echo "// --></script>\n";
 	echo "</body>";
 	echo "</html>";
 
