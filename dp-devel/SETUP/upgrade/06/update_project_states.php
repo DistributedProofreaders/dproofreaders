@@ -4,6 +4,10 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 new dbConnect();
 
+header("Content-type: text/plain");
+
+echo "Changing project states...\n";
+
 // The project states denoted by:
 //     PROJ_PROOF_FIRST_VERIFY
 //     PROJ_PROOF_SECOND_VERIFY
@@ -39,8 +43,6 @@ $case = "
 	END
 ";
 
-echo "<pre>\n";
-
 mysql_query("
 	UPDATE projects
 	SET state=$case
@@ -48,5 +50,4 @@ mysql_query("
 echo mysql_affected_rows(), " rows affected\n";
 
 echo "done.\n";
-echo "</pre>\n";
 ?>
