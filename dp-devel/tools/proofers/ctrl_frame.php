@@ -331,6 +331,18 @@ class="dropchars"
 <option value="255">&#255;</option>
 <option value="0">--</option>
 
+<option value="0">C</option>
+<option value="0">--</option>
+<option value="199">&#199;</option>
+<option value="231">&#231;</option>
+<option value="0">--</option>
+
+<option value="0">D</option>
+<option value="0">--</option>
+<option value="208">&#208;</option>
+<option value="240">&#240;</option>
+<option value="0">--</option>
+
 <option value="0">N</option>
 <option value="0">--</option>
 <option value="209">&#209;</option>
