@@ -31,14 +31,14 @@ $Online_sources_id=0; // 18049;
 $Common_browser_problems_id=0; // 17984
 
 // Following usually need not be changed:
-$FineReader_tips_URL=make_forum_url("t",$FineReader_tips_and_tricks_id,5293);
+$FineReader_tips_URL=make_forum_url("t",$FineReader_tips_id,5293);
 $OCR_Pool_URL=make_forum_url("t",$OCR_Pool_id,4957);
 $Guiprep_topic_URL=make_forum_url("t",$Guiprep_topic_id,2237);
 $DPWiki_Guide_to_HTML_URL=make_forum_url("t",$DPWiki_Guide_to_HTML_id,5489);
 $Guideline_discussion_URL=make_forum_url("t",$Guideline_discussion_id,10779);
 $Using_project_details_URL=make_forum_url("t",$Using_project_details_id,10217);
 $Gallery_of_Table_Layouts_URL=make_forum_url("t",$Gallery_of_Table_Layouts_id,4311);
-$Stealth_Scannos_URL=make_forum_url("t",$Stealth_Scannos_URL,1563);
+$Stealth_Scannos_URL=make_forum_url("t",$Stealth_Scannos_id,1563);
 $Proofing_Interface_Help_URL=make_forum_url("t",$Proofing_Interface_Help_id,2739);
 $Online_sources_URL=make_forum_url("p",$Online_sources_id,18049);
 $Common_browser_problems_URL=make_forum_url("p",$Common_browser_problems_id,17984);
