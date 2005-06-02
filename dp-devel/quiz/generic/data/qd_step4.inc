@@ -1,5 +1,7 @@
 <?PHP
+
 include_once($relPath."Quiz.inc");
+
 function quizsolved()
 {
   global $pguser;
@@ -7,13 +9,15 @@ function quizsolved()
       record_quiz_attempt($pguser,"step4","pass");
 }
 
+
 $browser_title                = "DP -- Proofreading Quiz";
 $ocr_text                     = "printing would be good for nothing but\nwaste paper, might not\nbe realised. The work\nappeared about the end\nof December 18|8 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where lie revised the\nfinal proofs.\n\nHigh art.\n\nSo far as the reception of the work was\n\nWallace, p. 108.";
-$solutions                    = array("printing would be good for nothing but\nwaste paper, might not\nbe realised.[*] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\nHigh art.\n\nSo far as the reception of the work was\n\nWallace, p. 108.");
+$solutions                    = array("printing would be good for nothing but\nwaste paper, might not\nbe realised.[*] The work\nappeared about the end\nof December 1818 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where he revised the\nfinal proofs.\n\nHigh art.\n\nSo far as the reception of the work was\n\n*Wallace, p. 108.");
 $showsolution                 = TRUE;
 $welcome                      = "<h2>Quiz, part 4</h2>\nTry to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.";
 $solved_message               = "<h2>Part 4 of quiz successfully solved</h2>\nCongratulations, no errors found!";
 $links_out                    = "<a href='../generic/main.php?type=step5&quiz_id=PQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>";
+
 
 
 
@@ -27,6 +31,8 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("[*]"), "case_s
 $tests[] = array("type" => "forbiddentext", "searchtext" => "[Footnote", "case_sensitive" => FALSE, "error" => "footmarked");
 $tests[] = array("type" => "forbiddentext", "searchtext" => "18|8", "case_sensitive" => FALSE, "error" => "datescanno");
 $tests[] = array("type" => "forbiddentext", "searchtext" => "[Illustration", "case_sensitive" => FALSE, "error" => "illusmarked");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("*Wallace"), "case_sensitive" => FALSE, "error" => "fnbottommissing");
+
 
 $messages["sqbr"] = array("message_text" => "<h2>Incorrect brackets.</h2>\nPlease use square brackets [] for illustration and footnote markup.", "hints" => array());
 $messages["longline"] = array("message_text" => "<h2>Long line</h2>\nYou've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line.", "hints" => array());
@@ -39,7 +45,46 @@ $messages["nocaption"] = array("message_text" => "<h2>Illustration caption missi
 $messages["footmarked"] = array("message_text" => "<h2>Footnote markup inserted.</h2>\nLeave the insertion of the footnote markup for the formatting rounds.", "hints" => array());
 $messages["datescanno"] = array("message_text" => "<h2>Scanno.</h2>\nYou've missed a scanno in the text: a 1 misread as a |.", "hints" => array());
 $messages["illusmarked"] = array("message_text" => "<h2>Illustration markup inserted.</h2>\nLeave the insertion of the illustration markup for the formatting rounds.", "hints" => array());
+$messages["fnbottommissing"] = array("message_text" => "<h2>Footnote marker missing at footnote text</h2>\nPrecede the footnote text with the same mark you used in the text, sans square brackets.", "hints" => array());
+
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
