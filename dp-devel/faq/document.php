@@ -363,46 +363,46 @@ theme('Formatting Guidelines','header');
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
           <br>
-          I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
-          MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
           <br>
-          II. THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
-          FALLS IN WITH FRIENDS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
           <br>
-          III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
-          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
           <br>
-          IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
-          TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
+          IV. &lt;sc&gt;An Extradordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
           <br>
-          V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
-          IRISHMAN ENTERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
+          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
           <br>
-          VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
-          THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
           <br>
-          VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
+          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
           <br>
-          VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
-          QUEST OF FACTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
+          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
           <br>
-          IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
-          THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
+          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
           <br>
-          X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
-          PETER THE CHAUFFEUR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
+          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
           <br>
-          XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
-          HOUR IN THE MORNING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
+          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
           <br>
-          XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
-          MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
           <br>
-          XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
-          MIDNIGHT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
+          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
+          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
           <br>
-          XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-          OUTSIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
+          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
           */<br>
       </tt>
 </td></tr></table>
@@ -475,7 +475,7 @@ theme('Formatting Guidelines','header');
     <br>
     CHAPTER XXXV.<br>
     <br>
-    COMMERCIAL PAPER.<br>
+    &lt;sc&gt;Commercial Paper.&lt;/sc&gt;<br>
     <br>
     <br>
     &lt;b&gt;Kinds and Uses.&lt;/b&gt;--If a man wishes to buy some commodity<br>
@@ -1455,11 +1455,11 @@ and he knew, when he had done it, and to his</tt>
 <p><tt>&lt;i&gt;John James Audubon to Claude François Rozier&lt;/i&gt;</tt></p>
 <p><tt>[Letter No. 1, addressed]</tt></p>
 <p><tt>/*<br>
-M. FR. ROZIER,<br>
+&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
 Merchant-Nantes.<br>
-NEW YORK, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
+&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
 <p><tt>
-DEAR SIR:<br>
+&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
 */</tt></p>
 <p><tt>
 We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
@@ -2710,10 +2710,10 @@ Indeed I know not what to make on 'em.
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
-CLIN. And do I hold thee, my Antiphila,<br>
+&lt;sc&gt;Clin.&lt;/sc&gt; And do I hold thee, my Antiphila,<br>
 Thou only wish and comfort of my soul!<br>
 <br>
-SYRUS. In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<br>
+&lt;sc&gt;Syrus.&lt;/sc&gt; In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<br>
 */<br>
 <br>
 <br>
@@ -2722,11 +2722,11 @@ SYRUS. In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<
 ACT THE THIRD.<br>
 <br>
 <br>
-SCENE I.<br>
+&lt;sc&gt;Scene I.&lt;/sc&gt;<br>
 <br>
 <br>
 /*<br>
-CHREM. 'Tis now just daybreak.--Why delay I then<br>
+&lt;sc&gt;Chrem.&lt;/sc&gt; 'Tis now just daybreak.--Why delay I then<br>
 To call my neighbor forth, and be the first<br>
 To tell him of his son's return?--The youth,<br>
 I understand, would fain not have it so.<br>
@@ -2742,13 +2742,13 @@ So we old men should serve each other too.<br>
 */<br>
 <br>
 <br>
-SCENE II.<br>
+&lt;sc&gt;SCENE II.&lt;/sc&gt;<br>
 <br>
-&lt;i&gt;Enter&lt;/i&gt; MENEDEMUS.<br>
+&lt;i&gt;Enter&lt;/i&gt; &lt;sc&gt;Menedemus.&lt;/sc&gt;<br>
 <br>
 <br>
 /*<br>
-MENE. (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
+&lt;sc&gt;Mene.&lt;/sc&gt; (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
 Beyond the rest of humankind, or else<br>
 'Tis a false saying, though a common one,<br>
 "That time assuages grief." For ev'ry day<br>
@@ -2757,7 +2757,7 @@ Grows on my mind: the longer he's away,<br>
 The more impatiently I wish to see him,<br>
 The more pine after him.<br>
 <br>
-CHREM. But he's come forth. (&lt;i&gt;Seeing&lt;/i&gt; MENEDEMUS.)<br>
+&lt;sc&gt;Chrem.&lt;/sc&gt; But he's come forth. (&lt;i&gt;Seeing&lt;/i&gt; &lt;sc&gt;Menedemus.&lt;/sc&gt;)<br>
 Yonder he stands. I'll go and speak with him.<br>
 Good-morrow, neighbor! I have news for you;<br>
 Such news as you'll be overjoy'd to hear.<br>
