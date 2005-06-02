@@ -85,7 +85,8 @@ theme('Formatting Guidelines','header');
         <li><a href="#underl">Underlined Text</a></li>
         <li><a href="#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></li>
         <li><a href="#font_sz">Font size changes</a></li>
-        <li><a href="#word_caps">Word in all Caps or Small Caps</a></li>
+        <li><a href="#word_caps">Words in all Capitals</a></li>
+        <li><a href="#small_caps">Words in Small Caps</a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
@@ -1113,13 +1114,18 @@ theme('Formatting Guidelines','header');
    <a href="#block_qt">block quotation</a>.
 </p>
 
-<h3><a name="word_caps">Word in all Caps or Small Caps</a></h3>
-<p>Proofread words that are printed in all capital letters (including small
-   caps) as all capital letters.
+<h3><a name="word_caps">Words in all Capitals</a></h3>
+<p>Proofread words that are printed in all capital letters as all capital letters.
 </p>
 <p>The exception to this is the <a href="#chap_head">first word of a chapter</a>:
    many old books typeset the first word of these in all caps; this should be changed to upper and
    lower case, so "ONCE upon a time," becomes "<tt>Once upon a time,</tt>"
+</p>
+
+<h3><a name="small_caps">Words in Small Caps</a></h3>
+<p>Proofread words that are printed in <span style="font-variant: small-caps;">Small Caps</span>
+   as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
+   markup. Example: <span style="font-variant: small-caps;">This is Small Caps</span> would correctly be <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
