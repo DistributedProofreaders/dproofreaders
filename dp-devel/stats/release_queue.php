@@ -63,18 +63,36 @@ if (!isset($_GET['name']))
 	") or die(mysql_error());
 	while ( $qd = mysql_fetch_assoc($q_res) )
 	{
+		$c_res = mysql_query("
+			SELECT COUNT(*)
+			FROM projects
+			WHERE ({$qd['project_selector']})
+				AND state='{$round->project_waiting_state}'
+		");
+		if ($c_res)
+		{
+			$current_length = mysql_result($c_res,0);
+		}
+		else
+		{
+			$current_length = '???';
+			$msg = sprintf(
+				_('Warning: there is a syntax error in the project selector for #%d "%s"'),
+				$qd['ordering'],
+				$qd['name']);
+			echo "$msg<br>";
+			// It's lazy to simply echo the warning message here,
+			// in the midst of generating a table.  Presumably the
+			// result is invalid HTML, since the text is not within
+			// a <td> element. However, it seems that most browsers
+			// render it above the table, which is what we want.
+		}
+
 		$ename = urlencode( $qd['name'] );
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td>{$qd['ordering']}</td>\n";
 		echo "<td>{$qd['enabled']}</td>\n";
 		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>{$qd['name']}</a></td>\n";
-		$current_length =
-			mysql_result(mysql_query("
-				SELECT COUNT(*)
-				FROM projects
-				WHERE ({$qd['project_selector']})
-					AND state='{$round->project_waiting_state}'
-			"),0);
 		echo "<td>$current_length</td>\n";
 		if ($user_is_a_sitemanager)
 		{
