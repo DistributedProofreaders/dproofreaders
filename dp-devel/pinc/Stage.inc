@@ -16,7 +16,7 @@ $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
-    'quiz'           => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php"),
+    'quiz/F'         => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php"),
 );
 if ( TRUE )
 {
@@ -74,7 +74,7 @@ class Stage
             // Relax minima.
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
-                if ( $criterion_code == 'quiz' )
+                if ( $criterion_code == 'quiz/F' )
                 {
                     // skip
                 }
@@ -270,7 +270,7 @@ function get_user_scores($username)
         {
             $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
         }
-        else if ( $criterion_code == 'quiz' )
+        else if ( $criterion_code == 'quiz/F' )
         {
             $user_score = $FQ->user_has_passed($username) ? 1 : 0;
         }

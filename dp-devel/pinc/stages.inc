@@ -140,7 +140,7 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz' => 1 ),
+    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/F' => 1 ),
     'REQ-AUTO',
     _("The page-texts have already been proofread twice, but now need to be formatted with markup which may be specific to the project."),
     'document.php',
