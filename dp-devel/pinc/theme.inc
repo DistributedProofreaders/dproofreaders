@@ -151,7 +151,7 @@ function html_logobar($nameofpage) {
 		$numproj = mysql_result($result,0);
 		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
 		echo sprintf(
-			_('%d projects completed!'),
+			_('%s projects completed!'),
 			number_format($numproj));
 		echo "</b></font>\n";
 		echo "<br>";
@@ -452,7 +452,7 @@ function show_tally_specific_stats( $tally_name )
 	// Number of users
 	$res = mysql_query("SELECT COUNT(*) FROM users" );
 	list($num_users) = mysql_fetch_row($res);
-	echo '&nbsp;', sprintf( _('%d users'), number_format($num_users) ), "<br>\n";
+	echo '&nbsp;', sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
 
 	$tallyboard = new TallyBoard( $tally_name, 'U' );
 	$num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
