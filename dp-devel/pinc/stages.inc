@@ -253,7 +253,7 @@ new Pool(
 
     array(
         "<p>",
-        _("The books listed below have already gone through two rounds of proofreading on this site and they now need to be massaged into a final e-text."),
+        _("Each book listed below has gone through two rounds of proofreading and two rounds of formatting, and now needs to be massaged into a final e-text."),
         _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
         _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project."),
         _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first."),
@@ -307,9 +307,9 @@ new Pool(
 
     array(
         "<p>",
-        _("As an experienced volunteer, you have access to do verification of texts that have been Post-Processed already, if you wish."),
+        _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
         "<font color='red' size=4>",
-        sprintf( _("Make sure you read the <b>new</b> <a href='%s'>Post-Processing Verification Guidelines</a> and use the <a href='%s'>PPV Report Card</a> for each project you PPV."),
+        sprintf( _("Before working in this pool, make sure you read the <b>new</b> <a href='%s'>Post-Processing Verification Guidelines</a> and use the <a href='%s'>PPV Report Card</a> for each project you PPV."),
             "$code_url/faq/ppv.php",
             "$code_url/faq/ppv_report.txt" ),
         "</font>",
