@@ -132,7 +132,7 @@ function autorelease_for_round( $round )
         while ( $author_row = mysql_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
-            $this_round_authors[$author]++;
+            @$this_round_authors[$author]++;
         }
         echo "\n";
         echo "    List of authors in this round:\n";
@@ -155,7 +155,7 @@ function autorelease_for_round( $round )
         while ( $pm_row = mysql_fetch_assoc($pm_res) )
         {
             $pm = $pm_row['username'];
-            $this_round_pms[$pm]++;
+            @$this_round_pms[$pm]++;
         }
         echo "\n";
         echo "    List of pms in this round:\n";
