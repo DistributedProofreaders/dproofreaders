@@ -44,9 +44,25 @@ $needPage=1;
     // It's not clear why this is done. (The code has been here since rev 1.1.)
     // You might think it's meant to thwart click-through artists, but 3 seconds
     // isn't much of a delay. Probably it's some kind of request de-bouncer,
-    // filtering out extraneous repeated HTTP requests for this script. I
-    // suspect it's meant to detect users who click "Start Proofreading", and,
-    // not seeing an immediate response, click it again a couple seconds later.
+    // filtering out extraneous repeated HTTP requests for this script.
+    //
+    // At first, I thought it was meant to detect users who click "Start
+    // Proofreading", and, not seeing an immediate response, click it again
+    // a couple seconds later. And maybe it *was* meant to do that, and maybe
+    // it actually catches those cases. (Though we were unable to recreate
+    // such an occurrence.)
+    //
+    // But it seems there's a worse problem (which this debouncer code was
+    // perhaps meant to correct), in which a single user action sometimes
+    // results in two nearly-identical nearly-simultaneous requests being sent
+    // to the server. The requests are for the same resource, and arrive within
+    // a second of each other. The second usually (perhaps always) has "-" as
+    // its referrer. So far, I've seen GET+GET pairs, and also POST+GET pairs.
+    // In the two most recent cases exhibiting this behaviour, both users were
+    // using Firefox 1.0.4 on Windows (XP2 and 2000). However, this isn't a
+    // sufficient condition, as others with the same setup did not have the same
+    // problem.  Our best guess at this point is that it's an interaction
+    // between Firefox and a caching proxy.
 
     if ( dpsession_page_is_set() )
     {
