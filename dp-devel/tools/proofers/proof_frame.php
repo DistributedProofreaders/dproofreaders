@@ -38,8 +38,7 @@ $needPage=1;
     // 'In Progress' trays. If the time at which that page was opened is
     // less than 3 seconds ago, and the page was from the same project as
     // the current one, we do *not* give the user a new page, but rather
-    // leave the "page cookie" with its previous value, causing the proofing
-    // interface to load the previous page again.
+    // return an error page.
 
     // It's not clear why this is done. (The code has been here since rev 1.1.)
     // You might think it's meant to thwart click-through artists, but 3 seconds
@@ -68,7 +67,20 @@ $needPage=1;
     {
         $npage=getPageCookie();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
-          {$needPage=0;}
+          {
+                // It probably doesn't matter what we say here.
+                // 1) Indications are that users will never see this.
+                // 2) The important thing is that we neither assign the user a
+                //    new page, nor send a proofing interface.
+                header('HTTP/1.1 409 Conflict');
+                echo "<p>";
+                echo "We received two near-simultaneous requests from you\n";
+                echo "for the same resource, so we are ignoring the second one\n";
+                echo "(other than to send this error message).\n";
+                echo "Please inform a Site Admin that you received this message.\n";
+                echo "</p>";
+                exit();
+          }
     }
 
   // give them a new page
