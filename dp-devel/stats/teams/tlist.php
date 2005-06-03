@@ -46,8 +46,6 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>"._("Team Name")."</a></b></td>";
 	if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
 		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>"._("Total Members")."</a></b></td>";
-	if ($order == "page_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-		echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=page_count&direction=$newdirection'>"._("Page Count")."</a></b></td>";
 	echo "<td align='center'><b>"._("Options")."</b></td>";
 echo "</tr>\n";
 if (!empty($tRows)) {
@@ -58,7 +56,6 @@ if (!empty($tRows)) {
 		echo "<td align='center'><b>".$row['id']."</b></td>";
 		echo "<td>".$row['teamname']."</td>";
 		echo "<td align='center'>".$row['member_count']."</td>";
-		echo "<td align='center'>".$row['page_count']."</td>";
 		echo "<td align='center'><b><a href='tdetail.php?tid=".$row['id']."'>"._("View")."</a>&nbsp;";
 		if ($userP['team_1'] != $row['id'] && $userP['team_2'] != $row['id'] && $userP['team_3'] != $row['id']) {
 			echo "<a href='../members/jointeam.php?tid=".$row['id']."'>"._("Join")."</a></b></td>";
