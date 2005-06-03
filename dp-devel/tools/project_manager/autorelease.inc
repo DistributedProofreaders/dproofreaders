@@ -7,6 +7,8 @@ include_once($relPath.'stages.inc');
 
 function autorelease()
 {
+    error_reporting(E_ALL);
+
     echo "<pre>\n";
     echo "Starting autorelease\n";
 
@@ -182,8 +184,6 @@ function autorelease_for_round( $round )
     // -------------------------------------------------------------------------
 
     // Release of Different types of Projects from various logical queues
-
-    error_reporting(E_ALL);
 
     $q_res = mysql_query("
         SELECT *
