@@ -97,7 +97,7 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'P1' => 400, 'F1' => 50, 'days since reg' => 91 ), // 'P1' => 1000, 3 months after rollout
+    array( 'P1' => 400, 'F1' => 50, 'days since reg' => 91, 'quiz/P' => 1 ), // 'P1' => 1000, 3 months after rollout
     'REQ-HUMAN',
         // "10 random P1 pages proofed within the last week will be reviewed.
         // If 2 or fewer proofing errors are found, approval will be given."

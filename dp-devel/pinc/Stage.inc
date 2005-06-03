@@ -11,11 +11,13 @@ include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc');
+include_once($relPath.'misc.inc'); // startswith
 
 $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
+    'quiz/P'         => sprintf(_("<a href='%s'>proofreading quiz</a> pass"),"$code_url/quiz/start.php"),
     'quiz/F'         => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php"),
 );
 if ( TRUE )
@@ -74,7 +76,7 @@ class Stage
             // Relax minima.
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
-                if ( $criterion_code == 'quiz/F' )
+                if ( startswith( $criterion_code, 'quiz/' ) )
                 {
                     // skip
                 }
@@ -248,7 +250,7 @@ class Stage
 
 function get_user_scores($username)
 {
-    global $CRITERIA, $FQ;
+    global $CRITERIA, $PQ, $FQ;
 
     $res = mysql_query("
         SELECT *
@@ -269,6 +271,10 @@ function get_user_scores($username)
         if ( $criterion_code == 'days since reg' )
         {
             $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
+        }
+        else if ( $criterion_code == 'quiz/P' )
+        {
+            $user_score = $PQ->user_has_passed($username) ? 1 : 0;
         }
         else if ( $criterion_code == 'quiz/F' )
         {
