@@ -227,7 +227,7 @@ assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $someone_maintains_the_PP_faq =
-    sprintf( _("%s (<a href='%s'>%s</a>) maintains our <a href='%s'>Post Processing FAQ</a>."),
+    sprintf( _("%s (<a href='%s'>%s</a>) maintains our <a href='%s'>Post-Processing FAQ</a>."),
         'Julie Barkley',
         'http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674',
         'juliebarkley',
@@ -261,9 +261,9 @@ new Pool(
 
         "<p>",
         "<b>" . _("First Time Here?") . "</b>",
-        _("Please read the FAQ as it covers all the steps needed to post process an e-text."),
-        _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post processor)."),
-        sprintf( _("Check out the <a href='%s'>Post Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
+        _("Please read the FAQ as it covers all the steps needed to post-process an e-text."),
+        _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
+        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
         _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
     )
@@ -276,7 +276,7 @@ new Stage(
     _('Smooth Reading'),
     array(),
     'IMMEDIATE',
-    _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post Processor.'),
+    _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post-Processor.'),
     NULL,
     array(
         '#CCFFCC',
@@ -302,21 +302,21 @@ new Pool(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
 
-    _("Post Processor"),
+    _("Post-Processor"),
     'postproofer',
 
     array(
         "<p>",
-        _("As an experienced volunteer, you have access to do verification of texts that have been Post Processed already, if you wish."),
+        _("As an experienced volunteer, you have access to do verification of texts that have been Post-Processed already, if you wish."),
         "<font color='red' size=4>",
-        sprintf( _("Make sure you read the <b>new</b> <a href='%s'>Post Processing Verification Guidelines</a> and use the <a href='%s'>PPV Report Card</a> for each project you PPV."),
+        sprintf( _("Make sure you read the <b>new</b> <a href='%s'>Post-Processing Verification Guidelines</a> and use the <a href='%s'>PPV Report Card</a> for each project you PPV."),
             "$code_url/faq/ppv.php",
             "$code_url/faq/ppv_report.txt" ),
         "</font>",
         "</p>",
 
         "<p>",
-        sprintf( _("As always, the <a href='%s'>Post Processing Forum</a> is available for any of your questions."),
+        sprintf( _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
             $post_processing_forum_url ),
         "</p>",
     )
