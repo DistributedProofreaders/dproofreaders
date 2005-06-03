@@ -68,7 +68,9 @@ if ( !$fp )
 $display_format = null;
 while( $line = fgets( $fp ) )
 {
-    if ( preg_match( '#<dcterms:format>(.*)</dcterms:format>#', $line, $line_groups ) )
+    if ( preg_match(
+        '#<dc:format><dcterms:IMT><rdf:value>(.*)</rdf:value></dcterms:IMT></dc:format>#',
+        $line, $line_groups ) )
     {
         $format = $line_groups[1];
         if ( $format != 'application/zip' )
