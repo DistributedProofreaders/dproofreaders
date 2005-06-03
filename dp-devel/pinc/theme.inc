@@ -487,8 +487,15 @@ function show_tally_specific_stats( $tally_name )
 		else
 		{
 			$round = get_Round_for_round_id( $tally_name );
-			$rankname = $round->get_honorific_for_page_tally(
-				$usern->get_current_page_tally() );
+			if ($round)
+			{
+				$rankname = $round->get_honorific_for_page_tally(
+					$usern->get_current_page_tally() );
+			}
+			else
+			{
+				$rankname = '[unknown]';
+			}
 		}
 
 		// Get userid for personal stats link
