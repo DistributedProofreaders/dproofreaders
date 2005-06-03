@@ -25,7 +25,7 @@ $messages["illuswrong"] = array("message_text" => "<h2>Illustration incorrectly 
 $messages["nofn"] = array("message_text" => "<h2>Footnote markup missing.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within [Footnote _: ] placing the correct marker where the underscore is.", "hints" => array());
 $messages["wrongfn"] = array("message_text" => "<h2>Footnote markup wrong.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within [Footnote _: ] placing the correct marker where the underscore is. Remember to leave a blank line before the footnote.", "hints" => array());
 $messages["wrongblank"] = array("message_text" => "<h2>Extra blank line.</h2>\nThe page starts in the middle of a paragraph, so there should not be a blank line at the top.", "hints" => array());
-$messages["missingline"] = array("message_text" => "<h2>Missing blank line</h2> Paragraphs are delimited by blank lines. If a page starts with a new paragraph, place a new line at the start of the page.", "hints" => array());
+$messages["missingline"] = array("message_text" => "<h2>Missing blank line</h2> All paragraphs are delimited by blank lines. <b>If</b> a page starts with a new paragraph, place a new line at the start of the page.", "hints" => array());
 
 
 
