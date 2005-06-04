@@ -42,18 +42,11 @@ else
 
 theme( $round->name, 'header', $theme_extras );
 
-echo "<h1 align='center'>{$round->name}</h1>\n";
+$uao = $round->user_access( $pguser );
+
+$round->page_top( $uao );
 
 // ---------------------------------------
-
-$uao = $round->user_access( $pguser );
-if ( !$uao->can_access )
-{
-    echo "<p align='center'>";
-    echo _("You're not yet allowed to work in this round, so you're just visiting.");
-    echo "</p>";
-    echo "\n";
-}
 
 $pagesproofed = get_pages_proofed_maybe_simulated();
 

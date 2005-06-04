@@ -244,6 +244,19 @@ class Stage
         return $uao;
     }
 
+    function page_top( $uao )
+    {
+        echo "<h1 align='center'>{$this->id}: {$this->name}</h1>\n";
+
+        if ( !$uao->can_access )
+        {
+            echo "<p align='center'>";
+            echo _("You're not yet allowed to work in this round, so you're just visiting.");
+            echo "</p>";
+            echo "\n";
+        }
+    }
+
 }
 
 // --------------------------------------------------------------------------

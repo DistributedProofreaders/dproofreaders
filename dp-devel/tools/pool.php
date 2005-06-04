@@ -24,19 +24,12 @@ $available_filtertype_stem = "{$pool->id}_av";
 
 theme($pool->name, "header");
 
-echo "<h1 align='center'>{$pool->id}: {$pool->name}</h1>";
-
 global $pguser;
 $userSettings = Settings::get_Settings($pguser);
 
 $uao = $pool->user_access($pguser);
-if (!$uao->can_access)
-{
-    echo "<p align='center'>";
-    echo _("You're not allowed to work in this pool, just visit."), "\n";
-    echo _("If you feel this is an error, please contact the site administration."), "\n";
-    echo "</p>\n";
-}
+
+$pool->page_top( $uao );
 
 
 
