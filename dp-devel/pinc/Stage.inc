@@ -251,7 +251,10 @@ class Stage
         if ( !$uao->can_access )
         {
             echo "<p align='center'>";
-            echo _("You're not yet allowed to work in this round, so you're just visiting.");
+            echo sprintf( _("Welcome to %s!"), $this->id ), "\n";
+            echo _("Feel free to explore this stage."), "\n";
+            echo _("You can find out what happens here, and follow the progress of projects from earlier rounds."), "\n";
+            echo _("If you're interested in working in this stage, see below to find out how you can qualify."), "\n";
             echo "</p>";
             echo "\n";
         }
@@ -352,7 +355,7 @@ function show_user_access_object( $uao )
         }
         else
         {
-            echo _('You do not satisfy the requirements.');
+            echo _('Some requirements are not yet satisfied.');
         }
     }
     echo "\n";
@@ -380,6 +383,7 @@ function show_user_access_object( $uao )
 
         case 'sat-wait':
             echo _('However, you must wait for approval to work in this stage.');
+            // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
         case 'unsat-granted':
