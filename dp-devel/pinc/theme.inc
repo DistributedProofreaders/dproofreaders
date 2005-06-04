@@ -232,8 +232,7 @@ function html_logobar($nameofpage) {
   if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
   echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
   echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
-  echo headerbar_text(_("Log Out"),"$code_url/tools/logout.php",true);
-  echo headerbar_text($GLOBALS['pguser'],'',true);
+  echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
 	echo "</font></td>\n";
 	echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
 	      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
