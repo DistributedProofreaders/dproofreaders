@@ -258,6 +258,13 @@ class Stage
             echo "</p>";
             echo "\n";
         }
+
+        echo "<p align='center'>";
+        echo "<b>";
+        echo _('What happens in this stage');
+        echo ":</b><br>";
+        echo $this->description;
+        echo "</p>\n";
     }
 
 }
