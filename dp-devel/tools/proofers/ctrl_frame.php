@@ -653,6 +653,7 @@ $spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
 <a
 	href="#"
 	onclick="top.new_iMU('<sc>','</sc>')"
+	accesskey="s"
 ><div
   class='proofbutton'
   style='height: 22px; padding-left: 2px; padding-right: 2px; font-variant: small-caps;'
