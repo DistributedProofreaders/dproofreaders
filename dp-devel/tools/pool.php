@@ -22,7 +22,7 @@ $available_filtertype_stem = "{$pool->id}_av";
 
 // -----------------------------------------------------------------------------
 
-theme($pool->name, "header");
+theme("$pool->id: $pool->name", "header");
 
 global $pguser;
 $userSettings = Settings::get_Settings($pguser);

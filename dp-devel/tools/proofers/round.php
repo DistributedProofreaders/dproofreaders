@@ -40,7 +40,7 @@ else
     $theme_extras = array();
 }
 
-theme( $round->name, 'header', $theme_extras );
+theme( "$round->id: $round->name", 'header', $theme_extras );
 
 $uao = $round->user_access( $pguser );
 
