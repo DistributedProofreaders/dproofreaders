@@ -372,7 +372,7 @@ theme('Formatting Guidelines','header');
           III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
           and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
           <br>
-          IV. &lt;sc&gt;An Extradordinary Chambermaid, a Midnight<br>
+          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
           Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
           <br>
           V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
