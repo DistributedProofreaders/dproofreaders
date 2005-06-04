@@ -717,6 +717,7 @@ Currently, this is the only method for scrolling the image.<BR>
     *&nbsp;*&nbsp;*&nbsp;*&nbsp;* (thought break),
     Blank Page
 </p>
+
 <p>
     Along the lower line of the proofreading toolbar
     in the lower pane of the proofreading interface
@@ -751,6 +752,36 @@ Currently, this is the only method for scrolling the image.<BR>
 <p>
     Note that [Blank Page] will clear any existing text in the proofreading window.
 </p>
+
+<h5>Shortcuts to insert common tags</h5>
+
+<table border='1'>
+  <tr><td>
+    Bold
+  </td><td>
+    Alt-b
+  </td></tr>
+  <tr><td>
+    Italics
+  </td><td>
+    Alt-i
+  </td></tr>
+  <tr><td>
+    Small caps
+  </td><td>
+    Alt-s
+  </td></tr>
+  <tr><td>
+    Select accent
+  </td><td>
+    Alt-\
+  </td></tr>
+  <tr><td>
+    Select markup
+  </td><td>
+    Alt-[,Alt-]
+  </td></tr>
+</table>
 
 <dl>
 <dt>
