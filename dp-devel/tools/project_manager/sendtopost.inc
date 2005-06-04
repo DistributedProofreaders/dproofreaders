@@ -26,7 +26,7 @@ include_once('./post_files.inc');
             $reserved = 1;
             $extras = array( 'checkedoutby' => $PPer );
             $body_blurb =
-                "This project has completed second round proofreading\n".
+                "This project has completed all rounds\n".
                 "and has been checked out to the PPer who had it reserved,\n".
                 "$PPer. You will be notified once it has completed post-processing.";
         } else {
@@ -38,14 +38,14 @@ include_once('./post_files.inc');
 	            $new_state = PROJ_POST_FIRST_AVAILABLE;
         	    $extras = array();
 	            $body_blurb =
-	                "This project has completed second round proofreading\n".
+	                "This project has completed all rounds\n".
 	                "and has been made available for someone else to do the post-processing.\n".
 	                "You will be notified once it has completed post-processing.";
 	        } else {
 	            $new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	            $extras = array( 'checkedoutby' => $username );
 	            $body_blurb =
-	                "This project has completed second round proofreading\n".
+	                "This project has completed all rounds\n".
 	                "and is ready for you to do the post-processing.\n".
 	                "If you do not want to work on it,\n".
 	                "set it to Available for Post-Processing.";
