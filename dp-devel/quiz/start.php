@@ -9,7 +9,7 @@ $db_Connection=new dbConnect();
 $theme_args["css_data"] = "th.q {background:$theme[color_headerbar_bg];
 color:$theme[color_headerbar_font];}";
 
-if (!empty($_GET['show_only']) && array_search($_GET['show_only'],$defined_quizzes))
+if (!empty($_GET['show_only']) && (array_search($_GET['show_only'],$defined_quizzes) !== false))
 {
     $quiz = $_GET['show_only'];
     theme(${$quiz}->name,'header',$theme_args);
