@@ -302,5 +302,27 @@ for ( var i = 0, l = str.length; i < l; i++ )
   str.charAt( i );
 }
 
+newStr = lc_common(newStr);
 return newStr;
 }
+
+function lc_common(str)
+{
+  str_array = str.split(' ');
+  common_lc_words = new Array('And','Of','The','In','On','De','Van');
+
+  for(i=0;i<str_array.length;i++)
+  {
+    var cur_word = str_array[i];
+    for(n=0;n<common_lc_words.length;n++) 
+    {
+      if (common_lc_words[n]==cur_word)
+      {
+        str_array[i] = cur_word.toLowerCase();
+      }
+    }
+  }
+  str = str_array.join(' ');
+  return str;
+}
+

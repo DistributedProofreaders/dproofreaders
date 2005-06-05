@@ -113,6 +113,7 @@ background: #FFF8DC;
 display:inline;
 margin: 0 1px;
 padding-top: 1px;
+cursor: pointer;
 }
 
 -->
