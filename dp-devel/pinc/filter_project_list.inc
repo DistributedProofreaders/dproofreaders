@@ -144,7 +144,7 @@ if ($showDiffF) {
     echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._("All")." <input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     echo _("Easy").' <input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
+    echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     echo _("Hard").' <input type="checkbox" name="difficulty1[]" value="hard"></td>';
 
     echo "\r\n</tr>";
@@ -153,17 +153,6 @@ if ($showDiffF) {
 
 // drop down multiselect listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
 
-echo "\r\n<table border=1>";
-echo "\r\n<tr>";
-
-if ($showLangF) {echo   "<td>"._("Language")."</td>";}
-if ($showGenreF) {echo   "<td>"._("Genre")."</td>";}
-if ($showPMsF) {echo   "<td>"._("Project Manager")."</td>";}
-if ($showPPersF) {echo   "<td>"._("Post Processor")."</td>";}
-if ($showSpecialF) {echo   "<td>"._("Special Days")."</td>";}
-
-echo "\r\n</tr>";
-echo "\r\n<tr>";
 
 // In the <select> tags, we set the name attribute to 'whatever[]'.
 // I'm pretty sure this doesn't mean anything to HTML/HTTP,
@@ -176,7 +165,9 @@ echo "\r\n<tr>";
 // LANGUAGE filter
 
 if ($showLangF) {
-    echo "
+
+    echo "\r\n<table style='float: left;' border=1>\n<tr>
+          <td>"._("Language")."</td></tr><tr>
         <td>
         <select name='language1[]' size=5 multiple>
 	    <option value=''>"._("All languages")."</option>
@@ -187,6 +178,8 @@ if ($showLangF) {
     echo "
         </select>
         </td>
+      </tr>
+     </table>
    ";
 }
 
@@ -194,7 +187,8 @@ if ($showLangF) {
 // GENRE filter
 
 if ($showGenreF) {
-    echo "
+    echo "\r\n<table style='float: left;' border=1>\n<tr>
+          <td>"._("Genre")."</td></tr><tr>
         <td>
         <select name='genre1[]' size=5  multiple>
 	    <option value=''>"._("All genres")."</option>
@@ -204,14 +198,17 @@ if ($showGenreF) {
     echo "
         </select>
         </td>
-    ";
+      </tr>
+     </table>
+   ";
 }
 
-       
+
 // PM filter
 
 if ($showPMsF) {
-    echo "
+    echo "\r\n<table style='float: left;' border=1>\n<tr>
+          <td>"._("Project Manager")."</td></tr><tr>
         <td>
         <select name='PM1[]' size=5 multiple>
 	    <option value=''>"._("All PMs")."</option>
@@ -221,14 +218,17 @@ if ($showPMsF) {
     echo "
         </select>
         </td>
-    ";
+      </tr>
+     </table>
+   ";
 }
 
 
 // PP filter
 
 if ($showPPersF) {
-    echo "
+    echo "\r\n<table style='float: left;' border=1>\n<tr>
+          <td>"._("Post Processor")."</td></tr><tr>
         <td>
         <select name='PP1[]' size=5 multiple>
 	    <option value=''>"._("All PPers")."</option>
@@ -238,7 +238,9 @@ if ($showPPersF) {
     echo "
         </select>
         </td>
-    ";
+      </tr>
+     </table>
+   ";
 }
 
 
@@ -246,7 +248,8 @@ if ($showPPersF) {
 // SPECIAL Days filter
 
 if ($showSpecialF) {
-    echo "
+    echo "\r\n<table style='float: left;' border=1>\n<tr>
+          <td>"._("Special Days")."</td></tr><tr>
         <td>
         <select name='special1[]' size=5  multiple>
 	    <option value=''>"._("All Special Days")."</option>
@@ -258,11 +261,13 @@ if ($showSpecialF) {
     echo "
         </select>
         </td>
+      </tr>
+     </table>
    ";
 }
 
-echo "</tr>";
-echo "</table>\n<br>";
+// Stop the buttons floating next to the table:
+echo "<br style='clear: both;' /><br />";
 
 
 // buttons
@@ -274,7 +279,7 @@ echo "<input type='reset' value='".
 echo "<input type='submit' value='".
 	_("Apply New Filter to Projects")
      ."'>";
-echo "</center>\n";    
+echo "</center>\n";
 echo "</form><br>";
 
 
