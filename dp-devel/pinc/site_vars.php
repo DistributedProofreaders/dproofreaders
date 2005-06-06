@@ -104,6 +104,7 @@ $site_manager_email_addr = $general_help_email_addr;
 $auto_email_addr = $general_help_email_addr;
 
 $db_requests_email_addr = '<<DB_REQUESTS_EMAIL_ADDR>>';
+$promotion_requests_email_addr = '<<PROMOTION_REQUESTS_EMAIL_ADDR>>';
 
 $ppv_reporting_email_addr = '<<PPV_REPORTING_EMAIL_ADDR>>';
 
