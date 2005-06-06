@@ -16,7 +16,7 @@ slim_header( $title, TRUE, TRUE );
 
 echo "<h2>$title</h2>\n";
 
-$email_addr = $db_requests_email_addr;
+$email_addr = $promotion_requests_email_addr;
 
 echo "<p>";
 echo sprintf( _('(In case of problems, please send email to %s.)'), $email_addr );
