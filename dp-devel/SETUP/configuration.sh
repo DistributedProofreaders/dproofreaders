@@ -85,6 +85,7 @@ _NO_REPLY_EMAIL_ADDR=no-reply@example.org
 _GENERAL_HELP_EMAIL_ADDR=dphelp@example.org
 _DB_REQUESTS_EMAIL_ADDR=db-requests@example.org
 _PPV_REPORTING_EMAIL_ADDR=ppv-reports@example.org
+_PROMOTION_REQUESTS_EMAIL_ADDR=dp-promote@example.org
 
 _USE_PHP_SESSIONS=TRUE
 _COOKIE_ENCRYPTION_KEY=A_LONG_STRING_OF_GIBBERISH
