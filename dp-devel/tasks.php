@@ -484,7 +484,7 @@ function TaskForm($tid) {
 	if (empty($tid)) { $task_os = 0; } else { $task_os = mysql_result($result, 0, "task_os"); }
 	if (empty($tid)) { $task_browser = 0; } else { $task_browser = mysql_result($result, 0, "task_browser"); }
 	if (empty($tid)) { $task_assignee = 0; } else { $task_assignee = mysql_result($result, 0, "task_assignee"); }
-	if (empty($tid)) { $task_summary = ""; } else { $task_summary = stripslashes(mysql_result($result, 0, "task_summary")); }
+	if (empty($tid)) { $task_summary = ""; } else { $task_summary = htmlspecialchars(stripslashes(mysql_result($result, 0, "task_summary")),ENT_QUOTES); }
 	if (empty($tid)) { $task_details = ""; } else { $task_details = stripslashes(mysql_result($result, 0, "task_details")); }
 	if (empty($tid)) { $percent_complete = 0; } else { $percent_complete = mysql_result($result, 0, "percent_complete"); }
 	if (empty($tid)) { $opened_by = ""; } else { $opened_by = mysql_result($result, 0, "opened_by"); }
