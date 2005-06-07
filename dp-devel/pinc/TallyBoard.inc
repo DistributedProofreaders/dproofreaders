@@ -122,16 +122,19 @@ class TallyBoard
     //        $row = mysql_fetch_assoc($res);
     //        ... $row['foo'] ...
     {
+        static $n = 0;
+        $n++;
+        $alias = "current_tallies_$n";
         return array(
             "
-                LEFT OUTER JOIN current_tallies
+                LEFT OUTER JOIN current_tallies AS $alias
                 ON (
-                    tally_name      = '$this->tally_name'
-                    AND holder_type = '$this->holder_type'
-                    AND holder_id   = $holder_id_expr
+                    $alias.tally_name      = '$this->tally_name'
+                    AND $alias.holder_type = '$this->holder_type'
+                    AND $alias.holder_id   = $holder_id_expr
                 )
             ",
-            "IFNULL(current_tallies.tally_value,0)"
+            "IFNULL($alias.tally_value,0)"
         );
     }
 
