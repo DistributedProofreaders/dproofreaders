@@ -150,6 +150,7 @@ function echo_page_table(
 	$path = "$projects_dir/$projectid/";
 
 	$fields_to_get = "fileid, image, length(master_text), state";
+	$tables = $projectid;
 	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
 		$round = get_Round_for_round_number($rn);
@@ -157,11 +158,16 @@ function echo_page_table(
 			BINARY REPLACE($round->prevtext_column_name,'\r\n','\n')=REPLACE($round->text_column_name,'\r\n','\n') AS $round->textdiff_column_name,
 			$round->time_column_name,
 			$round->user_column_name,
+			phpbb_users$rn.user_id AS `$rn.phpbb_user_id`,
 			length($round->text_column_name)
+		";
+		$tables .= "
+			LEFT OUTER JOIN phpbb_users AS phpbb_users$rn
+				ON (phpbb_users$rn.username = $round->user_column_name)
 		";
 	}
 
-	$res = mysql_query( "SELECT $fields_to_get FROM $projectid ORDER BY image ASC" );
+	$res = mysql_query( "SELECT $fields_to_get FROM $tables ORDER BY image ASC" );
 	$num_rows = mysql_num_rows($res);
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
@@ -456,12 +462,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         {
 		$R_pages_completed = user_get_ELR_page_tally( $R_username );
 
-                $R_bbres = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$R_username'");
-                if (mysql_num_rows($R_bbres) == 0) {
-                        $R_bb_user_id = "";
-                } else {
-                        $R_bb_user_id = mysql_result($R_bbres, 0, "user_id");
-                }
+		$R_bb_user_id = $page_res["$round_num.phpbb_user_id"];
 
                 echo "<td align='center' $cellcolorclause ><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
         }
