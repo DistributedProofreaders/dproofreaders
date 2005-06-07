@@ -154,16 +154,25 @@ function echo_page_table(
 	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
 		$round = get_Round_for_round_number($rn);
+
+		$tallyboard = new TallyBoard( $round->id, 'U' );
+		list($joined_with_user_page_tallies,$user_page_tally_column) =
+			$tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
+
 		$fields_to_get .= ",
 			BINARY REPLACE($round->prevtext_column_name,'\r\n','\n')=REPLACE($round->text_column_name,'\r\n','\n') AS $round->textdiff_column_name,
 			$round->time_column_name,
 			$round->user_column_name,
 			phpbb_users$rn.user_id AS `$rn.phpbb_user_id`,
+			$user_page_tally_column AS `$rn.user_page_tally`,
 			length($round->text_column_name)
 		";
 		$tables .= "
 			LEFT OUTER JOIN phpbb_users AS phpbb_users$rn
 				ON (phpbb_users$rn.username = $round->user_column_name)
+			LEFT OUTER JOIN users AS users$rn
+				ON (users$rn.username = $round->user_column_name)
+			$joined_with_user_page_tallies
 		";
 	}
 
@@ -460,7 +469,7 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
         }
         else if ($can_see_names_for_this_page)
         {
-		$R_pages_completed = user_get_ELR_page_tally( $R_username );
+		$R_pages_completed = $page_res["$round_num.user_page_tally"];
 
 		$R_bb_user_id = $page_res["$round_num.phpbb_user_id"];
 
