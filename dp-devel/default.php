@@ -41,6 +41,7 @@ $activeusers = mysql_result($users,0,"numusers");
 <p><font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b><? echo _("About This Site") ?></b></font><br>
 <?
 echo sprintf( _("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s' target='_new'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official Project Gutenberg site and as such is supported by Project Gutenberg. All our proofreaders, managers, developers and so on are volunteers."), $PG_home_url );
+echo "\n";
 echo sprintf( _("If you have any questions or comments regarding this site, please e-mail <a href='mailto:%s'>%s</a>."), $general_help_email_addr, $general_help_email_addr );
 echo "<br><br>";
 
