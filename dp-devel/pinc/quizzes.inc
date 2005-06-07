@@ -2,7 +2,7 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 
-$defined_quizzes = array('FQ','PQ');
+$defined_quizzes = array('PQ','FQ');
 
 $FQ = new Quiz(
  "FQ",
