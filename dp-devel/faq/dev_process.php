@@ -33,11 +33,11 @@ echo "
 </tr>
 <tr>
     <td>developers' Jabber chat room</td>
-    <td>pgdpdev@muc.jabber.org</td>
+    <td>pgdpdev@conference.jabber.org</td>
 </tr>
 <tr>
     <td>general Jabber chat room</td>
-    <td>pgdp@muc.jabber.org</td>
+    <td>pgdp@conference.jabber.org</td>
 </tr>
 <tr>
     <td>your sandbox</td>
