@@ -13,7 +13,8 @@ $FQ = new Quiz(
  _('Page three: Chapter headings and thought breaks') => 'formatting3',
  _('Page four: Poetry, blockquotes and lists') => 'formatting4',
  _('Page five: Illustrations and footnotes') => 'formatting5'),
- array()
+ array(
+ 'maximum_age' => 15778463) // 6 months
 );
 
 
@@ -26,7 +27,8 @@ $PQ = new Quiz(
  _('Page Three') => 'step3',
  _('Page Four') => 'step4',
  _('Page Five') => 'step5'),
- array()
+  array(
+ 'maximum_age' => 15778463) // 6 months
 );
 
 ?>
