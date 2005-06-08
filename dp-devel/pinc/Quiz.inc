@@ -1,5 +1,6 @@
 <?
 include_once($relPath."connect.inc");
+include_once($relPath."v_site.inc");
 class Quiz
 {
   function Quiz($id,$name,$pages, $pass_requirements)
@@ -15,7 +16,7 @@ class Quiz
 
   function user_has_passed($username)
   {
-    foreach ($this->pages as $page) 
+    foreach ($this->pages as $page)
     {
       // false would be more logical than string "no",
       // but you can't array_search on a boolean.
@@ -61,27 +62,49 @@ class Quiz
       return true;
     }
   }
-  
+
   function show_results_table($username)
   {
+    global $code_url;
     echo "<p>
-          <table border='1'>
-          <tr><th class='q' colspan='3'>$this->name</th></tr>";
+          <table border='0' cellpadding='2' style='border:2px solid black;'>
+          <tr><th class='q' colspan='5'>$this->name</th></tr>";
     $pages = $this->pages;
     foreach ($pages as $desc => $page)
     {
       echo "<tr><td>$desc</td>
             <td><a href='generic/main.php?type=$page&quiz_id=$this->id'>Attempt this page</a></td>";
-      $passed = user_has_passed_quiz_page($username, $page);
-      $text = $passed ? _("Passed") : _("Not passed");
-      $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
-      echo "<td bgcolor='$bgcolor'>$text</td></tr>";
+      if (!empty($username))
+      {
+        $passed = user_has_passed_quiz_page($username, $page);
+        $text = $passed ? _("Passed") : _("Not passed");
+        $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
+        echo "<td bgcolor='$bgcolor'>$text</td>";
+        $date = get_last_attempt_date_for_quiz_page($username, $page);
+        $text = ($date != 0) ? strftime("%d-%b-%y",$date) : "Not attempted";
+        $max = $this->pass_requirements['maximum_age'];
+        $date_ok = ((time() - $date) < $max) || empty($max);
+        $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
+        echo "<td bgcolor='$bgcolor'>$text</td>";
+        $text = ($passed && $date_ok) ?	"<img src='$code_url/quiz/tick.png' alt='Tick!' title='Quiz page passed!' width='25' height='24' />"
+                                      : "<img src='$code_url/quiz/cross.png' alt='Cross' title='Quiz page not passed' width='22' height='25'  />";
+        $bgcolor = ($passed && $date_ok) ? '#88ff88' : '#ff8888';
+        echo "<td bgcolor='$bgcolor'>$text</td>";
+      }
+      else
+      {
+        echo "<td /><td /><td />";
+      }
+     echo "</tr>";
     }
-    $total_pass = $this->user_has_passed($username);
-    $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
-    $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
-    echo "<tr><td colspan='3'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>
-    </table></p>";
+    if (!empty($username))
+    {
+      $total_pass = $this->user_has_passed($username);
+      $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
+      $bgcolor = $total_pass ? '#88ff88' : '#ff8888';
+      echo "<tr><td colspan='5'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
+    }
+    echo "</table></p>";
   }
 }
 
@@ -106,18 +129,31 @@ function record_quiz_attempt($username, $quiz_page, $result)
 
 function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = array())
 {
+  // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
+  // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
   $res = mysql_query("SELECT * FROM `quiz_passes`
   WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
   if (mysql_num_rows($res) == 0)
       return false;
   if (isset($pass_requirements['minimum_age']))
   {
+    $value = mysql_result($res,0,"date");
     if ((time() - $value) > $this->pass_requirements['maximum_age'])
         return false;
   }
   return true;
 }
 
+function get_last_attempt_date_for_quiz_page($username, $quiz_page)
+{
+  $res = mysql_query("SELECT date FROM `quiz_passes`
+  WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
+  if (mysql_num_rows($res) == 0)
+      return false;
 
+  $value = mysql_result($res,0,"date");
+
+  return $value;
+}
 
 ?>
