@@ -23,7 +23,7 @@ $messages["pageheader"] = array("message_text" => "<h2>Page header left in</h2>\
 $messages["illusmissing"] = array("message_text" => "<h2>Illustration missing.</h2>\nIt seems you haven't marked the illustration correctly. Put the illustration caption within [Illustration: ]", "hints" => array());
 $messages["illuswrong"] = array("message_text" => "<h2>Illustration incorrectly marked.</h2>\nCheck the case of the caption, and make sure there is a blank line before and after the illustration marker.", "hints" => array());
 $messages["nofn"] = array("message_text" => "<h2>Footnote markup missing.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within [Footnote _: ] placing the correct marker where the underscore is.", "hints" => array());
-$messages["wrongfn"] = array("message_text" => "<h2>Footnote markup wrong.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within [Footnote _: ] placing the correct marker where the underscore is. Remember to leave a blank line before the footnote.", "hints" => array());
+$messages["wrongfn"] = array("message_text" => "<h2>Footnote markup wrong.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote.", "hints" => array());
 $messages["wrongblank"] = array("message_text" => "<h2>Extra blank line.</h2>\nThe page starts in the middle of a paragraph, so there should not be a blank line at the top.", "hints" => array());
 $messages["communistgroupthink"] = array("message_text" => "<h2>Free thought detected</h2> Correct <i>that</i>, bourgeois riffraff!", "hints" => array());
 $messages["missingline"] = array("message_text" => "<h2>Missing blank line</h2> All paragraphs are delimited by blank lines.", "hints" => array());
@@ -42,7 +42,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" => "{Illustration", "ca
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Illustration: Where is Kitty?]"), "case_sensitive" => FALSE, "error" => "illusmissing");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n[Illustration: Where is Kitty?]\n\n"), "case_sensitive" => TRUE, "error" => "illuswrong");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Footnote"), "case_sensitive" => FALSE, "error" => "nofn");
-$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n[Footnote 1:"), "case_sensitive" => FALSE, "error" => "wrongfn");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n[Footnote 1:"), "case_sensitive" => true, "error" => "wrongfn");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n\"Come on"), "case_sensitive" => TRUE, "error" => "missingline");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n\"Wait,"), "case_sensitive" => TRUE, "error" => "missingline");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nShe ran"), "case_sensitive" => TRUE, "error" => "missinglinecheckindents");
