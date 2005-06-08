@@ -28,7 +28,7 @@ dpsql_dump_query("
                       '\" title=\"',comment,'\">',
                 comment,
                       '</a></span>') as 'Comment',
-                concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')) as 'Start Date',
+                concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%b %e')) as 'Start Date',
                 concat('<a href=\"',info_url,'\">',info_url,'</a>') as 'More Info'
         FROM special_days
         WHERE enable = 1
