@@ -11,10 +11,21 @@ if (!user_is_a_sitemanager())
     exit;
 }
 
-set_time_limit(0);
+set_time_limit(0); // no time limit
+
+    $project_condition = "
+           state = '".PROJ_POST_FIRST_AVAILABLE."'
+        OR state = '".PROJ_POST_FIRST_CHECKED_OUT."'
+    ";
 
 $myresult = mysql_query("
-    SELECT projectid, nameofwork FROM projects WHERE state = '".PROJ_POST_FIRST_AVAILABLE."'" . " OR state='".PROJ_POST_FIRST_CHECKED_OUT."'");
+    SELECT projectid, nameofwork FROM projects WHERE $project_condition
+") or die(mysql_error());
+
+if ( mysql_num_rows($myresult) == 0 )
+{
+    die( "no projects matched condition: $project_condition" );
+}
 
 while ($row = mysql_fetch_assoc($myresult)) 
 {
