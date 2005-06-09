@@ -14,16 +14,17 @@ if (!user_is_a_sitemanager())
 set_time_limit(0);
 
 $myresult = mysql_query("
-	SELECT projectid, nameofwork FROM projects WHERE state = '".PROJ_POST_FIRST_AVAILABLE."'" . " OR state='".PROJ_POST_FIRST_CHECKED_OUT."'");
+    SELECT projectid, nameofwork FROM projects WHERE state = '".PROJ_POST_FIRST_AVAILABLE."'" . " OR state='".PROJ_POST_FIRST_CHECKED_OUT."'");
 
 while ($row = mysql_fetch_assoc($myresult)) 
 {
-	$projectid = $row['projectid'];
-	$title = $row['nameofwork'];
-	echo "<p>generating files for $projectid ($title) ...</p>\n";
-	flush();
-	generate_post_files( $projectid );
-	flush();
+    $projectid = $row['projectid'];
+    $title = $row['nameofwork'];
+    echo "<p>generating files for $projectid ($title) ...</p>\n";
+    flush();
+    generate_post_files( $projectid );
+    flush();
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
