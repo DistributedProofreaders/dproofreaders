@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project )
+function generate_post_files( $project, $output_round_id='' )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
@@ -20,7 +20,7 @@ function generate_post_files( $project )
     // Join all the page texts into a plain text file...
     $plain_path = "$projectpath/{$project}.txt";
     $fp = fopen($plain_path, "w");
-    join_proofed_text($project, $fp);
+    join_proofed_text($project, $output_round_id, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -31,7 +31,7 @@ function generate_post_files( $project )
     // Join all the page texts into a TEIXLITE file...
     $tei_path = "$projectpath/{$project}_TEI.txt";
     $fp = fopen($tei_path, "w");
-    join_proofed_text_tei($project, $fp);
+    join_proofed_text_tei($project, $output_round_id, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -58,7 +58,7 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
-function join_proofed_text ($project, $fp)
+function join_proofed_text ($project, $output_round_id, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -67,7 +67,7 @@ function join_proofed_text ($project, $fp)
     $linefeed = chr(10);
     $eol = $carriagereturn.$linefeed;
 
-    $myresult = page_info_query($project);
+    $myresult = page_info_query($project, $output_round_id);
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
     {
         $info_str = "-----File: $filename---\\";
@@ -92,7 +92,7 @@ $linefeed = chr(10);
 // Tough luck for Mac or Unix users.
 
 
-function join_proofed_text_tei ($project, $fp)
+function join_proofed_text_tei ($project, $output_round_id, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -172,7 +172,7 @@ function join_proofed_text_tei ($project, $fp)
     fputs($fp,"</front>\r\n");
     fputs($fp,"<body>\r\n");
 
-    $myresult = page_info_query($project);
+    $myresult = page_info_query($project, $output_round_id);
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
     {
         $proofer_attributes = "";
@@ -301,15 +301,25 @@ function mark_up_poetry_line($m)
 
 // -----------------------------------------------------------------------------
 
-function page_info_query( $projectid )
+function page_info_query( $projectid, $output_round_id )
 {
+    if ( empty($output_round_id) )
+    {
+        $output_round_number = MAX_NUM_PAGE_EDITING_ROUNDS;
+    }
+    else
+    {
+        $round = get_Round_for_round_id($output_round_id);
+        $output_round_number = $round->round_number;
+    }
+
     $user_fields = "";
-    for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+    for ( $rn = 1; $rn <= $output_round_number; $rn++ )
     {
         $round = get_Round_for_round_number($rn);
         $user_fields .= ", {$round->user_column_name}";
 
-        if ( $rn == MAX_NUM_PAGE_EDITING_ROUNDS )
+        if ( $rn == $output_round_number )
         {
             $final_text_column_name = $round->text_column_name;
         }
