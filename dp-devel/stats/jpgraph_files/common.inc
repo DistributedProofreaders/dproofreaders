@@ -4,9 +4,11 @@
 
 include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
+include_once($relPath.'theme.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
+include_once($jpgraph_dir.'/src/jpgraph_canvas.php');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -416,6 +418,35 @@ function echo_graph_data()
         }
         echo "\n";
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function dpgraph_error($error, $width = 300, $height =150)
+{
+    global $jpgraph_FF, $jpgraph_FS, $theme;
+    $graph = new CanvasGraph ($width,$height,'auto');
+    $graph->SetMargin(12,22,12,22);
+    $graph->SetShadow();
+    $graph->SetMarginColor("$theme[color_headerbar_bg]");
+
+    // Stroke the plot-area and margin first to avoid overwriting the text.
+    $graph->InitFrame();
+
+    $text = new Text($error,200,10);
+    $text->SetFont($jpgraph_FF,$jpgraph_FS);
+
+    $fontheight = $text->GetFontHeight($graph->img);
+
+    $text->Center(0,$width,(($height / 2) - ($fontheight * 2)));
+    $text->ParagraphAlign( 'center');
+
+    // fill, border, shadow
+    $text->SetBox( "white", "$theme[color_headerbar_bg]","gray");
+
+    $text->Stroke( $graph->img);
+
+    $graph->Stroke();
 }
 
 // vim: sw=4 ts=4 expandtab
