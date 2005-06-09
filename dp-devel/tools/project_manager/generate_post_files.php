@@ -13,13 +13,16 @@ if (!user_is_a_sitemanager())
 }
 
 $projectid = @$_REQUEST['projectid'];
+$round_id  = @$_REQUEST['round_id'];
 
 echo "projectid = '$projectid'<br>\n";
+echo "round_id  = '$round_id'<br>\n";
 
 if ( empty($projectid) )
 {
     die( "parameter 'projectid' is empty or unset" );
 }
+
 set_time_limit(0); // no time limit
 
 if ( $projectid == 'many' )
@@ -49,7 +52,7 @@ while ($row = mysql_fetch_assoc($myresult))
     $title = $row['nameofwork'];
     echo "<p>generating files for $projectid ($title) ...</p>\n";
     flush();
-    generate_post_files( $projectid );
+    generate_post_files( $projectid, $round_id );
     flush();
 }
 
