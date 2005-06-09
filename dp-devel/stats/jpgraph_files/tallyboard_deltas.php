@@ -53,6 +53,12 @@ else
     $x_tli = 1;
 }
 
+if (empty($datax) || empty($datay))
+{
+  dpgraph_error("This user has not completed any pages in this round.",600,300);
+  die;
+}
+
 draw_simple_bar_graph(
     $datax,
     $datay,
