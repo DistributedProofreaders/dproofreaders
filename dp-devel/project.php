@@ -1040,6 +1040,50 @@ function do_post_downloads()
         echo_download_zip( $projectid, _("Download Zipped Text"), '_corrections' );
     }
 
+    if ( user_is_a_sitemanager() )
+    {
+        global $Round_for_round_id_, $code_url;
+
+        $sums_str = "";
+        foreach ( $Round_for_round_id_ as $round )
+        {
+            if ( !empty($sums_str) ) $sums_str .= ', ';
+            $sums_str .= "SUM( $round->text_column_name != '' ) AS $round->id";
+        }
+        $res = mysql_query("
+            SELECT $sums_str
+            FROM $projectid
+        ") or die(mysql_error());
+        $sums = mysql_fetch_assoc($res);
+
+        foreach ( $Round_for_round_id_ as $round )
+        {
+            if ( intval($sums[$round->id]) != 0 )
+            {
+                $highest_round_id = $round->id;
+            }
+        }
+
+        if ( isset($highest_round_id) ) 
+        {
+            echo "<br>";
+            echo "<li>";
+            echo "Generate Post Files (This will overwrite existing post files, if any.)\n";
+            echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
+            echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+            foreach ( $Round_for_round_id_ as $round )
+            {
+                $checked = ( $round->id == $highest_round_id ? 'CHECKED' : '');
+                echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
+                if ( $round->id == $highest_round_id ) break;
+            }
+            echo "<br>";
+            echo "<input type='submit' value='(Re)generate'>\n";
+            echo "</form>\n";
+            echo "</li>";
+        }
+    }
+
     echo "</ul>\n";
 }
 
