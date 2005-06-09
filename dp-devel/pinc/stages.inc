@@ -58,7 +58,7 @@ new Round(
     _('Proofreading Round 1'),
     array(),
     'IMMEDIATE',
-    _("The page-texts are the output from OCR software and have not been looked at."),
+    _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
     array(
         0 => '#FFE4B5', // mocassin
