@@ -11,6 +11,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
+include_once($relPath.'project_edit.inc');
 
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
@@ -518,6 +519,12 @@ elseif ((isset( $_REQUEST['action']) &&
         theme(_("Create a Project"), "header");
         $header_shown = true;
     }
+    
+    // Check if they're allowed to edit the info.
+    // Don't run the check when $projectid is empty & the user is PM, because
+    // they're creating a new project (but abort_etc will fail.)
+    if( !empty( $projectid ) || !user_is_PM() )
+    abort_if_cant_edit_project( $projectid );
 
     echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
