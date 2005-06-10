@@ -19,20 +19,20 @@ function user_can_edit_project( $projectid )
     $res = mysql_query("SELECT username FROM projects WHERE projectid = '$projectid' LIMIT 1");
     if (mysql_num_rows($res) == 0)
     {
-	return PROJECT_DOES_NOT_EXIST;
+    return PROJECT_DOES_NOT_EXIST;
     }
 
     $project_manager = mysql_result($res, 0, "username");
     if ($pguser == $project_manager)
     {
-	// The current user is the project manager for the project.
-	return USER_CAN_EDIT_PROJECT;
+    // The current user is the project manager for the project.
+    return USER_CAN_EDIT_PROJECT;
     }
 
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     {
-	// The user is a site manager or project facilitator, and thus can edit any existing project.
-	return USER_CAN_EDIT_PROJECT;
+    // The user is a site manager or project facilitator, and thus can edit any existing project.
+    return USER_CAN_EDIT_PROJECT;
     }
 
     return USER_CANNOT_EDIT_PROJECT;
@@ -55,6 +55,7 @@ function abort_if_cant_edit_project( $projectid )
             <P>
             "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
+        theme( "", "footer" );
         exit;
     }
     else if ( $result == USER_CANNOT_EDIT_PROJECT )
@@ -65,16 +66,17 @@ function abort_if_cant_edit_project( $projectid )
             <P>
             "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
+        theme( "", "footer" );
         exit;
     }
     else if ( $result == USER_CAN_EDIT_PROJECT )
     {
-	return;
+    return;
     }
     else
     {
-	echo "unexpected return value from user_can_edit_project: '$result'";
-	exit;
+    echo "unexpected return value from user_can_edit_project: '$result'";
+    exit;
     }
 }
 
