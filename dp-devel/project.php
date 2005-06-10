@@ -468,7 +468,69 @@ function do_project_info_table()
 
     echo_row_a( _("Project Manager"), $project->username );
 
-    echo_row_a( _("Post Processor"), $project->postproofer );
+    {
+        if ( !empty($project->postproofer) )
+        {
+            $PPer = $project->postproofer;
+        }
+        else if ( !empty($project->checkedoutby) &&
+            !in_array(
+                $project->state,
+                array(
+                    PROJ_POST_SECOND_CHECKED_OUT,
+                    PROJ_POST_COMPLETE,
+                    PROJ_SUBMIT_PG_POSTED,
+                    PROJ_CORRECT_CHECKED_OUT,
+                )
+            )
+        )
+        {
+            $PPer = $project->checkedoutby;
+        }
+        if ( isset($PPer) )
+        {
+            echo_row_a( _("Post Processor"), $PPer );
+        }
+    }
+
+    {
+        if ( !empty($project->ppverifier) )
+        {
+            $PPVer = $project->ppverifier;
+        }
+        else if ( !empty($project->checkedoutby) &&
+            in_array(
+                $project->state,
+                array(
+                    PROJ_POST_SECOND_CHECKED_OUT,
+                    PROJ_POST_COMPLETE,
+                    PROJ_SUBMIT_PG_POSTED,
+                )
+            )
+        )
+        {
+            $PPVer = $project->checkedoutby;
+        }
+        if ( isset($PPVer) )
+        {
+            echo_row_a( _("PP Verifier"), $PPVer );
+        }
+    }
+
+    if ($site_supports_corrections_after_posting)
+    {
+        // included for completeness
+        if ( !empty($project->checkedoutby) &&
+            $project->state == PROJ_CORRECT_CHECKED_OUT
+        )
+        {
+            $CorrectionsReviewer = $project->checkedoutby;
+        }
+        if ( isset($CorrectionsReviewer) )
+        {
+            echo_row_a( _("Corrections Reviewer"), $CorrectionsReviewer );
+        }
+    }
 
     $creditline = create_credit_line($project);
     if (isset($image_credit))
