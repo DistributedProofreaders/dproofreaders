@@ -517,6 +517,7 @@ function do_project_info_table()
         }
     }
 
+    global $site_supports_corrections_after_posting;
     if ($site_supports_corrections_after_posting)
     {
         // included for completeness
