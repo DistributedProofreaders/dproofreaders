@@ -616,6 +616,10 @@ function show_user_access_chart( $username )
         }
         echo "</tr>\n";
     }
+    
+    echo "<tr><td colspan='14' style='text-align: center;'>" .
+           "<input type='checkbox' name='notify_user' checked />Notify user of change" .
+         "</td></tr>";
 
     echo "</table>\n";
 
