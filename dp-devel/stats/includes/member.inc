@@ -386,7 +386,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 			$username = $neighbor->get_username();
 			$date_created = $neighbor->get_date_joined();
 
-			$username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id'>$username</a>";
+			$username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&tally_name=$tally_name'>$username</a>";
 			$day_html = date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i>";
 
 		} else {
