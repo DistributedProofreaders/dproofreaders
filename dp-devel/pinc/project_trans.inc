@@ -221,16 +221,26 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 		project_drop_pages( $projectid );
 
-		$result = mysql_query("
-			DELETE FROM projects WHERE projectid = '$projectid'
-		");
-
-		if ($testing)
+		if ( $current_state == PROJ_NEW )
 		{
-			echo "{$indent}$transition_str: "._("success")."{$eol}";
-		}
+			$result = mysql_query("
+				DELETE FROM projects WHERE projectid = '$projectid'
+			");
 
-		return '';
+			if ($testing)
+			{
+				echo "{$indent}$transition_str: "._("success")."{$eol}";
+			}
+
+			return '';
+		}
+		else
+		{
+			// It's somewhat problematic to delete the entry from 'projects' table.
+			// Instead, keep the entry, but change its state to 'deleted'.
+
+			$settings .= ", modifieddate='$now'";
+		}
 	}
 
 	if ($testing)
