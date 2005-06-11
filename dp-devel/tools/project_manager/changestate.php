@@ -70,7 +70,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     else if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.
-	echo "<P><B>NOTE:</B> You no longer delete a project from the site, you move it to the posted to Project Gutenberg status. Deleting is only for a project that is beyond repair.";
+	echo "<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.";
 	print "<P>Are you sure you want to change this state and delete $nameofwork by $author ($projectid)?<br><br>If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
     }
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
