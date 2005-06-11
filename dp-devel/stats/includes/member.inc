@@ -294,18 +294,37 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$vitals = $users_tallyboard->get_vitals( $curMbr['u_id'] );
 
 	$now = time();
-	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
+
+	if ($tally_name == "R*")
+	{
+	  $firstWorkInRound = $curMbr['date_created'];
+	  // 1117576800 == May 31st, 2005
+	  $timeAtEndOfWorld = 1117576800;
+	  $daysInRoundInteger = floor(($timeAtEndOfWorld - $firstWorkInRound)/86400);
+  }
+  else
+  {
+  	$result = mysql_query("SELECT timestamp
+                           FROM past_tallies
+                           WHERE holder_type ='U'
+                           AND holder_id ='$curMbr[u_id]'
+                           AND tally_name ='$tally_name'
+                           ORDER BY timestamp ASC
+                           LIMIT 1");
+    $firstWorkInRound = mysql_result($result,0,"timestamp");
+  	$daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
+  }
 
 	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
-	if ($daysInExistenceInteger > 0) {
-	        $daily_Average = $vitals->current_tally/$daysInExistenceInteger;
+	if ($daysInRoundInteger > 0) {
+	        $daily_Average = $vitals->current_tally/$daysInRoundInteger;
 	} else {
 		$daily_Average = 0;
 	}
 
 	$t = new ThemedTable(
-		2, 
+		2,
 		_("Page Statistics"),
 		array( 'width'=>100 )
 	);
