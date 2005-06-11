@@ -67,6 +67,11 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         // which will leave the project in the appropriate
 	// BAD, AVAILABLE, or COMPLETE state.
     }
+    else if ($newstate == PROJ_DELETE && !user_can_delete_project_in_state($oldstate))
+    {
+        // Can only happen if they're tweaking URLs.
+        echo "You are not allowed to delete the project in its current state ($oldstate).";
+    }
     else if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.

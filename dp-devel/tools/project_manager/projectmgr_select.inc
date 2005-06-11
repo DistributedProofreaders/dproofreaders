@@ -77,8 +77,10 @@ function getSelect($project_state)
 	global $transition_options_;
 	$next_states = array_get( $transition_options_, $project_state, array() );
 
-	// PROJ_DELETE is implicitly allowed from every state.
-	$next_states[] = PROJ_DELETE;
+	if ( user_can_delete_project_in_state($project_state) )
+	{
+		$next_states[] = PROJ_DELETE;
+	}
 
 	echo_project_state_option( $project_state, 1 );
 	foreach ($next_states as $next_state)

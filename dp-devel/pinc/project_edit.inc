@@ -80,5 +80,12 @@ function abort_if_cant_edit_project( $projectid )
     }
 }
 
+function user_can_delete_project_in_state( $project_state )
+// Can the current user delete a project in the given state?
+// (assuming that the current user can edit/manage the project)
+{
+    return TRUE;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
