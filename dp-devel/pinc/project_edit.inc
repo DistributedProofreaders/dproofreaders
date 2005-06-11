@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'project_states.inc');
 
 
 define('PROJECT_DOES_NOT_EXIST',  1);
@@ -84,7 +85,14 @@ function user_can_delete_project_in_state( $project_state )
 // Can the current user delete a project in the given state?
 // (assuming that the current user can edit/manage the project)
 {
-    return TRUE;
+    // PM/PF/SA can delete a project when it's new.
+    // SA can 'delete' a project when it's in any state but already-deleted.
+    // (There's a difference to what 'deletion' means in the latter case.)
+    return (
+        $project_state == PROJ_NEW
+        ||
+        $project_state != PROJ_DELETE && user_is_a_sitemanager()
+    );
 }
 
 // vim: sw=4 ts=4 expandtab
