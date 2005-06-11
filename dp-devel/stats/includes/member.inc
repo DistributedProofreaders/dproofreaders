@@ -311,7 +311,7 @@ function showMbrPageStats( $curMbr, $tally_name )
                            AND tally_name ='$tally_name'
                            ORDER BY timestamp ASC
                            LIMIT 1");
-    $firstWorkInRound = mysql_result($result,0,"timestamp");
+    $firstWorkInRound = @mysql_result($result,0,"timestamp");
   	$daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
   }
 
