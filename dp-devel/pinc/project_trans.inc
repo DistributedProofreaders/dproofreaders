@@ -76,28 +76,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// -------------------------------------------------------------------------
 
-	// A project can be deleted when it's in any state.
-	if ( $new_state == PROJ_DELETE )
-	{
-		project_drop_pages( $projectid );
-
-		$result = mysql_query("
-			DELETE FROM projects WHERE projectid = '$projectid'
-		");
-
-		global $projects_dir;
-		exec("rm -rf $projects_dir/$projectid");
-
-		if ($testing)
-		{
-			echo "{$indent}$transition_str: "._("success")."{$eol}";
-		}
-
-		return '';
-	}
-
-	// -------------------------------------------------------------------------
-
 	if ( ! transition_is_legal( $current_state, $new_state ) )
 	{
 		// Requested transition is illegal.
@@ -236,6 +214,24 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$settings .= ", modifieddate='$now'";
 		$settings .= ", checkedoutby=''";
 	}
+	else if ( $new_state == PROJ_DELETE )
+	{
+		global $projects_dir;
+		exec("rm -rf $projects_dir/$projectid");
+
+		project_drop_pages( $projectid );
+
+		$result = mysql_query("
+			DELETE FROM projects WHERE projectid = '$projectid'
+		");
+
+		if ($testing)
+		{
+			echo "{$indent}$transition_str: "._("success")."{$eol}";
+		}
+
+		return '';
+	}
 
 	if ($testing)
 	{
@@ -284,6 +280,9 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 function transition_is_legal( $current_state, $new_state )
 {
+	// A project can be deleted when it's in any state.
+	if ( $new_state == PROJ_DELETE ) return TRUE;
+
 	$transition_graph = array(
 		PROJ_NEW => array(
 			PROJ_P1_UNAVAILABLE
