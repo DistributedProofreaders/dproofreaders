@@ -520,5 +520,35 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
     ") or die(mysql_error());
 }
 
+function project_recalculate_page_counts( $projectid )
+// Calculate the project's n_pages and n_available_pages from scratch.
+{
+    $res = mysql_query("
+        SELECT COUNT(*), SUM(state LIKE '%.page_avail')
+        FROM $projectid
+    ");
+
+    if ( $res === FALSE )
+    {
+        // no pages table
+        $n_pages = 0;
+        $n_available_pages = 0;
+    }
+    else
+    {
+        list($n_pages,$n_available_pages) = mysql_fetch_row($res);
+
+        // If pages table exists, but is empty,
+        // COUNT(*) will be 0, but SUM(...) will be NULL.
+        if ( is_null($n_available_pages) ) $n_available_pages = 0;
+    }
+
+    mysql_query("
+        UPDATE projects
+        SET n_pages=$n_pages, n_available_pages=$n_available_pages
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
