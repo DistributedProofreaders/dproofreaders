@@ -441,7 +441,15 @@ function _Page_UPDATE( $projectid, $image, $settings )
     global $writeBIGtable;
 
     $sql = "UPDATE $projectid SET $settings WHERE image='$image'";
-    $res = mysql_query($sql) or die(mysql_error());
+    $res = mysql_query($sql);
+    if ( !$res )
+    {
+        echo "The following mysql query:<br>\n";
+        echo $sql, "<br>\n";
+        echo "raised the following error:<br>\n";
+        echo mysql_error(), "<br>\n";
+        exit;
+    }
 
     if ($writeBIGtable)
     {
