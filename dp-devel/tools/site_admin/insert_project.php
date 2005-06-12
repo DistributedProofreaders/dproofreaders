@@ -3,6 +3,7 @@ $relPath='../../pinc/';
 include_once($relPath.'misc.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'page_ops.inc');
 
 if ( !user_is_a_sitemanager() )
 {
@@ -64,6 +65,7 @@ switch ( $submit_button )
             echo "
                 $n rows inserted.
             ";
+            project_recalculate_page_counts( $projectid_['to'] );
             if ( $n != $n_moving_pages )
             {
                 die( "unexpected number of rows inserted" );
