@@ -1302,6 +1302,14 @@ function do_smooth_reading()
                 // The upload does not cause the project to change state --
                 // it's still checked out to PPer.
             }
+            else
+            {
+                echo "<li>";
+                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
+                echo _("Replace the current file that's available for smooth-reading.");
+                echo "</a>";
+                echo "</li>";
+            }
         }
         else
         {
