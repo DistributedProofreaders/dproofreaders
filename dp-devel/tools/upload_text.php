@@ -72,7 +72,7 @@ if (!isset($action))
 
 	echo "<FORM ACTION='upload_text.php' METHOD='POST' ENCTYPE='multipart/form-data'>";
 	echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
-	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<B><font color='#ffffff'>"._("Upload $what $for_what")."</font></B>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
@@ -84,7 +84,7 @@ if (!isset($action))
 	echo "<STRONG>"._("Zipped File:")."</STRONG>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
-	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
       if ($stage != 'smooth_done') {
           if ($stage != 'smooth_avail') {
               echo "<STRONG>"._("Leave Comments:")."</STRONG>";
@@ -94,11 +94,11 @@ if (!isset($action))
           echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
           echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
       }
-	echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
 	echo "<INPUT TYPE='submit' VALUE='Upload'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
 	echo $bottom_blurb;
-	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<A HREF='$back_url'><B>$back_blurb</B></A>";
 	echo "</TD></TR></TABLE></FORM></DIV></CENTER>";
 	theme("", "footer");
@@ -176,7 +176,7 @@ else
 
                    // special handling for smooth reading, which does not involve a state change
                    // but still needs some changes recorded in project table
-                   if ($stage == 'smooth_avail') {
+                   if ($stage == 'smooth_avail' && $weeks != "replace") {
                       $qry =  mysql_query("
                           UPDATE projects SET smoothread_deadline = $deadline,  postcomments = '$postcomments'
                           WHERE projectid = '$project'
