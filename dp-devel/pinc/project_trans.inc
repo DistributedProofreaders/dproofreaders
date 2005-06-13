@@ -94,7 +94,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	{
 		if ( $new_state == $round->project_waiting_state )
 		{
-			$errors = project_pre_release_check( $project );
+			$errors = project_pre_release_check( $project, $round );
 			if ($errors)
 			{
 				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
@@ -398,8 +398,8 @@ function transition_is_legal( $current_state, $new_state )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_pre_release_check( $project )
-// Check whether the project seems ready to be released.
+function project_pre_release_check( $project, $round )
+// Check whether the project seems ready to be released into the round.
 // If it is, return an empty string.
 // If it has problems, return a detailed error-message.
 {
@@ -421,7 +421,7 @@ function project_pre_release_check( $project )
 	if ($errors) $errors .= "\n";
 
 	$res = mysql_query("
-		SELECT image, LENGTH(master_text) as master_text_length
+		SELECT image, LENGTH($round->prevtext_column_name) AS input_text_length
 		FROM $projectid
 		ORDER BY image ASC
 	");
@@ -446,7 +446,7 @@ function project_pre_release_check( $project )
 			$errors .= "  $filename: "._("image file is small and probably bad")."\n";
 		}
 
-		if ($page['master_text_length'] == 0) {
+		if ($page['input_text_length'] == 0) {
 			$errors .= "  $filename: "._("text is empty")."\n";
 		}
 	}

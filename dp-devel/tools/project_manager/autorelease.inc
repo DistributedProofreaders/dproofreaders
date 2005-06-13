@@ -25,7 +25,7 @@ function attempt_to_release( $round, $project )
 {
     $projectid = $project['projectid'];
 
-    $errors = project_pre_release_check( $project );
+    $errors = project_pre_release_check( $project, $round );
 
     if ( $errors )
     {

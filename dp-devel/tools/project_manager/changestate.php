@@ -111,7 +111,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	if ( $oldstate == $round->project_waiting_state &&
 	     $newstate == $round->project_available_state )
 	{
-	    $errors = project_pre_release_check( $project );
+	    $errors = project_pre_release_check( $project, $round );
 	    if ($errors)
 	    {
 		echo "<pre>\n";
