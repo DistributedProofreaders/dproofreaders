@@ -420,7 +420,11 @@ function project_pre_release_check( $project )
 
 	if ($errors) $errors .= "\n";
 
-	$res = mysql_query("SELECT image,LENGTH(master_text) as master_text_length FROM $projectid ORDER BY image ASC");
+	$res = mysql_query("
+		SELECT image, LENGTH(master_text) as master_text_length
+		FROM $projectid
+		ORDER BY image ASC
+	");
 
 	if (!$res)
 	{
