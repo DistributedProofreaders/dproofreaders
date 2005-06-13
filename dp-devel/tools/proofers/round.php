@@ -13,6 +13,7 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
+include_once($relPath.'page_tally.inc');
 
 $userSettings = Settings::get_Settings($pguser);
 
@@ -57,7 +58,7 @@ welcome_see_beginner_forum( $pagesproofed );
 show_news_for_page($round_id);
 
 
-if ($pagesproofed <= 100)
+if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
 {
     echo "<hr width='75%'>\n";
 
