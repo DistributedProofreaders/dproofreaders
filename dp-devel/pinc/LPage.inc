@@ -20,17 +20,27 @@ function get_available_page( $project, $proofstate, $pguser )
     //
     if ($round->round_number == 1)
     {
-        $dbQuery = "
-            SELECT COUNT(fileid) as pagesdone
-            FROM $project, projects 
-            WHERE {$round->user_column_name} = '$pguser' AND difficulty = 'beginner' AND projectid ='$project'
-        "; 
-        $result = mysql_query($dbQuery);
-        $pagesdone = mysql_result($result, 0, "pagesdone" );
-        if ($pagesdone > 20)
+        $res1 = mysql_query("
+            SELECT difficulty
+            FROM projects
+            WHERE projectid='$project'
+        ") or die(mysql_error());
+        $difficulty = mysql_result($res1,0);
+
+        if ( $difficulty == 'beginner' )
         {
-            $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
-            return $err;
+            $dbQuery = "
+                SELECT COUNT(fileid) as pagesdone
+                FROM $project
+                WHERE {$round->user_column_name} = '$pguser'
+            "; 
+            $result = mysql_query($dbQuery);
+            $pagesdone = mysql_result($result, 0, "pagesdone" );
+            if ($pagesdone > 20)
+            {
+                $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
+                return $err;
+            }
         }
     }
 
@@ -280,4 +290,5 @@ function deletePageCookie()
   dpsession_page_end();
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
