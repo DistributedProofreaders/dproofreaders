@@ -5,6 +5,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'page_tally.inc');
 
@@ -29,6 +30,14 @@ function get_available_page( $project, $proofstate, $pguser )
 
         if ( $difficulty == 'beginner' )
         {
+            if ( !user_can_see_BEGIN_in_round($round) )
+            {
+                $err = _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
+                    . " "
+                    . _("Perhaps you could try working on an EASY project.");
+                return $err;
+            }
+
             $dbQuery = "
                 SELECT COUNT(fileid) as pagesdone
                 FROM $project
@@ -38,7 +47,9 @@ function get_available_page( $project, $proofstate, $pguser )
             $pagesdone = mysql_result($result, 0, "pagesdone" );
             if ($pagesdone > 20)
             {
-                $err = _("You have already proofread your allowed quota of pages from this Beginners Only project. Perhaps you could try proofreading an EASY project.");
+                $err = _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
+                    . " "
+                    . _("Or you could try working on an EASY project.");
                 return $err;
             }
         }
