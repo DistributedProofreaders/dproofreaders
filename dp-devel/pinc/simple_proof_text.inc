@@ -2,7 +2,7 @@
 
 // Simple Proofreading Rules text, for inclusion in other files only
 
-echo "<font face=" . $theme['font_mainbody'] ."><b>";
+echo "<font face='$theme[font_mainbody]'><b>";
 echo _("Simple Proofreading Rules:");
 echo "</b></font><br><br>";
 
@@ -21,15 +21,7 @@ echo "<br><br>\n\n";
 
 
 echo "<i>";
-echo _("The");
-echo " <a href='".$code_url."/faq/summary.pdf'>";
-echo _("Handy Proofreading Guide");
-echo "</a> ";
-echo _("(printable) and");
-echo " <a href='".$code_url."/faq/document.php'>";
-echo _("Proofreading Guidelines");
-echo "</a> ";
-echo _("(for reference) provide much more detail.");
+echo sprintf(_("The <a href='%s'>Proofreading Guidelines</a> (for reference) provide much more detail."),"$code_url/faq/proofreading_guidelines.php");
 echo "</i><br><br>\n";
 echo _("BEGINNERS ONLY projects are reserved for new proofreaders. After you have done 5-15 pages in total from these projects, please leave them for proofreaders who are newer than you. EASY projects make a good next step.");
 echo "<br><br>\n";
