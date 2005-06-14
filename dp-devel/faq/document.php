@@ -2011,7 +2011,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "oe"&nbsp;&dagger;</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "[oe]"&nbsp;&dagger;</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
@@ -2019,7 +2019,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "Oe"&nbsp;&dagger;</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "[OE]"&nbsp;&dagger;</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
@@ -2112,11 +2112,6 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
   </tbody>
 </table>
 
-<p> &dagger;&nbsp;Note: In most cases, the two individual
-    letters have replaced the oe ligature. (Thus &OElig;dipus becomes Oedipus.)
-    Check the <a href="#comments">Project Comments</a> to see if the Project Manager
-    wants you to use the ligature, otherwise use the two individual letters.
-</p>
 <p> <b>For Apple Macintosh</b>:
 </p>
 <ul compact>
@@ -2215,7 +2210,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "oe"&nbsp;&dagger;</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "[oe]"</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-~, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
@@ -2223,7 +2218,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "Oe"&nbsp;&dagger;</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "[OE]"</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-~, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
@@ -2316,11 +2311,6 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
   </tbody>
 </table>
 <p>&Dagger;&nbsp;Note: No equivalent shortcut, use drop-down menus.
-</p>
-<p>&dagger; Note that in most cases, the two individual
-   letters have replaced the oe ligature. (Thus &OElig;dipus becomes Oedipus.)
-   Check the <a href="#comments">Project Comments</a> to see if the Project Manager
-   wants you to use the ligature, otherwise use the two individual letters.
 </p>
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
