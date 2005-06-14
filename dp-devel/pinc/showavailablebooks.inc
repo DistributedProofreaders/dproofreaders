@@ -56,11 +56,6 @@ function show_block_for_round( $round_number, $projects_filter )
 		echo "\n<td colspan=6>{$round->description}</td>";
 		echo "</tr>";
 
-		if (! user_can_see_BEGIN_in_round($round))
-		{
-			$projects_filter .= " AND difficulty != 'beginner' ";
-		}
-
 		show_books_available_for_proofing( $round, $userP, $projects_filter, $order_new );
 	}
 	echo "</table>\n<br>";
