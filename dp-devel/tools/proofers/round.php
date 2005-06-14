@@ -118,7 +118,7 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 if($round_id == 'P2')
 {
-    if(user_can_see_BEGIN_in_round($round))
+    if(user_can_work_on_beginner_pages_in_round($round))
         mentor_banner($round);
 }
 /*

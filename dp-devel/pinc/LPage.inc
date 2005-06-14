@@ -30,7 +30,7 @@ function get_available_page( $project, $proofstate, $pguser )
 
         if ( $difficulty == 'beginner' )
         {
-            if ( !user_can_see_BEGIN_in_round($round) )
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
                 $err = _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
                     . " "

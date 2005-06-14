@@ -244,7 +244,7 @@ function decide_blurbs()
             . "<br>"
             . _("There are no pages available for proofreading.");
     }
-    else if ( $project->difficulty == 'beginner' && !user_can_see_BEGIN_in_round($round) )
+    else if ( $project->difficulty == 'beginner' && !user_can_work_on_beginner_pages_in_round($round) )
     {
         $top_blurb = $bottom_blurb =
             _("You have reached your quota of pages from 'Beginners Only' projects in this round.");

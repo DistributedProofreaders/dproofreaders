@@ -74,7 +74,7 @@ function user_is_site_translator()
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
-function user_can_see_BEGIN_in_round($round)
+function user_can_work_on_beginner_pages_in_round($round)
 {
     $round_number = $round->round_number;
     $userSettings =& get_pguser_settings();
