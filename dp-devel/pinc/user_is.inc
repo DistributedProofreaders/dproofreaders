@@ -87,6 +87,15 @@ function user_can_see_BEGIN_in_round($round)
 
     global $pguser;
     $n_pages = user_get_ELR_page_tally( $pguser );
+    if ( TRUE )
+    {
+        // Augment user's ELR count with their R* count,
+        // so that old-timers don't do beginner projects.
+        global $userP;
+        $old_tallyboard = new TallyBoard( 'R*', 'U' );
+        $old_count = $old_tallyboard->get_current_tally( $userP['u_id'] );
+        $n_pages += $old_count;
+    }
     if ($round_number == 1)
         return $n_pages <= 40;
     else if ($round_number == 2)
