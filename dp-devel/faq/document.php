@@ -364,7 +364,7 @@ theme('Formatting Guidelines','header');
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
           <br>
           I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
           <br>
           II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
           Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
