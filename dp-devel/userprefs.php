@@ -199,12 +199,12 @@ function echo_general_tab() {
     $email = mysql_result($result,0,"email");
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Name:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type='text' name='real_name' value='$real_name'>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('name');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Name:'), 'real_name', 'name',
+        $real_name,
+        'textfield',
+        array( '', '' )
+    );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Language:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
@@ -215,12 +215,12 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Email:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type='text' name='email' value='$email'>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('email');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Email:'), 'email', 'email',
+        $email,
+        'textfield',
+        array( '', '' )
+    );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Interface Language:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
@@ -411,12 +411,13 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Current Profile:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type='text' name='profilename' value='{$userP['profilename']}'>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('profilename');\">?</a>&nbsp;</b>";
-    echo "</td>\n<td bgcolor='#ffffff' colspan='2' align='center'>";
+    show_preference(
+        _('Current Profile:'), 'profilename', 'profilename',
+        $userP['profilename'],
+        'textfield',
+        array( '', '' )
+    );
+    echo "<td bgcolor='#ffffff' colspan='2' align='center'>";
     // show all profiles
     echo "<select name='c_profile' ID='c_profile'>";
     for ($i=0;$i<$pf_num;$i++)
@@ -528,33 +529,33 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Image Zoom:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"v_zoom\" value=\"{$userP['v_zoom']}\" size=\"3\">"._("% of 1000 pixels");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_zoom');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Image Zoom:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"h_zoom\" value=\"{$userP['h_zoom']}\" size=\"3\">"._("% of 1000 pixels");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_zoom');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Image Zoom:'), 'v_zoom', 'v_zoom',
+        $userP['v_zoom'],
+        'textfield',
+        array( 3, _("% of 1000 pixels") )
+    );
+    show_preference(
+        _('Image Zoom:'), 'h_zoom', 'h_zoom',
+        $userP['h_zoom'],
+        'textfield',
+        array( 3, _("% of 1000 pixels") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Text Frame Size:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"v_tframe\" value=\"{$userP['v_tframe']}\" size=\"3\">"._("% of browser width");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_textsize');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Text Frame Size:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"h_tframe\" value=\"{$userP['h_tframe']}\" size=\"3\">"._("% of browser height");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_textsize');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Text Frame Size:'), 'v_tframe', 'v_textsize',
+        $userP['v_tframe'],
+        'textfield',
+        array( 3, _("% of browser width") )
+    );
+    show_preference(
+        _('Text Frame Size:'), 'h_tframe', 'h_textsize',
+        $userP['h_tframe'],
+        'textfield',
+        array( 3, _("% of browser height") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -573,33 +574,33 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Number of Text Lines:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"v_tlines\" value=\"{$userP['v_tlines']}\" size=\"3\">";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_textlines');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Number of Text Lines:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"h_tlines\" value=\"{$userP['h_tlines']}\" size=\"3\">";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_textlines');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Number of Text Lines:'), 'v_tlines', 'v_textlines',
+        $userP['v_tlines'],
+        'textfield',
+        array( 3, "" )
+    );
+    show_preference(
+        _('Number of Text Lines:'), 'h_tlines', 'h_textlines',
+        $userP['h_tlines'],
+        'textfield',
+        array( 3, "" )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Length of Text Lines:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"v_tchars\" value=\"{$userP['v_tchars']}\" size=\"3\"> "._("characters");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_textlength');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Length of Text Lines:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type=\"text\" name=\"h_tchars\" value=\"{$userP['h_tchars']}\" size=\"3\"> "._("characters");
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_textlength');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Length of Text Lines:'), 'v_tchars', 'v_textlength',
+        $userP['v_tchars'],
+        'textfield',
+        array( 3, " "._("characters") )
+    );
+    show_preference(
+        _('Length of Text Lines:'), 'h_tchars', 'h_textlength',
+        $userP['h_tchars'],
+        'textfield',
+        array( 3, " "._("characters") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -874,6 +875,12 @@ function _show_radio_group( $field_name, $current_value, $options )
         }
         echo ">$option_label&nbsp;&nbsp;";
     }
+}
+
+function _show_textfield( $field_name, $current_value, $extras )
+{
+    list($size, $rest) = $extras;
+    echo "<input type='text' name='$field_name' value='$current_value' size='$size'>$rest";
 }
 
 // vim: sw=4 ts=4 expandtab
