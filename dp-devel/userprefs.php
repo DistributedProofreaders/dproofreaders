@@ -761,6 +761,32 @@ function echo_bottom_button_row()
 
 // ---------------------------------------------------------
 
+function show_preference(
+    $label, $field_name, $pophelp_name,
+    $current_value,
+    $type,
+    $extras )
+{
+    global $theme;
+
+    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+    echo "<strong>$label</strong>";
+    echo "</td>";
+
+    echo "<td bgcolor='#ffffff' align='left'>";
+    // This is a bit sneaky, calling a function via a non-static name.
+    // (Be careful if you want to rename a function whose name starts with '_show_'.)
+    $function_name = '_show_' . $type;
+    $function_name( $field_name, $current_value, $extras );
+    echo "</td>";
+
+    echo "<td bgcolor='#ffffff' align='center'>";
+    echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
+    echo "</td>\n";
+}
+
+// ---------------------------------------------------------
+
 // Unlike in dropdown_select, the third argument should be a 'real' array.
 // The labels will be displayed to the user,
 // one of the values will be passed back from the browser as the selected value.
