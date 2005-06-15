@@ -653,6 +653,17 @@ $spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
 </div></a>
 <a
 	href="#"
+	onclick="top.transformText('title-case')"
+	accesskey="t"
+><div
+  class='proofbutton'
+  style='height: 22px; padding-left: 2px; padding-right: 2px;'
+  <?=$amazing_button_pushing_action?>
+	align="top"
+	title="<?=_("Title case selection")?>"><?=$spc?>ABC&rarr;Abc
+</div></a>
+<a
+	href="#"
 	onclick="top.new_iMU('<sc>','</sc>')"
 	accesskey="s"
 ><div
@@ -660,7 +671,7 @@ $spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
   style='height: 22px; padding-left: 2px; padding-right: 2px; font-variant: small-caps;'
   <?=$amazing_button_pushing_action?>
 	align="top"
-	title="<?=_("Small Caps")?>"><?=$spc?>Abc
+	title="<?=_("Small Caps markup")?>"><?=$spc?>&lt;sc&gt;
 </div></a>
 <a
 	href="#"

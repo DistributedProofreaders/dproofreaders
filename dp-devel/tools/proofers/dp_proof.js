@@ -232,7 +232,6 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 	if(docRef.selection  && !is_gecko) {
 		var theSelection = docRef.selection.createRange().text;
 		if(!theSelection) { theSelection=sampleText;}
-		if(tagOpen=='<sc>') { theSelection=title_case(theSelection);}
 		if(replace) { theSelection=''; }
 		txtarea.focus();
 		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
@@ -249,7 +248,6 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		var scrollTop=txtarea.scrollTop;
 		var myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
-		if(tagOpen=='<sc>') { myText=title_case(myText);}
 		if(replace) { myText=''; }
 		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
@@ -278,9 +276,78 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		} else {
 			text="";
 		}
-		if(!text) { text=sampleText;}		
-		if(tagOpen=='<sc>') { text=title_case(text);}
+		if(!text) { text=sampleText;}
 		if(replace) { text=''; }
+		text=tagOpen+text+tagClose;
+		docRef.infoform.infobox.value=text;
+		// in Safari this causes scrolling
+		if(!is_safari) {
+			txtarea.focus();
+		}
+		noOverwrite=true;
+	}
+	// reposition cursor if possible
+	if (txtarea.createTextRange) txtarea.caretPos = docRef.selection.createRange().duplicate();
+}
+
+// ----------
+
+function transformText(transformType) {
+	var txtarea = docRef.editform.text_data;
+	// There's really no point to this, it just 
+  // avoids some unpleasant problems later:
+  var tagOpen = '';
+  var tagClose = '';
+	// IE
+	if(docRef.selection  && !is_gecko) {
+		var theSelection = docRef.selection.createRange().text;
+		if(!theSelection) { theSelection=sampleText;}
+		if(transformType=='title-case') { theSelection=title_case(theSelection);}
+		txtarea.focus();
+		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
+			theSelection = theSelection.substring(0, theSelection.length - 1);
+			docRef.selection.createRange().text = tagOpen + theSelection + tagClose + " ";
+		} else {
+			docRef.selection.createRange().text = tagOpen + theSelection + tagClose;
+		}
+
+	// Mozilla
+	} else if(txtarea.selectionStart || txtarea.selectionStart == '0') {
+ 		var startPos = txtarea.selectionStart;
+		var endPos = txtarea.selectionEnd;
+		var scrollTop=txtarea.scrollTop;
+		var myText = (txtarea.value).substring(startPos, endPos);
+		if(!myText) { myText=sampleText;}
+		if(transformType=='title-case') { myText=title_case(myText);}
+		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
+			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
+		} else {
+			subst = tagOpen + myText + tagClose;
+		}
+		txtarea.value = txtarea.value.substring(0, startPos) + subst +
+		  txtarea.value.substring(endPos, txtarea.value.length);
+		txtarea.focus();
+
+		var cPos=startPos+(tagOpen.length+myText.length+tagClose.length);
+		txtarea.selectionStart=cPos;
+		txtarea.selectionEnd=cPos;
+		txtarea.scrollTop=scrollTop;
+
+	// All others
+	} else {
+		var copy_alertText=alertText;
+		var re1=new RegExp("\\$1","g");
+		var re2=new RegExp("\\$2","g");
+		copy_alertText=copy_alertText.replace(re1,sampleText);
+		copy_alertText=copy_alertText.replace(re2,tagOpen+sampleText+tagClose);
+		var text;
+		if (sampleText) {
+			text=prompt(copy_alertText);
+		} else {
+			text="";
+		}
+		if(!text) { text=sampleText;}
+		if(transformType=='title-case') { text=title_case(text);}
 		text=tagOpen+text+tagClose;
 		docRef.infoform.infobox.value=text;
 		// in Safari this causes scrolling
@@ -312,7 +379,7 @@ return newStr;
 function lc_common(str)
 {
   str_array = str.split(' ');
-  common_lc_words = new Array('And','Of','The','In','On','De','Van');
+  common_lc_words = new Array('And','Of','The','In','On','De','Van','Am','Pm','Bc','Ad','A','An','At','By','For');
 
   for(i=0;i<str_array.length;i++)
   {
