@@ -231,13 +231,12 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Email Updates:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('email_updates', $userP['email_updates'], '1', _("Yes"));
-    radio_select('email_updates', $userP['email_updates'], '0', _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('updates');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Email Updates:'), 'email_updates', 'updates',
+        $userP['email_updates'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Theme:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
@@ -260,13 +259,12 @@ function echo_general_tab() {
     echo "<a href='$reset_password_url'>"._("Reset Password")."</a>";
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('password');\">?</a>&nbsp;</b>";
     echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Statistics Bar Alignment:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('u_align', $userP['u_align'], 1, _("Left"));
-    radio_select('u_align', $userP['u_align'], 0, _("Right"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('align');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Statistics Bar Alignment:'), 'u_align', 'align',
+        $userP['u_align'],
+        'radio_group',
+        array( 1 => _("Left"), 0 => _("Right") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -443,47 +441,45 @@ function echo_proofreading_tab() {
     dropdown_select('i_res', $userP['i_res'], $array);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('screenres');\">?</a>&nbsp;</b>";
     echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Launch in New Window:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('i_newwin', $userP['i_newwin'], 1, _("Yes"));
-    radio_select('i_newwin', $userP['i_newwin'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('newwindow');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Launch in New Window:'), 'i_newwin', 'newwindow',
+        $userP['i_newwin'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Interface Type:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('i_type', $userP['i_type'], 0, _("Standard"));
-    radio_select('i_type', $userP['i_type'], 1, _("Enhanced"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('facetype');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Show Toolbar:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('i_toolbar', $userP['i_toolbar'], 1, _("Yes"));
-    radio_select('i_toolbar', $userP['i_toolbar'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('toolbar');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Interface Type:'), 'i_type', 'facetype',
+        $userP['i_type'],
+        'radio_group',
+        array( 0 => _("Standard"), 1 => _("Enhanced") )
+    );
+    show_preference(
+        _('Show Toolbar:'), 'i_toolbar', 'toolbar',
+        $userP['i_toolbar'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Interface Layout:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('i_layout', $userP['i_layout'], 1, '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'._("Vertical").'">');
-    radio_select('i_layout', $userP['i_layout'], 0, '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'._("Horizontal").'">');
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('layout');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Show Status Bar:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('i_statusbar', $userP['i_statusbar'], 1, _("Yes"));
-    radio_select('i_statusbar', $userP['i_statusbar'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('statusbar');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Interface Layout:'), 'i_layout', 'layout',
+        $userP['i_layout'],
+        'radio_group',
+        array(
+            1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'._("Vertical").'">',
+            0 => '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'._("Horizontal").'">'
+        )
+    );
+    show_preference(
+        _('Show Status Bar:'), 'i_statusbar', 'statusbar',
+        $userP['i_statusbar'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -562,20 +558,18 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Scroll Text Frame:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('v_tscroll', $userP['v_tscroll'], 1, _("Yes"));
-    radio_select('v_tscroll', $userP['v_tscroll'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_scroll');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Scroll Text Frame:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('h_tscroll', $userP['h_tscroll'], 1, _("Yes"));
-    radio_select('h_tscroll', $userP['h_tscroll'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_scroll');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Scroll Text Frame:'), 'v_tscroll', 'v_scroll',
+        $userP['v_tscroll'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
+    show_preference(
+        _('Scroll Text Frame:'), 'h_tscroll', 'h_scroll',
+        $userP['h_tscroll'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -609,20 +603,18 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Wrap Text:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('v_twrap', $userP['v_twrap'], 1, _("Yes"));
-    radio_select('v_twrap', $userP['v_twrap'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_wrap');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Wrap Text:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    radio_select('h_twrap', $userP['h_twrap'], 1, _("Yes"));
-    radio_select('h_twrap', $userP['h_twrap'], 0, _("No"));
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_wrap');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Wrap Text:'), 'v_twrap', 'v_wrap',
+        $userP['v_twrap'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
+    show_preference(
+        _('Wrap Text:'), 'h_twrap', 'h_wrap',
+        $userP['h_twrap'],
+        'radio_group',
+        array( 1 => _("Yes"), 0 => _("No") )
+    );
     echo "</tr>\n";
 
     // buttons
@@ -869,6 +861,14 @@ function dropdown_select_complex($field_name, $current_value, $array, $values)
         echo ">$array_list[$i]</option>";
     }
     echo "</select>";
+}
+
+function _show_radio_group( $field_name, $current_value, $options )
+{
+    foreach ( $options as $option_value => $option_label )
+    {
+        radio_select( $field_name, $current_value, $option_value, $option_label );
+    }
 }
 
 function radio_select($field_name, $current_value, $value, $text_name)
