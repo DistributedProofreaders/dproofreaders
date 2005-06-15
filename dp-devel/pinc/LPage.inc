@@ -87,7 +87,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 {
     $round = get_Round_for_project_state($proofstate);
 
-    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE fileid = '$fileid'");
+    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE image='$imagefile' AND fileid = '$fileid'");
     list($current_page_state, $current_round_user) = mysql_fetch_row($res);
 
     if ($pguser != $current_round_user)
