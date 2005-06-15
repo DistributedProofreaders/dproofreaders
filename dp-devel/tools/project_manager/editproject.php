@@ -187,7 +187,7 @@ function saveProject() {
 
 
 function posted_pg($projectid) {
-   global $code_url, $auto_email_addr, $auto_email_addr;
+   global $site_url, $auto_email_addr, $auto_email_addr;
 
    $result = mysql_query("SELECT nameofwork, postednum FROM projects WHERE projectid = '$projectid'");
    $NameofWork = mysql_result($result, 0, "nameofwork");
@@ -217,7 +217,7 @@ function posted_pg($projectid) {
             ."\n"
             ."Distributed Proofreaders"
             ."\n"
-            ."$code_url"
+            ."$site_url"
             ."\n"
             ."\n"
             ."This is an automated message that you had requested,"
