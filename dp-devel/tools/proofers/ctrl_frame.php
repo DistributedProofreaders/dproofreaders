@@ -111,7 +111,9 @@ border:1px solid black;
 text-align: center;
 background: #FFF8DC;
 display:inline;
-margin: 0 1px;
+margin: 0 1px 1px 0;
+<? if(!stristr($_SERVER['HTTP_USER_AGENT'],"msie"))
+     echo "line-height:140%;\n"; ?>
 padding-top: 1px;
 cursor: pointer;
 }
