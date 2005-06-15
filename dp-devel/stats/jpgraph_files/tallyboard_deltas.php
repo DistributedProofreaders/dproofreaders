@@ -55,7 +55,8 @@ else
 
 if (empty($datax) || empty($datay))
 {
-  dpgraph_error("This user has not completed any pages in this round.",600,300);
+  $specimen = ($holder_type == 'U') ? 'user' : 'team';
+  dpgraph_error("This $specimen has not completed any pages in this round.",600,300);
   die;
 }
 
