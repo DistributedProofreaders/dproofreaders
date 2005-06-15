@@ -867,22 +867,14 @@ function _show_radio_group( $field_name, $current_value, $options )
 {
     foreach ( $options as $option_value => $option_label )
     {
-        radio_select( $field_name, $current_value, $option_value, $option_label );
+        echo "<input type='radio' name='$field_name' value='$option_value'";
+        if ( strtolower($option_value) == strtolower($current_value) )
+        {
+            echo " CHECKED";
+        }
+        echo ">$option_label&nbsp;&nbsp;";
     }
 }
-
-function radio_select($field_name, $current_value, $value, $text_name)
-{
-    if (strtolower($current_value) == strtolower($value))
-    {
-        echo "<input type='radio' name='$field_name' value='$value' CHECKED>$text_name&nbsp;&nbsp;";
-    }
-    else
-    {
-        echo "<input type='radio' name='$field_name' value='$value'>$text_name&nbsp;&nbsp;";
-    }
-}
-
 
 // vim: sw=4 ts=4 expandtab
 ?>
