@@ -191,8 +191,6 @@ function echo_tabs($tab_names, $selected_tab) {
 function echo_general_tab() {
     global $theme, $uid, $pguser, $userP, $reset_password_url;
     global $u_il, $u_iloc, $u_n, $i_stats, $u_l, $i_pm;
-    global $userSettings;
-    global $credit_names, $credit_names_labels;
 
     $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
     $real_name = mysql_result($result,0,"real_name");
@@ -300,15 +298,12 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Credit Name:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
-    dropdown_select_values_and_labels('credit_name', $userSettings->get_value('credit_name', 'real_name'), $credit_names, $credit_names_labels, $on_change);
-    echo " ";
-    textfield_for_setting('credit_other');
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('creditname');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Credit Name:'), NULL, 'creditname',
+        NULL,
+        'credit_name_adhoc',
+        NULL
+    );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"."&nbsp;"."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
@@ -777,6 +772,17 @@ function _show_credits_wanted_adhoc()
 }
 
 // ---------------------------------------------------------
+
+function _show_credit_name_adhoc()
+{
+    global $userSettings;
+    global $credit_names, $credit_names_labels;
+
+    $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
+    dropdown_select_values_and_labels('credit_name', $userSettings->get_value('credit_name', 'real_name'), $credit_names, $credit_names_labels, $on_change);
+    echo " ";
+    textfield_for_setting('credit_other');
+}
 
 // The third argument should be a 'real' array.
 // The labels will be displayed to the user,
