@@ -249,7 +249,6 @@ foreach ( $Stage_for_id_ as $stage )
     echo $stage->description;
     echo "<br>\n";
 
-    echo "<br>\n";
 
     /*
 	$uao = $stage->user_access( $pguser, $pagesproofed );
@@ -259,6 +258,7 @@ foreach ( $Stage_for_id_ as $stage )
 
     if ( is_a( $stage, 'Round' ) )
     {
+        echo "<br>\n";
         summarize_projects( array(
             $stage->project_waiting_state,
             $stage->project_available_state,
@@ -271,6 +271,7 @@ foreach ( $Stage_for_id_ as $stage )
     }
     elseif ( is_a($stage, 'Pool' ) )
     {
+        echo "<br>\n";
         summarize_projects( array(
             // $stage->project_unavailable_state,
             $stage->project_available_state,
