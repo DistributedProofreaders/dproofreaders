@@ -5,6 +5,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'access_log.inc');
 
 header('Content-type: text/plain');
 
@@ -138,6 +139,7 @@ foreach ( $actions as $activity_id => $grant_or_revoke )
     echo "$grant_or_revoke $activity_id ...\n";
     $yesno = ( $grant_or_revoke == 'grant' ? 'yes' : 'no' );
     delete_and_insert( $subject_username, "$activity_id.access", $yesno );
+    log_access_change( $subject_username, $pguser, $activity_id, $grant_or_revoke );
 }
 
 echo "\n";

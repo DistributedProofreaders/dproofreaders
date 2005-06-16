@@ -5,6 +5,8 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'access_log.inc');
+
 
 $stage_id = @$_GET['stage_id'];
 if (empty($stage_id)) die( "parameter 'stage_id' is empty" );
@@ -52,13 +54,13 @@ else
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
                 delete_and_insert( $pguser, "$stage_id.access", 'yes' );
-
+                log_access_change( $pguser, 'AUTO-GRANTED', $stage_id, 'grant' );
                 echo _('Access has been granted!');
             }
             elseif ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
             {
                 $body = sprintf(
-                    _("User '%s' has requested access to stage '%s'"), 
+                    _("User '%s' has requested access to stage '%s'"),
                     $pguser,
                     $stage_id
                 );
