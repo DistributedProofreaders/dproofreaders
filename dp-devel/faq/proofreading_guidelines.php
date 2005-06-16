@@ -1263,7 +1263,7 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     In a bank? In a church? In a college?<br>
     <br>
     Write a list of all the corporations that you know or have<br>
-    ever heard of, grouping them under the heads public and &lt;i&gt;private&lt;/i&gt;.<br>
+    ever heard of, grouping them under the heads public and private.<br>
     <br>
     How could a pastor collect his salary if the church should<br>
     refuse to pay it?<br>
@@ -1290,7 +1290,7 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     from another but has not the money to pay for<br>
     it, he may secure what he wants by giving his written<br>
     promise to pay at some future time. This written<br>
-    promise, or &lt;i&gt;note&lt;/i&gt;, the seller prefers to an oral promise<br>
+    promise, or note, the seller prefers to an oral promise<br>
     for several reasons, only two of which need be mentioned<br>
     here: first, because it is prima facie evidence of<br>
     the debt; and, second, because it may be more easily<br>
@@ -1356,8 +1356,8 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
       <p><tt>Martha told him that he had always been her ideal and<br>
       that she worshipped him.<br>
       <br>
-      &lt;i&gt;Frontispiece<br>
-      Her Weight in Gold&lt;/i&gt;
+      Frontispiece<br>
+      Her Weight in Gold
       </tt></p>
       </td></tr></table>
     </td>
@@ -1677,22 +1677,22 @@ and he knew, when he had done it, and to his</tt>
     (J.W. Wolf, Beiträge zur deutschen<br>
     Mythologie, i. p. 217, § 185).<br>
     <br>
-    2 J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
-    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
+    2 J. Boemus, Mores, leges et ritus<br>
+    omnium gentium (Lyons, 1541), p.<br>
     226.<br>
     <br>
     3 Karl Freiherr von Leoprechting,<br>
     Aus dem Lechrain (Munich, 1855),<br>
-    pp. 181 &lt;i&gt;sqq.;&lt;/i&gt; W. Mannhardt, &lt;i&gt;Der<br>
-    Baumkultus&lt;/i&gt;, p. 510.<br>
+    pp. 181 sqq. W. Mannhardt, Der<br>
+    Baumkultus, p. 510.<br>
     <br>
-    4 A. Birlinger, &lt;i&gt;Volksthümliches aus<br>
-    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
+    4 A. Birlinger, Volksthümliches aus<br>
+    Schwaben (Freiburg im Breisgau, 1861-1862),<br>
     ii. pp. 96 sqq., § 128, pp. 103<br>
-    sq., § 129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    sq., § 129; id., Aus Schwaben (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebräuche<br>
-    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
+    Deutsche Sagen, Sitten und Gebräuche<br>
+    aus Schwaben (Stuttgart, 1852), pp.<br>
     423 sqq.; W. Mannhardt, Der Baumkultus,<br>
     p. 510.<br>
     </tt></p>
@@ -1810,8 +1810,8 @@ Same strip rolled up in  Same 16 wires bound
       <p><tt>GEORGE BARR McCUTCHEON</tt></p>
       <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
          "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
-         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
+      <p><tt>WITH FRONTISPIECE BY<br>
+         C. ALLAN GILBERT</tt></p>
       <p><tt>NEW YORK<br>
          DODD, MEAD AND COMPANY.</tt></p>
       <p><tt>1917</tt></p>
@@ -1957,7 +1957,7 @@ Same strip rolled up in  Same 16 wires bound
 Has not his name for nought, he will be trode upon:<br>
 What says my Printer now?
 </tt></p><p><tt>
-&lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<br>
+Clow. Here's your last Proof, Sir.<br>
 You shall have perfect Books now in a twinkling.
 </tt></p><p><tt>
 Lap. These marks are ugly.
@@ -1971,17 +1971,17 @@ Clow. I told 'em so Sir:<br>
 A scare-crow had been better.
 </tt></p><p><tt>
 Lap. How slave? look you, Sir,<br>
-Did not I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this Bob,<br>
-Should be both &lt;i&gt;Pica Roman&lt;/i&gt;.
+Did not I say, this Whirrit, and this Bob,<br>
+Should be both Pica Roman.
 </tt></p><p><tt>
-Clow. So said I, Sir, both &lt;i&gt;Picked Romans&lt;/i&gt;,<br>
+Clow. So said I, Sir, both Picked Romans,<br>
 And he has made 'em Welch Bills,<br>
 Indeed I know not what to make on 'em.
 </tt></p><p><tt>
-Lap. Hay-day; a &lt;i&gt;Souse, Italica&lt;/i&gt;?
+Lap. Hay-day; a Souse, Italica?
 </tt></p><p><tt>
 Clow. Yes, that may hold, Sir,<br>
-Souse is a &lt;i&gt;bona roba&lt;/i&gt;, so is Flops too.</tt></p>
+Souse is a bona roba, so is Flops too.</tt></p>
 </td></tr></table>
       </td>
     </tr>
