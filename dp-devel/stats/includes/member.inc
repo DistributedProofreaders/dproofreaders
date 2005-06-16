@@ -240,6 +240,10 @@ function showMbrAccess( $curMbr )
 	list($can_grant,$can_revoke) = user_can_modify_access();
 	if ( !$can_grant ) return;
 
+	echo "<i>(";
+	echo _('This chart is visible only to those who can grant access.');
+	echo ")</i><br>\n";
+
 	show_user_access_chart( $curMbr['username'] );
 }
 
