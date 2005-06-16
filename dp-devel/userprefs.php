@@ -243,14 +243,14 @@ function echo_general_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Theme:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<select name='i_theme' ID='i_theme'>";
+    $theme_options = array();
     $result = mysql_query("SELECT * FROM themes");
     while ($row = mysql_fetch_array($result)) {
-        echo "<option value='".$row['unixname']."'";
-        if ($row['unixname'] == $userP['i_theme']) { echo " SELECTED"; }
-        echo ">".$row['name']."</option>";
+        $option_value = $row['unixname'];
+        $option_label = $row['name'];
+        $theme_options[$option_value] = $option_label;
     }
-    echo "</select>";
+    dropdown_select('i_theme', $userP['i_theme'], $theme_options);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('theme');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
