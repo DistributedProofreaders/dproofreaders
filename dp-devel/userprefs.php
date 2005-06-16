@@ -774,14 +774,18 @@ function _show_credits_wanted_adhoc()
 // ---------------------------------------------------------
 
 function _show_credit_name_adhoc()
+// Handles 'credit_name' and 'credit_other'.
 {
     global $userSettings;
     global $credit_names, $credit_names_labels;
 
+    $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
     $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
-    dropdown_select_values_and_labels('credit_name', $userSettings->get_value('credit_name', 'real_name'), $credit_names, $credit_names_labels, $on_change);
+    dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
     echo " ";
-    echo "<input type='text' name='credit_other' value='".htmlspecialchars( $userSettings->get_value('credit_other', ''), ENT_QUOTES )."' />\n";
+
+    $credit_other_value = htmlspecialchars( $userSettings->get_value('credit_other', ''), ENT_QUOTES );
+    echo "<input type='text' name='credit_other' value='$credit_other_value' />\n";
 }
 
 // The third argument should be a 'real' array.
