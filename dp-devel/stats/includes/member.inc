@@ -5,6 +5,7 @@ include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'access_log.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
@@ -298,26 +299,31 @@ function showMbrPageStats( $curMbr, $tally_name )
 	$vitals = $users_tallyboard->get_vitals( $curMbr['u_id'] );
 
 	$now = time();
+  
+  // There are two special cases needed here:
+  // Firstly, the R* tally should span the time period from date_created to the site R* apocalypse
+  // Secondly, the P1 tally should start from the site P genesis, or date_created, whichever is later.
+
+  $site_R_apocalypse = 1117576800;
+  $site_P_genesis = 1117720800;
 
 	if ($tally_name == "R*")
 	{
 	  $firstWorkInRound = $curMbr['date_created'];
-	  // 1117576800 == May 31st, 2005
-	  $timeAtEndOfWorld = 1117576800;
-	  $daysInRoundInteger = floor(($timeAtEndOfWorld - $firstWorkInRound)/86400);
+	  $daysInRoundInteger = floor(($site_R_apocalypse - $firstWorkInRound)/86400);
+  }
+  elseif ($tally_name == "P1")
+  {
+   $firstWorkInRound = ($curMbr['date_created'] > $site_P_genesis) ? $curMbr['date_created'] : $site_P_genesis;
+  	$daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
   }
   else
   {
-  	$result = mysql_query("SELECT timestamp
-                           FROM past_tallies
-                           WHERE holder_type ='U'
-                           AND holder_id ='$curMbr[u_id]'
-                           AND tally_name ='$tally_name'
-                           ORDER BY timestamp ASC
-                           LIMIT 1");
-    $firstWorkInRound = @mysql_result($result,0,"timestamp");
+    $firstWorkInRound = get_first_granted_date($curMbr['username'],$tally_name);
   	$daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
   }
+
+	$daysInRoundString = number_format($daysInRoundInteger)._(" days"); // '1,234 days'
 
 	$bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
@@ -333,6 +339,19 @@ function showMbrPageStats( $curMbr, $tally_name )
 		array( 'width'=>100 )
 	);
 
+		if ($firstWorkInRound != 0)
+		{
+		  $round_row = date("m/d/Y", $firstWorkInRound) . "&nbsp;($daysInRoundString)";
+    }
+    else
+    {
+      $round_row = '--';
+    }
+
+  $t->row(
+		_("This Round"),
+    $round_row
+	);
 	$t->row(
 		_("Total Pages"),
 		number_format($vitals->current_tally) . " " . _("pages")
