@@ -68,6 +68,8 @@ else
 
                 delete_and_insert( $pguser, "$stage_id.access", 'requested' );
 
+                log_access_change( $pguser, 'n/a', $stage_id, 'request' );
+
                 echo _('Your request has been submitted and logged.');
             }
             else
