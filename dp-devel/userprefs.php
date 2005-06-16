@@ -205,12 +205,12 @@ function echo_general_tab() {
         'textfield',
         array( '', '' )
     );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Language:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('u_lang', $userP['u_lang'], $u_l);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('lang');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Language:'), 'u_lang', 'lang',
+        $userP['u_lang'],
+        'dropdown',
+        $u_l
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -220,17 +220,17 @@ function echo_general_tab() {
         'textfield',
         array( '', '' )
     );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Interface Language:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
     $u_intlang_options = array();
     for ($i=0;$i<count($u_il);$i++)
     {
         $u_intlang_options[ $u_iloc[$i] ] = $u_il[$i];
     }
-    dropdown_select( 'u_intlang', $userP['u_intlang'], $u_intlang_options );
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Interface Language:'), 'u_intlang', 'intlang',
+        $userP['u_intlang'],
+        'dropdown',
+        $u_intlang_options
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -240,9 +240,6 @@ function echo_general_tab() {
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Theme:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
     $theme_options = array();
     $result = mysql_query("SELECT * FROM themes");
     while ($row = mysql_fetch_array($result)) {
@@ -250,9 +247,12 @@ function echo_general_tab() {
         $option_label = $row['name'];
         $theme_options[$option_value] = $option_label;
     }
-    dropdown_select('i_theme', $userP['i_theme'], $theme_options);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('theme');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Theme:'), 'i_theme', 'theme',
+        $userP['i_theme'],
+        'dropdown',
+        $theme_options
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -271,18 +271,18 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Statistics")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('u_privacy', $userP['u_privacy'], $i_stats);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('privacy');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Show Rank Neighbors:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('u_neigh', $userP['u_neigh'], $u_n);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('neighbors');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Statistics'), 'u_privacy', 'privacy',
+        $userP['u_privacy'],
+        'dropdown',
+        $i_stats
+    );
+    show_preference(
+        _('Show Rank Neighbors:'), 'u_neigh', 'neighbors',
+        $userP['u_neigh'],
+        'dropdown',
+        $u_n
+    );
     echo "</tr>\n";
 
     $cp_credit_checked = $userSettings->get_boolean('cp_anonymous') ? '' : 'checked ';
@@ -393,15 +393,15 @@ function echo_proofreading_tab() {
     echo "</td><td bgcolor='#ffffff' align='center'>";
     // echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('showrounds');\">?</a>&nbsp;</b>";
     echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._('Show Special Colors:')."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
     // About 'show'/'hide': It seems better to present to the user the option
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
-    dropdown_select( 'show_special_colors', ($show_special_colors ? 'yes' : 'no'), array( 'yes' => _('Yes'), 'no' => _('No') ) );
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('showspecialcolors');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Show Special Colors:'), 'show_special_colors', 'showspecialcolors',
+        ($show_special_colors ? 'yes' : 'no'),
+        'dropdown',
+        array( 'yes' => _('Yes'), 'no' => _('No') )
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -435,12 +435,12 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Screen Resolution:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('i_res', $userP['i_res'], $i_r);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('screenres');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Screen Resolution:'), 'i_res', 'screenres',
+        $userP['i_res'],
+        'dropdown',
+        $i_r
+    );
     show_preference(
         _('Launch in New Window:'), 'i_newwin', 'newwindow',
         $userP['i_newwin'],
@@ -494,33 +494,33 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Font Face:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('v_fntf', $userP['v_fntf'], $f_f);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_fontface');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Font Face:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('h_fntf', $userP['h_fntf'], $f_f);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_fontface');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Font Face:'), 'v_fntf', 'v_fontface',
+        $userP['v_fntf'],
+        'dropdown',
+        $f_f
+    );
+    show_preference(
+        _('Font Face:'), 'h_fntf', 'h_fontface',
+        $userP['h_fntf'],
+        'dropdown',
+        $f_f
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Font Size:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('v_fnts', $userP['v_fnts'], $f_s);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_fontsize');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Font Size:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('h_fnts', $userP['h_fnts'], $f_s);
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_fontsize');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Font Size:'), 'v_fnts', 'v_fontsize',
+        $userP['v_fnts'],
+        'dropdown',
+        $f_s
+    );
+    show_preference(
+        _('Font Size:'), 'h_fnts', 'h_fontsize',
+        $userP['h_fnts'],
+        'dropdown',
+        $f_s
+    );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -691,20 +691,19 @@ function echo_pm_tab() {
     global $userSettings;
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Default PM Page:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select('i_pmdefault', $userP['i_pmdefault'], $i_pm);
-    echo "</td><td bgcolor='#ffffff' align='center'>";
-    echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._('Automatically watch your project threads:')."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
+    show_preference(
+        _('Default PM Page:'), 'i_pmdefault', 'pmdefault',
+        $userP['i_pmdefault'],
+        'dropdown',
+        $i_pm
+    );
     $auto_proj_thread = $userSettings->get_boolean('auto_proj_thread');
-    dropdown_select( 'auto_proj_thread', ($auto_proj_thread ? 'yes' : 'no'), array( 'yes' => _('Yes'), 'no' => _('No') ) );
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('auto_thread');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Automatically watch your project threads:'), 'auto_proj_thread', 'auto_thread',
+        ($auto_proj_thread ? 'yes' : 'no'),
+        'dropdown',
+        array( 'yes' => _('Yes'), 'no' => _('No') )
+    );
     echo "</tr>\n";
 
     echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
@@ -820,7 +819,7 @@ function textfield_for_setting($setting, $default='')
 
 // ---------------------------------------------------------
 
-function dropdown_select($field_name, $current_value, $options)
+function _show_dropdown($field_name, $current_value, $options)
 {
     echo "<select name='$field_name' ID='$field_name'>";
     foreach ( $options as $option_value => $option_label )
