@@ -198,13 +198,13 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Name:'), 'real_name', 'name',
+        _('Name'), 'real_name', 'name',
         $real_name,
         'textfield',
         array( '', '' )
     );
     show_preference(
-        _('Language:'), 'u_lang', 'lang',
+        _('Language'), 'u_lang', 'lang',
         $userP['u_lang'],
         'dropdown',
         $u_l
@@ -213,7 +213,7 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Email:'), 'email', 'email',
+        _('Email'), 'email', 'email',
         $email,
         'textfield',
         array( '', '' )
@@ -224,7 +224,7 @@ function echo_general_tab() {
         $u_intlang_options[ $u_iloc[$i] ] = $u_il[$i];
     }
     show_preference(
-        _('Interface Language:'), 'u_intlang', 'intlang',
+        _('Interface Language'), 'u_intlang', 'intlang',
         $userP['u_intlang'],
         'dropdown',
         $u_intlang_options
@@ -233,7 +233,7 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Email Updates:'), 'email_updates', 'updates',
+        _('Email Updates'), 'email_updates', 'updates',
         $userP['email_updates'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -246,7 +246,7 @@ function echo_general_tab() {
         $theme_options[$option_value] = $option_label;
     }
     show_preference(
-        _('Theme:'), 'i_theme', 'theme',
+        _('Theme'), 'i_theme', 'theme',
         $userP['i_theme'],
         'dropdown',
         $theme_options
@@ -261,7 +261,7 @@ function echo_general_tab() {
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('password');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     show_preference(
-        _('Statistics Bar Alignment:'), 'u_align', 'align',
+        _('Statistics Bar Alignment'), 'u_align', 'align',
         $userP['u_align'],
         'radio_group',
         array( 1 => _("Left"), 0 => _("Right") )
@@ -276,7 +276,7 @@ function echo_general_tab() {
         $i_stats
     );
     show_preference(
-        _('Show Rank Neighbors:'), 'u_neigh', 'neighbors',
+        _('Show Rank Neighbors'), 'u_neigh', 'neighbors',
         $userP['u_neigh'],
         'dropdown',
         $u_n
@@ -285,7 +285,7 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Credits Wanted:'), NULL, 'creditswanted',
+        _('Credits Wanted'), NULL, 'creditswanted',
         NULL,
         'credits_wanted_adhoc',
         NULL
@@ -299,7 +299,7 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Credit Name:'), NULL, 'creditname',
+        _('Credit Name'), NULL, 'creditname',
         NULL,
         'credit_name_adhoc',
         NULL
@@ -376,7 +376,7 @@ function echo_proofreading_tab() {
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
     show_preference(
-        _('Show Special Colors:'), 'show_special_colors', 'showspecialcolors',
+        _('Show Special Colors'), 'show_special_colors', 'showspecialcolors',
         ($show_special_colors ? 'yes' : 'no'),
         'dropdown',
         array( 'yes' => _('Yes'), 'no' => _('No') )
@@ -391,7 +391,7 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Current Profile:'), 'profilename', 'profilename',
+        _('Current Profile'), 'profilename', 'profilename',
         $userP['profilename'],
         'textfield',
         array( '', '' )
@@ -415,13 +415,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Screen Resolution:'), 'i_res', 'screenres',
+        _('Screen Resolution'), 'i_res', 'screenres',
         $userP['i_res'],
         'dropdown',
         $i_r
     );
     show_preference(
-        _('Launch in New Window:'), 'i_newwin', 'newwindow',
+        _('Launch in New Window'), 'i_newwin', 'newwindow',
         $userP['i_newwin'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -430,13 +430,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Interface Type:'), 'i_type', 'facetype',
+        _('Interface Type'), 'i_type', 'facetype',
         $userP['i_type'],
         'radio_group',
         array( 0 => _("Standard"), 1 => _("Enhanced") )
     );
     show_preference(
-        _('Show Toolbar:'), 'i_toolbar', 'toolbar',
+        _('Show Toolbar'), 'i_toolbar', 'toolbar',
         $userP['i_toolbar'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -445,7 +445,7 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Interface Layout:'), 'i_layout', 'layout',
+        _('Interface Layout'), 'i_layout', 'layout',
         $userP['i_layout'],
         'radio_group',
         array(
@@ -454,7 +454,7 @@ function echo_proofreading_tab() {
         )
     );
     show_preference(
-        _('Show Status Bar:'), 'i_statusbar', 'statusbar',
+        _('Show Status Bar'), 'i_statusbar', 'statusbar',
         $userP['i_statusbar'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -474,13 +474,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Font Face:'), 'v_fntf', 'v_fontface',
+        _('Font Face'), 'v_fntf', 'v_fontface',
         $userP['v_fntf'],
         'dropdown',
         $f_f
     );
     show_preference(
-        _('Font Face:'), 'h_fntf', 'h_fontface',
+        _('Font Face'), 'h_fntf', 'h_fontface',
         $userP['h_fntf'],
         'dropdown',
         $f_f
@@ -489,13 +489,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Font Size:'), 'v_fnts', 'v_fontsize',
+        _('Font Size'), 'v_fnts', 'v_fontsize',
         $userP['v_fnts'],
         'dropdown',
         $f_s
     );
     show_preference(
-        _('Font Size:'), 'h_fnts', 'h_fontsize',
+        _('Font Size'), 'h_fnts', 'h_fontsize',
         $userP['h_fnts'],
         'dropdown',
         $f_s
@@ -504,13 +504,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Image Zoom:'), 'v_zoom', 'v_zoom',
+        _('Image Zoom'), 'v_zoom', 'v_zoom',
         $userP['v_zoom'],
         'textfield',
         array( 3, _("% of 1000 pixels") )
     );
     show_preference(
-        _('Image Zoom:'), 'h_zoom', 'h_zoom',
+        _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
         'textfield',
         array( 3, _("% of 1000 pixels") )
@@ -519,13 +519,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Text Frame Size:'), 'v_tframe', 'v_textsize',
+        _('Text Frame Size'), 'v_tframe', 'v_textsize',
         $userP['v_tframe'],
         'textfield',
         array( 3, _("% of browser width") )
     );
     show_preference(
-        _('Text Frame Size:'), 'h_tframe', 'h_textsize',
+        _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
         'textfield',
         array( 3, _("% of browser height") )
@@ -534,13 +534,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Scroll Text Frame:'), 'v_tscroll', 'v_scroll',
+        _('Scroll Text Frame'), 'v_tscroll', 'v_scroll',
         $userP['v_tscroll'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
     show_preference(
-        _('Scroll Text Frame:'), 'h_tscroll', 'h_scroll',
+        _('Scroll Text Frame'), 'h_tscroll', 'h_scroll',
         $userP['h_tscroll'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -549,13 +549,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Number of Text Lines:'), 'v_tlines', 'v_textlines',
+        _('Number of Text Lines'), 'v_tlines', 'v_textlines',
         $userP['v_tlines'],
         'textfield',
         array( 3, "" )
     );
     show_preference(
-        _('Number of Text Lines:'), 'h_tlines', 'h_textlines',
+        _('Number of Text Lines'), 'h_tlines', 'h_textlines',
         $userP['h_tlines'],
         'textfield',
         array( 3, "" )
@@ -564,13 +564,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Length of Text Lines:'), 'v_tchars', 'v_textlength',
+        _('Length of Text Lines'), 'v_tchars', 'v_textlength',
         $userP['v_tchars'],
         'textfield',
         array( 3, " "._("characters") )
     );
     show_preference(
-        _('Length of Text Lines:'), 'h_tchars', 'h_textlength',
+        _('Length of Text Lines'), 'h_tchars', 'h_textlength',
         $userP['h_tchars'],
         'textfield',
         array( 3, " "._("characters") )
@@ -579,13 +579,13 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Wrap Text:'), 'v_twrap', 'v_wrap',
+        _('Wrap Text'), 'v_twrap', 'v_wrap',
         $userP['v_twrap'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
     );
     show_preference(
-        _('Wrap Text:'), 'h_twrap', 'h_wrap',
+        _('Wrap Text'), 'h_twrap', 'h_wrap',
         $userP['h_twrap'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -671,14 +671,14 @@ function echo_pm_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Default PM Page:'), 'i_pmdefault', 'pmdefault',
+        _('Default PM Page'), 'i_pmdefault', 'pmdefault',
         $userP['i_pmdefault'],
         'dropdown',
         $i_pm
     );
     $auto_proj_thread = $userSettings->get_boolean('auto_proj_thread');
     show_preference(
-        _('Automatically watch your project threads:'), 'auto_proj_thread', 'auto_thread',
+        _('Automatically watch your project threads'), 'auto_proj_thread', 'auto_thread',
         ($auto_proj_thread ? 'yes' : 'no'),
         'dropdown',
         array( 'yes' => _('Yes'), 'no' => _('No') )
@@ -735,7 +735,7 @@ function show_preference(
     global $theme;
 
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>$label</strong>";
+    echo "<strong>$label:</strong>";
     echo "</td>";
 
     echo "<td bgcolor='#ffffff' align='left'>";
