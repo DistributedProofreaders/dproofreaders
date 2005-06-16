@@ -223,7 +223,12 @@ function echo_general_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Interface Language:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    dropdown_select_complex('u_intlang', $userP['u_intlang'], $u_il, $u_iloc);
+    $u_intlang_options = array();
+    for ($i=0;$i<count($u_il);$i++)
+    {
+        $u_intlang_options[ $u_iloc[$i] ] = $u_il[$i];
+    }
+    dropdown_select( 'u_intlang', $userP['u_intlang'], $u_intlang_options );
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -394,7 +399,7 @@ function echo_proofreading_tab() {
     // About 'show'/'hide': It seems better to present to the user the option
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
-    dropdown_select_yesno('show_special_colors', $show_special_colors);
+    dropdown_select( 'show_special_colors', ($show_special_colors ? 'yes' : 'no'), array( 'yes' => _('Yes'), 'no' => _('No') ) );
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('showspecialcolors');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -697,7 +702,7 @@ function echo_pm_tab() {
     echo "<strong>"._('Automatically watch your project threads:')."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
     $auto_proj_thread = $userSettings->get_boolean('auto_proj_thread');
-    dropdown_select_yesno('auto_proj_thread', $auto_proj_thread);
+    dropdown_select( 'auto_proj_thread', ($auto_proj_thread ? 'yes' : 'no'), array( 'yes' => _('Yes'), 'no' => _('No') ) );
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('auto_thread');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -825,25 +830,6 @@ function dropdown_select($field_name, $current_value, $options)
         echo ">$option_label</option>";
     }
     echo "</select>";
-}
-
-function dropdown_select_yesno($field_name, $yes_selected)
-{
-    dropdown_select(
-        $field_name, 
-        ($yes_selected ? 'yes' : 'no'),
-        array( 'yes' => _('Yes'), 'no' => _('No') )
-    );
-}
-
-function dropdown_select_complex($field_name, $current_value, $array_list, $values)
-{
-    $options = array();
-    for ($i=0;$i<count($array_list);$i++)
-    {
-        $options[ $values[$i] ] = $array_list[$i];
-    }
-    dropdown_select( $field_name, $current_value, $options );
 }
 
 function _show_radio_group( $field_name, $current_value, $options )
