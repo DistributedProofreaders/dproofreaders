@@ -618,7 +618,11 @@ function do_project_info_table()
     {
         $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0";
         $blurb = _("Images, Pages Proofread, & Differences");
-        echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a>");
+
+        $url2 = "$url&select_by_user";
+        $blurb2 = _("Just my pages");
+
+        echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;");
     }
 
     // -------------------------------------------------------------------------

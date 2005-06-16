@@ -13,7 +13,14 @@ function echo_page_table(
 	$pages_of_interest = NULL )
 {
 	global $theme, $projects_dir, $code_url, $pguser;
-	
+
+	// somewhat kludgey
+	if ( is_string($pages_of_interest) )
+	{
+		$username_for_selecting_pages = $pages_of_interest;
+		$pages_of_interest = NULL;
+	}
+
 	$can_edit = $project->can_be_managed_by_current_user;
 
 	// want PPers able to see names
@@ -151,6 +158,7 @@ function echo_page_table(
 
 	$fields_to_get = "fileid, image, length(master_text), state";
 	$tables = $projectid;
+	$where_condition = ( isset($username_for_selecting_pages) ? "0" : "1" );
 	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
 		$round = get_Round_for_round_number($rn);
@@ -174,9 +182,15 @@ function echo_page_table(
 				ON (users$rn.username = $round->user_column_name)
 			$joined_with_user_page_tallies
 		";
+		if ( isset($username_for_selecting_pages) )
+		{
+			$where_condition .= "
+				OR $round->user_column_name='$username_for_selecting_pages'
+			";
+		}
 	}
 
-	$res = mysql_query( "SELECT $fields_to_get FROM $tables ORDER BY image ASC" );
+	$res = mysql_query( "SELECT $fields_to_get FROM $tables WHERE $where_condition ORDER BY image ASC" );
 	$num_rows = mysql_num_rows($res);
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
