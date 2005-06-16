@@ -781,7 +781,7 @@ function _show_credit_name_adhoc()
     $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
     dropdown_select_values_and_labels('credit_name', $userSettings->get_value('credit_name', 'real_name'), $credit_names, $credit_names_labels, $on_change);
     echo " ";
-    textfield_for_setting('credit_other');
+    echo "<input type='text' name='credit_other' value='".htmlspecialchars( $userSettings->get_value('credit_other', ''), ENT_QUOTES )."' />\n";
 }
 
 // The third argument should be a 'real' array.
@@ -820,12 +820,6 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     echo "</select>";
 
     $window_onload_event .= "$function_name();\n";
-}
-
-function textfield_for_setting($setting, $default='')
-{
-    global $userSettings;
-    echo "<input type='text' name='$setting' value='".htmlspecialchars($userSettings->get_value($setting, $default), ENT_QUOTES)."' />\n";
 }
 
 // ---------------------------------------------------------
