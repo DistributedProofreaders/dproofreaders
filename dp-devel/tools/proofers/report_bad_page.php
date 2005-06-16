@@ -26,8 +26,8 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	theme($header, "header");
 
 	echo "<br><br><center>";
-	echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'><tr><td bgcolor='#336633' colspan='2' align='left'>";
-	echo "<font color='#ffffff'><center><b>"._("Common Fixes for Bad Pages. Try these first!")."</b></center>";
+	echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
+	echo "<font color='#000000'><center><b>"._("Common Fixes for Bad Pages. Try these first!")."</b></center>";
 	echo "<ul>";
 	echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."<br><br>";
 	echo "<li>"._("Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.")."<br><br>";
@@ -44,9 +44,9 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input type='hidden' name='proofstate' value='$proofstate'>";
 	echo "<input type='hidden' name='submitted' value='true'>";
 	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
-	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<B><font color='#ffffff'>"._("Submit a Bad Page Report")."</font></B>";
-	echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+	echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 	echo "<strong>"._("Reason").":</strong>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<select name='reason'>";
@@ -55,11 +55,11 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 		echo "<option value='$i'>$reason_list[$i]</option>";
 	}
 	echo "</select>";
-	echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+	echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 	echo "<strong>"._("What to Do").":</strong>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
-	echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
+	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<input type='submit' value='"._("Submit Report")."'>";
 	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
