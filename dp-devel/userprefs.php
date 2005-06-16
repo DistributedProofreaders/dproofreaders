@@ -815,14 +815,14 @@ function textfield_for_setting($setting, $default='')
 
 // ---------------------------------------------------------
 
-function dropdown_select($field_name, $current_value, $array_list)
+function dropdown_select($field_name, $current_value, $options)
 {
     echo "<select name='$field_name' ID='$field_name'>";
-    for ($i=0;$i<count($array_list);$i++)
+    foreach ( $options as $option_value => $option_label )
     {
-        echo "<option value='$i'";
-        if ($current_value == $i) { echo " SELECTED"; }
-        echo ">$array_list[$i]</option>";
+        echo "<option value='$option_value'";
+        if ($option_value == $current_value) { echo " SELECTED"; }
+        echo ">$option_label</option>";
     }
     echo "</select>";
 }
