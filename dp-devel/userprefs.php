@@ -829,26 +829,21 @@ function dropdown_select($field_name, $current_value, $options)
 
 function dropdown_select_yesno($field_name, $yes_selected)
 {
-    echo "<select name='$field_name' ID='$field_name'>\n";
-    echo "<option value='yes'";
-    if ($yes_selected) { echo ' SELECTED'; }
-    echo '>'._('Yes')."</option>\n";
-    echo "<option value='no'";
-    if (!$yes_selected) { echo ' SELECTED'; }
-    echo '>'._('No')."</option>\n";
-    echo "</select>\n";
+    dropdown_select(
+        $field_name, 
+        ($yes_selected ? 'yes' : 'no'),
+        array( 'yes' => _('Yes'), 'no' => _('No') )
+    );
 }
 
 function dropdown_select_complex($field_name, $current_value, $array_list, $values)
 {
-    echo "<select name='$field_name' ID='$field_name'>";
+    $options = array();
     for ($i=0;$i<count($array_list);$i++)
     {
-        echo "<option value='$values[$i]'";
-        if ($current_value == $values[$i]) { echo " SELECTED"; }
-        echo ">$array_list[$i]</option>";
+        $options[ $values[$i] ] = $array_list[$i];
     }
-    echo "</select>";
+    dropdown_select( $field_name, $current_value, $options );
 }
 
 function _show_radio_group( $field_name, $current_value, $options )
