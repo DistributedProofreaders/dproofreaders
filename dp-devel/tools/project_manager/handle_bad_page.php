@@ -44,28 +44,28 @@ if (!isset($_POST['resolution'])) {
         $result = mysql_query("SELECT * FROM phpbb_users WHERE username='$b_User'");
         $b_UserID = mysql_result($result,0,"user_id");
 
-        echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+        echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
         echo "<strong>Username:</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
         echo "$b_User (<a href='$forums_url/privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)</td></tr>";
     }
     
     if (!empty($b_Code)) {
-        echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+        echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
         echo "<strong>Reason:</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
         echo $reason_list[$b_Code]."</td></tr>";
     }
     
     $prev_round_num = $round->round_number - 1;
-    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a>";
     echo " | ";
     echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a>";
     echo "</td></tr>";
-    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
@@ -73,7 +73,7 @@ if (!isset($_POST['resolution'])) {
     echo " | ";
     echo "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a>";
     echo "</td></tr>";
-    echo "<tr><td bgcolor='#e0e8dd' align='left'>";
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     
     if (!empty($b_User) && !empty($b_Code)) {
         echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
@@ -89,7 +89,7 @@ if (!isset($_POST['resolution'])) {
         // Doesn't really matter what the value is.
     }
     
-    echo "<tr><td bgcolor='#336633' colspan='2' align='center'>";
+    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<input type='submit' VALUE='Continue'>";
     echo "</td></tr></table></form></div><br><br>";
 
