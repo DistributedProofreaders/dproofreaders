@@ -12,7 +12,7 @@ function log_access_change( $subject_username, $modifier_username, $activity_id,
          subject_username = '$subject_username',
          modifier_username = '$modifier_username',
          action = '$grant_or_revoke',
-         stage = '$activity_id'");
+         activity = '$activity_id'");
 
   return $result;
 }
@@ -23,7 +23,7 @@ function get_first_granted_date($username, $stage)
              "SELECT timestamp
               FROM access_log
               WHERE subject_username = '$username'
-              AND stage = '$stage'
+              AND activity = '$stage'
               AND action = 'grant'
               ORDER BY timestamp ASC
               LIMIT 1");
