@@ -208,8 +208,7 @@ function echo_general_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Language:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $u_l);
-    dropdown_select('u_lang', $userP['u_lang'], $array);
+    dropdown_select('u_lang', $userP['u_lang'], $u_l);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('lang');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -224,8 +223,7 @@ function echo_general_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Interface Language:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $u_il);
-    dropdown_select_complex('u_intlang', $userP['u_intlang'], $array, $u_iloc);
+    dropdown_select_complex('u_intlang', $userP['u_intlang'], $u_il, $u_iloc);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('intlang');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -271,15 +269,13 @@ function echo_general_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Statistics")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $i_stats);
-    dropdown_select('u_privacy', $userP['u_privacy'], $array);
+    dropdown_select('u_privacy', $userP['u_privacy'], $i_stats);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('privacy');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Show Rank Neighbors:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $u_n);
-    dropdown_select('u_neigh', $userP['u_neigh'], $array);
+    dropdown_select('u_neigh', $userP['u_neigh'], $u_n);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('neighbors');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -388,8 +384,7 @@ function echo_proofreading_tab() {
     // multi-round pages.
     // echo "<strong>"._("Show Projects From:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    // $array = implode('|', $p_l);
-    // dropdown_select('u_plist', $userP['u_plist'], $array);
+    // dropdown_select('u_plist', $userP['u_plist'], $p_l);
     echo "</td><td bgcolor='#ffffff' align='center'>";
     // echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('showrounds');\">?</a>&nbsp;</b>";
     echo "</td>\n";
@@ -438,8 +433,7 @@ function echo_proofreading_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Screen Resolution:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $i_r);
-    dropdown_select('i_res', $userP['i_res'], $array);
+    dropdown_select('i_res', $userP['i_res'], $i_r);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('screenres');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     show_preference(
@@ -498,15 +492,13 @@ function echo_proofreading_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Font Face:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $f_f);
-    dropdown_select('v_fntf', $userP['v_fntf'], $array);
+    dropdown_select('v_fntf', $userP['v_fntf'], $f_f);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_fontface');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Font Face:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $f_f);
-    dropdown_select('h_fntf', $userP['h_fntf'], $array);
+    dropdown_select('h_fntf', $userP['h_fntf'], $f_f);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_fontface');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -515,15 +507,13 @@ function echo_proofreading_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Font Size:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $f_s);
-    dropdown_select('v_fnts', $userP['v_fnts'], $array);
+    dropdown_select('v_fnts', $userP['v_fnts'], $f_s);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('v_fontsize');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Font Size:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $f_s);
-    dropdown_select('h_fnts', $userP['h_fnts'], $array);
+    dropdown_select('h_fnts', $userP['h_fnts'], $f_s);
     echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('h_fontsize');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     echo "</tr>\n";
@@ -699,8 +689,7 @@ function echo_pm_tab() {
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"._("Default PM Page:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    $array = implode('|', $i_pm);
-    dropdown_select('i_pmdefault', $userP['i_pmdefault'], $array);
+    dropdown_select('i_pmdefault', $userP['i_pmdefault'], $i_pm);
     echo "</td><td bgcolor='#ffffff' align='center'>";
     echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('pmdefault');\">?</a>&nbsp;</b>";
     echo "</td>\n";
@@ -780,7 +769,7 @@ function show_preference(
 
 // ---------------------------------------------------------
 
-// Unlike in dropdown_select, the third argument should be a 'real' array.
+// The third argument should be a 'real' array.
 // The labels will be displayed to the user,
 // one of the values will be passed back from the browser as the selected value.
 //
@@ -826,9 +815,8 @@ function textfield_for_setting($setting, $default='')
 
 // ---------------------------------------------------------
 
-function dropdown_select($field_name, $current_value, $array)
+function dropdown_select($field_name, $current_value, $array_list)
 {
-    $array_list = explode('|', $array);
     echo "<select name='$field_name' ID='$field_name'>";
     for ($i=0;$i<count($array_list);$i++)
     {
@@ -851,9 +839,8 @@ function dropdown_select_yesno($field_name, $yes_selected)
     echo "</select>\n";
 }
 
-function dropdown_select_complex($field_name, $current_value, $array, $values)
+function dropdown_select_complex($field_name, $current_value, $array_list, $values)
 {
-    $array_list = explode('|', $array);
     echo "<select name='$field_name' ID='$field_name'>";
     for ($i=0;$i<count($array_list);$i++)
     {
