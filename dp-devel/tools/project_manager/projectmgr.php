@@ -78,6 +78,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     }
     echo "
         <tr>
+            <td>"._("Checked out by")."</td>
+            <td><input type='text' name='checkedoutby'></td>
+        </tr>
+        ";
+    echo "
+        <tr>
             <td>"._("Project ID")."</td>
             <td><input type='text' name='projectid'></td>
         </tr>
@@ -149,6 +155,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         if ( $_GET['language'] != '' )
         {
             $condition .= " AND language LIKE '%{$_GET['language']}%'";
+        }
+        if ( $_GET['checkedoutby'] != '' )
+        {
+            $condition .= " AND checkedoutby LIKE '%{$_GET['checkedoutby']}%'";
         }
         if ($can_see_all)
         {
