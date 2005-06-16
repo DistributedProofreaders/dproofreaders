@@ -285,21 +285,13 @@ function echo_general_tab() {
     );
     echo "</tr>\n";
 
-    $cp_credit_checked = $userSettings->get_boolean('cp_anonymous') ? '' : 'checked ';
-    $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
-    $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
-
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Credits Wanted:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked/> CP\n";
-    if (user_is_PM())
-        echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked/> PM\n";
-    echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked/> PP\n";
-    echo "<br /><a href='#' onClick=\"check_boxes(true, 'cp_credit', 'pm_credit', 'pp_credit');\">Check all</a> | <a href='#' onClick=\"check_boxes(false, 'cp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
-    echo "</td><td bgcolor='#ffffff' align='center' valign='top'><b>&nbsp;<a href=\"JavaScript:newHelpWin('creditswanted');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    show_preference(
+        _('Credits Wanted:'), NULL, 'creditswanted',
+        NULL,
+        'credits_wanted_adhoc',
+        NULL
+    );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
     echo "<strong>"."&nbsp;"."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
@@ -761,6 +753,27 @@ function show_preference(
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
     echo "</td>\n";
+}
+
+// ---------------------------------------------------------
+
+function _show_credits_wanted_adhoc()
+{
+    global $userSettings;
+
+    $cp_credit_checked = $userSettings->get_boolean('cp_anonymous') ? '' : 'checked ';
+    $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
+    $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
+
+    echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked/> CP\n";
+    if (user_is_PM())
+        echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked/> PM\n";
+    echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked/> PP\n";
+
+    echo "<br />";
+    echo "<a href='#' onClick=\"check_boxes(true, 'cp_credit', 'pm_credit', 'pp_credit');\">Check all</a>";
+    echo " | ";
+    echo "<a href='#' onClick=\"check_boxes(false, 'cp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
 }
 
 // ---------------------------------------------------------
