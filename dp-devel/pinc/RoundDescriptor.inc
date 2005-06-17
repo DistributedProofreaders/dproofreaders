@@ -171,5 +171,22 @@ function get_Round_for_page_state( $page_state )
     return array_get( $Round_for_page_state_, $page_state, NULL );
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function sql_collater_for_round_id( $round_id_column )
+// In an SQL query, if you "ORDER BY round_id", it will use alphabetical order,
+// which is not very useful. Instead, ORDER BY the result of this function,
+// and it will use the canonical order-of-declaration for rounds.
+{
+    global $Round_for_round_id_;
+    $s = "FIELD($round_id_column";
+    foreach ( $Round_for_round_id_ as $round_id => $round )
+    {
+        $s .= ",'$round_id'";
+    }
+    $s .= ")";
+    return $s;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
