@@ -392,16 +392,6 @@ the formatters can easily find them.
 </p>
 
 <h3><a name="small_caps">Words in Small Caps</a></h3>
-<p>Do not worry about changing <span style="font-variant: small-caps;">Small Caps</span> to the correct 
-    case, please just make sure that the letters are in the correct order. If they are all-capped,
-    leave them all-capped, etc. <span style="font-variant: small-caps">Small caps</span> 
-    may occasionally appear with <tt>&lt;sc&gt;</tt> inserted
-    before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
-    unless it surrounds junk that does not appear on the page. Do not add it where it
-    does not appear. The formatters will do that later in the process.
-</p>
-
-<h3><a name="small_caps">Words in Small Caps</a></h3>
 <p>Proofread words that are printed in <span style="font-variant: small-caps;">Small Caps</span> as
     mixed upper and lowercase. Example: <span style="font-variant: small-caps;">This is Small Caps</span> 
     would correctly be <tt>This is Small Caps</tt>.
