@@ -224,6 +224,8 @@ function html_logobar($nameofpage) {
 		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
 		echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
 
+		echo headerbar_text(_("My Projects"),"$code_url/tools/proofers/my_projects.php",true);
+
 		echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
 
 		$inbox_text = _("My Inbox");
