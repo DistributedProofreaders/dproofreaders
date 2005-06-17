@@ -223,15 +223,19 @@ function html_logobar($nameofpage) {
 			echo headerbar_text(" Start Here -->&nbsp;",'',true);
 		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
 		echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
+
+		echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
+
+		$inbox_text = _("My Inbox");
+		if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
+		echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
+
 		echo headerbar_text(_("Forums"),$GLOBALS['forums_url'],true);
 		if(lang_forum())
 		{
 			echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
 		}
-		$inbox_text = _("My Inbox");
-		if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
-		echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
-		echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
+
 		echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
 		echo "</font></td>\n";
 		echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
