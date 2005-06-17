@@ -19,7 +19,7 @@ dpsql_query("
         holder_id    INT(6)  UNSIGNED NOT NULL,
         PRIMARY KEY (tally_name, holder_type, holder_id),
 
-        tally_value  INT(8)           NOT NULL,
+        tally_value  INT(8)           NOT NULL
     )
 ") or die("Aborting.");
 
