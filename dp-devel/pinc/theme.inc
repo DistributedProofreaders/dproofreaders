@@ -132,7 +132,7 @@ function html_logobar($nameofpage) {
 	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
 	echo "</td>\n";
 
-        echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
+	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
 
 	if ($maintenance) {
 		echo _("MAINTENANCE MODE");
@@ -183,61 +183,61 @@ function html_logobar($nameofpage) {
 	echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
 	echo "<td align='left' style='padding-bottom:1px;' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 
-    //Create the name of the page
+	//Create the name of the page
 
-  echo headerbar_text("DP","$code_url/default.php");
+	echo headerbar_text("DP","$code_url/default.php");
 
 	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
-    //Code to display login form if not logged in
+	//Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
-	echo "</td>\n";
-	// If you put the form element inside the td element (which would
-	// seem to make sense), Netscape and IE both render the cell
-	// (and thus the row and the table) twice as tall as it needs to be.
-	// (Mozilla gets it right, but that's small comfort.)
-	// So instead, put the td element within the form.
-	// (Yeah, it doesn't make sense, but the browsers don't complain.)
-	echo "<form action='$code_url/accounts/login.php' method='post'>\n";
-	echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-	echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
-	echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-	echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-	echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
-	echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-	echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
-	echo "</td>\n";
-	echo "</form>\n";
+		echo "</td>\n";
+		// If you put the form element inside the td element (which would
+		// seem to make sense), Netscape and IE both render the cell
+		// (and thus the row and the table) twice as tall as it needs to be.
+		// (Mozilla gets it right, but that's small comfort.)
+		// So instead, put the td element within the form.
+		// (Yeah, it doesn't make sense, but the browsers don't complain.)
+		echo "<form action='$code_url/accounts/login.php' method='post'>\n";
+		echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
+		echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
+		echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+		echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+		echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
+		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+		echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
+		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
+		echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
+		echo "</td>\n";
+		echo "</form>\n";
 	} else {
-    //Code to display if the user is logged in
-    	$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-    	$pguser_id = mysql_result($result, 0, "user_id");
-    	$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
-    	$numofPMs = mysql_fetch_row($result);
-    	$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-    	$datecreated = mysql_result($result, 0, "date_created");
-  echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;";
-	if ((time() - $datecreated) < 604800)
-	   echo headerbar_text(" Start Here -->&nbsp;",'',true);
-	echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
-	echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
-  echo headerbar_text(_("Forums"),$GLOBALS['forums_url'],true);
-	if(lang_forum())
-	{
-	  echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
-  }
-  $inbox_text = _("My Inbox");
-  if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
-  echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
-  echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
-  echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
-	echo "</font></td>\n";
-	echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
-	      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
-	show_quick_links();
-  echo "&nbsp;</font></td>";
+		//Code to display if the user is logged in
+		$result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+		$pguser_id = mysql_result($result, 0, "user_id");
+		$result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
+		$numofPMs = mysql_fetch_row($result);
+		$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+		$datecreated = mysql_result($result, 0, "date_created");
+		echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;";
+		if ((time() - $datecreated) < 604800)
+			echo headerbar_text(" Start Here -->&nbsp;",'',true);
+		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
+		echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
+		echo headerbar_text(_("Forums"),$GLOBALS['forums_url'],true);
+		if(lang_forum())
+		{
+			echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
+		}
+		$inbox_text = _("My Inbox");
+		if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
+		echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
+		echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
+		echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
+		echo "</font></td>\n";
+		echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
+		      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
+		show_quick_links();
+		echo "&nbsp;</font></td>";
 	}
 
 	echo "</tr>\n";
