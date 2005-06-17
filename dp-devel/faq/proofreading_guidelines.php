@@ -358,16 +358,12 @@ the formatters can easily find them.
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
 
-
-<h3><a name="italics">Italic, Bold and Small Capitals Text</a></h3>
+<h3><a name="italics">Italic and Bold Text</a></h3>
 <p><i>Italicized</i> text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and
-   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. <b>bold text</b> (text printed in a heavier
+   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. <b>Bold text</b> (text printed in a heavier
    typeface) may occasionally appear with <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>
-   after it. <span style="font-variant: small-caps">Small caps</span> (text printed in all capital letters
-   with initial capitals in a larger size) may occasionally appear with <tt>&lt;sc&gt;</tt> inserted
-   before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
-   unless it surrounds junk that does not appear on the page. Do not add it where it
-   does not appear. The formatters will do that later in the process.
+   after it. Do not remove this formatting information, unless it surrounds junk that does not appear 
+   on the page. Do not add it where it does not appear. The formatters will do that later in the process.
 </p>
 <!-- END RR -->
 
@@ -403,6 +399,33 @@ the formatters can easily find them.
     before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
     unless it surrounds junk that does not appear on the page. Do not add it where it
     does not appear. The formatters will do that later in the process.
+</p>
+
+<h3><a name="small_caps">Words in Small Caps</a></h3>
+<p>Proofread words that are printed in <span style="font-variant: small-caps;">Small Caps</span> as
+    mixed upper and lowercase. Example: <span style="font-variant: small-caps;">This is Small Caps</span> 
+    would correctly be <tt>This is Small Caps</tt>.
+</p>
+
+<p><b>Page Image:</b> <span style="font-variant: small-caps">
+                       The Agony and the Ecstasy</span><br />
+         <b>Right:</b> The Agony and the Ecstasy<br />
+         <b>Wrong:</b> THE AGONY AND THE ECSTASY<br />
+         <b>Wrong:</b> The Agony And The Ecstasy
+</p>
+
+<p> <b>Page Image:</b> set off for Rome in 1427  <span style="font-variant: small-caps">a.d.</span><br />
+         <b>Right:</b> set off for Rome in 1427 a.d.<br />
+         <b>Wrong:</b> set off for Rome in 1497 A.D.<br />
+</p>
+
+<p>Using the "<span style="font-variant: small-caps;">ABC</span>&rarr;Abc" button on the proofing 
+    interface will automatically change most of the words to title case correctly. However, this change must still be
+    compared to the image to be sure that the words (usually articles) are cased correctly. 
+    <span style="font-variant: small-caps">Small caps</span> may occasionally appear with <tt>&lt;sc&gt;</tt> inserted
+    before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
+    unless it surrounds junk that does not appear on the page. Do not add it where it does not appear. The formatters 
+    will do that later in the process.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
