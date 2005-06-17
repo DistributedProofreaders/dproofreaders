@@ -14,11 +14,13 @@ function in_string($needle, $haystack, $sensitive = 0)
      return (false !== stristr($haystack, $needle)) ? true : false;
 } 
 
-function stripos($haystack,$needle,$offset = 0)
+if(!function_exists('stripos'))
 {
-  return(strpos(strtolower($haystack),strtolower($needle),$offset));
+  function stripos($haystack,$needle,$offset = 0)
+  {
+    return(strpos(strtolower($haystack),strtolower($needle),$offset));
+  }
 }
-
 function strposgen($haystack,$needle,$cs)
 {
   if ($cs)
