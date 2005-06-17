@@ -359,6 +359,23 @@ foreach ( $project_states_for_star_metal_ as $star_metal => $project_states )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function sql_collater_for_project_state( $state_column )
+// In an SQL query, if you "ORDER BY state", it will use alphabetical order,
+// which is not very useful. Instead, ORDER BY the result of this function,
+// and it will use the canonical order-of-declaration for project states.
+{
+    global $PROJECT_STATES_IN_ORDER;
+    $s = "FIELD($state_column";
+    foreach ( $PROJECT_STATES_IN_ORDER as $project_state )
+    {
+        $s .= ",'$project_state'";
+    }
+    $s .= ")";
+    return $s;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function get_project_status_descriptor( $which )
 // $which is a word denoting a possible status of a project
 // (created, proofed, PPd, or posted).
