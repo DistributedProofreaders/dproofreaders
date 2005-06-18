@@ -254,12 +254,12 @@ function echo_general_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"._("Password:")."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "<a href='$reset_password_url'>"._("Reset Password")."</a>";
-    echo "</td>";
-    td_pophelp( 'password' );
+    show_link_as_if_preference(
+        _('Password'),
+        'password',
+        $reset_password_url,
+        _("Reset Password")
+    );
     show_preference(
         _('Statistics Bar Alignment'), 'u_align', 'align',
         $userP['u_align'],
@@ -836,6 +836,25 @@ function _show_textfield( $field_name, $current_value, $extras )
 {
     list($size, $rest) = $extras;
     echo "<input type='text' name='$field_name' value='$current_value' size='$size'>$rest";
+}
+
+// ---------------------------------------------------------
+
+function show_link_as_if_preference(
+    $label,
+    $pophelp_name,
+    $link_url,
+    $link_text )
+{
+    global $theme;
+
+    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+    echo "<strong>$label:</strong>";
+    echo "</td>";
+    echo "<td bgcolor='#ffffff' align='left'>";
+    echo "<a href='$link_url'>$link_text</a>";
+    echo "</td>";
+    td_pophelp( $pophelp_name );
 }
 
 function show_blank()
