@@ -14,13 +14,6 @@ function echo_page_table(
 {
 	global $theme, $projects_dir, $code_url, $pguser;
 
-	// somewhat kludgey
-	if ( is_string($page_selector) )
-	{
-		$username_for_selecting_pages = $page_selector;
-		$page_selector = NULL;
-	}
-
 	$can_edit = $project->can_be_managed_by_current_user;
 
 	// want PPers able to see names
@@ -158,7 +151,6 @@ function echo_page_table(
 
 	$fields_to_get = "fileid, image, length(master_text), state";
 	$tables = $projectid;
-	$where_condition = ( isset($username_for_selecting_pages) ? "0" : "1" );
 	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 	{
 		$round = get_Round_for_round_number($rn);
@@ -182,13 +174,29 @@ function echo_page_table(
 				ON (users$rn.username = $round->user_column_name)
 			$joined_with_user_page_tallies
 		";
-		if ( isset($username_for_selecting_pages) )
+	}
+
+	// somewhat kludgey
+	if ( is_string($page_selector) )
+	{
+		$username_for_selecting_pages = $page_selector;
+
+		$where_condition = "0";
+		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
+			$round = get_Round_for_round_number($rn);
 			$where_condition .= "
 				OR $round->user_column_name='$username_for_selecting_pages'
 			";
 		}
+
+		$page_selector = NULL;
 	}
+	else
+	{
+		$where_condition = "1";
+	}
+
 
 	$res = mysql_query( "SELECT $fields_to_get FROM $tables WHERE $where_condition ORDER BY image ASC" );
 	$num_rows = mysql_num_rows($res);
