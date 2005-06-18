@@ -10,15 +10,15 @@ function echo_page_table(
 	$project,
 	$show_image_size,
 	$disable_editing = FALSE,
-	$pages_of_interest = NULL )
+	$page_selector = NULL )
 {
 	global $theme, $projects_dir, $code_url, $pguser;
 
 	// somewhat kludgey
-	if ( is_string($pages_of_interest) )
+	if ( is_string($page_selector) )
 	{
-		$username_for_selecting_pages = $pages_of_interest;
-		$pages_of_interest = NULL;
+		$username_for_selecting_pages = $page_selector;
+		$page_selector = NULL;
 	}
 
 	$can_edit = $project->can_be_managed_by_current_user;
@@ -199,11 +199,11 @@ function echo_page_table(
 
 		$fileid = $page_res['fileid'];
 
-		if ( is_null($pages_of_interest) )
+		if ( is_null($page_selector) )
 		{
 			// All pages are of interest.
 		}
-		else if ( array_key_exists( $fileid, $pages_of_interest ) )
+		else if ( array_key_exists( $fileid, $page_selector ) )
 		{
 			// This is a page of interest.
 		}
