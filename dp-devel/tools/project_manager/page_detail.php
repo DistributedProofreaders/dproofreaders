@@ -1,5 +1,6 @@
 <?
 $relPath="./../../pinc/";
+include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
@@ -7,6 +8,7 @@ include_once($relPath.'Project.inc');
 include_once('page_table.inc');
 
 $projectid = @$_GET['project'];
+$show_image_size = array_get( $_GET, 'show_image_size', 0 );
 
 $project = new Project( $projectid );
 
