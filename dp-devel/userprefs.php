@@ -258,8 +258,8 @@ function echo_general_tab() {
     echo "<strong>"._("Password:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
     echo "<a href='$reset_password_url'>"._("Reset Password")."</a>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('password');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    echo "</td>";
+    td_pophelp( 'password' );
     show_preference(
         _('Statistics Bar Alignment'), 'u_align', 'align',
         $userP['u_align'],
@@ -390,8 +390,8 @@ function echo_proofreading_tab() {
     }
     echo "</select>";
     echo " <input type=\"submit\" value=\""._("Switch Profiles")."\" name=\"swProfile\">&nbsp;";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('switch');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    echo "</td>";
+    td_pophelp( 'switch' );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -445,12 +445,12 @@ function echo_proofreading_tab() {
     echo "<tr>\n";
     echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='2' align='center'>";
     echo "<img src='tools/proofers/gfx/bt4.png'><b>"._("Vertical Interface Preferences")."</b>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('vertprefs');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    echo "</td>";
+    td_pophelp( 'vertprefs' );
     echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='2' align='center'>";
     echo "<img src='tools/proofers/gfx/bt5.png'><b>"._("Horizontal Interface Preferences")."</b>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;<a href=\"JavaScript:newHelpWin('horzprefs');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    echo "</td>";
+    td_pophelp( 'horzprefs' );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -726,9 +726,7 @@ function show_preference(
     $function_name( $field_name, $current_value, $extras );
     echo "</td>";
 
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    td_pophelp( $pophelp_name );
 }
 
 // ---------------------------------------------------------
@@ -850,6 +848,17 @@ function show_blank()
     echo "<td bgcolor='#ffffff' align='left'>&nbsp;</td>";
     echo "<td bgcolor='#ffffff' align='center'>&nbsp;</td>\n";
 }
+
+// ---------------------------------------------------------
+
+function td_pophelp( $pophelp_name )
+{
+    echo "<td bgcolor='#ffffff' align='center'>";
+    echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
+    echo "</td>\n";
+}
+
+// ---------------------------------------------------------
 
 // vim: sw=4 ts=4 expandtab
 ?>
