@@ -362,15 +362,8 @@ function echo_proofreading_tab() {
 
     echo "<tr>\n";
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    // Now that we have the activity hub, which links to single-round pages,
-    // this preference is no longer meaningful. But rather than remove it
-    // entirely, just comment it out, in case we have to reinstate
-    // multi-round pages.
-    // echo "<strong>"._("Show Projects From:")."</strong>";
     echo "</td><td bgcolor='#ffffff' align='left'>";
-    // dropdown_select('u_plist', $userP['u_plist'], $p_l);
     echo "</td><td bgcolor='#ffffff' align='center'>";
-    // echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('showrounds');\">?</a>&nbsp;</b>";
     echo "</td>\n";
     // About 'show'/'hide': It seems better to present to the user the option
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
