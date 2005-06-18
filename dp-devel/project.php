@@ -1329,7 +1329,7 @@ function do_smooth_reading()
 	     if ($project->PPer_is_current_user)
       	     {
                 echo "<li>";
-                echo _("But as the project's PPer, you can make it available for smooth-reading for a further period.");
+                echo _("But as the project's PPer, you can make it available for smooth-reading for a further period.")." ";
                 echo _('Choose how long you want to make it available for.');
                 $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
                 echo "<ul>";
