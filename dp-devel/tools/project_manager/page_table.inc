@@ -176,9 +176,14 @@ function echo_page_table(
 		";
 	}
 
-	// somewhat kludgey
-	if ( is_string($page_selector) )
+	if ( is_null($page_selector) )
 	{
+		// Select all pages
+		$where_condition = "1";
+	}
+	elseif ( is_string($page_selector) )
+	{
+		// Select all pages of a particular user.
 		$username_for_selecting_pages = $page_selector;
 
 		$where_condition = "0";
@@ -194,9 +199,15 @@ function echo_page_table(
 	}
 	else
 	{
-		$where_condition = "1";
+		// $page_selector is an array whose keys are fileids of the pages to select
+		$fileids_str = '';
+		foreach ( $page_selector as $fileid => $dummy )
+		{
+			if ( !empty($fileids_str) ) $fileids_str .= ',';
+			$fileids_str .= "'$fileid'";
+		}
+		$where_condition = "fileid IN ($fileids_str)";
 	}
-
 
 	$res = mysql_query( "SELECT $fields_to_get FROM $tables WHERE $where_condition ORDER BY image ASC" );
 	$num_rows = mysql_num_rows($res);
@@ -206,20 +217,6 @@ function echo_page_table(
 		$page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
 
 		$fileid = $page_res['fileid'];
-
-		if ( is_null($page_selector) )
-		{
-			// All pages are of interest.
-		}
-		else if ( array_key_exists( $fileid, $page_selector ) )
-		{
-			// This is a page of interest.
-		}
-		else
-		{
-			// This is not a page of interest.
-			continue;
-		}
 
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
