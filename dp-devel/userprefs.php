@@ -290,11 +290,7 @@ function echo_general_tab() {
         'credits_wanted_adhoc',
         NULL
     );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"."&nbsp;"."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;</b>";
-    echo "</td>\n";
+    show_blank();
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -304,12 +300,7 @@ function echo_general_tab() {
         'credit_name_adhoc',
         NULL
     );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>"."&nbsp;"."</strong>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "&nbsp;";
-    echo "</td><td bgcolor='#ffffff' align='center'><b>&nbsp;</b>";
-    echo "</td>\n";
+    show_blank();
     echo "</tr>\n";
 
     echo_bottom_button_row();
@@ -361,10 +352,7 @@ function echo_proofreading_tab() {
     $pf_num=mysql_num_rows($pf_query);
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "</td><td bgcolor='#ffffff' align='left'>";
-    echo "</td><td bgcolor='#ffffff' align='center'>";
-    echo "</td>\n";
+    show_blank();
     // About 'show'/'hide': It seems better to present to the user the option
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
@@ -850,6 +838,17 @@ function _show_textfield( $field_name, $current_value, $extras )
 {
     list($size, $rest) = $extras;
     echo "<input type='text' name='$field_name' value='$current_value' size='$size'>$rest";
+}
+
+function show_blank()
+{
+    global $theme;
+
+    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+    echo "<strong>&nbsp;</strong>";
+    echo "</td>";
+    echo "<td bgcolor='#ffffff' align='left'>&nbsp;</td>";
+    echo "<td bgcolor='#ffffff' align='center'>&nbsp;</td>\n";
 }
 
 // vim: sw=4 ts=4 expandtab
