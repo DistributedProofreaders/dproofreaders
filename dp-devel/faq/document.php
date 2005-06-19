@@ -516,7 +516,7 @@ theme('Formatting Guidelines','header');
    of the chapter header, such as a chapter description, opening quote, etc., and
    finally leave 2 (two) blank lines before the start of the text of the chapter.
 </p>
-<p>Old books often printed the first word or two of every chapter in all caps;
+<p>Old books often printed the first word or two of every chapter in all caps or small caps;
    change these to upper and lower case (first letter only capitalized).
 </p>
 <p>Watch out for a missing double quote at the start of the first paragraph, which some
