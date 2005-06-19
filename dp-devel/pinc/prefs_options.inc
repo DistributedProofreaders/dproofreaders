@@ -17,9 +17,15 @@ while(list(,$v)=each($u_iloc))
 	array_push($u_il,lang_name($v)." (".eng_name($v).")");
 */
 
-/* temp restore of old, known working code that was replaced by above*/
-$u_il= array(_("English"), _("Dutch"), _("French"), _("German"), _("Italian"), _("Portuguese"), _("Spanish"));
-$u_iloc= array('en_EN', 'nl_NL', 'fr_FR', 'de_DE', 'it_IT', 'pt_PT', 'es_ES');
+$u_intlang_options = array(
+    'en_EN' => _("English"),
+    'nl_NL' => _("Dutch"),
+    'fr_FR' => _("French"),
+    'de_DE' => _("German"),
+    'it_IT' => _("Italian"),
+    'pt_PT' => _("Portuguese"),
+    'es_ES' => _("Spanish"),
+);
 
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 

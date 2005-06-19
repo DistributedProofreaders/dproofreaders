@@ -190,7 +190,7 @@ function echo_tabs($tab_names, $selected_tab) {
 
 function echo_general_tab() {
     global $uid, $pguser, $userP, $reset_password_url;
-    global $u_il, $u_iloc, $u_n, $i_stats, $u_l, $i_pm;
+    global $u_intlang_options, $u_n, $i_stats, $u_l, $i_pm;
 
     $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
     $real_name = mysql_result($result,0,"real_name");
@@ -218,11 +218,6 @@ function echo_general_tab() {
         'textfield',
         array( '', '' )
     );
-    $u_intlang_options = array();
-    for ($i=0;$i<count($u_il);$i++)
-    {
-        $u_intlang_options[ $u_iloc[$i] ] = $u_il[$i];
-    }
     show_preference(
         _('Interface Language'), 'u_intlang', 'intlang',
         $userP['u_intlang'],
