@@ -713,11 +713,7 @@ function show_preference(
     $type,
     $extras )
 {
-    global $theme;
-
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>$label:</strong>";
-    echo "</td>";
+    td_label( "$label:" );
 
     echo "<td bgcolor='#ffffff' align='left'>";
     // This is a bit sneaky, calling a function via a non-static name.
@@ -846,11 +842,7 @@ function show_link_as_if_preference(
     $link_url,
     $link_text )
 {
-    global $theme;
-
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>$label:</strong>";
-    echo "</td>";
+    td_label( "$label:" );
     echo "<td bgcolor='#ffffff' align='left'>";
     echo "<a href='$link_url'>$link_text</a>";
     echo "</td>";
@@ -859,16 +851,20 @@ function show_link_as_if_preference(
 
 function show_blank()
 {
-    global $theme;
-
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>&nbsp;</strong>";
-    echo "</td>";
+    td_label( "&nbsp;" );
     echo "<td bgcolor='#ffffff' align='left'>&nbsp;</td>";
     echo "<td bgcolor='#ffffff' align='center'>&nbsp;</td>\n";
 }
 
 // ---------------------------------------------------------
+
+function td_label( $label )
+{
+    global $theme;
+    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+    echo "<strong>$label</strong>";
+    echo "</td>";
+}
 
 function td_pophelp( $pophelp_name )
 {
