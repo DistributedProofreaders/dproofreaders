@@ -414,7 +414,7 @@ the formatters can easily find them.
     compared to the image to be sure that the words (usually articles) are cased correctly. 
     <span style="font-variant: small-caps">Small caps</span> may occasionally appear with <tt>&lt;sc&gt;</tt> inserted
     before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
-    unless it surrounds junk that does not appear on the page. Do not add it where it does not appear. The formatters 
+    unless it surrounds junk that does not appear on the page. Do not add it where it does not appear. The formatters
     will do that later in the process.
 </p>
 
@@ -1871,46 +1871,46 @@ Same strip rolled up in  Same 16 wires bound
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
           <br>
-          I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
-          MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;.....&nbsp;1<br>
+          I. The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&nbsp;&nbsp;.....&nbsp;1<br>
           <br>
-          II. THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
-          FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
+          II.  The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
           <br>
-          III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
-          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          III. Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
           <br>
-          IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
-          TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
+          IV. An Extraordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&nbsp;&nbsp;&nbsp;50<br>
           <br>
-          V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
-          IRISHMAN ENTERS&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
+          V. The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
           <br>
-          VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
-          THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          VI. Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
           <br>
-          VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
+          VII. Spun-gold Hair, Blue Eyes, and Various Encounters&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
           <br>
-          VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
-          QUEST OF FACTS&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
+          VIII. A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
           <br>
-          IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
-          THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
+          IX. The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
           <br>
-          X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
-          PETER THE CHAUFFEUR&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
+          X. The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
           <br>
-          XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
-          HOUR IN THE MORNING&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
+          XI. Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
           <br>
-          XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
-          MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          XII. The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
           <br>
-          XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
-          MIDNIGHT&nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
+          XIII. The Second Wayfarer Receives Two Visitors at<br>
+          Midnight &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
           <br>
-          XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-          OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
+          XIV. A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
       </tt>
 </td></tr></table>
       </td>
