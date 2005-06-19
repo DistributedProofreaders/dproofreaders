@@ -365,9 +365,7 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='6' align='center'><strong>";
-    echo _('Profiles');
-    echo "</strong></td>";
+    td_label_long( 6, _('Profiles') );
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -443,13 +441,11 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='2' align='center'>";
-    echo "<img src='tools/proofers/gfx/bt4.png'><b>"._("Vertical Interface Preferences")."</b>";
-    echo "</td>";
+    td_label_long( 2,
+        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences") );
     td_pophelp( 'vertprefs' );
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='2' align='center'>";
-    echo "<img src='tools/proofers/gfx/bt5.png'><b>"._("Horizontal Interface Preferences")."</b>";
-    echo "</td>";
+    td_label_long( 2,
+        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences") );
     td_pophelp( 'horzprefs' );
     echo "</tr>\n";
 
@@ -862,6 +858,14 @@ function td_label( $label )
 {
     global $theme;
     echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
+    echo "<strong>$label</strong>";
+    echo "</td>";
+}
+
+function td_label_long( $colspan, $label )
+{
+    global $theme;
+    echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='$colspan' align='center'>";
     echo "<strong>$label</strong>";
     echo "</td>";
 }
