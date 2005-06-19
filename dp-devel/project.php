@@ -1326,18 +1326,18 @@ function do_smooth_reading()
             echo _('The deadline for smooth-reading this project has passed.');
             echo "</li>";
 
-	     if ($project->PPer_is_current_user)
-      	     {
+            if ($project->PPer_is_current_user)
+            {
                 echo "<li>";
                 echo _("But as the project's PPer, you can make it available for smooth-reading for a further period.")." ";
                 echo _('Choose how long you want to make it available for.');
                 $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
                 echo "<ul>";
-                 echo "<li>$link_start=1'>"._("one week")."</a>";
-                 echo "<li>$link_start=2'>"._("two weeks")."</a>";
-                 echo "<li>$link_start=4'>"._("four weeks")."</a>";
-                 echo "</ul>";
-                 echo "</li>\n";
+                echo "<li>$link_start=1'>"._("one week")."</a>";
+                echo "<li>$link_start=2'>"._("two weeks")."</a>";
+                echo "<li>$link_start=4'>"._("four weeks")."</a>";
+                echo "</ul>";
+                echo "</li>\n";
             }
 
 
