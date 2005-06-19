@@ -189,7 +189,7 @@ function echo_tabs($tab_names, $selected_tab) {
 /*************** GENERAL TAB ***************/
 
 function echo_general_tab() {
-    global $theme, $uid, $pguser, $userP, $reset_password_url;
+    global $uid, $pguser, $userP, $reset_password_url;
     global $u_il, $u_iloc, $u_n, $i_stats, $u_l, $i_pm;
 
     $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
@@ -343,7 +343,7 @@ function save_general_tab() {
 /*************** PROOFREADING TAB ***************/
 
 function echo_proofreading_tab() {
-    global $theme, $uid, $pguser, $userP;
+    global $uid, $pguser, $userP;
     global $i_r, $p_l, $f_f, $f_s;
     global $userSettings;
 
@@ -642,7 +642,7 @@ function save_proofreading_tab() {
 
 function echo_pm_tab() {
 
-    global $theme, $userP;
+    global $userP;
     global $i_pm;
     global $userSettings;
 
