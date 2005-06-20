@@ -379,7 +379,7 @@ return newStr;
 function lc_common(str)
 {
   str_array = str.split(' ');
-  common_lc_words = new Array('And','Of','The','In','On','De','Van','Am','Pm','Bc','Ad','A','An','At','By','For');
+  common_lc_words = new Array('And','Of','The','In','On','De','Van','Am','Pm','Bc','Ad','A','An','At','By','For','La','Le');
 
   for(i=0;i<str_array.length;i++)
   {
