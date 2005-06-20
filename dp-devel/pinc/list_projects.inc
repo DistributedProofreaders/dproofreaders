@@ -73,7 +73,7 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
 
         // Download info
         $postednum = $project['postednum'];
-        if ( $postednum != 6000 && $postednum != 0 )
+        if ( !is_null($postednum) )
         {
             echo get_pg_catalog_link_for_etext($postednum);
             echo " [{$project['formats']}]";

@@ -1,10 +1,29 @@
 <?php
 $relPath='../../../pinc/';
 include_once($relPath.'v_site.inc');
+include_once($relPath.'project_states.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
+
+echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
+echo "Altering 'postednum' column...\n";
+
+mysql_query("
+    ALTER TABLE projects
+        MODIFY COLUMN postednum SMALLINT(5) UNSIGNED DEFAULT NULL
+") or die(mysql_error());
+
+// default used to be 6000
+echo "Changing postednum=6000 to postednum=NULL for non-posted projects...\n";
+$psd = get_project_status_descriptor( 'posted' );
+mysql_query("
+    UPDATE projects
+    SET postednum=NULL
+    WHERE postednum=6000 AND NOT($psd->state_selector)
+") or die(mysql_error());
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";

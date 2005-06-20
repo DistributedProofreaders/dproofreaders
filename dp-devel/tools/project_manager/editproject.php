@@ -504,8 +504,7 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($comments)) { $comments = ""; }
     if (empty($scannercredit)) { $scannercredit = ""; }
     if (empty($clearance)) { $clearance = ""; }
-    // Do not display db default value(s).
-    if ($postednum == 6000 || $postednum == 0) { $postednum = ""; }
+    if (empty($postednum)) { $postednum = ""; }
     if (empty($special_code)) { $special_code = ""; }
     if (empty($image_provider)) { $image_provider = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
