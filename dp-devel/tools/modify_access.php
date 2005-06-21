@@ -35,7 +35,7 @@ foreach ( $_POST as $name => $value )
 
     list( $activity_id, $action_type ) = $a;
 
-    if ( $action_type != 'grant' && $action_type != 'revoke' )
+    if ( $action_type != 'grant' && $action_type != 'revoke' && $action_type != 'deny_request_for' )
     {
         die( "Error: bad parameter name '$name'" );
     }
@@ -68,6 +68,10 @@ foreach ( $_POST as $name => $value )
     elseif ( $action_type == 'revoke' && !$can_revoke )
     {
         die( "Error: You are not permitted to revoke access." );
+    }
+    elseif ( $action_type == 'deny_request_for' && !$can_revoke )
+    {
+        die( "Error: You are not permitted to deny requests." );
     }
 
     // And it's an action that the current user is permitted to take.
@@ -107,6 +111,18 @@ foreach ( $_POST as $name => $value )
         if (isset($stage) && $stage->after_satisfying_minima == 'REQ-AUTO')
         {
             echo "Warning: you can revoke access, but it can just be auto-granted again.<br>\n";
+        }
+    }
+    elseif ( $action_type == 'deny_request_for' )
+    {
+        if ( $uao->can_access )
+        {
+            die( "Error: The user already has access to $activity_id" );
+        }
+
+        if ( $uao->request_status != 'sat-requested' )
+        {
+            die( "Error: The user hasn't requested access to $activity_id" );
         }
     }
     else
@@ -190,8 +206,11 @@ function notify_user($username,$actions)
         foreach ( $actions as $activity_id => $action_type )
         {
             $message .= "\n";
-            $message .= "  $activity_id: Access ";
-            $message .= ( $action_type == 'grant' ? 'granted.' : 'revoked.' );
+            $message .= "  $activity_id: ";
+            $message .=
+                ( $action_type == 'deny_request_for' ? 'Your request for access has not been approved. Please try again in a few weeks.' :
+                ( $action_type == 'grant' ? 'Access granted.' :
+                'Access revoked.' ) );
         }
         $message .= "\n\nThank you!\nDistributed Proofreaders";
         $add_headers = "";

@@ -434,6 +434,10 @@ function show_user_access_chart( $username )
         echo "<th colspan='$n_criteria'>Criteria</th>";
         echo "<th rowspan='3'>all sat?</th>";
         echo "<th rowspan='3'>request</th>";
+        if ( $allow_revoke )
+        {
+            echo "<th rowspan='3'>deny request?</th>";
+        }
         echo "<th rowspan='3'>ACCESS?</th>";
         if ( $allow_grant )
         {
@@ -499,6 +503,7 @@ function show_user_access_chart( $username )
 
         $could_grant = FALSE;
         $could_revoke = FALSE;
+        $could_deny_request = FALSE;
         global $code_url;
         echo "<td>";
         switch( $uao->request_status )
@@ -516,6 +521,7 @@ function show_user_access_chart( $username )
             case 'sat-requested':
                 echo 'requested';
                 $could_grant = TRUE;
+                $could_deny_request = TRUE;
                 break;
 
             case 'sat-wait':
@@ -536,6 +542,16 @@ function show_user_access_chart( $username )
                 die( "bad request_status '$uao->request_status'" );
         }
         echo "</td>";
+
+        if ( $allow_revoke )
+        {
+            echo "<td>";
+            if ( $could_deny_request )
+            {
+                echo "<input type='checkbox' name='{$stage->id}|deny_request_for'>";
+            }
+            echo "</td>";
+        }
 
         echo td_w_bgcolor( ($uao->can_access?'YES':'NO'), $uao->can_access );
 
@@ -592,6 +608,12 @@ function show_user_access_chart( $username )
             $could_grant = TRUE;
         }
         echo "</td>";
+
+        if ( $allow_revoke )
+        {
+            echo "<td>";
+            echo "</td>";
+        }
 
         echo td_w_bgcolor( ($can_access?'YES':'NO'), $can_access );
 
