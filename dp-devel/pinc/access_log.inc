@@ -3,7 +3,7 @@ include_once($relPath."connect.inc");
 include_once($relPath."f_dpsql.inc");
 
 
-function log_access_change( $subject_username, $modifier_username, $activity_id, $grant_or_revoke )
+function log_access_change( $subject_username, $modifier_username, $activity_id, $action_type )
 {
   $result = dpsql_query(
     "INSERT INTO access_log
@@ -11,7 +11,7 @@ function log_access_change( $subject_username, $modifier_username, $activity_id,
          timestamp = '" . time() . "',
          subject_username = '$subject_username',
          modifier_username = '$modifier_username',
-         action = '$grant_or_revoke',
+         action = '$action_type',
          activity = '$activity_id'");
 
   return $result;
