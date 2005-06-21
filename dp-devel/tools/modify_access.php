@@ -35,9 +35,9 @@ foreach ( $_POST as $name => $value )
     $a = explode( '|', $name );
     if ( count($a) != 2 ) die( "Error: bad parameter name '$name'" );
 
-    list( $activity_id, $grant_or_revoke ) = $a;
+    list( $activity_id, $action_type ) = $a;
 
-    if ( $grant_or_revoke != 'grant' && $grant_or_revoke != 'revoke' )
+    if ( $action_type != 'grant' && $action_type != 'revoke' )
     {
         die( "Error: bad parameter name '$name'" );
     }
@@ -56,18 +56,18 @@ foreach ( $_POST as $name => $value )
     }
 
     // Okay, it's a meaningful request.
-    echo "    i.e., $grant_or_revoke access to/from $activity_id\n";
+    echo "    i.e., $action_type access to/from $activity_id\n";
 
     if ( array_key_exists( $activity_id, $actions ) )
     {
         die( "Error: You have more than one modification for $activity_id" );
     }
 
-    if ( $grant_or_revoke == 'grant' && !$can_grant )
+    if ( $action_type == 'grant' && !$can_grant )
     {
         die( "Error: You are not permitted to grant access." );
     }
-    elseif ( $grant_or_revoke == 'revoke' && !$can_revoke )
+    elseif ( $action_type == 'revoke' && !$can_revoke )
     {
         die( "Error: You are not permitted to revoke access." );
     }
@@ -87,14 +87,14 @@ foreach ( $_POST as $name => $value )
         $uao = $stage->user_access($subject_username);
     }
 
-    if ( $grant_or_revoke == 'grant' )
+    if ( $action_type == 'grant' )
     {
         if ( $uao->can_access )
         {
             die( "Error: The user already has access to $activity_id" );
         }
     } 
-    elseif ( $grant_or_revoke == 'revoke' )
+    elseif ( $action_type == 'revoke' )
     {
         if ( !$uao->can_access )
         {
@@ -121,7 +121,7 @@ foreach ( $_POST as $name => $value )
     // So put it on the queue.
     // (Don't execute any requests unless they're all valid.)
 
-    $actions[$activity_id] = $grant_or_revoke;
+    $actions[$activity_id] = $action_type;
 }
 
 if ( count($actions) == 0 )
@@ -133,13 +133,13 @@ echo "\n";
 echo "Those modifications appear to be valid.\n";
 echo "Performing them now...\n";
 
-foreach ( $actions as $activity_id => $grant_or_revoke )
+foreach ( $actions as $activity_id => $action_type )
 {
     echo "\n";
-    echo "$grant_or_revoke $activity_id ...\n";
-    $yesno = ( $grant_or_revoke == 'grant' ? 'yes' : 'no' );
+    echo "$action_type $activity_id ...\n";
+    $yesno = ( $action_type == 'grant' ? 'yes' : 'no' );
     delete_and_insert( $subject_username, "$activity_id.access", $yesno );
-    log_access_change( $subject_username, $pguser, $activity_id, $grant_or_revoke );
+    log_access_change( $subject_username, $pguser, $activity_id, $action_type );
 }
 
 echo "\n";
@@ -189,11 +189,11 @@ function notify_user($username,$actions)
         $subject =  "DP: Your access has been modified";
         $message =  "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
                     "The following modifications have been made to the stages in which you can work:\n";
-        foreach ( $actions as $activity_id => $grant_or_revoke )
+        foreach ( $actions as $activity_id => $action_type )
         {
             $message .= "\n";
             $message .= "  $activity_id: Access ";
-            $message .= ( $grant_or_revoke == 'grant' ? 'granted.' : 'revoked.' );
+            $message .= ( $action_type == 'grant' ? 'granted.' : 'revoked.' );
         }
         $message .= "\n\nThank you!\nDistributed Proofreaders";
         $add_headers = "";
