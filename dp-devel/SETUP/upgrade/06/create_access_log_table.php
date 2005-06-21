@@ -12,7 +12,7 @@ CREATE TABLE `access_log` (
   `timestamp` INT( 20 ) NOT NULL ,
   `subject_username` VARCHAR( 25 ) NOT NULL ,
   `modifier_username` VARCHAR( 25 ) NOT NULL ,
-  `action` VARCHAR( 10 ) NOT NULL ,
+  `action` VARCHAR( 16 ) NOT NULL ,
   `activity` VARCHAR( 10 ) NOT NULL ,
   INDEX ( `subject_username`,`timestamp` )
 ) TYPE=MyISAM;
