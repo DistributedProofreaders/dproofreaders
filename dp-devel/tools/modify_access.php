@@ -55,7 +55,7 @@ foreach ( $_POST as $name => $value )
         }
     }
 
-    // Okay, it's a meaningful request.
+    // Okay, it's a meaningful action.
     echo "    i.e., $action_type access to/from $activity_id\n";
 
     if ( array_key_exists( $activity_id, $actions ) )
@@ -72,7 +72,7 @@ foreach ( $_POST as $name => $value )
         die( "Error: You are not permitted to revoke access." );
     }
 
-    // And it's a request that the current user is permitted to make.
+    // And it's an action that the current user is permitted to take.
 
     if ( $activity_id == 'P2_mentor' )
     {
@@ -116,10 +116,10 @@ foreach ( $_POST as $name => $value )
         assert( 0 );
     }
 
-    // And it's a request that is valid for the subject user at the current time.
+    // And it's an action hat is valid for the subject user at the current time.
 
     // So put it on the queue.
-    // (Don't execute any requests unless they're all valid.)
+    // (Don't execute any actions unless they're all valid.)
 
     $actions[$activity_id] = $action_type;
 }
