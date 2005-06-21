@@ -7,8 +7,6 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 
-header('Content-type: text/plain');
-
 list($can_grant,$can_revoke) = user_can_modify_access();
 
 if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to execute this script" );
@@ -18,7 +16,7 @@ if (empty($subject_username)) die( "parameter 'subject_username' is empty" );
 
 if ($_POST['notify_user'] == 'on') $notify_user = true;
 
-echo "subject_username='$subject_username'\n";
+echo "subject_username='$subject_username'<br>\n";
 
 // so we don't hit them in the following loop
 unset($_POST['subject_username']);
@@ -27,8 +25,8 @@ unset($_POST['notify_user']);
 $actions = array();
 foreach ( $_POST as $name => $value )
 {
-    echo "\n";
-    echo "Considering '$name' => '$value'\n";
+    echo "<br>\n";
+    echo "Considering '$name' => '$value'<br>\n";
 
     if ( $value != 'on' ) die( "Error: unexpected value in parameter '$name' => '$value'" );
 
@@ -56,7 +54,7 @@ foreach ( $_POST as $name => $value )
     }
 
     // Okay, it's a meaningful action.
-    echo "    i.e., $action_type access to/from $activity_id\n";
+    echo "    i.e., $action_type access to/from $activity_id<br>\n";
 
     if ( array_key_exists( $activity_id, $actions ) )
     {
@@ -108,7 +106,7 @@ foreach ( $_POST as $name => $value )
 
         if (isset($stage) && $stage->after_satisfying_minima == 'REQ-AUTO')
         {
-            echo "Warning: you can revoke access, but it can just be auto-granted again.\n";
+            echo "Warning: you can revoke access, but it can just be auto-granted again.<br>\n";
         }
     }
     else
@@ -129,24 +127,24 @@ if ( count($actions) == 0 )
     die( "Warning: you did not specify any modifications" );
 }
 
-echo "\n";
-echo "Those modifications appear to be valid.\n";
-echo "Performing them now...\n";
+echo "<br>\n";
+echo "Those modifications appear to be valid.<br>\n";
+echo "Performing them now...<br>\n";
 
 foreach ( $actions as $activity_id => $action_type )
 {
-    echo "\n";
-    echo "$action_type $activity_id ...\n";
+    echo "<br>\n";
+    echo "$action_type $activity_id ...<br>\n";
     $yesno = ( $action_type == 'grant' ? 'yes' : 'no' );
     delete_and_insert( $subject_username, "$activity_id.access", $yesno );
     log_access_change( $subject_username, $pguser, $activity_id, $action_type );
 }
 
-echo "\n";
-echo "Done\n\n";
+echo "<br>\n";
+echo "Done<br>\n<br>\n";
 if ($notify_user)
-    echo "Notifying user... ".notify_user($subject_username,$actions)."\n\n";
-echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)\n";
+    echo "Notifying user... ".notify_user($subject_username,$actions)."<br>\n<br>\n";
+echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<br>\n";
 
 // -----------------------------------------------------------------------------
 
