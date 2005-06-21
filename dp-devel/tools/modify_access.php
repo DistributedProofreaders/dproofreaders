@@ -145,7 +145,7 @@ foreach ( $actions as $activity_id => $grant_or_revoke )
 echo "\n";
 echo "Done\n\n";
 if ($notify_user)
-  echo "Notifying user... ".notify_user($subject_username,$actions)."\n\n";
+    echo "Notifying user... ".notify_user($subject_username,$actions)."\n\n";
 echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)\n";
 
 // -----------------------------------------------------------------------------
@@ -168,38 +168,38 @@ function delete_and_insert( $username, $setting, $value )
 
 function notify_user($username,$actions)
 {
-  $result = mysql_query("SELECT email FROM users WHERE username ='$username'");
-  $email_addr = mysql_result($result,0,"email");
-  if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
-  {
-    // Special case: If the user has been granted access to
-    // a single round, send a congratulations! email.
-    $stage = array_keys($actions);
-    $subject = "DP: You have been granted access to $stage[0]!";
-    $message = "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
-               "Congratulations, you have been granted access to $stage[0] projects!\n" .
-               "You can access this stage by following the link to it at the Activity Hub.\n\n" .
-               "Thank you!\nDistributed Proofreaders";
-    $add_headers = "";
-    maybe_mail($email_addr,$subject,$message,$add_headers);
-    return "congratulated user.";
-  }
-  else
-  {
-    $subject =  "DP: Your access has been modified";
-    $message =  "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
-                "The following modifications have been made to the stages in which you can work:\n";
-    foreach ( $actions as $activity_id => $grant_or_revoke )
+    $result = mysql_query("SELECT email FROM users WHERE username ='$username'");
+    $email_addr = mysql_result($result,0,"email");
+    if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
     {
-        $message .= "\n";
-        $message .= "  $activity_id: Access ";
-        $message .= ( $grant_or_revoke == 'grant' ? 'granted.' : 'revoked.' );
+        // Special case: If the user has been granted access to
+        // a single round, send a congratulations! email.
+        $stage = array_keys($actions);
+        $subject = "DP: You have been granted access to $stage[0]!";
+        $message = "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
+                   "Congratulations, you have been granted access to $stage[0] projects!\n" .
+                   "You can access this stage by following the link to it at the Activity Hub.\n\n" .
+                   "Thank you!\nDistributed Proofreaders";
+        $add_headers = "";
+        maybe_mail($email_addr,$subject,$message,$add_headers);
+        return "congratulated user.";
     }
-    $message .= "\n\nThank you!\nDistributed Proofreaders";
-    $add_headers = "";
-    maybe_mail($email_addr,$subject,$message,$add_headers);
-    return "notified user.";
-  }
+    else
+    {
+        $subject =  "DP: Your access has been modified";
+        $message =  "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
+                    "The following modifications have been made to the stages in which you can work:\n";
+        foreach ( $actions as $activity_id => $grant_or_revoke )
+        {
+            $message .= "\n";
+            $message .= "  $activity_id: Access ";
+            $message .= ( $grant_or_revoke == 'grant' ? 'granted.' : 'revoked.' );
+        }
+        $message .= "\n\nThank you!\nDistributed Proofreaders";
+        $add_headers = "";
+        maybe_mail($email_addr,$subject,$message,$add_headers);
+        return "notified user.";
+    }
 }
 // vim: sw=4 ts=4 expandtab
 ?>
