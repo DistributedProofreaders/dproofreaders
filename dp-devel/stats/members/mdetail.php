@@ -41,12 +41,14 @@ if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS) {
 		// The requestor is requesting his/her own stats.
 		$user_referent = $quoted_username;
 		$brushoff = NULL;
+		$visibility_note = _("These stats are visible to Site Admins and you only.");
 	}
 	elseif ( user_is_a_sitemanager() )
 	{
 		// The requestor is a Site Admin, and thus is not blocked by subject's anonymity.
 		$user_referent = $quoted_username;
 		$brushoff = NULL;
+		$visibility_note = _("These stats are visible to Site Admins and the user only.");
 	}
 	else
 	{
@@ -73,6 +75,7 @@ echo "<br><center>";
 echo "<h1>$desc</h1>";
 
 if (is_null($brushoff)) {
+	if (isset($visibility_note)) echo "<i>($visibility_note)</i><br>\n";
 	showMbrInformation( $curMbr, $tally_name );
 } else {
 	echo "<p>$brushoff</p>";
