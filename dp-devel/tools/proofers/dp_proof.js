@@ -303,6 +303,8 @@ function transformText(transformType) {
 		var theSelection = docRef.selection.createRange().text;
 		if(!theSelection) { theSelection=sampleText;}
 		if(transformType=='title-case') { theSelection=title_case(theSelection);}
+		if(transformType=='upper-case') { theSelection=theSelection.toUpperCase();}
+		if(transformType=='lower-case') { theSelection=theSelection.toLowerCase();}
 		txtarea.focus();
 		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
 			theSelection = theSelection.substring(0, theSelection.length - 1);
@@ -319,6 +321,8 @@ function transformText(transformType) {
 		var myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
 		if(transformType=='title-case') { myText=title_case(myText);}
+		if(transformType=='upper-case') { myText=myText.toUpperCase();}
+		if(transformType=='lower-case') { myText=myText.toLowerCase();}
 		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
 		} else {
@@ -348,6 +352,8 @@ function transformText(transformType) {
 		}
 		if(!text) { text=sampleText;}
 		if(transformType=='title-case') { text=title_case(text);}
+		if(transformType=='upper-case') { text=text.toUpperCase();}
+		if(transformType=='lower-case') { text=text.toLowerCase();}
 		text=tagOpen+text+tagClose;
 		docRef.infoform.infobox.value=text;
 		// in Safari this causes scrolling
