@@ -42,6 +42,12 @@ if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS) {
 		$user_referent = $quoted_username;
 		$brushoff = NULL;
 	}
+	elseif ( user_is_a_sitemanager() )
+	{
+		// The requestor is a Site Admin, and thus is not blocked by subject's anonymity.
+		$user_referent = $quoted_username;
+		$brushoff = NULL;
+	}
 	else
 	{
 		// The requestor is blocked by the subject user's anonymity.
