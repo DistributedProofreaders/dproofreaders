@@ -35,12 +35,22 @@ $curMbr = mysql_fetch_assoc($result);
 $quoted_username = "'" . $curMbr['username'] . "'";
 $number_u_id = "#" . $curMbr['u_id'];
 
-if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
-	$user_referent = $number_u_id;
-	// Note that this doesn't reveal anything;
-	// the requestor already knows the subject's u_id,
-	// because it was included in the request.
-	$brushoff = _("This user has requested to remain anonymous.");
+if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS) {
+	if ( $curMbr['username'] == $pguser )
+	{
+		// The requestor is requesting his/her own stats.
+		$user_referent = $quoted_username;
+		$brushoff = NULL;
+	}
+	else
+	{
+		// The requestor is blocked by the subject user's anonymity.
+		$user_referent = $number_u_id;
+		// Note that this doesn't reveal anything;
+		// the requestor already knows the subject's u_id,
+		// because it was included in the request.
+		$brushoff = _("This user has requested to remain anonymous.");
+	}
 } elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
 	$user_referent = $number_u_id;
 	$brushoff = _("This user has requested their statistics remain private.");
