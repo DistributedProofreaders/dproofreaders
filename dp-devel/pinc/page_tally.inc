@@ -13,6 +13,7 @@
 
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'privacy.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -218,31 +219,7 @@ class PageTally_Neighbor
 function should_anonymize( $username, $user_privacy_setting )
 // Should we anonymize information about the given user?
 {
-    global $pguser; // the "requestor"
-
-    // The given user's details should be visible to whom?
-    switch ($user_privacy_setting)
-    {
-        case PRIVACY_PUBLIC:
-            // Visible to all.
-            // Never anonymize.
-            return FALSE;
-
-        case PRIVACY_PRIVATE:
-            // Visible to anyone logged in.
-            // Anonymize if the requestor is not logged in.
-            return is_null($pguser);
-
-        case PRIVACY_ANONYMOUS:
-            // Visible to the user him/herself only.
-            // Anonymize if the requestor is not logged in,
-            // or is someone other than the given user.
-            return is_null($pguser) || $pguser != $username;
-
-        default:
-            // Shouldn't happen.
-            die( "should_anonymize(): bad privacy setting: '$user_privacy_setting'" );
-    }
+    return !can_reveal_details_about( $username, $user_privacy_setting );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

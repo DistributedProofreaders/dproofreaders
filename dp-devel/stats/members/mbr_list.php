@@ -1,7 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
-include_once($relPath.'prefs_options.inc'); // PRIVACY_*
+include_once($relPath.'privacy.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
@@ -63,9 +63,7 @@ if (!empty($mRows)) {
         	$phpbbID = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$row['username']."' LIMIT 1");
         	if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
 
-		if (($row['u_privacy'] == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) ||
-		    ($row['u_privacy'] == PRIVACY_ANONYMOUS && (isset($GLOBALS['pguser']) && $row['username'] == $GLOBALS['pguser']) || user_is_a_sitemanager()) ||
-		    ($row['u_privacy'] == PRIVACY_PUBLIC)) {
+		if ( can_reveal_details_about($row['username'], $row['u_privacy']) ) {
 
 			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
 			echo "<td width='25%'>".$row['username']."</td>";
