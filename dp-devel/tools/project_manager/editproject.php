@@ -237,19 +237,28 @@ function previewProject($nameofwork, $authorsname, $comments) {
    // insert e.g. templates and biographies
    $comments = parse_project_comments($comments);
 
-        $a = _("Follow the current")." <a href='$code_url/faq/document.php'>"._("Proofreading Guidelines")."</a> "._("for detailed project formatting directions.");
-        $b = _("Instructions below take precedence over the guidelines");
+  $a = _("The Guidelines give detailed instructions for working in this round.");
+  $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
   echo "<br><table width='90%' border=1>";
   echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
-  echo "<td bgcolor='#cccccc'><b>This is a preview of your project and exactly how it will look to the proofreaders.</b></td></tr>\n";
+  echo "<td bgcolor='#cccccc'><b>This is a preview of your project and roughly how it will look to the proofreaders.</b></td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$nameofwork</td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$authorsname</td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>".$GLOBALS['pguser']."</td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>".strftime(_("%A, %B %e, %Y at %X"))."</td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
   echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
-  echo "<tr><td colspan=2>$a <b>$b: </b><P>$comments</td></tr>\n</table><br><br>";
+
+  echo "<tr><td colspan='2' bgcolor='#cccccc' align='center'>";
+  echo "<font size='+1'><b>Project Comments</b></font>";
+  echo "<br>$a<br>$b";
+  echo "</td></tr>\n";
+  echo "<tr><td colspan='2'>";
+  echo $comments;
+  echo "</td></tr>\n";
+
+  echo "</table><br><br>";
 }
 
 
