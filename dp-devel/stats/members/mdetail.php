@@ -31,17 +31,21 @@ if (mysql_num_rows($result) == 0)
 
 $curMbr = mysql_fetch_assoc($result);
 
+// Two possible ways to refer to the subject user:
+$quoted_username = "'" . $curMbr['username'] . "'";
+$number_u_id = "#" . $curMbr['u_id'];
+
 if ($curMbr['u_privacy'] == PRIVACY_ANONYMOUS && $curMbr['username'] != $pguser) {
-	$user_referent = "#" . $curMbr['u_id'];
+	$user_referent = $number_u_id;
 	// Note that this doesn't reveal anything;
 	// the requestor already knows the subject's u_id,
 	// because it was included in the request.
 	$brushoff = _("This user has requested to remain anonymous.");
 } elseif ($curMbr['u_privacy'] == PRIVACY_PRIVATE && !isset($pguser)) {
-	$user_referent = "#" . $curMbr['u_id'];
+	$user_referent = $number_u_id;
 	$brushoff = _("This user has requested their statistics remain private.");
 } else {
-	$user_referent = "'" . $curMbr['username'] . "'";
+	$user_referent = $quoted_username;
 	$brushoff = NULL;
 }
 
