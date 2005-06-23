@@ -15,10 +15,6 @@ abort_if_in_maintenance_mode();
 theme(_("Welcome"), "header");
 $etext_limit = 10;
 
-	//Update last login date
-	if (isset($pguser)) {
-		$result = mysql_query("UPDATE users SET last_login = '".time()."' WHERE username = '$pguser'");
-	}
 
 default_page_heading();
 
