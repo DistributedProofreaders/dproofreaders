@@ -20,8 +20,15 @@ else
     $username = $pguser;
 }
 
-$out_title = _("My Projects");
-$in_title = sprintf( _("Projects that user '%s' has worked on"), $username );
+if ( $username == $pguser )
+{
+    $out_title = _("My Projects");
+    $in_title = sprintf( _("%s, here's a list of the projects you've helped format and/or proof"), $username );
+}
+else
+{
+    $out_title = $in_title = sprintf( _("Projects that '%s' has worked on"), $username );
+}
 
 $no_stats = 1;
 theme( $out_title, 'header' );
