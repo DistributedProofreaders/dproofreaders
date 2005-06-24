@@ -20,12 +20,13 @@ else
     $username = $pguser;
 }
 
-$title = sprintf( _("Projects that user '%s' has worked on"), $username );
+$out_title = _("My Projects");
+$in_title = sprintf( _("Projects that user '%s' has worked on"), $username );
 
 $no_stats = 1;
-theme( $title, 'header' );
+theme( $out_title, 'header' );
 
-echo "<h1>$title</h1>";
+echo "<h1>$in_title</h1>";
 
 // ---------------
 
