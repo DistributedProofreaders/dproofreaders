@@ -9,7 +9,7 @@ include_once($relPath.'project_trans.inc');
 // Verify that it's the pp-er trying to perform this action.
 
 $project = new Project($projectid);
-if (! $project->PPer_is_current_user) {
+if (! $project->PPer_is_current_user || $project->state != PROJ_POST_FIRST_CHECKED_OUT ) {
   echo _("The project is not checked out to you.");
   exit;
 }
