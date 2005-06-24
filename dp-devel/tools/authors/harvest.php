@@ -26,7 +26,7 @@
   // and be empty (because if they're not, the harvest is likely done in error)
 
   if (!table_exists('authors') || !table_exists('biographies')) {
-    echo 'The tables have not been created! Please create them by running <a href="install_db.php">install_db.php</a>.';
+    echo 'The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.';
     theme('', 'footer');
     exit;
   }
