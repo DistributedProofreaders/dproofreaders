@@ -37,8 +37,17 @@ class Project
                 || user_is_proj_facilitator() );
 
             $this->PPer_is_current_user =
-                $this->state == 'proj_post_first_checked_out'
-                && $this->checkedoutby == $pguser;
+                $this->postproofer == $pguser
+                ||
+                (
+                    $this->checkedoutby == $pguser
+                    &&
+                    (
+                        $this->state != 'proj_post_second_checked_out'
+                        &&
+                        $this->state != 'proj_correct_checked_out'
+                    )
+                );
 
             $this->PPVer_is_current_user =
                 ( $this->state == 'proj_post_first_checked_out'
