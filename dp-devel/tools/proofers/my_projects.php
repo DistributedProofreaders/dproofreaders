@@ -33,7 +33,7 @@ else
 $no_stats = 1;
 theme( $out_title, 'header' );
 
-echo "<h1>$in_title</h1>";
+echo "<h2>$in_title</h2>";
 
 // ---------------
 
