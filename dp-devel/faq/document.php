@@ -2509,7 +2509,7 @@ cedilla                      [,x]   [x,]
 <p>Treat each new section in an index (A, B, C...) the same as a <a href="#sect_head">section header</a> by placing 2
    blank lines before it.
 </p>
-<p>Old books sometimes printed the first word of each letter in the index in all caps;
+<p>Old books sometimes printed the first word of each letter in the index in all caps or small caps;
    change this to match the style used for the rest of the index entries.
 </p>
 <!-- END RR -->
