@@ -27,8 +27,8 @@ theme('Formatting Guidelines','header');
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.7, generated August 31, 2004 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
+<h3 align="center">Version 1.8, generated June 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
 <h4>Formatting Guidelines <a href="guidelines_francaises.html">in French</a> /
     Directives de Formatage <a href="guidelines_francaises.html">en fran&ccedil;ais</a></h4>
@@ -317,7 +317,7 @@ theme('Formatting Guidelines','header');
       <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
          &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
       <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY.</tt></p>
+         DODD, MEAD AND COMPANY</tt></p>
       <p><tt>1917</tt></p>
 </td></tr></table>
       </td>
