@@ -446,9 +446,12 @@ function project_pre_release_check( $project, $round )
 			$errors .= "  $filename: "._("image file is small and probably bad")."\n";
 		}
 
+		/*
+		An empty page-text is no longer an indication that something went wrong.
 		if ($page['input_text_length'] == 0) {
 			$errors .= "  $filename: "._("text is empty")."\n";
 		}
+		*/
 	}
 
 	return $errors;
