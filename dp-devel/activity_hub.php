@@ -19,10 +19,11 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 
+$_Activity_Hub = _("Activity Hub");
 
-theme(_("Activity Hub"), "header");
+theme($_Activity_Hub, "header");
 
-echo "<center><img src='$code_url/graphics/Activity_Hub.jpg' width='350' height='60' border='0' title='Activity Hub' alt='Activity Hub'></center>\n";
+echo "<center><img src='$code_url/graphics/Activity_Hub.jpg' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
 
 echo "<p>\n";
 echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production.");
