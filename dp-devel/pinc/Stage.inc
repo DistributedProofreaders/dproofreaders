@@ -12,6 +12,7 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc');
 include_once($relPath.'misc.inc'); // startswith
+include_once($relPath.'page_header.inc');
 
 $Stage_for_id_ = array();
 
@@ -246,7 +247,7 @@ class Stage
 
     function page_top( $uao )
     {
-        echo "<h1 align='center'>{$this->id}: {$this->name}</h1>\n";
+        page_header( $this->id, "{$this->id}: {$this->name}" );
 
         if ( !$uao->can_access )
         {
