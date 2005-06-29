@@ -110,7 +110,9 @@ else
 	$name = $_GET['name'];
 
 	$qd = mysql_fetch_assoc( mysql_query("
-		SELECT * FROM queue_defns WHERE name='$name'
+		SELECT *
+		FROM queue_defns
+		WHERE round_number=$round_num AND name='$name'
 	"));
 	$project_selector = $qd['project_selector'];
 	$comment = $qd['comment'];
