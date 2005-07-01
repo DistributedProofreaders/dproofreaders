@@ -58,8 +58,22 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
                 $header_title = sprintf( _('News for %s'), $news_type );
                 echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
                 echo "<b>";
-                echo "<font size=4>";
-                echo $header_title."</font><br>"._("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
+
+                // Show header-title as an image, if available.
+                global $dyn_dir, $dyn_url;
+                $header_image_file = "$dyn_dir/news_header_images/$news_page_id.jpg";
+                $header_image_url  = "$dyn_url/news_header_images/$news_page_id.jpg";
+                if ( file_exists($header_image_file) )
+                {
+                    echo "<img src='$header_image_url' title='$header_title' alt='$header_title'>";
+                }
+                else
+                {
+                    echo "<font size=4>$header_title</font>";
+                }
+
+                echo "<br>";
+                echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
                 echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("Recent News Items")."</a>)";
 
                 // this commented out until fuller rollout
