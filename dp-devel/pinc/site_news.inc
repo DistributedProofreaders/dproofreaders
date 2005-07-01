@@ -51,8 +51,6 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
         if ($result AND  mysql_num_rows ($result) > 0) {
 
             echo "<center>";
- 
-            $news_item = mysql_fetch_assoc($result);
 
             if ($show_header) {
                 $header_title = sprintf( _('News for %s'), $news_type );
@@ -85,8 +83,9 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
             }
 
             echo "<br><font size='2' face='";
-
             echo $theme['font_mainbody'] . "'>";
+
+            $news_item = mysql_fetch_assoc($result);
             echo $news_item['content'];
             while  ($news_item = mysql_fetch_assoc($result)) {
                 echo "<br><br>".$news_item['content'];
