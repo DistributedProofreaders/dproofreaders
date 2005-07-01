@@ -49,12 +49,15 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 
         // we have some news items to display 
         if ($result AND  mysql_num_rows ($result) > 0) {
+
+            echo "<center>";
  
             $news_item = mysql_fetch_assoc($result);
 
             if ($show_header) {
                 $header_title = sprintf( _('News for %s'), $news_type );
-                echo "<font size='2' face='" . $theme['font_mainbody'] . "'><center><font size=4><b>";
+                echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
+                echo "<font size=4><b>";
                 echo $header_title."</font><br>"._("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
                 echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("Recent News Items")."</a>)";
 
@@ -64,8 +67,6 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
                 // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
 
                 echo "</b></font><br>";
-            } else {
-                echo "<center>";
             }
 
             echo "<br><font size='2' face='";
@@ -75,7 +76,9 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
             while  ($news_item = mysql_fetch_assoc($result)) {
                 echo "<br><br>".$news_item['content'];
             }
-            echo "</center></font>\n";
+            echo "</font>";
+
+            echo "</center>\n";
         }
 
         // give site admin and news editors a link to add/edit/show/hide/delete and otherwise manage news items for this page
