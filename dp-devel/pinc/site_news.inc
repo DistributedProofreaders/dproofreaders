@@ -57,7 +57,8 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
             if ($show_header) {
                 $header_title = sprintf( _('News for %s'), $news_type );
                 echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
-                echo "<font size=4><b>";
+                echo "<b>";
+                echo "<font size=4>";
                 echo $header_title."</font><br>"._("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
                 echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("Recent News Items")."</a>)";
 
