@@ -144,8 +144,10 @@ PG's guidelines on HTML can be found here: http://gutenberg.net/faq/H-4
 
 <h2><a name="track">Tracking PP Progress</a></h2>
 
+<p>For each PP project you PPV, submit a PPV report card. You'll find a link to the PPV report card at the top of the PPV page.</p>
+<p>Reports are submitted automatically to the PPV mailing list.</p>
 <p>
-After a PPer has completed at least 8 projects, if their work is of consistent high quality it may be time to allow them to submit directly to PG and to become PPVers themselves. If you have worked with the same PPer through several projects and feel they are ready to be "promoted", send an email to <a href="mailto:<? echo $general_help_email_addr; ?>">DP Help</a> to this effect.
+After a PPer has completed at least 8 projects, if their work is of consistent high quality it may be time to allow them to submit directly to PG and to become PPVers themselves. If you have worked with the same PPer through several projects and feel they are ready to be "promoted", send an email to the PPV mailing list with a recommendation that they be promoted.
 </p>
 
 </div>
