@@ -55,6 +55,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             <td><input type='text' name='author'></td>
         </tr>
         <tr>
+            <td>"._("Genre")."</td>
+            <td><input type='text' name='genre'></td>
+        </tr>
+        <tr>
             <td>"._("Language")."</td>
             <td>
             <select name='language'>
@@ -151,6 +155,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         if ( $_GET['author'] != '' )
         {
             $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
+        }
+        if ( $_GET['genre'] != '' )
+        {
+            $condition .= " AND genre LIKE '%{$_GET['genre']}%'";
         }
         if ( $_GET['language'] != '' )
         {
