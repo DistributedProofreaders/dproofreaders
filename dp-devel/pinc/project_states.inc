@@ -393,7 +393,7 @@ function get_project_status_descriptor( $which )
     {
         case 'created':
             $obj->state_selector = "(
-                state NOT LIKE 'project_new%' AND state != 'project_delete'
+                state NOT LIKE 'project_new%'
             )";
             $obj->color = 'green';
 	    $obj->Xed_title = _('Created');
@@ -447,6 +447,7 @@ function get_project_status_descriptor( $which )
         default:
             die("bad value for 'which': '$which'");
     }
+    $obj->state_selector .= " AND state != 'project_delete'";
     return $obj;
 }
 
