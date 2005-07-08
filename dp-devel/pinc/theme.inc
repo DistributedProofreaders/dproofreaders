@@ -36,9 +36,10 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 		$userP = "";
 	}
 
-	//if (isset($userP['last_login']) && $userP['last_login'] <= (time() - 1440)) {
-	//	$result = mysql_query("UPDATE users SET last_login = ".time()." WHERE u_id = ".$userP['u_id']."");
-	//}
+	if (isset($userP['u_id'])) {
+		$result = mysql_query("UPDATE phpbb_users SET user_lastvisit = ".time()."
+        WHERE username = '$GLOBALS[pguser]'");
+	}
 
 	if (!isset($GLOBALS['no_stats'])) {
 		if ($statsbar_align == 1) {
@@ -283,6 +284,12 @@ function html_statsbar($nameofpage) {
 
 	if (empty($tally_name))
 	{
+	    if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
+	    {
+            echo "<br />\n";
+            show_dp_birthdays();
+
+        }
 		echo "<br>\n";
 		show_completed_projects();
 	}
@@ -360,7 +367,7 @@ function show_quick_links()
 
 	if (is_null($pguser)) return;
 	// Should show links to stages that are accessible to people
-	// that aren't logged in? (i.e., SR)? 
+	// that aren't logged in? (i.e., SR)?
 
 	$links = array();
 
@@ -575,6 +582,37 @@ function show_user_teams()
 	echo "</center>";
 	echo "\n";
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_dp_birthdays()
+{
+    global $theme;
+
+    $result = mysql_query("
+        SELECT username,value
+        FROM usersettings
+        WHERE setting ='birthday_today'
+        ORDER BY value DESC
+        LIMIT 30"); // Because of the last_seen check when updating the birthdays, 
+                    //it's unlikely this limit will be reached. But Just In Case...
+
+    if (mysql_num_rows($result) == 0)
+       return;
+
+    echo "<center><b>" . _("Today's DP Birthdays:") . "</b></center>\n";
+
+    echo "<div style='text-align: center; font-family: $theme[font_navbar];
+          color: $theme[color_navbar_font];'>";
+
+    while ( list($username,$years) = mysql_fetch_row($result) )
+    {
+        echo "<font size='2'>$username ($years)</font><br />";
+    }
+
+    echo "</div><br><hr width='75%' align='center'>\n";
+}
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
