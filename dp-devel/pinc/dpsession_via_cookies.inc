@@ -11,7 +11,7 @@ define( 'COOKIE_DOMAIN', substr_count($server_name, ".") > 0 ?  $server_name : "
 
 // 'user' cookie and 'prefs' cookie...
 
-function dpsession_begin( $userID )
+function dpsession_begin_( $userID )
 {
 	global $pguser;
 
@@ -22,7 +22,7 @@ function dpsession_begin( $userID )
 	dpsession_set_preferences_from_db();
 }
 
-function dpsession_resume()
+function dpsession_resume_()
 {
 	global $pguser, $userP;
 

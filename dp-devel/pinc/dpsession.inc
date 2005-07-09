@@ -47,5 +47,18 @@ else
     include_once( $relPath.'dpsession_via_cookies.inc' );
 }
 
+// -----------------------------------------------------------------------------
+
+function dpsession_begin( $userID )
+{
+    dpsession_begin_( $userID );
+}
+
+function dpsession_resume()
+{
+    $user_is_logged_in = dpsession_resume_();
+    return $user_is_logged_in;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
