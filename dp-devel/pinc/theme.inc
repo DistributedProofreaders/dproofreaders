@@ -36,11 +36,6 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 		$userP = "";
 	}
 
-	if (isset($userP['u_id'])) {
-		$result = mysql_query("UPDATE phpbb_users SET user_lastvisit = ".time()."
-        WHERE username = '$GLOBALS[pguser]'");
-	}
-
 	if (!isset($GLOBALS['no_stats'])) {
 		if ($statsbar_align == 1) {
 			if ($location == "header") {
