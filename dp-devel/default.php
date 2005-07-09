@@ -28,7 +28,7 @@ $totalusers = mysql_result($users,0,"numusers");
 
 //get total users active in the last 24 hours
 $begin_time = time() - (60 * 60 * 24);
-$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE last_login > $begin_time");
+$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE t_last_activity > $begin_time");
 $activeusers = mysql_result($users,0,"numusers");
 ?>
 
