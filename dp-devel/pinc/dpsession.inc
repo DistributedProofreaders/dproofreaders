@@ -52,12 +52,28 @@ else
 function dpsession_begin( $userID )
 {
     dpsession_begin_( $userID );
+    _update_user_activity_time();
 }
 
 function dpsession_resume()
 {
     $user_is_logged_in = dpsession_resume_();
+    if ( $user_is_logged_in )
+    {
+        _update_user_activity_time();
+    }
     return $user_is_logged_in;
+}
+
+function _update_user_activity_time()
+{
+    global $pguser;
+
+    mysql_query("
+        UPDATE users
+        SET t_last_activity=UNIX_TIMESTAMP()
+        WHERE username='$pguser'
+    ") or die(mysql_error());
 }
 
 // vim: sw=4 ts=4 expandtab
