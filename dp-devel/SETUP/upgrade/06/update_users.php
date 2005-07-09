@@ -11,7 +11,8 @@ echo "Adding 't_last_activity' column...\n";
 
 mysql_query("
     ALTER TABLE users
-        ADD COLUMN t_last_activity INT UNSIGNED NOT NULL AFTER last_login
+        ADD COLUMN t_last_activity INT UNSIGNED NOT NULL AFTER last_login,
+        ADD INDEX (t_last_activity)
 ") or die(mysql_error());
 
 echo "Initializing it to the time of last login...\n";
