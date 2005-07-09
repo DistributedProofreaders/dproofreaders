@@ -15,7 +15,7 @@ $today = getdate($now);
 $months = 6;
 $max = $months * 30 * 24 * 60 * 60;
 $res = dpsql_query("
-    SELECT username,user_regdate FROM phpbb_users WHERE ($now - user_lastvisit) < $max
+    SELECT username,date_created FROM users WHERE ($now - t_last_activity) < $max
 ") or die("Aborting");
 
 echo "Evaluating ".mysql_num_rows($res)." users.\n\n";
