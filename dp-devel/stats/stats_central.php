@@ -39,7 +39,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
    //get total users active in the last 7 days
     $begin_time = time() - 604800; // in seconds
     $users = mysql_query("SELECT count(*) AS numusers FROM users
-                          WHERE last_login > $begin_time");
+                          WHERE t_last_activity > $begin_time");
     $totalusers = (mysql_result($users,0,"numusers"));
 
     $table->row(
