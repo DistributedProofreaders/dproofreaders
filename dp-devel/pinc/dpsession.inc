@@ -52,7 +52,7 @@ else
 function dpsession_begin( $userID )
 {
     dpsession_begin_( $userID );
-    _update_user_activity_time();
+    _update_user_activity_time( TRUE );
 }
 
 function dpsession_resume()
@@ -60,18 +60,24 @@ function dpsession_resume()
     $user_is_logged_in = dpsession_resume_();
     if ( $user_is_logged_in )
     {
-        _update_user_activity_time();
+        _update_user_activity_time( FALSE );
     }
     return $user_is_logged_in;
 }
 
-function _update_user_activity_time()
+function _update_user_activity_time( $update_login_time_too )
 {
     global $pguser;
 
+	$settings = "t_last_activity=UNIX_TIMESTAMP()";
+	if ( $update_login_time_too )
+	{
+		$settings = "$settings, last_login=UNIX_TIMESTAMP()";
+	}
+
     mysql_query("
         UPDATE users
-        SET t_last_activity=UNIX_TIMESTAMP()
+        SET $settings
         WHERE username='$pguser'
     ") or die(mysql_error());
 }

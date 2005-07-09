@@ -109,11 +109,6 @@ $u_row = mysql_fetch_assoc($u_res);
 //
 $userNM = $u_row['username'];
 
-// Update last_login timestamp.
-$now = time();
-$q = "UPDATE users SET last_login='$now' WHERE username='$userNM'";
-mysql_query($q) or die(mysql_error());
-
 // Start the DP session.
 dpsession_begin( $userNM );
 
