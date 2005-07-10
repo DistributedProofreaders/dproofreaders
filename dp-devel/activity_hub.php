@@ -55,7 +55,7 @@ if ($pagesproofed <= 300)
         echo "<br><br><font color='red' size=3><b>";
         echo _("You have received a private message in your Inbox!");
         echo "</b></font><br><br><font color='red'>";
-        echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you READ your messages. Near the upper right corner of this page, there is a link that says Inbox. Just click on that to open your Inbox.");
+        echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you READ your messages. In the links at the top of this page, there is one that says My Inbox. Just click on that to open your Inbox.");
         echo "</font><br><br><i><font size=-1>";
         echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there and when you have new messages that will be shown in the link)");
         echo "</font></i><br><br>\n";
