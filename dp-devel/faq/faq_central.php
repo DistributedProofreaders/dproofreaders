@@ -49,9 +49,9 @@ show_news_for_page("FAQ");
   <font size="-1">Try the proofreading and formatting quizzes and tutorials.
   They are a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.</font></p>
 
-  <p><a href="summary.pdf">Handy Proofreading Guide</a><br>
-  <font size="-1">A printable (.pdf) two-page summary of the most commonly needed
-  proofreading standards from the Proofreading Guidelines, done as one big example! </font></p>
+  <p><a href="proofing_summary.pdf">Proofreading</a> and <a href="formatting_summary.pdf">Formatting</a> Summaries</a><br>
+  <font size="-1">Printable (.pdf) two-page summaries of the most commonly needed
+  proofreading and formatting standards from the Proofreading and Formatting Guidelines, done as big examples! </font></p>
 
   <p><a href="proofreading_guidelines.php">Proofreading Guidelines</a><br>
   <font size="-1">The details of the guidelines we use for proofreading documents.</font></p>
