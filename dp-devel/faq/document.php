@@ -201,7 +201,7 @@ theme('Formatting Guidelines','header');
 </table>
 
 <h3><a name="summary">Summary Guidelines</a></h3>
-<p>The <a href="summary.pdf">Summary of Guidelines</a> is a short, 2-page
+<p>The <a href="formatting_summary.pdf">Formatting Summary</a> is a short, 2-page
    printer-friendly (.pdf) document that summarizes the main points of these
    Guidelines, and gives examples of how to proofread. Beginning Proofreaders are
    encouraged to print out this document and keep it handy while proofreading.
