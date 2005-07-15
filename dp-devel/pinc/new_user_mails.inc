@@ -81,7 +81,7 @@ questions, and it is worth browsing through early on, but
 don't feel you have to memorize everything in it immediately -
 it really comes into its own as a detailed reference whenever
 you are unsure of how to handle something. You may find that the
-shorter, printable Handy Guide <$code_url/faq/summary.pdf>
+shorter, printable Handy Guide <$code_url/faq/proofing_summary.pdf>
 offers a useful introduction to the most common of our standards,
 and it may be worth keeping a printed copy by the computer (or an
 online copy open in another window) as you proofread.
