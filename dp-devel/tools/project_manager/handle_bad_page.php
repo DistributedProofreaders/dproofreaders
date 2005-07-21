@@ -23,12 +23,18 @@ if (!isset($_POST['resolution'])) {
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
     $b_Code = mysql_result($result,0,"b_code");
+
+    $result = mysql_query("SELECT * FROM projects WHERE projectid='$projectid'");
+    $b_NameofWork = mysql_result($result,0,"nameofwork");
     
     $round = get_Round_for_page_state($state);
 
     //Display form
     $header = _("Bad Page Report");
     theme($header, "header");
+
+    echo "<br><h3>Project/Page: ".$b_NameofWork."&mdash;".$image."</h3>";
+    echo "<h3>State: ".$state."</h3>";
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -104,7 +110,7 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
         echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
-
+        echo _("Paste the replacement text for page ").$image._(" in the textarea below:<br>");
         echo "<textarea name='prev_text' cols=70 rows=10>";
         // SENDING PAGE-TEXT TO USER
         echo htmlspecialchars($prev_text,ENT_NOQUOTES);
@@ -115,7 +121,7 @@ if (!isset($_POST['resolution'])) {
         $prev_text = $_POST['prev_text'];
         $prevtext_column = $_POST['prevtext_column'];
         Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
-        echo "<b>Update of Text from Previous Round Complete!</b>";
+        echo "<b>"._("Update of Text from Previous Round Complete!")."</b>";
 
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
         echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
@@ -123,6 +129,7 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='fileid' value='$fileid'>";
         echo "<input type='hidden' name='image' value='$image'>";
+        echo _("Select an image to upload and replace ").$image._(" with:<br>");
         echo "<input type='file' name='image_upload' size=30><br><br>";
         echo "<input type='submit' value='Update Original Image'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
