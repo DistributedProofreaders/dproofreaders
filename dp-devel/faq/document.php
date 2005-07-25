@@ -8,6 +8,8 @@ include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
 theme('Formatting Guidelines','header');
+
+$utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
 <!-- NOTE TO MAINTAINERS AND DEVELOPERS:
@@ -1687,18 +1689,27 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </table>
 
 <h3><a name="double_q">Double Quotes</a></h3>
-<p>Proofread these as plain ASCII <tt>"</tt> double quotes.
+<p>For quotes in English language, proofread these as plain ASCII <tt>"</tt> double quotes.
 </p>
 <p>Do not change double quotes to single quotes. Leave them as the Author wrote them.
 </p>
-<p>For quotes from non-English languages, use the quotation marks appropriate
-   to that language if they are available in the Latin-1 character set.
+<p>For quotes from other languages, use the quotation marks appropriate
+   to that language if they are available.
 </p>
 <p>The French equivalent, guillemets, <tt>&laquo;like this&raquo;</tt>, are available
-   from the pulldown menus in the proofreading interface, since they are part of Latin-1.
+ from the pulldown menus in the proofreading interface. Remember to remove space between
+ the guillemets and the quoted text; if needed, it will be added in post-processing. Same
+ applies to languages which use reversed guillemets, <tt>&raquo;like this&laquo;</tt>.
 </p>
-<p>The quotation marks used in some German texts, <tt>&bdquo;like this&rdquo;</tt>
-   are not available in the pulldown menus, as they are not in Latin-1.
+<p>The quotation marks used in some texts (in German or other languages), <tt>&bdquo;like this&rdquo;</tt>
+<? if(!$utf8_site) { ?>
+are not available in the pulldown menus, as they are not in Latin-1. Use plain ASCII quotes, like in English.
+<? } else { ?>
+are also available in the pulldown menus; for the sake of simplicity, you should always
+ use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of actual quotes used in original
+ text, as long as the quotes used in original text are clearly lower and upper. If needed,
+the quotes will be changed to ones used in the text in post-processing.
+<? } ?>
 </p>
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
    to proofread non-English language quotation marks differently for a particular book.
@@ -1711,7 +1722,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </p>
 
 <h3><a name="quote_ea">Quote Marks on each line</a></h3>
-<p>Proofread quotation marks at the beginning of each line of a quotation by removing
+<p>In general, proofread quotation marks at the beginning of each line of a quotation by removing
    all of them <b>except for</b> the one at the start of the first line of the quotation.
 </p>
 <p>If the quotation goes on for multiple paragraphs, each paragraph should have an opening
@@ -1720,6 +1731,11 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 <p>Often there is no closing quotation mark until the very end of the quoted section of text,
    which may not be on the same page you are proofreading. Leave it that way&mdash;do not
    add closing quotation marks that are not in the page image.
+</p>
+<p>There are some language specific exceptions. In French, for example, dialog within quotations
+ uses a combination of different punctuation to indicate various speakers. If you are not familiar
+ with a particular language, check the Project Comments or leave a message for the Project Manager
+ in the Forum Discussion for clarification.
 </p>
 
 <h3><a name="period_s">Periods Between Sentences</a></h3>
@@ -1732,7 +1748,8 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 
 <h3><a name="punctuat">Punctuation</a></h3>
 <p>In general, there should be no space before punctuation characters except opening quotation
-   marks. If scanned text has a space before punctuation, remove it.
+ marks. If scanned text has a space before punctuation, remove it. This applies even to
+ languages, such as French, which normally use spaces before punctuation characters.
 </p>
 <p>Spaces before punctuation sometimes appear because books typeset in the 1700's &amp; 1800's
    often used partial spaces before punctuation such as a semicolon or comma. 
@@ -1882,10 +1899,15 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 </p>
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
+<? if(!$utf8_site) { ?>
 <p>Please proofread these using the proper accented Latin-1 characters. Only use characters which are not
    in Latin-1 when the Project Manager instructs otherwise in the <a href="#comments">Project Comments</a>.
+</p><? } else { ?>
+<p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
+ the Project Manager instructions in the <a href="#comments">Project Comments</a>.
 </p>
-<p>There are several ways of inputting these characters:</p>
+<? } ?>
+<p>If they are not on your keyboard, there are several ways of inputting these characters:</p>
 <ul compact>
   <li> The pull-down menus in the proofreading interface.</li>
   <li> Applets included with your operating system.
@@ -1913,10 +1935,14 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       </ul>
 </ul>
 <p>
-   Project Gutenberg will post as a minimum, 7-bit ASCII versions of texts, but versions
+   The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as a minimum, 7-bit ASCII versions of texts, but versions
    using other character encodings which can preserve more of the information from the
-   original text are accepted. Currently for Distributed Proofreaders this means
-   using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode.
+   original text are accepted. <a href="http://pge.rastko.net">Project Gutenberg
+    Europe</a> publishes UTF-8 as default encoding, but other appropriate encodings are also welcomed.
+</p>
+<p>Currently for <a href="http://www.pgdp.net/">Distributed Proofreaders</a> this means
+   using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode. 
+<p><a href="http://dp.rastko.net/">Distributed Proofreaders Europe</a> already uses Unicode.
 </p>
 <!-- END RR -->
 <a name="a_chars_win"></a>
@@ -1931,13 +1957,14 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
   </li>
   <li>Or you can type the Alt+NumberPad shortcut codes for these characters.
       <br>This is faster than using cut &amp; paste, once you get used to the codes.
-      <br>Hold the Alt key and type the four digits on the
-          <i>Number Pad</i>&mdash;the number row over the letters won't work.
+      <br>Press and hold the Alt key, type the four digits on the
+          <i>Number Pad</i> and release the Alt key; note: the number row
+           over the letters won't work.
       <br>You must type all 4 digits, including the leading 0 (zero).
           Note that the capital version of a letter is 32 less than the lower case.
-      <br>These instructions are for the US-English keyboard layout. It may not work for other keyboard layouts.
+      <br>Also note that with some system settings these codes may not be used.
       <br>The table below shows the codes we use.
-          (<a href="charwin.pdf">Print-friendly version of this table)</a>
+          (<a href="charwin.pdf">Print-friendly version of this table</a>)
       <br>Do not use other special characters unless the Project Manager tells you to in the <a href="#comments">Project Comments</a>.
   </li>
 </ul>
@@ -2011,7 +2038,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "[oe]"</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td><? if(!$utf8_site) { ?>Use "[oe]"<? } else {?>Alt-0339<? } ?></td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
@@ -2019,7 +2046,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "[OE]"</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td><? if(!$utf8_site) { ?>Use "[OE]"<? } else {?>Alt-0338<? } ?></td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
@@ -2210,7 +2237,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use "[oe]"</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td><? if(!$utf8_site) { ?>Use "[oe]"<? } else {?>Opt-q<? } ?></td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-~, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
@@ -2218,7 +2245,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use "[OE]"</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td><? if(!$utf8_site) { ?>Use "[OE]"<? } else {?>Opt-Q<? } ?></td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-~, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
@@ -2316,7 +2343,22 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
    the normal latin A..Z character. These are called <i>diacritical marks</i>, and
-   indicate a special pronunciation for this character.
+   indicate a special pronunciation for this character.<? if($utf8_site) { ?></p>
+<p>If such a character does not exist in Unicode, it should be entered by using
+   <i>combining diacritical marks</i>: these are Unicode symbols which can't
+   appear alone, but appear above (or below) the letter after which they are
+   placed. They could be entered by first entering the base letter, and then
+   the combining mark, using applets and programs mentioned <a
+   href="#a_chars">above</a>.
+</p>
+<p>On some systems, diacritical marks may not appear exactly where they should,
+   but, for example, moved to the right. They should still be used, as people
+   with other systems will see them correctly. However, if, for any reason, you
+   can't see or enter combining marks properly, mark such letter with an
+   <tt>*</tt>. Note that <i>Modifier diacritical marks</i> also exist; these
+   should not be used.
+</p>
+<? } else { ?>
    For proofreading, we indicate them in our normal ASCII text by using a
    specific coding: such as <tt>[)x]</tt> for a breve (u-shaped accent)
    above an x, or <tt>[x)]</tt> for a breve below.
@@ -2414,12 +2456,13 @@ cedilla                      [,x]   [x,]
       </tr>
   </tbody>
 </table>
+<? } ?>
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
 <p>There are projects which contain text printed in non-Latin characters; that is, characters
    other than the Latin A...Z characters, for example Greek, Cyrillic (used in 
    Russian, Slavic and other languages), Hebrew, or Arabic characters.
-</p><? if(strcasecmp($charset,"UTF-8")) { ?>
+</p><? if(!$utf8_site) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
    each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
    transliteration tool is provided in the proofing interface to make this task much easier.
