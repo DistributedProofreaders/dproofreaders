@@ -398,6 +398,8 @@ function lc_common(str)
       }
     }
   }
+  // Make the first letter uppercase.
+  str_array[0] = str_array[0].substr(0,1).toUpperCase() + str_array[0].substr(1,str_array[0].length);
   str = str_array.join(' ');
   return str;
 }
