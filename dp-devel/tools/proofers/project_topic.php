@@ -86,9 +86,10 @@ Please review the [url=$code_url/project.php?id=$project_id&detail_level=1]proje
 
         // if the PM wanted to be signed up for notifications, do so
 
-        $do_signup = mysql_query("INSERT INTO phpbb_topics_watch (user_id, topic_id, notify_status)
-                                VALUES (". $owner . ", $topic_id, 0)");
-
+        if ($sign_PM_up) {
+             $do_signup = mysql_query("INSERT INTO phpbb_topics_watch (user_id, topic_id, notify_status)
+                                     VALUES (". $owner . ", $topic_id, 0)");
+        }
 
 }
 
