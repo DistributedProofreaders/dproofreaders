@@ -1689,7 +1689,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </table>
 
 <h3><a name="double_q">Double Quotes</a></h3>
-<p>For quotes in English language, proofread these as plain ASCII <tt>"</tt> double quotes.
+<p>For quotes in English, proofread these as plain ASCII <tt>"</tt> double quotes.
 </p>
 <p>Do not change double quotes to single quotes. Leave them as the Author wrote them.
 </p>
@@ -1698,7 +1698,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </p>
 <p>The French equivalent, guillemets, <tt>&laquo;like this&raquo;</tt>, are available
  from the pulldown menus in the proofreading interface. Remember to remove space between
- the guillemets and the quoted text; if needed, it will be added in post-processing. Same
+ the guillemets and the quoted text; if needed, it will be added in post-processing. The same
  applies to languages which use reversed guillemets, <tt>&raquo;like this&laquo;</tt>.
 </p>
 <p>The quotation marks used in some texts (in German or other languages), <tt>&bdquo;like this&rdquo;</tt>
@@ -1706,8 +1706,8 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 are not available in the pulldown menus, as they are not in Latin-1. Use plain ASCII quotes, like in English.
 <? } else { ?>
 are also available in the pulldown menus; for the sake of simplicity, you should always
- use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of actual quotes used in original
- text, as long as the quotes used in original text are clearly lower and upper. If needed,
+ use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of the actual quotes used in the original
+ text, as long as the quotes used in the original text are clearly lower and upper. If needed,
 the quotes will be changed to ones used in the text in post-processing.
 <? } ?>
 </p>
@@ -1938,7 +1938,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
    The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as a minimum, 7-bit ASCII versions of texts, but versions
    using other character encodings which can preserve more of the information from the
    original text are accepted. <a href="http://pge.rastko.net">Project Gutenberg
-    Europe</a> publishes UTF-8 as default encoding, but other appropriate encodings are also welcomed.
+    Europe</a> publishes UTF-8 as its default encoding, but other appropriate encodings are also welcomed.
 </p>
 <p>Currently for <a href="http://www.pgdp.net/">Distributed Proofreaders</a> this means
    using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode. 
