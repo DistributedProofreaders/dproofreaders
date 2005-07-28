@@ -45,6 +45,10 @@ show_news_for_page("FAQ");
    <p><a href="ProoferFAQ.php">Beginning Proofreader's FAQ </a><br>
    <font size="-1">Introduction to the site, general overview, beginner's questions.</font></p>
 
+  <p><a href="longabsent.php">Transition to Four Rounds</a><br>
+  <font size="-1">An overview of the site's recent change from two to four rounds,
+  including the distinction between proofreading and formatting.</font></p>
+
   <p><a href="../quiz/start.php">Proofreading &amp; Formatting Quizzes &amp; Tutorials </a><br>
   <font size="-1">Try the proofreading and formatting quizzes and tutorials.
   They are a great walk through the basic Guidelines for beginners and an excellent refresher for old hands.</font></p>
