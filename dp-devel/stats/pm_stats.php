@@ -51,7 +51,6 @@ dpsql_dump_themed_ranked_query("
 	WHERE $psd->state_selector
 	GROUP BY username
 	ORDER BY 2 DESC
-	LIMIT 100
 ");
 
 echo "<br>\n";
@@ -60,4 +59,3 @@ echo "<br>\n";
 
 theme("","footer");
 ?>
-
