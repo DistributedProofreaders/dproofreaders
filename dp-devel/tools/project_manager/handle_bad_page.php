@@ -62,7 +62,7 @@ if (!isset($_POST['resolution'])) {
         echo "<td bgcolor='#ffffff' align='center'>";
         echo $reason_list[$b_Code]."</td></tr>";
     }
-    
+
     $prev_round_num = $round->round_number - 1;
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     echo "<strong>Originals:</strong></td>";
@@ -134,11 +134,22 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='file' name='image_upload' size=30><br><br>";
         echo "<input type='submit' value='Update Original Image'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
-        if (substr($_FILES['image_upload']['name'], -4) == ".png") {
-            copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
-            echo "<b>Update of Original Image Complete!</b>";
+
+        $org_image_ext = substr($image, -4);
+        $org_image_basename = basename($image, $org_image_ext);
+        $tmp_image_ext = substr($_FILES['image_upload']['name'], -4);
+
+        if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
+            if ( $tmp_image_ext == $org_image_ext ) {
+                copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
+                echo "<b>"._("Update of Original Image ").$image._(" Complete!")."</b>";
+            } else {
+                echo "<b>"._("Image NOT updated.<br>");
+                echo _("The uploaded file type ($tmp_image_ext) does not match the original file type ($org_image_ext).<br>");
+		echo _("Click ") . "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
+            }
         } else {
-            echo "<b>The uploaded file must be a PNG file! Click <a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>here</a> to return.</b>";
+            echo "<b>"._("The uploaded file must be a PNG or JPG file! Click")." <a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
         }
     }
 
