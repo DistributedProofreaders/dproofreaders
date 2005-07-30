@@ -368,9 +368,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 } else if ($outby != "") {
                     // Maybe we should get this info via a
                     // left outer join in the big select query.
-                    $tempsql = mysql_query("SELECT email FROM users WHERE username = '$outby'");
-                    $outbyemail = mysql_result($tempsql, 0, "email");
-                    print "<a href=mailto:$outbyemail>$outby</a>";
+                    $tempsql = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$outby'");
+                    $outby_user_id = mysql_result($tempsql, 0);
+                    $contact_url = "$forums_url/privmsg.php?mode=post&amp;u=$outby_user_id";
+                    print "<a href='$contact_url'>$outby</a>";
                 }
                 echo "</td>\n";
 
