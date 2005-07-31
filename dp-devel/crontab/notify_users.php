@@ -7,7 +7,7 @@ $db_Connection=new dbConnect();
 
     $old_date = time() - 13176000; // 30 days less than 1/2 a year.
 
-    $result = mysql_query ("SELECT * FROM `users` WHERE last_login < $old_date AND active ='yes'");
+    $result = mysql_query ("SELECT * FROM `users` WHERE t_last_activity < $old_date AND active ='yes'");
     $numrows = mysql_num_rows($result);
     $rownum = 0;
 
