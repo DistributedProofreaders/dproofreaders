@@ -40,9 +40,9 @@ elseif ( $order == 'modifieddate' )
 {
 	$orderclause = 'modifieddate ASC';
 }
-elseif ( $order == 'holder_last_login' )
+elseif ( $order == 'holder_t_last_activity' )
 {
-	$orderclause = 'holder_last_login ASC';
+	$orderclause = 'holder_t_last_activity ASC';
 }
 else
 {
@@ -68,7 +68,7 @@ if (isset($inPPV)) {
        'PPer'              => 'postproofer',
 	'Checked Out To'     => 'checkedoutby',
 	'Date Last Modified' => 'modifieddate',
-	'User Last Login'    => 'holder_last_login'
+	'User Last on Site'  => 'holder_t_last_activity'
    );
 
    $numcols = 6;
@@ -80,7 +80,7 @@ $colspecs = array(
 	'Name of Work'       => 'nameofwork',
 	'Checked Out To'     => 'checkedoutby',
 	'Date Last Modified' => 'modifieddate',
-	'User Last Login'    => 'holder_last_login'
+	'User Last on Site'  => 'holder_t_last_activity'
 );
 
    $numcols = 5;
@@ -117,7 +117,7 @@ $result = mysql_query("
              postproofer,
 		checkedoutby,
 		modifieddate,
-		users.last_login as holder_last_login
+		users.t_last_activity AS holder_t_last_activity
 	FROM projects
 		LEFT OUTER JOIN users
 		ON projects.checkedoutby = users.username
@@ -137,12 +137,12 @@ while ( $project = mysql_fetch_object( $result ) )
 	$year = $today['year'];
 	$datestamp = "$month $mday, $year";
 
-	//calc last login date for user
-	$today = getdate($project->holder_last_login);
+	//calc date of user's latest site-activity
+	$today = getdate($project->holder_t_last_activity);
 	$month = $today['month'];
 	$mday = $today['mday'];
 	$year = $today['year'];
-	$lastlogindate = "$month $mday, $year";
+	$holder_t_last_activity_date = "$month $mday, $year";
 
 	echo "
 		<tr bgcolor='".$theme['color_navbar_bg']."'>
@@ -157,7 +157,7 @@ while ( $project = mysql_fetch_object( $result ) )
       echo "       
 		<td>$project->checkedoutby</td>
 		<td>$datestamp</td>
-		<td>$lastlogindate</td>
+		<td>$holder_t_last_activity_date</td>
 		</tr>
 	";
 }
