@@ -274,6 +274,8 @@ class Loader
             }
         }
 
+        $this->n_ops += count($this->non_page_files);
+
         // ---------------------------------------------------------------------
 
         // We're down to just the page-related files ($loadable_files).
