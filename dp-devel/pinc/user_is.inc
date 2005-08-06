@@ -24,6 +24,12 @@ function user_is_a_sitemanager()
     return $userSettings->get_boolean("sitemanager");
 }
 
+function user_is_an_access_request_reviewer()
+{
+    $userSettings =& get_pguser_settings();
+    return $userSettings->get_boolean("access_request_reviewer");
+}
+
 function user_is_taskcenter_mgr()
 {
     $userSettings =& get_pguser_settings();
@@ -38,7 +44,7 @@ function user_is_proj_facilitator()
 
 function user_can_modify_access()
 {
-    if ( user_is_a_sitemanager() )
+    if ( user_is_a_sitemanager() || user_is_an_access_request_reviewer() )
     {
         $can_grant = TRUE; $can_revoke = TRUE;
     }
