@@ -439,7 +439,7 @@ function do_project_info_table()
     // private information, we restrict who can see it.
     if ( $project->PPVer_is_current_user || $project->can_be_managed_by_current_user )
     {
-        echo_row_a( _("Clearance Line"), htmlspecialchars($project->clearance,ENT_NOQUOTES) );
+        echo_row_a( _("Clearance Line"), $project->clearance, TRUE );
     }
 
     // -------------------------------------------------------------------------
@@ -720,8 +720,9 @@ function do_project_info_table()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_row_a( $left, $right )
+function echo_row_a( $left, $right, $escape_right=FALSE )
 {
+    if ($escape_right) $right = htmlspecialchars( $right, ENT_NOQUOTES );
     echo "<tr>";
     echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
     echo "<td colspan='4'>$right</td>";
