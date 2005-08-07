@@ -768,16 +768,14 @@ function create_credit_line()
 
     $credits = array();
 
+    $creditables = array(
+        'cp' => $project->scannercredit,
+        'pm' => $project->username,
+        'pp' => $project->postproofer,
+    );
 
-    // The code to check whether/how to credit is rather generic, so
-    // define two arrays and loop over them.
-    $roles = array('cp', 'pm', 'pp');
-    $usernames = array($project->scannercredit, $project->username, $project->postproofer);
-
-    $i = 0;
-    foreach ($roles as $role)
+    foreach ($creditables as $role => $username)
     {
-        $username = $usernames[$i++];
         if ($username != '' && !wants_anonymity($username, $role))
         {
             $credit = htmlspecialchars(get_credit_name($username));
