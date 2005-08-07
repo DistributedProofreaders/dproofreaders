@@ -468,7 +468,7 @@ function do_project_info_table()
     }
     if (isset($imp_display))
     {
-        echo_row_a( _("Image Provider"), $imp_display );
+        echo_row_a( _("Image Provider"), $imp_display, TRUE );
     }
 
     echo_row_a( _("Project Manager"), $project->username );
