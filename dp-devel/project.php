@@ -543,7 +543,7 @@ function do_project_info_table()
     {
         $creditline = $creditline." ".$image_credit;
     }
-    echo_row_a( _("Credits line so far"), $creditline );
+    echo_row_a( _("Credits line so far"), $creditline, TRUE );
 
     // -------------------------------------------------------------------------
     // Current activity
@@ -771,7 +771,7 @@ function create_credit_line()
     {
         if ($username != '' && !wants_anonymity($username, $role))
         {
-            $credit = htmlspecialchars(get_credit_name($username));
+            $credit = get_credit_name($username);
             if (!in_array($credit, $credits))
                 array_push($credits, $credit);
         }
