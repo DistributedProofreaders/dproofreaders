@@ -76,6 +76,8 @@ function saveProject() {
    //Otherwise set just the pri_language
    if (!empty($_POST['sec_language'])) { $language = $_POST['pri_language']." with ".$_POST['sec_language']; } else { $language = $_POST['pri_language']; }
 
+   $postednum = ($_POST['postednum'] == "") ? "NULL" : "'$_POST[postednum]'";
+
    //If we are just updated an already existing project
    if (isset($_POST['projectid'])) {
         //Update the projects database with the updated info
@@ -89,7 +91,7 @@ function saveProject() {
                 difficulty='{$_POST['difficulty_level']}',
                 comments='{$_POST['comments']}',
                 scannercredit='{$_POST['scannercredit']}',
-                postednum='{$_POST['postednum']}',
+                postednum=$postednum,
                 clearance='{$_POST['clearance']}',
                 special_code='$special_code',
                 image_provider = '$image_provider',
