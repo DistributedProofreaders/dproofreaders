@@ -720,19 +720,11 @@ function do_project_info_table()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_row_a( $left, $right, $darken_right_background=0 )
+function echo_row_a( $left, $right )
 {
-    if ($darken_right_background)
-    {
-        $right_bg = "bgcolor='CCCCCC'";
-    }
-    else
-    {
-        $right_bg = "";
-    }
     echo "<tr>";
     echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
-    echo "<td colspan='4' $right_bg>$right</td>";
+    echo "<td colspan='4'>$right</td>";
     echo "</tr>\n";
 }
 
