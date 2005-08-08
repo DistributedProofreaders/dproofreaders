@@ -445,30 +445,9 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // People who have certain roles with respect to the project
 
-    if (isset($project->image_provider))
+    if (isset($project->image_provider_name))
     {
-        $imp_code = $project->image_provider;
-        if (strcmp($imp_code,'DP User') != 0 )
-        {
-            if (strncmp($imp_code,'O:',2) == 0 )
-            {
-                $imp_display = substr($imp_code,2);
-            }
-            else
-            {
-                $imp_res = mysql_fetch_assoc(mysql_query("
-                    SELECT full_name, credit
-                    FROM image_providers
-                    WHERE image_provider = '$imp_code'
-                "));
-                $imp_display = $imp_res['full_name'];
-                $image_credit = $imp_res['credit'];
-            }
-        }
-    }
-    if (isset($imp_display))
-    {
-        echo_row_a( _("Image Provider"), $imp_display, TRUE );
+        echo_row_a( _("Image Provider"), $project->image_provider_name, TRUE );
     }
 
     echo_row_a( _("Project Manager"), $project->username );
@@ -538,12 +517,7 @@ function do_project_info_table()
         }
     }
 
-    $creditline = create_credit_line($project);
-    if (isset($image_credit))
-    {
-        $creditline = $creditline." ".$image_credit;
-    }
-    echo_row_a( _("Credits line so far"), $creditline, TRUE );
+    echo_row_a( _("Credits line so far"), $project->credits_line, TRUE );
 
     // -------------------------------------------------------------------------
     // Current activity
@@ -749,95 +723,6 @@ function echo_row_c( $content )
     echo $content;
     echo "</td>";
     echo "</tr>\n";
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function create_credit_line()
-// The string will not be localized, since it should be ready
-// to be included with the finished project.
-{
-    global $project, $site_url;
-
-    $credits = array();
-
-    $creditables = array(
-        'cp' => $project->scannercredit,
-        'pm' => $project->username,
-        'pp' => $project->postproofer,
-    );
-
-    foreach ($creditables as $role => $username)
-    {
-        if ($username != '' && !wants_anonymity($username, $role))
-        {
-            $credit = get_credit_name($username);
-            if (!in_array($credit, $credits))
-                array_push($credits, $credit);
-        }
-    }
-
-    if (count($credits) > 0)
-    {
-        $creditline = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url";
-    }
-    else
-    {
-        $creditline = "The Online Distributed Proofreading Team at $site_url";
-    }
-
-    return $creditline;
-}
-
-// -----------------------------------------------------------------------------
-
-// $activity should be one of 'cp', 'pm' and 'pp'.
-function wants_anonymity( $login_name, $activity )
-{
-    $settings =& Settings::get_Settings($login_name);
-    return $settings->get_boolean($activity . '_anonymous');
-}
-
-// -----------------------------------------------------------------------------
-
-// Returns the real name OR the username OR a user-specified 'other'.
-// (If the user hasn't specified anything in the preferences, the
-// real name will be returned.
-function get_credit_name( $login_name )
-{
-    if ($login_name == '')
-    {
-        return '(no name)';
-    }
-
-    $settings =& Settings::get_Settings($login_name);
-    $credit = $settings->get_value('credit_name', 'real_name');
-
-    if ($credit == 'username')
-    {
-        $name = $login_name;
-    }
-    else if ($credit == 'other')
-    {
-        $name = $settings->get_value('credit_other');
-    }
-    else // default: real_name
-    {
-        $res = mysql_query("
-            SELECT real_name
-            FROM users
-            WHERE username='$login_name'
-        ");
-        if (mysql_num_rows($res) > 0)
-        {
-            $name = mysql_result($res, 0);
-        }
-        else
-        {
-            $name = $login_name;
-        }
-    }
-    return $name;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

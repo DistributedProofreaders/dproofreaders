@@ -22,6 +22,40 @@ class Project
             $this->$key = $value;
         }
 
+        // -------------------------------------------------
+
+        // Maybe set $this->image_provider_name.
+        if (isset($this->image_provider))
+        {
+            $imp_code = $this->image_provider;
+            if ( strcmp($imp_code,'DP User') != 0 )
+            {
+                if ( strncmp($imp_code,'O:',2) == 0 )
+                {
+                    $this->image_provider_name = substr($imp_code,2);
+                }
+                else
+                {
+                    $imp_res = mysql_fetch_assoc(mysql_query("
+                        SELECT full_name, credit
+                        FROM image_providers
+                        WHERE image_provider = '$imp_code'
+                    "));
+                    $this->image_provider_name = $imp_res['full_name'];
+                    $image_provider_credit = $imp_res['credit'];
+                }
+            }
+        }
+
+        // Set $this->credits_line.
+        $this->credits_line = $this->_create_credit_line();
+        if (isset($image_provider_credit))
+        {
+            $this->credits_line = $this->credits_line." ".$image_provider_credit;
+        }
+
+        // -------------------------------------------------
+
         global $pguser;
         if (is_null($pguser))
         {
@@ -62,6 +96,98 @@ class Project
             // both the PPer and PPVer of the project.
         }
     }
+
+    // -------------------------------------------------------------------------
+
+    function _create_credit_line()
+    // The string will not be localized, since it should be ready
+    // to be included with the finished project.
+    {
+        global $site_url;
+
+        $credits = array();
+
+        $creditables = array(
+            'cp' => $this->scannercredit,
+            'pm' => $this->username,
+            'pp' => $this->postproofer,
+        );
+
+        foreach ($creditables as $role => $username)
+        {
+            if ($username != '' && !wants_anonymity($username, $role))
+            {
+                $credit = get_credit_name($username);
+                if (!in_array($credit, $credits))
+                    array_push($credits, $credit);
+            }
+        }
+
+        if (count($credits) > 0)
+        {
+            $credits_line = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url";
+        }
+        else
+        {
+            $credits_line = "The Online Distributed Proofreading Team at $site_url";
+        }
+
+        return $credits_line;
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// The following two functions don't particularly belong here, as they aren't
+// project-specific. However, nobody else uses them yet.
+
+// $activity should be one of 'cp', 'pm' and 'pp'.
+function wants_anonymity( $login_name, $activity )
+{
+    $settings =& Settings::get_Settings($login_name);
+    return $settings->get_boolean($activity . '_anonymous');
+}
+
+// -----------------------------------------------------------------------------
+
+// Returns the real name OR the username OR a user-specified 'other'.
+// (If the user hasn't specified anything in the preferences, the
+// real name will be returned.
+function get_credit_name( $login_name )
+{
+    if ($login_name == '')
+    {
+        return '(no name)';
+    }
+
+    $settings =& Settings::get_Settings($login_name);
+    $credit = $settings->get_value('credit_name', 'real_name');
+
+    if ($credit == 'username')
+    {
+        $name = $login_name;
+    }
+    else if ($credit == 'other')
+    {
+        $name = $settings->get_value('credit_other');
+    }
+    else // default: real_name
+    {
+        $res = mysql_query("
+            SELECT real_name
+            FROM users
+            WHERE username='$login_name'
+        ");
+        if (mysql_num_rows($res) > 0)
+        {
+            $name = mysql_result($res, 0);
+        }
+        else
+        {
+            $name = $login_name;
+        }
+    }
+    return $name;
 }
 
 // vim: sw=4 ts=4 expandtab
