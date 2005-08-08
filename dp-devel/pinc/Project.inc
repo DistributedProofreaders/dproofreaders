@@ -113,11 +113,43 @@ class Project
             'pp' => $this->postproofer,
         );
 
-        foreach ($creditables as $role => $username)
+        foreach ($creditables as $role => $name)
         {
-            if ($username != '' && !wants_anonymity($username, $role))
+            if ( $name == '' ) continue;
+    
+            $credit = NULL;
+    
+            // Unlike $project->username and $project->postproofer,
+            // $project->scannercredit isn't necessarily a username;
+            // it might just be a typed-in string.
+            if ($role == 'cp')
             {
-                $credit = get_credit_name($username);
+                $res = mysql_query("
+                    SELECT username
+                    FROM users
+                    WHERE username='$name'
+                ");
+                if (!$res)
+                {
+                    // $name is not a username.
+                    // So use it as the credit.
+                    $credit = $name;
+                }
+            }
+    
+            if ( is_null($credit) )
+            {
+                // $name is a username.
+                $username = $name;
+    
+                if (!wants_anonymity($username, $role))
+                {
+                    $credit = get_credit_name($username);
+                }
+            }
+    
+            if ( !is_null($credit) )
+            {
                 if (!in_array($credit, $credits))
                     array_push($credits, $credit);
             }
