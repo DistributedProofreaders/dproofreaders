@@ -40,6 +40,25 @@ function end_timer()
 
 // ------------------------
 
+if (1)
+{
+	// Get image_provider_name and credits_line for all projects.
+	include_once($relPath.'Project.inc');
+
+	$res = mysql_query("
+		SELECT projectid
+		FROM projects
+		ORDER BY projectid
+	");
+	while ( list($projectid) = mysql_fetch_row($res) )
+	{
+		$project = new Project( $projectid );
+		if (!isset($project->image_provider_name)) $project->image_provider_name = '[UNSET]';
+		echo "$projectid; $project->image_provider_name; $project->credits_line\n";
+	}
+}
+
+
 if (0)
 {
 	include_once($relPath.'v_site.inc');
