@@ -3,11 +3,13 @@ $relPath = '../../../pinc/';
 include_once($relPath.'connect.inc');
 new dbConnect();
 
+header('Content-type: text/plain');
+
+echo "Simplifying release_criterion values to only deal with one round...\n";
+
 // Convert expressions in queue_defns.release_criterion column:
 // get rid of 'projects2' and 'pages2',
 // replace 'projects1' and 'pages1' with just 'projects' and 'pages'.
-
-echo "<pre>\n";
 
 $res = mysql_query("
 	SELECT name, release_criterion
@@ -46,7 +48,7 @@ echo "$n_rc_updated release_criterion values updated\n";
 
 // -------------------------------------------------------------------
 
-// Add queue_defns.round_number column
+echo "Adding queue_defns.round_number column...\n";
 
 mysql_query("
 	ALTER TABLE queue_defns
@@ -60,5 +62,4 @@ mysql_query("
 // -------------------------------------------------------------------
 
 echo "done.\n";
-echo "</pre>\n";
 ?>
