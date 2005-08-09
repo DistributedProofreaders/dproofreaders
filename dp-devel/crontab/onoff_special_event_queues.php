@@ -40,75 +40,12 @@ $tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+1,date("Y")));
 if (date('H') == "23") {
   if ((int)date('i') > 29) {
      $today = $tomorrow;
-     $tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+2,date("Y")));
   }
 }
 
 
 
 
-
-$Qdefn = 'special_code = "Birthday '.$today.'"';
-$update_query =
-	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 250";
-
-
-if ($testing_this_script)
-    {
-        echo $update_query, $EOL;
-    }
-else
-    {
-        echo $update_query, $EOL;
-        mysql_query($update_query) or die(mysql_error());
-    }
-
-$Qdefn = 'special_code = "Birthday '.$tomorrow.'"';
-$update_query =
-	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 251";
-
-
-if ($testing_this_script)
-    {
-        echo $update_query, $EOL;
-    }
-else
-    {
-        echo $update_query, $EOL;
-        mysql_query($update_query) or die(mysql_error());
-    }
-
-
-
-$Qdefn = 'special_code = "Otherday '.$today.'"';
-$update_query =
-	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 255";
-
-
-if ($testing_this_script)
-    {
-        echo $update_query, $EOL;
-    }
-else
-    {
-        echo $update_query, $EOL;
-        mysql_query($update_query) or die(mysql_error());
-    }
-
-$Qdefn = 'special_code = "Otherday '.$tomorrow.'"';
-$update_query =
-	"UPDATE queue_defns SET project_selector = '$Qdefn' WHERE ORDERING = 256";
-
-
-if ($testing_this_script)
-    {
-        echo $update_query, $EOL;
-    }
-else
-    {
-        echo $update_query, $EOL;
-        mysql_query($update_query) or die(mysql_error());
-    }
 
 
 // any SPECIAL queues to open today?
