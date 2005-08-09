@@ -2,20 +2,13 @@
 
 // The 'queue_defns' table defines the various release queues that the autorelease code
 // polls every hour in case any can release a new book for proofing.
-// Most queue definitions are static, but there are a few that have a time component in them,
-// specifically those that release a book on the author's birthday or "otherday" (some other
-// non-birthday of significance to the book or the author, such as day of their death, or
-// birthday of a biography's subject (as opposed to that of biographer).
-// The definitions of these queues should be updated once a day, preferably
-// near midnight.
-//
-// This script updates the 'queue_defns' table's definitions for the birthday and otherday
-// queues for the next two days. (The future days are view-only, helpful for management, but do 
-// not release books)
 
 // SPECIAL DAY queues are those that open on specific days only. They are defined in the 
-// 'special_days' table. This script also opens and closes these queues based upon the dates
+// 'special_days' table. This script opens and closes these queues based upon the dates
 // stored in those tables.
+
+// (Originally, this script updated the project_selectors for Birthday/Otherday
+// queues, hence the [now misleading] name of the script.)
 
 $relPath='../pinc/';
 include($relPath.'connect.inc');
@@ -35,7 +28,7 @@ $tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+1,date("Y")));
 
 
 // if run in last half hour of day, use tomorrow's dates  -
-// this allows the queue to be redefined in time for the birthday books to come out
+// this allows the queue to be redefined in time for the special books to come out
 // at midnight or soon after
 if (date('H') == "23") {
   if ((int)date('i') > 29) {
