@@ -41,8 +41,8 @@ if (date('H') == "23") {
 
 
 
-$check_month = substr($today, 0, 2);
-$check_day = substr($today,2);
+$today_month = substr($today, 0, 2);
+$today_day = substr($today,2);
 
 foreach ( array('open', 'close') as $which )
 {
@@ -64,29 +64,29 @@ foreach ( array('open', 'close') as $which )
             assert( 0 );
     }
 
-    $specials_query = "SELECT spec_code FROM special_days WHERE $month_column_name = $check_month and $day_column_name = $check_day and enable = 1";
+    $specials_query = "
+        SELECT spec_code
+        FROM special_days
+        WHERE $month_column_name = $today_month AND $day_column_name = $today_day
+            AND enable = 1
+    ";
     echo $specials_query, $EOL;
-    $res = mysql_query($specials_query) or die(mysql_error());
-    $numrows = mysql_num_rows($res);
-    $rownum = 0;
-    while ($rownum < $numrows) 
-    {
-        $row=mysql_fetch_assoc($res);
-        $selector = "%special_code = '".$row['spec_code']."'%";
-        $update_query =
-            "UPDATE queue_defns SET enabled = $value_for_enable WHERE  project_selector like \"$selector\"";
 
-        if ($testing_this_script)
-        {
-            echo $update_query, $EOL;
-        }
-        else
+    $res = mysql_query($specials_query) or die(mysql_error());
+    while ( list($spec_code) = mysql_fetch_row($res) )
+    {
+        $selector = "%special_code = '$spec_code'%";
+        $update_query = "
+            UPDATE queue_defns
+            SET enabled = $value_for_enable
+            WHERE project_selector LIKE \"$selector\"
+        ";
+        echo $update_query, $EOL;
+
+        if (!$testing_this_script)
         {    
-            echo $update_query, $EOL;
             mysql_query($update_query) or die(mysql_error());
         }
-
-        $rownum++;
     }
 }
 
