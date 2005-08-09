@@ -14,13 +14,9 @@ $relPath='../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
 
-$EOL = "\n<br>";
-$testing_this_script=$_GET['testing'];
+header('Content-type: text/plain');
 
-if ($testing_this_script)
-{
-    echo "<pre>", $EOL;
-}
+$testing_this_script=$_GET['testing'];
 
 
 $today = date('md');
@@ -70,7 +66,7 @@ foreach ( array('open', 'close') as $which )
         WHERE $month_column_name = $today_month AND $day_column_name = $today_day
             AND enable = 1
     ";
-    echo $specials_query, $EOL;
+    echo $specials_query, "\n";
 
     $res = mysql_query($specials_query) or die(mysql_error());
     while ( list($spec_code) = mysql_fetch_row($res) )
@@ -82,19 +78,13 @@ foreach ( array('open', 'close') as $which )
             SET enabled = $value_for_enable
             WHERE project_selector REGEXP '$selector_pattern'
         ";
-        echo $update_query, $EOL;
+        echo $update_query, "\n";
 
         if (!$testing_this_script)
         {    
             mysql_query($update_query) or die(mysql_error());
         }
     }
-}
-
-
-if ($testing_this_script)
-{
-    echo "</pre>", $EOL;
 }
 
 // vim: sw=4 ts=4 expandtab
