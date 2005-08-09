@@ -41,63 +41,53 @@ if (date('H') == "23") {
 
 
 
-// any SPECIAL queues to open today?
-
 $check_month = substr($today, 0, 2);
 $check_day = substr($today,2);
 
-$specials_query = "SELECT spec_code FROM special_days WHERE open_month = $check_month and open_day = $check_day and enable = 1";
-echo $specials_query, $EOL;
-$open_these = mysql_query($specials_query) or die(mysql_error());
-$numrows = mysql_num_rows($open_these);
-$rownum = 0;
-while ($rownum < $numrows) 
+foreach ( array('open', 'close') as $which )
 {
-	$to_open=mysql_fetch_assoc($open_these);
-	$selector = "%special_code = '".$to_open['spec_code']."'%";
-	$update_query =
-		"UPDATE queue_defns SET enabled = 1 WHERE  project_selector like \"$selector\"";
+    switch ( $which )
+    {
+        case 'open':
+            $month_column_name = 'open_month';
+            $day_column_name   = 'open_day';
+            $value_for_enable  = 1;
+            break;
 
-	if ($testing_this_script)
-	    {
-        	echo $update_query, $EOL;
-	    }
-	else
-	    {	
-        	echo $update_query, $EOL;
-	        mysql_query($update_query) or die(mysql_error());
-	    }
+        case 'close':
+            $month_column_name = 'close_month';
+            $day_column_name   = 'close_day';
+            $value_for_enable  = 0;
+            break;
 
-	$rownum++;
-}
+        default:
+            assert( 0 );
+    }
 
+    $specials_query = "SELECT spec_code FROM special_days WHERE $month_column_name = $check_month and $day_column_name = $check_day and enable = 1";
+    echo $specials_query, $EOL;
+    $res = mysql_query($specials_query) or die(mysql_error());
+    $numrows = mysql_num_rows($res);
+    $rownum = 0;
+    while ($rownum < $numrows) 
+    {
+        $row=mysql_fetch_assoc($res);
+        $selector = "%special_code = '".$row['spec_code']."'%";
+        $update_query =
+            "UPDATE queue_defns SET enabled = $value_for_enable WHERE  project_selector like \"$selector\"";
 
-// any SPECIAL queues to close today?
+        if ($testing_this_script)
+        {
+            echo $update_query, $EOL;
+        }
+        else
+        {    
+            echo $update_query, $EOL;
+            mysql_query($update_query) or die(mysql_error());
+        }
 
-$specials_query = "SELECT spec_code FROM special_days WHERE close_month = $check_month and close_day = $check_day and enable = 1";
-echo $specials_query, $EOL;
-$close_these = mysql_query($specials_query) or die(mysql_error());
-$numrows = mysql_num_rows($close_these);
-$rownum = 0;
-while ($rownum < $numrows) 
-{
-	$to_close=mysql_fetch_assoc($close_these);
-	$selector = "%special_code = '".$to_close['spec_code']."'%";
-	$update_query =
-		"UPDATE queue_defns SET enabled = 0 WHERE  project_selector like \"$selector\"";
-
-	if ($testing_this_script)
-	    {
-        	echo $update_query, $EOL;
-	    }
-	else
-	    {	
-        	echo $update_query, $EOL;
-	        mysql_query($update_query) or die(mysql_error());
-	    }
-
-	$rownum++;
-
+        $rownum++;
+    }
 }
 
 
@@ -106,4 +96,5 @@ if ($testing_this_script)
     echo "</pre>", $EOL;
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
