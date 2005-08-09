@@ -61,12 +61,12 @@ if (!isset($_GET['name']))
 		WHERE round_number=$round_num
 		ORDER BY ordering
 	") or die(mysql_error());
-	while ( $qd = mysql_fetch_assoc($q_res) )
+	while ( $qd = mysql_fetch_object($q_res) )
 	{
 		$c_res = mysql_query("
 			SELECT COUNT(*)
 			FROM projects
-			WHERE ({$qd['project_selector']})
+			WHERE ($qd->project_selector)
 				AND state='{$round->project_waiting_state}'
 		");
 		if ($c_res)
@@ -78,8 +78,8 @@ if (!isset($_GET['name']))
 			$current_length = '???';
 			$msg = sprintf(
 				_('Warning: there is a syntax error in the project selector for #%d "%s"'),
-				$qd['ordering'],
-				$qd['name']);
+				$qd->ordering,
+				$qd->name);
 			echo "$msg<br>";
 			// It's lazy to simply echo the warning message here,
 			// in the midst of generating a table.  Presumably the
@@ -88,17 +88,17 @@ if (!isset($_GET['name']))
 			// render it above the table, which is what we want.
 		}
 
-		$ename = urlencode( $qd['name'] );
+		$ename = urlencode( $qd->name );
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-		echo "<td>{$qd['ordering']}</td>\n";
-		echo "<td>{$qd['enabled']}</td>\n";
-		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>{$qd['name']}</a></td>\n";
+		echo "<td>$qd->ordering</td>\n";
+		echo "<td>$qd->enabled</td>\n";
+		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>$qd->name</a></td>\n";
 		echo "<td>$current_length</td>\n";
 		if ($user_is_a_sitemanager)
 		{
-			echo "<td>{$qd['project_selector']}</td>\n";
-			echo "<td>{$qd['release_criterion']}</td>\n";
-			echo "<td>{$qd['comment']}</td>\n";
+			echo "<td>$qd->project_selector</td>\n";
+			echo "<td>$qd->release_criterion</td>\n";
+			echo "<td>$qd->comment</td>\n";
 		}
 		echo "</tr>\n";
 	}
@@ -109,13 +109,13 @@ else
 	$no_stats=0; // Only suppress stats on this page, since it is very wide.
 	$name = $_GET['name'];
 
-	$qd = mysql_fetch_assoc( mysql_query("
+	$qd = mysql_fetch_object( mysql_query("
 		SELECT *
 		FROM queue_defns
 		WHERE round_number=$round_num AND name='$name'
 	"));
-	$project_selector = $qd['project_selector'];
-	$comment = $qd['comment'];
+	$project_selector = $qd->project_selector;
+	$comment = $qd->comment;
 
 	$title = "\"$name\" " . _("Release Queue");
 	$title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
