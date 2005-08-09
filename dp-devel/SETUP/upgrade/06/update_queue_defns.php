@@ -61,5 +61,27 @@ mysql_query("
 
 // -------------------------------------------------------------------
 
+echo "Converting Birthday/Otherday project_selectors to use an abstract date...\n";
+
+include_once($relPath.'release_queue.inc');
+
+mysql_query("
+	UPDATE queue_defns
+	SET project_selector=
+		REPLACE(
+			REPLACE(
+				project_selector,
+				'$today_MMDD',
+				'{today_MMDD}'
+			),
+			'$tomorrow_MMDD',
+			'{tomorrow_MMDD}'
+		)
+") or die(mysql_error());
+
+echo mysql_affected_rows(), " project_selectors changed.\n";
+
+// -------------------------------------------------------------------
+
 echo "done.\n";
 ?>
