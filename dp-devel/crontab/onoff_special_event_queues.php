@@ -75,11 +75,12 @@ foreach ( array('open', 'close') as $which )
     $res = mysql_query($specials_query) or die(mysql_error());
     while ( list($spec_code) = mysql_fetch_row($res) )
     {
-        $selector = "%special_code = '$spec_code'%";
+        $w = '[[:space:]]*';
+        $selector_pattern = "^{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']{$w}\$";
         $update_query = "
             UPDATE queue_defns
             SET enabled = $value_for_enable
-            WHERE project_selector LIKE \"$selector\"
+            WHERE project_selector REGEXP '$selector_pattern'
         ";
         echo $update_query, $EOL;
 
