@@ -7,6 +7,7 @@ include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'release_queue.inc');
 
 $user_is_a_sitemanager = user_is_a_sitemanager();
 
@@ -63,10 +64,11 @@ if (!isset($_GET['name']))
 	") or die(mysql_error());
 	while ( $qd = mysql_fetch_object($q_res) )
 	{
+		$cooked_project_selector = cook_project_selector($qd->project_selector);
 		$c_res = mysql_query("
 			SELECT COUNT(*)
 			FROM projects
-			WHERE ($qd->project_selector)
+			WHERE ($cooked_project_selector)
 				AND state='{$round->project_waiting_state}'
 		");
 		if ($c_res)
@@ -114,7 +116,7 @@ else
 		FROM queue_defns
 		WHERE round_number=$round_num AND name='$name'
 	"));
-	$project_selector = $qd->project_selector;
+	$cooked_project_selector = cook_project_selector($qd->project_selector);
 	$comment = $qd->comment;
 
 	$title = "\"$name\" " . _("Release Queue");
@@ -124,7 +126,11 @@ else
 
 	if ($user_is_a_sitemanager)
 		{
-			echo "<h4>project_selector: $project_selector</h4>\n\n";
+			echo "<h4>project_selector: $qd->project_selector</h4>\n\n";
+			if ( $cooked_project_selector != $qd->project_selector )
+			{
+				echo "($cooked_project_selector)\n\n";
+			}
 			echo "<h4>$comment</h4>\n";
 		}
 
@@ -146,7 +152,7 @@ else
 			username    as 'Project Manager',
 			FROM_UNIXTIME(modifieddate) as 'Date Last Modified'
 		FROM projects
-		WHERE ($project_selector)
+		WHERE ($cooked_project_selector)
 			AND state='{$round->project_waiting_state}'
 		ORDER BY modifieddate
 	");

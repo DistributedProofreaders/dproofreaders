@@ -3,6 +3,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'release_queue.inc');
 // include_once($relPath.'f_dpsql.inc');
 
 function autorelease()
@@ -198,6 +199,8 @@ function autorelease_for_round( $round )
         $project_selector  = $qd['project_selector'];
         $release_criterion = $qd['release_criterion'];
 
+        $cooked_project_selector = cook_project_selector($project_selector);
+
         // Release available projects of a given type (defined by $project_selector)
         // as long as the $release_criterion is true for projects of that type.
 
@@ -210,11 +213,11 @@ function autorelease_for_round( $round )
         echo "\n";
         echo "Considering $q_name projects...\n";
         echo "\n";
-        echo "    For projects matching: $project_selector\n";
+        echo "    For projects matching: $cooked_project_selector\n";
         echo "    release if: $release_criterion\n";
 
         // Does the $release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria( $round, $project_selector, $release_criterion ) )
+        if (! AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion ) )
         {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
@@ -226,7 +229,7 @@ function autorelease_for_round( $round )
         $waiting_res = mysql_query("
             SELECT *
             FROM projects
-            WHERE state = '{$round->project_waiting_state}' AND ($project_selector)
+            WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
             ORDER BY modifieddate ASC
         ");
 
@@ -324,7 +327,7 @@ function autorelease_for_round( $round )
             // in other categories.)
             AP_add_project( $round, $project['projectid'] );
 
-            if (! AP_evaluate_criteria( $round, $project_selector, $release_criterion ) )
+            if (! AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion ) )
             {
                 echo "    The release criterion now fails, so no further projects released in this category.\n";
                 break;
@@ -402,7 +405,7 @@ function AP_add_project( $round, $projectid )
     ") or die(mysql_error());
 }
 
-function AP_evaluate_criteria( $round, $project_selector, $release_criterion )
+function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion )
 {
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
@@ -411,7 +414,7 @@ function AP_evaluate_criteria( $round, $project_selector, $release_criterion )
             SUM(projects.state='{$round->project_available_state}') as projects,
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
-        WHERE $project_selector
+        WHERE $cooked_project_selector
     ") or die(mysql_error());
     $env = mysql_fetch_assoc($res);
     // print_r($env);
