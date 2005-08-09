@@ -59,7 +59,7 @@ echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
 echo "\n";
 echo "----------------------------------\n";
-echo "Chaging queue_defns to get special info from special_code field...\n";
+echo "Changing queue_defns.project_selector to look for special info in projects.special_code rather than projects.comments...\n";
 
 $res = mysql_query("
     SELECT ordering, project_selector
