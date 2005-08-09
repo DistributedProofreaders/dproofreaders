@@ -42,6 +42,10 @@ $today_day = substr($today,2);
 
 foreach ( array('open', 'close') as $which )
 {
+    echo "
+        Looking for queues to $which...
+    ";
+
     switch ( $which )
     {
         case 'open':
@@ -69,20 +73,34 @@ foreach ( array('open', 'close') as $which )
     echo $specials_query, "\n";
 
     $res = mysql_query($specials_query) or die(mysql_error());
+    $n = mysql_num_rows($res);
+    echo "
+        Found $n specials for which today is '$which' day.
+    ";
+
     while ( list($spec_code) = mysql_fetch_row($res) )
     {
+        echo "
+            Looking for queues that deal with special '$spec_code'...
+        ";
         $w = '[[:space:]]*';
         $selector_pattern = "^{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']{$w}\$";
         $update_query = "
             UPDATE queue_defns
             SET enabled = $value_for_enable
-            WHERE project_selector REGEXP '$selector_pattern'
+            WHERE project_selector REGEXP
+                '$selector_pattern'
         ";
         echo $update_query, "\n";
 
         if (!$testing_this_script)
         {    
             mysql_query($update_query) or die(mysql_error());
+
+            $n = mysql_affected_rows();
+            echo "
+                $n queues $which'd.
+            ";
         }
     }
 }
