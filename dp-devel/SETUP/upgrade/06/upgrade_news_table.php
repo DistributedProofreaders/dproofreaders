@@ -40,7 +40,7 @@ dpsql_query("
         date_posted  INT         NOT NULL default 0,
         news_page_id VARCHAR(8)           default NULL,
         status       VARCHAR(8)  NOT NULL default '',
-        ordering     TINYINT     NOT NULL default '0',
+        ordering     SMALLINT    NOT NULL default '0',
         content      TEXT        NOT NULL,
         PRIMARY KEY id (id)
     ) TYPE=MyISAM
