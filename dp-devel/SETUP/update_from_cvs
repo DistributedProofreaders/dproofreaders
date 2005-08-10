@@ -88,6 +88,7 @@ fi
 # Get snapshot of code from CVS repository on SourceForge.
 
 $script_dir/get_cvs_snapshot $TAG $GROUP $_CODE_DIR.new
+check "get_cvs_snapshot"
 
 # ------------------------------------------------------------------------------
 # Install site-specific info.
