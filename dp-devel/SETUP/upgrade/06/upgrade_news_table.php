@@ -37,7 +37,7 @@ echo "Creating the new 'news_items' table...\n";
 dpsql_query("
     CREATE TABLE news_items (
         id           INT         NOT NULL auto_increment,
-        date_posted  VARCHAR(10) NOT NULL default '',
+        date_posted  INT         NOT NULL default 0,
         news_page_id VARCHAR(8)           default NULL,
         status       VARCHAR(8)  NOT NULL default '',
         ordering     TINYINT     NOT NULL default '0',
