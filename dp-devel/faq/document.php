@@ -1225,7 +1225,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes.</td>
+        &mdash;if even all of these are simple tastes. What</td>
       <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
         even all of these are simple tastes. What</tt></td>
       <td>Em-dash</td>
