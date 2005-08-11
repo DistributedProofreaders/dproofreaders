@@ -3,8 +3,15 @@ $relPath='../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'theme.inc');
 
 if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("permission denied");
+
+$title = _('Pending Requests for Access');
+
+theme($title,'header');
+
+echo "<h1>$title</h1>\n";
 
 foreach ( $Stage_for_id_ as $stage )
 {
@@ -74,6 +81,10 @@ foreach ( $activity_ids as $activity_id )
 
     echo "</ul>";
 }
+
+echo '<br>';
+
+theme('','footer');
 
 // vim: sw=4 ts=4 expandtab
 ?>

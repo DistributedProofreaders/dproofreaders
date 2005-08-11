@@ -2,6 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'theme.inc');
 
 error_reporting(E_ALL);
 
@@ -21,7 +22,12 @@ if (empty($username))
 $work_round   = get_Round_for_round_id('P1');
 $review_round = get_Round_for_round_id('P2');
 
-echo "<h2>Reviewing $work_round->id work of $username</h2>\n";
+$title = sprintf( _('Reviewing %s work of %s'), $work_round->id, $username );
+
+$no_stats = 1;
+theme( $title, 'header' );
+
+echo "<h2>$title</h2>\n";
 
 $res1 = dpsql_query("
     SELECT COUNT(*), COUNT(DISTINCT projectid)
@@ -142,6 +148,10 @@ echo "<th align='center'>$total_n_w_diff</th>";
 echo "</tr>";
 
 echo "</table>";
+
+echo "<br>";
+
+theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab
 ?>
