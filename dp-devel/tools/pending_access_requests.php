@@ -55,31 +55,40 @@ foreach ( $activity_ids as $activity_id )
         ORDER BY username
     ") or die(mysql_error());
 
-    echo "<ul>";
-
     if ( mysql_num_rows($res) == 0 )
     {
         $word = _('none');
-        echo "<li>($word)</li>";
+        echo "($word)";
     }
     else
     {
-        while ( list($username,$u_id) = mysql_fetch_row($res) )
+        echo "<table border='1'>\n";
+
         {
-            echo "<li>";
-            echo "<a href='$code_url/tools/proofers/review_work.php?username=$username'>";
-            echo "[rw]";
-            echo "</a>";
-            echo " ";
-            echo "<a href='$code_url/stats/members/mdetail.php?id=$u_id'>";
-            echo $username;
-            echo "</a>";
-            echo "</li>";
+            echo "<tr>";
+            echo "<th>username (link to member stats)</th>";
+            echo "<th>link to review work</th>";
+            echo "</tr>";
             echo "\n";
         }
-    }
 
-    echo "</ul>";
+        while ( list($username,$u_id) = mysql_fetch_row($res) )
+        {
+            $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
+            $review_work_url  = "$code_url/tools/proofers/review_work.php?username=$username";
+
+            echo "<tr>";
+            echo   "<td align='center'>";
+            echo     "<a href='$member_stats_url'>$username</a>";
+            echo   "</td>";
+            echo   "<td align='center'>";
+            echo     "<a href='$review_work_url'>rw</a>";
+            echo   "</td>";
+            echo "</tr>";
+            echo "\n";
+        }
+        echo "</table>\n";
+    }
 }
 
 echo '<br>';
