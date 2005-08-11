@@ -39,6 +39,17 @@ while ( list($activity_id) = mysql_fetch_row($res) )
 
 // ----------------------------------
 
+mysql_query("
+    CREATE TEMPORARY TABLE access_log_summary
+    SELECT 
+        activity,
+        subject_username,
+        MAX( timestamp * (action='request'         ) ) AS t_latest_request,
+        MAX( timestamp * (action='deny_request_for') ) AS t_latest_deny
+    FROM access_log
+    GROUP BY activity, subject_username
+") or die(mysql_error());
+
 foreach ( $activity_ids as $activity_id )
 {
     echo "<h3>";
@@ -48,9 +59,18 @@ foreach ( $activity_ids as $activity_id )
     $access_name = "$activity_id.access";
 
     $res = mysql_query("
-        SELECT usersettings.username, users.u_id
+        SELECT
+            usersettings.username,
+            users.u_id,
+            access_log_summary.t_latest_request,
+            access_log_summary.t_latest_deny
         FROM usersettings
             LEFT OUTER JOIN users USING (username)
+            LEFT OUTER JOIN access_log_summary ON (
+                access_log_summary.subject_username = usersettings.username
+                AND
+                access_log_summary.activity = '$activity_id'
+            )
         WHERE setting = '$access_name' AND value='requested'
         ORDER BY username
     ") or die(mysql_error());
@@ -68,14 +88,22 @@ foreach ( $activity_ids as $activity_id )
             echo "<tr>";
             echo "<th>username (link to member stats)</th>";
             echo "<th>link to review work</th>";
+            echo "<th>this request</th>";
+            echo "<th>prev denial</th>";
             echo "</tr>";
             echo "\n";
         }
 
-        while ( list($username,$u_id) = mysql_fetch_row($res) )
+        while ( list($username, $u_id, $t_latest_request, $t_latest_deny) = mysql_fetch_row($res) )
         {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
             $review_work_url  = "$code_url/tools/proofers/review_work.php?username=$username";
+            $t_latest_request_f = strftime('%Y-%m-%d&nbsp;%T', $t_latest_request);
+            $t_latest_deny_f = (
+                $t_latest_deny == 0
+                ? ''
+                : strftime('%Y-%m-%d&nbsp;%T', $t_latest_deny)
+            );
 
             echo "<tr>";
             echo   "<td align='center'>";
@@ -83,6 +111,12 @@ foreach ( $activity_ids as $activity_id )
             echo   "</td>";
             echo   "<td align='center'>";
             echo     "<a href='$review_work_url'>rw</a>";
+            echo   "</td>";
+            echo   "<td align='center'>";
+            echo     $t_latest_request_f;
+            echo   "</td>";
+            echo   "<td align='center'>";
+            echo     $t_latest_deny_f;
             echo   "</td>";
             echo "</tr>";
             echo "\n";
