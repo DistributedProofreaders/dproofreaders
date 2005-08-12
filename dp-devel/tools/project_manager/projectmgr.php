@@ -140,13 +140,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     // Construct and submit the search query.
 
-    if ($_GET['show'] == "site" && $can_see_all) {
-        $condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
-    } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
-        $condition = " 1 ";
-    } elseif ($_GET['show'] == "all") {
-        $condition = "username = '$pguser'";
-    } elseif ($_GET['show'] == 'search') {
+    if ($_GET['show'] == 'search') {
         $condition = '1';
         if ( $_GET['title'] != '' )
         {
@@ -201,6 +195,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             }
             $condition .= ")";
         }
+    } elseif ($_GET['show'] == "site" && $can_see_all) {
+        $condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
+    } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
+        $condition = " 1 ";
+    } elseif ($_GET['show'] == "all") {
+        $condition = "username = '$pguser'";
     } else {
         $condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
     }
