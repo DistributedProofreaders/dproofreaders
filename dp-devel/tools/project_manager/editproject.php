@@ -128,26 +128,23 @@ function saveProject() {
         //Insert a new row into the projects table
         mysql_query("
             INSERT INTO projects
-                (nameofwork, authorsname, checkedoutby, language, genre, difficulty, username, comments, projectid, modifieddate, scannercredit, state, clearance, special_code, image_provider, up_projectid)
-            VALUES (
-                '{$_POST['nameofwork']}',
-                '{$_POST['authorsname']}',
-                '{$_POST['checkedoutby']}',
-                '$language',
-                '{$_POST['genre']}',
-                '{$_POST['difficulty_level']}',
-                '{$GLOBALS['pguser']}',
-                '{$_POST['comments']}',
-                '$projectid',
-                UNIX_TIMESTAMP(),
-                '{$_POST['scannercredit']}',
-                '".PROJ_NEW."',
-                '{$_POST['clearance']}',
-                '$special_code',
-                '$image_provider',
-                '{$_POST['up_projectid']}'
-
-            )
+            SET
+                nameofwork     = '{$_POST['nameofwork']}',
+                authorsname    = '{$_POST['authorsname']}',
+                checkedoutby   = '{$_POST['checkedoutby']}',
+                language       = '$language',
+                genre          = '{$_POST['genre']}',
+                difficulty     = '{$_POST['difficulty_level']}',
+                username       = '{$GLOBALS['pguser']}',
+                comments       = '{$_POST['comments']}',
+                projectid      = '$projectid',
+                modifieddate   = UNIX_TIMESTAMP(),
+                scannercredit  = '{$_POST['scannercredit']}',
+                state          = '".PROJ_NEW."',
+                clearance      = '{$_POST['clearance']}',
+                special_code   = '$special_code',
+                image_provider = '$image_provider',
+                up_projectid   = '{$_POST['up_projectid']}'
         ");
 
         project_allow_pages( $projectid );
@@ -160,12 +157,10 @@ function saveProject() {
         $original_marc = convert_standard_marc($rec);
         mysql_query("
             INSERT INTO marc_records
-                (projectid, original_marc, original_array)
-            VALUES (
-                '$projectid',
-                '".base64_encode(serialize($original_marc))."',
-                '".base64_encode(serialize($rec))."'
-            )
+            SET
+                projectid      = '$projectid',
+                original_marc  = '".base64_encode(serialize($original_marc))."',
+                original_array = '".base64_encode(serialize($rec))."'
         ");
 
         //Update the marc database with any changes we've received
@@ -610,4 +605,5 @@ else {
    theme("", "footer");
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
