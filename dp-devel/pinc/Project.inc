@@ -56,6 +56,13 @@ class Project
 
         // -------------------------------------------------
 
+        global $projects_url, $projects_dir;
+
+        $this->url = "$projects_url/$this->projectid";
+        $this->dir = "$projects_dir/$this->projectid";
+
+        // -------------------------------------------------
+
         global $pguser;
         if (is_null($pguser))
         {
