@@ -195,7 +195,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             }
             $condition .= ")";
         }
-    } elseif ($_GET['show'] == "site" && $can_see_all) {
+    } elseif ($_GET['show'] == "site_active" && $can_see_all) {
         $condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
     } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
         $condition = " 1 ";
@@ -300,7 +300,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo_header_cell( 50, _("Total") );
     }
-    echo_header_cell(  75, ($_GET['show'] == "site" ? _("PM") : _("Owner") ) );
+    echo_header_cell(  75, ($_GET['show'] == "site_active" ? _("PM") : _("Owner") ) );
     echo_header_cell( 180, _("Project Status") );
     echo_header_cell(  50, _("Options") );
     echo "</tr>";
@@ -365,7 +365,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
                 // Owner
                 echo "<td align=\"center\">";
-                if ($_GET['show'] == 'site') {
+                if ($_GET['show'] == 'site_active') {
                     print $project['username'];
                 } else if ($outby != "") {
                     // Maybe we should get this info via a
@@ -558,7 +558,7 @@ function list_uber_projects( $can_see_all )
             // Number of ALL active related projects
             // For SA/PFs this is a link to them, others just see the total
             if ($can_see_all) {
-                $link_top = "<a href='projectmgr.php?show=site&up_projectid=".$up_projid."'>";
+                $link_top = "<a href='projectmgr.php?show=site_active&up_projectid=".$up_projid."'>";
                 $link_tail = "</a>";
             } else {
                 $link_top = "";
