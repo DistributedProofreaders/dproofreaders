@@ -30,7 +30,7 @@ function echo_manager_header( $which )
 	echo "<center>";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
 	echo " | ";
-	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=all'>"._("Show All of Your Projects"),"</a>";
+	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
 	echo "<a href='$code_url/tools/project_manager/editproject.php'>"._("Create Project")."</a>";
 	echo " | ";

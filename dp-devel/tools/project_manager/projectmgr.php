@@ -18,7 +18,7 @@ include_once('projectmgr_select.inc');
 
 if (empty($_GET['show']) && empty($_GET['up_projectid'])) {
     if ($userP['i_pmdefault'] == 0) {
-        metarefresh(0,"projectmgr.php?show=all","","");
+        metarefresh(0,"projectmgr.php?show=user_all","","");
         exit();
     } elseif ($userP['i_pmdefault'] == 1) {
         metarefresh(0,"projectmgr.php?show=user_active","", "");
@@ -199,7 +199,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
     } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
         $condition = " 1 ";
-    } elseif ($_GET['show'] == "all") {
+    } elseif ($_GET['show'] == "user_all") {
         $condition = "username = '$pguser'";
     } else {
         // ($_GET['show'] == "user_active")
@@ -553,7 +553,7 @@ function list_uber_projects( $can_see_all )
             echo "<td align=\"center\"><a href='projectmgr.php?up_projectid=$up_projid'>$num_active_proj</a></td>\n";
 
             // Number of all of THIS USER'S related projects
-            echo "<td align=\"center\"><a href='projectmgr.php?show=all&up_projectid=$up_projid'>$num_proj</a></td>\n";
+            echo "<td align=\"center\"><a href='projectmgr.php?show=user_all&up_projectid=$up_projid'>$num_proj</a></td>\n";
 
             // Number of ALL active related projects
             // For SA/PFs this is a link to them, others just see the total
