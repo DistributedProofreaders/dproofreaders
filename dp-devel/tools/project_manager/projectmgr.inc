@@ -36,7 +36,7 @@ function echo_manager_header( $which )
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{ 
-		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Projects")."</a>"; 
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
 		echo " | ";
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>"; 
 	}
