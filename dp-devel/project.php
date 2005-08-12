@@ -882,6 +882,8 @@ function do_images()
     global $project;
     global $code_url;
 
+    if ( !$project->dir_exists ) return;
+
     $projectid = $project->projectid;
 
     echo "<h4>", _('Images'), "</h4>";
@@ -907,6 +909,8 @@ function do_extra_files()
     {
         return;
     }
+
+    if ( !$project->dir_exists ) return;
 
     echo "<h4>", _('Extra Files in Project Directory'), "</h4>";
 
@@ -958,6 +962,8 @@ function do_post_downloads()
     global $project, $pguser;
 
     if ( !user_can_work_in_stage($pguser, 'PP') ) return;
+
+    if ( !$project->dir_exists && !$project->pages_table_exists ) return;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -1357,6 +1363,8 @@ function do_page_summary()
 {
     global $project;
     $projectid = $project->projectid;
+
+    if ( !$project->pages_table_exists ) return;
 
     echo "<center>";
     echo "<h3>"._("Page Summary")."</h3>\n";
