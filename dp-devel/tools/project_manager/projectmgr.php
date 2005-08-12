@@ -202,6 +202,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     } elseif ($_GET['show'] == "all") {
         $condition = "username = '$pguser'";
     } else {
+        // ($_GET['show'] == "user_active")
+        // plus some corner cases
         $condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
     }
 
