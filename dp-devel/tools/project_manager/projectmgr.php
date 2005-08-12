@@ -33,7 +33,7 @@ theme(_("Project Managers"), "header");
 abort_if_not_manager();
 
 
-$PROJECT_IS_ACTIVE_sql = "(state != '".PROJ_SUBMIT_PG_POSTED."')";
+$PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
 if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $_GET['show'] == 'search_form' ||
