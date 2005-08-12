@@ -33,6 +33,7 @@ theme(_("Project Managers"), "header");
 abort_if_not_manager();
 
 
+$PROJECT_IS_ACTIVE_sql = "(state != '".PROJ_SUBMIT_PG_POSTED."')";
 
 if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $_GET['show'] == 'search_form' ||
@@ -196,7 +197,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $condition .= ")";
         }
     } elseif ($_GET['show'] == "site_active" && $can_see_all) {
-        $condition = "state != '".PROJ_SUBMIT_PG_POSTED."'";
+        $condition = $PROJECT_IS_ACTIVE_sql;
     } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
         $condition = " 1 ";
     } elseif ($_GET['show'] == "user_all") {
@@ -204,7 +205,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     } else {
         // ($_GET['show'] == "user_active")
         // plus some corner cases
-        $condition = "state != '".PROJ_SUBMIT_PG_POSTED."' AND username = '$pguser'";
+        $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$pguser'";
     }
 
 
@@ -441,7 +442,7 @@ theme("","footer");
 
 function list_uber_projects( $can_see_all )
 {
-    global $pguser, $theme;
+    global $pguser, $theme, $PROJECT_IS_ACTIVE_sql;
 
     // site managers and project facilitors can see all uber projects
 
@@ -507,7 +508,7 @@ function list_uber_projects( $can_see_all )
             $num_active_proj_res = mysql_fetch_assoc(mysql_query("
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
-                AND state != '".PROJ_SUBMIT_PG_POSTED."'
+                AND $PROJECT_IS_ACTIVE_sql
                 AND username = '".$pguser."'
             "));
             $num_active_proj = $num_active_proj_res['num'];
@@ -515,7 +516,7 @@ function list_uber_projects( $can_see_all )
             $num_all_active_proj_res = mysql_fetch_assoc(mysql_query("
                 SELECT count(*) as num
                 FROM projects WHERE up_projectid = '$up_projid'
-                AND state != '".PROJ_SUBMIT_PG_POSTED."'
+                AND $PROJECT_IS_ACTIVE_sql
             "));
             $num_all_active_proj = $num_all_active_proj_res['num'];
 
