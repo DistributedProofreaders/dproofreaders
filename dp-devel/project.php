@@ -900,7 +900,7 @@ function do_images()
 
 function do_extra_files()
 {
-    global $project, $projects_dir, $projects_url;
+    global $project;
 
     if ( !$project->can_be_managed_by_current_user
         && !$project->PPer_is_current_user )
@@ -910,12 +910,9 @@ function do_extra_files()
 
     echo "<h4>", _('Extra Files in Project Directory'), "</h4>";
 
-    $project_dir = "$projects_dir/$project->projectid";
-    $project_url = "$projects_url/$project->projectid";
-
     $saved_dir = getcwd();
 
-    chdir($project_dir);
+    chdir($project->dir);
     $filenames = glob("*" );
 
     echo "<ul>";
@@ -944,7 +941,7 @@ function do_extra_files()
         {
             if ( !array_key_exists( $filename, $excluded_filenames ) )
             {
-                echo "<li><a href='$project_url/$filename'>$filename</a></li>";
+                echo "<li><a href='$project->url/$filename'>$filename</a></li>";
             }
         }
     }
@@ -1039,7 +1036,7 @@ function do_post_downloads()
 
 function echo_download_zip( $link_text, $discriminator )
 {
-    global $project, $projects_url, $projects_dir, $code_url;
+    global $project, $code_url;
 
     $projectid = $project->projectid;
     if ( $discriminator == 'images' )
@@ -1056,7 +1053,7 @@ function echo_download_zip( $link_text, $discriminator )
         // is a fair approximation (and hopefully an upper bound)
         // of the size of the resulting zip.
         $filesize_b = 0;
-        foreach( glob("$projects_dir/$projectid/*.{png,jpg}", GLOB_BRACE) as $image_path )
+        foreach( glob("$project->dir/*.{png,jpg}", GLOB_BRACE) as $image_path )
         {
             $filesize_b += filesize($image_path);
         }
@@ -1064,10 +1061,10 @@ function echo_download_zip( $link_text, $discriminator )
     }
     else
     {
-        $p = "$projectid/$projectid$discriminator.zip";
+        $p = "$projectid$discriminator.zip";
 
-        $url = "$projects_url/$p";
-        $filesize_kb = round( filesize( "$projects_dir/$p") / 1024 );
+        $url = "$project->url/$p";
+        $filesize_kb = round( filesize( "$project->dir/$p") / 1024 );
     }
 
     echo "<li>";
@@ -1173,9 +1170,8 @@ function do_smooth_reading()
 
             if (!$project->PPer_is_current_user)
             {
-                global $projects_url;
                 echo "<li>";
-                echo "<a href='$projects_url/$projectid/{$projectid}_smooth_avail.zip'>";
+                echo "<a href='$project->url/{$projectid}_smooth_avail.zip'>";
                 echo _('Download zipped text for smooth reading');
                 echo "</a>";
                 echo "</li>\n";
@@ -1223,8 +1219,7 @@ function do_smooth_reading()
         if ($project->PPer_is_current_user)
         {
             echo "<li>";
-            global $projects_dir;
-            $done_files = glob("$projects_dir/$projectid/*smooth_done_*.zip");
+            $done_files = glob("$project->dir/*smooth_done_*.zip");
             if ($done_files)
             {
                 echo _("Download smoothread file uploaded by:");
