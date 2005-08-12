@@ -971,21 +971,21 @@ function do_post_downloads()
 
     echo "<ul>";
 
-    echo_download_zip( $projectid, _("Download Zipped Images"), 'images' );
+    echo_download_zip( _("Download Zipped Images"), 'images' );
 
     if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
     {
-        echo_download_zip( $projectid, _("Download Zipped Text"), '' );
+        echo_download_zip( _("Download Zipped Text"), '' );
 
-        echo_download_zip( $projectid, _("Download Zipped TEI Text"), '_TEI' );
+        echo_download_zip( _("Download Zipped TEI Text"), '_TEI' );
     }
     elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
     {
-        echo_download_zip( $projectid, _("Download Zipped Text"), '_second' );
+        echo_download_zip( _("Download Zipped Text"), '_second' );
     }
     elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
     {
-        echo_download_zip( $projectid, _("Download Zipped Text"), '_corrections' );
+        echo_download_zip( _("Download Zipped Text"), '_corrections' );
     }
 
     if ( user_is_a_sitemanager() )
@@ -1037,10 +1037,11 @@ function do_post_downloads()
 
 // -----------------------------------------------------------------------------
 
-function echo_download_zip( $projectid, $link_text, $discriminator )
+function echo_download_zip( $link_text, $discriminator )
 {
-    global $projects_url, $projects_dir, $code_url;
+    global $project, $projects_url, $projects_dir, $code_url;
 
+    $projectid = $project->projectid;
     if ( $discriminator == 'images' )
     {
         // Generate images zip on the fly,
@@ -1232,7 +1233,7 @@ function do_smooth_reading()
                 {
                     $showname = basename($filename,".zip");
                     $showname = substr($showname, strpos($showname,"_done_") + 6);
-                    echo_download_zip( $projectid,$showname, '_smooth_done_'.$showname );
+                    echo_download_zip( $showname, '_smooth_done_'.$showname );
                 }
                 echo "</ul>";
             }
