@@ -60,6 +60,10 @@ class Project
 
         $this->url = "$projects_url/$this->projectid";
         $this->dir = "$projects_dir/$this->projectid";
+        $this->dir_exists = is_dir($this->dir);
+
+        $this->pages_table_exists = 
+            ( mysql_query("DESCRIBE $this->projectid") != FALSE );
 
         // -------------------------------------------------
 
