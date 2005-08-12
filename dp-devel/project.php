@@ -1402,6 +1402,8 @@ function do_page_table()
 {
     global $project;
 
+    if ( !$project->pages_table_exists ) return;
+
     {
         global $relPath;
         include($relPath.'../tools/project_manager/detail_legend.inc');
