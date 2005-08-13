@@ -344,6 +344,17 @@ function proj_comments_field($comments)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function description_field( $description, $field_name )
+{
+    $enc_description = encodeFormValue($description);
+
+    echo "<center>";
+    echo "<textarea name='$field_name' cols='74' rows='6'>$enc_description</textarea>";
+    echo "</center>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
 
 ?>

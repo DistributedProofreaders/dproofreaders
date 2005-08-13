@@ -105,7 +105,7 @@ if ( isset($_REQUEST['action']) &&
     text_field( $up_nameofwork, 'up_nameofwork' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Brief Description of Uber Project")."</b></td><td>";
-    echo "<center><textarea name='up_description' cols='74' rows='6'>".encodeFormValue($up_description)."</textarea></center>";
+    description_field( $up_description, 'up_description' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Default Values for Projects to be Created from this Uber Project")."</font></b></center></td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Name of Work")."</b></td><td>";
