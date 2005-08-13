@@ -192,6 +192,9 @@ function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CC
         $specials_array["$code"] = $show;
     }
 
+    $bdaymonth = 0;
+    $bdayday = 0;
+
     // drop down select box for which special day
     echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='special_code'>";
 
@@ -298,6 +301,7 @@ function image_provider_list($image_provider, $label = 'Image Provider', $bgcol 
     }
 
     // add special case value "Other"
+    $imp_other_val = '';
     echo "<option value='OTHER' ";
     if (strncmp ( $image_provider, 'O:',2) == 0)
     {
