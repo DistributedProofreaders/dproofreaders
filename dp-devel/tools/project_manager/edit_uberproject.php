@@ -96,7 +96,7 @@ if ( isset($_REQUEST['action']) &&
 
     if (!empty($up_projectid))
     {
-        echo "<tr><td bgcolor='$bgcol'><b>"._("Uber Project ID")."</b></td><td>$up_projectid<input type='hidden' name='up_projectid' value='".encodeFormValue($up_projectid)."'></td></tr>\n";
+        echo "<tr><td bgcolor='$bgcol'><b>"._("Uber Project ID")."</b></td><td>$up_projectid</td></tr>\n";
     }
 
     echo "<tr><td bgcolor='$bgcol'><b>"._("Overall Name of Uber Project")."</b></td><td><input type='text' size='67' name='up_nameofwork' value='".encodeFormValue($up_nameofwork)."'></td></tr>\n";
