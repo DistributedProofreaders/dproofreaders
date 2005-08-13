@@ -542,12 +542,22 @@ elseif ((isset( $_REQUEST['action']) &&
     if (!empty($up_nameofwork)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>".encodeFormValue($up_nameofwork)."</td></tr>\n"; }
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td>";
     echo language_list($language);
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td>";
     echo genre_list($genre);
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>Difficulty Level</b></td><td>";
     echo difficulty_list($difficulty_level);
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>Special Day (optional)</b></td><td>";
     echo special_list($special_code);
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td>";
     echo image_provider_list($image_provider);
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";

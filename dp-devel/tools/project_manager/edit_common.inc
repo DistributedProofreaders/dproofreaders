@@ -8,7 +8,7 @@ function encodeFormValue($value)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function language_list($language, $label = 'Language', $bgcol = '#CCCCCC')
+function language_list($language)
 {
     if (strpos($language, "with") > 0)
     {
@@ -23,7 +23,7 @@ function language_list($language, $label = 'Language', $bgcol = '#CCCCCC')
 
     $array_list = $GLOBALS['lang_list'];
 
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='pri_language'>";
+    echo "<select name='pri_language'>";
     echo "<option value=''>Primary Language</option>";
     for ($i=0;$i<count($array_list);$i++)
     {
@@ -39,12 +39,12 @@ function language_list($language, $label = 'Language', $bgcol = '#CCCCCC')
         if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
     }
-    echo "</select></td></tr>\n";
+    echo "</select>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function genre_list($genre, $label = 'Genre', $bgcol = '#CCCCCC')
+function genre_list($genre)
 {
     $array_list = array(
         'Other'=>_('Other'),
@@ -125,19 +125,19 @@ function genre_list($genre, $label = 'Genre', $bgcol = '#CCCCCC')
         'Zoology'=>_('Zoology'),
     );
 
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='genre'>";
+    echo "<select name='genre'>";
     foreach($array_list as $k=>$v)
     {
         echo "<option value='".encodeFormValue($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
         echo ">$v</option>";
     }
-    echo "</select></td></tr>\n";
+    echo "</select>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function difficulty_list($difficulty_level, $label = 'Difficulty Level', $bgcol = '#CCCCCC')
+function difficulty_list($difficulty_level)
 {
     global $pguser;
     $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
@@ -145,7 +145,6 @@ function difficulty_list($difficulty_level, $label = 'Difficulty Level', $bgcol 
 
     $array_list = array('Beginner', 'Easy', 'Average', 'Hard');
 
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td>";
     // only show the beginner level to the BEGIN PM or SiteAdmins
     // don't let garvint create EASY projects
     for ($i=0;$i<count($array_list);$i++)
@@ -163,12 +162,11 @@ function difficulty_list($difficulty_level, $label = 'Difficulty Level', $bgcol 
             }
         }
     }
-    echo "</td></tr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CCCCCC')
+function special_list($special)
 {
     // get info on special days
     $specs_result = mysql_query("
@@ -196,7 +194,7 @@ function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CC
     $bdayday = 0;
 
     // drop down select box for which special day
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='special_code'>";
+    echo "<select name='special_code'>";
 
     // add special case values first
     echo "<option value=''>NONE</option>";
@@ -257,13 +255,11 @@ function special_list($special, $label = 'Special Day (optional)', $bgcol = '#CC
         $i++;
     }
     echo "</select>";
-
-    echo "</td></tr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function image_provider_list($image_provider, $label = 'Image Provider', $bgcol = '#CCCCCC')
+function image_provider_list($image_provider)
 {
     // get info on image_providers
     $imp_result = mysql_query("
@@ -285,7 +281,7 @@ function image_provider_list($image_provider, $label = 'Image Provider', $bgcol 
     }
 
     // drop down select box for which image provider
-    echo "<tr><td bgcolor='$bgcol'><b>$label</b></td><td><select name='image_provider'>";
+    echo "<select name='image_provider'>";
 
     // add special case value "DP User"
     echo "<option value='DP User' ";
@@ -317,8 +313,6 @@ function image_provider_list($image_provider, $label = 'Image Provider', $bgcol 
         . encodeFormValue($imp_other_val)."'>";
 
     echo " <a href='show_image_providers.php'>Details of Image Providers</a><br>";
-
-    echo "</td></tr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
