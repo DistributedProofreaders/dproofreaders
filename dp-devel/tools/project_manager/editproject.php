@@ -534,7 +534,7 @@ elseif ((isset( $_REQUEST['action']) &&
     echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($posted)) { echo "<input type='hidden' name='posted' value='1'>"; }
-    if (!empty($projectid)) { echo "<input type='hidden' name='projectid' value='".encodeFormValue($projectid)."'>"; }
+    if (!empty($projectid)) { echo "<input type='hidden' name='projectid' value='$projectid'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
 
     if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
