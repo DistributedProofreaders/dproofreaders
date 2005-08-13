@@ -541,10 +541,24 @@ elseif ((isset( $_REQUEST['action']) &&
 
     echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font></b></center></td></tr>\n";
-    if (!empty($projectid)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>$projectid</td></tr>\n"; }
-    if (!empty($up_nameofwork)) { echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>".encodeFormValue($up_nameofwork)."</td></tr>\n"; }
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td><input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'></td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td><input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'></td></tr>\n";
+    if (!empty($projectid))
+    {
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>";
+        echo $projectid;
+        echo "</td></tr>\n";
+    }
+    if (!empty($up_nameofwork))
+    {
+        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>";
+        echo encodeFormValue($up_nameofwork)."";
+        echo "</td></tr>\n";
+    }
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td>";
+    echo "<input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td>";
+    echo "<input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'>";
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td>";
     echo language_list($language);
     echo "</td></tr>\n";
@@ -557,14 +571,24 @@ elseif ((isset( $_REQUEST['action']) &&
     echo "<tr><td bgcolor='#CCCCCC'><b>Special Day (optional)</b></td><td>";
     echo special_list($special_code);
     echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td><input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td>";
+    echo "<input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'>";
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td>";
     echo image_provider_list($image_provider);
     echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td><input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'></td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td><input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'></td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td><input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'></td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Comments")."</b></td><td><center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>] [<a href=\"JavaScript:newHelpWin('biography');\">"._("How To Use A Biography")."</a>]</b></center></td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td>";
+    echo "<input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td>";
+    echo "<input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td>";
+    echo "<input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Comments")."</b></td><td>";
+    echo "<center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>] [<a href=\"JavaScript:newHelpWin('biography');\">"._("How To Use A Biography")."</a>]</b></center>";
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
     echo "</table>";
 
