@@ -544,13 +544,13 @@ elseif ((isset( $_REQUEST['action']) &&
     if (!empty($projectid))
     {
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>";
-        echo $projectid;
+        just_echo( $projectid );
         echo "</td></tr>\n";
     }
     if (!empty($up_nameofwork))
     {
         echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>";
-        echo encodeFormValue($up_nameofwork)."";
+        just_echo( $up_nameofwork );
         echo "</td></tr>\n";
     }
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td>";

@@ -97,7 +97,7 @@ if ( isset($_REQUEST['action']) &&
     if (!empty($up_projectid))
     {
         echo "<tr><td bgcolor='$bgcol'><b>"._("Uber Project ID")."</b></td><td>";
-        echo $up_projectid;
+        just_echo( $up_projectid );
         echo "</td></tr>\n";
     }
 

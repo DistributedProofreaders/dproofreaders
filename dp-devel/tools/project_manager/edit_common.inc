@@ -8,6 +8,13 @@ function encodeFormValue($value)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function just_echo( $field_value )
+{
+    echo encodeFormValue($field_value);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function text_field( $field_value, $field_name )
 {
     $enc_field_value = encodeFormValue($field_value);
