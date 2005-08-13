@@ -565,12 +565,12 @@ elseif ((isset( $_REQUEST['action']) &&
     }
     row( _("Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
     row( _("Author's Name"),         'text_field',          $authorsname,     'authorsname' );
-    row( "Language",                 'language_list',       $language         );
-    row( "Genre",                    'genre_list',          $genre            );
-    row( "Difficulty Level",         'difficulty_list',     $difficulty_level );
-    row( "Special Day (optional)",   'special_list',        $special_code     );
+    row( _("Language"),              'language_list',       $language         );
+    row( _("Genre"),                 'genre_list',          $genre            );
+    row( _("Difficulty Level"),      'difficulty_list',     $difficulty_level );
+    row( _("Special Day (optional)"),'special_list',        $special_code     );
     row( _("PPer/PPVer"),            'text_field',          $checkedoutby,    'checkedoutby' );
-    row( "Image Provider",           'image_provider_list', $image_provider   );
+    row( _("Image Provider"),        'image_provider_list', $image_provider   );
     row( _("Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Posted Number"),         'text_field',          $postednum,       'postednum' );

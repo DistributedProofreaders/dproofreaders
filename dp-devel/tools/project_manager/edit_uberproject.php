@@ -120,12 +120,12 @@ if ( isset($_REQUEST['action']) &&
 
     row( _("Default Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
     row( _("Default Author's Name"),         'text_field',          $authorsname,     'authorsname' );
-    row( "Default Language",                 'language_list',       $language         );
-    row( "Default Genre",                    'genre_list',          $genre            );
-    row( "Default Difficulty Level",         'difficulty_list',     $difficulty_level );
-    row( "Default Special Day",              'special_list',        $special          );
+    row( _("Default Language"),              'language_list',       $language         );
+    row( _("Default Genre"),                 'genre_list',          $genre            );
+    row( _("Default Difficulty Level"),      'difficulty_list',     $difficulty_level );
+    row( _("Default Special Day"),           'special_list',        $special          );
     row( _("Default PPer"),                  'text_field',          $checkedoutby,    'checkedoutby' );
-    row( "Default Image Provider",           'image_provider_list', $image_provider   );
+    row( _("Default Image Provider"),        'image_provider_list', $image_provider   );
     row( _("Default Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
