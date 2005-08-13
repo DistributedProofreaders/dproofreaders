@@ -541,54 +541,41 @@ elseif ((isset( $_REQUEST['action']) &&
 
     echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font></b></center></td></tr>\n";
+
+    function row( $label, $display_function, $field_value, $field_name=NULL )
+    {
+        echo "<tr>";
+        echo   "<td bgcolor='#CCCCCC'>";
+        echo     "<b>$label</b>";
+        echo   "</td>";
+        echo   "<td>";
+        $display_function( $field_value, $field_name );
+        echo   "</td>";
+        echo "</tr>";
+        echo "\n";
+    }
+
     if (!empty($projectid))
     {
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project ID")."</b></td><td>";
-        just_echo( $projectid );
-        echo "</td></tr>\n";
+        row( _("Project ID"), 'just_echo', $projectid );
     }
     if (!empty($up_nameofwork))
     {
-        echo "<tr><td bgcolor='#CCCCCC'><b>"._("Related Uber Project")."</b></td><td>";
-        just_echo( $up_nameofwork );
-        echo "</td></tr>\n";
+        row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
     }
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td>";
-    text_field( $nameofwork, 'nameofwork' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td>";
-    text_field( $authorsname, 'authorsname' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td>";
-    echo language_list($language);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>Genre</b></td><td>";
-    echo genre_list($genre);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>Difficulty Level</b></td><td>";
-    echo difficulty_list($difficulty_level);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>Special Day (optional)</b></td><td>";
-    echo special_list($special_code);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td>";
-    text_field( $checkedoutby, 'checkedoutby' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td>";
-    echo image_provider_list($image_provider);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td>";
-    text_field( $scannercredit, 'scannercredit' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td>";
-    text_field( $clearance, 'clearance' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td>";
-    text_field( $postednum, 'postednum' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Comments")."</b></td><td>";
-    proj_comments_field( $comments );
-    echo "</td></tr>\n";
+    row( _("Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
+    row( _("Author's Name"),         'text_field',          $authorsname,     'authorsname' );
+    row( "Language",                 'language_list',       $language         );
+    row( "Genre",                    'genre_list',          $genre            );
+    row( "Difficulty Level",         'difficulty_list',     $difficulty_level );
+    row( "Special Day (optional)",   'special_list',        $special_code     );
+    row( _("PPer/PPVer"),            'text_field',          $checkedoutby,    'checkedoutby' );
+    row( "Image Provider",           'image_provider_list', $image_provider   );
+    row( _("Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
+    row( _("Clearance Information"), 'text_field',          $clearance,       'clearance' );
+    row( _("Posted Number"),         'text_field',          $postednum,       'postednum' );
+    row( _("Project Comments"),      'proj_comments_field', $comments         );
+
     echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
     echo "</table>";
 

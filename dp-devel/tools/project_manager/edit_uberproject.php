@@ -94,53 +94,41 @@ if ( isset($_REQUEST['action']) &&
     echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Uber Project Settings")."</font></b></center></td></tr>\n";
 
-    if (!empty($up_projectid))
+    function row( $label, $display_function, $field_value, $field_name=NULL )
     {
-        echo "<tr><td bgcolor='$bgcol'><b>"._("Uber Project ID")."</b></td><td>";
-        just_echo( $up_projectid );
-        echo "</td></tr>\n";
+        global $bgcol;
+        echo "<tr>";
+        echo   "<td bgcolor='$bgcol'>";
+        echo     "<b>$label</b>";
+        echo   "</td>";
+        echo   "<td>";
+        $display_function( $field_value, $field_name );
+        echo   "</td>";
+        echo "</tr>";
+        echo "\n";
     }
 
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Overall Name of Uber Project")."</b></td><td>";
-    text_field( $up_nameofwork, 'up_nameofwork' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Brief Description of Uber Project")."</b></td><td>";
-    description_field( $up_description, 'up_description' );
-    echo "</td></tr>\n";
+    if (!empty($up_projectid))
+    {
+        row( _("Uber Project ID"), 'just_echo', $up_projectid );
+    }
+
+    row( _("Overall Name of Uber Project"),      'text_field',        $up_nameofwork,  'up_nameofwork' );
+    row( _("Brief Description of Uber Project"), 'description_field', $up_description, 'up_description' );
+
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Default Values for Projects to be Created from this Uber Project")."</font></b></center></td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Name of Work")."</b></td><td>";
-    text_field( $nameofwork, 'nameofwork' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Author's Name")."</b></td><td>";
-    text_field( $authorsname, 'authorsname' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>Default Language</b></td><td>";
-    echo language_list($language);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>Default Genre</b></td><td>";
-    echo genre_list($genre);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>Default Difficulty Level</b></td><td>";
-    echo difficulty_list($difficulty_level);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>Default Special Day</b></td><td>";
-    echo special_list($special);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default PPer")."</b></td><td>";
-    text_field( $checkedoutby, 'checkedoutby' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>Default Image Provider</b></td><td>";
-    echo image_provider_list($image_provider);
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Image Scanner Credit")."</b></td><td>";
-    text_field( $scannercredit, 'scannercredit' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Clearance Information")."</b></td><td>";
-    text_field( $clearance, 'clearance' );
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$bgcol'><b>"._("Default Project Comments")."</b></td><td>";
-    proj_comments_field( $comments );
-    echo "</td></tr>\n";
+
+    row( _("Default Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
+    row( _("Default Author's Name"),         'text_field',          $authorsname,     'authorsname' );
+    row( "Default Language",                 'language_list',       $language         );
+    row( "Default Genre",                    'genre_list',          $genre            );
+    row( "Default Difficulty Level",         'difficulty_list',     $difficulty_level );
+    row( "Default Special Day",              'special_list',        $special          );
+    row( _("Default PPer"),                  'text_field',          $checkedoutby,    'checkedoutby' );
+    row( "Default Image Provider",           'image_provider_list', $image_provider   );
+    row( _("Default Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
+    row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
+    row( _("Default Project Comments"),      'proj_comments_field', $comments         );
 
     echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
     echo "</table>";
