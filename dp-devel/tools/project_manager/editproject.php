@@ -554,10 +554,10 @@ elseif ((isset( $_REQUEST['action']) &&
         echo "</td></tr>\n";
     }
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Name of Work")."</b></td><td>";
-    echo "<input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'>";
+    text_field( $nameofwork, 'nameofwork' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Author's Name")."</b></td><td>";
-    echo "<input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'>";
+    text_field( $authorsname, 'authorsname' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>Language</b></td><td>";
     echo language_list($language);
@@ -572,19 +572,19 @@ elseif ((isset( $_REQUEST['action']) &&
     echo special_list($special_code);
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("PPer/PPVer")."</b></td><td>";
-    echo "<input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'>";
+    text_field( $checkedoutby, 'checkedoutby' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>Image Provider</b></td><td>";
     echo image_provider_list($image_provider);
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Image Scanner Credit")."</b></td><td>";
-    echo "<input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'>";
+    text_field( $scannercredit, 'scannercredit' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Clearance Information")."</b></td><td>";
-    echo "<input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'>";
+    text_field( $clearance, 'clearance' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Posted Number")."</b></td><td>";
-    echo "<input type='text' size='67' name='postednum' value='".encodeFormValue($postednum)."'>";
+    text_field( $postednum, 'postednum' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Comments")."</b></td><td>";
     echo "<center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>] [<a href=\"JavaScript:newHelpWin('biography');\">"._("How To Use A Biography")."</a>]</b></center>";

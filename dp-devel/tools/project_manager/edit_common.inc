@@ -8,6 +8,14 @@ function encodeFormValue($value)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function text_field( $field_value, $field_name )
+{
+    $enc_field_value = encodeFormValue($field_value);
+    echo "<input type='text' size='67' name='$field_name' value='$enc_field_value'>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function language_list($language)
 {
     if (strpos($language, "with") > 0)

@@ -102,17 +102,17 @@ if ( isset($_REQUEST['action']) &&
     }
 
     echo "<tr><td bgcolor='$bgcol'><b>"._("Overall Name of Uber Project")."</b></td><td>";
-    echo "<input type='text' size='67' name='up_nameofwork' value='".encodeFormValue($up_nameofwork)."'>";
+    text_field( $up_nameofwork, 'up_nameofwork' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Brief Description of Uber Project")."</b></td><td>";
     echo "<center><textarea name='up_description' cols='74' rows='6'>".encodeFormValue($up_description)."</textarea></center>";
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Default Values for Projects to be Created from this Uber Project")."</font></b></center></td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Name of Work")."</b></td><td>";
-    echo "<input type='text' size='67' name='nameofwork' value='".encodeFormValue($nameofwork)."'>";
+    text_field( $nameofwork, 'nameofwork' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Author's Name")."</b></td><td>";
-    echo "<input type='text' size='67' name='authorsname' value='".encodeFormValue($authorsname)."'>";
+    text_field( $authorsname, 'authorsname' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>Default Language</b></td><td>";
     echo language_list($language);
@@ -127,16 +127,16 @@ if ( isset($_REQUEST['action']) &&
     echo special_list($special);
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default PPer")."</b></td><td>";
-    echo "<input type='text' size='67' name='checkedoutby' value='".encodeFormValue($checkedoutby)."'>";
+    text_field( $checkedoutby, 'checkedoutby' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>Default Image Provider</b></td><td>";
     echo image_provider_list($image_provider);
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Image Scanner Credit")."</b></td><td>";
-    echo "<input type='text' size='67' name='scannercredit' value='".encodeFormValue($scannercredit)."'>";
+    text_field( $scannercredit, 'scannercredit' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Clearance Information")."</b></td><td>";
-    echo "<input type='text' size='67' name='clearance' value='".encodeFormValue($clearance)."'>";
+    text_field( $clearance, 'clearance' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Project Comments")."</b></td><td>";
     echo "<center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center>";
