@@ -139,7 +139,7 @@ if ( isset($_REQUEST['action']) &&
     text_field( $clearance, 'clearance' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='$bgcol'><b>"._("Default Project Comments")."</b></td><td>";
-    echo "<center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>]</center>";
+    proj_comments_field( $comments );
     echo "</td></tr>\n";
 
     echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";

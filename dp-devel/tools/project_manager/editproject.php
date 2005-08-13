@@ -587,7 +587,7 @@ elseif ((isset( $_REQUEST['action']) &&
     text_field( $postednum, 'postednum' );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC'><b>"._("Project Comments")."</b></td><td>";
-    echo "<center><textarea name='comments' cols='74' rows='16'>".encodeFormValue($comments)."</textarea><br><b>[<a href=\"JavaScript:newHelpWin('template');\">"._("How To Use A Template")."</a>] [<a href=\"JavaScript:newHelpWin('biography');\">"._("How To Use A Biography")."</a>]</b></center>";
+    proj_comments_field( $comments );
     echo "</td></tr>\n";
     echo "<tr><td bgcolor='#CCCCCC' colspan='2' align='center'><input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'><input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'><input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
     echo "</table>";

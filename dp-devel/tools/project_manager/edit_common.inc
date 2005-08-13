@@ -325,6 +325,25 @@ function image_provider_list($image_provider)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function proj_comments_field($comments)
+{
+    $enc_comments = encodeFormValue($comments);
+    $template_blurb  = _("How To Use A Template");
+    $biography_blurb = _("How To Use A Biography");
+
+    echo "<center>";
+    echo "<textarea name='comments' cols='74' rows='16'>$enc_comments</textarea>";
+    echo "<br>";
+    echo "<b>";
+    echo "[<a href=\"JavaScript:newHelpWin('template');\">$template_blurb</a>]";
+    echo " ";
+    echo "[<a href=\"JavaScript:newHelpWin('biography');\">$biography_blurb</a>]";
+    echo "</b>";
+    echo "</center>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
 
 ?>
