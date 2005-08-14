@@ -373,7 +373,8 @@ newStr = '';
 
 for ( var i = 0, l = str.length; i < l; i++ )
 {
-  newStr += ( i == 0 || str.charAt( i - 1 ) ==  ' ' || str.charAt( i - 1 ) ==  '\n' )?
+  newStr += ( i == 0 || str.charAt( i - 1 ) ==  ' ' || str.charAt( i - 1 ) ==  '\n' 
+      ||str.charAt( i - 1 ) ==  '.')?
   str.charAt( i ).toUpperCase():
   str.charAt( i );
 }
