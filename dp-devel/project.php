@@ -1352,8 +1352,8 @@ function echo_option($code,$label,$question)
     {
         $onClick_condition = "if(confirm(\"$question\"))";
     }
-    $onclick_attr = "onClick='$onClick_condition{this.value=\"$code\"; this.form.submit();}'";
-    echo "<input type='submit' name='request' value='$label' $onclick_attr>";
+    $onclick_attr = "onClick='$onClick_condition{this.form.submit();}'";
+    echo "<button name='request' value='$code' $onclick_attr>$label</button>";
     echo "<br>\n";
 }
 
