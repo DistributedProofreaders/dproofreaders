@@ -1349,13 +1349,13 @@ function echo_option($code,$label,$question)
 
     if ( is_null($question) )
     {
-        $onClick_condition = "";
+        $onClick_condition = "return true;";
     }
     else
     {
-        $onClick_condition = "if(confirm(\"$question\"))";
+        $onClick_condition = "return confirm(\"$question\");";
     }
-    $onclick_attr = "onClick='$onClick_condition{this.form.submit();}'";
+    $onclick_attr = "onClick='$onClick_condition'";
     echo "<input type='submit' value='$label' $onclick_attr>";
 
     echo "</form>\n";
