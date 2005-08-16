@@ -1253,9 +1253,8 @@ function do_smooth_reading()
 
 function do_change_state()
 {
-    global $project, $code_url, $pguser;
+    global $project, $pguser;
 
-    $projectid = $project->projectid;
     $state = $project->state;
 
     /*
@@ -1264,10 +1263,6 @@ function do_change_state()
     echo _("Change Project State");
     echo "</h4>\n";
     */
-
-    echo "<form name='$projectid' method='get' action='$code_url/tools/changestate.php'>";
-    echo "<input type='hidden' name='project' value='$projectid'>\n";
-    echo "<input type='hidden' name='curr_state' value='$state'>\n";
 
     // You would think it would be simpler to use an onClick for each option.
     // And it might be, and that works in Opera/Moz/FF. But not in IE.
@@ -1338,12 +1333,20 @@ function do_change_state()
             NULL
         );
     }
-
-    echo "</form>\n";
 }
 
 function echo_option($code,$label,$question)
 {
+    global $project, $code_url;
+
+    $projectid = $project->projectid;
+    $state = $project->state;
+
+    echo "<form method='get' action='$code_url/tools/changestate.php'>";
+    echo "<input type='hidden' name='project' value='$projectid'>\n";
+    echo "<input type='hidden' name='curr_state' value='$state'>\n";
+    echo "<input type='hidden' name='request' value='$code'>\n";
+
     if ( is_null($question) )
     {
         $onClick_condition = "";
@@ -1353,8 +1356,9 @@ function echo_option($code,$label,$question)
         $onClick_condition = "if(confirm(\"$question\"))";
     }
     $onclick_attr = "onClick='$onClick_condition{this.form.submit();}'";
-    echo "<button name='request' value='$code' $onclick_attr>$label</button>";
-    echo "<br>\n";
+    echo "<input type='submit' value='$label' $onclick_attr>";
+
+    echo "</form>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
