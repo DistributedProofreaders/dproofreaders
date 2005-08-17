@@ -35,9 +35,10 @@ function show_news_for_page( $news_page_id )
 
     echo "<center>";
 
-    // Output the set of 'current' news items 
-    // defined for the given page.
+    // -------------------------------------------
 
+    // Get the set of 'current' news items 
+    // defined for the given page.
     $res_current = mysql_query("
         SELECT date_posted, content 
         FROM news_items 
@@ -46,6 +47,8 @@ function show_news_for_page( $news_page_id )
         ORDER BY ORDERING DESC
     ") or die(mysql_error());
 
+    // Get a randomly selected news item from the set of 
+    // 'recent' news items defined for the given page.
     $res_random = mysql_query("
         SELECT content 
         FROM news_items 
@@ -54,9 +57,13 @@ function show_news_for_page( $news_page_id )
         ORDER BY RAND() LIMIT 1
     ") or die(mysql_error());
 
-    // we have some news items to display 
+    // -------------------------------------------
+
     if (mysql_num_rows($res_current) > 0 || mysql_num_rows($res_random) > 0)
     {
+        // We have at least one news item to show,
+        // so display the news header.
+
         $header_title = sprintf( _('News for %s'), $news_type );
         echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
         echo "<b>";
@@ -86,6 +93,9 @@ function show_news_for_page( $news_page_id )
         echo "</b></font><br>";
     }
 
+    // -------------------------------------------
+    // Output the 'current' news items, if any.
+
     if (mysql_num_rows($res_current) > 0)
     {
         echo "<br><font size='2' face='";
@@ -103,10 +113,9 @@ function show_news_for_page( $news_page_id )
 
     echo "<br>\n";
 
-    // Output a randomly selected news item from the set of 
-    // 'recent' news items defined for the given page.
+    // -------------------------------------------
+    // Output the 'random' news item, if any.
 
-    // we have a random news items to display 
     if (mysql_num_rows ($res_random) == 1) {
 
         $news_item = mysql_fetch_assoc($res_random);
@@ -117,8 +126,10 @@ function show_news_for_page( $news_page_id )
         echo "</font><br>\n";
     }
 
+    // -------------------------------------------
     // Give site admin and news editors a link to add/edit/show/hide/delete
     // and otherwise manage news items for this page.
+
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         echo "<hr width='30%'>\n";
         echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
