@@ -57,35 +57,33 @@ function show_news_for_page( $news_page_id )
     // we have some news items to display 
     if (mysql_num_rows($res_current) > 0 || mysql_num_rows($res_random) > 0)
     {
-        if (1) {
-            $header_title = sprintf( _('News for %s'), $news_type );
-            echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
-            echo "<b>";
+        $header_title = sprintf( _('News for %s'), $news_type );
+        echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
+        echo "<b>";
 
-            // Show header-title as an image, if available.
-            global $dyn_dir, $dyn_url;
-            $header_image_file = "$dyn_dir/news_header_images/$news_page_id.jpg";
-            $header_image_url  = "$dyn_url/news_header_images/$news_page_id.jpg";
-            if ( file_exists($header_image_file) )
-            {
-                echo "<img src='$header_image_url' title='$header_title' alt='$header_title'>";
-            }
-            else
-            {
-                echo "<font size=4>$header_title</font>";
-            }
-
-            echo "<br>";
-            echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
-
-            // this commented out until fuller rollout
-
-            // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
-            // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
-
-            echo "</b></font><br>";
+        // Show header-title as an image, if available.
+        global $dyn_dir, $dyn_url;
+        $header_image_file = "$dyn_dir/news_header_images/$news_page_id.jpg";
+        $header_image_url  = "$dyn_url/news_header_images/$news_page_id.jpg";
+        if ( file_exists($header_image_file) )
+        {
+            echo "<img src='$header_image_url' title='$header_title' alt='$header_title'>";
         }
+        else
+        {
+            echo "<font size=4>$header_title</font>";
+        }
+
+        echo "<br>";
+        echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
+        echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
+
+        // this commented out until fuller rollout
+
+        // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
+        // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
+
+        echo "</b></font><br>";
     }
 
     if (mysql_num_rows($res_current) > 0)
