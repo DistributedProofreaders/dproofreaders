@@ -8,20 +8,8 @@ function show_news_for_page( $news_page_id )
 // where the news items are designated for the given page,
 // or for every page.
 {
-    show_site_news_for_page( $news_page_id );
-    random_news_item_for_page( $news_page_id );
-}
-
-// -----------------------------------------------------------------------------
-
-// Echos the current site news designated to be shown on the given page.
-// If $show_header != 1, the introductory header identifying the news
-// as news is suppressed
-
-function show_site_news_for_page( $news_page_id, $show_header = 1 )
-// Output the set of 'current' news items 
-// defined for the given page.
-{
+    // Output the set of 'current' news items 
+    // defined for the given page.
 
     global $theme;
     global $code_url;
@@ -52,7 +40,7 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 
             echo "<center>";
 
-            if ($show_header) {
+            if (1) {
                 $header_title = sprintf( _('News for %s'), $news_type );
                 echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
                 echo "<b>";
@@ -105,14 +93,9 @@ function show_site_news_for_page( $news_page_id, $show_header = 1 )
 
         echo "<br>\n";
     }
-}
 
-
-function random_news_item_for_page( $news_page_id )
-// Output a randomly selected news item from the set of 
-// 'recent' news items 
-// defined for the given page.
-{
+    // Output a randomly selected news item from the set of 
+    // 'recent' news items defined for the given page.
 
     global $theme;
     global $code_url;
