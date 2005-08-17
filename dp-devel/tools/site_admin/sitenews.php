@@ -225,6 +225,7 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
 }
 else {
     echo "You are not authorized to use this form.";
+    exit;
 }
 
 
