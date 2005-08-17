@@ -92,12 +92,6 @@ function show_news_for_page( $news_page_id )
         echo "\n";
     }
 
-    // give site admin and news editors a link to add/edit/show/hide/delete and otherwise manage news items for this page
-    if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
-        echo "<hr width='30%'>\n";
-        echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
-    }
-
     echo "<br>\n";
 
     // Output a randomly selected news item from the set of 
@@ -120,6 +114,14 @@ function show_news_for_page( $news_page_id )
         echo $theme['font_mainbody'] . ">";
         echo $news_item['content'];
         echo "</font><br>\n";
+    }
+
+    // Give site admin and news editors a link to add/edit/show/hide/delete
+    // and otherwise manage news items for this page.
+    if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
+        echo "<hr width='30%'>\n";
+        echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
+        echo "\n";
     }
 
     echo "</center>";
