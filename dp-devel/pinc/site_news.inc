@@ -30,7 +30,7 @@ function show_news_for_page( $news_page_id )
     // this is a valid page that may potentially have news items
 
     $news_page = mysql_fetch_assoc($result0);
-    $news_type = _($news_page['news_type']);
+    $news_type = $news_page['news_type'];
     $date_changed = $news_page['modifieddate'];
 
     echo "<center>";
@@ -84,7 +84,7 @@ function show_news_for_page( $news_page_id )
 
         echo "<br>\n";
         $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
-        echo _("last changed ")." ".$formatted_date;
+        echo sprintf( _("last changed %s"), $formatted_date );
         echo "<br>\n";
 
         // this commented out until fuller rollout
@@ -134,7 +134,7 @@ function show_news_for_page( $news_page_id )
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         echo "<hr width='30%'>\n";
         $url = "$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id";
-        $linktext = _("Update News for ") . $news_type;
+        $linktext = sprintf( _("Update News for %s"), $news_type );
         echo "Site Admin: <a href='$url'>$linktext</a>";
         echo "\n";
     }
