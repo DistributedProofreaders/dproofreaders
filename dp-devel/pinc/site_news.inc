@@ -35,6 +35,8 @@ function show_news_for_page( $news_page_id )
 
     echo "<center>";
 
+    echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
+
     // -------------------------------------------
 
     // Get the set of 'current' news items 
@@ -65,7 +67,6 @@ function show_news_for_page( $news_page_id )
         // so display the news header.
 
         $header_title = sprintf( _('News for %s'), $news_type );
-        echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
         echo "<b>";
 
         // Show header-title as an image, if available.
@@ -90,7 +91,7 @@ function show_news_for_page( $news_page_id )
         // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
         // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
 
-        echo "</b></font><br>";
+        echo "</b><br>";
     }
 
     // -------------------------------------------
@@ -98,15 +99,13 @@ function show_news_for_page( $news_page_id )
 
     if (mysql_num_rows($res_current) > 0)
     {
-        echo "<br><font size='2' face='";
-        echo $theme['font_mainbody'] . "'>";
+        echo "<br>";
 
         $news_item = mysql_fetch_assoc($res_current);
         echo $news_item['content'];
         while  ($news_item = mysql_fetch_assoc($res_current)) {
             echo "<br><br>".$news_item['content'];
         }
-        echo "</font>";
 
         echo "\n";
     }
@@ -120,11 +119,12 @@ function show_news_for_page( $news_page_id )
 
         $news_item = mysql_fetch_assoc($res_random);
 
-        echo "<br><font size=2 face=";
-        echo $theme['font_mainbody'] . ">";
+        echo "<br>";
         echo $news_item['content'];
-        echo "</font><br>\n";
+        echo "<br>\n";
     }
+
+    echo "</font>";
 
     // -------------------------------------------
     // Give site admin and news editors a link to add/edit/show/hide/delete
