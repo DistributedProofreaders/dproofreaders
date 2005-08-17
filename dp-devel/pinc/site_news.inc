@@ -82,15 +82,17 @@ function show_news_for_page( $news_page_id )
             echo "<font size=4>$header_title</font>";
         }
 
-        echo "<br>";
+        echo "<br>\n";
         echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
+        echo "<br>\n";
 
         // this commented out until fuller rollout
 
         // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
         // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
 
-        echo "</b><br>";
+        echo "</b>";
+        echo "<br>\n";
     }
 
     // -------------------------------------------
@@ -98,35 +100,28 @@ function show_news_for_page( $news_page_id )
 
     if (mysql_num_rows($res_current) > 0)
     {
-        echo "<br>";
-
-        $news_item = mysql_fetch_assoc($res_current);
-        echo $news_item['content'];
         while  ($news_item = mysql_fetch_assoc($res_current)) {
-            echo "<br><br>".$news_item['content'];
+            echo $news_item['content'];
+            echo "<br>\n";
+            echo "<br>\n";
         }
-
-        echo "\n";
     }
-
-    echo "<br>\n";
 
     // -------------------------------------------
     // Output the 'random' news item, if any.
 
     if (mysql_num_rows ($res_random) == 1) {
 
-        echo "<br>\n";
         echo "<b>", _("Random News Item"), ":</b>";
+        echo "<br>\n";
         echo "<br>\n";
 
         $news_item = mysql_fetch_assoc($res_random);
-
-        echo "<br>";
         echo $news_item['content'];
         echo "<br>\n";
+        echo "<br>\n";
 
-        echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
+        echo "(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
     }
 
     // -------------------------------------------
