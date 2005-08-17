@@ -35,7 +35,7 @@ function show_news_for_page( $news_page_id )
 
     echo "<center>";
 
-    echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
+    echo "<font face='" . $theme['font_mainbody'] . "'>";
 
     // -------------------------------------------
 
@@ -124,8 +124,6 @@ function show_news_for_page( $news_page_id )
         echo "<br>\n";
     }
 
-    echo "</font>";
-
     // -------------------------------------------
     // Give site admin and news editors a link to add/edit/show/hide/delete
     // and otherwise manage news items for this page.
@@ -136,6 +134,7 @@ function show_news_for_page( $news_page_id )
         echo "\n";
     }
 
+    echo "</font>";
     echo "</center>";
     echo "<br>\n";
 }
