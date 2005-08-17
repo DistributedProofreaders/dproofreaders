@@ -46,9 +46,17 @@ function show_news_for_page( $news_page_id )
         ORDER BY ORDERING DESC
     ") or die(mysql_error());
 
-    // we have some news items to display 
-    if (mysql_num_rows ($res_current) > 0) {
+    $res_random = mysql_query("
+        SELECT content 
+        FROM news_items 
+        WHERE status = 'recent' 
+            AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+        ORDER BY RAND() LIMIT 1
+    ") or die(mysql_error());
 
+    // we have some news items to display 
+    if (mysql_num_rows($res_current) > 0 || mysql_num_rows($res_random) > 0)
+    {
         if (1) {
             $header_title = sprintf( _('News for %s'), $news_type );
             echo "<font size='2' face='" . $theme['font_mainbody'] . "'>";
@@ -78,7 +86,10 @@ function show_news_for_page( $news_page_id )
 
             echo "</b></font><br>";
         }
+    }
 
+    if (mysql_num_rows($res_current) > 0)
+    {
         echo "<br><font size='2' face='";
         echo $theme['font_mainbody'] . "'>";
 
@@ -96,14 +107,6 @@ function show_news_for_page( $news_page_id )
 
     // Output a randomly selected news item from the set of 
     // 'recent' news items defined for the given page.
-
-    $res_random = mysql_query("
-        SELECT content 
-        FROM news_items 
-        WHERE status = 'recent' 
-            AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
-        ORDER BY RAND() LIMIT 1
-    ") or die(mysql_error());
 
     // we have a random news items to display 
     if (mysql_num_rows ($res_random) == 1) {
