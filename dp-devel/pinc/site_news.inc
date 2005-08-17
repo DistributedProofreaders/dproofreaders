@@ -84,7 +84,6 @@ function show_news_for_page( $news_page_id )
 
         echo "<br>";
         echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
-        echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
 
         // this commented out until fuller rollout
 
@@ -117,11 +116,17 @@ function show_news_for_page( $news_page_id )
 
     if (mysql_num_rows ($res_random) == 1) {
 
+        echo "<br>\n";
+        echo "<b>", _("Random News Item"), ":</b>";
+        echo "<br>\n";
+
         $news_item = mysql_fetch_assoc($res_random);
 
         echo "<br>";
         echo $news_item['content'];
         echo "<br>\n";
+
+        echo "<br>(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
     }
 
     // -------------------------------------------
