@@ -15,10 +15,10 @@ function show_news_for_page( $news_page_id )
         SELECT news_type , modifieddate
         FROM news_pages 
         WHERE news_page_id = '$news_page_id'
-    ");
+    ") or die(mysql_error());
 
     // this is a valid page that may potentially have news items
-    if ($result0 AND mysql_num_rows($result0) > 0) {
+    if (mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
         $news_type = _($news_page['news_type']);
@@ -33,10 +33,10 @@ function show_news_for_page( $news_page_id )
             WHERE status = 'current' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY ORDERING DESC
-        ");
+        ") or die(mysql_error());
 
         // we have some news items to display 
-        if ($result AND  mysql_num_rows ($result) > 0) {
+        if (mysql_num_rows ($result) > 0) {
 
             echo "<center>";
 
@@ -102,10 +102,10 @@ function show_news_for_page( $news_page_id )
             WHERE status = 'recent' 
                 AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
             ORDER BY RAND() LIMIT 1
-        ");
+        ") or die(mysql_error());
 
         // we have a random news items to display 
-        if ($result AND mysql_num_rows ($result) == 1) {
+        if (mysql_num_rows ($result) == 1) {
  
             $news_item = mysql_fetch_assoc($result);
 
