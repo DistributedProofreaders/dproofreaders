@@ -8,9 +8,6 @@ function show_news_for_page( $news_page_id )
 // where the news items are designated for the given page,
 // or for every page.
 {
-    // Output the set of 'current' news items 
-    // defined for the given page.
-
     global $theme;
     global $code_url;
 
@@ -26,6 +23,9 @@ function show_news_for_page( $news_page_id )
         $news_page = mysql_fetch_assoc($result0);
         $news_type = _($news_page['news_type']);
         $date_changed = $news_page['modifieddate'];
+
+        // Output the set of 'current' news items 
+        // defined for the given page.
  
         $result = mysql_query("
             SELECT date_posted, content 
@@ -92,27 +92,10 @@ function show_news_for_page( $news_page_id )
         }
 
         echo "<br>\n";
-    }
 
-    // Output a randomly selected news item from the set of 
-    // 'recent' news items defined for the given page.
+        // Output a randomly selected news item from the set of 
+        // 'recent' news items defined for the given page.
 
-    global $theme;
-    global $code_url;
-
-    $result0 = mysql_query("
-        SELECT news_type , modifieddate
-        FROM news_pages 
-        WHERE news_page_id  = '$news_page_id '
-    ");
-
-    // this is a valid page that may potentially have news items
-    if ($result0 AND mysql_num_rows($result0) > 0) {
-
-        $news_page = mysql_fetch_assoc($result0);
-        $news_type = _($news_page['news_type']);
-        $date_changed = $news_page['modifieddate'];
- 
         $result = mysql_query("
             SELECT content 
             FROM news_items 
