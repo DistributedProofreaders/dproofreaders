@@ -17,8 +17,17 @@ function show_news_for_page( $news_page_id )
         WHERE news_page_id = '$news_page_id'
     ") or die(mysql_error());
 
+    if (mysql_num_rows($result0) == 0)
+    {
+        // The news_pages table does not have an entry for $news_page_id.
+        // On the PGDP site, this would be worthy of a warning at least,
+        // but elsewhere, it may just indicate that the site is not
+        // interested in news for this page (or perhaps any page),
+        // so we silently return.
+        return;
+    }
+
     // this is a valid page that may potentially have news items
-    if (mysql_num_rows($result0) > 0) {
 
         $news_page = mysql_fetch_assoc($result0);
         $news_type = _($news_page['news_type']);
@@ -116,7 +125,6 @@ function show_news_for_page( $news_page_id )
             echo "</center></font><br>\n";
         }
         echo "<br>\n";
-    }
 }
 
 // vim: sw=4 ts=4 expandtab
