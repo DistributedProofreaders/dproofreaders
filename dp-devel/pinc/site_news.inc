@@ -33,6 +33,8 @@ function show_news_for_page( $news_page_id )
     $news_type = _($news_page['news_type']);
     $date_changed = $news_page['modifieddate'];
 
+    echo "<center>";
+
     // Output the set of 'current' news items 
     // defined for the given page.
 
@@ -46,8 +48,6 @@ function show_news_for_page( $news_page_id )
 
     // we have some news items to display 
     if (mysql_num_rows ($result) > 0) {
-
-        echo "<center>";
 
         if (1) {
             $header_title = sprintf( _('News for %s'), $news_type );
@@ -89,15 +89,13 @@ function show_news_for_page( $news_page_id )
         }
         echo "</font>";
 
-        echo "</center>\n";
+        echo "\n";
     }
 
     // give site admin and news editors a link to add/edit/show/hide/delete and otherwise manage news items for this page
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
-        echo "<center>";
         echo "<hr width='30%'>\n";
         echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
-        echo "</center>";
     }
 
     echo "<br>\n";
@@ -118,12 +116,13 @@ function show_news_for_page( $news_page_id )
 
         $news_item = mysql_fetch_assoc($result);
 
-        echo "<center>";
         echo "<br><font size=2 face=";
         echo $theme['font_mainbody'] . ">";
         echo $news_item['content'];
-        echo "</center></font><br>\n";
+        echo "</font><br>\n";
     }
+
+    echo "</center>";
     echo "<br>\n";
 }
 
