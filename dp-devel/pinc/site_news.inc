@@ -83,7 +83,8 @@ function show_news_for_page( $news_page_id )
         }
 
         echo "<br>\n";
-        echo _("last changed ")." ".strftime(_("%A, %B %e, %Y"), $date_changed);
+        $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
+        echo _("last changed ")." ".$formatted_date;
         echo "<br>\n";
 
         // this commented out until fuller rollout
@@ -121,7 +122,9 @@ function show_news_for_page( $news_page_id )
         echo "<br>\n";
         echo "<br>\n";
 
-        echo "(<a href='$code_url/pastnews.php?news_page=$news_page_id'>"._("See All Random News Items")."</a>)";
+        $url = "$code_url/pastnews.php?news_page=$news_page_id";
+        $linktext = _("See All Random News Items");
+        echo "(<a href='$url'>$linktext</a>)";
     }
 
     // -------------------------------------------
@@ -130,7 +133,9 @@ function show_news_for_page( $news_page_id )
 
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         echo "<hr width='30%'>\n";
-        echo "Site Admin: <a href='$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id'>" . _("Update News for ") . $news_type. "</a>";
+        $url = "$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id";
+        $linktext = _("Update News for ") . $news_type;
+        echo "Site Admin: <a href='$url'>$linktext</a>";
         echo "\n";
     }
 
