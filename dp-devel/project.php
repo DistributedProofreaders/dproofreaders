@@ -1264,9 +1264,6 @@ function do_change_state()
     echo "</h4>\n";
     */
 
-    // You would think it would be simpler to use an onClick for each option.
-    // And it might be, and that works in Opera/Moz/FF. But not in IE.
-
     if ($state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser, 'PP') )
     {
         echo_option(
