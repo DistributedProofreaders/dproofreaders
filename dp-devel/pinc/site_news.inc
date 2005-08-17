@@ -135,7 +135,7 @@ function show_news_for_page( $news_page_id )
         echo "<hr width='30%'>\n";
         $url = "$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id";
         $linktext = sprintf( _("Update News for %s"), $news_type );
-        echo "Site Admin: <a href='$url'>$linktext</a>";
+        echo _("News Editor"), ": <a href='$url'>$linktext</a>";
         echo "\n";
     }
 
