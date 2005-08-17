@@ -38,7 +38,7 @@ function show_news_for_page( $news_page_id )
     // Output the set of 'current' news items 
     // defined for the given page.
 
-    $result = mysql_query("
+    $res_current = mysql_query("
         SELECT date_posted, content 
         FROM news_items 
         WHERE status = 'current' 
@@ -47,7 +47,7 @@ function show_news_for_page( $news_page_id )
     ") or die(mysql_error());
 
     // we have some news items to display 
-    if (mysql_num_rows ($result) > 0) {
+    if (mysql_num_rows ($res_current) > 0) {
 
         if (1) {
             $header_title = sprintf( _('News for %s'), $news_type );
@@ -82,9 +82,9 @@ function show_news_for_page( $news_page_id )
         echo "<br><font size='2' face='";
         echo $theme['font_mainbody'] . "'>";
 
-        $news_item = mysql_fetch_assoc($result);
+        $news_item = mysql_fetch_assoc($res_current);
         echo $news_item['content'];
-        while  ($news_item = mysql_fetch_assoc($result)) {
+        while  ($news_item = mysql_fetch_assoc($res_current)) {
             echo "<br><br>".$news_item['content'];
         }
         echo "</font>";
@@ -97,7 +97,7 @@ function show_news_for_page( $news_page_id )
     // Output a randomly selected news item from the set of 
     // 'recent' news items defined for the given page.
 
-    $result = mysql_query("
+    $res_random = mysql_query("
         SELECT content 
         FROM news_items 
         WHERE status = 'recent' 
@@ -106,9 +106,9 @@ function show_news_for_page( $news_page_id )
     ") or die(mysql_error());
 
     // we have a random news items to display 
-    if (mysql_num_rows ($result) == 1) {
+    if (mysql_num_rows ($res_random) == 1) {
 
-        $news_item = mysql_fetch_assoc($result);
+        $news_item = mysql_fetch_assoc($res_random);
 
         echo "<br><font size=2 face=";
         echo $theme['font_mainbody'] . ">";
