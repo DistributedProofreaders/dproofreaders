@@ -23,7 +23,7 @@ if ($dry_run)
     echo "This is a dry run.\n";
 }
 
-$n_days_ago = 7;
+$n_days_ago = 28;
 
 $old_date = time() - ($n_days_ago * 24 * 60 * 60);
 
