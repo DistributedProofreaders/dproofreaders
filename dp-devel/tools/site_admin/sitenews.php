@@ -68,15 +68,6 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
         news_change_made($news_page);
         header("Location: sitenews.php?news_page=$news_page");
     }
-    // View a specific site news item
-    elseif (isset($_GET['action']) && $_GET['action'] == "view") {
-        $item_id = $_GET['item_id'];
-        $result = mysql_query("SELECT * FROM news_items WHERE id = $item_id");
-        $date_posted = strftime(_("%A, %B %e, %Y"),mysql_result($result,0,'date_posted'));
-        echo "<b>$date_posted</b><br>";
-        echo mysql_result($result,0,"content");
-        echo "<br><br><a href='javascript:history.back()'>Go Back...</a>";
-    }
     // Delete a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "delete") {
         $item_id = $_GET['item_id'];
