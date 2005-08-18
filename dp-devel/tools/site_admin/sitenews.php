@@ -194,6 +194,7 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
             "</b></font>&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")<hr><br><br>";
 
         echo _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed.")."<br><br>";
+        echo "\n";
 
         while($news_item = mysql_fetch_array($result)) {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
@@ -212,6 +213,7 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
                     echo "<br><br><font size=+2><b>"._("Random News Items for ").$news_type.
                         _(" (Also appear as 'Recent News')")."</b></font><hr><br><br>";
                     echo _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed.")."<br><br>";
+                    echo "\n";
                     $first_recent = 0;
                 }
                 echo $base_url."display'>Make Fixed</a>]&nbsp;";
@@ -219,7 +221,9 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
             }
             echo $base_url."edit'>Edit</a>]&nbsp;";
             echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
+            echo "\n";
             echo $news_item['content']."<br><br>";
+            echo "\n";
         }
     }
 
@@ -235,13 +239,16 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
         echo "<font size=+2><b>"._("Archived News Items for ").$news_type.
             _(" (Only visible on this page)")."</b></font><hr><br><br>";
         echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
+        echo "\n";
         while($news_item = mysql_fetch_array($result)) {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
             $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action=";
             echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";
             echo $base_url."edit'>Edit</a>]&nbsp;";
             echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
+            echo "\n";
             echo $news_item['content']."<br><br>";
+            echo "\n";
         }
     }
 }
