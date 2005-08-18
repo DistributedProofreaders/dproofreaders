@@ -20,7 +20,7 @@ if (isset($_GET['news_page'])) {
         theme($title, "header");
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
-        echo "<h1 align='center'>$title</h2>";
+        echo "<h1 align='center'>$title</h1>";
         echo "<br>\n";
         handle_any_requested_db_updates( $news_page );
         show_item_editor( $news_page );
