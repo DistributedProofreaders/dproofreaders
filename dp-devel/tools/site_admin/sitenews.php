@@ -5,7 +5,11 @@ ob_start();
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 
-if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
+if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
+{
+    echo "You are not authorized to use this form.";
+    exit;
+}
 
     if (isset($_GET['news_page'])) {
         $news_page = $_GET['news_page'];
@@ -222,11 +226,6 @@ if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
             }
         }
     }
-}
-else {
-    echo "You are not authorized to use this form.";
-    exit;
-}
 
 
 function news_change_made ($news_page) {
