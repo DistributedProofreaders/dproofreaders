@@ -228,8 +228,6 @@ function show_all_news_items_for_page( $news_page, $last_modified )
         echo "<br><br>";
         echo "\n";
 
-        $first_vis = 1;
-
         while($news_item = mysql_fetch_array($result))
         {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
@@ -238,11 +236,7 @@ function show_all_news_items_for_page( $news_page, $last_modified )
             {
                 case 'current':
                     echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
-                    if ($first_vis == 1) {
-                        $first_vis = 0;
-                    } else {
-                        echo $base_url."moveup'>"._("Move Higher")."</a>]&nbsp;";
-                    }
+                    echo $base_url."moveup'>"._("Move Higher")."</a>]&nbsp;";
                     echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
                     break;
 
