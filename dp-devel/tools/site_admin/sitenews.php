@@ -45,7 +45,14 @@ if (isset($_GET['news_page'])) {
     exit();
 }
 
+handle_any_requested_db_updates( $news_page );
+show_item_editor( $news_page, $news_type );
+show_all_news_items_for_page( $news_page, $news_type, $last_modified );
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function handle_any_requested_db_updates( $news_page )
+{
         // Save a new site news item
         if (isset($_GET['action']) && $_GET['action'] == "add") {
             $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
@@ -117,8 +124,15 @@ if (isset($_GET['news_page'])) {
             $visible_change_made = ($row['status'] == 'current');
             if ($visible_change_made) {news_change_made($news_page);}
         }
+}
 
-// Add/Edit form for a specific site news item
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_item_editor( $news_page, $news_type )
+// Show a form:
+// -- to edit the text of an existing item (if requested), or
+// -- to compose a new item (otherwise).
+{
     if (isset($_GET['action']) && $_GET['action'] == "edit") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
@@ -135,8 +149,12 @@ if (isset($_GET['news_page'])) {
     echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
     echo "<center><textarea name='content' cols=50 rows=5>$content</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
     echo "<input type='hidden' name='item_id' value='$item_id'></form>";
+}
 
-    // show all news items for this page
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
+{
     // three categories:
     // 1) current (currently displayed on page every time)
     // 2) recent (displayed on "Recent News", and one shown as Random)
@@ -208,7 +226,9 @@ if (isset($_GET['news_page'])) {
             echo $news_item['content']."<br><br>";
         }
     }
+}
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function news_change_made ($news_page) {
     $date_changed = time();
@@ -216,6 +236,8 @@ function news_change_made ($news_page) {
             UPDATE news_pages SET modifieddate = $date_changed WHERE news_page_id = '$news_page'
     ");
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 
