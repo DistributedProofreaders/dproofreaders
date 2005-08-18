@@ -147,21 +147,21 @@ function show_item_editor( $news_page, $news_type )
     if (isset($_GET['action']) && $_GET['action'] == "edit") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
-        $content = mysql_result($result,0,"content");
-        $action = "edit_update";
-        $submit_query = "Edit Site News Item for ".$news_type;
+        $initial_content = mysql_result($result,0,"content");
+        $action_to_request = "edit_update";
+        $submit_button_label = "Edit Site News Item for ".$news_type;
     } else {
         $item_id = "";
-        $content = "";
-        $action = "add";
-        $submit_query = "Add Site News Item for ".$news_type;
+        $initial_content = "";
+        $action_to_request = "add";
+        $submit_button_label = "Add Site News Item for ".$news_type;
     }
 
-    echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
+    echo "<form action='sitenews.php?news_page=$news_page&action=$action_to_request' method='post'>";
     echo "<center>";
-    echo "<textarea name='content' cols=50 rows=5>$content</textarea>";
+    echo "<textarea name='content' cols=50 rows=5>$initial_content</textarea>";
     echo "<br>\n";
-    echo "<input type='submit' value='$submit_query' name='submit'>";
+    echo "<input type='submit' value='$submit_button_label' name='submit'>";
     echo "</center>";
     echo "<br>\n";
     echo "<br>\n";
