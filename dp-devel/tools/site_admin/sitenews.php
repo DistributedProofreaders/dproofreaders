@@ -187,6 +187,11 @@ function show_all_news_items_for_page( $news_page, $last_modified )
             'title'    => _('Fixed News Items'),
             'blurb'    => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
             'order_by' => 'ordering DESC',
+            'actions'  => array(
+                'hide'     => _('Make Random'),
+                'moveup'   => _('Move Higher'),
+                'movedown' => _('Move Lower'),
+            ),
         ),
 
         array(
@@ -194,6 +199,10 @@ function show_all_news_items_for_page( $news_page, $last_modified )
             'title'    => _('Random/Recent News Items'),
             'blurb'    => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
             'order_by' => 'ordering DESC',
+            'actions'  => array(
+                'display' => 'Make Fixed',
+                'archive' => 'Archive Item',
+            ),
         ),
 
         array(
@@ -201,6 +210,9 @@ function show_all_news_items_for_page( $news_page, $last_modified )
             'title'    => _('Archived News Items'),
             'blurb'    => _("Items here are not visible anywhere, and can be safely stored here until they become current again."),
             'order_by' => 'id DESC',
+            'actions'  => array(
+                'unarchive' => 'Unarchive Item',
+            ),
         ),
     );
 
@@ -228,29 +240,21 @@ function show_all_news_items_for_page( $news_page, $last_modified )
         echo "<br><br>";
         echo "\n";
 
+        $actions = $category['actions'] +
+            array(
+                'edit'     => 'Edit',
+                'delete'   => 'Delete',
+            );
+
         while($news_item = mysql_fetch_array($result))
         {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
             $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action=";
-            switch ($status)
+            foreach ( $actions as $action => $label )
             {
-                case 'current':
-                    echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
-                    echo $base_url."moveup'>"._("Move Higher")."</a>]&nbsp;";
-                    echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
-                    break;
-
-                case 'recent':
-                    echo $base_url."display'>Make Fixed</a>]&nbsp;";
-                    echo $base_url."archive'>Archive Item</a>]&nbsp;";
-                    break;
-
-                case 'archived':
-                    echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";
-                    break;
+                echo $base_url."$action'>$label</a>]&nbsp;";
             }
-            echo $base_url."edit'>Edit</a>]&nbsp;";
-            echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
+            echo " -- ($date_posted)<br><br>";
             echo "\n";
             echo $news_item['content']."<br><br>";
             echo "\n";
