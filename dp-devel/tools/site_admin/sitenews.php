@@ -158,8 +158,15 @@ function show_item_editor( $news_page, $news_type )
     }
 
     echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
-    echo "<center><textarea name='content' cols=50 rows=5>$content</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
-    echo "<input type='hidden' name='item_id' value='$item_id'></form>";
+    echo "<center>";
+    echo "<textarea name='content' cols=50 rows=5>$content</textarea>";
+    echo "<br>\n";
+    echo "<input type='submit' value='$submit_query' name='submit'>";
+    echo "</center>";
+    echo "<br>\n";
+    echo "<br>\n";
+    echo "<input type='hidden' name='item_id' value='$item_id'>";
+    echo "</form>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
