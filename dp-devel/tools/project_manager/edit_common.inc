@@ -327,7 +327,7 @@ function image_provider_list($image_provider)
         . "<input type='text' size='18' name='imp_other' value='"
         . encodeFormValue($imp_other_val)."'>";
 
-    echo " <a href='show_image_providers.php'>Details of Image Providers</a><br>";
+    echo " <a href='show_image_sources.php'>Details of Image Providers</a><br>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
