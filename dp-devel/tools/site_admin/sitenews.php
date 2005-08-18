@@ -23,8 +23,8 @@ if (isset($_GET['news_page'])) {
         echo "<h1 align='center'>$title</h2>";
         echo "<br>\n";
         handle_any_requested_db_updates( $news_page );
-        show_item_editor( $news_page, $news_type );
-        show_all_news_items_for_page( $news_page, $news_type, $last_modified );
+        show_item_editor( $news_page );
+        show_all_news_items_for_page( $news_page, $last_modified );
         theme("", "footer");
     } else {
         echo _("Error").": <b>".$news_page."</b> "._("Unknown news_page specified, exiting.");
@@ -142,7 +142,7 @@ function handle_any_requested_db_updates( $news_page )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_item_editor( $news_page, $news_type )
+function show_item_editor( $news_page )
 // Show a form:
 // -- to edit the text of an existing item (if requested), or
 // -- to compose a new item (otherwise).
@@ -152,12 +152,12 @@ function show_item_editor( $news_page, $news_type )
         $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
         $initial_content = mysql_result($result,0,"content");
         $action_to_request = "edit_update";
-        $submit_button_label = "Edit Site News Item for ".$news_type;
+        $submit_button_label = "Edit News Item";
     } else {
         $item_id = "";
         $initial_content = "";
         $action_to_request = "add";
-        $submit_button_label = "Add Site News Item for ".$news_type;
+        $submit_button_label = "Add News Item";
     }
 
     echo "<form action='sitenews.php?news_page=$news_page&action=$action_to_request' method='post'>";
@@ -174,7 +174,7 @@ function show_item_editor( $news_page, $news_type )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
+function show_all_news_items_for_page( $news_page, $last_modified )
 {
     // three categories:
     // 1) current (currently displayed on page every time)
@@ -193,7 +193,7 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
         $first_recent = 1;
         $first_vis = 1;
 
-        echo "<font size=+2><b>"._("Fixed News Items for ").$news_type.
+        echo "<font size=+2><b>"._("Fixed News Items").
             "</b></font>&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")<hr><br><br>";
 
         echo _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed.")."<br><br>";
@@ -213,7 +213,7 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
                 echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
             } else {
                 if ($first_recent == 1) {
-                    echo "<br><br><font size=+2><b>"._("Random News Items for ").$news_type.
+                    echo "<br><br><font size=+2><b>"._("Random News Items").
                         _(" (Also appear as 'Recent News')")."</b></font><hr><br><br>";
                     echo _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed.")."<br><br>";
                     echo "\n";
@@ -239,7 +239,7 @@ function show_all_news_items_for_page( $news_page, $news_type, $last_modified )
 
     if (mysql_numrows($result) > 0) {
 
-        echo "<font size=+2><b>"._("Archived News Items for ").$news_type.
+        echo "<font size=+2><b>"._("Archived News Items").
             _(" (Only visible on this page)")."</b></font><hr><br><br>";
         echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
         echo "\n";
