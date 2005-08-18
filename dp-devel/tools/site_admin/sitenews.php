@@ -53,8 +53,10 @@ if (isset($_GET['news_page'])) {
 
 function handle_any_requested_db_updates( $news_page )
 {
-        // Save a new site news item
-        if (isset($_GET['action']) && $_GET['action'] == "add") {
+    switch( @$_GET['action'] )
+    {
+        case 'add':
+            // Save a new site news item
             $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
             $content = nl2br($content);
             $date_posted = time();
@@ -72,48 +74,56 @@ function handle_any_requested_db_updates( $news_page )
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
             ");
             news_change_made($news_page);
-        }
-        // Delete a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "delete") {
+            break;
+
+        case 'delete':
+            // Delete a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("DELETE FROM news_items WHERE id=$item_id");
-        }
-        // Display a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "display") {
+            break;
+
+        case 'display':
+            // Display a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'current' WHERE id=$item_id");
             news_change_made($news_page);
-        }
-        // Hide a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "hide") {
+            break;
+
+        case 'hide':
+            // Hide a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
             news_change_made($news_page);
-        }
-        // Archive a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "archive") {
+            break;
+
+        case 'archive':
+            // Archive a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'archived' WHERE id=$item_id");
-        }
-        // Unarchive a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "unarchive") {
+            break;
+
+        case 'unarchive':
+            // Unarchive a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
-        }
-        // Move a specific site news item higher in the display list
-        elseif (isset($_GET['action']) && $_GET['action'] == "moveup") {
+            break;
+
+        case 'moveup':
+            // Move a specific site news item higher in the display list
             $item_id = $_GET['item_id'];
             move_news_item ($news_page, $item_id, 'up');
             news_change_made($news_page);
-        }
-        // Move a specific site news item lower in the display list
-        elseif (isset($_GET['action']) && $_GET['action'] == "movedown") {
+            break;
+
+        case 'movedown':
+            // Move a specific site news item lower in the display list
             $item_id = $_GET['item_id'];
             move_news_item ($news_page, $item_id, 'down');
             news_change_made($news_page);
-        }
-        // Save an update to a specific site news item
-        elseif (isset($_GET['action']) && $_GET['action'] == "edit_update") {
+            break;
+
+        case 'edit_update':
+            // Save an update to a specific site news item
             $content = $_POST['content'];
             $content = strip_tags($_POST['content'], '<a><b><i><u><font><img>');
             $content = nl2br($content);
@@ -123,7 +133,8 @@ function handle_any_requested_db_updates( $news_page )
             $row = mysql_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
             if ($visible_change_made) {news_change_made($news_page);}
-        }
+            break;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
