@@ -181,72 +181,80 @@ function show_all_news_items_for_page( $news_page, $last_modified )
     // 2) recent (displayed on "Recent News", and one shown as Random)
     // 3) archived (not visible to users at all, saved for later use or historical interest)
 
-    $result = mysql_query("
-        SELECT *
-        FROM news_items
-        WHERE news_page_id = '$news_page' AND status != 'archived'
-        ORDER BY status ASC, ordering DESC
-    ");
+    $categories = array(
+        array(
+            'status'   => 'current',
+            'title'    => _('Fixed News Items'),
+            'blurb'    => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
+            'order_by' => 'ordering DESC',
+        ),
 
-    if (mysql_numrows($result) > 0) {
+        array(
+            'status'   => 'recent',
+            'title'    => _('Random/Recent News Items'),
+            'blurb'    => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
+            'order_by' => 'ordering DESC',
+        ),
 
-        $first_recent = 1;
+        array(
+            'status'   => 'archived',
+            'title'    => _('Archived News Items'),
+            'blurb'    => _("Items here are not visible anywhere, and can be safely stored here until they become current again."),
+            'order_by' => 'id DESC',
+        ),
+    );
+
+    foreach ( $categories as $category )
+    {
+        $status = $category['status'];
+
+        $result = mysql_query("
+            SELECT *
+            FROM news_items
+            WHERE news_page_id = '$news_page' AND status = '$status'
+            ORDER BY {$category['order_by']}
+        ");
+
+        if (mysql_num_rows($result) == 0) continue;
+
+        echo "<font size=+2><b>{$category['title']}</b></font>";
+        if ($status == 'current')
+        {
+            echo "&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")";
+        }
+        echo "<hr>";
+        echo "<br><br>";
+        echo $category['blurb'];
+        echo "<br><br>";
+        echo "\n";
+
         $first_vis = 1;
 
-        echo "<font size=+2><b>"._("Fixed News Items").
-            "</b></font>&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")<hr><br><br>";
-
-        echo _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed.")."<br><br>";
-        echo "\n";
-
-        while($news_item = mysql_fetch_array($result)) {
+        while($news_item = mysql_fetch_array($result))
+        {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-            $status = $news_item['status'];
             $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action=";
-            if ($status == 'current') {
-                echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
-                if ($first_vis == 1) {
-                    $first_vis = 0;
-                } else {
-                    echo $base_url."moveup'>"._("Move Higher")."</a>]&nbsp;";
-                }
-                echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
-            } else {
-                if ($first_recent == 1) {
-                    echo "<br><br><font size=+2><b>"._("Random News Items").
-                        _(" (Also appear as 'Recent News')")."</b></font><hr><br><br>";
-                    echo _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed.")."<br><br>";
-                    echo "\n";
-                    $first_recent = 0;
-                }
-                echo $base_url."display'>Make Fixed</a>]&nbsp;";
-                echo $base_url."archive'>Archive Item</a>]&nbsp;";
+            switch ($status)
+            {
+                case 'current':
+                    echo $base_url."hide'>"._("Make Random")."</a>]&nbsp;";
+                    if ($first_vis == 1) {
+                        $first_vis = 0;
+                    } else {
+                        echo $base_url."moveup'>"._("Move Higher")."</a>]&nbsp;";
+                    }
+                    echo $base_url."movedown'>"._("Move Lower")."</a>]&nbsp;";
+                    break;
+
+                case 'recent':
+                    echo $base_url."display'>Make Fixed</a>]&nbsp;";
+                    echo $base_url."archive'>Archive Item</a>]&nbsp;";
+                    break;
+
+                case 'archived':
+                    echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";
+                    break;
             }
-            echo $base_url."edit'>Edit</a>]&nbsp;";
-            echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
-            echo "\n";
-            echo $news_item['content']."<br><br>";
-            echo "\n";
-        }
-    }
-
-    $result = mysql_query("
-        SELECT *
-        FROM news_items
-        WHERE news_page_id = '$news_page' AND status = 'archived'
-        ORDER BY id DESC;
-    ");
-
-    if (mysql_numrows($result) > 0) {
-
-        echo "<font size=+2><b>"._("Archived News Items").
-            _(" (Only visible on this page)")."</b></font><hr><br><br>";
-        echo _("Items here are not visible anywhere, and can be safely stored here until they become current again.")."<br><br>";
-        echo "\n";
-        while($news_item = mysql_fetch_array($result)) {
-            $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-            $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action=";
-            echo $base_url."unarchive'>Unarchive Item</a>]&nbsp;";
             echo $base_url."edit'>Edit</a>]&nbsp;";
             echo $base_url."delete'>Delete</a>]&nbsp; -- ($date_posted)<br><br>";
             echo "\n";
