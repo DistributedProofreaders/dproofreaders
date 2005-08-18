@@ -249,10 +249,10 @@ function show_all_news_items_for_page( $news_page, $last_modified )
         while($news_item = mysql_fetch_array($result))
         {
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
-            $base_url = "[<a href='sitenews.php?news_page=$news_page&item_id=".$news_item['id']."&action=";
             foreach ( $actions as $action => $label )
             {
-                echo $base_url."$action'>$label</a>]&nbsp;";
+                $url = "sitenews.php?news_page=$news_page&item_id={$news_item['id']}&action=$action";
+                echo "[<a href='$url'>$label</a>]\n";
             }
             echo " -- ($date_posted)<br><br>";
             echo "\n";
