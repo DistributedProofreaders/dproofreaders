@@ -129,16 +129,18 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
     }
     // Add/Edit form for a specific site news item
     else {
-        $action = "add";
-        $submit_query = "Add Site News Item for ".$news_type;
         if (isset($_GET['action']) && $_GET['action'] == "edit") {
             $item_id = $_GET['item_id'];
             $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
             $content = mysql_result($result,0,"content");
             $action = "edit_update";
             $submit_query = "Edit Site News Item for ".$news_type;
+        } else {
+            $item_id = "";
+            $content = "";
+            $action = "add";
+            $submit_query = "Add Site News Item for ".$news_type;
         }
-        if (empty($content)) { $content = ""; }
 
         echo "<form action='sitenews.php?news_page=$news_page&action=$action' method='post'>";
         echo "<center><textarea name='content' cols=50 rows=5>$content</textarea><br><input type='submit' value='$submit_query' name='submit'></center><br><br>";
