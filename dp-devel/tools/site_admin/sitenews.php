@@ -16,9 +16,12 @@ if (isset($_GET['news_page'])) {
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
         $news_type = _($news_type_row['news_type']);
         $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']);
-        theme("Site News Update for ".$news_type, "header");
+        $title = sprintf('News Desk for %s', $news_type );
+        theme($title, "header");
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
+        echo "<h1 align='center'>$title</h2>";
+        echo "<br>\n";
         handle_any_requested_db_updates( $news_page );
         show_item_editor( $news_page, $news_type );
         show_all_news_items_for_page( $news_page, $news_type, $last_modified );
