@@ -1,7 +1,6 @@
 <?
 $relPath="./../../pinc/";
 include($relPath.'dp_main.inc');
-ob_start();
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 
@@ -66,53 +65,45 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
             UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
         ");
         news_change_made($news_page);
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Delete a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "delete") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("DELETE FROM news_items WHERE id=$item_id");
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Display a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "display") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("UPDATE news_items SET status = 'current' WHERE id=$item_id");
         news_change_made($news_page);
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Hide a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "hide") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
         news_change_made($news_page);
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Archive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "archive") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("UPDATE news_items SET status = 'archived' WHERE id=$item_id");
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Unarchive a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "unarchive") {
         $item_id = $_GET['item_id'];
         $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item higher in the display list
     elseif (isset($_GET['action']) && $_GET['action'] == "moveup") {
         $item_id = $_GET['item_id'];
         move_news_item ($news_page, $item_id, 'up');
         news_change_made($news_page);
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Move a specific site news item lower in the display list
     elseif (isset($_GET['action']) && $_GET['action'] == "movedown") {
         $item_id = $_GET['item_id'];
         move_news_item ($news_page, $item_id, 'down');
         news_change_made($news_page);
-        header("Location: sitenews.php?news_page=$news_page");
     }
     // Save an update to a specific site news item
     elseif (isset($_GET['action']) && $_GET['action'] == "edit_update") {
@@ -125,10 +116,9 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
         $row = mysql_fetch_assoc($result);
         $visible_change_made = ($row['status'] == 'current');
         if ($visible_change_made) {news_change_made($news_page);}
-        header("Location: sitenews.php?news_page=$news_page");
     }
+
     // Add/Edit form for a specific site news item
-    else {
         if (isset($_GET['action']) && $_GET['action'] == "edit") {
             $item_id = $_GET['item_id'];
             $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
@@ -218,7 +208,6 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
                 echo $news_item['content']."<br><br>";
             }
         }
-    }
 
 
 function news_change_made ($news_page) {
@@ -272,7 +261,6 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 
 
 theme("", "footer");
-ob_end_flush();
 
 // vim: sw=4 ts=4 expandtab
 ?>
