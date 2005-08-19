@@ -229,12 +229,12 @@ function show_all_news_items_for_page( $news_page, $last_modified )
 
         if (mysql_num_rows($result) == 0) continue;
 
+        echo "<hr size='5'>\n";
         echo "<font size=+2><b>{$category['title']}</b></font>";
         if ($status == 'current')
         {
             echo "&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")";
         }
-        echo "<hr>";
         echo "<br><br>";
         echo $category['blurb'];
         echo "<br><br>";
@@ -248,6 +248,7 @@ function show_all_news_items_for_page( $news_page, $last_modified )
 
         while($news_item = mysql_fetch_array($result))
         {
+            echo "<hr width='70%' align='left'>\n";
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
             foreach ( $actions as $action => $label )
             {
