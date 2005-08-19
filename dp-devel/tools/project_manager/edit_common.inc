@@ -276,10 +276,10 @@ function special_list($special)
 
 function image_provider_list($image_provider)
 {
-    // get info on image_providers
+    // get info on image_sources
     $imp_result = mysql_query("
-        SELECT image_provider, display_name
-        FROM image_providers
+        SELECT code_name, display_name
+        FROM image_sources
         WHERE enable = 1
         ORDER BY display_name
     ") or die(mysql_error());
@@ -291,7 +291,7 @@ function image_provider_list($image_provider)
     while ($i_row = mysql_fetch_assoc($imp_result))
     {
         $show = $i_row['display_name'];
-        $code = $i_row['image_provider'];
+        $code = $i_row['code_name'];
         $imp_array["$code"] = $show;
     }
 
@@ -303,7 +303,7 @@ function image_provider_list($image_provider)
     if (strcmp ( $image_provider, 'DP User') == 0) { echo " SELECTED"; }
     echo ">"._("DP User")."</option>";
 
-    // add the pre-defined image_providers
+    // add the pre-defined image_sources
     foreach($imp_array as $k=>$v)
     {
         echo "<option value='".encodeFormValue($k)."'";

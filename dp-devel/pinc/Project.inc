@@ -38,8 +38,8 @@ class Project
                 {
                     $imp_res = mysql_fetch_assoc(mysql_query("
                         SELECT full_name, credit
-                        FROM image_providers
-                        WHERE image_provider = '$imp_code'
+                        FROM image_sources
+                        WHERE code_name = '$imp_code'
                     "));
                     $this->image_provider_name = $imp_res['full_name'];
                     $image_provider_credit = $imp_res['credit'];

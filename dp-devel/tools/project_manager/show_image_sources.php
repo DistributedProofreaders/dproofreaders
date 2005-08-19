@@ -22,13 +22,13 @@ if (!isset($_GET['name']))
 
     dpsql_dump_query("
         SELECT
-                concat('<a href=\"show_image_sources.php?name=',image_provider,'\" >',full_name,'</a>') as 'Full Name',
+                concat('<a href=\"show_image_sources.php?name=',code_name,'\" >',full_name,'</a>') as 'Full Name',
                 display_name as 'Name in<br>Dropdown',
                 public_comment as 'Description',
                 internal_comment as 'Notes',
                 CASE ok_show_images WHEN 1 THEN 'yes' WHEN 0 THEN 'no' ELSE 'unknown' END as 'OK to<br>Publish?',
                 concat('<a href=\"',url,'\">',url,'</a>') as 'More Info'
-        FROM image_providers
+        FROM image_sources
         WHERE enable = 1
         ORDER BY full_name
 
@@ -44,8 +44,8 @@ if (!isset($_GET['name']))
                 display_name,
                 public_comment,
                 concat('<a href=\"',url,'\">',url,'</a>') as 'more_info'
-        FROM image_providers
-        WHERE image_provider = '$ip_to_show'
+        FROM image_sources
+        WHERE code_name = '$ip_to_show'
        "));
 
 
