@@ -69,7 +69,7 @@ if (!isset($_GET['name']))
 	     language as "._('Language').",
            concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>') as '"._('PG Number<br>and Link')."'
         FROM projects
-        WHERE image_provider = '".$ip_to_show."'
+        WHERE image_source = '".$ip_to_show."'
            AND  ".SQL_CONDITION_GOLD."
         ORDER BY 1
     ");

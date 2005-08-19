@@ -54,7 +54,7 @@ if ( isset($_REQUEST['action']) &&
                 $genre = $up_info['d_genre'];
                 $difficulty_level = $up_info['d_difficulty'];
                 $special = $up_info['d_special'];
-                $image_provider = $up_info['d_image_provider'];
+                $image_provider = $up_info['d_image_source'];
                 // $year = $up_info['d_year'];
             }
             else
@@ -284,7 +284,7 @@ function saveUberProject()
                 d_scannercredit='{$_POST['scannercredit']}',
                 d_clearance='{$_POST['clearance']}',
                 d_special='$special',
-                d_image_provider = '$image_provider'
+                d_image_source = '$image_provider'
             WHERE up_projectid='{$_POST['up_projectid']}'
         ");
 
@@ -298,7 +298,7 @@ function saveUberProject()
             INSERT INTO uber_projects
                 (up_nameofwork, up_topic_id, up_contents_post_id, up_modifieddate, up_enabled, up_description,
                 d_nameofwork, d_authorsname, d_language, d_comments, d_special, d_checkedoutby, d_scannercredit,
-                d_clearance, d_year, d_genre, d_difficulty, d_image_provider)
+                d_clearance, d_year, d_genre, d_difficulty, d_image_source)
             VALUES (
                 '{$_POST['up_nameofwork']}',
                 '{$_POST['up_topic_id']}',

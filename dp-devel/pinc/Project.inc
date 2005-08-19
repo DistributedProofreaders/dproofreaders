@@ -25,9 +25,9 @@ class Project
         // -------------------------------------------------
 
         // Maybe set $this->image_provider_name.
-        if (isset($this->image_provider))
+        if (isset($this->image_source))
         {
-            $imp_code = $this->image_provider;
+            $imp_code = $this->image_source;
             if ( strcmp($imp_code,'DP User') != 0 )
             {
                 if ( strncmp($imp_code,'O:',2) == 0 )

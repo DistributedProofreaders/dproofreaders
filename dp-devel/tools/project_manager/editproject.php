@@ -94,7 +94,7 @@ function saveProject() {
                 postednum=$postednum,
                 clearance='{$_POST['clearance']}',
                 special_code='$special_code',
-                image_provider = '$image_provider',
+                image_source = '$image_provider',
                 up_projectid ='{$_POST['up_projectid']}'
 
             WHERE projectid='{$_POST['projectid']}'
@@ -143,7 +143,7 @@ function saveProject() {
                 state          = '".PROJ_NEW."',
                 clearance      = '{$_POST['clearance']}',
                 special_code   = '$special_code',
-                image_provider = '$image_provider',
+                image_source   = '$image_provider',
                 up_projectid   = '{$_POST['up_projectid']}'
         ");
 
@@ -438,7 +438,7 @@ elseif ((isset( $_REQUEST['action']) &&
                     $genre = $up_info['d_genre'];
                     $difficulty_level = $up_info['d_difficulty'];
                     $special_code = $up_info['d_special'];
-                    $image_provider = $up_info['d_image_provider'];
+                    $image_provider = $up_info['d_image_source'];
                     // $year = $up_info['d_year'];
 
                 } else {
@@ -484,7 +484,7 @@ elseif ((isset( $_REQUEST['action']) &&
             $genre = mysql_result($result, 0, "genre");
             $difficulty_level = mysql_result($result, 0, "difficulty");
             $special_code = mysql_result($result, 0, "special_code");
-            $image_provider = mysql_result($result, 0, "image_provider");
+            $image_provider = mysql_result($result, 0, "image_source");
             $up_projectid = mysql_result($result, 0, "up_projectid");
 
             // if there's an associated UP, get info on it 
