@@ -57,14 +57,14 @@ function saveProject() {
       $image_source = $_POST['image_source'];
       if (strcmp($image_source, 'OTHER') == 0) {
          if (empty($_POST['imso_other'])) {
-              $errormsg .= "When Image Provider is OTHER, details must be supplied.<br>";
+              $errormsg .= "When Image Source is OTHER, details must be supplied.<br>";
           } else {
              $imso_other = $_POST['imso_other'];
              $image_source = "O:".$imso_other;
           }
       }
    } else {
-      $errormsg .= "Image Provider is required.<br>";
+      $errormsg .= "Image Source is required.<br>";
    }
 
    if (isset($errormsg)) {
@@ -570,7 +570,7 @@ elseif ((isset( $_REQUEST['action']) &&
     row( _("Difficulty Level"),      'difficulty_list',     $difficulty_level );
     row( _("Special Day (optional)"),'special_list',        $special_code     );
     row( _("PPer/PPVer"),            'text_field',          $checkedoutby,    'checkedoutby' );
-    row( _("Image Provider"),        'image_source_list',   $image_source     );
+    row( _("Image Source"),          'image_source_list',   $image_source     );
     row( _("Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Posted Number"),         'text_field',          $postednum,       'postednum' );

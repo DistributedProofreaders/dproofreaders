@@ -10,7 +10,7 @@ $no_stats = 1;
 if (!isset($_GET['name']))
 {
 
-    $title = _("Further Information on Image Providers");
+    $title = _("Further Information on Image Sources");
     theme($title, "header");
 
     echo "<br><h2>$title</h2>\n";
@@ -59,7 +59,7 @@ if (!isset($_GET['name']))
 
     echo "<br><h3>$sub_title</h3><h4>$more_info</h4>\n\n";
 
-    echo  "<a href='show_image_sources.php'>"._("Back to the full listing of Image Providers")."</a><br><br>";
+    echo  "<a href='show_image_sources.php'>"._("Back to the full listing of Image Sources")."</a><br><br>";
 
     dpsql_dump_query("
         SELECT

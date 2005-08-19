@@ -327,7 +327,7 @@ function image_source_list($image_source)
         . "<input type='text' size='18' name='imso_other' value='"
         . encodeFormValue($imso_other_val)."'>";
 
-    echo " <a href='show_image_sources.php'>Details of Image Providers</a><br>";
+    echo " <a href='show_image_sources.php'>Details of Image Sources</a><br>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

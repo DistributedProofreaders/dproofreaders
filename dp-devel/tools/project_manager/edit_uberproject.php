@@ -125,7 +125,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Difficulty Level"),      'difficulty_list',     $difficulty_level );
     row( _("Default Special Day"),           'special_list',        $special          );
     row( _("Default PPer"),                  'text_field',          $checkedoutby,    'checkedoutby' );
-    row( _("Default Image Provider"),        'image_source_list',   $image_source     );
+    row( _("Default Image Source"),          'image_source_list',   $image_source     );
     row( _("Default Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
@@ -234,7 +234,7 @@ function saveUberProject()
         {
             if (empty($_POST['imso_other']))
             {
-                $errormsg .= "When Default Image Provider is OTHER, details must be supplied.<br>";
+                $errormsg .= "When Default Image Source is OTHER, details must be supplied.<br>";
             }
             else
             {

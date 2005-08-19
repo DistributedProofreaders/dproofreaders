@@ -447,7 +447,7 @@ function do_project_info_table()
 
     if (isset($project->image_source_name))
     {
-        echo_row_a( _("Image Provider"), $project->image_source_name, TRUE );
+        echo_row_a( _("Image Source"), $project->image_source_name, TRUE );
     }
 
     echo_row_a( _("Project Manager"), $project->username );
