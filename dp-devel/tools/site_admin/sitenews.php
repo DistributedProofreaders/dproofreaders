@@ -162,7 +162,7 @@ function show_item_editor( $news_page )
 
     echo "<form action='sitenews.php?news_page=$news_page&action=$action_to_request' method='post'>";
     echo "<center>";
-    echo "<textarea name='content' cols=50 rows=5>$initial_content</textarea>";
+    echo "<textarea name='content' cols='80' rows='8'>$initial_content</textarea>";
     echo "<br>\n";
     echo "<input type='submit' value='$submit_button_label' name='submit'>";
     echo "</center>";
