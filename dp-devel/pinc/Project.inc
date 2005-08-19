@@ -24,34 +24,34 @@ class Project
 
         // -------------------------------------------------
 
-        // Maybe set $this->image_provider_name.
+        // Maybe set $this->image_source_name.
         if (isset($this->image_source))
         {
-            $imp_code = $this->image_source;
-            if ( strcmp($imp_code,'DP User') != 0 )
+            $imso_code = $this->image_source;
+            if ( strcmp($imso_code,'DP User') != 0 )
             {
-                if ( strncmp($imp_code,'O:',2) == 0 )
+                if ( strncmp($imso_code,'O:',2) == 0 )
                 {
-                    $this->image_provider_name = substr($imp_code,2);
+                    $this->image_source_name = substr($imso_code,2);
                 }
                 else
                 {
-                    $imp_res = mysql_fetch_assoc(mysql_query("
+                    $imso_res = mysql_fetch_assoc(mysql_query("
                         SELECT full_name, credit
                         FROM image_sources
-                        WHERE code_name = '$imp_code'
+                        WHERE code_name = '$imso_code'
                     "));
-                    $this->image_provider_name = $imp_res['full_name'];
-                    $image_provider_credit = $imp_res['credit'];
+                    $this->image_source_name = $imso_res['full_name'];
+                    $image_source_credit = $imso_res['credit'];
                 }
             }
         }
 
         // Set $this->credits_line.
         $this->credits_line = $this->_create_credit_line();
-        if (isset($image_provider_credit))
+        if (isset($image_source_credit))
         {
-            $this->credits_line = $this->credits_line." ".$image_provider_credit;
+            $this->credits_line = $this->credits_line." ".$image_source_credit;
         }
 
         // -------------------------------------------------

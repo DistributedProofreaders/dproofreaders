@@ -53,14 +53,14 @@ function saveProject() {
           }
       }
    }
-   if (!empty($_POST['image_provider'])) {
-      $image_provider = $_POST['image_provider'];
-      if (strcmp($image_provider, 'OTHER') == 0) {
-         if (empty($_POST['imp_other'])) {
+   if (!empty($_POST['image_source'])) {
+      $image_source = $_POST['image_source'];
+      if (strcmp($image_source, 'OTHER') == 0) {
+         if (empty($_POST['imso_other'])) {
               $errormsg .= "When Image Provider is OTHER, details must be supplied.<br>";
           } else {
-             $imp_other = $_POST['imp_other'];
-             $image_provider = "O:".$imp_other;
+             $imso_other = $_POST['imso_other'];
+             $image_source = "O:".$imso_other;
           }
       }
    } else {
@@ -94,7 +94,7 @@ function saveProject() {
                 postednum=$postednum,
                 clearance='{$_POST['clearance']}',
                 special_code='$special_code',
-                image_source = '$image_provider',
+                image_source = '$image_source',
                 up_projectid ='{$_POST['up_projectid']}'
 
             WHERE projectid='{$_POST['projectid']}'
@@ -143,7 +143,7 @@ function saveProject() {
                 state          = '".PROJ_NEW."',
                 clearance      = '{$_POST['clearance']}',
                 special_code   = '$special_code',
-                image_source   = '$image_provider',
+                image_source   = '$image_source',
                 up_projectid   = '{$_POST['up_projectid']}'
         ");
 
@@ -438,7 +438,7 @@ elseif ((isset( $_REQUEST['action']) &&
                     $genre = $up_info['d_genre'];
                     $difficulty_level = $up_info['d_difficulty'];
                     $special_code = $up_info['d_special'];
-                    $image_provider = $up_info['d_image_source'];
+                    $image_source = $up_info['d_image_source'];
                     // $year = $up_info['d_year'];
 
                 } else {
@@ -484,7 +484,7 @@ elseif ((isset( $_REQUEST['action']) &&
             $genre = mysql_result($result, 0, "genre");
             $difficulty_level = mysql_result($result, 0, "difficulty");
             $special_code = mysql_result($result, 0, "special_code");
-            $image_provider = mysql_result($result, 0, "image_source");
+            $image_source = mysql_result($result, 0, "image_source");
             $up_projectid = mysql_result($result, 0, "up_projectid");
 
             // if there's an associated UP, get info on it 
@@ -512,7 +512,7 @@ elseif ((isset( $_REQUEST['action']) &&
     if (empty($clearance)) { $clearance = ""; }
     if (empty($postednum)) { $postednum = ""; }
     if (empty($special_code)) { $special_code = ""; }
-    if (empty($image_provider)) { $image_provider = "DP User"; }
+    if (empty($image_source)) { $image_source = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
     if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'submit_marcsearch')) {
@@ -570,7 +570,7 @@ elseif ((isset( $_REQUEST['action']) &&
     row( _("Difficulty Level"),      'difficulty_list',     $difficulty_level );
     row( _("Special Day (optional)"),'special_list',        $special_code     );
     row( _("PPer/PPVer"),            'text_field',          $checkedoutby,    'checkedoutby' );
-    row( _("Image Provider"),        'image_provider_list', $image_provider   );
+    row( _("Image Provider"),        'image_source_list',   $image_source     );
     row( _("Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Posted Number"),         'text_field',          $postednum,       'postednum' );

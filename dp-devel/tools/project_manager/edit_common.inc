@@ -274,10 +274,10 @@ function special_list($special)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function image_provider_list($image_provider)
+function image_source_list($image_source)
 {
     // get info on image_sources
-    $imp_result = mysql_query("
+    $imso_result = mysql_query("
         SELECT code_name, display_name
         FROM image_sources
         WHERE enable = 1
@@ -285,47 +285,47 @@ function image_provider_list($image_provider)
     ") or die(mysql_error());
 
     // it'd be nice to make this static, or something, so it only was loaded once
-    $imp_array = array();
+    $imso_array = array();
 
     // put list into array
-    while ($i_row = mysql_fetch_assoc($imp_result))
+    while ($i_row = mysql_fetch_assoc($imso_result))
     {
         $show = $i_row['display_name'];
         $code = $i_row['code_name'];
-        $imp_array["$code"] = $show;
+        $imso_array["$code"] = $show;
     }
 
-    // drop down select box for which image provider
-    echo "<select name='image_provider'>";
+    // drop down select box for which image source
+    echo "<select name='image_source'>";
 
     // add special case value "DP User"
     echo "<option value='DP User' ";
-    if (strcmp ( $image_provider, 'DP User') == 0) { echo " SELECTED"; }
+    if (strcmp ( $image_source, 'DP User') == 0) { echo " SELECTED"; }
     echo ">"._("DP User")."</option>";
 
     // add the pre-defined image_sources
-    foreach($imp_array as $k=>$v)
+    foreach($imso_array as $k=>$v)
     {
         echo "<option value='".encodeFormValue($k)."'";
-        if ($image_provider == $k) { echo " SELECTED"; }
+        if ($image_source == $k) { echo " SELECTED"; }
         echo ">$v</option>";
     }
 
     // add special case value "Other"
-    $imp_other_val = '';
+    $imso_other_val = '';
     echo "<option value='OTHER' ";
-    if (strncmp ( $image_provider, 'O:',2) == 0)
+    if (strncmp ( $image_source, 'O:',2) == 0)
     {
         echo " SELECTED";
-        $imp_other_val = substr($image_provider,2);
+        $imso_other_val = substr($image_source,2);
     }
     echo ">"._("OTHER")."</option>";
 
     echo "</select>";
 
     echo " "._("Details for OTHER: ")
-        . "<input type='text' size='18' name='imp_other' value='"
-        . encodeFormValue($imp_other_val)."'>";
+        . "<input type='text' size='18' name='imso_other' value='"
+        . encodeFormValue($imso_other_val)."'>";
 
     echo " <a href='show_image_sources.php'>Details of Image Providers</a><br>";
 }

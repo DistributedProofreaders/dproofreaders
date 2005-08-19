@@ -445,9 +445,9 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // People who have certain roles with respect to the project
 
-    if (isset($project->image_provider_name))
+    if (isset($project->image_source_name))
     {
-        echo_row_a( _("Image Provider"), $project->image_provider_name, TRUE );
+        echo_row_a( _("Image Provider"), $project->image_source_name, TRUE );
     }
 
     echo_row_a( _("Project Manager"), $project->username );

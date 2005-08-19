@@ -54,7 +54,7 @@ if ( isset($_REQUEST['action']) &&
                 $genre = $up_info['d_genre'];
                 $difficulty_level = $up_info['d_difficulty'];
                 $special = $up_info['d_special'];
-                $image_provider = $up_info['d_image_source'];
+                $image_source = $up_info['d_image_source'];
                 // $year = $up_info['d_year'];
             }
             else
@@ -125,7 +125,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Difficulty Level"),      'difficulty_list',     $difficulty_level );
     row( _("Default Special Day"),           'special_list',        $special          );
     row( _("Default PPer"),                  'text_field',          $checkedoutby,    'checkedoutby' );
-    row( _("Default Image Provider"),        'image_provider_list', $image_provider   );
+    row( _("Default Image Provider"),        'image_source_list',   $image_source     );
     row( _("Default Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
@@ -227,19 +227,19 @@ function saveUberProject()
         }
     }
 
-    if (!empty($_POST['image_provider']))
+    if (!empty($_POST['image_source']))
     {
-        $image_provider = $_POST['image_provider'];
-        if (strcmp($image_provider, 'OTHER') == 0)
+        $image_source = $_POST['image_source'];
+        if (strcmp($image_source, 'OTHER') == 0)
         {
-            if (empty($_POST['imp_other']))
+            if (empty($_POST['imso_other']))
             {
                 $errormsg .= "When Default Image Provider is OTHER, details must be supplied.<br>";
             }
             else
             {
-                $imp_other = $_POST['imp_other'];
-                $image_provider = "O:".$imp_other;
+                $imso_other = $_POST['imso_other'];
+                $image_source = "O:".$imso_other;
             }
         }
     }
@@ -284,7 +284,7 @@ function saveUberProject()
                 d_scannercredit='{$_POST['scannercredit']}',
                 d_clearance='{$_POST['clearance']}',
                 d_special='$special',
-                d_image_source = '$image_provider'
+                d_image_source = '$image_source'
             WHERE up_projectid='{$_POST['up_projectid']}'
         ");
 
@@ -317,7 +317,7 @@ function saveUberProject()
                 '{$_POST['year']}',
                 '{$_POST['genre']}',
                 '{$_POST['difficulty_level']}',
-                '$image_provider'
+                '$image_source'
             )
         ");
 

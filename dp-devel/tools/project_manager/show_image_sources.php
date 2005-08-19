@@ -36,22 +36,22 @@ if (!isset($_GET['name']))
 
 } else {
 
-    $ip_to_show = $_GET['name'];
+    $imso_code = $_GET['name'];
 
-    $ip = mysql_fetch_assoc( mysql_query("
+    $imso = mysql_fetch_assoc( mysql_query("
         SELECT
                 full_name,
                 display_name,
                 public_comment,
                 concat('<a href=\"',url,'\">',url,'</a>') as 'more_info'
         FROM image_sources
-        WHERE code_name = '$ip_to_show'
+        WHERE code_name = '$imso_code'
        "));
 
 
-    $title = _("Completed Ebooks produced by scans provided by ")." ".$ip['full_name'];
-    $sub_title = $ip['public_comment'];
-    $more_info = $ip['more_info'];
+    $title = _("Completed Ebooks produced by scans provided by ")." ".$imso['full_name'];
+    $sub_title = $imso['public_comment'];
+    $more_info = $imso['more_info'];
 
     theme($title, "header");
 
@@ -69,7 +69,7 @@ if (!isset($_GET['name']))
 	     language as "._('Language').",
            concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>') as '"._('PG Number<br>and Link')."'
         FROM projects
-        WHERE image_source = '".$ip_to_show."'
+        WHERE image_source = '".$imso_code."'
            AND  ".SQL_CONDITION_GOLD."
         ORDER BY 1
     ");
