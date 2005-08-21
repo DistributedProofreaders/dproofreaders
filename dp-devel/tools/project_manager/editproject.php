@@ -277,7 +277,6 @@ if ((isset( $_REQUEST['action']) &&
 
 
     if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
-    if (!empty($_POST['rec'])) { $rec = unserialize(base64_decode($_POST['rec'])); }
 
     if (((isset($_REQUEST['action']) && ($_REQUEST['action'] == 'createnewfromuber')) ||
         (isset($_POST['up_projectid']) && !isset($_POST['projectid'])))) {
@@ -377,10 +376,14 @@ if ((isset( $_REQUEST['action']) &&
         if (!$header_shown) { theme(_("Create a Project"), "header"); $header_shown = true;}
     }
 
-    if (empty($nameofwork) && isset($_POST['rec'])) { $nameofwork = marc_title($rec); }
-    if (empty($authorsname) && isset($_POST['rec'])) {  $authorsname = marc_author($rec); }
-    if (empty($language) && isset($_POST['rec'])) { $language = marc_language($rec); }
-    if (empty($genre) && isset($_POST['rec'])) { $genre = marc_literary_form($rec); }
+    if (isset($_POST['rec']))
+    {
+        $rec = unserialize(base64_decode($_POST['rec']));
+        if (empty($nameofwork)) { $nameofwork = marc_title($rec); }
+        if (empty($authorsname)) { $authorsname = marc_author($rec); }
+        if (empty($language)) { $language = marc_language($rec); }
+        if (empty($genre)) { $genre = marc_literary_form($rec); }
+    }
     if (empty($checkedoutby)) { $checkedoutby = ""; }
     if (empty($comments)) { $comments = ""; }
     if (empty($scannercredit)) { $scannercredit = ""; }
