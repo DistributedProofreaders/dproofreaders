@@ -155,6 +155,8 @@ function do_search_and_show_hits()
     echo "<input type='hidden' name='action' value='submit_marcsearch'>";
     echo "<table border='0 width='100%' cellpadding='0' cellspacing='0'>";
 
+    // -----------------------------------------------------
+
     $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
     $i = 1;
     while (($start <= yaz_hits($id) && $i <= $hits_per_page))
@@ -201,22 +203,35 @@ function do_search_and_show_hits()
     }
     if ($i % 2 != 1) { echo "</tr>\n"; }
 
+    // -----------------------------------------------------
+
+    $encoded_fullquery = base64_encode(serialize($fullquery));
+    echo "<tr>";
+    echo "<td colspan='2' width='50%' align='left' valign='top'>";
     if (isset($_GET['start']) && ($_GET['start']-$hits_per_page) > 0)
     {
-        echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='external_catalog_search.php?action=do_search_and_show_hits&start=".($_GET['start']-$hits_per_page)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>";
+        $url = "external_catalog_search.php?action=do_search_and_show_hits&start=".($_GET['start']-$hits_per_page)."&fq=$encoded_fullquery";
+        echo "<a href='$url'>Previous</a>";
     }
     else
     {
-        echo "<tr><td colspan='2' width='50%'>&nbsp;</td>";
+        echo "&nbsp;";
     }
+    echo "</td>";
+    echo "<td colspan='2' width='50%' align='right' valign='top'>";
     if (($start+$hits_per_page) <= yaz_hits($id))
     {
-        echo "<td colspan='2' width='50%' align='right' valign='top'><a href='external_catalog_search.php?action=do_search_and_show_hits&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>\n";
+        $url = "external_catalog_search.php?action=do_search_and_show_hits&start=$start&fq=$encoded_fullquery";
+        echo "<a href='$url'>Next</a>";
     }
     else
     {
-        echo "<td colspan='2' width='50%'>&nbsp;</td></tr>\n";
+        echo "&nbsp;";
     }
+    echo "</td>";
+    echo "</tr>\n";
+
+    // -----------------------------------------------------
 
     echo "</table><br><center>";
     if (yaz_hits($id) != 0)
