@@ -173,12 +173,25 @@ function do_search_and_show_hits()
         echo "<td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
         echo "<td width='45%' align='left' valign='top'>";
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>\n";
-        echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>\n";
-        echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>\n";
-        echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>\n";
-        echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>\n";
-        echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>\n";
+
+        foreach ( array(
+                'Title'     => $title,
+                'Author'    => $author,
+                'Publisher' => $publisher,
+                'Language'  => $language,
+                'LCCN'      => $lccn,
+                'ISBN'      => $isbn,
+            )
+            as
+            $label => $value
+        )
+        {
+            echo "<tr>";
+            echo   "<td width='20%' align='left' valign='top'><b>$label</b>:</td>";
+            echo   "<td align='left' valign='top'>$value</td>";
+            echo "</tr>\n";
+        }
+
         echo "</table><p></td>";
 
         if ($i % 2 != 1) { echo "</tr>\n"; }
