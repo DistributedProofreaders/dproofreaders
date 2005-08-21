@@ -29,29 +29,58 @@ function show_query_form()
     theme("Create a Project", "header");
     if (!function_exists('yaz_connect'))
     {
-        echo "<br><center><b>PHP is not compiled with YAZ support.  Please do so and try again.</b></center><br>";
-        echo "<center>Until you do so, click <a href='editproject.php?action=createnew'>here</a> for creating a new project.</center><br>";
-        echo "<center>If you believe you should be seeing the Create Project page please contact a <a href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></center>";
+        echo "<br>";
+        echo "<center>";
+        echo "<b>";
+        echo _("PHP is not compiled with YAZ support.  Please do so and try again.");
+        echo "</b>";
+        echo "<br><br>\n";
+        echo sprintf(
+            _("Until you do so, click <a href='%s'>here</a> for creating a new project."),
+            'editproject.php?action=createnew' );
+        echo "<br><br>\n";
+        echo sprintf(
+            _("If you believe you should be seeing the Create Project page please contact a <a href='%s'>Site Administrator</a>"),
+            "mailto:".$GLOBALS['site_manager_email_addr'] );
+        echo "</center>";
     }
     else
     {
         global $theme;
 
-        echo "<form method='post' action='external_catalog_search.php'>";
-        echo "<input type='hidden' name='action' value='do_search_and_show_hits'>";
-        echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='75%' bordercolor='#000000' style='border-collapse: collapse'>";
-        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a Project</font></b></center></td></tr>\n";
-        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan='2'><center><font color='".$theme['color_navbar_font']."'>Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.</font></center></td></tr>\n";
+        echo "<br>\n";
+        echo "<form method='post' action='external_catalog_search.php'>\n";
+        echo "<input type='hidden' name='action' value='do_search_and_show_hits'>\n";
+        echo "<center>";
+        echo "<table cellspacing='0' cellpadding='5' border='1' width='75%' bordercolor='#000000' style='border-collapse: collapse'>";
+
+        echo "<tr>";
+        echo   "<td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
+        echo     "<b>";
+        echo       "<font color='".$theme['color_headerbar_font']."'>";
+        echo         _("Create a Project");
+        echo       "</font>";
+        echo     "</b>";
+        echo   "</td>";
+        echo "</tr>\n";
+
+        echo "<tr>";
+        echo   "<td bgcolor='".$theme['color_navbar_bg']."' colspan='2' align='center'>";
+        echo     "<font color='".$theme['color_navbar_font']."'>";
+        echo       _("Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.");
+        echo     "</font>";
+        echo   "</td>";
+        echo "</tr>\n";
 
         foreach (
             array(
-                'title'     => 'Title',
-                'author'    => 'Author',
-                'publisher' => 'Publisher',
-                'pubdate'   => 'Publication Year (eg: 1912)',
-                'isbn'      => 'ISBN',
-                'issn'      => 'ISSN',
-                'lccn'      => 'LCCN',
+                'title'     => _('Title'),
+                'author'    => _('Author'),
+                'publisher' => _('Publisher'),
+                'pubdate'   => _('Publication Year (eg: 1912)'),
+                'isbn'      => _('ISBN'),
+                'issn'      => _('ISSN'),
+                'lccn'      => _('LCCN'),
             )
             as $field_name => $field_label
         )
@@ -59,7 +88,9 @@ function show_query_form()
             echo "<tr>";
             echo   "<td bgcolor='".$theme['color_navbar_bg']."' width='35%'>";
             echo     "<b>";
-            echo       "<font color='".$theme['color_navbar_font']."'>$field_label</font>";
+            echo       "<font color='".$theme['color_navbar_font']."'>";
+            echo         $field_label;
+            echo       "</font>";
             echo     "</b>";
             echo   "</td>";
             echo   "<td bgcolor='#FFFFFF'>";
@@ -68,8 +99,16 @@ function show_query_form()
             echo "</tr>\n";
         }
 
-        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' value='Search'></center></td></tr>\n</form>";
-        echo "</table></center>";
+        $search = _('Search');
+        echo "<tr>";
+        echo   "<td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
+        echo     "<input type='submit' value='$search'>";
+        echo   "</td>";
+        echo "</tr>\n";
+
+        echo "</table>";
+        echo "</center>";
+        echo "</form>\n";
     }
     theme("", "footer");
 }
