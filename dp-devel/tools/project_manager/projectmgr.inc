@@ -32,7 +32,7 @@ function echo_manager_header( $which )
 	echo " | ";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
-	echo "<a href='$code_url/tools/project_manager/editproject.php'>"._("Create Project")."</a>";
+	echo "<a href='$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{ 

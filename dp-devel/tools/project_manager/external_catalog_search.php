@@ -1,0 +1,255 @@
+<?PHP
+
+// Searching for book records in an external catalog
+// via Z39.50 protocol (implemented by yaz library).
+
+$relPath='../../pinc/';
+include_once($relPath.'theme.inc');
+include_once($relPath.'marc_format.inc');
+
+$action = @$_REQUEST['action'];
+
+if ( $action == 'show_query_form' )
+{
+    show_query_form();
+}
+elseif ( $action == "do_search_and_show_hits" )
+{
+    do_search_and_show_hits();
+}
+else
+{
+    die( "unrecognized value for 'action' parameter: '$action'" );
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_query_form()
+{
+    theme("Create a Project", "header");
+    if (!function_exists('yaz_connect'))
+    {
+        echo "<br><center><b>PHP is not compiled with YAZ support.  Please do so and try again.</b></center><br>";
+        echo "<center>Until you do so, click <a href='editproject.php?action=createnew'>here</a> for creating a new project.</center><br>";
+        echo "<center>If you believe you should be seeing the Create Project page please contact a <a href='mailto:".$GLOBALS['site_manager_email_addr']."'>Site Administrator</a></center>";
+    }
+    else
+    {
+        global $theme;
+
+        echo "<form method='post' action='external_catalog_search.php'>";
+        echo "<input type='hidden' name='action' value='do_search_and_show_hits'>";
+        echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='75%' bordercolor='#000000' style='border-collapse: collapse'>";
+        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>Create a Project</font></b></center></td></tr>\n";
+        echo "<tr><td bgcolor='".$theme['color_navbar_bg']."' colspan='2'><center><font color='".$theme['color_navbar_font']."'>Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.</font></center></td></tr>\n";
+
+        foreach (
+            array(
+                'title'     => 'Title',
+                'author'    => 'Author',
+                'publisher' => 'Publisher',
+                'pubdate'   => 'Publication Year (eg: 1912)',
+                'isbn'      => 'ISBN',
+                'issn'      => 'ISSN',
+                'lccn'      => 'LCCN',
+            )
+            as $field_name => $field_label
+        )
+        {
+            echo "<tr>";
+            echo   "<td bgcolor='".$theme['color_navbar_bg']."' width='35%'>";
+            echo     "<b>";
+            echo       "<font color='".$theme['color_navbar_font']."'>$field_label</font>";
+            echo     "</b>";
+            echo   "</td>";
+            echo   "<td bgcolor='#FFFFFF'>";
+            echo     "<input type='text' size='30' name='$field_name'>";
+            echo   "</td>";
+            echo "</tr>\n";
+        }
+
+        echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><input type='submit' value='Search'></center></td></tr>\n</form>";
+        echo "</table></center>";
+    }
+    theme("", "footer");
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_search_and_show_hits()
+{
+    theme("Search Results", "header");
+    if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
+    if (!empty($_GET['fq']))
+    {
+        $fullquery = unserialize(base64_decode($_GET['fq']));
+    }
+    else
+    {
+        $fullquery = query_format();
+    }
+
+    $id = yaz_connect("z3950.loc.gov:7090/Voyager");
+    yaz_syntax($id, "usmarc");
+    yaz_element($id, "F");
+    yaz_search($id, "rpn", trim($fullquery));
+    yaz_wait(array("timeout" => 60));
+    $errorMsg = yaz_error($id);
+
+    if (!empty($errorMsg))
+    {
+        echo "<br><center>The following error has occured.  Please try again:<br><br><b><i>$errorMsg</i></b>";
+        echo "<p>If this problem occurs again please create your project manually by following this <a href='editproject.php?action=createnew'>link</a>.</center>";
+        theme("", "footer");
+        exit();
+    }
+    if (yaz_hits($id) == 0)
+    {
+        echo "<br><center><b>There were no results returned.</b><br>Please search again or click 'No Matches' to create the project manually.</center><br>";
+    }
+    else
+    {
+        echo "<br><center><b>".yaz_hits($id)." results returned. Note that some non-book results may not be displayed.<br>Please pick a result from below:</b></center>";
+    }
+
+    echo "<br><form method='post' action='editproject.php'>";
+    echo "<input type='hidden' name='action' value='submit_marcsearch'>";
+    echo "<table border='0 width='100%' cellpadding='0' cellspacing='0'>";
+
+    $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
+    $i = 1;
+    while (($start <= yaz_hits($id) && $i <= $hits_per_page))
+    {
+        $rec = yaz_record($id, $start, "array");
+        //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
+        $title = marc_title($rec);
+        $author = marc_author($rec);
+        $publisher = marc_publisher($rec);
+        $language = marc_language($rec);
+        $lccn = marc_lccn($rec);
+        $isbn = marc_isbn($rec);
+
+        if ($i % 2 == 1)
+        {
+            echo "<tr><td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
+            echo "<td width='45%' align='left' valign='top'>";
+            echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>\n";
+            echo "</table><p></td>";
+        }
+        else
+        {
+            echo "<td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
+            echo "<td width='45%' align='left' valign='top'>";
+            echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Title</b>:</td><td align='left' valign='top'>$title</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Author</b>:</td><td align='left' valign='top'>$author</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Publisher</b>:</td><td align='left' valign='top'>$publisher</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>Language</b>:&nbsp;</td><td align='left' valign='top'>$language</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>LCCN</b>:</td><td align='left' valign='top'>$lccn</td></tr>\n";
+            echo "<tr><td width='20%' align='left' valign='top'><b>ISBN</b>:</td><td align='left' valign='top'>$isbn</td></tr>\n";
+            echo "</table><p></td></tr>\n";
+        }
+
+        $i++;
+        $start++;
+    }
+    if ($i % 2 != 1) { echo "</tr>\n"; }
+
+    if (isset($_GET['start']) && ($_GET['start']-$hits_per_page) > 0)
+    {
+        echo "<tr><td colspan='2' width='50%' align='left' valign='top'><a href='external_catalog_search.php?action=do_search_and_show_hits&start=".($_GET['start']-$hits_per_page)."&fq=".base64_encode(serialize($fullquery))."'>Previous</a></td>";
+    }
+    else
+    {
+        echo "<tr><td colspan='2' width='50%'>&nbsp;</td>";
+    }
+    if (($start+$hits_per_page) <= yaz_hits($id))
+    {
+        echo "<td colspan='2' width='50%' align='right' valign='top'><a href='external_catalog_search.php?action=do_search_and_show_hits&start=$start&fq=".base64_encode(serialize($fullquery))."'>Next</a></td></tr>\n";
+    }
+    else
+    {
+        echo "<td colspan='2' width='50%'>&nbsp;</td></tr>\n";
+    }
+
+    echo "</table><br><center>";
+    if (yaz_hits($id) != 0)
+    {
+        echo "<input type='submit' value='Create the Project'>&nbsp;";
+    }
+    echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"external_catalog_search.php?action=show_query_form\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
+    yaz_close($id);
+    theme("", "footer");
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function query_format()
+{
+    $attr_set = 0;
+    $fullquery = "";
+
+    if ($_REQUEST['title'])
+    {
+        $fullquery = $fullquery.' @attr 1=4 "'.$_REQUEST['title'].'"';
+        $attr_set++;
+    }
+    if ($_REQUEST['author'])
+    {
+        $author = $_REQUEST['author'];
+        if (stristr($_REQUEST['author'], ","))
+        {
+            $author = $_REQUEST['author'];
+        }
+        else
+        {
+            if (stristr($_REQUEST['author'], " "))
+            {
+                $author = substr($_REQUEST['author'], strrpos($_REQUEST['author'], " "))
+                    . ", "
+                    . substr($_REQUEST['author'], 0, strrpos($_REQUEST['author'], " "));
+            }
+        }
+        $fullquery = $fullquery.' @attr 1=1003 "'.trim($author).'"';
+        $attr_set++;
+    }
+    if ($_REQUEST['isbn'])
+    {
+        $fullquery = $fullquery.' @attr 2=3 @attr 1=7 '.str_replace("-", "", $_REQUEST['isbn']).'';
+        $attr_set++;
+    }
+    if ($_REQUEST['issn'])
+    {
+        $fullquery = $fullquery.' @attr 2=3 @attr 1=8 '.$_REQUEST['issn'].'';
+        $attr_set++;
+    }
+    if ($_REQUEST['lccn'])
+    {
+        $fullquery = $fullquery.' @attr 2=3 @attr 1=9 '.$_REQUEST['lccn'].'';
+        $attr_set++;
+    }
+    if ($_REQUEST['pubdate'])
+    {
+        $fullquery = $fullquery.' @attr 2=3 @attr 1=31 '.$_REQUEST['pubdate'].'';
+        $attr_set++;
+    }
+    if ($_REQUEST['publisher'])
+    {
+        $fullquery = $fullquery.' @attr 1=1018 "'.$_REQUEST['publisher'].'"';
+        $attr_set++;
+    }
+    for ($i = 1; $i <= ($attr_set - 1); $i++)
+    {
+        $fullquery = "@and ".$fullquery;
+    }
+    return $fullquery;
+}
+
+// vim: sw=4 ts=4 expandtab
+?>
