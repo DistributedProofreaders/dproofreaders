@@ -118,6 +118,7 @@ function show_query_form()
 function do_search_and_show_hits()
 {
     theme("Search Results", "header");
+    echo "<br>";
     if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
     if (!empty($_GET['fq']))
     {
@@ -137,19 +138,40 @@ function do_search_and_show_hits()
 
     if (!empty($errorMsg))
     {
-        echo "<br><center>The following error has occured.  Please try again:<br><br><b><i>$errorMsg</i></b>";
-        echo "<p>If this problem occurs again please create your project manually by following this <a href='editproject.php?action=createnew'>link</a>.</center>";
+        echo "<center>";
+        echo _("The following error has occured:");
+        echo "<br><br>";
+        echo "<b><i>$errorMsg</i></b>";
+        echo "<p>";
+        $url = "editproject.php?action=createnew";
+        echo sprintf(
+            _("Please try again. If the problem recurs, please create your project manually by following this <a href='%s'>link</a>."), $url);
+        echo "</center>";
         theme("", "footer");
         exit();
     }
+    
+    echo "<center>";
     if (yaz_hits($id) == 0)
     {
-        echo "<br><center><b>There were no results returned.</b><br>Please search again or click 'No Matches' to create the project manually.</center><br>";
+        echo "<b>";
+        echo _("There were no results returned.");
+        echo "</b>";
+        echo "<br>";
+        echo _("Please search again or click 'No Matches' to create the project manually.");
+        echo "<br>";
     }
     else
     {
-        echo "<br><center><b>".yaz_hits($id)." results returned. Note that some non-book results may not be displayed.<br>Please pick a result from below:</b></center>";
+        echo "<b>";
+        echo sprintf(
+            _("%d results returned. Note that some non-book results may not be displayed."),
+            yaz_hits($id) );
+        echo "<br>";
+        echo _("Please pick a result from below:");
+        echo "</b>";
     }
+    echo "</center>";
 
     echo "<br><form method='post' action='editproject.php'>";
     echo "<input type='hidden' name='action' value='submit_marcsearch'>";
@@ -172,7 +194,9 @@ function do_search_and_show_hits()
 
         if ($i % 2 == 1) { echo "<tr>"; }
 
-        echo "<td width='5%' align='center'><input type='radio' name='rec' value='".base64_encode(serialize($rec))."'></td>";
+        echo "<td width='5%' align='center'>";
+        echo "<input type='radio' name='rec' value='".base64_encode(serialize($rec))."'>";
+        echo "</td>";
         echo "<td width='45%' align='left' valign='top'>";
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
@@ -238,7 +262,23 @@ function do_search_and_show_hits()
     {
         echo "<input type='submit' value='Create the Project'>&nbsp;";
     }
-    echo "<input type='button' value='Search Again' onclick='javascript:location.href=\"external_catalog_search.php?action=show_query_form\";'>&nbsp;<input type='button' value='No Matches' onclick='javascript:location.href=\"editproject.php?action=createnew\";'>&nbsp;<input type='button' value='Quit' onclick='javascript:location.href=\"projectmgr.php\";'></form></center>";
+
+    $label = _('Search Again');
+    $url = "external_catalog_search.php?action=show_query_form";
+    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
+    echo "&nbsp;";
+
+    $label = _('No Matches');
+    $url = "editproject.php?action=createnew";
+    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
+    echo "&nbsp;";
+
+    $label = _('Quit');
+    $url = "projectmgr.php";
+    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
+
+    echo "</form>";
+    echo "</center>";
     yaz_close($id);
     theme("", "footer");
 }
