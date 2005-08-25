@@ -265,11 +265,14 @@ function previewProject($nameofwork, $authorsname, $comments) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-if ((isset( $_REQUEST['action']) &&
-              ( $_REQUEST['action'] == "submit_marcsearch" ||
-                $_REQUEST['action'] == "createnew"  ||
-                $_REQUEST['action'] == 'createnewfromuber')) ||
-        (isset( $_REQUEST['project']) || isset($_REQUEST['saveAndPreview']))) {
+$requested_action = @$_REQUEST['action'];
+
+if (   $requested_action == "submit_marcsearch"
+    || $requested_action == "createnew"
+    || $requested_action == 'createnewfromuber'
+    || isset($_REQUEST['project'])
+    || isset($_REQUEST['saveAndPreview'])
+) {
 
     // Within this if-clause, $header_shown is used to indicate whether or not
     // theme(..., 'header') has been run.
@@ -278,7 +281,7 @@ if ((isset( $_REQUEST['action']) &&
 
     if(isset($_POST['saveAndPreview'])) { $errorMsg = saveProject($_POST); }
 
-    if (((isset($_REQUEST['action']) && ($_REQUEST['action'] == 'createnewfromuber')) ||
+    if (( ($requested_action == 'createnewfromuber') ||
         (isset($_POST['up_projectid']) && !isset($_POST['projectid'])))) {
 
         // here we are either maknig our first attempt at creating a new project from an UP, OR
@@ -393,7 +396,7 @@ if ((isset( $_REQUEST['action']) &&
     if (empty($image_source)) { $image_source = "DP User"; }
     if (empty($difficulty_level)) { if ($pguser == "BEGIN") $difficulty_level = "beginner"; else $difficulty_level = "average"; }
 
-    if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'submit_marcsearch')) {
+    if ($requested_action == 'submit_marcsearch') {
         theme(_("Create a Project"), "header");
         $header_shown = true;
     }
