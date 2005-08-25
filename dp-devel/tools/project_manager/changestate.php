@@ -81,7 +81,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
 	$do_transition = TRUE;
-        $refresh_url = "editproject.php?project=$projectid&posted=1";
+        $refresh_url = "editproject.php?action=edit&project=$projectid&posted=1";
     }
     else if (
 	   ($newstate == PROJ_DELETE && $always == 'yes')

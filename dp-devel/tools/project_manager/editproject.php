@@ -270,7 +270,7 @@ $requested_action = @$_REQUEST['action'];
 if (   $requested_action == "submit_marcsearch"
     || $requested_action == "createnew"
     || $requested_action == 'createnewfromuber'
-    || isset($_REQUEST['project'])
+    || $requested_action == 'edit'
     || isset($_REQUEST['saveAndPreview'])
 ) {
 
@@ -334,7 +334,7 @@ if (   $requested_action == "submit_marcsearch"
         $header_shown = true;
     }
 
-    if(isset($_REQUEST['project']) || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
+    if($requested_action == 'edit' || isset($_REQUEST['saveAndPreview']) || isset($GLOBALS['projectid'])) {
         if (empty($_GET['project']) && empty($GLOBALS['projectid'])) {
             $projectid = $_POST['projectid'];
         } elseif(empty($_POST['projectid']) && empty($GLOBALS['projectid'])) {

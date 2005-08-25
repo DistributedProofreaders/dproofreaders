@@ -800,7 +800,7 @@ function do_edit_above()
     if (!$project->can_be_managed_by_current_user) return;
 
     echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?project=$project->projectid'>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid'>";
     echo _("Edit the above information");
     echo "</a>";
     echo "</p>";
