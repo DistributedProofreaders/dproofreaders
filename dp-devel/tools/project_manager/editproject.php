@@ -267,7 +267,24 @@ function previewProject($nameofwork, $authorsname, $comments) {
 
 $requested_action = @$_REQUEST['action'];
 
-if (   $requested_action == "submit_marcsearch"
+if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
+   $errorMsg = saveProject($_POST);
+   if (empty($errorMsg)) {
+        if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", _("Save and Quit"), ""); }
+        if (isset($_POST['saveAndProject'])) { metarefresh(0, "$code_url/project.php?id=$projectid", _("Save and Go To Project"), ""); }
+   } else {
+        theme(_("Project Error!"), "header");
+        echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
+        echo _("Press browser Back button to return, edit, and try again");
+        echo "</font></h3></center>";
+
+        theme("", "footer");
+   }
+}
+
+// -----------------------------------------------------------------------------
+
+elseif ( $requested_action == "submit_marcsearch"
     || $requested_action == "createnew"
     || $requested_action == 'createnewfromuber'
     || $requested_action == 'edit'
@@ -464,23 +481,6 @@ if (   $requested_action == "submit_marcsearch"
         previewProject($nameofwork, $authorsname, $comments);
     }
         theme("", "footer");
-}
-
-// -----------------------------------------------------------------------------
-
-elseif (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject'])) {
-   $errorMsg = saveProject($_POST);
-   if (empty($errorMsg)) {
-        if (isset($_POST['saveAndQuit'])) { metarefresh(0, "projectmgr.php", _("Save and Quit"), ""); }
-        if (isset($_POST['saveAndProject'])) { metarefresh(0, "$code_url/project.php?id=$projectid", _("Save and Go To Project"), ""); }
-   } else {
-        theme(_("Project Error!"), "header");
-        echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
-        echo _("Press browser Back button to return, edit, and try again");
-        echo "</font></h3></center>";
-
-        theme("", "footer");
-   }
 }
 
 // -----------------------------------------------------------------------------
