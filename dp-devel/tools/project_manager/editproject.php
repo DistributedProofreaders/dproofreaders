@@ -320,7 +320,6 @@ elseif ( $requested_action == "submit_marcsearch"
 
                     $up_info = mysql_fetch_assoc($result);
                     $up_nameofwork = $up_info['up_nameofwork'];
-                    $up_topic_id =  $up_info['up_topic_id'];
                     $nameofwork = $up_info['d_nameofwork'];
                     $authorsname = $up_info['d_authorsname'];
                     $checkedoutby = $up_info['d_checkedoutby'];
@@ -386,9 +385,8 @@ elseif ( $requested_action == "submit_marcsearch"
             if (empty($up_projectid)) { $up_projectid =  $_POST['up_projectid'];}
 
             if (!empty($up_projectid)) {
-                $result = mysql_query("SELECT up_nameofwork, up_topic_id FROM uber_projects WHERE up_projectid = '$up_projectid'");
+                $result = mysql_query("SELECT up_nameofwork FROM uber_projects WHERE up_projectid = '$up_projectid'");
                 $up_nameofwork = mysql_result($result, 0, "up_nameofwork");
-                $up_topic_id = mysql_result($result, 0, "up_nameofwork");
             }
 
         }
