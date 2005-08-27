@@ -1022,6 +1022,8 @@ function do_post_downloads()
             echo "Generate Post Files (This will overwrite existing post files, if any.)\n";
             echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
             echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+
+            echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
             foreach ( $Round_for_round_id_ as $round )
             {
                 $checked = ( $round->id == $highest_round_id ? 'CHECKED' : '');
