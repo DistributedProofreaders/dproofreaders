@@ -40,19 +40,23 @@ function language_list($language)
 
     echo "<select name='pri_language'>";
     echo "<option value=''>Primary Language</option>";
+    echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
         echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
         if ($pri_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
+        echo "\n";
     }
     echo "</select>&nbsp;&nbsp;<select name='sec_language'>";
     echo "<option value=''>Secondary Language</option>";
+    echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
         echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
         if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
+        echo "\n";
     }
     echo "</select>";
 }
@@ -146,6 +150,7 @@ function genre_list($genre)
         echo "<option value='".encodeFormValue($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
         echo ">$v</option>";
+        echo "\n";
     }
     echo "</select>";
 }
@@ -213,6 +218,7 @@ function special_list($special)
 
     // add special case values first
     echo "<option value=''>NONE</option>";
+    echo "\n";
 
     echo "<option value='Birthday'";
     if (strncmp ( $special, 'Birthday', 8) == 0)
@@ -222,6 +228,7 @@ function special_list($special)
         $bdayday = substr($special, 11, 2);
     }
     echo ">Birthday</option>";
+    echo "\n";
 
     echo "<option value='Otherday'";
     if (strncmp ( $special, 'Otherday', 8) == 0)
@@ -231,6 +238,7 @@ function special_list($special)
         $bdayday = substr($special, 11, 2);
     }
     echo ">Otherday</option>";
+    echo "\n";
 
 
     // add the rest of the special days (the "ordinary" special days ;) )
@@ -239,6 +247,7 @@ function special_list($special)
         echo "<option value='".encodeFormValue($k)."'";
         if ($special == $k) { echo " SELECTED"; }
         echo ">$v</option>";
+        echo "\n";
     }
     echo "</select>";
 
@@ -247,6 +256,7 @@ function special_list($special)
     // drop down selects for month and date, used for Birthday and Otherday specials
     echo " Birthday/Otherday: (month) <select name='bdaymonth'>";
     echo "<option value=''></option>";
+    echo "\n";
     $i = 1;
     while ($i <= 12)
     {
@@ -254,12 +264,14 @@ function special_list($special)
         echo "<option value='$v'";
         if ($v == $bdaymonth) { echo " SELECTED"; }
         echo ">$v</option>";
+        echo "\n";
         $i++;
     }
     echo "</select>";
 
     echo " (day) <select name='bdayday'>";
     echo "<option value=''></option>";
+    echo "\n";
     $i = 1;
     while ($i <= 31)
     {
@@ -267,6 +279,7 @@ function special_list($special)
         echo "<option value='$v'";
         if ($v == $bdayday) { echo " SELECTED"; }
         echo ">$v</option>";
+        echo "\n";
         $i++;
     }
     echo "</select>";
@@ -302,6 +315,7 @@ function image_source_list($image_source)
     echo "<option value='DP User' ";
     if (strcmp ( $image_source, 'DP User') == 0) { echo " SELECTED"; }
     echo ">"._("DP User")."</option>";
+    echo "\n";
 
     // add the pre-defined image_sources
     foreach($imso_array as $k=>$v)
@@ -309,6 +323,7 @@ function image_source_list($image_source)
         echo "<option value='".encodeFormValue($k)."'";
         if ($image_source == $k) { echo " SELECTED"; }
         echo ">$v</option>";
+        echo "\n";
     }
 
     // add special case value "Other"
@@ -320,6 +335,7 @@ function image_source_list($image_source)
         $imso_other_val = substr($image_source,2);
     }
     echo ">"._("OTHER")."</option>";
+    echo "\n";
 
     echo "</select>";
 
