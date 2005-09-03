@@ -71,6 +71,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     }
 
     theme($page_title, "header");
+    echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($errors != '')
     {
@@ -117,6 +118,7 @@ else
     }
 
     theme($page_title, "header");
+    echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($fatal_error != '')
     {
@@ -558,16 +560,6 @@ class ProjectInfoHolder
         echo "<br>";
         echo "<center>";
         echo "<table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
-
-        echo "<tr>";
-        echo   "<td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'>";
-        echo     "<center>";
-        echo       "<b>";
-        echo         "<font color='".$theme['color_headerbar_font']."'>"._("Create a New Project")."</font>";
-        echo       "</b>";
-        echo     "</center>";
-        echo   "</td>";
-        echo "</tr>\n";
 
         $this->show_visible_controls();
 
