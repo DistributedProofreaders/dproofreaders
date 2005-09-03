@@ -179,8 +179,8 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 	fclose($fp);
 }
 
-function update_marc_db($rec) {
-	global $projectid, $literary_form_array, $lang_list;
+function update_marc_array($rec) {
+	global $literary_form_array, $lang_list;
 
 	//Update the Name of Work
 	  if (!empty($_POST['nameofwork'])) { $rec[marc_key_search($rec,"245","a")][1] = $_POST['nameofwork']; }
@@ -214,9 +214,6 @@ function update_marc_db($rec) {
 	$key = array_search($_POST['genre'], $literary_form_array);
 	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
 	$rec[marc_key_search($rec,"008","")][1] = substr($marc_008, 0, 33)."$key".substr($marc_008, 34);
-
-	//Update the marc_records database with the updated marc record
-	mysql_query("UPDATE marc_records SET updated_array = '".base64_encode(serialize($rec))."' WHERE projectid = '$projectid'");
 
 	return $rec;
 }

@@ -474,7 +474,15 @@ class ProjectInfoHolder
                 WHERE projectid = '{$this->projectid}'
             "); // Pull the current MARC record array from the database
             $rec = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); // Get the updated_marc array field
-            $updated_array = update_marc_db($rec); // Update the MARC record array in the database
+            $updated_array = update_marc_array($rec); // Update the MARC record array in the database
+
+            //Update the marc_records database with the updated marc record
+            mysql_query("
+                UPDATE marc_records
+                SET updated_array = '".base64_encode(serialize($updated_array))."'
+                WHERE projectid = '$this->projectid'
+            ");
+
             $updated_marc = convert_standard_marc($updated_array); // Convert the updated array to a marc
             mysql_query("
                 UPDATE marc_records
@@ -529,7 +537,14 @@ class ProjectInfoHolder
             ");
 
             // Update the marc database with any changes we've received
-            $updated_array = update_marc_db($rec);
+            $updated_array = update_marc_array($rec);
+
+            //Update the marc_records database with the updated marc record
+            mysql_query("
+                UPDATE marc_records
+                SET updated_array = '".base64_encode(serialize($updated_array))."'
+                WHERE projectid = '$this->projectid'
+            ");
 
             // Add the update marc record to the database
             $updated_marc = convert_standard_marc($updated_array);
