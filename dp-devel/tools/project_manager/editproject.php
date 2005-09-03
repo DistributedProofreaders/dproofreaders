@@ -475,20 +475,16 @@ class ProjectInfoHolder
             "); // Pull the current MARC record array from the database
             $current_marc_array = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); // Get the updated_marc array field
             $updated_marc_array = update_marc_array($current_marc_array); // Update the MARC record array in the database
+            $updated_marc_str = convert_marc_array_to_str($updated_marc_array); // Convert the updated array to a marc
 
             //Update the marc_records database with the updated marc record
             mysql_query("
                 UPDATE marc_records
-                SET updated_array = '".base64_encode(serialize($updated_marc_array))."'
+                SET
+                    updated_array = '".base64_encode(serialize($updated_marc_array))."',
+                    updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
                 WHERE projectid = '$this->projectid'
             ");
-
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array); // Convert the updated array to a marc
-            mysql_query("
-                UPDATE marc_records
-                SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'
-                WHERE projectid = '{$this->projectid}'
-            "); // Update the database with the updated marc
 
             // Lastly, let's update the Dublin Core file
             create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_marc_array);
@@ -526,32 +522,21 @@ class ProjectInfoHolder
             mkdir("$projects_dir/$this->projectid", 0777);
             chmod("$projects_dir/$this->projectid", 0777);
 
-            // Add the original marc record to the database
             $original_marc_str = convert_marc_array_to_str($original_marc_array);
+
+            // Update the marc database with any changes we've received
+            $updated_marc_array = update_marc_array($original_marc_array);
+            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
+
+            // Add the original and updated marc records to the database
             mysql_query("
                 INSERT INTO marc_records
                 SET
                     projectid      = '$this->projectid',
+                    original_array = '".base64_encode(serialize($original_marc_array))."',
                     original_marc  = '".base64_encode(serialize($original_marc_str))."',
-                    original_array = '".base64_encode(serialize($original_marc_array))."'
-            ");
-
-            // Update the marc database with any changes we've received
-            $updated_marc_array = update_marc_array($original_marc_array);
-
-            //Update the marc_records database with the updated marc record
-            mysql_query("
-                UPDATE marc_records
-                SET updated_array = '".base64_encode(serialize($updated_marc_array))."'
-                WHERE projectid = '$this->projectid'
-            ");
-
-            // Add the update marc record to the database
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
-            mysql_query("
-                UPDATE marc_records
-                SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'
-                WHERE projectid = '$this->projectid'
+                    updated_array  = '".base64_encode(serialize($updated_marc_array))."',
+                    updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
             ");
 
             // Create a Dublin Core file in the projects_dir directory
