@@ -103,7 +103,7 @@ else
     }
     elseif ( $requested_action == 'submit_marcsearch' )
     {
-        $page_title = _("Create a Project");
+        $page_title = _("Create a Project from a MARC Record");
         $fatal_error = $pih->set_from_marc_record();
     }
     elseif ( $requested_action == 'edit' )
