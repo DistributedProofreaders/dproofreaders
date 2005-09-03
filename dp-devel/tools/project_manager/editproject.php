@@ -483,7 +483,7 @@ class ProjectInfoHolder
                 WHERE projectid = '$this->projectid'
             ");
 
-            $updated_marc_str = convert_standard_marc($updated_marc_array); // Convert the updated array to a marc
+            $updated_marc_str = convert_marc_array_to_str($updated_marc_array); // Convert the updated array to a marc
             mysql_query("
                 UPDATE marc_records
                 SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'
@@ -527,7 +527,7 @@ class ProjectInfoHolder
             chmod("$projects_dir/$this->projectid", 0777);
 
             // Add the original marc record to the database
-            $original_marc_str = convert_standard_marc($original_marc_array);
+            $original_marc_str = convert_marc_array_to_str($original_marc_array);
             mysql_query("
                 INSERT INTO marc_records
                 SET
@@ -547,7 +547,7 @@ class ProjectInfoHolder
             ");
 
             // Add the update marc record to the database
-            $updated_marc_str = convert_standard_marc($updated_marc_array);
+            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
             mysql_query("
                 UPDATE marc_records
                 SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'

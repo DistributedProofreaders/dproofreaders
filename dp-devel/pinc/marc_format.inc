@@ -218,7 +218,7 @@ function update_marc_array($rec) {
 	return $rec;
 }
 
-function convert_standard_marc($rec) {
+function convert_marc_array_to_str($rec) {
 	$directory = "";
 	$data = "";
 	$stack = array();
