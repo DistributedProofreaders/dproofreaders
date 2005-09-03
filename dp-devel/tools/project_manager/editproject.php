@@ -60,7 +60,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         {
             $page_title = _("Create a Project from an Uber Project");
         }
-        elseif ( isset($pih->rec) )
+        elseif ( isset($pih->original_marc_array_encd) )
         {
             $page_title = _("Create a Project from a MARC Record");
         }
@@ -199,7 +199,7 @@ class ProjectInfoHolder
         $this->special_code     = '';
         $this->image_source     = 'DP User';
 
-        $this->rec = $r1;
+        $this->original_marc_array_encd = $r1;
     }
 
     // -------------------------------------------------------------------------
@@ -420,7 +420,7 @@ class ProjectInfoHolder
         $this->postednum        = @$_POST['postednum'];
         $this->difficulty_level = @$_POST['difficulty_level'];
         $this->up_projectid     = @$_POST['up_projectid'];
-        $this->rec              = @$_POST['rec'];
+        $this->original_marc_array_encd = @$_POST['rec'];
         $this->posted           = @$_POST['posted'];
 
         if ($this->difficulty_level == '')
@@ -473,30 +473,30 @@ class ProjectInfoHolder
                 FROM marc_records
                 WHERE projectid = '{$this->projectid}'
             "); // Pull the current MARC record array from the database
-            $rec = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); // Get the updated_marc array field
-            $updated_array = update_marc_array($rec); // Update the MARC record array in the database
+            $current_marc_array = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); // Get the updated_marc array field
+            $updated_marc_array = update_marc_array($current_marc_array); // Update the MARC record array in the database
 
             //Update the marc_records database with the updated marc record
             mysql_query("
                 UPDATE marc_records
-                SET updated_array = '".base64_encode(serialize($updated_array))."'
+                SET updated_array = '".base64_encode(serialize($updated_marc_array))."'
                 WHERE projectid = '$this->projectid'
             ");
 
-            $updated_marc = convert_standard_marc($updated_array); // Convert the updated array to a marc
+            $updated_marc_str = convert_standard_marc($updated_marc_array); // Convert the updated array to a marc
             mysql_query("
                 UPDATE marc_records
-                SET updated_marc = '".base64_encode(serialize($updated_marc))."'
+                SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'
                 WHERE projectid = '{$this->projectid}'
             "); // Update the database with the updated marc
 
             // Lastly, let's update the Dublin Core file
-            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_array);
+            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_marc_array);
         }
         else
         {
             $this->projectid = uniqid("projectID"); // The project ID
-            $rec = unserialize(base64_decode($this->rec)); // Decode the marc record
+            $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd)); // Decode the marc record
 
             // Insert a new row into the projects table
             mysql_query("
@@ -527,35 +527,35 @@ class ProjectInfoHolder
             chmod("$projects_dir/$this->projectid", 0777);
 
             // Add the original marc record to the database
-            $original_marc = convert_standard_marc($rec);
+            $original_marc_str = convert_standard_marc($original_marc_array);
             mysql_query("
                 INSERT INTO marc_records
                 SET
                     projectid      = '$this->projectid',
-                    original_marc  = '".base64_encode(serialize($original_marc))."',
-                    original_array = '".base64_encode(serialize($rec))."'
+                    original_marc  = '".base64_encode(serialize($original_marc_str))."',
+                    original_array = '".base64_encode(serialize($original_marc_array))."'
             ");
 
             // Update the marc database with any changes we've received
-            $updated_array = update_marc_array($rec);
+            $updated_marc_array = update_marc_array($original_marc_array);
 
             //Update the marc_records database with the updated marc record
             mysql_query("
                 UPDATE marc_records
-                SET updated_array = '".base64_encode(serialize($updated_array))."'
+                SET updated_array = '".base64_encode(serialize($updated_marc_array))."'
                 WHERE projectid = '$this->projectid'
             ");
 
             // Add the update marc record to the database
-            $updated_marc = convert_standard_marc($updated_array);
+            $updated_marc_str = convert_standard_marc($updated_marc_array);
             mysql_query("
                 UPDATE marc_records
-                SET updated_marc = '".base64_encode(serialize($updated_marc))."'
+                SET updated_marc = '".base64_encode(serialize($updated_marc_str))."'
                 WHERE projectid = '$this->projectid'
             ");
 
             // Create a Dublin Core file in the projects_dir directory
-            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_array);
+            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_marc_array);
         }
 
         // If the project has been posted to PG let the users know
@@ -597,9 +597,9 @@ class ProjectInfoHolder
 
     function show_hidden_controls()
     {
-        if (!empty($this->rec))
+        if (!empty($this->original_marc_array_encd))
         {
-            echo "<input type='hidden' name='rec' value='$this->rec'>";
+            echo "<input type='hidden' name='rec' value='$this->original_marc_array_encd'>";
         }
         if (!empty($this->posted))
         {
