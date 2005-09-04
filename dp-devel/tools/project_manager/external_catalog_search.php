@@ -174,7 +174,7 @@ function do_search_and_show_hits()
     echo "</center>";
 
     echo "<br><form method='post' action='editproject.php'>";
-    echo "<input type='hidden' name='action' value='submit_marcsearch'>";
+    echo "<input type='hidden' name='action' value='create_from_marc_record'>";
     echo "<table border='0 width='100%' cellpadding='0' cellspacing='0'>";
 
     // -----------------------------------------------------

@@ -101,7 +101,7 @@ else
         $page_title = _("Create a Project from an Uber Project");
         $fatal_error = $pih->set_from_uberproject();
     }
-    elseif ( $requested_action == 'submit_marcsearch' )
+    elseif ( $requested_action == 'create_from_marc_record' )
     {
         $page_title = _("Create a Project from a MARC Record");
         $fatal_error = $pih->set_from_marc_record();
