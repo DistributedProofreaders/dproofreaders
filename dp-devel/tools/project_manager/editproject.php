@@ -467,17 +467,18 @@ class ProjectInfoHolder
                 WHERE projectid='{$this->projectid}'
             ");
 
-            // Update the MARC record in the database
             $result = mysql_query("
                 SELECT updated_array
                 FROM marc_records
                 WHERE projectid = '{$this->projectid}'
-            "); // Pull the current MARC record array from the database
-            $current_marc_array = unserialize(base64_decode(mysql_result($result,0,"updated_array"))); // Get the updated_marc array field
-            $updated_marc_array = update_marc_array($current_marc_array); // Update the MARC record array in the database
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array); // Convert the updated array to a marc
+            ");
+            $current_marc_array_encd = mysql_result($result,0,"updated_array");
+            $current_marc_array = unserialize(base64_decode($current_marc_array_encd));
 
-            //Update the marc_records database with the updated marc record
+            // Update the MARC array with any info we've received.
+            $updated_marc_array = update_marc_array($current_marc_array);
+            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
+
             mysql_query("
                 UPDATE marc_records
                 SET
@@ -492,7 +493,6 @@ class ProjectInfoHolder
         else
         {
             $this->projectid = uniqid("projectID"); // The project ID
-            $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd)); // Decode the marc record
 
             // Insert a new row into the projects table
             mysql_query("
@@ -522,13 +522,13 @@ class ProjectInfoHolder
             mkdir("$projects_dir/$this->projectid", 0777);
             chmod("$projects_dir/$this->projectid", 0777);
 
+            $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd));
             $original_marc_str = convert_marc_array_to_str($original_marc_array);
 
-            // Update the marc database with any changes we've received
+            // Update the MARC array with any info we've received.
             $updated_marc_array = update_marc_array($original_marc_array);
             $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
 
-            // Add the original and updated marc records to the database
             mysql_query("
                 INSERT INTO marc_records
                 SET
