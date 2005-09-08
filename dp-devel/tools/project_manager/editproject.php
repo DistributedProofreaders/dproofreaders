@@ -307,6 +307,14 @@ class ProjectInfoHolder
 
     function set_from_post()
     {
+        if ( get_magic_quotes_gpc() )
+        {
+            // Values in $_POST come with backslashes added.
+            // We want the fields of $this to be unescaped strings,
+            // so we strip the slashes.
+            $_POST = array_map('stripslashes', $_POST);
+        }
+
         $errors = '';
 
         if ( isset($_POST['projectid']) )
@@ -406,7 +414,7 @@ class ProjectInfoHolder
             $res = mysql_query("
                 SELECT u_id
                 FROM users
-                WHERE BINARY username = '$this->checkedoutby'
+                WHERE BINARY username = '".addslashes($this->checkedoutby)."'
             ");
             if (mysql_num_rows($res) == 0)
             {
@@ -436,26 +444,26 @@ class ProjectInfoHolder
 
     function save_to_db()
     {
-        // Because we have PHP configured with magic_quotes_gpc On,
-        // values from $_POST come with backslashes added. So don't pass
-        // them to addslashes(), or the result will have double-backslashes.
-
         global $projects_dir, $uploads_dir, $pguser;
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
+        // Call addslashes() on any members of $this that might contain 
+        // single-quotes/apostrophes (because they are unescaped, and
+        // would otherwise break the query).
+
         $common_project_settings = "
             up_projectid  = '{$this->up_projectid}',
-            nameofwork    = '{$this->nameofwork}',
-            authorsname   = '{$this->authorsname}',
+            nameofwork    = '".addslashes($this->nameofwork)."',
+            authorsname   = '".addslashes($this->authorsname)."',
             language      = '{$this->language}',
             genre         = '{$this->genre}',
             difficulty    = '{$this->difficulty_level}',
             special_code  = '{$this->special_code}',
-            clearance     = '{$this->clearance}',
-            comments      = '{$this->comments}',
+            clearance     = '".addslashes($this->clearance)."',
+            comments      = '".addslashes($this->comments)."',
             image_source  = '{$this->image_source}',
-            scannercredit = '{$this->scannercredit}',
+            scannercredit = '".addslashes($this->scannercredit)."',
             checkedoutby  = '{$this->checkedoutby}',
             postednum     = $postednum_str
         ";
