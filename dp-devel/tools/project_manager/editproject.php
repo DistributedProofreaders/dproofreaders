@@ -444,6 +444,22 @@ class ProjectInfoHolder
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
+        $common_project_settings = "
+            up_projectid  = '{$this->up_projectid}',
+            nameofwork    = '{$this->nameofwork}',
+            authorsname   = '{$this->authorsname}',
+            language      = '{$this->language}',
+            genre         = '{$this->genre}',
+            difficulty    = '{$this->difficulty_level}',
+            special_code  = '{$this->special_code}',
+            clearance     = '{$this->clearance}',
+            comments      = '{$this->comments}',
+            image_source  = '{$this->image_source}',
+            scannercredit = '{$this->scannercredit}',
+            checkedoutby  = '{$this->checkedoutby}',
+            postednum     = $postednum_str
+        ";
+
         if (isset($this->projectid))
         {
             // We are updating an already-existing project.
@@ -451,21 +467,9 @@ class ProjectInfoHolder
             // Update the projects database with the updated info
             mysql_query("
                 UPDATE projects SET
-                    nameofwork    = '{$this->nameofwork}',
-                    authorsname   = '{$this->authorsname}',
-                    checkedoutby  = '{$this->checkedoutby}',
-                    language      = '{$this->language}',
-                    genre         = '{$this->genre}',
-                    difficulty    = '{$this->difficulty_level}',
-                    comments      = '{$this->comments}',
-                    scannercredit = '{$this->scannercredit}',
-                    postednum     = $postednum_str,
-                    clearance     = '{$this->clearance}',
-                    special_code  = '{$this->special_code}',
-                    image_source  = '{$this->image_source}',
-                    up_projectid  = '{$this->up_projectid}'
+                    $common_project_settings
                 WHERE projectid='{$this->projectid}'
-            ");
+            ") or die(mysql_error());
 
             $result = mysql_query("
                 SELECT updated_array
@@ -495,23 +499,12 @@ class ProjectInfoHolder
             mysql_query("
                 INSERT INTO projects
                 SET
-                    nameofwork     = '{$this->nameofwork}',
-                    authorsname    = '{$this->authorsname}',
-                    checkedoutby   = '{$this->checkedoutby}',
-                    language       = '{$this->language}',
-                    genre          = '{$this->genre}',
-                    difficulty     = '{$this->difficulty_level}',
-                    username       = '{$GLOBALS['pguser']}',
-                    comments       = '{$this->comments}',
-                    projectid      = '{$this->projectid}',
-                    modifieddate   = UNIX_TIMESTAMP(),
-                    scannercredit  = '{$this->scannercredit}',
-                    state          = '".PROJ_NEW."',
-                    clearance      = '{$this->clearance}',
-                    special_code   = '{$this->special_code}',
-                    image_source   = '{$this->image_source}',
-                    up_projectid   = '{$this->up_projectid}'
-            ");
+                    projectid    = '{$this->projectid}',
+                    username     = '{$GLOBALS['pguser']}',
+                    state        = '".PROJ_NEW."',
+                    modifieddate = UNIX_TIMESTAMP(),
+                    $common_project_settings
+            ") or die(mysql_error());
 
             project_allow_pages( $this->projectid );
 
