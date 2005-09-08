@@ -13,7 +13,7 @@ new dbConnect();
 
 
 $result = mysql_query("
-    SELECT hour, AVG(U_lasthour)
+    SELECT hour, AVG(L_hour)
     FROM user_active_log
     GROUP BY hour
     ORDER BY hour

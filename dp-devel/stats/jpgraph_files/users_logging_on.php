@@ -34,25 +34,25 @@ switch ( $preceding )
 {
 	case 'hour':
 		$title = "Number of users newly logged in each hour";
-		$column_name = 'U_lasthour';
+		$column_name = 'L_hour';
 		$cache_timeout = 58;
 		break;
 
 	case 'day':
 		$title = 'Number of users newly logged in over 24 hours';
-		$column_name = 'U_day';
+		$column_name = 'L_day';
 		$cache_timeout = 58;
 		break;
 
 	case 'week':
 		$title = "Number of users newly logged in over 7 days";
-		$column_name = 'U_week';
+		$column_name = 'L_week';
 		$cache_timeout = 300;
 		break;
 
 	case 'fourweek':
 		$title = "Number of users newly logged in over 28 days";
-		$column_name = 'U_4wks';
+		$column_name = 'L_4wks';
 		$cache_timeout = 900;
 		break;
 

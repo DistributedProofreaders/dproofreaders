@@ -4,9 +4,12 @@ include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
+// Each L_<interval> field gives the number of distinct users
+// who logged in sometime in the <interval> preceding the row's timestamp.
+
 mysql_query("
     INSERT INTO user_active_log
-        ( year, month, day, hour, time_stamp, U_lasthour, U_day, U_week, U_4wks )
+        ( year, month, day, hour, time_stamp, L_hour, L_day, L_week, L_4wks )
     SELECT
         YEAR(NOW()),
         MONTH(NOW()),
