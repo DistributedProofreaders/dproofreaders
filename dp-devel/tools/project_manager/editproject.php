@@ -486,9 +486,6 @@ class ProjectInfoHolder
                     updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
                 WHERE projectid = '$this->projectid'
             ");
-
-            // Lastly, let's update the Dublin Core file
-            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_marc_array);
         }
         else
         {
@@ -538,10 +535,17 @@ class ProjectInfoHolder
                     updated_array  = '".base64_encode(serialize($updated_marc_array))."',
                     updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
             ");
-
-            // Create a Dublin Core file in the projects_dir directory
-            create_dc_xml_oai($this->projectid, $this->scannercredit, $this->genre, $this->language, $this->authorsname, $this->nameofwork, $updated_marc_array);
         }
+
+        // Create/update the Dublin Core file for the project.
+        create_dc_xml_oai(
+            $this->projectid,
+            $this->scannercredit,
+            $this->genre,
+            $this->language,
+            $this->authorsname,
+            $this->nameofwork,
+            $updated_marc_array );
 
         // If the project has been posted to PG let the users know
         if ($this->posted) { posted_pg($this->projectid); }
