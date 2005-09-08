@@ -17,6 +17,17 @@ mysql_query("
         CHANGE COLUMN U_4wks     L_4wks MEDIUMINT UNSIGNED
 ") or die(mysql_error());
 
+echo "\n";
+echo "Adding A_* columns...\n";
+
+mysql_query("
+    ALTER TABLE user_active_log
+        ADD COLUMN A_hour MEDIUMINT UNSIGNED AFTER L_4wks,
+        ADD COLUMN A_day  MEDIUMINT UNSIGNED AFTER A_hour,
+        ADD COLUMN A_week MEDIUMINT UNSIGNED AFTER A_day,
+        ADD COLUMN A_4wks MEDIUMINT UNSIGNED AFTER A_week
+") or die(mysql_error());
+
 echo "Done!\n";
 
 // vim: sw=4 ts=4 expandtab
