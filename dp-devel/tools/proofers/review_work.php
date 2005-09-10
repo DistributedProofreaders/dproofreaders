@@ -98,7 +98,7 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
         SELECT
             COUNT(*),
             IFNULL( SUM($has_been_saved_in_review_round), 0 ),
-            IFNULL( SUM($has_been_saved_in_review_round AND $there_is_a_diff), 0 ),
+            IFNULL( SUM($has_been_saved_in_review_round AND $there_is_a_diff), 0 )
         FROM $projectid
         WHERE {$work_round->user_column_name}='$username'
     ");
