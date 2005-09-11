@@ -36,7 +36,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         }
         elseif (isset($_POST['saveAndProject']))
         {
-            metarefresh(0, "$code_url/project.php?id=$projectid", _("Save and Go To Project"), "");
+            metarefresh(0, "$code_url/project.php?id=$pih->projectid", _("Save and Go To Project"), "");
             exit;
         }
         elseif (isset($_POST['saveAndPreview']))
