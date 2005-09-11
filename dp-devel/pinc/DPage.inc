@@ -187,6 +187,9 @@ function project_add_page(
         }
     }
 
+    // If the INSERT raised an error, don't do the other stuff.
+    if ($errs) return $errs;
+
     _log_page_event( $projectid, $image_file_name, 'add', $user, NULL );
 
     _project_adjust_n_pages( $projectid, +1 );
