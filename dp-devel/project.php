@@ -1258,14 +1258,13 @@ function do_change_state()
 {
     global $project, $pguser;
 
-    /*
-    Commented out until it's easy to suppress when no options are echoed.
+    $valid_transitions = get_valid_transitions( $project, $pguser );
+    if (count($valid_transitions) == 0 ) return;
+
     echo "<h4>";
     echo _("Change Project State");
     echo "</h4>\n";
-    */
 
-    $valid_transitions = get_valid_transitions( $project, $pguser );
     foreach ( $valid_transitions as $transition )
     {
         echo_option(
