@@ -6,6 +6,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'projectinfo.inc'); // project_getnumavailablepagesinround()
 include_once($relPath.'comment_inclusions.inc'); // parse_project_comments()
@@ -1257,8 +1258,6 @@ function do_change_state()
 {
     global $project, $pguser;
 
-    $state = $project->state;
-
     /*
     Commented out until it's easy to suppress when no options are echoed.
     echo "<h4>";
@@ -1266,70 +1265,13 @@ function do_change_state()
     echo "</h4>\n";
     */
 
-    if ($state==PROJ_POST_FIRST_AVAILABLE && user_can_work_in_stage($pguser, 'PP') )
+    $valid_transitions = get_valid_transitions( $project, $pguser );
+    foreach ( $valid_transitions as $transition )
     {
         echo_option(
-            PROJ_POST_FIRST_CHECKED_OUT,
-            _("Check Out Book"),
-            _("Are you sure you want to check this book out for post processing?")
-        );
-    }
-    elseif ($state==PROJ_POST_FIRST_CHECKED_OUT && $project->checkedoutby == $pguser)
-    {
-        echo_option(
-            PROJ_POST_FIRST_AVAILABLE,
-            _("Return to Available"),
-            _("Are you sure you want to make this book available to others for post processing?")
-        );
-    
-        echo_option(
-            PROJ_POST_SECOND_AVAILABLE,
-            _("Upload for Verification"),
-            NULL
-        );
-    }
-    elseif ($state==PROJ_POST_SECOND_AVAILABLE && user_can_work_in_stage($pguser, 'PPV') )
-    {
-        echo_option(
-            PROJ_POST_SECOND_CHECKED_OUT,
-            _("Check Out Book"),
-            _("Are you sure you want to check this book out for verifying post processing?")
-        );
-    }
-    elseif ($state==PROJ_POST_SECOND_CHECKED_OUT && $project->checkedoutby == $pguser)
-    {
-        echo_option(
-            PROJ_POST_SECOND_AVAILABLE,
-            _("Return to Available"),
-            _("Are you sure you want to make this book available to others to verify and lose your work?")
-        );
-
-        echo_option(
-            PROJ_POST_FIRST_CHECKED_OUT,
-            _("Return to Post-Processor"),
-            _("Are you sure you want to return this book to the post-processor for further work?")
-        );
-    }
-    elseif ($state==PROJ_CORRECT_AVAILABLE && user_can_work_in_stage($pguser, 'CR') )
-    {
-        echo_option(
-            PROJ_CORRECT_CHECKED_OUT,
-            _("Check Out Book"),
-            _("Are you sure you want to check this book out to review corrections?")
-        );
-    }
-    elseif ($state==PROJ_CORRECT_CHECKED_OUT && $project->checkedoutby == $pguser)
-    {
-        echo_option(
-            PROJ_CORRECT_AVAILABLE,
-            _("Return to Available"),
-            _("Are you sure you want to make this book available to others for reviewing corrections?")
-        );
-
-        echo_option(
-            PROJ_SUBMIT_PG_POSTED,
-            _("Posted to Project Gutenberg"),
-            NULL
+            $transition->next_state,
+            $transition->action_name,
+            $transition->confirmation_question
         );
     }
 }
