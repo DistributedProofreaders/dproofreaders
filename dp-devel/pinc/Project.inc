@@ -27,23 +27,21 @@ class Project
         // Maybe set $this->image_source_name.
         if (isset($this->image_source))
         {
+
             $imso_code = $this->image_source;
-            if ( strcmp($imso_code,'DP User') != 0 )
+            if ( strcmp($imso_code,'_internal') != 0 )
+            // if $imso_code = _internal, the images were done by or for a DP User, 
+            // whose username should be recorded in image_provider, and the credit handled by
+            // _create_credit_line() below; otherwise, we need to look up info on the
+            // specific "external" image source
             {
-                if ( strncmp($imso_code,'O:',2) == 0 )
-                {
-                    $this->image_source_name = substr($imso_code,2);
-                }
-                else
-                {
-                    $imso_res = mysql_fetch_assoc(mysql_query("
-                        SELECT full_name, credit
-                        FROM image_sources
-                        WHERE code_name = '$imso_code'
-                    "));
-                    $this->image_source_name = $imso_res['full_name'];
-                    $image_source_credit = $imso_res['credit'];
-                }
+                $imso_res = mysql_fetch_assoc(mysql_query("
+                    SELECT full_name, credit
+                    FROM image_sources
+                    WHERE code_name = '$imso_code'
+                "));
+                $this->image_source_name = $imso_res['full_name'];
+                $image_source_credit = $imso_res['credit'];
             }
         }
 
@@ -119,9 +117,12 @@ class Project
         $credits = array();
 
         $creditables = array(
-            'cp' => $this->scannercredit,
             'pm' => $this->username,
             'pp' => $this->postproofer,
+            'ip' => $this->image_preparer,
+            'tp' => $this->text_preparer,
+            'ec' => $this->extra_credits,
+            'cp' => $this->scannercredit
         );
 
         foreach ($creditables as $role => $name)
@@ -130,7 +131,8 @@ class Project
     
             $credit = NULL;
     
-            // Unlike $project->username and $project->postproofer,
+            // Unlike $project->username, $project->postproofer, 
+            // $project->image_preparer and $project->text_preparer
             // $project->scannercredit isn't necessarily a username;
             // it might just be a typed-in string.
             if ($role == 'cp')
@@ -146,6 +148,17 @@ class Project
                     // So use it as the credit.
                     $credit = $name;
                 }
+            }
+
+            // Unlike  the other credit-holding fields, like $project->username, $project->postproofer, 
+            // $project->image_preparer, $project->text_preparer and $project->scannercredit (deprecated)
+            // $project->extra_credits should not be a username;
+            // It is just a typed-in string, and will be presented as is, as part of the list. 
+            if ($role == 'ec')
+            {
+                // $name is not a username.
+                // So use it as the credit.
+                $credit = $name;
             }
     
             if ( is_null($credit) )
@@ -184,7 +197,7 @@ class Project
 // The following two functions don't particularly belong here, as they aren't
 // project-specific. However, nobody else uses them yet.
 
-// $activity should be one of 'cp', 'pm' and 'pp'.
+// $activity should be one of 'cp', 'pm', 'pp', 'ip' and 'tp'.
 function wants_anonymity( $login_name, $activity )
 {
     $settings =& Settings::get_Settings($login_name);

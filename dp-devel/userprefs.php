@@ -306,7 +306,7 @@ function save_general_tab() {
     global $real_name, $email, $email_updates;
     global $u_top10, $u_align, $u_neigh, $u_lang, $i_theme, $i_pmdefault, $u_intlang, $u_privacy;
     global $userSettings;
-    global $cp_credit, $pm_credit, $pp_credit;
+    global $cp_credit, $ip_credit, $tp_credit, $pm_credit, $pp_credit;
     global $credit_name, $credit_other;
 
     $user_id = $_POST['user_id'];
@@ -321,8 +321,11 @@ function save_general_tab() {
     WHERE  u_id=$uid AND username='$pguser'";
     $result = mysql_query($users_query);
 
-    // Opt-out of credits when Content-Providing, Project-Managing and/or Post-Processing.
+    // Opt-out of credits when Content-Providing (deprecated), Image Preparing, 
+    // Text Preparing, Project-Managing and/or Post-Processing.
     $userSettings->set_boolean('cp_anonymous', !isset($cp_credit));
+    $userSettings->set_boolean('ip_anonymous', !isset($ip_credit));
+    $userSettings->set_boolean('tp_anonymous', !isset($tp_credit));
     $userSettings->set_boolean('pm_anonymous', !isset($pm_credit));
     $userSettings->set_boolean('pp_anonymous', !isset($pp_credit));
     // Credit Real Name, Username or Other (specify)
@@ -723,18 +726,22 @@ function _show_credits_wanted_adhoc()
     global $userSettings;
 
     $cp_credit_checked = $userSettings->get_boolean('cp_anonymous') ? '' : 'checked ';
+    $ip_credit_checked = $userSettings->get_boolean('ip_anonymous') ? '' : 'checked ';
+    $tp_credit_checked = $userSettings->get_boolean('tp_anonymous') ? '' : 'checked ';
     $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
     $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
 
     echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked/> CP\n";
+    echo "<input type='checkbox' name='ip_credit' value='yes' $ip_credit_checked/> IP\n";
+    echo "<input type='checkbox' name='tp_credit' value='yes' $tp_credit_checked/> TP\n";
     if (user_is_PM())
         echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked/> PM\n";
     echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked/> PP\n";
 
     echo "<br />";
-    echo "<a href='#' onClick=\"check_boxes(true, 'cp_credit', 'pm_credit', 'pp_credit');\">Check all</a>";
+    echo "<a href='#' onClick=\"check_boxes(true, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Check all</a>";
     echo " | ";
-    echo "<a href='#' onClick=\"check_boxes(false, 'cp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
+    echo "<a href='#' onClick=\"check_boxes(false, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
 }
 
 // ---------------------------------------------------------
