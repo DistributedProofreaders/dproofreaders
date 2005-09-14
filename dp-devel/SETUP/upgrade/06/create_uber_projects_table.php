@@ -30,7 +30,11 @@ CREATE TABLE `uber_projects` (
   `d_year` varchar(4) default NULL,
   `d_genre` varchar(50) default NULL,
   `d_difficulty` varchar(20) default NULL,
-  `d_image_source` varchar(20) default NULL,
+  `d_image_source` varchar(10) default NULL,
+  `d_image_preparer` VARCHAR(25)  default NULL , 
+  `d_text_preparer`  VARCHAR(25)  default NULL,
+  `d_extra_credits`  TINYTEXT     default NULL,
+
   PRIMARY KEY  (`up_projectid`)
 ) TYPE=MyISAM;    
     

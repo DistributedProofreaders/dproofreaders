@@ -55,6 +55,9 @@ if ( isset($_REQUEST['action']) &&
                 $difficulty_level = $up_info['d_difficulty'];
                 $special = $up_info['d_special'];
                 $image_source = $up_info['d_image_source'];
+                $image_preparer = $up_info['d_image_preparer'];
+                $text_preparer = $up_info['d_text_preparer'];
+                $extra_credits = $up_info['d_extra_credits'];
                 // $year = $up_info['d_year'];
             }
             else
@@ -124,9 +127,14 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Genre"),                 'genre_list',          $genre            );
     row( _("Default Difficulty Level"),      'difficulty_list',     $difficulty_level );
     row( _("Default Special Day"),           'special_list',        $special          );
-    row( _("Default PPer"),                  'text_field',          $checkedoutby,    'checkedoutby' );
+    row( _("Default PPer"),                  'DP_user_field',       $checkedoutby,    'checkedoutby' );
     row( _("Default Image Source"),          'image_source_list',   $image_source     );
-    row( _("Default Image Scanner Credit"),  'text_field',          $scannercredit,   'scannercredit' );
+    row( _("Default Image Preparer"),        'DP_user_field',       $image_preparer,  'image_preparer' );
+    row( _("Default Text Preparer"),         'DP_user_field',       $text_preparer,   'text_preparer' );
+    row( _("Default Extra Credits"),         'extra_credits_field', $extra_credits);
+    if ($scannercredit != '') {
+        row( _("Default Scanner Credit (deprecated)"), 'text_field',$scannercredit,   'scannercredit' );
+    }
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
 
@@ -227,22 +235,28 @@ function saveUberProject()
         }
     }
 
-    if (!empty($_POST['image_source']))
+
+    if (!empty($_POST['image_preparer']))
     {
-        $image_source = $_POST['image_source'];
-        if (strcmp($image_source, 'OTHER') == 0)
+        $image_preparer = $_POST['image_preparer'];
+        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$image_preparer'");
+        if (mysql_num_rows($result) == 0)
         {
-            if (empty($_POST['imso_other']))
-            {
-                $errormsg .= "When Default Image Source is OTHER, details must be supplied.<br>";
-            }
-            else
-            {
-                $imso_other = $_POST['imso_other'];
-                $image_source = "O:".$imso_other;
-            }
+            $errormsg .= "Default Image Preparer must be an existing user - check case and spelling of username.<br>";
         }
     }
+
+    if (!empty($_POST['text_preparer']))
+    {
+        $text_preparer = $_POST['text_preparer'];
+        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$text_preparer'");
+        if (mysql_num_rows($result) == 0)
+        {
+            $errormsg .= "Default Text Preparer must be an existing user - check case and spelling of username.<br>";
+        }
+    }
+
+
 
     if (isset($errormsg))
     {
@@ -284,7 +298,10 @@ function saveUberProject()
                 d_scannercredit='{$_POST['scannercredit']}',
                 d_clearance='{$_POST['clearance']}',
                 d_special='$special',
-                d_image_source = '$image_source'
+                d_image_source = '{$_POST['image_source']},
+                d_image_preparer = '$image_preparer',
+                d_text_preparer = '$text_preparer',
+                d_extra_comments = '{$_POST['extra_comments']}'
             WHERE up_projectid='{$_POST['up_projectid']}'
         ");
 
@@ -298,7 +315,8 @@ function saveUberProject()
             INSERT INTO uber_projects
                 (up_nameofwork, up_topic_id, up_contents_post_id, up_modifieddate, up_enabled, up_description,
                 d_nameofwork, d_authorsname, d_language, d_comments, d_special, d_checkedoutby, d_scannercredit,
-                d_clearance, d_year, d_genre, d_difficulty, d_image_source)
+                d_clearance, d_year, d_genre, d_difficulty, d_image_source, d_image_preparer, d_text_preparer,
+                d_extra_credits)
             VALUES (
                 '{$_POST['up_nameofwork']}',
                 '{$_POST['up_topic_id']}',
@@ -317,7 +335,10 @@ function saveUberProject()
                 '{$_POST['year']}',
                 '{$_POST['genre']}',
                 '{$_POST['difficulty_level']}',
-                '$image_source'
+                '{$_POST['image_source']},
+                $image_preparer,
+                $text_preparer,
+                '{$_POST['extra_credits']}
             )
         ");
 
