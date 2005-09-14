@@ -133,7 +133,10 @@ mysql_query("
         ADD n_pages             SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
         ADD n_available_pages   SMALLINT(4) UNSIGNED DEFAULT '0' NOT NULL,
         ADD ppverifier          VARCHAR(25),
-        ADD image_source        VARCHAR(10),
+        ADD image_source        VARCHAR(10) NOT NULL,
+        ADD image_preparer      VARCHAR(25) NOT NULL,
+        ADD text_preparer       VARCHAR(25) NOT NULL,
+        ADD extra_credits       TINYTEXT    NOT NULL,
         ADD smoothread_deadline INT(20)     DEFAULT '0' NOT NULL,
         ADD up_projectid        INT(10)     DEFAULT '0',
         ADD INDEX (special_code)
