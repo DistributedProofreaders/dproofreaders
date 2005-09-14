@@ -38,7 +38,7 @@ $sorting = array_get($_GET, 'sort', '');
 $no_stats = 1;
 theme( $out_title, 'header' );
 
-echo "<h2>$heading_proof</h2>";
+echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
 
 // ---------------
 
@@ -197,7 +197,7 @@ $result = dpsql_query($query);
 
 if (mysql_num_rows($result) > 0)
 {
-    echo "<h2>$heading_reserved</h2>\n";
+    echo "<a name='reserved' id='reserved'></a><h2>$heading_reserved</h2>\n";
 
     echo "<table border='1'>";
 
@@ -221,7 +221,7 @@ if (mysql_num_rows($result) > 0)
 
         echo "</tr>\n";
     }
-    
+
     echo "</table>\n";
     echo "<br>\n";
 }
@@ -270,7 +270,7 @@ function show_headings($colspecs, $sort_type)
             $link_dir = 'A';
         }
         echo "<th>";
-        echo "<a href='?{$qs_username}order_col=$col_id&amp;order_dir=$link_dir&amp;sort=$sort_type'>";
+        echo "<a href='?{$qs_username}order_col=$col_id&amp;order_dir=$link_dir&amp;sort=$sort_type#$sort_type'>";
         echo $colspec['label'];
         echo "</a>";
         echo "</th>";
