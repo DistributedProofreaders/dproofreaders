@@ -152,7 +152,10 @@ class ProjectInfoHolder
         $this->genre            = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
-        $this->image_source     = 'DP User';
+        $this->image_source     = '_internal';
+        $this->image_preparer   = $pguser;
+        $this->text_preparer    = $pguser;
+        $this->extra_credits    = '';
         // $this->year          = '';
     }
 
@@ -197,7 +200,10 @@ class ProjectInfoHolder
         $this->postednum        = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
         $this->special_code     = '';
-        $this->image_source     = 'DP User';
+        $this->image_source     = '_internal';
+        $this->image_preparer   = $pguser;
+        $this->text_preparer    = $pguser;
+        $this->extra_credits    = '';
 
         $this->original_marc_array_encd = $r1;
     }
@@ -239,6 +245,10 @@ class ProjectInfoHolder
         $this->difficulty_level = $up_info['d_difficulty'];
         $this->special_code     = $up_info['d_special'];
         $this->image_source     = $up_info['d_image_source'];
+        $this->image_preparer   = $up_info['d_image_preparer'];
+        $this->text_preparer    = $up_info['d_text_preparer'];
+        $this->extra_credits    = $up_info['d_extra_credits'];
+
         // $this->year          = $up_info['d_year'];
 
         $this->up_projectid     = $up_projectid;
@@ -298,6 +308,9 @@ class ProjectInfoHolder
         $this->difficulty_level = $ar['difficulty'];
         $this->special_code     = $ar['special_code'];
         $this->image_source     = $ar['image_source'];
+        $this->image_preparer   = $ar['image_preparer'];
+        $this->text_preparer    = $ar['text_preparer'];
+        $this->extra_credits    = $ar['extra_credits'];
         $this->up_projectid     = $ar['up_projectid'];
 
         $this->posted = @$_GET['posted'];
@@ -362,9 +375,11 @@ class ProjectInfoHolder
         $this->image_source = @$_POST['image_source'];
         if ($this->image_source == '')
         {
-            $errors .= "Image Source is required.<br>";
-            $this->image_source = 'DP User';
+            $errors .= "Image Source is required. If the one you want isn't in list, you can propose to add it.<br>";
+            $this->image_source = '_internal';
         }
+
+	/*
         else
         {
             if ($this->image_source == 'OTHER')
@@ -380,6 +395,9 @@ class ProjectInfoHolder
                 }
             }
         }
+
+	*/
+
 
         $this->special_code = @$_POST['special_code'];
         if ($this->special_code != '')
@@ -422,6 +440,34 @@ class ProjectInfoHolder
             }
         }
 
+        $this->image_preparer = @$_POST['image_preparer'];
+        if ($this->image_preparer != '')
+        {
+            $res = mysql_query("
+                SELECT u_id
+                FROM users
+                WHERE BINARY username = '".addslashes($this->image_preparer)."'
+            ");
+            if (mysql_num_rows($res) == 0)
+            {
+                $errors .= "Image Preparer must be an existing user - check case and spelling of username.<br>";
+            }
+        }
+
+        $this->text_preparer = @$_POST['text_preparer'];
+        if ($this->text_preparer != '')
+        {
+            $res = mysql_query("
+                SELECT u_id
+                FROM users
+                WHERE BINARY username = '".addslashes($this->text_preparer)."'
+            ");
+            if (mysql_num_rows($res) == 0)
+            {
+                $errors .= "Text Preparer must be an existing user - check case and spelling of username.<br>";
+            }
+        }
+
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
         $this->clearance        = @$_POST['clearance'];
@@ -430,6 +476,7 @@ class ProjectInfoHolder
         $this->up_projectid     = @$_POST['up_projectid'];
         $this->original_marc_array_encd = @$_POST['rec'];
         $this->posted           = @$_POST['posted'];
+        $this->extra_credits    = @$_POST['extra_credits'];
 
         if ($this->difficulty_level == '')
         {
@@ -453,19 +500,22 @@ class ProjectInfoHolder
         // would otherwise break the query).
 
         $common_project_settings = "
-            up_projectid  = '{$this->up_projectid}',
-            nameofwork    = '".addslashes($this->nameofwork)."',
-            authorsname   = '".addslashes($this->authorsname)."',
-            language      = '{$this->language}',
-            genre         = '{$this->genre}',
-            difficulty    = '{$this->difficulty_level}',
-            special_code  = '{$this->special_code}',
-            clearance     = '".addslashes($this->clearance)."',
-            comments      = '".addslashes($this->comments)."',
-            image_source  = '{$this->image_source}',
-            scannercredit = '".addslashes($this->scannercredit)."',
-            checkedoutby  = '{$this->checkedoutby}',
-            postednum     = $postednum_str
+            up_projectid   = '{$this->up_projectid}',
+            nameofwork     = '".addslashes($this->nameofwork)."',
+            authorsname    = '".addslashes($this->authorsname)."',
+            language       = '{$this->language}',
+            genre          = '{$this->genre}',
+            difficulty     = '{$this->difficulty_level}',
+            special_code   = '{$this->special_code}',
+            clearance      = '".addslashes($this->clearance)."',
+            comments       = '".addslashes($this->comments)."',
+            image_source   = '{$this->image_source}',
+            scannercredit  = '".addslashes($this->scannercredit)."',
+            checkedoutby   = '{$this->checkedoutby}',
+            postednum      = $postednum_str,
+            image_preparer = '{$this->image_preparer}',
+            text_preparer  = '{$this->text_preparer}',
+            extra_credits  = '".addslashes($this->extra_credits)."'
         ";
 
         if (isset($this->projectid))
@@ -537,6 +587,8 @@ class ProjectInfoHolder
                     updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
             ");
         }
+
+// TODO not scannercredit below!
 
         // Create/update the Dublin Core file for the project.
         create_dc_xml_oai(
@@ -637,18 +689,23 @@ class ProjectInfoHolder
 
             row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
-        row( _("Name of Work"),          'text_field',          $this->nameofwork,      'nameofwork' );
-        row( _("Author's Name"),         'text_field',          $this->authorsname,     'authorsname' );
-        row( _("Language"),              'language_list',       $this->language         );
-        row( _("Genre"),                 'genre_list',          $this->genre            );
-        row( _("Difficulty Level"),      'difficulty_list',     $this->difficulty_level );
-        row( _("Special Day (optional)"),'special_list',        $this->special_code     );
-        row( _("PPer/PPVer"),            'text_field',          $this->checkedoutby,    'checkedoutby' );
-        row( _("Image Source"),          'image_source_list',   $this->image_source     );
-        row( _("Image Scanner Credit"),  'text_field',          $this->scannercredit,   'scannercredit' );
-        row( _("Clearance Information"), 'text_field',          $this->clearance,       'clearance' );
-        row( _("Posted Number"),         'text_field',          $this->postednum,       'postednum' );
-        row( _("Project Comments"),      'proj_comments_field', $this->comments         );
+        row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork' );
+        row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
+        row( _("Language"),                    'language_list',       $this->language         );
+        row( _("Genre"),                       'genre_list',          $this->genre            );
+        row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
+        row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
+        row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' );
+        row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
+        row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer' );
+        row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer' );
+        row( _("Extra Credits"),               'extra_credits_field', $this->extra_credits);
+        if ($this->scannercredit != '') {
+            row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
+        }
+        row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
+        row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
+        row( _("Project Comments"),            'proj_comments_field', $this->comments         );
     }
 
     // =========================================================================

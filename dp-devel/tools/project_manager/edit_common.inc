@@ -23,6 +23,15 @@ function text_field( $field_value, $field_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function DP_user_field( $field_value, $field_name )
+{
+    $enc_field_value = encodeFormValue($field_value);
+    echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'>";
+}
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function language_list($language)
 {
     if (strpos($language, "with") > 0)
@@ -293,7 +302,7 @@ function image_source_list($image_source)
     $imso_result = mysql_query("
         SELECT code_name, display_name
         FROM image_sources
-        WHERE enable = 1
+        WHERE is_active = 1
         ORDER BY display_name
     ") or die(mysql_error());
 
@@ -311,10 +320,10 @@ function image_source_list($image_source)
     // drop down select box for which image source
     echo "<select name='image_source'>";
 
-    // add special case value "DP User"
-    echo "<option value='DP User' ";
-    if (strcmp ( $image_source, 'DP User') == 0) { echo " SELECTED"; }
-    echo ">"._("DP User")."</option>";
+    // add special case value "DP Internal"
+    echo "<option value='_internal' ";
+    if (strcmp ( $image_source, '_internal') == 0) { echo " SELECTED"; }
+    echo ">"._("DP Internal")."</option>";
     echo "\n";
 
     // add the pre-defined image_sources
@@ -326,22 +335,7 @@ function image_source_list($image_source)
         echo "\n";
     }
 
-    // add special case value "Other"
-    $imso_other_val = '';
-    echo "<option value='OTHER' ";
-    if (strncmp ( $image_source, 'O:',2) == 0)
-    {
-        echo " SELECTED";
-        $imso_other_val = substr($image_source,2);
-    }
-    echo ">"._("OTHER")."</option>";
-    echo "\n";
-
     echo "</select>";
-
-    echo " "._("Details for OTHER: ")
-        . "<input type='text' size='18' name='imso_other' value='"
-        . encodeFormValue($imso_other_val)."'>";
 
     echo " <a href='show_image_sources.php'>Details of Image Sources</a><br>";
 }
@@ -366,6 +360,19 @@ function proj_comments_field($comments)
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function extra_credits_field($extra_credits)
+{
+    $enc_credits = encodeFormValue($extra_credits);
+
+    echo "<center>";
+    echo "<textarea name='extra_credits' cols='74' rows='4'>$enc_credits</textarea>";
+    echo "</center>";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
 
 function description_field( $description, $field_name )
 {
