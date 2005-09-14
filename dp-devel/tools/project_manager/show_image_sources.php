@@ -22,14 +22,14 @@ if (!isset($_GET['name']))
 
     dpsql_dump_query("
         SELECT
-                concat('<a href=\"show_image_sources.php?name=',code_name,'\" >',full_name,'</a>') as 'Full Name',
+                concat('<a href=\"show_image_sources.php?name=',image_source,'\" >',full_name,'</a>') as 'Full Name',
                 display_name as 'Name in<br>Dropdown',
                 public_comment as 'Description',
                 internal_comment as 'Notes',
                 CASE ok_show_images WHEN 1 THEN 'yes' WHEN 0 THEN 'no' ELSE 'unknown' END as 'OK to<br>Publish?',
                 concat('<a href=\"',url,'\">',url,'</a>') as 'More Info'
         FROM image_sources
-        WHERE enable = 1
+        WHERE info_page_visibility >= 3
         ORDER BY full_name
 
     ");
