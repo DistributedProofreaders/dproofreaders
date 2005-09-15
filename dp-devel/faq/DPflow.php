@@ -13,9 +13,9 @@ theme('Workflow Diagram','header');
 <b>1. </b>Project Manager acquires and pre-processes material.
 <p>
 <b>2. </b>Project Manager loads project on DP web site and 
-          proofreaders give it two rounds of proofreading.<p>
-<b>3. </b>Project Manager or post-processor performs final assembly/proofreading on output 
-          from DP web site and submits e-text to Project Gutenberg for posting.
+          proofreaders give it two rounds of proofreading. Formatters give it two rounds of formatting.<p>
+<b>3. </b>The Post-Processor assembles the book and uploads it to DP for verification.
+<b>4. </b>A Post-Processing Verifier checks the uploaded book and posts it to PG.
 <p><p>
 <img SRC="DPflow.gif" height=461 width=640><p>
 <a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.
