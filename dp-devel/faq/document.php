@@ -35,7 +35,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
     Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a></h4>
 
-<h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
+<h4>Check out the <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>!</h4>
 
 <table border="0" cellspacing="0" width="100%" summary="Formatting Guidelines">
   <tbody>
@@ -2460,7 +2460,7 @@ cedilla                      [,x]   [x,]
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
 <p>There are projects which contain text printed in non-Latin characters; that is, characters
-   other than the Latin A...Z characters, for example Greek, Cyrillic (used in 
+   other than the Latin A...Z characters, for example Greek, Cyrillic (used in
    Russian, Slavic and other languages), Hebrew, or Arabic characters.
 </p><? if(!$utf8_site) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
