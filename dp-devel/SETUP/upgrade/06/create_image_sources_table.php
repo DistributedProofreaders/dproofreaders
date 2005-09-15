@@ -15,7 +15,7 @@ CREATE TABLE `image_sources` (
 `code_name` VARCHAR(10) NOT NULL ,
 `display_name` VARCHAR( 30 ) NOT NULL ,
 `full_name` VARCHAR( 100 ) NOT NULL ,
-`is_active` TINYINT UNSIGNED DEFAULT '0' NOT NULL ,
+`is_active` TINYINT DEFAULT '-1' NOT NULL ,
 `info_page_visibility` TINYINT UNSIGNED  DEFAULT '0' NOT NULL,
 `url` VARCHAR( 200 ) ,
 `credit` VARCHAR( 200 ) ,
