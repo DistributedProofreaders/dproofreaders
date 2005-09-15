@@ -22,7 +22,7 @@ if (!isset($_GET['name']))
 
     dpsql_dump_query("
         SELECT
-                concat('<a href=\"show_image_sources.php?name=',image_source,'\" >',full_name,'</a>') as 'Full Name',
+                concat('<a href=\"show_image_sources.php?name=',code_name,'\" >',full_name,'</a>') as 'Full Name',
                 display_name as 'Name in<br>Dropdown',
                 public_comment as 'Description',
                 internal_comment as 'Notes',
