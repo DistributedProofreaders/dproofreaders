@@ -111,7 +111,7 @@ function user_can_work_on_beginner_pages_in_round($round)
         return TRUE;
         // The round-restriction is sufficient.
 }
-    
+
 function user_is_authors_db_manager()
 {
     $userSettings =& get_pguser_settings();
@@ -121,6 +121,13 @@ function user_is_authors_db_manager()
 function user_is_authors_db_editor() {
   return user_is_PM();
 }
+
+function user_is_image_sources_manager()
+{
+    $userSettings =& get_pguser_settings();
+    return user_is_a_sitemanager() || $userSettings->get_boolean("image_sources_manager");
+}
+
 
 // vim: sw=4 ts=4 expandtab
 ?>
