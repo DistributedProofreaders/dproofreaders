@@ -32,8 +32,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3 align="center">Version 1.8, generated June 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
-<h4>Formatting Guidelines <a href="guidelines_francaises.html">in French</a> /
-    Directives de Formatage <a href="guidelines_francaises.html">en fran&ccedil;ais</a></h4>
+<h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
+    Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a></h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 
