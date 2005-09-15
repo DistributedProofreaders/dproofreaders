@@ -7,7 +7,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'metarefresh.inc');
 
 // Get Passed parameters to code
-$projectid  = $_GET['project'];
+$projectid  = $_GET['projectid'];
 $curr_state = $_GET['curr_state'];
 $next_state = $_GET['next_state'];
 
