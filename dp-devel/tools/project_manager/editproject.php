@@ -661,7 +661,7 @@ class ProjectInfoHolder
 
     function show_visible_controls()
     {
-        function row( $label, $display_function, $field_value, $field_name=NULL )
+        function row( $label, $display_function, $field_value, $field_name=NULL, $explan='' )
         {
             echo "<tr>";
             echo   "<td bgcolor='#CCCCCC'>";
@@ -669,6 +669,8 @@ class ProjectInfoHolder
             echo   "</td>";
             echo   "<td>";
             $display_function( $field_value, $field_name );
+            echo   "  ";
+            echo   $explan;
             echo   "</td>";
             echo "</tr>";
             echo "\n";
@@ -695,11 +697,12 @@ class ProjectInfoHolder
         row( _("Genre"),                       'genre_list',          $this->genre            );
         row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
         row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
-        row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' );
+        row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , _("Optionally reserve for a PPer. DP username only."));
         row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
-        row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer' );
-        row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer' );
-        row( _("Extra Credits"),               'extra_credits_field', $this->extra_credits);
+        row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', _("DP user who scanned or harvested the images."));
+        row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', _("DP user who prepared the text files.") );
+        row( _("Extra Credits (to be included in list of names)"),   
+                                               'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {
             row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
         }

@@ -335,9 +335,9 @@ function image_source_list($image_source)
         echo "\n";
     }
 
-    echo "</select>";
-
-    echo " <a href='show_image_sources.php'>Details of Image Sources</a><br>";
+    echo "</select> ";
+    echo "<font size=-1>". _("'DP Internal' if scanned by or for a DP user.")."</font>";
+    echo " <a href='show_image_sources.php'>"._("Details of Image Sources")."</a><br>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
