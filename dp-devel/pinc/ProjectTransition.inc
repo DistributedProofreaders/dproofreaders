@@ -11,7 +11,10 @@ class ProjectTransition
         $next_state,
         $restriction,
         $action_name,
-        $confirmation_question
+        $confirmation_question,
+        $action_type,
+        $checkedoutby_to_transit,
+        $destination
     )
     // A user who satisfies the $restriction can cause
     // a project to transit from $curr_state to $next_state.
@@ -21,6 +24,15 @@ class ProjectTransition
         $this->restriction = $restriction;
         $this->action_name = $action_name;
         $this->confirmation_question = $confirmation_question;
+        $this->action_type = $action_type;
+        $this->checkedoutby_to_transit = $checkedoutby_to_transit;
+
+        if ( $destination == '[project page]' )
+        {
+            global $code_url;
+            $destination = "$code_url/project.php?id=<PROJECTID>&amp;expected_state=$next_state";
+        }
+        $this->destination = $destination;
 
         global $PROJECT_TRANSITIONS;
         $PROJECT_TRANSITIONS[] =& $this;
@@ -71,6 +83,22 @@ function get_valid_transitions( $project, $username )
     return $valids;
 }
 
+// -----------------------------------------------------------------------------
+
+function get_transition( $curr_state, $next_state )
+{
+    global $PROJECT_TRANSITIONS;
+    foreach ( $PROJECT_TRANSITIONS as $transition )
+    {
+        if ( $transition->curr_state == $curr_state &&
+             $transition->next_state == $next_state )
+        {
+            return $transition;
+        }
+    }
+    return NULL;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -82,7 +110,10 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     'user_can_work_in_stage PP',
     _("Check Out Book"),
-    _("Are you sure you want to check this book out for post processing?")
+    _("Are you sure you want to check this book out for post processing?"),
+    'transit_and_redirect',
+    TRUE,
+    '[project page]'
 );
 
 new ProjectTransition(
@@ -90,7 +121,10 @@ new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     'user_can_work_in_stage PPV',
     _("Check Out Book"),
-    _("Are you sure you want to check this book out for verifying post processing?")
+    _("Are you sure you want to check this book out for verifying post processing?"),
+    'transit_and_redirect',
+    TRUE,
+    '[project page]'
 );
 
 new ProjectTransition(
@@ -98,7 +132,10 @@ new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     'user_can_work_in_stage CR',
     _("Check Out Book"),
-    _("Are you sure you want to check this book out to review corrections?")
+    _("Are you sure you want to check this book out to review corrections?"),
+    'transit_and_redirect',
+    TRUE,
+    '[project page]'
 );
 
 // -----------------------------------------------------------------------------
@@ -112,7 +149,10 @@ new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     'holder',
     _("Return to Available"),
-    _("Are you sure you want to make this book available to others for post processing?")
+    _("Are you sure you want to make this book available to others for post processing?"),
+    'transit_and_redirect',
+    FALSE,
+    "pool.php?pool_id=PP"
 );
 
 new ProjectTransition(
@@ -120,7 +160,10 @@ new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
     _("Return to Available"),
-    _("Are you sure you want to make this book available to others to verify and lose your work?")
+    _("Are you sure you want to make this book available to others to verify and lose your work?"),
+    'transit_and_redirect',
+    FALSE,
+    "pool.php?pool_id=PPV"
 );
 
 new ProjectTransition(
@@ -128,7 +171,10 @@ new ProjectTransition(
     PROJ_CORRECT_AVAILABLE,
     'holder',
     _("Return to Available"),
-    _("Are you sure you want to make this book available to others for reviewing corrections?")
+    _("Are you sure you want to make this book available to others for reviewing corrections?"),
+    'transit_and_redirect',
+    FALSE,
+    "pool.php?pool_id=CR"
 );
 
 // -----------------------------------------------------------------------------
@@ -142,7 +188,10 @@ new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
     _("Upload for Verification"),
-    NULL
+    NULL,
+    'redirect',
+    FALSE,
+    "upload_text.php?project=<PROJECTID>&stage=post_1"
 );
 
 new ProjectTransition(
@@ -150,7 +199,10 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     'holder',
     _("Return to Post-Processor"),
-    _("Are you sure you want to return this book to the post-processor for further work?")
+    _("Are you sure you want to return this book to the post-processor for further work?"),
+    'transit_and_redirect',
+    FALSE,
+    "pool.php?pool_id=PPV"
 );
 
 new ProjectTransition(
@@ -158,7 +210,10 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'holder',
     _("Posted to Project Gutenberg"),
-    NULL
+    NULL,
+    'redirect',
+    FALSE,
+    "correct/completecorr.php?project=<PROJECTID>"
 );
 
 // vim: sw=4 ts=4 expandtab

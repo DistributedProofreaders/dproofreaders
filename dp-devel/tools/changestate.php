@@ -5,6 +5,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'Project.inc');
+include_once($relPath.'ProjectTransition.inc');
 
 // Get Passed parameters to code
 $projectid  = $_GET['projectid'];
@@ -22,140 +24,78 @@ They should maybe be merged.
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$refresh_url = '';
+header("Content-Type: text/plain; charset=$charset");
 
-// -----------------------------------------------------------------------------
+$project = new Project($projectid);
 
-// X_AVAILABLE -> X_CHECKED_OUT
-// Check out the project for some purpose.
-
-if ($curr_state == PROJ_POST_FIRST_AVAILABLE &&
-    $next_state == PROJ_POST_FIRST_CHECKED_OUT)
+if ( $project->state != $curr_state )
 {
-	$do_what = "do post-processing";
-	$refresh_url = "$code_url/project.php?id=$projectid&amp;expected_state=$next_state";
-}
-else if ($curr_state == PROJ_POST_SECOND_AVAILABLE &&
-         $next_state == PROJ_POST_SECOND_CHECKED_OUT)
-{
-	$do_what = "verify post-processing";
-	$refresh_url = "$code_url/project.php?id=$projectid&amp;expected_state=$next_state";
-}
-else if ($curr_state == PROJ_CORRECT_AVAILABLE &&
-         $next_state == PROJ_CORRECT_CHECKED_OUT)
-{
-	$do_what = "verify corrections";
-	$refresh_url = "pool.php?pool_id=CR";
+    fatal_error( "Your request appears to be out-of-date.\nThe project's current state is now '$project->state'." );
 }
 
-if ($refresh_url != '')
+$transition = get_transition( $curr_state, $next_state );
+if ( is_null($transition) )
 {
-	$error_msg = project_transition( $projectid, $next_state, array( 'checkedoutby' => $pguser ) );
+    fatal_error( "This transition is not recognized." );
+}
 
-	if ($error_msg == '')
-	{
-		metarefresh(2, $refresh_url, "Project Checkout Successful",
-			"This project has been checked out to you to $do_what.");
-	}
-	else
-	{
-		echo "$error_msg<br><br>\n";
-		metarefresh(2, $refresh_url, "Project Checkout Unsuccessful",
-			"Something went wrong, and this project has probably not been checked out to you.");
-	}
-	return;
+if ( !$transition->is_valid_for( $project, $pguser ) )
+{
+    fatal_error( "You are not permitted to perform this action." );
+}
+
+function fatal_error( $msg )
+{
+    global $projectid, $project, $curr_state, $next_state;
+
+    echo "You requested:\n";
+    echo "    projectid  = $projectid ($project->nameofwork)\n";
+    echo "    curr_state = $curr_state\n";
+    echo "    next_state = $next_state\n";
+    echo "\n";
+    echo "$msg\n";
+    exit;
 }
 
 // -----------------------------------------------------------------------------
 
-// X_CHECKED_OUT -> X_AVAILABLE
-// Abandon (return) a checked-out project. Make it available for others to check out.
+header("Content-Type: text/html; charset=$charset");
 
-if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
-    $next_state == PROJ_POST_FIRST_AVAILABLE)
+if ( $transition->action_type == 'transit_and_redirect' )
 {
-	$do_what = "do the post-processing";
-	$refresh_url = "pool.php?pool_id=PP";
-}
-else if ($curr_state == PROJ_POST_SECOND_CHECKED_OUT &&
-         $next_state == PROJ_POST_SECOND_AVAILABLE)
-{
-	$do_what = "verify the post-processing";
-	$refresh_url = "pool.php?pool_id=PPV";
-}
-else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
-         $next_state == PROJ_CORRECT_AVAILABLE)
-{
-	$do_what = "verify the corrections";
-	$refresh_url = "pool.php?pool_id=CR";
-}
+    $extras = array();
+    if ( $transition->checkedoutby_to_transit )
+    {
+        $extras['checkedoutby'] = $pguser;
+    }
 
-if ( $refresh_url != '' )
-{
-	$error_msg = project_transition( $projectid, $next_state );
+    $error_msg = project_transition( $projectid, $next_state, $extras );
 
-	if ($error_msg == '')
-	{
-		metarefresh(2, $refresh_url, "Project Return Successful",
-			"This project has been returned so others can $do_what.");
-	}
-	else
-	{
-		echo "$error_msg<br><br>\n";
-		metarefresh(2, $refresh_url, "Project Return Unsuccessful",
-			"Something went wrong, and this project has probably not been returned.");
-	}
-	return;
+    if ($error_msg == '')
+    {
+        $title = "Action Successful";
+        $body = "Your request ('$transition->action_name') was successful.";
+    }
+    else
+    {
+        $title = "Action Unsuccessful";
+        $body = "$error_msg<br><br>\n"
+            . "Something went wrong, and your request ('$transition->action_name') has probably not been carried out.";
+    }
+}
+elseif ( $transition->action_type == 'redirect' )
+{
+    $title = "Transferring...";
+    $body = "";
+}
+else
+{
+    die("bad transition->action_type: '$transition->action_type'");
 }
 
-// -----------------------------------------------------------------------------
+$refresh_url = str_replace( '<PROJECTID>', $projectid, $transition->destination );
 
-// X_CHECKED_OUT -> something other than X_AVAILABLE
-// Check in a checked-out project, or return to PPer
+metarefresh(2, $refresh_url, $title, $body);
 
-if ($curr_state == PROJ_POST_FIRST_CHECKED_OUT &&
-    $next_state == PROJ_POST_SECOND_AVAILABLE)
-{
-	$refresh_url="upload_text.php?project=$projectid&stage=post_1";
-}
-else if ($curr_state == PROJ_CORRECT_CHECKED_OUT &&
-         $next_state == PROJ_SUBMIT_PG_POSTED)
-{
-	$refresh_url="correct/completecorr.php?project=$projectid";
-}
-// Special case for returning PPV project to PP'ers queue
-else if ($curr_state == PROJ_POST_SECOND_CHECKED_OUT &&
-         $next_state == PROJ_POST_FIRST_CHECKED_OUT)
-{
-	$refresh_url = "pool.php?pool_id=PPV";
-	$error_msg = project_transition( $projectid, $next_state );
-	if ($error_msg == '')
-	{
-		// No need to remove original upload, re-uploads now permitted
-		metarefresh(0,$refresh_url,"Project Return Sucessful",
-			"This project has been returned to the Post-Processor's checked-out Queue.");
-		return;
-	}
-	else
-	{
-		echo "$error_msg<br><br>\n";
-		metarefresh(2, $refresh_url, "Project Return Unsuccessful",
-			"Something went wrong, and this project has probably not been returned.");
-		return;
-	}
-}
-
-if ( $refresh_url != '' )
-{
-	metarefresh(0,$refresh_url,"Transferring...","");
-	return;
-}
-
-// -----------------------------------------------------------------------------
-
-echo "You requested:<br>\n";
-echo "curr_state=$curr_state<br>\n";
-echo "next_state=$next_state<br>\n";
-echo "This is not supported.<br>\n";
-
+// vim: sw=4 ts=4 expandtab
 ?>
