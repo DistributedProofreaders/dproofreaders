@@ -28,7 +28,7 @@ if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 
 if ($logged_in)
 {
-    if  ( user_is_a_sitemanager() || user_is_image_sources_manager() ) {
+    if  ( user_is_image_sources_manager() ) {
         $min_vis_level = 0;
     } else if (user_is_PM()) {
         $min_vis_level = 1;
@@ -96,7 +96,40 @@ if (!isset($_GET['name']))
 
     if ($visibility = 3) {
 
-        $title = _("Completed Ebooks produced by scans provided by ")." ".$imso['full_name'];
+
+        if (isset($_GET['which']))
+        {
+            $which = $_GET['which'];
+
+            switch ($which)
+            {
+               case 'ALL':
+                   $adjective = _("All");
+                   $where_cls = " ";
+                   $other_label = _("Completed");
+                   $other_which = 'DONE';
+                   $tense = _("being produced");
+                   $other_tense = _("produced");
+                   break;
+               case 'DONE':
+               default:
+                   $adjective = _("Completed");
+                   $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
+                   $other_label = _("All");
+                   $other_which = 'ALL';
+                   $tense = _("produced");
+                   $other_tense = _("being produced");
+            }
+                  
+        } else {
+            $adjective = _("Completed");
+            $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
+            $other_label = _("All");
+            $other_which = 'ALL';
+            $tense = _("produced");
+        }
+
+        $title = $adjective." "._("Ebooks")." ".$tense." "._("from scans from")." ".$imso['full_name'];
         $sub_title  = $imso['public_comment'];
         $more_info  = $imso['more_info'];
 
@@ -106,18 +139,21 @@ if (!isset($_GET['name']))
 
         echo "<br><h3>$sub_title</h3><h4>$more_info</h4>\n\n";
 
-        echo  "<a href='show_image_sources.php'>"._("Back to the full listing of Image Sources")."</a><br><br>";
+        echo  "<a href='show_image_sources.php?name=".$imso_code.
+              "&which=".$other_which."'>"._("See list of")." ".$other_label." ".
+              _("Ebooks")." ".$other_tense." "._("from scans from")." ".$imso['full_name']."</a><br><br>";
+
+        echo  "<a href='show_image_sources.php'>"._("Back to the full listing of all Image Sources")."</a><br><br>";
 
         dpsql_dump_query("
             SELECT
-               nameofwork as "._('Title').",
+               concat('<a href=\"$code_url/project.php?id=',projectid,'\">',nameofwork,'</a>') as "._('Title').",
                authorsname as "._('Author').",
-               year as "._('Year').",
+               genre as "._('Genre').",
                language as "._('Language').",
-               concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>') as '"._('PG Number<br>and Link')."'
+               IF(postednum, concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>'),'In Progress') as '"._('PG Number<br>and Link')."'
             FROM projects
-            WHERE image_source = '".$imso_code."'
-               AND  ".SQL_CONDITION_GOLD."
+            WHERE image_source = '".$imso_code."' ".$where_cls."
             ORDER BY 1
         ");
 
