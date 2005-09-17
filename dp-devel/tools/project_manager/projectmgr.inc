@@ -44,6 +44,18 @@ function echo_manager_header( $which )
 	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
+
+       echo "<br><a href='./show_specials.php'>"._("Special Days Info")."</a>";
+       echo " | ";
+       echo "<a href='./show_image_sources.php'>"._("Image Sources Info")."</a>";
+       echo " | ";
+       if (user_is_image_sources_manager())
+       {
+            echo " <a href='./manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
+       } else {
+            echo " <a href='./manage_image_sources.phpaction=add_source'>"._("Propose a new Image Source")."</a>";
+       }
+
 	echo "</center>";
 
 	echo "
