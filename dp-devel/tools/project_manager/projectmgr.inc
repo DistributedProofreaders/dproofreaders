@@ -53,7 +53,7 @@ function echo_manager_header( $which )
        {
             echo " <a href='./manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
        } else {
-            echo " <a href='./manage_image_sources.phpaction=add_source'>"._("Propose a new Image Source")."</a>";
+            echo " <a href='./manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
        }
 
 	echo "</center>";
