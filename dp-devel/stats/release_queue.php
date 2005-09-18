@@ -9,7 +9,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'release_queue.inc');
 
-$user_can_see_queue_settings = user_is_a_sitemanager() || user_is_a_Project_facilitator;
+$user_can_see_queue_settings = user_is_a_sitemanager() || user_is_proj_facilitator();
 
 $round_num = array_get( $_GET, 'round_num', NULL );
 if (is_null($round_num))
