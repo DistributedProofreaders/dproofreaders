@@ -124,7 +124,7 @@ else
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 
-	if ($user_can_see_quue_settings)
+	if ($user_can_see_queue_settings)
 		{
 			echo "<h4>project_selector: $qd->project_selector</h4>\n\n";
 			if ( $cooked_project_selector != $qd->project_selector )
