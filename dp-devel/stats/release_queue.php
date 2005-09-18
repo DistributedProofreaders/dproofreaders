@@ -9,7 +9,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'release_queue.inc');
 
-$user_is_a_sitemanager = user_is_a_sitemanager();
+$user_can_see_queue_settings = user_is_a_sitemanager() || user_is_a_Project_facilitator;
 
 $round_num = array_get( $_GET, 'round_num', NULL );
 if (is_null($round_num))
@@ -47,7 +47,7 @@ if (!isset($_GET['name']))
 		echo "<th>enabled</th>\n";
 		echo "<th>name</th>\n";
 		echo "<th>current<br>length</th>\n";
-		if ($user_is_a_sitemanager)
+		if ($user_can_see_queue_settings)
 		{
 			echo "<th>project_selector</th>\n";
 			echo "<th>release_criterion</th>\n";
@@ -96,7 +96,7 @@ if (!isset($_GET['name']))
 		echo "<td>$qd->enabled</td>\n";
 		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>$qd->name</a></td>\n";
 		echo "<td>$current_length</td>\n";
-		if ($user_is_a_sitemanager)
+		if ($user_can_see_queue_settings)
 		{
 			echo "<td>$qd->project_selector</td>\n";
 			echo "<td>$qd->release_criterion</td>\n";
@@ -124,7 +124,7 @@ else
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 
-	if ($user_is_a_sitemanager)
+	if ($user_can_see_quue_settings)
 		{
 			echo "<h4>project_selector: $qd->project_selector</h4>\n\n";
 			if ( $cooked_project_selector != $qd->project_selector )
