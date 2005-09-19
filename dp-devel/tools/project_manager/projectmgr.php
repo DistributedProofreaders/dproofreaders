@@ -5,6 +5,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
@@ -250,11 +251,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         global $result;
 
         $projectids = array();
-        while ( $project = mysql_fetch_assoc($result) )
+        while ( $project_assoc = mysql_fetch_assoc($result) )
         {
-            if ( $project['state'] == $curr_state )
+            if ( $project_assoc['state'] == $curr_state )
             {
-                $projectids[] = $project['projectid'];
+                $projectids[] = $project_assoc['projectid'];
             }
         }
         mysql_data_seek($result, 0);
@@ -314,14 +315,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 
     $tr_num = 0;
-    while ($project = mysql_fetch_assoc($result)) {
-        $state = $project['state'];
-        $name = $project['nameofwork'];
-        $author = $project['authorsname'];
-        $diff = strtoupper(substr($project['difficulty'],0,1));
-        $projectid = $project['projectid'];
-        $outby = $project['checkedoutby'];
-        $comments = $project['comments'];
+    while ($project_assoc = mysql_fetch_assoc($result)) {
+        $project = new Project($project_assoc);
+        $projectid = $project->projectid;
 
         if ($tr_num % 2 ) {
             $bgcolor = $theme['color_mainbody_bg'];
@@ -332,7 +328,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         // Special colours for special books of various types
         if ($show_special_colors)
         {
-            $special_color = get_special_color_for_project($project);
+            $special_color = get_special_color_for_project($project_assoc);
             if (!is_null($special_color)) {
                 $bgcolor = "'$special_color'";
             }
@@ -341,19 +337,20 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "<tr bgcolor=$bgcolor>\n";
 
         // Title
-        echo "<td><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>$name</a></td>\n";
+        echo "<td><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>{$project->nameofwork}</a></td>\n";
 
         // Author
-        echo "<td>$author</td>\n";
+        echo "<td>{$project->authorsname}</td>\n";
 
         // Difficulty
+        $diff = strtoupper(substr($project->difficulty,0,1));
         echo "<td align=\"center\">$diff</td>\n";
 
 
         // Total
         if ( $show_pages_total )
         {
-            $totpag = $project['n_pages'];
+            $totpag = $project->n_pages;
 
             echo "<td align=\"center\">$totpag</td>\n";
         }
@@ -362,20 +359,20 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         // Owner
         echo "<td align=\"center\">";
         if ($_GET['show'] == 'site_active') {
-            print $project['username'];
-        } else if ($outby != "") {
+            print $project->username;
+        } else if ($project->checkedoutby != "") {
             // Maybe we should get this info via a
             // left outer join in the big select query.
-            $tempsql = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$outby'");
+            $tempsql = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '{$project->checkedoutby}'");
             $outby_user_id = mysql_result($tempsql, 0);
             $contact_url = "$forums_url/privmsg.php?mode=post&amp;u=$outby_user_id";
-            print "<a href='$contact_url'>$outby</a>";
+            print "<a href='$contact_url'>{$project->checkedoutby}</a>";
         }
         echo "</td>\n";
 
         // Project Status
 
-        if (user_is_a_sitemanager() or ($project['username']==$pguser) or user_is_proj_facilitator()) {
+        if (user_is_a_sitemanager() or ($project->username==$pguser) or user_is_proj_facilitator()) {
 
             echo "
                 <td valign=center>
@@ -391,23 +388,23 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                     name='state'
                     onchange='this.form.submit()'>
             ";
-            getSelect($state);
+            getSelect($project->state);
             echo "</select></form></td>\n";
         } else {
-            echo "<td valign=center>$state</td>\n";
+            echo "<td valign=center>$project->state</td>\n";
         }
 
         // Options
         echo "<td align=center>";
         print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
-        if ($state == PROJ_POST_FIRST_UNAVAILABLE ||
-            $state == PROJ_POST_FIRST_AVAILABLE ||
-            $state == PROJ_POST_FIRST_CHECKED_OUT)
+        if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
+            $project->state == PROJ_POST_FIRST_AVAILABLE ||
+            $project->state == PROJ_POST_FIRST_CHECKED_OUT)
         {
             print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
         }
-        if ($state == PROJ_POST_SECOND_CHECKED_OUT ||
-            $state == PROJ_POST_COMPLETE)
+        if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
+            $project->state == PROJ_POST_COMPLETE)
         {
             print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
         }
