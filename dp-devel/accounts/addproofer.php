@@ -104,7 +104,6 @@ if ($password=="proofer") {
                  "This extra step is taken so that no-one can register you to the site without your knowledge."),
                $username);
 
-	theme("", "footer");
     }
 } else {
 
