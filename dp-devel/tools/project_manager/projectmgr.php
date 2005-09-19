@@ -400,8 +400,17 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         // Options
         echo "<td align=center>";
         print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
-        if ($state==PROJ_POST_FIRST_UNAVAILABLE || $state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT) print " <a href = \"$projects_url/$projectid/$projectid.zip\">D/L</A>";
-        if (($state == PROJ_POST_SECOND_CHECKED_OUT) || ($state == PROJ_POST_COMPLETE)) print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+        if ($state == PROJ_POST_FIRST_UNAVAILABLE ||
+            $state == PROJ_POST_FIRST_AVAILABLE ||
+            $state == PROJ_POST_FIRST_CHECKED_OUT)
+        {
+            print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+        }
+        if ($state == PROJ_POST_SECOND_CHECKED_OUT ||
+            $state == PROJ_POST_COMPLETE)
+        {
+            print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+        }
         echo "</td>\n";
 
         echo "</tr>\n";
