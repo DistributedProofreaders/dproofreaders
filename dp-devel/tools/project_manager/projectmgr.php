@@ -227,11 +227,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
     }
 
+    $state_collater = sql_collater_for_project_state('state');
     $result = mysql_query("
         SELECT *
         FROM projects
         WHERE $condition
-        ORDER BY nameofwork asc
+        ORDER BY $state_collater, nameofwork asc
     ") or die(mysql_error());
 
     $numrows = mysql_num_rows($result);
@@ -313,14 +314,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 
     $tr_num = 0;
-    foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
-    {
-        // Reset internal row pointer (we know that $numrows > 0 so this is ok)
-        mysql_data_seek($result, 0);
         while ($project = mysql_fetch_assoc($result)) {
             $state = $project['state'];
-            if ($state == $proj_state_in_order)
-            {
                 $name = $project['nameofwork'];
                 $author = $project['authorsname'];
                 $diff = strtoupper(substr($project['difficulty'],0,1));
@@ -412,9 +407,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 echo "</tr>\n";
 
                 $tr_num++;
-            }
         }
-    }
+
     echo "<tr><td colspan=7 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
 
     // special colours legend
