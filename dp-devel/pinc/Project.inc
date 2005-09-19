@@ -5,18 +5,34 @@ new dbConnect;
 
 class Project
 {
-    function Project( $id )
+    function Project( $arg )
     {
-        $res = mysql_query("
-            SELECT *
-            FROM projects
-            WHERE projectid = '$id'
-        ") or die(mysql_error());
-        if (mysql_num_rows($res) == 0)
+        if ( is_string($arg) )
         {
-            die("no project with projectid='$id'");
+            // $arg is the projectid.
+            $res = mysql_query("
+                SELECT *
+                FROM projects
+                WHERE projectid = '$arg'
+            ") or die(mysql_error());
+            if (mysql_num_rows($res) == 0)
+            {
+                die("no project with projectid='$arg'");
+            }
+            $row = mysql_fetch_assoc($res);
         }
-        $row = mysql_fetch_assoc($res);
+        elseif ( is_array($arg) )
+        {
+            // $arg is assumed to be an associative array, such
+            // as would be returned by mysql_fetch_assoc().
+            $row = $arg;
+        }
+        else
+        {
+            $arg_type = gettype($arg);
+            die( "Project::Project(): 'arg' has unexpected type $arg_type" );
+        }
+
         foreach ( $row as $key => $value )
         {
             $this->$key = $value;
