@@ -420,7 +420,7 @@ class ProjectInfoHolder
                     }
                     else
                     {
-                        if (strlen($special_code) == 8) { $special_code = $special_code." ".$bdaymonth.$bdayday; }
+                        if (strlen($this->special_code) == 8) { $this->special_code .= " ".$bdaymonth.$bdayday; }
                     }
                 }
             }
