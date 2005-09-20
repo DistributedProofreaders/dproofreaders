@@ -35,25 +35,25 @@ function echo_manager_header( $which )
 	echo "<a href='$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
-	{ 
+	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
 		echo " | ";
-		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>"; 
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
 	}
 	else
 	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
 
-       echo "<br><a href='./show_specials.php'>"._("Special Days Info")."</a>";
+       echo "<br><a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a>";
        echo " | ";
-       echo "<a href='./show_image_sources.php'>"._("Image Sources Info")."</a>";
+       echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a>";
        echo " | ";
        if (user_is_image_sources_manager())
        {
-            echo " <a href='./manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
+            echo " <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
        } else {
-            echo " <a href='./manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
+            echo " <a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
        }
 
 	echo "</center>";
