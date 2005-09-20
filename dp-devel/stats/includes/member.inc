@@ -68,11 +68,11 @@ function showMbrDpProfile( $curMbr )
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 	$daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
-	$daysSinceLogin = number_format(floor(($now - $curMbr['last_login'])/86400));
-	if (empty($daysSinceLogin)) { $daysSinceLogin = _("Today!"); } else { $daysSinceLogin = $daysSinceLogin._(" days"); }
+	$daysSinceLastSeen = number_format(floor(($now - $curMbr['t_last_activity'])/86400));
+	if (empty($daysSinceLastSeen)) { $daysSinceLastSeen = _("Today!"); } else { $daysSinceLastSeen = $daysSinceLastSeen._(" days"); }
 
 	$t = new ThemedTable(
-		2, 
+		2,
 		_("DP Profile"),
 		array( 'width'=>100 )
 	);
@@ -83,8 +83,8 @@ function showMbrDpProfile( $curMbr )
 		date("m/d/Y", $curMbr['date_created']) . "&nbsp;($daysInExistenceString)"
 	);
 	$t->row(
-		_("Last Login"),
-		date("m/d/Y", $curMbr['last_login']) . "&nbsp;($daysSinceLogin)"
+		_("Last Seen"),
+		date("m/d/Y", $curMbr['t_last_activity']) . "&nbsp;($daysSinceLastSeen)"
 	);
 
 	global $users_ELR_page_tallyboard;
