@@ -40,7 +40,31 @@ function end_timer()
 
 // ------------------------
 
-if (1)
+if (0)
+{
+	// Dump info from marc_records table.
+	$res = mysql_query("
+		SELECT marc_records.*, nameofwork
+		FROM marc_records JOIN projects USING (projectid)
+		ORDER BY projectid DESC
+		LIMIT 10
+	") or die(mysql_error());
+	while ( $mr = mysql_fetch_assoc($res) )
+	{
+		echo "-----------------------------------------\n";
+		echo "{$mr['projectid']}\n";
+		echo "{$mr['nameofwork']}\n";
+		foreach ( array('original_array', 'original_marc', 'updated_array','updated_marc') as $k )
+		{
+			echo "\n";
+			echo "$k:\n";
+			var_dump( unserialize(base64_decode($mr[$k])) );
+		}
+		echo "\n";
+	}
+}
+
+if (0)
 {
 	// Get image_source_name and credits_line for all projects.
 	include_once($relPath.'Project.inc');
