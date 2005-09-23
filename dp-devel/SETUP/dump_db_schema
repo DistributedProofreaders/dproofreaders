@@ -34,11 +34,12 @@ get_table_names()
         find $code_dir -type f \
             \( -name '*.php' -o -name '*.inc' -o -name '*.pl' \) |
 
-        xargs grep -E '(FROM|INTO) ' |
+        xargs grep -E '(FROM|INTO|JOIN) ' |
 
         sed -n -e'
             s/.*\<FROM  *//
             s/.*\<INTO  *//
+            s/.*\<JOIN  *//
             s/^\([a-z_0-9][a-z_0-9]*\).*/\1/p
             s/^`\([^`]*\)`.*/\1/p
         ' |
