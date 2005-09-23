@@ -52,10 +52,18 @@ get_table_names()
 
         # 'cur' and 'old' are tables referenced in DifferenceEngine.inc,
         #     by code that we presumably don't execute.
-        # 'active_page_counts' is a temporary table.
+        # 'member_stats', 'user_teams_stats', and 'pagestats' are obsolete
+        #     tables that are referenced by some upgrade scripts.
+        # The rest are temporary tables.
         grep -v -x \
             -e cur -e old \
+            -e member_stats -e user_teams_stats -e pagestats \
+            -e _page_latest \
+            -e access_log_summary \
             -e active_page_counts \
+            -e beginpages \
+            -e newbies \
+            -e test_u \
         |
 
         sort -u
