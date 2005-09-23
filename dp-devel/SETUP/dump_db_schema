@@ -33,17 +33,24 @@ get_table_names()
     else
         find $code_dir -type f \
             \( -name '*.php' -o -name '*.inc' -o -name '*.pl' \) |
+
         xargs grep -E '(FROM|INTO) ' |
+
         sed -n -e'
             s/.*\<FROM  *//
             s/.*\<INTO  *//
             s/^\([a-z_0-9][a-z_0-9]*\).*/\1/p
             s/^`\([^`]*\)`.*/\1/p
         ' |
-        grep -v -x -e active_page_counts -e cur -e old |
-            # active_page_counts is a temporary table.
-            # cur and old are tables referenced in DifferenceEngine.inc,
-            # by code that we presumably don't execute.
+
+        # 'cur' and 'old' are tables referenced in DifferenceEngine.inc,
+        #     by code that we presumably don't execute.
+        # 'active_page_counts' is a temporary table.
+        grep -v -x \
+            -e cur -e old \
+            -e active_page_counts \
+        |
+
         sort -u
     fi
 }
