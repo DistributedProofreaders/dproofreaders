@@ -27,7 +27,7 @@ $sql = "
         state         varchar( 50 ) NOT NULL default '',
         b_user        varchar( 25 ) NOT NULL default '',
         b_code        int( 1 )      NOT NULL default '0',
-        metadata      set( 'frontmatter', 'backmatter', 'division', 'verse', 'poetry', 'letter', 'toc', 'footnote', 'sidenote', 'epigraph', 'table', 'list', 'math', 'drawing', 'badscan', 'blank', 'illustration', 'missing', 'drawing', 'math' ) NOT NULL default '',
+        metadata      set( 'frontmatter', 'backmatter', 'division', 'verse', 'poetry', 'letter', 'toc', 'footnote', 'sidenote', 'epigraph', 'table', 'list', 'math', 'drawing', 'badscan', 'blank', 'illustration', 'missing', 'drawing' ) NOT NULL default '',
         orig_page_num varchar( 6 ) NOT NULL default '',
 
         PRIMARY KEY ( projectid, fileid )
