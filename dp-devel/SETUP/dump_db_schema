@@ -36,6 +36,12 @@ get_table_names()
 
         xargs grep -E '(FROM|INTO|JOIN) ' |
 
+        # Suppress some non-SQL occurrences of those keywords:
+        grep -v \
+            -e 'the FROM clause' \
+            -e 'FAR FROM HOME' \
+        |
+
         sed -n -e'
             s/.*\<FROM  *//
             s/.*\<INTO  *//
