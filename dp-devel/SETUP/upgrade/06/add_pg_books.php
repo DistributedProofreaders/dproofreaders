@@ -6,7 +6,7 @@ new dbConnect();
 $sql = "
     CREATE TABLE pg_books (
         etext_number SMALLINT UNSIGNED NOT NULL PRIMARY KEY,
-        formats      TINYTEXT          NOT NULL,
+        formats      TINYTEXT          NOT NULL
     )
     COMMENT='Each row represents a different PG etext'
 ";
