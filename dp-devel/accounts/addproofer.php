@@ -20,7 +20,7 @@ function abort_registration( $error )
     $please = _("Please hit 'Back' and try again.");
     echo "$please<br>\n";
     $back = _("Back");
-    echo "<a href=\"addproofer.php\">".$back."</a>";
+    echo "<a href=\"addproofer.php\" onClick=\"history.go(-1); return false;\">".$back."</a>";
     theme("", "footer");
     exit;
 }
@@ -87,7 +87,7 @@ if ($password=="proofer") {
                 VALUES ('$ID', '$real_name', '$username', '$email', '$todaysdate', '$email_updates', '$intlang', '$passwd')");
 
     if (!$result) {
-        $error = _("That user name already exists, please try another.");
+        $error = _("Can not initiate user activation.");
         abort_registration($error);
 
     } else {
