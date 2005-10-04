@@ -11,7 +11,7 @@ echo "Changing 'u_intlang' column...\n";
 
 mysql_query("
     ALTER TABLE users
-        CHANGE COLUMN u_intlang u_intlang VARCHAR(5) DEFAULT '' 
+        CHANGE COLUMN u_intlang u_intlang VARCHAR(25) DEFAULT '' 
 ") or die(mysql_error());
 
 echo "Done!\n";
