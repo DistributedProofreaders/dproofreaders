@@ -109,10 +109,10 @@ function lang_direction($langcode=FALSE)
 	        case "fa":
 	        case "he":
 	        case "ur": //surely more
-	                return "RTL";
+	                return FALSE;
 	                break;
 	        default:
-	                return "LTR";
+	                return TRUE;
 	                break;
 	}
 }
@@ -149,7 +149,7 @@ function phpbb_lang($langcode) {
 
 function lang_html_header($langcode=FALSE)
 {
-	return " lang='".short_lang_code($langcode).((lang_direction($langcode)=="RTL")?"' dir='RTL'":"'");
+	return " lang='".short_lang_code($langcode).(lang_direction($langcode)?"'":"' dir='RTL'");
 }
 
 ?>
