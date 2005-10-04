@@ -24,12 +24,12 @@ $users = mysql_query("
     FROM users $joined_with_user_ELR_page_tallies
     WHERE $user_ELR_page_tally_column >=1
 ");
-$totalusers = mysql_result($users,0,"numusers");
+$totalusers = $users?mysql_result($users,0,"numusers"):0;
 
 //get total users active in the last 24 hours
 $begin_time = time() - (60 * 60 * 24);
 $users = mysql_query("SELECT count(*) AS numusers FROM users WHERE t_last_activity > $begin_time");
-$activeusers = mysql_result($users,0,"numusers");
+$activeusers = $users?mysql_result($users,0,"numusers"):0;
 ?>
 
 <center><i><b><? echo number_format($activeusers); echo _(" active users out of "); echo number_format($totalusers); echo _(" total users in the past twenty-four hours.") ?></b></i></center><br>
