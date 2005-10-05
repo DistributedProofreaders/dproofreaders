@@ -60,7 +60,7 @@ if ($action == 'show_sources')
 elseif ($action == 'edit_source')
 {
     $source = new ImageSource($_REQUEST['source']);
-    theme("Editing $source->display_name",'header',$theme_args);
+    theme(sprintf(_("Editing %s"),$source->display_name),'header',$theme_args);
     show_is_toolbar();
     $source->show_edit_form();
 }
@@ -201,17 +201,17 @@ class ImageSource
 
     function show_buttons()
     {
-        echo "<input type='submit' name='edit' value='Edit' /> ";
+        echo "<input type='submit' name='edit' value='"._('Edit')."' /> ";
         switch ($this->is_active)
         {
             case('-1'):
-                echo "<input type='submit' name='approve' value='Approve' /> ";
+                echo "<input type='submit' name='approve' value='"._('Approve')."' /> ";
                 break;
             case('0'):
-                echo "<input type='submit' name='enable' value='Enable' /> ";
+                echo "<input type='submit' name='enable' value='"._('Enable')."' /> ";
                 break;
             case('1'):
-                echo "<input type='submit' name='disable' value='Disable' /> ";
+                echo "<input type='submit' name='disable' value='"._('Disable')."' /> ";
                 break;
         }
     }
@@ -241,7 +241,7 @@ class ImageSource
         $this->_show_edit_row('internal_comment',_('Notes (internal)'),true);
 
         echo "<tr><td colspan='2' style='text-align:center;'>
-            <input type='submit' name='save_edits' value='Save' />
+            <input type='submit' name='save_edits' value='"._('Save')."' />
             </td> </tr> </form> </table>\n\n";
     }
 
@@ -270,9 +270,9 @@ class ImageSource
     function _show_edit_permissions_row()
     {
         $cols = array(
-            array('field' => 'ok_keep_images', 'label' => 'Images may be stored', 'allow_unknown' => true),
-            array('field' => 'ok_show_images', 'label' => 'Images may be published', 'allow_unknown' => true),
-            array('field' => 'info_page_visibility', 'label' => 'Provider is shown on info page','allow_unknown' => false)
+            array('field' => 'ok_keep_images', 'label' => _('Images may be stored'), 'allow_unknown' => true),
+            array('field' => 'ok_show_images', 'label' => _('Images may be published'), 'allow_unknown' => true),
+            array('field' => 'info_page_visibility', 'label' => _('Provider is shown on info page'),'allow_unknown' => false)
             );
 
         $editing = '';
@@ -327,6 +327,7 @@ class ImageSource
 
         mysql_query("REPLACE INTO image_sources
             SET
+                code_name = $this->code_name,
                 $std_fields_sql
                 url = '$this->url',
                 is_active = '$this->is_active',
