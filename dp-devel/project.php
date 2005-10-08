@@ -870,7 +870,7 @@ function do_early_uploads()
         global $uploads_host,$uploads_account,$uploads_password;
         echo "<p>";
         echo sprintf(
-            _("Reminder for uploads: host=<b>%s</b> account=<b>%s</b> password=<b>%s</b>"),
+            _("Reminder for uploads: host=<b>%s</b> account=<b>%s</b> password=<i><font color='#DDD'>%s</font></i>"),
             $uploads_host, $uploads_account, $uploads_password );
         echo "</p>";
     }
