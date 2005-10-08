@@ -122,23 +122,27 @@ class Stage
 
         // -----------------------------------
 
-        $res = mysql_query("
-            SELECT value
-            FROM usersettings
-            WHERE username='$username' AND setting='{$this->id}.access'
-        ") or die(mysql_error());
-        if ( mysql_num_rows($res) == 0 )
-        {
-            $recorded_access = 'no';
-        }
-        elseif ( mysql_num_rows($res) == 1 )
-        {
-            $recorded_access = mysql_result($res,0);
-        }
-        else
-        {
-            // Not sure what to do.
-            $recorded_access = mysql_result($res,0);
+        if(user_is_a_sitemanager()) {
+            $recorded_access='yes';
+        } else {
+            $res = mysql_query("
+                SELECT value
+                FROM usersettings
+                WHERE username='$username' AND setting='{$this->id}.access'
+            ") or die(mysql_error());
+            if ( mysql_num_rows($res) == 0 )
+            {
+                $recorded_access = 'no';
+            }
+            elseif ( mysql_num_rows($res) == 1 )
+            {
+                $recorded_access = mysql_result($res,0);
+            }
+            else
+            {
+                // Not sure what to do.
+                $recorded_access = mysql_result($res,0);
+            }
         }
 
         // -----------------------------------
