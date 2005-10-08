@@ -13,6 +13,11 @@ mysql_query("
     ALTER TABLE users
         CHANGE COLUMN u_intlang u_intlang VARCHAR(25) DEFAULT '' 
 ") or die(mysql_error());
+mysql_query("
+    ALTER TABLE non_activated_users
+        CHANGE COLUMN u_intlang u_intlang VARCHAR(25) DEFAULT ''
+") or die(mysql_error());
+
 
 echo "Done!\n";
 
