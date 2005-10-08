@@ -24,7 +24,7 @@ function abort_if_not_manager()
 
 function echo_manager_header( $which )
 {
-	global $userP, $forums_url, $code_url;
+	global $userP, $forums_url, $code_url, $use_MARC;
 
 	echo "<p>";
 	echo "<center>";
