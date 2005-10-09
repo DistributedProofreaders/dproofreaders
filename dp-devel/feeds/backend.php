@@ -15,7 +15,7 @@ $refreshdelay = 30; //Time in minutes for how often the feeds get refreshed
 $refreshdelay = time()-($refreshdelay*60); //Find out how long ago $refreshdelay was in UNIX time
 
 //If the user did not specify a xml feed set posted as the default
-if (($content != "posted") & ($content != "proofing") & ($content != "news")) { $content = "posted"; }
+if (($content != "posted") && ($content != "postprocessing") && ($content != "proofing") && ($content != "news")) { $content = "posted"; }
 
 //Determine if we should display a 0.91 compliant RSS feed or our own feed
 if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir."/".$content."_rss.xml"; } else { $xmlfile = $xmlfeeds_dir."/".$content.".xml"; }
@@ -37,14 +37,28 @@ include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
 $db_Connection=new dbConnect();
 
-	if ($content == "posted") {
-	$result = mysql_query("SELECT * FROM projects WHERE state='".PROJ_SUBMIT_PG_POSTED."' ORDER BY modifieddate DESC LIMIT 10");
+	if ($content == "posted" || $content == "postprocessing" || $content == "proofing") {
+	switch($content) {
+		case "posted":
+			$state=PROJ_SUBMIT_PG_POSTED;
+			$x="g";
+			break;
+		case "postprocessing":
+			$state=PROJ_POST_FIRST_AVAILABLE;
+			$x="s";
+			break;
+		case "proofing":
+			$state=PROJ_P1_AVAILABLE;
+			$x="b";
+			break;
+	}
+	$result = mysql_query("SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
 		$posteddate = date("r",($row['modifieddate']));
 			if (isset($_GET['type'])) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-				<link>$code_url/list_etexts.php?x=g".xmlencode("&")."sort=5#".$row['projectid']."</link>
+				<link>$code_url/list_etexts.php?x=$x".xmlencode("&")."sort=5#".$row['projectid']."</link>
 				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
 				</item>
 				";
