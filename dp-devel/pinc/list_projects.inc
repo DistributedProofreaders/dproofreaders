@@ -35,7 +35,7 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
         // ---------------------------------------------------------------------
         // First line
 
-        // echo "<a name='$projectid'></a>";
+        echo "<a name='$projectid'></a>";
 
         // Counter
         echo "$counter) ";
