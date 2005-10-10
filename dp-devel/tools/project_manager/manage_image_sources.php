@@ -7,6 +7,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'metarefresh.inc');
 
 $theme_args['css_data'] = "
 table.source { width:75%; border-collapse:collapse;
@@ -16,7 +17,6 @@ td.enabled { background-color: #9f9; }
 td.disabled { background-color: #ddd; }
 td.pending { background-color: #ff8; }
 td.pa {width:30%; font-weight:bold; }";
-# $theme_args['js_data'] = get_js();
 
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?".rand(1000,9999);
 
@@ -79,14 +79,14 @@ elseif ($action == 'update_oneshot')
 
     if (isset($_REQUEST['edit']))
     {
-        header("Location: $page_url&action=edit_source&source=$_REQUEST[source]");
+        metarefresh(0,"$page_url&action=edit_source&source=$_REQUEST[source]",'','');
         die;
     }
     if (isset($_REQUEST['enable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->enable();
-        header("Location: $page_url&action=show_sources#$_REQUEST[source]");
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
         die;
     }
 
@@ -94,7 +94,7 @@ elseif ($action == 'update_oneshot')
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->disable();
-        header("Location: $page_url&action=show_sources#$_REQUEST[source]");
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
         die;
     }
 
@@ -102,7 +102,7 @@ elseif ($action == 'update_oneshot')
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->approve();
-        header("Location: $page_url&action=show_sources#$_REQUEST[source]");
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
         die;
     }
 
@@ -132,10 +132,14 @@ elseif ($action == 'update_oneshot')
 
         $source->save_from_post();
         if ($can_edit)
-        header("Location: $page_url&action=show_sources#$_REQUEST[code_name]") and die;
+        {
+            metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
+            die;
+        }
 
         theme('','header');
-        $source->log_request_for_approval($pguser);
+        if ($new)
+            $source->log_request_for_approval($pguser);
         echo _("Your proposal has been successfully recorded. You will be
             notified by email once it has been approved.");
     }
@@ -303,7 +307,7 @@ class ImageSource
 
     function save_from_post()
     {
-        global $errmsgs,$can_edit,$new;
+        global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
 				    'ok_keep_images','ok_show_images','public_comment','internal_comment');
         foreach ($std_fields as $field)
@@ -325,14 +329,23 @@ class ImageSource
             $this->info_page_visibility = $can_edit ? '1' : '0';
         }
 
+        if ($errmsgs)
+        {
+            theme('','header',$theme_args);
+            echo "<p style='font-weight: bold; color: red;'>" . $errmsgs . "</p>";
+            $this->show_edit_form();
+            theme('','footer');
+            die;
+        }
+
         mysql_query("REPLACE INTO image_sources
             SET
-                code_name = $this->code_name,
+                code_name = '$this->code_name',
                 $std_fields_sql
                 url = '$this->url',
                 is_active = '$this->is_active',
                 info_page_visibility = '$this->info_page_visibility'
-        ") or die("Couldn't add new source: ".mysql_error());
+        ") or die("Couldn't add/edit source: ".mysql_error());
 
     }
 
