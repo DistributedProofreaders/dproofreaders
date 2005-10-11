@@ -459,7 +459,7 @@ class ImageSource
 
     function log_request_for_approval($requestor_username)
     {
-        global $general_help_email_addr,$code_url,$site_url;
+        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_url;
 
         mysql_query("INSERT INTO usersettings
             SET
@@ -467,25 +467,17 @@ class ImageSource
                 setting = 'is_approval_notify',
                 value = '$this->code_name'") or die(mysql_error());
 
-        $result = mysql_query("SELECT users.username,users.email
-            FROM users, usersettings
-            WHERE usersettings.username = users.username
-            AND usersettings.setting = 'image_sources_manager'");
-
         $subject = _('DP: New image source proposed');
 
-        while ( list($username,$email) = mysql_fetch_row($result) )
-        {
-            $body = "Hello $username,\n\nYou are receiving this email because\n".
-            "you are listed as an image sources manager at the Distributed\n".
-            "Proofreaders site. If this is an error, please contact <$general_help_email_addr>.\n\n".
-            "$requestor_username has proposed that $this->display_name be added\n".
-            "to the list of image sources. To edit or approve this image source,\n".
-            "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
-            "\n\nThank you!\nDistributed Proofreaders\n$site_url";
+        $body = "Hello,\n\nYou are receiving this email because\n".
+        "you are listed as an image sources manager at the Distributed\n".
+        "Proofreaders site. If this is an error, please contact <$general_help_email_addr>.\n\n".
+        "$requestor_username has proposed that $this->display_name be added\n".
+        "to the list of image sources. To edit or approve this image source,\n".
+        "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
+        "\n\nThank you!\nDistributed Proofreaders\n$site_url";
 
-            maybe_mail($email,$subject,$body,null);
-        }
+        maybe_mail($image_sources_manager_addr,$subject,$body,null);
     }
 
 }
