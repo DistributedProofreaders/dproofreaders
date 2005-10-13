@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); //user_can_work_in_stage()
+include_once($relPath.'projectinfo.inc');
 
 $theme_args = array("js_data" => "
 function set_html(sw)
@@ -47,9 +48,7 @@ $nameofwork = htmlspecialchars($project->nameofwork);
 $authorsname = htmlspecialchars($project->authorsname);
 $language = htmlspecialchars($project->language);
 $difficulty_level = htmlspecialchars($project->difficulty);
-$pages_query = $readBIGtable ? "SELECT COUNT(*) FROM project_pages WHERE projectid ='$projectid'"
-                             : "SELECT COUNT(*) FROM $projectid";
-$pages = mysql_result(mysql_query($pages_query),0);
+$pages = Project_getNumPages($projectid);
 $subdate = date("jS of F, Y");
 
 
