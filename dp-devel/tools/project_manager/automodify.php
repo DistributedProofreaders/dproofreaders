@@ -29,9 +29,7 @@ function pages_indicate_bad_project( $projectid, $round )
 
     // If it has no bad pages, it's good.
     //
-    $n_bad_pages = mysql_result(mysql_query("
-        SELECT COUNT(*) FROM $projectid WHERE state = '$round->page_bad_state'
-        "),0);
+    $n_bad_pages = Project_getNumPagesInState($projectid,$round->page_bad_state);
     if ($trace) echo "n_bad_pages = $n_bad_pages\n";
     //
     if ($n_bad_pages == 0) return FALSE;
@@ -40,9 +38,7 @@ function pages_indicate_bad_project( $projectid, $round )
     // If it has at least 10 bad pages,
     // reported by at least 3 different users, it's bad.
     //
-    $n_unique_reporters = mysql_result(mysql_query("
-        SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$round->page_bad_state'
-        "),0);
+    $n_unique_reporters = Project_getNumPagesInState($projectid,$round->page_bad_state,"DISTINCT(b_user)");
     if ($trace) echo "n_unique_reporters = $n_unique_reporters\n";
     //
     if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
@@ -53,9 +49,7 @@ function pages_indicate_bad_project( $projectid, $round )
     //
     if ($round->round_number == 2)
     {
-        $n_avail_pages = mysql_result(mysql_query("
-            SELECT COUNT(*) FROM $projectid WHERE state = '$round->page_avail_state'
-            "),0);
+        $n_avail_pages = Project_getNumPagesInState($projectid,$round->page_avail_state);
         if ($trace) echo "n_avail_pages = $n_avail_pages\n";
         if ($n_avail_pages == 0) return TRUE;
     }
