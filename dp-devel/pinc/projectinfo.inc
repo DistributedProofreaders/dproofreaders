@@ -4,9 +4,9 @@ include_once($relPath.'stages.inc');
 
 // -----------------------------------------------------------------------------
 
-function Project_getNumPagesInState( $projectid, $page_state )
+function Project_getNumPagesInState( $projectid, $page_state , $counter = "*")
 {
-    $res = mysql_query("SELECT COUNT(*) FROM $projectid WHERE state='$page_state'");
+    $res = mysql_query("SELECT COUNT($counter) FROM $projectid WHERE state='$page_state'");
     if (!$res)
     {
         echo mysql_error();
