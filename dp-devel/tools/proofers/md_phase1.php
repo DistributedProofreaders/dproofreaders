@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'projectinfo.inc');
 //include_once($relPath.'project_edit.inc');
 $show_image_size = '';
 $badmetadata = 0;
@@ -77,8 +78,8 @@ $name = mysql_result($result, 0, "nameofwork");
 $author = mysql_result($result, 0, "authorsname");
 $language = mysql_result($result, 0, "language");
 
- $res = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
-  $numpages = mysql_result($res,0,"totalpages");
+
+$numpages = Project_getNumPages( $projectid );
 
 echo "<center><table border=1>";
 

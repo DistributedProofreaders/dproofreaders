@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'projectinfo.inc');
 //include_once($relPath.'project_edit.inc');
 //include_once('projectmgr.inc');
 //include_once('page_table.inc');
@@ -43,8 +44,7 @@ echo "<table border=1>\n";
            $author = mysql_result($result, $rownum, "authorsname");
            $language = mysql_result($result, $rownum, "language");
 
-           $res = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
-           $numpages = mysql_result($res,0,"totalpages");
+           $numpages = Project_getNumPages( $projectid );
 
 	if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
@@ -96,13 +96,8 @@ echo "<br>";
            $author = mysql_result($result, $rownum, "authorsname");
            $language = mysql_result($result, $rownum, "language");
 
-           $res = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid");
-           $numpages = mysql_result($res,0,"totalpages");
-
-           $res = mysql_query("SELECT count(fileid) AS totalpages FROM $projectid WHERE state = 'avail_md_second'");
-           $availpages = mysql_result($res,0,"totalpages");
-
-
+           $numpages = Project_getNumPages( $projectid );
+           $availpages = Project_getNumPagesInState( $projectid, 'avail_md_second');
 
 	if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
