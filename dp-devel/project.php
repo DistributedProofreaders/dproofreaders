@@ -1314,21 +1314,13 @@ function do_page_summary()
     echo "<h3>"._("Page Summary")."</h3>\n";
 
     // page counts by state.
-    $res = mysql_query( "SELECT count(*) AS total_num_pages FROM $projectid" );
-    $total_num_pages = mysql_result($res,0,'total_num_pages');
+    $total_num_pages = Project_getNumPages($projectid);
 
-    // This could be made faster (by doing one SQL query outside the loop)
-    // but I'm not sure the savings would be noticeable.
     echo "<table border=0>\n";
     global $PAGE_STATES_IN_ORDER;
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
-        $res = mysql_query( "
-            SELECT count(*) AS num_pages
-            FROM $projectid
-            WHERE state='$page_state'
-        ");
-        $num_pages = mysql_result($res,0,'num_pages');
+        $num_pages = Project_getNumPagesInState($projectid,$page_state);
         if ( $num_pages != 0 )
         {
             echo "<tr><td align='right'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
