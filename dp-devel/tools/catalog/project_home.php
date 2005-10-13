@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'projectinfo.inc');
 
 function format_time( $time_sse )
 // $time_sse (expressed in seconds since epoch)
@@ -126,16 +127,14 @@ else
 
     echo "<h3>Page Information</h3>\n";
 
-    $res = mysql_query( "SELECT count(*) AS num_pages FROM $projectid") or die(mysql_error());
-    $num_pages = mysql_result($res,0,'num_pages');
+    $num_pages = Project_getNumPages($projectid);
     echo "<p>Total number of pages: $num_pages</p>\n";
 
     echo "<p>Number of pages in various states:</p>\n";
     echo "<table border=1>\n";
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
-        $res = mysql_query( "SELECT count(*) AS num_pages FROM $projectid WHERE state='$page_state'") or die(mysql_error());
-        $num_pages = mysql_result($res,0,'num_pages');
+        $num_pages = Project_getNumPagesInState($projectid,$page_state);
         if ( $num_pages != 0 )
         {
             echo "<tr><td>$num_pages</td><td>$page_state</td></tr>\n";
