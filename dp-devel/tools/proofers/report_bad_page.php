@@ -9,6 +9,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_ops.inc');
+include_once($relPath.'projectinfo.inc');
 
 $no_stats=1;
 $projectid  = $_POST['projectname'];
@@ -86,13 +87,12 @@ else
 	Page_markAsBad( $projectid, $imagefile, $round, $pguser, $reason );
 
 	//Find out how many pages have been marked bad
-	$totalBad = mysql_num_rows(mysql_query("SELECT * FROM $projectid WHERE state='$badState'"));
+	$totalBad = Project_getNumPagesInState($projectid,$badState);
 
 	$project_is_bad = FALSE;
 	//If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
 	if ($totalBad >= 10) {
-		$result = mysql_query("SELECT COUNT(DISTINCT(b_user)) FROM $projectid WHERE state='$badState'");
-		$uniqueBadPages = mysql_result($result,0);
+		$uniqueBadPages = Project_getNumPagesInState($projectid,$badState,"DISTINCT(b_user)");
 		if ($uniqueBadPages >= 3) {
 			$error_msg = project_transition( $projectid, $round->project_bad_state );
 			if ($error_msg)
