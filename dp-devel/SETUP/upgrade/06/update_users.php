@@ -1,8 +1,7 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'v_site.inc');
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'connect.inc');
+new dbConnect();
 
 header('Content-type: text/plain');
 
