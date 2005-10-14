@@ -11,21 +11,22 @@ new dbConnect();
 // Create 'image_sources' table.
 
 dpsql_query("
-CREATE TABLE `image_sources` (
-`code_name` VARCHAR(10) NOT NULL ,
-`display_name` VARCHAR( 30 ) NOT NULL ,
-`full_name` VARCHAR( 100 ) NOT NULL ,
-`is_active` TINYINT DEFAULT '-1' NOT NULL ,
-`info_page_visibility` TINYINT UNSIGNED  DEFAULT '0' NOT NULL,
-`url` VARCHAR( 200 ) ,
-`credit` VARCHAR( 200 ) ,
-`ok_keep_images` TINYINT DEFAULT '-1' NOT NULL ,
-`ok_show_images` TINYINT DEFAULT '-1' NOT NULL ,
-`public_comment` VARCHAR( 255 ) ,
-`internal_comment` VARCHAR( 255 ) ,
-UNIQUE ( `code_name` ),
-UNIQUE  ( `display_name` )
-)
+CREATE TABLE image_sources (
+  code_name varchar(10) NOT NULL default '',
+  display_name varchar(30) NOT NULL default '',
+  full_name varchar(100) NOT NULL default '',
+  info_page_visibility tinyint(3) unsigned NOT NULL default '0',
+  is_active tinyint(3) NOT NULL default '-1',
+  url varchar(200) default NULL,
+  credit varchar(200) default NULL,
+  ok_keep_images tinyint(4) NOT NULL default '-1',
+  ok_show_images tinyint(4) NOT NULL default '-1',
+  public_comment varchar(255) default NULL,
+  internal_comment varchar(255) default NULL,
+  UNIQUE KEY code_name (code_name),
+  UNIQUE KEY display_name (display_name)
+) TYPE=MyISAM;
+
   
     
 ") or die("Aborting.");
