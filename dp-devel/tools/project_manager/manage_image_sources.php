@@ -276,7 +276,7 @@ class ImageSource
         $cols = array(
             array('field' => 'ok_keep_images', 'label' => _('Images may be stored'), 'allow_unknown' => true),
             array('field' => 'ok_show_images', 'label' => _('Images may be published'), 'allow_unknown' => true),
-            array('field' => 'info_page_visibility', 'label' => _('Provider is shown on info page'),'allow_unknown' => false)
+
             );
 
         $editing = '';
@@ -302,6 +302,29 @@ class ImageSource
             $editing .= "</select><br />";
         }
 
+        // info age visibility is more complicated
+             //  0 = Image Source Managers and SAs
+ 		//  1 = also any PM
+ 		//  2 = also any logged-in user
+		//  3 = anyone
+
+            $field = 'info_page_visibility';
+            $existing_value = $this->new_source
+                ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
+                : $this->$field;
+
+            $editing .= "Visibility on Info Page <select name='$field'>";
+            foreach (array('0' => 'IS Managers Only','1' => 'Also PMs','2' => 'All DP Users','3' => 'Publicly Visible') as $val => $opt)
+            {
+                {
+                $editing .= "<option value='$val' " .
+                    ($existing_value == $val ? 'selected' :'') .
+                    ">$opt</option>";
+                }
+            }
+            $editing .= "</select><br />";
+
+
         $this->_show_summary_row(_('Permissions'),$editing,false);
     }
 
@@ -324,9 +347,9 @@ class ImageSource
             // If the user is an image sources manager, then the new source should
             // default to disabled. If not, the source should default to pending approval.
             $this->is_active = $can_edit ? '0' : '-1';
-            // Similarly, sources that are pending approval shouldn't be shown on
-            // the info page until they are approved.
-            $this->info_page_visibility = $can_edit ? '1' : '0';
+            // new sources shouldn't be shown on
+            // the public version of the info page until they are approved.
+            $this->info_page_visibility = '2' ;
         }
 
         if ($errmsgs)
@@ -449,7 +472,7 @@ class ImageSource
             $cell .= _("It is <b>unknown</b> whether images from this source may be published.<br />");
 
         $cell .= sprintf("Information about this source <b>%s shown</b> on the public listing.<br />",
-           ( $show_public ? _('is') : _('is not') ));
+           ( ($show_public == 3)  ? _('is') : _('is not') ));
 
 
        $cell .= '</td>';
