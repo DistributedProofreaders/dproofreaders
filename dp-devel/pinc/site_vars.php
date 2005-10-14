@@ -108,6 +108,8 @@ $promotion_requests_email_addr = '<<PROMOTION_REQUESTS_EMAIL_ADDR>>';
 
 $ppv_reporting_email_addr = '<<PPV_REPORTING_EMAIL_ADDR>>';
 
+$image_sources_manager_addr = '<<IMAGE_SOURCES_EMAIL_ADDR>>';
+
 // -----------------------------------------------------------------------------
 
 // So far, the effects of setting $testing to TRUE are:
