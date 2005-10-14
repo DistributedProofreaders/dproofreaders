@@ -478,7 +478,7 @@ class ImageSource
 			break;
 		case '2':  $to_whom = _("Any DP User");
 			break;
-		case '3':  $to_whom = _("Visitors");
+		case '3':  $to_whom = _("All Users and Visitors");
 			break;
 	}
 		
