@@ -332,7 +332,7 @@ class ImageSource
     {
         global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
-                    'ok_keep_images','ok_show_images','public_comment','internal_comment');
+                    'ok_keep_images','ok_show_images','info_page_visibility','public_comment','internal_comment');
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
@@ -349,7 +349,7 @@ class ImageSource
             $this->is_active = $can_edit ? '0' : '-1';
             // new sources shouldn't be shown on
             // the public version of the info page until they are approved.
-            $this->info_page_visibility = '2' ;
+            // $this->info_page_visibility = '2' ;
         }
 
         if ($errmsgs)
@@ -366,8 +366,7 @@ class ImageSource
                 code_name = '$this->code_name',
                 $std_fields_sql
                 url = '$this->url',
-                is_active = '$this->is_active',
-                info_page_visibility = '$this->info_page_visibility'
+                is_active = '$this->is_active'
         ") or die("Couldn't add/edit source: ".mysql_error());
 
     }
@@ -451,7 +450,7 @@ class ImageSource
         return $open . $middle . '</td>';
     }
 
-    function _get_permissions_cell($can_keep, $can_publish, $show_public, $class = '')
+    function _get_permissions_cell($can_keep, $can_publish, $show_to, $class = '')
     {
         $cell = "<td class='$class'>";
 
@@ -471,8 +470,20 @@ class ImageSource
         else
             $cell .= _("It is <b>unknown</b> whether images from this source may be published.<br />");
 
-        $cell .= sprintf("Information about this source <b>%s shown</b> on the public listing.<br />",
-           ( ($show_public == 3)  ? _('is') : _('is not') ));
+	 switch ($show_to)
+ 	{
+	 	case '0': $to_whom = _("Image Managers Only");
+			break;
+		case '1':  $to_whom = _("Project Managers");
+			break;
+		case '2':  $to_whom = _("Any DP User");
+			break;
+		case '3':  $to_whom = _("Visitors");
+			break;
+	}
+		
+        $cell .= sprintf("Information about this source is shown to <b>%s</b>.<br />",
+                   $to_whom);
 
 
        $cell .= '</td>';
