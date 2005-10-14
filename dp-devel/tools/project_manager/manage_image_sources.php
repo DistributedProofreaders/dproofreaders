@@ -302,11 +302,11 @@ class ImageSource
             $editing .= "</select><br />";
         }
 
-        // info age visibility is more complicated
-             //  0 = Image Source Managers and SAs
- 		//  1 = also any PM
- 		//  2 = also any logged-in user
-		//  3 = anyone
+        // info page visibility is more complicated
+        //  0 = Image Source Managers and SAs
+        //  1 = also any PM
+        //  2 = also any logged-in user
+        //  3 = anyone
 
             $field = 'info_page_visibility';
             $existing_value = $this->new_source
@@ -470,18 +470,18 @@ class ImageSource
         else
             $cell .= _("It is <b>unknown</b> whether images from this source may be published.<br />");
 
-	 switch ($show_to)
- 	{
-	 	case '0': $to_whom = _("Image Managers Only");
-			break;
-		case '1':  $to_whom = _("Project Managers");
-			break;
-		case '2':  $to_whom = _("Any DP User");
-			break;
-		case '3':  $to_whom = _("All Users and Visitors");
-			break;
-	}
-		
+        switch ($show_to)
+        {
+            case '0': $to_whom = _("Image Managers Only");
+                break;
+            case '1':  $to_whom = _("Project Managers");
+                break;
+            case '2':  $to_whom = _("Any DP User");
+                break;
+            case '3':  $to_whom = _("All Users and Visitors");
+                break;
+        }
+
         $cell .= sprintf("Information about this source is shown to <b>%s</b>.<br />",
                    $to_whom);
 
