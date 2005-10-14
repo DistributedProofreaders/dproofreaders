@@ -225,7 +225,6 @@ var is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spo
 
 // apply tagOpen/tagClose to selection in textarea,
 // use sampleText instead of selection if there is none
-// copied and adapted from phpBB
 function insertTags(tagOpen, tagClose, sampleText, replace) {
 	var txtarea = docRef.editform.text_data;
 	// IE
