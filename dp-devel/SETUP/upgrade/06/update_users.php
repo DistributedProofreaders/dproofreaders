@@ -6,6 +6,15 @@ new dbConnect();
 header('Content-type: text/plain');
 
 echo "\n";
+echo "Removing bogus 'task_priority' column...\n";
+
+mysql_query("
+    ALTER TABLE users
+        DROP COLUMN task_priority
+") or print(mysql_error()."\n");
+
+
+echo "\n";
 echo "Adding 't_last_activity' column...\n";
 
 mysql_query("
