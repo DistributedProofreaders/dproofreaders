@@ -1,7 +1,7 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'v_site.inc');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'connect.inc');
+new dbConnect;
 
 // THIS IS A ONE-TIME SCRIPT!
 //
