@@ -309,7 +309,7 @@ class ImageSource
     {
         global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
-				    'ok_keep_images','ok_show_images','public_comment','internal_comment');
+                    'ok_keep_images','ok_show_images','public_comment','internal_comment');
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
@@ -372,7 +372,7 @@ class ImageSource
             AND usersettings.value = '$this->code_name'
             AND usersettings.username = users.username");
 
-		mysql_query("DELETE
+        mysql_query("DELETE
             FROM usersettings
             WHERE setting = 'is_approval_notify'
             AND usersettings.value = '$this->code_name'") or die(mysql_error());
@@ -518,4 +518,5 @@ function show_is_toolbar()
     echo "</p>";
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
