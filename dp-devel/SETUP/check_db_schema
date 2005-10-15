@@ -29,8 +29,8 @@ echo "
     _CODE_DIR=$testing_code_dir
     _DB_NAME=$testing_db_name
     _DB_SERVER=<<DB_SERVER>>
-    _DB_USER=<DB_USER>>
-    _DB_PASSWORD=<<DB_PASSWORD>>
+    _DB_USER=<<DB_USER>>
+    _DB_PASSWORD='<<DB_PASSWORD>>'
 
     # Need to set the booleans, otherwise v_site.inc will raise syntax errors.
     _TESTING=TRUE
