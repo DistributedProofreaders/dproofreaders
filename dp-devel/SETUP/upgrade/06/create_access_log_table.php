@@ -7,6 +7,7 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'f_dpsql.inc');
 new dbConnect();
 
+echo "Creating table 'access_log'...\n";
 dpsql_query("
 CREATE TABLE `access_log` (
   `timestamp` INT( 20 ) NOT NULL ,
@@ -18,6 +19,6 @@ CREATE TABLE `access_log` (
 ) TYPE=MyISAM;
 ") or die("Aborting.");
 
-echo "Done!";
+echo "\nDone!\n";
 
 ?>

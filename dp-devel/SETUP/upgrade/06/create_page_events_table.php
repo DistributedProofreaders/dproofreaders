@@ -5,6 +5,7 @@ new dbConnect;
 
 header( 'Content-type: text/plain' );
 
+echo "Creating 'page_events' table...\n";
 mysql_query("
     CREATE TABLE page_events (
         event_id      INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +24,7 @@ mysql_query("
     )
 ") or die(mysql_error());
 
-echo "page_events table created!\n";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

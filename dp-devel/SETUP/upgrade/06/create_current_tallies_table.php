@@ -132,7 +132,7 @@ else
 }
 
 
-echo "Script done!";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

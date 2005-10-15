@@ -189,8 +189,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
     ") or die(mysql_error());
 }
 
-echo "\n";
-echo "Done!\n";
+echo "\nDone!\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

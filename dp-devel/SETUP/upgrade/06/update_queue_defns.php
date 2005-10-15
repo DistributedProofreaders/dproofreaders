@@ -83,5 +83,5 @@ echo mysql_affected_rows(), " project_selectors changed.\n";
 
 // -------------------------------------------------------------------
 
-echo "done.\n";
+echo "\nDone!\n";
 ?>

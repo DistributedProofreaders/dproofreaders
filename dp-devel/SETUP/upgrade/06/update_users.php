@@ -29,7 +29,7 @@ mysql_query("
     SET t_last_activity=last_login
 ") or die(mysql_error());
 
-echo "Done!\n";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

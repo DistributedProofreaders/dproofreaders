@@ -4,8 +4,6 @@ include_once($relPath.'connect.inc');
 new dbConnect();
 
 
-echo "<pre>\n";
-
 $old_to_new = array(
 	// Change R1+R2 to P1+P2
 	'R1order'    => 'P1_order',
@@ -33,6 +31,5 @@ foreach ( $old_to_new as $old => $new )
 	echo "    ", mysql_affected_rows(), " rows affected.\n";
 }
 
-echo "done.\n";
-echo "</pre>\n";
+echo "\nDone!\n";
 ?>

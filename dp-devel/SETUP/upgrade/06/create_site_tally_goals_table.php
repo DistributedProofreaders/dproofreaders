@@ -9,6 +9,7 @@ new dbConnect();
 
 header('Content-type: text/plain');
 
+echo "Creating 'site_tally_goals' table...\n";
 dpsql_query("
     CREATE TABLE site_tally_goals (
         date         DATE     NOT NULL,
@@ -21,6 +22,7 @@ dpsql_query("
 
 // ------------------------------------------------------
 
+echo "Giving it some initial data...\n";
 // You can change these goal values to whatever you want,
 // either here (before you run the script),
 // or in the table (after you run the script).
@@ -41,7 +43,7 @@ dpsql_query("
 // run of the 'extend_site_tally_goals.php' script
 // will ensure that there are goals for the next month or so.
 
-echo "Script done!";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

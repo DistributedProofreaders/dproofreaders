@@ -60,7 +60,7 @@ while ($row = mysql_fetch_array($result)) {
 
 echo mysql_error();
 
-echo "Done.";
+echo "\nDone!\n";
 
 function reversehtmlspecialchars($s) {
   $s = str_replace('&#039;', '\'', $s);

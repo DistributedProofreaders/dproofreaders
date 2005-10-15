@@ -49,5 +49,5 @@ mysql_query("
 ") or die(mysql_error());
 echo mysql_affected_rows(), " rows affected\n";
 
-echo "done.\n";
+echo "\nDone!\n";
 ?>

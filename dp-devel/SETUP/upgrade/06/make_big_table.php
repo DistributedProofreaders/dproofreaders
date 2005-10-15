@@ -18,7 +18,7 @@ while ($row = mysql_fetch_assoc($result)) {
     $result1 = mysql_query("SELECT * FROM ".$row['projectid']."");
     $numPages = mysql_num_rows($result1);
     if ($result1 == FALSE || $numPages == 0) {
-        echo $row['projectid']." -- Not moved due to either missing table or 0 rows<br>";
+        echo $row['projectid']." -- Not moved due to either missing table or 0 rows\n";
         $numBad++;
     } else {
     // DAK - Keep project id for now.
@@ -43,15 +43,15 @@ while ($row = mysql_fetch_assoc($result)) {
             NULL, NULL 
             FROM ".$projectid ) ;
 
-        echo $row['projectid']." -- Moved to project_pages table (".$numPages." pages copied)<br>";
+        echo $row['projectid']." -- Moved to project_pages table (".$numPages." pages copied)\n";
         $numOK++;
 
     }
 }
 
-echo "<br><h1><center><b>Finished!</b></center></h1><br>";
-echo "<br><br><br><h1><center><b>Out of ".$numProjs." projects:<br>";
-echo $numOK." OK, and ".$numBad." bad.</b></center></h1><br>";
+echo "\n\n\nOut of $numProjs projects:\n";
+echo "$numOK OK, and $numBad bad.\n";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

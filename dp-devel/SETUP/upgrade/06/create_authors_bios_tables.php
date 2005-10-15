@@ -40,7 +40,7 @@ dpsql_query("
     ) TYPE=MyISAM COMMENT='Contains biographies (see authors)'
 ") or die("Aborting\n");
 
-echo "Done!\n";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

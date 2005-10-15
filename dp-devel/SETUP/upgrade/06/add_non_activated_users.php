@@ -3,6 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 new dbConnect();
 
+echo "Creating 'non_activated_users' table...\n";
 $sql = "
     CREATE TABLE non_activated_users (
         id            varchar(50)  NOT NULL default '',
@@ -18,5 +19,6 @@ $sql = "
     COMMENT='Each row represents a not-yet-activated user, user_password is md5-hashed'
 ";
 mysql_query($sql) or die( mysql_error() );
-echo "<center>Table 'non_activated_users' created successfully.</center>";
+
+echo "\nDone!\n";
 ?>

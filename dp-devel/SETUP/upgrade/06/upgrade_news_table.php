@@ -112,6 +112,6 @@ INSERT INTO `news_pages` VALUES ('STATS', 'Stats Central',UNIX_TIMESTAMP());
 or die("Aborting.");
 
 
-echo "All done!";
+echo "\nDone!\n";
 
 ?>

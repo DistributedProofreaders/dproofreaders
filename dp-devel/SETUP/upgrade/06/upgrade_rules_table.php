@@ -14,6 +14,7 @@ new dbConnect();
 // anchor points to the HTML anchor within the document.
 // Remove doc column as it assumes single-document guidelines.
 
+echo "Adding and dropping columns to/from 'rules' table...\n";
 dpsql_query("
     ALTER TABLE rules 
     ADD document VARCHAR(255) AFTER id,
@@ -22,16 +23,15 @@ dpsql_query("
 ") 
 or die("Aborting.");
 
-echo "Rules table alteration...Done!\n";
-
 // -----------------------------------------------
 // Remove all existing rules
 
+echo "Removing all existing rules...\n";
 dpsql_query("
 TRUNCATE rules
 ") 
 or die("Aborting.");
 
-echo "Rules table truncation...Done!\n";
+echo "\nDone!\n";
 
 ?>

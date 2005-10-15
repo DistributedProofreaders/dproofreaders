@@ -10,6 +10,7 @@ new dbConnect();
 // -----------------------------------------------
 // Create 'image_sources' table.
 
+echo "Creating 'images_sources' table...\n";
 dpsql_query("
 CREATE TABLE image_sources (
   code_name varchar(10) NOT NULL default '',
@@ -32,7 +33,7 @@ CREATE TABLE image_sources (
 ") or die("Aborting.");
 
 
-echo "Done!";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

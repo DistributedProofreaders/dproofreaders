@@ -78,8 +78,6 @@ function update_table( $table_name )
 
 // --------------------------------------------
 
-echo "<pre>\n";
-
 $project_res = mysql_query("
 	SELECT projectid
 	FROM projects
@@ -93,6 +91,5 @@ while ( list($projectid) = mysql_fetch_row($project_res) )
 // project_pages too
 update_table( 'project_pages' );
 
-echo "done.\n";
-echo "</pre>\n";
+echo "\nDone!\n";
 ?>

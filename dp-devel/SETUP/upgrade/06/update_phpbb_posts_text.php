@@ -43,7 +43,11 @@ $res = mysql_query($query) or die(mysql_error());
 
 $n_posts_found = mysql_num_rows($res);
 echo "Found $n_posts_found posts containing the search string.\n";
-if ( $n_posts_found == 0 ) return;
+if ( $n_posts_found == 0 )
+{
+    echo "\nDone!\n";
+    return;
+}
 
 if ($dry_run)
 {
@@ -90,6 +94,8 @@ while ( list($post_id, $post_text) = mysql_fetch_row($res) )
         echo "Odd: for post_id=$post_id, UPDATE affects $n rows\n";
     }
 }
+
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

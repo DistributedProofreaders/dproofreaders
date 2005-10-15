@@ -27,7 +27,7 @@ mysql_query("
         ADD COLUMN A_4wks MEDIUMINT UNSIGNED AFTER A_week
 ") or die(mysql_error());
 
-echo "Done!\n";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

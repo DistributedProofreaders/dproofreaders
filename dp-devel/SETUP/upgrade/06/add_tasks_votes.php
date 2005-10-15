@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
+echo "Creating 'tasks_votes' table...\n";
 $sql = 'CREATE TABLE `tasks_votes` ('
         . ' `id` INT NOT NULL AUTO_INCREMENT, '
         . ' `task_id` MEDIUMINT(9) NOT NULL, '
@@ -15,5 +15,6 @@ $sql = 'CREATE TABLE `tasks_votes` ('
         . ' )';
         
 $result = mysql_query($sql) or die(mysql_error());
-echo "<center><p>Addition of tasks_votes table complete!";
+
+echo "\nDone!\n";
 ?>

@@ -131,7 +131,7 @@ if ( check_uniqueness( 'user_teams_stats', 'team_id', 'date_updated' ) )
 
 // -----------------------------------------------
 
-echo "Done!\n";
+echo "\nDone!\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

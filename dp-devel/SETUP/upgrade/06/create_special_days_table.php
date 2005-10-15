@@ -10,6 +10,7 @@ new dbConnect();
 // -----------------------------------------------
 // Create 'special_days' table.
 
+echo "Creating 'special_days' table...\n";
 dpsql_query("
 CREATE TABLE special_days (
   spec_code varchar(20) NOT NULL default '',
@@ -31,7 +32,7 @@ CREATE TABLE special_days (
 ") or die("Aborting.");
 
 
-echo "Done!";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

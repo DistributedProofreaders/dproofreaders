@@ -10,6 +10,7 @@ new dbConnect();
 // -----------------------------------------------
 // Create 'uber_projects' table.
 
+echo "Creating 'uber_projects' table...\n";
 dpsql_query("
 CREATE TABLE `uber_projects` (
   `up_projectid` INT( 10 ) NOT NULL AUTO_INCREMENT,
@@ -41,7 +42,7 @@ CREATE TABLE `uber_projects` (
 ") or die("Aborting.");
 
 
-echo "Done!";
+echo "\nDone!\n";
 
 // vim: sw=4 ts=4 expandtab
 ?>

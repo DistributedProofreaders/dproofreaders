@@ -4,6 +4,8 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'stages.inc');
 new dbConnect();
 
+echo "Creating 'project_pages' table...\n";
+
 $items_for_rounds = "";
 for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
@@ -36,6 +38,6 @@ $sql = "
 ";
 
 mysql_query($sql) or die(mysql_error());
-echo "<center>Table project_pages created successfully.</center>";
 
+echo "\nDone!\n";
 ?>
