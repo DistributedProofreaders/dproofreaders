@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# Compare the db-schema of the current installation
+# to the db-schema you get by taking an installation of the previous release
+# and applying all upgrade-scripts in the current/in-progress release.
+#
+# (Do the upgrade-scripts accurately reflect all the necessary changes,
+# or did we sneak a db-schema change into the current installation,
+# and are perhaps now depending on it?)
+
+setup_dir=`dirname $0`
+testing_dir=/tmp/dp_schema_check
+testing_code_dir=$testing_dir/c
+testing_db_name=test_dp_db
+
+mkdir $testing_dir
+
+echo ""
+echo "Dumping the schema of the current database..."
+$setup_dir/dump_db_schema > $testing_dir/current_schema_dump
+
+echo ""
+echo "Creating a config file for a test install..."
+echo "
+    TAG=HEAD
+    GROUP=$USER
+    SHIFT_TO_LIVE=yes
+
+    _CODE_DIR=$testing_code_dir
+    _DB_NAME=$testing_db_name
+    _DB_SERVER=<<DB_SERVER>>
+    _DB_USER=<DB_USER>>
+    _DB_PASSWORD=<<DB_PASSWORD>>
+
+    # Need to set the booleans, otherwise v_site.inc will raise syntax errors.
+    _TESTING=TRUE
+    _USE_PHP_SESSIONS=TRUE
+    _MAINTENANCE=FALSE
+    _METADATA=TRUE
+    _CORRECTIONS=TRUE
+    _USE_MARC=TRUE
+    _WRITEBIGTABLE=TRUE
+    _READBIGTABLE=TRUE
+
+    # For update_phpbb_posts_text.php
+    _FORUMS_PROJECT_WAITING_IDX=99
+    _FORUMS_PROJECT_AVAIL_IDX=99
+    _FORUMS_PROJECT_PP_IDX=99
+    _FORUMS_PROJECT_POSTED_IDX=99
+" > $testing_dir/config.sh
+
+echo "Getting a test copy of the latest code..."
+$setup_dir/update_from_cvs $testing_dir/config.sh
+
+echo ""
+cd $testing_code_dir/SETUP
+
+echo ""
+echo "Getting db_schema.sql from the previous release..."
+cvs_server=cvs.sourceforge.net
+cvs_account=:pserver:anonymous@$cvs_server
+cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r R200406 dp-devel/SETUP/db_schema.sql > ./db_schema.sql
+
+echo ""
+echo "Creating and/or cleaning out the test database..."
+mysql -e "DROP   DATABASE $testing_db_name"
+mysql -e "CREATE DATABASE $testing_db_name"
+
+echo ""
+echo "Running install_db.php to set up test db..."
+php ./install_db.php
+
+echo ""
+echo "Applying all upgrade scripts..."
+cd $testing_code_dir/SETUP/upgrade/06
+for f in *.php; do
+    echo ""
+    echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    echo $f
+    echo ""
+    php $f
+done
+cd $testing_code_dir/SETUP
+
+echo ""
+echo "Dumping the schema of the resulting database..."
+./dump_db_schema > $testing_dir/upgraded_schema_dump
+
+echo ""
+echo "Comparing the two schemas..."
+gvim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump
+
+# vim: sw=4 ts=4 expandtab
