@@ -12,12 +12,11 @@ export LC_ALL=POSIX
 # and LANG=en_US.UTF-8, which produces case-insensitivity
 # in grep and sed.
 
-connection_options="--user=$db_user --password=$db_password"
-
 get_table_names()
 {
     if false; then
-        mysql $connection_options -D $db_name \
+        mysql --user=$db_user --password="$db_password" \
+            -D $db_name \
             --skip-column-names --batch --execute='show tables' |
         grep -v \
             -e '^projectID' \
@@ -73,7 +72,7 @@ get_table_names()
 tables=`get_table_names`
 
 if true; then
-    mysqldump $connection_options \
+    mysqldump --user=$db_user --password="$db_password" \
         --no-data --quote-names --add-drop-table=FALSE --force \
         $db_name $tables |
     # Make it look more like the dump from phpMyAdmin:
