@@ -13,6 +13,7 @@ If you're upgrading from a previous version, things would be different ...
         some filename inconsistencies. For example, iso8859-1.dat should have a
         symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
         You might not need to do this if you are using aspell 0.60 or higher.
+        You need aspell 0.60 if you want to support UTF-8.
     
 --- Install MySQL (if it isn't already).
         In the examples in this document, we will assume it's on "localhost",
@@ -38,13 +39,13 @@ If you're upgrading from a previous version, things would be different ...
 
     --- Connect to the MySQL server as the root user, or any sufficiently
         powerful user.
-            mysql -h localhost -u root
+            mysql -h localhost -u root -p
 
     --- Create the database.
             CREATE DATABASE dp_db;
         If you have MySQL 4.1.1 or higher:
             CREATE DATABASE dp_db CHARACTER SET UTF8;
-        Note that you can have UTF-8 enabled on the site even though you have older
+        Note that you can have UTF-8 enabled on the site even if you have older
         MySQL version which doesn't support it.
 
     --- Create the user.
@@ -153,6 +154,23 @@ If you're upgrading from a previous version, things would be different ...
         php -f install_db.php
         Since you have already installed phpBB, you may get warnings/errors about
         duplicate tables.
+        You will need to run some of upgrade scripts in the same way; cd to upgrade/06 and run:
+        upgrade_news_table.php
+        add_pg_books.php
+	add_non_activated_users.php
+        update_users.php
+        create_quiz_passes_table.php
+        create_current_tallies_table.php
+        create_site_tally_goals_table.php
+        create_past_tallies_table.php
+        create_image_sources_table.php
+        update_users_u_intlang.php
+        create_uber_projects_table.php
+        update_projects_table.php
+        create_special_days_table.php
+        create_page_events_table.php
+        update_queue_defns.php
+        (Maybe more?)
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
@@ -178,5 +196,7 @@ If you're upgrading from a previous version, things would be different ...
     queues, various user notifications, and the like.
     Check that the values inserted by the DP configuration script are correct,
     then install the crontab onto your system as an appropriate user.
+
+--- Run stats/faq_data.php
 
 # vim: ts=4 sw=4 expandtab ai
