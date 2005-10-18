@@ -4,6 +4,7 @@
 // via Z39.50 protocol (implemented by yaz library).
 
 $relPath='../../pinc/';
+include_once($relPath.'v_site.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
 
@@ -129,7 +130,8 @@ function do_search_and_show_hits()
         $fullquery = query_format();
     }
 
-    $id = yaz_connect("z3950.loc.gov:7090/Voyager");
+    global $external_catalog_locator;
+    $id = yaz_connect($external_catalog_locator);
     yaz_syntax($id, "usmarc");
     yaz_element($id, "F");
     yaz_search($id, "rpn", trim($fullquery));

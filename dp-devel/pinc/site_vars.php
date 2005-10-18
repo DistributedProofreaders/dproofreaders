@@ -150,9 +150,13 @@ $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 
 // -----------------------------------------------------------------------------
 
-// whether the site should use Library of Congress's MARC catalogue when
-// creating a project
-$use_MARC = <<USE_MARC>>;
+// The external catalog to search (using Z39.50) when creating a project.
+// Should be a locator in the form 'host[:port][/database]', suitable for
+// passing to 'yaz_connect'.
+// To avoid the external search at project-creation time, leave this variable
+// empty.
+
+$external_catalog_locator = '<<EXTERNAL_CATALOG_LOCATOR>>';
 
 // -----------------------------------------------------------------------------
 

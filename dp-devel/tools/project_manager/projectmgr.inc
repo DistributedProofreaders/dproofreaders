@@ -24,7 +24,7 @@ function abort_if_not_manager()
 
 function echo_manager_header( $which )
 {
-	global $userP, $forums_url, $code_url, $use_MARC;
+	global $userP, $forums_url, $code_url, $external_catalog_locator;
 
 	echo "<p>";
 	echo "<center>";
@@ -32,7 +32,7 @@ function echo_manager_header( $which )
 	echo " | ";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
-	echo "<a href='$code_url/tools/project_manager/".($use_MARC?"external_catalog_search.php?action=show_query_form":"editproject.php?action=createnew")."'>"._("Create Project")."</a>";
+	echo "<a href='$code_url/tools/project_manager/".(!empty($external_catalog_locator)?"external_catalog_search.php?action=show_query_form":"editproject.php?action=createnew")."'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{
