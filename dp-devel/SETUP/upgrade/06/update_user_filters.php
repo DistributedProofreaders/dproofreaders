@@ -5,12 +5,21 @@ new dbConnect();
 
 // Handles transition from "one filter for all rounds" to "one filter per round".
 
+echo "Making temp table...\n";
+// because some versions of MySQL won't let us
+// INSERT INTO the same table that we SELECT FROM.
+mysql_query("
+	CREATE TEMPORARY TABLE user_filters_temp
+       	SELECT *
+       	FROM user_filters
+	WHERE filtertype LIKE 'proof_%'
+") or die(mysql_error());
+
 echo "Copying 'proof_' rows to 'P1_' rows.\n";
 mysql_query("
 	INSERT IGNORE INTO user_filters
 	SELECT username, REPLACE(filtertype, 'proof_', 'P1_'), value
-	FROM user_filters
-	WHERE filtertype LIKE 'proof_%'
+	FROM user_filters_temp
 ") or die(mysql_error());
 echo mysql_affected_rows(), " rows affected\n";
 
@@ -18,8 +27,7 @@ echo "Copying 'proof_' rows to 'P2_' rows.\n";
 mysql_query("
 	INSERT IGNORE INTO user_filters
 	SELECT username, REPLACE(filtertype, 'proof_', 'P2_'), value
-	FROM user_filters
-	WHERE filtertype LIKE 'proof_%'
+	FROM user_filters_temp
 ") or die(mysql_error());
 echo mysql_affected_rows(), " rows affected\n";
 
