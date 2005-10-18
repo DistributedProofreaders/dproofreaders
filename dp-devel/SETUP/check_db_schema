@@ -11,7 +11,7 @@
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
 testing_code_dir=$testing_dir/c
-testing_db_name=test_dp_db
+testing_db_name=temp_dp_schema_check
 
 mkdir $testing_dir
 
