@@ -39,6 +39,7 @@ get_table_names()
         grep -v \
             -e 'the FROM clause' \
             -e 'FAR FROM HOME' \
+            -e 'INSERT INTO the same table' \
         |
 
         sed -n -e'
@@ -63,6 +64,7 @@ get_table_names()
             -e beginpages \
             -e newbies \
             -e test_u \
+            -e user_filters_temp \
         |
 
         sort -u
