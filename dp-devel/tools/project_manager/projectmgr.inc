@@ -26,13 +26,19 @@ function echo_manager_header( $which )
 {
 	global $userP, $forums_url, $code_url, $external_catalog_locator;
 
+	$create_project_url = (
+		empty($external_catalog_locator)
+		? "$code_url/tools/project_manager/editproject.php?action=createnew"
+		: "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form"
+	);
+
 	echo "<p>";
 	echo "<center>";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
 	echo " | ";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
 	echo " | ";
-	echo "<a href='$code_url/tools/project_manager/".(!empty($external_catalog_locator)?"external_catalog_search.php?action=show_query_form":"editproject.php?action=createnew")."'>"._("Create Project")."</a>";
+	echo "<a href='$create_project_url'>"._("Create Project")."</a>";
 	echo " | ";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{
