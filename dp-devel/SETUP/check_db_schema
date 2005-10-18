@@ -63,8 +63,8 @@ cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r R200406 dp-devel/SETUP/db_sc
 
 echo ""
 echo "Creating and/or cleaning out the test database..."
-mysql -h <<DB_SERVER>> -u <<DB_USER>> -p '<<DB_PASSWORD>>' -e "DROP   DATABASE $testing_db_name"
-mysql -h <<DB_SERVER>> -u <<DB_USER>> -p '<<DB_PASSWORD>>' -e "CREATE DATABASE $testing_db_name"
+mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "DROP   DATABASE $testing_db_name"
+mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "CREATE DATABASE $testing_db_name"
 
 echo ""
 echo "Running install_db.php to set up test db..."
