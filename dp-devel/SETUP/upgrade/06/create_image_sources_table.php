@@ -23,7 +23,7 @@ CREATE TABLE image_sources (
   ok_keep_images tinyint(4) NOT NULL default '-1',
   ok_show_images tinyint(4) NOT NULL default '-1',
   public_comment varchar(255) default NULL,
-  internal_comment varchar(255) default NULL,
+  internal_comment text default NULL,
   UNIQUE KEY code_name (code_name),
   UNIQUE KEY display_name (display_name)
 ) TYPE=MyISAM;
