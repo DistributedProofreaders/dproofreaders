@@ -135,7 +135,8 @@ If you're upgrading from a previous version, see the upgrade section.
         site-configuration for the DP code.
 
 --- Unpack the DP code.
-        In your document root, unpack the DP code.
+        Somewhere within your server's document hierarchy (possibly, though not
+        necessarily, in the document root) unpack the DP code.
         This expands into a directory named 'c'.
 
 --- Create other directories.
@@ -145,13 +146,14 @@ If you're upgrading from a previous version, see the upgrade section.
         projects
 
         d
+        d/locale
         d/stats
         d/stats/automodify_logs
-        (You also need to put some stuff in d...)
-
-        c/teams
-        c/teams/icon
-        c/teams/avatar
+        d/teams
+        d/teams/avatar
+        d/teams/icon
+        d/xmlfeeds
+        (You also need to put some files in d??)
 
 --- Configure the DP code (with site-specific settings).
         Make an editable copy of c/SETUP/configuration.sh,
