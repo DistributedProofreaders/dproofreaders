@@ -1,6 +1,20 @@
-Here's a first stab at installation instructions for the Distributed
-Proofreaders website code. This assumes you're installing from scratch.
-If you're upgrading from a previous version, things would be different ...
+Instructions for installing/upgrading the Distributed Proofreaders website code
+
+The instructions in this file assume that you're using a release tarball from
+DP's Project Page on SourceForge:
+    http://sourceforge.net/projects/dproofreaders/
+If you're installing/upgrading from CVS, it's trickier.
+
+In case of problems, please post to the "DP Site Code" forum at the primary
+DP site:
+    http://www.pgdp.net/phpBB2/viewforum.php?f=32
+
+=======================================================================
+Installing from scratch
+-----------------------
+
+This section assumes that you don't have an existing installation of DP.
+If you're upgrading from a previous version, see the upgrade section.
 
 --- Install PHP (if it isn't already).
         You should have GD and YAZ support.
@@ -154,23 +168,6 @@ If you're upgrading from a previous version, things would be different ...
         php -f install_db.php
         Since you have already installed phpBB, you may get warnings/errors about
         duplicate tables.
-        You will need to run some of upgrade scripts in the same way; cd to upgrade/06 and run:
-        upgrade_news_table.php
-        add_pg_books.php
-	add_non_activated_users.php
-        update_users.php
-        create_quiz_passes_table.php
-        create_current_tallies_table.php
-        create_site_tally_goals_table.php
-        create_past_tallies_table.php
-        create_image_sources_table.php
-        update_users_u_intlang.php
-        create_uber_projects_table.php
-        update_projects_table.php
-        create_special_days_table.php
-        create_page_events_table.php
-        update_queue_defns.php
-        (Maybe more?)
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
@@ -199,4 +196,71 @@ If you're upgrading from a previous version, things would be different ...
 
 --- Run stats/faq_data.php
 
+=======================================================================
+Upgrading
+---------
+
+This section assumes that you have an existing installation of DP, and
+that it has data that you want to bring forward as you upgrade to a
+newer release of the DP code.
+
+--- Back up your data.
+
+--- With your old installation, invoke:
+        c/SETUP/dump_db_schema > somewhere/pre_upgrade_db_schema
+    (This is redundant given the backup, but if you encounter difficulties,
+    it may help us diagnose the problem.)
+
+--- Put the old code aside.
+        mv c c.old
+    (Don't remove it just yet. It may have files you need.)
+
+--- Unpack the new DP code.
+    This creates a new 'c' hierarchy.
+
+--- Configure the new DP code (with site-specific settings).
+    (Follow the instructions given above in the 'Installing from scratch'
+    section. Note that the modified configuration.sh that you used to
+    configure your old code is probably not sufficient to configure the
+    new code; however, it does have lots of settings that you should carry
+    forward to the new config file.)
+
+--- Upgrade your database schema and data.
+    This involves running lots of PHP scripts from the command-line.
+
+    --- If your old installation was release 1.3 or earlier:
+        sorry, there's no automated upgrade mechanism. If you post
+        to the 'DP Site Code' forum, we might be able to help you.
+        
+    --- If your old installation was release 1.4:
+        You need to run the scripts in
+            c/SETUP/upgrade/05/
+            c/SETUP/upgrade/06/
+        (in that order!)
+
+    --- If your old installation was release 1.5:
+        You need to run the scripts in
+            c/SETUP/upgrade/06/
+
+    To run the upgrade scripts, you must cd into the directory and invoke the
+    scripts from there. E.g.:
+        
+            cd c/SETUP/upgrade/06/
+            php -f add_non_activated_users.php
+            php -f add_pg_books.php
+            ...
+
+    It's a good idea to log the shell I/O (e.g., using the 'script' command),
+    as this may help diagnose any problems you have.
+
+    The order in which you invoke the scripts shouldn't matter, but alphabetical
+    order is probably safest, as that's been tested the most.
+
+    Each script will print 'Done!' if it completes without fatal errors.
+
+--- At this point, your DP site should be functional again.
+
+--- Install the modified dp.cron.
+
+=======================================================================
 # vim: ts=4 sw=4 expandtab ai
