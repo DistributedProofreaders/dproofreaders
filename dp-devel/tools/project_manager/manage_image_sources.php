@@ -114,9 +114,14 @@ elseif ($action == 'update_oneshot')
 
         $errmsgs = '';
 
+        $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
+
+        if (length($new_code_name) < 1) 
+            $errmsgs .= _("A value for Image Source ID is required. Please enter one. ");
+
         $result = mysql_query("SELECT COUNT(*)
             FROM image_sources
-            WHERE code_name = '$_REQUEST[code_name]'");
+            WHERE code_name = '$new_code_name'");
 
         $new = (mysql_result($result,0) == 0);
 
@@ -258,7 +263,7 @@ class ImageSource
 
         if ($textarea)
         {
-            $editing = "<textarea cols='60' rows='4' name='$field'>$value</textarea>";
+            $editing = "<textarea cols='60' rows='6' name='$field'>$value</textarea>";
         }
         else
         {
@@ -349,7 +354,7 @@ class ImageSource
             $this->is_active = $can_edit ? '0' : '-1';
             // new sources shouldn't be shown on
             // the public version of the info page until they are approved.
-            // $this->info_page_visibility = '2' ;
+             $this->info_page_visibility = '1' ;
         }
 
         if ($errmsgs)
@@ -501,7 +506,7 @@ class ImageSource
                 setting = 'is_approval_notify',
                 value = '$this->code_name'") or die(mysql_error());
 
-        $subject = _('DP: New image source proposed');
+        $subject = _('DP: New image source proposed')." : ".$this->display_name;
 
         $body = "Hello,\n\nYou are receiving this email because\n".
         "you are listed as an image sources manager at the Distributed\n".
