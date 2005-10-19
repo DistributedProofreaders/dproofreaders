@@ -86,6 +86,7 @@ if (!isset($_GET['name']))
                 full_name,
                 display_name,
                 public_comment,
+                internal_comment,
                 info_page_visibility,
                 concat('<a href=\"',url,'\">',url,'</a>') as 'more_info'
         FROM image_sources
@@ -94,8 +95,32 @@ if (!isset($_GET['name']))
 
     $visibility = $imso['info_page_visibility'];
 
-    if ($visibility = 3) {
 
+    // info page visibility
+    //  0 = Image Source Managers and SAs
+    //  1 = also any PM
+    //  2 = also any logged-in user
+    //  3 = anyone
+
+	// layout below intended to make logic easier to follow:
+	// see it as a tree lying on it's side, the root node the "or"
+	// on the third line
+
+    $can_see = 	(
+				($visibility == 3) 
+			or 
+				($logged_in 
+					and 	
+							(	$visibility == 2 
+							   or 
+								(user_is_PM() and $visibility == 1 ) 
+							   or 
+								user_is_image_sources_manager()
+							)
+				)
+			);
+                                         
+    if ($can_see) {
 
         if (isset($_GET['which']))
         {
@@ -131,13 +156,21 @@ if (!isset($_GET['name']))
 
         $title = $adjective." "._("Ebooks")." ".$tense." "._("from scans from")." ".$imso['full_name'];
         $sub_title  = $imso['public_comment'];
+        $details    = $imso['internal_comment'];
         $more_info  = $imso['more_info'];
 
         theme($title, "header");
 
         echo "<br><h2>$title</h2>\n";
 
-        echo "<br><h3>$sub_title</h3><h4>$more_info</h4>\n\n";
+        echo "<br><h3>$sub_title</h3>\n";
+
+        if ($logged_in) {
+		echo "<br><h3>$details</h3>\n";
+	 }
+       echo "\n<h4>$more_info</h4>\n\n";
+
+
 
         echo  "<a href='show_image_sources.php?name=".$imso_code.
               "&which=".$other_which."'>"._("See list of")." ".$other_label." ".
