@@ -65,10 +65,10 @@ class Project
         $this->credits_line = $this->_create_credit_line();
         if (isset($image_source_credit))
         {
-		// Can't put a . at the end of the output of _create_credit_line, since it ends
-             // with a url and the . breaks the url in some browsers; yet the image source credit,
-             // grammatically and aestehtically, needs some sort of separation from the 
-		// "main" credit line - so we enclose it in ( )
+            // Can't put a . at the end of the output of _create_credit_line, since it ends
+            // with a url and the . breaks the url in some browsers; yet the image source credit,
+            // grammatically and aestehtically, needs some sort of separation from the 
+            // "main" credit line - so we enclose it in ( )
             $this->credits_line = $this->credits_line." (".$image_source_credit.")";
         }
 
