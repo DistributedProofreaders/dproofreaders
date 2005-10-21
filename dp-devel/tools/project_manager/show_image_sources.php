@@ -197,7 +197,7 @@ if (!isset($_GET['name']))
                IF(postednum, concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>'),'In Progress') as '"._('PG Number<br>and Link')."'
             FROM projects
             WHERE image_source = '".$imso_code."' ".$where_cls."
-            ORDER BY 1
+            ORDER BY nameofwork
         ");
 
     } else {
