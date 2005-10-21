@@ -57,7 +57,8 @@ if (!isset($_GET['name']))
     if ($logged_in) {
         $query = "SELECT
                     display_name as '"._("Name in<br>Dropdown")."',
-                    concat('<a href=\"',url,'\">',full_name,'</a>') as '"._("Full Name")."',
+                    case when length(url) > 5 then concat('<a href=\"',url,'\">',full_name,'</a>') 
+                        else full_name end as '"._("Full Name")."',
                     public_comment as '"._("Description")."',
                     case when count(distinct  projectid) = 0 then '<center>0</center>' 
                         else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
@@ -71,7 +72,8 @@ if (!isset($_GET['name']))
     } else {
 
         $query =  " SELECT
-                       concat('<a href=\"',url,'\">',full_name,'</a>') as '"._("Image Source")."',
+                       case when length(url) > 5 then concat('<a href=\"',url,'\">',full_name,'</a>') 
+                          else full_name end as '"._("Image Source")."',
                        public_comment as '"._("Description")."',
                        case when count(distinct  projectid) = 0 then '<center>0</center>' 
                           else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
@@ -174,7 +176,7 @@ if (!isset($_GET['name']))
         echo "<br><h3>$sub_title</h3>\n";
 
         if ($logged_in) {
-		echo "<br><h3>$details</h3>\n";
+		echo "<br><h4>$details</h4>\n";
 	 }
        echo "\n<h4>$more_info</h4>\n\n";
 
