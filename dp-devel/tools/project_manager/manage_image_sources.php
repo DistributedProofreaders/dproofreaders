@@ -116,7 +116,7 @@ elseif ($action == 'update_oneshot')
 
         $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
 
-        if (length($new_code_name) < 1) 
+        if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one. ");
 
         $result = mysql_query("SELECT COUNT(*)
