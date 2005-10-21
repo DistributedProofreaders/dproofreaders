@@ -56,22 +56,30 @@ if (!isset($_GET['name']))
 
     if ($logged_in) {
         $query = "SELECT
-                    concat('<a href=\"show_image_sources.php?name=',code_name,'\" >',full_name,'</a>') as 'Full Name',
-                    display_name as 'Name in<br>Dropdown',
-                    public_comment as 'Description',
-                    internal_comment as 'Notes', CASE ok_show_images WHEN 1 THEN 'yes' WHEN 0 THEN 'no' ELSE 'unknown' END as 'OK to<br>Publish?',
-                    concat('<a href=\"',url,'\">',url,'</a>') as 'More Info'
-                FROM image_sources
+                    display_name as '"._("Name in<br>Dropdown")."',
+                    concat('<a href=\"',url,'\">',full_name,'</a>') as '"._("Full Name")."',
+                    public_comment as '"._("Description")."',
+                    case when count(distinct  projectid) = 0 then '<center>0</center>' 
+                        else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
+                    case when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
+                        else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."',
+                    internal_comment as '"._("Notes")."'
+                FROM image_sources i left join projects p on i.code_name = p.image_source
                 WHERE info_page_visibility >= $min_vis_level
-                ORDER BY full_name";
+                GROUP BY 1,2,3,6
+                ORDER BY display_name";
     } else {
 
         $query =  " SELECT
-                       concat('<a href=\"show_image_sources.php?name=',code_name,'\" >',full_name,'</a>') as 'Full Name',
-                       public_comment as 'Description',
-                       concat('<a href=\"',url,'\">',url,'</a>') as 'More Info'
-                    FROM image_sources
+                       concat('<a href=\"',url,'\">',full_name,'</a>') as '"._("Image Source")."',
+                       public_comment as '"._("Description")."',
+                       case when count(distinct  projectid) = 0 then '<center>0</center>' 
+                          else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
+                       case when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
+                          else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."'
+                    FROM image_sources i left join projects p on i.code_name = p.image_source
                     WHERE info_page_visibility >= $min_vis_level
+                    GROUP BY 1,2
                     ORDER BY full_name";
    }
 
