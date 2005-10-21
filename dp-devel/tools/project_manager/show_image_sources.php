@@ -62,7 +62,8 @@ if (!isset($_GET['name']))
                     public_comment as '"._("Description")."',
                     case when count(distinct  projectid) = 0 then '<center>0</center>' 
                         else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
-                    case when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
+                    case when isnull(sum(".SQL_CONDITION_GOLD.")) then '<center>0</center>' 
+                         when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
                         else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."',
                     internal_comment as '"._("Notes")."'
                 FROM image_sources i left join projects p on i.code_name = p.image_source
@@ -77,7 +78,8 @@ if (!isset($_GET['name']))
                        public_comment as '"._("Description")."',
                        case when count(distinct  projectid) = 0 then '<center>0</center>' 
                           else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."', 
-                       case when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
+                       case when isnull(sum(".SQL_CONDITION_GOLD.")) then '<center>0</center>' 
+                          when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>' 
                           else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."'
                     FROM image_sources i left join projects p on i.code_name = p.image_source
                     WHERE info_page_visibility >= $min_vis_level
