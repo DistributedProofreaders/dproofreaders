@@ -168,7 +168,7 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 	  <date>".marc_date($rec)."</date>
 	  <type>$genre</type>
 	  <format>XML</format>
-	  <identifier>http://www.pgdp.net/tools/catalog/project_home.php?project=$projectid</identifier>
+	  <identifier>{$GLOBALS['code_url']}/project.php?id=$projectid</identifier>
 	  <source>LCCN: ".marc_lccn($rec)."</source>
 	  <language>$language</language>
 	  <rights>http://www.pgdp.net/agreement.php</rights>
