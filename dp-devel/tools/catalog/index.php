@@ -35,7 +35,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
             $nameofwork  = $row['nameofwork'];
             $authorsname = $row['authorsname'];
             $language    = $row['language'];
-            echo "<a href='project_home.php?project=$projectid'>\"$nameofwork\"</a> by $authorsname (in $language)<br>\n";
+            echo "<a href='$code_url/project.php?id=$projectid'>\"$nameofwork\"</a> by $authorsname (in $language)<br>\n";
         }
     }
 }
