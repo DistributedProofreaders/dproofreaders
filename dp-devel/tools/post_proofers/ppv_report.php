@@ -144,7 +144,7 @@ if($_POST['footnotes'])     $reportcard .= "\n    Footnotes";
 if($_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
 if($_POST['index'])         $reportcard .= "\n    Index";
 if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
-if($_POST['multilang'])     $reportcard .= "\n    Multiple langagues";
+if($_POST['multilang'])     $reportcard .= "\n    Multiple langauges";
 if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
 
 if(!empty($_POST['unusual_formatting'])) 
@@ -170,7 +170,7 @@ if (get_magic_quotes_gpc())
 }
 
 
-if ($_POST['cc_pp']) 
+if ($_POST['cc_pp'])
 {
    	$to = $pper->email;
    	$subject = "DP PP: $nameofwork";
@@ -190,7 +190,7 @@ $subject = "PPV Report Card - $pper->username ($_POST[eval])";
 $message = $promotions.$reportcard.$signoff;
 maybe_mail($to, $subject, $message, "From: $ppver->username <$ppver->email>\r\n");
 echo ("Thanks for PPVing! <br />
-       Return to <a href='../../activity_hub.php'>the Activity Hub</a>.");
+       Return to <a href='../../project.php?id=$projectid'>the Project Page</a>.");
 theme('','footer');
 exit();
 }
