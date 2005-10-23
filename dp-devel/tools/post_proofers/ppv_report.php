@@ -151,14 +151,14 @@ if(!empty($_POST['unusual_formatting']))
     $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
 
 if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num'] ||
-    $_POST['e_other_num'] || $_POST['e_comma_num'] ||  $_POST['e_html_num']) 
+    $_POST['e_other_num'] || $_POST['e_comma_num'] ||  $_POST['e_html_num'])
 {
     $reportcard .= "\n\nApproximate error numbers:";
     if($_POST['e_comma_num'])      $reportcard .= "\n  Comma/period: $_POST[e_comma_num]";
     if($_POST['e_spellcheck_num']) $reportcard .= "\n  Spellcheck: $_POST[e_spellcheck_num]";
     if($_POST['e_hyph_num'])       $reportcard .= "\n  Hyphens: $_POST[e_hyph_num]";
     if($_POST['e_gutcheck_num'])   $reportcard .= "\n  Gutcheck: $_POST[e_gutcheck_num]";
-    if($_POST['e_html_num'])       $reportcard .= "\n  HTML: $_POST[e_gutcheck_num]";
+    if($_POST['e_html_num'])       $reportcard .= "\n  HTML: $_POST[e_html_num]";
     if($_POST['e_other_num'])      $reportcard .= "\n  $_POST[other_error_type]: $_POST[e_other_num]";
 }
 
