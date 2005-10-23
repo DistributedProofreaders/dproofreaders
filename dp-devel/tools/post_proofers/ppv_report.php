@@ -116,9 +116,9 @@ General Post-Processing Information
   PPing Difficulty: $_POST[difficulty_level_pp]
   Overall evaluation of PPer's work: $_POST[eval]";
 
-if(!empty($_POST['general_comments'])) 
+if(!empty($_POST['general_comments']))
     $reportcard .= "\n  General comments:  \n    $_POST[general_comments]";
-if(!empty($_POST['reason_returned'])) 
+if(!empty($_POST['reason_returned']))
     $reportcard .=  "\n\n  Reason project was returned to PPer: \n    $_POST[reason_returned]";
 
 if ($_POST['html_sub'] == "yes") {
@@ -144,7 +144,7 @@ if($_POST['footnotes'])     $reportcard .= "\n    Footnotes";
 if($_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
 if($_POST['index'])         $reportcard .= "\n    Index";
 if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
-if($_POST['multilang'])     $reportcard .= "\n    Multiple langauges";
+if($_POST['multilang'])     $reportcard .= "\n    Multiple languages";
 if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
 
 if(!empty($_POST['unusual_formatting'])) 
