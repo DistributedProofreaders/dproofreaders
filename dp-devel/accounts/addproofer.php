@@ -87,7 +87,18 @@ if ($password=="proofer") {
                 VALUES ('$ID', '$real_name', '$username', '$email', '$todaysdate', '$email_updates', '$intlang', '$passwd')");
 
     if (!$result) {
-        $error = _("Can not initiate user activation.");
+        if ( mysql_errno() == 1062 ) // ER_DUP_ENTRY
+        {
+            // The attempted INSERT violated a uniqueness constraint.
+            // The non_activated_users table has only one such constraint,
+            // the PRIMARY KEY on the 'username' column.
+            // Thus, $username duplicates a username value in non_activated_users.
+            $error = _("That name has already been requested. Please try another.");
+        }
+        else
+        {
+            $error = _("Can not initiate user registration.");
+        }
         abort_registration($error);
 
     } else {
