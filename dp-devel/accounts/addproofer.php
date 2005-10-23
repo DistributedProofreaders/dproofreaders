@@ -93,7 +93,7 @@ if ($password=="proofer") {
             // The non_activated_users table has only one such constraint,
             // the PRIMARY KEY on the 'username' column.
             // Thus, $username duplicates a username value in non_activated_users.
-            $error = _("That name has already been requested. Please try another.");
+            $error = _("That username has already been requested. Please try another.");
         }
         else
         {
