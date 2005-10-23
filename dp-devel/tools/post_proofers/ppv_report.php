@@ -30,7 +30,10 @@ if (empty($_REQUEST['project'])) {
 }
 
 
-
+// To make PPVer collaboration easier, allow any PPVer to fill in the report card.
+// (The link is still only shown to the PPVer with the project checked-out.)
+// All report cards are sent to the PPVers' list, signed by the person filling
+// out the card, so a mischievous PPVer couldn't get away with anything, anyway.
 if (!user_can_work_in_stage($pguser, 'PPV')) {
 	echo _("You're not recorded as a Post-Processing Verifier.
             If you feel this is an error, please contact a Site Administrator.");
