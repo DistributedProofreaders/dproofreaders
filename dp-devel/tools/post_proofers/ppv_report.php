@@ -44,10 +44,10 @@ $project = mysql_fetch_object(mysql_query("SELECT * FROM projects WHERE projecti
 $ppver = mysql_fetch_object(mysql_query("SELECT * FROM users WHERE username = '$pguser'"));
 $pper = mysql_fetch_object(mysql_query("SELECT * FROM users WHERE username = '$project->postproofer'"));
 
-$nameofwork = htmlspecialchars($project->nameofwork);
-$authorsname = htmlspecialchars($project->authorsname);
-$language = htmlspecialchars($project->language);
-$difficulty_level = htmlspecialchars($project->difficulty);
+$nameofwork = $project->nameofwork;
+$authorsname = $project->authorsname;
+$language = $project->language;
+$difficulty_level = $project->difficulty;
 $pages = Project_getNumPages($projectid);
 $subdate = date("jS of F, Y");
 
@@ -147,7 +147,7 @@ if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
 if($_POST['multilang'])     $reportcard .= "\n    Multiple languages";
 if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
 
-if(!empty($_POST['unusual_formatting'])) 
+if(!empty($_POST['unusual_formatting']))
     $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
 
 if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num'] ||
