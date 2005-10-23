@@ -107,6 +107,7 @@ else
     do_post_downloads();
     do_postcomments();
     do_smooth_reading();
+    do_ppv_report();
     do_change_state();
 
     if ($detail_level >= 3)
@@ -1250,6 +1251,20 @@ function do_smooth_reading()
     }
 
     echo "</ul>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_ppv_report()
+{
+    global $project, $code_url;
+
+    if ( $project->state != PROJ_POST_SECOND_CHECKED_OUT ) return;
+
+    if ( !$project->PPVer_is_current_user ) return;
+
+    $url = "$code_url/tools/post_proofers/ppv_report.php?project={$project->projectid}";
+    echo "<p><a href='$url'>Submit a PPV Report Card for this project</a></p>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
