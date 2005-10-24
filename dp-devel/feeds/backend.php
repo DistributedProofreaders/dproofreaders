@@ -52,6 +52,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				$x="b";
 				break;
 		}
+		$data = '';
 		$result = mysql_query("SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
 			$posteddate = date("r",($row['modifieddate']));
@@ -104,6 +105,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 	}
 
 	if ($content == "news") {
+		$data = '';
 		$result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
 		while ($news_item = mysql_fetch_array($result)) {
 			$posteddate = date("l, F jS, Y",($news_item['date_posted']));
