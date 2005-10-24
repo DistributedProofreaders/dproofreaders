@@ -24,37 +24,37 @@ if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir."/".$content."_rss.xml"; } 
 if (!file_exists($xmlfile)) {
 	touch($xmlfile);
 	$refreshdelay = time()+100;
-	}
+}
 
 //Determine if the feed needs to be updated.  If not display feed to user
 if (filemtime($xmlfile) > $refreshdelay) {
-readfile($xmlfile);
+	readfile($xmlfile);
 } else {
-$relPath="./../pinc/";
-include($relPath.'v_site.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
-include($relPath.'project_states.inc');
-$db_Connection=new dbConnect();
+	$relPath="./../pinc/";
+	include($relPath.'v_site.inc');
+	include($relPath.'pg.inc');
+	include($relPath.'connect.inc');
+	include($relPath.'project_states.inc');
+	$db_Connection=new dbConnect();
 
 	if ($content == "posted" || $content == "postprocessing" || $content == "proofing") {
-	switch($content) {
-		case "posted":
-			$state=PROJ_SUBMIT_PG_POSTED;
-			$x="g";
-			break;
-		case "postprocessing":
-			$state=PROJ_POST_FIRST_AVAILABLE;
-			$x="s";
-			break;
-		case "proofing":
-			$state=PROJ_P1_AVAILABLE;
-			$x="b";
-			break;
-	}
-	$result = mysql_query("SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
+		switch($content) {
+			case "posted":
+				$state=PROJ_SUBMIT_PG_POSTED;
+				$x="g";
+				break;
+			case "postprocessing":
+				$state=PROJ_POST_FIRST_AVAILABLE;
+				$x="s";
+				break;
+			case "proofing":
+				$state=PROJ_P1_AVAILABLE;
+				$x="b";
+				break;
+		}
+		$result = mysql_query("SELECT * FROM projects WHERE state='$state' ORDER BY modifieddate DESC LIMIT 10");
 		while ($row = mysql_fetch_array($result)) {
-		$posteddate = date("r",($row['modifieddate']));
+			$posteddate = date("r",($row['modifieddate']));
 			if (isset($_GET['type'])) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
@@ -79,8 +79,8 @@ $db_Connection=new dbConnect();
 		}
 
 		$lastupdated = date("r");
-			if (isset($_GET['type'])) {
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+		if (isset($_GET['type'])) {
+			$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
@@ -94,20 +94,20 @@ $db_Connection=new dbConnect();
 				$data
 				</channel>
 				</rss>";
-			} else {
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+		} else {
+			$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!-- Last Updated: $lastupdated -->
 				<projects xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"projects.xsd\">
 				$data
 				</projects>";
-			}
+		}
 	}
 
 	if ($content == "news") {
-	$result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
+		$result = mysql_query("SELECT * FROM news_items ORDER BY date_posted DESC LIMIT 10");
 		while ($news_item = mysql_fetch_array($result)) {
-		$posteddate = date("l, F jS, Y",($news_item['date_posted']));
-				$data .= "<item>
+			$posteddate = date("l, F jS, Y",($news_item['date_posted']));
+			$data .= "<item>
 				<title>Distributed Proofreaders News Update for $posteddate</title>
 				<link>$code_url/pastnews.php?#".$news_item['id']."</link>
 				<description>".xmlencode(strip_tags($news_item['content']))."</description>
@@ -115,7 +115,7 @@ $db_Connection=new dbConnect();
 				";
 		}
 		$lastupdated = date("r");
-				$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+		$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
@@ -131,9 +131,9 @@ $db_Connection=new dbConnect();
 				</rss>";
 	}
 
-$file = fopen($xmlfile,"w");
-fwrite($file,$xmlpage);
-$file = fclose($file);
-readfile($xmlfile);
+	$file = fopen($xmlfile,"w");
+	fwrite($file,$xmlpage);
+	$file = fclose($file);
+	readfile($xmlfile);
 }
 ?>
