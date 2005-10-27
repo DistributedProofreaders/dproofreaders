@@ -9,7 +9,7 @@
 # and are perhaps now depending on it?)
 
 prev_tag=R200406
-curr_tag=HEAD
+curr_tag=R200510
 upgrade_number=06
 
 setup_dir=`dirname $0`
