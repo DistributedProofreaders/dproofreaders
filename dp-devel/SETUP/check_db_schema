@@ -8,6 +8,10 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
+prev_tag=R200406
+curr_tag=HEAD
+upgrade_number=06
+
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
 testing_code_dir=$testing_dir/c
@@ -22,7 +26,7 @@ $setup_dir/dump_db_schema > $testing_dir/current_schema_dump
 echo ""
 echo "Creating a config file for a test install..."
 echo "
-    TAG=HEAD
+    TAG=$curr_tag
     GROUP=$USER
     SHIFT_TO_LIVE=yes
 
@@ -48,7 +52,7 @@ echo "
     _FORUMS_PROJECT_POSTED_IDX=99
 " > $testing_dir/config.sh
 
-echo "Getting a test copy of the latest code..."
+echo "Getting a test copy of the '$curr_tag' code..."
 $setup_dir/update_from_cvs $testing_dir/config.sh
 
 echo ""
@@ -58,7 +62,7 @@ echo ""
 echo "Getting db_schema.sql from the previous release..."
 cvs_server=cvs.sourceforge.net
 cvs_account=:pserver:anonymous@$cvs_server
-cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r R200406 dp-devel/SETUP/db_schema.sql > ./db_schema.sql
+cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r $prev_tag dp-devel/SETUP/db_schema.sql > ./db_schema.sql
 
 echo ""
 echo "Creating and/or cleaning out the test database..."
@@ -71,7 +75,7 @@ php ./install_db.php
 
 echo ""
 echo "Applying all upgrade scripts..."
-cd $testing_code_dir/SETUP/upgrade/06
+cd $testing_code_dir/SETUP/upgrade/$upgrade_number
 for f in *.php; do
     echo ""
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
