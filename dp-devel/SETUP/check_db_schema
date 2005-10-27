@@ -68,6 +68,12 @@ echo ""
 echo "Creating and/or cleaning out the test database..."
 mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "DROP   DATABASE $testing_db_name"
 mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "CREATE DATABASE $testing_db_name"
+if [ $? != 0 ]; then
+    echo "CREATE DATABASE failed."
+    echo "Probably some sufficiently powerful MySQL user will have to invoke:"
+    echo "    GRANT ALL ON $testing_db_name.* TO <<DB_USER>>@<<DB_SERVER>> IDENTIFIED BY '<<DB_PASSWORD>>'"
+    exit 1
+fi
 
 echo ""
 echo "Running install_db.php to set up test db..."
