@@ -63,6 +63,6 @@ $label = _("Return to Project Page for");
 echo "<a href='$code_url/project.php?id=$project&amp;expected_state=$state'>$label $title</a>";
 echo "<br>\n";
 
-printf ("<img src=\"$projects_url/%s/%s\" width=\"$width\" border=\"0\">", $project, $imagefile);
+printf ("<img src=\"$projects_url/%s/%s\" width=\"$width\" border=\"1\">", $project, $imagefile);
 ?>
 </body></html>
