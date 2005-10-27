@@ -2,14 +2,127 @@
 #
 # Host: localhost    Database: dproofreaders
 # ------------------------------------------------------
-# When editing this file, please do not specify a database name.
-# ------------------------------------------------------
 # Server version	4.1.1-alpha-standard
 
 /*!40101 SET NAMES latin1*/;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=NO_AUTO_VALUE_ON_ZERO */;
+
+#
+# Table structure for table `access_log`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `access_log` (
+  `timestamp` int(20) NOT NULL default '0',
+  `subject_username` varchar(25) NOT NULL default '',
+  `modifier_username` varchar(25) NOT NULL default '',
+  `action` varchar(16) NOT NULL default '',
+  `activity` varchar(10) NOT NULL default '',
+  KEY `subject_username` (`subject_username`,`timestamp`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `authors`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `authors` (
+  `author_id` mediumint(8) unsigned NOT NULL auto_increment,
+  `other_names` varchar(40) NOT NULL default '',
+  `last_name` varchar(25) NOT NULL default '',
+  `byear` mediumint(9) NOT NULL default '0',
+  `bmonth` tinyint(4) NOT NULL default '0',
+  `bday` tinyint(4) NOT NULL default '0',
+  `bcomments` varchar(20) NOT NULL default '',
+  `dyear` mediumint(9) NOT NULL default '0',
+  `dmonth` tinyint(4) NOT NULL default '0',
+  `dday` tinyint(4) NOT NULL default '0',
+  `dcomments` varchar(20) NOT NULL default '',
+  `enabled` tinytext NOT NULL,
+  `last_modified` timestamp NOT NULL,
+  PRIMARY KEY  (`author_id`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `best_tally_rank`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `best_tally_rank` (
+  `tally_name` char(2) NOT NULL default '',
+  `holder_type` char(1) NOT NULL default '',
+  `holder_id` int(6) unsigned NOT NULL default '0',
+  `best_rank` int(6) NOT NULL default '0',
+  `best_rank_timestamp` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `biographies`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `biographies` (
+  `bio_id` int(11) NOT NULL auto_increment,
+  `author_id` int(11) NOT NULL default '0',
+  `bio` text NOT NULL,
+  `last_modified` timestamp NOT NULL,
+  PRIMARY KEY  (`bio_id`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Contains biographies (see authors)';
+# --------------------------------------------------------
+
+#
+# Table structure for table `current_tallies`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `current_tallies` (
+  `tally_name` char(2) NOT NULL default '',
+  `holder_type` char(1) NOT NULL default '',
+  `holder_id` int(6) unsigned NOT NULL default '0',
+  `tally_value` int(8) NOT NULL default '0',
+  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `image_sources`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `image_sources` (
+  `code_name` varchar(10) NOT NULL default '',
+  `display_name` varchar(30) NOT NULL default '',
+  `full_name` varchar(100) NOT NULL default '',
+  `info_page_visibility` tinyint(3) unsigned NOT NULL default '0',
+  `is_active` tinyint(3) NOT NULL default '-1',
+  `url` varchar(200) default NULL,
+  `credit` varchar(200) default NULL,
+  `ok_keep_images` tinyint(4) NOT NULL default '-1',
+  `ok_show_images` tinyint(4) NOT NULL default '-1',
+  `public_comment` varchar(255) default NULL,
+  `internal_comment` text,
+  UNIQUE KEY `code_name` (`code_name`),
+  UNIQUE KEY `display_name` (`display_name`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
 
 #
 # Table structure for table `job_logs`
@@ -43,110 +156,109 @@ CREATE TABLE `marc_records` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `member_stats`
+# Table structure for table `news_items`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `member_stats` (
-  `u_id` int(10) unsigned NOT NULL default '0',
-  `date_updated` int(11) NOT NULL default '0',
-  `total_pagescompleted` mediumint(9) NOT NULL default '0',
-  `daily_pagescompleted` mediumint(9) NOT NULL default '0',
-  `rank` mediumint(9) NOT NULL default '0',
-  KEY `u_id` (`u_id`),
-  KEY `daily_pagescompleted` (`daily_pagescompleted`),
-  KEY `date_updated` (`date_updated`)
+CREATE TABLE `news_items` (
+  `id` int(11) NOT NULL auto_increment,
+  `date_posted` int(11) NOT NULL default '0',
+  `news_page_id` varchar(8) default NULL,
+  `status` varchar(8) NOT NULL default '',
+  `ordering` smallint(6) NOT NULL default '0',
+  `content` text NOT NULL,
+  PRIMARY KEY  (`id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
 #
-# Table structure for table `news`
+# Table structure for table `news_pages`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `news` (
-  `uid` int(11) NOT NULL auto_increment,
-  `date_posted` varchar(10) NOT NULL default '',
-  `message` text NOT NULL,
-  KEY `uid` (`uid`)
+CREATE TABLE `news_pages` (
+  `news_page_id` varchar(8) NOT NULL default '',
+  `news_type` varchar(40) NOT NULL default '',
+  `modifieddate` varchar(10) default NULL
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
 #
-# Table structure for table `pages`
-#
-CREATE TABLE pages (
-`pageId` int( 11 ) NOT NULL AUTO_INCREMENT ,
-`projectid` varchar( 25 ) NOT NULL default '',
-`pageCode` varchar( 20 ) NOT NULL default '',
-`origPageCode` varchar( 20 ) ,
-`stateCode` varchar( 50 ) NOT NULL default '',
-`insertTime` int( 20 ) NOT NULL,
-`metadata` set( 'frontmatter', 'backmatter', 'division', 'verse',
-'poetry', 'letter', 'toc', 'footnote', 'sidenote', 'epigraph', 'table',
-'list', 'math', 'drawing', 'badscan', 'blank', 'illustration', 'missing',
-'drawing' ),
-PRIMARY KEY ( `pageId` ) ,
-UNIQUE KEY `alternatekey` ( `projectid` , `pageCode` )
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-
-#
-# Table structure for table `page_counts`
+# Table structure for table `non_activated_users`
 #
 # Creation:
 # Last update:
 #
-CREATE TABLE `page_counts` (
-  `projectid` char(22) NOT NULL default '',
-  `total_pages` smallint(4) unsigned NOT NULL default '0',
-  `avail_pages` smallint(4) unsigned NOT NULL default '0',
-  PRIMARY KEY `projectid` (`projectid`)
-) TYPE=HEAP DEFAULT CHARSET=latin1;
+
+CREATE TABLE `non_activated_users` (
+  `id` varchar(50) NOT NULL default '',
+  `real_name` varchar(100) NOT NULL default '',
+  `username` varchar(25) NOT NULL default '',
+  `email` varchar(50) NOT NULL default '',
+  `date_created` int(20) NOT NULL default '0',
+  `email_updates` varchar(4) NOT NULL default '',
+  `u_intlang` varchar(5) default 'en_EN',
+  `user_password` varchar(32) NOT NULL default '',
+  PRIMARY KEY  (`username`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a not-yet-activated user, user_password ';
 # --------------------------------------------------------
 
 #
-# Table structure for table `pagestats`
+# Table structure for table `page_events`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `pagestats` (
-  `year` smallint(4) NOT NULL default '2004',
-  `month` tinyint(2) NOT NULL default '6',
-  `day` tinyint(2) NOT NULL default '0',
-  `date` date NOT NULL default '2004-06-00',
-  `pages` int(12) NOT NULL default '0',
-  `dailygoal` int(12) NOT NULL default '5900',
-  `comments` varchar(255) default NULL,
-  PRIMARY KEY  (`date`),
-  KEY `yearmonth` (`year`,`month`)
+CREATE TABLE `page_events` (
+  `event_id` int(10) unsigned NOT NULL auto_increment,
+  `timestamp` int(10) unsigned NOT NULL default '0',
+  `projectid` varchar(22) NOT NULL default '',
+  `image` varchar(12) NOT NULL default '',
+  `event_type` varchar(16) NOT NULL default '',
+  `username` varchar(25) NOT NULL default '',
+  `round_id` char(2) default NULL,
+  PRIMARY KEY  (`event_id`),
+  KEY `projectid` (`projectid`,`image`,`round_id`),
+  KEY `username` (`username`,`round_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
-#` --------------------------------------------------------
+# --------------------------------------------------------
 
 #
-# Table structure for table `pageTasks`
+# Table structure for table `past_tallies`
 #
-CREATE TABLE `pageTasks` (
-`pageTaskId` int( 20 ) NOT NULL AUTO_INCREMENT ,
-`pageId` int( 20 ) NOT NULL default '0',
-`sequenceNumber` int( 8 ) NOT NULL default '1',
-`taskCode` varchar( 64 ) NOT NULL default '',
-`userName` varchar( 25 ) default NULL ,
-`checkoutTime` int( 20 ) default NULL ,
-`saveTempTime` int( 20 ) default NULL ,
-`saveCompleteTime` int( 20 ) default NULL ,
-`turnBackTime` int( 20 ) default NULL ,
-`taskStateCode` enum( 'AVAILABLE', 'CHECKED_OUT', 'COMPLETED', 'ON_HOLD' ) NOT NULL default 'AVAILABLE',
-PRIMARY KEY ( `pageTaskId` ) ,
-KEY `userName` ( `userName` ) ,
-KEY `pageId` ( `pageId` )
-) TYPE = MYISAM  DEFAULT CHARSET=latin1;
+# Creation:
+# Last update:
+#
 
+CREATE TABLE `past_tallies` (
+  `timestamp` int(10) unsigned NOT NULL default '0',
+  `holder_type` char(1) NOT NULL default '',
+  `holder_id` int(6) unsigned NOT NULL default '0',
+  `tally_name` char(2) NOT NULL default '',
+  `tally_delta` int(8) NOT NULL default '0',
+  `tally_value` int(8) NOT NULL default '0',
+  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`,`timestamp`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `pg_books`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `pg_books` (
+  `etext_number` smallint(5) unsigned NOT NULL default '0',
+  `formats` tinytext NOT NULL,
+  PRIMARY KEY  (`etext_number`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a different PG etext';
+# --------------------------------------------------------
 
 #
 # Table structure for table `phpbb_forums`
@@ -285,6 +397,23 @@ CREATE TABLE `phpbb_topics` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `phpbb_topics_watch`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `phpbb_topics_watch` (
+  `topic_id` mediumint(8) unsigned NOT NULL default '0',
+  `user_id` mediumint(8) NOT NULL default '0',
+  `notify_status` tinyint(1) NOT NULL default '0',
+  KEY `topic_id` (`topic_id`),
+  KEY `user_id` (`user_id`),
+  KEY `notify_status` (`notify_status`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `phpbb_users`
 #
 # Creation:
@@ -337,12 +466,54 @@ CREATE TABLE `phpbb_users` (
   `user_interests` varchar(255) default NULL,
   `user_actkey` varchar(32) default NULL,
   `user_newpasswd` varchar(32) default NULL,
+  `user_jabber` varchar(255) default NULL,
+  `user_unread_topics` text,
   PRIMARY KEY  (`user_id`),
   KEY `user_session_time` (`user_session_time`),
   KEY `username` (`username`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
+#
+# Table structure for table `project_pages`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `project_pages` (
+  `projectid` varchar(25) NOT NULL default '',
+  `fileid` varchar(20) NOT NULL default '',
+  `image` varchar(8) NOT NULL default '',
+  `master_text` longtext NOT NULL,
+  `round1_text` longtext NOT NULL,
+  `round2_text` longtext NOT NULL,
+  `round1_user` varchar(25) NOT NULL default '',
+  `round2_user` varchar(25) NOT NULL default '',
+  `round1_time` int(20) NOT NULL default '0',
+  `round2_time` int(20) NOT NULL default '0',
+  `state` varchar(50) NOT NULL default '',
+  `b_user` varchar(25) NOT NULL default '',
+  `b_code` int(1) NOT NULL default '0',
+  `metadata` set('frontmatter','backmatter','division','verse','poetry','letter','toc','footnote','sidenote','epigraph','table','list','math','drawing','badscan','blank','illustration','missing','drawing') NOT NULL default '',
+  `orig_page_num` varchar(6) NOT NULL default '',
+  `round3_time` int(20) NOT NULL default '0',
+  `round3_user` varchar(25) NOT NULL default '',
+  `round3_text` longtext NOT NULL,
+  `round4_time` int(20) NOT NULL default '0',
+  `round4_user` varchar(25) NOT NULL default '',
+  `round4_text` longtext NOT NULL,
+  PRIMARY KEY  (`projectid`,`fileid`),
+  KEY `round1_user` (`round1_user`),
+  KEY `round2_user` (`round2_user`),
+  KEY `round1_time` (`round1_time`),
+  KEY `round2_time` (`round2_time`),
+  KEY `state` (`state`),
+  KEY `ProjectidStateIdx` (`projectid`,`state`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `project_state_stats`
 #
 # Creation:
@@ -376,15 +547,16 @@ CREATE TABLE `projects` (
   `username` varchar(255) NOT NULL default '',
   `comments` text NOT NULL,
   `projectid` varchar(22) NOT NULL default '',
+  `special_code` varchar(20) NOT NULL default '',
   `checkedoutby` text NOT NULL,
   `correctedby` varchar(25) NOT NULL default '',
   `modifieddate` int(20) NOT NULL default '0',
   `scannercredit` tinytext NOT NULL,
   `state` varchar(50) default NULL,
-  `txtlink` varchar(200) default NULL,
-  `ziplink` varchar(200) default NULL,
-  `htmllink` varchar(200) default NULL,
-  `postednum` smallint(5) unsigned NOT NULL default '0',
+  `txtlink_obsolete` varchar(200) default NULL,
+  `ziplink_obsolete` varchar(200) default NULL,
+  `htmllink_obsolete` varchar(200) default NULL,
+  `postednum` smallint(5) unsigned default NULL,
   `clearance` text NOT NULL,
   `year` varchar(4) NOT NULL default '',
   `topic_id` int(10) default NULL,
@@ -395,11 +567,18 @@ CREATE TABLE `projects` (
   `archived` tinyint(1) NOT NULL default '0',
   `postproofer` varchar(255) NOT NULL default '',
   `postcomments` text NOT NULL,
+  `n_pages` smallint(4) unsigned NOT NULL default '0',
+  `n_available_pages` smallint(4) unsigned NOT NULL default '0',
+  `ppverifier` varchar(25) default NULL,
+  `image_source` varchar(10) NOT NULL default '',
+  `image_preparer` varchar(25) NOT NULL default '',
+  `text_preparer` varchar(25) NOT NULL default '',
+  `extra_credits` tinytext NOT NULL,
+  `smoothread_deadline` int(20) NOT NULL default '0',
+  `up_projectid` int(10) default '0',
   PRIMARY KEY  (`projectid`),
-  KEY `username` (`username`),
-  KEY `checkedoutby` (`checkedoutby`(50)),
-  KEY `postproofer` (`postproofer`),
-  KEY `state` (`state`)
+  KEY `state` (`state`),
+  KEY `special_code` (`special_code`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -411,14 +590,31 @@ CREATE TABLE `projects` (
 #
 
 CREATE TABLE `queue_defns` (
+  `round_number` tinyint(1) unsigned NOT NULL default '1',
   `ordering` mediumint(5) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
   `name` varchar(30) NOT NULL default '',
   `project_selector` text NOT NULL,
   `release_criterion` text NOT NULL,
   `comment` text,
-  UNIQUE KEY `ordering` (`ordering`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `ordering` (`round_number`,`ordering`),
+  UNIQUE KEY `name` (`round_number`,`name`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `quiz_passes`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `quiz_passes` (
+  `username` varchar(25) NOT NULL default '',
+  `date` int(20) NOT NULL default '0',
+  `quiz_page` varchar(15) NOT NULL default '',
+  `result` varchar(10) NOT NULL default '',
+  KEY `username` (`username`,`quiz_page`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -431,7 +627,8 @@ CREATE TABLE `queue_defns` (
 
 CREATE TABLE `rules` (
   `id` int(4) NOT NULL auto_increment,
-  `doc` varchar(10) NOT NULL default '',
+  `document` varchar(255) default NULL,
+  `anchor` varchar(255) default NULL,
   `subject` varchar(100) NOT NULL default '',
   `rule` text NOT NULL,
   PRIMARY KEY  (`id`)
@@ -454,17 +651,42 @@ CREATE TABLE `sessions` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `stats_hourly_pages_completed`
+# Table structure for table `site_tally_goals`
 #
 # Creation:
 # Last update:
 #
 
-CREATE TABLE `stats_hourly_pages_completed` (
-  `sample_time` varchar(20) NOT NULL default '',
-  `pages_completed` mediumint(7) NOT NULL default '0',
-  PRIMARY KEY (`sample_time`)
+CREATE TABLE `site_tally_goals` (
+  `date` date NOT NULL default '0000-00-00',
+  `tally_name` char(2) NOT NULL default '',
+  `goal` int(6) NOT NULL default '0',
+  PRIMARY KEY  (`date`,`tally_name`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `special_days`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `special_days` (
+  `spec_code` varchar(20) NOT NULL default '',
+  `display_name` varchar(80) NOT NULL default '',
+  `enable` tinyint(1) NOT NULL default '1',
+  `comment` varchar(255) default NULL,
+  `color` varchar(8) NOT NULL default '',
+  `open_day` tinyint(2) default NULL,
+  `open_month` tinyint(2) default NULL,
+  `close_day` tinyint(2) default NULL,
+  `close_month` tinyint(2) default NULL,
+  `date_changes` varchar(100) default NULL,
+  `info_url` varchar(255) default NULL,
+  `image_url` varchar(255) default NULL,
+  UNIQUE KEY `spec_code` (`spec_code`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='definitions of SPECIAL days';
 # --------------------------------------------------------
 
 #
@@ -496,7 +718,8 @@ CREATE TABLE `tasks` (
   `edited_by` mediumint(9) NOT NULL default '0',
   `percent_complete` tinyint(3) NOT NULL default '0',
   `related_tasks` mediumtext NOT NULL,
-  PRIMARY KEY `task_id` (`task_id`)
+  `related_postings` mediumtext NOT NULL,
+  KEY `task_id` (`task_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -512,6 +735,24 @@ CREATE TABLE `tasks_comments` (
   `u_id` mediumint(9) NOT NULL default '0',
   `comment_date` int(11) NOT NULL default '0',
   `comment` mediumtext NOT NULL
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `tasks_votes`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `tasks_votes` (
+  `id` int(11) NOT NULL auto_increment,
+  `task_id` mediumint(9) NOT NULL default '0',
+  `u_id` int(10) NOT NULL default '0',
+  `vote_os` tinyint(1) NOT NULL default '0',
+  `vote_browser` tinyint(1) NOT NULL default '0',
+  UNIQUE KEY `id` (`id`),
+  KEY `task_id` (`task_id`,`u_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -532,6 +773,40 @@ CREATE TABLE `themes` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `uber_projects`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `uber_projects` (
+  `up_projectid` int(10) NOT NULL auto_increment,
+  `up_nameofwork` varchar(255) NOT NULL default '',
+  `up_topic_id` int(10) default NULL,
+  `up_contents_post_id` int(10) default NULL,
+  `up_modifieddate` int(20) NOT NULL default '0',
+  `up_enabled` tinyint(1) default '1',
+  `up_description` text,
+  `d_nameofwork` varchar(255) default NULL,
+  `d_authorsname` varchar(255) default NULL,
+  `d_language` varchar(255) default NULL,
+  `d_comments` text,
+  `d_special` varchar(20) default NULL,
+  `d_checkedoutby` varchar(25) default NULL,
+  `d_scannercredit` tinytext,
+  `d_clearance` text,
+  `d_year` varchar(4) default NULL,
+  `d_genre` varchar(50) default NULL,
+  `d_difficulty` varchar(20) default NULL,
+  `d_image_source` varchar(10) default NULL,
+  `d_image_preparer` varchar(25) default NULL,
+  `d_text_preparer` varchar(25) default NULL,
+  `d_extra_credits` tinytext,
+  PRIMARY KEY  (`up_projectid`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `user_active_log`
 #
 # Creation:
@@ -544,12 +819,16 @@ CREATE TABLE `user_active_log` (
   `day` tinyint(2) unsigned NOT NULL default '0',
   `hour` smallint(2) unsigned NOT NULL default '0',
   `time_stamp` int(10) unsigned NOT NULL default '0',
-  `U_lasthour` mediumint(6) unsigned NOT NULL default '0',
-  `U_day` mediumint(6) unsigned NOT NULL default '0',
-  `U_week` mediumint(7) unsigned NOT NULL default '0',
-  `U_4wks` mediumint(7) unsigned NOT NULL default '0',
+  `L_hour` mediumint(8) unsigned default NULL,
+  `L_day` mediumint(8) unsigned default NULL,
+  `L_week` mediumint(8) unsigned default NULL,
+  `L_4wks` mediumint(8) unsigned default NULL,
+  `A_hour` mediumint(8) unsigned default NULL,
+  `A_day` mediumint(8) unsigned default NULL,
+  `A_week` mediumint(8) unsigned default NULL,
+  `A_4wks` mediumint(8) unsigned default NULL,
   `comments` varchar(255) default NULL,
-  PRIMARY KEY `timestamp_ndx` (`time_stamp`)
+  KEY `timestamp_ndx` (`time_stamp`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -623,29 +902,14 @@ CREATE TABLE `user_teams` (
   `created` int(20) NOT NULL default '0',
   `member_count` int(20) NOT NULL default '0',
   `active_members` int(11) NOT NULL default '0',
-  `page_count` int(20) NOT NULL default '0',
+  `page_count_obsolete` int(20) NOT NULL default '0',
   `daily_average` int(11) NOT NULL default '0',
   `avatar` varchar(25) NOT NULL default 'avatar_default.png',
   `icon` varchar(25) NOT NULL default 'icon_default.png',
   `topic_id` int(10) default NULL,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `user_teams_stats`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `user_teams_stats` (
-  `team_id` int(10) unsigned NOT NULL default '0',
-  `date_updated` int(11) NOT NULL default '0',
-  `daily_page_count` int(11) NOT NULL default '0',
-  `total_page_count` int(11) NOT NULL default '0',
-  `rank` smallint(6) NOT NULL default '0',
-  KEY `team_id` (`team_id`)
+  `latestUser` mediumint(9) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `teamname` (`teamname`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -664,8 +928,9 @@ CREATE TABLE `users` (
   `manager` varchar(5) NOT NULL default '',
   `date_created` int(20) NOT NULL default '0',
   `last_login` int(20) NOT NULL default '0',
+  `t_last_activity` int(10) unsigned NOT NULL default '0',
   `emailupdates` varchar(4) NOT NULL default '',
-  `pagescompleted` mediumint(8) default '0',
+  `pagescompleted_obsolete` mediumint(8) default '0',
   `postprocessor` tinytext NOT NULL,
   `sitemanager` tinytext NOT NULL,
   `active` tinytext NOT NULL,
@@ -685,11 +950,12 @@ CREATE TABLE `users` (
   `team_1` int(10) unsigned NOT NULL default '0',
   `team_2` int(10) unsigned NOT NULL default '0',
   `team_3` int(10) unsigned NOT NULL default '0',
-  `task_priority` int(4) NOT NULL default '0',
   PRIMARY KEY  (`username`),
+  UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
-  KEY `pages_index` (`pagescompleted`)
+  KEY `pages_index` (`pagescompleted_obsolete`),
+  KEY `t_last_activity` (`t_last_activity`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -701,12 +967,10 @@ CREATE TABLE `users` (
 #
 
 CREATE TABLE `usersettings` (
-  `usersettingsid` int(10) unsigned NOT NULL auto_increment,
   `username` varchar(25) NOT NULL default '',
   `setting` varchar(25) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
-  PRIMARY KEY (`usersettingsid`),
-  KEY userrname (username)
+  FULLTEXT KEY `setting` (`setting`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
