@@ -82,12 +82,33 @@ foreach ( $activity_ids as $activity_id )
     }
     else
     {
+        // This code is a hack, since it assumes particular round ids.
+        if ( $activity_id == 'P2' || $activity_id == 'F2' )
+        {
+            $can_review_work = TRUE;
+            // These users are all requesting access to X2.  For each, we will
+            // provide a link to allow the requestor to review their X1 work,
+            // by considering each page they worked on in X1, and comparing
+            // their X1 result to the subsequent X2 result (if it exists yet).
+            $review_round_id = $activity_id;
+            $work_round_id = preg_replace( '/2$/', '1', $activity_id );
+
+            $round_params = "work_round_id=$work_round_id&amp;review_round_id=$review_round_id";
+        }
+        else
+        {
+            $can_review_work = FALSE;
+        }
+
         echo "<table border='1'>\n";
 
         {
             echo "<tr>";
             echo "<th>username (link to member stats)</th>";
-            echo "<th>link to review work</th>";
+            if ( $can_review_work )
+            {
+                echo "<th>link to review work</th>";
+            }
             echo "<th>this request</th>";
             echo "<th>prev denial</th>";
             echo "</tr>";
@@ -97,7 +118,6 @@ foreach ( $activity_ids as $activity_id )
         while ( list($username, $u_id, $t_latest_request, $t_latest_deny) = mysql_fetch_row($res) )
         {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
-            $review_work_url  = "$code_url/tools/proofers/review_work.php?username=$username";
             $t_latest_request_f = strftime('%Y-%m-%d&nbsp;%T', $t_latest_request);
             $t_latest_deny_f = (
                 $t_latest_deny == 0
@@ -109,9 +129,13 @@ foreach ( $activity_ids as $activity_id )
             echo   "<td align='center'>";
             echo     "<a href='$member_stats_url'>$username</a>";
             echo   "</td>";
-            echo   "<td align='center'>";
-            echo     "<a href='$review_work_url'>rw</a>";
-            echo   "</td>";
+            if ( $can_review_work )
+            {
+                $review_work_url = "$code_url/tools/proofers/review_work.php?username=$username&amp;$round_params";
+                echo   "<td align='center'>";
+                echo     "<a href='$review_work_url'>rw</a>";
+                echo   "</td>";
+            }
             echo   "<td align='center'>";
             echo     $t_latest_request_f;
             echo   "</td>";

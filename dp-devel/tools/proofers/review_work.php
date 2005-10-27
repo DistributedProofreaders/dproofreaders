@@ -19,8 +19,14 @@ if (empty($username))
     exit;
 }
 
-$work_round   = get_Round_for_round_id('P1');
-$review_round = get_Round_for_round_id('P2');
+$work_round_id   = @$_REQUEST['work_round_id'];
+$review_round_id = @$_REQUEST['review_round_id'];
+
+$work_round   = get_Round_for_round_id($work_round_id);
+$review_round = get_Round_for_round_id($review_round_id);
+
+if ( is_null($work_round  ) ) die( "bad work_round_id='$work_round_id'" );
+if ( is_null($review_round) ) die( "bad review_round_id='$review_round_id'" );
 
 $title = sprintf( _('Reviewing %s work of %s'), $work_round->id, $username );
 
