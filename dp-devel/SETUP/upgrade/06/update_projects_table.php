@@ -9,6 +9,17 @@ header('Content-type: text/plain');
 
 echo "\n";
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
+echo "Obsoleting 'link' columns...\n";
+
+mysql_query("
+    ALTER TABLE projects
+        CHANGE txtlink  txtlink_obsolete  VARCHAR(200) DEFAULT NULL,
+        CHANGE ziplink  ziplink_obsolete  VARCHAR(200) DEFAULT NULL,
+        CHANGE htmllink htmllink_obsolete VARCHAR(200) DEFAULT NULL
+") or die(mysql_error());
+
+echo "\n";
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 echo "Altering 'postednum' column...\n";
 
 mysql_query("
