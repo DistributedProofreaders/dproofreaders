@@ -949,7 +949,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
-  KEY `pages_index` (`pagescompleted_obsolete`),
   KEY `t_last_activity` (`t_last_activity`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
