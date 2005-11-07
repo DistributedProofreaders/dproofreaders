@@ -16,8 +16,8 @@ slim_header(_("Search/Replace"));
 <input type="text" name="replace">
 </td></tr>
 </table>
-<center><input type="button" value="<? echo _("Do it.");?>" onClick="opener.docRef.editform.text_data.value=opener.docRef.editform.text_data.value.replace(new RegExp(search.value,'g'),replace.value);"></center>
+<center><input type="button" value="<? echo _("Do it."); ?>" onClick="opener.parent.docRef.editform.text_data.value=opener.parent.docRef.editform.text_data.value.replace(new RegExp(search.value,'g'),replace.value);"></center>
 </form>
-<p>Warning: Undo is not possible!</p>
+<p><? echo _("Warning: Undo is not possible!"); ?></p>
 </body>
 </html>
