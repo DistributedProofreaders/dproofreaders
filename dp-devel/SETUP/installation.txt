@@ -139,6 +139,11 @@ If you're upgrading from a previous version, see the upgrade section.
         necessarily, in the document root) unpack the DP code.
         This expands into a directory named 'c'.
 
+--- Install WikiHiero
+        - Get it at http://aoineko.free.fr/
+        - Copy files 'wikihiero.php', 'wh_language.php' and 'wh_list.php' and
+        'img' directory to c/tools/proofers/hiero
+
 --- Create other directories.
 
         /tmp/sp_check
