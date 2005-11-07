@@ -59,8 +59,8 @@ list($total) = mysql_fetch_array($r);
 $currtime = time();
 
 $total += 1;
-$sql = "INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_email, user_password, user_viewemail)
-    VALUES ('$total', '$username', " . $currtime . ", '-8.00', '$email', '$passwd', '0')";
+$sql = "INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_lang, user_email, user_password, user_viewemail)
+    VALUES ('$total', '$username', " . $currtime . ", '-8.00', '".(phpbb_lang()?phpbb_lang():"english")."', '$email', '$passwd', '0')";
 $result = mysql_query($sql);
 
 // Initialize the user's page-tally history at registrationt time
