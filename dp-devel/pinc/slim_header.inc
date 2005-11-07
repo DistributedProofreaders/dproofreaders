@@ -1,7 +1,7 @@
 <?php 
 include_once("gettext_setup.inc");
 
-function slim_header($title,$dt=TRUE,$hb=TRUE)
+function slim_header($title="",$dt=TRUE,$hb=TRUE)
 {
 global $charset;
 if($dt) { ?>
