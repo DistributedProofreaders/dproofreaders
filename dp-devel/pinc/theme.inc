@@ -591,10 +591,8 @@ function show_dp_birthdays()
         SELECT username,value
         FROM usersettings
         WHERE setting ='birthday_today'
-        ORDER BY value DESC
-        LIMIT 30"); // Because of the last_seen check when updating the birthdays, 
-                    //it's unlikely this limit will be reached. But Just In Case...
-
+        ORDER BY value DESC");
+        
     if (mysql_num_rows($result) == 0)
        return;
 
