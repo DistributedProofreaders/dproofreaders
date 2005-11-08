@@ -30,8 +30,10 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'slim_header.inc');
 $lang=short_lang_code();
 
-  include "wh_language.php";
-  include "wikihiero.php";
+  include "$wikihiero_dir/wh_language.php";
+  include "$wikihiero_dir/wikihiero.php";
+
+  $wh_img_url="$wikihiero_url/".WH_IMG_DIR;
 
   if(array_key_exists("table", $_GET))
     $table = $_GET["table"];
@@ -67,7 +69,7 @@ function add(glyph) {
 }
 </script>
 <?
-    if($dh = opendir(WH_IMG_DIR)) 
+    if($dh = opendir("$wikihiero_dir/".WH_IMG_DIR)) 
     {
       while(($file = readdir($dh)) !== false) 
       {
@@ -83,23 +85,23 @@ function add(glyph) {
       if($table == "All")
       {
         if(in_array($code, $wh_phonemes))
-          echo img(WH_IMG_DIR.$file,"$code [".array_search($code, $wh_phonemes)."]");
+          echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
         else
-          echo img(WH_IMG_DIR.$file,$code);
+          echo img("$wh_img_url/$file",$code);
       }
       else if($table == "Phoneme")
       {
         if(in_array($code, $wh_phonemes))
-          echo img(WH_IMG_DIR.$file,"$code [".array_search($code, $wh_phonemes)."]");
+          echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
       }
       else if($table == "Aa")
       {
         if((substr($code, 0, 2) == $table) && ctype_digit($code[2]))
         {
           if(in_array($code, $wh_phonemes))
-            echo img(WH_IMG_DIR.$file,"$code [".array_search($code, $wh_phonemes)."]");
+            echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
           else
-            echo img(WH_IMG_DIR.$file,$code);
+            echo img("$wh_img_url/$file",$code);
         }
       }
       else
@@ -107,9 +109,9 @@ function add(glyph) {
         if(($code[0] == $table) && ctype_digit($code[1]))
         {
           if(in_array($code, $wh_phonemes))
-            echo img(WH_IMG_DIR.$file,"$code [".array_search($code, $wh_phonemes)."]");
+            echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
           else
-           echo img(WH_IMG_DIR.$file,$code);
+           echo img("$wh_img_url/$file",$code);
         }
       }
     }

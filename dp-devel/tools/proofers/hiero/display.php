@@ -2,8 +2,8 @@
 $relPath="./../../../pinc/";
 include_once($relPath.'slim_header.inc');
 
-include_once("wh_language.php");
-include_once("wikihiero.php");
+include_once("$wikihiero_dir/wh_language.php");
+include_once("$wikihiero_dir/wikihiero.php");
 
 slim_header();
 
@@ -70,7 +70,14 @@ foreach($syntax as $v)
 <input type="button" value="Reset" onClick="hierobox.value='';">
 </td></tr>
 <tr><td colspan="3">
-<? echo WikiHiero($hierobox,WH_MODE_HTML); ?>
+<?
+// Stupid, but it works:
+echo preg_replace(
+	"|".WH_IMG_DIR.WH_IMG_PRE."|",
+	"$wikihiero_url/".WH_IMG_DIR.WH_IMG_PRE,
+	WikiHiero($hierobox,WH_MODE_HTML)
+);
+?>
 </td></tr>
 </table>
 </form>
