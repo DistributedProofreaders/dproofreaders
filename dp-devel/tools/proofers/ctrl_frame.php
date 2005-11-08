@@ -604,8 +604,12 @@ class="dropchars"
 echo _("Search/Replace");
 ?></a>&nbsp;|&nbsp;<a href="mktable.php" target="_new"><? 
 echo _("Table Maker");
-?></a>&nbsp;|&nbsp;<a href="#" onClick="window.open('hiero/index.php','dp_hiero','width=600,height=400,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><? 
-echo _("Hieroglyphs"); ?></a></font></center>
+?></a><?
+if($wikihiero_dir) {
+?>&nbsp;|&nbsp;<a href="#" onClick="window.open('hiero/index.php','dp_hiero','width=600,height=400,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><? 
+echo _("Hieroglyphs"); ?></a><? 
+}
+?></font></center>
 </td><td
 	valign="top"
 	align="center"
