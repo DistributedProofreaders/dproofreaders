@@ -1,17 +1,18 @@
 #!/bin/bash
 
-# make_tarball <tag> <path_to_file_to_create>
-# Make a tarball of (a particular version of) the DP code.
+# make_tarball <tag> <base_of_files_to_create>
+# Make a tarball and zip of (a particular version of) the DP code.
 # e.g.:
-#     make_tarball R200406 ~/dp.R200406.tgz
+#     make_tarball R200406 ~/dp.R200406
+#     (creates ~/dp.R200406.tgz and ~/dp.R200406.zip)
 
 if [ $# != 2 ]; then
-    echo 1>&2 "usage: make_tarball <tag> <path_of_file_to_create>"
+    echo 1>&2 "usage: make_tarball <tag> <base_of_files_to_create>"
     exit 1
 fi
 
 tag=$1
-file_to_create=$2
+creation_base=$2
 
 group=$USER
 
@@ -30,7 +31,11 @@ $script_dir/get_cvs_snapshot $tag $group $tmpdir/c
 
 echo
 echo "Creating tarball..."
-tar --create --gzip --file=$file_to_create --directory=$tmpdir c
+tar --create --gzip --file=$creation_base.tgz --directory=$tmpdir c
+
+echo
+echo "Creating zip..."
+(cd $tmpdir && zip -q -r - c ) > $creation_base.zip
 
 echo
 echo "Removing snapshot..."
