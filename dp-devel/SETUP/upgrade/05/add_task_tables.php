@@ -12,6 +12,7 @@ $result = mysql_query("CREATE TABLE `tasks` (
   `task_status` tinyint(3) unsigned NOT NULL default '0',
   `task_assignee` mediumint(8) unsigned NOT NULL default '0',
   `task_severity` tinyint(3) unsigned NOT NULL default '0',
+  `task_priority` tinyint(3) unsigned NOT NULL default '3',
   `task_os` tinyint(3) unsigned NOT NULL default '0',
   `task_browser` tinyint(3) unsigned NOT NULL default '0',
   `task_version` tinyint(3) unsigned NOT NULL default '0',
@@ -24,6 +25,7 @@ $result = mysql_query("CREATE TABLE `tasks` (
   `date_edited` int(11) NOT NULL default '0',
   `edited_by` mediumint(9) NOT NULL default '0',
   `percent_complete` tinyint(3) NOT NULL default '0',
+  `related_tasks` mediumtext NOT NULL,
   KEY `task_id` (`task_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1") or die(mysql_error());
 
