@@ -109,10 +109,10 @@ function lang_direction($langcode=FALSE)
 	        case "fa":
 	        case "he":
 	        case "ur": //surely more
-	                return FALSE;
+	                return "RTL";
 	                break;
 	        default:
-	                return TRUE;
+	                return "LTR";
 	                break;
 	}
 }
@@ -141,17 +141,15 @@ function lang_forum($langcode=FALSE)
 	if (isset($lang_forum_data[$langcode])) { return $lang_forum_data[$langcode]; } else { return false; }
 }
 
-function phpbb_lang($langcode=FALSE) {
+function phpbb_lang($langcode) {
 	global $phpbblangs;
-
-	if($langcode===FALSE) $langcode=$GLOBALS['locale'];
-
+	
 	return $phpbblangs[$langcode];
 }
 
 function lang_html_header($langcode=FALSE)
 {
-	return " lang='".short_lang_code($langcode).(lang_direction($langcode)?"'":"' dir='RTL'");
+	return " lang='".short_lang_code($langcode).((lang_direction($langcode)=="RTL")?"' dir='RTL'":"'");
 }
 
 ?>

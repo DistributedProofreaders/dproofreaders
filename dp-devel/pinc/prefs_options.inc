@@ -10,12 +10,22 @@ $i_r= $i_resolutions;
 $f_f= array(BROWSER_DEFAULT_STR,'Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
 $f_s= array(BROWSER_DEFAULT_STR,'8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
+/*
+$u_iloc=installed_langs(); array_unshift($u_iloc,""); next($u_iloc);
+$u_il=array(BROWSER_DEFAULT_STR);
+while(list(,$v)=each($u_iloc))
+	array_push($u_il,lang_name($v)." (".eng_name($v).")");
+*/
 
-$u_intlang_tmp=installed_langs();
-$u_intlang_options[""]=BROWSER_DEFAULT_STR;
-foreach($u_intlang_tmp as $k=>$v) {
-	$u_intlang_options[$v]=bilingual_name($v);
-}
+$u_intlang_options = array(
+    'en_EN' => _("English"),
+    'nl_NL' => _("Dutch"),
+    'fr_FR' => _("French"),
+    'de_DE' => _("German"),
+    'it_IT' => _("Italian"),
+    'pt_PT' => _("Portuguese"),
+    'es_ES' => _("Spanish"),
+);
 
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 

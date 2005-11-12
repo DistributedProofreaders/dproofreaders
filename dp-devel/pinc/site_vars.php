@@ -35,10 +35,6 @@ $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
-$wikihiero_dir = '<<WIKIHIERO_DIR>>';
-$wikihiero_url = '<<WIKIHIERO_URL>>';
-// If you don't need hieroglyphs, change wikihiero_dir to empty string
-
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
 $forums_dir = '<<FORUMS_DIR>>';

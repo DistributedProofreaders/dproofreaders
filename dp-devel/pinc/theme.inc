@@ -88,12 +88,11 @@ function html_header($nameofpage, $extra_args = array()) {
 	global $code_url, $theme, $userP;
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-	echo "<html".lang_html_header().">\n<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
-	echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
+	echo "<html".lang_html_header().">\n<head>\n<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
 	echo "<title>DP";
       if (isset($nameofpage)) { echo ": $nameofpage"; }
         echo "</title>\n";
+	echo "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	// Global theme CSS
 	echo "\n<link type='text/css' rel='Stylesheet' href='";
 	echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>\n";
@@ -327,15 +326,13 @@ function html_statsbar($nameofpage) {
 function maybe_show_language_selector()
 {
 	global $code_url, $userP, $charset;
-	$instl=installed_langs();
-	$uninstl=uninstalled_langs();
-	if(!(count($instl)>1||count($uninstl)>0))
-		return;
+	$utf8_site = ($charset == 'utf-8') ? true : false;
+	if (!$utf8_site) return;
 
 	if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang'])))
 	{
 		?>
-		<script language="JavaScript" type="text/javascript"><!--
+		<script language="JavaScript"><!--
 			function submitLang(i) {
 				top.document.langform.submit();
 			}
@@ -343,14 +340,14 @@ function maybe_show_language_selector()
 		<?
 
 		echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
-		foreach($instl as $v)
+		$langarr=installed_langs();
+		foreach($langarr as $v)
 			echo "<option value='".$v."'".(($v==$GLOBALS['intlang'])?" selected":"").">".bilingual_name($v)."</option>\n";
-		if(count($uninstl)>0) {
-			echo "<option value='en_EN' disabled>-------------------</option>\n";
-			echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
-			foreach($uninstl as $v)
-				echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
-		}
+		echo "<option value='en_EN' disabled>-------------------</option>\n";
+		echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
+		$langarr=uninstalled_langs();
+		foreach($langarr as $v)
+			echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
 		echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
 		echo "Languages below the line are planned to be added to the site, but currently are not; visit <a href='$code_url/faq/translate.php'>this page</a> if you can help us with translating the site into one of them.<hr>\n";
 	}
@@ -591,8 +588,10 @@ function show_dp_birthdays()
         SELECT username,value
         FROM usersettings
         WHERE setting ='birthday_today'
-        ORDER BY value DESC");
-        
+        ORDER BY value DESC
+        LIMIT 30"); // Because of the last_seen check when updating the birthdays, 
+                    //it's unlikely this limit will be reached. But Just In Case...
+
     if (mysql_num_rows($result) == 0)
        return;
 

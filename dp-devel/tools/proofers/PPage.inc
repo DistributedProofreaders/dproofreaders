@@ -56,22 +56,11 @@ function echo_page_info( $npage )
             $res = mysql_query("SELECT {$other_round->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
             $username = mysql_result($res, 0, $other_round->user_column_name);
 
+            $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
+            $user_id = mysql_result($res, 0, "user_id");
+
             if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
-            echo "$other_round->id: ";
-
-            if ( $username == '' )
-            {
-                // e.g., the project might have skipped $other_round,
-                // or it could be a future round.
-                echo "[none]";
-            }
-            else
-            {
-                $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
-                $user_id = mysql_result($res, 0, "user_id");
-
-                echo "<a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
-            }
+            echo "$other_round->id: <a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
         }
     }
     echo "</b></font>\n";
