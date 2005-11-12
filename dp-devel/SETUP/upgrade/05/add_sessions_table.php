@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
+echo "Creating 'sessions' table...\n";
 $result = mysql_query("CREATE TABLE `sessions` (
 `sid` varchar(32) NOT NULL default '',
 `expiration` int(11) NOT NULL default '0',
@@ -11,6 +11,5 @@ $result = mysql_query("CREATE TABLE `sessions` (
 PRIMARY KEY  (`sid`)
 )");
 
-echo "<center>";
-echo "<p>Addition of new table 'sessions' complete!";
+echo "\nDone!\n";
 ?>

@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
+echo "Creating 'user_filters' table...\n";
 $result = mysql_query("CREATE TABLE `user_filters` (
 `username` varchar(25) NOT NULL default '',
 `filtertype` varchar(25) NOT NULL default '',
@@ -11,6 +11,5 @@ $result = mysql_query("CREATE TABLE `user_filters` (
 PRIMARY KEY  (`username`,`filtertype`)
 )");
 
-echo "<center>";
-echo "<p>Addition of new table 'user_filters' complete!";
+echo "\nDone!\n";
 ?>

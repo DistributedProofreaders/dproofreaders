@@ -3,8 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
-
+echo "Creating 'job_logs' table...\n";
 $result = mysql_query("CREATE TABLE `job_logs` (
 `filename` VARCHAR( 40 ) DEFAULT '0' NOT NULL ,
 `tracetime` INT( 12 ) UNSIGNED DEFAULT '0' NOT NULL ,
@@ -12,8 +11,5 @@ $result = mysql_query("CREATE TABLE `job_logs` (
 `comments` VARCHAR( 255 ) 
 ) TYPE = MYISAM") ;
 
-
-
-echo "<center>";
-echo "<p>Addition of 'job_logs' table complete!";
+echo "\nDone!\n";
 ?>

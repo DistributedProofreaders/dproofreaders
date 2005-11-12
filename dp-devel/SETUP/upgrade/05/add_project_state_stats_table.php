@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
+echo "Creating 'project_state_stats' table...\n";
 $result = mysql_query("CREATE TABLE `project_state_stats` (
   `year` smallint(4) NOT NULL default '0',
   `month` tinyint(2) NOT NULL default '0',
@@ -15,7 +15,5 @@ $result = mysql_query("CREATE TABLE `project_state_stats` (
   UNIQUE date (`date`)
 ) TYPE=MyISAM") or die(mysql_error());
 
-
-echo "<center>";
-echo "<p>Addition of 'project_state_stats' table complete!";
+echo "\nDone!\n";
 ?>

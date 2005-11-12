@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 
-//----------------------------------------------------------------------------------------------------------------------
+echo "Creating 'tasks' table...\n";
 $result = mysql_query("CREATE TABLE `tasks` (
   `task_id` mediumint(9) NOT NULL auto_increment,
   `task_summary` varchar(80) NOT NULL default '',
@@ -27,6 +27,7 @@ $result = mysql_query("CREATE TABLE `tasks` (
   KEY `task_id` (`task_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1");
 
+echo "Creating 'tasks_comments' table...\n";
 $result = mysql_query("CREATE TABLE `tasks_comments` (
   `task_id` mediumint(9) NOT NULL default '0',
   `u_id` mediumint(9) NOT NULL default '0',
@@ -34,6 +35,5 @@ $result = mysql_query("CREATE TABLE `tasks_comments` (
   `comment` mediumtext NOT NULL
 ) TYPE=MyISAM");
 
-echo "<center>";
-echo "<p>Addition of 'tasks' & 'tasks_comments' tables complete!";
+echo "\nDone!\n";
 ?>
