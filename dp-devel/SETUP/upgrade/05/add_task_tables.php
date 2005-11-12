@@ -25,7 +25,7 @@ $result = mysql_query("CREATE TABLE `tasks` (
   `edited_by` mediumint(9) NOT NULL default '0',
   `percent_complete` tinyint(3) NOT NULL default '0',
   KEY `task_id` (`task_id`)
-) TYPE=MyISAM AUTO_INCREMENT=1");
+) TYPE=MyISAM AUTO_INCREMENT=1") or die(mysql_error());
 
 echo "Creating 'tasks_comments' table...\n";
 $result = mysql_query("CREATE TABLE `tasks_comments` (
@@ -33,7 +33,7 @@ $result = mysql_query("CREATE TABLE `tasks_comments` (
   `u_id` mediumint(9) NOT NULL default '0',
   `comment_date` int(11) NOT NULL default '0',
   `comment` mediumtext NOT NULL
-) TYPE=MyISAM");
+) TYPE=MyISAM") or die(mysql_error());
 
 echo "\nDone!\n";
 ?>

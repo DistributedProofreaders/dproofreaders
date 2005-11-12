@@ -9,7 +9,7 @@ $result = mysql_query("CREATE TABLE `job_logs` (
 `tracetime` INT( 12 ) UNSIGNED DEFAULT '0' NOT NULL ,
 `event` VARCHAR( 20 ) DEFAULT '0' NOT NULL ,
 `comments` VARCHAR( 255 ) 
-) TYPE = MYISAM") ;
+) TYPE = MYISAM") or die(mysql_error());
 
 echo "\nDone!\n";
 ?>

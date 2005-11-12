@@ -9,7 +9,7 @@ $result = mysql_query("CREATE TABLE `sessions` (
 `expiration` int(11) NOT NULL default '0',
 `value` text NOT NULL,
 PRIMARY KEY  (`sid`)
-)");
+)") or die(mysql_error());
 
 echo "\nDone!\n";
 ?>
