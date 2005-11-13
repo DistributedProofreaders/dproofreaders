@@ -86,6 +86,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 	$n_bad_words=0;
 
+  echo "<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
 	echo "<pre>";
 
 	$orig_line_i = 0;
@@ -104,7 +105,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			// Flush any remaining original-text on this line.
 			$orig_str = substr( $orig_line, $orig_start );
-			echo html_safe($orig_str);
+			echo punct_hilite(html_safe($orig_str));
 
 			// Put a line-break in the output.
 			echo "<br>\n";
@@ -157,7 +158,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile )
 
 			// Flush any original-text preceding the bad word.
 			$orig_str = substr( $orig_line, $orig_start, $orig_word_offset-$orig_start );
-			echo html_safe($orig_str);
+			echo punct_hilite(html_safe($orig_str));
 
 			$n_bad_words++;
 
@@ -213,7 +214,20 @@ function html_safe( $str )
 // Return a copy of $str which has been rendered safe to send as
 // element-content or attribute-content in an HTML document.
 {
-	return htmlspecialchars($str,ENT_QUOTES);
+        return htmlspecialchars($str,ENT_QUOTES);	
+}
+function punct_hilite( $str )
+// Return a copy of $str which has punctuation highlighted
+{
+	$ppattern='/[.,;:-?!¡¿]/';
+	$new = preg_replace( $ppattern,'<span class="hl">'.'\0'.'</span>',$str);
+	// unmangle the gt lt and single/double quotes
+	$ppattern = array ( '@&#039<span class="hl">;</span>@',
+			    '@&quot<span class="hl">;</span>@',
+			    '@&gt<span class="hl">;</span>@',
+			    '@&lt<span class="hl">;</span>@');
+	$preplace = array ( '&#039;', '&quot;', '&gt;', '&lt;' );
+	return preg_replace( $ppattern, $preplace, $new );
 }
 
 // I think this function would only be useful
