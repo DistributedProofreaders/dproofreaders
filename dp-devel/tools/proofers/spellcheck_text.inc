@@ -219,7 +219,7 @@ function html_safe( $str )
 function punct_hilite( $str )
 // Return a copy of $str which has punctuation highlighted
 {
-	$ppattern='/[.,;:-?!¡¿]/';
+	$ppattern='/[.,;:?!¡¿-]/';
 	$new = preg_replace( $ppattern,'<span class="hl">'.'\0'.'</span>',$str);
 	// unmangle the gt lt and single/double quotes
 	$ppattern = array ( '@&#039<span class="hl">;</span>@',
