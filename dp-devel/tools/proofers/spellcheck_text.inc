@@ -220,14 +220,10 @@ function punct_hilite( $str )
 // Return a copy of $str which has punctuation highlighted
 {
 	$ppattern='/[.,;:?!¡¿-]/';
-	$new = preg_replace( $ppattern,'<span class="hl">'.'\0'.'</span>',$str);
-	// unmangle the gt lt and single/double quotes
-	$ppattern = array ( '@&#039<span class="hl">;</span>@',
-			    '@&quot<span class="hl">;</span>@',
-			    '@&gt<span class="hl">;</span>@',
-			    '@&lt<span class="hl">;</span>@');
-	$preplace = array ( '&#039;', '&quot;', '&gt;', '&lt;' );
-	return preg_replace( $ppattern, $preplace, $new );
+	$new = preg_replace( $ppattern,'<span class="hl">$0</span>',$str);
+	// unmangle the single/double quotes lt gt and ampersand
+	return preg_replace(
+	'@&(#039|quot|gt|lt|amp)<span class="hl">;</span>@', '&$1;', $new );
 }
 
 // I think this function would only be useful
