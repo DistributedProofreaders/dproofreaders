@@ -23,15 +23,11 @@ if ($dry_run)
     echo "This is a dry run.\n";
 }
 
-$n_days_ago = 28;
-
-$old_date = time() - ($n_days_ago * 24 * 60 * 60);
-
 $result = mysql_query("
     SELECT projectid, FROM_UNIXTIME(modifieddate), nameofwork
     FROM projects
     WHERE
-        modifieddate <= $old_date
+        modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * IF( INSTR(nameofwork,'(P2 Qual)'), 28, 7 )
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
     ORDER BY modifieddate
