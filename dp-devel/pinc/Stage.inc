@@ -122,9 +122,7 @@ class Stage
 
         // -----------------------------------
 
-        if(user_is_a_sitemanager()) {
-            $recorded_access='yes';
-        } else {
+        {
             $res = mysql_query("
                 SELECT value
                 FROM usersettings
