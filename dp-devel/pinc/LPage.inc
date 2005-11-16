@@ -56,6 +56,14 @@ function get_available_page( $project, $proofstate, $pguser )
                 return $err;
             }
         }
+        else if ($round->round_number == 2)
+        {
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
+            {
+                $err = _("You do not have access to difficulty='beginner' projects in this round.");
+                return $err;
+            }
+        }
     }
 
     // Find page to be proofed.
