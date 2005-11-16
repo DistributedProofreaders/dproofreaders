@@ -15,20 +15,19 @@ function get_available_page( $project, $proofstate, $pguser )
 {
     $round = get_Round_for_project_state($proofstate);
 
-    // If $project is a BEGIN project in R1, people can only get a new page 
-    // if they've done less than X pages on this project so far;
-    // X is currently, let's say, 20
-    //
-    if ($round->round_number == 1)
-    {
-        $res1 = mysql_query("
-            SELECT difficulty
-            FROM projects
-            WHERE projectid='$project'
-        ") or die(mysql_error());
-        $difficulty = mysql_result($res1,0);
+    // Projects with difficulty='beginner' are treated differently in
+    // various ways, so ascertain whether this is a beginner project.
 
-        if ( $difficulty == 'beginner' )
+    $res1 = mysql_query("
+        SELECT difficulty
+        FROM projects
+        WHERE projectid='$project'
+    ") or die(mysql_error());
+    $difficulty = mysql_result($res1,0);
+
+    if ( $difficulty == 'beginner' )
+    {
+        if ($round->round_number == 1)
         {
             if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
@@ -37,6 +36,10 @@ function get_available_page( $project, $proofstate, $pguser )
                     . _("Perhaps you could try working on an EASY project.");
                 return $err;
             }
+
+            // When a beginner project is in the first round (ELR),
+            // any given user can work on at most 21 pages
+            // from that project in that round.
 
             $dbQuery = "
                 SELECT COUNT(fileid) as pagesdone
