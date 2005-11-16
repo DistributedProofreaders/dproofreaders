@@ -7,6 +7,17 @@ include_once($relPath.'f_dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc');
 
+if ($userP['i_newwin']==1)
+{
+    $newProofWin_js = include($relPath.'js_newwin.inc');
+    $theme_args['js_data'] = $newProofWin_js;
+    $link_js = "onclick=\"newProofWin('%s'); return false;\"";
+}
+else
+{
+    $link_js = '';
+}
+
 $qs_username = '';
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
@@ -36,7 +47,7 @@ else
 $sorting = array_get($_GET, 'sort', '');
 
 $no_stats = 1;
-theme( $out_title, 'header' );
+theme( $out_title, 'header', $theme_args );
 
 echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
 
@@ -116,7 +127,8 @@ while ( $row = mysql_fetch_object($res) )
     echo "<tr>\n";
 
     echo "<td>";
-    echo "<a href='$code_url/project.php?id=$row->projectid'>$row->nameofwork</a>";
+    $url = "$code_url/project.php?id=$row->projectid";
+    echo "<a href='$url' ".sprintf($link_js,$url).">$row->nameofwork</a>";
     echo "</td>\n";
 
     echo "<td nowrap>";
