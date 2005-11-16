@@ -334,6 +334,78 @@ function autorelease_for_round( $round )
             }
         }
 
+        // if we weren't allowed to release projects, or the queue was empty, or there'd been an error, 
+        // we would've gone on to the next queue by now; 
+        // so if we're still here and haven't released a project from this queue, all projects have been blocked
+        // by the author or PM restriction;
+        // if there are no pages available in the round of this type, we will release a single project as a sort of 
+        // "emergency valve" release, even if it means violation of author or PM restrictions
+        if ($num_projects_released == 0) {
+
+            $extrares = mysql_query("
+                SELECT
+                    SUM(active_page_counts.pages) as pages
+                FROM projects NATURAL JOIN active_page_counts
+                WHERE $cooked_project_selector
+                ") or die(mysql_error());
+
+            $extraenv = mysql_fetch_assoc($extrares);
+            $extra_page_avail = $extraenv['pages'];
+
+            if ($extra_page_avail == 0) {
+
+                // OK to release
+
+                $extra_waiting_res = mysql_query("
+                    SELECT *
+                    FROM projects
+                    WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
+                    ORDER BY modifieddate ASC
+                ");
+
+                $extra_project = mysql_fetch_assoc($extra_waiting_res);
+                
+                echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
+                echo "    considering project \"{$extra_project['nameofwork']}\"...\n";
+
+                $authorsname = $extra_project['authorsname'];
+                $pm = $extra_project['username'];
+
+                // release the project for proofreading, and keep track of
+                // its contribution to reducing our total page shortfall
+                if (!attempt_to_release($round, $extra_project))
+                {
+                    // Something went wrong. Error messages have been output.
+                    continue;
+                }
+
+                echo "        Project released!\n";
+
+
+                // special authors (anon, etc) have to have their counts incremented
+                if (array_key_exists($authorsname, $this_round_authors)) {
+                    $this_round_authors[$authorsname] = $this_round_authors[$authorsname] + 1;
+                } else {
+                    $this_round_authors[$authorsname] = 1;
+                }
+
+
+                // keep track of which PMs have had a book released this execution of the script
+                $fresh_released_pms[$pm] = 1;
+
+
+                $num_projects_released++;
+
+                // Update active_page_counts
+                // (The release of this project will affect the release-ability
+                // of other projects in this category, and possibly of projects
+                // in other categories.)
+                AP_add_project( $round, $extra_project['projectid'] );
+
+            }
+
+        }
+
         echo "    Released <b>$num_projects_released</b> $q_name projects.\n";
     }
 
