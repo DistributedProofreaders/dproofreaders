@@ -15,6 +15,11 @@ function get_available_page( $project, $proofstate, $pguser )
 {
     $round = get_Round_for_project_state($proofstate);
 
+    // Normally, pages are served in order of "page number"
+    // (i.e., by the 'image' field)
+    $order = 'image ASC';
+    // but this can be overridden below.
+
     // Projects with difficulty='beginner' are treated differently in
     // various ways, so ascertain whether this is a beginner project.
 
@@ -63,6 +68,11 @@ function get_available_page( $project, $proofstate, $pguser )
                 $err = _("You do not have access to difficulty='beginner' projects in this round.");
                 return $err;
             }
+
+            // For beginner projects in P2,
+            // we serve up pages in order of the P1 proofer.
+            // (So that mentors can easily get all the pages by one proofer.)
+            $order = 'round1_user ASC, image ASC';
         }
     }
 
@@ -74,7 +84,7 @@ function get_available_page( $project, $proofstate, $pguser )
         $earlier_round = get_Round_for_round_number( $rn );
         $dbQuery .= " AND {$earlier_round->user_column_name} != '$pguser'";
     }
-    $dbQuery .= " ORDER BY image ASC LIMIT 1";
+    $dbQuery .= " ORDER BY $order LIMIT 1";
     $result = mysql_query($dbQuery);
     $numrows = mysql_num_rows($result);
     if ($numrows == 0)
