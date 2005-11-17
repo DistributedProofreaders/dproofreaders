@@ -41,6 +41,22 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     ($_GET['show'] == '' && $_GET['up_projectid'] == '' )) {
 
     echo_manager_header('project_search_page');
+    
+    $special_day_res = mysql_query("        
+		    SELECT
+            spec_code,
+            display_name,
+            DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
+        FROM special_days
+        WHERE enable = 1
+        ORDER BY open_month, open_day");
+
+    while ( $s_row = mysql_fetch_assoc($special_day_res) )
+    {
+        $show = $s_row['display_name']." (".$s_row['Start Date'].")";
+        $code = $s_row['spec_code'];
+        $special_days["$code"] = $show;
+    }
 
     echo "
         <center>
@@ -59,6 +75,16 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <tr>
             <td>"._("Genre")."</td>
             <td><input type='text' name='genre'></td>
+        </tr>
+        <tr>
+            <td>"._("Special day")."</td>
+            <td><select name='special_day'>
+						    <option value='' selected>Any day</option>";
+    foreach ($special_days as $s_code => $s_day)
+    {
+        echo "<option value='$s_code'>$s_day</option>";
+    }
+		echo "  </select></td>
         </tr>
         <tr>
             <td>"._("Language")."</td>
@@ -155,6 +181,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         if ( $_GET['genre'] != '' )
         {
             $condition .= " AND genre LIKE '%{$_GET['genre']}%'";
+        }
+        if ( $_GET['special_day'] != '' )
+        {
+            $condition .= " AND special_code = '{$_GET['special_day']}'";
         }
         if ( $_GET['language'] != '' )
         {
