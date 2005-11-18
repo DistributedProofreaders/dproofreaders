@@ -232,6 +232,10 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		var theSelection = docRef.selection.createRange().text;
 		if(!theSelection) { theSelection=sampleText;}
 		if(replace) { theSelection=''; }
+		proc = processText(tagOpen,tagClose,theSelection);
+		tagOpen = proc[0];
+		tagClose = proc[1];
+		theSelection = proc[2];
 		txtarea.focus();
 		if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
 			theSelection = theSelection.substring(0, theSelection.length - 1);
@@ -248,6 +252,11 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		var myText = (txtarea.value).substring(startPos, endPos);
 		if(!myText) { myText=sampleText;}
 		if(replace) { myText=''; }
+		proc = processText(tagOpen,tagClose,myText);
+		tagOpen = proc[0];
+		tagClose = proc[1];
+		myText = proc[2];
+
 		if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
 			subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
 		} else {
@@ -277,6 +286,10 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 		}
 		if(!text) { text=sampleText;}
 		if(replace) { text=''; }
+		proc = processText(tagOpen,tagClose,text);
+		tagOpen = proc[0];
+		tagClose = proc[1];
+		text = proc[2];
 		text=tagOpen+text+tagClose;
 		docRef.infoform.infobox.value=text;
 		// in Safari this causes scrolling
@@ -291,9 +304,43 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 
 // ----------
 
+function isDigit(num) {
+        if (num.length>1){return false;}
+        var string="1234567890";
+        if (string.indexOf(num)!=-1){return true;}
+        return false;
+        }
+
+function isLetter(chr) {
+        if (chr.length>1){return false;}
+        var string="abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (string.indexOf(chr)!=-1){return true;}
+        return false;
+        }
+
+function processText(tagOpen,tagClose,innerText)
+{
+    // Any special processing on the contents of the selection is performed here
+
+    if (tagOpen == '[Footnote #: ')
+    {
+        if (innerText.charAt(1) == ' ' && (isDigit(innerText.charAt(0)) || isLetter(innerText.charAt(0))))
+				{
+            tagOpen = '[Footnote ' + innerText.charAt(0) + ': ';
+            innerText = innerText.substr(2);
+        }
+    }
+
+    return [tagOpen, tagClose, innerText];
+}
+
+
+
+// ----------
+
 function transformText(transformType) {
 	var txtarea = docRef.editform.text_data;
-	// There's really no point to this, it just 
+	// There's really no point to this, it just
   // avoids some unpleasant problems later:
   var tagOpen = '';
   var tagClose = '';
