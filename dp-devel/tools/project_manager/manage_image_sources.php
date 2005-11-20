@@ -261,6 +261,8 @@ class ImageSource
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
             : $this->$field;
 
+        $value = htmlspecialchars($value,ENT_QUOTES);
+
         if ($textarea)
         {
             $editing = "<textarea cols='60' rows='6' name='$field'>$value</textarea>";
