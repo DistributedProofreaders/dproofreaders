@@ -290,6 +290,11 @@ function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 
 function Page_checkout( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_avail_state ),
+        NULL, NULL,
+        'checkout' );
+
     $timestamp = time();
 
     _Page_UPDATE( $projectid, $image, "
@@ -309,6 +314,11 @@ function Page_checkout( $projectid, $image, $round, $user )
 
 function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_out_state, $round->page_temp_state ),
+        $round->user_column_name, $user,
+        'saveAsInProgress' );
+
     $timestamp = time();
 
     _Page_UPDATE( $projectid, $image, "
@@ -327,6 +337,11 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 
 function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_out_state, $round->page_temp_state ),
+        $round->user_column_name, $user,
+        'saveAsDone' );
+
     $timestamp = time();
 
     _Page_UPDATE( $projectid, $image, "
@@ -345,6 +360,11 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 
 function Page_reopen( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_save_state, $round->page_temp_state ),
+        $round->user_column_name, $user,
+        'reopen' );
+
     $timestamp = time();
 
     _Page_UPDATE( $projectid, $image, "
@@ -362,6 +382,11 @@ function Page_reopen( $projectid, $image, $round, $user )
 
 function Page_returnToRound( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_out_state, $round->page_temp_state ),
+        $round->user_column_name, $user,
+        'returnToRound' );
+
     $timestamp = time();
 
     _Page_UPDATE( $projectid, $image, "
@@ -381,6 +406,11 @@ function Page_returnToRound( $projectid, $image, $round, $user )
 
 function Page_reclaim( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_out_state, $round->page_temp_state ),
+        NULL, NULL,
+        'reclaim' );
+
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         {$round->time_column_name}=''
@@ -395,6 +425,11 @@ function Page_reclaim( $projectid, $image, $round, $user )
 
 function Page_clearRound( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_save_state ),
+        NULL, NULL,
+        'clearRound' );
+
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         {$round->time_column_name}='',
@@ -411,6 +446,11 @@ function Page_clearRound( $projectid, $image, $round, $user )
 
 function Page_markAsBad( $projectid, $image, $round, $user, $reason )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_out_state, $round->page_temp_state ),
+        $round->user_column_name, $user,
+        'markAsBad' );
+
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_bad_state}',
         b_user='$user',
@@ -425,6 +465,11 @@ function Page_markAsBad( $projectid, $image, $round, $user, $reason )
 
 function Page_eraseBadMark( $projectid, $image, $round, $user )
 {
+    _Page_require( $projectid, $image,
+        array( $round->page_bad_state ),
+        NULL, NULL,
+        'eraseBadMark' );
+
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_avail_state}',
         b_user='',
@@ -438,6 +483,66 @@ function Page_eraseBadMark( $projectid, $image, $round, $user )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _Page_require(
+    $projectid,
+    $image,
+    $allowed_states,
+    $allowed_user_colname,
+    $requesting_user,
+    $op_name )
+{
+    $user_item = ( is_null($allowed_user_colname) ? '0' : $allowed_user_colname );
+    $sql = "SELECT state, $user_item FROM $projectid WHERE image='$image'";
+    $res = mysql_query($sql);
+    if ( !$res )
+    {
+        echo "The following mysql query:<br>\n";
+        echo $sql, "<br>\n";
+        echo "raised the following error:<br>\n";
+        echo mysql_error(), "<br>\n";
+        exit;
+    }
+
+    $err_prefix = "
+    <pre>
+    You ($requesting_user) requested:
+        operation: $op_name
+        image:     $image
+        projectid: $projectid
+    ";
+
+    list( $curr_page_state, $curr_page_owner ) = mysql_fetch_row($res);
+    if ( !in_array( $curr_page_state, $allowed_states ) )
+    {
+        echo $err_prefix;
+        echo "This requires that the page be in one of the following states:\n";
+        echo "        ", implode( $allowed_states, ' ' ), "\n";
+        echo "    But it is in $curr_page_state\n";
+        echo "</pre>";
+        exit;
+    }
+
+    if ( is_null($allowed_user_colname) )
+    {
+        // The operation can be done by anyone,
+        // as far as this level is concerned.
+        // (Higher levels may restrict who can do it.)
+    }
+    else
+    {
+        // The operation can only be done by the person who currently
+        // "owns" the page.
+        if ( $requesting_user != $curr_page_owner )
+        {
+            echo $err_prefix;
+            echo "This operation can only be done by the user who has the page checked out,\n";
+            echo "    which you are not.\n";
+            echo "</pre>";
+            exit;
+        }
+    }
+}
 
 function _Page_UPDATE( $projectid, $image, $settings )
 {
