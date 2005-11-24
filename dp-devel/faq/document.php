@@ -2343,7 +2343,9 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
    the normal latin A..Z character. These are called <i>diacritical marks</i>, and
-   indicate a special pronunciation for this character.<? if($utf8_site) { ?></p>
+   indicate a special pronunciation for this character.
+<? if($utf8_site) { ?>
+</p>
 <p>If such a character does not exist in Unicode, it should be entered by using
    <i>combining diacritical marks</i>: these are Unicode symbols which can't
    appear alone, but appear above (or below) the letter after which they are
@@ -2462,7 +2464,8 @@ cedilla                      [,x]   [x,]
 <p>There are projects which contain text printed in non-Latin characters; that is, characters
    other than the Latin A...Z characters, for example Greek, Cyrillic (used in
    Russian, Slavic and other languages), Hebrew, or Arabic characters.
-</p><? if(!$utf8_site) { ?>
+</p>
+<? if(!$utf8_site) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
    each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
    transliteration tool is provided in the proofing interface to make this task much easier.
