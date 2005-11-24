@@ -1427,6 +1427,7 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
      <p><tt>
      such study are due to Italians. Several of these instruments<br>
      have already been described in this journal, and on the present<br>
+     </tt></p>
      <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
      SEISMIC MOVEMENTS.</tt></p>
      <p><tt>
