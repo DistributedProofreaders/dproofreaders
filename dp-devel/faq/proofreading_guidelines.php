@@ -27,7 +27,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.8.c, generated May 30, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9, generated November 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -71,15 +71,16 @@ theme('Proofreading Guidelines','header');
         <li><a href="#quote_ea">Quote Marks on each line</a></li>
         <li><a href="#period_s">End of Sentence Periods</a></li>
         <li><a href="#punctuat">Punctuation</a></li>
+        <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
         <li><a href="#contract">Contractions</a></li>
         <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
         <li><a href="#trail_s">Trailing Space at End-of-line</a></li>
         <li><a href="#line_no">Line Numbers</a></li>
-        <li><a href="#italics">Italics and Bold</a></li>
+        <li><a href="#italics">Italic and Bold Text</a></li>
         <li><a href="#supers">Superscripts</a></li>
         <li><a href="#subscr">Subscripts</a></li>
         <li><a href="#font_sz">Font Size Changes</a></li>
-      	<li><a href="#small_caps">Words in Small Caps</a></li>
+        <li><a href="#small_caps">Words in Small Capitals</a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
         <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
         <li><a href="#d_chars">Characters with Diacritical marks</a></li>
@@ -88,7 +89,6 @@ theme('Proofreading Guidelines','header');
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
         <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
-        <li><a href="#initials">Initials</a></li>
         <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
         <li><a href="#mult_col">Multiple Columns</a></li>
         <li><a href="#blank_pg">Blank Page</a></li>
@@ -314,6 +314,46 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
   </tbody>
 </table>
 
+<h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a></h3>
+<p>The guidelines are different for English and Languages Other Than English (LOTE).
+</p>
+<p><b>ENGLISH</b>:
+   Leave a space before the three dots, and a space after.
+   The exception is at the end of a sentence,
+   when there would be no space, four dots, and a space after.
+   This is also the case for any other ending punctuation mark:
+   the 3 dots follow immediately, without any space.
+</p>
+<p>For example:<br>
+   <tt>
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I know ... is true.
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the end....
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
+   </tt>
+</p>
+<p>Sometimes you will see it with the punctuation at the end;
+   so proofread it that way:<br>
+   <tt>
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
+   </tt>
+</p>
+<p>Remove extra dots, if any, or add new ones, if necessary,
+   to bring the number to three (or four) as appropriate.
+</p>
+
+<p><b>LOTE:</b> (Languages Other Than English)
+   Use the general rule "Follow closely the style used in the printed page."
+   Sometimes the printed page is unclear:
+   in that case, insert a <tt>*</tt>
+   to draw the attention of the post-processor.
+   If spaces appear to exist between the dots,
+   or between the word and the dots,
+   replace the spaces with underscores:
+   <tt>like this_...</tt> or <tt>like this_._._.</tt>
+   depending on the style.
+   This will avoid problems in rewrapping,
+   and will be replaced by spaces during post-processing.
+</p>
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions: for example, would&nbsp;n't should
@@ -391,31 +431,22 @@ the formatters can easily find them.
 <p>Do not mark changes in font size. The formatters will take care of this later in the process.
 </p>
 
-<h3><a name="small_caps">Words in Small Caps</a></h3>
-<p>Proofread words that are printed in <span style="font-variant: small-caps;">Small Caps</span> as
-    mixed upper and lowercase. Example: <span style="font-variant: small-caps;">This is Small Caps</span> 
-    would correctly be <tt>This is Small Caps</tt>.
-</p>
-
-<p><b>Page Image:</b> <span style="font-variant: small-caps">
-                       The Agony and the Ecstasy</span><br />
-         <b>Right:</b> The Agony and the Ecstasy<br />
-         <b>Wrong:</b> THE AGONY AND THE ECSTASY<br />
-         <b>Wrong:</b> The Agony And The Ecstasy
-</p>
-
-<p> <b>Page Image:</b> set off for Rome in 1427  <span style="font-variant: small-caps">a.d.</span><br />
-         <b>Right:</b> set off for Rome in 1427 a.d.<br />
-         <b>Wrong:</b> set off for Rome in 1497 A.D.<br />
-</p>
-
-<p>Using the "<span style="font-variant: small-caps;">ABC</span>&rarr;Abc" button on the proofing 
-    interface will automatically change most of the words to title case correctly. However, this change must still be
-    compared to the image to be sure that the words (usually articles) are cased correctly. 
-    <span style="font-variant: small-caps">Small caps</span> may occasionally appear with <tt>&lt;sc&gt;</tt> inserted
-    before the small caps and <tt>&lt;/sc&gt;</tt> after the small caps. Do not remove this formatting information,
-    unless it surrounds junk that does not appear on the page. Do not add it where it does not appear. The formatters
-    will do that later in the process.
+<h3><a name="small_caps">Words in Small Capitals</a></h3>
+<p><span style="font-variant: small-caps">Small caps</span>
+   (capital letters which are smaller than the standard capitals)
+   may occasionally appear
+   with <tt>&lt;sc&gt;</tt> inserted
+   before the <span style="font-variant: small-caps">small caps</span>
+   and <tt>&lt;/sc&gt;</tt> after
+   the <span style="font-variant: small-caps">small caps</span>.
+   Once again, do not remove this formatting information,
+   unless it surrounds junk that does not appear on the page.
+   Do not add it where it does not appear.
+   The formatters will do that later in the process.
+   Please proof only the characters in small caps.
+   Do not worry about case changes.
+   If they are already ALL-CAPPED, Mixed-Cased, or lower-cased,
+   leave them ALL-CAPPED, Mixed-Cased, or lower-cased.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
@@ -1042,11 +1073,10 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
         around mathematical minus signs, sometimes both sides, sometimes just before.
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
-        his throat&mdash;!
-    <br>Proofread these as two hyphens. Don't leave a space before or after,
+        his throat&mdash;&mdash;!
+    <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
-    <li><i>Still longer dashes</i>. These represent <b>omitted</b> or <b>censored</b>
-        words or names.
+    <li><i>Deliberately Omitted or Censored Words or Names</i>.  
     <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
@@ -1136,6 +1166,13 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
       <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
       <td>Em-dash</td>
     </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+      <td>Longer Em-dash</td>
+    </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
       <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
@@ -1202,15 +1239,6 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
 <p>These markings indicate to the post-processor that the word must be rejoined when the pages are
    combined to produce the final e-book.
 </p>
-
-
-<h3><a name="initials">Initials</a></h3>
-<p>Remove all spaces in names printed as initials, even if it appears that the typesetter included
-   spaces (or partial spaces) in the printed version. For example, proofread H.&nbsp;M.&nbsp;S.&nbsp;Pinafore as <tt>H.M.S.
-   Pinafore</tt>, proofread G.&nbsp;B.&nbsp;Shaw as <tt>G.B. Shaw</tt>. This avoids the potential problem
-   of the letters being broken across lines when text is rewrapped.
-</p>
-<!-- END RR -->
 
 
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
@@ -2041,13 +2069,18 @@ You told me the walk was private.</tt></p>
    question is.
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
-   This clearly separates it from the Author's text and signals the next volunteer to stop and carefully examine
+   This clearly separates it from the Author's text and signals the Post-Processor to stop and carefully examine
    this part of the text &amp; the matching image to address any issues.
+   Any comments put in by a previous volunteer <b>must</b> be left in place.
+   Agreement or disagreement can be added,
+   but even if the current volunteer looking at the text knows the answer,
+   he/she absolutely mustn't remove the comment.
 </p>
-<p>If you are proofreading in a later round and come across a note from a proofreader in a previous round,
-   once you have resolved the issue, please take a moment and provide Feedback to them by clicking on their
+<p>If you are proofreading in a later round and come across a note from a proofreader in a previous round that you know the answer to,
+    please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future.
+   Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
 
