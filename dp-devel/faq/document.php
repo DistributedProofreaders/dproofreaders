@@ -161,7 +161,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#hand_notes">Handwritten Notes in Book</a></li>
         <li><a href="#bad_image">Bad Image</a></li>
         <li><a href="#bad_text">Wrong Image for Text</a></li>
-        <li><a href="#round1">Previous Proofreader Mistakes</a></li>
+        <li><a href="#round1">Previous Proofreading or Formatting Mistakes</a></li>
         <li><a href="#p_errors">Printer Errors/Misspellings</a></li>
         <li><a href="#f_errors">Factual Errors in Texts</a></li>
         <li><a href="#uncertain">Uncertain Items</a></li>
@@ -186,10 +186,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
    For example, we rejoin words that were broken at the end of a line (<a href="#eol_hyphen">End-of-line Hyphenation</a>).
    Changes such as these help us produce a <em>consistently formatted</em> version of the book.
-   The proofreading rules we follow are designed to achieve this result. Please carefully read the rest of
+   The rules we follow are designed to achieve this result. Please carefully read the rest of
    these Guidelines with this concept in mind.
 </p>
-<p>To assist the next proofreader and the post-processor, we also preserve <a href="#line_br">line breaks</a>.
+<p>To assist the next formatter and the post-processor, we also preserve <a href="#line_br">line breaks</a>.
    This allows them to easily compare the lines in the text to the lines in the image.
 </p>
 <!-- END RR -->
@@ -205,18 +205,18 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3><a name="summary">Summary Guidelines</a></h3>
 <p>The <a href="formatting_summary.pdf">Formatting Summary</a> is a short, 2-page
    printer-friendly (.pdf) document that summarizes the main points of these
-   Guidelines, and gives examples of how to proofread. Beginning Proofreaders are
-   encouraged to print out this document and keep it handy while proofreading.
+   Guidelines, and gives examples of how to format. Beginning formatters are
+   encouraged to print out this document and keep it handy while formatting.
 </p>
 <p>You may need to download and install a .pdf reader. You can get one free from Adobe&reg;
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
 </p>
 
 <h3><a name="about">About This Document</a></h3>
-<p>This document is written in order to reduce formatting differences when proofreading
-   of one book is distributed among many proofreaders, each working on different pages
+<p>This document is written in order to reduce formatting differences when formatting
+   of one book is distributed among many volunteers, each working on different pages
    of the book. This helps us all do formatting <em>the same way</em>. That makes it
-   easier for the post-processor to eventually combine all these proofread pages into
+   easier for the post-processor to eventually combine all these pages into
    one e-book.
 </p>
 <p><i>It is not intended as any kind of a general editorial or typesetting rulebook</i>.
@@ -231,42 +231,42 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="comments">Project Comments</a></h3>
 
-<p>On the proofreading interface page (Project Page) where you start proofreading pages, there is a section called
+<p>On the proofreading interface page (Project Page) where you start formatting pages, there is a section called
    "Project Comments" containing information specific to that project (book). <b>Read these
-   before you start proofreading pages!</b> If the Project Manager wants you to format
+   before you start formatting pages!</b> If the Project Manager wants you to format
    something in this book differently from the way specified in these Guidelines, that
    will be noted here. Instructions in the Project Comments <em>override</em> the rules
    in these Guidelines, so follow them. (This is also where the Project Manager may give
    you interesting tidbits of information about the author or the project.)
 </p>
 <p><em>Please also read the Project Thread</em>: The Project Manager may clarify project-specific
-   guidelines here, and it is often used by proofreaders to alert other proofreaders to recurring
+   guidelines here, and it is often used by volunteers to alert other volunteers to recurring
    issues within the project and how they can best be addressed.
 </p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
-   see how other proofreaders have made changes.
+   see how other volunteers have made changes.
    <a href="<? echo $Using_project_details_URL ?>">This Forum thread</a>
    discusses different ways to use this information.
 </p>
 
 <h3><a name="forums">Forum/Discuss this Project</a></h3>
-<p>On the proofreading interface page (Project Page) where you start proofreading pages, on the line "Forum", there is
+<p>On the proofreading interface page (Project Page) where you start formatting pages, on the line "Forum", there is
    a link titled "Discuss this Project" (if the discussion has already started), or "Start
    a discussion on this Project" (if it hasn't). Clicking on that link will take you to a
    thread in the projects forum dedicated to this specific project. That is the place to ask
    questions about this book, inform the Project Manager about problems, etc. Using this project
    forum thread is the recommended way to communicate with the Project Manager and other
-   proofreaders who are working on this book.
+   volunteers who are working on this book.
 </p>
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a></h3>
-<p>When you select a project for proofreading, the <a href="#comments">Project Comments</a>
+<p>When you select a project for formatting, the <a href="#comments">Project Comments</a>
    page is loaded. This page contains links to pages from this project that you have
-   recently proofread. (If you haven't proofread any pages yet, there will be no links
+   recently worked on. (If you haven't proofread or formatted any pages yet, there will be no links
    shown.)
 </p>
-<p>Pages listed under either "DONE" or "IN PROGRESS" are available to make proofreading
-   corrections or to finish proofreading. Just click on the link to the page. So if you
+<p>Pages listed under either "DONE" or "IN PROGRESS" are available to make
+   corrections or to finish formatting. Just click on the link to the page. So if you
    discover that you made a mistake on a page, or marked something incorrectly, you can
    click on that page here and re-open it to fix the error.
 </p>
@@ -284,10 +284,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="title_pg">Front/Back Title Page</a></h3>
-<p>Proofread all the text, just as it was printed on the page, whether all capitals, upper and
+<p>Format all the text, just as it was printed on the page, whether all capitals, upper and
    lower case, etc., including the years of publication or copyright.
 </p>
-<p>Older books often show the first letter as a large ornate graphic&mdash;proofread this as just the letter.
+<p>Older books often show the first letter as a large ornate graphic&mdash;format this as just the letter.
 </p>
 <!-- END RR -->
 
@@ -305,7 +305,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
@@ -328,7 +328,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="toc">Table of Contents</a></h3>
-<p>Proofread the Table of Contents just as it is printed in the book, whether all capitals,
+<p>Format the Table of Contents just as it is printed in the book, whether all capitals,
    upper and lower case, etc. and surround it with <tt>/*</tt> and <tt>*/</tt>. Leave a blank
    line between these markers and the rest of the text. Page number references should be
    retained and be placed at least six spaces past the end of the line.
@@ -351,7 +351,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
@@ -414,9 +414,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="blank_pg">Blank Page</a></h3>
-<p>Proofread as <tt>[Blank Page]</tt> if both the text and the image are blank.
+<p>Format as <tt>[Blank Page]</tt> if both the text and the image are blank.
 </p>
-<p>If there is text in the proofreading text area and a blank image, or if there is an image
+<p>If there is text in the text area and a blank image, or if there is an image
    but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
    or <a href="#bad_text">Bad Text</a>.
 </p>
@@ -446,7 +446,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <img src="foot.png" alt="" width="500" height="850"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -506,7 +506,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="chap_head">Chapter Headers</a></h3>
-<p>Proofread chapter headers as they appear in the text.
+<p>Format chapter headers as they appear in the text.
 </p>
 <p>A chapter header may start a bit farther down the page than the <a href="#page_hf">page header</a>
    and won't have a page number on the same line. Chapter Headers are often printed all caps; if so,
@@ -536,7 +536,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           width="500" height="725"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -580,7 +580,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="sect_head">Section Headers</a></h3>
-<p>Some texts have sections within chapters. Proof these headers as they appear in the text.
+<p>Some texts have sections within chapters. Format these headers as they appear in the text.
    Leave 2 blanks lines before the header and one after, unless the Project Manager has requested
    otherwise. If you are not sure if a header indicates a chapter or a section, post a question in
    the Project Thread, noting the page number.
@@ -589,7 +589,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
 <p>Major Divisions in the text such as Preface, Foreword, Introduction, Prologue, Epilogue,
    Appendix, References, Conclusion, Glossary, Summary, Acknowledgements, Bibliography, etc., should
-   be proofread in the same way as Chapter Headers, <i>i.e.</i> 4 blank lines before the heading and 2 blank lines
+   be formatted in the same way as Chapter Headers, <i>i.e.</i> 4 blank lines before the heading and 2 blank lines
    before the start of the text.
 </p>
 
@@ -597,7 +597,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Some books will have short descriptions of the paragraph along the side of the text.
    These are called sidenotes. Move sidenotes to just above the paragraph that they belong to.
    A sidenote should be surrounded by a sidenote tag <tt>[Sidenote:&nbsp;</tt> and <tt>]</tt>,
-   with the text of the sidenote placed in between. Proofread the sidenote text as it is printed,
+   with the text of the sidenote placed in between. Format the sidenote text as it is printed,
    preserving the line breaks, italics, etc.. Leave a blank line after the sidenote, so that it
    does not get merged into the paragraph when the text is rewrapped during post-processing.
 </p>
@@ -627,7 +627,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       </td>
     </tr>
     <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr valign="top">
       <td width="100%">
@@ -729,9 +729,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="mult_col">Multiple Columns</a></h3>
-<p>Proofread ordinary text which has been printed in two columns as a single column.
+<p>Format ordinary text which has been printed in two columns as a single column.
 </p>
-<p>Spans of multiple-column text within single column sections should be proofread as a single column
+<p>Spans of multiple-column text within single column sections should be formatted as a single column
    by placing the text from the left-most column first, the text from the next one after it, and so on.
    You do not need to mark where the columns were split, just join them together.
 </p>
@@ -745,7 +745,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Text for an illustration should be surrounded by an illustration tag <tt>[Illustration:&nbsp;</tt> and <tt>]</tt>,
-   with the caption text placed in between. Proofread the caption text as it is printed, preserving
+   with the caption text placed in between. Format the caption text as it is printed, preserving
    the line breaks, italics, etc.
 </p>
 <p>If an illustration has no caption, add a tag <tt>[Illustration]</tt>.
@@ -774,7 +774,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
    </tr>
     <tr>
     <td width="100%" valign="top">
@@ -806,7 +806,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
      </td>
    </tr>
    <tr>
-     <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+     <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
    </tr>
     <tr valign="top">
      <td>
@@ -833,7 +833,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p><b>Footnotes are placed out-of-line</b>; that is, the text of the footnote is left
    at the bottom of the page and a tag placed where it is referenced in the text.
 </p>
-<p>During proofreading, this means:
+<p>During formatting, this means:
 </p>
 <p>1. The number, letter, or other character that marks a footnote location should
    be surrounded with brackets (<tt>[</tt> and <tt>]</tt>). Remove any spaces
@@ -845,7 +845,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>2. A footnote should be surrounded by a footnote tag <tt>[Footnote #:&nbsp;</tt> and <tt>]</tt>,
    with the footnote text placed in between, and the footnote number or letter placed where the # is
-   shown in the tag. Proofread the footnote text as it is printed, preserving the line breaks, italics, etc.
+   shown in the tag. Format the footnote text as it is printed, preserving the line breaks, italics, etc.
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
    you used in the text where the footnote was referenced.
 </p>
@@ -901,7 +901,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       </td>
     </tr>
     <tr>
-      <th valign="top" align="left" bgcolor="cornsilk">Proofread with Out-of-Line Footnotes:</th>
+      <th valign="top" align="left" bgcolor="cornsilk">Format with Out-of-Line Footnotes:</th>
     </tr>
       <tr valign="top">
       <td>
@@ -925,9 +925,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p><b>Endnotes</b> are just footnotes that have been located together at the end of a
    chapter or at the end of the book, instead of on the bottom of each page. These
-   are proofread in the same manner as out-of-line footnotes. Where you find an
+   are formatted in the same manner as out-of-line footnotes. Where you find an
    endnote reference in the text, just surround it with <tt>[</tt> and <tt>]</tt>.
-   If you are proofreading one of the ending pages with the endnotes text on it,
+   If you are formatting one of the ending pages with the endnotes text on it,
    surround the text of each note with <tt>[Footnote #: <font color="red">(text of endnote)</font>]</tt>, with
    the endnote text placed in between, and the endnote number or letter placed where the # is.
    Put a blank line after each endnote so that they remain separate
@@ -936,7 +936,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p><b>Footnotes in <a href="#poetry">Poetry</a> or <a href="#tables">Tables</a></b>
-   should be treated the same as other footnotes. Proofreaders should tag them and leave them
+   should be treated the same as other footnotes. Volunteers should tag them and leave them
    at the bottom of the page; the post-processor will decide on the final placement.
 </p>
 
@@ -956,7 +956,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </td></tr></table>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -977,7 +977,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="italics">Italics</a></h3>
-<p>Proofread <i>italicized</i> text with <tt>&lt;i&gt;</tt> inserted at the start and
+<p>Format <i>italicized</i> text with <tt>&lt;i&gt;</tt> inserted at the start and
    <tt>&lt;/i&gt;</tt> inserted at the end of the italics. (Note the "/" in the closing
    tag.)
 </p>
@@ -989,7 +989,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    are part of the title for italicization purposes, and are included within the italic tags, thus:
    <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
 </p>
-<p>For dates and similar phrases, proofread the entire phrase as
+<p>For dates and similar phrases, format the entire phrase as
    italics, rather than marking the words as italics and the numbers as non-italics.
    The reason is that many typefaces found in older texts used the same design for numbers
    in both regular and italics. 
@@ -1006,7 +1006,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <tbody>
     <tr>
       <th valign="top" bgcolor="cornsilk">Original Text:</th>
-      <th valign="top" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th valign="top" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
@@ -1030,13 +1030,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
     <tr>
       <td valign="top">
-      Proofreaders may be tickled pink to read<br>
+      Volunteers may be tickled pink to read<br>
       <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
       <i>Remarks on Tickling and Laughter</i><br>
       and <i>Ticklishness, Laughter and Humour</i>.
       </td>
       <td valign="top">
-      <tt>Proofreaders may be tickled pink to read<br>
+      <tt>Volunteers may be tickled pink to read<br>
       &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
       &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
       and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
@@ -1046,7 +1046,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 <h3><a name="bold">Bold Text</a></h3>
-<p>Proofread <b>bold text</b> (text printed in a heavier typeface) with
+<p>Format <b>bold text</b> (text printed in a heavier typeface) with
    <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt> after it. (Note the "/" in the closing
    tag.)
 </p>
@@ -1064,15 +1064,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Older books often abbreviated words as contractions, and printed them as
    superscripts, for example:<br>
    &nbsp;&nbsp;&nbsp;&nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Proofread these by inserting a single caret to identify this as a superscripted
+   Format these by inserting a single caret to identify this as a superscripted
    abbreviation/contraction, like this:<br>
    &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
-<p>In scientific &amp; technical works, proofread superscripted characters with curly braces
+<p>In scientific &amp; technical works, format superscripted characters with curly braces
    <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one character superscripted.
    <br>For example:
    <br>&nbsp; &nbsp; &nbsp; &nbsp; ... up to x<sup>n-1</sup> elements in the array.
-   <br>would be proofread as
+   <br>would be formatted as
    <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>... up to x^{n-1} elements in the array.<br></tt>
 </p>
 <p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
@@ -1081,16 +1081,16 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="subscr">Subscripts</a></h3>
 <p>Subscripted text is often found in scientific works, but is not common in other
-   material. Proofread subscripted text by inserting an underline character <tt>_</tt> and
+   material. Format subscripted text by inserting an underline character <tt>_</tt> and
    surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>.
    <br>For example:
    <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
-   <br>would be proofread as
+   <br>would be formatted as
    <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_{2}O.<br></tt>
 </p>
 
 <h3><a name="underl">Underlined Text</a></h3>
-<p>Proofread <u>underlined text</u> as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
+<p>Format <u>underlined text</u> as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
    <tt>&lt;/i&gt;</tt>. (Note the "/" in the closing tag.)
 </p>
 <p>Underlining was often used to indicate emphasis when the typesetter was unable to actually
@@ -1101,7 +1101,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></h3>
-<p>Proofread &nbsp; s p a c e d &nbsp; o u t &nbsp; text as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
+<p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
    <tt>&lt;/i&gt;</tt>, and remove the extra spaces between letters in each word. (Note the "/" in the closing tag.)
 </p>
 <p>This was a typesetting technique used to emphasize a piece of text in older German (and some
@@ -1117,7 +1117,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="word_caps">Words in all Capitals</a></h3>
-<p>Proofread words that are printed in all capital letters as all capital letters.
+<p>Format words that are printed in all capital letters as all capital letters.
 </p>
 <p>The exception to this is the <a href="#chap_head">first word of a chapter</a>:
    many old books typeset the first word of these in all caps; this should be changed to upper and
@@ -1125,13 +1125,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="small_caps">Words in Small Caps</a></h3>
-<p>Proofread words that are printed in <span style="font-variant: small-caps;">Small Caps</span>
+<p>Format words that are printed in <span style="font-variant: small-caps;">Small Caps</span>
    as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
    markup. Example: <span style="font-variant: small-caps;">This is Small Caps</span> would correctly be <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
-<p>Proofread large and ornate graphic first letters of a chapter, section, or paragraph
+<p>Format large and ornate graphic first letters of a chapter, section, or paragraph
    as just the letter.
 </p>
 
@@ -1143,17 +1143,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <br>Leave these as a single hyphen, with no spaces on either side.
     <li><i>En-dashes</i>. These are just a little longer, and are used for a
         <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
-    <br>Proofread these as a single hyphen, too. Spaces before or after are determined by the
+    <br>Format these as a single hyphen, too. Spaces before or after are determined by the
         way it was done in the book; usually no spaces in number ranges, usually spaces
         around mathematical minus signs, sometimes both sides, sometimes just before.
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
         his throat&mdash;!
-    <br>Proofread these as two hyphens. Don't leave a space before or after,
+    <br>Format these as two hyphens. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     <li><i>Still longer dashes</i>. These represent <b>omitted</b> or <b>censored</b>
         words or names.
-    <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
+    <br>Format these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
   </ol>
@@ -1171,7 +1171,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <tbody>
     <tr>
       <th valign="top" bgcolor="cornsilk">Original Image:</th>
-      <th valign="top" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th valign="top" bgcolor="cornsilk">Correctly Formatted Text:</th>
       <th valign="top" bgcolor="cornsilk">Type</th>
     </tr>
     <tr>
@@ -1272,7 +1272,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    wouldn't fit on the line, and is not a word that is usually hyphenated, then join
    the two halves and remove the hyphen. Keep the joined word on the top line, and put
    a line break after it to preserve the line formatting&mdash;this makes it easier for
-   the 2nd Round Proofreader. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
+   the volunteers who come after you. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
    of these Guidelines for examples of each kind (nar-row turns into narrow,
    but low-lying keeps the hyphen). If the word is followed
    by punctuation, then carry that punctuation onto the top line, too.
@@ -1287,16 +1287,16 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
-<p>Proofread end-of-page hyphens by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
+<p>Format end-of-page hyphens by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
    the hyphen.<br>
-   For example, proofread:<br>
+   For example, format:<br>
    &nbsp;<br>
    &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
    as:<br>
    &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
 <p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
-   To continue the above example, proofread:<br>
+   To continue the above example, format:<br>
    &nbsp;<br>
    &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
    as:<br>
@@ -1307,7 +1307,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="next_word">Single word at bottom of page</a></h3>
-<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
+<p>Format these by deleting the word, even if it's the second half of a hyphenated word.
 </p>
 <p>In some older books, the single word at the bottom of the page (called a "catchword", usually
    printed near the right margin) indicates the first word on the next page of the book (called
@@ -1320,15 +1320,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="initials">Initials</a></h3>
 <p>Remove all spaces in names printed as initials, even if it appears that the typesetter included
-   spaces (or partial spaces) in the printed version. For example, proofread H.&nbsp;M.&nbsp;S.&nbsp;Pinafore as <tt>H.M.S.
-   Pinafore</tt>, Proofread G.&nbsp;B.&nbsp;Shaw as <tt>G.B. Shaw</tt>. This avoids the potential problem
+   spaces (or partial spaces) in the printed version. For example, format H.&nbsp;M.&nbsp;S.&nbsp;Pinafore as <tt>H.M.S.
+   Pinafore</tt>, Format G.&nbsp;B.&nbsp;Shaw as <tt>G.B. Shaw</tt>. This avoids the potential problem
    of the letters being broken across lines when text is rewrapped.
 </p>
 <!-- END RR -->
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions, for example: would&nbsp;n't should
-   be proofread as <tt>wouldn't</tt>.
+   be formatted as <tt>wouldn't</tt>.
 </p>
 <p>This was often an early printers convention, where the space was retained
    to indicate that 'would' and 'not' were originally separate words. It is
@@ -1360,17 +1360,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    in the metre of the poem.
 </p>
 <p>If the poetry is centered on the printed page, don't try to center the lines of
-   poetry during proofreading. Move the lines to the left margin, and preserve the relative
+   poetry during formatting. Move the lines to the left margin, and preserve the relative
    indentation of the lines.
 </p>
-<p><b>Footnotes</b> in poetry should be treated the same as usual footnotes during proofreading.
+<p><b>Footnotes</b> in poetry should be treated the same as usual footnotes during formatting.
    See <a href="#footnotes">footnotes</a> for details.
 </p>
 <p><b>Line Numbers</b> in poetry should be kept. Put them at the end of the
    line, leaving at least 6 spaces between them and the end of the text.
    See <a href="#line_no">Line Numbers</a> for details.
 </p>
-<p>Check the <a href="#comments">Project Comments</a> for the specific text you are proofreading.
+<p>Check the <a href="#comments">Project Comments</a> for the specific text you are formatting.
    Books of poetry often have special instructions from the Project Manager. Many times, you won't
    have to follow all these formatting guidelines for a book that is mostly or entirely poetry.
 </p>
@@ -1386,7 +1386,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           width="500" height="508"> <br>
       </th>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 
@@ -1429,7 +1429,7 @@ and he knew, when he had done it, and to his</tt>
 </table>
 
 <h3><a name="letter">Letters/Correspondence</a></h3>
-<p>Proofread letters and correspondence as you would <a href="#para_space">paragraphs</a>.
+<p>Format letters and correspondence as you would <a href="#para_space">paragraphs</a>.
    Put a blank line before the start of the letter, you do not need to duplicate any indenting.
 </p>
 <p>Surround consecutive heading or footer lines (such as addresses, date blocks, salutations or signatures) with
@@ -1450,7 +1450,7 @@ and he knew, when he had done it, and to his</tt>
           width="500" height="217"> <br>
       </th>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1504,7 +1504,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </td></tr></table>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1558,7 +1558,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    Remember that the goal is to preserve the Author's meaning, while producing a
    readable table in an e-book. Sometimes this requires sacrificing the original
    format of the table on the printed page. Check the <a href="#comments">Project Comments</a> and discussion
-   thread because other proofreaders may have settled on a specific format. If there is nothing there, you might
+   thread because other volunteers may have settled on a specific format. If there is nothing there, you might
    find something useful in the <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a> forum thread.
 </p>
 <p><b>Footnotes</b> in tables should go at the end of the table. See <a href="#footnotes">footnotes</a> for details.
@@ -1572,7 +1572,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
       <td width="100%" valign="top"> <img src="table1.png" alt="" width="500" height="142"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1600,7 +1600,7 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
       <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1642,7 +1642,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
    and the rest of the text. The markers will ensure the block quotation is formatted properly during
    post-processing.
 </p>
-<p>Apart from adding the markers, block quotations should be proofed as any other text.
+<p>Apart from adding the markers, block quotations should be formatted as any other text.
 </p>
 <p>Block quotations are long quotations (typically several lines and sometimes several pages) and are often
    (but not always) printed with wider margins or in a smaller font size&mdash;sometimes both.
@@ -1657,7 +1657,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
       <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1689,7 +1689,7 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </table>
 
 <h3><a name="double_q">Double Quotes</a></h3>
-<p>For quotes in English, proofread these as plain ASCII <tt>"</tt> double quotes.
+<p>For quotes in English, format these as plain ASCII <tt>"</tt> double quotes.
 </p>
 <p>Do not change double quotes to single quotes. Leave them as the Author wrote them.
 </p>
@@ -1712,24 +1712,24 @@ the quotes will be changed to ones used in the text in post-processing.
 <? } ?>
 </p>
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
-   to proofread non-English language quotation marks differently for a particular book.
+   to format non-English language quotation marks differently for a particular book.
 </p>
 
 <h3><a name="single_q">Single Quotes</a></h3>
-<p>Proofread these as the plain ASCII <tt>'</tt> single quote (apostrophe).
+<p>Format these as the plain ASCII <tt>'</tt> single quote (apostrophe).
 </p>
 <p>Do not change single quotes to double quotes. Leave them as the Author wrote them.
 </p>
 
 <h3><a name="quote_ea">Quote Marks on each line</a></h3>
-<p>In general, proofread quotation marks at the beginning of each line of a quotation by removing
+<p>In general, format quotation marks at the beginning of each line of a quotation by removing
    all of them <b>except for</b> the one at the start of the first line of the quotation.
 </p>
 <p>If the quotation goes on for multiple paragraphs, each paragraph should have an opening
    quote mark on the first line of the paragraph.
 </p>
 <p>Often there is no closing quotation mark until the very end of the quoted section of text,
-   which may not be on the same page you are proofreading. Leave it that way&mdash;do not
+   which may not be on the same page you are formatting. Leave it that way&mdash;do not
    add closing quotation marks that are not in the page image.
 </p>
 <p>There are some language specific exceptions. In French, for example, dialog within quotations
@@ -1739,7 +1739,7 @@ the quotes will be changed to ones used in the text in post-processing.
 </p>
 
 <h3><a name="period_s">Periods Between Sentences</a></h3>
-<p>Proofread periods between sentences with a single space after them.
+<p>Format periods between sentences with a single space after them.
 </p>
 <p>You do not need to remove extra spaces after periods if they're already in the scanned
    text&mdash;we can do that automatically during post-processing. See the <a href="#chap_head">Chapter Headers</a>
@@ -1762,7 +1762,7 @@ the quotes will be changed to ones used in the text in post-processing.
     <tr>
       <td valign="top">and so it goes&nbsp;; ever and ever.</td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
     </tr>
@@ -1770,10 +1770,10 @@ the quotes will be changed to ones used in the text in post-processing.
 </table>
 
 <h3><a name="line_br">Line Breaks</a></h3>
-<p><b>Leave all line breaks in</b> so that the next proofreader and the post-processor can compare
+<p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can compare
    the lines in the text to the lines in the image easily. Be especially careful about this
    when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
-   <a href="#em_dashes">em-dashes</a>. If the previous proofreader removed the line breaks,
+   <a href="#em_dashes">em-dashes</a>. If the previous volunteer removed the line breaks,
    please replace them so that they once again match the image.
 </p>
 <p>Extra blank lines that are not in the image should be removed except where we intentionally
@@ -1839,7 +1839,7 @@ the quotes will be changed to ones used in the text in post-processing.
           width="500" height="264"> <br>
       </td>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
@@ -1883,7 +1883,7 @@ the quotes will be changed to ones used in the text in post-processing.
    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
    </tt>
 </p>
-<p>Sometimes you will see it with the punctuation at the end; so proofread it that way:<br>
+<p>Sometimes you will see it with the punctuation at the end; so format it that way:<br>
    <tt>
    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
    </tt>
@@ -1900,10 +1900,10 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
 <? if(!$utf8_site) { ?>
-<p>Please proofread these using the proper accented Latin-1 characters. Only use characters which are not
+<p>Please format these using the proper accented Latin-1 characters. Only use characters which are not
    in Latin-1 when the Project Manager instructs otherwise in the <a href="#comments">Project Comments</a>.
 </p><? } else { ?>
-<p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
+<p>Please format these using the proper UTF-8 characters. For characters which are not in Unicode, see
  the Project Manager instructions in the <a href="#comments">Project Comments</a>.
 </p>
 <? } ?>
@@ -2361,7 +2361,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
    should not be used.
 </p>
 <? } else { ?>
-   For proofreading, we indicate them in our normal ASCII text by using a
+   For formatting, we indicate them in our normal ASCII text by using a
    specific coding: such as <tt>[)x]</tt> for a breve (u-shaped accent)
    above an x, or <tt>[x)]</tt> for a breve below.
 </p>
@@ -2379,7 +2379,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 
 <p>The table below lists the special codings currently used:<br>
    The "x" represents a character with a diacritical mark.<br>
-   When proofreading, use the actual character from the text, not the <tt>x</tt> shown in the examples.
+   When formatting, use the actual character from the text, not the <tt>x</tt> shown in the examples.
 </p>
 
 <!--
@@ -2473,13 +2473,13 @@ cedilla                      [,x]   [x,]
 <p>Press the "Greek" button near the bottom of the proofreading interface to pop-up the tool.
    In the tool, click on the Greek characters that match the word or phrase you are transliterating,
    and the appropriate ASCII characters will appear in the text box. When you are done,
-   simply cut and paste this transliterated text into the page you are proofreading.
+   simply cut and paste this transliterated text into the page you are formatting.
    Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>.
    For example, <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
    would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for DP!)
 </p>
 <p>If you are uncertain about your transliteration, mark it with an <tt>*</tt> to bring it to
-   the attention of the second round proofreader or the post-processor.
+   the attention of the next formatter or the post-processor.
 </p>
 <p>For other languages which cannot be so easily transliterated, such as Cyrillic,
    Hebrew or Arabic, surround the text with appropriate markers; <tt>[Cyrillic:&nbsp;**]</tt>,
@@ -2516,7 +2516,7 @@ cedilla                      [,x]   [x,]
    See <a href="#a_chars">above</a> for some of the programs.
 </p>
 <p>If you are uncertain about a character or an accent, mark it with an <tt>*</tt> to
-   bring it to the attention of the second round proofreader or the post-processor.
+   bring it to the attention of the next formatter or the post-processor.
 </p>
 <p>For scripts which cannot be so easily entered, such as Arabic, surround the text
    with appropriate markers: <tt>[Arabic:&nbsp;**]</tt> and leave it as scanned.
@@ -2525,13 +2525,13 @@ cedilla                      [,x]   [x,]
 <? } ?>
 
 <h3><a name="fract_s">Fractions</a></h3>
-<p>Proofread <b>fractions</b> as follows: <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
+<p>Format <b>fractions</b> as follows: <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
    The hyphen prevents the whole and fractional part from becoming
    separated when the lines are rewrapped during post-processing.
 </p>
 
 <h3><a name="page_ref">Page References &quot;See Pg. 123&quot;</a></h3>
-<p>Proofread page number references within the text such as <tt>(see p. 123)</tt> as
+<p>Format page number references within the text such as <tt>(see p. 123)</tt> as
    they appear in the image.</p>
 <p>Check the <a href="#comments">Project Comments</a> to see if the Project Manager
    has special requirements for page references.
@@ -2579,7 +2579,7 @@ cedilla                      [,x]   [x,]
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text: (with rejoined lines)</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text: (with rejoined lines)</th>
     </tr>
     <tr>
       <td valign="top">
@@ -2619,7 +2619,7 @@ cedilla                      [,x]   [x,]
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text: (with index subtopics aligned)</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text: (with index subtopics aligned)</th>
     </tr>
     <tr>
       <td valign="top">
@@ -2648,14 +2648,14 @@ cedilla                      [,x]   [x,]
 <h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
 <p>For all plays:</p>
 <ul compact>
- <li>Proofread cast listings (Dramatis Person&aelig;) as <a href="#lists">lists</a>.</li>
+ <li>Format cast listings (Dramatis Person&aelig;) as <a href="#lists">lists</a>.</li>
  <li>Put four blank lines before the beginning of an Act.</li>
  <li>Put two blank lines before the beginning of each Scene.</li>
  <li>In dialogue, treat a change in speaker as a new paragraph, with one blank line between.</li>
- <li>Proofread actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
+ <li>Format actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
    <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.</li>
 <li>Stage directions are formatted as they are in the original text.<br>
-    If the stage direction on a line by itself, proofread it that way; if it is at the end of a line of dialogue, leave it there.<br>
+    If the stage direction on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there.<br>
    Stage directions often begin with an opening bracket and omit the closing bracket.<br>
    This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
 </ul>
@@ -2687,7 +2687,7 @@ cedilla                      [,x]   [x,]
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
@@ -2740,7 +2740,7 @@ Indeed I know not what to make on 'em.
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
@@ -2817,7 +2817,7 @@ Such news as you'll be overjoy'd to hear.<br>
       </td>
     </tr>
     <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
@@ -2837,18 +2837,18 @@ You told me the walk was private.<br>
 </table>
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
-<p>While proofreading, if you encounter something that isn't covered in these guidelines that you
+<p>While formatting, if you encounter something that isn't covered in these guidelines that you
    think needs special handling or that you are not sure how to handle, post your question, noting
    the png (page) number, in the Project Discussion thread (a link to the project-specific forum is
-   in the <a href="#comments">Project Comments</a>), and put a note in the proofread text explaining
-   the problem. Your note will explain to the next proofreader or post-processor what the problem or
+   in the <a href="#comments">Project Comments</a>), and put a note in the formatted text explaining
+   the problem. Your note will explain to the next volunteer or post-processor what the problem or
    question is.
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
-   This clearly separates it from from the Author's text and signals the next proofreader to stop and carefully examine
+   This clearly separates it from from the Author's text and signals the Post-Processor to stop and carefully examine
    this part of the text &amp; the matching image to address any issues.
 </p>
-<p>If you are proofreading in a later round and come across a note from a proofreader in a previous round,
+<p>If you are formatting in a later round and come across a note from a volunteer in a previous round,
    once you have resolved the issue, please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future.
@@ -2872,8 +2872,8 @@ You told me the walk was private.<br>
     Specific Guidelines for Special Books</h2>
 <p>These particular types of books have specific guidelines that add to or
    modify the normal guidelines given in this document. Projects for these
-   books are often difficult, and are not recommended for beginning proofreaders.
-   They are more appropriate to experienced proofreaders or people who have
+   books are often difficult, and are not recommended for beginning volunteers.
+   They are more appropriate to experienced volunteers or people who have
    expertise in the particular field.
 </p>
 <p>Click on the link below when you need to see the guidelines for one of these
@@ -2921,7 +2921,7 @@ You told me the walk was private.<br>
 </p>
 
 <h3><a name="OCR_hyphen">OCR Problems: Hyphens and Dashes</a></h3>
-<p>OCR commonly has trouble distinguishing between dashes &amp; hyphens. Proofread these
+<p>OCR commonly has trouble distinguishing between dashes &amp; hyphens. Format these
    carefully&mdash;OCR'd text often has only one hyphen for an em-dash that should have two.
    See the rules for a <a href="#eol_hyphen">hyphenated words</a> and <a href="#em-dashes">em-dashes</a>
    for more detailed information.
@@ -2960,7 +2960,7 @@ You told me the walk was private.<br>
 <p>If an image is bad (not loading, chopped off, unable to be read), please put a post
    about this bad image in the Project Comments <a href="#forums">forum</a>. Do not
    click on "Return Page to Round"; if you do, the page will be reissued to the next
-   proofreader. Instead, click on the "Report Bad Page" button so this page is
+   formatter. Instead, click on the "Report Bad Page" button so this page is
    'quarantined'.
 </p>
 <p>Note that some page images are quite large, and it is common for your browser to
@@ -2982,22 +2982,22 @@ You told me the walk was private.<br>
 <h3><a name="bad_text">Wrong Image for Text</a></h3>
 <p>If there is a wrong image for the text given, please put a post about this bad image
    in the Project Comments <a href="#forums">forum</a>. Do not click on "Return Page
-   to Round"; if you do, the page will be reissued to the next proofreader. Instead, click
+   to Round"; if you do, the page will be reissued to the next formatter. Instead, click
    on the "Report Bad Page" button so this page is 'quarantined'.
 </p>
 
-<h3><a name="round1">Previous Proofreader Mistakes</a></h3>
-<p>If the previous proofreader made a lot of mistakes or missed a lot of things,
+<h3><a name="round1">Previous Proofreading and Formatting Mistakes</a></h3>
+<p>If a previous volunteer made a lot of mistakes or missed a lot of things,
    please take a moment and provide Feedback to them by clicking on their name
    in the proofreading interface and posting a private message to them explaining
    how to handle the situation so that they will know how in the future.
 </p>
 <p><em>Please be nice!</em> Everyone here is a volunteer and presumably trying their best.
    The point of your feedback message should be to inform them of the correct way to
-   proofread, rather than to criticize them. Give a specific example from their work
+   format, rather than to criticize them. Give a specific example from their work
    showing what they did, and what they should have done.
 </p>
-<p>If the previous proofreader did an outstanding job, you can also send them a message
+<p>If the previous volunteer did an outstanding job, you can also send them a message
    about that&mdash;especially if they were working on a particularly difficult page.
 </p>
 
@@ -3015,7 +3015,7 @@ You told me the walk was private.<br>
 
 <h3><a name="f_errors">Factual Errors in Texts</a></h3>
 <p>In general, don't correct factual errors in the author's book. Many of the books we
-   are proofreading have statements of fact in them that we no longer accept as accurate.
+   are preparing have statements of fact in them that we no longer accept as accurate.
    Leave them as the author wrote them.
 </p>
 <p>A possible exception is in technical or scientific books, where a known formula or
