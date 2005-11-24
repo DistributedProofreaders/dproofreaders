@@ -29,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.8, generated June 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9, generated November 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
@@ -88,13 +88,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></li>
         <li><a href="#font_sz">Font size changes</a></li>
         <li><a href="#word_caps">Words in all Capitals</a></li>
-        <li><a href="#small_caps">Words in Small Caps</a></li>
+        <li><a href="#small_caps">Words in <span style="font-variant: small-caps">Small Capitals</span></a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
         <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
         <li><a href="#next_word">Single word at bottom of page</a></li>
-        <li><a href="#initials">Initials</a></li>
         <li><a href="#contract">Contractions</a></li>
         <li><a href="#poetry">Poetry/Epigrams</a></li>
         <li><a href="#letter">Letters/Correspondence</a></li>
@@ -221,8 +220,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p><i>It is not intended as any kind of a general editorial or typesetting rulebook</i>.
 </p>
-<p>We've included in this document all the items that new users have asked about
-   formatting while proofreading. If there are any items missing, or items that you
+<p>We've tried to include in this document all the items that new users have asked about
+   formatting and proofreading. If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
 </p>
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
@@ -1124,10 +1123,36 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    lower case, so "ONCE upon a time," becomes "<tt>Once upon a time,</tt>"
 </p>
 
-<h3><a name="small_caps">Words in Small Caps</a></h3>
-<p>Format words that are printed in <span style="font-variant: small-caps;">Small Caps</span>
+<h3><a name="small_caps">Words in Small Capitals</a></h3>
+<p>Format words that are printed in <span style="font-variant: small-caps;">Mixed Small Caps</span>
    as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
-   markup. Example: <span style="font-variant: small-caps;">This is Small Caps</span> would correctly be <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+   markup. <br>
+&nbsp; &nbsp; &nbsp; &nbsp;Example:
+   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
+&nbsp; &nbsp; &nbsp; &nbsp;would correctly be:
+   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+</p>
+
+<p>Format words that are printed in
+   <span style="font-variant: small-caps;">all small caps</span>
+   as ALL-CAPS, and surround the text with
+   <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
+   <br>
+&nbsp; &nbsp; &nbsp; &nbsp;Example:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp; &nbsp; &nbsp; &nbsp;would correctly be:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
+</p>
+
+<p>Words in headings
+   (Chapter Headings, Section Headings, Captions, etc.)
+   that are entirely all-capped
+   should be formatted as all-caps without any
+   &lt;sc&gt; &lt;/sc&gt;
+   The first word of a chapter that is in Small Caps
+   should be changed to mixed case without the tags.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
@@ -1148,11 +1173,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         around mathematical minus signs, sometimes both sides, sometimes just before.
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
-        his throat&mdash;!
-    <br>Format these as two hyphens. Don't leave a space before or after,
+        his throat&mdash;&mdash;!
+    <br>Format these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
-    <li><i>Still longer dashes</i>. These represent <b>omitted</b> or <b>censored</b>
-        words or names.
+    <li><i>Deliberately Omitted or Censored Words or Names</i>. 
     <br>Format these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
@@ -1243,6 +1267,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td>Em-dash</td>
     </tr>
     <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+      <td>Longer Em-dash</td>
+    </tr>
+    <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
       <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
       <td>long dash</td>
@@ -1318,13 +1349,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <!-- END RR -->
 <!-- We need an example here! -->
 
-<h3><a name="initials">Initials</a></h3>
-<p>Remove all spaces in names printed as initials, even if it appears that the typesetter included
-   spaces (or partial spaces) in the printed version. For example, format H.&nbsp;M.&nbsp;S.&nbsp;Pinafore as <tt>H.M.S.
-   Pinafore</tt>, Format G.&nbsp;B.&nbsp;Shaw as <tt>G.B. Shaw</tt>. This avoids the potential problem
-   of the letters being broken across lines when text is rewrapped.
-</p>
-<!-- END RR -->
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions, for example: would&nbsp;n't should
@@ -1821,7 +1845,19 @@ the quotes will be changed to ones used in the text in post-processing.
 </p>
 <p>A "thought break" may represent a change of scene or subject, a lapse in time or a bit
    of suspense. This is intended by the author, so we preserve them by putting a blank line,
-   5 <tt>*</tt>'s indented 7 spaces and then 7 spaces apart, as shown in the example.
+   <tt>&lt;tb&gt;</tt>, and then another blank line.
+</p>
+<p>Project Managers and/or Post-Processors may make the request
+   for additional information to be retained in the thought break mark-up.
+   For example, some projects delineate different types of breaks
+   by the use of different styles of break
+   such as a line of stars in one place and a blank line in another.
+   In these cases, the Project Comments may request that these be marked up:
+   <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>.
+   Please, as always, read the project comments carefully
+   so that you will know what is required for each project.
+   Also be careful not to carry these special requests
+   into other projects with different requirements.
 </p>
 <p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
    <a href="#chap_head">Chapter Headers</a>, there is no need to add a "thought break" marker.
@@ -1835,7 +1871,7 @@ the quotes will be changed to ones used in the text in post-processing.
   <tbody>
     <tr><th align="left" bgcolor="cornsilk"> Sample Image:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt=""
+      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
           width="500" height="264"> <br>
       </td>
     </tr>
@@ -1849,11 +1885,8 @@ the quotes will be changed to ones used in the text in post-processing.
     Unconsciously Mr. Dixon has done his best to<br>
     prove that Legree was not a fictitious character.</tt>
     </p>
-    <?= "<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*".
-    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*".
-    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*".
-    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*".
-    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</tt></p>"?>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
     <p><tt>
     Joel Chandler Harris, Harry Stillwell Edwards,<br>
     George W. Cable, Thomas Nelson Page,<br>
@@ -1892,7 +1925,7 @@ the quotes will be changed to ones used in the text in post-processing.
 </p>
 
 <p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style used in the printed page."
-Sometimes the printed page is unclear: in that case, insert a <tt>*</tt> to draw the attention of the post-processor.
+Sometimes the printed page is unclear: in that case, leave a note[**unclear] to draw the attention of the post-processor.
 If spaces appear to exist between the dots, or between the word and the dots, replace the spaces with underscores:
 <tt>like this_...</tt> or <tt>like this_._._.</tt> depending on the style.
 This will avoid problems in rewrapping, and will be replaced by spaces during post-processing.
@@ -1903,7 +1936,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
 <p>Please format these using the proper accented Latin-1 characters. Only use characters which are not
    in Latin-1 when the Project Manager instructs otherwise in the <a href="#comments">Project Comments</a>.
 </p><? } else { ?>
-<p>Please format these using the proper UTF-8 characters. For characters which are not in Unicode, see
+<p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
  the Project Manager instructions in the <a href="#comments">Project Comments</a>.
 </p>
 <? } ?>
@@ -2478,7 +2511,7 @@ cedilla                      [,x]   [x,]
    For example, <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
    would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for DP!)
 </p>
-<p>If you are uncertain about your transliteration, mark it with an <tt>*</tt> to bring it to
+<p>If you are uncertain about your transliteration, mark it with an <tt>**</tt> to bring it to
    the attention of the next formatter or the post-processor.
 </p>
 <p>For other languages which cannot be so easily transliterated, such as Cyrillic,
@@ -2655,14 +2688,20 @@ cedilla                      [,x]   [x,]
  <li>Format actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
    <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.</li>
 <li>Stage directions are formatted as they are in the original text.<br>
-    If the stage direction on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there.<br>
-   Stage directions often begin with an opening bracket and omit the closing bracket.<br>
+    If the stage direction on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there;
+   if it is right-justified at the end of a line of dialogue, leave six spaces between the dialogue and the stage directions.<br>
+Stage directions often begin with an opening bracket and omit the closing bracket.<br>
    This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
 </ul>
 <p>For metrical plays: (Plays written as rhymed poetry)</p>
 <ul compact>
  <li>Many plays are metrical, and like poetry should not be rewrapped.
- Surround metred text with <tt>/*</tt> and <tt>*/</tt> as for poetry.</li>
+ Surround metred text with <tt>/*</tt> and <tt>*/</tt> as for poetry.
+ If stage directions are on their own line, do not surround these with
+ <tt>/*</tt> and <tt>*/</tt>.
+ (Stage directions are not metrical, and so can be safely rewrapped in the PP stage,
+ so should not be contained within the /* */ tags
+ that protect the metrical dialogue from being rewrapped.)</li> 
  <li>Preserve relative indenting of dialog when a single metrical line is
  shared by more than one speaker.</li>
  <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
@@ -2823,12 +2862,37 @@ Such news as you'll be overjoy'd to hear.<br>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
-&lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
-Or not slept well to night; some dream (&lt;i&gt;Ismena&lt;/i&gt;?)<br>
+The whip from Nature, turn it on herself,<br>
+And set her elemental slaves to filch<br>
+Her gold for me. That, friend, is play.<br>
 <br>
-&lt;i&gt;Ism.&lt;/i&gt; My dreams are like my thoughts, honest and innocent,<br>
-Yours are unhappy; who are these that coast us?<br>
-You told me the walk was private.<br>
+&lt;i&gt;Meg.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; For gods<br>
+And not as thief, but as divinity,<br>
+You take from crouching Nature.<br>
+<br>
+&lt;i&gt;Hud.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Men have said<br>
+I pile up gold because its glitter soothes<br>
+A fever in my eyes. The clacking fools!<br>
+I am no Cheops making warts on earth.<br>
+No mummy brain! God built my pyramids,<br>
+Slaving through dark and chaos till there rose<br>
+My iron-hearted hills, and mountains locked<br>
+On ago-unyielded treasure waiting me.<br>
+There slept my gems till longing became fire<br>
+And broke the grip of stone,--there lay my gold,<br>
+Re-purged each thousand years till baited Time<br>
+Gave up the master's hour.<br>
+*/<br>
+<br>
+[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
+<br>
+/*<br>
+&lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
+<br>
+&lt;i&gt;Hud.&lt;/i&gt; Daughter, you owe my lord Megario<br>
+Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
+<br>
+&lt;i&gt;Her.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; I give them, sir.<br>
 */</tt></p>
 </td></tr></table>
       </td>
@@ -2847,11 +2911,16 @@ You told me the walk was private.<br>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
    This clearly separates it from from the Author's text and signals the Post-Processor to stop and carefully examine
    this part of the text &amp; the matching image to address any issues.
+   Any comments put in by a previous volunteer <b>must</b> be left in place.
+   Agreement or disagreement can be added,
+   but even if the current volunteer looking at the text knows the answer,
+   he/she absolutely mustn't remove the comment.
 </p>
-<p>If you are formatting in a later round and come across a note from a volunteer in a previous round,
-   once you have resolved the issue, please take a moment and provide Feedback to them by clicking on their
+<p>If you are formatting in a later round and come across a note from a volunteer in a previous round that you know the answer to,
+    please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future.
+   Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
 
