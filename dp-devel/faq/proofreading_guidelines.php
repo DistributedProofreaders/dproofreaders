@@ -1182,25 +1182,25 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
 <p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
-  the hyphen.<br>
-  For example, proofread:<br>
-  &nbsp;<br>
-  &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
+   the hyphen.<br>
+   For example, proofread:<br>
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
 
-  as:<br>
-  &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+   as:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
 <p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
-  To continue the above example, proofread:<br>
+   To continue the above example, proofread:<br>
 
-  &nbsp;<br>
-  &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
-  as:<br>
-  &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+   as:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
 
 </p>
 <p>These markings indicate to the post-processor that the word must be rejoined when the pages are
-  combined to produce the final e-book.
+   combined to produce the final e-book.
 </p>
 
 
