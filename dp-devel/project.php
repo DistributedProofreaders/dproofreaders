@@ -642,10 +642,14 @@ function do_project_info_table()
             echo_row_b( _("Instructions for Smooth Reading"), '' );
             echo_row_c( $postcomments );
         }
+        // Postcomments should always be shown to those directly involved with the project (the
+        // first three conditions). However, when the project is available for PPVing, the prospective
+        // PPVer should be able to read the PPer's comments without checking out the project.
         elseif ( $project->PPer_is_current_user || $project->PPVer_is_current_user
-            || $project->can_be_managed_by_current_user )
+            || $project->can_be_managed_by_current_user ||
+						($state==PROJ_POST_SECOND_AVAILABLE && user_can_work_in_stage($pguser,'PPV') )
         {
-            echo_row_b( _("Post Processor Comments"), '' );
+            echo_row_b( _("Post Processor's Comments"), '' );
             echo_row_c( $postcomments );
         }
     }
