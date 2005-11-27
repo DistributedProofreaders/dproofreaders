@@ -237,10 +237,9 @@ function html_logobar($nameofpage) {
 
 		echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
 		echo "</font></td>\n";
-		echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>
-		      <font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>\n";
+		echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 		show_quick_links();
-		echo "&nbsp;</font></td>";
+		echo "&nbsp;</td>";
 	}
 
 	echo "</tr>\n";
