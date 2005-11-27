@@ -215,7 +215,7 @@ function html_logobar($nameofpage) {
 		$numofPMs = mysql_fetch_row($result);
 		$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
 		$datecreated = mysql_result($result, 0, "date_created");
-		echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;";
+		echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;</font>";
 		if ((time() - $datecreated) < 604800)
 			echo headerbar_text(" Start Here -->&nbsp;",'',true);
 		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
