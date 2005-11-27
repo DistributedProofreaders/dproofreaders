@@ -201,10 +201,10 @@ function html_logobar($nameofpage) {
 		echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 		echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 		echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
-		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-		echo "<a href='$code_url/accounts/addproofer.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Register") . "</font></a>";
-		echo "&nbsp;<b>&#183;</b>&nbsp;\n";
-		echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'><font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>" . _("Help") . "</font></a>&nbsp;</font>\n";
+		echo headerbar_text(_("Register"), "$code_url/accounts/addproofer.php", true);
+		echo headerbar_text(_("Help"), "$code_url/faq/".lang_dir()."faq_central.php", true);
+		echo "&nbsp;";
+		echo "</font>\n";
 		echo "</td>\n";
 		echo "</form>\n";
 	} else {
@@ -215,7 +215,7 @@ function html_logobar($nameofpage) {
 		$numofPMs = mysql_fetch_row($result);
 		$result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
 		$datecreated = mysql_result($result, 0, "date_created");
-		echo "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>|&nbsp;</font>";
+		echo headerbar_text("|&nbsp;");
 		if ((time() - $datecreated) < 604800)
 			echo headerbar_text(" Start Here -->&nbsp;",'',true);
 		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
