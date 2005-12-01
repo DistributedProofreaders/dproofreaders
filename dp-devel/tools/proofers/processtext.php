@@ -102,7 +102,6 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
     if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
     else {$npage['revert']=0;}
   $npage['saved']=1;
-  $npage['spcheck']=0;
   $npage['errcheck']=0;
   setTempPageCookie($npage);
   if ($userP['i_type'] != 1)
@@ -175,7 +174,6 @@ if ($tbutton==B_RUN_SPELL_CHECK)
   if ( ! is_dir($aspell_temp_dir) ) // Check first
   { mkdir($aspell_temp_dir);}
   $npage = getPageCookie();
-  $npage['spcheck']=1;
   setTempPageCookie($npage);
   include('spellcheck.inc');
 } // end B_RUN_SPELL_CHECK
@@ -202,7 +200,6 @@ if ($tbutton==101 || $tbutton==102)
 	  $npage = getPageCookie();
 	  $npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
 	  $npage['saved']=1;
-	  $npage['spcheck']=2;
 	  setTempPageCookie($npage);
     }
     else if ( $tbutton == 102 )
@@ -213,10 +210,6 @@ if ($tbutton==101 || $tbutton==102)
 	$npage = getPageCookie();
 	$npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
 	$npage['saved']=1;
-	if ($userP['i_type']==1)
-	  {$npage['spcheck']=0;}
-	else
-	  {$npage['spcheck']=2;}
 	setTempPageCookie($npage);
     }
 

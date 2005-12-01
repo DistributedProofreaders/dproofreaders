@@ -13,12 +13,6 @@ $npage = getPageCookie();
 // get page text
 $npage['text'] = nPage_getText($npage);
 
-if ($npage['spcheck']==2)
-  {
-    $npage['spcheck']=0;
-    setTempPageCookie($npage);
-  }
-
 
 slim_header("Text Frame",TRUE,FALSE);
 ?>
