@@ -199,12 +199,11 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Submit Corrections" button.
 	$correct_text = spellcheck_apply_corrections();
 
-	if ($userP['i_type']==0)
-	{
 	  $npage = getPageCookie();
+	  $npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
+	  $npage['saved']=1;
 	  $npage['spcheck']=2;
 	  setTempPageCookie($npage);
-	}
     }
     else if ( $tbutton == 102 )
     {
@@ -212,6 +211,8 @@ if ($tbutton==101 || $tbutton==102)
 	$correct_text = spellcheck_quit();
 
 	$npage = getPageCookie();
+	$npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
+	$npage['saved']=1;
 	if ($userP['i_type']==1)
 	  {$npage['spcheck']=0;}
 	else
@@ -219,15 +220,10 @@ if ($tbutton==101 || $tbutton==102)
 	setTempPageCookie($npage);
     }
 
-    $inCheck=1;
     if ($userP['i_type']==1)
       {include('text_frame.php');}
     else
       {
-        // write file
-          $text_file= $project.substr($imagefile,0,-4).".txt";
-          if ($fd=fopen("$aspell_temp_dir/$text_file","w"))
-            {fwrite($fd,$correct_text); fclose($fd);}
         include('proof_frame_std.inc');
       }
 }

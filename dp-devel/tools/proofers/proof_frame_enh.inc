@@ -10,7 +10,7 @@ include_once('page_misc.inc');
 $npage = getPageCookie();
 
 // get page text
-$npage['text']=isset($inCheck)?$correct_text:nPage_getText($npage);
+$npage['text'] = nPage_getText($npage);
 
 
 // set image and text height and width
