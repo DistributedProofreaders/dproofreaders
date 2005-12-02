@@ -93,11 +93,8 @@ if (ReportBadPage_button_should_be_shown($npage,$pguser))
 echo_button(SAVE_AS_IN_PROGRESS,'a');
 echo "\n";
 
-  if($npage['editone']==0)
-  {
-    echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a');
-    echo "\n";
-  }
+echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'a');
+echo "\n";
 
 echo_button(SAVE_AS_DONE_AND_QUIT,'a');
 echo "\n";

@@ -45,10 +45,7 @@ slim_header("Text Frame",TRUE,FALSE);
 	echo_hidden_fields($npage);
 
 	echo_button(SAVE_AS_IN_PROGRESS,'s');
-	if (!isset($editone))
-	{
-		echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'s');
-	}
+	echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'s');
 	echo_button(SAVE_AS_DONE_AND_QUIT,'s');
 	echo_button(QUIT,'s');
 
