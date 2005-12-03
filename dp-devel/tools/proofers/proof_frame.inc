@@ -15,7 +15,7 @@ switch ($interface_type)
 
     case 1:
         // enhanced interface
-        include('text_frame.php');
+        include('textframe_enh.inc');
         break;
 
     default:
