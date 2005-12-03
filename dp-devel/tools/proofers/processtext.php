@@ -107,7 +107,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   if ($userP['i_type'] != 1)
     {include('proof_frame_std.inc');}
   else
-    {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading next available page...."));}
+    {include('text_frame.php');}
   exit;
 } // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 

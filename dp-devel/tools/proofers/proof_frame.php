@@ -103,5 +103,5 @@ $needPage=1;
 if ($userP['i_type'] != 1)
   {include('proof_frame_std.inc');}
 else
-  {metarefresh(0,"text_frame.php",_("Proofreading Text Frame"),_("Loading page...."));}
+  {include('text_frame.php');}
 ?>
