@@ -99,9 +99,5 @@ $needPage=1;
       }
 }
 
-//load the frame
-if ($userP['i_type'] != 1)
-  {include('proof_frame_std.inc');}
-else
-  {include('text_frame.php');}
+include('proof_frame.inc');
 ?>

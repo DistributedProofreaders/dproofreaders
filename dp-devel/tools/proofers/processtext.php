@@ -104,10 +104,7 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
   $npage['saved']=1;
   $npage['errcheck']=0;
   setTempPageCookie($npage);
-  if ($userP['i_type'] != 1)
-    {include('proof_frame_std.inc');}
-  else
-    {include('text_frame.php');}
+  include('proof_frame.inc');
   exit;
 } // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
 
@@ -213,12 +210,7 @@ if ($tbutton==101 || $tbutton==102)
 	setTempPageCookie($npage);
     }
 
-    if ($userP['i_type']==1)
-      {include('text_frame.php');}
-    else
-      {
-        include('proof_frame_std.inc');
-      }
+    include('proof_frame.inc');
 }
 
 ?>
