@@ -1110,7 +1110,7 @@ function do_postcomments()
       echo '<p>' . sprintf(_("You can use this text area to enter comments on how you're
                      doing with the post-processing, both to keep track for yourself
                      and so that we will know that there's still work in progress.
-                     You will not recieve an e-mail reminder about this project for at
+                     You will not receive an e-mail reminder about this project for at
                      least another %1\$d days.") .
                      _("You can use this feature to keep track of your progress,
                      missing pages, etc. (if you are waiting on missing images or page
