@@ -232,7 +232,19 @@ function decide_blurbs()
 
     if ( !$uao->can_access )
     {
-        $text = _('You are not permitted to work in this round.');
+        $text =
+            sprintf(
+                _("You have not yet been cleared to work on projects in %s (%s)."),
+                $round->name,
+                $round->id
+            )
+            . "<br>"
+            . sprintf(
+                _("Please visit <a href='%s'>the %s home</a> to find out what happens in this round and how you can qualify to work in it."),
+                "$code_url/tools/proofers/round.php?round_id=$round->id",
+                $round->id
+            )
+        ;
         return array( $text, $text );
     }
 
