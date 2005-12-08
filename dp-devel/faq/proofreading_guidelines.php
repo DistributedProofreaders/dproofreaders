@@ -27,7 +27,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.9.b, generated December 12, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.b, generated December 8, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -2043,36 +2043,6 @@ Souse is a bona roba, so is Flops too.</tt></p>
   </tbody>
 </table>
 <br>
-<a name="play3"><!-- Example --></a>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Play Example 3">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Sample Image:</th>
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="502"
-          height="588" alt="title page image"><br>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-<p><tt>
-Am. Sure you are fasting;<br>
-Or not slept well to night; some dream (Ismena?)<br>
-<br>
-Ism. My dreams are like my thoughts, honest and innocent,<br>
-Yours are unhappy; who are these that coast us?<br>
-You told me the walk was private.</tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While proofreading, if you encounter something that isn't covered in these guidelines that you
