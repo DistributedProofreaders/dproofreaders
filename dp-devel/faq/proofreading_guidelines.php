@@ -27,7 +27,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.9, generated November 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.b, generated December 12, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -146,7 +146,8 @@ theme('Proofreading Guidelines','header');
 <p>The final electronic book seen by a reader, possibly many years in the future, should accurately convey
    the intent of the author. If the author spelled words oddly, we leave them spelled that way. If the author
    wrote outrageous racist or biased statements, we leave them that way. If the author puts italics, bold text
-   or a footnote every third word, we mark them italicized, bolded or footnoted. We are proofreaders, <b>not</b> editors.
+   or a footnote every third word, we mark them italicized, bolded or footnoted. We are proofreaders, 
+   <b>not</b> editors. (See <a href="#p_errors">Printer's Errors</a> for proper handling of obvious misprints.)
 </p>
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
    For example, we rejoin words that were broken at the end of a line (<a href="#eol_hyphen">End-of-line Hyphenation</a>).
@@ -318,11 +319,9 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <p>The guidelines are different for English and Languages Other Than English (LOTE).
 </p>
 <p><b>ENGLISH</b>:
-   Leave a space before the three dots, and a space after.
-   The exception is at the end of a sentence,
-   when there would be no space, four dots, and a space after.
-   This is also the case for any other ending punctuation mark:
-   the 3 dots follow immediately, without any space.
+   Leave a space before the three dots, and a space after. The exception is at the end of 
+   a sentence, when there would be no space, four dots, and a space after. This is also 
+   the case for any other ending punctuation mark: the 3 dots follow immediately, without any space.
 </p>
 <p>For example:<br>
    <tt>
@@ -331,8 +330,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
    </tt>
 </p>
-<p>Sometimes you will see it with the punctuation at the end;
-   so proofread it that way:<br>
+<p>Sometimes you will see it with the punctuation at the end, so proofread it that way:<br>
    <tt>
    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
    </tt>
@@ -341,22 +339,16 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE:</b> (Languages Other Than English)
-   Use the general rule "Follow closely the style used in the printed page."
-   Sometimes the printed page is unclear:
-   in that case, insert a <tt>*</tt>
-   to draw the attention of the post-processor.
-   If spaces appear to exist between the dots,
-   or between the word and the dots,
-   replace the spaces with underscores:
-   <tt>like this_...</tt> or <tt>like this_._._.</tt>
-   depending on the style.
-   This will avoid problems in rewrapping,
-   and will be replaced by spaces during post-processing.
+<p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style 
+   used in the printed page." In particular,  insert spaces, if there are spaces before or 
+   between the periods, and use the same number of periods as appear in the image. Sometimes 
+   the printed page is unclear: in that case, insert a <tt>[**unclear]</tt> to draw the 
+   attention of the post-processor.
+   (Note: Post-Processors should replace those regular spaces with non-breaking spaces.)
 </p>
 
 <h3><a name="contract">Contractions</a></h3>
-<p>Remove any extra space in contractions: for example, would&nbsp;n't should
+<p>Remove any extra space in contractions: for example, <tt>would&nbsp;n't</tt> should
    be proofread as <tt>wouldn't</tt>.
 </p>
 <p>This was often an early printers' convention, where the space was retained
@@ -665,7 +657,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Alt-0184</td>
       <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Alt-0187</td>
       <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>Alt-0188</td>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; <sup><small>1</small></sup></td><td>Alt-0188</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>Alt-0178</td>
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
@@ -673,7 +665,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Alt-0183</td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Alt-0186</td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>Alt-0189</td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; <sup><small>1</small></sup></td><td>Alt-0189</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>Alt-0179</td>
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Alt-0223</td>
@@ -681,10 +673,14 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>Alt-0042</td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Alt-0170</td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>Alt-0190</td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; <sup><small>1</small></sup></td><td>Alt-0190</td>
   </tr>
   </tbody>
 </table>
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+   <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)</p>
+
 
 
 <p> <b>For Apple Macintosh</b>:
@@ -731,7 +727,7 @@ the formatters can easily find them.
       <th colspan=2>&deg; ring</th>
       <th colspan=2>&AElig; ligature</th>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-~, a</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-`, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Opt-e, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Opt-i, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Opt-n, a</td>
@@ -825,7 +821,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
       <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Opt-u, Y</td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Opt-V   </td>
+      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&dagger;</td>
   </tr>
   <tr><th colspan=2 bgcolor="cornsilk">&ccedil;edilla </th>
       <th colspan=2 bgcolor="cornsilk">Icelandic    </th>
@@ -836,11 +832,11 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Opt-/   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Opt-c   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>Shift-Opt-5</td>
+      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>(none)&nbsp;&Dagger;</td>
       <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Opt-g   </td>
       <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Opt-E   </td>
       <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Opt-?   </td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>Shift-4</td>
       <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
@@ -865,7 +861,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Opt-Z   </td>
       <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Shift-Opt-\</td>
       <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>(none)&nbsp;&Dagger;  </td>
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
@@ -873,7 +869,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Opt-8  </td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
@@ -881,13 +877,16 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   </tbody>
 </table>
 <p>&Dagger;&nbsp;Note: No equivalent shortcut, use drop-down menus.
 </p>
-
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+   <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
+</p>
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
@@ -1019,7 +1018,7 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
 
 <ul compact>
   <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
-      Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
+      Project Gutenberg) or see the "Greek" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
       you attempt a transliteration if you are fluent in the languages that use it. Otherwise, just mark
@@ -1079,7 +1078,9 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     <li><i>Deliberately Omitted or Censored Words or Names</i>.  
     <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
-        spaces&mdash;join it with the rest of the word.
+        spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
+        the size of the rest of the smaller em-dashes, then proof it as a single em-dash, 
+        i.e. two dashes.
   </ol>
 <p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
    other line so that there are no spaces or line breaks around it. Only if the
@@ -1104,9 +1105,9 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
       <td> Hyphen</td>
     </tr>
     <tr>
-      <td valign="top">four-part harmony</td>
-      <td valign="top"><tt>four-part harmony</tt></td>
-      <td> Hyphen</td>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Hyphens</td>
     </tr>
     <tr>
       <td valign="top">discoveries which the Crus-<br>
@@ -1193,6 +1194,10 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
       <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
       <td>long dash</td>
     </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td></tr>
   </tbody>
 </table>
 
@@ -1372,6 +1377,10 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
    the line breaks. If the caption falls in the middle of a paragraph, use blank lines to set it apart from
    the rest of the text. If there is <b>no</b> caption in the original text, then the mark-up of the illustration is left to the formatters.
 </p>
+<p>Most pages with an illustration but no text will already be
+   marked with <tt>[Blank Page]</tt>. Leave this marking as is.
+</p>
+
 <!-- END RR -->
 
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1455,12 +1464,16 @@ The number, letter, or other character that marks a footnote location should be 
    punctuation mark,<tt>[2]</tt> as shown in the text and the two examples in this sentence.
 </p>
 <p>When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;,
-   etc.) we replace them all with *.
+   etc.) we replace them all with [*] in the text, and * next to the footnote itself.
 </p>
-<p>Proofread the footnote text as it is printed, preserving the line breaks, italics, etc.
+<p>Proofread the footnote text as it is printed, preserving the line breaks.
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
    you used in the text where the footnote was referenced.
 </p>
+<p>Place each footnote on a separate line in order of appearance. Place a blank line between each 
+   footnote if there is more than one.
+</p>
+
 <!-- END RR -->
 
 <p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an sample footnote.
@@ -1520,7 +1533,7 @@ The number, letter, or other character that marks a footnote location should be 
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p><b>Footnotes in <a href="#poetry">Poetry</a></b>
-   should be treated the same as other footnotes and left at the bottom of the page.<br /> <br />
+   should be treated the same as other footnotes.<br /> <br />
 
 <b>Footnotes in <a href="#tables">Tables</a></b> should remain where they are in the original text.
 </p>
@@ -1750,7 +1763,7 @@ and he knew, when he had done it, and to his</tt>
    will be handled later in the process. Provide enough space between entries on a line to clearly indicate where
    each item ends and begins. Retain line breaks.
 </p>
-<p><b>Footnotes</b> in tables should remain where it is in the original. See <a href="#footnotes">footnotes</a> for details.
+<p><b>Footnotes</b> in tables should remain where they are in the original. See <a href="#footnotes">footnotes</a> for details.
 </p>
 <!-- END RR -->
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -2039,7 +2052,7 @@ Souse is a bona roba, so is Flops too.</tt></p>
     </tr>
     <tr align="left">
       <td width="100%" valign="top"><img src="play3.png" width="502"
-          height="98" alt="title page image"><br>
+          height="588" alt="title page image"><br>
       </td>
     </tr>
     <tr>
@@ -2071,17 +2084,14 @@ You told me the walk was private.</tt></p>
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
    This clearly separates it from the Author's text and signals the Post-Processor to stop and carefully examine
-   this part of the text &amp; the matching image to address any issues.
-   Any comments put in by a previous volunteer <b>must</b> be left in place.
-   Agreement or disagreement can be added,
-   but even if the current volunteer looking at the text knows the answer,
-   he/she absolutely mustn't remove the comment.
+   this part of the text &amp; the matching image to address any issues. Any comments put in by a previous 
+   volunteer <b>must</b> be left in place. Agreement or disagreement can be added, but even if the current volunteer 
+   looking at the text knows the answer, he/she absolutely mustn't remove the comment.
 </p>
 <p>If you are proofreading in a later round and come across a note from a proofreader in a previous round that you know the answer to,
     please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
-   situation in the future.
-   Please, as already stated, do not remove the note.
+   situation in the future. Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
 
