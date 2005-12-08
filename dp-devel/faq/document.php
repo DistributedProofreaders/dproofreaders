@@ -29,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.9, generated November 1, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.b, generated December 8, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
@@ -180,7 +180,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>The final electronic book seen by a reader, possibly many years in the future, should accurately convey
    the intent of the author. If the author spelled words oddly, leave them spelled that way. If the author
    wrote outrageous racist or biased statements, leave them that way. If the author puts italics, bold text
-   or a footnote every third word, mark them italicized, bolded or footnoted.
+   or a footnote every third word, mark them italicized, bolded or footnoted.(See <a href="#p_errors">Printer's
+   Errors</a> for proper handling of obvious misprints.)
 </p>
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
    For example, we rejoin words that were broken at the end of a line (<a href="#eol_hyphen">End-of-line Hyphenation</a>).
@@ -415,7 +416,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3><a name="blank_pg">Blank Page</a></h3>
 <p>Format as <tt>[Blank Page]</tt> if both the text and the image are blank.
 </p>
-<p>If there is text in the text area and a blank image, or if there is an image
+<p>If there is text in the formatting text area and a blank image, or if there is an image
    but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
    or <a href="#bad_text">Bad Text</a>.
 </p>
@@ -597,7 +598,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    These are called sidenotes. Move sidenotes to just above the paragraph that they belong to.
    A sidenote should be surrounded by a sidenote tag <tt>[Sidenote:&nbsp;</tt> and <tt>]</tt>,
    with the text of the sidenote placed in between. Format the sidenote text as it is printed,
-   preserving the line breaks, italics, etc.. Leave a blank line after the sidenote, so that it
+   preserving the line breaks, italics, etc. Leave a blank line after the sidenote, so that it
    does not get merged into the paragraph when the text is rewrapped during post-processing.
 </p>
 <p>If there are multiple sidenotes for a single paragraph, put them one after another
@@ -846,7 +847,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    with the footnote text placed in between, and the footnote number or letter placed where the # is
    shown in the tag. Format the footnote text as it is printed, preserving the line breaks, italics, etc.
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
-   you used in the text where the footnote was referenced.
+   you used in the text where the footnote was referenced. Place each footnote on a separate line in 
+   order of appearance. Place a blank line between each footnote if there is more than one.
 </p>
 <!-- END RR -->
 
@@ -1028,6 +1030,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
     </tr>
     <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+    </tr>
+    <tr>
+    <tr>
       <td valign="top">
       Volunteers may be tickled pink to read<br>
       <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
@@ -1133,10 +1144,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
 </p>
 
-<p>Format words that are printed in
-   <span style="font-variant: small-caps;">all small caps</span>
-   as ALL-CAPS, and surround the text with
-   <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
+<p>Format words that are printed in <span style="font-variant: small-caps;">all small caps</span>
+   as ALL-CAPS, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
    <br>
 &nbsp; &nbsp; &nbsp; &nbsp;Example:
    You cannot be serious about
@@ -1146,13 +1155,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
 </p>
 
-<p>Words in headings
-   (Chapter Headings, Section Headings, Captions, etc.)
-   that are entirely all-capped
-   should be formatted as all-caps without any
-   &lt;sc&gt; &lt;/sc&gt;
-   The first word of a chapter that is in Small Caps
-   should be changed to mixed case without the tags.
+<p>Words in headings (Chapter Headings, Section Headings, Captions, etc.) that are entirely all-capped
+   should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter 
+   that is in Small Caps should be changed to mixed case without the tags.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
@@ -1204,8 +1209,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td> Hyphen</td>
     </tr>
     <tr>
-      <td valign="top">four-part harmony</td>
-      <td valign="top"><tt>four-part harmony</tt></td>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
       <td> Hyphen</td>
     </tr>
     <tr>
@@ -1351,7 +1356,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <h3><a name="contract">Contractions</a></h3>
-<p>Remove any extra space in contractions, for example: would&nbsp;n't should
+<p>Remove any extra space in contractions, for example: <tt>would&nbsp;n't</tt> should
    be formatted as <tt>wouldn't</tt>.
 </p>
 <p>This was often an early printers convention, where the space was retained
@@ -1847,17 +1852,13 @@ the quotes will be changed to ones used in the text in post-processing.
    of suspense. This is intended by the author, so we preserve them by putting a blank line,
    <tt>&lt;tb&gt;</tt>, and then another blank line.
 </p>
-<p>Project Managers and/or Post-Processors may make the request
-   for additional information to be retained in the thought break mark-up.
-   For example, some projects delineate different types of breaks
-   by the use of different styles of break
-   such as a line of stars in one place and a blank line in another.
-   In these cases, the Project Comments may request that these be marked up:
-   <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>.
-   Please, as always, read the project comments carefully
-   so that you will know what is required for each project.
-   Also be careful not to carry these special requests
-   into other projects with different requirements.
+<p>Project Managers and/or Post-Processors may make the request for additional information 
+   to be retained in the thought break mark-up. For example, some projects delineate different 
+   types of breaks by the use of different styles of break such as a line of stars in one place 
+   and a blank line in another. In these cases, the Project Comments may request that these be 
+   marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the 
+   project comments carefully so that you will know what is required for each project. Also 
+   be careful not to carry these special requests into other projects with different requirements.
 </p>
 <p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
    <a href="#chap_head">Chapter Headers</a>, there is no need to add a "thought break" marker.
@@ -1924,13 +1925,13 @@ the quotes will be changed to ones used in the text in post-processing.
 <p>Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style used in the printed page."
-Sometimes the printed page is unclear: in that case, leave a note[**unclear] to draw the attention of the post-processor.
-If spaces appear to exist between the dots, or between the word and the dots, replace the spaces with underscores:
-<tt>like this_...</tt> or <tt>like this_._._.</tt> depending on the style.
-This will avoid problems in rewrapping, and will be replaced by spaces during post-processing.
-</p>
-
+<p><b>LOTE:</b> (Languages Other Than English) <p><b>LOTE:</b> (Languages Other Than English) 
+   Use the general rule "Follow closely the style used in the printed page." In particular,  
+   insert spaces, if there are spaces before or between the periods, and use the same number 
+   of periods as appear in the image. Sometimes the printed page is unclear: in that case, 
+   insert a <tt>[**unclear]</tt> to draw the attention of the post-processor. (Note: 
+   Post Processors should replace those regular spaces with non-breaking spaces.)</p
+>
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
 <? if(!$utf8_site) { ?>
 <p>Please format these using the proper accented Latin-1 characters. Only use characters which are not
@@ -1985,8 +1986,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
   <li>You can use the Character Map program
      (Start: Run: charmap) to select an individual letter, and then cut &amp; paste.
   </li>
-  <li>If you are using the enhanced proofreading interface, the <i>more</i> tag opens a pop-up
-      window containing these characters, which you can then cut &amp; paste.
+  <li>The dropdown menus in the proofreading interface.
   </li>
   <li>Or you can type the Alt+NumberPad shortcut codes for these characters.
       <br>This is faster than using cut &amp; paste, once you get used to the codes.
@@ -2071,7 +2071,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td><? if(!$utf8_site) { ?>Use "[oe]"<? } else {?>Alt-0339<? } ?></td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
@@ -2079,7 +2079,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td><? if(!$utf8_site) { ?>Use "[OE]"<? } else {?>Alt-0338<? } ?></td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
@@ -2151,7 +2151,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Alt-0184</td>
       <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Alt-0187</td>
       <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>Alt-0188</td>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; <sup><small>1</small></sup></td><td>Alt-0188</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>Alt-0178</td>
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
@@ -2159,7 +2159,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Alt-0183</td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Alt-0186</td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>Alt-0189</td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; <sup><small>1</small></sup></td><td>Alt-0189</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>Alt-0179</td>
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Alt-0223</td>
@@ -2167,10 +2167,14 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>Alt-0042</td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Alt-0170</td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>Alt-0190</td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; <sup><small>1</small></sup></td><td>Alt-0190</td>
   </tr>
   </tbody>
 </table>
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+   <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)</p>
+
 
 <p> <b>For Apple Macintosh</b>:
 </p>
@@ -2182,7 +2186,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       reference to see how to type that character, or you can cut &amp; paste it from
       here into the text in the proofreading interface.</li>
   <li>In OS X 10.3 and higher, the same function is now a palette available from the Input
-      menu (the drop-down menu attached to your locale's flag icon in the menu bar). It's labelled
+      menu (the drop-down menu attached to your locale's flag icon in the menu bar). It's labeled
       "Show Keyboard Viewer." If this isn't in your Input menu, or if you don't have that menu, you can
       activate it by opening System Preferences, the "International" panel, and selecting the "Input Menu"
       pane. Ensure that "Show input menu in menu bar" is checked. In the spreadsheet view, check the box
@@ -2216,7 +2220,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <th colspan=2>&deg; ring</th>
       <th colspan=2>&AElig; ligature</th>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-~, a</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-`, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Opt-e, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Opt-i, a</td>
       <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Opt-n, a</td>
@@ -2270,7 +2274,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td><? if(!$utf8_site) { ?>Use "[oe]"<? } else {?>Opt-q<? } ?></td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-~, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
@@ -2278,7 +2282,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td><? if(!$utf8_site) { ?>Use "[OE]"<? } else {?>Opt-Q<? } ?></td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-~, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
@@ -2310,7 +2314,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
       <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Opt-u, Y</td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Opt-V   </td>
+      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&dagger;</td>
   </tr>
   <tr><th colspan=2 bgcolor="cornsilk">&ccedil;edilla </th>
       <th colspan=2 bgcolor="cornsilk">Icelandic    </th>
@@ -2321,11 +2325,11 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Opt-/   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Opt-c   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>Shift-Opt-5</td>
+      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>(none)&nbsp;&Dagger;</td>
       <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Opt-g   </td>
       <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Opt-E   </td>
       <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Opt-?   </td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>Shift-4</td>
       <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
@@ -2350,7 +2354,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Opt-Z   </td>
       <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Shift-Opt-\</td>
       <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>(none)&nbsp;&Dagger;  </td>
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
@@ -2358,7 +2362,7 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Opt-8  </td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
@@ -2366,12 +2370,17 @@ This will avoid problems in rewrapping, and will be replaced by spaces during po
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
   </tbody>
 </table>
 <p>&Dagger;&nbsp;Note: No equivalent shortcut, use drop-down menus.
 </p>
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
+  Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+  <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
+</p>
+
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
@@ -2688,7 +2697,7 @@ cedilla                      [,x]   [x,]
  <li>Format actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
    <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.</li>
 <li>Stage directions are formatted as they are in the original text.<br>
-    If the stage direction on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there;
+    If the stage direction is on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there;
    if it is right-justified at the end of a line of dialogue, leave six spaces between the dialogue and the stage directions.<br>
 Stage directions often begin with an opening bracket and omit the closing bracket.<br>
    This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
@@ -2852,7 +2861,7 @@ Such news as you'll be overjoy'd to hear.<br>
     </tr>
     <tr align="left">
       <td width="100%" valign="top"><img src="play3.png" width="502"
-          height="98" alt="title page image"><br>
+          height="588" alt="Plays image"><br>
       </td>
     </tr>
     <tr>
@@ -3078,7 +3087,7 @@ Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt
 </p>
 <p>If you are unsure, place a note in the txet <tt>[**typo for text?]</tt> and ask in the
    Project Discussion thread. If you do make a change, include a note describing what you changed:
-   <tt>[*Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
+   <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
    Include an <tt>*</tt> so the post-processor will notice it.
 </p>
 
