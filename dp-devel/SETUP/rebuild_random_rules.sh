@@ -49,7 +49,7 @@ rm -f tip000
 typeset -i rulecount=$basecount
 for file in $(ls -1 tip*)
 do
-awk -v id=$rulecount -v document=$document '
+tr -d '\r' < $file | awk -v id=$rulecount -v document=$document '
 # This is a quoted apostrophe
 BEGIN { quoap = "\\x27" }
 {
@@ -91,7 +91,7 @@ printf ("%s ", $0)
 }
 # End will close insert statement and add newline
 END { print "\x27\x29;"
-    } ' $file >new$file
+    } ' >new$file
 rm -f $file
 
 # Ditch the empties that we're ignoring and decrement counter
