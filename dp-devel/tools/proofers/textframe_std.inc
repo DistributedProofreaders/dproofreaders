@@ -9,9 +9,6 @@ include_once('page_misc.inc');
 // get cookie
 $npage = getPageCookie();
 
-// get page text
-$npage['text'] = nPage_getText($npage);
-
 
 slim_header("Text Frame",TRUE,FALSE);
 ?>
@@ -37,7 +34,7 @@ slim_header("Text Frame",TRUE,FALSE);
 	//-->
 </script>
 <?
-  echo_proofing_textarea( $npage['text'], FALSE );
+  echo_proofing_textarea( $npage, FALSE );
 ?>
 <BR>
 <?

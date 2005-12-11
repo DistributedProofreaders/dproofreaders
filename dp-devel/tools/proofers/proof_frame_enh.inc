@@ -8,9 +8,6 @@ include_once('page_misc.inc');
 // get cookie
 $npage = getPageCookie();
 
-// get page text
-$npage['text'] = nPage_getText($npage);
-
 
 // set image and text height and width
   if ($userP['i_layout']=='1')
@@ -251,7 +248,7 @@ echo_hidden_fields($npage);
   id="tdtext"
   valign="top"><?PHP
 
-  echo_proofing_textarea( $npage['text'], TRUE );
+  echo_proofing_textarea( $npage, TRUE );
 
 ?></td></tr><tr><td
   id="tdbottom"

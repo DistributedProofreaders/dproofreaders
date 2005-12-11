@@ -90,9 +90,11 @@ function page_image_url( $npage )
     return "$projects_url/{$npage['project']}/{$npage['image']}";
 }
 
-function echo_proofing_textarea( $page_text, $enhanced )
+function echo_proofing_textarea( $npage, $enhanced )
 {
     global $userP, $f_f, $f_s, $lang;
+
+    $page_text = nPage_getText($npage);
 
     if ( $userP['i_layout']==1 )
     {
