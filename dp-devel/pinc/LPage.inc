@@ -155,7 +155,12 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 
 function nPage_can_be_reverted_to_last_save( $npage )
 {
-    return ( $npage['revert']==1 || $npage['saved']==1 );
+    $round = get_Round_for_page_state( $npage['pagestate'] );
+
+    return ( $npage['revert']==1
+        || $npage['pagestate'] == $round->page_save_state
+        || $npage['pagestate'] == $round->page_temp_state
+    );
 }
 
 function nPage_getText( $npage )
@@ -166,7 +171,8 @@ function nPage_getText( $npage )
     {
         $desired_column_name = $round->prevtext_column_name;
     }
-    else if ( $npage['saved']==1 )
+    else if ( $npage['pagestate'] == $round->page_save_state
+           || $npage['pagestate'] == $round->page_temp_state )
     {
         $desired_column_name = $round->text_column_name;
     }
