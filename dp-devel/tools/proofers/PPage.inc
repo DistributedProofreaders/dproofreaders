@@ -8,10 +8,6 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 
 function echo_hidden_fields( $npage )
 {
-    // get page language
-    $res = mysql_query("SELECT language FROM projects WHERE projectid='{$npage['project']}'");
-    $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
-
     // set values for hidden form fields
     $sHidFS="<input type='hidden' value='";
     $sHidFM="' name='";
@@ -23,7 +19,6 @@ function echo_hidden_fields( $npage )
     echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
     echo $sHidFS.$npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
     echo $sHidFS.$npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-    echo $sHidFS.$lang               .$sHidFM.'lang'       .$sHidFM2.'lang'       .$sHidFE;
 }
 
 function ReportBadPage_button_should_be_shown( $npage, $username )
@@ -92,9 +87,13 @@ function page_image_url( $npage )
 
 function echo_proofing_textarea( $npage, $enhanced )
 {
-    global $userP, $f_f, $f_s, $lang;
+    global $userP, $f_f, $f_s;
 
     $page_text = nPage_getText($npage);
+
+    // get page language
+    $res = mysql_query("SELECT language FROM projects WHERE projectid='{$npage['project']}'");
+    $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
 
     if ( $userP['i_layout']==1 )
     {
