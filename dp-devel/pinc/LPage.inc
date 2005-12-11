@@ -260,25 +260,6 @@ function getRevertState()
   return $this->round->page_temp_state;
 }
 
-function exitInterface($newwin,$editone)
-{
-  $returnURL =
-        $editone==1
-        ? "$code_url/project.php?id={$this->project}&mp;expected_state={$this->proofstate}"
-        : "$code_url/activity_hub.php";
-    if ($newwin==0)
-      {metarefresh(0,"$returnURL",' ',' ');}
-    else
-      {
-        include($relPath.'doctype.inc');
-        echo "$docType\r\n<HTML><BODY>";
-        echo "<SCRIPT LANGUAGE=\"JavaScript\" TYPE=\"text/javascript\">window.opener.location.href=\"$returnURL\";";
-        echo "window.close();</SCRIPT>";
-        echo "<A HREF=\"#\" onclick=\"window.close()\">"._("Click here to close the proofreading window.")."</A>";
-        echo "</BODY></HTML>";
-      }
-}
-
 function returnPage($pguser)
 {
   return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );

@@ -153,9 +153,6 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 	echo "// --></script>\n";
 	echo "</body>";
 	echo "</html>";
-
-	// $editone=isset($editone)?$editone:0;
-	// $tpage->exitInterface($userP['i_newwin'],$editone);
 }
 
 // =============================================================================
