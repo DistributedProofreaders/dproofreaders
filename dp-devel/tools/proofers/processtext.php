@@ -101,7 +101,6 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
     } // end change layout prefs
     if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
     else {$npage['revert']=0;}
-  $npage['errcheck']=0;
   setTempPageCookie($npage);
   include('proof_frame.inc');
   exit;
@@ -175,7 +174,6 @@ if ($tbutton==B_RUN_SPELL_CHECK)
 if ($tbutton==B_RUN_COMMON_ERRORS_CHECK)
 {
   $npage = getPageCookie();
-  $npage['errcheck']=1;
   setTempPageCookie($npage);
 //  include('errcheck.inc');
 } // end B_RUN_COMMON_ERRORS_CHECK
