@@ -15,7 +15,7 @@ $project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1
 $project, $proofstate
 */
 
-if (isset($saved)) {
+if (isset($pagestate)) {
     // The user clicked on a saved page.
 
     // Make sure project is still in same state.
