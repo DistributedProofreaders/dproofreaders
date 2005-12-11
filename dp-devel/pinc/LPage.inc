@@ -153,6 +153,11 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 
 // -----------------------------------------------------------------------------
 
+function nPage_can_be_reverted_to_last_save( $npage )
+{
+    return ( $npage['revert']==1 || $npage['saved']==1 );
+}
+
 function nPage_getText( $npage )
 {
     $round = get_Round_for_page_state( $npage['pagestate'] );
