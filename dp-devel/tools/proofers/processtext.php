@@ -101,7 +101,6 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
     } // end change layout prefs
     if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
     else {$npage['revert']=0;}
-  $npage['saved']=1;
   $npage['errcheck']=0;
   setTempPageCookie($npage);
   include('proof_frame.inc');
@@ -193,7 +192,6 @@ if ($tbutton==101 || $tbutton==102)
 
 	  $npage = getPageCookie();
 	  $npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
-	  $npage['saved']=1;
 	  setTempPageCookie($npage);
     }
     else if ( $tbutton == 102 )
@@ -203,7 +201,6 @@ if ($tbutton==101 || $tbutton==102)
 
 	$npage = getPageCookie();
 	$npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
-	$npage['saved']=1;
 	setTempPageCookie($npage);
     }
 
