@@ -15,10 +15,12 @@ $project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1, $editone=1
 $project, $proofstate
 */
 
-//Make sure project is still in same state.
-project_continuity_check($project,$proofstate,!isset($editone));
-
 if (isset($saved)) {
+    // The user clicked on a saved page.
+
+    // Make sure project is still in same state.
+    project_continuity_check($project,$proofstate,FALSE);
+
     $err = resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser );
     if ($err)
     {
@@ -29,6 +31,9 @@ if (isset($saved)) {
 else
 {
     // The user clicked "Start Proofreading".
+
+    // Make sure project is still in same state.
+    project_continuity_check($project,$proofstate,TRUE);
 
 // see if they need a new page or not
 $needPage=1;
