@@ -167,16 +167,9 @@ function nPage_getText( $npage )
 {
     $round = get_Round_for_page_state( $npage['pagestate'] );
 
-    if ( $npage['revert']==1 || $npage['pagestate']==$round->page_out_state )
-    {
-        $desired_column_name = $round->prevtext_column_name;
-    }
-    else if ( $npage['pagestate'] == $round->page_save_state
-           || $npage['pagestate'] == $round->page_temp_state )
-    {
-        $desired_column_name = $round->text_column_name;
-    }
-    else if ( $npage['pagestate']==$round->page_avail_state || $npage['pagestate']==$round->page_out_state )
+    if ( $npage['revert']==1
+        || $npage['pagestate']==$round->page_avail_state
+        || $npage['pagestate']==$round->page_out_state )
     {
         $desired_column_name = $round->prevtext_column_name;
     }
