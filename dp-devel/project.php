@@ -796,9 +796,8 @@ function recentlyproofed( $wlist )
         $newimagefile = '&amp;imagefile='.$imagefile;
         $newproofstate = '&amp;proofstate='.$state;
         $newpagestate = '&amp;pagestate='.$pagestate;
-        $saved="&amp;saved=1";
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate.$saved;
+        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate;
         echo "<TD ALIGN=\"center\">";
         echo "<A HREF=\"$eURL\">";
         echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";

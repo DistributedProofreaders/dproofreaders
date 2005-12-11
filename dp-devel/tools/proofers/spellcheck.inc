@@ -282,7 +282,6 @@ name="spcorrects" action="processtext.php" method="POST"><table
       echo $sHidFS.$proofstate.$sHidFM.'proofstate'.$sHidFM2.'proofstate'.$sHidFE;
       echo $sHidFS.$pagestate.$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
       echo $sHidFS.$project.$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-      if (isset($saved)) { echo $sHidFS.$saved.$sHidFM.'saved'.$sHidFM2.'saved'.$sHidFE;}
 
     spellcheck_text( $text_data, $project, $imagefile );
 ?>

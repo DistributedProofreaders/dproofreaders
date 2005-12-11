@@ -8,7 +8,7 @@ include_once($relPath.'project_continuity.inc');
 include_once($relPath.'v_site.inc');
 
 /* $_GET from IN PROGRESS/DONE
-$project, $proofstate, $fileid, $imagefile, $pagestate, $saved=1
+$project, $proofstate, $fileid, $imagefile, $pagestate
 */
 
 /* $_GET from "Start Proofreading" etc.
