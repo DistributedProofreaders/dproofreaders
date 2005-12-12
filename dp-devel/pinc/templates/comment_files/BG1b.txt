@@ -1,6 +1,6 @@
 <p><b>BASIC INSTRUCTIONS:</b></p>
 <p><b>Here are a few basic instructions.</b> Please consult the 
-<a href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php">Proofreading 
+<a href="http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading 
 Guidelines</a> to go beyond these basics. </p>
 
 <p><b>Make the text look like the page image except as 
@@ -15,7 +15,7 @@ spell-check on your page, and verify that any queried
 words do, in fact, match the words in the scan. Please do 
 NOT correct the word in the text if it is a true match to 
 the word in the scan. Refer to the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#p_errors">Proofreading
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#p_errors">Proofreading
 Guidelines</a> for more information on handling printers' 
 errors and misspellings.</b></p>
 
@@ -63,7 +63,7 @@ if the em-dash is short and four hyphens if the em-dash is long. If a
 line ends with a dash, move the first word of the following line up to 
 "clothe the naked dash", then insert a line break following the word 
 you just moved. See the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#em_dashes">Proofreading 
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#em_dashes">Proofreading 
 Guidelines</a> for more details.</p>
 <p><i>Scan Example:</i>
 <br>He walked over to the window-a strange look on his face-
@@ -73,7 +73,7 @@ Guidelines</a> for more details.</p>
 <br>tapped on the glass. "Susan!----Over here!"</p>
 
 <p>---6. If you have a page with a poem on it, read the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#poetry">Proofreading 
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#poetry">Proofreading 
 Guidelines</a>, to see how to handle it. Set it off from surrounding 
 text by inserting one blank line before and one blank line after the poem; 
 it is not necessary to preserve indentation or attempt to center lines.</p>
@@ -88,16 +88,16 @@ and correct. Proofers are NOT expected to add or correct this mark-up.</p>
 <p>---8. Page Headers and Footers: Running headers/footers may include book 
 title, author, chapter title, and/or page number. They will be at the very top or 
 bottom of the page. Remove these, including the page numbers. See the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#page_hf">Proofreading 
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#page_hf">Proofreading 
 Guidelines</a> for an example.
 
 <p>---9. Illustrations? Read the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#illust">Proofreading 
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#illust">Proofreading 
 Guidelines</a>! Proof the text of the captions, leaving the caption where it falls 
 on the page. If the caption text was omitted from the OCR'ed text, please type it in.
 
 <p>--10. Footnotes? Read the <a 
-href="http://www.pgdp.net/c/faq/guidelines-new-proofing.php#footnotes">Proofreading 
+href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading 
 Guidelines</a>! Leave the note where it falls on the page, and surround the footnote 
 marker in the text with square brackets, i.e., [1] or [*]. 
 
