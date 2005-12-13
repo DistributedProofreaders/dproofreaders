@@ -78,9 +78,18 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
     dpsession_set_preferences_temp( $userP );
   }
 
+// If the user simply wants to leave the proofing interface,
+// then it doesn't matter what state the project or page is in.
+// So handle that case before we do any continuity/permission checks.
+if ($tbutton == B_QUIT)
+{
+    leave_proofing_interface( _("Stop Proofreading"), '' );
+    exit;
+}
+
 //Make sure project is still available
   // only if not in a check
-  if ($tbutton <100 && $tbutton != B_QUIT)
+  if ($tbutton <100)
   {
     project_continuity_check($project,$proofstate,FALSE);
   }
@@ -121,11 +130,6 @@ if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 {
 	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
 	metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
-}
-else if ($tbutton==B_QUIT)
-{
-	leave_proofing_interface(
-		_("Stop Proofreading"), '' );
 }
 else if ($tbutton==B_SAVE_AND_QUIT)
 {
