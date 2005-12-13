@@ -122,23 +122,20 @@ if ($tbutton==B_SAVE_AND_DO_ANOTHER)
 	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
 	metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
 }
-else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAGE_TO_ROUND)
+else if ($tbutton==B_QUIT)
 {
-	if ($tbutton==B_QUIT)
-	{
-		leave_proofing_interface(
-		       	_("Stop Proofreading"), '' );
-	}
-	else if ($tbutton==B_SAVE_AND_QUIT)
-	{
-		leave_proofing_interface(
-		       	_("Save as 'Done'"), _("Page Saved.") );
-	}
-	else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
-	{
-		leave_proofing_interface(
-		       	_("Return to Round"), _("Page Returned to Round.") );
-	}
+	leave_proofing_interface(
+		_("Stop Proofreading"), '' );
+}
+else if ($tbutton==B_SAVE_AND_QUIT)
+{
+	leave_proofing_interface(
+		_("Save as 'Done'"), _("Page Saved.") );
+}
+else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
+{
+	leave_proofing_interface(
+		_("Return to Round"), _("Page Returned to Round.") );
 }
 
 // =============================================================================
