@@ -126,31 +126,19 @@ else if ($tbutton==B_QUIT || $tbutton==B_SAVE_AND_QUIT || $tbutton==B_RETURN_PAG
 {
 	if ($tbutton==B_QUIT)
 	{
-		$title=_("Stop Proofreading");
-		$body='';
+		leave_proofing_interface(
+		       	_("Stop Proofreading"), '' );
 	}
 	else if ($tbutton==B_SAVE_AND_QUIT)
 	{
-		$title=_("Save as 'Done'");
-		$body=_("Page Saved.");
+		leave_proofing_interface(
+		       	_("Save as 'Done'"), _("Page Saved.") );
 	}
 	else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 	{
-		$title=_("Return to Round");
-		$body=_("Page Returned to Round.");
+		leave_proofing_interface(
+		       	_("Return to Round"), _("Page Returned to Round.") );
 	}
-
-	slim_header( $title );
-//	$text = _("Please click here to return to Project Page.");
-	$text =  _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
-	$url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
-//	echo "<a href='$url' target='_top'>$text</a>";
-	echo sprintf($text, $url);
-	echo "<script language='JavaScript'><!--\n";
-	echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
-	echo "// --></script>\n";
-	echo "</body>";
-	echo "</html>";
 }
 
 // =============================================================================
@@ -203,6 +191,29 @@ if ($tbutton==101 || $tbutton==102)
     }
 
     include('proof_frame.inc');
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function leave_proofing_interface( $title, $body )
+{
+    global $code_url, $project, $proofstate;
+
+    slim_header( $title );
+
+    $url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
+
+//    $text = _("Please click here to return to Project Page.");
+//    echo "<a href='$url' target='_top'>$text</a>";
+
+    $text =  _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
+    echo sprintf($text, $url);
+    echo "<script language='JavaScript'><!--\n";
+    echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
+    echo "// --></script>\n";
+
+    echo "</body>";
+    echo "</html>";
 }
 
 ?>
