@@ -118,7 +118,7 @@ You will then be able to put the project back up on the site.";
 		$message =
 "Page $imagefile of this project has been marked bad due to $reason_list[$reason].
 Please visit
-    $code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&fileid=$fileid
+    $code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagefile
 to make any needed changes and make the page available for proofreading again.
 Until this report has been resolved, the project will not be able to leave
 the current round. If 10 pages are marked bad by at least 3 different users,

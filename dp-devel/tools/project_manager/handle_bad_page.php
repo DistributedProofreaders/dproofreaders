@@ -11,15 +11,14 @@ if (!isset($_POST['resolution'])) {
     //Get variables to use for form
     $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectid = $_GET['projectid'];
-    $fileid = $_GET['fileid'];
+    $image = $_GET['image'];
     if (!isset($projectid)) {
         $projectid = $_POST['projectid'];
-        $fileid = $_POST['fileid'];
+        $image = $_POST['image'];
     }
 
     //Find out information about the bad page report
-    $result = mysql_query("SELECT * FROM $projectid WHERE fileid='$fileid'");
-    $image = mysql_result($result,0,"image");
+    $result = mysql_query("SELECT * FROM $projectid WHERE image='$image'");
     $state = mysql_result($result,0,"state");
     $b_User = mysql_result($result,0,"b_user");
     $b_Code = mysql_result($result,0,"b_code");
@@ -38,7 +37,6 @@ if (!isset($_POST['resolution'])) {
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='fileid' value='$fileid'>";
     echo "<input type='hidden' name='image' value='$image'>";
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
@@ -75,9 +73,9 @@ if (!isset($_POST['resolution'])) {
 
     echo "<strong>Modify:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=text'>Text from Previous Round</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>Text from Previous Round</a>";
     echo " | ";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>Original Image</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>Original Image</a>";
     echo "</td></tr>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     
@@ -102,13 +100,13 @@ if (!isset($_POST['resolution'])) {
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
         $prevtext_column = $round->prevtext_column_name;
-        $result = mysql_query("SELECT $prevtext_column FROM $projectid where fileid='$fileid'");
+        $result = mysql_query("SELECT $prevtext_column FROM $projectid where image='$image'");
         $prev_text = mysql_result($result, 0, $prevtext_column);
 
         echo "<form action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
-        echo "<input type='hidden' name='fileid' value='$fileid'>";
+        echo "<input type='hidden' name='image' value='$image'>";
         echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
         echo _("The textarea below contains the text from the previous round for ").$image.".<br>";
         echo _("You may use it as-is, or insert other replacement text for this page:<br>");
@@ -128,7 +126,6 @@ if (!isset($_POST['resolution'])) {
         echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='image'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
-        echo "<input type='hidden' name='fileid' value='$fileid'>";
         echo "<input type='hidden' name='image' value='$image'>";
         echo _("Select an image to upload and replace ").$image._(" with:<br>");
         echo "<input type='file' name='image_upload' size=30><br><br>";
@@ -146,10 +143,10 @@ if (!isset($_POST['resolution'])) {
             } else {
                 echo "<b>"._("Image NOT updated.<br>");
                 echo _("The uploaded file type ($tmp_image_ext) does not match the original file type ($org_image_ext).<br>");
-		echo _("Click ") . "<a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
+		echo _("Click ") . "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
             }
         } else {
-            echo "<b>"._("The uploaded file must be a PNG or JPG file! Click")." <a href='handle_bad_page.php?projectid=$projectid&fileid=$fileid&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
+            echo "<b>"._("The uploaded file must be a PNG or JPG file! Click")." <a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
         }
     }
 
@@ -159,7 +156,6 @@ if (!isset($_POST['resolution'])) {
 
     //Get variables passed from form
     $projectid = $_POST['projectid'];
-    $fileid = $_POST['fileid'];
     $image = $_POST['image'];
     $state = $_POST['state'];
 
