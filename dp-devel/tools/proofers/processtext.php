@@ -24,9 +24,6 @@ $project = $projectname;
 
 $text_data = isset($text_data) ? $text_data : '';
 
-$tpage=new processpage();
-$tpage->setPageState($pagestate,$project,$imagefile,$proofstate);
-
 define('B_TEMPSAVE',                1);
 define('B_SAVE_AND_DO_ANOTHER',     2);
 define('B_QUIT',                    3);
@@ -87,6 +84,11 @@ if ($tbutton == B_QUIT)
     exit;
 }
 
+
+$tpage=new processpage();
+$tpage->setPageState($pagestate,$project,$imagefile,$proofstate);
+$npage = getPageCookie();
+
 //Make sure project is still available
   // only if not in a check
   if ($tbutton <100)
@@ -99,7 +101,6 @@ if ($tbutton == B_QUIT)
 // temp saves and revert
 if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
 {
-  $npage = getPageCookie();
   if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($text_data,$pguser);}
   else {$npage['pagestate']=$tpage->getRevertState();}
     if ($tbutton==B_SWITCH_LAYOUT)
@@ -154,7 +155,6 @@ if ($tbutton==B_RUN_SPELL_CHECK)
 {
   if ( ! is_dir($aspell_temp_dir) ) // Check first
   { mkdir($aspell_temp_dir);}
-  $npage = getPageCookie();
   setTempPageCookie($npage);
   include('spellcheck.inc');
 } // end B_RUN_SPELL_CHECK
@@ -162,7 +162,6 @@ if ($tbutton==B_RUN_SPELL_CHECK)
 // run common errors check
 if ($tbutton==B_RUN_COMMON_ERRORS_CHECK)
 {
-  $npage = getPageCookie();
   setTempPageCookie($npage);
 //  include('errcheck.inc');
 } // end B_RUN_COMMON_ERRORS_CHECK
@@ -177,7 +176,6 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Submit Corrections" button.
 	$correct_text = spellcheck_apply_corrections();
 
-	  $npage = getPageCookie();
 	  $npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
 	  setTempPageCookie($npage);
     }
@@ -186,7 +184,6 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Quit" button.
 	$correct_text = spellcheck_quit();
 
-	$npage = getPageCookie();
 	$npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
 	setTempPageCookie($npage);
     }
