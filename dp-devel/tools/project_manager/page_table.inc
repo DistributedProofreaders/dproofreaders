@@ -319,7 +319,6 @@ function echo_page_table(
 				$url .= "&amp;imagefile=$imagename";
 				$url .= "&amp;proofstate=$state";
 				$url .= "&amp;pagestate=$page_state";
-				$url .= "&amp;saved=1";
 
 				echo "<td><a href=$url>"._("Edit")."</a></td>\n";
 			}
