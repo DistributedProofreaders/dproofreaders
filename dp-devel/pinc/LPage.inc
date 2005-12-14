@@ -211,13 +211,18 @@ function nPage_getText( $npage )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-class processpage
+class LPage
+// The "L" stands for "Logic",
+// as in the 3 tiers of Data, Logic, and Presentation.
+// (For pages, the Data layer is pinc/page_ops.inc,
+// and the Presentation layer is most of tools/proofers/*.
+// However, we're not very strict about the divisions yet.)
 {
     var $project='';
     var $imagefile='';
     var $round=NULL;
 
-    function processpage()
+    function LPage()
     {
     }
 
@@ -273,7 +278,7 @@ class processpage
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Functions that used to be in the 'processpage' class, but didn't need to be.
+// Functions that used to be in the 'LPage' class, but didn't need to be.
 
 function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
 {

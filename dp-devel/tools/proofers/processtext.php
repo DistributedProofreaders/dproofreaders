@@ -85,8 +85,8 @@ if ($tbutton == B_QUIT)
 }
 
 
-$tpage=new processpage();
-$tpage->setPageState($pagestate,$project,$imagefile,$proofstate);
+$lpage = new LPage();
+$lpage->setPageState($pagestate,$project,$imagefile,$proofstate);
 $npage = getPageCookie();
 
 //Make sure project is still available
@@ -101,8 +101,8 @@ $npage = getPageCookie();
 // temp saves and revert
 if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
 {
-  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$tpage->saveTemp($text_data,$pguser);}
-  else {$npage['pagestate']=$tpage->getRevertState();}
+  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$lpage->saveTemp($text_data,$pguser);}
+  else {$npage['pagestate']=$lpage->getRevertState();}
     if ($tbutton==B_SWITCH_LAYOUT)
     {
       $userP['i_layout']=$userP['i_layout']==1? 0:1;
@@ -120,11 +120,11 @@ if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_O
 
 if ($tbutton==B_SAVE_AND_DO_ANOTHER || $tbutton==B_SAVE_AND_QUIT)
 {
-	$tpage->saveComplete($text_data,$pguser);
+	$lpage->saveComplete($text_data,$pguser);
 }
 else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 {
-	$tpage->returnPage($pguser);
+	$lpage->returnPage($pguser);
 }
 
 if ($tbutton==B_SAVE_AND_DO_ANOTHER)
@@ -147,7 +147,7 @@ else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
 
 if ($tbutton==B_REPORT_BAD_PAGE)
 {
-$badState=$tpage->round->page_bad_state;
+$badState=$lpage->round->page_bad_state;
 include('report_bad_page.php');
 } // end B_REPORT_BAD_PAGE
 
@@ -176,7 +176,7 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Submit Corrections" button.
 	$correct_text = spellcheck_apply_corrections();
 
-	  $npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
+	  $npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
 	  setTempPageCookie($npage);
     }
     else if ( $tbutton == 102 )
@@ -184,7 +184,7 @@ if ($tbutton==101 || $tbutton==102)
 	// User hit "Quit" button.
 	$correct_text = spellcheck_quit();
 
-	$npage['pagestate']=$tpage->saveTemp(addslashes($correct_text),$pguser);
+	$npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
 	setTempPageCookie($npage);
     }
 
