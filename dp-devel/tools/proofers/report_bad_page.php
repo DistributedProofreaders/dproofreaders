@@ -14,7 +14,6 @@ include_once($relPath.'projectinfo.inc');
 $no_stats=1;
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];
-$fileid     = $_POST['fileid'];
 $imagefile  = $_POST['imagefile'];
 // When this file included from processtext.php,
 // $_POST['badState'] is not defined,
@@ -38,7 +37,6 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "</ul></td></tr></table></div></center></font>";
 	echo "<br><br><center>";
 	echo "<form action='report_bad_page.php' method='post'>";
-	echo "<input type='hidden' name='fileid' value='$fileid'>";
 	echo "<input type='hidden' name='imagefile' value='$imagefile'>";
 	echo "<input type='hidden' name='projectname' value='$projectid'>";
 	echo "<input type='hidden' name='badState' value='$badState'>";
