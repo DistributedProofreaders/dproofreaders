@@ -222,11 +222,7 @@ class LPage
     var $imagefile='';
     var $round=NULL;
 
-    function LPage()
-    {
-    }
-
-    function setPageState($pagestate,$project,$imagefile,$proofstate)
+    function LPage($project, $proofstate, $imagefile, $pagestate)
     {
         $this->project=$project;
         $this->imagefile=$imagefile;

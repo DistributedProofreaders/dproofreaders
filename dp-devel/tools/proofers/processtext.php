@@ -85,8 +85,7 @@ if ($tbutton == B_QUIT)
 }
 
 
-$lpage = new LPage();
-$lpage->setPageState($pagestate,$project,$imagefile,$proofstate);
+$lpage = new LPage($project, $proofstate, $imagefile, $pagestate);
 $npage = getPageCookie();
 
 //Make sure project is still available
