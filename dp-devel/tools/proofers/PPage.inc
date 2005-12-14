@@ -15,7 +15,6 @@ function echo_hidden_fields( $npage )
     $sHidFE="'>\n";
 
     echo $sHidFS.$npage['image']     .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
-    echo $sHidFS.$npage['fileid']    .$sHidFM.'fileid'     .$sHidFM2.'fileid'     .$sHidFE;
     echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
     echo $sHidFS.$npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
     echo $sHidFS.$npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;

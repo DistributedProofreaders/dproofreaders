@@ -6,7 +6,7 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'slim_header.inc');
 
-/* $_POST $imagefile, $fileid, $proofstate, $button1, $button2, $button3, $button4,
+/* $_POST $imagefile, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $pagestate */
 
