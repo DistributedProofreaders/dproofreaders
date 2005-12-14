@@ -4,7 +4,7 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'stages.inc');
 
     $project = $_GET['project'];
-    $fileid = $_GET['fileid'];
+    $image = $_GET['image'];
     $round_num = $_GET['round_num'];
 
     if ($round_num == 0) {
@@ -18,7 +18,7 @@ include_once($relPath.'stages.inc');
         $text_column_name = $round->text_column_name;
     }
 
-    $result = mysql_query("SELECT $text_column_name FROM $project WHERE fileid = '$fileid'"); 
+    $result = mysql_query("SELECT $text_column_name FROM $project WHERE image = '$image'"); 
     $data = mysql_result($result, 0, $text_column_name);
 
     header("Content-type: text/plain; charset=$charset");

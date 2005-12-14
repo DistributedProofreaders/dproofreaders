@@ -67,7 +67,7 @@ if (!isset($_POST['resolution'])) {
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&fileid=$fileid&round_num=$prev_round_num' target='_new'>View Text</a>";
+    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>View Text</a>";
     echo " | ";
     echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a>";
     echo "</td></tr>";
