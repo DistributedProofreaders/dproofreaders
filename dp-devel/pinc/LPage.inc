@@ -213,61 +213,61 @@ function nPage_getText( $npage )
 
 class processpage
 {
-  var $project='';
-  var $imagefile='';
-  var $round=NULL;
+    var $project='';
+    var $imagefile='';
+    var $round=NULL;
 
-function processpage()
-{
-}
-
-function setPageState($pagestate,$project,$imagefile,$proofstate)
-{
-  $this->project=$project;
-  $this->imagefile=$imagefile;
-  $this->pagestate=$pagestate;
-  $this->proofstate=$proofstate;
-
-  $this->round = get_Round_for_page_state($pagestate);
-}
-
-function addUserCount($pguser)
-{
-  $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}'";
-  $result=mysql_query($sql);
-  $rows=mysql_num_rows($result);
-    if ($rows !=0)
+    function processpage()
     {
-      $curState=mysql_result($result,0,'state');
-        if ($curState == $this->round->page_out_state || $curState == $this->round->page_temp_state)
+    }
+
+    function setPageState($pagestate,$project,$imagefile,$proofstate)
+    {
+        $this->project=$project;
+        $this->imagefile=$imagefile;
+        $this->pagestate=$pagestate;
+        $this->proofstate=$proofstate;
+
+        $this->round = get_Round_for_page_state($pagestate);
+    }
+
+    function addUserCount($pguser)
+    {
+        $sql = "SELECT state FROM {$this->project} WHERE image='{$this->imagefile}'";
+        $result=mysql_query($sql);
+        $rows=mysql_num_rows($result);
+        if ($rows !=0)
         {
-          // add to user page count
-          page_tallies_add( $this->round->id, $pguser, +1 );
+            $curState=mysql_result($result,0,'state');
+            if ($curState == $this->round->page_out_state || $curState == $this->round->page_temp_state)
+            {
+                // add to user page count
+                page_tallies_add( $this->round->id, $pguser, +1 );
+            }
         }
     }
-}
 
 
-function saveTemp($text_data,$pguser)
-{
-  return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
-}
+    function saveTemp($text_data,$pguser)
+    {
+        return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
+    }
 
-function saveComplete($text_data,$pguser)
-{
-  $this->addUserCount($pguser);
-  return Page_saveAsDone( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
-}
+    function saveComplete($text_data,$pguser)
+    {
+        $this->addUserCount($pguser);
+        return Page_saveAsDone( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
+    }
 
-function getRevertState()
-{
-  return $this->round->page_temp_state;
-}
+    function getRevertState()
+    {
+        return $this->round->page_temp_state;
+    }
 
-function returnPage($pguser)
-{
-  return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
-}
+    function returnPage($pguser)
+    {
+        return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
+    }
 
 } // end class
 
