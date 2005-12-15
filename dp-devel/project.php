@@ -775,7 +775,7 @@ function recentlyproofed( $wlist )
     $recentNum=5;
 
     $sql = "
-        SELECT image, fileid, state, {$round->time_column_name}
+        SELECT image, state, {$round->time_column_name}
         FROM $projectid
         WHERE {$round->user_column_name}='$pguser' AND $state_condition
         ORDER BY {$round->time_column_name} DESC
@@ -788,16 +788,14 @@ function recentlyproofed( $wlist )
     while (($rownum < $recentNum) && ($rownum < $numrows))
     {
         $imagefile = mysql_result($result, $rownum, "image");
-        $fileid = mysql_result($result, $rownum, "fileid");
         $timestamp = mysql_result($result, $rownum, $round->time_column_name);
         $pagestate = mysql_result($result, $rownum, "state");
         $newproject = "project=$projectid";
-        $newfileid="&amp;fileid=$fileid";
         $newimagefile = '&amp;imagefile='.$imagefile;
         $newproofstate = '&amp;proofstate='.$state;
         $newpagestate = '&amp;pagestate='.$pagestate;
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newfileid.$newimagefile.$newproofstate.$newpagestate;
+        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newimagefile.$newproofstate.$newpagestate;
         echo "<TD ALIGN=\"center\">";
         echo "<A HREF=\"$eURL\">";
         echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";

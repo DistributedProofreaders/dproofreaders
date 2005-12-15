@@ -315,7 +315,6 @@ function echo_page_table(
 			{
 				$url = "$code_url/tools/proofers/proof.php?";
 				$url .= "project=$projectid";
-				$url .= "&amp;fileid=$fileid";
 				$url .= "&amp;imagefile=$imagename";
 				$url .= "&amp;proofstate=$state";
 				$url .= "&amp;pagestate=$page_state";
