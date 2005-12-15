@@ -176,6 +176,7 @@ if ($tbutton==101 || $tbutton==102)
 	$correct_text = spellcheck_apply_corrections();
 
 	  $npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
+	  $npage['revert']=0;
 	  setTempPageCookie($npage);
     }
     else if ( $tbutton == 102 )
@@ -184,6 +185,7 @@ if ($tbutton==101 || $tbutton==102)
 	$correct_text = spellcheck_quit();
 
 	$npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
+	$npage['revert']=0;
 	setTempPageCookie($npage);
     }
 
