@@ -97,99 +97,95 @@ $npage = getPageCookie();
 
 // BUTTON CODE
 
-// temp saves and revert
-if ($tbutton==B_TEMPSAVE || $tbutton==B_SWITCH_LAYOUT || $tbutton==B_REVERT_TO_ORIGINAL || $tbutton==B_REVERT_TO_LAST_TEMPSAVE)
+switch( $tbutton )
 {
-  if ($tbutton!=B_REVERT_TO_LAST_TEMPSAVE) {$npage['pagestate']=$lpage->saveTemp($text_data,$pguser);}
-  else {$npage['pagestate']=$lpage->getRevertState();}
-    if ($tbutton==B_SWITCH_LAYOUT)
-    {
-      $userP['i_layout']=$userP['i_layout']==1? 0:1;
-      $userP['prefschanged']=1;
-      dpsession_set_preferences_temp( $userP );
-    } // end change layout prefs
-    if ($tbutton==B_REVERT_TO_ORIGINAL) {$npage['revert']=1;}
-    else {$npage['revert']=0;}
-  setTempPageCookie($npage);
-  include('proof_frame.inc');
-  exit;
-} // end B_TEMPSAVE B_SWITCH_LAYOUT B_REVERT_TO_ORIGINAL B_REVERT_TO_LAST_TEMPSAVE
+    case B_TEMPSAVE:
+        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
+        $npage['revert'] = 0;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-// =============================================================================
+    case B_SWITCH_LAYOUT:
+        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
+        $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
+        $userP['prefschanged'] = 1;
+        dpsession_set_preferences_temp( $userP );
+        $npage['revert'] = 0;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-if ($tbutton==B_SAVE_AND_DO_ANOTHER || $tbutton==B_SAVE_AND_QUIT)
-{
-	$lpage->saveComplete($text_data,$pguser);
-}
-else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
-{
-	$lpage->returnPage($pguser);
-}
+    case B_REVERT_TO_ORIGINAL:
+        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
+        $npage['revert'] = 1;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-if ($tbutton==B_SAVE_AND_DO_ANOTHER)
-{
-	$url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
-	metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
-}
-else if ($tbutton==B_SAVE_AND_QUIT)
-{
-	leave_proofing_interface(
-		_("Save as 'Done'"), _("Page Saved.") );
-}
-else if ($tbutton==B_RETURN_PAGE_TO_ROUND)
-{
-	leave_proofing_interface(
-		_("Return to Round"), _("Page Returned to Round.") );
-}
+    case B_REVERT_TO_LAST_TEMPSAVE:
+        $npage['pagestate'] = $lpage->getRevertState();
+        $npage['revert'] = 0;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-// =============================================================================
+    case B_SAVE_AND_DO_ANOTHER:
+        $lpage->saveComplete($text_data,$pguser);
+        $url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
+        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
+        break;
 
-if ($tbutton==B_REPORT_BAD_PAGE)
-{
-$badState=$lpage->round->page_bad_state;
-include('report_bad_page.php');
-} // end B_REPORT_BAD_PAGE
+    case B_SAVE_AND_QUIT:
+        $lpage->saveComplete($text_data,$pguser);
+        leave_proofing_interface(
+            _("Save as 'Done'"), _("Page Saved.") );
+        break;
 
-if ($tbutton==B_RUN_SPELL_CHECK)
-{
-  if ( ! is_dir($aspell_temp_dir) ) // Check first
-  { mkdir($aspell_temp_dir);}
-  setTempPageCookie($npage);
-  include('spellcheck.inc');
-} // end B_RUN_SPELL_CHECK
+    case B_RETURN_PAGE_TO_ROUND:
+        $lpage->returnPage($pguser);
+        leave_proofing_interface(
+            _("Return to Round"), _("Page Returned to Round.") );
+        break;
 
-// run common errors check
-if ($tbutton==B_RUN_COMMON_ERRORS_CHECK)
-{
-  setTempPageCookie($npage);
-//  include('errcheck.inc');
-} // end B_RUN_COMMON_ERRORS_CHECK
+    case B_REPORT_BAD_PAGE:
+        $badState = $lpage->round->page_bad_state;
+        include('report_bad_page.php');
+        break;
 
-// Return from spellcheck page...
-if ($tbutton==101 || $tbutton==102)
-{
-    include_once('spellcheck_text.inc');
+    case B_RUN_COMMON_ERRORS_CHECK:
+        setTempPageCookie($npage);
+        //  include('errcheck.inc');
+        break;
 
-    if ( $tbutton == 101 )
-    {
-	// User hit "Submit Corrections" button.
-	$correct_text = spellcheck_apply_corrections();
+    case B_RUN_SPELL_CHECK:
+        if ( ! is_dir($aspell_temp_dir) ) { mkdir($aspell_temp_dir); }
+        setTempPageCookie($npage);
+        include('spellcheck.inc');
+        break;
 
-	  $npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
-	  $npage['revert']=0;
-	  setTempPageCookie($npage);
-    }
-    else if ( $tbutton == 102 )
-    {
-	// User hit "Quit" button.
-	$correct_text = spellcheck_quit();
+    case 101:
+        // Return from spellchecker via "Submit Corrections" button.
+        include_once('spellcheck_text.inc');
+        $correct_text = spellcheck_apply_corrections();
+        $npage['pagestate'] = $lpage->saveTemp(addslashes($correct_text),$pguser);
+        $npage['revert']=0;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-	$npage['pagestate']=$lpage->saveTemp(addslashes($correct_text),$pguser);
-	$npage['revert']=0;
-	setTempPageCookie($npage);
-    }
+    case 102:
+        // Return from spellchecker via "Quit Spell Check" button.
+        include_once('spellcheck_text.inc');
+        $correct_text = spellcheck_quit();
+        $npage['pagestate'] = $lpage->saveTemp(addslashes($correct_text),$pguser);
+        $npage['revert']=0;
+        setTempPageCookie($npage);
+        include('proof_frame.inc');
+        break;
 
-    include('proof_frame.inc');
+    default:
+        die( "unexpected tbutton value: '$tbutton'" );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -215,4 +211,5 @@ function leave_proofing_interface( $title, $body )
     echo "</html>";
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
