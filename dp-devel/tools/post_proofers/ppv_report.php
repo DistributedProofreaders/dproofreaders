@@ -245,18 +245,25 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Estimated Difficulty to PP")."</b></td>
         <td>
-            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_easy' value='Easy'>"._("Easy")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_average' value='Average'>"._("Average")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_difficult' value='Difficult'>"._("Difficult")."
+            <label for='difficulty_level_pp_easy'>
+			    <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_easy' value='Easy'>"._("Easy")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='difficulty_level_pp_average'>
+                <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_average' value='Average'>"._("Average")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='difficulty_level_pp_difficult'>
+                <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_difficult' value='Difficult'>"._("Difficult")."</label>
         </td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Overall evaluation of PPer's work on this project")."</b></td>
         <td>
-            <input type='radio' name='eval' id='eval_excellent' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' id='eval_good' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' id='eval_fair' value='Fair'>"._("Fair")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' id='eval_poor' value='Poor'>"._("Poor")."
+            <label for='eval_excellent'>
+			    <input type='radio' name='eval' id='eval_excellent' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='eval_good'>
+			    <input type='radio' name='eval' id='eval_good' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='eval_fair'>
+			    <input type='radio' name='eval' id='eval_fair' value='Fair'>"._("Fair")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='eval_poor'>
+			    <input type='radio' name='eval' id='eval_poor' value='Poor'>"._("Poor")."</label>
         </td>
       </tr>
       <tr>
@@ -279,17 +286,19 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("HTML submitted")."</b></td>
         <td>
-          <input type='radio' name='html_sub' id='html_sub_yes' value='yes' onclick='set_html(false)'>"._("Yes")."&nbsp;&nbsp;&nbsp;
-          <input type='radio' name='html_sub' id='html_sub_yes' value='no' onclick='set_html(true)'>"._("No")."
+            <label for='html_sub_yes'>
+                <input type='radio' name='html_sub' id='html_sub_yes' value='yes' onclick='set_html(false)'>"._("Yes")."&nbsp;&nbsp;&nbsp;</label>
+            <label for='html_sub_no'>
+			    <input type='radio' name='html_sub' id='html_sub_no' value='no' onclick='set_html(true)'>"._("No")."</label>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Issues with the HTML version")."</b></td>
         <td>
-          <input type='checkbox' name='html_markup' id='html_markup' disabled>"._("Markup")."<br />\n
-          <input type='checkbox' name='html_css' id='html_css' disabled>"._("CSS")."<br />\n
-          <input type='checkbox' name='html_links' id='html_links' disabled>"._("Internal links")."<br />\n
-          <input type='checkbox' name='html_image_links' id='html_image_links' disabled>"._("Links to images")."<br />\n
-          <input type='checkbox' name='html_image_size' id='html_image_size' disabled>"._("Image quality/size")."<br />\n
-          <input type='checkbox' name='html_header' id='html_header' disabled>"._("Header")."<br />\n
+          <input type='checkbox' name='html_markup' id='html_markup' disabled><label for='html_markup'>"._("Markup")."</label><br />\n
+          <input type='checkbox' name='html_css' id='html_css' disabled><label for='html_css'>"._("CSS")."</label><br />\n
+          <input type='checkbox' name='html_links' id='html_links' disabled><label for='html_links'>"._("Internal links")."</label><br />\n
+          <input type='checkbox' name='html_image_links' id='html_image_links' disabled><label for='html_image_links'>"._("Links to images")."</label><br />\n
+          <input type='checkbox' name='html_image_size' id='html_image_size' disabled><label for='html_image_size'>"._("Image quality/size")."</label><br />\n
+          <input type='checkbox' name='html_header' id='html_header' disabled><label for='html_header'>"._("Header")."</label><br />\n
         </td>
       </tr>
       <tr>
@@ -304,15 +313,15 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Present in the text")."</b></td>
         <td>
-          <input type='checkbox' name='tables' id='tables'>"._("Tables")."<br />\n
-          <input type='checkbox' name='poetry' id='poetry'>"._("Poetry")."<br />\n
-          <input type='checkbox' name='index' id='index'>"._("Index")."<br />\n
-          <input type='checkbox' name='footnotes' id='footnotes'>"._("Footnotes")."<br />\n
-          <input type='checkbox' name='sidenotes' id='sidenotes'>"._("Sidenotes")."<br />\n
-          <input type='checkbox' name='blockquotes' id='blockquotes'>"._("Blockquotes")."<br />\n
-          <input type='checkbox' name='illustrations' id='illustrations'>"._("Illustrations; approx. number:")."
+          <input type='checkbox' name='tables' id='tables'><label for='tables'>"._("Tables")."</label><br />\n
+          <input type='checkbox' name='poetry' id='poetry'><label for='poetry'>"._("Poetry")."</label><br />\n
+          <input type='checkbox' name='index' id='index'><label for='index'>"._("Index")."</label><br />\n
+          <input type='checkbox' name='footnotes' id='footnotes'><label for='footnotes'>"._("Footnotes")."</label><br />\n
+          <input type='checkbox' name='sidenotes' id='sidenotes'><label for='sidenotes'>"._("Sidenotes")."</label><br />\n
+          <input type='checkbox' name='blockquotes' id='blockquotes'><label for='blockquotes'>"._("Blockquotes")."</label><br />\n
+          <input type='checkbox' name='illustrations' id='illustrations'><label for='illustrations'>"._("Illustrations;")."</label><label for='illus_num'>"._(" approx. number:")."</label>
             <input type='text' size='3' name='illus_num' id='illus_num'><br />\n
-          <input type='checkbox' name='multilang' id='multilang'>"._("Multiple Languages")."<br />\n
+          <input type='checkbox' name='multilang' id='multilang'><label for='multilang'>"._("Multiple Languages")."</label><br />\n
         </td>
       </tr>
       <tr>
@@ -346,8 +355,8 @@ echo "<br />
       </td></tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Send to")."</b></td>
-        <td><input type='checkbox' name='cc_ppv' id='cc_ppv' />"._("Me")."<br />
-            <input type='checkbox' name='cc_pp'  id='cc_pp' />$pper->username<br />
+        <td><input type='checkbox' name='cc_ppv' id='cc_ppv' /><label for='cc_ppv'>"._("Me")."</label><br />
+            <input type='checkbox' name='cc_pp'  id='cc_pp' /><label for='cc_pp'>$pper->username</label><br />
             <input type='checkbox' name='foo' checked disabled />"._("PPV Reports")."
         </td>
       </tr>
