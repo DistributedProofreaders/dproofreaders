@@ -7,7 +7,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); //user_can_work_in_stage()
 include_once($relPath.'projectinfo.inc');
 
-$theme_args = array("js_data" => "
+$theme_args['js_data'] = "
 function set_html(sw)
 {
 document.ppvform.html_desc.disabled = sw;
@@ -18,7 +18,32 @@ document.ppvform.html_image_size.disabled = sw;
 document.ppvform.html_image_links.disabled = sw;
 document.ppvform.html_header.disabled = sw;
 return true;
-}\n");
+}
+
+function grow_textarea(textarea_id)
+{
+    textarea = document.getElementById(textarea_id);
+    textarea.rows = textarea.rows+2;
+}
+
+function shrink_textarea(textarea_id)
+{
+    textarea = document.getElementById(textarea_id);
+    if (textarea.rows > 2)
+    {
+        textarea.rows = textarea.rows-2;
+    }
+}\n";
+
+$theme_args['css_data'] = "
+div.shrinker {float: right;}
+div.shrinker a {
+    font-size:200%; 
+	font-weight: 900;
+	text-decoration: none!important;
+	color: #888;
+	cursor: pointer;}
+";
 
 theme(_('Post-Processing Verification Reporting'),'header', $theme_args);
 
@@ -201,6 +226,13 @@ exit();
 
 else {
 
+function textarea_size_control($id, $br = true)
+{
+    return ($br?'<br />':'') . "<div class='shrinker'>".
+	    "<a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;".
+		"<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
+}
+
 echo "<br />
       <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1'
 			 name='ppvform' method='post'>
@@ -270,12 +302,12 @@ echo "<br />
         <td bgcolor='#CCCCCC' style='width: 40%;'>
           <b>"._("If you had to return the project to the PPer for revisions, what was the reason?")."</b>
         </td>
-        <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='physical'></textarea>".textarea_size_control('reason_returned')."</td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on this project
         or your experience with working with this PPer.")."</b></td>
-        <td><textarea rows='4' cols='67' name='general_comments' id='general_comments'  wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='general_comments' id='general_comments'  wrap='physical'></textarea>".textarea_size_control('general_comments')."</td>
       </tr>
 
       <tr>
@@ -303,7 +335,7 @@ echo "<br />
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on HTML version")."</b></td>
-        <td><textarea rows='4' cols='67' name='html_desc' id='html_desc' wrap='physical' disabled></textarea></td>
+        <td><textarea rows='4' cols='67' name='html_desc' id='html_desc' wrap='physical' disabled></textarea>".textarea_size_control('html_desc')."</td>
       </tr>
       <tr>
         <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
@@ -326,7 +358,7 @@ echo "<br />
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Any other unusual formatting")."</b></td>
-        <td><textarea rows='3' cols='67' name='unusual_formatting' id='unusual_formatting' wrap='physical'></textarea></td>
+        <td><textarea rows='3' cols='67' name='unusual_formatting' id='unusual_formatting' wrap='physical'></textarea>".textarea_size_control('unusual_formatting')."</td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Approximate number of errors")."</b></td><td>
@@ -347,7 +379,7 @@ echo "<br />
           "._("<b>Comments regarding the promotion of the PPer</b> <small>(This section will not be sent to the PPer,
                even if you request they be sent a copy of the report card)</small>")."<b>:</b>
         </td>
-        <td><textarea rows='4' cols='67' name='promotions' id='promotions' wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='promotions' id='promotions' wrap='physical'></textarea>".textarea_size_control('promotions')."</td>
       </tr>
 
       <tr><td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
