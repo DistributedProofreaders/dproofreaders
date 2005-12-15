@@ -204,7 +204,7 @@ else {
 echo "<br />
       <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1'
 			 name='ppvform' method='post'>
-      <table border=1 style='width: 95%';>
+      <table border='1' id='report_card' style='width: 95%';>
 
       <tr><td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
       "._("Project Information")."</td></tr>
@@ -245,30 +245,30 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Estimated Difficulty to PP")."</b></td>
         <td>
-            <input type='radio' name='difficulty_level_pp' value='Easy'>"._("Easy")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='difficulty_level_pp' value='Average'>"._("Average")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='difficulty_level_pp' value='Difficult'>"._("Difficult")."
+            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_easy' value='Easy'>"._("Easy")."&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_average' value='Average'>"._("Average")."&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_difficult' value='Difficult'>"._("Difficult")."
         </td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Overall evaluation of PPer's work on this project")."</b></td>
         <td>
-            <input type='radio' name='eval' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' value='Fair'>"._("Fair")."&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type='radio' name='eval' value='Poor'>"._("Poor")."
+            <input type='radio' name='eval' id='eval_excellent' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type='radio' name='eval' id='eval_good' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type='radio' name='eval' id='eval_fair' value='Fair'>"._("Fair")."&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type='radio' name='eval' id='eval_poor' value='Poor'>"._("Poor")."
         </td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'>
           <b>"._("If you had to return the project to the PPer for revisions, what was the reason?")."</b>
         </td>
-        <td><textarea rows='4' cols='67' name='reason_returned' wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='physical'></textarea></td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on this project
         or your experience with working with this PPer.")."</b></td>
-        <td><textarea rows='4' cols='67' name='general_comments' wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='general_comments' id='general_comments'  wrap='physical'></textarea></td>
       </tr>
 
       <tr>
@@ -279,22 +279,22 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("HTML submitted")."</b></td>
         <td>
-          <input type='radio' name='html_sub' value='yes' onclick='set_html(false)'>"._("Yes")."&nbsp;&nbsp;&nbsp;
-          <input type='radio' name='html_sub' value='no' onclick='set_html(true)'>"._("No")."
+          <input type='radio' name='html_sub' id='html_sub_yes' value='yes' onclick='set_html(false)'>"._("Yes")."&nbsp;&nbsp;&nbsp;
+          <input type='radio' name='html_sub' id='html_sub_yes' value='no' onclick='set_html(true)'>"._("No")."
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Issues with the HTML version")."</b></td>
         <td>
-          <input type='checkbox' name='html_markup' disabled>"._("Markup")."<br />\n
-          <input type='checkbox' name='html_css' disabled>"._("CSS")."<br />\n
-          <input type='checkbox' name='html_links' disabled>"._("Internal links")."<br />\n
-          <input type='checkbox' name='html_image_links' disabled>"._("Links to images")."<br />\n
-          <input type='checkbox' name='html_image_size' disabled>"._("Image quality/size")."<br />\n
-          <input type='checkbox' name='html_header' disabled>"._("Header")."<br />\n
+          <input type='checkbox' name='html_markup' id='html_markup' disabled>"._("Markup")."<br />\n
+          <input type='checkbox' name='html_css' id='html_css' disabled>"._("CSS")."<br />\n
+          <input type='checkbox' name='html_links' id='html_links' disabled>"._("Internal links")."<br />\n
+          <input type='checkbox' name='html_image_links' id='html_image_links' disabled>"._("Links to images")."<br />\n
+          <input type='checkbox' name='html_image_size' id='html_image_size' disabled>"._("Image quality/size")."<br />\n
+          <input type='checkbox' name='html_header' id='html_header' disabled>"._("Header")."<br />\n
         </td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on HTML version")."</b></td>
-        <td><textarea rows='4' cols='67' name='html_desc' wrap='physical' disabled></textarea></td>
+        <td><textarea rows='4' cols='67' name='html_desc' id='html_desc' wrap='physical' disabled></textarea></td>
       </tr>
       <tr>
         <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
@@ -304,30 +304,30 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Present in the text")."</b></td>
         <td>
-          <input type='checkbox' name='tables'>"._("Tables")."<br />\n
-          <input type='checkbox' name='poetry'>"._("Poetry")."<br />\n
-          <input type='checkbox' name='index'>"._("Index")."<br />\n
-          <input type='checkbox' name='footnotes'>"._("Footnotes")."<br />\n
-          <input type='checkbox' name='sidenotes'>"._("Sidenotes")."<br />\n
-          <input type='checkbox' name='blockquotes'>"._("Blockquotes")."<br />\n
-          <input type='checkbox' name='illustrations'>"._("Illustrations; approx. number:")."
-            <input type='text' size='3' name='illus_num'><br />\n
-          <input type='checkbox' name='multilang'>"._("Multiple Languages")."<br />\n
+          <input type='checkbox' name='tables' id='tables'>"._("Tables")."<br />\n
+          <input type='checkbox' name='poetry' id='poetry'>"._("Poetry")."<br />\n
+          <input type='checkbox' name='index' id='index'>"._("Index")."<br />\n
+          <input type='checkbox' name='footnotes' id='footnotes'>"._("Footnotes")."<br />\n
+          <input type='checkbox' name='sidenotes' id='sidenotes'>"._("Sidenotes")."<br />\n
+          <input type='checkbox' name='blockquotes' id='blockquotes'>"._("Blockquotes")."<br />\n
+          <input type='checkbox' name='illustrations' id='illustrations'>"._("Illustrations; approx. number:")."
+            <input type='text' size='3' name='illus_num' id='illus_num'><br />\n
+          <input type='checkbox' name='multilang' id='multilang'>"._("Multiple Languages")."<br />\n
         </td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Any other unusual formatting")."</b></td>
-        <td><textarea rows='3' cols='67' name='unusual_formatting' wrap='physical'></textarea></td>
+        <td><textarea rows='3' cols='67' name='unusual_formatting' id='unusual_formatting' wrap='physical'></textarea></td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Approximate number of errors")."</b></td><td>
-          <input type='text' size='3' name='e_comma_num'> "._("Comma/Period Error")."<br />
-          <input type='text' size='3' name='e_spellcheck_num'> "._("Spellcheck/Scannos")."<br />
-          <input type='text' size='3' name='e_hyph_num'> "._("Hyphens/Em-dashes")."<br />
-          <input type='text' size='3' name='e_gutcheck_num'> "._("Gutcheck")."<br />
-          <input type='text' size='3' name='e_html_num'> HTML<br />
-          <input type='text' size='3' name='e_other_num'> 
-					  <input type='text' size='12' name='other_error_type' value='"._("Other (specify)")."'><br />
+          <input type='text' size='3' name='e_comma_num' id='e_comma_num'> "._("Comma/Period Error")."<br />
+          <input type='text' size='3' name='e_spellcheck_num' id='e_spellcheck_num'> "._("Spellcheck/Scannos")."<br />
+          <input type='text' size='3' name='e_hyph_num' id='e_hyph_num'> "._("Hyphens/Em-dashes")."<br />
+          <input type='text' size='3' name='e_gutcheck_num' id='e_gutcheck_num'> "._("Gutcheck")."<br />
+          <input type='text' size='3' name='e_html_num' id='e_html_num'> HTML<br />
+          <input type='text' size='3' name='e_other_num' id='e_other_num'> 
+					  <input type='text' size='12' name='other_error_type' id='other_error_type' value='"._("Other (specify)")."'><br />
         </td>
       </tr>
       <tr>
@@ -338,7 +338,7 @@ echo "<br />
           "._("<b>Comments regarding the promotion of the PPer</b> <small>(This section will not be sent to the PPer,
                even if you request they be sent a copy of the report card)</small>")."<b>:</b>
         </td>
-        <td><textarea rows='4' cols='67' name='promotions' wrap='physical'></textarea></td>
+        <td><textarea rows='4' cols='67' name='promotions' id='promotions' wrap='physical'></textarea></td>
       </tr>
 
       <tr><td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
@@ -346,8 +346,8 @@ echo "<br />
       </td></tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Send to")."</b></td>
-        <td><input type='checkbox' name='cc_ppv' />"._("Me")."<br />
-            <input type='checkbox' name='cc_pp' />$pper->username<br />
+        <td><input type='checkbox' name='cc_ppv' id='cc_ppv' />"._("Me")."<br />
+            <input type='checkbox' name='cc_pp'  id='cc_pp' />$pper->username<br />
             <input type='checkbox' name='foo' checked disabled />"._("PPV Reports")."
         </td>
       </tr>
