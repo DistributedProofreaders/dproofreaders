@@ -103,7 +103,7 @@ function get_available_page( $project, $proofstate, $pguser )
 
 // -----------------------------------------------------------------------------
 
-function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser )
+function resume_saved_page( $project, $proofstate, $imagefile, $pagestate, $pguser )
 {
     $round = get_Round_for_project_state($proofstate);
 

@@ -21,7 +21,7 @@ if (isset($pagestate)) {
     // Make sure project is still in same state.
     project_continuity_check($project,$proofstate,FALSE);
 
-    $err = resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagestate, $pguser );
+    $err = resume_saved_page( $project, $proofstate, $imagefile, $pagestate, $pguser );
     if ($err)
     {
         echo $err;
