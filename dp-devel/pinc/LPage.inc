@@ -108,7 +108,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
 {
     $round = get_Round_for_project_state($proofstate);
 
-    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE image='$imagefile' AND fileid = '$fileid'");
+    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE image='$imagefile'");
     if (mysql_num_rows($res) == 0)
     {
         // This should only happen if they've been tweaking URLs.

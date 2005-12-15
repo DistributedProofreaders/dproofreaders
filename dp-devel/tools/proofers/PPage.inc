@@ -23,7 +23,7 @@ function echo_hidden_fields( $npage )
 function ReportBadPage_button_should_be_shown( $npage, $username )
 {
     // get bad page code
-    $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
+    $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}'");
     $b_code = mysql_result($res2, 0, "b_code");
 
     return (($npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
@@ -48,7 +48,7 @@ function echo_page_info( $npage )
         foreach ($other_round_ids as $other_round_id)
         {
             $other_round = get_Round_for_round_id($other_round_id);
-            $res = mysql_query("SELECT {$other_round->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}' AND fileid='{$npage['fileid']}'");
+            $res = mysql_query("SELECT {$other_round->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}'");
             $username = mysql_result($res, 0, $other_round->user_column_name);
 
             if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
