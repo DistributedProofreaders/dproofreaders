@@ -78,7 +78,7 @@ function get_available_page( $project, $proofstate, $pguser )
 
     // Find page to be proofed.
     // (It appears that a simultaneous query from someone else would return the same page.)
-    $dbQuery = "SELECT fileid, image, state FROM $project WHERE state='{$round->page_avail_state}'";
+    $dbQuery = "SELECT image, state FROM $project WHERE state='{$round->page_avail_state}'";
     for ( $rn = 1; $rn < $round->round_number; $rn++ )
     {
         $earlier_round = get_Round_for_round_number( $rn );
@@ -94,12 +94,11 @@ function get_available_page( $project, $proofstate, $pguser )
     }
     $npage = mysql_fetch_assoc($result);
 
-    $fileid    = $npage['fileid'];
     $imagefile = $npage['image'];
 
     $pagestate = Page_checkout( $project, $imagefile, $round, $pguser );
 
-    setPageCookie( $project, $proofstate, $fileid, $imagefile, $pagestate, 0, 0, 0, 0, 0, 0 );
+    setPageCookie( $project, $proofstate, $imagefile, $pagestate, 0 );
 }
 
 // -----------------------------------------------------------------------------
@@ -146,9 +145,7 @@ function resume_saved_page( $project, $proofstate, $fileid, $imagefile, $pagesta
         Page_reopen( $project, $imagefile, $round, $pguser );
     }
 
-    $saved = 1;
-    $editone = 1;
-    setPageCookie($project,$proofstate,$fileid,$imagefile,$pagestate,$saved,$editone,0,0,0,0);
+    setPageCookie($project,$proofstate,$imagefile,$pagestate,0);
 }
 
 // -----------------------------------------------------------------------------
@@ -276,9 +273,13 @@ class LPage
 
 // Functions that used to be in the 'LPage' class, but didn't need to be.
 
-function setPageCookie($project,$proofstate,$fileid,$image,$pagestate,$saved,$editone,$revert,$spcheck,$errcheck,$isDone)
+function setPageCookie($project,$proofstate,$image,$pagestate,$revert)
 {
-  //project|proofstate|fileid|image|pagestate|saved|editone|revert|spcheck|errcheck|isDone|pageTime
+  // The following components are no longer used,
+  // so it doesn't matter what values we use for them,
+  // and we don't need to get values via the arg list.
+  $fileid = $saved = $editone = $spcheck = $errcheck = $isDone = '';
+
   $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
   dpsession_page_set($pagerefs);
 }
