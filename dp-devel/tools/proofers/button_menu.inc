@@ -2,7 +2,6 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'button_defs.inc');
-include_once($relPath.'c_pages.inc'); // nPage_can_be_reverted_to_last_save
 include_once('page_misc.inc');
 
 ?>
@@ -58,7 +57,7 @@ onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url
 echo_button(REVERT_TO_ORIGINAL,'a');
 echo "\n";
 
-  if ( nPage_can_be_reverted_to_last_save($ppage->npage) )
+  if ( $ppage->can_be_reverted_to_last_save() )
   {
     echo_button(REVERT_TO_LAST_SAVE,'a');
   }

@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
+include_once($relPath.'c_pages.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
@@ -47,6 +48,11 @@ class PPage
         $b_code = mysql_result($res2, 0, "b_code");
 
         return (($this->npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
+    }
+
+    function can_be_reverted_to_last_save()
+    {
+        return nPage_can_be_reverted_to_last_save($this->npage);
     }
 
     // -----------------------------------------------------
