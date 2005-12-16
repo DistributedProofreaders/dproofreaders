@@ -11,8 +11,9 @@ include_once($relPath.'page_tally.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_available_page( $project, $proofstate, $pguser )
-// Returns either an LPage or a string containing an error message.
+function get_available_page( $project, $proofstate, $pguser, &$err )
+// Returns an LPage, unless no page is available,
+// in which case returns NULL and sets $err.
 {
     $round = get_Round_for_project_state($proofstate);
 
@@ -40,7 +41,7 @@ function get_available_page( $project, $proofstate, $pguser )
                 $err = _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
                     . " "
                     . _("Perhaps you could try working on an EASY project.");
-                return $err;
+                return NULL;
             }
 
             // When a beginner project is in the first round (ELR),
@@ -59,7 +60,7 @@ function get_available_page( $project, $proofstate, $pguser )
                 $err = _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
                     . " "
                     . _("Or you could try working on an EASY project.");
-                return $err;
+                return NULL;
             }
         }
         else if ($round->round_number == 2)
@@ -67,7 +68,7 @@ function get_available_page( $project, $proofstate, $pguser )
             if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
                 $err = _("You do not have access to difficulty='beginner' projects in this round.");
-                return $err;
+                return NULL;
             }
 
             // For beginner projects in P2,
@@ -91,7 +92,7 @@ function get_available_page( $project, $proofstate, $pguser )
     if ($numrows == 0)
     {
         $err = _("No more files available for proofreading for this round of the project.");
-        return $err;
+        return NULL;
     }
     $npage = mysql_fetch_assoc($result);
 
@@ -101,6 +102,7 @@ function get_available_page( $project, $proofstate, $pguser )
 
     setPageCookie( $project, $proofstate, $imagefile, $pagestate, 0 );
 
+    $err = NULL;
     return new LPage( $project, $proofstate, $imagefile, $pagestate );
 }
 
