@@ -70,7 +70,7 @@ else
     {
         $npage=getPageCookie();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
-          {
+        {
                 // It probably doesn't matter what we say here.
                 // 1) Indications are that users will never see this.
                 // 2) The important thing is that we neither assign the user a
@@ -83,21 +83,23 @@ else
                 echo "Please inform a Site Admin that you received this message.\n";
                 echo "</p>";
                 exit();
-          }
+        }
     }
 
-  // give them a new page
-        $err = get_available_page( $project, $proofstate, $pguser );
-          if ($err)
-            {
-	      $round = get_Round_for_project_state($proofstate);
-              $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
-                                                 "<a href='round.php?round_id={$round->id}' target='_top'>","</a>");
-              $title = _("Unable to get an available page");
-              echo "<html><head><title>$title</title></head><body>$body</body></html>";
-              exit;
-            }
+    // give them a new page
+    $err = get_available_page( $project, $proofstate, $pguser );
+    if ($err)
+    {
+        $round = get_Round_for_project_state($proofstate);
+        $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
+            "<a href='round.php?round_id={$round->id}' target='_top'>","</a>");
+        $title = _("Unable to get an available page");
+        echo "<html><head><title>$title</title></head><body>$body</body></html>";
+        exit;
+    }
 }
 
 include('proof_frame.inc');
+
+// vim: sw=4 ts=4 expandtab
 ?>
