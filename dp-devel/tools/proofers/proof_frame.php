@@ -6,6 +6,7 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'v_site.inc');
+include_once('page_misc.inc');
 
 /* $_GET from IN PROGRESS/DONE
 $project, $proofstate, $imagefile, $pagestate
@@ -104,6 +105,10 @@ else
 
     setPageCookie( $lpage->project, $lpage->proofstate, $lpage->imagefile, $lpage->pagestate, 0 );
 }
+
+$ppage = new PPage();
+$ppage->lpage =& $lpage;
+$ppage->npage = getPageCookie();
 
 include('proof_frame.inc');
 
