@@ -106,53 +106,6 @@ function get_available_page( $project, $proofstate, $pguser, &$err )
 
 // -----------------------------------------------------------------------------
 
-function resume_saved_page( $project, $proofstate, $imagefile, $pagestate, $pguser )
-{
-    $round = get_Round_for_project_state($proofstate);
-
-    $res = mysql_query("SELECT state, {$round->user_column_name} FROM $project WHERE image='$imagefile'");
-    if (mysql_num_rows($res) == 0)
-    {
-        // This should only happen if they've been tweaking URLs.
-        $err = _('No such page.');
-        return $err;
-    }
-
-    list($current_page_state, $current_round_user) = mysql_fetch_row($res);
-
-    if ($pguser != $current_round_user)
-    {
-        $err = sprintf( _("You (%s) do not have the necessary access to page %s"), $pguser, $imagefile );
-        return $err;
-    }
-
-    if ($pagestate != $current_page_state)
-    {
-        $err = sprintf(
-            _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
-            $imagefile, $pagestate, $current_page_state );
-        return $err;
-    }
-
-    if ($pagestate == $round->page_save_state)
-    {
-        // Page comes from DONE.
-        // When it was saved, the user's page-count was incremented.
-        // Now they 'unsaving' it, so decrement their page-count.
-        // They'll get it back if/when they save-as-done again.
-        // (Plugs a former page-count cheat.)
-
-        page_tallies_add( $round->id, $pguser, -1 );
-
-        // no need to update text, just record state change
-        $pagestate = Page_reopen( $project, $imagefile, $round, $pguser );
-    }
-
-    setPageCookie($project,$proofstate,$imagefile,$pagestate,0);
-}
-
-// -----------------------------------------------------------------------------
-
 function nPage_can_be_reverted_to_last_save( $npage )
 {
     $round = get_Round_for_page_state( $npage['pagestate'] );
@@ -268,6 +221,59 @@ class LPage
     function returnPage($pguser)
     {
         return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
+    }
+
+    // -----------------------------------------------------------------------------
+
+    function resume_saved_page( $pguser )
+    {
+        $round = get_Round_for_project_state($this->proofstate);
+
+        $res = mysql_query("
+            SELECT state, {$round->user_column_name}
+            FROM $this->project
+            WHERE image='$this->imagefile'
+        ");
+        if (mysql_num_rows($res) == 0)
+        {
+            // This should only happen if they've been tweaking URLs.
+            $err = _('No such page.');
+            return $err;
+        }
+
+        list($current_page_state, $current_round_user) = mysql_fetch_row($res);
+
+        if ($pguser != $current_round_user)
+        {
+            $err = sprintf(
+                _("You (%s) do not have the necessary access to page %s"),
+                $pguser, $this->imagefile );
+            return $err;
+        }
+
+        if ($this->pagestate != $current_page_state)
+        {
+            $err = sprintf(
+                _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
+                $this->imagefile, $this->pagestate, $current_page_state );
+            return $err;
+        }
+
+        if ($this->pagestate == $round->page_save_state)
+        {
+            // Page comes from DONE.
+            // When it was saved, the user's page-count was incremented.
+            // Now they 'unsaving' it, so decrement their page-count.
+            // They'll get it back if/when they save-as-done again.
+            // (Plugs a former page-count cheat.)
+
+            page_tallies_add( $round->id, $pguser, -1 );
+
+            // no need to update text, just record state change
+            $this->pagestate = Page_reopen( $this->project, $this->imagefile, $round, $pguser );
+        }
+
+        setPageCookie($this->project, $this->proofstate, $this->imagefile, $this->pagestate, 0);
     }
 
 } // end class

@@ -18,10 +18,12 @@ $project, $proofstate
 if (isset($pagestate)) {
     // The user clicked on a saved page.
 
+    $lpage = new LPage( $project, $proofstate, $imagefile, $pagestate );
+
     // Make sure project is still in same state.
     project_continuity_check($project,$proofstate,FALSE);
 
-    $err = resume_saved_page( $project, $proofstate, $imagefile, $pagestate, $pguser );
+    $err = $lpage->resume_saved_page( $pguser );
     if ($err)
     {
         echo $err;
