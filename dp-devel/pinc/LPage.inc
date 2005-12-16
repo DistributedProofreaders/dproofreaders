@@ -12,6 +12,7 @@ include_once($relPath.'page_tally.inc');
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function get_available_page( $project, $proofstate, $pguser )
+// Returns either an LPage or a string containing an error message.
 {
     $round = get_Round_for_project_state($proofstate);
 
@@ -99,6 +100,8 @@ function get_available_page( $project, $proofstate, $pguser )
     $pagestate = Page_checkout( $project, $imagefile, $round, $pguser );
 
     setPageCookie( $project, $proofstate, $imagefile, $pagestate, 0 );
+
+    return new LPage( $project, $proofstate, $imagefile, $pagestate );
 }
 
 // -----------------------------------------------------------------------------

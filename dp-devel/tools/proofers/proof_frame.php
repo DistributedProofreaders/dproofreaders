@@ -87,9 +87,10 @@ else
     }
 
     // give them a new page
-    $err = get_available_page( $project, $proofstate, $pguser );
-    if ($err)
+    $result = get_available_page( $project, $proofstate, $pguser );
+    if (is_string($result))
     {
+        $err = $result;
         $round = get_Round_for_project_state($proofstate);
         $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
             "<a href='round.php?round_id={$round->id}' target='_top'>","</a>");
@@ -97,6 +98,8 @@ else
         echo "<html><head><title>$title</title></head><body>$body</body></html>";
         exit;
     }
+
+    $lpage = $result;
 }
 
 include('proof_frame.inc');
