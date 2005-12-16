@@ -87,8 +87,6 @@ if ($tbutton == B_QUIT)
 
 
 $ppage = get_requested_PPage( $_POST );
-$npage = $ppage->npage;
-$lpage = $ppage->lpage;
 
 //Make sure project is still available
   // only if not in a check
@@ -148,13 +146,11 @@ switch( $tbutton )
         break;
 
     case B_RUN_COMMON_ERRORS_CHECK:
-        setTempPageCookie($npage);
         //  include('errcheck.inc');
         break;
 
     case B_RUN_SPELL_CHECK:
         if ( ! is_dir($aspell_temp_dir) ) { mkdir($aspell_temp_dir); }
-        setTempPageCookie($npage);
         include('spellcheck.inc');
         break;
 
