@@ -106,9 +106,7 @@ switch( $tbutton )
 
     case B_SWITCH_LAYOUT:
         $ppage->saveAsInProgress($text_data,$pguser);
-        $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
-        $userP['prefschanged'] = 1;
-        dpsession_set_preferences_temp( $userP );
+        switch_layout();
         include('proof_frame.inc');
         break;
 
@@ -175,6 +173,14 @@ switch( $tbutton )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function switch_layout()
+{
+    global $userP;
+    $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
+    $userP['prefschanged'] = 1;
+    dpsession_set_preferences_temp( $userP );
+}
 
 function leave_proofing_interface( $title, $body )
 {
