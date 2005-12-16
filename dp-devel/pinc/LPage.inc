@@ -272,8 +272,6 @@ class LPage
             // no need to update text, just record state change
             $this->pagestate = Page_reopen( $this->project, $this->imagefile, $round, $pguser );
         }
-
-        setPageCookie($this->project, $this->proofstate, $this->imagefile, $this->pagestate, 0);
     }
 
 } // end class
