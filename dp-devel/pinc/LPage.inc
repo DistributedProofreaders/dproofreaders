@@ -142,7 +142,7 @@ function resume_saved_page( $project, $proofstate, $imagefile, $pagestate, $pgus
         page_tallies_add( $round->id, $pguser, -1 );
 
         // no need to update text, just record state change
-        Page_reopen( $project, $imagefile, $round, $pguser );
+        $pagestate = Page_reopen( $project, $imagefile, $round, $pguser );
     }
 
     setPageCookie($project,$proofstate,$imagefile,$pagestate,0);
