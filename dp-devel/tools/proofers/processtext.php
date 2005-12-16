@@ -102,50 +102,43 @@ $lpage = $ppage->lpage;
 switch( $tbutton )
 {
     case B_TEMPSAVE:
-        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
-        $npage['revert'] = 0;
-        setTempPageCookie($npage);
+        $ppage->saveAsInProgress($text_data,$pguser);
         include('proof_frame.inc');
         break;
 
     case B_SWITCH_LAYOUT:
-        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
+        $ppage->saveAsInProgress($text_data,$pguser);
         $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
         $userP['prefschanged'] = 1;
         dpsession_set_preferences_temp( $userP );
-        $npage['revert'] = 0;
-        setTempPageCookie($npage);
         include('proof_frame.inc');
         break;
 
     case B_REVERT_TO_ORIGINAL:
-        $npage['pagestate'] = $lpage->saveTemp($text_data,$pguser);
-        $npage['revert'] = 1;
-        setTempPageCookie($npage);
+        $ppage->saveAsInProgress($text_data,$pguser);
+        $ppage->revertToOriginal();
         include('proof_frame.inc');
         break;
 
     case B_REVERT_TO_LAST_TEMPSAVE:
-        $npage['pagestate'] = $lpage->getRevertState();
-        $npage['revert'] = 0;
-        setTempPageCookie($npage);
+        $ppage->revertToSaved();
         include('proof_frame.inc');
         break;
 
     case B_SAVE_AND_DO_ANOTHER:
-        $lpage->saveComplete($text_data,$pguser);
+        $ppage->saveAsDone($text_data,$pguser);
         $url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
         metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
         break;
 
     case B_SAVE_AND_QUIT:
-        $lpage->saveComplete($text_data,$pguser);
+        $ppage->saveAsDone($text_data,$pguser);
         leave_proofing_interface(
             _("Save as 'Done'"), _("Page Saved.") );
         break;
 
     case B_RETURN_PAGE_TO_ROUND:
-        $lpage->returnPage($pguser);
+        $ppage->returnToRound($pguser);
         leave_proofing_interface(
             _("Return to Round"), _("Page Returned to Round.") );
         break;
@@ -169,9 +162,7 @@ switch( $tbutton )
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_apply_corrections();
-        $npage['pagestate'] = $lpage->saveTemp(addslashes($correct_text),$pguser);
-        $npage['revert']=0;
-        setTempPageCookie($npage);
+        $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         include('proof_frame.inc');
         break;
 
@@ -179,9 +170,7 @@ switch( $tbutton )
         // Return from spellchecker via "Quit Spell Check" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
-        $npage['pagestate'] = $lpage->saveTemp(addslashes($correct_text),$pguser);
-        $npage['revert']=0;
-        setTempPageCookie($npage);
+        $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         include('proof_frame.inc');
         break;
 

@@ -31,6 +31,36 @@ class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 {
 
+    function revertToOriginal()
+    {
+        $this->npage['revert'] = 1;
+        setTempPageCookie($this->npage);
+    }
+
+    function revertToSaved()
+    {
+        $this->npage['pagestate'] = $this->lpage->getRevertState();
+        $this->npage['revert'] = 0;
+        setTempPageCookie($this->npage);
+    }
+
+    function returnToRound( $user )
+    {
+        $this->lpage->returnPage($user);
+    }
+
+    function saveAsInProgress( $page_text, $user )
+    {
+        $this->npage['pagestate'] = $this->lpage->saveTemp($page_text, $user);
+        $this->npage['revert'] = 0;
+        setTempPageCookie($this->npage);
+    }
+
+    function saveAsDone( $page_text, $user )
+    {
+        $this->lpage->saveComplete($page_text, $user);
+    }
+
     // -----------------------------------------------------
 
     function image_url()
