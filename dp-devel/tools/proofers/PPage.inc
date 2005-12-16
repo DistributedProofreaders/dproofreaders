@@ -5,6 +5,32 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
+    // -----------------------------------------------------
+
+    function page_image_url( $npage )
+    {
+        global $projects_url;
+        return "$projects_url/{$npage['project']}/{$npage['image']}";
+    }
+
+    function project_comments_url( $npage )
+    {
+        global $code_url;
+        return "$code_url/project.php?id={$npage['project']}&amp;expected_state={$npage['proofstate']}&amp;detail_level=1";
+    }
+
+    // -----------------------------------------------------
+
+    function ReportBadPage_button_should_be_shown( $npage, $username )
+    {
+        // get bad page code
+        $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}'");
+        $b_code = mysql_result($res2, 0, "b_code");
+
+        return (($npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
+    }
+
+    // -----------------------------------------------------
 
     function echo_hidden_fields( $npage )
     {
@@ -18,15 +44,6 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
         echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
         echo $sHidFS.$npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
         echo $sHidFS.$npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-    }
-
-    function ReportBadPage_button_should_be_shown( $npage, $username )
-    {
-        // get bad page code
-        $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}'");
-        $b_code = mysql_result($res2, 0, "b_code");
-
-        return (($npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
     }
 
     function echo_page_info( $npage )
@@ -70,18 +87,6 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
             }
         }
         echo "</b></font>\n";
-    }
-
-    function project_comments_url( $npage )
-    {
-        global $code_url;
-        return "$code_url/project.php?id={$npage['project']}&amp;expected_state={$npage['proofstate']}&amp;detail_level=1";
-    }
-
-    function page_image_url( $npage )
-    {
-        global $projects_url;
-        return "$projects_url/{$npage['project']}/{$npage['image']}";
     }
 
     function echo_proofing_textarea( $npage, $enhanced )
