@@ -13,8 +13,7 @@ if (!$site_supports_metadata)
 	exit();
 }
 
-// get cookie
-//$npage = getPageCookie();
+// $ppage = get_requested_PPage();
 
 
 

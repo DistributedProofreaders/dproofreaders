@@ -5,38 +5,53 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
+function get_requested_PPage()
+{
+    $ppage = new PPage();
+
+    $ppage->npage = getPageCookie();
+
+    return $ppage;
+}
+
+// ---------------------------------------------------------
+
+class PPage
+// The initial 'P' is for 'Presentation' (i.e., user interface).
+{
+
     // -----------------------------------------------------
 
-    function page_image_url( $npage )
+    function image_url()
     {
         global $projects_url;
-        return "$projects_url/{$npage['project']}/{$npage['image']}";
+        return "$projects_url/{$this->npage['project']}/{$this->npage['image']}";
     }
 
-    function project_comments_url( $npage )
+    function project_comments_url()
     {
         global $code_url;
-        return "$code_url/project.php?id={$npage['project']}&amp;expected_state={$npage['proofstate']}&amp;detail_level=1";
+        return "$code_url/project.php?id={$this->npage['project']}&amp;expected_state={$this->npage['proofstate']}&amp;detail_level=1";
     }
 
     // -----------------------------------------------------
 
-    function ReportBadPage_button_should_be_shown( $npage, $username )
+    function can_be_marked_bad_by( $username )
     {
         // get bad page code
         $res2 = mysql_query("
             SELECT b_code
-            FROM {$npage['project']}
-            WHERE image = '{$npage['image']}'
+            FROM {$this->npage['project']}
+            WHERE image = '{$this->npage['image']}'
         ");
         $b_code = mysql_result($res2, 0, "b_code");
 
-        return (($npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
+        return (($this->npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
     }
 
     // -----------------------------------------------------
 
-    function echo_hidden_fields( $npage )
+    function echo_hidden_fields()
     {
         // set values for hidden form fields
         $sHidFS="<input type='hidden' value='";
@@ -44,22 +59,22 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
         $sHidFM2="' id='";
         $sHidFE="'>\n";
 
-        echo $sHidFS.$npage['image']     .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
-        echo $sHidFS.$npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
-        echo $sHidFS.$npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
-        echo $sHidFS.$npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+        echo $sHidFS.$this->npage['image']     .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
+        echo $sHidFS.$this->npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
+        echo $sHidFS.$this->npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
+        echo $sHidFS.$this->npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
     }
 
-    function echo_page_info( $npage )
+    function echo_info()
     {
         global $forums_url;
 
         //display page number
-        $pageNum=substr($npage['image'],0,-4);
+        $pageNum=substr($this->npage['image'],0,-4);
         echo "<font size='-1'><b>";
         echo _("Page: $pageNum");
 
-        $round = get_Round_for_project_state($npage['proofstate']);
+        $round = get_Round_for_project_state($this->npage['proofstate']);
         $other_round_ids = $round->other_rounds_with_visible_usernames;
         if (count($other_round_ids) > 0)
         {
@@ -71,8 +86,8 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
                 $other_round = get_Round_for_round_id($other_round_id);
                 $res = mysql_query("
                     SELECT {$other_round->user_column_name}
-                    FROM {$npage['project']}
-                    WHERE image = '{$npage['image']}'
+                    FROM {$this->npage['project']}
+                    WHERE image = '{$this->npage['image']}'
                 ");
                 $username = mysql_result($res, 0, $other_round->user_column_name);
 
@@ -101,14 +116,14 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
         echo "</b></font>\n";
     }
 
-    function echo_proofing_textarea( $npage, $enhanced )
+    function echo_proofing_textarea( $enhanced )
     {
         global $userP, $f_f, $f_s;
 
-        $page_text = nPage_getText($npage);
+        $page_text = nPage_getText($this->npage);
 
         // get page language
-        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$npage['project']}'");
+        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->npage['project']}'");
         $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
 
         if ( $userP['i_layout']==1 )
@@ -174,6 +189,8 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 
         echo "</textarea>";
     }
+
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>

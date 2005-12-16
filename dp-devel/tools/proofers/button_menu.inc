@@ -58,7 +58,7 @@ onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url
 echo_button(REVERT_TO_ORIGINAL,'a');
 echo "\n";
 
-  if ( nPage_can_be_reverted_to_last_save($npage) )
+  if ( nPage_can_be_reverted_to_last_save($ppage->npage) )
   {
     echo_button(REVERT_TO_LAST_SAVE,'a');
   }
@@ -70,7 +70,7 @@ echo "\n";
 ?>
 <a href="#" onclick="top.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
-href="<? echo project_comments_url($npage); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
+href="<? echo $ppage->project_comments_url(); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?
 
 echo_button(SPELL_CHECK,'a');
@@ -85,7 +85,7 @@ echo "\n";
 echo_button(RETURN_PAGE,'a');
 echo "\n";
 
-if (ReportBadPage_button_should_be_shown($npage,$pguser))
+if ($ppage->can_be_marked_bad_by($pguser))
 {
     echo_button(REPORT_BAD_PAGE,'a');
     echo "\n";

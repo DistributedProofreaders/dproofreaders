@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'slim_header.inc');
+include_once('page_misc.inc');
 
 /* $_POST $imagefile, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $js, $button1_x, $button2_x,
@@ -86,7 +87,8 @@ if ($tbutton == B_QUIT)
 
 
 $lpage = new LPage($project, $proofstate, $imagefile, $pagestate);
-$npage = getPageCookie();
+$ppage = get_requested_PPage();
+$npage = $ppage->npage;
 
 //Make sure project is still available
   // only if not in a check

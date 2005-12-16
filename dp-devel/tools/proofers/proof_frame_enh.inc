@@ -5,8 +5,7 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'slim_header.inc');
 include_once('page_misc.inc');
 
-// get cookie
-$npage = getPageCookie();
+$ppage = get_requested_PPage();
 
 
 // set image and text height and width
@@ -222,7 +221,7 @@ id="imagevert"><table
 id="imageframe"><div
 id="imagedisplay"><a href="JavaScript: //"><img
 name="scanimage" id="scanimage" title="" alt=""
-src="<?PHP echo page_image_url($npage);?>"
+src="<?PHP echo $ppage->image_url();?>"
 border="0" width="<?PHP
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
@@ -235,7 +234,7 @@ id="controlframe" align="center"><form
       method="POST"
       action="processtext.php"><?PHP
 
-echo_hidden_fields($npage);
+$ppage->echo_hidden_fields();
 
 ?><table
   id="tbtext"
@@ -248,13 +247,13 @@ echo_hidden_fields($npage);
   id="tdtext"
   valign="top"><?PHP
 
-  echo_proofing_textarea( $npage, TRUE );
+  $ppage->echo_proofing_textarea( TRUE );
 
 ?></td></tr><tr><td
   id="tdbottom"
   valign="top"><?PHP
 
-echo_page_info($npage);
+$ppage->echo_info();
 
 ?>
   </td>

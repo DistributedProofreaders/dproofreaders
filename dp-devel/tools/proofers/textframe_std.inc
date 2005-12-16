@@ -6,8 +6,7 @@ include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once('page_misc.inc');
 
-// get cookie
-$npage = getPageCookie();
+$ppage = get_requested_PPage();
 
 
 slim_header("Text Frame",TRUE,FALSE);
@@ -34,11 +33,11 @@ slim_header("Text Frame",TRUE,FALSE);
 	//-->
 </script>
 <?
-  echo_proofing_textarea( $npage, FALSE );
+  $ppage->echo_proofing_textarea( FALSE );
 ?>
 <BR>
 <?
-	echo_hidden_fields($npage);
+	$ppage->echo_hidden_fields();
 
 	echo_button(SAVE_AS_IN_PROGRESS,'s');
 	echo_button(SAVE_AS_DONE_AND_PROOF_NEXT,'s');
@@ -50,7 +49,7 @@ slim_header("Text Frame",TRUE,FALSE);
 	echo_button(CHANGE_LAYOUT,'s');
 	echo_button(RETURN_PAGE,'s');
 
-	if ( ReportBadPage_button_should_be_shown($npage,$pguser) )
+	if ( $ppage->can_be_marked_bad_by($pguser) )
 	{
 		echo_button(REPORT_BAD_PAGE,'s');
 	}
@@ -61,12 +60,12 @@ slim_header("Text Frame",TRUE,FALSE);
 
 	echo "<br>\n";
 
-	echo_page_info($npage);
+	$ppage->echo_info();
 
   echo "&nbsp;";
-  $comments_url = project_comments_url($npage);
+  $comments_url = $ppage->project_comments_url();
   echo _("View:")." <a href=\"$comments_url\" title=\"". _("View Project Comments in New Window")."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
-  $image_url = page_image_url($npage);
+  $image_url = $ppage->image_url();
   echo "| <a href=\"$image_url\" title=\"". _("View Image in New Window")."\" target=\"lg_image\">"._("Image")."</a> ";
 ?>
 <br>

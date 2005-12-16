@@ -6,15 +6,14 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once('page_misc.inc');
 
-// get cookie
-$npage = getPageCookie();
+$ppage = get_requested_PPage();
 
 include_once($relPath.'slim_header.inc');
 slim_header("Image Frame",TRUE,FALSE);
 ?>
 </head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img
 name="scanimage" id="scanimage" title="" alt=""
-src="<?PHP echo page_image_url($npage); ?>"
+src="<?PHP echo $ppage->image_url(); ?>"
 width="<?PHP
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
