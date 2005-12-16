@@ -5,7 +5,7 @@ include_once($relPath.'c_pages.inc');
 include_once($relPath.'slim_header.inc');
 include_once('page_misc.inc');
 
-$ppage = get_requested_PPage();
+// $ppage is assumed to be set before this file is included.
 
 
 // set image and text height and width
