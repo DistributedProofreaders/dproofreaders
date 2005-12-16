@@ -24,7 +24,11 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
     function ReportBadPage_button_should_be_shown( $npage, $username )
     {
         // get bad page code
-        $res2 = mysql_query("SELECT b_code FROM {$npage['project']} WHERE image = '{$npage['image']}'");
+        $res2 = mysql_query("
+            SELECT b_code
+            FROM {$npage['project']}
+            WHERE image = '{$npage['image']}'
+        ");
         $b_code = mysql_result($res2, 0, "b_code");
 
         return (($npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
@@ -65,7 +69,11 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
             foreach ($other_round_ids as $other_round_id)
             {
                 $other_round = get_Round_for_round_id($other_round_id);
-                $res = mysql_query("SELECT {$other_round->user_column_name} FROM {$npage['project']} WHERE image = '{$npage['image']}'");
+                $res = mysql_query("
+                    SELECT {$other_round->user_column_name}
+                    FROM {$npage['project']}
+                    WHERE image = '{$npage['image']}'
+                ");
                 $username = mysql_result($res, 0, $other_round->user_column_name);
 
                 if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
@@ -79,7 +87,11 @@ include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
                 }
                 else
                 {
-                    $res = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '$username'");
+                    $res = mysql_query("
+                        SELECT user_id
+                        FROM phpbb_users
+                        WHERE username = '$username'
+                    ");
                     $user_id = mysql_result($res, 0, "user_id");
 
                     echo "<a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
