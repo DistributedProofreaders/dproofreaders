@@ -86,9 +86,9 @@ if ($tbutton == B_QUIT)
 }
 
 
-$lpage = new LPage($project, $proofstate, $imagefile, $pagestate);
-$ppage = get_requested_PPage();
+$ppage = get_requested_PPage( $_POST );
 $npage = $ppage->npage;
+$lpage = $ppage->lpage;
 
 //Make sure project is still available
   // only if not in a check

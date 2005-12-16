@@ -6,11 +6,21 @@ include_once($relPath.'c_pages.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
-function get_requested_PPage()
+function get_requested_PPage( $request_params=NULL )
 {
     $ppage = new PPage();
 
     $ppage->npage = getPageCookie();
+
+    if ( !is_null($request_params) )
+    {
+        $ppage->lpage = new LPage(
+            $request_params['projectname'],
+            $request_params['proofstate'],
+            $request_params['imagefile'],
+            $request_params['pagestate']
+        );
+    }
 
     return $ppage;
 }
