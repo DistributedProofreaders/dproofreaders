@@ -100,8 +100,6 @@ function get_available_page( $project, $proofstate, $pguser, &$err )
 
     $pagestate = Page_checkout( $project, $imagefile, $round, $pguser );
 
-    setPageCookie( $project, $proofstate, $imagefile, $pagestate, 0 );
-
     $err = NULL;
     return new LPage( $project, $proofstate, $imagefile, $pagestate );
 }

@@ -97,6 +97,8 @@ else
         echo "<html><head><title>$title</title></head><body>$body</body></html>";
         exit;
     }
+
+    setPageCookie( $lpage->project, $lpage->proofstate, $lpage->imagefile, $lpage->pagestate, 0 );
 }
 
 include('proof_frame.inc');
