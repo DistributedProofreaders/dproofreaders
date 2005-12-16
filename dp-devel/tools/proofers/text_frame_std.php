@@ -38,9 +38,9 @@ slim_header("Text Frame",TRUE,FALSE);
 </script>
 <?
     $ppage->echo_proofing_textarea( FALSE );
-?>
-<BR>
-<?
+
+    echo "<br>\n";
+
     $ppage->echo_hidden_fields();
 
     echo_button(SAVE_AS_IN_PROGRESS,'s');
@@ -73,9 +73,11 @@ slim_header("Text Frame",TRUE,FALSE);
 
     $image_url = $ppage->image_url();
     echo "| <a href=\"$image_url\" title=\"". _("View Image in New Window")."\" target=\"lg_image\">"._("Image")."</a> ";
+
+    echo "<br>\n";
+
+    echo _("Image Resize:");
 ?>
-<br>
-<? echo _("Image Resize:"); ?>
 <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="resize(0.75)">
 <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="resize(1.25)">
 <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="resize(-1)">
