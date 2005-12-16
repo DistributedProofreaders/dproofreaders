@@ -35,8 +35,6 @@ else
     // Make sure project is still in same state.
     project_continuity_check($project,$proofstate,TRUE);
 
-// see if they need a new page or not
-$needPage=1;
 
     // Consider the page (if any) that this user most recently "opened" in
     // this session, either via 'Start Proofreading' or via the 'Done' or
@@ -89,8 +87,6 @@ $needPage=1;
     }
 
   // give them a new page
-    if ($needPage==1)
-      {
         $err = get_available_page( $project, $proofstate, $pguser );
           if ($err)
             {
@@ -101,7 +97,6 @@ $needPage=1;
               echo "<html><head><title>$title</title></head><body>$body</body></html>";
               exit;
             }
-      }
 }
 
 include('proof_frame.inc');
