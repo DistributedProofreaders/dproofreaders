@@ -15,9 +15,8 @@ $no_stats=1;
 $projectid  = $_POST['projectname'];
 $proofstate = $_POST['proofstate'];
 $imagefile  = $_POST['imagefile'];
-// When this file included from processtext.php,
-// $_POST['badState'] is not defined,
-// $badState is set "manually".
+$pagestate  = $_POST['pagestate'];
+
 $reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
@@ -39,7 +38,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<form action='report_bad_page.php' method='post'>";
 	echo "<input type='hidden' name='imagefile' value='$imagefile'>";
 	echo "<input type='hidden' name='projectname' value='$projectid'>";
-	echo "<input type='hidden' name='badState' value='$badState'>";
+	echo "<input type='hidden' name='pagestate' value='$pagestate'>";
 	echo "<input type='hidden' name='proofstate' value='$proofstate'>";
 	echo "<input type='hidden' name='submitted' value='true'>";
 	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
@@ -69,7 +68,6 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 else
 {
 	$reason   = $_POST['reason'];
-	$badState = $_POST['badState'];
 
 	//See if they filled in a reason.  If not tell them to go back
 	if ($reason == 0) {
@@ -81,10 +79,11 @@ else
 	}
 
 	//Update the page the user was working on to reflect a bad page.
-	$round = get_Round_for_page_state($badState);
+	$round = get_Round_for_page_state($pagestate);
 	Page_markAsBad( $projectid, $imagefile, $round, $pguser, $reason );
 
 	//Find out how many pages have been marked bad
+	$badState = $round->page_bad_state;
 	$totalBad = Project_getNumPagesInState($projectid,$badState);
 
 	$project_is_bad = FALSE;

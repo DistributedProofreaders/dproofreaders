@@ -149,7 +149,6 @@ switch( $tbutton )
         break;
 
     case B_REPORT_BAD_PAGE:
-        $badState = $lpage->round->page_bad_state;
         include('report_bad_page.php');
         break;
 
