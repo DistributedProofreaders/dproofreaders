@@ -273,15 +273,7 @@ name="spcorrects" action="processtext.php" method="POST"><table
   id="tdtext" 
   valign="top">
 <?PHP
-    // set values for hidden form fields
-      $sHidFS="<INPUT \nTYPE=\"hidden\" VALUE=\"";
-      $sHidFM="\" NAME=\"";
-      $sHidFM2="\" ID=\"";
-      $sHidFE="\">";
-      echo $sHidFS.$imagefile.$sHidFM.'imagefile'.$sHidFM2.'imagefile'.$sHidFE;
-      echo $sHidFS.$proofstate.$sHidFM.'proofstate'.$sHidFM2.'proofstate'.$sHidFE;
-      echo $sHidFS.$pagestate.$sHidFM.'pagestate'.$sHidFM2.'pagestate'.$sHidFE;
-      echo $sHidFS.$project.$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+    $ppage->echo_hidden_fields();
 
     spellcheck_text( $text_data, $project, $imagefile );
 ?>
