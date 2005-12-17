@@ -71,7 +71,7 @@ else
 
     if ( dpsession_page_is_set() )
     {
-        $npage=getPageCookie();
+        $npage=getDebounceInfo();
         if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
         {
                 // It probably doesn't matter what we say here.
@@ -101,7 +101,7 @@ else
         exit;
     }
 
-    setPageCookie( $lpage->project );
+    setDebounceInfo( $lpage->project );
 }
 
 $ppage = new PPage();
@@ -118,12 +118,12 @@ include('proof_frame.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function setPageCookie($project)
+function setDebounceInfo($project)
 {
     dpsession_page_set( $project . '|' . time() );
 }
 
-function getPageCookie()
+function getDebounceInfo()
 {
     list($project,$time) = explode( "|", dpsession_page_get() );
     return array( 'project' => $project, 'pageTime' => $time );
