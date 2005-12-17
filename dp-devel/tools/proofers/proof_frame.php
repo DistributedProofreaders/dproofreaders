@@ -101,7 +101,7 @@ else
         exit;
     }
 
-    setPageCookie( $lpage->project, $lpage->proofstate, $lpage->imagefile, $lpage->pagestate, 0 );
+    setPageCookie( $lpage->project );
 }
 
 $ppage = new PPage();
@@ -118,14 +118,9 @@ include('proof_frame.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function setPageCookie($project,$proofstate,$image,$pagestate,$revert)
+function setPageCookie($project)
 {
-    // The following components are no longer used,
-    // so it doesn't matter what values we use for them,
-    // and we don't need to get values via the arg list.
-    $fileid = $saved = $editone = $spcheck = $errcheck = $isDone = '';
-
-    $pagerefs="$project|$proofstate|$fileid|$image|$pagestate|$saved|$editone|$revert|$spcheck|$errcheck|$isDone|".time();
+    $pagerefs="$project|".time();
     dpsession_page_set($pagerefs);
 }
 
@@ -135,16 +130,6 @@ function getPageCookie()
     $uPage=array();
     $i=0;
     @$uPage['project']=$cPage[$i++];
-    @$uPage['proofstate']=$cPage[$i++];
-    @$uPage['fileid']=$cPage[$i++];
-    @$uPage['image']=$cPage[$i++];
-    @$uPage['pagestate']=$cPage[$i++];
-    @$uPage['saved']=$cPage[$i++];
-    @$uPage['editone']=$cPage[$i++];
-    @$uPage['revert']=$cPage[$i++];
-    @$uPage['spcheck']=$cPage[$i++];
-    @$uPage['errcheck']=$cPage[$i++];
-    @$uPage['isDone']=$cPage[$i++];
     @$uPage['pageTime']=$cPage[$i++];
     //@$uPage['']=$cPage[$i++];
     return $uPage;
