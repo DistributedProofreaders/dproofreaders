@@ -120,19 +120,13 @@ include('proof_frame.inc');
 
 function setPageCookie($project)
 {
-    $pagerefs="$project|".time();
-    dpsession_page_set($pagerefs);
+    dpsession_page_set( $project . '|' . time() );
 }
 
 function getPageCookie()
 {
-    @$cPage=explode("|", dpsession_page_get() );
-    $uPage=array();
-    $i=0;
-    @$uPage['project']=$cPage[$i++];
-    @$uPage['pageTime']=$cPage[$i++];
-    //@$uPage['']=$cPage[$i++];
-    return $uPage;
+    list($project,$time) = explode( "|", dpsession_page_get() );
+    return array( 'project' => $project, 'pageTime' => $time );
 }
 
 // vim: sw=4 ts=4 expandtab
