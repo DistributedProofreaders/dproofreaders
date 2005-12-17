@@ -291,12 +291,6 @@ function setPageCookie($project,$proofstate,$image,$pagestate,$revert)
   dpsession_page_set($pagerefs);
 }
 
-function setTempPageCookie($tempPrefs)
-{
-  $pagerefs=implode("|",$tempPrefs);
-  dpsession_page_set($pagerefs);
-}
-
 function getPageCookie()
 {
   @$cPage=explode("|", dpsession_page_get() );
@@ -316,11 +310,6 @@ function getPageCookie()
   @$uPage['pageTime']=$cPage[$i++];
   //@$uPage['']=$cPage[$i++];
   return $uPage;
-}
-
-function deletePageCookie()
-{
-  dpsession_page_end();
 }
 
 // vim: sw=4 ts=4 expandtab
