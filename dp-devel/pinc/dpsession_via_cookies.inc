@@ -163,26 +163,26 @@ function dpsession_end()
 
 // -----------------------------------------------------------------------------
 
-// The 'userPage' cookie...
+// The 'debouncer' cookie...
 
 function dpsession_page_set($info)
 {
-	local_send_cookie("userPage", $info);
+	local_send_cookie("debouncer", $info);
 }
 
 function dpsession_page_end()
 {
-	local_send_cookie("userPage", "");
+	local_send_cookie("debouncer", "");
 }
 
 function dpsession_page_is_set()
 {
-	return isset($_COOKIE['userPage']);
+	return isset($_COOKIE['debouncer']);
 }
 
 function dpsession_page_get()
 {
-	return $_COOKIE['userPage'];
+	return $_COOKIE['debouncer'];
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

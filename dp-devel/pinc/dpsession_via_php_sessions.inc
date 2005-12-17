@@ -98,26 +98,26 @@ function dpsession_end()
 
 // -----------------------------------------------------------------------------
 
-// The 'userPage' variable
+// The 'debouncer' variable
 
 function dpsession_page_set($info)
 {
-	$_SESSION['userPage'] = $info;
+	$_SESSION['debouncer'] = $info;
 }
 
 function dpsession_page_end()
 {
-	$_SESSION['userPage'] = NULL;
+	$_SESSION['debouncer'] = NULL;
 }
 
 function dpsession_page_is_set()
 {
-	return isset($_SESSION['userPage']);
+	return isset($_SESSION['debouncer']);
 }
 
 function dpsession_page_get()
 {
-	return $_SESSION['userPage'];
+	return $_SESSION['debouncer'];
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
