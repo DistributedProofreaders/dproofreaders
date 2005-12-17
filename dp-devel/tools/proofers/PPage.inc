@@ -40,14 +40,12 @@ class PPage
     function revertToOriginal()
     {
         $this->npage['revert'] = 1;
-        setTempPageCookie($this->npage);
     }
 
     function revertToSaved()
     {
         $this->npage['pagestate'] = $this->lpage->getRevertState();
         $this->npage['revert'] = 0;
-        setTempPageCookie($this->npage);
     }
 
     function returnToRound( $user )
@@ -59,7 +57,6 @@ class PPage
     {
         $this->npage['pagestate'] = $this->lpage->saveTemp($page_text, $user);
         $this->npage['revert'] = 0;
-        setTempPageCookie($this->npage);
     }
 
     function saveAsDone( $page_text, $user )
