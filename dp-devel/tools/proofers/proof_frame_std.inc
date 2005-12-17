@@ -16,6 +16,8 @@ else
     $rows_or_cols = "ROWS='*,{$userP['h_tframe']}%'";
 }
 
+$params = $ppage->urlencoded();
+
 if ( ($userP['i_layout']=='1' && $userP['v_tscroll']==0)
     ||
      ($userP['i_layout']=='0' && $userP['h_tscroll']==0) )
@@ -29,6 +31,8 @@ else
 
 $margins = "marginwidth='2' marginheight='2'";
 
+// -------------------------------------
+
 echo "
     <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN'
     'http://www.w3.org/TR/html4/frameset.dtd'>
@@ -37,8 +41,8 @@ slim_header($project,FALSE,FALSE);
 echo "
     </HEAD>
     <FRAMESET $rows_or_cols>
-    <FRAME NAME='imageframe' SRC='image_frame.php' $margins>
-    <FRAME NAME='textframe' SRC='text_frame.php' $margins $text_scrolling>
+    <FRAME NAME='imageframe' SRC='image_frame.php?$params' $margins>
+    <FRAME NAME='textframe' SRC='text_frame.php?$params' $margins $text_scrolling>
     </FRAMESET>
     <NOFRAMES>Your browser is not frames capable!</NOFRAMES>
     </HTML>

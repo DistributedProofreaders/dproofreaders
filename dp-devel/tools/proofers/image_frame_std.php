@@ -6,7 +6,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once('page_misc.inc');
 
-$ppage = get_requested_PPage();
+$ppage = get_requested_PPage($_GET);
 
 include_once($relPath.'slim_header.inc');
 slim_header("Image Frame",TRUE,FALSE);

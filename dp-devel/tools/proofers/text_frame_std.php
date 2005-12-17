@@ -11,7 +11,7 @@ include_once('page_misc.inc');
 // This script is invoked only for the standard interface now.
 assert($userP['i_type'] == 0);
 
-$ppage = get_requested_PPage();
+$ppage = get_requested_PPage($_GET);
 
 slim_header("Text Frame",TRUE,FALSE);
 ?>

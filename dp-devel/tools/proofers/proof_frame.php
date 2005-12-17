@@ -30,8 +30,6 @@ if (isset($pagestate)) {
         echo $err;
         exit();
     }
-
-    setPageCookie($lpage->project, $lpage->proofstate, $lpage->imagefile, $lpage->pagestate, 0);
 }
 else
 {
@@ -108,7 +106,13 @@ else
 
 $ppage = new PPage();
 $ppage->lpage =& $lpage;
-$ppage->npage = getPageCookie();
+$ppage->npage = array(
+    'project'    => $lpage->project,
+    'proofstate' => $lpage->proofstate,
+    'image'      => $lpage->imagefile,
+    'pagestate'  => $lpage->pagestate,
+    'revert'     => 0,
+);
 
 include('proof_frame.inc');
 

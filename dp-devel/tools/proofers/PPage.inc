@@ -10,7 +10,13 @@ function get_requested_PPage( $request_params=NULL )
 {
     $ppage = new PPage();
 
-    $ppage->npage = getPageCookie();
+    $ppage->npage = array(
+        'project'    => $request_params['projectname'],
+        'proofstate' => $request_params['proofstate'],
+        'image'      => $request_params['imagefile'],
+        'pagestate'  => $request_params['pagestate'],
+        'revert'     => $request_params['revert'],
+    );
 
     if ( !is_null($request_params) )
     {
@@ -75,6 +81,19 @@ class PPage
         return "$code_url/project.php?id={$this->npage['project']}&amp;expected_state={$this->npage['proofstate']}&amp;detail_level=1";
     }
 
+    function urlencoded()
+    {
+        return implode( '&',
+            array(
+                'projectname=' . $this->npage['project'],
+                'proofstate='  . $this->npage['proofstate'],
+                'imagefile='   . $this->npage['image'],
+                'pagestate='   . $this->npage['pagestate'],
+                'revert='      . $this->npage['revert'],
+            )
+        );
+    }
+
     // -----------------------------------------------------
 
     function can_be_marked_bad_by( $username )
@@ -109,6 +128,7 @@ class PPage
         echo $sHidFS.$this->npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
         echo $sHidFS.$this->npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
         echo $sHidFS.$this->npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+        echo $sHidFS.$this->npage['revert']    .$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
     }
 
     function echo_info()
