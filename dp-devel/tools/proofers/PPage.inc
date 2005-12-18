@@ -8,6 +8,30 @@ include_once($relPath.'c_pages.inc');
 
 function get_requested_PPage( $request_params )
 {
+    foreach(
+        array( 'projectname', 'proofstate', 'imagefile', 'pagestate', 'revert' )
+        as
+        $param_name
+    )
+    {
+        if (!isset($request_params[$param_name]) )
+        {
+            echo "get_requested_PPage: ";
+            echo sprintf(
+                _("parameter '%s' is not set."),
+                $param_name );
+            exit;
+        }
+        else if ($request_params[$param_name] == '')
+        {
+            echo "get_requested_PPage: ";
+            echo sprintf(
+                _("parameter '%s' is empty."),
+                $param_name );
+            exit;
+        }
+    }
+
     $lpage = new LPage(
         $request_params['projectname'],
         $request_params['proofstate'],
