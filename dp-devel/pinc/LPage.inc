@@ -104,64 +104,6 @@ function get_available_page( $project, $proofstate, $pguser, &$err )
     return new LPage( $project, $proofstate, $imagefile, $pagestate, 0 );
 }
 
-// -----------------------------------------------------------------------------
-
-function nPage_can_be_reverted_to_last_save( $lpage )
-{
-    $round = get_Round_for_page_state( $lpage->pagestate );
-
-    return ( $lpage->revert==1
-        || $lpage->pagestate == $round->page_save_state
-        || $lpage->pagestate == $round->page_temp_state
-    );
-}
-
-function nPage_getText( $lpage )
-{
-    $round = get_Round_for_page_state( $lpage->pagestate );
-
-    if ( $lpage->revert==1
-        || $lpage->pagestate==$round->page_avail_state
-        || $lpage->pagestate==$round->page_out_state )
-    {
-        $desired_column_name = $round->prevtext_column_name;
-    }
-    else
-    {
-        $desired_column_name = $round->text_column_name;
-    }
-
-    $q = "
-        SELECT $desired_column_name
-        FROM {$lpage->project}
-        WHERE image='{$lpage->imagefile}'
-    ";
-    $res = mysql_query($q);
-    list($page_text) = mysql_fetch_row($res);
-
-    return $page_text;
-
-    // old comment:
-    //
-    // We need to protect our users against malicious HTML code.
-    // For example, see CERT Advisory CA-2000-02.
-    // But we can't throw out all tags, because we use some tags, like <i>..</i>.
-    // And we can't throw out all but the trusted tags, because there are other
-    // uses of angle-brackets that don't look like trusted tags, e.g. X < Y
-    // And really, we don't want to throw out *anything*, because there's
-    // the risk that we might throw out a big chunk of non-malicious work.
-    // So let's try this: anything that looks like it might be a nasty tag,
-    // we convert its opening angle-bracket to '&lt' and mark it with an asterisk.
-    // $page_text = preg_replace( ';<([\s/]*(SCRIPT|OBJECT|APPLET|EMBED));i', '&lt;*\1', $page_text );
-
-    // Actually, this is all moot.
-    // The value returned by this function will be sent to the client as the
-    // content of a <textarea> element (the Proofreading Page's text frame),
-    // which the browser won't interpret as HTML anyhow.
-    // (That's why we see <i> *tags* rather than seeing italicized text.)
-    // So just return the text as-is.
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class LPage
@@ -185,6 +127,46 @@ class LPage
 
         $this->round = get_Round_for_page_state($pagestate);
     }
+
+    // -------------------------------------------------------------------------
+
+    function can_be_reverted_to_last_save()
+    {
+        $round = get_Round_for_page_state( $this->pagestate );
+
+        return ( $this->revert==1
+            || $this->pagestate == $round->page_save_state
+            || $this->pagestate == $round->page_temp_state
+        );
+    }
+
+    function get_text()
+    {
+        $round = get_Round_for_page_state( $this->pagestate );
+
+        if ( $this->revert==1
+            || $this->pagestate == $round->page_avail_state
+            || $this->pagestate == $round->page_out_state )
+        {
+            $desired_column_name = $round->prevtext_column_name;
+        }
+        else
+        {
+            $desired_column_name = $round->text_column_name;
+        }
+
+        $q = "
+            SELECT $desired_column_name
+            FROM {$this->project}
+            WHERE image='{$this->imagefile}'
+        ";
+        $res = mysql_query($q);
+        list($page_text) = mysql_fetch_row($res);
+
+        return $page_text;
+    }
+
+    // -------------------------------------------------------------------------
 
     function addUserCount($pguser)
     {

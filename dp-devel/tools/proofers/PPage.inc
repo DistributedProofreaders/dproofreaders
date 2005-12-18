@@ -98,7 +98,7 @@ class PPage
 
     function can_be_reverted_to_last_save()
     {
-        return nPage_can_be_reverted_to_last_save($this->lpage);
+        return $this->lpage->can_be_reverted_to_last_save();
     }
 
     // -----------------------------------------------------
@@ -173,7 +173,7 @@ class PPage
     {
         global $userP, $f_f, $f_s;
 
-        $page_text = nPage_getText($this->lpage);
+        $page_text = $this->lpage->get_text();
 
         // get page language
         $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->lpage->project}'");
