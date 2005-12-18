@@ -171,16 +171,12 @@ class LPage
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {
-    var $project='';
-    var $imagefile='';
-    var $round=NULL;
-
     function LPage($project, $proofstate, $imagefile, $pagestate)
     {
-        $this->project=$project;
-        $this->imagefile=$imagefile;
-        $this->pagestate=$pagestate;
-        $this->proofstate=$proofstate;
+        $this->project    = $project;
+        $this->proofstate = $proofstate;
+        $this->imagefile  = $imagefile;
+        $this->pagestate  = $pagestate;
 
         $this->round = get_Round_for_page_state($pagestate);
     }
