@@ -215,13 +215,9 @@ class LPage
     }
 
 
-    function saveTemp($text_data,$pguser)
-    {
-        return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
-    }
     function saveAsInProgress( $page_text, $user )
     {
-        $this->pagestate = $this->saveTemp($page_text, $user);
+        $this->pagestate = Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $user, $page_text );
         $this->revert = 0;
     }
 
@@ -229,11 +225,6 @@ class LPage
     {
         $this->addUserCount($pguser);
         return Page_saveAsDone( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
-    }
-
-    function getRevertState()
-    {
-        return $this->round->page_temp_state;
     }
 
     function returnToRound($pguser)
@@ -248,7 +239,7 @@ class LPage
 
     function revertToSaved()
     {
-        $this->pagestate = $this->getRevertState();
+        $this->pagestate = $this->round->page_temp_state;
         $this->revert = 0;
     }
 
