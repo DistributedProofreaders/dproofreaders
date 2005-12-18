@@ -101,7 +101,7 @@ else
         exit;
     }
 
-    setDebounceInfo( $lpage->project );
+    setDebounceInfo( $lpage->projectid );
 }
 
 $ppage = new PPage( $lpage );

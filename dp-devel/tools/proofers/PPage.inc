@@ -34,24 +34,24 @@ class PPage
     function image_url()
     {
         global $projects_url;
-        return "$projects_url/{$this->lpage->project}/{$this->lpage->imagefile}";
+        return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
     function project_comments_url()
     {
         global $code_url;
-        return "$code_url/project.php?id={$this->lpage->project}&amp;expected_state={$this->lpage->proofstate}&amp;detail_level=1";
+        return "$code_url/project.php?id={$this->lpage->projectid}&amp;expected_state={$this->lpage->proj_state}&amp;detail_level=1";
     }
 
     function urlencoded()
     {
         return implode( '&',
             array(
-                'projectname=' . $this->lpage->project,
-                'proofstate='  . $this->lpage->proofstate,
+                'projectname=' . $this->lpage->projectid,
+                'proofstate='  . $this->lpage->proj_state,
                 'imagefile='   . $this->lpage->imagefile,
-                'pagestate='   . $this->lpage->pagestate,
-                'revert='      . $this->lpage->revert,
+                'pagestate='   . $this->lpage->page_state,
+                'revert='      . $this->lpage->reverting_to_orig,
             )
         );
     }
@@ -67,10 +67,10 @@ class PPage
         $sHidFE="'>\n";
 
         echo $sHidFS.$this->lpage->imagefile .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
-        echo $sHidFS.$this->lpage->proofstate.$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
-        echo $sHidFS.$this->lpage->pagestate .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
-        echo $sHidFS.$this->lpage->project   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-        echo $sHidFS.$this->lpage->revert    .$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
+        echo $sHidFS.$this->lpage->proj_state.$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
+        echo $sHidFS.$this->lpage->page_state.$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
+        echo $sHidFS.$this->lpage->projectid .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+        echo $sHidFS.$this->lpage->reverting_to_orig.$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
     }
 
     function echo_info()
@@ -82,7 +82,7 @@ class PPage
         echo "<font size='-1'><b>";
         echo _("Page: $pageNum");
 
-        $round = get_Round_for_project_state($this->lpage->proofstate);
+        $round = get_Round_for_project_state($this->lpage->proj_state);
         $other_round_ids = $round->other_rounds_with_visible_usernames;
         if (count($other_round_ids) > 0)
         {
