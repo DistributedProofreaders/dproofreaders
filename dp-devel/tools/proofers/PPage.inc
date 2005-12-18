@@ -8,17 +8,15 @@ include_once($relPath.'c_pages.inc');
 
 function get_requested_PPage( $request_params )
 {
-    $ppage = new PPage();
+    $lpage = new LPage(
+        $request_params['projectname'],
+        $request_params['proofstate'],
+        $request_params['imagefile'],
+        $request_params['pagestate'],
+        $request_params['revert']
+    );
 
-        $ppage->lpage = new LPage(
-            $request_params['projectname'],
-            $request_params['proofstate'],
-            $request_params['imagefile'],
-            $request_params['pagestate'],
-            $request_params['revert']
-        );
-
-    return $ppage;
+    return new PPage($lpage);
 }
 
 // ---------------------------------------------------------
@@ -26,6 +24,12 @@ function get_requested_PPage( $request_params )
 class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 {
+    function PPage( &$lpage )
+    {
+        $this->lpage =& $lpage;
+    }
+
+    // -----------------------------------------------------
 
     function image_url()
     {

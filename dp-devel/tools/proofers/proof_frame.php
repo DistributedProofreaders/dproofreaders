@@ -104,8 +104,7 @@ else
     setDebounceInfo( $lpage->project );
 }
 
-$ppage = new PPage();
-$ppage->lpage =& $lpage;
+$ppage = new PPage( $lpage );
 
 include('proof_frame.inc');
 
