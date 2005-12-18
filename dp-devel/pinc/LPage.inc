@@ -192,7 +192,7 @@ class LPage
             FROM {$this->projectid}
             WHERE image = '{$this->imagefile}'
         ");
-        $username = mysql_result($res, 0, $other_round->user_column_name);
+        $username = mysql_result($res, 0, $round->user_column_name);
         return $username;
     }
 
