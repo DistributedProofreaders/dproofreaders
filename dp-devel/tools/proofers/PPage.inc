@@ -230,6 +230,16 @@ class PPage
         return $this->lpage->can_be_reverted_to_last_save();
     }
 
+    function projectid()
+    {
+        return $this->lpage->projectid;
+    }
+
+    function imagefile()
+    {
+        return $this->lpage->imagefile;
+    }
+
 }
 
 // vim: sw=4 ts=4 expandtab
