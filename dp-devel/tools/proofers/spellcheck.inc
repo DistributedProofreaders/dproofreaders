@@ -268,7 +268,10 @@ name="spcorrects" action="processtext.php" method="POST"><table
   cellpadding="10" 
   align="center"><tr><?PHP
     if ($userP['i_type'] !=1)
-      {echo "<td id=\"tdbottom\"><a href=\"$projects_url/$projectname/$imagefile\" target=\"imageshowwin\">View Image</a></td></tr><tr>";}
+    {
+        $url = $ppage->image_url();
+        echo "<td id=\"tdbottom\"><a href=\"$url\" target=\"imageshowwin\">View Image</a></td></tr><tr>";
+    }
 ?><td 
   id="tdtext" 
   valign="top">
