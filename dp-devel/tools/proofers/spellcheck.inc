@@ -278,7 +278,7 @@ name="spcorrects" action="processtext.php" method="POST"><table
 <?PHP
     $ppage->echo_hidden_fields();
 
-    spellcheck_text( $text_data, $project, $imagefile );
+    spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile() );
 ?>
 </td>
 </tr>
