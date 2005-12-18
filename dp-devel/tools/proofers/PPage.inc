@@ -10,14 +10,6 @@ function get_requested_PPage( $request_params )
 {
     $ppage = new PPage();
 
-    $ppage->npage = array(
-        'project'    => $request_params['projectname'],
-        'proofstate' => $request_params['proofstate'],
-        'image'      => $request_params['imagefile'],
-        'pagestate'  => $request_params['pagestate'],
-        'revert'     => $request_params['revert'],
-    );
-
         $ppage->lpage = new LPage(
             $request_params['projectname'],
             $request_params['proofstate'],
@@ -37,13 +29,13 @@ class PPage
 
     function revertToOriginal()
     {
-        $this->npage['revert'] = 1;
+        $this->lpage->revert = 1;
     }
 
     function revertToSaved()
     {
-        $this->npage['pagestate'] = $this->lpage->getRevertState();
-        $this->npage['revert'] = 0;
+        $this->lpage->pagestate = $this->lpage->getRevertState();
+        $this->lpage->revert = 0;
     }
 
     function returnToRound( $user )
@@ -53,8 +45,8 @@ class PPage
 
     function saveAsInProgress( $page_text, $user )
     {
-        $this->npage['pagestate'] = $this->lpage->saveTemp($page_text, $user);
-        $this->npage['revert'] = 0;
+        $this->lpage->pagestate = $this->lpage->saveTemp($page_text, $user);
+        $this->lpage->revert = 0;
     }
 
     function saveAsDone( $page_text, $user )
@@ -67,24 +59,24 @@ class PPage
     function image_url()
     {
         global $projects_url;
-        return "$projects_url/{$this->npage['project']}/{$this->npage['image']}";
+        return "$projects_url/{$this->lpage->project}/{$this->lpage->imagefile}";
     }
 
     function project_comments_url()
     {
         global $code_url;
-        return "$code_url/project.php?id={$this->npage['project']}&amp;expected_state={$this->npage['proofstate']}&amp;detail_level=1";
+        return "$code_url/project.php?id={$this->lpage->project}&amp;expected_state={$this->lpage->proofstate}&amp;detail_level=1";
     }
 
     function urlencoded()
     {
         return implode( '&',
             array(
-                'projectname=' . $this->npage['project'],
-                'proofstate='  . $this->npage['proofstate'],
-                'imagefile='   . $this->npage['image'],
-                'pagestate='   . $this->npage['pagestate'],
-                'revert='      . $this->npage['revert'],
+                'projectname=' . $this->lpage->project,
+                'proofstate='  . $this->lpage->proofstate,
+                'imagefile='   . $this->lpage->imagefile,
+                'pagestate='   . $this->lpage->pagestate,
+                'revert='      . $this->lpage->revert,
             )
         );
     }
@@ -96,17 +88,17 @@ class PPage
         // get bad page code
         $res2 = mysql_query("
             SELECT b_code
-            FROM {$this->npage['project']}
-            WHERE image = '{$this->npage['image']}'
+            FROM {$this->lpage->project}
+            WHERE image = '{$this->lpage->imagefile}'
         ");
         $b_code = mysql_result($res2, 0, "b_code");
 
-        return (($this->npage['proofstate'] == PROJ_P1_AVAILABLE) || ($b_code > 0));
+        return (($this->lpage->proofstate == PROJ_P1_AVAILABLE) || ($b_code > 0));
     }
 
     function can_be_reverted_to_last_save()
     {
-        return nPage_can_be_reverted_to_last_save($this->npage);
+        return nPage_can_be_reverted_to_last_save($this->lpage);
     }
 
     // -----------------------------------------------------
@@ -119,11 +111,11 @@ class PPage
         $sHidFM2="' id='";
         $sHidFE="'>\n";
 
-        echo $sHidFS.$this->npage['image']     .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
-        echo $sHidFS.$this->npage['proofstate'].$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
-        echo $sHidFS.$this->npage['pagestate'] .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
-        echo $sHidFS.$this->npage['project']   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-        echo $sHidFS.$this->npage['revert']    .$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
+        echo $sHidFS.$this->lpage->imagefile .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
+        echo $sHidFS.$this->lpage->proofstate.$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
+        echo $sHidFS.$this->lpage->pagestate .$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
+        echo $sHidFS.$this->lpage->project   .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
+        echo $sHidFS.$this->lpage->revert    .$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
     }
 
     function echo_info()
@@ -131,11 +123,11 @@ class PPage
         global $forums_url;
 
         //display page number
-        $pageNum=substr($this->npage['image'],0,-4);
+        $pageNum=substr($this->lpage->imagefile,0,-4);
         echo "<font size='-1'><b>";
         echo _("Page: $pageNum");
 
-        $round = get_Round_for_project_state($this->npage['proofstate']);
+        $round = get_Round_for_project_state($this->lpage->proofstate);
         $other_round_ids = $round->other_rounds_with_visible_usernames;
         if (count($other_round_ids) > 0)
         {
@@ -147,8 +139,8 @@ class PPage
                 $other_round = get_Round_for_round_id($other_round_id);
                 $res = mysql_query("
                     SELECT {$other_round->user_column_name}
-                    FROM {$this->npage['project']}
-                    WHERE image = '{$this->npage['image']}'
+                    FROM {$this->lpage->project}
+                    WHERE image = '{$this->lpage->imagefile}'
                 ");
                 $username = mysql_result($res, 0, $other_round->user_column_name);
 
@@ -181,10 +173,10 @@ class PPage
     {
         global $userP, $f_f, $f_s;
 
-        $page_text = nPage_getText($this->npage);
+        $page_text = nPage_getText($this->lpage);
 
         // get page language
-        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->npage['project']}'");
+        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->lpage->project}'");
         $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
 
         if ( $userP['i_layout']==1 )

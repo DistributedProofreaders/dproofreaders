@@ -106,13 +106,6 @@ else
 
 $ppage = new PPage();
 $ppage->lpage =& $lpage;
-$ppage->npage = array(
-    'project'    => $lpage->project,
-    'proofstate' => $lpage->proofstate,
-    'image'      => $lpage->imagefile,
-    'pagestate'  => $lpage->pagestate,
-    'revert'     => $lpage->revert,
-);
 
 include('proof_frame.inc');
 

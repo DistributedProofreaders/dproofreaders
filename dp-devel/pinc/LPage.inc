@@ -106,23 +106,23 @@ function get_available_page( $project, $proofstate, $pguser, &$err )
 
 // -----------------------------------------------------------------------------
 
-function nPage_can_be_reverted_to_last_save( $npage )
+function nPage_can_be_reverted_to_last_save( $lpage )
 {
-    $round = get_Round_for_page_state( $npage['pagestate'] );
+    $round = get_Round_for_page_state( $lpage->pagestate );
 
-    return ( $npage['revert']==1
-        || $npage['pagestate'] == $round->page_save_state
-        || $npage['pagestate'] == $round->page_temp_state
+    return ( $lpage->revert==1
+        || $lpage->pagestate == $round->page_save_state
+        || $lpage->pagestate == $round->page_temp_state
     );
 }
 
-function nPage_getText( $npage )
+function nPage_getText( $lpage )
 {
-    $round = get_Round_for_page_state( $npage['pagestate'] );
+    $round = get_Round_for_page_state( $lpage->pagestate );
 
-    if ( $npage['revert']==1
-        || $npage['pagestate']==$round->page_avail_state
-        || $npage['pagestate']==$round->page_out_state )
+    if ( $lpage->revert==1
+        || $lpage->pagestate==$round->page_avail_state
+        || $lpage->pagestate==$round->page_out_state )
     {
         $desired_column_name = $round->prevtext_column_name;
     }
@@ -133,8 +133,8 @@ function nPage_getText( $npage )
 
     $q = "
         SELECT $desired_column_name
-        FROM {$npage['project']}
-        WHERE image='{$npage['image']}'
+        FROM {$lpage->project}
+        WHERE image='{$lpage->imagefile}'
     ";
     $res = mysql_query($q);
     list($page_text) = mysql_fetch_row($res);
