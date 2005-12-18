@@ -11,17 +11,6 @@ include_once('page_misc.inc');
           $projectname, $text_data, $orient, $js, $button1_x, $button2_x,
           $button3_x, $button4_x, $pagestate */
 
-if (!isset($projectname))
-{
-    echo "Error: processtext.php: \$projectname is not set.";
-    exit;
-}
-if ($projectname == '')
-{
-    echo "Error: processtext.php: \$projectname is empty.";
-    exit;
-}
-
 $text_data = isset($text_data) ? $text_data : '';
 
 define('B_TEMPSAVE',                1);
