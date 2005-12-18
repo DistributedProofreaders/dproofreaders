@@ -55,9 +55,10 @@ present in the text box, it is not necessary to remove it.</p>
 <p><i>Scan Example:</i>
 "Do n't!" he cried. "You 'll ruin the whole thing!"
 <p><i>Corrected Example:</i>
+
 "Don't!" he cried. "You'll ruin the whole thing!"</p>
 
-<p>---5. <p>---5. Fix long dashes (em-dashes) by inserting additional 
+<p>---5. Fix long dashes (em-dashes) by inserting additional 
 hyphen character(s) if needed. Proofread these as two hyphens 
 if the em-dash is short and four hyphens if the em-dash is long. If a 
 line ends with a dash, move the first word of the following line up to 
@@ -81,6 +82,7 @@ it is not necessary to preserve indentation or attempt to center lines.</p>
 <p>---7. <i>Italics?</i>, Small Caps? or <b>Bold?</b> If the text you are proofing 
 includes italics mark-up (<tt>&lt;i&gt;</tt> and 
 <tt>&lt;/i&gt;</tt>), small caps mark-up (<tt>&lt;sc&gt;</tt> and 
+
 <tt>&lt;/sc&gt;</tt>)  or bold mark-up (<tt>&lt;b&gt;</tt>  
 and <tt>&lt;/b&gt;</tt>)  please leave the mark-up for the formatters to review 
 and correct. Proofers are NOT expected to add or correct this mark-up.</p>
@@ -100,6 +102,7 @@ on the page. If the caption text was omitted from the OCR'ed text, please type i
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading 
 Guidelines</a>! Leave the note where it falls on the page, and surround the footnote 
 marker in the text with square brackets, i.e., [1] or [*]. 
+
 
 <p>--<b>Most of all--Have fun!</b></p>
 
