@@ -21,7 +21,6 @@ if ($projectname == '')
     echo "Error: processtext.php: \$projectname is empty.";
     exit;
 }
-$project = $projectname;
 
 $text_data = isset($text_data) ? $text_data : '';
 
@@ -92,7 +91,7 @@ $ppage = get_requested_PPage( $_POST );
   // only if not in a check
   if ($tbutton <100)
   {
-    project_continuity_check($project,$proofstate,FALSE);
+    project_continuity_check($projectname,$proofstate,FALSE);
   }
 
 // BUTTON CODE
@@ -123,7 +122,7 @@ switch( $tbutton )
 
     case B_SAVE_AND_DO_ANOTHER:
         $ppage->saveAsDone($text_data,$pguser);
-        $url = "proof_frame.php?project=$project&amp;proofstate=$proofstate";
+        $url = "proof_frame.php?project=$projectname&amp;proofstate=$proofstate";
         metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
         break;
 
@@ -184,11 +183,11 @@ function switch_layout()
 
 function leave_proofing_interface( $title, $body )
 {
-    global $code_url, $project, $proofstate;
+    global $code_url, $projectname, $proofstate;
 
     slim_header( $title );
 
-    $url = "$code_url/project.php?id=$project&amp;expected_state=$proofstate";
+    $url = "$code_url/project.php?id=$projectname&amp;expected_state=$proofstate";
 
 //    $text = _("Please click here to return to Project Page.");
 //    echo "<a href='$url' target='_top'>$text</a>";
