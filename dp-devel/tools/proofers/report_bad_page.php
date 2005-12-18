@@ -24,26 +24,27 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	$header = _("Bad Page Report");
 	theme($header, "header");
 
-	echo "<br><br><center>";
+	echo "<br><br>\n<center>";
 	echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
 	echo "<font color='#000000'><center><b>"._("Common Fixes for Bad Pages. Try these first!")."</b></center>";
 	echo "<ul>";
-	echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."<br><br>";
-	echo "<li>"._("Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.")."<br><br>";
-	echo "<li>"._("Occasionally, you may come across a page that has so many mistakes in the optical character recognition (OCR) that you may think it is a bad page that needs to be re-OCRed.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.")."<br><br>";
-	echo "<li>"._("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.")."<br><br>";
+	echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."<br><br>\n";
+	echo "<li>"._("Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.")."<br><br>\n";
+	echo "<li>"._("Occasionally, you may come across a page that has so many mistakes in the optical character recognition (OCR) that you may think it is a bad page that needs to be re-OCRed.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc..) and make the changes there & copy them back into the editor.")."<br><br>\n";
+	echo "<li>"._("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.")."<br><br>\n";
 	echo "<li>"._("If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information below.  However, if you are at the least bit hestitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.");
 	echo "</ul></td></tr></table></div></center></font>";
-	echo "<br><br><center>";
-	echo "<form action='report_bad_page.php' method='post'>";
-	echo "<input type='hidden' name='imagefile' value='$imagefile'>";
-	echo "<input type='hidden' name='projectname' value='$projectid'>";
-	echo "<input type='hidden' name='pagestate' value='$pagestate'>";
-	echo "<input type='hidden' name='proofstate' value='$proofstate'>";
-	echo "<input type='hidden' name='submitted' value='true'>";
-	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
+	echo "<br><br>\n<center>";
+	echo "<form action='report_bad_page.php' method='post'>\n";
+	echo "<input type='hidden' name='imagefile' value='$imagefile'>\n";
+	echo "<input type='hidden' name='projectname' value='$projectid'>\n";
+	echo "<input type='hidden' name='pagestate' value='$pagestate'>\n";
+	echo "<input type='hidden' name='proofstate' value='$proofstate'>\n";
+	echo "<input type='hidden' name='submitted' value='true'>\n";
+	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
 	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<B><font color='#ffffff'>"._("Submit a Bad Page Report")."</font></B>";
+	echo "\n";
 	echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 	echo "<strong>"._("Reason").":</strong>";
 	echo "<td bgcolor='#ffffff' align='center'>";
@@ -53,16 +54,20 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 		echo "<option value='$i'>$reason_list[$i]</option>";
 	}
 	echo "</select>";
+	echo "\n";
 	echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 	echo "<strong>"._("What to Do").":</strong>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
+	echo "\n";
 	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
 	echo "<input type='submit' value='"._("Submit Report")."'>";
 	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
+	echo "\n";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
 	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to the Activity Hub.");
-	echo "</td></tr></table></form></center></div>";
+	echo "</td></tr>\n";
+	echo "</table></form></center></div>\n";
 	theme("", "footer");
 }
 else
