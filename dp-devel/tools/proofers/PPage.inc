@@ -27,33 +27,6 @@ class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 {
 
-    function revertToOriginal()
-    {
-        $this->lpage->revertToOriginal();
-    }
-
-    function revertToSaved()
-    {
-        $this->lpage->revertToSaved();
-    }
-
-    function returnToRound( $user )
-    {
-        $this->lpage->returnToRound($user);
-    }
-
-    function saveAsInProgress( $page_text, $user )
-    {
-        $this->lpage->saveAsInProgress($page_text, $user);
-    }
-
-    function saveAsDone( $page_text, $user )
-    {
-        $this->lpage->saveAsDone($page_text, $user);
-    }
-
-    // -----------------------------------------------------
-
     function image_url()
     {
         global $projects_url;
@@ -77,18 +50,6 @@ class PPage
                 'revert='      . $this->lpage->revert,
             )
         );
-    }
-
-    // -----------------------------------------------------
-
-    function can_be_marked_bad_by( $username )
-    {
-        return $this->lpage->can_be_marked_bad_by( $username );
-    }
-
-    function can_be_reverted_to_last_save()
-    {
-        return $this->lpage->can_be_reverted_to_last_save();
     }
 
     // -----------------------------------------------------
@@ -224,6 +185,45 @@ class PPage
         echo htmlspecialchars( $page_text, ENT_NOQUOTES );
 
         echo "</textarea>";
+    }
+
+    // -------------------------------------------------------------------------
+
+    // The remaining functions just delegate to $this->lpage...
+
+    function revertToOriginal()
+    {
+        $this->lpage->revertToOriginal();
+    }
+
+    function revertToSaved()
+    {
+        $this->lpage->revertToSaved();
+    }
+
+    function returnToRound( $user )
+    {
+        $this->lpage->returnToRound( $user );
+    }
+
+    function saveAsInProgress( $page_text, $user )
+    {
+        $this->lpage->saveAsInProgress( $page_text, $user );
+    }
+
+    function saveAsDone( $page_text, $user )
+    {
+        $this->lpage->saveAsDone( $page_text, $user );
+    }
+
+    function can_be_marked_bad_by( $user )
+    {
+        return $this->lpage->can_be_marked_bad_by( $user );
+    }
+
+    function can_be_reverted_to_last_save()
+    {
+        return $this->lpage->can_be_reverted_to_last_save();
     }
 
 }
