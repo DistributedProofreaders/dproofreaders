@@ -22,7 +22,8 @@ function get_requested_PPage( $request_params )
             $request_params['projectname'],
             $request_params['proofstate'],
             $request_params['imagefile'],
-            $request_params['pagestate']
+            $request_params['pagestate'],
+            $request_params['revert']
         );
 
     return $ppage;

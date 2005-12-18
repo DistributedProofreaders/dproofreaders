@@ -101,7 +101,7 @@ function get_available_page( $project, $proofstate, $pguser, &$err )
     $pagestate = Page_checkout( $project, $imagefile, $round, $pguser );
 
     $err = NULL;
-    return new LPage( $project, $proofstate, $imagefile, $pagestate );
+    return new LPage( $project, $proofstate, $imagefile, $pagestate, 0 );
 }
 
 // -----------------------------------------------------------------------------
@@ -171,12 +171,17 @@ class LPage
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {
-    function LPage($project, $proofstate, $imagefile, $pagestate)
+    function LPage($project, $proofstate, $imagefile, $pagestate, $revert)
     {
         $this->project    = $project;
         $this->proofstate = $proofstate;
         $this->imagefile  = $imagefile;
         $this->pagestate  = $pagestate;
+        $this->revert     = $revert;
+
+        // It's debateable whether LPage should have a 'revert' property.
+        // You could argue that it's an interface-level artifact,
+        // and thus belongs in PPage.
 
         $this->round = get_Round_for_page_state($pagestate);
     }

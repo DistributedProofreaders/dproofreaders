@@ -19,7 +19,7 @@ $project, $proofstate
 if (isset($pagestate)) {
     // The user clicked on a saved page.
 
-    $lpage = new LPage( $project, $proofstate, $imagefile, $pagestate );
+    $lpage = new LPage( $project, $proofstate, $imagefile, $pagestate, 0 );
 
     // Make sure project is still in same state.
     project_continuity_check($project,$proofstate,FALSE);
@@ -111,7 +111,7 @@ $ppage->npage = array(
     'proofstate' => $lpage->proofstate,
     'image'      => $lpage->imagefile,
     'pagestate'  => $lpage->pagestate,
-    'revert'     => 0,
+    'revert'     => $lpage->revert,
 );
 
 include('proof_frame.inc');
