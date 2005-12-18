@@ -190,7 +190,7 @@ class LPage
         return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
     }
 
-    function saveComplete($text_data,$pguser)
+    function saveAsDone($text_data,$pguser)
     {
         $this->addUserCount($pguser);
         return Page_saveAsDone( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
@@ -201,7 +201,7 @@ class LPage
         return $this->round->page_temp_state;
     }
 
-    function returnPage($pguser)
+    function returnToRound($pguser)
     {
         return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
     }

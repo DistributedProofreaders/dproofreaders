@@ -40,7 +40,7 @@ class PPage
 
     function returnToRound( $user )
     {
-        $this->lpage->returnPage($user);
+        $this->lpage->returnToRound($user);
     }
 
     function saveAsInProgress( $page_text, $user )
@@ -51,7 +51,7 @@ class PPage
 
     function saveAsDone( $page_text, $user )
     {
-        $this->lpage->saveComplete($page_text, $user);
+        $this->lpage->saveAsDone($page_text, $user);
     }
 
     // -----------------------------------------------------
