@@ -29,13 +29,12 @@ class PPage
 
     function revertToOriginal()
     {
-        $this->lpage->revert = 1;
+        $this->lpage->revertToOriginal();
     }
 
     function revertToSaved()
     {
-        $this->lpage->pagestate = $this->lpage->getRevertState();
-        $this->lpage->revert = 0;
+        $this->lpage->revertToSaved();
     }
 
     function returnToRound( $user )
@@ -45,8 +44,7 @@ class PPage
 
     function saveAsInProgress( $page_text, $user )
     {
-        $this->lpage->pagestate = $this->lpage->saveTemp($page_text, $user);
-        $this->lpage->revert = 0;
+        $this->lpage->saveAsInProgress($page_text, $user);
     }
 
     function saveAsDone( $page_text, $user )
@@ -85,15 +83,7 @@ class PPage
 
     function can_be_marked_bad_by( $username )
     {
-        // get bad page code
-        $res2 = mysql_query("
-            SELECT b_code
-            FROM {$this->lpage->project}
-            WHERE image = '{$this->lpage->imagefile}'
-        ");
-        $b_code = mysql_result($res2, 0, "b_code");
-
-        return (($this->lpage->proofstate == PROJ_P1_AVAILABLE) || ($b_code > 0));
+        return $this->lpage->can_be_marked_bad_by( $username );
     }
 
     function can_be_reverted_to_last_save()
@@ -137,12 +127,7 @@ class PPage
             foreach ($other_round_ids as $other_round_id)
             {
                 $other_round = get_Round_for_round_id($other_round_id);
-                $res = mysql_query("
-                    SELECT {$other_round->user_column_name}
-                    FROM {$this->lpage->project}
-                    WHERE image = '{$this->lpage->imagefile}'
-                ");
-                $username = mysql_result($res, 0, $other_round->user_column_name);
+                $username = $this->lpage->get_username_for_round( $other_round );
 
                 if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
                 echo "$other_round->id: ";
@@ -175,9 +160,7 @@ class PPage
 
         $page_text = $this->lpage->get_text();
 
-        // get page language
-        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->lpage->project}'");
-        $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
+        $lang = $this->lpage->get_language();
 
         if ( $userP['i_layout']==1 )
         {

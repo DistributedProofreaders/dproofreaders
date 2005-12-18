@@ -130,6 +130,19 @@ class LPage
 
     // -------------------------------------------------------------------------
 
+    function can_be_marked_bad_by( $username )
+    {
+        // get bad page code
+        $res2 = mysql_query("
+            SELECT b_code
+            FROM {$this->project}
+            WHERE image = '{$this->imagefile}'
+        ");
+        $b_code = mysql_result($res2, 0, "b_code");
+
+        return (($this->proofstate == PROJ_P1_AVAILABLE) || ($b_code > 0));
+    }
+
     function can_be_reverted_to_last_save()
     {
         $round = get_Round_for_page_state( $this->pagestate );
@@ -166,6 +179,23 @@ class LPage
         return $page_text;
     }
 
+    function get_language()
+    {
+        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->project}'");
+        $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
+    }
+
+    function get_username_for_round( $round )
+    {
+        $res = mysql_query("
+            SELECT {$round->user_column_name}
+            FROM {$this->project}
+            WHERE image = '{$this->imagefile}'
+        ");
+        $username = mysql_result($res, 0, $other_round->user_column_name);
+        return $username;
+    }
+
     // -------------------------------------------------------------------------
 
     function addUserCount($pguser)
@@ -189,6 +219,11 @@ class LPage
     {
         return Page_saveAsInProgress( $this->project, $this->imagefile, $this->round, $pguser, $text_data );
     }
+    function saveAsInProgress( $page_text, $user )
+    {
+        $this->pagestate = $this->saveTemp($page_text, $user);
+        $this->revert = 0;
+    }
 
     function saveAsDone($text_data,$pguser)
     {
@@ -204,6 +239,17 @@ class LPage
     function returnToRound($pguser)
     {
         return Page_returnToRound( $this->project, $this->imagefile, $this->round, $pguser );
+    }
+
+    function revertToOriginal()
+    {
+        $this->revert = 1;
+    }
+
+    function revertToSaved()
+    {
+        $this->pagestate = $this->getRevertState();
+        $this->revert = 0;
     }
 
     // -----------------------------------------------------------------------------
