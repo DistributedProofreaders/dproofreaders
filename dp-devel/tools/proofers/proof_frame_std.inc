@@ -1,7 +1,7 @@
 <?PHP
 // The following variables must be defined by the file that includes this one:
 // $relPath
-// $project
+// $ppage
 // $userP
 
 include_once($relPath.'http_headers.inc');
@@ -37,7 +37,7 @@ echo "
     <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN'
     'http://www.w3.org/TR/html4/frameset.dtd'>
 ";
-slim_header($project,FALSE,FALSE);
+slim_header($ppage->projectid(),FALSE,FALSE);
 echo "
     </HEAD>
     <FRAMESET $rows_or_cols>
