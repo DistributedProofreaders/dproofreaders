@@ -55,13 +55,13 @@ class PPage
 
     // -----------------------------------------------------
 
-    function image_url()
+    function url_for_image()
     {
         global $projects_url;
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
-    function project_comments_url()
+    function url_for_project_comments()
     {
         global $code_url;
         return "$code_url/project.php?id={$this->lpage->projectid}&amp;expected_state={$this->lpage->proj_state}&amp;detail_level=1";

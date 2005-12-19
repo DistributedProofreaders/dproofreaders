@@ -221,7 +221,7 @@ id="imagevert"><table
 id="imageframe"><div
 id="imagedisplay"><a href="JavaScript: //"><img
 name="scanimage" id="scanimage" title="" alt=""
-src="<?PHP echo $ppage->image_url();?>"
+src="<?PHP echo $ppage->url_for_image();?>"
 border="0" width="<?PHP
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}

@@ -69,7 +69,7 @@ echo "\n";
 ?>
 <a href="#" onclick="top.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
-href="<? echo $ppage->project_comments_url(); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
+href="<? echo $ppage->url_for_project_comments(); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?
 
 echo_button(SPELL_CHECK,'a');

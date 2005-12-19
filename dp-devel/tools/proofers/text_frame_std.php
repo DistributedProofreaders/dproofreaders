@@ -68,10 +68,10 @@ slim_header("Text Frame",TRUE,FALSE);
 
     echo "&nbsp;";
 
-    $comments_url = $ppage->project_comments_url();
+    $comments_url = $ppage->url_for_project_comments();
     echo _("View:")." <a href=\"$comments_url\" title=\"". _("View Project Comments in New Window")."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
 
-    $image_url = $ppage->image_url();
+    $image_url = $ppage->url_for_image();
     echo "| <a href=\"$image_url\" title=\"". _("View Image in New Window")."\" target=\"lg_image\">"._("Image")."</a> ";
 
     echo "<br>\n";

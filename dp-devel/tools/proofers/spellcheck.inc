@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('spellcheck_text.inc');
-include_once('page_misc.inc'); // page_image_url
+include_once('page_misc.inc');
 
 $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
 
@@ -248,7 +248,7 @@ id="imagevert"><table
 id="imageframe"><div 
 id="imagedisplay"><a href="JavaScript: //"><img 
 name="scanimage" id="scanimage" title="" alt="" 
-src="<?PHP echo $ppage->image_url();?>" 
+src="<?PHP echo $ppage->url_for_image();?>" 
 border="0" width="<?PHP 
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
@@ -269,7 +269,7 @@ name="spcorrects" action="processtext.php" method="POST"><table
   align="center"><tr><?PHP
     if ($userP['i_type'] !=1)
     {
-        $url = $ppage->image_url();
+        $url = $ppage->url_for_image();
         echo "<td id=\"tdbottom\"><a href=\"$url\" target=\"imageshowwin\">View Image</a></td></tr><tr>";
     }
 ?><td 
