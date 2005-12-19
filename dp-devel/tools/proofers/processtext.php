@@ -111,7 +111,7 @@ switch( $tbutton )
 
     case B_SAVE_AND_DO_ANOTHER:
         $ppage->saveAsDone($text_data,$pguser);
-        $url = "proof_frame.php?project=$projectname&amp;proofstate=$proofstate";
+        $url = $ppage->url_for_do_another_page();
         metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
         break;
 

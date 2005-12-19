@@ -121,7 +121,7 @@ the project will automatically be made unavailable.";
 	// Redirect the user to either continue proofreading if project is still open
   // or present a link back to the activity hub
 	if (($_POST['redirect_action'] == "proof") && (!$project_is_bad)) {
-		$frame1 = "proof_frame.php?project={$projectid}&amp;proofstate={$proofstate}";
+		$frame1 = $ppage->url_for_do_another_page();
 		$title = _("Bad Page Report");
 		$body = _("Continuing to Proofread");
 	  metarefresh(0,$frame1, $title, $body);

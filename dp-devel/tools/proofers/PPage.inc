@@ -61,6 +61,16 @@ class PPage
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
+    function url_for_do_another_page()
+    {
+        global $code_url;
+        return "$code_url/tools/proofers/proof_frame.php"
+            . "?"
+            . "project={$this->lpage->projectid}"
+            . "&amp;"
+            . "proofstate={$this->lpage->proj_state}";
+    }
+
     function url_for_project_comments()
     {
         global $code_url;
