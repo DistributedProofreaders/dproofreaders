@@ -10,12 +10,24 @@ include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'projectinfo.inc');
+include_once('page_misc.inc');
 
 $no_stats=1;
-$projectid  = $_POST['projectname'];
-$proofstate = $_POST['proofstate'];
-$imagefile  = $_POST['imagefile'];
-$pagestate  = $_POST['pagestate'];
+
+if (isset($ppage))
+{
+	// This file was include()'d (rather than invoked as a top-level script)
+	// and $ppage was set before the include().
+}
+else
+{
+	// This file was invoked as a top-level script.
+	$ppage = get_requested_PPage($_POST);
+}
+$projectid  = $ppage->lpage->projectid;
+$proofstate = $ppage->lpage->proj_state;
+$imagefile  = $ppage->lpage->imagefile;
+$pagestate  = $ppage->lpage->page_state;
 
 $reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
