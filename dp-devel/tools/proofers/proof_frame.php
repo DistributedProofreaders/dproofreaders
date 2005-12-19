@@ -8,11 +8,13 @@ include_once($relPath.'project_continuity.inc');
 include_once($relPath.'v_site.inc');
 include_once('page_misc.inc');
 
-/* $_GET from IN PROGRESS/DONE
+/* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
+url_for_pi_do_particular_page()
 $project, $proofstate, $imagefile, $pagestate
 */
 
 /* $_GET from "Start Proofreading" etc.
+url_for_pi_do_whichever_page()
 $project, $proofstate
 */
 
