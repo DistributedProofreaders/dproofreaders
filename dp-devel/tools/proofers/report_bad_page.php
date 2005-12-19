@@ -48,10 +48,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "</ul></td></tr></table></div></center></font>";
 	echo "<br><br>\n<center>";
 	echo "<form action='report_bad_page.php' method='post'>\n";
-	echo "<input type='hidden' name='imagefile' value='$imagefile'>\n";
-	echo "<input type='hidden' name='projectname' value='$projectid'>\n";
-	echo "<input type='hidden' name='pagestate' value='$pagestate'>\n";
-	echo "<input type='hidden' name='proofstate' value='$proofstate'>\n";
+	$ppage->echo_hidden_fields();
 	echo "<input type='hidden' name='submitted' value='true'>\n";
 	echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
 	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
