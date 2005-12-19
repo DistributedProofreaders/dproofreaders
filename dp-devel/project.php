@@ -17,6 +17,7 @@ include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
 include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
+include_once($relPath.'../tools/proofers/page_misc.inc'); // url_for_pi_*
 
 error_reporting(E_ALL);
 
@@ -266,7 +267,7 @@ function decide_blurbs()
     else
     {
         // If there's any proofreading to be done, this is the link to use.
-        $url = "$code_url/tools/proofers/proof.php?project=$projectid&amp;proofstate=$state";
+        $url = url_for_pi_do_whichever_page( $projectid, $state );
         $label = _("Start Proofreading");
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
@@ -747,7 +748,7 @@ function echo_row_c( $content )
 
 function recentlyproofed( $wlist )
 {
-    global $project, $code_url, $pguser, $userP;
+    global $project, $pguser, $userP;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -790,12 +791,11 @@ function recentlyproofed( $wlist )
         $imagefile = mysql_result($result, $rownum, "image");
         $timestamp = mysql_result($result, $rownum, $round->time_column_name);
         $pagestate = mysql_result($result, $rownum, "state");
-        $newproject = "project=$projectid";
-        $newimagefile = '&amp;imagefile='.$imagefile;
-        $newproofstate = '&amp;proofstate='.$state;
-        $newpagestate = '&amp;pagestate='.$pagestate;
+
+        $eURL = url_for_pi_do_particular_page(
+            $projectid, $state, $imagefile, $pagestate );
+
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        $eURL="$code_url/tools/proofers/proof.php?".$newproject.$newimagefile.$newproofstate.$newpagestate;
         echo "<TD ALIGN=\"center\">";
         echo "<A HREF=\"$eURL\">";
         echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";

@@ -6,6 +6,39 @@ include_once($relPath.'c_pages.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
+// "pi" = "proofing interface"
+
+function url_for_pi_do_whichever_page( $projectid, $proj_state )
+{
+    global $code_url;
+    return "$code_url/tools/proofers/proof.php"
+        . "?"
+        . "project=$projectid"
+        . "&amp;"
+        . "proofstate=$proj_state"
+    ;
+}
+
+function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $page_state )
+{
+    global $code_url;
+    return "$code_url/tools/proofers/proof.php"
+        . "?"
+        . "project=$projectid"
+        . "&amp;"
+        . "imagefile=$imagefile"
+        . "&amp;"
+        . "proofstate=$proj_state"
+        . "&amp;"
+        . "pagestate=$page_state"
+    ;
+}
+
+// Note that proof.php and proof_frame.php take a 'project' parameter,
+// but processtext.php etc take a 'projectname' parameter.
+
+// -----------------------------------------------------------------------------
+
 function get_requested_PPage( $request_params )
 {
     foreach(

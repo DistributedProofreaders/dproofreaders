@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'../tools/proofers/page_misc.inc'); // url_for_pi_do_particular_page
 
 function echo_page_table(
 	$project,
@@ -313,12 +314,8 @@ function echo_page_table(
 			if ($page_res[$project_round->user_column_name] == $pguser
 				&& $page_state != $project_round->page_avail_state)  
 			{
-				$url = "$code_url/tools/proofers/proof.php?";
-				$url .= "project=$projectid";
-				$url .= "&amp;imagefile=$imagename";
-				$url .= "&amp;proofstate=$state";
-				$url .= "&amp;pagestate=$page_state";
-
+				$url = url_for_pi_do_particular_page(
+					$projectid, $state, $imagename, $page_state );
 				echo "<td><a href=$url>"._("Edit")."</a></td>\n";
 			}
 			else
