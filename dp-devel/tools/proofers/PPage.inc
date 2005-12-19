@@ -100,17 +100,19 @@ class PPage
 
     function echo_hidden_fields()
     {
-        // set values for hidden form fields
-        $sHidFS="<input type='hidden' value='";
-        $sHidFM="' name='";
-        $sHidFM2="' id='";
-        $sHidFE="'>\n";
-
-        echo $sHidFS.$this->lpage->imagefile .$sHidFM.'imagefile'  .$sHidFM2.'imagefile'  .$sHidFE;
-        echo $sHidFS.$this->lpage->proj_state.$sHidFM.'proofstate' .$sHidFM2.'proofstate' .$sHidFE;
-        echo $sHidFS.$this->lpage->page_state.$sHidFM.'pagestate'  .$sHidFM2.'pagestate'  .$sHidFE;
-        echo $sHidFS.$this->lpage->projectid .$sHidFM.'projectname'.$sHidFM2.'projectname'.$sHidFE;
-        echo $sHidFS.$this->lpage->reverting_to_orig.$sHidFM.'revert'     .$sHidFM2.'revert'     .$sHidFE;
+        foreach ( array(
+                'imagefile'   => $this->lpage->imagefile,
+                'proofstate'  => $this->lpage->proj_state,
+                'pagestate'   => $this->lpage->page_state,
+                'projectname' => $this->lpage->projectid,
+                'revert'      => $this->lpage->reverting_to_orig,
+            )
+            as
+            $param_name => $param_value
+        )
+        {
+            echo "<input type='hidden' value='$param_value' name='$param_name' id='$param_name'>\n";
+        }
     }
 
     function echo_info()
