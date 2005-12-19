@@ -77,8 +77,6 @@ if ($tbutton == B_QUIT)
 $ppage = get_requested_PPage( $_POST );
 
 //Make sure project is still available
-  // only if not in a check
-  if ($tbutton <100)
   {
     project_continuity_check($projectname,$proofstate,FALSE);
   }
