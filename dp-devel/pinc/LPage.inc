@@ -106,6 +106,21 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function get_indicated_LPage(
+    $projectid,
+    $proj_state,
+    $imagefile,
+    $page_state,
+    $reverting_to_orig )
+{
+    // Make sure project is still in same state.
+    project_continuity_check($projectid, $proj_state, FALSE);
+
+    return new LPage($projectid, $proj_state, $imagefile, $page_state, $reverting_to_orig);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 class LPage
 // The "L" stands for "Logic",
 // as in the 3 tiers of Data, Logic, and Presentation.

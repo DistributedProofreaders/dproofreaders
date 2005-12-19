@@ -66,16 +66,13 @@ function get_requested_PPage( $request_params )
         }
     }
 
-    $lpage = new LPage(
+    $lpage = get_indicated_LPage(
         $request_params['projectname'],
         $request_params['proofstate'],
         $request_params['imagefile'],
         $request_params['pagestate'],
         $request_params['revert']
     );
-
-    // Make sure project is still in same state.
-    project_continuity_check($lpage->projectid, $lpage->proj_state, FALSE);
 
     return new PPage($lpage);
 }
