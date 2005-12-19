@@ -106,7 +106,7 @@ class PPage
         echo "<font size='-1'><b>";
         echo _("Page: $pageNum");
 
-        $round = get_Round_for_project_state($this->lpage->proj_state);
+        $round = $this->lpage->round;
         $other_round_ids = $round->other_rounds_with_visible_usernames;
         if (count($other_round_ids) > 0)
         {

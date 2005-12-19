@@ -145,27 +145,23 @@ class LPage
 
     function can_be_reverted_to_last_save()
     {
-        $round = get_Round_for_page_state( $this->page_state );
-
         return ( $this->reverting_to_orig==1
-            || $this->page_state == $round->page_save_state
-            || $this->page_state == $round->page_temp_state
+            || $this->page_state == $this->round->page_save_state
+            || $this->page_state == $this->round->page_temp_state
         );
     }
 
     function get_text()
     {
-        $round = get_Round_for_page_state( $this->page_state );
-
         if ( $this->reverting_to_orig==1
-            || $this->page_state == $round->page_avail_state
-            || $this->page_state == $round->page_out_state )
+            || $this->page_state == $this->round->page_avail_state
+            || $this->page_state == $this->round->page_out_state )
         {
-            $desired_column_name = $round->prevtext_column_name;
+            $desired_column_name = $this->round->prevtext_column_name;
         }
         else
         {
-            $desired_column_name = $round->text_column_name;
+            $desired_column_name = $this->round->text_column_name;
         }
 
         $q = "
@@ -247,10 +243,8 @@ class LPage
 
     function resume_saved_page( $pguser )
     {
-        $round = get_Round_for_project_state($this->proj_state);
-
         $res = mysql_query("
-            SELECT state, {$round->user_column_name}
+            SELECT state, {$this->round->user_column_name}
             FROM $this->projectid
             WHERE image='$this->imagefile'
         ");
@@ -279,7 +273,7 @@ class LPage
             return $err;
         }
 
-        if ($this->page_state == $round->page_save_state)
+        if ($this->page_state == $this->round->page_save_state)
         {
             // Page comes from DONE.
             // When it was saved, the user's page-count was incremented.
@@ -287,10 +281,10 @@ class LPage
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
 
-            page_tallies_add( $round->id, $pguser, -1 );
+            page_tallies_add( $this->round->id, $pguser, -1 );
 
             // no need to update text, just record state change
-            $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $round, $pguser );
+            $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $this->round, $pguser );
         }
     }
 
