@@ -3,7 +3,6 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
-include_once($relPath.'project_continuity.inc');
 include_once($relPath.'slim_header.inc');
 include_once('page_misc.inc');
 
@@ -75,11 +74,6 @@ if ($tbutton == B_QUIT)
 
 
 $ppage = get_requested_PPage( $_POST );
-
-//Make sure project is still available
-  {
-    project_continuity_check($projectname,$proofstate,FALSE);
-  }
 
 // BUTTON CODE
 

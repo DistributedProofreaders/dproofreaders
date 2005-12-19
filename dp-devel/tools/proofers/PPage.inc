@@ -2,6 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
+include_once($relPath.'project_continuity.inc');
 include_once($relPath.'c_pages.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.
@@ -72,6 +73,9 @@ function get_requested_PPage( $request_params )
         $request_params['pagestate'],
         $request_params['revert']
     );
+
+    // Make sure project is still in same state.
+    project_continuity_check($lpage->projectid, $lpage->proj_state, FALSE);
 
     return new PPage($lpage);
 }

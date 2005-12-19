@@ -31,9 +31,6 @@ if (isset($pagestate)) {
 
     $ppage = get_requested_PPage($_GET);
 
-    // Make sure project is still in same state.
-    project_continuity_check($project,$proofstate,FALSE);
-
     $err = $ppage->lpage->resume_saved_page( $pguser );
     if ($err)
     {
