@@ -21,12 +21,20 @@ $project, $proofstate
 if (isset($pagestate)) {
     // The user clicked on a saved page.
 
-    $lpage = new LPage( $project, $proofstate, $imagefile, $pagestate, 0 );
+    // proof_frame.php takes a 'project' parameter,
+    // but get_requested_PPage() expects a 'projectname' parameter
+    // because that's what's used elsewhere within the PI.
+    // (The two will be harmonized eventually.)
+    $_GET['projectname'] = @$_GET['project'];
+    // Also, get_requested_PPage() expects a 'revert' parameter.
+    $_GET['revert'] = '0';
+
+    $ppage = get_requested_PPage($_GET);
 
     // Make sure project is still in same state.
     project_continuity_check($project,$proofstate,FALSE);
 
-    $err = $lpage->resume_saved_page( $pguser );
+    $err = $ppage->lpage->resume_saved_page( $pguser );
     if ($err)
     {
         echo $err;
@@ -104,9 +112,9 @@ else
     }
 
     setDebounceInfo( $lpage->projectid );
-}
 
-$ppage = new PPage( $lpage );
+    $ppage = new PPage( $lpage );
+}
 
 include('proof_frame.inc');
 
