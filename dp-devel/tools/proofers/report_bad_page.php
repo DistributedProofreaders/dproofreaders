@@ -27,7 +27,6 @@ else
 $projectid  = $ppage->lpage->projectid;
 $proofstate = $ppage->lpage->proj_state;
 $imagefile  = $ppage->lpage->imagefile;
-$pagestate  = $ppage->lpage->page_state;
 
 $reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
@@ -93,28 +92,8 @@ else
 	}
 
 	//Update the page the user was working on to reflect a bad page.
-	$round = get_Round_for_page_state($pagestate);
-	Page_markAsBad( $projectid, $imagefile, $round, $pguser, $reason );
-
-	//Find out how many pages have been marked bad
-	$badState = $round->page_bad_state;
-	$totalBad = Project_getNumPagesInState($projectid,$badState);
-
-	$project_is_bad = FALSE;
-	//If $totalBad >= 10 check to see if there are more than 3 unique reports. If there are mark the whole project as bad
-	if ($totalBad >= 10) {
-		$uniqueBadPages = Project_getNumPagesInState($projectid,$badState,"DISTINCT(b_user)");
-		if ($uniqueBadPages >= 3) {
-			$error_msg = project_transition( $projectid, $round->project_bad_state );
-			if ($error_msg)
-			{
-				echo "$error_msg<br>\n";
-				return;
-			}
-			$project_is_bad = TRUE;
-		}
-	}
-
+	//This may cause the whole project to be marked bad.
+	$project_is_bad = $ppage->markAsBad( $pguser, $reason );
 
 	//If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
 	if ($project_is_bad) {

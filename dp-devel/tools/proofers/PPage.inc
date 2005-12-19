@@ -234,6 +234,11 @@ class PPage
         $this->lpage->returnToRound( $user );
     }
 
+    function markAsBad( $user, $reason )
+    {
+        return $this->lpage->markAsBad( $user, $reason );
+    }
+
     function saveAsInProgress( $page_text, $user )
     {
         $this->lpage->saveAsInProgress( $page_text, $user );
