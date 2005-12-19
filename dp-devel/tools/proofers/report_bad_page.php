@@ -24,9 +24,9 @@ else
 	// This file was invoked as a top-level script.
 	$ppage = get_requested_PPage($_POST);
 }
-$projectid  = $ppage->lpage->projectid;
-$proofstate = $ppage->lpage->proj_state;
-$imagefile  = $ppage->lpage->imagefile;
+
+$projectid  = $ppage->projectid();
+$imagefile  = $ppage->imagefile();
 
 $reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
