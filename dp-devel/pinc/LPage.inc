@@ -8,6 +8,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'project_continuity.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -15,6 +16,9 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 // Returns an LPage, unless no page is available,
 // in which case returns NULL and sets $err.
 {
+    // Make sure project is still in same state.
+    project_continuity_check($projectid, $proj_state, TRUE);
+
     $round = get_Round_for_project_state($proj_state);
 
     // Normally, pages are served in order of "page number"

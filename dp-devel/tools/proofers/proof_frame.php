@@ -4,7 +4,6 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'c_pages.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'project_continuity.inc');
 include_once($relPath.'v_site.inc');
 include_once('page_misc.inc');
 
@@ -41,9 +40,6 @@ if (isset($pagestate)) {
 else
 {
     // The user clicked "Start Proofreading".
-
-    // Make sure project is still in same state.
-    project_continuity_check($project,$proofstate,TRUE);
 
 
     // Consider the page (if any) that this user most recently "opened" in
