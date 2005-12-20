@@ -115,11 +115,15 @@ function get_indicated_LPage(
     $proj_state,
     $imagefile,
     $page_state,
-    $reverting_to_orig )
+    $reverting_to_orig,
+    &$err )
+// Returns an LPage, unless the parameters do not correctly identify a page,
+// in which case returns NULL and sets $err.
 {
     // Make sure project is still in same state.
     project_continuity_check($projectid, $proj_state, FALSE);
 
+    $err = NULL;
     return new LPage($projectid, $proj_state, $imagefile, $page_state, $reverting_to_orig);
 }
 
