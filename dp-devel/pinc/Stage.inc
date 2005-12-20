@@ -1,9 +1,9 @@
 <?
-// This file defines the class 'Stage',
-// which represents a stage in the life of a project,
-// or the set of all projects currently in that stage,
-// or an area that houses that set of projects
-// (depending on your point of view).
+// This file defines the class 'Stage', which (depending on your point of view)
+// represents:
+// -- a stage in the life of a project, or
+// -- the set of all projects currently in that stage, or
+// -- an area that houses that set of projects.
 //
 // It's a generalization of the existing ideas of 'round' and 'pool'.
 
@@ -12,6 +12,8 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc');
 include_once($relPath.'misc.inc'); // startswith
 include_once($relPath.'page_header.inc');
+
+// $Stage_for_id_ and $CRITERIA are extended as Stages are defined.
 
 $Stage_for_id_ = array();
 
@@ -25,7 +27,6 @@ if ( TRUE )
     // kludge
     $CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
 }
-// extended with round-ids as they are declared
 
 class Stage
 {
