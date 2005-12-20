@@ -13,17 +13,11 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 // "proof the next available page", and the error message (if any)
 // should be slightly more explanatory.
 {
-	$sql = "SELECT state FROM projects WHERE projectid='$projectid' LIMIT 1";
-	$result = mysql_query($sql);
-	$curr_state = mysql_result($result, 0);
-	if ($curr_state != $orig_state)
+	$err = project_continuity_test($projectid, $orig_state);
+	if ($err)
 	{
-		$orig_state_text = project_states_text($orig_state);
-		$curr_state_text = project_states_text($curr_state);
 		echo "<p>";
-		echo _("This project is no longer")." '$orig_state_text', ";
-		echo _("it is now")." '$curr_state_text', ";
-		echo _("so your request is no longer valid.");
+		echo $err;
 		echo "</p>\n";
 
 		if ($no_more_pages)
@@ -42,4 +36,22 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 		die();
 	}
 }
+
+function project_continuity_test($projectid, $orig_state)
+{
+	$sql = "SELECT state FROM projects WHERE projectid='$projectid' LIMIT 1";
+	$result = mysql_query($sql);
+	$curr_state = mysql_result($result, 0);
+	if ($curr_state != $orig_state)
+	{
+		$orig_state_text = project_states_text($orig_state);
+		$curr_state_text = project_states_text($curr_state);
+		return sprintf(
+			_("This project is no longer '%s', it is now '%s', so your request is no longer valid."),
+			$orig_state_text,
+			$curr_state_text
+		);
+	}
+}
+
 ?>
