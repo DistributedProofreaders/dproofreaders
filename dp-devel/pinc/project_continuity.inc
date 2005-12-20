@@ -41,6 +41,15 @@ function project_continuity_test($projectid, $orig_state)
 {
 	$sql = "SELECT state FROM projects WHERE projectid='$projectid' LIMIT 1";
 	$result = mysql_query($sql);
+	if ($result === FALSE) die(mysql_error());
+
+	if (mysql_num_rows($result) == 0)
+	{
+		return sprintf(
+			_("There is no project with projectid='%s'."),
+		       	$projectid );
+	}
+
 	$curr_state = mysql_result($result, 0);
 	if ($curr_state != $orig_state)
 	{
