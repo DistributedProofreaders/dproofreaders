@@ -17,7 +17,8 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 // in which case returns NULL and sets $err.
 {
     // Make sure project is still in same state.
-    project_continuity_check($projectid, $proj_state, TRUE);
+    $err = project_continuity_test($projectid, $proj_state, TRUE);
+    if ( $err ) return NULL;
 
     $round = get_Round_for_project_state($proj_state);
 
@@ -121,7 +122,8 @@ function get_indicated_LPage(
 // in which case returns NULL and sets $err.
 {
     // Make sure project is still in same state.
-    project_continuity_check($projectid, $proj_state, FALSE);
+    $err = project_continuity_test($projectid, $proj_state, FALSE);
+    if ( $err ) return NULL;
 
     $err = NULL;
     return new LPage($projectid, $proj_state, $imagefile, $page_state, $reverting_to_orig);
