@@ -43,6 +43,7 @@ else
             break;
 
         case 'sat-requested':
+        case 'unsat-requested':
             echo _('You have already requested access to this stage.');
             break;
 

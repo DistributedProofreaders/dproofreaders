@@ -120,7 +120,8 @@ foreach ( $_POST as $name => $value )
             die( "Error: The user already has access to $activity_id" );
         }
 
-        if ( $uao->request_status != 'sat-requested' )
+        if ( $uao->request_status != 'sat-requested'
+          && $uao->request_status != 'unsat-requested' )
         {
             die( "Error: The user hasn't requested access to $activity_id" );
         }

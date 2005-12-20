@@ -237,6 +237,15 @@ class Stage
                 $uao->request_status = 'unsat-granted';
                 $uao->can_access = TRUE;
             }
+            elseif ( $recorded_access == 'requested' )
+            {
+                // This is unusual, but can happen.
+                // E.g., at some point in the past, they satisfied the minima and
+                // requested access, but now they no longer satisfy the minima
+                // (quiz-pass could expire, page-tally could be reduced by clears).
+                $uao->request_status = 'unsat-requested';
+                $uao->can_access = FALSE;
+            }
             else
             {
                 $uao->request_status = 'unsat-ungranted';
@@ -381,6 +390,7 @@ function show_user_access_object( $uao )
             break;
 
         case 'sat-requested':
+        case 'unsat-requested':
             echo _('You have requested permission, but it has not been granted yet.');
             break;
 
@@ -522,6 +532,7 @@ function show_user_access_chart( $username )
                 break;
 
             case 'sat-requested':
+            case 'unsat-requested':
                 echo 'requested';
                 $could_grant = TRUE;
                 $could_deny_request = TRUE;
