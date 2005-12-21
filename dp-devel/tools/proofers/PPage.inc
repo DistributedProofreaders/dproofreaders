@@ -88,8 +88,93 @@ function get_requested_PPage( $request_params )
     // We arrive here via a 'break' from inside the "loop".
     // I.e., an error has occurred.
 
-    echo "get_requested_PPage: ";
-    echo $err;
+    echo "<pre>\n";
+    echo "get_requested_PPage detected a problem with your request.\n";
+    echo "\n";
+    echo "If you want to resolve, report, or get help on this incident,\n";
+    echo "it may be useful to save the information below.\n";
+    echo "\n";
+
+    global $code_url;
+
+    echo "Go to...\n";
+
+    // link to project
+    $projectid = @$request_params['projectname'];
+    if ( $projectid != '' )
+    {
+        // This link won't work if the error is that the project doesn't exist.
+        $link_url = "$code_url/project.php?id=$projectid";
+        $link_text = _('Project Home');
+        echo "    <a href='$link_url' target='_top'>$link_text</a>\n";
+    }
+
+    // link to round
+    $round = get_Round_for_project_state( @$request_params['proofstate'] );
+    if ( is_null($round) )
+    {
+        $round = get_Round_for_page_state( @$request_params['pagestate'] );
+    }
+    if ( !is_null($round) )
+    {
+        $link_url = "$code_url/tools/proofers/round.php?round_id={$round->id}";
+        $link_text = $round->name;
+        echo "    <a href='$link_url' target='_top'>$link_text</a>\n";
+    }
+
+    // link to activity hub
+    $link_url = "$code_url/activity_hub.php";
+    $link_text = _('Activity Hub');
+    echo "    <a href='$link_url' target='_top'>$link_text</a>\n";
+    echo "\n";
+
+    echo "<hr>\n";
+    $now = time(); $date = date('Y-m-d H:i:s',$now);
+    echo "error message: $err\n";
+    echo "\n";
+    echo "time: $now ($date)\n";
+    echo "username: {$GLOBALS['pguser']}\n";
+    echo "requested path: {$_SERVER['PHP_SELF']}\n";
+
+    // If this error occurred when they hit one of the submit buttons
+    // in the proofing interface, echoing the request parameters will
+    // give them a last chance to save the page text.
+    echo "request parameters:\n";
+    // var_dump($request_params);
+    foreach( $request_params as $param_name => $param_value )
+    {
+        echo "    $param_name = ";
+        if ( is_string($param_value) )
+        {
+            if ( get_magic_quotes_gpc() )
+            {
+                $slashed_param_value = $param_value;
+                $unslashed_param_value = stripslashes($param_value);
+            }
+            else
+            {
+                $unslashed_param_value = $param_value;
+                $slashed_param_value = addslashes($param_value);
+            }
+            if ( strpos($param_value, "\n") )
+            {
+                echo "'''\n";
+                echo $unslashed_param_value, "\n";
+                echo "'''\n";
+            }
+            else
+            {
+                echo "'$slashed_param_value'\n";
+            }
+        }
+        else
+        {
+            // might be an array.
+            // This will be ugly, but I don't care.
+            var_dump($param_value);
+        }
+    }
+    echo "</pre>\n";
 
     exit;
 }
