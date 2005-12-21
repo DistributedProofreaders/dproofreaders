@@ -41,6 +41,9 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
 
 function get_requested_PPage( $request_params )
 {
+    $err = NULL;
+    do // a poor man's try/catch stmt
+    {
         foreach(
             array( 'projectname', 'proofstate', 'imagefile', 'pagestate', 'revert' )
             as
@@ -49,19 +52,17 @@ function get_requested_PPage( $request_params )
         {
             if (!isset($request_params[$param_name]) )
             {
-                echo "get_requested_PPage: ";
-                echo sprintf(
+                $err = sprintf(
                     _("parameter '%s' is not set."),
                     $param_name );
-                exit;
+                break;
             }
             else if ($request_params[$param_name] == '')
             {
-                echo "get_requested_PPage: ";
-                echo sprintf(
+                $err = sprintf(
                     _("parameter '%s' is empty."),
                     $param_name );
-                exit;
+                break;
             }
         }
 
@@ -76,12 +77,21 @@ function get_requested_PPage( $request_params )
 
         if ( is_null($lpage) )
         {
-            echo "get_requested_PPage: ";
-            echo $err;
-            exit;
+            break;
         }
 
         return new PPage($lpage);
+    }
+    while(0);
+
+    // -------------------------------------------------------------------------
+    // We arrive here via a 'break' from inside the "loop".
+    // I.e., an error has occurred.
+
+    echo "get_requested_PPage: ";
+    echo $err;
+
+    exit;
 }
 
 // ---------------------------------------------------------
