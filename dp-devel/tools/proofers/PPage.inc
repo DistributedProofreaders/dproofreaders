@@ -41,47 +41,47 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
 
 function get_requested_PPage( $request_params )
 {
-    foreach(
-        array( 'projectname', 'proofstate', 'imagefile', 'pagestate', 'revert' )
-        as
-        $param_name
-    )
-    {
-        if (!isset($request_params[$param_name]) )
+        foreach(
+            array( 'projectname', 'proofstate', 'imagefile', 'pagestate', 'revert' )
+            as
+            $param_name
+        )
+        {
+            if (!isset($request_params[$param_name]) )
+            {
+                echo "get_requested_PPage: ";
+                echo sprintf(
+                    _("parameter '%s' is not set."),
+                    $param_name );
+                exit;
+            }
+            else if ($request_params[$param_name] == '')
+            {
+                echo "get_requested_PPage: ";
+                echo sprintf(
+                    _("parameter '%s' is empty."),
+                    $param_name );
+                exit;
+            }
+        }
+
+        $lpage = get_indicated_LPage(
+            $request_params['projectname'],
+            $request_params['proofstate'],
+            $request_params['imagefile'],
+            $request_params['pagestate'],
+            $request_params['revert'],
+            $err
+        );
+
+        if ( is_null($lpage) )
         {
             echo "get_requested_PPage: ";
-            echo sprintf(
-                _("parameter '%s' is not set."),
-                $param_name );
+            echo $err;
             exit;
         }
-        else if ($request_params[$param_name] == '')
-        {
-            echo "get_requested_PPage: ";
-            echo sprintf(
-                _("parameter '%s' is empty."),
-                $param_name );
-            exit;
-        }
-    }
 
-    $lpage = get_indicated_LPage(
-        $request_params['projectname'],
-        $request_params['proofstate'],
-        $request_params['imagefile'],
-        $request_params['pagestate'],
-        $request_params['revert'],
-        $err
-    );
-
-    if ( is_null($lpage) )
-    {
-        echo "get_requested_PPage: ";
-        echo $err;
-        exit;
-    }
-
-    return new PPage($lpage);
+        return new PPage($lpage);
 }
 
 // ---------------------------------------------------------
