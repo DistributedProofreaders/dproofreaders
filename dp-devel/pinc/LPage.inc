@@ -106,7 +106,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     $page_state = Page_checkout( $projectid, $imagefile, $round, $pguser );
 
     $err = NULL;
-    return new LPage( $projectid, $proj_state, $imagefile, $page_state, 0 );
+    return new LPage( $projectid, $imagefile, $page_state, 0 );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -126,7 +126,7 @@ function get_indicated_LPage(
     if ( $err ) return NULL;
 
     $err = NULL;
-    return new LPage($projectid, $proj_state, $imagefile, $page_state, $reverting_to_orig);
+    return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -138,10 +138,9 @@ class LPage
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {
-    function LPage($projectid, $proj_state, $imagefile, $page_state, $reverting_to_orig)
+    function LPage($projectid, $imagefile, $page_state, $reverting_to_orig)
     {
         $this->projectid  = $projectid;
-        $this->proj_state = $proj_state;
         $this->imagefile  = $imagefile;
         $this->page_state = $page_state;
         $this->reverting_to_orig = $reverting_to_orig;

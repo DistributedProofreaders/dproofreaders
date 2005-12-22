@@ -80,7 +80,7 @@ function get_requested_PPage( $request_params )
             break;
         }
 
-        return new PPage($lpage);
+        return new PPage($lpage, $request_params['proofstate']);
     }
     while(0);
 
@@ -184,9 +184,10 @@ function get_requested_PPage( $request_params )
 class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 {
-    function PPage( &$lpage )
+    function PPage( &$lpage, $proj_state )
     {
         $this->lpage =& $lpage;
+        $this->proj_state = $proj_state;
     }
 
     // -----------------------------------------------------
@@ -204,7 +205,7 @@ class PPage
             . "?"
             . "project={$this->lpage->projectid}"
             . "&amp;"
-            . "proofstate={$this->lpage->proj_state}";
+            . "proofstate={$this->proj_state}";
     }
 
     function url_for_project_comments()
@@ -214,7 +215,7 @@ class PPage
             . "?"
             . "id={$this->lpage->projectid}"
             . "&amp;"
-            . "expected_state={$this->lpage->proj_state}"
+            . "expected_state={$this->proj_state}"
             . "&amp;"
             . "detail_level=1";
     }
@@ -224,7 +225,7 @@ class PPage
         return implode( '&',
             array(
                 'projectname=' . $this->lpage->projectid,
-                'proofstate='  . $this->lpage->proj_state,
+                'proofstate='  . $this->proj_state,
                 'imagefile='   . $this->lpage->imagefile,
                 'pagestate='   . $this->lpage->page_state,
                 'revert='      . $this->lpage->reverting_to_orig,
@@ -238,7 +239,7 @@ class PPage
     {
         foreach ( array(
                 'imagefile'   => $this->lpage->imagefile,
-                'proofstate'  => $this->lpage->proj_state,
+                'proofstate'  => $this->proj_state,
                 'pagestate'   => $this->lpage->page_state,
                 'projectname' => $this->lpage->projectid,
                 'revert'      => $this->lpage->reverting_to_orig,
