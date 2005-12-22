@@ -165,7 +165,7 @@ class LPage
         ");
         $b_code = mysql_result($res2, 0, "b_code");
 
-        return (($this->proj_state == PROJ_P1_AVAILABLE) || ($b_code > 0));
+        return (($this->round->round_number == 1) || ($b_code > 0));
     }
 
     function can_be_reverted_to_last_save()
