@@ -103,10 +103,12 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 
     $imagefile = $npage['image'];
 
-    $page_state = Page_checkout( $projectid, $imagefile, $round, $pguser );
+    $lpage = new LPage( $projectid, $imagefile, $npage['state'], 0 );
+
+    $lpage->checkout( $pguser );
 
     $err = NULL;
-    return new LPage( $projectid, $imagefile, $page_state, 0 );
+    return $lpage;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -217,6 +219,12 @@ class LPage
     }
 
     // -------------------------------------------------------------------------
+
+    function checkout( $user )
+    {
+        $this->page_state =
+            Page_checkout( $this->projectid, $this->imagefile, $this->round, $user );
+    }
 
     function addUserCount($pguser)
     {
