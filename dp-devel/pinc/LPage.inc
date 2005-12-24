@@ -226,13 +226,6 @@ class LPage
             Page_checkout( $this->projectid, $this->imagefile, $this->round, $user );
     }
 
-    function addUserCount($pguser)
-    {
-                // add to user page count
-                page_tallies_add( $this->round->id, $pguser, +1 );
-    }
-
-
     function saveAsInProgress( $page_text, $user )
     {
         $this->page_state = Page_saveAsInProgress( $this->projectid, $this->imagefile, $this->round, $user, $page_text );
@@ -243,7 +236,9 @@ class LPage
     {
         $this->page_state =
             Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
-        $this->addUserCount($pguser);
+
+        // add to user page count
+        page_tallies_add( $this->round->id, $pguser, +1 );
     }
 
     function returnToRound($pguser)
