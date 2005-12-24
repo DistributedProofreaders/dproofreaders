@@ -251,9 +251,9 @@ class LPage
 
     function saveAsDone($text_data,$pguser)
     {
-        $this->addUserCount($pguser);
         $this->page_state =
             Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
+        $this->addUserCount($pguser);
     }
 
     function returnToRound($pguser)
@@ -336,15 +336,16 @@ class LPage
         if ($this->page_state == $this->round->page_save_state)
         {
             // Page comes from DONE.
+
+            // no need to update text, just record state change
+            $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $this->round, $pguser );
+
             // When it was saved, the user's page-count was incremented.
             // Now they 'unsaving' it, so decrement their page-count.
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
 
             page_tallies_add( $this->round->id, $pguser, -1 );
-
-            // no need to update text, just record state change
-            $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $this->round, $pguser );
         }
     }
 
