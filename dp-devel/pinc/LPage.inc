@@ -228,18 +228,8 @@ class LPage
 
     function addUserCount($pguser)
     {
-        $sql = "SELECT state FROM {$this->projectid} WHERE image='{$this->imagefile}'";
-        $result=mysql_query($sql);
-        $rows=mysql_num_rows($result);
-        if ($rows !=0)
-        {
-            $curState=mysql_result($result,0,'state');
-            if ($curState == $this->round->page_out_state || $curState == $this->round->page_temp_state)
-            {
                 // add to user page count
                 page_tallies_add( $this->round->id, $pguser, +1 );
-            }
-        }
     }
 
 
