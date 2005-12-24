@@ -252,12 +252,14 @@ class LPage
     function saveAsDone($text_data,$pguser)
     {
         $this->addUserCount($pguser);
-        return Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
+        $this->page_state =
+            Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
     }
 
     function returnToRound($pguser)
     {
-        return Page_returnToRound( $this->projectid, $this->imagefile, $this->round, $pguser );
+        $this->page_state =
+            Page_returnToRound( $this->projectid, $this->imagefile, $this->round, $pguser );
     }
 
     function revertToOriginal()
