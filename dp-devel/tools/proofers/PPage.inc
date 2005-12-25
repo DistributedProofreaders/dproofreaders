@@ -69,8 +69,7 @@ function get_requested_PPage( $request_params )
             $request_params['proofstate'],
             $request_params['imagefile'],
             $request_params['pagestate'],
-            $request_params['revert'],
-            $err
+            $request_params['revert']
         );
 
         if ( is_null($lpage) )

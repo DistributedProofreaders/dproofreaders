@@ -9,6 +9,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'page_ops.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
+include_once($relPath.'abort.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -118,16 +119,14 @@ function get_indicated_LPage(
     $proj_state,
     $imagefile,
     $page_state,
-    $reverting_to_orig,
-    &$err )
+    $reverting_to_orig )
 // Returns an LPage, unless the parameters do not correctly identify a page,
-// in which case returns NULL and sets $err.
+// in which case it aborts.
 {
     // Make sure project is still in same state.
     $err = project_continuity_test($projectid, $proj_state, FALSE);
-    if ( $err ) return NULL;
+    if ( $err ) abort($err);
 
-    $err = NULL;
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
 }
 
