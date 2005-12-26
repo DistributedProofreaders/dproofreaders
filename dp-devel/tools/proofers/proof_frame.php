@@ -30,12 +30,7 @@ if (isset($pagestate)) {
 
     $ppage = get_requested_PPage($_GET);
 
-    $err = $ppage->lpage->resume_saved_page( $pguser );
-    if ($err)
-    {
-        echo $err;
-        exit();
-    }
+    $ppage->lpage->resume_saved_page( $pguser );
 }
 else
 {

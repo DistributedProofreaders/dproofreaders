@@ -296,7 +296,7 @@ class LPage
         {
             // This should only happen if they've been tweaking URLs.
             $err = _('No such page.');
-            return $err;
+            abort($err);
         }
 
         list($current_page_state, $current_round_user) = mysql_fetch_row($res);
@@ -306,7 +306,7 @@ class LPage
             $err = sprintf(
                 _("You (%s) do not have the necessary access to page %s"),
                 $pguser, $this->imagefile );
-            return $err;
+            abort($err);
         }
 
         if ($this->page_state != $current_page_state)
@@ -314,7 +314,7 @@ class LPage
             $err = sprintf(
                 _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
                 $this->imagefile, $this->page_state, $current_page_state );
-            return $err;
+            abort($err);
         }
 
         if ($this->page_state == $this->round->page_save_state)
