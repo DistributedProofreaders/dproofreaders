@@ -127,6 +127,29 @@ function get_indicated_LPage(
     $err = project_continuity_test($projectid, $proj_state, FALSE);
     if ( $err ) abort($err);
 
+    $res = mysql_query("
+        SELECT state
+        FROM $projectid
+        WHERE image='$imagefile'
+    ") or die(mysql_error());
+    if (mysql_num_rows($res) == 0)
+    {
+        // This should only happen if they've been tweaking URLs.
+        // Or if the page has actually been deleted.
+        $err = _('No such page.');
+        abort($err);
+    }
+
+    list($current_page_state) = mysql_fetch_row($res);
+
+    if ($page_state != $current_page_state)
+    {
+        $err = sprintf(
+            _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
+            $imagefile, $page_state, $current_page_state );
+        abort($err);
+    }
+
     return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
 }
 
@@ -288,32 +311,17 @@ class LPage
     function resume_saved_page( $pguser )
     {
         $res = mysql_query("
-            SELECT state, {$this->round->user_column_name}
+            SELECT {$this->round->user_column_name}
             FROM $this->projectid
             WHERE image='$this->imagefile'
         ");
-        if (mysql_num_rows($res) == 0)
-        {
-            // This should only happen if they've been tweaking URLs.
-            $err = _('No such page.');
-            abort($err);
-        }
-
-        list($current_page_state, $current_round_user) = mysql_fetch_row($res);
+        list($current_round_user) = mysql_fetch_row($res);
 
         if ($pguser != $current_round_user)
         {
             $err = sprintf(
                 _("You (%s) do not have the necessary access to page %s"),
                 $pguser, $this->imagefile );
-            abort($err);
-        }
-
-        if ($this->page_state != $current_page_state)
-        {
-            $err = sprintf(
-                _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
-                $this->imagefile, $this->page_state, $current_page_state );
             abort($err);
         }
 
