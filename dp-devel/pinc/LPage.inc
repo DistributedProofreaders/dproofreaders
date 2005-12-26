@@ -310,21 +310,6 @@ class LPage
 
     function resume_saved_page( $pguser )
     {
-        $res = mysql_query("
-            SELECT {$this->round->user_column_name}
-            FROM $this->projectid
-            WHERE image='$this->imagefile'
-        ");
-        list($current_round_user) = mysql_fetch_row($res);
-
-        if ($pguser != $current_round_user)
-        {
-            $err = sprintf(
-                _("You (%s) do not have the necessary access to page %s"),
-                $pguser, $this->imagefile );
-            abort($err);
-        }
-
         if ($this->page_state == $this->round->page_save_state)
         {
             // Page comes from DONE.
@@ -338,6 +323,31 @@ class LPage
             // (Plugs a former page-count cheat.)
 
             page_tallies_add( $this->round->id, $pguser, -1 );
+        }
+        else
+        {
+            // Page comes from IN PROGRESS.
+
+            // Resuming such a page has no actual effect on the page,
+            // though it might in the future.
+
+            // For now, just confirm that the user is entitled to resume
+            // this page. (In the DONE case, Page_reopen performs this check.)
+
+            $res = mysql_query("
+                SELECT {$this->round->user_column_name}
+                FROM $this->projectid
+                WHERE image='$this->imagefile'
+            ");
+            list($current_round_user) = mysql_fetch_row($res);
+
+            if ($pguser != $current_round_user)
+            {
+                $err = sprintf(
+                    _("You (%s) do not have the necessary access to page %s"),
+                    $pguser, $this->imagefile );
+                abort($err);
+            }
         }
     }
 
