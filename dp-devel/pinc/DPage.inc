@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'v_site.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'abort.inc');
 
 // This file brings together code that accesses the projectID* tables and the
 // project_pages table.
@@ -504,23 +505,22 @@ function _Page_require(
         exit;
     }
 
-    $err_prefix = "
-    <pre>
-    You ($requesting_user) requested:
-        operation: $op_name
-        image:     $image
-        projectid: $projectid
-    ";
-
     list( $curr_page_state, $curr_page_owner ) = mysql_fetch_row($res);
     if ( !in_array( $curr_page_state, $allowed_states ) )
     {
-        echo $err_prefix;
-        echo "This requires that the page be in one of the following states:\n";
-        echo "        ", implode( $allowed_states, ' ' ), "\n";
-        echo "    But it is in $curr_page_state\n";
-        echo "</pre>";
-        exit;
+        $err = "\n"
+            . "    "
+            . sprintf(
+                _("This operation (%s) requires that the page be in one of the following states:"),
+                $op_name )
+            . "\n"
+            . "        "
+            . implode( $allowed_states, ' ' )
+            . "\n"
+            . "    "
+            . sprintf( _("But it is in %s"), $curr_page_state )
+            ;
+        abort($err);
     }
 
     if ( is_null($allowed_user_colname) )
@@ -535,11 +535,13 @@ function _Page_require(
         // "owns" the page.
         if ( $requesting_user != $curr_page_owner )
         {
-            echo $err_prefix;
-            echo "This operation can only be done by the user who has the page checked out,\n";
-            echo "    which you are not.\n";
-            echo "</pre>";
-            exit;
+            $err = "\n"
+                . "    "
+                . sprintf(
+                    _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
+                    $op_name )
+                ;
+            abort($err);
         }
     }
 }
