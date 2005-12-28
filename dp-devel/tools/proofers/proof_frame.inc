@@ -15,7 +15,7 @@ switch ($interface_type)
 
     case 1:
         // enhanced interface
-        include('textframe_enh.inc');
+        include('proof_frame_enh.inc');
         break;
 
     default:
