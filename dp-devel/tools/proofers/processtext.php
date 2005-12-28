@@ -2,7 +2,6 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'LPage.inc');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 
