@@ -41,8 +41,8 @@ slim_header($ppage->projectid(),FALSE,FALSE);
 echo "
     </HEAD>
     <FRAMESET $rows_or_cols>
-    <FRAME NAME='imageframe' SRC='image_frame.php?$params' $margins>
-    <FRAME NAME='textframe' SRC='text_frame.php?$params' $margins $text_scrolling>
+    <FRAME NAME='imageframe' SRC='image_frame_std.php?$params' $margins>
+    <FRAME NAME='textframe' SRC='text_frame_std.php?$params' $margins $text_scrolling>
     </FRAMESET>
     <NOFRAMES>Your browser is not frames capable!</NOFRAMES>
     </HTML>
