@@ -5,7 +5,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'f_move_post.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )

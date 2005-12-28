@@ -6,7 +6,7 @@ include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
-include($relPath.'page_ops.inc');
+include($relPath.'DPage.inc');
 
 $projectid = $_GET['project'];
 

@@ -5,7 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'../tools/proofers/page_misc.inc'); // url_for_pi_do_particular_page
+include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
 
 function echo_page_table(
 	$project,

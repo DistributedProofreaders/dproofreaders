@@ -2,9 +2,9 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'c_pages.inc');
+include_once($relPath.'LPage.inc');
 include_once($relPath.'slim_header.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 /* $_POST $imagefile, $proofstate, $button1, $button2, $button3, $button4,
           $projectname, $text_data, $orient, $js, $button1_x, $button2_x,

@@ -2,7 +2,7 @@
 include_once($relPath.'v_site.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
-include_once($relPath.'c_pages.inc');
+include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
 
 // Page-related code that's common to the standard and enhanced interfaces.

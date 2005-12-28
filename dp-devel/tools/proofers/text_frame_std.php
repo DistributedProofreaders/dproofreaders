@@ -3,10 +3,10 @@ $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
-include_once($relPath.'c_pages.inc');
+include_once($relPath.'LPage.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 // This script is invoked only for the standard interface now.
 assert($userP['i_type'] == 0);

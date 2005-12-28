@@ -2,10 +2,10 @@
 $relPath="./../../pinc/";
 include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'c_pages.inc');
+include_once($relPath.'LPage.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'v_site.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
 url_for_pi_do_particular_page()

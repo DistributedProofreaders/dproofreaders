@@ -8,7 +8,7 @@ include_once($relPath.'marc_format.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'maybe_mail.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');

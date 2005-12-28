@@ -6,7 +6,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'abort.inc');
@@ -158,7 +158,7 @@ function get_indicated_LPage(
 class LPage
 // The "L" stands for "Logic",
 // as in the 3 tiers of Data, Logic, and Presentation.
-// (For pages, the Data layer is pinc/page_ops.inc,
+// (For pages, the Data layer is pinc/DPage.inc,
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {

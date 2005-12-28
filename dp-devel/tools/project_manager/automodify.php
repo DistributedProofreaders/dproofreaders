@@ -12,7 +12,7 @@ $db_Connection=new dbConnect();
 include_once($relPath.'stages.inc');
 include($relPath.'projectinfo.inc');
 include($relPath.'project_trans.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 
 include('autorelease.inc');
 include('sendtopost.inc');

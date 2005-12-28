@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'stages.inc');
 
 if (!isset($_POST['resolution'])) {

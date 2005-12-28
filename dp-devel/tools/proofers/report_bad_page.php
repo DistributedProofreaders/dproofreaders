@@ -8,9 +8,9 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'projectinfo.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 $no_stats=1;
 

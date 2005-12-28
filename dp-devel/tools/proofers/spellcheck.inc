@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('spellcheck_text.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 $text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
 

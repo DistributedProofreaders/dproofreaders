@@ -1,9 +1,9 @@
 <?PHP
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'v_site.inc');
-include_once($relPath.'c_pages.inc');
+include_once($relPath.'LPage.inc');
 include_once($relPath.'slim_header.inc');
-include_once('page_misc.inc');
+include_once('PPage.inc');
 
 // $ppage is assumed to be set before this file is included.
 

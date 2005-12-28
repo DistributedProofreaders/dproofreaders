@@ -3,7 +3,7 @@ $relPath='../../pinc/';
 include_once($relPath.'misc.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'page_ops.inc');
+include_once($relPath.'DPage.inc');
 
 if ( !user_is_a_sitemanager() )
 {
