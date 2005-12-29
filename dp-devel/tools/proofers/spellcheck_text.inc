@@ -3,8 +3,6 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'iso_639_list.inc');
 
-$correct_text = "";
-
 function spellcheck_text( $orig_text, $projectid, $imagefile )
 {
 	$orig_text=str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
