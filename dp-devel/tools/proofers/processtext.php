@@ -5,9 +5,13 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 
-/* $_POST $imagefile, $proofstate, $button1, $button2, $button3, $button4,
-          $projectname, $text_data, $orient, $js, $button1_x, $button2_x,
-          $button3_x, $button4_x, $pagestate */
+/*
+$_POST:
+    $projectname, $proofstate,
+    $imagefile, $pagestate, $text_data,
+    $button1, $button2, $button3, $button4, ...
+    $button1_x, $button2_x, $button3_x, $button4_x, ...
+*/
 
 $text_data = isset($text_data) ? $text_data : '';
 
