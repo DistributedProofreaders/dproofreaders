@@ -300,7 +300,7 @@ function spellcheck_apply_corrections()
 				$correct_word .
 				substr($text_array[$orig_line_i],$orig_word_offset+$orig_word_length);
 		}
-		$correct_text .= implode("\r\n",$text_array);
+		$correct_text = implode("\r\n",$text_array);
 	}
 	return $correct_text;
 }
