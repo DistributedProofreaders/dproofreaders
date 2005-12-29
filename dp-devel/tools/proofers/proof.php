@@ -6,11 +6,11 @@ include_once($relPath.'slim_header.inc');
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-$projectid      = @$_GET['project'];
-$expected_state = @$_GET['proofstate'];
+$projectid      = @$_GET['projectid'];
+$expected_state = @$_GET['proj_state'];
 
-if (empty($projectid))      die( "parameter 'project' is empty" );
-if (empty($expected_state)) die( "parameter 'proofstate' is empty" );
+if (empty($projectid))      die( "parameter 'projectid' is empty" );
+if (empty($expected_state)) die( "parameter 'proj_state' is empty" );
 
 $project = mysql_fetch_object(mysql_query("
     SELECT nameofwork, state FROM projects WHERE projectid = '$projectid';
@@ -19,7 +19,7 @@ if (!$project) die( "no project with projectid='$projectid'" );
 
 // Check $expected_state.
 $expected_state_text = project_states_text($expected_state);
-if (empty($expected_state_text)) die( "parameter 'proofstate' has bad value: '$expected_state'" );
+if (empty($expected_state_text)) die( "parameter 'proj_state' has bad value: '$expected_state'" );
 if ($expected_state != $project->state)
 {
     slim_header( $project->nameofwork, TRUE, TRUE );

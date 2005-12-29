@@ -7,8 +7,8 @@ include_once('PPage.inc');
 
 /*
 $_POST:
-    $projectname, $proofstate,
-    $imagefile, $pagestate, $text_data,
+    $projectid, $proj_state,
+    $imagefile, $page_state, $text_data,
     $button1, $button2, $button3, $button4, ...
     $button1_x, $button2_x, $button3_x, $button4_x, ...
 */
@@ -167,11 +167,11 @@ function switch_layout()
 
 function leave_proofing_interface( $title, $body )
 {
-    global $code_url, $projectname, $proofstate;
+    global $code_url, $projectid, $proj_state;
 
     slim_header( $title );
 
-    $url = "$code_url/project.php?id=$projectname&amp;expected_state=$proofstate";
+    $url = "$code_url/project.php?id=$projectid&amp;expected_state=$proj_state";
 
 //    $text = _("Please click here to return to Project Page.");
 //    echo "<a href='$url' target='_top'>$text</a>";

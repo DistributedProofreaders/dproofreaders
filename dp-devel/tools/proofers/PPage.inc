@@ -14,9 +14,9 @@ function url_for_pi_do_whichever_page( $projectid, $proj_state )
     global $code_url;
     return "$code_url/tools/proofers/proof.php"
         . "?"
-        . "project=$projectid"
+        . "projectid=$projectid"
         . "&amp;"
-        . "proofstate=$proj_state"
+        . "proj_state=$proj_state"
     ;
 }
 
@@ -25,25 +25,22 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
     global $code_url;
     return "$code_url/tools/proofers/proof.php"
         . "?"
-        . "project=$projectid"
+        . "projectid=$projectid"
         . "&amp;"
         . "imagefile=$imagefile"
         . "&amp;"
-        . "proofstate=$proj_state"
+        . "proj_state=$proj_state"
         . "&amp;"
-        . "pagestate=$page_state"
+        . "page_state=$page_state"
     ;
 }
-
-// Note that proof.php and proof_frame.php take a 'project' parameter,
-// but processtext.php etc take a 'projectname' parameter.
 
 // -----------------------------------------------------------------------------
 
 function get_requested_PPage( $request_params )
 {
         foreach(
-            array( 'projectname', 'proofstate', 'imagefile', 'pagestate', 'revert' )
+            array( 'projectid', 'proj_state', 'imagefile', 'page_state', 'reverting' )
             as
             $param_name
         )
@@ -65,11 +62,11 @@ function get_requested_PPage( $request_params )
         }
 
         $lpage = get_indicated_LPage(
-            $request_params['projectname'],
-            $request_params['proofstate'],
+            $request_params['projectid'],
+            $request_params['proj_state'],
             $request_params['imagefile'],
-            $request_params['pagestate'],
-            $request_params['revert']
+            $request_params['page_state'],
+            $request_params['reverting']
         );
 
         if ( is_null($lpage) )
@@ -77,7 +74,7 @@ function get_requested_PPage( $request_params )
             abort($err);
         }
 
-        return new PPage($lpage, $request_params['proofstate']);
+        return new PPage($lpage, $request_params['proj_state']);
 }
 
 // ---------------------------------------------------------
@@ -104,9 +101,9 @@ class PPage
         global $code_url;
         return "$code_url/tools/proofers/proof_frame.php"
             . "?"
-            . "project={$this->lpage->projectid}"
+            . "projectid={$this->lpage->projectid}"
             . "&amp;"
-            . "proofstate={$this->proj_state}";
+            . "proj_state={$this->proj_state}";
     }
 
     function url_for_project_comments()
@@ -125,11 +122,11 @@ class PPage
     {
         return implode( '&',
             array(
-                'projectname=' . $this->lpage->projectid,
-                'proofstate='  . $this->proj_state,
-                'imagefile='   . $this->lpage->imagefile,
-                'pagestate='   . $this->lpage->page_state,
-                'revert='      . $this->lpage->reverting_to_orig,
+                'projectid='  . $this->lpage->projectid,
+                'proj_state=' . $this->proj_state,
+                'imagefile='  . $this->lpage->imagefile,
+                'page_state=' . $this->lpage->page_state,
+                'reverting='  . $this->lpage->reverting_to_orig,
             )
         );
     }
@@ -140,10 +137,10 @@ class PPage
     {
         foreach ( array(
                 'imagefile'   => $this->lpage->imagefile,
-                'proofstate'  => $this->proj_state,
-                'pagestate'   => $this->lpage->page_state,
-                'projectname' => $this->lpage->projectid,
-                'revert'      => $this->lpage->reverting_to_orig,
+                'proj_state'  => $this->proj_state,
+                'page_state'  => $this->lpage->page_state,
+                'projectid'   => $this->lpage->projectid,
+                'reverting'   => $this->lpage->reverting_to_orig,
             )
             as
             $param_name => $param_value

@@ -9,24 +9,19 @@ include_once('PPage.inc');
 
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
 url_for_pi_do_particular_page()
-$project, $proofstate, $imagefile, $pagestate
+$projectid, $proj_state, $imagefile, $page_state
 */
 
 /* $_GET from "Start Proofreading" etc.
 url_for_pi_do_whichever_page()
-$project, $proofstate
+$projectid, $proj_state
 */
 
-if (isset($pagestate)) {
+if (isset($page_state)) {
     // The user clicked on a saved page.
 
-    // proof_frame.php takes a 'project' parameter,
-    // but get_requested_PPage() expects a 'projectname' parameter
-    // because that's what's used elsewhere within the PI.
-    // (The two will be harmonized eventually.)
-    $_GET['projectname'] = @$_GET['project'];
-    // Also, get_requested_PPage() expects a 'revert' parameter.
-    $_GET['revert'] = '0';
+    // get_requested_PPage() expects a 'reverting' parameter.
+    $_GET['reverting'] = '0';
 
     $ppage = get_requested_PPage($_GET);
 
@@ -70,7 +65,7 @@ else
     if ( dpsession_page_is_set() )
     {
         $npage=getDebounceInfo();
-        if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$project)
+        if(!($npage['pageTime'] <= (time()-3)) && $npage['project']==$projectid)
         {
                 // It probably doesn't matter what we say here.
                 // 1) Indications are that users will never see this.
@@ -88,10 +83,10 @@ else
     }
 
     // give them a new page
-    $lpage = get_available_page( $project, $proofstate, $pguser, $err );
+    $lpage = get_available_page( $projectid, $proj_state, $pguser, $err );
     if (is_null($lpage))
     {
-        $round = get_Round_for_project_state($proofstate);
+        $round = get_Round_for_project_state($proj_state);
         $body = $err . "<br> " . sprintf(_("Return to the %sproject listing page%s."),
             "<a href='round.php?round_id={$round->id}' target='_top'>","</a>");
         $title = _("Unable to get an available page");
@@ -101,7 +96,7 @@ else
 
     setDebounceInfo( $lpage->projectid );
 
-    $ppage = new PPage( $lpage, $proofstate );
+    $ppage = new PPage( $lpage, $proj_state );
 }
 
 include('proof_frame.inc');
