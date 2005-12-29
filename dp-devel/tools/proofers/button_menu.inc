@@ -51,7 +51,7 @@ echo "\n";
 
 ?>
 <a href="#"
-onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $projects_url ?>/'+document.editform.projectname.value+'/'+document.editform.imagefile.value"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>
+onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $ppage->url_for_image() ?>'"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>
 <?
 
 echo_button(REVERT_TO_ORIGINAL,'a');
