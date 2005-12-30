@@ -119,4 +119,7 @@ _JPGRAPH_FONT_FACE=2
 _JPGRAPH_FONT_STYLE=9002
 # See $_JPGRAPH_DIR/src/jpgraph.php for the meaning of these constants.
 
+_WIKIHIERO_DIR=
+_WIKIHIERO_URL=
+
 # ----------------------------------------------------------------------
