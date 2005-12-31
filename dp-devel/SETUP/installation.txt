@@ -134,15 +134,27 @@ If you're upgrading from a previous version, see the upgrade section.
         You will need the location of the jpgraph installation to put into the
         site-configuration for the DP code.
 
+--- Install WikiHiero (optional)
+        Install it somewhere in server's document hierarchy.
+        e.g.:
+            wget http://aoineko.free.fr/wikihiero.zip
+            unzip -d wikihiero wikihiero.zip
+            rm wikihiero.zip
+
+            vim wikihiero/wikihiero.php
+            # On line 59, for definition of WH_IMG_DIR,
+            # change "$wgScriptPath/extensions/wikihiero/img/"
+            # to just "img/"
+
+            vim wikihiero/wh_language.php
+            # The file begins with three bytes (EF BB BF), which
+            # constitute the Unicode Byte Order Mark encoded in UTF-8.
+            # Delete those bytes?
+
 --- Unpack the DP code.
         Somewhere within your server's document hierarchy (possibly, though not
         necessarily, in the document root) unpack the DP code.
         This expands into a directory named 'c'.
-
---- Install WikiHiero
-        - Get it at http://aoineko.free.fr/
-        - Copy files 'wikihiero.php', 'wh_language.php' and 'wh_list.php' and
-        'img' directory to c/tools/proofers/hiero
 
 --- Create other directories.
 
