@@ -27,7 +27,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.9.b, generated December 8, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.c, generated January 1, 2006 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -104,7 +104,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#bk_index">Indexes</a></li>
         <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
-
+        <li><a href="#prev_notes">Previous Proofreaders' Notes</a></li>
       </ul>
     </td>
   </tr>
@@ -227,6 +227,10 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    corrections or to finish proofreading. Just click on the link to the page. So if you
    discover that you made a mistake on a page, or marked something incorrectly, you can
    click on that page here and re-open it to fix the error.
+</p>
+<p>You may also use the "Images, Pages Proofread, &amp; Differences" or "Just My Pages" links
+   on the <a href="#comments">Project Comments</a> page. These pages will display an "Edit"
+   link next to the pages you have worked on in the current round that can still be corrected.
 </p>
 <p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard
    Proofreading Interface Help</a> or the <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading
@@ -992,7 +996,7 @@ cedilla                      [,x]   [x,]
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
 <p>Some projects contain text printed in non-Latin characters--that is, characters other
-than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
+than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 </p><? if(strcasecmp($charset,"UTF-8")) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
    each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
@@ -1065,22 +1069,27 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     <li><i>Hyphens</i>. These are used to <b>join</b> words together, or sometimes to
         join prefixes or suffixes to a word.
     <br>Leave these as a single hyphen, with no spaces on either side.
+    <br>Note that there is a common exception to this shown in the second example below.
+    </li>
     <li><i>En-dashes</i>. These are just a little longer, and are used for a
         <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
     <br>Proofread these as a single hyphen, too. Spaces before or after are determined by the
         way it was done in the book; usually no spaces in number ranges, usually spaces
         around mathematical minus signs, sometimes both sides, sometimes just before.
+    </li>
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
         his throat&mdash;&mdash;!
     <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
+    </li>
     <li><i>Deliberately Omitted or Censored Words or Names</i>.  
     <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
         the size of the rest of the smaller em-dashes, then proof it as a single em-dash, 
         i.e. two dashes.
+    </li>
   </ol>
 <p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
    other line so that there are no spaces or line breaks around it. Only if the
@@ -1342,9 +1351,9 @@ than the Latin A...Z--for example, Greek, Cyrillic, Hebrew, or Arabic.
     the debt; and, second, because it may be more easily<br>
     transferred or handed over to some one else.<br>
     <br>
-    If J.M. Johnson, of Saint Paul, owes C.M. Jones,<br>
+    If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
     of Chicago, a hundred dollars, and Nelson Blake, of<br>
-    Chicago, owes J.M. Johnson a hundred dollars, it is<br>
+    Chicago, owes J. M. Johnson a hundred dollars, it is<br>
     plain that the risk, expense, time and trouble of sending<br>
     the money to and from Chicago may be avoided,<br>
     <br>
@@ -1729,7 +1738,7 @@ and he knew, when he had done it, and to his</tt>
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J.W. Wolf, Beiträge zur deutschen<br>
+    (J. W. Wolf, Beiträge zur deutschen<br>
     Mythologie, i. p. 217, § 185).<br>
     <br>
     2 J. Boemus, Mores, leges et ritus<br>
@@ -1738,7 +1747,7 @@ and he knew, when he had done it, and to his</tt>
     <br>
     3 Karl Freiherr von Leoprechting,<br>
     Aus dem Lechrain (Munich, 1855),<br>
-    pp. 181 sqq. W. Mannhardt, Der<br>
+    pp. 181 sqq.; W. Mannhardt, Der<br>
     Baumkultus, p. 510.<br>
     <br>
     4 A. Birlinger, Volksthümliches aus<br>
@@ -1913,46 +1922,46 @@ Same strip rolled up in  Same 16 wires bound
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
           <br>
-          I. The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&nbsp;&nbsp;.....&nbsp;1<br>
+          I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
+          MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;.....&nbsp;1<br>
           <br>
-          II.  The First Wayfarer Lays His Pack Aside and<br>
-          Falls in with Friends&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
+          II.  THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
+          FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
           <br>
-          III. Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
+          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
           <br>
-          IV. An Extraordinary Chambermaid, a Midnight<br>
-          Tragedy, and a Man Who Said "Thank You"&nbsp;&nbsp;&nbsp;50<br>
+          IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
+          TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
           <br>
-          V. The Farm-boy Tells a Ghastly Story, and an<br>
-          Irishman Enters&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
+          V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
+          IRISHMAN ENTERS&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
           <br>
-          VI. Charity Begins Far from Home, and a Stroll in<br>
-          the Wildwood Follows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
+          THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
           <br>
-          VII. Spun-gold Hair, Blue Eyes, and Various Encounters&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
+          VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
           <br>
-          VIII. A Note, Some Fancies, and an Expedition in<br>
-          Quest of Facts&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
+          VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
+          QUEST OF FACTS&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
           <br>
-          IX. The First Wayfarer, the Second Wayfarer, and<br>
-          the Spirit of Chivalry Ascendant&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
+          IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
+          THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
           <br>
-          X. The Prisoner of Green Fancy, and the Lament of<br>
-          Peter the Chauffeur&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
+          X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
+          PETER THE CHAUFFEUR&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
           <br>
-          XI. Mr. Sprouse Abandons Literature at an Early<br>
-          Hour in the Morning&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
+          XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
+          HOUR IN THE MORNING&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
           <br>
-          XII. The First Wayfarer Accepts an Invitation, and<br>
-          Mr. Dillingford Belabors a Proxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
+          MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
           <br>
-          XIII. The Second Wayfarer Receives Two Visitors at<br>
-          Midnight &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
+          XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
+          MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
           <br>
-          XIV. A Flight, a Stone-cutter's Shed, and a Voice<br>
-          Outside&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
+          XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
+          OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
       </tt>
 </td></tr></table>
       </td>
@@ -1984,7 +1993,7 @@ Same strip rolled up in  Same 16 wires bound
    This convention is retained; do not close the brackets.</li>
  <li>Sometimes, especially in metrical plays, a word is split due to page-size constraints and placed
    above or below following a (, rather than having a line of its own. Please treat this as a normal end-of-line reattachment.<br>
-   See the <a href="#play3">example</a>.</li>
+   See the <a href="#play4">example</a>.</li>
 </ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
    specify different formatting.
@@ -2043,6 +2052,38 @@ Souse is a bona roba, so is Flops too.</tt></p>
   </tbody>
 </table>
 <br>
+<a name="play4"><!-- Example --></a>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Play Example 4">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="play4.png" width="502"
+          height="98" alt="Plays image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>
+Am. Sure you are fasting;<br>
+Or not slept well to night; some dream (Ismena?)<br>
+<br>
+Ism. My dreams are like my thoughts, honest and innocent,<br>
+Yours are unhappy; who are these that coast us?<br>
+You told me the walk was private.<br>
+</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While proofreading, if you encounter something that isn't covered in these guidelines that you
@@ -2054,17 +2095,31 @@ Souse is a bona roba, so is Flops too.</tt></p>
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
    This clearly separates it from the Author's text and signals the Post-Processor to stop and carefully examine
-   this part of the text &amp; the matching image to address any issues. Any comments put in by a previous 
-   volunteer <b>must</b> be left in place. Agreement or disagreement can be added, but even if the current volunteer 
-   looking at the text knows the answer, he/she absolutely mustn't remove the comment.
+   this part of the text &amp; the matching image to address any issues. Agreement or disagreement can be added,
+   but even if you know the answer, you absolutely must not remove the comment.
+   If you have found a source which clarifies the problem, please cite it so the post-processor can also
+   refer to it.
 </p>
 <p>If you are proofreading in a later round and come across a note from a proofreader in a previous round that you know the answer to,
     please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future. Please, as already stated, do not remove the note.
 </p>
-<!-- END RR -->
 
+<h3><a name="prev_notes">Previous Proofreaders' Notes/Comments</a></h3>
+<p>Any notes or comments put in by a previous volunteer <b>must</b> be left in place.
+   You may add agreement or disagreement to the existing note
+   but even if you know the answer, you absolutely must not remove the comment.
+   If you have found a source which clarifies the problem, please cite it so the post-processor can also
+   refer to it.
+</p>
+<p>If you are formatting in a later round and come across a note from a volunteer
+   in a previous round that you know the answer to, please take a moment and provide Feedback
+   to them by clicking on their name in the proofreading interface and posting a private message
+   to them explaining how to handle the situation in the future.
+   Please, as already stated, do not remove the note.
+</p>
+<!-- END RR -->
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -2180,7 +2235,7 @@ These are subtle because they can only be caught by someone actually reading the
 <p>If you are unsure, place a note in the txet <tt>[**typo for text?]</tt> and ask in the
    Project Discussion thread. If you do make a change, include a note describing what you changed:
    <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
-   Include an <tt>*</tt> so the post-processor will notice it.
+   Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
 
 <h3><a name="f_errors">Factual Errors in Texts</a></h3>

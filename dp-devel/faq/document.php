@@ -29,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.9.b, generated December 8, 2005 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.c, generated January 1, 2006 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
@@ -119,6 +119,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#bk_index">Indexes</a></li>
         <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
+        <li><a href="#prev_notes">Previous Proofreaders' Notes</a></li>
       </ul>
     </td>
   </tr>
@@ -269,6 +270,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    corrections or to finish formatting. Just click on the link to the page. So if you
    discover that you made a mistake on a page, or marked something incorrectly, you can
    click on that page here and re-open it to fix the error.
+</p>
+<p>You may also use the "Images, Pages Proofread, &amp; Differences" or "Just My Pages" links
+   on the <a href="#comments">Project Comments</a> page. These pages will display an "Edit"
+   link next to the pages you have worked on in the current round that can still be corrected.
 </p>
 <p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard 
    Proofreading Interface Help</a> or the <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading 
@@ -490,9 +495,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     the debt; and, second, because it may be more easily<br>
     transferred or handed over to some one else.<br>
     <br>
-    If J.M. Johnson, of Saint Paul, owes C.M. Jones,<br>
+    If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
     of Chicago, a hundred dollars, and Nelson Blake, of<br>
-    Chicago, owes J.M. Johnson a hundred dollars, it is<br>
+    Chicago, owes J. M. Johnson a hundred dollars, it is<br>
     plain that the risk, expense, time and trouble of sending<br>
     the money to and from Chicago may be avoided,<br>
     <br>
@@ -692,7 +697,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J.W. Wolf, &lt;i&gt;Beiträge zur deutschen<br>
+    (J. W. Wolf, &lt;i&gt;Beiträge zur deutschen<br>
     Mythologie&lt;/i&gt;, i. p. 217, § 185).]<br>
     <br>
     [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
@@ -817,7 +822,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
      occasion we shall make known a few others that will<br>
      serve to give an idea of the methods employed.<br>
      </tt></p>
-     <p><tt>[Illustration: FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+     <p><tt>[Illustration: &lt;sc&gt;Fig.&lt;/sc&gt; 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
      SEISMIC MOVEMENTS.]</tt></p>
      <p><tt>
      For the observation of the vertical and horizontal motions<br>
@@ -1073,17 +1078,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
    superscripts, for example:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
    Format these by inserting a single caret to identify this as a superscripted
    abbreviation/contraction, like this:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 <p>In scientific &amp; technical works, format superscripted characters with curly braces
    <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one character superscripted.
    <br>For example:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; ... up to x<sup>n-1</sup> elements in the array.
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
    <br>would be formatted as
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>... up to x^{n-1} elements in the array.<br></tt>
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
 </p>
 <p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
    that superscripted text be marked up differently.
@@ -1094,9 +1099,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    material. Format subscripted text by inserting an underline character <tt>_</tt> and
    surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>.
    <br>For example:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
    <br>would be formatted as
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_{2}O.<br></tt>
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
 </p>
 
 <h3><a name="underl">Underlined Text</a></h3>
@@ -1138,19 +1143,19 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Format words that are printed in <span style="font-variant: small-caps;">Mixed Small Caps</span>
    as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
    markup. <br>
-&nbsp; &nbsp; &nbsp; &nbsp;Example:
+&nbsp;&nbsp;&nbsp;&nbsp;Example:
    <span style="font-variant: small-caps;">This is Small Caps</span> <br>
-&nbsp; &nbsp; &nbsp; &nbsp;would correctly be:
+&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
    <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
 </p>
 
 <p>Format words that are printed in <span style="font-variant: small-caps;">all small caps</span>
    as ALL-CAPS, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
    <br>
-&nbsp; &nbsp; &nbsp; &nbsp;Example:
+&nbsp;&nbsp;&nbsp;&nbsp;Example:
    You cannot be serious about
    <span style="font-variant: small-caps;">aardvarks</span>!<br>
-&nbsp; &nbsp; &nbsp; &nbsp;would correctly be:
+&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
    <tt>You cannot be serious about
    &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
 </p>
@@ -1171,20 +1176,25 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <li><i>Hyphens</i>. These are used to <b>join</b> words together, or sometimes to
         join prefixes or suffixes to a word.
     <br>Leave these as a single hyphen, with no spaces on either side.
+    <br>Note that there is a common exception to this shown in the second example below.
+    </li>
     <li><i>En-dashes</i>. These are just a little longer, and are used for a
         <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
     <br>Format these as a single hyphen, too. Spaces before or after are determined by the
         way it was done in the book; usually no spaces in number ranges, usually spaces
         around mathematical minus signs, sometimes both sides, sometimes just before.
+    </li>
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
         his throat&mdash;&mdash;!
     <br>Format these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
+    </li>
     <li><i>Deliberately Omitted or Censored Words or Names</i>. 
     <br>Format these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
+    </li>
   </ol>
 <p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
    other line so that there are no spaces or line breaks around it. Only if the
@@ -1327,16 +1337,16 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    the hyphen.<br>
    For example, format:<br>
    &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
    as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
 <p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
    To continue the above example, format:<br>
    &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
    as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
 </p>
 <p>These markings indicate to the post-processor that the word must be rejoined when the pages are
    combined to produce the final e-book.
@@ -1349,7 +1359,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    printed near the right margin) indicates the first word on the next page of the book (called
    an "incipit"). It was used to alert the printer to print the correct reverse (called "verso");
    to make it easier for printers' helpers to make up the pages prior to binding; also to help
-   the reader avoid turning over more than one page." 
+   the reader avoid turning over more than one page.
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
@@ -1547,7 +1557,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     Churchill, Winston<br>
     Columbus, Christopher<br>
     Curie, Marie<br>
-    Daguerre, Louis J.M.<br>
+    Daguerre, Louis J. M.<br>
     Darwin, Charles<br>
     Descartes, René<br>
     Earhart, Amelia<br>
@@ -2716,7 +2726,7 @@ Stage directions often begin with an opening bracket and omit the closing bracke
  <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
    If the continuation is only a word or so, it is often shown on the line
    above or below following a (, rather than having a line of its own.<br>
-   See the <a href="#play3">example</a>.</li>
+   See the <a href="#play4">example</a>.</li>
 </ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
    specify different formatting.
@@ -2860,8 +2870,42 @@ Such news as you'll be overjoy'd to hear.<br>
       <th align="left" bgcolor="cornsilk">Sample Image:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play3.png" width="502"
-          height="588" alt="Plays image"><br>
+      <td width="100%" valign="top"><img src="play3.png" width="504"
+          height="206" alt="Plays image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
+<br>
+/*<br>
+&lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
+<br>
+&lt;i&gt;Hud.&lt;/i&gt; Daughter, you owe my lord Megario<br>
+Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
+<br>
+&lt;i&gt;Her.&lt;/i&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give them, sir.<br>
+*/</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<a name="play4"><!-- Example --></a>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Play Example 4">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="play4.png" width="502"
+          height="98" alt="Plays image"><br>
       </td>
     </tr>
     <tr>
@@ -2871,37 +2915,12 @@ Such news as you'll be overjoy'd to hear.<br>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
-The whip from Nature, turn it on herself,<br>
-And set her elemental slaves to filch<br>
-Her gold for me. That, friend, is play.<br>
+Am. Sure you are fasting;<br>
+Or not slept well to night; some dream (Ismena?)<br>
 <br>
-&lt;i&gt;Meg.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; For gods<br>
-And not as thief, but as divinity,<br>
-You take from crouching Nature.<br>
-<br>
-&lt;i&gt;Hud.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Men have said<br>
-I pile up gold because its glitter soothes<br>
-A fever in my eyes. The clacking fools!<br>
-I am no Cheops making warts on earth.<br>
-No mummy brain! God built my pyramids,<br>
-Slaving through dark and chaos till there rose<br>
-My iron-hearted hills, and mountains locked<br>
-On ago-unyielded treasure waiting me.<br>
-There slept my gems till longing became fire<br>
-And broke the grip of stone,--there lay my gold,<br>
-Re-purged each thousand years till baited Time<br>
-Gave up the master's hour.<br>
-*/<br>
-<br>
-[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
-<br>
-/*<br>
-&lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
-<br>
-&lt;i&gt;Hud.&lt;/i&gt; Daughter, you owe my lord Megario<br>
-Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
-<br>
-&lt;i&gt;Her.&lt;/i&gt; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; I give them, sir.<br>
+Ism. My dreams are like my thoughts, honest and innocent,<br>
+Yours are unhappy; who are these that coast us?<br>
+You told me the walk was private.<br>
 */</tt></p>
 </td></tr></table>
       </td>
@@ -2922,13 +2941,28 @@ Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt
    this part of the text &amp; the matching image to address any issues.
    Any comments put in by a previous volunteer <b>must</b> be left in place.
    Agreement or disagreement can be added,
-   but even if the current volunteer looking at the text knows the answer,
-   he/she absolutely mustn't remove the comment.
+   but even if you know the answer, you absolutely must not remove the comment.
+   If you have found a source which clarifies the problem, please cite it so the post-processor can also
+   refer to it.
 </p>
 <p>If you are formatting in a later round and come across a note from a volunteer in a previous round that you know the answer to,
     please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future.
+   Please, as already stated, do not remove the note.
+</p>
+
+<h3><a name="prev_notes">Previous Proofreaders' Notes/Comments</a></h3>
+<p>Any notes or comments put in by a previous volunteer <b>must</b> be left in place.
+   You may add agreement or disagreement to the existing note
+   but even if you know the answer, you absolutely must not remove the comment.
+   If you have found a source which clarifies the problem, please cite it so the post-processor can also
+   refer to it.
+</p>
+<p>If you are formatting in a later round and come across a note from a volunteer
+   in a previous round that you know the answer to, please take a moment and provide Feedback
+   to them by clicking on their name in the proofreading interface and posting a private message
+   to them explaining how to handle the situation in the future.
    Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
@@ -3088,7 +3122,7 @@ Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt
 <p>If you are unsure, place a note in the txet <tt>[**typo for text?]</tt> and ask in the
    Project Discussion thread. If you do make a change, include a note describing what you changed:
    <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
-   Include an <tt>*</tt> so the post-processor will notice it.
+   Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
 
 <h3><a name="f_errors">Factual Errors in Texts</a></h3>
@@ -3104,7 +3138,7 @@ Some pretty thanks. &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  [&lt
 </p>
 
 <h3><a name="uncertain">Uncertain Items</a></h3>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...to be completed...]
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...to be completed...]
 </p>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="silver" summary="Links">
