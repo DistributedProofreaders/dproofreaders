@@ -5,12 +5,16 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofreading Guidelines Revision History','header');
+theme('Proofreading and Formatting Guidelines Revision History','header');
 ?>
 
-<h1 align="center">Proofreading Guidelines Revision History</h1>
+<h1 align="center">Proofreading and Formatting Guidelines Revision History</h1>
 <table width="80%" align="center">
   <tbody valign="top">
+    <tr>
+      <td colspan="4">If you have any suggestions about how the Proofreading or Formatting Guidelines can be improved,
+      please see the appropriate posts in the Documentation forum.</td>
+    </tr>
     <tr>
       <td colspan="4" bgcolor="silver"><br>
       </td>
@@ -25,19 +29,113 @@ theme('Proofreading Guidelines Revision History','header');
       <td colspan="4" bgcolor="silver"><br>
       </td>
     </tr>
+
+    <tr>
+      <td>01/01/2006 </td>
+      <td>Ver.&nbsp;1.9c </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.80 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Give Previous Proofreader Notes its own section.</li>
+                <li>Add specific mention of using "Images, Pages Proofread &amp; Differences" and
+                    "Just My Pages" links as a means of editing pages previously worked on.
+                <li>Numerous minor corrections and clarifications.</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.22 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Restored missing Drama example.</li>
+                <li>Give Previous Proofreader Notes its own section.</li>
+                <li>Add specific mention of using "Images, Pages Proofread &amp; Differences" and
+                    "Just My Pages" links as a means of editing pages previously worked on.
+                <li>Numerous minor corrections and clarifications.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>12/08/2005 </td>
+      <td>Ver.&nbsp;1.9b </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.79 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+		<li>Numerous minor corrections and updates to relevant examples.</li>
+                <li>Clarification of formatting multiple footnotes on the same page.</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.19 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+		<li>Numerous minor corrections and updates to relevant examples.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>11/01/2005 </td>
+      <td>Ver.&nbsp;1.9 </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.78 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Small caps are now completely handled by the Formatters.</li>
+                <li>The five-star thought break is now indicated by &lt;tb&gt;.</li>
+                <li>Drama guidelines and examples enhanced.</li>
+                <li>Proofreader notes are now to be indicated by <tt>[**Note]</tt>.</li>
+                <li>Explicitly state that notes from previous proofreaders are not to be removed.</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.17 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Ellipses are now the responsibility of the Proofreaders.</li>
+                <li>Spaces between initials are no longer removed.</li>
+                <li>Em-dashes are no longer normalized to two hyphens, they are now
+                    proofread as four hyphens if long, two hyphens if short.</li>
+                <li>Drama guidelines and examples enhanced.</li>
+                <li>Proofreader notes are now to be indicated by <tt>[**Note]</tt>.</li>
+                <li>Explicitly state that notes from previous proofreaders are not to be removed.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>06/01/2005 </td>
+      <td>Ver.&nbsp;1.8 </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.69 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Guidelines split into separate Proofreading and Formatting documents.</li>
+                <li>See below.</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.1 through 1.16 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Separate sections on Small Caps and All Capitals.</li>
+                <li>Clarification of [OE] [oe] ligature handling.</li>
+                <li>Clarification of Fraction handling.</li>
+                <li>Expansion of small-caps and hyphens examples.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
     <tr>
       <td>09/01/2004 </td>
       <td>Ver.&nbsp;1.7 </td>
       <td>The DP Community</td>
       <td>
+        <!-- CVS version of document.php which reflects this entry is v1.49 -->
         <h3>Formatting changes</h3>
         <ul compact="compact">
                 <li>Terminology standardised.</li>
                 <li>The tables &amp; examples have all been resized to (hopefully) make it easier for people to read with lower resolution screens.</li>
                 <li>The Abbreviation section is now called Initials.</li>
                 <li>Some of the layout of the rules have been changed so that we can automatically generate the random rules from the Guideline document.</li>
-                <li>A section has been added for drama guidelines
-</li>
+                <li>A section has been added for drama guidelines.</li>
                 <li>A section has been added for major divisions in the text.</li>
                 <li>The character map tables have been updated to include all Latin-1 characters.</li>
         </ul>
@@ -48,6 +146,7 @@ theme('Proofreading Guidelines Revision History','header');
                 <li>We now mark-up all italics, including scholarly abbreviations.</li>
                 <li>We now mark superscripts with ^</li>
                 <li>A section has been added for subscripts - they are marked with _{}</li>
+                <li>Random rules generation framework added.</li>
         </ul>
       </td>
     </tr>
@@ -332,10 +431,6 @@ theme('Proofreading Guidelines Revision History','header');
       <td colspan="4" bgcolor="silver"><br>
       </td>
     </tr>
-    <tr>
-      <td colspan="4">If you have any suggestions about how the Proofreading Guidelines can be improved,
-      please post in the Documentation forum.</td>
-    </tr>
   </tbody>
 </table>
 <table border="0" cellspacing="0" width="100%">
@@ -348,3 +443,4 @@ theme('Proofreading Guidelines Revision History','header');
 <?
 theme('','footer');
 ?>
+
