@@ -549,7 +549,7 @@ class="dropchars"
 <option value="1153">&#1153;</option>
 <option value="1154">&#1154;</option>
 </select></td></tr></table>
-<center><font size=-1><a href="#" onClick="window.open('srchrep.php','dp_searchrepl','width=300,height=150,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><?
+<center><font size=-1><a href="#" onClick="window.open('srchrep.php','dp_searchrepl','width=300,height=250,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><?
 echo _("Search/Replace");
 ?></a>&nbsp;|&nbsp;<a href="mktable.php" target="_new"><? 
 echo _("Table Maker");
