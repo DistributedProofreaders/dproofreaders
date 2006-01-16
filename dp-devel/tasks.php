@@ -162,7 +162,8 @@ $tasks_close_array = array(1 => "Not a Bug",
     5 => "Duplicate",
     6 => "Deferred",
     7 => "Fixed",
-    8 => "Implemented");
+    8 => "Implemented",
+    9 => "Resolved");
 $percent_complete_array = array(0 => "0%",
     10 => "10%",
     20 => "20%",
