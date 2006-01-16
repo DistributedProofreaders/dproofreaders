@@ -727,7 +727,7 @@ function NotificationMail($tid, $message) {
 			$temp = mysql_query("SELECT email FROM users WHERE username = '".$row['username']."'");
 			$email = mysql_result($temp, 0, "email");
 			maybe_mail($email, "DP Task Center: Task #$tid has been updated",
-			  "You had requested to be let known when task #$tid was updated.  "
+			  "You have requested notification of updates to task #$tid. "
 			   ."$message"
 			   ."\n"
 			   ."You can see task #$tid by visiting $code_url/tasks.php?f=detail&tid=$tid."
