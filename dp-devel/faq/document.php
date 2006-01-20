@@ -515,7 +515,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>A chapter header may start a bit farther down the page than the <a href="#page_hf">page header</a>
    and won't have a page number on the same line. Chapter Headers are often printed all caps; if so,
-   keep them as all caps.
+   keep them as all caps. Chapter Headers are usually printed in a larger font which may appear to be
+   bold, but we do not mark them as bold text; however you should include italics or small-caps markup
+   if it appears in the header.
 </p>
 <p>Put 4 blank lines before the "CHAPTER XXX". Include these blank
    lines even if the chapter starts on a new page; there are no 'pages' in an e-book,
@@ -588,7 +590,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Some texts have sections within chapters. Format these headers as they appear in the text.
    Leave 2 blanks lines before the header and one after, unless the Project Manager has requested
    otherwise. If you are not sure if a header indicates a chapter or a section, post a question in
-   the Project Thread, noting the page number.
+   the Project Thread, noting the page number. Section Headers are often printed in a larger font
+   which may appear to be bold, but we do not mark them as bold text; however you should include
+   italics or small-caps markup if it appears in the header.
 </p>
 
 <h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
