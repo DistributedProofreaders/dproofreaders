@@ -114,6 +114,7 @@ $res = dpsql_query("
     WHERE page_events.username='$username'
         AND page_events.event_type IN ('saveAsDone','saveAsInProgress', 'markAsBad')
         AND projects.archived = 0
+        AND projects.state != '".PROJ_DELETE."'
     GROUP BY page_events.projectid, page_events.round_id
     ORDER BY $sql_order
 ") or die('Aborting');
