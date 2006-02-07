@@ -50,6 +50,7 @@ slim_header("Text Frame",TRUE,FALSE);
     echo "<br>\n";
 
     echo_button(CHANGE_LAYOUT,'s');
+    echo_button(SHOW_ALL_TEXT,'s');
     echo_button(RETURN_PAGE,'s');
 
     if ( $ppage->can_be_marked_bad_by($pguser) )
