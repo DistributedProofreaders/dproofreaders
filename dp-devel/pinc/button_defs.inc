@@ -188,6 +188,15 @@ function echo_button( $button_id, $which_interface )
 				'src'=>"gfx/bt19.png",
 			);
 			break;
+		case SHOW_ALL_TEXT:
+			$attrs = array(
+				'name'=>"button13",
+				$label=>"Show All Text",
+				'title'=>"Show All Text",
+				'onclick'=>"top.showNW(); return false;",
+				'src'=>"gfx/bt9.png",
+			);
+			break;
 	}
 	if ($which_interface == 's')
 	{
