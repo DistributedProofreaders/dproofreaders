@@ -58,9 +58,15 @@ show_news_for_page("FAQ");
   proofreading and formatting standards from the Proofreading and Formatting Guidelines, done as big examples! </font></p>
 
   <p><a href="proofreading_guidelines.php">Proofreading Guidelines</a><br>
+  <span style='font-size: smaller; color: #335;'>Also available in 
+     <a href='proofreading_guidelines_francaises.php'>French</a> and
+     <a href='proofreading_guidelines_portuguese.php'>Portuguese</a>.</span><br>
   <font size="-1">The details of the guidelines we use for proofreading documents.</font></p>
 
   <p><a href="document.php">Formatting Guidelines</a><br>
+  <span style='font-size: smaller; color: #335;'>Also available in 
+     <a href='formatting_guidelines_francaises.php'>French</a> and
+     <a href='formatting_guidelines_portuguese.php'>Portuguese</a>.</span><br>
   <font size="-1">The full details of the guidelines we use for proofreading and formatting documents.</font></p>
 
   <p><a href="prooffacehelp.php?i_type=0">Standard Proofreading Interface Help</a><br>
