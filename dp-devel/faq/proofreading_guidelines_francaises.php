@@ -1,6 +1,6 @@
 <?
 
-// Translated by user 'Pierre' at pgdp.net, 15/9/2005
+// Translated by user 'Pierre' at pgdp.net, 2006-02-08
 
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
@@ -16,7 +16,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
 <H1 align=center>Directives de Relecture et correction</H1>
-<H3 align=center>Version 1.8c, le 17 août 2005&nbsp;</H3>
+<H3 align=center>Version 1.9c, le 11 janvier 2006 &nbsp;</H3>
 <TABLE cellSpacing=0 width="100%" border=0>
   <TBODY>
   <TR>
@@ -73,6 +73,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <LI><A 
           href="#punctuat">Ponctuation</A> 
           <LI><A 
+          href="#period_p">Points 
+          de suspension "..."</A> 
+          <LI><A 
           href="#contract">Contractions
           </A> 
           <LI><A 
@@ -123,8 +126,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           href="#eop_hyphen">Traits
           d'union en fin de page</A> 
           <LI><A 
-          href="#initials">Initiales</A> 
-          <LI><A 
           href="#para_space">Espacement 
           et indentation des paragraphes</A> 
           <LI><A 
@@ -167,8 +168,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <LI><A 
           href="#anything">Tous 
           autres points nécessitant un traitement particulier, ou dont vous 
-          n'êtes pas sûr</A>
-  </LI></UL></LI></UL>
+          n'êtes pas sûr</A></LI>
+          <li><a href="#prev_notes">Notes des correcteurs précédents </a></li>
+</UL></LI></UL>
 
   <TR>
     <TD width=1 bgColor=silver><BR></TD>
@@ -223,7 +225,9 @@ Si l'auteur écrit des mots d'une manière étrange, laissez-les. Si l'auteur écrit
 des choses choquantes, racistes ou partiales, laissez-les telles quelles. Si 
 l'auteur semble mettre des italiques, des mots en gras ou des notes de bas de 
 page tous les trois mots, gardez les italiques, les mots en gras et les notes de 
-bas de page.<BR></P>
+bas de page. Nous sommes des relecteurs, pas des éditeurs. Voir toutefois
+la section <a href=#p_errors>Erreurs d'impression</a> pour les fautes évidentes
+de l'imprimeur. <BR></P>
 <P>Par contre, nous changeons des choses mineures qui n'affectent pas le sens de 
 ce que l'auteur a écrit. Nous rejoignons les mots séparés par un retour à la 
 ligne. (voir <A 
@@ -231,7 +235,9 @@ href="#eol_hyphen">Traits
 d'union en fin de lignes</A>) Ces changements nous permettent d'avoir des livres 
 <EM>formatés d'une façon homogène</EM>. Nous suivons des règles de relecture 
 pour avoir ce résultat. Lisez attentivement le reste de ces Règles en gardant ce
-concept à l'esprit.</P>
+concept à l'esprit. Il y a un autre ensemble de règles concernant le formatage. 
+Ces règles-ci ne s'appliquent qu'à la relecture. Ce seront d'autres volontaires qui
+travailleront sur le formatage du texte. </P>
 <P>Pour aider le prochain relecteur et le post-correcteur, nous gardons aussi 
 les <A 
 href="#line_br">retours à la 
@@ -253,17 +259,20 @@ utilisateurs ont demandé à propos du formatage lors de la correction. S'il
 manque des points, ou que vous considérez que des points manquent, ou que des 
 points devraient être décrits de manière différente ou si quelque chose est 
 vague, merci de nous le faire savoir.</P>
-<P>Ce document est un travail “en cours”. Aidez-nous à progresser en nous 
+<P>Ce document est un travail en évolution permanente. Aidez-nous à progresser en nous 
 envoyant vos suggestions de changements sur le forum Documentation dans <A 
 href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10779">ce thread</A>. </P>
 <H3><A name=comments>Commentaires des projets</A> </H3>
 <P>Dans la page d'interface dans laquelle vous commencez à corriger des pages, 
 il y a une section "Commentaires du projet" qui contient des informations 
-spécifiques à ce projet (livre). <I>Lisez celles-ci avant de commencer à 
-corriger des pages!</I> Si le responsable de projet veut que vous formatiez 
+spécifiques à ce projet (livre). <b>Lisez celles-ci avant de commencer à 
+corriger des pages!</b> Si le responsable de projet veut que vous formatiez 
 quelque chose dans ce livre autrement que ce qui est dit dans ces directives, ce 
 sera indiqué là. Les instructions dans les “Commentaires du projet” supplantent 
-les règles dans ces directives, donc suivez-les.<BR>C'est aussi à cet endroit 
+les règles dans ces directives, donc suivez-les. C'est également là
+que le responsable du projet donne des règles spéciales concernant la phase
+de formatage (qui ne s'appliquent donc pas à la phase de relecture).
+Enfin, c'est aussi à cet endroit 
 que le responsable de projet vous donne des informations intéressantes à propos 
 des livres, comme leur provenance, etc.</P>
 <P><EM>Lisez aussi la discussion sur le projet</EM>: Le chef de projet y 
@@ -294,6 +303,11 @@ affiché).</P>
 puissiez corriger ou terminer votre travail de relecture. Cliquez sur le lien 
 vers la page. Ainsi, si vous voyez que vous avez fait une erreur sur une page, 
 vous pouvez cliquer sur cette page, et la rouvrir pour corriger l'erreur. </P>
+<P> Il est également possible d'utiliser les liens 
+"Images, Pages Proofread, &amp; Differences" ou l'option
+"Just my pages". Ces pages présentent un lien "Edit" sur
+toutes les pages sur lesquelles vous avez travaillé durant
+ce round. Il est encore temps de les corriger.</P>
 <P>Pour plus de détails, voyez <A 
 href="http://www.pgdp.net/c/faq/prooffacehelp.php?i_type=0">Aide sur l'interface 
 standard</A> ou bien <A 
@@ -367,13 +381,35 @@ cas.</P>
     <TD vAlign=top><TT>and so it goes ; ever and ever.</TT></TD>
     <TD vAlign=top><TT>and so it goes; ever and ever.</TT> 
 </TD></TR></TBODY></TABLE>
+
+<H3><A name=period_p>Points de suspension "..."</A> </H3>
+<P>Les règles sont différentes selon que le texte est en anglais ou non.</P>
+<P><B>ANGLAIS</B>: Laissez un espace avant les trois points et un espace après. 
+L'exception est à la fin d'une phrase: pas d'espace avant, mettre quatre points 
+et un espace après. Ceci est vrai aussi pour d'autres signes de ponctuation. Les 
+points de suspension suivent ce signe sans espace.&nbsp; Par exemple: 
+<TT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I know ... is 
+true.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the 
+end....<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?... </TT></P>
+<P><I>Parfois vous verrez le signe de ponctuation après les points de 
+suspension. </I>Le texte corrigé sera alors comme ceci.&nbsp;</P>
+<P><TT>Wherefore art thou Romeo...? </TT></P>
+<P>Vous devrez si nécessaire enlever des points ou en rajouter pour qu'il y en 
+ait exactement trois (ou quatre, selon le cas).</P>
+<P><B>AUTRES LANGUES</B>: Suivez la règle "Respectez le style utilisé sur la 
+page imprimée". Mettez autant de points qu'il y en a d'imprimés, et insérez des
+espaces selon ce qui est imprimé. Si, sur une page donnée, ce n'est pas clair,
+insérez une note [**pas clair]. Note: les post-processeurs remplaceront d'éventuels
+espaces à l'intérieur des points de suspension par des espaces insécables. 
+</P>
+
 <H3><A name=contract>Contractions</A> </H3>
 <P>En anglais, enlevez les espaces des contractions. Par exemple: <TT>would 
 n't</TT> devrait être <TT>wouldn't</TT>. (C'était une convention utilisée pour 
 indiquer que would et not étaient originellement deux mots séparés.) Parfois 
 aussi, c'est une erreur d'OCR, enlevez l'espace en trop dans tous les cas. </P>
 <P>Certains chefs de projet recommanderont dans les <A 
-href="#comments">commantaires 
+href="#comments">commentaires 
 de projet </A>de ne pas enlever les espaces dans les contractions, en 
 particulier dans des textes écrits en dialecte, argot ou une langue autre que 
 l'anglais.</P>
@@ -396,7 +432,7 @@ post-correction.</P>
 même si, sur l'image, ces numéros sont à gauche. </P>
 <P>Il y a souvent des numéros de lignes, sur les livres de poésie, tous les 5, 
 10 ou 20 vers. Ces numéros de vers peuvent être utiles au lecteur.</P>
-<H3><A name=italics>Italiques,gras</A> </H3>
+<H3><A name=italics>Italiques, gras</A> </H3>
 <P>Le texte en <i>italiques</i> dans le texte imprimé peut apparaître dans votre page
 de travail entouré
 des marques <TT>&lt;i&gt;</TT> 
@@ -425,31 +461,17 @@ ailleurs. Indiquez l'indice en mettant un signe "souligné" <TT>_</TT> devant.
 <P>Ne faites rien pour indiquer un changement de taille de police. 
 C'est le travail des formateurs, pour plus tard.</P>
 <H3><A name=small_caps>Petites capitales</A></H3>
-     <P>Traitez les mots imprimés en <SPAN 
-      style="FONT-VARIANT: small-caps">petites capitales</SPAN> en utilisant 
-      des lettres minuscules et majuscules. 
-      Example: <SPAN style="FONT-VARIANT: small-caps">Ce sont des petites
-      capitales.</SPAN> donne <TT>Ce sont des petites capitales.</TT>. </P>
-      <P><B>Image:</B> <SPAN style="FONT-VARIANT: small-caps">The Agony and 
-      the Ecstasy</SPAN><BR><B>Bon:</B> The Agony and the 
-      Ecstasy<BR><B>Mauvais:</B> THE AGONY AND THE ECSTASY<BR><B>Mauvais:</B> The 
-      Agony And The Ecstasy </P>
-      <P><B>Image:</B> set off for Rome in 1427 <SPAN 
-      style="FONT-VARIANT: small-caps">a.d.</SPAN><BR><B>Bon:</B> set off for 
-      Rome in 1427 a.d.<BR><B>Mauvais:</B> set off for Rome in 1497 A.D.<BR></P>
-      <P>L'utilisation du bouton "<SPAN style="FONT-VARIANT: small-caps">ABC
-      </SPAN>&#8594;Abc" 
-      dans l'interface de correction permet d'effectuer ce changement
-      correctement dans la plupart des cas.
-      Comparez toutefois avec l'image pour être sûr que la casse est correcte
-      pour tous les caractères. 
       <SPAN style="FONT-VARIANT: small-caps">Les petites capitales</SPAN>
+      (autrement dit des lettres capitales plus petites
+      que des capitales ordinaires)
       apparaissent parfois dans votre page de travail avec 
       <TT>&lt;sc&gt;</TT> avant et <TT>&lt;/sc&gt;</TT> après. N'enlevez
       pas ces marques de formatage (à moins qu'elles entourent du mauvais
-      texte, non présent dans le texte imprimé). Ne l'enlevez pas non plus. 
-      La gestion de ces marques relève du formatage, qui intervient plus loin
-      dans le processus. </P>
+      texte, non présent dans le texte imprimé). Ne les enlevez pas non plus. 
+      La gestion de ces marques relève du formatage, qui intervient plus tard
+      dans le processus. A l'intérieur de ces marques, corrigez le caractère lui-même
+      sans vous préoccuper de sa casse. Laissez les majuscules en majuscules, et les
+      minuscules en minuscules. </P>
 <H3><A name=lettrine>Lettre de début de paragraphe grande ou ornée.</A> </H3>
 <P>Souvent, la première lettre d'un chapitre, section ou paragraphe est imprimée 
 très grande et ornée (une lettrine). Dans votre texte, laissez simplement la 
@@ -777,10 +799,10 @@ utilisons Latin-1, ou ISO 8859-1 et -15, et dans le futur, Unicode. </P><!-- END
       <TD>Alt-0183</TD>
       <TD title="Masculine Ordinal" align=middle bgColor=mistyrose>º </TD>
       <TD>Alt-0186</TD>
-      <TD title="1/2 Fraction" align=middle bgColor=mistyrose>½ </TD>
+      <TD title="1/2 Fraction" align=middle bgColor=mistyrose>½<sup>1</sup> </TD>
       <TD>Alt-0189</TD></TR>
     <TR>
-      <TD title="superscript 3" align=middle bgColor=mistyrose>³ </TD>
+      <TD title="superscript 3" align=middle bgColor=mistyrose>³<sup>1</sup> </TD>
       <TD>Alt-0179</TD>
       <TD title="sz ligature" align=middle bgColor=mistyrose>ß </TD>
       <TD>Alt-0223</TD>
@@ -796,6 +818,9 @@ utilisons Latin-1, ou ISO 8859-1 et -15, et dans le futur, Unicode. </P><!-- END
       <TD>Alt-0190</TD></TR></TBODY></TABLE>
   <P>Notez le traitement spécial de la ligature oe. Par exemple, le 
   mot c&oelig;ur devient c[oe]ur. </p>
+ <sup>1</sup> A moins que les directives de projets l'ordonnent, n'utilisez pas
+les caractères spéciaux de fraction, mais suivez les guidelines de <a href="#fract_s">
+fractions</a>. Ce qui donne 1/2, 3/4, etc. 
   <P><B>Pour Apple Macintosh</B>: </P>
   <UL compact>
     <LI>Vous pouvez utiliser le Apple Key Caps en tant que référence. Dans l'OS 
@@ -1082,7 +1107,7 @@ utilisons Latin-1, ou ISO 8859-1 et -15, et dans le futur, Unicode. </P><!-- END
     <TD>Shift-Opt-\</TD>
     <TH bgColor=cornsilk colSpan=2>ordinals </TH>
     <TD title="1/4 Fraction" align=middle bgColor=mistyrose>¼ </TD>
-    <TD>(none)&nbsp;‡ </TD></TR>
+    <TD>(none)&nbsp;‡ <sup>1</sup></TD></TR>
   <TR>
     <TD title="superscript 2" align=middle bgColor=mistyrose>² </TD>
     <TD>(none)&nbsp;‡ </TD>
@@ -1096,7 +1121,7 @@ utilisons Latin-1, ou ISO 8859-1 et -15, et dans le futur, Unicode. </P><!-- END
     <TD title="Masculine Ordinal" align=middle bgColor=mistyrose>º </TD>
     <TD>Opt-0 </TD>
     <TD title="1/2 Fraction" align=middle bgColor=mistyrose>½ </TD>
-    <TD>(none)&nbsp;‡ </TD></TR>
+    <TD>(none)&nbsp;‡ <sup>1</sup></TD></TR>
   <TR>
     <TD title="superscript 3" align=middle bgColor=mistyrose>³ </TD>
     <TD>(none)&nbsp;‡ </TD>
@@ -1111,10 +1136,14 @@ utilisons Latin-1, ou ISO 8859-1 et -15, et dans le futur, Unicode. </P><!-- END
     <TD title="Feminine Ordinal" align=middle bgColor=mistyrose>ª </TD>
     <TD>Opt-9 </TD>
     <TD title="3/4 Fraction" align=middle bgColor=mistyrose>¾ </TD>
-    <TD>(none)&nbsp;‡ </TD></TR></TBODY></TABLE>
+    <TD>(none)&nbsp;‡ <sup>1</sup></TD></TR></TBODY></TABLE>
 <P>‡&nbsp;Note: Pas de raccourci clavier. Utilisez les menus. </P>
+<p><sup>1</sup> A moins que les directives de projets l'ordonnent, n'utilisez pas
+les caractères spéciaux de fraction, mais suivez les guidelines de <a href="#fract_s">
+fractions</a>. Ce qui donne 1/2, 3/4, etc. </p>
 <P>Notez le traitement spécial de la ligature oe. Par exemple, le 
   mot c&oelig;ur devient c[oe]ur. </p>
+
 <H3><A name=char_diacr>Caractères avec marques diacritiques</A></H3>
 <P>Sur certains projets, vous trouverez des caractères avec des signes spéciaux 
 au-dessus ou au-dessous du caractère latin normal. Ce sont des <I>marques 
@@ -1210,7 +1239,7 @@ que A..Z). Grecs, Hébreux, Cyrilliques, ou Arabes. </P>
 <P>Pour le grec, faites une translittération. Autrement dit, traduisez chaque 
 caractère grec en son équivalent latin. Le grec apparaît tellement souvent dans 
 nos textes que nous avons inclus dans les interface un outil de 
-translittération. </P>
+translittération pour vous faciliter la tâche. </P>
 <P>Appuyez sur le bouton "Greek" en bas de l'écran pour faire apparaître 
 l'outil. Dans l'outil, cliquez sur les caractères qui correspondent aux 
 caractères grecs que vous voyez dans le texte original, et un caractère latin 
@@ -1231,7 +1260,9 @@ bien les deux étoiles, pour attirer l'attention du post-correcteur.</P><!-- END 
   href="http://www.history.uiuc.edu/steinb/translit/translit.htm">Table de 
   conversion Cyrilique</A> N'essayez de corriger du texte en cyrillique que si 
   vous maîtrisez bien les langues concernées. Sinon, marquez le texte comme 
-  indiqué ci-dessus. 
+  indiqué ci-dessus. Vous pouvez aussi utiliser
+  <A href="http://learningrussian.com/transliteration.htm"> cette table
+de translittération</A>.
   <LI>Hébreu, Arabe: Non recommandé à moins que vous lisiez ces langues 
   couramment. Il existe des difficultés importantes dans la conversion de ces 
   langues à l'ASCII et ni <A href="http://texts01.archive.org/dp/">Distributed 
@@ -1247,19 +1278,20 @@ bien les deux étoiles, pour attirer l'attention du post-correcteur.</P><!-- END 
   <LI>Les tirets "<I>hyphens</I>". Ils sont utilisés pour <B>joindre</B> les 
   mots, ou parfois pour joindre les préfixes ou les suffixes à un mot. Dans 
   votre texte corrigé, laissez un seul tiret, sans espace ni à droite ni à 
-  gauche. 
+  gauche. <br>Notez toutefois qu'il y a une exception. Voir le deuxième
+  exemple ci-dessous. </li>
   <LI>Les tirets longs. "<I>En-dashes</I>". Ils sont un peu plus longs, ils sont 
   utilisés pour des <B>intervalles</B> de nombres, ou pour le signe mathématique 
   "moins". Là aussi, laissez un seul tiret. Laissez un espace avant ou après 
   selon la façon dont c'est imprimé sur le livre. En général, pas d'espace pour 
   les intervalles de nombres, mais, autour du signe "moins", il y en a parfois 
-  des deux côtés, parfois seulement avant. 
+  des deux côtés, parfois seulement avant. </LI>
   <LI>Les tirets <I>Em-dashes &amp; long dashes. </I>Ils servent de 
   <B>séparateurs</B> entre les mots—parfois pour mettre l'accent, comme ceci—ou 
   quand une personne prend la parole, ou s'interrompt dans un dialogue. 
   Notez-les comme deux tirets. Sans espace ni avant ni après, même s'il semble y 
-  en avoir un sur le document imprimé. 
-  <LI>Les traits très longs. Ils représentent des mots (ou des noms) <B>omis</B> 
+  en avoir un sur le document imprimé. </LI>
+  <LI>Les traits qui représentent des mots (ou des noms) <B>omis</B> 
   ou <B>censurés</B>. Notez-les comme quatre tirets. Si le long trait représente 
   un mot, laissez des espaces autour des tirets, comme si c'était vraiment le 
   mot. Si c'est seulement une partie de mot, alors pas d'espaces. Joignez-le au 
@@ -1268,7 +1300,8 @@ bien les deux étoiles, pour attirer l'attention du post-correcteur.</P><!-- END 
 votre texte, joignez-le à l'autre ligne pour qu'il n'y ait pas d'espace autour 
 du tiret. C'est seulement si l'auteur a utilisé un "dash" au début ou à la fin 
 d'un paragraphe, ou sur une ligne de poésie, ou un dialogue que vous devez le 
-laissez au début ou à la fin de la ligne.</P><!-- END RR -->
+laissez au début ou à la fin de la ligne. Voir les exemples
+cit-dessous</P><!-- END RR -->
 <P>Quelques exemples.&nbsp;</P>
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
 summary="Hyphens and Dashes" border=1>
@@ -1277,86 +1310,113 @@ summary="Hyphens and Dashes" border=1>
     <TH vAlign=top bgColor=cornsilk>Image de départ:</TH>
     <TH vAlign=top bgColor=cornsilk>Texte correctement corrigé:</TH>
     <TH vAlign=top bgColor=cornsilk>Type</TH></TR>
-  <TR>
-    <TD vAlign=top>semi-detached</TD>
-    <TD vAlign=top><TT>semi-detached</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>four-part harmony</TD>
-    <TD vAlign=top><TT>four-part harmony</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>discoveries which the Crus-<BR>aders made and brought home 
-      with</TD>
-    <TD vAlign=top><TT>discoveries which the Crusaders<BR>made and brought 
-      home with</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>factors which mold char-<BR>acter—environment, training and 
-      heritage,</TD>
-    <TD vAlign=top><TT>factors which mold character--environment,<BR>training 
-      and heritage,</TT> 
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>See pages 21–25</TD>
-    <TD vAlign=top><TT>See pages 21-25</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>–14° below zero</TD>
-    <TD vAlign=top><TT>-14° below zero</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>X – Y = Z</TD>
-    <TD vAlign=top><TT>X - Y = Z</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>2–1/2</TD>
-    <TD vAlign=top><TT>2-1/2</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>I am hurt;—A plague<BR>on both your houses!—I am dead.</TD>
-    <TD vAlign=top><TT>I am hurt;--A plague<BR>on both your houses!--I am 
-      dead.</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>sensations—sweet, bitter, salt, and sour<BR>—if even all of 
-      these are simple tastes.</TD>
-    <TD vAlign=top><TT>sensations--sweet, bitter, salt, and sour--if<BR>even 
-      all of these are simple tastes. What</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>senses—touch, smell, hearing, and sight—<BR>with which we 
-      are here concerned,</TD>
-    <TD vAlign=top><TT>senses--touch, smell, hearing, and sight--with<BR>which 
-      we are here concerned,</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>It is the east, and Juliet is the sun!—</TD>
-    <TD vAlign=top><TT>It is the east, and Juliet is the sun!--</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>As the witness Mr. —— testified,</TD>
-    <TD vAlign=top><TT>As the witness Mr. ---- testified,</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>As the witness Mr. S—— testified,</TD>
-    <TD vAlign=top><TT>As the witness Mr. S---- testified,</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>the famous detective of ——B Baker St.</TD>
-    <TD vAlign=top><TT>the famous detective of ----B Baker St.</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>“You —— Yankee”, she yelled.</TD>
-    <TD vAlign=top><TT>"You ---- Yankee", she yelled.</TT></TD>
-    <TD>long dash</TD></TR></TBODY></TABLE>
+<tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Hyphens</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Em-dash</td>
+    </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+      <td>Longer Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td></tr>
+</TBODY></TABLE>
 <H3><A name=eol_hyphen>Traits d'union en fin de ligne</A> </H3>
 <P>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mots 
 qui était coupé. A moins que ce ne soit réellement un mot avec tiret tel que 
 porte-manteau. Mais si le mot était coupé parce que la ligne est trop courte, et 
 non pas parce qu'il prend généralement un trait d'union, alors rejoignez les 
 deux parties. Laissez le mot sur la ligne supérieure et insérez un retour à la 
-ligne après ce mot pour conserver le formatage des lignes--cela rend la tâche 
+ligne après ce mot pour conserver le formatage des lignes: cela rend la tâche 
 plus facile au correcteur du second tour. Voyez à <A 
 href="#em_dashes">Tirets, 
 traits d'unions, et signe “moins”</A> pour des exemples de chaque type 
@@ -1383,13 +1443,7 @@ having to do his own family<BR>en:<BR>&nbsp; &nbsp; &nbsp; &nbsp;<TT>*tomed to
 from having to do his own family</TT> </P>
 <P>Ces signes indiquent au post-correcteur, quand il produit le texte final, 
 qu'il doit rejoindre les deux parties du mot. </P>
-<H3><A name=initials>Initiales</A> </H3>
-<P>Enlevez tous les espaces dans les abréviations, même si des espaces sont 
-imprimés dans le livre. Par exemple, le texte correct est&nbsp; <TT>H.M.S.
-Pinafore</TT>, et pas <TT>H.&nbsp;M.&nbsp;S.&nbsp;Pinafore</TT>. Ecrivez 
-<TT>G.B. Shaw</TT>, et pas <TT>G.&nbsp;B.&nbsp;Shaw</TT><TT></TT>. (Ceci évite 
-d'avoir une abréviation qui est coupée d'une ligne à l'autre à l'écran, ce qui 
-rend le texte moins lisible.) </P><!-- END RR -->
+
 <H3><A name=para_space>Espacement/Indentation des paragraphes</A> </H3>
 <P>Les paragraphes doivent être séparés par une ligne blanche. 
 N'indentez pas le début des paragraphes.
@@ -1410,7 +1464,8 @@ href="#bk_index">Index</A>
 et <A 
 href="#tables">Tables</A>.</P>
 <H3><A name=blank_pg>Page blanche</A> </H3>
-<P>Si la page est blanche ou si elle ne contient qu'une illustration, vous verrez
+<P>Si la page est blanche ou si elle ne contient qu'une illustration sans
+texte, vous verrez
 le plus souvent <TT>[Blank page]</TT> sur votre page de travail. Laissez cette marque.
 Si la page est blanche et que la marque n'apparaît pas, ce n'est pas la peine de
 l'ajouter.</P>
@@ -1478,9 +1533,9 @@ bas.</P><BR>
                   mentioned<BR>here: first, because it is prima facie evidence 
                   of<BR>the debt; and, second, because it may be more 
                   easily<BR>transferred or handed over to some one 
-                  else.<BR><BR>If J.M. Johnson, of Saint Paul, owes C.M. 
+                  else.<BR><BR>If J. M. Johnson, of Saint Paul, owes C. M. 
                   Jones,<BR>of Chicago, a hundred dollars, and Nelson Blake, 
-                  of<BR>Chicago, owes J.M. Johnson a hundred dollars, it 
+                  of<BR>Chicago, owes J. M. Johnson a hundred dollars, it 
                   is<BR>plain that the risk, expense, time and trouble of 
                   sending<BR>the money to and from Chicago may be 
                   avoided,<BR><BR>* The United States: "Its charter, the 
@@ -1496,14 +1551,16 @@ chapitres sont souvent imprimées entièrement en majuscules, si c'est le cas,
 laissez-les tels quels.</P>
 
 <P>Faites attention à un double guillemet ( " ) au début du premier paragraphe,
-que certaines éditeurs n'incluaient pas ou que les OCR ignorent à cause de la 
+que certains éditeurs n'incluaient pas ou que les OCR ignorent à cause de la 
 grande majuscule dans l'original. Si l'auteur commence le paragraphe avec un 
 dialogue, insérez le double guillemet. </P><!-- END RR -->
 
 <H3><A name=illust>Illustrations</A> </H3>
-<P>Gardez le titre (texte) de l'illustration comme il est imprimé, avec ses retours à la 
-ligne, italiques, etc. </P>
-<P>S'il n'y a pas de texte, alors laissez le travail de marquage de l'illustration aux formateurs. </p>
+<P>Gardez le titre (texte) de l'illustration comme il est imprimé, avec 
+ses retours à la ligne, italiques, etc. S'il n'y a pas de texte, alors laissez
+le travail de marquage de l'illustration aux formateurs. </P>
+<p> Une page ne comportant qu'une illustration sans texte sera probablement
+marquée comme <tt>[Blank Page]</tt>. N'y changez rien.</p>
 <!-- END RR -->
       <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
       summary=Illustration border=1>
@@ -1567,11 +1624,14 @@ ou le signe
 de ponctuation,<TT>[2]</TT> comme nous l'avons fait dans cette phrase, voir aussi
 l'exemple ci-dessous. 
 <P>Parfois, les notes sont marquées par des séries de caractères spéciaux (*, †, 
-‡, §, etc.) Remplacez tous ces signes par le signe *. </P>
+‡, §, etc.) Remplacez tous ces signes par la marque [*], dans le corps
+du texte, et * dans la note elle-même. </P>
 <P>Laissez le texte de la note tel qu'il est 
 imprimé, avec ses retours à la ligne, italiques, etc. Laissez la note en bas de 
 la page. Utilisez bien la même marque de note dans la note et dans le texte (là 
-où la note est référencée). </P><!-- END RR -->
+où la note est référencée). </P>
+<P>Séparez les notes d'une même page par une ligne blanche.</P>
+<!-- END RR -->
 
 <P>Pour avoir un exemple de note de bas de page, voyez l'exemple de la section 
 <A href="#page_hf">Entêtes 
@@ -1672,7 +1732,7 @@ bas de page. Voyez <A
 href="#footnotes">notes de 
 bas de page</A> pour plus de details.</P>
 <P>Gardez les numéros de vers s'ils sont imprimés. Mettez-les à la fin de la 
-ligne, et séparez-les du texte par 6 blancs au moins. Voir <A 
+ligne, et séparez-les du texte par quleques blancs. Voir <A 
 href="#line_no">Numéros de 
 ligne </A>pour des détails. </P>
 <P>Regardez les <A 
@@ -1784,7 +1844,7 @@ correctement. </P><!-- END RR -->
                   163) that in the sixteenth<BR>century these customs and 
                   beliefs were<BR>common in Germany. It is also a<BR>German 
                   superstition that a house which<BR>contains a brand from the 
-                  midsummer<BR>bonfire will not be struck by lightning<BR>(J.W. 
+                  midsummer<BR>bonfire will not be struck by lightning<BR>(J. W. 
                   Wolf, Beiträge zur deutschen<BR>Mythologie, i. p. 217, § 
                   185).<BR><BR>2 J. Boemus, Mores, leges et ritus<BR>omnium 
                   gentium (Lyons, 1541), p.<BR>226.<BR><BR>3 Karl Freiherr von 
@@ -1897,7 +1957,8 @@ grande et ornée. Tapez simplement la lettre.</P><!-- END RR -->
 
 <H3><A name=toc>Table des matières</A> </H3>
 <P>Laissez le texte de la table des matières comme il est imprimé (même si c'est 
-tout en capitales). Gardez les numéros de page. Ignorez les points qui forment des 
+tout en capitales). Gardez les numéros de page. Ignorez les points ou étoiles
+qui forment des 
 lignes horizontales, entre le texte et le numéro. Ils seront enlevés
 en phase de formatage.</P><!-- END RR -->
      <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center summary=TOC 
@@ -1912,48 +1973,61 @@ en phase de formatage.</P><!-- END RR -->
             width=500></P></TD></TR>
         <TR>
           <TH align=left bgColor=cornsilk>Texte correct:</TH></TR>
-        <TR>
-          <TD vAlign=top width="100%">
-            <TABLE align=left summary="" border=0>
-              <TBODY>
-              <TR>
-                <TD>
-                  <P><TT>CONTENTS</TT></P>
-                  <P><TT><BR>CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<BR><BR>I. The First 
-                  Wayfarer and the Second Wayfarer<BR>Meet and Part on the 
-                  Highway&nbsp;&nbsp;.....&nbsp;1<BR><BR>II. The First Wayfarer 
-                  Lays His Pack Aside and<BR>Falls in with 
-                  Friends&nbsp;&nbsp;....&nbsp;...&nbsp;15<BR><BR>III. Mr. 
-                  Rushcroft Dissolves, Mr. Jones Intervenes,<BR>and Two Men Ride 
-                  Away&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<BR><BR>IV. An 
-                  Extraordinary Chambermaid, a Midnight<BR>Tragedy, and a Man 
-                  Who Said "Thank You"&nbsp;&nbsp;&nbsp;50<BR><BR>V. The 
-                  Farm-boy Tells a Ghastly Story, and an<BR>Irishman 
-                  Enters&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<BR><BR>VI. Charity 
-                  Begins Far from Home, and a Stroll in<BR>the Wildwood
-                  Follows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<BR><BR>VII. 
-                  Spun-gold Hair, Blue Eyes, and Various 
-                  Encounters&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<BR><BR>VIII. A 
-                  Note, Some Fancies, and an Expedition in<BR>Quest of 
-                  Facts&nbsp;&nbsp;..&nbsp;,,&nbsp;120<BR><BR>IX. The First 
-                  Wayfarer, the Second Wayfarer, and<BR>the Spirit of Chivalry 
-                  Ascendant&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<BR><BR>X. The 
-                  Prisoner of Green Fancy, and the Lament of<BR>Peter the 
-                  Chauffeur&nbsp;...&nbsp;&nbsp;&nbsp;....148<BR><BR>XI. Mr. 
-                  Sprouse Abandons Literature at an Early<BR>Hour in the 
-                  Morning&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<BR><BR>XII. 
-                  The First Wayfarer Accepts an Invitation, and<BR>Mr. 
-                  Dillingford Belabors a 
-                  Proxy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<BR><BR>XIII. The 
-                  Second Wayfarer Receives Two Visitors at<BR>Midnight 
-                  &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<BR><BR>XIV. A Flight, a 
-                  Stone-cutter's Shed, and a 
-                  Voice<BR>Outside&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<BR></TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt>CONTENTS</tt></p>
+      <p><tt><br>
+          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+          <br>
+          I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
+          MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;.....&nbsp;1<br>
+          <br>
+          II.  THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
+          FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
+          <br>
+          III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
+          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          <br>
+          IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
+          TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
+          <br>
+          V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
+          IRISHMAN ENTERS&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
+          <br>
+          VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
+          THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          <br>
+          VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
+          <br>
+          VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
+          QUEST OF FACTS&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
+          <br>
+          IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
+          THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
+          <br>
+          X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
+          PETER THE CHAUFFEUR&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
+          <br>
+          XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
+          HOUR IN THE MORNING&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
+          <br>
+          XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
+          MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          <br>
+          XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
+          MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
+          <br>
+          XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
+          OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
+      </tt>
+</td></tr>
+</TBODY></TABLE></TD></TR></TBODY></TABLE>
 <H3><A name=bk_index>Index</A> </H3>
 <P>Laissez les numéros de page dans les index. N'alignez pas les numéros les uns sur les
 autres (comme sur l'image). Assurez-vous simplement que le texte, la ponctuation et les 
@@ -1971,16 +2045,15 @@ est simplement de s'assurer que le texte et les numéros sont corrects. </p>
   dans le texte original. <BR>Si la note est sur une ligne isolée, laissez-la 
   ainsi. Si elle est après une ligne de dialogue, laissez-la ainsi. <BR>Parfois, 
   une note de scène commence par une parenthèse ouvrante, qui n'est jamais refermée. 
-  Nous gardons cette convention: ne fermez pas la parenthèse. Mettez les marques 
-  d'italiques, s'il y a lieu, à l'intérieur des crochets.
+  Nous gardons cette convention: ne fermez pas la parenthèse.
   <LI>Pour les pièces en vers, si un vers est coupé parce qu'il est trop long sur 
   la page imprimée, 
   rejoignez les deux partie du vers sur une même ligne (comme pour la poésie en 
   général). Parfois, la seconde partie du vers
   sera imprimée au-dessus ou au-dessous de la ligne principale, et précédée 
-  d'une "(", au lieu d'avoir une ligne pour elle seule. Appliquez alors la même
-  règle. <BR>Voir l' <A 
-  href="#play3">exemple</A>. 
+  d'une "(", au lieu d'avoir une ligne pour elle seule. Appliquez alors la
+  règle générale des rattachements de ligne. <BR>Voir l' <A 
+  href="#play4">exemple</A>. 
   </LI></UL>
 <P>Regardez les <A 
 href="#comments">Commentaires 
@@ -2020,46 +2093,74 @@ de projet</A>, car le chef de projet peut demander un formatage différent. </P><
                   <P><TT>Lap. Hay-day; a Souse, Italica? </TT></P>
                   <P><TT>Clow. Yes, that may hold, Sir,<BR>Souse is a bona roba, 
                   so is Flops 
-      too.</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR><A 
-      name=play3><!-- Example --></A>
-      <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
-      summary="Théâtre: Exemple 3" border=1>
-        <TBODY>
-        <TR>
-          <TH align=left bgColor=cornsilk>Image:</TH></TR>
-        <TR align=left>
-          <TD vAlign=top width="100%"><IMG height=98 alt="title page image" 
-            src="http://www.pgdp.net/c/faq/play3.png" 
-          width=502><BR></TD></TR>
-        <TR>
-          <TH align=left bgColor=cornsilk>Texte correct:</TH></TR>
-        <TR>
-          <TD vAlign=top width="100%">
-            <TABLE align=left summary="" border=0>
-              <TBODY>
-              <TR>
-                <TD>
-                  <P><TT>Am. Sure you are fasting;<BR>Or not slept well to 
-                  night; some dream (Ismena?)<BR><BR>Ism. My dreams are like my 
-                  thoughts, honest and innocent,<BR>Yours are unhappy; who are 
-                  these that coast us?<BR>You told me the walk was 
-                  private.</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      too.</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<BR>
+
+<a name="play4"><!-- Example --></a>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Exemple de pièce 4">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Image:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="http://www.pgdp.net/c/faq/play4.png" width="502"
+          height="98" alt="Plays image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texte correct:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>
+Am. Sure you are fasting;<br>
+Or not slept well to night; some dream (Ismena?)<br>
+<br>
+Ism. My dreams are like my thoughts, honest and innocent,<br>
+Yours are unhappy; who are these that coast us?<br>
+You told me the walk was private.<br>
+</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <H3><A name=anything>Tout ce qui nécessite également un traitement spécial, ou
 dont vous n'êtes pas sûr.</A> </H3>
 <P>Si vous rencontrez quelque chose qui n'est pas couvert par ces directives et 
 qui vous paraît avoir besoin d'un traitement spécial, ou que vous n'êtes pas sûr 
 de quelque chose, posez votre question sur le forum du projet (en précisant le 
-numéro de la page qui pose problème). </P>
-<P>Mettez une note dans le texte expliquant le problème. Mettez des crochets 
-autour de la note <TT>[**</TT>et <TT>]</TT>pour bien la séparer du texte de 
-l'auteur. Marquez-la par deux astérisques pour le correcteur suivant. Ceci 
+numéro de la page qui pose problème, donnez le numéro du fichier png), 
+et ajoutez une note dans le texte
+à l'endroit qui poste problème . Cette note signalera le problème à la personne
+qui passera cette page ensuite (correcteur, formateur ou post-processeur).</P>
+<P>Mettez un crochet ouvrant puis deux étoiles avant le début de la note,
+et un crochet fermant après
+ <TT>[**</TT> et <TT>]</TT> pour bien séparer votre note du texte de 
+l'auteur (n'oubliez pas les deux étoiles).  Ceci 
 signale au post-correcteur qu'il doit s'arrêter et examiner ce texte et l'image 
-correspondante et résoudre le problème. </P>
-<P>Si c'est vous qui rencontrez ce type de note, et que vous résolvez le 
-problème, écrivez un message au correcteur du premier tour (en cliquant sur son 
+correspondante et résoudre le problème. Si vous voyez une note laissée
+par le volontaire qui est passé avant vous, laissez-la. Si vous n'êtes
+pas d'accord avec lui, rajoutez votre propre note. </P>
+<!-- END RR -->
+
+<h3><a name="prev_notes">Notes et commentaires des correcteurs précédents.</a></h3>
+<p>Les notes des correcteurs précédents <b>doivent </b> être gardées. 
+Vous pouvez ajouter que vous êtes d'accord ou pas d'accord,
+mais même si vous êtes sûr de la solution, ne supprimez
+pas la note. Si vous avez une source qui permet
+de donner la réponse au problème, citez cette source, pour que
+le post-processeur s'y réfère lui aussi.
+</p>
+<P>Si vous  résolvez un problème posé par un correcteur qui a laissé une note,
+vous pouvez écrire un message à ce correcteur (en cliquant sur son 
 nom dans l'interface de correction), pour lui expliquer comment gérer la 
-situation la prochaine fois.</P><!-- END RR -->
+situation la prochaine fois. Mais ne supprimez jamais sa note.</P>
+<!-- END RR -->
 
 <H2>Problèmes courants</H2>
 <H3><A name=OCR_1lI>Problèmes d'OCR 1-l-I </A></H3>
@@ -2111,7 +2212,7 @@ en marge par les lecteurs.<BR></P>
 illisible), postez un message à propos de cette image dans le <A 
 href="#forums">forum</A> du 
 projet. Ne cliquez pas sur “Return page to round”; si vous le faites, la 
-personne suivante obtiendra cette page. À la place, cliquez sur "Report bad 
+personne suivante obtiendra cette page. Cliquez plutôt sur "Report bad 
 page" pour mettre la page à part.&nbsp;</P>
 <P>Parfois, les images sont très grosses, et votre navigateur aura des problèmes 
 pour les afficher, surtout si vous avez beaucoup de fenêtres ouvertes ou si 
@@ -2131,12 +2232,13 @@ pour l'indiquer au responsable du projet.</P>
 <P>Si l'image ne correspond pas au texte, postez un message à ce propos sur le 
 <A href="#forums">forum</A>. 
 Ne cliquez pas sur “Return page to round”; si vous le faites, la personne 
-suivante obtiendra cette page. À la place, cliquez sur "Report bad page" pour 
+suivante obtiendra cette page. Cliquez plutôt sur "Report bad page" pour 
 mettre la page à part.&nbsp;</P>
 <H3><A name=round1>Erreurs des correcteurs précédents</A> </H3>
 <P>Si le correcteur précédent à fait beaucoup d'erreurs ou a laissé passer un 
-grand nombre de choses, vous pouvez lui envoyer un message en cliquant sur son 
-nom. Ça vous permettra de lui envoyer un message privé par le forum.<BR><I>Soyez 
+grand nombre de fautes, vous pouvez lui envoyer un message en cliquant sur son 
+nom. Ça vous permettra de lui envoyer un message privé par le forum: ainsi
+il corrigera mieux et fera moins d'erreurs la prochaine fois .<BR><I>Soyez 
 aimable!</I> Ces gens sont des volontaires, essayant d'habitude de faire de leur 
 mieux. Le but du message est de les informer de la manière correcte de corriger, 
 plutôt que de les critiquer. Donnez-leur un exemple précis de ce qu'ils ont 
@@ -2150,8 +2252,9 @@ aujourd'hui quand le livre a été imprimé. Gardez l'ancienne orthographe, en part
 en ce qui concerne les accents. </P>
 <P>Si vous avez vraiment un doute, alors mettez une note dans le txte 
 <TT>[**typo for texte?]</TT> et demandez dans le forum du projet. Si vous 
-changez vraiment quelque chose, alors mettez une note <TT>[**Transcriber's Note: 
-typo fixed, changed from "txte" to "texte"]</TT>. N'oubliez pas le <TT>*</TT> 
+changez vraiment quelque chose, alors mettez une note décrivant ce
+que vous avez changé <TT>[**Transcriber's Note: 
+typo fixed, changed from "txte" to "texte"]</TT>. N'oubliez pas les deux étoiles <TT>**</TT> 
 pour que le post-correcteur voie le problème. </P>
 <H3><A name=f_errors>Erreurs factuelles dans le texte</A> </H3>
 <P>En général, ne corrigez pas les erreurs sur les faits dans les livres. 
@@ -2163,10 +2266,11 @@ lesquels un formule connue ou une équation peuvent être indiquées incorrectement
 du livre). Parlez-en au responsable de projet&nbsp; soit en envoyant un message 
 via le <A 
 href="#forums">Forum</A>, ou 
-en insérant <TT>[sic* expliquez-votre-souci]</TT> à cet endroit du texte. </P>
+en insérant <TT>[sic** expliquez-votre-souci]</TT> à cet endroit du texte. </P>
 <H3><A name=uncertain>Points incertains</A> </H3>
 <P>[...à compléter...] </P>
 <H2 align=center>Fin des directives</H2>
+
 <TABLE cellSpacing=0 width="100%" border=0>
   <TBODY>
   <TR>

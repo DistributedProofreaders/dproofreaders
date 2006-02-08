@@ -1,6 +1,6 @@
 <?
 
-// Translated by user 'Pierre' at pgdp.net, 15/9/2005
+// Translated by user 'Pierre' at pgdp.net, 2006-02-08
 
 $relPath='../pinc/';
 include($relPath.'v_site.inc');
@@ -17,7 +17,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <H1 align=center>Directives de Formatage</H1>
-<H3 align=center>Version 1.8c, le 23 août 2005&nbsp;</H3>
+<H3 align=center>Version 1.9c, le 11 janvier 2006&nbsp;</H3>
 <TABLE cellSpacing=0 width="100%" border=0>
   <TBODY>
   <TR>
@@ -135,8 +135,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <LI><A 
           href="#mots_isoles">Mots 
           isolés en bas de page </A>
-          <LI><A 
-          href="#initials">Initiales</A> 
 
           <LI><A 
           href="#contract">Contractions</A> 
@@ -213,7 +211,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <LI><A 
           href="#anything">Tous 
           autres points nécessitant un traitement particulier, ou dont vous 
-          n'êtes pas sûr</A> </LI></UL></LI></UL>
+          n'êtes pas sûr</A> </LI>
+          <li><a href="#prev_notes">Notes des correcteurs précédents</a></li>
+          </UL></LI></UL>
   <TR>
     <TD width=1 bgColor=silver><BR></TD>
     <TD align=left bgColor=silver>
@@ -306,7 +306,7 @@ d'union en fin de lignes</A>) Ces changements nous permettent d'avoir des livres
 <EM>formatés d'une façon homogène</EM>. Nous suivons des règles de relecture 
 pour avoir ce résultat. Lisez attentivement le reste de ces Règles en gardant ce 
 concept à l'esprit.</P>
-<P>Pour aider le prochain relecteur et le post-correcteur, nous gardons aussi 
+<P>Pour aider le prochain formateur et le post-correcteur, nous gardons aussi 
 les <A 
 href="#line_br">retours à la 
 ligne</A>. Il est ainsi facile de comparer les lignes du texte corrigé et les 
@@ -319,8 +319,8 @@ lignes de l'image. </P><!-- END RR -->
 <P>Le <A href="http://www.pgdp.net/c/faq/formatting_summary.pdf">Résumé des 
 directives</A> est un court document imprimable de 2 pages (.pdf) qui résume les 
 points principaux de ces directives, et qui donne des exemples de corrections. 
-Les correcteurs débutants sont encouragés à imprimer ce document et à le garder 
-à portée de main quand ils corrigent. </P>
+Les formateurs débutants sont encouragés à imprimer ce document et à le garder 
+à portée de main quand ils formatent. </P>
 <P>Vous aurez besoin d'un lecteur de fichiers .pdf. Vous pouvez en télécharger 
 un gratuitement chez Adobe® <A 
 href="http://www.adobe.com/products/acrobat/readstep2.html">ici</A>. </P>
@@ -331,18 +331,18 @@ manière à ce que nous formations tous <EM>de la même manière. </EM>Cela rend le
 travail plus facile aux post-correcteurs. Mais ce document n'est pas censé être
 un recueil de règles éditoriales ou typographiques.<BR></P>
 <P>Nous avons inclus dans ce document tous les points que les nouveaux 
-utilisateurs ont demandé à propos du formatage lors de la correction. S'il 
+utilisateurs ont demandé à propos du formatage et de la correction. S'il 
 manque des points, ou que vous considérez que des points manquent, ou que des 
 points devraient être décrits de manière différente ou si quelque chose est 
 vague, merci de nous le faire savoir.</P>
-<P>Ce document est un travail “en cours”. Aidez-nous à progresser en nous 
+<P>Ce document est un travail en évolution permanente. Aidez-nous à progresser en nous 
 envoyant vos suggestions de changements sur le forum Documentation dans <A 
 href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10779">ce thread</A>. </P>
 <H3><A name=comments>Commentaires des projets</A> </H3>
-<P>Dans la page d'interface dans laquelle vous commencez à corriger des pages, 
+<P>Dans la page d'interface dans laquelle vous commencez à formater des pages, 
 il y a une section "Commentaires du projet" qui contient des informations 
 spécifiques à ce projet (livre). <I>Lisez celles-ci avant de commencer à 
-corriger des pages!</I> Si le responsable de projet veut que vous formatiez 
+formater des pages!</I> Si le responsable de projet veut que vous formatiez 
 quelque chose dans ce livre autrement que ce qui est dit dans ces directives, ce 
 sera indiqué là. Les instructions dans les “Commentaires du projet” supplantent 
 les règles dans ces directives, donc suivez-les.<BR>C'est aussi à cet endroit 
@@ -357,7 +357,7 @@ permet de voir comment les autres relecteurs ont changé le texte. <A
 href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217">Ce fil de discussion
 </A>discute les différentes façon d'utiliser cette information. </P>
 <H3><A name=forums>Forum/Discuter de ce Projet</A> </H3>
-<P>Dans la page d'interface dans laquelle vous commencez à corriger des pages, 
+<P>Dans la page d'interface dans laquelle vous commencez à formater des pages, 
 sur la ligne “Forum”, il y a un lien indiquant “Discuter de ce projet” (si la 
 discussion a déjà commencé) ou bien “Démarrer une discussion sur le projet” 
 sinon. Cliquer sur ce lien vous amènera à un "thread" de forum pour ce projet 
@@ -376,6 +376,11 @@ affiché).</P>
 puissiez corriger ou terminer votre travail de relecture. Cliquez sur le lien 
 vers la page. Ainsi, si vous voyez que vous avez fait une erreur sur une page, 
 vous pouvez cliquer sur cette page, et la rouvrir pour corriger l'erreur. </P>
+<P> Il est également possible d'utiliser les liens 
+"Images, Pages Proofread, &amp; Differences" ou l'option
+"Just my pages". Ces pages présentent un lien "Edit" sur
+toutes les pages sur lesquelles vous avez travaillé durant
+ce round. Il est encore temps de les corriger.</P>
 <P>Pour plus de détails, voyez <A 
 href="http://www.pgdp.net/c/faq/prooffacehelp.php?i_type=0">Aide sur l'interface 
 standard</A> ou bien <A 
@@ -388,7 +393,8 @@ avancée</A>, ça dépend de l'interface que vous utilisez. </P><!-- END RR -->
 de...</FONT></TD></TR></TBODY></TABLE>
 <H3><A name=title_pg><B>Page de garde/fin</B></A> </H3>
 <P>Laissez tout comme c'est imprimé, même si c'est tout en majuscules, ou en 
-majuscules et minuscules. Certaines livres, souvent, mettent la première lettre 
+majuscules et minuscules, laissez aussi l'année de publication et la copyright.
+Certaines livres, souvent, mettent la première lettre 
 grande et ornée. Tapez simplement la lettre.</P><!-- END RR -->
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
 summary="Title Page Example" border=1>
@@ -399,7 +405,7 @@ summary="Title Page Example" border=1>
     <TD vAlign=top width="100%"><IMG height=520 alt="title page image" 
       src="http://www.pgdp.net/c/faq/title.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -417,9 +423,9 @@ summary="Title Page Example" border=1>
             <P><TT>1917</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <H3><A name=toc>Table des matières</A> </H3>
 <P>Laissez le texte de la table des matières comme il est imprimé (même si c'est 
-tout en capitales). Encadrez la table par /* (suivie d'une ligne blanche) au 
-début et */ (précédée d'une ligne blanche) à la fin. Gardez les numéros de page. 
-Mettez-les 6 espaces après la ligne de texte. Enlevez les points qui forment des 
+tout en capitales). Encadrez la table par /* (précédée d'une ligne blanche) au 
+début et */ (suivie d'une ligne blanche) à la fin. Gardez les numéros de page et
+mettez-les 6 espaces après la ligne de texte. Enlevez les points qui forment des 
 lignes horizontales, entre le texte et le numéro. </P><!-- END RR -->
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center summary=TOC 
 border=1>
@@ -431,7 +437,7 @@ border=1>
       <P><IMG height=650 alt="" src="http://www.pgdp.net/c/faq/tablec.png" 
       width=500></P></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -537,9 +543,9 @@ summary="Page Headers and Footers" border=1>
             mentioned<BR>here: first, because it is &lt;i&gt;prima 
             facie&lt;/i&gt; evidence of<BR>the debt; and, second, because it may 
             be more easily<BR>transferred or handed over to some one 
-            else.<BR><BR>If J.M. Johnson, of Saint Paul, owes C.M. Jones,<BR>of 
+            else.<BR><BR>If J. M. Johnson, of Saint Paul, owes C. M. Jones,<BR>of 
             Chicago, a hundred dollars, and Nelson Blake, of<BR>Chicago, owes 
-            J.M. Johnson a hundred dollars, it is<BR>plain that the risk, 
+            J. M. Johnson a hundred dollars, it is<BR>plain that the risk, 
             expense, time and trouble of sending<BR>the money to and from 
             Chicago may be avoided,<BR><BR>[Footnote A: The United States: "Its 
             charter, the constitution. * * * Its flag the<BR>symbol of its 
@@ -562,7 +568,7 @@ comme la description du chapitre, ou une citation en ouverture, etc. et laissez
 entièrement en majuscule; changez ces derniers en mots normaux (première lettre 
 seule en majuscule).</P>
 <P>Faites attention à un guillemet ( " ) au début du premier paragraphe, 
-que certaines éditeurs n'incluaient pas ou que les OCR ignorent à cause de la 
+que certains éditeurs n'incluaient pas ou que les OCR ignorent à cause de la 
 grande majuscule dans l'original. Si l'auteur commence le paragraphe avec un 
 dialogue, insérez le guillemet. </P><!-- END RR -->
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center summary=Chapters 
@@ -574,7 +580,7 @@ border=1>
     <TD vAlign=top width="100%"><IMG height=725 alt=""
       src="http://www.pgdp.net/c/faq/chap1.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -641,7 +647,7 @@ border=1>
     <TD align=left width="100%"><IMG height=800 alt="" 
       src="http://www.pgdp.net/c/faq/side.png" width=550><BR></TD></TR>
   <TR vAlign=top>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR vAlign=top>
     <TD width="100%">
       <TABLE align=left summary="" border=0>
@@ -686,7 +692,7 @@ border=1>
             242. We have<BR>seen (p. 163) that in the sixteenth<BR>century these 
             customs and beliefs were<BR>common in Germany. It is also
             a<BR>German superstition that a house which<BR>contains a brand from 
-            the midsummer<BR>bonfire will not be struck by lightning<BR>(J.W. 
+            the midsummer<BR>bonfire will not be struck by lightning<BR>(J. W. 
             Wolf, &lt;i&gt;Beiträge zur deutschen<BR>Mythologie&lt;/i&gt;, i. p. 
             217, § 185).]<BR><BR>[Footnote 2: J. Boemus, &lt;i&gt;Mores, leges 
             et ritus<BR>omnium gentium&lt;/i&gt; (Lyons, 1541), 
@@ -715,7 +721,7 @@ paragraphe</A> pour avoir un exemple. </P>
 <H3><A name=mult_col>Colonnes Multiples</A> </H3>
 <P>Réunissez les colonnes multiples en une seule colonne. Placez la colonne la
 plus à gauche en premier puis les autres colonnes à sa suite. Vous ne devez rien 
-faire de particulier pour marquer la séparation des colonnes, mettez-les juste 
+faire de particulier pour marquer la séparation des colonnes, mettez-les simplement 
 ensemble. </P>
 <P>Si le contenu des colonnes est une liste, mettez un /* avant le début de la 
 liste et */ après, pour éviter le regroupement des lignes pendant la phase de 
@@ -735,7 +741,7 @@ où elle se trouve. Si l'illustration est au milieu d'un paragraphe ou sur le
 côté, déplacez le <TT>[Illustration: le-texte] </TT>soit au-dessus, soit 
 en-dessous du paragraphe, et mettez une ligne vide avant ou après la marque 
 d'illustration pour la séparer du texte du paragraphe. Rejoignez les deux bouts 
-du paragraphes qui étaient séparés par l'illustration en effaçant les lignes 
+du paragraphe qui étaient séparés par l'illustration en effaçant les lignes 
 vides.</P>
 <P>Si le paragraphe coupé par l'illustration prend toute la page, ajoutez une 
 <TT>*</TT> comme ceci: <TT>*[Illustration: <FONT color=red>(texte de 
@@ -750,7 +756,7 @@ summary=Illustration border=1>
     <TD vAlign=top width="100%"><IMG height=525 alt="" 
       src="http://www.pgdp.net/c/faq/illust.png" width=500> <BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -772,7 +778,7 @@ summary="Illustration au milieu d'un paragraphe" border=1>
     <TD vAlign=top width="100%"><IMG height=514 alt="" 
       src="http://www.pgdp.net/c/faq/illust2.png" width=500> <BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR vAlign=top>
     <TD>
       <TABLE align=left summary="" border=0>
@@ -783,7 +789,7 @@ summary="Illustration au milieu d'un paragraphe" border=1>
             instruments<BR>have already been described in this journal, and on 
             the present<BR>occasion we shall make known a few others that 
             will<BR>serve to give an idea of the methods employed.<BR></TT></P>
-            <P><TT>[Illustration: FIG. 1.--APPARATUS FOR THE STUDY OF 
+            <P><TT>[Illustration: .&lt;sc&gt;Fig.&lt;/sc&gt;  1.--APPARATUS FOR THE STUDY OF 
             HORIZONTAL<BR>SEISMIC MOVEMENTS.]</TT></P>
             <P><TT>For the observation of the vertical and horizontal 
             motions<BR>of the ground, different apparatus are required. The</TT> 
@@ -792,7 +798,7 @@ summary="Illustration au milieu d'un paragraphe" border=1>
 <P>Les notes de bas de page sont "hors ligne", autrement dit, le texte de la 
 note est en bas de la page et une marque est placée dans le texte, là où elle 
 est référencée. </P>
-<P>Pour la correction, ceci veut dire que : </P>
+<P>Pour le formatage, ceci veut dire que : </P>
 <P>1. Le numéro, la lettre, le *, ou un autre caractère qui marque la note doit 
 être entouré de crochets (<TT>[</TT> et <TT>]</TT>). Enlevez les espaces avant
 le <TT>[</TT>; mettez-le juste à côté du mot sur lequel porte la 
@@ -827,10 +833,10 @@ color=red>texte-texte-texte</FONT>]*</TT>. (Le * indique que la note s'arrête
 prématurément, et attire l'attention du post-correcteur qui fusionnera les deux 
 parties de la note. </P>
 <P>Si une note fragmentée sur plusieurs pages commence ou s'arrête sur un mot 
-coupé, marquez le mot coupé <B>et</B> la note par une étoile, comme ceci. 
+coupé, marquez le mot coupé <B>et</B> la note par une étoile, comme ceci. <br>
 <TT>[Footnote 1: Cette note se poursuit et son dernier mot se poursuit 
-aus-*]*</TT> pour le premier fragment, et <TT>*[Footnote: *si sur la page 
-suivante.]</TT> pour le second fragment.</P>
+aus-*]*</TT> pour le premier fragment, et <br><TT>*[Footnote: *si sur la page 
+suivante.] <br></TT> pour le second fragment.</P>
 <P>Si une note est référencée dans le texte mais n'apparaît pas sur cette page, 
 laissez la marque de note entourée de crochets, comme d'habitude. Ce cas est 
 courant dans les livres scientifiques et techniques, où les notes sont souvent 
@@ -900,7 +906,7 @@ border=1>
             breed,<BR>well known for the pure whiteness of their wool.</FONT> 
         </TD></TR></TBODY></TABLE></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top>
       <TABLE align=left summary="" border=0>
@@ -916,15 +922,17 @@ border=1>
 <P>Le texte en italique doit avoir <TT>&lt;i&gt;</TT> inséré avant et 
 <TT>&lt;/i&gt;</TT> inséré à la fin de l'italique. (remarquez le “<TT>/</TT>” 
 dans le symbole de fin).&nbsp;<BR>La ponctuation va HORS de l'italique, à moins 
-que ce signe ne soit dans une phrase ou une section entière qui est en italique. 
+que ce signe ne soit dans une phrase ou une section entière qui est en italique,
+ou alors si le signe fait partie d'une phrase, titre ou abréviation qui
+est en italique. 
 Par exemple, le <TT>.</TT> qui signale l'abréviation dans le titre d'un journal 
-comme <I>Phil. Trans. </I>est entre les marques d'italiques. D'où : 
+comme <I>Phil. Trans.</I> est entre les marques d'italiques. D'où : 
 <TT>&lt;i&gt;Phil. Trans.&lt;/i&gt;</TT><BR>Voyez l'image de la section <A 
 href="#illust">Illustration</A> 
 pour un exemple de la manière de faire les italiques.</P>
 <P>Certaines polices, en particulier les plus vieilles utilisaient les mêmes 
 symboles pour les nombres en italique et non italique. Donc, pour les dates et 
-phrases similaires, marquez juste la phrase entière en italique plutôt que de 
+phrases similaires, marquez la phrase entière en italique plutôt que de 
 marquer les mots en italique et les nombres en non italique.</P>
 <P>Si une phrase en italique est une série de mots ou de noms, mettez chacun 
 d'eux en italiques (et pas la phrase dans son ensemble). </P><!-- END RR -->
@@ -955,6 +963,14 @@ border=1>
     <TD vAlign=top>L. Robinson, art. "<I>Ticklishness</I>,"</TD>
     <TD vAlign=top><TT>L. Robinson, art. 
       "&lt;i&gt;Ticklishness&lt;/i&gt;,"</TT></TD></TR>
+  <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+  </tr>    
   <TR>
     <TD vAlign=top>Proofreaders may be tickled pink to
       read<BR><I>Ticklishness</I>, <I>Tickling and Laughter</I>,<BR><I>Remarks 
@@ -1017,11 +1033,11 @@ certaines fontes, quand les lecteurs liront le texte électronique. </P>
 <P>Ne faites rien pour indiquer un changement de taille de police. L'exception à
 ceci est lorsque la taille de la police change pour indiquer un <A 
 href="#block_qt">bloc de 
-citation</A>; dans ce cas marquez le texte comme c'est spécifié pour ces cas 
-là.</P>
+citation</A>; dans ce cas marquez le texte comme c'est spécifié pour ces cas-là.</P>
+
 <H3><A name=word_caps>Mots entiers en majuscules</A> </H3>
 <P>Si un mot ou groupe de mots dans un texte est imprimé entièrement en 
-majuscules (ou en petites capitales), laissez-les tels qu'ils sont dans votre 
+majuscules, laissez-les tels qu'ils sont dans votre 
 copie de travail. </P>
 <P>Une exception à cette règle est le <A 
 href="#chap_head">premier 
@@ -1031,11 +1047,28 @@ normal (première lettre en majuscule, le reste en minuscule). Donc "IL était une
 fois" devient "Il était une fois". </P>
 <H3><A name=small_caps>Petites capitales</A></H3>
       <P>Corrigez les mots en  <SPAN 
-      style="FONT-VARIANT: small-caps">Petites capitales</SPAN> en faisant 
+      style="FONT-VARIANT: small-caps">Petites capitales alternées</SPAN> en faisant 
       alterner minuscules et majuscules et entourez le texte par les marques<TT>&lt;sc&gt;</TT> et 
       <TT>&lt;/sc&gt;</TT>. Exemple: <SPAN 
       style="FONT-VARIANT: small-caps">This is Small Caps</SPAN> devient 
       <TT>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</TT>. </P>
+<P>Mais si un mot est imprimé <span style="font-variant: small-caps;">
+tout en petites capitales </span>, alors écrivez-le en 
+CAPITALES, et entourez-le de marques <tt>&lt;sc&gt;</tt>
+et <tt>&lt;/sc&gt;</tt>.
+   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Exemple:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;devient:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
+</p>
+
+<p>Si un mot est en capitales dans un titre (un entête de chapitre, ou de section), laissez-le
+en capitales, sans marques <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>. <br>
+Si le premier mot d'un chapitre est en capitales, alors
+changez-le en majuscules et minuscules, sans marques de petites capitales. </P>
 <H3><A name=lettrine>Lettre de début de paragraphe grande ou ornée.</A> </H3>
 <P>Souvent, la première lettre d'un chapitre, section ou paragraphe est imprimée 
 très grande et ornée (une lettrine). Dans votre texte, laissez simplement la 
@@ -1047,18 +1080,20 @@ lettre. </P>
   mots, ou parfois pour joindre les préfixes ou les suffixes à un mot. Dans 
   votre texte corrigé, laissez un seul tiret, sans espace ni à droite ni à 
   gauche. 
+<br>Notez l'exception à cette règle, dans le deuxième exemple
+ci-dessous. </LI>
   <LI>Les tirets longs. "<I>En-dashes</I>". Ils sont un peu plus longs, ils sont 
   utilisés pour des <B>intervalles</B> de nombres, ou pour le signe mathématique 
   "moins". Là aussi, laissez un seul tiret. Laissez un espace avant ou après 
   selon la façon dont c'est imprimé sur le livre. En général, pas d'espace pour 
   les intervalles de nombres, mais, autour du signe "moins", il y en a parfois 
-  des deux côtés, parfois seulement avant. 
+  des deux côtés, parfois seulement avant. </LI>
   <LI>Les tirets <I>Em-dashes &amp; long dashes. </I>Ils servent de 
   <B>séparateurs</B> entre les mots—parfois pour mettre l'accent, comme ceci—ou 
   quand une personne prend la parole, ou s'interrompt dans un dialogue. 
   Notez-les comme deux tirets. Sans espace ni avant ni après, même s'il semble y 
-  en avoir un sur le document imprimé. 
-  <LI>Les traits très longs. Ils représentent des mots (ou des noms) <B>omis</B> 
+  en avoir un sur le document imprimé. </LI>
+  <LI>Les traits qui représentent des mots (ou des noms) <B>omis</B> 
   ou <B>censurés</B>. Notez-les comme quatre tirets. Si le long trait représente 
   un mot, laissez des espaces autour des tirets, comme si c'était vraiment le 
   mot. Si c'est seulement une partie de mot, alors pas d'espaces. Joignez-le au 
@@ -1074,83 +1109,106 @@ summary="Hyphens and Dashes" border=1>
   <TBODY>
   <TR>
     <TH vAlign=top bgColor=cornsilk>Image de départ:</TH>
-    <TH vAlign=top bgColor=cornsilk>Texte correctement corrigé:</TH>
+    <TH vAlign=top bgColor=cornsilk>Texte correctement formaté:</TH>
     <TH vAlign=top bgColor=cornsilk>Type</TH></TR>
-  <TR>
-    <TD vAlign=top>semi-detached</TD>
-    <TD vAlign=top><TT>semi-detached</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>four-part harmony</TD>
-    <TD vAlign=top><TT>four-part harmony</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>discoveries which the Crus-<BR>aders made and brought home 
-      with</TD>
-    <TD vAlign=top><TT>discoveries which the Crusaders<BR>made and brought 
-      home with</TT></TD>
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>factors which mold char-<BR>acter—environment, training and 
-      heritage,</TD>
-    <TD vAlign=top><TT>factors which mold character--environment,<BR>training 
-      and heritage,</TT> 
-    <TD>Hyphen</TD></TR>
-  <TR>
-    <TD vAlign=top>See pages 21–25</TD>
-    <TD vAlign=top><TT>See pages 21-25</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>–14° below zero</TD>
-    <TD vAlign=top><TT>-14° below zero</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>X – Y = Z</TD>
-    <TD vAlign=top><TT>X - Y = Z</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>2–1/2</TD>
-    <TD vAlign=top><TT>2-1/2</TT></TD>
-    <TD>En-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>I am hurt;—A plague<BR>on both your houses!—I am dead.</TD>
-    <TD vAlign=top><TT>I am hurt;--A plague<BR>on both your houses!--I am 
-      dead.</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>sensations—sweet, bitter, salt, and sour<BR>—if even all of 
-      these are simple tastes.</TD>
-    <TD vAlign=top><TT>sensations--sweet, bitter, salt, and sour--if<BR>even 
-      all of these are simple tastes. What</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>senses—touch, smell, hearing, and sight—<BR>with which we
-      are here concerned,</TD>
-    <TD vAlign=top><TT>senses--touch, smell, hearing, and sight--with<BR>which 
-      we are here concerned,</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>It is the east, and Juliet is the sun!—</TD>
-    <TD vAlign=top><TT>It is the east, and Juliet is the sun!--</TT></TD>
-    <TD>Em-dash</TD></TR>
-  <TR>
-    <TD vAlign=top>As the witness Mr. —— testified,</TD>
-    <TD vAlign=top><TT>As the witness Mr. ---- testified,</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>As the witness Mr. S—— testified,</TD>
-    <TD vAlign=top><TT>As the witness Mr. S---- testified,</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>the famous detective of ——B Baker St.</TD>
-    <TD vAlign=top><TT>the famous detective of ----B Baker St.</TT></TD>
-    <TD>long dash</TD></TR>
-  <TR>
-    <TD vAlign=top>“You —— Yankee”, she yelled.</TD>
-    <TD vAlign=top><TT>"You ---- Yankee", she yelled.</TT></TD>
-    <TD>long dash</TD></TR></TBODY></TABLE>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+      <td>Longer Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>long dash</td>
+    </tr>
+    </TBODY></TABLE>
 <H3><A name=eol_hyphen>Traits d'union en fin de ligne</A> </H3>
-<P>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mots 
+<P>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mot
 qui était coupé. A moins que ce ne soit réellement un mot avec tiret tel que 
 porte-manteau. Mais si le mot était coupé parce que la ligne est trop courte, et 
 non pas parce qu'il prend généralement un trait d'union, alors rejoignez les
@@ -1176,7 +1234,7 @@ corrigez:<BR>&nbsp;<BR>&nbsp; &nbsp; &nbsp; &nbsp;something Pat had already
 become accus-<BR>par:<BR>&nbsp; &nbsp; &nbsp; &nbsp;<TT>something Pat had 
 already become accus-*</TT> </P>
 <P>Pour les pages qui commencent avec un mot commencé à la fin de la page 
-précédente, placez un <TT>*</TT> avant le mot.<BR>Pour continuer avec l'exemple
+précédente (ou un em-dash), placez un <TT>*</TT> avant le mot.<BR>Pour continuer avec l'exemple
 ci-dessus, corrigez:<BR>&nbsp;<BR>&nbsp; &nbsp; &nbsp; &nbsp;tomed to from 
 having to do his own family<BR>en:<BR>&nbsp; &nbsp; &nbsp; &nbsp;<TT>*tomed to 
 from having to do his own family</TT> </P>
@@ -1189,13 +1247,7 @@ la marge de droite. C'est le premier mot de la page suivante (un "incipit").
 C'était pour indiquer à l'imprimeur quel était le verso correct de la page. Ca 
 facilitait la tâche aux aides de l'imprimeur qui préparaient les pages avant la 
 reliure. Le lecteur lui-même n'avait pas besoin de tourner plus d'une page. </P><!-- END RR -->
-<H3><A name=contract>Initiales</A> </H3>
-<P>Enlevez tous les espaces dans les abréviations, même si des espaces sont 
-imprimés dans le livre. Par exemple, le texte correct est&nbsp; <TT>H.M.S. 
-Pinafore</TT>, et pas <TT>H.&nbsp;M.&nbsp;S.&nbsp;Pinafore</TT>. Ecrivez 
-<TT>G.B. Shaw</TT>, et pas <TT>G.&nbsp;B.&nbsp;Shaw</TT><TT></TT>. (Ceci évite 
-d'avoir une abréviation qui est coupée d'une ligne à l'autre à l'écran, ce qui 
-rend le texte moins lisible.) </P><!-- END RR -->
+
 <H3><A name=contract>Contractions</A> </H3>
 <P>En anglais, enlevez les espaces des contractions. Par exemple: <TT>would 
 n't</TT> devrait être <TT>wouldn't</TT>. (C'était une convention utilisée pour 
@@ -1249,7 +1301,7 @@ summary="Poetry Example" border=1>
     <TH vAlign=top width="100%"><IMG height=508 alt="" 
       src="http://www.pgdp.net/c/faq/poetry.png" width=500> <BR></TH></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -1300,7 +1352,7 @@ summary="Letter Example" border=1>
     <TH vAlign=top width="100%"><IMG height=217 alt="" 
       src="http://www.pgdp.net/c/faq/letter.png" width=500> <BR></TH></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -1344,7 +1396,7 @@ Columbus, Christopher      Lewis, Sinclair          Shakespeare, William
 Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </PRE></TD></TR></TBODY></TABLE></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top>
       <TABLE align=left summary="" border=0>
@@ -1371,9 +1423,9 @@ Les règles du projet Gutenberg ajoutent: "... sauf si vous ne pouvez pas
 faire autrement. Mais JAMAIS plus de 80 caractères."</P>
 <P>Pour aligner les champs, n'utilisez pas de tabulations. Seulement des espaces 
 (les tabulations ont des tailles différentes suivant l'éditeur de texte). </P>
-<P>Il est souvent difficile de formater des tables en texte ASCII; faites juste 
+<P>Il est souvent difficile de formater des tables en texte ASCII; faites
 de votre mieux. Utilisez une fonte monospace, comme <A 
-href="http://www.pgdp.net/c/faq/font_sample.php">DPCustomMono</A> ou Courier.Le
+href="http://www.pgdp.net/c/faq/font_sample.php">DPCustomMono</A> ou Courier. Le
 but est toujours de préserver ce que l'auteur a voulu dire, tout en produisant 
 un texte électronique lisible. Il faudra parfois abandonner le format original 
 de la table. Regardez les commentaires de projet, et le forum du projet. 
@@ -1394,7 +1446,7 @@ summary="Table Example 1" border=1>
     <TD vAlign=top width="100%"><IMG height=142 alt="" 
       src="http://www.pgdp.net/c/faq/table1.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -1419,7 +1471,7 @@ summary="Table Example 2" border=1>
     <TD vAlign=top width="100%"><IMG height=304 alt="" 
       src="http://www.pgdp.net/c/faq/table2.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -1468,7 +1520,7 @@ summary="Block Quotation" border=1>
     <TD vAlign=top width="100%"><IMG height=475 alt="" 
       src="http://www.pgdp.net/c/faq/bquote.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
@@ -1494,7 +1546,7 @@ summary="Block Quotation" border=1>
             above betray a striking lapse 
   of<BR></TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <H3><A name=double_q>Guillemets doubles ( " )</A> </H3>
-<P>Utilisez les guillemets droits ASCII (").</P>
+<P>Si le texte est en anglais, utilisez les guillemets droits ASCII (").</P>
 <P>Ne remplacez pas les guillemets par des apostrophes. Laissez ce que l'auteur 
 a écrit.</P>
 <P>Pour corriger du texte qui n'est pas en anglais, utilisez les caractères 
@@ -1523,7 +1575,10 @@ citation; enlevez-les, sauf pour la première ligne. Si la citation continue sur
 plusieurs paragraphes, mettez des guillemets au début de chaque paragraphe. </P>
 <P>Souvent, les guillemets ne sont pas fermés avant la fin de la citation, au 
 dernier paragraphe. Ne changez rien. N'ajoutez pas de guillemets fermants qui ne 
-seraient pas dans l'original).</P>
+seraient pas dans l'original.</P>
+<P>Dans certaines langues, il peut y avoir des exceptions. En cas
+d'incertitude, consultez les commentaires de projet, ou
+le forum de discussion du projet.</P>
 <H3><A name=period_s>Points entre les phrases</A> </H3>
 <P>Un seul espace après les points et aucun avant. Ne passez pas votre temps à 
 supprimer les espaces en trop après le point si les espaces sont déjà dans le 
@@ -1552,12 +1607,12 @@ cas.</P>
     <TD vAlign=top><TT>and so it goes ; ever and ever.</TT></TD>
     <TD vAlign=top><TT>and so it goes; ever and ever.</TT> 
 </TD></TR></TBODY></TABLE>
+
 <H3><A name=line_br>Retours à la ligne</A> </H3>
 <P>Laissez tous les retours à la ligne de manière à ce que le correcteur suivant 
-puisse comparer les textes facilement. Faites spécialement attention en 
-réunissant les <A 
-href="#eol_hyphen">mots 
-coupés</A>. Si le correcteur qui est passé avant vous a supprimé les retours à 
+puisse comparer les textes facilement. Faites surtout attention aux cas particulier 
+des <A href="#eol_hyphen">mots 
+coupés</A>, ou des <A href="#em_dashes"> em-dashes</A>. Si le correcteur qui est passé avant vous a supprimé les retours à 
 la ligne, remettez-les, pour que les lignes correspondent à l'image.</P>
 <P>Les lignes vierges qui ne se trouvent pas dans l'image doivent être 
 supprimées, sauf celles qui ont été insérées intentionnellement pour le 
@@ -1580,7 +1635,7 @@ post-correction.</P>
 <H3><A name=line_no>Numéros de ligne</A> </H3>
 <P>Gardez les numéros de ligne. Placez-les au moins 6 espaces à droite du texte, 
 même si, sur l'image, ces numéros sont à gauche. </P>
-<P>Il y a souvent des numéros de lignes, sur les livres de poésie, tous les 5, 
+<P>Il y a souvent des numéros de lignes dans la marge, sur les livres de poésie, tous les 5, 
 10 ou 20 vers. Nous gardons ces numéros car ils sont utiles au lecteur.</P>
 <H3><A name=extra_s>Espaces supplémentaires, astérisques, lignes entre les 
 paragraphes</A></H3>
@@ -1588,11 +1643,21 @@ paragraphes</A></H3>
 paragraphe précédent. Mais il peut arriver que deux paragraphes soient séparés 
 par une ligne horizontale. (une ligne d'étoiles, une ligne de tirets, ou autres 
 caractères, un ligne droite simple ou décorée ou même simplement une ligne 
-blanche).&nbsp; Ceci pour exprimer une parenthèse de pensée, un changement de 
+blanche)</P>
+<P>Ceci pour exprimer une parenthèse de pensée, un changement de 
 scène, l'écoulement du temps ou pour créer un peu de suspense. Ceci reflète 
 l'intention de l'auteur, donc nous préservons ces lignes en insérant une ligne 
-vierge suivie de 5 astérisques indentées de de 7 espaces et séparées par 7 
-espaces. </P>
+vierge suivie de  <tt>&lt;tb&gt;</tt>, puis une autre ligne
+vierge.</P>
+<P>Les responsables de projet vous demanderont peut-être de
+faire la différence entre les différents types de cassure, pour garder
+plus d'information.
+Par exemple, ils vous demanderont de noter une ligne d'étoiles
+par <tt>&lt;tb stars&gt;</tt> et une ligne blanche par
+<tt>&lt;tb&gt;</tt>. Suivez attentivement les directives
+de projet. Et ne confondez pas les directives des différents
+projets!</P>
+
 <P>Parfois, les imprimeurs ajoutent une ligne décorative en fin de chapitre.
 Comme nous marquons déjà les <A 
 href="#chap_head">Entêtes de 
@@ -1608,32 +1673,33 @@ summary="Thought Break" border=1>
     <TD vAlign=top width="100%"><IMG height=264 alt="" 
       src="http://www.pgdp.net/c/faq/tbreak.png" width=500> <BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
-  <TR>
-    <TD vAlign=top width="100%">
-      <TABLE align=left summary="" border=0>
-        <TBODY>
-        <TR>
-          <TD>
-            <P><TT>like the gentleman with the spiritual hydrophobia<BR>in the 
-            latter end of Uncle Tom's Cabin.<BR>Unconsciously Mr. Dixon has done
-            his best to<BR>prove that Legree was not a fictitious 
-            character.</TT> </P>
-            <P><TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</TT></P>
-            <P><TT>Joel Chandler Harris, Harry Stillwell Edwards,<BR>George W. 
-            Cable, Thomas Nelson Page,<BR>James Lane Allen, and Mark Twain are 
-            Southern<BR>men in Mr. Griffith's class. I recommend</TT> 
-        </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    like the gentleman with the spiritual hydrophobia<br>
+    in the latter end of Uncle Tom's Cabin.<br>
+    Unconsciously Mr. Dixon has done his best to<br>
+    prove that Legree was not a fictitious character.</tt>
+    </p>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
+    <p><tt>
+    Joel Chandler Harris, Harry Stillwell Edwards,<br>
+    George W. Cable, Thomas Nelson Page,<br>
+    James Lane Allen, and Mark Twain are Southern<br>
+    men in Mr. Griffith's class. I recommend</tt>
+    </p>
+</td></tr>
+</TABLE></TD></TR></TBODY></TABLE>
+
 <H3><A name=period_p>Points de suspension "..."</A> </H3>
 <P>Les règles sont différentes selon que le texte est en anglais ou non.</P>
 <P><B>ANGLAIS</B>: Laissez un espace avant les trois points et un espace après. 
 L'exception est à la fin d'une phrase : pas d'espace avant, mettre quatre points 
-et un espace après. Ceci est vrai aussi pour d'autres signes de ponctuation. Les 
-points de suspension suivent ce signe sans espace.&nbsp; Par exemple: 
+et un espace après. Ou aussi en fin de phrase, après un autre signe de ponctuation, 
+mettez trois points, sans espace avant.&nbsp; Par exemple: 
 <TT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I know ... is 
 true.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the 
 end....<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?... </TT></P>
@@ -1643,12 +1709,11 @@ suspension. </I>Le texte corrigé sera alors comme ceci.&nbsp;</P>
 <P>Vous devrez si nécessaire enlever des points ou en rajouter pour qu'il y en 
 ait exactement trois (ou quatre, selon le cas).</P>
 <P><B>AUTRES LANGUES</B>: Suivez la règle "Respectez le style utilisé sur la 
-page imprimée". Si ce n'est pas clair, mettez une <TT>*</TT> pour attirer 
-l'attention du post-correcteur. S'il y a des espaces entre les points, ou entre 
-le mot précédent et les points, remplacez les blancs par un signe "souligné", 
-<TT>comme ceci_...</TT> ou <TT>comme ceci_._._.</TT> en fonction de ce qui est 
-imprimé. Le caractère "souligné" sert à éviter les problèmes lors du 
-réassemblage des lignes. Il sera remplacé par un espace dans le texte final.</P>
+page imprimée". Mettez autant de points qu'il y en a d'imprimés, et insérez des
+espaces selon ce qui est imprimé. Si, sur une page donnée, ce n'est pas clair,
+insérez une note [**pas clair]. Note: les post-processeurs remplaceront d'éventuels
+espaces à l'intérieur des points de suspension par des espaces insécables. 
+</P>
 <H3><A name=a_chars>Charactères accentués et non-ASCII</A> </H3>
 <P>Essayez d'insérer les caractères accentués et non-ASCII du jeu Latin-1. Voir
 plus loin pour ce qui concerne les signes diacritiques sortant du jeu Latin-1. </P>
@@ -2422,11 +2487,11 @@ bien les deux étoiles, pour attirer l'attention du post-correcteur.</P><!-- END 
 <UL compact>
   <LI>Grec: <A href="http://gutenberg.net/howto/greek/">Table de conversion Grec 
   vers ASCII</A> (du Project Gutenberg) (ou utilisez l'outil).&nbsp; 
-  <LI>Cyrillique: <A 
-  href="http://www.history.uiuc.edu/steinb/translit/translit.htm">Table de 
-  conversion Cyrilique</A> N'essayez de corriger du texte en cyrillique que si 
+  <LI>Cyrillique: N'essayez de corriger du texte en cyrillique que si 
   vous maîtrisez bien les langues concernées. Sinon, marquez le texte comme 
-  indiqué ci-dessus. 
+  indiqué ci-dessus. Vous pouvez aussi utiliser
+  <A href="http://learningrussian.com/transliteration.htm"> cette table
+de translittération</A>.
   <LI>Hébreu, Arabe: Non recommandé à moins que vous lisiez ces langues 
   couramment. Il existe des difficultés importantes dans la conversion de ces 
   langues à l'ASCII et ni <A href="http://texts01.archive.org/dp/">Distributed 
@@ -2476,7 +2541,7 @@ summary="Rejoining Index Lines" border=1>
             146-147.<BR>&nbsp;&nbsp;death and burial, 152.<BR><BR>Ethelred II,
             the Unready, 33. </TD></TR></TBODY></TABLE></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé: (avec lignes 
+    <TH align=left bgColor=cornsilk>Texte correctement formaté: (avec lignes 
       réunies)</TH></TR>
   <TR>
     <TD vAlign=top>
@@ -2509,7 +2574,7 @@ summary="Aligning Index Subtopics" border=1>
             M., 187; capt. on Gen. Wilson's staff, 
     194.<BR></TD></TR></TBODY></TABLE></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé: (avec 
+    <TH align=left bgColor=cornsilk>Texte correctement formaté: (avec 
       sous-sujets alignés)</TH></TR>
   <TR>
     <TD vAlign=top>
@@ -2544,16 +2609,19 @@ summary="Aligning Index Subtopics" border=1>
   le texte original.
   <LI>Les notes de scène (didascalies) seront formatées telles qu'elles sont 
   dans le texte original. <BR>Si la note est sur une ligne isolée, laissez-la 
-  ainsi. Si elle est après une ligne de dialogue, laissez-la ainsi. <BR>Parfois, 
-  une note de scène commence par un crochet ouvrant, qui n'est jamais refermé. 
+  ainsi; si elle est après une ligne de dialogue, laissez-la ainsi; mais si elle est 
+sur une ligne de dialogue et calée contre
+la marge de droite, laissez six espaces entre le dialogue et la didascalie. 
+<BR>Parfois, une note de scène commence par un crochet ouvrant, qui n'est jamais refermé. 
   Nous gardons cette convention: ne fermez pas le crochet. Mettez les marques 
   d'italiques, s'il y a lieu, à l'intérieur des crochets.</LI></UL>
 <P>Pour les pièces en vers. </P>
 <UL compact>
   <LI>Les règles de poésie s'appliquent aux pièces en vers. Entourez les vers 
-  par des lignes <TT>/*</TT> et <TT>*/</TT>, comme pour de la poésie.
+  par des lignes <TT>/*</TT> et <TT>*/</TT>, comme pour de la poésie.</LI>
+  <LI> Mais une didascalie ne doit pas être entourée par <TT>/*</TT> et <TT>*/</TT> </LI>
   <LI>Si un vers est partagé entre deux personnages, la seconde partie du vers 
-  sera imprimée indentée. Gardez cette identation. 
+  sera imprimée indentée. Gardez cette identation. </LI>
   <LI>Si un vers est coupé parce qu'il est trop long sur la page imprimée,
   rejoignez les deux partie du vers sur une même ligne (comme pour la poésie en 
   général). <BR>Si la seconde partie d'un vers ne fait qu'un mot, alors elle 
@@ -2573,37 +2641,49 @@ summary="Théâtre: exemple 1" border=1>
     <TD vAlign=top width="100%"><IMG height=430 alt="title page image" 
       src="http://www.pgdp.net/c/faq/play1.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
   <TR>
     <TD vAlign=top width="100%">
       <TABLE align=left summary="" border=0>
         <TBODY>
-        <TR>
-          <TD>
-            <P><TT>/*<BR>Has not his name for nought, he will be trode 
-            upon:<BR>What says my Printer now? </TT></P>
-            <P><TT>&lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<BR>You 
-            shall have perfect Books now in a twinkling. </TT></P>
-            <P><TT>&lt;i&gt;Lap.&lt;/i&gt; These marks are ugly. </TT></P>
-            <P><TT>&lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're 
-            proper:<BR>Blows should have marks, or else they are nothing worth. 
-            </TT></P>
-            <P><TT>&lt;i&gt;Lap.&lt;/i&gt; But why a Peel-crow here? </TT></P>
-            <P><TT>&lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<BR>A scare-crow 
-            had been better. </TT></P>
-            <P><TT>&lt;i&gt;Lap.&lt;/i&gt; How slave? look you, Sir,<BR>Did not 
-            I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this 
-            &lt;i&gt;Bob&lt;/i&gt;,<BR>Should be both &lt;i&gt;Pica 
-            Roman&lt;/i&gt;. </TT></P>
-            <P><TT>&lt;i&gt;Clow.&lt;/i&gt; So said I, Sir, both &lt;i&gt;Picked 
-            Romans&lt;/i&gt;,<BR>And he has made 'em &lt;i&gt;Welch&lt;/i&gt; 
-            Bills,<BR>Indeed I know not what to make on 'em. </TT></P>
-            <P><TT>&lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, 
-            &lt;i&gt;Italica&lt;/i&gt;? </TT></P>
-            <P><TT>&lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, 
-            Sir,<BR>&lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, 
-            so is &lt;i&gt;Flops&lt;/i&gt; 
-      too.<BR>*/</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>
+ <tr><td>
+<p><tt>/*<br>
+Has not his name for nought, he will be trode upon:<br>
+What says my Printer now?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; Here's your last Proof, Sir.<br>
+You shall have perfect Books now in a twinkling.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; These marks are ugly.
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're proper:<br>
+Blows should have marks, or else they are nothing worth.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; But why a Peel-crow here?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<br>
+A scare-crow had been better.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; How slave? look you, Sir,<br>
+Did not I say, this &lt;i&gt;Whirrit&lt;/i&gt;, and this &lt;i&gt;Bob&lt;/i&gt;,<br>
+Should be both &lt;i&gt;Pica Roman&lt;/i&gt;.
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; So said I, Sir, both &lt;i&gt;Picked Romans&lt;/i&gt;,<br>
+And he has made 'em &lt;i&gt;Welch&lt;/i&gt; Bills,<br>
+Indeed I know not what to make on 'em.
+</tt></p><p><tt>
+&lt;i&gt;Lap.&lt;/i&gt; Hay-day; a &lt;i&gt;Souse&lt;/i&gt;, &lt;i&gt;Italica&lt;/i&gt;?
+</tt></p><p><tt>
+&lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
+&lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.<br>
+*/</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
 summary="Théâtre: exemple 2" border=1>
   <TBODY>
@@ -2613,77 +2693,163 @@ summary="Théâtre: exemple 2" border=1>
     <TD vAlign=top width="100%"><IMG height=680 alt="title page image" 
       src="http://www.pgdp.net/c/faq/play2.png" width=500><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
-  <TR>
-    <TD vAlign=top width="100%">
-      <TABLE align=left summary="" border=0>
-        <TBODY>
-        <TR>
-          <TD>
-            <P><TT>/*<BR>CLIN. And do I hold thee, my Antiphila,<BR>Thou only 
-            wish and comfort of my soul!<BR><BR>SYRUS. In, in, for you have made 
-            our good man wait. 
-            (&lt;i&gt;Exeunt.&lt;/i&gt;<BR>*/<BR><BR><BR><BR><BR>ACT THE 
-            THIRD.<BR><BR><BR>SCENE I.<BR><BR><BR>/*<BR>CHREM. 'Tis now just 
-            daybreak.--Why delay I then<BR>To call my neighbor forth, and be the 
-            first<BR>To tell him of his son's return?--The youth,<BR>I 
-            understand, would fain not have it so.<BR>But shall I, when I see 
-            this poor old man<BR>Afflict himself so grievously, by 
-            silence<BR>Rob him of such an unexpected joy,<BR>When the discov'ry 
-            can not hurt the son?<BR>No, I'll not do't; but far as in my 
-            pow'r<BR>Assist the father. As my son, I see,<BR>Ministers to th' 
-            occasions of his friend,<BR>Associated in counsels, rank, and 
-            age,<BR>So we old men should serve each other 
-            too.<BR>*/<BR><BR><BR>SCENE II.<BR><BR>&lt;i&gt;Enter&lt;/i&gt; 
-            MENEDEMUS.<BR><BR><BR>/*<BR>MENE. (&lt;i&gt;to himself&lt;/i&gt;). 
-            Sure I'm by nature form'd for misery<BR>Beyond the rest of 
-            humankind, or else<BR>'Tis a false saying, though a common 
-            one,<BR>"That time assuages grief." For ev'ry day<BR>My sorrow for
-            the absence of my son<BR>Grows on my mind: the longer he's 
-            away,<BR>The more impatiently I wish to see him,<BR>The more pine 
-            after him.<BR><BR>CHREM. But he's come forth. 
-            (&lt;i&gt;Seeing&lt;/i&gt; MENEDEMUS.)<BR>Yonder he stands. I'll go 
-            and speak with him.<BR>Good-morrow, neighbor! I have news for 
-            you;<BR>Such news as you'll be overjoy'd to 
-        hear.<BR>*/</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR><A 
-name=play3><!-- Example --></A>
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
+   <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>/*<br>
+&lt;sc&gt;Clin.&lt;/sc&gt; And do I hold thee, my Antiphila,<br>
+Thou only wish and comfort of my soul!<br>
+<br>
+&lt;sc&gt;Syrus.&lt;/sc&gt; In, in, for you have made our good man wait. (&lt;i&gt;Exeunt.&lt;/i&gt;<br>
+*/<br>
+<br>
+<br>
+<br>
+<br>
+ACT THE THIRD.<br>
+<br>
+<br>
+&lt;sc&gt;Scene I.&lt;/sc&gt;<br>
+<br>
+<br>
+/*<br>
+&lt;sc&gt;Chrem.&lt;/sc&gt; 'Tis now just daybreak.--Why delay I then<br>
+To call my neighbor forth, and be the first<br>
+To tell him of his son's return?--The youth,<br>
+I understand, would fain not have it so.<br>
+But shall I, when I see this poor old man<br>
+Afflict himself so grievously, by silence<br>
+Rob him of such an unexpected joy,<br>
+When the discov'ry can not hurt the son?<br>
+No, I'll not do't; but far as in my pow'r<br>
+Assist the father. As my son, I see,<br>
+Ministers to th' occasions of his friend,<br>
+Associated in counsels, rank, and age,<br>
+So we old men should serve each other too.<br>
+*/<br>
+<br>
+<br>
+&lt;sc&gt;SCENE II.&lt;/sc&gt;<br>
+<br>
+&lt;i&gt;Enter&lt;/i&gt; &lt;sc&gt;Menedemus.&lt;/sc&gt;<br>
+<br>
+<br>
+/*<br>
+&lt;sc&gt;Mene.&lt;/sc&gt; (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
+Beyond the rest of humankind, or else<br>
+'Tis a false saying, though a common one,<br>
+"That time assuages grief." For ev'ry day<br>
+My sorrow for the absence of my son<br>
+Grows on my mind: the longer he's away,<br>
+The more impatiently I wish to see him,<br>
+The more pine after him.<br>
+<br>
+&lt;sc&gt;Chrem.&lt;/sc&gt; But he's come forth. (&lt;i&gt;Seeing&lt;/i&gt; &lt;sc&gt;Menedemus.&lt;/sc&gt;)<br>
+Yonder he stands. I'll go and speak with him.<br>
+Good-morrow, neighbor! I have news for you;<br>
+Such news as you'll be overjoy'd to hear.<br>
+*/</tt></p>
+</td></tr>
+</tbody></table>
+     </td>
+    </tr>
+  </tbody>
+</table>
+
+<BR><A 
+name=play3>
+<!-- Example --></A>
 <TABLE cellSpacing=0 cellPadding=4 width="100%" align=center 
 summary="Théâtre: exemple 3" border=1>
   <TBODY>
   <TR>
     <TH align=left bgColor=cornsilk>Exemple d'image:</TH></TR>
   <TR align=left>
-    <TD vAlign=top width="100%"><IMG height=98 alt="title page image" 
-      src="http://www.pgdp.net/c/faq/play3.png" width=502><BR></TD></TR>
+    <TD vAlign=top width="100%"><IMG  alt="title page image" 
+      src="http://www.pgdp.net/c/faq/play3.png" ><BR></TD></TR>
   <TR>
-    <TH align=left bgColor=cornsilk>Texte correctement corrigé:</TH></TR>
-  <TR>
-    <TD vAlign=top width="100%">
-      <TABLE align=left summary="" border=0>
-        <TBODY>
-        <TR>
-          <TD>
-            <P><TT>/*<BR>&lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<BR>Or not 
-            slept well to night; some dream
-            (&lt;i&gt;Ismena&lt;/i&gt;?)<BR><BR>&lt;i&gt;Ism.&lt;/i&gt; My 
-            dreams are like my thoughts, honest and innocent,<BR>Yours are 
-            unhappy; who are these that coast us?<BR>You told me the walk was 
-            private.<BR>*/</TT></P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
-<H3><A name=anything>Tout ce qui nécessite également un traitement spécial, ou 
+    <TH align=left bgColor=cornsilk>Texte correctement formaté:</TH></TR>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
+<br>
+/*<br>
+&lt;i&gt;Her.&lt;/i&gt; [&lt;i&gt;Adoringly&lt;/i&gt;] And you the master!<br>
+<br>
+&lt;i&gt;Hud.&lt;/i&gt; Daughter, you owe my lord Megario<br>
+Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;i&gt;Kisses her cheek&lt;/i&gt;]<br>
+<br>
+&lt;i&gt;Her.&lt;/i&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give them, sir.<br>
+*/</tt></p>
+</td></tr>
+</TBODY></TABLE></TD></TR></TBODY></TABLE>
+<br>
+<a name="play4"><!-- Example --></a>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Théâtre, exemple 4">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Exemple d'image</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="http://www.pgdp.net/c/faq/play4.png" width="502"
+          height="98" alt="Plays image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texte correctement formaté:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<p><tt>/*<br>
+Am. Sure you are fasting;<br>
+Or not slept well to night; some dream (Ismena?)<br>
+<br>
+Ism. My dreams are like my thoughts, honest and innocent,<br>
+Yours are unhappy; who are these that coast us?<br>
+You told me the walk was private.<br>
+*/</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<H3><A name=anything>Tout ce qui nécessite également un traitement spécial, ou
 dont vous n'êtes pas sûr.</A> </H3>
 <P>Si vous rencontrez quelque chose qui n'est pas couvert par ces directives et 
 qui vous paraît avoir besoin d'un traitement spécial, ou que vous n'êtes pas sûr 
 de quelque chose, posez votre question sur le forum du projet (en précisant le 
-numéro de la page qui pose problème). </P>
-<P>Mettez une note dans le texte expliquant le problème. Mettez des crochets 
-autour de la note <TT>[**</TT>et <TT>]</TT>pour bien la séparer du texte de 
-l'auteur. Marquez-la par deux astérisques pour le correcteur suivant. Ceci 
+numéro de la page qui pose problème), et ajoutez une note dans le texte
+à l'endroit qui poste problème . Cette note signalera le problème à la personne
+qui passera cette page ensuite (correcteur, formateur ou post-processeur).</P>
+<P>Mettez un crochet ouvrant puis deux étoiles avant le début de la note,
+et un crochet fermant après
+ <TT>[**</TT> et <TT>]</TT> pour bien séparer votre note du texte de 
+l'auteur (n'oubliez pas les deux étoiles).  Ceci 
 signale au post-correcteur qu'il doit s'arrêter et examiner ce texte et l'image 
-correspondante et résoudre le problème. </P>
-<P>Si c'est vous qui rencontrez ce type de note, et que vous résolvez le 
-problème, écrivez un message au correcteur du premier tour (en cliquant sur son 
+correspondante et résoudre le problème. Si vous voyez une note laissée
+par le volontaire qui est passé avant vous, laissez-la. Si vous n'êtes
+pas d'accord avec lui, rajoutez votre propre note. </P>
+<!-- END RR -->
+
+<h3><a name="prev_notes">Notes et commentaires des correcteurs précédents.</a></h3>
+<p>Les notes des correcteurs précédents <b>doivent </b> être gardées. 
+Vous pouvez ajouter que vous êtes d'accord ou pas d'accord,
+mais même si vous êtes sûr de la solution, ne supprimez
+pas la note. Si vous avez une source qui permet
+de donner la réponse au problème, citez cette source, pour que
+le post-processeur s'y réfère lui aussi.
+</p>
+<P>Si vous  résolvez un problème posé par un correcteur qui a laissé une note,
+vous pouvez écrire un message à ce correcteur (en cliquant sur son 
 nom dans l'interface de correction), pour lui expliquer comment gérer la 
-situation la prochaine fois.</P><!-- END RR -->
+situation la prochaine fois. Mais ne supprimez jamais sa note.</P>
+<!-- END RR -->
 <TABLE cellSpacing=0 width="100%" summary="Autres règles" border=0>
   <TBODY>
   <TR>
@@ -2800,8 +2966,9 @@ aujourd'hui quand le livre a été imprimé. Gardez l'ancienne orthographe, en part
 en ce qui concerne les accents.  </P>
 <P>Si vous avez vraiment un doute, alors mettez une note dans le txte 
 <TT>[**typo for texte?]</TT> et demandez dans le forum du projet. Si vous 
-changez vraiment quelque chose, alors mettez une note <TT>[**Transcriber's Note:
-typo fixed, changed from "txte" to "texte"]</TT>. N'oubliez pas le <TT>*</TT> 
+changez vraiment quelque chose, alors mettez une note décrivant ce que
+vous avez changé <TT>[**Transcriber's Note:
+typo fixed, changed from "txte" to "texte"]</TT>. N'oubliez pas les deux étoiles <TT>**</TT> 
 pour que le post-correcteur voie le problème. </P>
 <H3><A name=f_errors>Erreurs factuelles dans le texte</A> </H3>
 <P>En général, ne corrigez pas les erreurs sur les faits dans les livres. 
@@ -2813,7 +2980,7 @@ lesquel un formule connue ou une équation peuvent être indiquées incorrectement.
 du livre). Parlez-en au responsable de projet&nbsp; soit en envoyant un message 
 via le <A 
 href="#forums">Forum</A>, ou 
-en insérant <TT>[sic* expliquez-votre-souci]</TT> à cet endroit du texte. </P>
+en insérant <TT>[sic** expliquez-votre-souci]</TT> à cet endroit du texte. </P>
 <H3><A name=uncertain>Points incertains</A> </H3>
 <P>[...à compléter...] </P>
 <H2 align=center>Fin des directives</H2>
