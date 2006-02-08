@@ -31,7 +31,9 @@ theme('Proofreading Guidelines','header');
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
-    Directives de Formatage <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a></h4>
+    Directives de Formatage <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+	Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
+    Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">no Portugu&ecirc;s</a></h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 
