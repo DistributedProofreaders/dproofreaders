@@ -46,8 +46,8 @@ type="text" value="<?PHP
 
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";
-//comment out zoom actual button for time being
-//echo_button(SET_IMAGE_ACTUAL,'a');
+
+echo_button(SET_IMAGE_ACTUAL,'a');
 
 ?>
 <a href="#"
