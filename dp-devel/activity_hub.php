@@ -244,7 +244,17 @@ foreach ( $Stage_for_id_ as $stage )
 {
     echo "<li>\n";
 
-    echo "({$stage->id}) <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a>";
+    $stage_icon_path = "$dyn_dir/stage_icons/$stage->id.jpg";
+    $stage_icon_url  = "$dyn_url/stage_icons/$stage->id.jpg";
+    if ( file_exists($stage_icon_path) )
+    {
+        $stage_id_bit = "<img src='$stage_icon_url' alt='($stage->id)' title='$stage->id' align='middle'>";
+    }
+    else
+    {
+        $stage_id_bit = "($stage->id)";
+    }
+    echo "$stage_id_bit <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a>";
     echo "<br>\n";
 
     echo $stage->description;
