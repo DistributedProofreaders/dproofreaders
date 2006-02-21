@@ -43,7 +43,7 @@ $today_day = substr($today,2);
 foreach ( array('open', 'close') as $which )
 {
     echo "
-        Looking for queues to $which...
+        Looking for special events to $which...
     ";
 
     switch ( $which )
@@ -51,13 +51,13 @@ foreach ( array('open', 'close') as $which )
         case 'open':
             $month_column_name = 'open_month';
             $day_column_name   = 'open_day';
-            $value_for_enable  = 1;
+            $value_for_queue_enable  = 1;
             break;
 
         case 'close':
             $month_column_name = 'close_month';
             $day_column_name   = 'close_day';
-            $value_for_enable  = 0;
+            $value_for_queue_enable  = 0;
             break;
 
         default:
@@ -75,19 +75,19 @@ foreach ( array('open', 'close') as $which )
     $res = mysql_query($specials_query) or die(mysql_error());
     $n = mysql_num_rows($res);
     echo "
-        Found $n specials for which today is '$which' day.
+        Found $n special events for which today is '$which' day.
     ";
 
     while ( list($spec_code) = mysql_fetch_row($res) )
     {
         echo "
-            Looking for queues that deal with special '$spec_code'...
+            Looking for queues that deal with special event '$spec_code'...
         ";
         $w = '[[:space:]]*';
         $selector_pattern = "^{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']{$w}\$";
         $update_query = "
             UPDATE queue_defns
-            SET enabled = $value_for_enable
+            SET enabled = $value_for_queue_enable
             WHERE project_selector REGEXP
                 '$selector_pattern'
         ";
