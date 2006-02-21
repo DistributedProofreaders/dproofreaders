@@ -18,27 +18,37 @@ header('Content-type: text/plain');
 
 $testing_this_script=$_GET['testing'];
 
+/*
+We want the queue for a special day to be open
+as long as it's that special day *somewhere*
+in the world, not just in the server's timezone.
+Thus, in terms of GMT, we want to open it at about noon
+the day before, and close it at about noon the day after.
 
-$today = date('md');
-$tomorrow = date ('md', mktime (0,0,0,date("m")  ,date("d")+1,date("Y")));
+In the special_days table, each event has an "opening day"
+and a "closing day". The convention we use is that the opening
+day is the (first) day of the event, and the closing day is the
+(first) day *after* the event. (Not the last day of the event.)
 
+So, combining these two ideas: in terms of GMT, we want to open
+the queue at about noon of the day before the event's "opening day",
+and close the queue at about noon on the "closing day".
 
-// if run in last half hour of day, use tomorrow's dates  -
-// this allows the queue to be redefined in time for the special books to come out
-// at midnight or soon after
-if (date('H') == "23") {
-  if ((int)date('i') > 29) {
-     $today = $tomorrow;
-  }
-}
+We assume that this script is run daily at about noon GMT.
+*/ 
 
+echo "Script starts at " . gmdate('Y-m-d H:i:s') . " GMT\n";
 
+$today_month = gmdate('m');
+$today_day   = gmdate('d');
 
+$tomorrow = gmmktime( 0,0,0, $today_month, $today_day+1 );
 
+$tomorrow_month = gmdate('m', $tomorrow);
+$tomorrow_day   = gmdate('d', $tomorrow);
 
-
-$today_month = substr($today, 0, 2);
-$today_day = substr($today,2);
+echo "today:    $today_month-$today_day\n";
+echo "tomorrow: $tomorrow_month-$tomorrow_day\n";
 
 foreach ( array('open', 'close') as $which )
 {
@@ -49,15 +59,17 @@ foreach ( array('open', 'close') as $which )
     switch ( $which )
     {
         case 'open':
-            $month_column_name = 'open_month';
-            $day_column_name   = 'open_day';
-            $value_for_queue_enable  = 1;
+            // Looking for special events whose opening day is tomorrow.
+            $event_condition = "open_month = $tomorrow_month AND open_day = $tomorrow_day";
+            // For which we will enable any corresponding queue.
+            $value_for_queue_enable = 1;
             break;
 
         case 'close':
-            $month_column_name = 'close_month';
-            $day_column_name   = 'close_day';
-            $value_for_queue_enable  = 0;
+            // Looking for special events whose closing day is today.
+            $event_condition = "close_month = $today_month AND close_day = $today_day";
+            // For which we will disable any corresponding queue.
+            $value_for_queue_enable = 0;
             break;
 
         default:
@@ -67,7 +79,7 @@ foreach ( array('open', 'close') as $which )
     $specials_query = "
         SELECT spec_code
         FROM special_days
-        WHERE $month_column_name = $today_month AND $day_column_name = $today_day
+        WHERE $event_condition
             AND enable = 1
     ";
     echo $specials_query, "\n";
@@ -75,7 +87,7 @@ foreach ( array('open', 'close') as $which )
     $res = mysql_query($specials_query) or die(mysql_error());
     $n = mysql_num_rows($res);
     echo "
-        Found $n special events for which today is '$which' day.
+        Found $n special events which '$which' now.
     ";
 
     while ( list($spec_code) = mysql_fetch_row($res) )
