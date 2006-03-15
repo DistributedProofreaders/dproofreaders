@@ -61,6 +61,9 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     $extras = array();
 
+    // Only Site Administrators can move projects into these states:
+    $administrative_states = array(PROJ_SUBMIT_PG_POSTED,PROJ_POST_COMPLETE);
+
     if ($newstate == 'automodify')
     {
         metarefresh(0, "automodify.php?project=$projectid", "?", "");
@@ -77,6 +80,13 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	// Give them a warning before deleting a project, explaining why it should not be done.
 	echo "<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.";
 	print "<P>Are you sure you want to change this state and delete $nameofwork by $author ($projectid)?<br><br>If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+    }
+    else if ( in_array($newstate,$administrative_states) && !user_is_a_sitemanager() )
+    {
+        echo "<p>You may not move the project into the $newstate state.</p>
+            <p>If you think the project needs to be moved into this state,
+            please email $db_requests_email_addr with the details.</p>
+            <p>Return to your <a href='projectmgr.php'>Project Manager's page</a>.</p>";
     }
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
