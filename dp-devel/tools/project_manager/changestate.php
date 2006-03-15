@@ -62,7 +62,10 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     $extras = array();
 
     // Only Site Administrators can move projects into these states:
-    $administrative_states = array(PROJ_SUBMIT_PG_POSTED,PROJ_POST_COMPLETE);
+    $administrative_states = array(
+        PROJ_SUBMIT_PG_POSTED,
+        PROJ_POST_COMPLETE,
+        PROJ_POST_SECOND_CHECKED_OUT);
 
     if ($newstate == 'automodify')
     {
