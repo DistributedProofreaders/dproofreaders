@@ -16,7 +16,7 @@ covers the period January 1843 to December 1863.</p>
 <p>Misspelling in the image should not be changed. Add a [**spelling]
 tag to draw PP attention.</p>
 
-<p>Please retain all &aelig; ligarures. The &oelig; should be coded as
+<p>Please retain all &aelig; ligatures. The &oelig; should be coded as
 [OE] or [oe].</p>
 
 <p>Refer to the <a
