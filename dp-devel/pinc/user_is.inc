@@ -18,11 +18,36 @@ function & get_pguser_settings()
 
 // -----------------------------------------------------------------------------
 
-function user_is_a_sitemanager()
+function that_user_is_a_sitemanager($username)
 {
-    $userSettings =& get_pguser_settings();
+    $userSettings =& Settings::get_settings($username);
     return $userSettings->get_boolean("sitemanager");
 }
+
+function user_is_a_sitemanager()
+{
+    global $pguser;
+    return that_user_is_a_sitemanager($pguser);
+}
+
+// ---------
+
+function that_user_is_proj_facilitator($username)
+{
+    $userSettings =& Settings::get_settings($username);
+    return
+        $userSettings->get_boolean("proj_facilitator")
+        ||
+        $userSettings->get_boolean("sitemanager");
+}
+
+function user_is_proj_facilitator()
+{
+    global $pguser;
+    return that_user_is_proj_facilitator($pguser);
+}
+
+// ---------
 
 function user_is_an_access_request_reviewer()
 {
@@ -34,12 +59,6 @@ function user_is_taskcenter_mgr()
 {
     $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
-}
-
-function user_is_proj_facilitator()
-{
-    $userSettings =& get_pguser_settings();
-    return user_is_a_sitemanager() || $userSettings->get_boolean("proj_facilitator");
 }
 
 function user_can_modify_access()
