@@ -86,19 +86,17 @@ class Project
         // -------------------------------------------------
 
         global $pguser;
+
+        $this->can_be_managed_by_current_user =
+            $this->can_be_managed_by_user( $pguser );
+
         if (is_null($pguser))
         {
-            $this->can_be_managed_by_current_user = FALSE;
             $this->PPer_is_current_user = FALSE;
             $this->PPVer_is_current_user = FALSE;
         }
         else
         {
-            $this->can_be_managed_by_current_user =
-                ( $this->username == $pguser
-                || user_is_a_sitemanager()
-                || user_is_proj_facilitator() );
-
             $this->PPer_is_current_user =
                 $this->postproofer == $pguser
                 ||
@@ -124,6 +122,17 @@ class Project
             // with no explicit PPV phase. Thus, they are effectively
             // both the PPer and PPVer of the project.
         }
+    }
+
+    // -------------------------------------------------------------------------
+
+    function can_be_managed_by_user( $username )
+    {
+        if ( is_null($username) ) return FALSE;
+        return
+            ( $username == $this->username
+            || that_user_is_a_sitemanager($username)
+            || that_user_is_proj_facilitator($username) );
     }
 
     // -------------------------------------------------------------------------
