@@ -57,6 +57,7 @@ if ($start_from_scratch)
 }
 
 $etexts = array();
+$mime_types_not_in_display_mapping = array();
 
 if ($trace) echo "Reading $local_catalog_file...\n";
 $fp = fopen($local_catalog_file, "r");
@@ -95,7 +96,13 @@ while( $line = fgets( $fp ) )
             }
             else
             {
-                $display_format = $display_mapping[$mime_type];
+                $display_format = @$display_mapping[$mime_type];
+                if (empty($display_format))
+                {
+                    @$mime_types_not_in_display_mapping[$mime_type] += 1;
+                    $display_format = $mime_type;
+                }
+
                 if ( $sub_type )
                 {
                     $display_format .= " ($sub_type)";
@@ -118,6 +125,16 @@ while( $line = fgets( $fp ) )
     }
 }
 fclose($fp);
+
+if (count($mime_types_not_in_display_mapping)>0)
+{
+    echo "\n";
+    echo "Warning: The following MIME types do not have entries in \$display_mapping:\n";
+    foreach ( $mime_types_not_in_display_mapping as $mime_type => $count )
+    {
+        echo sprintf( "    %3d %s\n", $count, $mime_type );
+    }
+}
 
 if ($trace) echo "Putting the data into the table...\n";
 
