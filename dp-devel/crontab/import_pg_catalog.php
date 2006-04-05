@@ -16,20 +16,28 @@ new dbConnect();
 header('Content-type: text/plain');
 
 $display_mapping = array(
+    'application/msword'       => 'MS Word',
     'application/pdf'          => 'PDF',
     'application/postscript'   => 'Postscript',
     'application/vnd.palm'     => 'Palm',
+    'application/x-iso9660-image' => 'ISO CD/DVD Image',
+    'application/xml'          => 'XML',
+    'audio/midi'               => 'MIDI',
     'audio/mpeg'               => 'MPEG Audio',
+    'audio/x-wav'              => 'MS Wave Audio',
     'image/gif'                => 'GIF',
     'image/jpeg'               => 'JPEG',
     'image/png'                => 'PNG',
+    'image/svg+xml'            => 'SVG Image',
     'image/tiff'               => 'TIFF',
+    'text/css'                 => 'CSS Stylesheet',
     'text/html'                => 'HTML',
     'text/plain'               => 'Text',
     'text/rtf'                 => 'RTF',
     'text/xml'                 => 'XML',
     'video/mpeg'               => 'MPEG Video',
-    'video/quicktime'          => 'Quicktime Video'
+    'video/quicktime'          => 'Quicktime Video',
+    'video/x-msvideo'          => 'MS Video',
 );
 
 $trace = FALSE;
