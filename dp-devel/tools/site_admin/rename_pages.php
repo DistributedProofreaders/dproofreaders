@@ -100,7 +100,7 @@ switch ( $submit_button )
             echo "<tr>";
             echo "<td>$fileid</td>";
             echo "<td>$image</td>";
-            echo "<td><input type='text' size='4' name='new_fileid_for_[$fileid]'><td>";
+            echo "<td><input type='text' size='8' name='new_fileid_for_[$fileid]'><td>";
             echo "</tr>";
         }
         echo "</table>";
