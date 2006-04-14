@@ -1,0 +1,26 @@
+<p><b>Additional Proofing Guidelines for this project</b></p>
+
+<p>There are several special characters in these works. So far:<br>
+<br>
+The eth (/) and thorn (/) are found in the drop-down boxes.<br>
+[gh] for the yogh and [Gh] for the capital yogh (it looks like a three),<br>
+[l~l] for ll with a tilde through them,<br>
+[h-] for the h with a line through the top,<br>
+[m~] for a m with a loop back over the character,<br>
+[n)] for a n with a ) attached to the right side,<br>
+[rh] for an r with a upwards hook attached to the horizontal stem,<br>
+[-] for the thorn with a slash through the neck,<br>
+[et] for the Tironian sign et, which looks like a 7 with the baseline through the middle, possibly with a hook at the bottom (it was replaced with the ampersand in modern writing),<br>
+[;] for an upside down semicolon,<br>
+[d+] for the d with a little crook attached to the top right of the d,<br>
+[s] for the long s (like an f without a crossbar, or with an incomplete crossbar. (<b>This is a change to the standard guidelines.</b>)</p>
+
+<p>Use the standard extended characters where necessary.</p>
+
+<p>There are many italicized letters in words, to note abbreviations that were expanded. Be sure to mark them. Put sidenotes before the first line they appear on.</p>
+
+<p>Mark the headers, except for the page numbers, as sidenotes, as they frequently hold information not on the page.</p>
+
+<p><b>The Uberproject</b></p>
+
+<p><a href="http://www.eets.org.uk/">The Early English Text Society</a> is an organization dedicated to printing early English manuscripts, usually but not always Old or Middle English. It was the first organization to print many important manuscripts, including the <i>Pearl</i>, and there are over a hundred volumes printed by them now in the public domain in the United States. We have an <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=9095">Uberproject thread</a>.</p>
