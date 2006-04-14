@@ -468,7 +468,7 @@ sugest&otilde;es no F&oacute;rum da
 
 Documenta&ccedil;&atilde;o&nbsp;<a
 
- href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217">nesta
+ href="<? echo $Guideline_discussion_URL;?>">nesta
 
 liga&ccedil;&atilde;o</a>.
 
@@ -554,7 +554,7 @@ poss&iacute;vel ver como &eacute; que outros revisores
 
 fizeram&nbsp;altera&ccedil;&otilde;es.&nbsp; <a
 
- href="%3C?%20echo%20$Using_project_details_URL%20?%3E">Neste&nbsp;F&oacute;rum</a>&nbsp;debatem-se
+ href="<? echo $Using_project_details_URL?>">Neste&nbsp;F&oacute;rum</a>&nbsp;debatem-se
 
 diferentes formas de usar este tipo de
 
@@ -3404,7 +3404,7 @@ p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.<!-- END R
 
 <ul compact="compact">
 
-  <li>Grego: <a href="%3C?%20echo%20$PG_greek_howto_url;%20?%3E">Greek
+  <li>Grego: <a href="<? echo $PG_greek_howto_url;?>">Greek
 
 HOWTO</a>&nbsp;(do Projecto Gutenberg) ou atrav&eacute;s da janela de
 
@@ -3436,7 +3436,7 @@ translitera&ccedil;&atilde;o destas l&iacute;nguas e nem o <a
 
 Proofreaders</a> nem o <a
 
- href="../../../Trabalho/Proofreaders/imagens/%3C?%20echo%20$PG_home_url;%20?%3E">Projecto
+ href="../../../Trabalho/Proofreaders/imagens/<? echo $PG_home_url;?>">Projecto
 
 Gutenberg</a> definiram um modo de procedimento. </li>
 
@@ -6124,7 +6124,7 @@ dif&iacute;cil de detectar, tendo direito a um nome especial: "Stealth
 
 Scannos" (Furtivos). Coleccionamos exemplos&nbsp;<a
 
- href="%3C?%20echo%20$Stealth_Scannos_URL;%20?%3E">neste t&oacute;pico</a>.
+ href="<? echo $Stealth_Scannos_URL;?>">neste t&oacute;pico</a>.
 
 <p>Detectar este tipo de erros, torna-se mais f&aacute;cil se utilizar
 
