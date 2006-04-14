@@ -527,7 +527,7 @@ Este documento &eacute; um trabalho em curso. Ajude-nos, dando-nos
 
 sugest&otilde;es no F&oacute;rum da Documenta&ccedil;&atilde;o&nbsp;<a
 
- href="%3C?%20echo%20$Guideline_discussion_URL;%20?%3E">nesta
+ href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217">nesta
 
 liga&ccedil;&atilde;o</a>.
 
