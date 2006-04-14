@@ -14,7 +14,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
 <h1 align="center">Welcome Back to Distributed Proofreaders, Alumni</h1>
 
-<h3 align="center">Version 1.0, generated July 8, 2005</h3>
+<h3 align="center">Version 1.1, generated April 14, 2006</h3>
 
 <table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
   <tbody>
@@ -91,7 +91,6 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
     <li>	checking each letter of the scan, reading the text closely and correcting 
             scannos and stealth scannos;</li>
     <li>	inserting Latin-1, non-ASCII-7 characters;</li>
-    <li>	checking for all caps and small caps;</li>
     <li>	adding markup for hyphens;</li>
     <li>	removing additional spaces around punctuation and contractions;</li>
     <li>	removing any other junk that has crept in (errant punctuation, etc); and</li>
@@ -181,7 +180,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    Formatting checks will be completed by the formatters. Proofers should proof 
    according to <a href="<?=$code_url?>/faq/proofreading_guidelines.php">current
    Guidelines</a>, for example, insert page numbers into tables of contents
-   and indexes and change the case of small caps appropriately.
+   and indexes.
 </p>
 
 <h2><a name="links">Useful Links</a></h2>
