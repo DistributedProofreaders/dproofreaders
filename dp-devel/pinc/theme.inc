@@ -467,8 +467,8 @@ function show_tally_specific_stats( $tally_name )
 	$num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
 	echo '&nbsp;',
 		sprintf(
-			_('%s users with at least 1 page'),
-			number_format($num_positive_users) ),
+			_('%s users with at least one %s page'),
+			number_format($num_positive_users), $tally_name ),
 		"<br>\n";
 
 	echo "</font><br><hr width='75%' align='center'><br>\n";
