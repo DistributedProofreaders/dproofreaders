@@ -518,7 +518,7 @@ function show_tally_specific_stats( $tally_name )
 		echo number_format($usern->get_current_page_tally_rank())."<br>\n";
 		echo "&nbsp;" . _("Current Rank: ");
 		echo "$rankname<br></font>\n";
-		echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."'>" . _("Details...") . "</a></font></center>\n";
+		echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></font></center>\n";
 		echo "<" . "!-- " . $userP['u_id'] . " -->";
 
 		// -------------------------------------------------------------
