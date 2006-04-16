@@ -25,9 +25,9 @@ function marc_title($rec) {
 
     	if (isset($marc_edition)) { $marc_title = $marc_title.", ".$marc_edition; }
 
-	// Task 849, strip all trailing punctuation from title.
+	// Task 849, strip all trailing comma/semicolon/colon from title.
 	// Space is needed below as there is one at the end of $marc_title
-	return preg_replace("/[[:punct:] ]+$/s", '', $marc_title);
+	return preg_replace("/[\,|\;|\:| ]+$/s", '', $marc_title);
 }
 
 function marc_author($rec) {
