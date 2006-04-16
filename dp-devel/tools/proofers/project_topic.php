@@ -38,6 +38,7 @@ if(($topic_id == "") || ($topic_id == 0))
 	$forum_id = get_forum_id_for_project_state($state);
 
         $post_subject = "\"".$nameofwork."\"    by ".$authorsname;
+        $post_subject = str_replace('"','&quot;',$post_subject);
 
         $message =  "
 This thread is for discussion specific to \"$nameofwork\" by $authorsname.
