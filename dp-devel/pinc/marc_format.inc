@@ -27,7 +27,7 @@ function marc_title($rec) {
 
 	// Task 849, strip all trailing comma/semicolon/colon from title.
 	// Space is needed below as there is one at the end of $marc_title
-	return preg_replace("/[,;:| ]+$/s", '', $marc_title);
+	return preg_replace('/[,;: ]+$/', '', $marc_title);
 }
 
 function marc_author($rec) {
