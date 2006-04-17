@@ -4,49 +4,43 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
 
+$boilerplate = "These e-texts are the product of hundreds of hours of labor
+    donated by all of our volunteers. The list is sorted with the most recently
+    submitted e-texts at the top. You can sort them based upon your own preferences
+    by clicking below. Enjoy!!";
+
 if($_GET['x'] == "g" OR $_GET['x'] == "") {
     $type = "Gold";
     $status = "Completed";
     $state = SQL_CONDITION_GOLD;
-    $info = "Below is the list of Gold e-texts that have passed through this
-    site. Gold e-texts are books that have passed through two rounds of
-    proofreading and then post-processing. After that they are then
-    submitted to the Project Gutenberg database for your enjoyment and
-    download. These e-texts are the product of hundreds of hours of labor
-    donated by all of our volunteers. The list is sorted with the most
-    recently submitted e-texts at the top. You can sort them based upon your
-    own preferences by clicking below. Enjoy!!";
+    $info = "Below is the list of Gold e-texts that have been produced on
+    this site. Gold e-texts are books that have passed through all phases of
+    proofreading, formatting, and post-processing. They have been submitted
+    to Project Gutenberg and are now available for your enjoyment and download.";
 } elseif ($_GET['x'] == "s") {
     $type = "Silver";
     $status = "In Progress";
     $state = SQL_CONDITION_SILVER;
-    $info = "Below is the list of Silver e-texts that are almost finished
-    with their proofreading life on our site. Silver e-texts are books that
-    have passed through two rounds of proofreading and are now in the
-    post-processing phase. During the post-processing phase the project
-    manager runs the e-text through some final checks to make sure they are
-    as correct as possible. After that they are then submitted to the
-    Project Gutenberg database for your enjoyment and download. These
-    e-texts are the product of hundreds of hours of labor donated by all of
-    our volunteers. The list is sorted with the most recently submitted
-    e-texts at the top. You can sort them based upon your own preferences by
-    clicking below. Enjoy!!";
+    $info = "Below is the list of Silver e-texts that have almost completed
+    processing on our site. Silver e-texts are books that have passed
+    through all phases of proofreading and formatting and are now in
+    the post-processing phase. Post-processing is the final assembly
+    stage in which one volunteer performs a series of checks for consistency
+    and correctness before the e-book is submitted to Project Gutenberg
+    for your enjoyment and download.";
 } elseif ($_GET['x'] == "b") {
     $type = "Bronze";
     $status = "Now Proofing";
     $state = SQL_CONDITION_BRONZE;
     $info = "Below is the list of Bronze e-texts that are currently
-    available for proofreading on this site. Bronze e-texts are what most of
-    our members see and what you can work on now by logging in. These
-    e-texts are either in the first round or second round of proofreading
-    where you have a chance to correct any mistakes that may be found. After
-    the proofreading phases, the e-text is then passed onto the Project
-    Manager for post-processing. After that they are then submitted to the
-    Project Gutenberg database for your enjoyment and download. These
-    e-texts are the product of hundreds of hours of labor donated by all of
-    our volunteers. The list is sorted with the most recently submitted
-    e-texts at the top. You can sort them based upon your own preferences by
-    clicking below. Enjoy!!";
+    available for proofreading on this site. Bronze e-texts are what our
+    newest volunteers see and what you can work on now by logging in.
+    These e-texts are in the initial stages of proofreading 
+    where everyone has a chance to correct any OCR errors which may be found.
+    After going through a number of other phases, the e-text then goes to
+    an experienced volunteer for final assembly (post-processing), after
+    which the e-text is submitted to Project Gutenberg for your enjoyment
+    and download.";
 }
 theme("$type E-Texts", "header");
 ?>
@@ -64,7 +58,7 @@ if ($type == "Gold") {
 ?>
 </center><br>
 
-<center><? echo $info; ?></center><br>
+<center><? echo $info . " " . $boilerplate; ?></center><br>
 
 <center>
 <i>Title:</i>          <a href="list_etexts.php?x=<? echo $_GET['x']; ?>&sort=0">asc</a> or
