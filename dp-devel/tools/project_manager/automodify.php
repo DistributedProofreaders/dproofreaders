@@ -15,6 +15,7 @@ include($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 
 include('autorelease.inc');
+include_once('post_files.inc');
 include('sendtopost.inc');
 
 $trace = FALSE;
@@ -286,6 +287,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     if ($state == $round->project_complete_state
         && $round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
     {
+        generate_post_files( $projectid );
         sendtopost($projectid, $username);
     }
 }

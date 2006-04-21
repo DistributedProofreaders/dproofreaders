@@ -3,7 +3,6 @@ include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'maybe_mail.inc');
-include_once('./post_files.inc');
 
     function sendtopost($project, $username) {
         // Prepare a project for post-processing.
@@ -12,9 +11,6 @@ include_once('./post_files.inc');
         // $username: the DP username of the owner(?) of the project.
 
 	global $auto_email_addr;
-
-        generate_post_files( $project );
-
 
         // if reserved for a PPer, check it out to them
         $reserved = 0;
