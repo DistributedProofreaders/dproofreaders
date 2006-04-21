@@ -10,33 +10,34 @@ function generate_post_files( $project, $output_round_id='' )
     global $projects_dir;
 
     $projectpath = "$projects_dir/$project";
+    $pathbase = "$projectpath/$project";
 
     // Generate comments html file.
-    $comments_path = "$projectpath/{$project}_comments.html";
+    $comments_path = "{$pathbase}_comments.html";
     $fp = fopen($comments_path, "w");
     write_project_comments($project, $fp);
     fclose ($fp);
 
     // Join all the page texts into a plain text file...
-    $plain_path = "$projectpath/{$project}.txt";
+    $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
     join_proofed_text($project, $output_round_id, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
-    $plain_zip_path = "$projectpath/$project.zip";
+    $plain_zip_path = "{$pathbase}.zip";
     exec ("zip -j $plain_zip_path $plain_path $comments_path");
 
     // Join all the page texts into a TEIXLITE file...
-    $tei_path = "$projectpath/{$project}_TEI.txt";
+    $tei_path = "{$pathbase}_TEI.txt";
     $fp = fopen($tei_path, "w");
     join_proofed_text_tei($project, $output_round_id, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
     // (for "Download Zipped TEI text")
-    $tei_zip_path = "$projectpath/{$project}_TEI.zip";
+    $tei_zip_path = "{$pathbase}_TEI.zip";
     exec ("zip -j $tei_zip_path $tei_path $comments_path");
 }
 
