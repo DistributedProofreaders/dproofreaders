@@ -508,13 +508,14 @@ if (0)
 if (0)
 {
 	// Regenerate joined text files
-	include_once('sendtopost.inc');
+	include_once($relPath.'project_states.inc');
+	include_once($relPath.'../tools/project_manager/post_files.inc');
 	$res = dpsql_query( "
 		SELECT projectid
 		FROM projects 
-		WHERE state='".POST_AVAILABLE."' or state='".POST_CHECKED_OUT."'
+		WHERE state='".PROJ_POST_FIRST_AVAILABLE."' or state='".PROJ_POST_FIRST_CHECKED_OUT."'
 	" );
-	while ( list($projectid) = mysql_fetch_something($res) )
+	while ( list($projectid) = mysql_fetch_row($res) )
 	{
 		// backup existing
 		// set $fp
