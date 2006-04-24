@@ -4,13 +4,13 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project, $output_round_id='' )
+function generate_post_files( $project, $output_round_id='', $base_extra='' )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
 
     $projectpath = "$projects_dir/$project";
-    $pathbase = "$projectpath/$project";
+    $pathbase = "$projectpath/$project$base_extra";
 
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
