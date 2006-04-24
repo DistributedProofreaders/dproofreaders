@@ -166,6 +166,11 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
             if ($state != $appropriate_state)
             {
+                if ($verbose)
+                {
+                    ensure_project_blurb( $project );
+                    echo "    Re badness, changing state to $appropriate_state\n";
+                }
                 if ($trace) echo "changing its state to $appropriate_state\n";
                 $error_msg = project_transition( $projectid, $appropriate_state );
                 if ($error_msg)
