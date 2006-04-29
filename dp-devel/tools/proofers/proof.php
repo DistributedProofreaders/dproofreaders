@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 
 // (User clicked on "Start Proofreading" link or
@@ -12,10 +13,7 @@ $expected_state = @$_GET['proj_state'];
 if (empty($projectid))      die( "parameter 'projectid' is empty" );
 if (empty($expected_state)) die( "parameter 'proj_state' is empty" );
 
-$project = mysql_fetch_object(mysql_query("
-    SELECT nameofwork, state FROM projects WHERE projectid = '$projectid';
-"));
-if (!$project) die( "no project with projectid='$projectid'" );
+$project = new Project($projectid);
 
 // Check $expected_state.
 $expected_state_text = project_states_text($expected_state);
@@ -46,20 +44,16 @@ if ($expected_state != $project->state)
 }
 
 // Check that the project is in a proofable state
-$round = get_Round_for_project_state($project->state);
-if ( is_null($round) || $project->state != $round->project_available_state )
+list($code,$msg) = $project->can_be_proofed_by_current_user();
+if ( $code != $project->CBP_OKAY )
 {
     // I think this can only happen via URL-tweaking.
 
     slim_header( $project->nameofwork, TRUE, TRUE );
 
-    echo "<p>";
-    echo sprintf(
-        _('The project "%s" is in state "%s", so users are not allowed to proof it.'),
-        $project->nameofwork,
-        project_states_text($project->state)
-    );
-    echo "</p>\n";
+    echo "project: \"{$project->nameofwork}\"<br>\n";
+    echo "state: ", project_states_text($project->state), "<br>\n";
+    echo "<p>$msg</p>\n";
 
     echo "<p>";
     echo sprintf(
@@ -71,32 +65,6 @@ if ( is_null($round) || $project->state != $round->project_available_state )
 
     return;
 }
-
-// Check user's access to the project's current round
-$uao = $round->user_access($pguser);
-if (!$uao->can_access)
-{
-    slim_header( $project->nameofwork, TRUE, TRUE );
-
-    echo "<p>";
-    echo sprintf(
-        _('Error: The project "%s" is in "%s", and you are not yet allowed to work in that round.'),
-        $project->nameofwork,
-        $round->name
-    );
-    echo "</p>\n";
-
-    echo "<p>";
-    echo sprintf(
-        _('Back to <a href="%s">%s</a>'),
-        "$code_url/activity_hub.php",
-        _('Activity Hub')
-    );
-    echo "</p>\n";
-
-    return;
-}
-
 
 //load the master frameset
 ?>
@@ -104,6 +72,7 @@ if (!$uao->can_access)
 <?php
 
 // Add name of round before nameofwork
+$round = get_Round_for_project_state($project->state);
 $rn = $round->id;
 $nameofwork = "[" . $rn . "] " . $project->nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);

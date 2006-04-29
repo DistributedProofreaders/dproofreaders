@@ -137,6 +137,71 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    // These should be treated as constants.
+    // (PHP doesn't appear to allow constants as class members.)
+    var $CBP_OKAY                         = 0;
+    var $CBP_PROJECT_NOT_IN_ROUND         = 1;
+    var $CBP_PROJECT_NOT_AVAILABLE        = 2;
+    var $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 3;
+
+    function can_be_proofed_by_current_user()
+    // (where "proofed" means "worked on in a round, right now".)
+    // Returns an array consisting of:
+    // -- one of the above codes, and
+    // -- a suggested error message.
+    {
+        global $code_url, $pguser;
+
+        $state = $this->state;
+        $round = get_Round_for_project_state($state);
+
+        if (is_null($round))
+        {
+            // The project is not in any round.
+            return array(
+                $this->CBP_PROJECT_NOT_IN_ROUND,
+                _('The project is not in a round.')
+            );
+        }
+
+        if ( $state != $round->project_available_state )
+        {
+            // The project is in a round, but isn't available.
+            return array(
+                $this->CBP_PROJECT_NOT_AVAILABLE,
+                _('Users are not allowed to work on the project in its current state.')
+            );
+        }
+
+        $uao = $round->user_access($pguser);
+        if ( !$uao->can_access )
+        {
+            // The project is available, but the current user isn't
+            // allowed to work in the round that the project is in.
+            return array(
+                $this->CBP_USER_NOT_QUALIFIED_FOR_ROUND,
+                sprintf(
+                    _('You have not yet been cleared to work on projects in %s (%s).'),
+                    $round->name,
+                    $round->id
+                )
+                . "<br>"
+                . sprintf(
+                    _("Please visit <a href='%s'>the %s home</a> to find out what happens in this round and how you can qualify to work in it."),
+                    "$code_url/tools/proofers/round.php?round_id=$round->id",
+                    $round->id
+                )
+            );
+        }
+
+        return array(
+            $this->CBP_OKAY,
+            "You may work on this project."
+        );
+    }
+
+    // -------------------------------------------------------------------------
+
     function _create_credit_line()
     // The string will not be localized, since it should be ready
     // to be included with the finished project.

@@ -212,42 +212,23 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $code_url, $pguser;
+    global $project, $pguser;
+
+    list($code,$msg) = $project->can_be_proofed_by_current_user();
+    if ( $code != $project->CBP_OKAY )
+    {
+        if ( $code == $project->CBP_PROJECT_NOT_IN_ROUND )
+        {
+            // Rather than blurbs that say it's not in a round,
+            // just don't have any blurbs.
+            $msg = NULL;
+        }
+        return array( $msg, $msg );
+    }
 
     $projectid = $project->projectid;
     $state = $project->state;
-
     $round = get_Round_for_project_state($state);
-    if (is_null($round))
-    {
-        return array(null,null);
-    }
-
-    if ( $state != $round->project_available_state )
-    {
-        $text = _('Users are not allowed to work on the project in its current state');
-        return array( $text, $text );
-    }
-
-    $uao = $round->user_access($pguser);
-
-    if ( !$uao->can_access )
-    {
-        $text =
-            sprintf(
-                _("You have not yet been cleared to work on projects in %s (%s)."),
-                $round->name,
-                $round->id
-            )
-            . "<br>"
-            . sprintf(
-                _("Please visit <a href='%s'>the %s home</a> to find out what happens in this round and how you can qualify to work in it."),
-                "$code_url/tools/proofers/round.php?round_id=$round->id",
-                $round->id
-            )
-        ;
-        return array( $text, $text );
-    }
 
     $num_pages_available =
         Project_getNumPagesInState( $projectid, $round->page_avail_state );
