@@ -117,7 +117,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo "
         <tr>
             <td>"._("Project ID")."</td>
-            <td><input type='text' name='projectid'></td>
+            <td><input type='text' name='projectid'>
+                <input type='checkbox' name='projectid_in' id='projectid_in'>
+                <label for='projectid_in' title='Separate IDs with spaces'>
+                Multiple?</label></td>
         </tr>
     ";
     // In the <select> tag, we set the name attribute to 'state[]'.
@@ -209,7 +212,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
         if ( $_GET['projectid'] != '' )
         {
-            $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
+            if (!$_GET['projectid_in'])
+            {
+                $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
+            }
+            else 
+            {
+                $pid_list = mysql_real_escape_string($_GET['projectid']);
+                $pid_list = preg_split('/[\s,;]/',$pid_list);
+                $sql_list = '';
+                foreach ($pid_list as $proj) { $sql_list .= "'$proj',"; }
+                $sql_list = substr($sql_list,0,(strlen($sql_list) - 1));
+                $condition .= " AND projectid IN ($sql_list)";
+            }
         }
         if ( isset($_GET['state']) && count($_GET['state']) > 0 )
         {
