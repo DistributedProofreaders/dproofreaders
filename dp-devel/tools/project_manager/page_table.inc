@@ -62,7 +62,7 @@ function echo_page_table(
 		echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 	}
 
-	echo "<table border=1>\n";
+	echo "<table id='page_table' border=1>\n";
 
 	$n_cols_per_round = 3; // Diff, Date, Text
 	// Even if the user can't see names for all pages, they can see names

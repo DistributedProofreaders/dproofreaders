@@ -356,7 +356,7 @@ function do_project_info_table()
     $round = get_Round_for_project_state($state);
     // Note that $round may be NULL;
 
-    echo "<table border=1 width=630>";
+    echo "<table id='project_info_table' border=1 width=630>";
 
     // -------------------------------------------------------------------------
     // The state of the project
