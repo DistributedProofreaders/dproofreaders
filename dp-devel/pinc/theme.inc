@@ -235,6 +235,10 @@ function html_logobar($nameofpage) {
 			echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
 		}
 
+		if ( !empty($GLOBALS['wiki_dir']) )
+		{
+			echo headerbar_text(_("Wiki"),$GLOBALS['wiki_url'],true);
+		}
 		echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
 		echo "</font></td>\n";
 		echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>\n";
