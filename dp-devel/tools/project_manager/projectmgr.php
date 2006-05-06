@@ -119,7 +119,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             <td>"._("Project ID")."</td>
             <td><input type='text' name='projectid'>
                 <input type='checkbox' name='projectid_in' id='projectid_in'>
-                <label for='projectid_in' title='Separate IDs with spaces'>
+                <label for='projectid_in' title='"._("Separate IDs with spaces")."'>
                 Multiple?</label></td>
         </tr>
     ";
@@ -159,7 +159,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </tr>
         </table>
         </form>
-        "._("Matching [except for State] is case-insensitive and unanchored;<br>
+        "._("Matching [except for State and multiple projectIDs]
+            is case-insensitive and unanchored;<br>
         so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.<br>
         <br>
         If desired, you should be able to select<br>
