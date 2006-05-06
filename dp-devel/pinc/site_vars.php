@@ -35,6 +35,10 @@ $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
+// If MediaWiki is not installed, use false, or an empty string
+$wiki_dir = '<<WIKI_DIR>>';
+$wiki_url = '<<WIKI_URL>>';
+
 $wikihiero_dir = '<<WIKIHIERO_DIR>>';
 $wikihiero_url = '<<WIKIHIERO_URL>>';
 // If you don't need hieroglyphs, change wikihiero_dir to empty string
