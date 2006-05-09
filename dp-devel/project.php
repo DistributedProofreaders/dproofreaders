@@ -18,6 +18,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
 include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
+include_once($relPath.'smoothread.inc');           // functions for smoothreading
 
 error_reporting(E_ALL);
 
@@ -1124,7 +1125,7 @@ function do_postcomments()
 
 function do_smooth_reading()
 {
-    global $project, $code_url;
+    global $project, $code_url, $pguser, $forums_url;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
@@ -1186,6 +1187,24 @@ function do_smooth_reading()
                 echo "</li>\n";
                 // The upload does not cause the project to change state --
                 // it's still checked out to PPer.
+
+                if (!sr_user_is_committed($projectid, $pguser))
+                {
+                    echo "<li>";
+                    echo _('If you want, you can indicate your commitment to smoothread this project to the PP by pressing:');
+                    sr_echo_commitment_form($projectid);
+                    echo "</li>\n";
+                }
+                else
+                {
+                    echo "<li>";
+                    echo _('You have committed to smoothread this project.');
+                    echo "<br />";
+                    echo _('If you want to withdraw your commitment, please press:');
+                    sr_echo_withdrawal_form($projectid);
+                    echo "</li>";
+                }
+
             }
             else
             {
@@ -1221,6 +1240,29 @@ function do_smooth_reading()
 
         if ($project->PPer_is_current_user)
         {
+
+            $sr_list = sr_get_committed_users($projectid);
+
+            echo "<li>";
+            if (count($sr_list) == 0)
+            {
+                echo _('Nobody has committed to smoothread this project.');
+            }
+            else
+            {
+                echo _('The following users have committed to smoothread this project:');
+                echo "<ul>";
+                foreach ($sr_list as $sr_user)
+                {
+                    $user_privmsg_url = sprintf("%s/privmsg.php?mode=post&u=%d", $forums_url, get_bb_user_id($sr_user));
+                    echo "<li>";
+                    echo "<a href=$user_privmsg_url>$sr_user</a>";
+                    echo "</li>\n";
+                }
+                echo "</ul>\n";
+            }
+            echo "</li>\n";
+
             echo "<li>";
             $done_files = glob("$project->dir/*smooth_done_*.zip");
             if ($done_files)
