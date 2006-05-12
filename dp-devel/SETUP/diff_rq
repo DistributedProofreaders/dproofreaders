@@ -22,7 +22,7 @@ only_in_L = []
 only_in_R = []
 differ = []
 
-pipe = os.popen( "diff -r -q %s %s" % (L,R) )
+pipe = os.popen( "diff -r -q --exclude=CVS %s %s" % (L,R) )
 while 1:
     line = pipe.readline()
     if line == '':
