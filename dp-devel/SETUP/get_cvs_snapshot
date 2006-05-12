@@ -31,7 +31,7 @@ if hostname | grep -q sourceforge.net; then
     cvs_server=cvs1
 else
     # We're not on a SourceForge host.
-    cvs_server=cvs.sourceforge.net
+    cvs_server=dproofreaders.cvs.sourceforge.net
 fi
 
 if false; then
