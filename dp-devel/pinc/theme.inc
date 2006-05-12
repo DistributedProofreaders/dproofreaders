@@ -702,19 +702,26 @@ function show_key_help_links()
 function show_donation_stuff()
 {
 	global $theme, $theme_name, $code_url;
-	global $PG_paypal_business_id, $PG_donation_url;
+	global $forums_url;
+
+	$paypal_business_id = 'DPFoundation@pgdp.net';
+	$info_url = 'http://www.pgdp.net/phpBB2/viewtopic.php?t=20029';
 
 	echo "<center>";
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
 	echo "<input type='hidden' name='cmd' value='_xclick'>\n";
-	echo "<input type='hidden' name='business' value='$PG_paypal_business_id'>\n";
+	echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
+	echo "<input type='hidden' name='item_name' value='donation'>\n";
 	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'>\n";
 	echo "</form>";
 	echo "</center>\n";
 
 	echo "<center>";
-	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='1'>";
-	echo _("The Project Gutenberg Literary Archive Foundation")." (<a href='$PG_donation_url' target='_new'>PGLAF</a>) "._("is a 501(c)(3) charitable organization with U.S. Federal Tax ID #64-6221541");
+	echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+	echo sprintf(
+		_("Donate to the <a href='%s'>Distributed Proofreaders Foundation</a>"),
+		$info_url
+	);
 	echo "</font>";
 	echo "</center>\n";
 }
