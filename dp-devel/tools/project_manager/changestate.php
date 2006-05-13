@@ -46,7 +46,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     // Get Passed parameters to code
     $projectid = $_GET['project'];
     $newstate = $_GET['state'];
-    $always = $_GET['always'];
+    $always = @$_GET['always'];
 
     // Get more information about the project
     $sql = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
