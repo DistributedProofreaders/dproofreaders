@@ -55,7 +55,17 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     $nameofwork = $project['nameofwork'];
     $author = $project['authorsname'];
 
-    abort_if_cant_edit_project( $projectid );
+    $result = user_can_edit_project($projectid);
+    if ( $result == USER_CANNOT_EDIT_PROJECT )
+    {
+	echo "You requested:\n";
+	echo "    projectid  = $projectid ($nameofwork)\n";
+	echo "    curr_state = $oldstate\n";
+	echo "    next_state = $newstate\n";
+	echo "\n";
+	echo "You are not permitted to perform this action.\n";
+	exit;
+    }
 
     $do_transition = FALSE;
 
