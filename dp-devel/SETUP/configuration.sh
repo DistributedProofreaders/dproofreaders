@@ -57,7 +57,6 @@ _DYN_URL=$base_url/d
 
 _JPGRAPH_DIR=$base_dir/jpgraph
 
-_WIKI_DIR=$base_dir/w
 _WIKI_URL=$base_url/wiki
 
 _FORUMS_DIR=$base_dir/phpBB2

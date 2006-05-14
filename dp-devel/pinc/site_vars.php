@@ -36,7 +36,6 @@ $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
 // If MediaWiki is not installed, use false, or an empty string
-$wiki_dir = '<<WIKI_DIR>>';
 $wiki_url = '<<WIKI_URL>>';
 
 $wikihiero_dir = '<<WIKIHIERO_DIR>>';
