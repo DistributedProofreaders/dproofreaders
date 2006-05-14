@@ -235,7 +235,7 @@ function html_logobar($nameofpage) {
 			echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
 		}
 
-		if ( !empty($GLOBALS['wiki_dir']) )
+		if ( !empty($GLOBALS['wiki_url']) )
 		{
 			echo headerbar_text(_("Wiki"),$GLOBALS['wiki_url'],true);
 		}
