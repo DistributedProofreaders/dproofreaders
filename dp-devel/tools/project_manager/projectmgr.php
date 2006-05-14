@@ -434,7 +434,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                     name='state'
                     onchange='this.form.submit()'>
             ";
-            getSelect($project->state);
+            getSelect($project);
             echo "</select></form></td>\n";
         } else {
             echo "<td valign=center>$project->state</td>\n";

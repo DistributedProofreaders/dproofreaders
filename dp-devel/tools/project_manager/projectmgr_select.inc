@@ -72,9 +72,10 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 				'automodify');
 }
 
-function getSelect($project_state)
+function getSelect($project)
 {
 	global $transition_options_;
+	$project_state = $project->state;
 	$next_states = array_get( $transition_options_, $project_state, array() );
 
 	if ( user_can_delete_project_in_state($project_state) )
