@@ -46,7 +46,13 @@ class ProjectTransition
         {
             // The user (if any) who currently has the project checked out
             // can perform the action.
-            return ( $username == $project->checkedoutby );
+            // To handle cases where that person goes AWOL,
+            // we also allow site admins to perform the action.
+            return (
+                $username == $project->checkedoutby
+                ||
+                that_user_is_a_sitemanager($username)
+            );
         }
 
         $restriction_words = explode(' ', $this->restriction);
