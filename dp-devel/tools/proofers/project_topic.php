@@ -57,6 +57,9 @@ Please review the [url=$code_url/project.php?id=$project_id&detail_level=1]proje
         $sig = $id_row['user_attachsig'];
         if ($sig == '') {$sig = 1;}
 
+	// Don't post auto-posts as $pguser
+	$user_ip = '7f000001'; //127.0.0.1
+
         // create the post
         $post_result =  insert_post(
                 $message,
