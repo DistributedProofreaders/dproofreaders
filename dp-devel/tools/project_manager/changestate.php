@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'project_edit.inc');
@@ -48,12 +49,11 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     $newstate = $_GET['state'];
     $always = @$_GET['always'];
 
-    // Get more information about the project
-    $sql = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
-    $project = mysql_fetch_assoc($sql);
-    $oldstate = $project['state'];
-    $nameofwork = $project['nameofwork'];
-    $author = $project['authorsname'];
+    $project = new Project( $projectid );
+
+    $oldstate = $project->state;
+    $nameofwork = $project->nameofwork;
+    $author = $project->authorsname;
 
     $result = user_can_edit_project($projectid);
     if ( $result == USER_CANNOT_EDIT_PROJECT )
@@ -134,7 +134,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	if ( $oldstate == $round->project_waiting_state &&
 	     $newstate == $round->project_available_state )
 	{
-	    $errors = project_pre_release_check( $project, $round );
+	    $errors = project_pre_release_check( get_object_vars($project), $round );
 	    if ($errors)
 	    {
 		echo "<pre>\n";
@@ -161,7 +161,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	    }
             else
             {
-                maybe_mail_project_manager( $project,
+                maybe_mail_project_manager( get_object_vars($project),
              	   "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
                    "DP Proofreading Started (Manual Release)");
             }
