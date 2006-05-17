@@ -27,11 +27,6 @@ class ProjectTransition
         $this->action_type = $action_type;
         $this->checkedoutby_to_transit = $checkedoutby_to_transit;
 
-        if ( $destination == '[project page]' )
-        {
-            global $code_url;
-            $destination = "$code_url/project.php?id=<PROJECTID>&amp;expected_state=$next_state";
-        }
         $this->destination = $destination;
 
         global $PROJECT_TRANSITIONS;
@@ -119,7 +114,7 @@ new ProjectTransition(
     _("Are you sure you want to check this book out for post processing?"),
     'transit_and_redirect',
     TRUE,
-    '[project page]'
+    '<RETURN>'
 );
 
 new ProjectTransition(
@@ -130,7 +125,7 @@ new ProjectTransition(
     _("Are you sure you want to check this book out for verifying post processing?"),
     'transit_and_redirect',
     TRUE,
-    '[project page]'
+    '<RETURN>'
 );
 
 new ProjectTransition(
@@ -141,7 +136,7 @@ new ProjectTransition(
     _("Are you sure you want to check this book out to review corrections?"),
     'transit_and_redirect',
     TRUE,
-    '[project page]'
+    '<RETURN>'
 );
 
 // -----------------------------------------------------------------------------
@@ -158,7 +153,7 @@ new ProjectTransition(
     _("Are you sure you want to make this book available to others for post processing?"),
     'transit_and_redirect',
     FALSE,
-    "pool.php?pool_id=PP"
+    '<RETURN>'
 );
 
 new ProjectTransition(
@@ -169,7 +164,7 @@ new ProjectTransition(
     _("Are you sure you want to make this book available to others to verify and lose your work?"),
     'transit_and_redirect',
     FALSE,
-    "pool.php?pool_id=PPV"
+    '<RETURN>'
 );
 
 new ProjectTransition(
@@ -180,7 +175,7 @@ new ProjectTransition(
     _("Are you sure you want to make this book available to others for reviewing corrections?"),
     'transit_and_redirect',
     FALSE,
-    "pool.php?pool_id=CR"
+    '<RETURN>'
 );
 
 // -----------------------------------------------------------------------------
@@ -208,7 +203,7 @@ new ProjectTransition(
     _("Are you sure you want to return this book to the post-processor for further work?"),
     'transit_and_redirect',
     FALSE,
-    "pool.php?pool_id=PPV"
+    '<RETURN>'
 );
 
 new ProjectTransition(
