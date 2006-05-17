@@ -93,7 +93,32 @@ else
     die("bad transition->action_type: '$transition->action_type'");
 }
 
-$refresh_url = str_replace( '<PROJECTID>', $projectid, $transition->destination );
+if ( $transition->destination == '<RETURN>' )
+{
+    // Return the user to the screen they were at
+    // when they requested the state change.
+
+    // We can't assume that HTTP_REFERER is set.
+    $referer = @$_SERVER['HTTP_REFERER'];
+    if ( empty($referer) )
+    {
+        // Punt to the project home.
+        $refresh_url = "$code_url/project.php?id=$projectid";
+    }
+    else
+    {
+        // This is somewhat kludgey:
+        // If the referer URL included a statement of an expected state,
+        // and we refresh to that URL, the user will get a warning
+        // that the project is no longer in that expected state.
+        // So we delete any such statement.
+        $refresh_url = preg_replace('/expected_state=\w+/', '', $referer );
+    }
+}
+else
+{
+    $refresh_url = str_replace( '<PROJECTID>', $projectid, $transition->destination );
+}
 
 metarefresh(2, $refresh_url, $title, $body);
 
