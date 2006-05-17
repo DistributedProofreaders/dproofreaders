@@ -19,6 +19,22 @@ class ProjectTransition
     // A user who satisfies the $restriction can cause
     // a project to transit from $curr_state to $next_state.
     {
+        if ( $action_name == '[default]' )
+        {
+            $action_name = sprintf(
+                _('Change State to %s'),
+                project_states_text($next_state)
+            );
+        }
+
+        if ( $confirmation_question == '[default]' )
+        {
+            $confirmation_question = sprintf(
+                _('Are you sure you want to change the state of this project to %s?'),
+                project_states_text($next_state)
+            );
+        }
+
         $this->curr_state  = $curr_state;
         $this->next_state  = $next_state;
         $this->restriction = $restriction;
@@ -48,6 +64,22 @@ class ProjectTransition
                 ||
                 that_user_is_a_sitemanager($username)
             );
+        }
+        elseif ( $this->restriction == 'manager' )
+        {
+            return $project->can_be_managed_by_user($username);
+        }
+        elseif ( $this->restriction == 'proj_facilitator' )
+        {
+            return (
+                that_user_is_proj_facilitator($username)
+                || 
+                that_user_is_a_sitemanager($username)
+            );
+        }
+        elseif ( $this->restriction == 'site_manager' )
+        {
+            return that_user_is_a_sitemanager($username);
         }
 
         $restriction_words = explode(' ', $this->restriction);
@@ -103,6 +135,118 @@ function get_transition( $curr_state, $next_state )
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+new ProjectTransition(
+    PROJ_NEW,
+    PROJ_P1_UNAVAILABLE,
+    'manager',
+    '[default]',
+    NULL,
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+if ($site_supports_metadata)
+{
+    new ProjectTransition(
+        PROJ_NEW_FILE_UPLOADED,
+        PROJ_NEW_METADATA_FIRST,
+        'manager',
+        '[default]',
+        NULL,
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+}
+
+// -----------------------------------------------------------------------------
+
+for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+{
+    $round = get_Round_for_round_number($rn);
+
+    new ProjectTransition(
+        $round->project_unavailable_state,
+        $round->project_waiting_state,
+        'manager',
+        '[default]',
+        NULL,
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+
+    new ProjectTransition(
+        $round->project_waiting_state,
+        $round->project_unavailable_state,
+        'manager',
+        '[default]',
+        NULL,
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+
+    new ProjectTransition(
+        $round->project_waiting_state,
+        $round->project_available_state,
+        'proj_facilitator',
+        '[default]',
+        '[default]',
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+
+    new ProjectTransition(
+        $round->project_bad_state,
+        $round->project_unavailable_state,
+        'manager',
+        '[default]',
+        NULL,
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+
+    new ProjectTransition(
+        $round->project_bad_state,
+        'automodify',
+        'manager',
+        _('automodify'),
+        NULL,
+        'redirect',
+        FALSE,
+        'automodify.php?project=<PROJECTID>'
+        // which will leave the project in the appropriate
+        // BAD, AVAILABLE, or COMPLETE state.
+    );
+
+    new ProjectTransition(
+        $round->project_available_state,
+        $round->project_unavailable_state,
+        'manager',
+        '[default]',
+        '[default]',
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+
+    new ProjectTransition(
+        $round->project_available_state,
+        'automodify',
+        'manager',
+        _('automodify'),
+        NULL,
+        'redirect',
+        FALSE,
+        'automodify.php?project=<PROJECTID>'
+    );
+}
+
+// -----------------------------------------------------------------------------
 // X_AVAILABLE -> X_CHECKED_OUT
 // Anyone who can work in stage X can check out the project.
 
@@ -196,6 +340,17 @@ new ProjectTransition(
 );
 
 new ProjectTransition(
+    PROJ_POST_FIRST_CHECKED_OUT,
+    PROJ_POST_SECOND_CHECKED_OUT,
+    'site_manager',
+    '[default]',
+    NULL,
+    'transit_and_redirect',
+    TRUE,
+    '<RETURN>'
+);
+
+new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_FIRST_CHECKED_OUT,
     'holder',
@@ -204,6 +359,147 @@ new ProjectTransition(
     'transit_and_redirect',
     FALSE,
     '<RETURN>'
+);
+
+// -----------------------------------------------------------------------------
+// Transitions to and from PROJ_POST_FIRST_UNAVAILABLE:
+
+// To PROJ_POST_FIRST_UNAVAILABLE:
+
+new ProjectTransition(
+    PROJ_POST_FIRST_AVAILABLE,
+    PROJ_POST_FIRST_UNAVAILABLE,
+    'manager',
+    '[default]',
+    '[default]',
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+new ProjectTransition(
+    PROJ_POST_FIRST_CHECKED_OUT,
+    PROJ_POST_FIRST_UNAVAILABLE,
+    'manager',
+    '[default]',
+    _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+// From PROJ_POST_FIRST_UNAVAILABLE:
+
+new ProjectTransition(
+    PROJ_POST_FIRST_UNAVAILABLE,
+    PROJ_POST_FIRST_AVAILABLE,
+    'manager',
+    _('Make Project Available for Post-Processing'),
+    '[default]',
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+new ProjectTransition(
+    PROJ_POST_FIRST_UNAVAILABLE,
+    PROJ_POST_FIRST_CHECKED_OUT,
+    'manager',
+    _('Check Out Project for Post-Processing'),
+    _("It's unclear whether this transition should even be possible. Are you sure?"),
+    'transit_and_redirect',
+    TRUE,
+    '<RETURN>'
+);
+
+// -----------------------------------------------------------------------------
+// Transitions to PROJ_POST_COMPLETE:
+// (We should probably eliminate these, and the PROJ_POST_COMPLETE state.)
+
+$post_complete_question =
+    _("Sending a project to post_complete probably isn't a good idea. Are you sure?");
+
+new ProjectTransition(
+    PROJ_POST_FIRST_CHECKED_OUT,
+    PROJ_POST_COMPLETE,
+    'site_manager',
+    '[default]',
+    $post_complete_question,
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+new ProjectTransition(
+    PROJ_POST_SECOND_AVAILABLE,
+    PROJ_POST_COMPLETE,
+    'site_manager',
+    '[default]',
+    $post_complete_question,
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+new ProjectTransition(
+    PROJ_POST_SECOND_CHECKED_OUT,
+    PROJ_POST_COMPLETE,
+    'site_manager',
+    '[default]',
+    $post_complete_question,
+    'transit_and_redirect',
+    FALSE,
+    '<RETURN>'
+);
+
+// -----------------------------------------------------------------------------
+// Transitions to PROJ_SUBMIT_PG_POSTED:
+
+$pg_posted_question =
+    _('Project has been posted by PG?');
+
+new ProjectTransition(
+    PROJ_POST_FIRST_CHECKED_OUT,
+    PROJ_SUBMIT_PG_POSTED,
+    'site_manager',
+    '[default]',
+    $pg_posted_question,
+    'transit_and_redirect',
+    FALSE,
+    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+);
+
+new ProjectTransition(
+    PROJ_POST_SECOND_AVAILABLE,
+    PROJ_SUBMIT_PG_POSTED,
+    'site_manager',
+    '[default]',
+    $pg_posted_question,
+    'transit_and_redirect',
+    FALSE,
+    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+);
+
+new ProjectTransition(
+    PROJ_POST_SECOND_CHECKED_OUT,
+    PROJ_SUBMIT_PG_POSTED,
+    'site_manager',
+    '[default]',
+    $pg_posted_question,
+    'transit_and_redirect',
+    FALSE,
+    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+);
+
+new ProjectTransition(
+    PROJ_POST_COMPLETE,
+    PROJ_SUBMIT_PG_POSTED,
+    'site_manager',
+    '[default]',
+    $pg_posted_question,
+    'transit_and_redirect',
+    FALSE,
+    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
 );
 
 new ProjectTransition(
@@ -216,6 +512,34 @@ new ProjectTransition(
     FALSE,
     "correct/completecorr.php?project=<PROJECTID>"
 );
+
+// -----------------------------------------------------------------------------
+// Transitions to PROJ_DELETE.
+
+foreach ( $PROJECT_STATES_IN_ORDER as $curr_state )
+{
+    // Don't bother creating a transition for Delete -> Delete.
+    if ( $curr_state == PROJ_DELETE ) continue;
+
+    // A NEW project can be deleted by its manager.
+    // Anything else requires an SA.
+    $who_may_delete = (
+        $curr_state == PROJ_NEW 
+        ? 'manager'
+        : 'site_manager'
+    );
+
+    new ProjectTransition(
+        $curr_state,
+        PROJ_DELETE,
+        $who_may_delete,
+        _('Delete Project'),
+        _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
+        'transit_and_redirect',
+        FALSE,
+        '<RETURN>'
+    );
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
