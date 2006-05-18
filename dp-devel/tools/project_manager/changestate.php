@@ -92,19 +92,26 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     // At this point, we know that either there's no question associated
     // with the transition, or there is and it has been answered yes.
 
+    function redirect()
+    {
+        global $project, $transition;
+        $refresh_url = str_replace( '<PROJECTID>', $project->projectid, $transition->destination );
+        metarefresh( 0, $refresh_url, "Project Transition Succeeded", "" );
+    }
+
+    if ( $transition->action_type == 'redirect' )
+    {
+        redirect();
+        exit;
+    }
+
     $oldstate = $project->state;
 
     $do_transition = FALSE;
 
     $extras = array();
 
-    if ($newstate == 'automodify')
-    {
-        metarefresh(0, "automodify.php?project=$projectid", "?", "");
-        // which will leave the project in the appropriate
-	// BAD, AVAILABLE, or COMPLETE state.
-    }
-    else if ($newstate == PROJ_SUBMIT_PG_POSTED)
+    if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
 	$do_transition = TRUE;
         $refresh_url = "editproject.php?action=edit&project=$projectid&posted=1";
