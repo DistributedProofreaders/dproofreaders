@@ -55,12 +55,14 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     {
         global $project, $newstate;
 
+        echo "<pre>\n";
         echo "You requested:\n";
         echo "    projectid  = $project->projectid ($project->nameofwork)\n";
         echo "    curr_state = $project->state\n";
         echo "    next_state = $newstate\n";
         echo "\n";
         echo "$msg\n";
+        echo "</pre>\n";
         exit;
     }
 
