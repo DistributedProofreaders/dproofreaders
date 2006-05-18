@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'project_edit.inc');
@@ -68,25 +69,23 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         exit;
     }
 
+    $transition = get_transition( $project->state, $newstate );
+    if ( is_null($transition) )
+    {
+        fatal_error( "This transition is not recognized." );
+    }
+    if ( !$transition->is_valid_for( $project, $pguser ) )
+    {
+        fatal_error( "You are not permitted to perform this action." );
+    }
+
     $oldstate = $project->state;
     $nameofwork = $project->nameofwork;
     $author = $project->authorsname;
 
-    $result = user_can_edit_project($projectid);
-    if ( $result == USER_CANNOT_EDIT_PROJECT )
-    {
-        fatal_error("You are not permitted to perform this action.");
-    }
-
     $do_transition = FALSE;
 
     $extras = array();
-
-    // Only Site Administrators can move projects into these states:
-    $administrative_states = array(
-        PROJ_SUBMIT_PG_POSTED,
-        PROJ_POST_COMPLETE,
-        PROJ_POST_SECOND_CHECKED_OUT);
 
     if ($newstate == 'automodify')
     {
@@ -94,23 +93,11 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         // which will leave the project in the appropriate
 	// BAD, AVAILABLE, or COMPLETE state.
     }
-    else if ($newstate == PROJ_DELETE && !user_can_delete_project_in_state($oldstate))
-    {
-        // Can only happen if they're tweaking URLs.
-        echo "You are not allowed to delete the project in its current state ($oldstate).";
-    }
     else if ($newstate == PROJ_DELETE && $always != 'yes')
     {
 	// Give them a warning before deleting a project, explaining why it should not be done.
 	echo "<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.";
 	print "<P>Are you sure you want to change this state and delete $nameofwork by $author ($projectid)?<br><br>If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
-    }
-    else if ( in_array($newstate,$administrative_states) && !user_is_a_sitemanager() )
-    {
-        echo "<p>You may not move the project into the $newstate state.</p>
-            <p>If you think the project needs to be moved into this state,
-            please email $db_requests_email_addr with the details.</p>
-            <p>Return to your <a href='projectmgr.php'>Project Manager's page</a>.</p>";
     }
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
@@ -157,18 +144,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 		echo "</pre>\n";
 		$newstate = $round->project_bad_state;
 		$refresh_url = '';
-	    }
-	    else if ( ! user_is_a_sitemanager() && ! user_is_proj_facilitator() )
-	    {
-		echo "<p>";
-		echo "This option has been disabled -- ";
-		echo "project managers can no longer manually force the release of their projects.";
-		echo "</p>\n";
-		echo "<p>";
-		echo "Please contact a site admin or project facilitator if you think this project should be released.";
-		echo "</p>\n";
-		echo "<p>Back to <a href=\"projectmgr.php\">project manager</a> page.</p>";
-		$do_transition = FALSE;
 	    }
             else
             {
