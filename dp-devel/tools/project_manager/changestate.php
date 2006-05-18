@@ -109,19 +109,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     $oldstate = $project->state;
 
-    if ($newstate == PROJ_SUBMIT_PG_POSTED)
-    {
-    }
-    else if (
-	   ($newstate == PROJ_DELETE && $always == 'yes')
-	|| ($newstate == PROJ_POST_FIRST_CHECKED_OUT)
-	|| ($always == 'yes')
-	|| ($oldstate == PROJ_POST_FIRST_CHECKED_OUT)
-	|| ($oldstate == PROJ_NEW)
-    )
-    {
-    }
-    else if (
+    if (
 	// assignment-in-condition
 	$round = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
@@ -149,10 +137,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
                    "DP Proofreading Started (Manual Release)");
             }
 	}
-    }
-    else
-    {
-        assert( FALSE );
     }
 
     // -------------------------------------------------------------------------
