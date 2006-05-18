@@ -62,6 +62,8 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         echo "    next_state = $newstate\n";
         echo "\n";
         echo "$msg\n";
+        echo "\n";
+        echo "Back to <a href=\"projectmgr.php\">project manager</a> page.\n";
         echo "</pre>\n";
         exit;
     }
