@@ -92,16 +92,18 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     // At this point, we know that either there's no question associated
     // with the transition, or there is and it has been answered yes.
 
-    function redirect()
+    if ( $transition->destination == '<RETURN>' )
     {
-        global $project, $transition;
+        $refresh_url = "projectmgr.php";
+    }
+    else
+    {
         $refresh_url = str_replace( '<PROJECTID>', $project->projectid, $transition->destination );
-        metarefresh( 0, $refresh_url, "Project Transition Succeeded", "" );
     }
 
     if ( $transition->action_type == 'redirect' )
     {
-        redirect();
+        metarefresh( 0, $refresh_url, "Project Transition Succeeded", "" );
         exit;
     }
 
@@ -109,7 +111,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
-        $refresh_url = "editproject.php?action=edit&project=$projectid&posted=1";
     }
     else if (
 	   ($newstate == PROJ_DELETE && $always == 'yes')
@@ -119,15 +120,12 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	|| ($oldstate == PROJ_NEW)
     )
     {
-        $refresh_url = "projectmgr.php";
     }
     else if (
 	// assignment-in-condition
 	$round = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
     {
-	$refresh_url = "projectmgr.php";
-
 	if ( $oldstate == $round->project_waiting_state &&
 	     $newstate == $round->project_available_state )
 	{
