@@ -107,13 +107,10 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     $oldstate = $project->state;
 
-    $do_transition = FALSE;
-
     $extras = array();
 
     if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
-	$do_transition = TRUE;
         $refresh_url = "editproject.php?action=edit&project=$projectid&posted=1";
     }
     else if (
@@ -124,7 +121,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	|| ($oldstate == PROJ_NEW)
     )
     {
-	$do_transition = TRUE;
         $refresh_url = "projectmgr.php";
 
 	if ( $newstate == PROJ_POST_FIRST_CHECKED_OUT ||
@@ -138,7 +134,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 	$round = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
     )
     {
-	$do_transition = TRUE;
 	$refresh_url = "projectmgr.php";
 
 	if ( $oldstate == $round->project_waiting_state &&
@@ -172,7 +167,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     // -------------------------------------------------------------------------
 
-    if ( $do_transition )
     {
 	$error_msg = project_transition( $projectid, $newstate, $extras );
 	if ( $error_msg )
