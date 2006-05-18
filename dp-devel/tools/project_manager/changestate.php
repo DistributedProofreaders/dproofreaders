@@ -107,8 +107,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     $oldstate = $project->state;
 
-    $extras = array();
-
     if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
         $refresh_url = "editproject.php?action=edit&project=$projectid&posted=1";
@@ -122,12 +120,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     )
     {
         $refresh_url = "projectmgr.php";
-
-	if ( $newstate == PROJ_POST_FIRST_CHECKED_OUT ||
-	     $newstate == PROJ_POST_SECOND_CHECKED_OUT )
-	{
-	    $extras = array( 'checkedoutby' => $pguser );
-	}
     }
     else if (
 	// assignment-in-condition
@@ -168,6 +160,12 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     // -------------------------------------------------------------------------
 
     {
+        $extras = array();
+        if ( $transition->checkedoutby_to_transit )
+        {
+            $extras['checkedoutby'] = $pguser;
+        }
+
 	$error_msg = project_transition( $projectid, $newstate, $extras );
 	if ( $error_msg )
 	{
