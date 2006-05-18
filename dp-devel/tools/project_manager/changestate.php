@@ -79,9 +79,20 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         fatal_error( "You are not permitted to perform this action." );
     }
 
+    // If there's a question associated with this transition,
+    // and we haven't just asked it, ask it now.
+    if ( !is_null($transition->confirmation_question) && $always != 'yes' )
+    {
+        echo $transition->confirmation_question;
+        echo "<br><br>";
+        echo "If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        exit();
+    }
+
+    // At this point, we know that either there's no question associated
+    // with the transition, or there is and it has been answered yes.
+
     $oldstate = $project->state;
-    $nameofwork = $project->nameofwork;
-    $author = $project->authorsname;
 
     $do_transition = FALSE;
 
@@ -92,12 +103,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
         metarefresh(0, "automodify.php?project=$projectid", "?", "");
         // which will leave the project in the appropriate
 	// BAD, AVAILABLE, or COMPLETE state.
-    }
-    else if ($newstate == PROJ_DELETE && $always != 'yes')
-    {
-	// Give them a warning before deleting a project, explaining why it should not be done.
-	echo "<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.";
-	print "<P>Are you sure you want to change this state and delete $nameofwork by $author ($projectid)?<br><br>If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
     }
     else if ($newstate == PROJ_SUBMIT_PG_POSTED)
     {
@@ -155,9 +160,7 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
     }
     else
     {
-        // This option should never appear if they follow the options on the page, only for those that know what they are doing...
-        echo "<P><B>NOTE:</B> The choice you made is one that should not be chosen quickly. If you do not know what it will do, it is best to keep things the way they are.";
-        print "<P>Are you sure you want to change this state? If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        assert( FALSE );
     }
 
     // -------------------------------------------------------------------------
