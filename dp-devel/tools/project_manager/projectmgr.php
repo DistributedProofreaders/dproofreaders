@@ -12,8 +12,8 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'ProjectTransition.inc');
 include_once('projectmgr.inc');
-include_once('projectmgr_select.inc');
 
 
 
@@ -497,6 +497,35 @@ function echo_project_state_changer($project)
     {
         echo "$project->state\n";
     }
+}
+
+function getSelect($project)
+{
+    global $pguser;
+
+    echo_project_state_option( $project->state, 1 );
+
+    $transitions = get_valid_transitions( $project, $pguser );
+    foreach ( $transitions as $transition )
+    {
+        echo_project_state_option( $transition->next_state, 0 );
+    }
+}
+
+function echo_project_state_option($project_state,$selected)
+{
+	echo "<option value='$project_state'";
+	if ($selected) echo " SELECTED";
+	echo ">";
+	if ($project_state == 'automodify')
+	{
+		echo 'automodify';
+	}
+	else
+	{
+		echo project_states_text($project_state);
+	}
+	echo "</option>\n";
 }
 
 // -----------------------------------------------------------------------------
