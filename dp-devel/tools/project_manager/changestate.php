@@ -12,20 +12,20 @@ include_once($relPath.'maybe_mail.inc');
 
     // Get Passed parameters to code
     $projectid = $_GET['projectid'];
-    $newstate = $_GET['next_state'];
-    $always = @$_GET['confirmed'];
+    $next_state = $_GET['next_state'];
+    $confirmed = @$_GET['confirmed'];
 
     $project = new Project( $projectid );
 
     function fatal_error( $msg )
     {
-        global $project, $newstate;
+        global $project, $next_state;
 
         echo "<pre>\n";
         echo "You requested:\n";
         echo "    projectid  = $project->projectid ($project->nameofwork)\n";
         echo "    curr_state = $project->state\n";
-        echo "    next_state = $newstate\n";
+        echo "    next_state = $next_state\n";
         echo "\n";
         echo "$msg\n";
         echo "\n";
@@ -34,7 +34,7 @@ include_once($relPath.'maybe_mail.inc');
         exit;
     }
 
-    $transition = get_transition( $project->state, $newstate );
+    $transition = get_transition( $project->state, $next_state );
     if ( is_null($transition) )
     {
         fatal_error( "This transition is not recognized." );
@@ -46,11 +46,11 @@ include_once($relPath.'maybe_mail.inc');
 
     // If there's a question associated with this transition,
     // and we haven't just asked it, ask it now.
-    if ( !is_null($transition->confirmation_question) && $always != 'yes' )
+    if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
     {
         echo $transition->confirmation_question;
         echo "<br><br>";
-        echo "If so, click <A HREF=\"changestate.php?projectid=$projectid&next_state=$newstate&confirmed=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        echo "If so, click <A HREF=\"changestate.php?projectid=$projectid&next_state=$next_state&confirmed=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
         exit();
     }
 
@@ -72,12 +72,12 @@ include_once($relPath.'maybe_mail.inc');
         exit;
     }
 
-    $oldstate = $project->state;
+    $curr_state = $project->state;
 
-        $round = get_Round_for_project_state($newstate);
+        $round = get_Round_for_project_state($next_state);
         if ( !is_null($round) &&
-             $oldstate == $round->project_waiting_state &&
-             $newstate == $round->project_available_state )
+             $curr_state == $round->project_waiting_state &&
+             $next_state == $round->project_available_state )
 	{
 	    $errors = project_pre_release_check( get_object_vars($project), $round );
 	    if ($errors)
@@ -89,7 +89,7 @@ include_once($relPath.'maybe_mail.inc');
 		echo "The project has been marked bad.\n";
 		echo "Please fix the problems and resubmit.\n";
 		echo "</pre>\n";
-		$newstate = $round->project_bad_state;
+		$next_state = $round->project_bad_state;
 		$refresh_url = '';
 	    }
             else
@@ -109,7 +109,7 @@ include_once($relPath.'maybe_mail.inc');
             $extras['checkedoutby'] = $pguser;
         }
 
-	$error_msg = project_transition( $projectid, $newstate, $extras );
+	$error_msg = project_transition( $projectid, $next_state, $extras );
 	if ( $error_msg )
 	{
 	    echo "<p>$error_msg <p>Back to <a href=\"projectmgr.php\">project manager</a> page.";
