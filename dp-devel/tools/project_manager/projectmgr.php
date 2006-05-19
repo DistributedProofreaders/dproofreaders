@@ -418,10 +418,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
         // Project Status
 
+        echo "<td valign=center>\n";
         if (user_is_a_sitemanager() or ($project->username==$pguser) or user_is_proj_facilitator()) {
 
             echo "
-                <td valign=center>
                 <form
                     name='$projectid'
                     method='get'
@@ -435,10 +435,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                     onchange='this.form.submit()'>
             ";
             getSelect($project);
-            echo "</select></form></td>\n";
+            echo "</select></form>\n";
         } else {
-            echo "<td valign=center>$project->state</td>\n";
+            echo "$project->state\n";
         }
+        echo "</td>\n";
 
         // Options
         echo "<td align=center>";
