@@ -472,7 +472,9 @@ function echo_project_state_changer($project)
 {
     global $pguser;
 
-    if (user_is_a_sitemanager() or ($project->username==$pguser) or user_is_proj_facilitator())
+    $transitions = get_valid_transitions( $project, $pguser );
+
+    if ( count($transitions) > 0 )
     {
         echo "
             <form
@@ -490,7 +492,6 @@ function echo_project_state_changer($project)
 
         echo_project_state_option( $project->state, 1 );
 
-        $transitions = get_valid_transitions( $project, $pguser );
         foreach ( $transitions as $transition )
         {
             echo_project_state_option( $transition->next_state, 0 );
