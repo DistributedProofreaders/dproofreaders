@@ -12,6 +12,7 @@ include_once($relPath.'ProjectTransition.inc');
 $projectid  = $_GET['projectid'];
 $curr_state = $_GET['curr_state'];
 $next_state = $_GET['next_state'];
+$confirmed = @$_GET['confirmed'];
 
 /*
 Compare this file to tools/project_manager/changestate.php.
@@ -61,6 +62,19 @@ function fatal_error( $msg )
 
 header("Content-Type: text/html; charset=$charset");
 
+// If there's a question associated with this transition,
+// and we haven't just asked it, ask it now.
+if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
+{
+    echo $transition->confirmation_question;
+    echo "<br><br>";
+    echo "If so, click <A HREF=\"changestate.php?projectid=$projectid&curr_state=$curr_state&next_state=$next_state&confirmed=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+    exit();
+}
+
+// At this point, we know that either there's no question associated
+// with the transition, or there is and it has been answered yes.
+
 if ( $transition->action_type == 'transit_and_redirect' )
 {
     $extras = array();
@@ -68,6 +82,39 @@ if ( $transition->action_type == 'transit_and_redirect' )
     {
         $extras['checkedoutby'] = $pguser;
     }
+
+    $round = get_Round_for_project_state($next_state);
+    if ( !is_null($round) &&
+         $curr_state == $round->project_waiting_state &&
+         $next_state == $round->project_available_state )
+    {
+        $errors = project_pre_release_check( get_object_vars($project), $round );
+        if ($errors)
+        {
+            echo "<pre>\n";
+            echo "The pre-release check found the following problems:\n";
+            echo $errors;
+            echo "\n";
+            echo "The project has been marked bad.\n";
+            echo "Please fix the problems and resubmit.\n";
+            echo "</pre>\n";
+            $bad_state = $round->project_bad_state;
+            $error_msg = project_transition( $projectid, $bad_state, $extras );
+            if ($error_msg)
+            {
+                echo "<p>$error_msg <p>Back to <a href=\"projectmgr.php\">project manager</a> page.";
+            }
+            exit;
+        }
+        else
+        {
+            maybe_mail_project_manager( get_object_vars($project),
+               "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
+               "DP Proofreading Started (Manual Release)");
+        }
+    }
+
+    // -------------------------------------------------------------------------
 
     $error_msg = project_transition( $projectid, $next_state, $extras );
 
