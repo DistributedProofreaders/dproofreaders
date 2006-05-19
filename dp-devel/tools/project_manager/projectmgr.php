@@ -503,7 +503,7 @@ function echo_project_state_changer($project)
     }
     else
     {
-        echo "$project->state\n";
+        echo project_states_text($project->state), "\n";
     }
 }
 
