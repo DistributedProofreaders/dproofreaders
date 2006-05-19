@@ -419,26 +419,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         // Project Status
 
         echo "<td valign=center>\n";
-        if (user_is_a_sitemanager() or ($project->username==$pguser) or user_is_proj_facilitator()) {
-
-            echo "
-                <form
-                    name='$projectid'
-                    method='get'
-                    action='changestate.php'>
-                <input
-                    type='hidden'
-                    name='project'
-                    value='$projectid'>
-                <select
-                    name='state'
-                    onchange='this.form.submit()'>
-            ";
-            getSelect($project);
-            echo "</select></form>\n";
-        } else {
-            echo "$project->state\n";
-        }
+        echo_project_state_changer($project);
         echo "</td>\n";
 
         // Options
@@ -486,6 +467,39 @@ echo "<br>";
 theme("","footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function echo_project_state_changer($project)
+{
+    global $pguser;
+
+    if (user_is_a_sitemanager() or ($project->username==$pguser) or user_is_proj_facilitator())
+    {
+        echo "
+            <form
+                name='$project->projectid'
+                method='get'
+                action='changestate.php'>
+            <input
+                type='hidden'
+                name='project'
+                value='$project->projectid'>
+            <select
+                name='state'
+                onchange='this.form.submit()'>
+        ";
+        getSelect($project);
+        echo "
+            </select>
+            </form>
+        ";
+    }
+    else
+    {
+        echo "$project->state\n";
+    }
+}
+
+// -----------------------------------------------------------------------------
 
 function list_uber_projects( $can_see_all )
 {
