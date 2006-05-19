@@ -470,7 +470,7 @@ theme("","footer");
 
 function echo_project_state_changer($project)
 {
-    global $pguser;
+    global $pguser, $code_url;
 
     $transitions = get_valid_transitions( $project, $pguser );
 
@@ -480,11 +480,15 @@ function echo_project_state_changer($project)
             <form
                 name='$project->projectid'
                 method='get'
-                action='changestate.php'>
+                action='$code_url/tools/changestate.php'>
             <input
                 type='hidden'
                 name='projectid'
                 value='$project->projectid'>
+            <input
+                type='hidden'
+                name='curr_state'
+                value='$project->state'>
             <select
                 name='next_state'
                 onchange='this.form.submit()'>
