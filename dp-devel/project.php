@@ -1336,6 +1336,7 @@ function echo_option($code,$label,$question)
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='curr_state' value='$state'>\n";
     echo "<input type='hidden' name='next_state' value='$code'>\n";
+    echo "<input type='hidden' name='confirmed' value='yes'>\n";
 
     if ( is_null($question) )
     {
