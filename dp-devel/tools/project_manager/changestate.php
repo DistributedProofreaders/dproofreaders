@@ -10,41 +10,6 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'maybe_mail.inc');
 
-function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
-{
-    $round_old = get_Round_for_project_state($oldstate);
-    $round_new = get_Round_for_project_state($newstate);
-
-    if ( is_null($round_old) || is_null($round_new) )
-    {
-	// Transition to or from a non-round state.
-       	return FALSE;
-    }
-   
-    if ( $round_old != $round_new )
-    {
-	// Transition between different rounds.
-	// (Normally, this page doesn't see such transitions.)
-	return FALSE;
-    }
-
-    // States belong to same round.
-    $round = $round_old;
-
-    if (
-	$newstate == $round->project_unavailable_state ||
-	$oldstate == $round->project_unavailable_state ||
-	$oldstate == $round->project_waiting_state
-    )
-    {
-	return $round;
-    }
-    else
-    {
-	return FALSE;
-    }
-}
-
     // Get Passed parameters to code
     $projectid = $_GET['project'];
     $newstate = $_GET['state'];
@@ -109,13 +74,10 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
 
     $oldstate = $project->state;
 
-    if (
-	// assignment-in-condition
-	$round = is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $newstate )
-    )
-    {
-	if ( $oldstate == $round->project_waiting_state &&
-	     $newstate == $round->project_available_state )
+        $round = get_Round_for_project_state($newstate);
+        if ( !is_null($round) &&
+             $oldstate == $round->project_waiting_state &&
+             $newstate == $round->project_available_state )
 	{
 	    $errors = project_pre_release_check( get_object_vars($project), $round );
 	    if ($errors)
@@ -137,7 +99,6 @@ function is_a_page_editing_transition_that_doesnt_need_a_warning( $oldstate, $ne
                    "DP Proofreading Started (Manual Release)");
             }
 	}
-    }
 
     // -------------------------------------------------------------------------
 
