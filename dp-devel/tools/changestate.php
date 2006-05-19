@@ -7,6 +7,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
+include_once($relPath.'maybe_mail.inc');
 
 // Get Passed parameters to code
 $projectid  = $_GET['projectid'];
