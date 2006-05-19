@@ -487,7 +487,15 @@ function echo_project_state_changer($project)
                 name='state'
                 onchange='this.form.submit()'>
         ";
-        getSelect($project);
+
+        echo_project_state_option( $project->state, 1 );
+
+        $transitions = get_valid_transitions( $project, $pguser );
+        foreach ( $transitions as $transition )
+        {
+            echo_project_state_option( $transition->next_state, 0 );
+        }
+
         echo "
             </select>
             </form>
@@ -496,19 +504,6 @@ function echo_project_state_changer($project)
     else
     {
         echo "$project->state\n";
-    }
-}
-
-function getSelect($project)
-{
-    global $pguser;
-
-    echo_project_state_option( $project->state, 1 );
-
-    $transitions = get_valid_transitions( $project, $pguser );
-    foreach ( $transitions as $transition )
-    {
-        echo_project_state_option( $transition->next_state, 0 );
     }
 }
 
