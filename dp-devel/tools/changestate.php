@@ -14,15 +14,6 @@ $curr_state = $_GET['curr_state'];
 $next_state = $_GET['next_state'];
 $confirmed = @$_GET['confirmed'];
 
-/*
-Compare this file to tools/project_manager/changestate.php.
-Both handle requests to change the state of a project.
-The one in project_manager handles requests that can only be
-done by the project's project manager, or by a site admin.
-This one handles requests that can be done by people other than the PM.
-They should maybe be merged.
-*/
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 header("Content-Type: text/plain; charset=$charset");
