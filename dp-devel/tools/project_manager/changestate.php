@@ -11,9 +11,9 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'maybe_mail.inc');
 
     // Get Passed parameters to code
-    $projectid = $_GET['project'];
-    $newstate = $_GET['state'];
-    $always = @$_GET['always'];
+    $projectid = $_GET['projectid'];
+    $newstate = $_GET['next_state'];
+    $always = @$_GET['confirmed'];
 
     $project = new Project( $projectid );
 
@@ -50,7 +50,7 @@ include_once($relPath.'maybe_mail.inc');
     {
         echo $transition->confirmation_question;
         echo "<br><br>";
-        echo "If so, click <A HREF=\"changestate.php?project=$projectid&state=$newstate&always=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+        echo "If so, click <A HREF=\"changestate.php?projectid=$projectid&next_state=$newstate&confirmed=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
         exit();
     }
 

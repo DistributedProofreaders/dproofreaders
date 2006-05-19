@@ -483,10 +483,10 @@ function echo_project_state_changer($project)
                 action='changestate.php'>
             <input
                 type='hidden'
-                name='project'
+                name='projectid'
                 value='$project->projectid'>
             <select
-                name='state'
+                name='next_state'
                 onchange='this.form.submit()'>
         ";
 
