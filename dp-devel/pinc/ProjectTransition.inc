@@ -81,6 +81,10 @@ class ProjectTransition
         {
             return that_user_is_a_sitemanager($username);
         }
+        elseif ( $this->restriction == 'auto' )
+        {
+            return FALSE;
+        }
 
         $restriction_words = explode(' ', $this->restriction);
         if ( $restriction_words[0] == 'user_can_work_in_stage' )
@@ -244,6 +248,90 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         FALSE,
         'automodify.php?project=<PROJECTID>'
     );
+
+    new ProjectTransition(
+        $round->project_waiting_state,
+        $round->project_bad_state,
+        'auto',
+        null,
+        null,
+        null,
+        null,
+        null
+    );
+
+    new ProjectTransition(
+        $round->project_available_state,
+        $round->project_bad_state,
+        'auto',
+        null,
+        null,
+        null,
+        null,
+        null
+    );
+
+    new ProjectTransition(
+        $round->project_bad_state,
+        $round->project_available_state,
+        'auto',
+        null,
+        null,
+        null,
+        null,
+        null
+    );
+
+    new ProjectTransition(
+        $round->project_available_state,
+        $round->project_complete_state,
+        'auto',
+        null,
+        null,
+        null,
+        null,
+        null
+    );
+
+    if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
+    {
+        $next_round = get_Round_for_round_number($rn+1);
+
+        new ProjectTransition(
+            $round->project_complete_state,
+            $next_round->project_waiting_state,
+            'auto',
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+    }
+    else
+    {
+        new ProjectTransition(
+            $round->project_complete_state,
+            PROJ_POST_FIRST_AVAILABLE,
+            'auto',
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+
+        new ProjectTransition(
+            $round->project_complete_state,
+            PROJ_POST_FIRST_CHECKED_OUT,
+            'auto',
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -511,6 +599,19 @@ new ProjectTransition(
     'redirect',
     FALSE,
     "correct/completecorr.php?project=<PROJECTID>"
+);
+
+// -----------------------------------------------------------------------------
+
+new ProjectTransition(
+    PROJ_SUBMIT_PG_POSTED,
+    PROJ_CORRECT_AVAILABLE,
+    'auto',
+    null,
+    null,
+    null,
+    null,
+    null
 );
 
 // -----------------------------------------------------------------------------
