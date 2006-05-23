@@ -7,6 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'f_move_post.inc');
+include_once($relPath.'ProjectTransition.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
 // Move the given project to the given state,
@@ -16,8 +17,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 //
 // This function produces no output except for debugging messages.
 //
-// This function should encapsulate the entire transition graph for project
-// states. That is, it should be the only code that modifies the 'state'
+// This function should be the only code that modifies the 'state'
 // column of the 'projects' table.
 // It should perhaps also be the only place that modifies these columns:
 //     modifieddate checkedoutby postproofer postcomments
@@ -76,7 +76,8 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// -------------------------------------------------------------------------
 
-	if ( ! transition_is_legal( $current_state, $new_state ) )
+	$transition = get_transition( $current_state, $new_state );
+	if ( is_null($transition) )
 	{
 		// Requested transition is illegal.
 		$error = "$transition_str "._("is illegal");
@@ -284,116 +285,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		echo "{$indent}$transition_str: success{$eol}";
 	}
 	return '';
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function transition_is_legal( $current_state, $new_state )
-{
-	// A project can be deleted when it's in any state.
-	if ( $new_state == PROJ_DELETE ) return TRUE;
-
-	$transition_graph = array(
-		PROJ_NEW => array(
-			PROJ_P1_UNAVAILABLE
-			),
-
-		PROJ_POST_FIRST_UNAVAILABLE => array(
-			PROJ_POST_FIRST_AVAILABLE,
-			PROJ_POST_FIRST_CHECKED_OUT,
-			),
-		PROJ_POST_FIRST_AVAILABLE => array(
-			PROJ_POST_FIRST_UNAVAILABLE,
-			PROJ_POST_FIRST_CHECKED_OUT,
-			),
-		PROJ_POST_FIRST_CHECKED_OUT => array(
-			PROJ_POST_FIRST_UNAVAILABLE,
-			PROJ_POST_FIRST_AVAILABLE,
-			PROJ_POST_SECOND_AVAILABLE,
-			PROJ_POST_SECOND_CHECKED_OUT,
-			PROJ_POST_COMPLETE,
-			PROJ_SUBMIT_PG_POSTED,
-			),
-		PROJ_POST_SECOND_AVAILABLE => array(
-			PROJ_POST_SECOND_CHECKED_OUT,
-			PROJ_POST_COMPLETE,
-			PROJ_SUBMIT_PG_POSTED,
-			),
-		PROJ_POST_SECOND_CHECKED_OUT => array(
-			PROJ_POST_FIRST_CHECKED_OUT,
-			PROJ_POST_SECOND_AVAILABLE,
-			PROJ_POST_COMPLETE,
-			PROJ_SUBMIT_PG_POSTED,
-			),
-		PROJ_POST_COMPLETE => array(
-			PROJ_SUBMIT_PG_POSTED,
-			),
-
-		PROJ_SUBMIT_PG_POSTED => array(
-			PROJ_CORRECT_AVAILABLE,
-			),
-
-		PROJ_CORRECT_AVAILABLE => array(
-			PROJ_CORRECT_CHECKED_OUT,
-			),
-		PROJ_CORRECT_CHECKED_OUT => array(
-			PROJ_CORRECT_AVAILABLE,
-			PROJ_SUBMIT_PG_POSTED,
-			),
-
-	);
-
-	global $site_supports_metadata;
-	if ( $site_supports_metadata )
-	{
-		$transition_graph[ PROJ_NEW_FILE_UPLOADED ] = array(
-			PROJ_NEW_METADATA_FIRST
-			);
-		// Yes, you'd need more than just that.
-		// This is just a start, or a reminder, I guess.
-	}
-
-	for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
-	{
-		$round = get_Round_for_round_number($rn);
-
-		$transition_graph[ $round->project_bad_state ] = array(
-			$round->project_unavailable_state,
-			$round->project_available_state,
-			$round->project_complete_state,
-			);
-		$transition_graph[ $round->project_unavailable_state ] = array(
-			$round->project_waiting_state,
-			);
-		$transition_graph[ $round->project_waiting_state ] = array(
-			$round->project_bad_state,
-			$round->project_unavailable_state,
-			$round->project_available_state,
-			);
-		$transition_graph[ $round->project_available_state ] = array(
-			$round->project_bad_state,
-			$round->project_unavailable_state,
-			$round->project_complete_state,
-			);
-
-		if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
-		{
-			$next_round = get_Round_for_round_number($rn+1);
-			$transition_graph[ $round->project_complete_state ] = array(
-				$next_round->project_unavailable_state,
-				$next_round->project_waiting_state,
-				);
-		}
-		else
-		{
-			$transition_graph[ $round->project_complete_state ] = array(
-				PROJ_POST_FIRST_CHECKED_OUT,
-				PROJ_POST_FIRST_AVAILABLE,
-				);
-		}
-	}
-
-	return ( in_array( $new_state, $transition_graph[$current_state] ) );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
