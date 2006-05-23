@@ -89,6 +89,61 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	$now = time();
 
 	$settings = "state='$new_state'";
+	if ( !empty($transition->settings_template) )
+	{
+		// echo "transition->settings_template = $transition->settings_template\n";
+
+		// expand template
+		$patterns = array(); $replacements = array();
+
+		$braced_pattern = '/{[^}]*}/';
+		$r = preg_match_all( $braced_pattern, $transition->settings_template, $matches );
+		if ( $r === FALSE )
+		{
+			return "$transition_str: preg_match_all return FALSE";
+		}
+		foreach( $matches[0] as $braced_thing )
+		{
+			switch ( $braced_thing )
+			{
+				case '{TIMESTAMP}':
+				   	$replacement = time();
+					break;
+
+				case '{E:checkedoutby}':
+					$replacement = @$extras['checkedoutby'];
+					if ( $replacement == '' )
+					{
+						return "$transition_str: \$extras['checkedoutby'] is unset";
+					}
+					break;
+
+				case '{E:correctedby}':
+					$replacement = @$extras['correctedby'];
+					if ( $replacement == '' )
+					{
+						return "$transition_str: \$extras['correctedby'] is unset";
+					}
+					break;
+
+				case '{G:postcomments}':
+					global $postcomments;
+					$replacement = $postcomments;
+					break;
+
+				default:
+					return "$transition_str: in settings_template, bad braced_thing $braced_thing";
+					break;
+			}
+			$patterns[] = "/$braced_thing/";
+			$replacements[] = $replacement;
+		}
+
+		$settings_addition = preg_replace(
+		       	$patterns, $replacements, $transition->settings_template );
+
+		$settings .= ", $settings_addition";
+	}
 
 	$round = get_Round_for_project_state($new_state);
 	if ( !is_null($round) )
@@ -101,120 +156,9 @@ function project_transition( $projectid, $new_state, $extras = array() )
 				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
 				return $error;
 			}
-			$settings .= ", modifieddate='$now'";
-			// The time when projects enter the 'waiting for release' state
-			// is the overall ordering criterion for the "release queue".
-		}
-		else if ( $current_state != $round->project_bad_state &&
-			  $new_state     == $round->project_available_state )
-		{
-			$settings .= ", modifieddate='$now'";
-			// The time when projects enter the 'available' state
-			// is the ordering criterion for "Sort by Days"
-			// in the list of available projects.
-			// (But if the project is just coming back from the
-			// 'bad' state, that shouldn't affect the sort order.)
-		}
-		else
-		{
-			// Don't update modifieddate.
 		}
 	}
 
-	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
-		in_array( $new_state, array(PROJ_POST_FIRST_UNAVAILABLE,PROJ_POST_FIRST_AVAILABLE) ) )
-	{
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby=''";
-		$settings .= ", smoothread_deadline='0'";
-	}
-	// Allow PPV to return to PPer directly
-	else if ( $current_state == PROJ_POST_SECOND_CHECKED_OUT &&
-		$new_state == PROJ_POST_FIRST_CHECKED_OUT )
-	{
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby='{$project['postproofer']}'";
-	}
-	else if ( $new_state == PROJ_POST_FIRST_CHECKED_OUT )
-	{
-		if ( $extras['checkedoutby'] == '' )
-		{
-			return "$transition_str: \$extras['checkedoutby'] is unset";
-		}
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
-	}
-	else if ( $current_state == PROJ_POST_FIRST_CHECKED_OUT &&
-		$new_state == PROJ_POST_SECOND_AVAILABLE )
-	{
-		global $postcomments;
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		$settings .= ", postcomments='{$postcomments}'";
-	}
-	else if ( ( $current_state == PROJ_POST_FIRST_CHECKED_OUT ||
-		    $current_state == PROJ_POST_SECOND_AVAILABLE )
-		&&
-		$new_state == PROJ_POST_SECOND_CHECKED_OUT )
-	{
-		if ( $extras['checkedoutby'] == '' )
-		{
-			return "$transition_str: \$extras['checkedoutby'] is unset";
-		}
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", postproofer='{$project['checkedoutby']}'";
-		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
-	}
-	else if ( $current_state == PROJ_POST_SECOND_CHECKED_OUT &&
-		$new_state == PROJ_POST_SECOND_AVAILABLE )
-	{
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby='{$project['postproofer']}'";
-	}
-	else if ( $new_state == PROJ_SUBMIT_PG_POSTED )
-	{
-		$settings .= ", modifieddate='$now'";
-
-		// if no postproofer recorded, project never went through PPV
-		// so whoever has it checked out must be cleared to post directly
-		// and must have been the PPer
-		if ($project['postproofer'] == '' ) {
-			$settings .= ", postproofer='{$project['checkedoutby']}'";
-		} else {
-			// if checkedoutby != postproofer, then checkedoutby must be PPVer...
-			// this assumes a project is only posted once!
-			// otherwise, maybe also test that ppverifier is null?
-			if ($project['postproofer'] != $project['checkedoutby']) {
-				$settings .= ", ppverifier='{$project['checkedoutby']}'";
-			}
-		}
-	}
-      else if ( $current_state == PROJ_SUBMIT_PG_POSTED &&
-		$new_state == PROJ_CORRECT_AVAILABLE)
-	{
-		if ( $extras['correctedby'] == '' )
-		{
-			return "$transition_str: \$extras['correctedby'] is unset";
-		}
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", correctedby='{$extras['correctedby']}'";
-	}
-	else if ( $current_state == PROJ_CORRECT_AVAILABLE &&
-		$new_state == PROJ_CORRECT_CHECKED_OUT )
-	{
-		if ( $extras['checkedoutby'] == '' )
-		{
-			return "$transition_str: \$extras['checkedoutby'] is unset";
-		}
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby='{$extras['checkedoutby']}'";
-	}
-	else if ( $current_state == PROJ_CORRECT_CHECKED_OUT &&
-		$new_state == PROJ_CORRECT_AVAILABLE )
-	{
-		$settings .= ", modifieddate='$now'";
-		$settings .= ", checkedoutby=''";
-	}
 	else if ( $new_state == PROJ_DELETE )
 	{
 		global $projects_dir;
@@ -239,8 +183,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		{
 			// It's somewhat problematic to delete the entry from 'projects' table.
 			// Instead, keep the entry, but change its state to 'deleted'.
-
-			$settings .= ", modifieddate='$now'";
 		}
 	}
 
@@ -274,9 +216,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	// move the project topic in synch with the project's progress
 	move_project_thread( $projectid, get_forum_id_for_project_state($new_state) );
 
-
-	// (All the stuff under PROJ_SUBMIT_PG_POSTED, except for the assignment
-	// to $settings, should probably be moved here.)
 
 	// ---------------------------------------------------------------------
 
