@@ -247,7 +247,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'redirect',
         FALSE,
         '',
-        'automodify.php?project=<PROJECTID>'
+        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>"
         // which will leave the project in the appropriate
         // BAD, AVAILABLE, or COMPLETE state.
     );
@@ -273,7 +273,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'redirect',
         FALSE,
         '',
-        'automodify.php?project=<PROJECTID>'
+        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>"
     );
 
     new ProjectTransition(
@@ -465,7 +465,7 @@ new ProjectTransition(
     'redirect',
     FALSE,
     "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
-    "upload_text.php?project=<PROJECTID>&stage=post_1"
+    "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1"
 );
 
 new ProjectTransition(
@@ -633,7 +633,7 @@ new ProjectTransition(
     'transit_and_redirect',
     FALSE,
     $pg_posted_settings_template,
-    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
 
 new ProjectTransition(
@@ -645,7 +645,7 @@ new ProjectTransition(
     'transit_and_redirect',
     FALSE,
     $pg_posted_settings_template,
-    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
 
 new ProjectTransition(
@@ -657,7 +657,7 @@ new ProjectTransition(
     'transit_and_redirect',
     FALSE,
     $pg_posted_settings_template,
-    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
 
 new ProjectTransition(
@@ -669,7 +669,7 @@ new ProjectTransition(
     'transit_and_redirect',
     FALSE,
     $pg_posted_settings_template,
-    'editproject.php?action=edit&project=<PROJECTID>&posted=1'
+    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
 
 new ProjectTransition(
@@ -681,7 +681,7 @@ new ProjectTransition(
     'redirect',
     FALSE,
     $pg_posted_settings_template,
-    "correct/completecorr.php?project=<PROJECTID>"
+    "$code_url/tools/correct/completecorr.php?project=<PROJECTID>"
 );
 
 // -----------------------------------------------------------------------------
