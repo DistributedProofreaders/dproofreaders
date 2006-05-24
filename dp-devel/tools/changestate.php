@@ -153,6 +153,11 @@ if ( $transition->destination == '<RETURN>' )
 else
 {
     $refresh_url = str_replace( '<PROJECTID>', $projectid, $transition->destination );
+
+    // Pass $return_uri on to the next page, in hopes it can use it.
+    $connector = ( strpos($refresh_url,'?') === FALSE ? '?' : '&' );
+    $encoded_return_uri = urlencode($return_uri);
+    $refresh_url .= "{$connector}return_uri=$encoded_return_uri";
 }
 
 metarefresh(2, $refresh_url, $title, $body);
