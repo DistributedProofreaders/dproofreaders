@@ -335,7 +335,9 @@ else
                VALUES ('automodify.php', $tracetimea, 'END', 'end single, started at $tracetime, took $tooktime seconds')");
 
 
-    echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=projectmgr.php\">";
+    $refresh_url = @$_GET['return_uri'];
+    if ( empty($refresh_url) ) $refresh_url = 'projectmgr.php';
+    echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
 }
 
 // -----------------------------------------------------------------------------
