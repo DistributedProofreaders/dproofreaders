@@ -9,6 +9,8 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'maybe_mail.inc');
 
+header("Content-Type: text/html; charset=$charset");
+
 // Get Passed parameters to code
 $projectid  = $_GET['projectid'];
 $curr_state = $_GET['curr_state'];
@@ -16,8 +18,6 @@ $next_state = $_GET['next_state'];
 $confirmed = @$_GET['confirmed'];
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-header("Content-Type: text/plain; charset=$charset");
 
 $project = new Project($projectid);
 
@@ -41,18 +41,18 @@ function fatal_error( $msg )
 {
     global $projectid, $project, $curr_state, $next_state;
 
+    echo "<pre>\n";
     echo "You requested:\n";
     echo "    projectid  = $projectid ($project->nameofwork)\n";
     echo "    curr_state = $curr_state\n";
     echo "    next_state = $next_state\n";
     echo "\n";
     echo "$msg\n";
+    echo "</pre>\n";
     exit;
 }
 
 // -----------------------------------------------------------------------------
-
-header("Content-Type: text/html; charset=$charset");
 
 // If there's a question associated with this transition,
 // and we haven't just asked it, ask it now.
