@@ -16,6 +16,7 @@ $projectid  = $_POST['projectid'];
 $curr_state = $_POST['curr_state'];
 $next_state = $_POST['next_state'];
 $confirmed = @$_POST['confirmed'];
+$return_uri = $_POST['return_uri'];
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -66,9 +67,10 @@ if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
         <input type='hidden' name='curr_state' value='$curr_state'>
         <input type='hidden' name='next_state' value='$next_state'>
         <input type='hidden' name='confirmed'  value='yes'>
+        <input type='hidden' name='return_uri' value='$return_uri'>
         If so, click
         <input type='submit' value='here'>,
-        otherwise back to <a href='projectmgr.php'>project listings</a>.
+        otherwise go back to <a href='$return_uri'>where you were</a>.
         </form>
 EOS;
     exit();
@@ -104,7 +106,7 @@ if ( $transition->action_type == 'transit_and_redirect' )
             $error_msg = project_transition( $projectid, $bad_state, $extras );
             if ($error_msg)
             {
-                echo "<p>$error_msg <p>Back to <a href=\"projectmgr.php\">project manager</a> page.";
+                echo "<p>$error_msg <p>Back to <a href='$return_uri'>where you were</a>.";
             }
             exit;
         }
@@ -146,23 +148,7 @@ if ( $transition->destination == '<RETURN>' )
 {
     // Return the user to the screen they were at
     // when they requested the state change.
-
-    // We can't assume that HTTP_REFERER is set.
-    $referer = @$_SERVER['HTTP_REFERER'];
-    if ( empty($referer) )
-    {
-        // Punt to the project home.
-        $refresh_url = "$code_url/project.php?id=$projectid";
-    }
-    else
-    {
-        // This is somewhat kludgey:
-        // If the referer URL included a statement of an expected state,
-        // and we refresh to that URL, the user will get a warning
-        // that the project is no longer in that expected state.
-        // So we delete any such statement.
-        $refresh_url = preg_replace('/expected_state=\w+/', '', $referer );
-    }
+    $refresh_url = $return_uri;
 }
 else
 {

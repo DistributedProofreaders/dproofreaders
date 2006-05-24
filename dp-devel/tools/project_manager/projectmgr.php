@@ -476,6 +476,7 @@ function echo_project_state_changer($project)
 
     if ( count($transitions) > 0 )
     {
+        $here = $_SERVER['REQUEST_URI'];
         echo "
             <form
                 name='$project->projectid'
@@ -489,6 +490,10 @@ function echo_project_state_changer($project)
                 type='hidden'
                 name='curr_state'
                 value='$project->state'>
+            <input
+                type='hidden'
+                name='return_uri'
+                value='$here'>
             <select
                 name='next_state'
                 onchange='this.form.submit()'>

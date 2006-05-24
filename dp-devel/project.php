@@ -1332,11 +1332,21 @@ function echo_option($code,$label,$question)
     $projectid = $project->projectid;
     $state = $project->state;
 
+    $here = $_SERVER['REQUEST_URI'];
+    // If the request URI included an 'expected_state' parameter, there's a wrinkle:
+    // If the user clicks on this button, the project's state will (normally) change.
+    // So if we then returned the user to exactly this URI, they'd get a warning:
+    // "The project is no longer in 'this state'. It is now in 'that state'.
+    // So we suppress the 'expected_state' parameter from the request URI.
+    $here = preg_replace('/expected_state=[A-Za-z._0-9]+/', '', $here );
+    // This can leave an extra &, but I suspect browsers can handle it.
+
     echo "<form method='POST' action='$code_url/tools/changestate.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='curr_state' value='$state'>\n";
     echo "<input type='hidden' name='next_state' value='$code'>\n";
     echo "<input type='hidden' name='confirmed' value='yes'>\n";
+    echo "<input type='hidden' name='return_uri' value='$here'>\n";
 
     if ( is_null($question) )
     {
