@@ -1344,6 +1344,11 @@ function do_change_state()
         }
         $onclick_attr = "onClick='$onClick_condition'";
         echo "<input type='submit' value='{$transition->action_name}' $onclick_attr>";
+        if (1)
+        {
+            // Say who is allowed to do this transition.
+            echo " [$transition->restriction]";
+        }
 
         echo "</form>\n";
     }
