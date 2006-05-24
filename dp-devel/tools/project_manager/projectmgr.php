@@ -479,7 +479,7 @@ function echo_project_state_changer($project)
         echo "
             <form
                 name='$project->projectid'
-                method='get'
+                method='POST'
                 action='$code_url/tools/changestate.php'>
             <input
                 type='hidden'

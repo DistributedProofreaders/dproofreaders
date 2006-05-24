@@ -12,10 +12,10 @@ include_once($relPath.'maybe_mail.inc');
 header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code
-$projectid  = $_GET['projectid'];
-$curr_state = $_GET['curr_state'];
-$next_state = $_GET['next_state'];
-$confirmed = @$_GET['confirmed'];
+$projectid  = $_POST['projectid'];
+$curr_state = $_POST['curr_state'];
+$next_state = $_POST['next_state'];
+$confirmed = @$_POST['confirmed'];
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -59,8 +59,18 @@ function fatal_error( $msg )
 if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
 {
     echo $transition->confirmation_question;
-    echo "<br><br>";
-    echo "If so, click <A HREF=\"changestate.php?projectid=$projectid&curr_state=$curr_state&next_state=$next_state&confirmed=yes\">here</a>, otherwise back to <a href=\"projectmgr.php\">project listings</a>.";
+    echo <<<EOS
+        <br>
+        <form action='changestate.php' method='POST'>
+        <input type='hidden' name='projectid'  value='$projectid'>
+        <input type='hidden' name='curr_state' value='$curr_state'>
+        <input type='hidden' name='next_state' value='$next_state'>
+        <input type='hidden' name='confirmed'  value='yes'>
+        If so, click
+        <input type='submit' value='here'>,
+        otherwise back to <a href='projectmgr.php'>project listings</a>.
+        </form>
+EOS;
     exit();
 }
 

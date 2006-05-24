@@ -1332,7 +1332,7 @@ function echo_option($code,$label,$question)
     $projectid = $project->projectid;
     $state = $project->state;
 
-    echo "<form method='get' action='$code_url/tools/changestate.php'>";
+    echo "<form method='POST' action='$code_url/tools/changestate.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='curr_state' value='$state'>\n";
     echo "<input type='hidden' name='next_state' value='$code'>\n";
