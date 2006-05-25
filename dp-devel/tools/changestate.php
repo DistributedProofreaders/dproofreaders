@@ -82,7 +82,7 @@ EOS;
 if ( $transition->action_type == 'transit_and_redirect' )
 {
     $extras = array();
-    if ( $transition->checkedoutby_to_transit )
+    if ( strpos($transition->settings_template, '{E:checkedoutby}') !== FALSE )
     {
         $extras['checkedoutby'] = $pguser;
     }
