@@ -469,18 +469,6 @@ new ProjectTransition(
 );
 
 new ProjectTransition(
-    PROJ_POST_FIRST_CHECKED_OUT,
-    PROJ_POST_SECOND_CHECKED_OUT,
-    'site_manager',
-    '[default]',
-    NULL,
-    'transit_and_redirect',
-    TRUE,
-    "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
-    '<RETURN>'
-);
-
-new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_FIRST_CHECKED_OUT,
     'holder',
