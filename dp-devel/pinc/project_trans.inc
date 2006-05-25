@@ -148,12 +148,16 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	$round = get_Round_for_project_state($new_state);
 	if ( !is_null($round) )
 	{
-		if ( $new_state == $round->project_waiting_state )
+		if ( $new_state == $round->project_waiting_state
+		  || $new_state == $round->project_available_state )
 		{
 			$errors = project_pre_release_check( $project, $round );
 			if ($errors)
 			{
 				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
+				// At this point, the corresponding code in changestate.php
+				// would transit the project to the round's bad state.
+				// It's probably sufficient to just leave it in its current state.
 				return $error;
 			}
 		}
