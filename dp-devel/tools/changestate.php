@@ -87,43 +87,22 @@ if ( $transition->action_type == 'transit_and_redirect' )
         $extras['checkedoutby'] = $pguser;
     }
 
-    $round = get_Round_for_project_state($next_state);
-    if ( !is_null($round) &&
-         $curr_state == $round->project_waiting_state &&
-         $next_state == $round->project_available_state )
-    {
-        $errors = project_pre_release_check( get_object_vars($project), $round );
-        if ($errors)
-        {
-            echo "<pre>\n";
-            echo "The pre-release check found the following problems:\n";
-            echo $errors;
-            echo "\n";
-            echo "The project has been marked bad.\n";
-            echo "Please fix the problems and resubmit.\n";
-            echo "</pre>\n";
-            $bad_state = $round->project_bad_state;
-            $error_msg = project_transition( $projectid, $bad_state, $extras );
-            if ($error_msg)
-            {
-                echo "<p>$error_msg <p>Back to <a href='$return_uri'>where you were</a>.";
-            }
-            exit;
-        }
-        else
-        {
-            maybe_mail_project_manager( get_object_vars($project),
-               "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
-               "DP Proofreading Started (Manual Release)");
-        }
-    }
-
     // -------------------------------------------------------------------------
 
     $error_msg = project_transition( $projectid, $next_state, $extras );
 
     if ($error_msg == '')
     {
+        $round = get_Round_for_project_state($next_state);
+        if ( !is_null($round) &&
+             $curr_state == $round->project_waiting_state &&
+             $next_state == $round->project_available_state )
+        {
+            maybe_mail_project_manager( get_object_vars($project),
+               "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
+               "DP Proofreading Started (Manual Release)");
+        }
+
         $title = "Action Successful";
         $body = "Your request ('$transition->action_name') was successful.";
     }
