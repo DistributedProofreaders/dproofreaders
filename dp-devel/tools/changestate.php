@@ -131,15 +131,26 @@ if ( $transition->destination == '<RETURN>' )
 }
 else
 {
-    $refresh_url = str_replace( '<PROJECTID>', $projectid, $transition->destination );
-
-    // Pass $return_uri on to the next page, in hopes it can use it.
-    $connector = ( strpos($refresh_url,'?') === FALSE ? '?' : '&' );
-    $encoded_return_uri = urlencode($return_uri);
-    $refresh_url .= "{$connector}return_uri=$encoded_return_uri";
+    $refresh_url = prepare_url( $transition->destination );
 }
 
 metarefresh(2, $refresh_url, $title, $body);
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function prepare_url( $url_template )
+{
+    global $projectid, $return_uri;
+
+    $url = str_replace( '<PROJECTID>', $projectid, $url_template );
+
+    // Pass $return_uri on to the next page, in hopes it can use it.
+    $connector = ( strpos($url,'?') === FALSE ? '?' : '&' );
+    $encoded_return_uri = urlencode($return_uri);
+    $url .= "{$connector}return_uri=$encoded_return_uri";
+
+    return $url;
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
