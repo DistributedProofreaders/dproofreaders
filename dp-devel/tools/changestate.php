@@ -79,7 +79,12 @@ EOS;
 // At this point, we know that either there's no question associated
 // with the transition, or there is and it has been answered yes.
 
-if ( $transition->action_type == 'transit_and_redirect' )
+if ( $transition->action_type == 'redirect' )
+{
+    $title = "Transferring...";
+    $body = "";
+}
+elseif ( $transition->action_type == 'transit_and_redirect' )
 {
     $extras = array();
     if ( strpos($transition->settings_template, '{E:checkedoutby}') !== FALSE )
@@ -112,11 +117,6 @@ if ( $transition->action_type == 'transit_and_redirect' )
         $body = "$error_msg<br><br>\n"
             . "Something went wrong, and your request ('$transition->action_name') has probably not been carried out.";
     }
-}
-elseif ( $transition->action_type == 'redirect' )
-{
-    $title = "Transferring...";
-    $body = "";
 }
 else
 {
