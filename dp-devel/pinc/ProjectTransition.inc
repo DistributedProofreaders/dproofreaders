@@ -12,7 +12,7 @@ class ProjectTransition
         $restriction,
         $action_name,
         $confirmation_question,
-        $action_type,
+        $detour,
         $settings_template,
         $destination
     )
@@ -40,7 +40,7 @@ class ProjectTransition
         $this->restriction = $restriction;
         $this->action_name = $action_name;
         $this->confirmation_question = $confirmation_question;
-        $this->action_type = $action_type;
+        $this->detour      = $detour;
         $this->settings_template = $settings_template;
 
         $this->destination = $destination;
@@ -145,7 +145,7 @@ new ProjectTransition(
     'manager',
     '[default]',
     NULL,
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -158,7 +158,7 @@ if ($site_supports_metadata)
         'manager',
         '[default]',
         NULL,
-        'transit_and_redirect',
+        null,
         '',
         '<RETURN>'
     );
@@ -192,7 +192,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         '[default]',
         NULL,
-        'transit_and_redirect',
+        null,
         'modifieddate="{TIMESTAMP}"',
         '<RETURN>'
     );
@@ -203,7 +203,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         '[default]',
         NULL,
-        'transit_and_redirect',
+        null,
         '',
         '<RETURN>'
     );
@@ -214,7 +214,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'proj_facilitator',
         '[default]',
         '[default]',
-        'transit_and_redirect',
+        null,
         'modifieddate="{TIMESTAMP}"',
         '<RETURN>'
     );
@@ -225,7 +225,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         '[default]',
         NULL,
-        'transit_and_redirect',
+        null,
         '',
         '<RETURN>'
     );
@@ -236,12 +236,14 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         _('automodify'),
         NULL,
-        'redirect',
+        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
         '',
-        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>"
-        // which will leave the project in the appropriate
-        // BAD, AVAILABLE, or COMPLETE state.
+        NULL
     );
+    // automodify.php will leave the project in the appropriate
+    // BAD, AVAILABLE, or COMPLETE state.
+    // ($settings_template and $destination of this ProjectTransition
+    // will never be consulted.)
 
     new ProjectTransition(
         $round->project_available_state,
@@ -249,7 +251,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         '[default]',
         '[default]',
-        'transit_and_redirect',
+        null,
         '',
         '<RETURN>'
     );
@@ -260,9 +262,9 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'manager',
         _('automodify'),
         NULL,
-        'redirect',
+        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
         '',
-        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>"
+        NULL
     );
 
     new ProjectTransition(
@@ -360,7 +362,7 @@ new ProjectTransition(
     'user_can_work_in_stage PP',
     _("Check Out Book"),
     _("Are you sure you want to check this book out for post processing?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
     '<RETURN>'
 );
@@ -371,7 +373,7 @@ new ProjectTransition(
     'user_can_work_in_stage PPV',
     _("Check Out Book"),
     _("Are you sure you want to check this book out for verifying post processing?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
     '<RETURN>'
 );
@@ -382,7 +384,7 @@ new ProjectTransition(
     'user_can_work_in_stage CR',
     _("Check Out Book"),
     _("Are you sure you want to check this book out to review corrections?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
     '<RETURN>'
 );
@@ -399,7 +401,7 @@ new ProjectTransition(
     'holder',
     _("Return to Available"),
     _("Are you sure you want to make this book available to others for post processing?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
     '<RETURN>'
 );
@@ -410,7 +412,7 @@ new ProjectTransition(
     'holder',
     _("Return to Available"),
     _("Are you sure you want to make this book available to others to verify and lose your work?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
     '<RETURN>'
 );
@@ -421,7 +423,7 @@ new ProjectTransition(
     'holder',
     _("Return to Available"),
     _("Are you sure you want to make this book available to others for reviewing corrections?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby=''",
     '<RETURN>'
 );
@@ -438,9 +440,9 @@ new ProjectTransition(
     'holder',
     _("Upload for Verification"),
     NULL,
-    'redirect',
+    "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
     "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
-    "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1"
+    '<RETURN>'
 );
 
 new ProjectTransition(
@@ -449,7 +451,7 @@ new ProjectTransition(
     'holder',
     _("Return to Post-Processor"),
     _("Are you sure you want to return this book to the post-processor for further work?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
     '<RETURN>'
 );
@@ -465,7 +467,7 @@ new ProjectTransition(
     'manager',
     '[default]',
     '[default]',
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -476,7 +478,7 @@ new ProjectTransition(
     'manager',
     '[default]',
     _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
     '<RETURN>'
 );
@@ -489,7 +491,7 @@ new ProjectTransition(
     'manager',
     _('Make Project Available for Post-Processing'),
     '[default]',
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -500,7 +502,7 @@ new ProjectTransition(
     'manager',
     _('Check Out Project for Post-Processing'),
     _("It's unclear whether this transition should even be possible. Are you sure?"),
-    'transit_and_redirect',
+    null,
     "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
     '<RETURN>'
 );
@@ -518,7 +520,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $post_complete_question,
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -529,7 +531,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $post_complete_question,
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -540,7 +542,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $post_complete_question,
-    'transit_and_redirect',
+    null,
     '',
     '<RETURN>'
 );
@@ -585,7 +587,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $pg_posted_question,
-    'transit_and_redirect',
+    null,
     $pg_posted_settings_template,
     "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
@@ -596,7 +598,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $pg_posted_question,
-    'transit_and_redirect',
+    null,
     $pg_posted_settings_template,
     "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
@@ -607,7 +609,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $pg_posted_question,
-    'transit_and_redirect',
+    null,
     $pg_posted_settings_template,
     "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
@@ -618,7 +620,7 @@ new ProjectTransition(
     'site_manager',
     '[default]',
     $pg_posted_question,
-    'transit_and_redirect',
+    null,
     $pg_posted_settings_template,
     "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
@@ -629,9 +631,9 @@ new ProjectTransition(
     'holder',
     _("Posted to Project Gutenberg"),
     NULL,
-    'redirect',
+    "$code_url/tools/correct/completecorr.php?project=<PROJECTID>",
     $pg_posted_settings_template,
-    "$code_url/tools/correct/completecorr.php?project=<PROJECTID>"
+    '<RETURN>'
 );
 
 // -----------------------------------------------------------------------------
@@ -669,7 +671,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $curr_state )
         $who_may_delete,
         _('Delete Project'),
         _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
-        'transit_and_redirect',
+        null,
         "modifieddate='{TIMESTAMP}'",
         '<RETURN>'
     );

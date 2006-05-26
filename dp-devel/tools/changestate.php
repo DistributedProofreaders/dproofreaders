@@ -79,12 +79,18 @@ EOS;
 // At this point, we know that either there's no question associated
 // with the transition, or there is and it has been answered yes.
 
-if ( $transition->action_type == 'redirect' )
+if ( !empty($transition->detour) )
 {
+    // Detour (to collect data).
     $title = "Transferring...";
     $body = "";
+    $refresh_url = prepare_url( $transition->detour );
+    metarefresh(2, $refresh_url, $title, $body);
+    exit;
 }
-elseif ( $transition->action_type == 'transit_and_redirect' )
+
+// There's no detour, so we can proceed with the actual state-transition.
+
 {
     $extras = array();
     if ( strpos($transition->settings_template, '{E:checkedoutby}') !== FALSE )
@@ -117,10 +123,6 @@ elseif ( $transition->action_type == 'transit_and_redirect' )
         $body = "$error_msg<br><br>\n"
             . "Something went wrong, and your request ('$transition->action_name') has probably not been carried out.";
     }
-}
-else
-{
-    die("bad transition->action_type: '$transition->action_type'");
 }
 
 if ( $transition->destination == '<RETURN>' )
