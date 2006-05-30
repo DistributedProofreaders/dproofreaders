@@ -7,6 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'f_move_post.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 
 function project_transition( $projectid, $new_state, $extras = array() )
@@ -27,19 +28,9 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// error_reporting(E_ALL);
 
-	$res = mysql_query("
-		SELECT *
-		FROM projects
-		WHERE projectid = '$projectid'
-	");
-	if (mysql_num_rows($res) == 0)
-	{
-	    $error = "$projectid: "._("no such project");
-	    return $error;
-	}
+	$project = new Project($projectid);
 
-	$project = mysql_fetch_array($res);
-	$current_state = $project['state'];
+	$current_state = $project->state;
 
 	$transition_str = "$projectid: "._("transition from")." $current_state "._("to")." $new_state";
 	if ($testing)
@@ -151,7 +142,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		if ( $new_state == $round->project_waiting_state
 		  || $new_state == $round->project_available_state )
 		{
-			$errors = project_pre_release_check( $project, $round );
+			$errors = project_pre_release_check( get_object_vars($project), $round );
 			if ($errors)
 			{
 				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
