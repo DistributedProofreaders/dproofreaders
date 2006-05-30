@@ -17,11 +17,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 // Otherwise, return an empty string.
 //
 // This function produces no output except for debugging messages.
-//
-// This function should be the only code that modifies the 'state'
-// column of the 'projects' table.
-// It should perhaps also be the only place that modifies these columns:
-//     modifieddate checkedoutby postproofer postcomments
 {
 	global $testing;
 	global $site_supports_metadata;
@@ -77,6 +72,43 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// -------------------------------------------------------------------------
 
+	$error = do_state_change( $transition, $project, $extras );
+	if ( $error == '' )
+	{
+		// success
+		if ($testing)
+		{
+			echo "{$indent}$transition_str: success{$eol}";
+		}
+	}
+	else
+	{
+		// failure
+		// Prepend $transition_str to the error message.
+		$error = "$transition_str: $error";
+	}
+	return $error;
+}
+
+function do_state_change( $transition, $project, $extras )
+// Apply the transition to the given project,
+// and perform any attendant processing.
+// If there are any problems, return a string containing an error message.
+// Otherwise, return an empty string.
+//
+// This function produces no output except for debugging messages.
+//
+// This function should be the only code that modifies the 'state'
+// column of the 'projects' table.
+// It should perhaps also be the only place that modifies these columns:
+//     modifieddate checkedoutby postproofer postcomments
+{
+	global $testing;
+
+	$current_state = $transition->curr_state;
+	$new_state = $transition->next_state;
+	$projectid = $project->projectid;
+
 	$now = time();
 
 	$settings = "state='$new_state'";
@@ -91,7 +123,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 		$r = preg_match_all( $braced_pattern, $transition->settings_template, $matches );
 		if ( $r === FALSE )
 		{
-			return "$transition_str: preg_match_all return FALSE";
+			return "preg_match_all returned FALSE";
 		}
 		foreach( $matches[0] as $braced_thing )
 		{
@@ -105,7 +137,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 					$replacement = @$extras['checkedoutby'];
 					if ( $replacement == '' )
 					{
-						return "$transition_str: \$extras['checkedoutby'] is unset";
+						return "\$extras['checkedoutby'] is unset";
 					}
 					break;
 
@@ -113,7 +145,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 					$replacement = @$extras['correctedby'];
 					if ( $replacement == '' )
 					{
-						return "$transition_str: \$extras['correctedby'] is unset";
+						return "\$extras['correctedby'] is unset";
 					}
 					break;
 
@@ -123,7 +155,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 					break;
 
 				default:
-					return "$transition_str: in settings_template, bad braced_thing $braced_thing";
+					return "in settings_template, bad braced_thing $braced_thing";
 					break;
 			}
 			$patterns[] = "/$braced_thing/";
@@ -145,7 +177,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 			$errors = project_pre_release_check( get_object_vars($project), $round );
 			if ($errors)
 			{
-				$error = "$transition_str: "._("disallowed because of project problems").":\n<pre>\n$errors</pre>";
+				$error = _("disallowed because of project problems").":\n<pre>\n$errors</pre>";
 				// At this point, the corresponding code in changestate.php
 				// would transit the project to the round's bad state.
 				// It's probably sufficient to just leave it in its current state.
@@ -167,11 +199,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 				DELETE FROM projects WHERE projectid = '$projectid'
 			");
 
-			if ($testing)
-			{
-				echo "{$indent}$transition_str: "._("success")."{$eol}";
-			}
-
 			return '';
 		}
 		else
@@ -183,7 +210,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	if ($testing)
 	{
-		echo "{$indent}settings: $settings{$eol}";
+		echo "    settings: $settings<br>\n";
 	}
 
 	$res = mysql_query("
@@ -191,7 +218,7 @@ function project_transition( $projectid, $new_state, $extras = array() )
 	");
 	if (!$res)
 	{
-		return "$transition_str: mysql error: " . mysql_error();
+		return "mysql error: " . mysql_error();
 	}
 
 	// ---------------------------------------------------------------------
@@ -214,10 +241,6 @@ function project_transition( $projectid, $new_state, $extras = array() )
 
 	// ---------------------------------------------------------------------
 
-	if ($testing)
-	{
-		echo "{$indent}$transition_str: success{$eol}";
-	}
 	return '';
 }
 
