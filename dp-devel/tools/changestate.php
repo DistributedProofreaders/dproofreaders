@@ -119,9 +119,16 @@ if ( !empty($transition->detour) )
     }
     else
     {
-        $title = "Action Unsuccessful";
-        $body = "$error_msg<br><br>\n"
-            . "Something went wrong, and your request ('$transition->action_name') has probably not been carried out.";
+        fatal_error(
+            sprintf(
+                _("Something went wrong, and your request ('%s') has probably not been carried out."), 
+                $transition->action_name
+            )
+            . "\n"
+            . _("Here is the error message:")
+            . "\n"
+            . $error_msg
+        );
     }
 }
 
