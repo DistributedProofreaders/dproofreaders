@@ -277,8 +277,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             continue;
         }
 
-        Pages_prepForRound( $projectid, $next_round->round_number );
-
         if ( $next_round_state == $next_round->project_unavailable_state )
         {
             maybe_mail_project_manager(

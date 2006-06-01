@@ -122,6 +122,7 @@ class ProjectTransition
 
         $projectid = $project->projectid;
 
+        $from_round = get_Round_for_project_state($this->from_state);
         $to_round   = get_Round_for_project_state($this->to_state);
         if ( !is_null($to_round) )
         {
@@ -240,12 +241,11 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
-        if ( $this->from_state == PROJ_NEW &&
-             $this->to_state == PROJ_P1_UNAVAILABLE )
+        if ( $from_round != $to_round && !is_null($to_round) )
         {
-            // Releasing the project.
+            // Transiting into a round from either a different round or a non-round.
             // Update the corresponding projectID* table.
-            Pages_prepForRound( $projectid, 1 );
+            Pages_prepForRound( $projectid, $to_round->round_number );
         }
 
         // move the project topic in synch with the project's progress
