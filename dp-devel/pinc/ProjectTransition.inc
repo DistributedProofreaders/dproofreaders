@@ -122,13 +122,13 @@ class ProjectTransition
 
         $projectid = $project->projectid;
 
-        $round = get_Round_for_project_state($this->to_state);
-        if ( !is_null($round) )
+        $to_round   = get_Round_for_project_state($this->to_state);
+        if ( !is_null($to_round) )
         {
-            if ( $this->to_state == $round->project_waiting_state
-              || $this->to_state == $round->project_available_state )
+            if ( $this->to_state == $to_round->project_waiting_state
+              || $this->to_state == $to_round->project_available_state )
             {
-                $errors = project_pre_release_check( get_object_vars($project), $round );
+                $errors = project_pre_release_check( get_object_vars($project), $to_round );
                 if ($errors)
                 {
                     $error = _("disallowed because of project problems").":\n<pre>\n$errors</pre>";
