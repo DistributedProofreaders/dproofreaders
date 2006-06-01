@@ -848,9 +848,9 @@ new ProjectTransition(
     'holder',
     _("Posted to Project Gutenberg"),
     NULL,
-    "$code_url/tools/correct/completecorr.php?project=<PROJECTID>",
+    null,
     $pg_posted_settings_template,
-    '<RETURN>'
+    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
 );
 
 // -----------------------------------------------------------------------------
