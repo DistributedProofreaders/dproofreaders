@@ -69,44 +69,18 @@ function Pages_prepForRound( $projectid, $round_number )
 {
     global $writeBIGtable;
 
-    // When prepping for round 2, we just mark all pages as P2.page_avail.
-    // So when prepping for round 1, why don't we just mark all pages as P1.page_avail?
-    //
-    // I suspect the reason is that, for round 1, this function is called
-    // when the project goes from PROJ_P1_WAITING_FOR_RELEASE to
-    // PROJ_P1_AVAILABLE, and it can go through this transition
-    // more than once (via PROJ_P1_UNAVAILABLE). After the first
-    // time, it can have some pages that have already been worked on, and
-    // we don't want the transition to put such pages back to P1.page_avail.
-    //
-    // The problem doesn't arise for second round because there, the transition
-    // is PROJ_P1_COMPLETE to PROJ_P2_AVAILABLE, and the
-    // project can't go through that transition twice.
-
     $round = get_Round_for_round_number($round_number);
-    if ( $round_number == 1 )
-    {
-        // Yes, these queries are pointless.
-        // They have been for quite a while.
-        // But I leave them here as a reminder, of sorts.
 
-        $result = mysql_query("
-            UPDATE $projectid
-            SET state = '{$round->page_avail_state}'
-            WHERE 0
-        ");
-
-        if ($writeBIGtable)
-        {
-            $result = mysql_query("
-                UPDATE project_pages
-                SET state = '{$round->page_avail_state}'
-                WHERE projectid = '$projectid' AND 0
-            ");
-        }
-    }
-    else
     {
+        // For the first round, these queries are mostly redundant,
+        // because when project_add_page() create a page, 
+        // the page gets the first round's avail state.
+        // (They're not *entirely* redundant, because the queries will
+        // still change the round1_time, but that's fairly unimportant.)
+        // 
+        // However, it's probably better that this function doesn't rely on
+        // how project_add_page() sets page-states.
+
         $timestamp = time();
 
         $result = mysql_query("
