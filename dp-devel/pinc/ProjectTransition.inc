@@ -23,22 +23,6 @@ class ProjectTransition
     // A user who satisfies the $restriction can cause
     // a project to transit from $curr_state to $next_state.
     {
-        if ( $action_name == '[default]' )
-        {
-            $action_name = sprintf(
-                _('Change State to %s'),
-                project_states_text($next_state)
-            );
-        }
-
-        if ( $confirmation_question == '[default]' )
-        {
-            $confirmation_question = sprintf(
-                _('Are you sure you want to change the state of this project to %s?'),
-                project_states_text($next_state)
-            );
-        }
-
         $this->curr_state  = $curr_state;
         $this->next_state  = $next_state;
         $this->restriction = $restriction;
@@ -48,6 +32,22 @@ class ProjectTransition
         $this->settings_template = $settings_template;
 
         $this->destination = $destination;
+
+        if ( $this->action_name == '[default]' )
+        {
+            $this->action_name = sprintf(
+                _('Change State to %s'),
+                project_states_text($this->next_state)
+            );
+        }
+
+        if ( $this->confirmation_question == '[default]' )
+        {
+            $this->confirmation_question = sprintf(
+                _('Are you sure you want to change the state of this project to %s?'),
+                project_states_text($this->next_state)
+            );
+        }
 
         global $PROJECT_TRANSITIONS;
         $PROJECT_TRANSITIONS[] =& $this;
