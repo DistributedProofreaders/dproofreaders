@@ -11,8 +11,8 @@ $PROJECT_TRANSITIONS = array();
 class ProjectTransition
 {
     function ProjectTransition(
-        $curr_state,
-        $next_state,
+        $from_state,
+        $to_state,
         $restriction,
         $options
             // action_name
@@ -22,10 +22,10 @@ class ProjectTransition
             // destination
     )
     // A user who satisfies the $restriction can cause
-    // a project to transit from $curr_state to $next_state.
+    // a project to transit from $from_state to $to_state.
     {
-        $this->curr_state  = $curr_state;
-        $this->next_state  = $next_state;
+        $this->from_state  = $from_state;
+        $this->to_state    = $to_state;
         $this->restriction = $restriction;
 
         foreach ( $options as $option_name => $option_value )
@@ -37,7 +37,7 @@ class ProjectTransition
         {
             $this->action_name = sprintf(
                 _('Change State to %s'),
-                project_states_text($this->next_state)
+                project_states_text($this->to_state)
             );
         }
 
@@ -45,7 +45,7 @@ class ProjectTransition
         {
             $this->confirmation_question = sprintf(
                 _('Are you sure you want to change the state of this project to %s?'),
-                project_states_text($this->next_state)
+                project_states_text($this->to_state)
             );
         }
 
@@ -55,7 +55,7 @@ class ProjectTransition
 
     function is_valid_for( $project, $username )
     {
-        if ( $this->curr_state != $project->state ) return FALSE;
+        if ( $this->from_state != $project->state ) return FALSE;
 
         if ( $this->restriction == 'holder' )
         {
@@ -122,11 +122,11 @@ class ProjectTransition
 
         $projectid = $project->projectid;
 
-        $round = get_Round_for_project_state($this->next_state);
+        $round = get_Round_for_project_state($this->to_state);
         if ( !is_null($round) )
         {
-            if ( $this->next_state == $round->project_waiting_state
-              || $this->next_state == $round->project_available_state )
+            if ( $this->to_state == $round->project_waiting_state
+              || $this->to_state == $round->project_available_state )
             {
                 $errors = project_pre_release_check( get_object_vars($project), $round );
                 if ($errors)
@@ -140,14 +140,14 @@ class ProjectTransition
             }
         }
 
-        if ( $this->next_state == PROJ_DELETE )
+        if ( $this->to_state == PROJ_DELETE )
         {
             global $projects_dir;
             exec("rm -rf $projects_dir/$projectid");
 
             project_drop_pages( $projectid );
 
-            if ( $this->curr_state == PROJ_NEW )
+            if ( $this->from_state == PROJ_NEW )
             {
                 $result = mysql_query("
                     DELETE FROM projects WHERE projectid = '$projectid'
@@ -165,7 +165,7 @@ class ProjectTransition
 
         // ----------------------------------------------------------------------
 
-        $settings = "state='{$this->next_state}'";
+        $settings = "state='{$this->to_state}'";
         if ( !empty($this->settings_template) )
         {
             // echo "transition->settings_template = $this->settings_template\n";
@@ -240,8 +240,8 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
-        if ( $this->curr_state == PROJ_P1_WAITING_FOR_RELEASE &&
-             $this->next_state == PROJ_P1_AVAILABLE )
+        if ( $this->from_state == PROJ_P1_WAITING_FOR_RELEASE &&
+             $this->to_state == PROJ_P1_AVAILABLE )
         {
             // Releasing the project.
             // Update the corresponding projectID* table.
@@ -250,7 +250,7 @@ class ProjectTransition
 
         // move the project topic in synch with the project's progress
         move_project_thread(
-            $projectid, get_forum_id_for_project_state($this->next_state) );
+            $projectid, get_forum_id_for_project_state($this->to_state) );
 
         return '';
     }
@@ -339,13 +339,13 @@ function get_valid_transitions( $project, $username )
 
 // -----------------------------------------------------------------------------
 
-function get_transition( $curr_state, $next_state )
+function get_transition( $from_state, $to_state )
 {
     global $PROJECT_TRANSITIONS;
     foreach ( $PROJECT_TRANSITIONS as $transition )
     {
-        if ( $transition->curr_state == $curr_state &&
-             $transition->next_state == $next_state )
+        if ( $transition->from_state == $from_state &&
+             $transition->to_state   == $to_state )
         {
             return $transition;
         }
@@ -943,21 +943,21 @@ new ProjectTransition(
 // -----------------------------------------------------------------------------
 // Transitions to PROJ_DELETE.
 
-foreach ( $PROJECT_STATES_IN_ORDER as $curr_state )
+foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
 {
     // Don't bother creating a transition for Delete -> Delete.
-    if ( $curr_state == PROJ_DELETE ) continue;
+    if ( $from_state == PROJ_DELETE ) continue;
 
     // A NEW project can be deleted by its manager.
     // Anything else requires an SA.
     $who_may_delete = (
-        $curr_state == PROJ_NEW 
+        $from_state == PROJ_NEW 
         ? 'manager'
         : 'site_manager'
     );
 
     new ProjectTransition(
-        $curr_state,
+        $from_state,
         PROJ_DELETE,
         $who_may_delete,
         array(

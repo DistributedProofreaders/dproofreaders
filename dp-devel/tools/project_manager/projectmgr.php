@@ -503,7 +503,7 @@ function echo_project_state_changer($project)
 
         foreach ( $transitions as $transition )
         {
-            echo_project_state_option( $transition->next_state, 0 );
+            echo_project_state_option( $transition->to_state, 0 );
         }
 
         echo "

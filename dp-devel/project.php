@@ -1329,7 +1329,7 @@ function do_change_state()
         echo "<form method='POST' action='$code_url/tools/changestate.php'>";
         echo "<input type='hidden' name='projectid'  value='{$project->projectid}'>\n";
         echo "<input type='hidden' name='curr_state' value='{$project->state}'>\n";
-        echo "<input type='hidden' name='next_state' value='{$transition->next_state}'>\n";
+        echo "<input type='hidden' name='next_state' value='{$transition->to_state}'>\n";
         echo "<input type='hidden' name='confirmed'  value='yes'>\n";
         echo "<input type='hidden' name='return_uri' value='$here'>\n";
 
