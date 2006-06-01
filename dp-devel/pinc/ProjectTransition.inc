@@ -14,11 +14,12 @@ class ProjectTransition
         $curr_state,
         $next_state,
         $restriction,
-        $action_name,
-        $confirmation_question,
-        $detour,
-        $settings_template,
-        $destination
+        $options
+            // action_name
+            // confirmation_question
+            // detour
+            // settings_template
+            // destination
     )
     // A user who satisfies the $restriction can cause
     // a project to transit from $curr_state to $next_state.
@@ -26,12 +27,11 @@ class ProjectTransition
         $this->curr_state  = $curr_state;
         $this->next_state  = $next_state;
         $this->restriction = $restriction;
-        $this->action_name = $action_name;
-        $this->confirmation_question = $confirmation_question;
-        $this->detour      = $detour;
-        $this->settings_template = $settings_template;
 
-        $this->destination = $destination;
+        foreach ( $options as $option_name => $option_value )
+        {
+            $this->$option_name = $option_value;
+        }
 
         if ( $this->action_name == '[default]' )
         {
@@ -360,11 +360,13 @@ new ProjectTransition(
     PROJ_NEW,
     PROJ_P1_UNAVAILABLE,
     'manager',
-    '[default]',
-    NULL,
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => null,
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 if ($site_supports_metadata)
@@ -373,11 +375,13 @@ if ($site_supports_metadata)
         PROJ_NEW_FILE_UPLOADED,
         PROJ_NEW_METADATA_FIRST,
         'manager',
-        '[default]',
-        NULL,
-        null,
-        '',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => '<RETURN>',
+        )
     );
 }
 
@@ -407,55 +411,65 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_unavailable_state,
         $round->project_waiting_state,
         'manager',
-        '[default]',
-        NULL,
-        null,
-        'modifieddate="{TIMESTAMP}"',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'destination'           => '<RETURN>',
+        )
     );
 
     new ProjectTransition(
         $round->project_waiting_state,
         $round->project_unavailable_state,
         'manager',
-        '[default]',
-        NULL,
-        null,
-        '',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => '<RETURN>',
+        )
     );
 
     new ProjectTransition(
         $round->project_waiting_state,
         $round->project_available_state,
         'proj_facilitator',
-        '[default]',
-        '[default]',
-        null,
-        'modifieddate="{TIMESTAMP}"',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => '[default]',
+            'detour'                => null,
+            'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'destination'           => '<RETURN>',
+        )
     );
 
     new ProjectTransition(
         $round->project_bad_state,
         $round->project_unavailable_state,
         'manager',
-        '[default]',
-        NULL,
-        null,
-        '',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => '<RETURN>',
+        )
     );
 
     new ProjectTransition(
         $round->project_bad_state,
         'automodify',
         'manager',
-        _('automodify'),
-        NULL,
-        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
-        '',
-        NULL
+        array(
+            'action_name'           => _('automodify'),
+            'confirmation_question' => null,
+            'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
     // automodify.php will leave the project in the appropriate
     // BAD, AVAILABLE, or COMPLETE state.
@@ -466,66 +480,78 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_available_state,
         $round->project_unavailable_state,
         'manager',
-        '[default]',
-        '[default]',
-        null,
-        '',
-        '<RETURN>'
+        array(
+            'action_name'           => '[default]',
+            'confirmation_question' => '[default]',
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => '<RETURN>',
+        )
     );
 
     new ProjectTransition(
         $round->project_available_state,
         'automodify',
         'manager',
-        _('automodify'),
-        NULL,
-        "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
-        '',
-        NULL
+        array(
+            'action_name'           => _('automodify'),
+            'confirmation_question' => null,
+            'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
 
     new ProjectTransition(
         $round->project_waiting_state,
         $round->project_bad_state,
         'auto',
-        null,
-        null,
-        null,
-        '',
-        null
+        array(
+            'action_name'           => null,
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
 
     new ProjectTransition(
         $round->project_available_state,
         $round->project_bad_state,
         'auto',
-        null,
-        null,
-        null,
-        '',
-        null
+        array(
+            'action_name'           => null,
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
 
     new ProjectTransition(
         $round->project_bad_state,
         $round->project_available_state,
         'auto',
-        null,
-        null,
-        null,
-        '',
-        null
+        array(
+            'action_name'           => null,
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
 
     new ProjectTransition(
         $round->project_available_state,
         $round->project_complete_state,
         'auto',
-        null,
-        null,
-        null,
-        '',
-        null
+        array(
+            'action_name'           => null,
+            'confirmation_question' => null,
+            'detour'                => null,
+            'settings_template'     => '',
+            'destination'           => null,
+        )
     );
 
     if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
@@ -536,11 +562,13 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             $round->project_complete_state,
             $next_round->project_waiting_state,
             'auto',
-            null,
-            null,
-            null,
-            'modifieddate="{TIMESTAMP}"',
-            null
+            array(
+                'action_name'           => null,
+                'confirmation_question' => null,
+                'detour'                => null,
+                'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+                'destination'           => null,
+            )
         );
     }
     else
@@ -549,22 +577,26 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             $round->project_complete_state,
             PROJ_POST_FIRST_AVAILABLE,
             'auto',
-            null,
-            null,
-            null,
-            '',
-            null
+            array(
+                'action_name'           => null,
+                'confirmation_question' => null,
+                'detour'                => null,
+                'settings_template'     => '',
+                'destination'           => null,
+            )
         );
 
         new ProjectTransition(
             $round->project_complete_state,
             PROJ_POST_FIRST_CHECKED_OUT,
             'auto',
-            null,
-            null,
-            null,
-            "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
-            null
+            array(
+                'action_name'           => null,
+                'confirmation_question' => null,
+                'detour'                => null,
+                'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+                'destination'           => null,
+            )
         );
     }
 }
@@ -577,33 +609,39 @@ new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     PROJ_POST_FIRST_CHECKED_OUT,
     'user_can_work_in_stage PP',
-    _("Check Out Book"),
-    _("Are you sure you want to check this book out for post processing?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Check Out Book"),
+        'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     PROJ_POST_SECOND_CHECKED_OUT,
     'user_can_work_in_stage PPV',
-    _("Check Out Book"),
-    _("Are you sure you want to check this book out for verifying post processing?"),
-    null,
-    "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Check Out Book"),
+        'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_CORRECT_AVAILABLE,
     PROJ_CORRECT_CHECKED_OUT,
     'user_can_work_in_stage CR',
-    _("Check Out Book"),
-    _("Are you sure you want to check this book out to review corrections?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Check Out Book"),
+        'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -616,33 +654,39 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_FIRST_AVAILABLE,
     'holder',
-    _("Return to Available"),
-    _("Are you sure you want to make this book available to others for post processing?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Return to Available"),
+        'confirmation_question' => _("Are you sure you want to make this book available to others for post processing?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
-    _("Return to Available"),
-    _("Are you sure you want to make this book available to others to verify and lose your work?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Return to Available"),
+        'confirmation_question' => _("Are you sure you want to make this book available to others to verify and lose your work?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     PROJ_CORRECT_AVAILABLE,
     'holder',
-    _("Return to Available"),
-    _("Are you sure you want to make this book available to others for reviewing corrections?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby=''",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Return to Available"),
+        'confirmation_question' => _("Are you sure you want to make this book available to others for reviewing corrections?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=''",
+        'destination'           => '<RETURN>',
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -655,22 +699,26 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
-    _("Upload for Verification"),
-    NULL,
-    "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-    "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Upload for Verification"),
+        'confirmation_question' => null,
+        'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_FIRST_CHECKED_OUT,
     'holder',
-    _("Return to Post-Processor"),
-    _("Are you sure you want to return this book to the post-processor for further work?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
-    '<RETURN>'
+    array(
+        'action_name'           => _("Return to Post-Processor"),
+        'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
+        'destination'           => '<RETURN>',
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -682,22 +730,26 @@ new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     PROJ_POST_FIRST_UNAVAILABLE,
     'manager',
-    '[default]',
-    '[default]',
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => '[default]',
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_FIRST_UNAVAILABLE,
     'manager',
-    '[default]',
-    _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 // From PROJ_POST_FIRST_UNAVAILABLE:
@@ -706,22 +758,26 @@ new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     PROJ_POST_FIRST_AVAILABLE,
     'manager',
-    _('Make Project Available for Post-Processing'),
-    '[default]',
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => _('Make Project Available for Post-Processing'),
+        'confirmation_question' => '[default]',
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     PROJ_POST_FIRST_CHECKED_OUT,
     'manager',
-    _('Check Out Project for Post-Processing'),
-    _("It's unclear whether this transition should even be possible. Are you sure?"),
-    null,
-    "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
-    '<RETURN>'
+    array(
+        'action_name'           => _('Check Out Project for Post-Processing'),
+        'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'destination'           => '<RETURN>',
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -735,33 +791,39 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_COMPLETE,
     'site_manager',
-    '[default]',
-    $post_complete_question,
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $post_complete_question,
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     PROJ_POST_COMPLETE,
     'site_manager',
-    '[default]',
-    $post_complete_question,
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $post_complete_question,
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_COMPLETE,
     'site_manager',
-    '[default]',
-    $post_complete_question,
-    null,
-    '',
-    '<RETURN>'
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $post_complete_question,
+        'detour'                => null,
+        'settings_template'     => '',
+        'destination'           => '<RETURN>',
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -802,55 +864,65 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
-    '[default]',
-    $pg_posted_question,
-    null,
-    $pg_posted_settings_template,
-    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $pg_posted_question,
+        'detour'                => null,
+        'settings_template'     => $pg_posted_settings_template,
+        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
-    '[default]',
-    $pg_posted_question,
-    null,
-    $pg_posted_settings_template,
-    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $pg_posted_question,
+        'detour'                => null,
+        'settings_template'     => $pg_posted_settings_template,
+        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
-    '[default]',
-    $pg_posted_question,
-    null,
-    $pg_posted_settings_template,
-    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $pg_posted_question,
+        'detour'                => null,
+        'settings_template'     => $pg_posted_settings_template,
+        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+    )
 );
 
 new ProjectTransition(
     PROJ_POST_COMPLETE,
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
-    '[default]',
-    $pg_posted_question,
-    null,
-    $pg_posted_settings_template,
-    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
+    array(
+        'action_name'           => '[default]',
+        'confirmation_question' => $pg_posted_question,
+        'detour'                => null,
+        'settings_template'     => $pg_posted_settings_template,
+        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+    )
 );
 
 new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     PROJ_SUBMIT_PG_POSTED,
     'holder',
-    _("Posted to Project Gutenberg"),
-    NULL,
-    null,
-    $pg_posted_settings_template,
-    "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1"
+    array(
+        'action_name'           => _("Posted to Project Gutenberg"),
+        'confirmation_question' => null,
+        'detour'                => null,
+        'settings_template'     => $pg_posted_settings_template,
+        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -859,11 +931,13 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     PROJ_CORRECT_AVAILABLE,
     'auto',
-    null,
-    null,
-    null,
-    "modifieddate='{TIMESTAMP}', correctedby='{E:correctedby}'",
-    null
+    array(
+        'action_name'           => null,
+        'confirmation_question' => null,
+        'detour'                => null,
+        'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{E:correctedby}'",
+        'destination'           => null,
+    )
 );
 
 // -----------------------------------------------------------------------------
@@ -886,11 +960,13 @@ foreach ( $PROJECT_STATES_IN_ORDER as $curr_state )
         $curr_state,
         PROJ_DELETE,
         $who_may_delete,
-        _('Delete Project'),
-        _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
-        null,
-        "modifieddate='{TIMESTAMP}'",
-        '<RETURN>'
+        array(
+            'action_name'           => _('Delete Project'),
+            'confirmation_question' => _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
+            'detour'                => null,
+            'settings_template'     => "modifieddate='{TIMESTAMP}'",
+            'destination'           => '<RETURN>',
+        )
     );
 }
 
