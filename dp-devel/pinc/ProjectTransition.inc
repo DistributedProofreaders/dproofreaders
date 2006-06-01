@@ -240,8 +240,8 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
-        if ( $this->from_state == PROJ_P1_WAITING_FOR_RELEASE &&
-             $this->to_state == PROJ_P1_AVAILABLE )
+        if ( $this->from_state == PROJ_NEW &&
+             $this->to_state == PROJ_P1_UNAVAILABLE )
         {
             // Releasing the project.
             // Update the corresponding projectID* table.
