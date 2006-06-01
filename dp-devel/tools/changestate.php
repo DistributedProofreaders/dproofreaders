@@ -100,7 +100,7 @@ if ( !empty($transition->detour) )
 
     // -------------------------------------------------------------------------
 
-    $error_msg = project_transition( $projectid, $next_state, $extras );
+    $error_msg = $transition->do_state_change( $project, $extras );
 
     if ($error_msg == '')
     {
