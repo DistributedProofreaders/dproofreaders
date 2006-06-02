@@ -301,7 +301,8 @@ function echo_page_table(
 
 		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
 		{
-			echo_cells_for_round($rn, $page_res, $projectid, $project_phase, $can_edit, $can_see_names_for_this_page);
+			$prev_rn = $rn - 1;
+			echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $project_phase, $can_edit, $can_see_names_for_this_page);
 		}
 
 		// (It's annoying that we have to pass all those args,
@@ -406,7 +407,7 @@ function changeSelection(sel) {
 
 // -----------------------------------------------------------------------------
 
-function echo_cells_for_round( $round_num, // <- This is the only "real" param.
+function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the only "real" params.
 	$page_res,
 	$projectid, $project_phase, $can_edit, $can_see_names_for_this_page)
 {
@@ -455,7 +456,6 @@ function echo_cells_for_round( $round_num, // <- This is the only "real" param.
 		if($page_res[$round->textdiff_column_name]) {
 			echo _("no diff");
 		} else {
-			$diff_round_num = $round_num - 1;
 			echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&image=$imagename&L_round_num=$diff_round_num&R_round_num=$round_num'>"._("diff")."</a>";
 		}
 	}
