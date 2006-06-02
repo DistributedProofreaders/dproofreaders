@@ -15,20 +15,18 @@ theme(_("Difference"), "header", $extra_args);
 
 
 $projectid = $_GET['project'];
-
-$fileid=$_GET['file'];
+$image     = $_GET['image'];
 $round_num=$_GET['round_num'];
 
 $round = get_Round_for_round_number($round_num);
 
 $res = mysql_query("
-	SELECT $round->prevtext_column_name, $round->text_column_name, image
+	SELECT $round->prevtext_column_name, $round->text_column_name
 	FROM $projectid
-	WHERE fileid='$fileid'
+	WHERE image='$image'
 ");
 
 $txt=mysql_fetch_row($res);
-$image_name = $txt[2];
 
 class OutputPage {
 	function addHTML($text) {
@@ -46,8 +44,8 @@ include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
-	_("Old text") . ": $image_name",
-	_("New text") . ": $image_name"
+	_("Old text") . ": $image",
+	_("New text") . ": $image"
 );
 
 theme("", "footer");
