@@ -43,8 +43,9 @@ $res = mysql_query("
 	FROM $projectid
 	WHERE image='$image'
 ");
+list($L_text, $R_text) = mysql_fetch_row($res);
 
-$txt=mysql_fetch_row($res);
+// ---------------------------------------------------------
 
 class OutputPage {
 	function addHTML($text) {
@@ -60,8 +61,8 @@ $wgOut=new Outputpage();
 
 include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
-	$txt[0],
-	$txt[1],
+	$L_text,
+	$R_text,
 	$L_label,
 	$R_label
 );
