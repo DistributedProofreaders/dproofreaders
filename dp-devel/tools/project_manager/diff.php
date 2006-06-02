@@ -6,18 +6,19 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_edit.inc');
 include_once('projectmgr.inc');
 
-$no_stats=1;
-
-$extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
-theme(_("Difference"), "header", $extra_args);
-
-
-
-
-$projectid = $_GET['project'];
-$image     = $_GET['image'];
+$projectid   = $_GET['project'];
+$image       = $_GET['image'];
 $L_round_num = $_GET['L_round_num'];
 $R_round_num = $_GET['R_round_num'];
+
+$title = sprintf( _('Difference for page %s'), $image );
+
+$no_stats=1;
+$extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
+theme($title, "header", $extra_args);
+
+echo "<h3 align='center'>$title</h3>";
+
 
 if ( $L_round_num == 0 )
 {
@@ -58,8 +59,8 @@ include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
-	_("Old text") . ": $image",
-	_("New text") . ": $image"
+	_("Old text"),
+	_("New text")
 );
 
 theme("", "footer");
