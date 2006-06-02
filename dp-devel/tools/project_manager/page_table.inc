@@ -46,6 +46,15 @@ function echo_page_table(
 	//
 	$rounds_to_display = get_rounds_with_data( $projectid );
 
+	// If the project is in a round, then users expect that round to appear here,
+	// even if there's no data in it.
+	//
+	if ( !is_null($project_round)
+		&& $rounds_to_display[count($rounds_to_display)-1] != $project_round )
+	{
+		$rounds_to_display[] = $project_round;
+	}
+
 	$upload_colspan = 2 + $show_image_size;
 
 	if ( $can_edit )
