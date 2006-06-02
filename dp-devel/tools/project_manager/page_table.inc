@@ -54,6 +54,12 @@ function echo_page_table(
 		$latest_round_num = MAX_NUM_PAGE_EDITING_ROUNDS;
 	}
 
+	$rounds_to_display = array();
+	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+	{
+		$rounds_to_display[] = get_Round_for_round_number($rn);
+	}
+
 	$upload_colspan = 2 + $show_image_size;
 
 	if ( $can_edit )
@@ -80,14 +86,13 @@ function echo_page_table(
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
 		echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
 		echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+		foreach ( $rounds_to_display as $round )
 		{
-			if ($rn == $latest_round_num && $project_phase == 'PAGE_EDITING')
+			if ($round == $project_round && $project_phase == 'PAGE_EDITING')
 			{
 				$n_cols_per_round++;
 			}
 
-			$round = get_Round_for_round_number($rn);
 			echo "    <td align='center' colspan='$n_cols_per_round'>$round->id</td>\n";
 		}
 		echo "</tr>\n";
@@ -116,7 +121,7 @@ function echo_page_table(
 
 		echo "{$td_start}"._("Page State")."{$td_end}";
 
-		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+		foreach ( $rounds_to_display as $round )
 		{
 			echo "{$td_start}"._("Diff")."{$td_end}";
 			echo "{$td_start}"._("Date")."{$td_end}";
@@ -152,16 +157,17 @@ function echo_page_table(
 
 	$fields_to_get = "fileid, image, length(master_text), state";
 	$tables = $projectid;
-	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+	$prev_text_column_name = 'master_text';
+	foreach ( $rounds_to_display as $round )
 	{
-		$round = get_Round_for_round_number($rn);
+		$rn = $round->round_number;
 
 		$tallyboard = new TallyBoard( $round->id, 'U' );
 		list($joined_with_user_page_tallies,$user_page_tally_column) =
 			$tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
 
 		$fields_to_get .= ",
-			BINARY REPLACE($round->prevtext_column_name,'\r\n','\n')=REPLACE($round->text_column_name,'\r\n','\n') AS $round->textdiff_column_name,
+			BINARY REPLACE($prev_text_column_name,'\r\n','\n')=REPLACE($round->text_column_name,'\r\n','\n') AS $round->textdiff_column_name,
 			$round->time_column_name,
 			$round->user_column_name,
 			phpbb_users$rn.user_id AS `$rn.phpbb_user_id`,
@@ -175,6 +181,7 @@ function echo_page_table(
 				ON (users$rn.username = $round->user_column_name)
 			$joined_with_user_page_tallies
 		";
+		$prev_text_column_name = $round->text_column_name;
 	}
 
 	if ( is_null($page_selector) )
@@ -188,9 +195,8 @@ function echo_page_table(
 		$username_for_selecting_pages = $page_selector;
 
 		$where_condition = "0";
-		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+		foreach ( $rounds_to_display as $round )
 		{
-			$round = get_Round_for_round_number($rn);
 			$where_condition .= "
 				OR $round->user_column_name='$username_for_selecting_pages'
 			";
@@ -287,9 +293,8 @@ function echo_page_table(
 			// The user can see the names of all the proofers for this page
 			// only if they are one of those proofers.
 			$can_see_names_for_this_page = FALSE;
-			for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+			foreach ( $rounds_to_display as $round )
 			{
-				$round = get_Round_for_round_number($rn);
 				$proofer_name = $page_res[$round->user_column_name];
 				if ( $proofer_name != '' && $proofer_name == $pguser )
 				{
@@ -299,10 +304,12 @@ function echo_page_table(
 			}
 		}
 
-		for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
+		$prev_rn = 0;
+		foreach ( $rounds_to_display as $round )
 		{
-			$prev_rn = $rn - 1;
+			$rn = $round->round_number;
 			echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $project_phase, $can_edit, $can_see_names_for_this_page);
+			$prev_rn = $rn;
 		}
 
 		// (It's annoying that we have to pass all those args,
