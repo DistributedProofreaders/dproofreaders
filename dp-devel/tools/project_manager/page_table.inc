@@ -38,27 +38,13 @@ function echo_page_table(
 
 	$show_delete = (($project_phase=='NEW' || $project_phase=='PR' || $project_phase=='PAGE_EDITING') && $can_edit);
 
-	if ($project_phase == 'NEW' || $project_phase == 'PR' )
-	{
-		// Before PAGE_EDITING
-		$latest_round_num = 1;
-	}
-	else if ($project_phase == 'PAGE_EDITING')
-	{
-		$project_round = get_Round_for_project_state($state);
-		$latest_round_num = $project_round->round_number;
-	}
-	else
-	{
-		// After PAGE_EDITING
-		$latest_round_num = MAX_NUM_PAGE_EDITING_ROUNDS;
-	}
+	$project_round = get_Round_for_project_state($state);
 
-	$rounds_to_display = array();
-	for ( $rn = 1; $rn <= $latest_round_num; $rn++ )
-	{
-		$rounds_to_display[] = get_Round_for_round_number($rn);
-	}
+	// This project may have skipped some rounds, and/or it may have rounds
+	// yet to do, so there may be some round-columns with no data in them.
+	// Figure out which ones to display.
+	//
+	$rounds_to_display = get_rounds_with_data( $projectid );
 
 	$upload_colspan = 2 + $show_image_size;
 
@@ -410,6 +396,52 @@ function changeSelection(sel) {
 		// because it requires a per-page reason.
 	}
 
+}
+
+// -----------------------------------------------------------------------------
+
+function get_rounds_with_data( $projectid )
+// Returns an array of Rounds representing those rounds
+// for which the given project has some useful data.
+{
+	$rounds_with_data = array();
+
+	// Currently, when a project skips a round, the time and text of the
+	// corresponding slot are still set. It's this data that we exclude by
+	// talking about "useful data" above.
+	// So a column of empty users is the best indication of a skipped round.
+	// (And also works for a not-yet-reached round.)
+
+	global $Round_for_round_id_;
+
+	$sums = array();
+	foreach ( $Round_for_round_id_ as $round_id => $round )
+	{
+		$sums[] = "SUM({$round->user_column_name} != '') AS $round_id";
+	}
+	$body = join($sums,',');
+
+	$res = mysql_query("
+		SELECT $body
+		FROM $projectid
+	") or die(mysql_error());
+	$num_filled_user_fields_for_round_ = mysql_fetch_assoc($res);
+
+	foreach ( $Round_for_round_id_ as $round_id => $round )
+	{
+		if ( $num_filled_user_fields_for_round_[$round_id] == 0 )
+		{
+			// no real info in this slot
+			// (skipped round or not-yet-reached round)
+		}
+		else
+		{
+			// There's some real info in this slot
+			$rounds_with_data[] = $round;
+		}
+	}
+
+	return $rounds_with_data;
 }
 
 // -----------------------------------------------------------------------------
