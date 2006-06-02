@@ -1,9 +1,10 @@
 <?
 function mentor_banner($round)
 {
+    global $wiki_url;
     $r_avail_state = $round->project_available_state;
     $round_id = $round->id;
-    
+
     $result = (mysql_query("
         SELECT max(round((unix_timestamp() - modifieddate)/(24 * 60 * 60)))
             FROM projects
@@ -39,7 +40,7 @@ function mentor_banner($round)
     echo "<br><center>";
     echo "<b><font size=+$font_boost color=$font_col>";
     printf(_("Oldest English %sMENTORS ONLY%s book in %s is %d days old."),
-         "<a href='http://www.pgdp.net/phpBB2/viewtopic.php?p=54813#54813'>",
+         "<a href='$wiki_url/Mentoring'>",
          "</a>",
          $round_id,
          $oldest);
