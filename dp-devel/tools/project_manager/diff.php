@@ -16,12 +16,26 @@ theme(_("Difference"), "header", $extra_args);
 
 $projectid = $_GET['project'];
 $image     = $_GET['image'];
-$round_num=$_GET['round_num'];
+$L_round_num = $_GET['L_round_num'];
+$R_round_num = $_GET['R_round_num'];
 
-$round = get_Round_for_round_number($round_num);
+if ( $L_round_num == 0 )
+{
+	$L_text_column_name = 'master_text';
+}
+else
+{
+	$L_round = get_Round_for_round_number($L_round_num);
+	$L_text_column_name = $L_round->text_column_name;
+}
+
+{
+	$R_round = get_Round_for_round_number($R_round_num);
+	$R_text_column_name = $R_round->text_column_name;
+}
 
 $res = mysql_query("
-	SELECT $round->prevtext_column_name, $round->text_column_name
+	SELECT $L_text_column_name, $R_text_column_name
 	FROM $projectid
 	WHERE image='$image'
 ");
