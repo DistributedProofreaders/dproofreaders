@@ -23,16 +23,19 @@ echo "<h3 align='center'>$title</h3>";
 if ( $L_round_num == 0 )
 {
 	$L_text_column_name = 'master_text';
+	$L_label = _('OCR');
 }
 else
 {
 	$L_round = get_Round_for_round_number($L_round_num);
 	$L_text_column_name = $L_round->text_column_name;
+	$L_label = $L_round->id;
 }
 
 {
 	$R_round = get_Round_for_round_number($R_round_num);
 	$R_text_column_name = $R_round->text_column_name;
+	$R_label = $R_round->id;
 }
 
 $res = mysql_query("
@@ -59,8 +62,8 @@ include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
 	$txt[0],
 	$txt[1],
-	_("Old text"),
-	_("New text")
+	$L_label,
+	$R_label
 );
 
 theme("", "footer");
