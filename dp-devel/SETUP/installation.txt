@@ -169,6 +169,7 @@ If you're upgrading from a previous version, see the upgrade section.
         d/teams
         d/teams/avatar
         d/teams/icon
+        d/pg
         d/xmlfeeds
         (You also need to put some files in d??)
 
