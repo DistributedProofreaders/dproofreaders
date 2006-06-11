@@ -8,14 +8,14 @@ include_once($relPath.'theme.inc');
 // Sorts the news by their id's and then prints one by one.
 
 if (isset($_GET['news_page'])) {
-    $news_page = $_GET['news_page'];
-    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page'");
+    $news_page_id = $_GET['news_page'];
+    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
         $news_type = _($news_type_row['news_type']);        
         theme("Recent Site News Items for ".$news_type, "header");
         echo "<br>";
     } else {
-       echo _("Error").": <b>".$news_page."</b> "._("Unknown news_page specified, exiting.");
+       echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page specified, exiting.");
        exit();
     }
 } else {
@@ -29,14 +29,14 @@ if (isset($_GET['news_page'])) {
 
 if (isset($_GET['num'])) {
     $num = " LIMIT ".$_GET['num'];
-    echo " <a href='pastnews.php?news_page=$news_page'>Show All $news_type News</a>";
+    echo " <a href='pastnews.php?news_page=$news_page_id'>Show All $news_type News</a>";
 } else $num = "";
 
 echo "</center>";
 
 $result = mysql_query("
     SELECT * FROM news_items 
-    WHERE news_page_id = '$news_page' AND 
+    WHERE news_page_id = '$news_page_id' AND 
         status = 'recent'
     ORDER BY id DESC
 ".$num);

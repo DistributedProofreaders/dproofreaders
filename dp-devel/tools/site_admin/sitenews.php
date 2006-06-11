@@ -11,8 +11,8 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 }
 
 if (isset($_GET['news_page'])) {
-    $news_page = $_GET['news_page'];
-    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page'");
+    $news_page_id = $_GET['news_page'];
+    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
         $news_type = _($news_type_row['news_type']);
         $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']);
@@ -22,12 +22,12 @@ if (isset($_GET['news_page'])) {
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
         echo "<h1 align='center'>$title</h1>";
         echo "<br>\n";
-        handle_any_requested_db_updates( $news_page );
-        show_item_editor( $news_page );
-        show_all_news_items_for_page( $news_page, $last_modified );
+        handle_any_requested_db_updates( $news_page_id );
+        show_item_editor( $news_page_id );
+        show_all_news_items_for_page( $news_page_id, $last_modified );
         theme("", "footer");
     } else {
-        echo _("Error").": <b>".$news_page."</b> "._("Unknown news_page specified, exiting.");
+        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page specified, exiting.");
     }
 } else {
 
@@ -54,7 +54,7 @@ if (isset($_GET['news_page'])) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function handle_any_requested_db_updates( $news_page )
+function handle_any_requested_db_updates( $news_page_id )
 {
     switch( @$_GET['action'] )
     {
@@ -67,7 +67,7 @@ function handle_any_requested_db_updates( $news_page )
                 INSERT INTO news_items
                 SET
                     id           = NULL,
-                    news_page_id = '$news_page',
+                    news_page_id = '$news_page_id',
                     status       = 'current',
                     date_posted  = '$date_posted',
                     content      = '$content'
@@ -76,7 +76,7 @@ function handle_any_requested_db_updates( $news_page )
             $update_news = mysql_query("
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
             ");
-            news_change_made($news_page);
+            news_change_made($news_page_id);
             break;
 
         case 'delete':
@@ -89,14 +89,14 @@ function handle_any_requested_db_updates( $news_page )
             // Display a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'current' WHERE id=$item_id");
-            news_change_made($news_page);
+            news_change_made($news_page_id);
             break;
 
         case 'hide':
             // Hide a specific site news item
             $item_id = $_GET['item_id'];
             $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
-            news_change_made($news_page);
+            news_change_made($news_page_id);
             break;
 
         case 'archive':
@@ -114,15 +114,15 @@ function handle_any_requested_db_updates( $news_page )
         case 'moveup':
             // Move a specific site news item higher in the display list
             $item_id = $_GET['item_id'];
-            move_news_item ($news_page, $item_id, 'up');
-            news_change_made($news_page);
+            move_news_item ($news_page_id, $item_id, 'up');
+            news_change_made($news_page_id);
             break;
 
         case 'movedown':
             // Move a specific site news item lower in the display list
             $item_id = $_GET['item_id'];
-            move_news_item ($news_page, $item_id, 'down');
-            news_change_made($news_page);
+            move_news_item ($news_page_id, $item_id, 'down');
+            news_change_made($news_page_id);
             break;
 
         case 'edit_update':
@@ -135,14 +135,14 @@ function handle_any_requested_db_updates( $news_page )
             $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
             $row = mysql_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
-            if ($visible_change_made) {news_change_made($news_page);}
+            if ($visible_change_made) {news_change_made($news_page_id);}
             break;
     }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_item_editor( $news_page )
+function show_item_editor( $news_page_id )
 // Show a form:
 // -- to edit the text of an existing item (if requested), or
 // -- to compose a new item (otherwise).
@@ -160,7 +160,7 @@ function show_item_editor( $news_page )
         $submit_button_label = "Add News Item";
     }
 
-    echo "<form action='sitenews.php?news_page=$news_page&action=$action_to_request' method='post'>";
+    echo "<form action='sitenews.php?news_page=$news_page_id&action=$action_to_request' method='post'>";
     echo "<center>";
     echo "<textarea name='content' cols='80' rows='8'>$initial_content</textarea>";
     echo "<br>\n";
@@ -174,7 +174,7 @@ function show_item_editor( $news_page )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_all_news_items_for_page( $news_page, $last_modified )
+function show_all_news_items_for_page( $news_page_id, $last_modified )
 {
     // three categories:
     // 1) current (currently displayed on page every time)
@@ -223,7 +223,7 @@ function show_all_news_items_for_page( $news_page, $last_modified )
         $result = mysql_query("
             SELECT *
             FROM news_items
-            WHERE news_page_id = '$news_page' AND status = '$status'
+            WHERE news_page_id = '$news_page_id' AND status = '$status'
             ORDER BY {$category['order_by']}
         ");
 
@@ -252,7 +252,7 @@ function show_all_news_items_for_page( $news_page, $last_modified )
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
             foreach ( $actions as $action => $label )
             {
-                $url = "sitenews.php?news_page=$news_page&item_id={$news_item['id']}&action=$action";
+                $url = "sitenews.php?news_page=$news_page_id&item_id={$news_item['id']}&action=$action";
                 echo "[<a href='$url'>$label</a>]\n";
             }
             echo " -- ($date_posted)<br><br>";
@@ -265,10 +265,10 @@ function show_all_news_items_for_page( $news_page, $last_modified )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function news_change_made ($news_page) {
+function news_change_made ($news_page_id) {
     $date_changed = time();
     $result = mysql_query("
-            UPDATE news_pages SET modifieddate = $date_changed WHERE news_page_id = '$news_page'
+            UPDATE news_pages SET modifieddate = $date_changed WHERE news_page_id = '$news_page_id'
     ");
 }
 
