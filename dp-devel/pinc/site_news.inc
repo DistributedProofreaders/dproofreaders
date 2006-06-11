@@ -122,7 +122,7 @@ function show_news_for_page( $news_page_id )
         echo "<br>\n";
         echo "<br>\n";
 
-        $url = "$code_url/pastnews.php?news_page=$news_page_id";
+        $url = "$code_url/pastnews.php?news_page_id=$news_page_id";
         $linktext = _("See All Random News Items");
         echo "(<a href='$url'>$linktext</a>)";
     }
