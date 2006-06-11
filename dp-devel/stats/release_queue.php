@@ -11,8 +11,8 @@ include_once($relPath.'release_queue.inc');
 
 $user_can_see_queue_settings = user_is_a_sitemanager() || user_is_proj_facilitator();
 
-$round_num = array_get( $_GET, 'round_num', NULL );
-if (is_null($round_num))
+$round_id = array_get( $_GET, 'round_id', NULL );
+if (is_null($round_id))
 {
 	$title = _("Release Queues");
 	theme($title,'header');
@@ -21,21 +21,21 @@ if (is_null($round_num))
 	echo _("Each round has its own set of release queues."), "\n";
 	echo _("Please select the round that you're interested in:"), "\n";
 	echo "<ul>\n";
-	for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
+	foreach ( array_keys($Round_for_round_id_) as $round_id )
 	{
-		$round = get_Round_for_round_number($rn);
-		echo "<li><a href='release_queue.php?round_num=$rn'>{$round->id}</a></li>\n";
+		echo "<li><a href='release_queue.php?round_id=$round_id'>$round_id</a></li>\n";
 	}
 	echo "</ul>\n";
 	theme("", "footer");
 	return;
 }
 
-$round = get_Round_for_round_number($round_num);
+$round = get_Round_for_round_id($round_id);
+$round_num = $round->round_number;
 
 if (!isset($_GET['name']))
 {
-	$title = sprintf( _("Release Queues for Round '%s'"), $round->id);
+	$title = sprintf( _("Release Queues for Round '%s'"), $round_id);
 	theme($title,'header');
 	echo "<br><h2>$title</h2>";
 	echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
@@ -94,7 +94,7 @@ if (!isset($_GET['name']))
 		echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 		echo "<td>$qd->ordering</td>\n";
 		echo "<td>$qd->enabled</td>\n";
-		echo "<td><a href='release_queue.php?round_num=$round_num&amp;name=$ename'>$qd->name</a></td>\n";
+		echo "<td><a href='release_queue.php?round_id=$round_id&amp;name=$ename'>$qd->name</a></td>\n";
 		echo "<td>$current_length</td>\n";
 		if ($user_can_see_queue_settings)
 		{
@@ -135,7 +135,7 @@ else
 		}
 
 	// Add Back to to Release Queues link
-	echo "<p><a href='".$code_url."/stats/release_queue.php?round_num=$round_num'>"._("Back to Release Queues")."</a></p>\n";
+	echo "<p><a href='".$code_url."/stats/release_queue.php?round_id=$round_id'>"._("Back to Release Queues")."</a></p>\n";
 
         $comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
         $comments_url2 = mysql_escape_string("'>");
