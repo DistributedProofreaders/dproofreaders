@@ -206,7 +206,13 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
                 AND $round->time_column_name <= $max_reclaimable_time
             ORDER BY image ASC
-        ") or die(mysql_error());
+        ");
+        if ( !$res )
+        {
+            echo mysql_error(), "\n";
+            echo "Skipping further processing of this project.\n";
+            continue;
+        }
 
         $n_reclaimable_pages = mysql_num_rows($res);
         if ($verbose) echo "        reclaiming $n_reclaimable_pages pages\n";
