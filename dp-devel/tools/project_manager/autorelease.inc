@@ -75,7 +75,7 @@ function autorelease_for_round( $round )
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
-        WHERE round_number={$round->round_number}
+        WHERE round_id='{$round->id}'
         ORDER BY ordering
     ") or die(mysql_error());
 
@@ -189,7 +189,7 @@ function autorelease_for_round( $round )
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
-        WHERE enabled AND round_number={$round->round_number}
+        WHERE enabled AND round_id='{$round->id}'
         ORDER BY ordering
     ") or die(mysql_error());
 

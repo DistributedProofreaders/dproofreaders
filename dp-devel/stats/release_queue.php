@@ -31,7 +31,6 @@ if (is_null($round_id))
 }
 
 $round = get_Round_for_round_id($round_id);
-$round_num = $round->round_number;
 
 if (!isset($_GET['name']))
 {
@@ -59,7 +58,7 @@ if (!isset($_GET['name']))
 	$q_res = mysql_query("
 		SELECT *
 		FROM queue_defns
-		WHERE round_number=$round_num
+		WHERE round_id='$round_id'
 		ORDER BY ordering
 	") or die(mysql_error());
 	while ( $qd = mysql_fetch_object($q_res) )
@@ -114,7 +113,7 @@ else
 	$qd = mysql_fetch_object( mysql_query("
 		SELECT *
 		FROM queue_defns
-		WHERE round_number=$round_num AND name='$name'
+		WHERE round_id='$round_id' AND name='$name'
 	"));
 	$cooked_project_selector = cook_project_selector($qd->project_selector);
 	$comment = $qd->comment;
