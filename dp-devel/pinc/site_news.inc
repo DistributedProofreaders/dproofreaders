@@ -1,4 +1,23 @@
 <?PHP
+include_once($relPath.'stages.inc');
+
+function get_news_subject( $news_page_id )
+{
+    switch( $news_page_id )
+    {
+        case 'FRONT'   : return _('Front Page');
+        case 'FAQ'     : return _('FAQ Central');
+        case 'HUB'     : return _('Activity Hub');
+        case 'STATS'   : return _('Stats Central');
+        case 'SR'      : return _('Smooth Reading');
+        case 'SR_PREV' : return _('Smooth Reading Preview');
+        default:
+            $stage = get_Stage_for_id( $news_page_id );
+            return $stage->name;
+    }
+}
+
+// -----------------------------------------------------------------------------
 
 function show_news_for_page( $news_page_id )
 // Show the news block for the given page, consisting of:
