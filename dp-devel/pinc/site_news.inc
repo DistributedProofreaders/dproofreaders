@@ -31,7 +31,7 @@ function show_news_for_page( $news_page_id )
     global $code_url;
 
     $result0 = mysql_query("
-        SELECT news_type , modifieddate
+        SELECT modifieddate
         FROM news_pages 
         WHERE news_page_id = '$news_page_id'
     ") or die(mysql_error());
@@ -49,7 +49,7 @@ function show_news_for_page( $news_page_id )
     // this is a valid page that may potentially have news items
 
     $news_page = mysql_fetch_assoc($result0);
-    $news_type = $news_page['news_type'];
+    $news_type = get_news_subject($news_page_id);
     $date_changed = $news_page['modifieddate'];
 
     echo "<center>";
