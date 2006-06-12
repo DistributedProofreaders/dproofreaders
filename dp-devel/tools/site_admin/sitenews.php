@@ -13,10 +13,10 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 
 if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
-    $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
-    if ($news_page = mysql_fetch_assoc($type_result)) {
+    $date_changed = get_news_page_last_modified_date( $news_page_id );
+    if ( !is_null($date_changed) ) {
         $news_subject = get_news_subject($news_page_id);
-        $last_modified = strftime(_("%A, %B %e, %Y"), $news_page['modifieddate']);
+        $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
         $title = sprintf('News Desk for %s', $news_subject );
         theme($title, "header");
         echo "<br>";
@@ -38,10 +38,10 @@ if (isset($_GET['news_page_id'])) {
     echo "<br><br><font size = +1><ul>";
     foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
     {
-        $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id='$news_page_id'");
-        if ($news_page = mysql_fetch_assoc($type_result)) {
+        $date_changed = get_news_page_last_modified_date( $news_page_id );
+        if ( !is_null($date_changed) ) {
             $news_subject = get_news_subject($news_page_id);
-            $last_modified = strftime(_("%A, %B %e, %Y"), $news_page['modifieddate']);
+            $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
                 $news_subject."</a> "._("Last modified : ").$last_modified."<br><br>";
         }

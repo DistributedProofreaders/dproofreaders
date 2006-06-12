@@ -22,6 +22,28 @@ function get_news_subject( $news_page_id )
 
 // -----------------------------------------------------------------------------
 
+function get_news_page_last_modified_date( $news_page_id )
+{
+    $res = mysql_query("
+        SELECT modifieddate
+        FROM news_pages 
+        WHERE news_page_id = '$news_page_id'
+    ") or die(mysql_error());
+
+    if (mysql_num_rows($res) == 0)
+    {
+        // The news_pages table does not have an entry for $news_page_id.
+        return NULL;
+    }
+    else
+    {
+        list($modifieddate) = mysql_fetch_row($res);
+        return $modifieddate;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 function show_news_for_page( $news_page_id )
 // Show the news block for the given page, consisting of:
 // -- a header,
@@ -33,13 +55,8 @@ function show_news_for_page( $news_page_id )
     global $theme;
     global $code_url;
 
-    $result0 = mysql_query("
-        SELECT modifieddate
-        FROM news_pages 
-        WHERE news_page_id = '$news_page_id'
-    ") or die(mysql_error());
-
-    if (mysql_num_rows($result0) == 0)
+    $date_changed = get_news_page_last_modified_date( $news_page_id );
+    if ( is_null($date_changed) )
     {
         // The news_pages table does not have an entry for $news_page_id.
         // On the PGDP site, this would be worthy of a warning at least,
@@ -51,9 +68,7 @@ function show_news_for_page( $news_page_id )
 
     // this is a valid page that may potentially have news items
 
-    $news_page = mysql_fetch_assoc($result0);
     $news_subject = get_news_subject($news_page_id);
-    $date_changed = $news_page['modifieddate'];
 
     echo "<center>";
 
