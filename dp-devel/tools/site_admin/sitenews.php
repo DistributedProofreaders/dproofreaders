@@ -40,7 +40,6 @@ if (isset($_GET['news_page_id'])) {
     {
         $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id='$news_page_id'");
         if ($news_page = mysql_fetch_assoc($type_result)) {
-            $news_page_id = $news_page['news_page_id'];
             $news_subject = get_news_subject($news_page_id);
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_page['modifieddate']);
             echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
