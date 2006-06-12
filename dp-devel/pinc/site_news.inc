@@ -1,20 +1,23 @@
 <?PHP
 include_once($relPath.'stages.inc');
 
+$NEWS_PAGES = array(
+    'FRONT'   => _('Front Page'),
+    'FAQ'     => _('FAQ Central'),
+    'HUB'     => _('Activity Hub'),
+    'STATS'   => _('Stats Central'),
+    'SR'      => _('Smooth Reading'),
+    'SR_PREV' => _('Smooth Reading Preview'),
+);
+foreach ( $Stage_for_id_ as $stage_id => $stage )
+{
+    $NEWS_PAGES[$stage_id] = $stage->name;
+}
+
 function get_news_subject( $news_page_id )
 {
-    switch( $news_page_id )
-    {
-        case 'FRONT'   : return _('Front Page');
-        case 'FAQ'     : return _('FAQ Central');
-        case 'HUB'     : return _('Activity Hub');
-        case 'STATS'   : return _('Stats Central');
-        case 'SR'      : return _('Smooth Reading');
-        case 'SR_PREV' : return _('Smooth Reading Preview');
-        default:
-            $stage = get_Stage_for_id( $news_page_id );
-            return $stage->name;
-    }
+    global $NEWS_PAGES;
+    return $NEWS_PAGES[$news_page_id];
 }
 
 // -----------------------------------------------------------------------------
