@@ -133,7 +133,7 @@ function show_news_for_page( $news_page_id )
 
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         echo "<hr width='30%'>\n";
-        $url = "$code_url/tools/site_admin/sitenews.php?news_page=$news_page_id";
+        $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
         $linktext = sprintf( _("Update News for %s"), $news_type );
         echo _("News Editor"), ": <a href='$url'>$linktext</a>";
         echo "\n";

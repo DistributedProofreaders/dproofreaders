@@ -10,8 +10,8 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
     exit;
 }
 
-if (isset($_GET['news_page'])) {
-    $news_page_id = $_GET['news_page'];
+if (isset($_GET['news_page_id'])) {
+    $news_page_id = $_GET['news_page_id'];
     $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
         $news_type = _($news_type_row['news_type']);
@@ -27,7 +27,7 @@ if (isset($_GET['news_page'])) {
         show_all_news_items_for_page( $news_page_id, $last_modified );
         theme("", "footer");
     } else {
-        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page specified, exiting.");
+        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
     }
 } else {
 
@@ -42,7 +42,7 @@ if (isset($_GET['news_page'])) {
             $news_page_id = $news_type_row['news_page_id'];
             $news_type = _($news_type_row['news_type']);
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']);
-            echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page=".$news_page_id."'>".
+            echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
                 $news_type."</a> "._("Last modified : ").$last_modified."<br><br>";
         }
         echo "</ul></font>";
@@ -160,7 +160,7 @@ function show_item_editor( $news_page_id )
         $submit_button_label = "Add News Item";
     }
 
-    echo "<form action='sitenews.php?news_page=$news_page_id&action=$action_to_request' method='post'>";
+    echo "<form action='sitenews.php?news_page_id=$news_page_id&action=$action_to_request' method='post'>";
     echo "<center>";
     echo "<textarea name='content' cols='80' rows='8'>$initial_content</textarea>";
     echo "<br>\n";
@@ -252,7 +252,7 @@ function show_all_news_items_for_page( $news_page_id, $last_modified )
             $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
             foreach ( $actions as $action => $label )
             {
-                $url = "sitenews.php?news_page=$news_page_id&item_id={$news_item['id']}&action=$action";
+                $url = "sitenews.php?news_page_id=$news_page_id&item_id={$news_item['id']}&action=$action";
                 echo "[<a href='$url'>$label</a>]\n";
             }
             echo " -- ($date_posted)<br><br>";
