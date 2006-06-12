@@ -12,8 +12,8 @@ if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
     $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
-        $news_type = get_news_subject($news_page_id);
-        theme("Recent Site News Items for ".$news_type, "header");
+        $news_subject = get_news_subject($news_page_id);
+        theme("Recent Site News Items for ".$news_subject, "header");
         echo "<br>";
     } else {
        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
@@ -30,7 +30,7 @@ if (isset($_GET['news_page_id'])) {
 
 if (isset($_GET['num'])) {
     $num = " LIMIT ".$_GET['num'];
-    echo " <a href='pastnews.php?news_page_id=$news_page_id'>Show All $news_type News</a>";
+    echo " <a href='pastnews.php?news_page_id=$news_page_id'>Show All $news_subject News</a>";
 } else $num = "";
 
 echo "</center>";
@@ -45,7 +45,7 @@ $result = mysql_query("
 $total = 1;
 
 if (mysql_numrows($result)== 0) {
-  echo "<br><br>"._("No recent news items for ").$news_type;
+  echo "<br><br>"._("No recent news items for ").$news_subject;
 } else {
     while($news_item = mysql_fetch_array($result)) {
         $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);

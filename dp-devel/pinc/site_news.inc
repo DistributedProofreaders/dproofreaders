@@ -49,7 +49,7 @@ function show_news_for_page( $news_page_id )
     // this is a valid page that may potentially have news items
 
     $news_page = mysql_fetch_assoc($result0);
-    $news_type = get_news_subject($news_page_id);
+    $news_subject = get_news_subject($news_page_id);
     $date_changed = $news_page['modifieddate'];
 
     echo "<center>";
@@ -85,7 +85,7 @@ function show_news_for_page( $news_page_id )
         // We have at least one news item to show,
         // so display the news header.
 
-        $header_title = sprintf( _('News for %s'), $news_type );
+        $header_title = sprintf( _('News for %s'), $news_subject );
         echo "<b>";
 
         // Show header-title as an image, if available.
@@ -153,7 +153,7 @@ function show_news_for_page( $news_page_id )
     if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
         echo "<hr width='30%'>\n";
         $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
-        $linktext = sprintf( _("Update News for %s"), $news_type );
+        $linktext = sprintf( _("Update News for %s"), $news_subject );
         echo _("News Editor"), ": <a href='$url'>$linktext</a>";
         echo "\n";
     }

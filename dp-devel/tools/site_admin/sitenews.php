@@ -15,9 +15,9 @@ if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
     $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id = '$news_page_id'");
     if ($news_type_row = mysql_fetch_assoc($type_result)) {
-        $news_type = get_news_subject($news_page_id);
+        $news_subject = get_news_subject($news_page_id);
         $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']);
-        $title = sprintf('News Desk for %s', $news_type );
+        $title = sprintf('News Desk for %s', $news_subject );
         theme($title, "header");
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
@@ -41,10 +41,10 @@ if (isset($_GET['news_page_id'])) {
         echo "<br><br><font size = +1><ul>";
         while ($news_type_row = mysql_fetch_assoc($type_result)) {
             $news_page_id = $news_type_row['news_page_id'];
-            $news_type = get_news_subject($news_page_id);
+            $news_subject = get_news_subject($news_page_id);
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_type_row['modifieddate']);
             echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
-                $news_type."</a> "._("Last modified : ").$last_modified."<br><br>";
+                $news_subject."</a> "._("Last modified : ").$last_modified."<br><br>";
         }
         echo "</ul></font>";
     }
