@@ -33,21 +33,21 @@ if (isset($_GET['news_page_id'])) {
 } else {
 
     theme("Site News Central", "header");
-    $type_result = mysql_query("SELECT * FROM news_pages WHERE 1 = 1 order by news_type");
 
-    if ($type_result) {
-
-        echo "<h1>"._("Site News Central")."</h1>";
-        echo "<br><br><font size = +1><ul>";
-        while ($news_page = mysql_fetch_assoc($type_result)) {
+    echo "<h1>"._("Site News Central")."</h1>";
+    echo "<br><br><font size = +1><ul>";
+    foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
+    {
+        $type_result = mysql_query("SELECT * FROM news_pages WHERE news_page_id='$news_page_id'");
+        if ($news_page = mysql_fetch_assoc($type_result)) {
             $news_page_id = $news_page['news_page_id'];
             $news_subject = get_news_subject($news_page_id);
             $last_modified = strftime(_("%A, %B %e, %Y"), $news_page['modifieddate']);
             echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
                 $news_subject."</a> "._("Last modified : ").$last_modified."<br><br>";
         }
-        echo "</ul></font>";
     }
+    echo "</ul></font>";
     theme('','footer');
 }
 
