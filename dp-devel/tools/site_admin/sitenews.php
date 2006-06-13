@@ -47,7 +47,7 @@ if (isset($_GET['news_page_id'])) {
             $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
             echo _("Edit Site News for ").$link;
             echo "\n";
-            echo " "._("Last modified : ").$last_modified;
+            echo "<br>". _("Last modified : ").$last_modified;
             echo "<br><br>";
             echo "\n";
         }
