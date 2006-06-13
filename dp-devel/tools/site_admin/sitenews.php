@@ -42,8 +42,11 @@ if (isset($_GET['news_page_id'])) {
         if ( !is_null($date_changed) ) {
             $news_subject = get_news_subject($news_page_id);
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "<li>"._("Edit Site News for ")."<a href='sitenews.php?news_page_id=".$news_page_id."'>".
-                $news_subject."</a> "._("Last modified : ").$last_modified."<br><br>";
+            echo "<li>";
+            $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
+            echo _("Edit Site News for ").$link;
+            echo " "._("Last modified : ").$last_modified;
+            echo "<br><br>";
         }
     }
     echo "</ul></font>";
