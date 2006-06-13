@@ -10,8 +10,7 @@ include_once($relPath.'site_news.inc');
 
 if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
-    $date_changed = get_news_page_last_modified_date( $news_page_id );
-    if ( !is_null($date_changed) ) {
+    if ( isset($NEWS_PAGES[$news_page_id]) ) {
         $news_subject = get_news_subject($news_page_id);
         theme("Recent Site News Items for ".$news_subject, "header");
         echo "<br>";

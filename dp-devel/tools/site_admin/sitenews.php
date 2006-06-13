@@ -13,10 +13,9 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 
 if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
-    $date_changed = get_news_page_last_modified_date( $news_page_id );
-    if ( !is_null($date_changed) ) {
+    if ( isset($NEWS_PAGES[$news_page_id]) )
+    {
         $news_subject = get_news_subject($news_page_id);
-        $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
         $title = sprintf('News Desk for %s', $news_subject );
         theme($title, "header");
         echo "<br>";
@@ -25,7 +24,7 @@ if (isset($_GET['news_page_id'])) {
         echo "<br>\n";
         handle_any_requested_db_updates( $news_page_id );
         show_item_editor( $news_page_id );
-        show_all_news_items_for_page( $news_page_id, $last_modified );
+        show_all_news_items_for_page( $news_page_id );
         theme("", "footer");
     } else {
         echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
@@ -39,18 +38,20 @@ if (isset($_GET['news_page_id'])) {
     echo "\n";
     foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
     {
+        echo "<li>";
+
+        $news_subject = get_news_subject($news_page_id);
+        $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
+        echo sprintf( _("Edit Site News for %s"), $link );
+        echo "\n";
+
         $date_changed = get_news_page_last_modified_date( $news_page_id );
         if ( !is_null($date_changed) ) {
-            $news_subject = get_news_subject($news_page_id);
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "<li>";
-            $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
-            echo _("Edit Site News for ").$link;
-            echo "\n";
             echo "<br>". _("Last modified : ").$last_modified;
-            echo "<br><br>";
-            echo "\n";
         }
+        echo "<br><br>";
+        echo "\n";
     }
     echo "</ul></font>";
     theme('','footer');
@@ -180,7 +181,7 @@ function show_item_editor( $news_page_id )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_all_news_items_for_page( $news_page_id, $last_modified )
+function show_all_news_items_for_page( $news_page_id )
 {
     // three categories:
     // 1) current (currently displayed on page every time)
@@ -239,6 +240,8 @@ function show_all_news_items_for_page( $news_page_id, $last_modified )
         echo "<font size=+2><b>{$category['title']}</b></font>";
         if ($status == 'current')
         {
+            $date_changed = get_news_page_last_modified_date( $news_page_id );
+            $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo "&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")";
         }
         echo "<br><br>";
@@ -274,7 +277,8 @@ function show_all_news_items_for_page( $news_page_id, $last_modified )
 function news_change_made ($news_page_id) {
     $date_changed = time();
     $result = mysql_query("
-            UPDATE news_pages SET modifieddate = $date_changed WHERE news_page_id = '$news_page_id'
+            REPLACE INTO news_pages
+            SET news_page_id = '$news_page_id', modifieddate = $date_changed
     ");
 }
 

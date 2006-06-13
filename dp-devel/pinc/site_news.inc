@@ -55,19 +55,6 @@ function show_news_for_page( $news_page_id )
     global $theme;
     global $code_url;
 
-    $date_changed = get_news_page_last_modified_date( $news_page_id );
-    if ( is_null($date_changed) )
-    {
-        // The news_pages table does not have an entry for $news_page_id.
-        // On the PGDP site, this would be worthy of a warning at least,
-        // but elsewhere, it may just indicate that the site is not
-        // interested in news for this page (or perhaps any page),
-        // so we silently return.
-        return;
-    }
-
-    // this is a valid page that may potentially have news items
-
     $news_subject = get_news_subject($news_page_id);
 
     echo "<center>";
@@ -120,9 +107,18 @@ function show_news_for_page( $news_page_id )
         }
 
         echo "<br>\n";
-        $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
-        echo sprintf( _("last changed %s"), $formatted_date );
-        echo "<br>\n";
+
+        $date_changed = get_news_page_last_modified_date( $news_page_id );
+        if ( is_null($date_changed) )
+        {
+            // This probably shouldn't happen.
+        }
+        else
+        {
+            $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
+            echo sprintf( _("last changed %s"), $formatted_date );
+            echo "<br>\n";
+        }
 
         // this commented out until fuller rollout
 
