@@ -36,6 +36,7 @@ if (isset($_GET['news_page_id'])) {
 
     echo "<h1>"._("Site News Central")."</h1>";
     echo "<br><br><font size = +1><ul>";
+    echo "\n";
     foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
     {
         $date_changed = get_news_page_last_modified_date( $news_page_id );
@@ -45,8 +46,10 @@ if (isset($_GET['news_page_id'])) {
             echo "<li>";
             $link = "<a href='sitenews.php?news_page_id=$news_page_id'>$news_subject</a>";
             echo _("Edit Site News for ").$link;
+            echo "\n";
             echo " "._("Last modified : ").$last_modified;
             echo "<br><br>";
+            echo "\n";
         }
     }
     echo "</ul></font>";
