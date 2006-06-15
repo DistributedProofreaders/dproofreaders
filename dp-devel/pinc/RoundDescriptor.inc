@@ -90,6 +90,10 @@ class Round extends Stage
             $this->prevtext_column_name = "round{$prev_round_number}_text";
         }
 
+        // These can be changed by calling declare_mentoring_pair():
+        $this->mentor_round = null;
+        $this->mentee_round = null;
+
         global $Round_for_round_id_;
         $Round_for_round_id_[$this->id] =& $this;
 
@@ -117,6 +121,9 @@ class Round extends Stage
         $PAGE_STATES_IN_ORDER[] = $this->page_save_state;
         $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
+
+    function is_a_mentee_round() { return !is_null($this->mentor_round); }
+    function is_a_mentor_round() { return !is_null($this->mentee_round); }
 
     function get_honorific_for_page_tally( $page_tally )
     {
@@ -186,6 +193,28 @@ function sql_collater_for_round_id( $round_id_column )
     }
     $s .= ")";
     return $s;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function declare_mentoring_pair( $mentee_round_id, $mentor_round_id )
+// Asserts that, for difficulty='beginner' projects, pages done in one round
+// (the "mentored" or "mentee" round) will garner feedback by qualified users
+// ("mentors") in a subsequent round (the "mentoring" or "mentor" round).
+{
+    $mentee_round =& get_Stage_for_id( $mentee_round_id );
+    $mentor_round =& get_Stage_for_id( $mentor_round_id );
+    assert( is_a( $mentee_round, 'Round' ) );
+    assert( is_a( $mentor_round, 'Round' ) );
+
+    // Currently, we don't allow:
+    // -- a round to be mentored by more than one round, or
+    // -- a round to mentor more than one round.
+    assert( is_null($mentee_round->mentor_round) );
+    assert( is_null($mentor_round->mentee_round) );
+
+    $mentee_round->mentor_round = $mentor_round;
+    $mentor_round->mentee_round = $mentee_round;
 }
 
 // vim: sw=4 ts=4 expandtab
