@@ -83,6 +83,10 @@ if $abort; then
     exit 1
 fi
 
+# just as an early warning/reassurance...
+echo "Note: SHIFT_TO_LIVE = $SHIFT_TO_LIVE"
+echo
+
 
 # ------------------------------------------------------------------------------
 # Get snapshot of code from CVS repository on SourceForge.
