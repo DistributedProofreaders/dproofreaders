@@ -89,6 +89,9 @@ function page_list_sql($projectid)
     // Display page header.
 
     theme(_("For Mentors"), "header");
+
+    // ---------------------------------------------------------------
+
     if (!isset($_GET['round_id']))
     {
       # If they're coming to this page from a MENTOR book in F2, 
@@ -101,8 +104,11 @@ function page_list_sql($projectid)
       $round_id = $_GET['round_id'];
     }
 
+    // ---------------------------------------------------------------
+
     echo "<h2>" . _("Pages available to Mentors in round $round_id") . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
+
     echo "<p>Show projects from: ";
     if ($round_id == 'P2')
     {
@@ -113,6 +119,7 @@ function page_list_sql($projectid)
       echo "<a href='$code_url/tools/proofers/for_mentors.php?round_id=P2'>P2</a> <b>F2</b>";
     }
     echo "</p>.";
+
     $mentored_round_id = substr_replace($round_id,'1',-1);
     $result = mysql_query(project_sql($round_id));
     while ($proj =  mysql_fetch_object($result))
