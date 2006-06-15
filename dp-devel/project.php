@@ -656,7 +656,7 @@ function do_project_info_table()
     // automatically prepend R2 intro for Beginners Only
     if ($project->difficulty == "beginner")
     {
-        if ($state==PROJ_P2_AVAILABLE)
+        if ($round && $round->is_a_mentor_round() )
         {
             $comments = "[template=BGr2.txt]".$comments;
         }

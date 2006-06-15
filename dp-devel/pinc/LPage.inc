@@ -40,7 +40,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 
     if ( $difficulty == 'beginner' )
     {
-        if ($round->round_number == 1)
+        if ( $round->is_a_mentee_round() )
         {
             if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
@@ -50,7 +50,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
                 return NULL;
             }
 
-            // When a beginner project is in the first round (ELR),
+            // When a beginner project is in a mentored round,
             // any given user can work on at most 21 pages
             // from that project in that round.
 
@@ -69,7 +69,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
                 return NULL;
             }
         }
-        else if ($round->round_number == 2)
+        else if ( $round->is_a_mentor_round() )
         {
             if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
@@ -77,10 +77,10 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
                 return NULL;
             }
 
-            // For beginner projects in P2,
-            // we serve up pages in order of the P1 proofer.
+            // For beginner projects in a mentor round,
+            // we serve up pages in order of the proofer in the mentee round.
             // (So that mentors can easily get all the pages by one proofer.)
-            $order = 'round1_user ASC, image ASC';
+            $order = "{$round->mentee_round->user_column_name} ASC, image ASC";
         }
     }
 

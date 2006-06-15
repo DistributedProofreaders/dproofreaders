@@ -116,18 +116,11 @@ if ($pagesproofed >= 10)
 
 thoughts_re_mentor_feedback( $pagesproofed );
 
-if($round_id == 'P2')
+if ( $round->is_a_mentor_round() )
 {
     if(user_can_work_on_beginner_pages_in_round($round))
         mentor_banner($round);
 }
-/*
-if($round_id == 'F2')
-{
-    if(user_can_work_in_stage($pguser, 'F2'))
-        mentor_banner($round);
-}
-*/
 
 if ($pagesproofed <= 20)
 {

@@ -267,9 +267,9 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 			echo "\n<td>{$book['language']}</td>";
 			if ($book['difficulty'] == "beginner")
 			{
-				if  ($round->round_number == 1)
+				if ( $round->is_a_mentee_round() )
 					$genre = _("BEGINNERS ONLY")." ".$book['genre'];
-				else if ($round->round_number == 2)
+				else if ( $round->is_a_mentor_round() )
 					$genre = _("MENTORS ONLY")." ".$book['genre'];
 				else
 					$genre = $book['genre'];

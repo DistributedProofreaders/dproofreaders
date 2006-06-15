@@ -92,41 +92,76 @@ function page_list_sql($projectid)
 
     // ---------------------------------------------------------------
 
-    if (!isset($_GET['round_id']))
+    $round_id = @$_GET['round_id'];
+    if ( $round_id != '' )
     {
-      # If they're coming to this page from a MENTOR book in F2, 
-      # referrer should contain &expected_state=F2.proj_avail.
-      # Otherwise, default to the ELR round, P2.
-      $round_id = (strstr($_SERVER['HTTP_REFERER'],"F2.proj_avail")) ? 'F2' : 'P2';
+        $mentoring_round = get_Round_for_round_id($round_id);
     }
     else
     {
-      $round_id = $_GET['round_id'];
+        // Consider the page they came from.
+        $referer = $_SERVER['HTTP_REFERER'];
+
+        // If they're coming to this page from a MENTORS ONLY book in X2, 
+        // referrer should contain &expected_state=X2.proj_avail.
+        foreach ( $Round_for_round_id_ as $round )
+        {
+            if ( strpos($referer, $round->project_available_state) )
+            {
+                $mentoring_round = $round;
+                break;
+            }
+        }
+
+        if ( !isset($mentoring_round) )
+        {
+            // Just take the first.
+            foreach ( $Round_for_round_id_ as $round )
+            {
+                if ( $round->is_a_mentor_round() )
+                {
+                    $mentoring_round = $round;
+                    break;
+                }
+            }
+            if ( !isset($mentoring_round) )
+            {
+                die("There are no mentoring rounds!");
+            }
+        }
+    }
+
+    if ( !$mentoring_round->is_a_mentor_round() )
+    {
+        die("$mentoring_round->id is not a mentoring round!");
     }
 
     // ---------------------------------------------------------------
 
-    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $round_id) . "</h2>";
+    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
     echo "<p>" . _('Show projects from:');
-    foreach ( array('P2','F2') as $r_id )
+    foreach ( $Round_for_round_id_ as $round )
     {
+        if ( $round->is_a_mentor_round() )
+        {
             echo " ";
-            if ( $r_id == $round_id )
+            if ( $round->id == $mentoring_round->id )
             {
-                echo "<b>$r_id</b>";
+                echo "<b>{$round->id}</b>";
             }
             else
             {
-                $url = "$code_url/tools/proofers/for_mentors.php?round_id=$r_id";
-                echo "<a href='$url'>$r_id</a>";
+                $url = "$code_url/tools/proofers/for_mentors.php?round_id={$round->id}";
+                echo "<a href='$url'>{$round->id}</a>";
             }
+        }
     }
     echo "</p>.";
 
-    $mentored_round_id = substr_replace($round_id,'1',-1);
-    $result = mysql_query(project_sql($round_id));
+    $mentored_round_id = $mentoring_round->mentee_round->id;
+    $result = mysql_query(project_sql($mentoring_round->id));
     while ($proj =  mysql_fetch_object($result))
     {
         // Display project summary info
