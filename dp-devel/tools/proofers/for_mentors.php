@@ -106,10 +106,10 @@ function page_list_sql($projectid)
 
     // ---------------------------------------------------------------
 
-    echo "<h2>" . _("Pages available to Mentors in round $round_id") . "</h2>";
+    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $round_id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
-    echo "<p>Show projects from:";
+    echo "<p>" . _('Show projects from:');
     foreach ( array('P2','F2') as $r_id )
     {
             echo " ";
