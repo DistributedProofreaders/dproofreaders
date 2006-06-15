@@ -43,7 +43,7 @@ function page_summary_sql($projectid)
     $round_tallyboard = new TallyBoard($mentored_round_id, 'U' );
 
     list($joined_with_user_page_tallies,$user_page_tally_column) =
-	    $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
+            $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
     return "SELECT
                 CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
@@ -57,7 +57,7 @@ function page_summary_sql($projectid)
             FROM $projectid  AS p
                 INNER JOIN users AS u ON p.round1_user = u.username
                 INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
-		$joined_with_user_page_tallies
+                $joined_with_user_page_tallies
             GROUP BY p.round1_user" ;
 }
 
@@ -132,4 +132,6 @@ function page_list_sql($projectid)
 
     echo "<br><br><br><hr>\n";
     theme("","footer");
+
+// vim: sw=4 ts=4 expandtab
 ?>
