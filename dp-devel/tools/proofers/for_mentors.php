@@ -109,14 +109,19 @@ function page_list_sql($projectid)
     echo "<h2>" . _("Pages available to Mentors in round $round_id") . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
-    echo "<p>Show projects from: ";
-    if ($round_id == 'P2')
+    echo "<p>Show projects from:";
+    foreach ( array('P2','F2') as $r_id )
     {
-      echo "<b>P2</b> <a href='$code_url/tools/proofers/for_mentors.php?round_id=F2'>F2</a>";
-    }
-    else
-    {
-      echo "<a href='$code_url/tools/proofers/for_mentors.php?round_id=P2'>P2</a> <b>F2</b>";
+            echo " ";
+            if ( $r_id == $round_id )
+            {
+                echo "<b>$r_id</b>";
+            }
+            else
+            {
+                $url = "$code_url/tools/proofers/for_mentors.php?round_id=$r_id";
+                echo "<a href='$url'>$r_id</a>";
+            }
     }
     echo "</p>.";
 
