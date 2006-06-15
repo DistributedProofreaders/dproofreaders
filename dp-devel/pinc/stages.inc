@@ -224,6 +224,8 @@ new Round(
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
 assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 
+declare_mentoring_pair( 'P1', 'P2' );
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $someone_maintains_the_PP_faq =
