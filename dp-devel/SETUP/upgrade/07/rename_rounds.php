@@ -68,7 +68,11 @@ function update_table( $how, $table_name, $column_name, $allow_nonexistent_table
             UPDATE $table_name
             SET $column_name = REPLACE($column_name,'$src_round_id','$dst_round_id')
             WHERE INSTR($column_name, BINARY '$src_round_id')
+                AND $column_name != '{$src_round_id}_mentor'
         ";
+        // The '_mentor' thing is a kludge:
+        // We don't want P2_mentor changed to P3_mentor
+        // in usersettings.setting.
     }
     else
     {
