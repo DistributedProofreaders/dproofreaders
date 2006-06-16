@@ -95,8 +95,8 @@ new Round(
 // -----------------------------------------------------------------------------
 
 new Round(
-    'P2',
-    _('Proofreading Round 2'),
+    'P3',
+    _('Proofreading Round 3'),
     array( 'P1' => 400, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ), // 'P1' => 1000, 3 months after rollout
     'REQ-HUMAN',
         // "10 random P1 pages proofed within the last week will be reviewed.
