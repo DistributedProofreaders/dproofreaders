@@ -146,7 +146,7 @@ new Round(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
-    array( 'P1' ),
+    array( 'P1', 'P2' ),
     array(
              0 => _('Specialist Proofreader'),
             25 => _('Precious Proofreader'),
