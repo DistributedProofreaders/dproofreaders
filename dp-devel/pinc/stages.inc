@@ -138,11 +138,9 @@ new Round(
 new Round(
     'P3',
     _('Proofreading Round 3'),
-    array( 'P1' => 400, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ), // 'P1' => 1000, 3 months after rollout
+    array( 'P1' => 400, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ),
     'REQ-HUMAN',
-        // "10 random P1 pages proofed within the last week will be reviewed.
-        // If 2 or fewer proofing errors are found, approval will be given."
-    _("The page-texts have already been proofread once, but now need to be examined <b>closely</b> for small errors that may have been missed."),
+    _("The page-texts have already been proofread once or twice, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     array(
         0 => '#DDA0DD', // plum
