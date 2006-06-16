@@ -95,6 +95,47 @@ new Round(
 // -----------------------------------------------------------------------------
 
 new Round(
+    'P2',
+    _('Proofreading Round 2'),
+    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/P' => 1 ),
+    'REQ-AUTO',
+    _("The page-texts are the output from P1 and need to have the text carefully compared to the image. Something about spellcheck."),
+    'proofreading_guidelines.php',
+    array(
+        0 => '#FFE4B5', // mocassin
+        1 => '#FFF8DC', // cornsilk
+    ),
+    array( 'P1' ),
+    array(
+             0 => _('Novice'),
+            25 => _('Proofreading Pupil'),
+           100 => _('Proofreading Apprentice'),
+           500 => _('Proofreading Scholar'),
+          1000 => _('Proofreading Prodigy'),
+          2500 => _('Prefect of Proofreaders'),
+          5000 => _('Proofreading Graduate'),
+         10000 => _('Proofreading Alumnus'),
+         20000 => _('Fellow of Proofreading'),
+         30000 => _('Doctor of Proofreading'),
+         40000 => _('Proofreading Don'),
+         50000 => _('Dean of Proofreading'),
+         60000 => _('Proofreading Proctor'),
+         70000 => _('Principal Proofreader'),
+         80000 => _('Master Proofreader'),
+         90000 => _('Prefect of Proofreaders'),
+         99000 => _('Supervising Proofreader'),
+        100000 => _('Proofreading Professor'),
+        110000 => _('Peer of Proofreading'),
+        120000 => _('Doyen of Proofreading'),
+        130000 => _('Proofreading Chancellor'),
+        140000 => _('Proofreading Primate'),
+        150000 => _('Paramount Proofreader'),
+    )
+);
+
+// -----------------------------------------------------------------------------
+
+new Round(
     'P3',
     _('Proofreading Round 3'),
     array( 'P1' => 400, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ), // 'P1' => 1000, 3 months after rollout
@@ -221,7 +262,7 @@ new Round(
 
 // After creating all rounds:
 
-define('MAX_NUM_PAGE_EDITING_ROUNDS', 4);
+define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
 assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 
 declare_mentoring_pair( 'P1', 'P2' );

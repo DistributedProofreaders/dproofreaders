@@ -223,6 +223,7 @@ if ($site_supports_metadata)
 
 // PROOF
 declare_project_states_for_round( 'P1', _('Proofreading Round 1') );
+declare_project_states_for_round( 'P2', _('Proofreading Round 2') );
 declare_project_states_for_round( 'P3', _('Proofreading Round 3') );
 
 // FORMAT
