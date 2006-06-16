@@ -581,7 +581,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
-                'settings_template'     => '',
+                'settings_template'     => "modifieddate='{TIMESTAMP}'",
                 'destination'           => null,
             )
         );
