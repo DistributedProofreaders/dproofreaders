@@ -285,7 +285,7 @@ class Stage
 
 function get_user_scores($username)
 {
-    global $CRITERIA, $PQ, $FQ;
+    global $CRITERIA;
 
     $res = mysql_query("
         SELECT *
@@ -303,36 +303,43 @@ function get_user_scores($username)
     $user_scores = array();
     foreach ( $CRITERIA as $criterion_code => $criterion_descr )
     {
-        if ( $criterion_code == 'days since reg' )
-        {
-            $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
-        }
-        else if ( $criterion_code == 'quiz/P' )
-        {
-            $user_score = $PQ->user_has_passed($username) ? 1 : 0;
-        }
-        else if ( $criterion_code == 'quiz/F' )
-        {
-            $user_score = $FQ->user_has_passed($username) ? 1 : 0;
-        }
-        else if ( $criterion_code == 'R*+P1' )
-        {
-            // kludge
-            $tallyboard1 = new TallyBoard( 'R*', 'U' );
-            $tallyboard2 = new TallyBoard( 'P1', 'U' );
-            $user_score =
-                $tallyboard1->get_current_tally( $user_obj->u_id ) +
-                $tallyboard2->get_current_tally( $user_obj->u_id );
-        }
-        else
-        {
-            $tally_name = $criterion_code;
-            $tallyboard = new TallyBoard( $tally_name, 'U' );
-            $user_score = $tallyboard->get_current_tally( $user_obj->u_id );
-        }
-        $user_scores[$criterion_code] = $user_score;
+        $user_scores[$criterion_code] = get_user_score( $user_obj, $criterion_code );
     }
     return $user_scores;
+}
+
+function get_user_score( $user_obj, $criterion_code )
+{
+    if ( $criterion_code == 'days since reg' )
+    {
+        $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
+    }
+    else if ( $criterion_code == 'quiz/P' )
+    {
+        global $PQ;
+        $user_score = $PQ->user_has_passed($user_obj->username) ? 1 : 0;
+    }
+    else if ( $criterion_code == 'quiz/F' )
+    {
+        global $FQ;
+        $user_score = $FQ->user_has_passed($user_obj->username) ? 1 : 0;
+    }
+    else if ( $criterion_code == 'R*+P1' )
+    {
+        // kludge
+        $tallyboard1 = new TallyBoard( 'R*', 'U' );
+        $tallyboard2 = new TallyBoard( 'P1', 'U' );
+        $user_score =
+            $tallyboard1->get_current_tally( $user_obj->u_id ) +
+            $tallyboard2->get_current_tally( $user_obj->u_id );
+    }
+    else
+    {
+        $tally_name = $criterion_code;
+        $tallyboard = new TallyBoard( $tally_name, 'U' );
+        $user_score = $tallyboard->get_current_tally( $user_obj->u_id );
+    }
+    return $user_score;
 }
 
 // --------------------------------------------------------------------------
