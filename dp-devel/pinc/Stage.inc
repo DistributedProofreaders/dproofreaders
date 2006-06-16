@@ -310,6 +310,17 @@ function get_user_scores($username)
 
 function get_user_score( $user_obj, $criterion_code )
 {
+    $terms = explode( '+', $criterion_code );
+    if ( count($terms) > 1 )
+    {
+        $sum = 0;
+        foreach ( $terms as $term )
+        {
+            $sum += get_user_score( $user_obj, $term );
+        }
+        return $sum;
+    }
+
     if ( $criterion_code == 'days since reg' )
     {
         $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
@@ -323,15 +334,6 @@ function get_user_score( $user_obj, $criterion_code )
     {
         global $FQ;
         $user_score = $FQ->user_has_passed($user_obj->username) ? 1 : 0;
-    }
-    else if ( $criterion_code == 'R*+P1' )
-    {
-        // kludge
-        $tallyboard1 = new TallyBoard( 'R*', 'U' );
-        $tallyboard2 = new TallyBoard( 'P1', 'U' );
-        $user_score =
-            $tallyboard1->get_current_tally( $user_obj->u_id ) +
-            $tallyboard2->get_current_tally( $user_obj->u_id );
     }
     else
     {
