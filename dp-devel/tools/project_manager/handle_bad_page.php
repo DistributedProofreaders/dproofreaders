@@ -62,7 +62,24 @@ if (!isset($_POST['resolution'])) {
         echo $reason_list[$b_Code]."</td></tr>";
     }
 
-    $prev_round_num = $round->round_number - 1;
+    // It's a bit messy to have this here,
+    // since it reiterates stuff that appears in other files,
+    // but this page is kind of messy to begin with.
+    // It'll get cleaned up eventually.
+    for ( $prev_round_num = $round->round_number-1; $prev_round_num > 0; $prev_round_num-- )
+    {
+        $r = get_Round_for_round_number($prev_round_num);
+        if ( $page[$r->user_column_name] != '' )
+        {
+            $prevtext_column = $r->text_column_name;
+            break;
+        }
+    }
+    if ( $prev_round_num == 0 )
+    {
+        $prevtext_column = 'master_text';
+    }
+
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     echo "<strong>Originals:</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
@@ -100,7 +117,6 @@ if (!isset($_POST['resolution'])) {
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-        $prevtext_column = $round->prevtext_column_name;
         $prev_text = $page[$prevtext_column];
 
         echo "<form action='handle_bad_page.php' method='post'>";
