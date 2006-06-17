@@ -88,9 +88,45 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     $restrictions = "state='{$round->page_avail_state}'";
 
     // Are there any other restrictions that the page must satisfy?
+    // (This should maybe be a property of $round.)
     if (0)
     {
         // Nope, no other restrictions.
+    }
+    else if (1)
+    {
+        // Don't give this user a page that they worked on in the preceding round.
+        // (Where "preceding" takes into account skipped rounds.)
+        if ( $round->round_number > 1 )
+        {
+            // We need an SQL expression for the preceding proofer.
+            $preceding_proofer = "CASE";
+            for ( $rn = $round->round_number-1; $rn > 0; $rn-- )
+            {
+                $earlier_round = get_Round_for_round_number( $rn );
+                $ucn = $earlier_round->user_column_name;
+                $preceding_proofer .= " WHEN LENGTH($ucn) THEN $ucn";
+            }
+            // What if all of the earlier rounds were skipped?
+            // (It's pretty unlikely, but we should allow for it.)
+            // All of the WHEN LENGTH(...) clauses will fail.
+            //
+            // If the CASE expr doesn't have an ELSE clause, it will yield NULL,
+            // so we'll end up requiring that
+            //     NULL != '$pguser'
+            // which is always NULL (effectively false), so no pages will
+            // satisfy the restriction, which is not what we want.
+            //
+            // Instead, add an ELSE clause saying that the preceding proofer's
+            // name was the empty string. So we'll end up requiring that
+            //     '' != '$pguser'
+            // which is always true, so any (available) page will satisfy the
+            // restriction, which is what we want.
+            $preceding_proofer .= " ELSE ''";
+            $preceding_proofer .= " END";
+
+            $restrictions .= " AND $preceding_proofer != '$pguser'";
+        }
     }
     else
     {
