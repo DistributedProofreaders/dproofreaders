@@ -88,10 +88,18 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     $restrictions = "state='{$round->page_avail_state}'";
 
     // Are there any other restrictions that the page must satisfy?
-    for ( $rn = 1; $rn < $round->round_number; $rn++ )
+    if (0)
     {
-        $earlier_round = get_Round_for_round_number( $rn );
-        $restrictions .= " AND {$earlier_round->user_column_name} != '$pguser'";
+        // Nope, no other restrictions.
+    }
+    else
+    {
+        // Don't give this user a page that they have worked on before.
+        for ( $rn = 1; $rn < $round->round_number; $rn++ )
+        {
+            $earlier_round = get_Round_for_round_number( $rn );
+            $restrictions .= " AND {$earlier_round->user_column_name} != '$pguser'";
+        }
     }
 
     // Find page to be proofed.
