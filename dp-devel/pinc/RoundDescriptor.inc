@@ -80,14 +80,37 @@ class Round extends Stage
         $this->text_column_name          = "round{$this->round_number}_text";
         $this->user_column_name          = "round{$this->round_number}_user";
         $this->textdiff_column_name      = "round{$this->round_number}_diff"; // a computed column
+
+        // prevtext_column_name
+        //
+        // This used to be just a simple column name
+        // (the name of the 'text' column of the immediately previous round).
+        //
+        // But now that a project can skip rounds,
+        // the previous version of the text may be further back than that,
+        // so prevtext_column_name is now an SQL expression
+        // identifying the appropriate text column.
+        //
+        // Here's the pattern in pseudocode:
+        //   r1: master_text
+        //   r2: if r1_user != '' then r1_text else master_text
+        //   r3: if r2_user != '' then r2_text else if r1_user != '' then r1_text else master_text
+        //   etc.
+        //
         if ( $this->round_number == 1 )
         {
             $this->prevtext_column_name = "master_text";
         }
         else
         {
-            $prev_round_number = $this->round_number - 1;
-            $this->prevtext_column_name = "round{$prev_round_number}_text";
+            $sql = "CASE";
+            for ( $rn = $this->round_number-1; $rn > 0; $rn-- )
+            {
+                $sql .= " WHEN LENGTH(round{$rn}_user) THEN round{$rn}_text";
+            }
+            $sql .= " ELSE master_text";
+            $sql .= " END";
+            $this->prevtext_column_name = $sql;
         }
 
         // These can be changed by calling declare_mentoring_pair():
