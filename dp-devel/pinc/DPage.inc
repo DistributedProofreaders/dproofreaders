@@ -629,7 +629,7 @@ function project_recalculate_page_counts( $projectid )
         // COUNT(*) will be 0, but SUM(...) will be NULL.
         if ( is_null($n_available_pages) ) $n_available_pages = 0;
 
-        $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages"
+        $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages";
     }
 
     mysql_query("
