@@ -84,15 +84,25 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         }
     }
 
-    // Find page to be proofed.
-    // (It appears that a simultaneous query from someone else would return the same page.)
-    $dbQuery = "SELECT image, state FROM $projectid WHERE state='{$round->page_avail_state}'";
+    // The page to be retrieved must be an available page, of course.
+    $restrictions = "state='{$round->page_avail_state}'";
+
+    // Are there any other restrictions that the page must satisfy?
     for ( $rn = 1; $rn < $round->round_number; $rn++ )
     {
         $earlier_round = get_Round_for_round_number( $rn );
-        $dbQuery .= " AND {$earlier_round->user_column_name} != '$pguser'";
+        $restrictions .= " AND {$earlier_round->user_column_name} != '$pguser'";
     }
-    $dbQuery .= " ORDER BY $order LIMIT 1";
+
+    // Find page to be proofed.
+    // (It appears that a simultaneous query from someone else would return the same page.)
+    $dbQuery = "
+        SELECT image, state
+        FROM $projectid
+        WHERE $restrictions
+        ORDER BY $order
+        LIMIT 1
+    ";
     $result = mysql_query($dbQuery);
     $numrows = mysql_num_rows($result);
     if ($numrows == 0)
