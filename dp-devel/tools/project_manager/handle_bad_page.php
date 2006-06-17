@@ -19,9 +19,10 @@ if (!isset($_POST['resolution'])) {
 
     //Find out information about the bad page report
     $result = mysql_query("SELECT * FROM $projectid WHERE image='$image'");
-    $state = mysql_result($result,0,"state");
-    $b_User = mysql_result($result,0,"b_user");
-    $b_Code = mysql_result($result,0,"b_code");
+    $page = mysql_fetch_assoc($result);
+    $state  = $page['state'];
+    $b_User = $page['b_user'];
+    $b_Code = $page['b_code'];
 
     $result = mysql_query("SELECT * FROM projects WHERE projectid='$projectid'");
     $b_NameofWork = mysql_result($result,0,"nameofwork");
