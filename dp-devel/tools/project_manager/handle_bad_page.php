@@ -101,8 +101,7 @@ if (!isset($_POST['resolution'])) {
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
         $prevtext_column = $round->prevtext_column_name;
-        $result = mysql_query("SELECT $prevtext_column FROM $projectid where image='$image'");
-        $prev_text = mysql_result($result, 0, $prevtext_column);
+        $prev_text = $page[$prevtext_column];
 
         echo "<form action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='text'>";
