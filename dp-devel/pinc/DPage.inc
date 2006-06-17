@@ -615,8 +615,11 @@ function project_recalculate_page_counts( $projectid )
     if ( $res === FALSE )
     {
         // no pages table
-        $n_pages = 0;
-        $n_available_pages = 0;
+        // This could be an archived project, in which case 'n_pages'
+        // records the number of pages that the project had, and
+        // we don't want to reset that to zero.
+        // But resetting 'n_available_pages' should be fine.
+        $settings = "n_available_pages=0";
     }
     else
     {
@@ -625,11 +628,13 @@ function project_recalculate_page_counts( $projectid )
         // If pages table exists, but is empty,
         // COUNT(*) will be 0, but SUM(...) will be NULL.
         if ( is_null($n_available_pages) ) $n_available_pages = 0;
+
+        $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages"
     }
 
     mysql_query("
         UPDATE projects
-        SET n_pages=$n_pages, n_available_pages=$n_available_pages
+        SET $settings
         WHERE projectid='$projectid'
     ") or die(mysql_error());
 }
