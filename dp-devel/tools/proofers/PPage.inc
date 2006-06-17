@@ -171,7 +171,7 @@ class PPage
                 $other_round = get_Round_for_round_id($other_round_id);
                 $username = $this->lpage->get_username_for_round( $other_round );
 
-                if ($show_comma) { echo ","; } else { $show_comma = TRUE; }
+                if ($show_comma) { echo ", "; } else { $show_comma = TRUE; }
                 echo "$other_round->id: ";
 
                 if ( $username == '' )
