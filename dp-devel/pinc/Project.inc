@@ -211,12 +211,12 @@ class Project
         $credits = array();
 
         $creditables = array(
-            'pm' => $this->username,
-            'pp' => $this->postproofer,
-            'ip' => $this->image_preparer,
-            'tp' => $this->text_preparer,
-            'ec' => $this->extra_credits,
-            'cp' => $this->scannercredit
+            'pm' => $this->username,        // username
+            'pp' => $this->postproofer,     // username
+            'ip' => $this->image_preparer,  // username
+            'tp' => $this->text_preparer,   // username
+            'ec' => $this->extra_credits,   // arbitrary text
+            'cp' => $this->scannercredit    // username or arbitrary text
         );
 
         foreach ($creditables as $role => $name)
@@ -225,12 +225,10 @@ class Project
     
             $credit = NULL;
     
-            // Unlike $project->username, $project->postproofer, 
-            // $project->image_preparer and $project->text_preparer
-            // $project->scannercredit isn't necessarily a username;
-            // it might just be a typed-in string.
             if ($role == 'cp')
             {
+                // $name ($project->scannercredit) could be
+                // a username or just a typed-in string
                 $res = mysql_query("
                     SELECT username
                     FROM users
@@ -244,14 +242,11 @@ class Project
                 }
             }
 
-            // Unlike  the other credit-holding fields, like $project->username, $project->postproofer, 
-            // $project->image_preparer, $project->text_preparer and $project->scannercredit (deprecated)
-            // $project->extra_credits should not be a username;
-            // It is just a typed-in string, and will be presented as is, as part of the list. 
             if ($role == 'ec')
             {
-                // $name is not a username.
-                // So use it as the credit.
+                // $name ($project->extra_credits) should not be a username;
+                // It is just a typed-in string, and will be presented as is,
+                // as part of the list. 
                 $credit = $name;
             }
     
