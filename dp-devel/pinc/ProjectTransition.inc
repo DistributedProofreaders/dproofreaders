@@ -716,7 +716,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Post-Processor"),
         'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer, postproofer=''",
         'destination'           => '<RETURN>',
     )
 );
