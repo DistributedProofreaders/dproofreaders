@@ -135,6 +135,7 @@ update_table( WHOLE_COL, 'current_tallies',  'tally_name' );
 update_table( WHOLE_COL, 'site_tally_goals', 'tally_name' );
 
 update_table( WHOLE_COL, 'news_items',  'news_page_id' );
+update_table( WHOLE_COL, 'news_pages',  'news_page_id' );
 update_table( WHOLE_COL, 'queue_defns', 'round_id' );
 
 // --------------------------------------------
