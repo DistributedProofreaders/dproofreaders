@@ -55,7 +55,7 @@ class ProjectTransition
         $PROJECT_TRANSITIONS[] =& $this;
     }
 
-    function is_valid_for( $project, $username )
+    function is_valid_for( $project, $who )
     {
         if ( $this->from_state != $project->state ) return FALSE;
 
@@ -66,26 +66,26 @@ class ProjectTransition
             // To handle cases where that person goes AWOL,
             // we also allow site admins to perform the action.
             return (
-                $username == $project->checkedoutby
+                $who == $project->checkedoutby
                 ||
-                that_user_is_a_sitemanager($username)
+                that_user_is_a_sitemanager($who)
             );
         }
         elseif ( $this->restriction == 'manager' )
         {
-            return $project->can_be_managed_by_user($username);
+            return $project->can_be_managed_by_user($who);
         }
         elseif ( $this->restriction == 'proj_facilitator' )
         {
             return (
-                that_user_is_proj_facilitator($username)
+                that_user_is_proj_facilitator($who)
                 || 
-                that_user_is_a_sitemanager($username)
+                that_user_is_a_sitemanager($who)
             );
         }
         elseif ( $this->restriction == 'site_manager' )
         {
-            return that_user_is_a_sitemanager($username);
+            return that_user_is_a_sitemanager($who);
         }
         elseif ( $this->restriction == 'auto' )
         {
@@ -99,7 +99,7 @@ class ProjectTransition
             $stage_id = $restriction_words[1];
             // Anyone who can work in this particular stage
             // can perform the action.
-            return user_can_work_in_stage($username, $stage_id);
+            return user_can_work_in_stage($who, $stage_id);
         }
 
         die("transition has bad 'restriction' value: '$this->restriction'");
