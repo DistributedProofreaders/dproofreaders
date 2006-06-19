@@ -1347,7 +1347,7 @@ function do_change_state()
         if (1)
         {
             // Say who is allowed to do this transition.
-            echo " [$transition->restriction]";
+            echo " [$transition->who_restriction]";
         }
 
         echo "</form>\n";
