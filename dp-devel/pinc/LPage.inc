@@ -352,7 +352,7 @@ class LPage
                 $this->projectid, $this->round->page_bad_state, "DISTINCT(b_user)" );
         if ($n_distinct_reporters < 3) return FALSE;
 
-        $error_msg = project_transition( $this->projectid, $this->round->project_bad_state );
+        $error_msg = project_transition( $this->projectid, $this->round->project_bad_state, PT_AUTO );
         if ($error_msg)
         {
             echo "$error_msg<br>\n";

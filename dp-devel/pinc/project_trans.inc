@@ -6,7 +6,7 @@ include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 
-function project_transition( $projectid, $new_state, $extras = array() )
+function project_transition( $projectid, $new_state, $who, $extras = array() )
 // Move the given project to the given state,
 // and perform any attendant processing.
 // If there are any problems, return a string containing an error message.

@@ -48,7 +48,7 @@ include_once($relPath.'maybe_mail.inc');
 	        }
 	}
 
-        $error_msg = project_transition( $project, $new_state, $extras );
+        $error_msg = project_transition( $project, $new_state, PT_AUTO, $extras );
         if ( $error_msg )
         {
             echo "$error_msg<br>\n";

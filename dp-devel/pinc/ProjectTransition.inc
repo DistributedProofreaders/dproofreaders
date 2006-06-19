@@ -6,6 +6,8 @@ include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'f_move_post.inc'); // move_project_thread
 
+define('PT_AUTO', '[AUTO]');
+
 $PROJECT_TRANSITIONS = array();
 
 class ProjectTransition

@@ -168,7 +168,7 @@ else
 			copy($files['tmp_name'][$key],$location);
 			unlink($files['tmp_name'][$key]);
 
-			$error_msg = project_transition( $project, $new_state, $extras );
+			$error_msg = project_transition( $project, $new_state, $pguser, $extras );
 			if ($error_msg)
 			{
 				echo "$error_msg<br>\n";

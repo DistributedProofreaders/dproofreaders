@@ -172,7 +172,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                     echo "    Re badness, changing state to $appropriate_state\n";
                 }
                 if ($trace) echo "changing its state to $appropriate_state\n";
-                $error_msg = project_transition( $projectid, $appropriate_state );
+                $error_msg = project_transition( $projectid, $appropriate_state, PT_AUTO );
                 if ($error_msg)
                 {
                     echo "$error_msg\n";
@@ -246,7 +246,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             ensure_project_blurb( $project );
             echo "    Advancing \"$nameofwork\" to $state\n";
         }
-        $error_msg = project_transition( $projectid, $state );
+        $error_msg = project_transition( $projectid, $state, PT_AUTO );
         if ($error_msg)
         {
             echo "$error_msg\n";
@@ -276,7 +276,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             echo "    Promoting \"$nameofwork\" to $next_round_state\n";
         }
 
-        $error_msg = project_transition( $projectid, $next_round_state );
+        $error_msg = project_transition( $projectid, $next_round_state, PT_AUTO );
         if ($error_msg)
         {
             echo "$error_msg\n";

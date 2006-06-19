@@ -50,7 +50,7 @@ foreach( $projectids as $projectid )
 		continue;
 	}
 
-	$error_msg = project_transition( $projectid, $new_state );
+	$error_msg = project_transition( $projectid, $new_state, $pguser );
 	if ( $error_msg )
 	{
 		echo "    $error_msg\n";

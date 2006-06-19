@@ -44,7 +44,7 @@ function attempt_to_release( $round, $project )
     }
 
 
-    $error_msg = project_transition( $projectid, $new_state );
+    $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
     if ($error_msg)
     {
         echo "$error_msg\n";
