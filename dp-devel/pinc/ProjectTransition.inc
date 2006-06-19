@@ -15,7 +15,7 @@ class ProjectTransition
     function ProjectTransition(
         $from_state,
         $to_state,
-        $restriction,
+        $who_restriction,
         $options
             // action_name
             // confirmation_question
@@ -23,12 +23,12 @@ class ProjectTransition
             // settings_template
             // destination
     )
-    // A user who satisfies the $restriction can cause
+    // A user who satisfies the $who_restriction can cause
     // a project to transit from $from_state to $to_state.
     {
         $this->from_state  = $from_state;
         $this->to_state    = $to_state;
-        $this->restriction = $restriction;
+        $this->who_restriction = $who_restriction;
 
         foreach ( $options as $option_name => $option_value )
         {
@@ -59,7 +59,7 @@ class ProjectTransition
     {
         if ( $this->from_state != $project->state ) return FALSE;
 
-        return $this->is_valid_for_who( $project, $this->restriction, $who );
+        return $this->is_valid_for_who( $project, $this->who_restriction, $who );
     }
 
     function is_valid_for_who( $project, $simple_who_restriction, $who )
