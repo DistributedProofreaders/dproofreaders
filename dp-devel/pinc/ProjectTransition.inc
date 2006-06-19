@@ -134,6 +134,8 @@ class ProjectTransition
     {
         global $testing;
 
+        assert( $this->is_valid_for( $project, $who ) );
+
         $projectid = $project->projectid;
 
         $from_round = get_Round_for_project_state($this->from_state);
