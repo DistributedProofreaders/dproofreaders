@@ -59,7 +59,12 @@ class ProjectTransition
     {
         if ( $this->from_state != $project->state ) return FALSE;
 
-        if ( $this->restriction == 'holder' )
+        return $this->is_valid_for_who( $project, $this->restriction, $who );
+    }
+
+    function is_valid_for_who( $project, $simple_who_restriction, $who )
+    {
+        if ( $simple_who_restriction == 'holder' )
         {
             // The user (if any) who currently has the project checked out
             // can perform the action.
@@ -71,11 +76,11 @@ class ProjectTransition
                 that_user_is_a_sitemanager($who)
             );
         }
-        elseif ( $this->restriction == 'manager' )
+        elseif ( $simple_who_restriction == 'manager' )
         {
             return $project->can_be_managed_by_user($who);
         }
-        elseif ( $this->restriction == 'proj_facilitator' )
+        elseif ( $simple_who_restriction == 'proj_facilitator' )
         {
             return (
                 that_user_is_proj_facilitator($who)
@@ -83,16 +88,16 @@ class ProjectTransition
                 that_user_is_a_sitemanager($who)
             );
         }
-        elseif ( $this->restriction == 'site_manager' )
+        elseif ( $simple_who_restriction == 'site_manager' )
         {
             return that_user_is_a_sitemanager($who);
         }
-        elseif ( $this->restriction == 'auto' )
+        elseif ( $simple_who_restriction == 'auto' )
         {
             return FALSE;
         }
 
-        $restriction_words = explode(' ', $this->restriction);
+        $restriction_words = explode(' ', $simple_who_restriction);
         if ( $restriction_words[0] == 'user_can_work_in_stage' )
         {
             assert( count($restriction_words) == 2 );
@@ -102,7 +107,7 @@ class ProjectTransition
             return user_can_work_in_stage($who, $stage_id);
         }
 
-        die("transition has bad 'restriction' value: '$this->restriction'");
+        die("transition has bad 'restriction' value: '$simple_who_restriction'");
     }
 
     // ---------------------------------------------------------------
