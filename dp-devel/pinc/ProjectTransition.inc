@@ -59,7 +59,14 @@ class ProjectTransition
     {
         if ( $this->from_state != $project->state ) return FALSE;
 
-        return $this->is_valid_for_who( $project, $this->who_restriction, $who );
+        foreach ( explode('|', $this->who_restriction) as $simple_who_restriction )
+        {
+            if ( $this->is_valid_for_who( $project, $simple_who_restriction, $who ) )
+            {
+                return TRUE;
+            }
+        }
+        return FALSE;
     }
 
     function is_valid_for_who( $project, $simple_who_restriction, $who )
