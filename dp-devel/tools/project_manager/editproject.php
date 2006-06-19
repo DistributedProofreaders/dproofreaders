@@ -468,14 +468,27 @@ class ProjectInfoHolder
             }
         }
 
+        $this->posted    = @$_POST['posted'];
+        $this->postednum = @$_POST['postednum'];
+        if ( $this->posted )
+        {
+            // We are in the process of marking this project as posted.
+            if ( $this->postednum == '' )
+            {
+                $errors .= "Posted Number is required.<br>";
+            }
+            else if ( ! preg_match('/^[1-9][0-9]*$/', $this->postednum ) )
+            {
+                $errors .= "Posted Number \"$this->postednum\" is not of the correct format.<br>";
+            }
+        }
+
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
         $this->clearance        = @$_POST['clearance'];
-        $this->postednum        = @$_POST['postednum'];
         $this->difficulty_level = @$_POST['difficulty_level'];
         $this->up_projectid     = @$_POST['up_projectid'];
         $this->original_marc_array_encd = @$_POST['rec'];
-        $this->posted           = @$_POST['posted'];
         $this->extra_credits    = @$_POST['extra_credits'];
 
         if ($this->difficulty_level == '')
