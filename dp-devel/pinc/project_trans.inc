@@ -68,7 +68,7 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 
 	// -------------------------------------------------------------------------
 
-	$error = $transition->do_state_change( $project, $extras );
+	$error = $transition->do_state_change( $project, $who, $extras );
 	if ( $error == '' )
 	{
 		// success

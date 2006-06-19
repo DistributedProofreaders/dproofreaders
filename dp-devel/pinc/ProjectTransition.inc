@@ -107,7 +107,7 @@ class ProjectTransition
 
     // ---------------------------------------------------------------
 
-    function do_state_change( $project, $extras )
+    function do_state_change( $project, $who, $extras )
     // Apply the transition to the given project,
     // and perform any attendant processing.
     // If there are any problems, return a string containing an error message.
