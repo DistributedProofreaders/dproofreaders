@@ -450,7 +450,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     new ProjectTransition(
         $round->project_waiting_state,
         $round->project_available_state,
-        'proj_facilitator',
+        'proj_facilitator|auto',
         array(
             'action_name'           => '[default]',
             'confirmation_question' => '[default]',
