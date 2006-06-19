@@ -101,7 +101,7 @@ class ProjectTransition
         }
         elseif ( $simple_who_restriction == 'auto' )
         {
-            return FALSE;
+            return ($who == PT_AUTO);
         }
 
         $restriction_words = explode(' ', $simple_who_restriction);
