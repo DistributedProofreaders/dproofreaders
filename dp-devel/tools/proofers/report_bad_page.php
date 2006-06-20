@@ -96,14 +96,7 @@ else
 
 	//If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
 	if ($project_is_bad) {
-		$message =
-"This project has been shut down.
-This is due to 10 or more problem reports, from at least
-3 unique users, noting errors or problems with this project.
-Please visit the Project Manager page to view a list
-of your bad projects and make any necessary changes.
-You will then be able to put the project back up on the site.";
-		maybe_mail_project_manager($projectid, $message, "DP Bad Page");
+		// message to PM re bad project has already been sent
 	} else {
 		$message =
 "Page $imagefile of this project has been marked bad due to $reason_list[$reason].

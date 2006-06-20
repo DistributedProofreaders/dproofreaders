@@ -547,7 +547,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
-            'collateral_actions'    => null,
+            'collateral_actions'    => 'bad_project_collateral',
         )
     );
 
@@ -643,6 +643,19 @@ function round_release_collateral( $project, $transition, $who )
             "This project has been manually released by $who and has just become available in '{$round->name}'.",
             "DP Proofreading Started (Manual Release)");
     }
+}
+
+function bad_project_collateral( $project, $transition, $who )
+{
+    $body_blurb =
+"This project has been shut down.
+This is due to 10 or more problem reports, from at least
+3 unique users, noting errors or problems with this project.
+Please visit the Project Manager page to view a list
+of your bad projects and make any necessary changes.
+You will then be able to put the project back up on the site.";
+    maybe_mail_project_manager(
+        get_object_vars($project), $body_blurb, "DP Bad Project");
 }
 
 function round_to_PP_avail_collateral( $project, $transition, $who )
