@@ -613,8 +613,16 @@ class ProjectInfoHolder
             $this->nameofwork,
             $updated_marc_array );
 
-        // If the project has been posted to PG let the users know
-        if ($this->posted) { posted_pg($this->projectid); }
+        // If the project has been posted to PG, make the appropriate transition.
+        if ($this->posted)
+        {
+            $err = project_transition( $this->projectid, PROJ_SUBMIT_PG_POSTED, $pguser );
+            if ( $err != '' )
+            {
+                echo "$err<br>\n";
+                exit;
+            }
+        }
     }
 
     // =========================================================================
@@ -757,20 +765,6 @@ class ProjectInfoHolder
         echo "</td></tr>\n";
 
         echo "</table><br><br>";
-    }
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function posted_pg($projectid)
-{
-    global $pguser;
-
-    $err = project_transition( $projectid, PROJ_SUBMIT_PG_POSTED, $pguser );
-    if ( $err != '' )
-    {
-        echo "$err<br>\n";
-        exit;
     }
 }
 
