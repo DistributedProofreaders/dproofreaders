@@ -21,6 +21,7 @@ class ProjectTransition
             // confirmation_question
             // detour
             // settings_template
+            // collateral_actions
     )
     // A user who satisfies the $who_restriction can cause
     // a project to transit from $from_state to $to_state.
@@ -267,6 +268,12 @@ class ProjectTransition
         move_project_thread(
             $projectid, get_forum_id_for_project_state($this->to_state) );
 
+        if ( $this->collateral_actions )
+        {
+            $function_name = $this->collateral_actions;
+            $function_name( $project, $this, $who );
+        }
+
         return '';
     }
 }
@@ -380,6 +387,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -394,6 +402,7 @@ if ($site_supports_metadata)
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 }
@@ -429,6 +438,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'collateral_actions'    => null,
         )
     );
 
@@ -441,6 +451,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -453,6 +464,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => '[default]',
             'detour'                => null,
             'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'collateral_actions'    => null,
         )
     );
 
@@ -465,6 +477,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -477,6 +490,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
     // automodify.php will leave the project in the appropriate
@@ -493,6 +507,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => '[default]',
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -505,6 +520,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -517,6 +533,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -529,6 +546,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -541,6 +559,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -553,6 +572,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
+            'collateral_actions'    => null,
         )
     );
 
@@ -569,6 +589,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'confirmation_question' => null,
                 'detour'                => null,
                 'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+                'collateral_actions'    => null,
             )
         );
     }
@@ -583,6 +604,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'confirmation_question' => null,
                 'detour'                => null,
                 'settings_template'     => "modifieddate='{TIMESTAMP}'",
+                'collateral_actions'    => null,
             )
         );
 
@@ -595,6 +617,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'confirmation_question' => null,
                 'detour'                => null,
                 'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+                'collateral_actions'    => null,
             )
         );
     }
@@ -613,6 +636,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -625,6 +649,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -637,6 +662,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -655,6 +681,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to make this book available to others for post processing?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -667,6 +694,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to make this book available to others to verify and lose your work?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
+        'collateral_actions'    => null,
     )
 );
 
@@ -679,6 +707,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to make this book available to others for reviewing corrections?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=''",
+        'collateral_actions'    => null,
     )
 );
 
@@ -697,6 +726,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -709,6 +739,7 @@ new ProjectTransition(
         'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer, postproofer=''",
+        'collateral_actions'    => null,
     )
 );
 
@@ -726,6 +757,7 @@ new ProjectTransition(
         'confirmation_question' => '[default]',
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -738,6 +770,7 @@ new ProjectTransition(
         'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -752,6 +785,7 @@ new ProjectTransition(
         'confirmation_question' => '[default]',
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -764,6 +798,7 @@ new ProjectTransition(
         'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -783,6 +818,7 @@ new ProjectTransition(
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -795,6 +831,7 @@ new ProjectTransition(
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -807,6 +844,7 @@ new ProjectTransition(
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
         'settings_template'     => '',
+        'collateral_actions'    => null,
     )
 );
 
@@ -850,6 +888,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
+        'collateral_actions'    => null,
     )
 );
 
@@ -862,6 +901,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
+        'collateral_actions'    => null,
     )
 );
 
@@ -874,6 +914,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
+        'collateral_actions'    => null,
     )
 );
 
@@ -886,6 +927,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
+        'collateral_actions'    => null,
     )
 );
 
@@ -898,6 +940,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
+        'collateral_actions'    => null,
     )
 );
 
@@ -912,6 +955,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => null,
         'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{E:correctedby}'",
+        'collateral_actions'    => null,
     )
 );
 
@@ -940,6 +984,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
             'confirmation_question' => _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
             'detour'                => null,
             'settings_template'     => "modifieddate='{TIMESTAMP}'",
+            'collateral_actions'    => null,
         )
     );
 }
