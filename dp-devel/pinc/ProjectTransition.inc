@@ -6,6 +6,7 @@ include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'f_move_post.inc'); // move_project_thread
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
+include_once($relPath.'maybe_mail.inc');
 
 define('PT_AUTO', '[AUTO]');
 
