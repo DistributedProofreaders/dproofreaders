@@ -10,6 +10,7 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'abort.inc');
+include_once($relPath.'maybe_mail.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -337,7 +338,20 @@ class LPage
     function markAsBad( $user, $reason )
     // Return TRUE iff this report causes project to be marked bad.
     {
+        global $code_url, $PAGE_BADNESS_REASONS;
+
         Page_markAsBad( $this->projectid, $this->imagefile, $this->round, $user, $reason );
+
+        // Advise PM that the page has been marked bad.
+		$body_blurb =
+"Page {$this->imagefile} of this project has been marked bad due to {$PAGE_BADNESS_REASONS[$reason]}.
+Please visit
+    $code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}
+to make any needed changes and make the page available for proofreading again.
+Until this report has been resolved, the project will not be able to leave
+the current round. If 10 pages are marked bad by at least 3 different users,
+the project will automatically be made unavailable.";
+        maybe_mail_project_manager($this->projectid, $body_blurb, "DP Bad Page");
 
         // Now determine whether the project as a whole should be marked bad.
         // We need 10 or more bad pages reported by 3 or more distinct users.

@@ -1,7 +1,6 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
-include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
@@ -91,19 +90,6 @@ else
 	//Update the page the user was working on to reflect a bad page.
 	//This may cause the whole project to be marked bad.
 	$ppage->markAsBad( $pguser, $reason );
-
-	// advise PM that the page has been marked bad
-	{
-		$message =
-"Page $imagefile of this project has been marked bad due to $PAGE_BADNESS_REASONS[$reason].
-Please visit
-    $code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagefile
-to make any needed changes and make the page available for proofreading again.
-Until this report has been resolved, the project will not be able to leave
-the current round. If 10 pages are marked bad by at least 3 different users,
-the project will automatically be made unavailable.";
-		maybe_mail_project_manager($projectid, $message, "DP Bad Page");
-	}
 
 	// Redirect the user to either continue proofreading if project is still open
   // or present a link back to the activity hub
