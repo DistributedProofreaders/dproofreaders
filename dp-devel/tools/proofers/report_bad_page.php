@@ -103,6 +103,7 @@ This is due to 10 or more problem reports, from at least
 Please visit the Project Manager page to view a list
 of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
+		maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 	} else {
 		$message =
 "Page $imagefile of this project has been marked bad due to $reason_list[$reason].
@@ -112,10 +113,8 @@ to make any needed changes and make the page available for proofreading again.
 Until this report has been resolved, the project will not be able to leave
 the current round. If 10 pages are marked bad by at least 3 different users,
 the project will automatically be made unavailable.";
+		maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 	}
-
-	//Send the email to the PM
-	maybe_mail_project_manager($projectid, $message, "DP Bad Page");
 
 	// Redirect the user to either continue proofreading if project is still open
   // or present a link back to the activity hub
