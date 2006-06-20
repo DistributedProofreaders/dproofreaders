@@ -845,9 +845,6 @@ new ProjectTransition(
 // -----------------------------------------------------------------------------
 // Transitions to PROJ_SUBMIT_PG_POSTED:
 
-$pg_posted_question =
-    _('Project has been posted by PG?');
-
 /*
     pseudo-code:
     IF postproofer == '' THEN
@@ -882,7 +879,7 @@ new ProjectTransition(
     'site_manager',
     array(
         'action_name'           => '[default]',
-        'confirmation_question' => $pg_posted_question,
+        'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
         'destination'           => null,
@@ -895,7 +892,7 @@ new ProjectTransition(
     'site_manager',
     array(
         'action_name'           => '[default]',
-        'confirmation_question' => $pg_posted_question,
+        'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
         'destination'           => null,
@@ -908,7 +905,7 @@ new ProjectTransition(
     'site_manager',
     array(
         'action_name'           => '[default]',
-        'confirmation_question' => $pg_posted_question,
+        'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
         'destination'           => null,
@@ -921,7 +918,7 @@ new ProjectTransition(
     'site_manager',
     array(
         'action_name'           => '[default]',
-        'confirmation_question' => $pg_posted_question,
+        'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
         'destination'           => null,
