@@ -27,7 +27,7 @@ else
 $projectid  = $ppage->projectid();
 $imagefile  = $ppage->imagefile();
 
-$reason_list = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
+$PAGE_BADNESS_REASONS = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
 
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
@@ -56,9 +56,9 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<strong>"._("Reason").":</strong>";
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<select name='reason'>";
-	for ($i=0;$i<count($reason_list);$i++)
+	for ($i=0;$i<count($PAGE_BADNESS_REASONS);$i++)
 	{
-		echo "<option value='$i'>$reason_list[$i]</option>";
+		echo "<option value='$i'>$PAGE_BADNESS_REASONS[$i]</option>";
 	}
 	echo "</select>";
 	echo "\n";
@@ -97,7 +97,7 @@ else
 	// advise PM that the page has been marked bad
 	{
 		$message =
-"Page $imagefile of this project has been marked bad due to $reason_list[$reason].
+"Page $imagefile of this project has been marked bad due to $PAGE_BADNESS_REASONS[$reason].
 Please visit
     $code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagefile
 to make any needed changes and make the page available for proofreading again.

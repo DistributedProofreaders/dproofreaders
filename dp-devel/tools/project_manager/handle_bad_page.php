@@ -9,7 +9,7 @@ include_once($relPath.'stages.inc');
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form
-    $reason_list = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
+    $PAGE_BADNESS_REASONS = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectid = $_GET['projectid'];
     $image = $_GET['image'];
     if (!isset($projectid)) {
@@ -59,7 +59,7 @@ if (!isset($_POST['resolution'])) {
         echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
         echo "<strong>Reason:</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo $reason_list[$b_Code]."</td></tr>";
+        echo $PAGE_BADNESS_REASONS[$b_Code]."</td></tr>";
     }
 
     // It's a bit messy to have this here,
