@@ -132,16 +132,9 @@ if ( !empty($transition->detour) )
     }
 }
 
-if ( $transition->destination == '<RETURN>' )
-{
     // Return the user to the screen they were at
     // when they requested the state change.
     $refresh_url = $return_uri;
-}
-else
-{
-    $refresh_url = prepare_url( $transition->destination );
-}
 
 metarefresh(2, $refresh_url, $title, $body);
 
