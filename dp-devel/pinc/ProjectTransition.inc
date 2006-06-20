@@ -5,6 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'f_move_post.inc'); // move_project_thread
+include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 
 define('PT_AUTO', '[AUTO]');
 
@@ -909,7 +910,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'pg_posted_collateral',
     )
 );
 
@@ -922,7 +923,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'pg_posted_collateral',
     )
 );
 
@@ -935,7 +936,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'pg_posted_collateral',
     )
 );
 
@@ -948,7 +949,7 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'pg_posted_collateral',
     )
 );
 
@@ -961,9 +962,66 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'pg_posted_collateral',
     )
 );
+
+function pg_posted_collateral( $project, $transition, $who )
+{
+    global $site_url, $auto_email_addr, $auto_email_addr;
+
+    $projectid = $project->projectid;
+
+    $url = get_pg_catalog_url_for_etext( $project->postednum );
+
+    $result = mysql_query("
+        SELECT username
+        FROM usersettings
+        WHERE setting = 'posted_notice' AND value = '$projectid'
+    ");
+    $numrows = mysql_numrows($result);
+    while ( list($username) = mysql_fetch_row($result) )
+    {
+        $temp = mysql_query("
+            SELECT user_email
+            FROM phpbb_users
+            WHERE username = '$username'
+        ");
+        $email = mysql_result($temp, 0, "user_email");
+        maybe_mail(
+            $email,
+            "{$project->nameofwork} Posted to Project Gutenberg",
+            "You had requested to be let known once {$project->nameofwork} was ready to be available for reading."
+            ." It has been sent to Project Gutenberg and will soon be available for reading."
+            ." Most files will be ready by the time you receive this mail;"
+            ." sometimes there may be a delay of a day or so."
+            ." You can download the files via PG's online catalog at <$url>."
+            ."\n"
+            ."\n"
+            ."--"
+            ."\n"
+            ."Distributed Proofreaders"
+            ."\n"
+            ."$site_url"
+            ."\n"
+            ."\n"
+            ."This is an automated message that you had requested,"
+            ." please do not respond directly to this e-mail.",
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
+        );
+    }
+
+    $del = mysql_query("
+        DELETE FROM usersettings
+        WHERE setting = 'posted_notice' AND value = '$projectid'
+    ");
+
+    $ins = mysql_query("
+        UPDATE projects
+        SET int_level = '$numrows'
+        WHERE projectid = '$projectid'
+    ");
+}
 
 // -----------------------------------------------------------------------------
 

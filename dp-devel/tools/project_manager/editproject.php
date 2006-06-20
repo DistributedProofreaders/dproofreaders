@@ -764,7 +764,7 @@ class ProjectInfoHolder
 
 function posted_pg($projectid)
 {
-    global $site_url, $auto_email_addr, $auto_email_addr, $pguser;
+    global $pguser;
 
     $err = project_transition( $projectid, PROJ_SUBMIT_PG_POSTED, $pguser );
     if ( $err != '' )
@@ -772,47 +772,6 @@ function posted_pg($projectid)
         echo "$err<br>\n";
         exit;
     }
-
-    $result = mysql_query("SELECT nameofwork, postednum FROM projects WHERE projectid = '$projectid'");
-    $NameofWork = mysql_result($result, 0, "nameofwork");
-    $postednum = mysql_result($result, 0, "postednum");
-
-    $url = get_pg_catalog_url_for_etext( $postednum );
-
-    $result = mysql_query("SELECT username FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
-    $numrows = mysql_numrows($result);
-    $rownum = 0;
-    while ($rownum < $numrows)
-    {
-        $username = mysql_result($result, $rownum, "username");
-        $temp = mysql_query("SELECT user_email FROM phpbb_users WHERE username = '$username'");
-        $email = mysql_result($temp, 0, "user_email");
-        maybe_mail(
-            $email,
-            "$NameofWork Posted to Project Gutenberg",
-            "You had requested to be let known once $NameofWork was ready to be available for reading."
-            ." It has been sent to Project Gutenberg and will soon be available for reading."
-            ." Most files will be ready by the time you receive this mail;"
-            ." sometimes there may be a delay of a day or so."
-            ." You can download the files via PG's online catalog at <$url>."
-            ."\n"
-            ."\n"
-            ."--"
-            ."\n"
-            ."Distributed Proofreaders"
-            ."\n"
-            ."$site_url"
-            ."\n"
-            ."\n"
-            ."This is an automated message that you had requested,"
-            ." please do not respond directly to this e-mail.",
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
-        );
-        $rownum++;
-    }
-
-    $del = mysql_query("DELETE FROM usersettings WHERE value = '$projectid' AND setting = 'posted_notice'");
-    $ins = mysql_query("UPDATE projects SET int_level = '$numrows' WHERE projectid = '$projectid'");
 }
 
 // vim: sw=4 ts=4 expandtab
