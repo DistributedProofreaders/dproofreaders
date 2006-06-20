@@ -2,7 +2,6 @@
 include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
-include_once($relPath.'maybe_mail.inc');
 
     function sendtopost($project, $username) {
         // Prepare a project for post-processing.
