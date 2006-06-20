@@ -57,10 +57,6 @@ function attempt_to_release( $round, $project )
         return FALSE;
     }
 
-    maybe_mail_project_manager( $project,
-        "This project has just become available for work in round {$round->id}.",
-        "DP Proofreading Started");
-
     return TRUE;
 }
 

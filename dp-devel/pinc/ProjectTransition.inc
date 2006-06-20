@@ -464,7 +464,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => '[default]',
             'detour'                => null,
             'settings_template'     => 'modifieddate="{TIMESTAMP}"',
-            'collateral_actions'    => null,
+            'collateral_actions'    => 'round_release_collateral',
         )
     );
 
@@ -620,6 +620,27 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'collateral_actions'    => null,
             )
         );
+    }
+}
+
+function round_release_collateral( $project, $transition, $who )
+{
+    $round = get_Round_for_project_state($transition->to_state);
+    assert( !is_null($round) );
+
+    if ( $who == PT_AUTO )
+    {
+        maybe_mail_project_manager(
+            get_object_vars($project),
+            "This project has just become available for work in round {$round->id}.",
+            "DP Proofreading Started");
+    }
+    else
+    {
+        maybe_mail_project_manager(
+            get_object_vars($project),
+            "This project has been manually released by $who and has just become available in '{$round->name}'.",
+            "DP Proofreading Started (Manual Release)");
     }
 }
 

@@ -104,16 +104,6 @@ if ( !empty($transition->detour) )
 
     if ($error_msg == '')
     {
-        $round = get_Round_for_project_state($next_state);
-        if ( !is_null($round) &&
-             $curr_state == $round->project_waiting_state &&
-             $next_state == $round->project_available_state )
-        {
-            maybe_mail_project_manager( get_object_vars($project),
-               "This project has been manually released by $pguser and has just become available in '{$round->name}'.",
-               "DP Proofreading Started (Manual Release)");
-        }
-
         $title = "Action Successful";
         $body = "Your request ('$transition->action_name') was successful.";
     }
