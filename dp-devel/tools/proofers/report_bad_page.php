@@ -27,8 +27,6 @@ else
 $projectid  = $ppage->projectid();
 $imagefile  = $ppage->imagefile();
 
-$PAGE_BADNESS_REASONS = array('',_("Image Missing"),_("Missing Text"),_("Image/Text Mismatch"),_("Corrupted Image"),_("Other"));
-
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
 	$header = _("Bad Page Report");

@@ -419,6 +419,15 @@ function Page_clearRound( $projectid, $image, $round, $user )
 
 // -----------------------------------------------------------------------------
 
+$PAGE_BADNESS_REASONS = array(
+    '',
+    _('Image Missing'),
+    _('Missing Text'),
+    _('Image/Text Mismatch'),
+    _('Corrupted Image'),
+    _('Other'),
+);
+
 function Page_markAsBad( $projectid, $image, $round, $user, $reason )
 {
     _Page_require( $projectid, $image,

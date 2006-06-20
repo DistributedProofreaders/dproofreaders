@@ -9,7 +9,6 @@ include_once($relPath.'stages.inc');
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form
-    $PAGE_BADNESS_REASONS = array('','Image Missing','Missing Text','Image/Text Mismatch','Corrupted Image','Other');
     $projectid = $_GET['projectid'];
     $image = $_GET['image'];
     if (!isset($projectid)) {
