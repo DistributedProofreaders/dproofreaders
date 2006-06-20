@@ -605,7 +605,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'confirmation_question' => null,
                 'detour'                => null,
                 'settings_template'     => "modifieddate='{TIMESTAMP}'",
-                'collateral_actions'    => null,
+                'collateral_actions'    => 'round_to_PP_avail_collateral',
             )
         );
 
@@ -618,7 +618,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'confirmation_question' => null,
                 'detour'                => null,
                 'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
-                'collateral_actions'    => null,
+                'collateral_actions'    => 'round_to_PP_out_collateral',
             )
         );
     }
@@ -642,6 +642,71 @@ function round_release_collateral( $project, $transition, $who )
             get_object_vars($project),
             "This project has been manually released by $who and has just become available in '{$round->name}'.",
             "DP Proofreading Started (Manual Release)");
+    }
+}
+
+function round_to_PP_avail_collateral( $project, $transition, $who )
+{
+    $body_blurb =
+        "This project has completed all rounds\n".
+        "and has been made available for someone else to do the post-processing.\n".
+        "You will be notified once it has completed post-processing.";
+    maybe_mail_project_manager(
+        get_object_vars($project), $body_blurb, "DP Post-Processing Started" );
+}
+
+function round_to_PP_out_collateral( $project, $transition, $who )
+{
+    // The project has been checked out to someone for PPing.
+    // We want to notify the PPer and the PM,
+    // but if they're the same person, just send one message.
+
+    if ( $project->checkedoutby == $project->username )
+    {
+        // Yes, PPer == PM, send one message.
+
+        $body_blurb =
+            "This project has completed all rounds\n".
+            "and is ready for you to do the post-processing.\n".
+            "If you do not want to work on it,\n".
+            "set it to Available for Post-Processing.";
+        maybe_mail_project_manager(
+            get_object_vars($project), $body_blurb, "DP Post-Processing Started");
+    }
+    else
+    {
+        // No, PPer != PM, send each a message.
+
+        $PPer = $project->checkedoutby;
+
+        // msg to PM:
+        $body_blurb =
+            "This project has completed all rounds\n".
+            "and has been checked out to the PPer who had it reserved,\n".
+            "$PPer. You will be notified once it has completed post-processing.";
+        maybe_mail_project_manager(
+            get_object_vars($project), $body_blurb, "DP Post-Processing Started");
+
+        // -------------
+
+        // msg to PPer:
+        global $auto_email_addr;
+
+        $PPer_email_addr = mysql_result(mysql_query("
+            SELECT email FROM users WHERE username = '$PPer'
+        "),0);
+        $body_blurb =
+            "Hello $PPer,\n\n".
+            "The project \"{$project->nameofwork}\", which is reserved for you to Post-Process,\n".
+            "is now ready for you to work on, and should shortly appear in your list\n".
+            "of checked out projects.\n".
+            "\nThanks!\nDistributed Proofreaders\n";
+
+        maybe_mail(
+            $PPer_email_addr,
+            "DP: Reserved book available for Post-Processing",
+            $body_blurb,
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
     }
 }
 
