@@ -883,9 +883,9 @@ new ProjectTransition(
     array(
         'action_name'           => '[default]',
         'confirmation_question' => $pg_posted_question,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        'destination'           => null,
     )
 );
 
@@ -896,9 +896,9 @@ new ProjectTransition(
     array(
         'action_name'           => '[default]',
         'confirmation_question' => $pg_posted_question,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        'destination'           => null,
     )
 );
 
@@ -909,9 +909,9 @@ new ProjectTransition(
     array(
         'action_name'           => '[default]',
         'confirmation_question' => $pg_posted_question,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        'destination'           => null,
     )
 );
 
@@ -922,9 +922,9 @@ new ProjectTransition(
     array(
         'action_name'           => '[default]',
         'confirmation_question' => $pg_posted_question,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        'destination'           => null,
     )
 );
 
@@ -935,9 +935,9 @@ new ProjectTransition(
     array(
         'action_name'           => _("Posted to Project Gutenberg"),
         'confirmation_question' => null,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
         'settings_template'     => $pg_posted_settings_template,
-        'destination'           => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        'destination'           => null,
     )
 );
 

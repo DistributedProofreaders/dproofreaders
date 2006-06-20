@@ -764,7 +764,14 @@ class ProjectInfoHolder
 
 function posted_pg($projectid)
 {
-    global $site_url, $auto_email_addr, $auto_email_addr;
+    global $site_url, $auto_email_addr, $auto_email_addr, $pguser;
+
+    $err = project_transition( $projectid, PROJ_SUBMIT_PG_POSTED, $pguser );
+    if ( $err != '' )
+    {
+        echo "$err<br>\n";
+        exit;
+    }
 
     $result = mysql_query("SELECT nameofwork, postednum FROM projects WHERE projectid = '$projectid'");
     $NameofWork = mysql_result($result, 0, "nameofwork");
