@@ -92,12 +92,10 @@ else
 
 	//Update the page the user was working on to reflect a bad page.
 	//This may cause the whole project to be marked bad.
-	$project_is_bad = $ppage->markAsBad( $pguser, $reason );
+	$ppage->markAsBad( $pguser, $reason );
 
-	//If the project has been shut down advise PM otherwise advise PM that the page has been marked bad
-	if ($project_is_bad) {
-		// message to PM re bad project has already been sent
-	} else {
+	// advise PM that the page has been marked bad
+	{
 		$message =
 "Page $imagefile of this project has been marked bad due to $reason_list[$reason].
 Please visit
