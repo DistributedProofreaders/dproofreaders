@@ -206,20 +206,12 @@ class ProjectTransition
                         $replacement = time();
                         break;
 
-                    case '{E:checkedoutby}':
-                        $replacement = @$extras['checkedoutby'];
-                        if ( $replacement == '' )
+                    case '{WHO}':
+                        if ( $who == PT_AUTO )
                         {
-                            return "\$extras['checkedoutby'] is unset";
+                            return "\$who == PT_AUTO shouldn't happen for {WHO}";
                         }
-                        break;
-
-                    case '{E:correctedby}':
-                        $replacement = @$extras['correctedby'];
-                        if ( $replacement == '' )
-                        {
-                            return "\$extras['correctedby'] is unset";
-                        }
+                        $replacement = $who;
                         break;
 
                     case '{G:postcomments}':
@@ -736,7 +728,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
         'collateral_actions'    => null,
     )
 );
@@ -749,7 +741,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{E:checkedoutby}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{WHO}'",
         'collateral_actions'    => null,
     )
 );
@@ -764,7 +756,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
         'collateral_actions'    => null,
     )
 );
@@ -904,7 +896,7 @@ new ProjectTransition(
         'action_name'           => _('Check Out Project for Post-Processing'),
         'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{E:checkedoutby}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
         'collateral_actions'    => null,
     )
 );
@@ -1123,7 +1115,7 @@ new ProjectTransition(
         'action_name'           => _("Upload Corrections for Review"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=correct",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{E:correctedby}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{WHO}'",
         'collateral_actions'    => null,
     )
 );

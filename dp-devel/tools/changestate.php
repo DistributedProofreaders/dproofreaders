@@ -92,10 +92,6 @@ if ( !empty($transition->detour) )
 
 {
     $extras = array();
-    if ( strpos($transition->settings_template, '{E:checkedoutby}') !== FALSE )
-    {
-        $extras['checkedoutby'] = $pguser;
-    }
 
     // -------------------------------------------------------------------------
 

@@ -26,7 +26,7 @@ else if ($stage == 'correct')
       $for_what = _("for Verification");
 	$indicator = "_corrections";
 	$new_state = PROJ_CORRECT_AVAILABLE;
-	$extras = array( 'correctedby' => $pguser );
+	$extras = array();
 	$back_url = "$code_url/list_etexts.php?x=g";
 	$back_blurb = _("Back to Gold List");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.	This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
