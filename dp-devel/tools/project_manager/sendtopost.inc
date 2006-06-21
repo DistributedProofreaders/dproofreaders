@@ -3,14 +3,14 @@ include($relPath.'v_site.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 
-    function sendtopost($project, $username) {
+    function sendtopost($projectid, $username) {
         // Prepare a project for post-processing.
         //
-        // $project: the unique id of the project.
+        // $projectid: the unique id of the project.
         // $username: the DP username of the owner(?) of the project.
 
         // if reserved for a PPer, check it out to them
-        $result = mysql_query("SELECT checkedoutby,nameofwork FROM projects WHERE projectid = '$project'");
+        $result = mysql_query("SELECT checkedoutby,nameofwork FROM projects WHERE projectid = '$projectid'");
         if (mysql_num_rows($result) > 0 && mysql_result($result,0) != '') {
             $new_state = PROJ_POST_FIRST_CHECKED_OUT;
             $PPer = mysql_result($result,0,"checkedoutby");
@@ -29,7 +29,7 @@ include_once($relPath.'project_trans.inc');
 	        }
 	}
 
-        $error_msg = project_transition( $project, $new_state, PT_AUTO, $extras );
+        $error_msg = project_transition( $projectid, $new_state, PT_AUTO, $extras );
         if ( $error_msg )
         {
             echo "$error_msg<br>\n";
