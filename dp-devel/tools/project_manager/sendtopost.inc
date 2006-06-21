@@ -14,15 +14,13 @@ include_once($relPath.'Project.inc'); // project_get_auto_PPer
         if ( is_null($auto_PPer) )
         {
             $new_state = PROJ_POST_FIRST_AVAILABLE;
-            $extras = array();
         }
         else
         {
             $new_state = PROJ_POST_FIRST_CHECKED_OUT;
-            $extras = array( 'checkedoutby' => $auto_PPer );
         }
 
-        $error_msg = project_transition( $projectid, $new_state, PT_AUTO, $extras );
+        $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
         if ( $error_msg )
         {
             echo "$error_msg<br>\n";
