@@ -13,10 +13,11 @@ include_once($relPath.'stages.inc');
 include($relPath.'projectinfo.inc');
 include($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'Project.inc'); // project_get_auto_PPer
 
 include('autorelease.inc');
 include_once('post_files.inc');
-include('sendtopost.inc');
 
 $trace = FALSE;
 
@@ -296,8 +297,23 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     if ($state == $round->project_complete_state
         && $round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
     {
+        // Prepare a project for post-processing.
+
         generate_post_files( $projectid );
-        sendtopost($projectid, $username);
+
+        if ( is_null(project_get_auto_PPer($projectid)) )
+        {
+            $new_state = PROJ_POST_FIRST_AVAILABLE;
+        }
+        else
+        {
+            $new_state = PROJ_POST_FIRST_CHECKED_OUT;
+        }
+        $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
+        if ( $error_msg )
+        {
+            echo "$error_msg\n";
+        }
     }
 }
 
@@ -312,7 +328,7 @@ if ($verbose)
 
 echo "</pre>\n";
 
-if (!$one_project)
+if (!$one_project || startswith(@$_GET['project'], 'adhoc_p2w_')) // TESTING ONLY; DON'T COMMIT THIS CHANGE
 {
     // log tracetimes
     $tracetimea = time();
