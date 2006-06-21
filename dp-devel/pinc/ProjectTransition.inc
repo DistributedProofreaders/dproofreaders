@@ -754,6 +754,8 @@ new ProjectTransition(
     )
 );
 
+if ( $site_supports_corrections_after_posting )
+{
 new ProjectTransition(
     PROJ_CORRECT_AVAILABLE,
     PROJ_CORRECT_CHECKED_OUT,
@@ -766,6 +768,7 @@ new ProjectTransition(
         'collateral_actions'    => null,
     )
 );
+}
 
 // -----------------------------------------------------------------------------
 
@@ -799,6 +802,8 @@ new ProjectTransition(
     )
 );
 
+if ( $site_supports_corrections_after_posting )
+{
 new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     PROJ_CORRECT_AVAILABLE,
@@ -811,6 +816,7 @@ new ProjectTransition(
         'collateral_actions'    => null,
     )
 );
+}
 
 // -----------------------------------------------------------------------------
 
@@ -1032,6 +1038,8 @@ new ProjectTransition(
     )
 );
 
+if ( $site_supports_corrections_after_posting )
+{
 new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     PROJ_SUBMIT_PG_POSTED,
@@ -1044,6 +1052,7 @@ new ProjectTransition(
         'collateral_actions'    => 'pg_posted_collateral',
     )
 );
+}
 
 function pg_posted_collateral( $project, $transition, $who )
 {
@@ -1104,6 +1113,8 @@ function pg_posted_collateral( $project, $transition, $who )
 
 // -----------------------------------------------------------------------------
 
+if ( $site_supports_corrections_after_posting )
+{
 new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     PROJ_CORRECT_AVAILABLE,
@@ -1116,6 +1127,7 @@ new ProjectTransition(
         'collateral_actions'    => null,
     )
 );
+}
 
 // -----------------------------------------------------------------------------
 // Transitions to PROJ_DELETE.
