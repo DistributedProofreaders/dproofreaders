@@ -1107,11 +1107,11 @@ function pg_posted_collateral( $project, $transition, $who )
 new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     PROJ_CORRECT_AVAILABLE,
-    'auto',
+    'user_can_work_in_stage PP', // not sure what it should really be
     array(
-        'action_name'           => null,
+        'action_name'           => _("Upload Corrections for Review"),
         'confirmation_question' => null,
-        'detour'                => null,
+        'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=correct",
         'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{E:correctedby}'",
         'collateral_actions'    => null,
     )
