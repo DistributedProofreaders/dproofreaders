@@ -7,6 +7,7 @@ include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'f_move_post.inc'); // move_project_thread
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'../tools/project_manager/post_files.inc');
 
 define('PT_AUTO', '[AUTO]');
 
@@ -653,6 +654,8 @@ You will then be able to put the project back up on the site.";
 
 function round_to_PP_avail_collateral( $project, $transition, $who )
 {
+    generate_post_files( $project->projectid );
+
     $body_blurb =
         "This project has completed all rounds\n".
         "and has been made available for someone else to do the post-processing.\n".
@@ -663,6 +666,8 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
 
 function round_to_PP_out_collateral( $project, $transition, $who )
 {
+    generate_post_files( $project->projectid );
+
     // The project has been checked out to someone for PPing.
     // We want to notify the PPer and the PM,
     // but if they're the same person, just send one message.

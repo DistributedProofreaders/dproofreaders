@@ -17,7 +17,6 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
 
 include('autorelease.inc');
-include_once('post_files.inc');
 
 $trace = FALSE;
 
@@ -298,8 +297,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         && $round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
     {
         // Prepare a project for post-processing.
-
-        generate_post_files( $projectid );
 
         if ( is_null(project_get_auto_PPer($projectid)) )
         {
