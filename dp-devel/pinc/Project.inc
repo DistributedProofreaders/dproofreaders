@@ -283,6 +283,47 @@ class Project
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function project_get_auto_PPer( $projectid )
+// Return the username of the user to whom the project will be
+// automatically checked out for PPing when it reaches the PP stage,
+// or NULL if the project will merely go into the available-for-PP state.
+{
+    $res = mysql_query("
+        SELECT checkedoutby, username
+        FROM projects
+        WHERE projectid = '$projectid'
+    ");
+    list($checkedoutby, $username) = mysql_fetch_row($res);
+
+    if ( $checkedoutby != '' )
+    {
+        // The project is reserved for a PPer, so it will be checked out to him/her.
+        return $checkedoutby;
+    }
+    else
+    {
+        // The project does not have a reserved PPer.
+
+        $res = mysql_query("
+            SELECT value
+            FROM usersettings
+            WHERE username = '$username' AND setting = 'send_to_post' AND value = 'yes'
+        ");
+        if ( mysql_num_rows($res) > 0 )
+        {
+            // The PM has send_to_post=yes, so his/her projects go straight to PP.avail.
+            return NULL;
+        }
+        else
+        {
+            // Otherwise, his/her projects are auto-checked-out to him/her.
+            return $username;
+        }
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // The following two functions don't particularly belong here, as they aren't
 // project-specific. However, nobody else uses them yet.
 
