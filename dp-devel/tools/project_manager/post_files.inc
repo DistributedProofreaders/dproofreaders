@@ -18,10 +18,12 @@ function generate_post_files( $project, $output_round_id, $base_extra )
     write_project_comments($project, $fp);
     fclose ($fp);
 
+    $pages_res = page_info_query($project, $output_round_id);
+
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
-    join_proofed_text($project, $output_round_id, $fp);
+    join_proofed_text($project, $pages_res, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -29,10 +31,12 @@ function generate_post_files( $project, $output_round_id, $base_extra )
     $plain_zip_path = "{$pathbase}.zip";
     exec ("zip -j $plain_zip_path $plain_path $comments_path");
 
+    mysql_data_seek($pages_res, 0);
+
     // Join all the page texts into a TEIXLITE file...
     $tei_path = "{$pathbase}_TEI.txt";
     $fp = fopen($tei_path, "w");
-    join_proofed_text_tei($project, $output_round_id, $fp);
+    join_proofed_text_tei($project, $pages_res, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -59,7 +63,7 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
-function join_proofed_text ($project, $output_round_id, $fp)
+function join_proofed_text ($project, $pages_res, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -68,7 +72,6 @@ function join_proofed_text ($project, $output_round_id, $fp)
     $linefeed = chr(10);
     $eol = $carriagereturn.$linefeed;
 
-    $pages_res = page_info_query($project, $output_round_id);
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $info_str = "-----File: $filename---\\";
@@ -93,7 +96,7 @@ $linefeed = chr(10);
 // Tough luck for Mac or Unix users.
 
 
-function join_proofed_text_tei ($project, $output_round_id, $fp)
+function join_proofed_text_tei ($project, $pages_res, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -173,7 +176,6 @@ function join_proofed_text_tei ($project, $output_round_id, $fp)
     fputs($fp,"</front>\r\n");
     fputs($fp,"<body>\r\n");
 
-    $pages_res = page_info_query($project, $output_round_id);
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $proofer_attributes = "";
