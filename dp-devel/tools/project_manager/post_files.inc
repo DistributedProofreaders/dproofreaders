@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project, $output_round_id, $base_extra )
+function generate_post_files( $project, $limit_round_id, $base_extra )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
@@ -18,7 +18,7 @@ function generate_post_files( $project, $output_round_id, $base_extra )
     write_project_comments($project, $fp);
     fclose ($fp);
 
-    $pages_res = page_info_query($project, $output_round_id);
+    $pages_res = page_info_query($project, $limit_round_id);
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
@@ -304,32 +304,32 @@ function mark_up_poetry_line($m)
 
 // -----------------------------------------------------------------------------
 
-function page_info_query( $projectid, $output_round_id )
+function page_info_query( $projectid, $limit_round_id )
 {
-    if ( $output_round_id == '[OCR]' ) // somewhat kludgey
+    if ( $limit_round_id == '[OCR]' ) // somewhat kludgey
     {
-        $final_text_column_name = 'master_text';
+        $text_column_expr = 'master_text';
         $user_fields = "";
     }
     else
     {
-        $output_round = get_Round_for_round_id($output_round_id);
+        $limit_round = get_Round_for_round_id($limit_round_id);
 
         $user_fields = "";
-        for ( $rn = 1; $rn <= $output_round->round_number; $rn++ )
+        for ( $rn = 1; $rn <= $limit_round->round_number; $rn++ )
         {
             $round = get_Round_for_round_number($rn);
             $user_fields .= ", {$round->user_column_name}";
 
-            if ( $rn == $output_round->round_number )
+            if ( $rn == $limit_round->round_number )
             {
-                $final_text_column_name = $round->text_column_name;
+                $text_column_expr = $round->text_column_name;
             }
         }
     }
 
     $res = mysql_query("
-        SELECT $final_text_column_name, image $user_fields
+        SELECT $text_column_expr, image $user_fields
         FROM $projectid
         ORDER BY image
     ");
