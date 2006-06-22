@@ -216,7 +216,7 @@ function echo_page_table(
 	       	FROM $tables
 	       	WHERE $where_condition
 	       	ORDER BY image ASC
-	");
+	") or die(mysql_error());
 	$num_rows = mysql_num_rows($res);
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
