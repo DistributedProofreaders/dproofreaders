@@ -68,8 +68,8 @@ function join_proofed_text ($project, $output_round_id, $fp)
     $linefeed = chr(10);
     $eol = $carriagereturn.$linefeed;
 
-    $myresult = page_info_query($project, $output_round_id);
-    while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
+    $pages_res = page_info_query($project, $output_round_id);
+    while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $info_str = "-----File: $filename---\\";
         foreach ( $proofer_names as $proofer_name )
@@ -173,8 +173,8 @@ function join_proofed_text_tei ($project, $output_round_id, $fp)
     fputs($fp,"</front>\r\n");
     fputs($fp,"<body>\r\n");
 
-    $myresult = page_info_query($project, $output_round_id);
-    while( list($text_data,$filename,$proofer_names) = page_info_fetch($myresult) )
+    $pages_res = page_info_query($project, $output_round_id);
+    while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $proofer_attributes = "";
         $i = 0;
