@@ -211,7 +211,12 @@ function echo_page_table(
 		$where_condition = "fileid IN ($fileids_str)";
 	}
 
-	$res = mysql_query( "SELECT $fields_to_get FROM $tables WHERE $where_condition ORDER BY image ASC" );
+	$res = mysql_query("
+		SELECT $fields_to_get
+	       	FROM $tables
+	       	WHERE $where_condition
+	       	ORDER BY image ASC
+	");
 	$num_rows = mysql_num_rows($res);
 
 	for ( $rownum=0; $rownum < $num_rows; $rownum++ )
