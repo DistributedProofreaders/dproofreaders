@@ -52,7 +52,7 @@ while ($row = mysql_fetch_assoc($myresult))
     $title = $row['nameofwork'];
     echo "<p>generating files for $projectid ($title) ...</p>\n";
     flush();
-    generate_post_files( $projectid, $round_id );
+    generate_post_files( $projectid, $round_id, '' );
     flush();
 }
 

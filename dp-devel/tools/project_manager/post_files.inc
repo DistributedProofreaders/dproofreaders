@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project, $output_round_id='', $base_extra='' )
+function generate_post_files( $project, $output_round_id, $base_extra )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;

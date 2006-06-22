@@ -654,7 +654,7 @@ You will then be able to put the project back up on the site.";
 
 function round_to_PP_avail_collateral( $project, $transition, $who )
 {
-    generate_post_files( $project->projectid );
+    generate_post_files( $project->projectid, '', '' );
 
     $body_blurb =
         "This project has completed all rounds\n".
@@ -666,7 +666,7 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
 
 function round_to_PP_out_collateral( $project, $transition, $who )
 {
-    generate_post_files( $project->projectid );
+    generate_post_files( $project->projectid, '', '' );
 
     // The project has been checked out to someone for PPing.
     // We want to notify the PPer and the PM,
