@@ -647,6 +647,68 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             )
         );
     }
+
+    if (1)
+    {
+        // Transitions to skip rounds
+
+        $from_states = array(
+            $round->project_waiting_state,
+            $round->project_unavailable_state,
+        );
+
+        foreach ( $from_states as $from_state )
+        {
+            if ( $rn < MAX_NUM_PAGE_EDITING_ROUNDS )
+            {
+                $next_round = get_Round_for_round_number($rn+1);
+
+                new ProjectTransition(
+                    $from_state,
+                    $next_round->project_waiting_state,
+                    'site_manager',
+                    array(
+                        'project_restriction'   => null,
+                        'action_name'           => _('Skip this round'),
+                        'confirmation_question' => '[default]',
+                        'detour'                => null,
+                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]')",
+                        'collateral_actions'    => null,
+                    )
+                );
+            }
+            else
+            {
+                new ProjectTransition(
+                    $from_state,
+                    PROJ_POST_FIRST_AVAILABLE,
+                    'site_manager',
+                    array(
+                        'project_restriction'   => 'proj_would_go_to_PP_avail',
+                        'action_name'           => _('Skip this round'),
+                        'confirmation_question' => '[default]',
+                        'detour'                => null,
+                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0",
+                        'collateral_actions'    => 'round_to_PP_avail_collateral',
+                    )
+                );
+
+                new ProjectTransition(
+                    $from_state,
+                    PROJ_POST_FIRST_CHECKED_OUT,
+                    'site_manager',
+                    array(
+                        'project_restriction'   => 'proj_would_go_to_PP_out',
+                        'action_name'           => _('Skip this round'),
+                        'confirmation_question' => '[default]',
+                        'detour'                => null,
+                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                        'collateral_actions'    => 'round_to_PP_out_collateral',
+                    )
+                );
+            }
+        }
+    }
 }
 
 function round_release_collateral( $project, $transition, $who )
@@ -681,6 +743,18 @@ of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
     maybe_mail_project_manager(
         get_object_vars($project), $body_blurb, "DP Bad Project");
+}
+
+function proj_would_go_to_PP_avail( $project, $transition )
+{
+    assert( $project->state == $transition->from_state );
+    return is_null(project_get_auto_PPer($project->projectid));
+}
+
+function proj_would_go_to_PP_out( $project, $transition )
+{
+    assert( $project->state == $transition->from_state );
+    return !is_null(project_get_auto_PPer($project->projectid));
 }
 
 function round_to_PP_avail_collateral( $project, $transition, $who )
