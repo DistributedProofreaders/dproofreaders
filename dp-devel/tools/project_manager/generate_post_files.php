@@ -23,6 +23,11 @@ if ( empty($projectid) )
     die( "parameter 'projectid' is empty or unset" );
 }
 
+if ( empty($round_id) )
+{
+    die( "parameter 'round_id' is empty or unset" );
+}
+
 set_time_limit(0); // no time limit
 
 if ( $projectid == 'many' )

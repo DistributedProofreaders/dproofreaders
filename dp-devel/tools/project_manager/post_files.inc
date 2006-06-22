@@ -304,11 +304,7 @@ function mark_up_poetry_line($m)
 
 function page_info_query( $projectid, $output_round_id )
 {
-    if ( empty($output_round_id) )
-    {
-        $output_round_number = MAX_NUM_PAGE_EDITING_ROUNDS;
-    }
-    elseif ( $output_round_id == '[OCR]' ) // somewhat kludgey
+    if ( $output_round_id == '[OCR]' ) // somewhat kludgey
     {
         $output_round_number = 0; // to prevent the loop from running
         $final_text_column_name = 'master_text';
