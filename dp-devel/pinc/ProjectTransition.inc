@@ -265,6 +265,10 @@ class ProjectTransition
 
         if ( $this->collateral_actions )
         {
+            // Because of the "UPDATE projects" command, $project is now out of date.
+            // So get an up-to-date version before passing $project around.
+            $project = new Project($projectid);
+
             $function_name = $this->collateral_actions;
             $function_name( $project, $this, $who );
         }
