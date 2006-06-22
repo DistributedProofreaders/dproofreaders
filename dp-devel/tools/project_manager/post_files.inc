@@ -313,8 +313,8 @@ function page_info_query( $projectid, $output_round_id )
     }
     else
     {
-        $round = get_Round_for_round_id($output_round_id);
-        $output_round_number = $round->round_number;
+        $output_round = get_Round_for_round_id($output_round_id);
+        $output_round_number = $output_round->round_number;
     }
 
     $user_fields = "";
