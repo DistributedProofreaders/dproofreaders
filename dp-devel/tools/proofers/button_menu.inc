@@ -47,7 +47,8 @@ type="text" value="<?PHP
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";
 
-echo_button(SET_IMAGE_ACTUAL,'a');
+// Doesn't work in IE:
+// echo_button(SET_IMAGE_ACTUAL,'a');
 
 ?>
 <a href="#"
