@@ -428,7 +428,7 @@ if (0)
 {
 	include_once($relPath.'../tools/project_manager/post_files.inc');
 	$projectid = 'projectID40e7bd24f37af';
-	generate_post_files( $projectid, '[OCR]', '_OCR' );
+	generate_post_files( $projectid, '[OCR]', 'EQ', '_OCR' );
 }
 
 if (0)

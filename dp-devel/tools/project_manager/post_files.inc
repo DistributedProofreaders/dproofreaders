@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project, $limit_round_id, $base_extra )
+function generate_post_files( $project, $limit_round_id, $which_text, $base_extra )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
@@ -18,7 +18,7 @@ function generate_post_files( $project, $limit_round_id, $base_extra )
     write_project_comments($project, $fp);
     fclose ($fp);
 
-    $pages_res = page_info_query($project, $limit_round_id);
+    $pages_res = page_info_query($project, $limit_round_id, $which_text);
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
@@ -304,27 +304,46 @@ function mark_up_poetry_line($m)
 
 // -----------------------------------------------------------------------------
 
-function page_info_query( $projectid, $limit_round_id )
+function page_info_query( $projectid, $limit_round_id, $which_text )
 {
     if ( $limit_round_id == '[OCR]' ) // somewhat kludgey
     {
+        // doesn't matter what $which_text is.
         $text_column_expr = 'master_text';
         $user_fields = "";
     }
     else
     {
         $limit_round = get_Round_for_round_id($limit_round_id);
+        if ( $which_text == 'EQ' )
+        {
+            // For each page, fetch the text (if any) saved in the selected round.
+            $text_column_expr = $limit_round->text_column_name;
+        }
+        else if ( $which_text == 'LE' )
+        {
+            // For each page, fetch the latest text saved in any round up to and
+            // including the selected round.
+            $text_column_expr = "CASE";
+            for ( $rn = $limit_round->round_number; $rn > 0; $rn-- )
+            {
+                $round = get_Round_for_round_number($rn);
+                $text_column_expr .=
+                    " WHEN LENGTH({$round->user_column_name}) THEN {$round->text_column_name}";
+            }
+            $text_column_expr .= " ELSE master_text";
+            $text_column_expr .= " END";
+        }
+        else
+        {
+            die("bad value for which_text: '$which_text'");
+        }
 
         $user_fields = "";
         for ( $rn = 1; $rn <= $limit_round->round_number; $rn++ )
         {
             $round = get_Round_for_round_number($rn);
             $user_fields .= ", {$round->user_column_name}";
-
-            if ( $rn == $limit_round->round_number )
-            {
-                $text_column_expr = $round->text_column_name;
-            }
         }
     }
 

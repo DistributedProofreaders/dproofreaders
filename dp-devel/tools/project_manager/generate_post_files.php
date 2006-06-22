@@ -14,9 +14,11 @@ if (!user_is_a_sitemanager())
 
 $projectid = @$_REQUEST['projectid'];
 $round_id  = @$_REQUEST['round_id'];
+$which_text= @$_REQUEST['which_text'];
 
 echo "projectid = '$projectid'<br>\n";
 echo "round_id  = '$round_id'<br>\n";
+echo "which_text= '$which_text'<br>\n";
 
 if ( empty($projectid) )
 {
@@ -26,6 +28,11 @@ if ( empty($projectid) )
 if ( empty($round_id) )
 {
     die( "parameter 'round_id' is empty or unset" );
+}
+
+if ( empty($which_text) )
+{
+    die( "parameter 'which_text' is empty or unset" );
 }
 
 set_time_limit(0); // no time limit
@@ -57,7 +64,7 @@ while ($row = mysql_fetch_assoc($myresult))
     $title = $row['nameofwork'];
     echo "<p>generating files for $projectid ($title) ...</p>\n";
     flush();
-    generate_post_files( $projectid, $round_id, '' );
+    generate_post_files( $projectid, $round_id, $which_text, '' );
     flush();
 }
 

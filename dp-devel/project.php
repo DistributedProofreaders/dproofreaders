@@ -1028,6 +1028,14 @@ function do_post_downloads()
             }
         }
         echo "<br>";
+
+        echo "For each page, use:<br>\n";
+        echo "<input type='radio' name='which_text' value='EQ' CHECKED>";
+        echo "the text (if any) saved in the selected round; or<br>\n";
+        echo "<input type='radio' name='which_text' value='LE'>";
+        echo "the latest text saved in any round up to and including the selected round.<br>\n";
+        echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
+
         echo "<input type='submit' value='(Re)generate'>\n";
         echo "</form>\n";
         echo "</li>";
