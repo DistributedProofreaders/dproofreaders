@@ -49,10 +49,24 @@ function echo_page_table(
 	// If the project is in a round, then users expect that round to appear here,
 	// even if there's no data in it.
 	//
-	if ( !is_null($project_round)
-		&& $rounds_to_display[count($rounds_to_display)-1] != $project_round )
+	if ( !is_null($project_round) )
 	{
-		$rounds_to_display[] = $project_round;
+		// Look for $project_round in $rounds_to_display.
+		// If it does appear, it will normally be the last item,
+		// but check everywhere, just in case.
+		$found = FALSE;
+		foreach ( $rounds_to_display as $round )
+		{
+			if ( $round->id == $project_round->id )
+			{
+				$found = TRUE;
+				break;
+			}
+		}
+		if ( !$found )
+		{
+			$rounds_to_display[] = $project_round;
+		}
 	}
 
 	$upload_colspan = 2 + $show_image_size;
