@@ -20,6 +20,7 @@ class ProjectTransition
         $to_state,
         $who_restriction,
         $options
+            // project_restriction
             // action_name
             // confirmation_question
             // detour
@@ -27,7 +28,8 @@ class ProjectTransition
             // collateral_actions
     )
     // A user who satisfies the $who_restriction can cause
-    // a project to transit from $from_state to $to_state.
+    // a project that satisfies $project_restriction
+    // to transit from $from_state to $to_state.
     {
         $this->from_state  = $from_state;
         $this->to_state    = $to_state;
@@ -61,6 +63,15 @@ class ProjectTransition
     function is_valid_for( $project, $who )
     {
         if ( $this->from_state != $project->state ) return FALSE;
+
+        if ( $this->project_restriction )
+        {
+            $function_name = $this->project_restriction;
+            if ( !$function_name( $project, $this ) )
+            {
+                return FALSE;
+            }
+        }
 
         foreach ( explode('|', $this->who_restriction) as $simple_who_restriction )
         {
@@ -382,6 +393,7 @@ new ProjectTransition(
     PROJ_P1_UNAVAILABLE,
     'manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => null,
         'detour'                => null,
@@ -397,6 +409,7 @@ if ($site_supports_metadata)
         PROJ_NEW_METADATA_FIRST,
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => null,
             'detour'                => null,
@@ -433,6 +446,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_waiting_state,
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => null,
             'detour'                => null,
@@ -446,6 +460,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_unavailable_state,
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => null,
             'detour'                => null,
@@ -459,6 +474,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_available_state,
         'proj_facilitator|auto',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => '[default]',
             'detour'                => null,
@@ -472,6 +488,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_unavailable_state,
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => null,
             'detour'                => null,
@@ -485,6 +502,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'automodify',
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => _('automodify'),
             'confirmation_question' => null,
             'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
@@ -502,6 +520,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_unavailable_state,
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => '[default]',
             'confirmation_question' => '[default]',
             'detour'                => null,
@@ -515,6 +534,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         'automodify',
         'manager',
         array(
+            'project_restriction'   => null,
             'action_name'           => _('automodify'),
             'confirmation_question' => null,
             'detour'                => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
@@ -528,6 +548,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_bad_state,
         'auto',
         array(
+            'project_restriction'   => null,
             'action_name'           => null,
             'confirmation_question' => null,
             'detour'                => null,
@@ -541,6 +562,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_bad_state,
         'auto',
         array(
+            'project_restriction'   => null,
             'action_name'           => null,
             'confirmation_question' => null,
             'detour'                => null,
@@ -554,6 +576,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_available_state,
         'auto',
         array(
+            'project_restriction'   => null,
             'action_name'           => null,
             'confirmation_question' => null,
             'detour'                => null,
@@ -567,6 +590,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
         $round->project_complete_state,
         'auto',
         array(
+            'project_restriction'   => null,
             'action_name'           => null,
             'confirmation_question' => null,
             'detour'                => null,
@@ -584,6 +608,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             $next_round->project_waiting_state,
             'auto',
             array(
+                'project_restriction'   => null,
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
@@ -599,6 +624,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             PROJ_POST_FIRST_AVAILABLE,
             'auto',
             array(
+                'project_restriction'   => null,
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
@@ -612,6 +638,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             PROJ_POST_FIRST_CHECKED_OUT,
             'auto',
             array(
+                'project_restriction'   => null,
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
@@ -736,6 +763,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     'user_can_work_in_stage PP',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour'                => null,
@@ -749,6 +777,7 @@ new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,
     'user_can_work_in_stage PPV',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
         'detour'                => null,
@@ -764,6 +793,7 @@ new ProjectTransition(
     PROJ_CORRECT_CHECKED_OUT,
     'user_can_work_in_stage CR',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
         'detour'                => null,
@@ -784,6 +814,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Return to Available"),
         'confirmation_question' => _("Are you sure you want to make this book available to others for post processing?"),
         'detour'                => null,
@@ -797,6 +828,7 @@ new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Return to Available"),
         'confirmation_question' => _("Are you sure you want to make this book available to others to verify and lose your work?"),
         'detour'                => null,
@@ -812,6 +844,7 @@ new ProjectTransition(
     PROJ_CORRECT_AVAILABLE,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Return to Available"),
         'confirmation_question' => _("Are you sure you want to make this book available to others for reviewing corrections?"),
         'detour'                => null,
@@ -832,6 +865,7 @@ new ProjectTransition(
     PROJ_POST_SECOND_AVAILABLE,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Upload for Verification"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
@@ -845,6 +879,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Return to Post-Processor"),
         'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
         'detour'                => null,
@@ -863,6 +898,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     'manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => '[default]',
         'detour'                => null,
@@ -876,6 +912,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     'manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
         'detour'                => null,
@@ -891,6 +928,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     'manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => _('Make Project Available for Post-Processing'),
         'confirmation_question' => '[default]',
         'detour'                => null,
@@ -904,6 +942,7 @@ new ProjectTransition(
     PROJ_POST_FIRST_CHECKED_OUT,
     'manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => _('Check Out Project for Post-Processing'),
         'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
         'detour'                => null,
@@ -924,6 +963,7 @@ new ProjectTransition(
     PROJ_POST_COMPLETE,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
@@ -937,6 +977,7 @@ new ProjectTransition(
     PROJ_POST_COMPLETE,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
@@ -950,6 +991,7 @@ new ProjectTransition(
     PROJ_POST_COMPLETE,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => $post_complete_question,
         'detour'                => null,
@@ -994,6 +1036,7 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
@@ -1007,6 +1050,7 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
@@ -1020,6 +1064,7 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
@@ -1033,6 +1078,7 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'site_manager',
     array(
+        'project_restriction'   => null,
         'action_name'           => '[default]',
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
@@ -1048,6 +1094,7 @@ new ProjectTransition(
     PROJ_SUBMIT_PG_POSTED,
     'holder',
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Posted to Project Gutenberg"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
@@ -1123,6 +1170,7 @@ new ProjectTransition(
     PROJ_CORRECT_AVAILABLE,
     'user_can_work_in_stage PP', // not sure what it should really be
     array(
+        'project_restriction'   => null,
         'action_name'           => _("Upload Corrections for Review"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=correct",
@@ -1153,6 +1201,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
         PROJ_DELETE,
         $who_may_delete,
         array(
+            'project_restriction'   => null,
             'action_name'           => _('Delete Project'),
             'confirmation_question' => _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
             'detour'                => null,
