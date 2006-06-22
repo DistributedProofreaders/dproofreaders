@@ -308,26 +308,26 @@ function page_info_query( $projectid, $output_round_id )
 {
     if ( $output_round_id == '[OCR]' ) // somewhat kludgey
     {
-        $output_round_number = 0; // to prevent the loop from running
         $final_text_column_name = 'master_text';
+        $user_fields = "";
     }
     else
     {
         $output_round = get_Round_for_round_id($output_round_id);
-        $output_round_number = $output_round->round_number;
-    }
 
-    $user_fields = "";
-    for ( $rn = 1; $rn <= $output_round_number; $rn++ )
-    {
-        $round = get_Round_for_round_number($rn);
-        $user_fields .= ", {$round->user_column_name}";
-
-        if ( $rn == $output_round_number )
+        $user_fields = "";
+        for ( $rn = 1; $rn <= $output_round->round_number; $rn++ )
         {
-            $final_text_column_name = $round->text_column_name;
+            $round = get_Round_for_round_number($rn);
+            $user_fields .= ", {$round->user_column_name}";
+
+            if ( $rn == $output_round->round_number )
+            {
+                $final_text_column_name = $round->text_column_name;
+            }
         }
     }
+
     $res = mysql_query("
         SELECT $final_text_column_name, image $user_fields
         FROM $projectid
