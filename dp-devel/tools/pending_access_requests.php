@@ -82,18 +82,19 @@ foreach ( $activity_ids as $activity_id )
     }
     else
     {
-        // This code is a hack, since it assumes particular round ids.
-        if ( $activity_id == 'P2' || $activity_id == 'F2' )
+        $review_round = get_Round_for_round_id($activity_id);
+        if ( $review_round && $review_round->after_satisfying_minima == 'REQ-HUMAN' )
         {
             $can_review_work = TRUE;
-            // These users are all requesting access to X2.  For each, we will
-            // provide a link to allow the requestor to review their X1 work,
-            // by considering each page they worked on in X1, and comparing
-            // their X1 result to the subsequent X2 result (if it exists yet).
-            $review_round_id = $activity_id;
-            $work_round_id = preg_replace( '/2$/', '1', $activity_id );
+            // These users are all requesting access to round Y.  For each, we will
+            // provide a link to allow the requestor to review their round X work,
+            // by considering each page they worked on in X, and comparing
+            // their X result to the subsequent Y result (if it exists yet).
+            //
+            // (We assume that X is the round immediately preceding Y.)
+            $work_round = get_Round_for_round_number($review_round->round_number-1);
 
-            $round_params = "work_round_id=$work_round_id&amp;review_round_id=$review_round_id";
+            $round_params = "work_round_id={$work_round->id}&amp;review_round_id={$review_round->id}";
         }
         else
         {
