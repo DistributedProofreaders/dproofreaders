@@ -8,6 +8,7 @@ include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'page_header.inc');
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to 
@@ -32,14 +33,14 @@ if ($logged_in) {
     $showPPersF = TRUE;
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
-    echo "<h1>{$header_text}</h1>\n";
+    page_header( 'SR', $header_text );
     show_news_for_page("SR");
 } else {
     $showPMsF = FALSE;
     $tcolspan = 6;
     $header_text = _("Smooth Reading Pool Preview");
     theme( $header_text, 'header');
-    echo "<h1>{$header_text}</h1>\n";
+    page_header( 'SR', $header_text );
     show_news_for_page("SR_PREV");
 };
 
