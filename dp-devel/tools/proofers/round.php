@@ -135,6 +135,34 @@ if ($pagesproofed <= 20)
 }
 else
 {
+    // Link to queues.
+    echo "<hr width='75%'>\n";
+    echo "<h4 align='center'>", _('Release Queues'), "</h4>";
+    $res = dpsql_query("
+        SELECT COUNT(*)
+        FROM queue_defns
+        WHERE round_id='{$round->id}'
+    ");
+    list($n_queues) = mysql_fetch_row($res);
+    if ( $n_queues == 0 )
+    {
+        echo sprintf(
+            _("%s does not have any release queues. Any projects that enter the round's waiting area will automatically become available within a few minutes."),
+            $round->id
+        );
+        echo "\n";
+    }
+    else
+    {
+        echo sprintf(
+            _("The <a href='%s'>%s release queues</a> show the books that are waiting to become available for work in this round."),
+            "$code_url/stats/release_queue.php?round_id={$round->id}",
+            $round->id
+        );
+        echo "\n";
+    }
+
+
     // filter block
     echo "<hr width='75%'>\n";
 
