@@ -3,6 +3,7 @@ $relPath='../pinc/';
 include($relPath.'v_site.inc');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
+include($relPath.'faq.inc');
 new dbConnect();
 
 if ( isset($_GET['i_type']) )
