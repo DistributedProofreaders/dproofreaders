@@ -185,6 +185,8 @@ class ProjectTransition
                     DELETE FROM projects WHERE projectid = '$projectid'
                 ");
 
+                log_project_event( $projectid, $who, 'deletion' );
+
                 return '';
             }
             else
