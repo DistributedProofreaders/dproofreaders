@@ -263,6 +263,22 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
+        $res = mysql_query("
+            INSERT INTO project_events
+            SET
+                timestamp  = UNIX_TIMESTAMP(),
+                projectid  = '$projectid',
+                who        = '$who',
+                event_type = 'transition',
+                details1   = '{$this->from_state}',
+                details2   = '{$this->to_state}',
+                details3   = ''
+        ");
+        if ( !$res )
+        {
+            return "mysql error: " . mysql_error();
+        }
+
         if ( $from_round != $to_round && !is_null($to_round) )
         {
             // Transiting into a round from either a different round or a non-round.
