@@ -8,6 +8,7 @@ include_once($relPath.'f_move_post.inc'); // move_project_thread
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
+include_once($relPath.'project_events.inc');
 
 define('PT_AUTO', '[AUTO]');
 
@@ -263,21 +264,17 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
-        $extra_details = mysql_escape_string(@$extras['details']);
-        $res = mysql_query("
-            INSERT INTO project_events
-            SET
-                timestamp  = UNIX_TIMESTAMP(),
-                projectid  = '$projectid',
-                who        = '$who',
-                event_type = 'transition',
-                details1   = '{$this->from_state}',
-                details2   = '{$this->to_state}',
-                details3   = '$extra_details'
-        ");
-        if ( !$res )
+        $err = log_project_event(
+            $projectid,
+            $who,
+            'transition',
+            $this->from_state,
+            $this->to_state,
+            @$extras['details']
+        );
+        if ( $err )
         {
-            return "mysql error: " . mysql_error();
+            return "log_project_event error: $err";
         }
 
         if ( $from_round != $to_round && !is_null($to_round) )
