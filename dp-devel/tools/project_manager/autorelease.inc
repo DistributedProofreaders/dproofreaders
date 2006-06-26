@@ -22,7 +22,7 @@ function autorelease()
     echo "</pre>\n";
 }
 
-function attempt_to_release( $round, $project )
+function attempt_to_release( $round, $project, $queue_name )
 {
     $projectid = $project['projectid'];
 
@@ -44,7 +44,7 @@ function attempt_to_release( $round, $project )
     }
 
 
-    $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
+    $error_msg = project_transition( $projectid, $new_state, PT_AUTO, array('details' => $queue_name) );
     if ($error_msg)
     {
         echo "$error_msg\n";
@@ -99,7 +99,7 @@ function autorelease_for_round( $round )
             echo "\n";
             echo "    considering project \"{$project['nameofwork']}\"...\n";
 
-            if (!attempt_to_release($round, $project))
+            if (!attempt_to_release($round, $project, ''))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -294,7 +294,7 @@ function autorelease_for_round( $round )
             // OK to release
             // release the project for proofreading, and keep track of
             // its contribution to reducing our total page shortfall
-            if (!attempt_to_release($round, $project))
+            if (!attempt_to_release($round, $project, $q_name))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -369,7 +369,7 @@ function autorelease_for_round( $round )
 
                 // release the project for proofreading, and keep track of
                 // its contribution to reducing our total page shortfall
-                if (!attempt_to_release($round, $extra_project))
+                if (!attempt_to_release($round, $extra_project, $q_name))
                 {
                     // Something went wrong. Error messages have been output.
                     continue;
