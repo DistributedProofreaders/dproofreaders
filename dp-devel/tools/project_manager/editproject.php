@@ -11,6 +11,7 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'project_events.inc');
 
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
@@ -541,6 +542,9 @@ class ProjectInfoHolder
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
 
+            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit' );
+            if ( !empty($e) ) die($e);
+
             $result = mysql_query("
                 SELECT updated_array
                 FROM marc_records
@@ -575,6 +579,9 @@ class ProjectInfoHolder
                     modifieddate = UNIX_TIMESTAMP(),
                     $common_project_settings
             ") or die(mysql_error());
+
+            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'creation' );
+            if ( !empty($e) ) die($e);
 
             project_allow_pages( $this->projectid );
 
