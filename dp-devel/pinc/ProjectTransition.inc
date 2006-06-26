@@ -263,6 +263,7 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
+        $extra_details = mysql_escape_string(@$extras['details']);
         $res = mysql_query("
             INSERT INTO project_events
             SET
@@ -272,7 +273,7 @@ class ProjectTransition
                 event_type = 'transition',
                 details1   = '{$this->from_state}',
                 details2   = '{$this->to_state}',
-                details3   = ''
+                details3   = '$extra_details'
         ");
         if ( !$res )
         {
