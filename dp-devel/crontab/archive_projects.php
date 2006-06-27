@@ -6,6 +6,7 @@ include($relPath.'udb_user.php');
 include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
+include($relPath.'project_events.inc');
 $db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
@@ -86,6 +87,8 @@ while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
             SET archived = '1'
             WHERE projectid='$projectid'
         ") or die(mysql_error());
+
+        log_project_event( $projectid, '[archiver]', 'archive' );
     }
 }
 
