@@ -87,7 +87,7 @@ function autorelease_for_round( $round )
             SELECT *
             FROM projects
             WHERE state = '{$round->project_waiting_state}'
-            ORDER BY modifieddate ASC
+            ORDER BY modifieddate ASC, nameofwork ASC
         ");
 
         $n = mysql_num_rows($waiting_res);
@@ -226,7 +226,7 @@ function autorelease_for_round( $round )
             SELECT *
             FROM projects
             WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
-            ORDER BY modifieddate ASC
+            ORDER BY modifieddate ASC, nameofwork ASC
         ");
 
         if (mysql_num_rows($waiting_res) == 0)
@@ -356,7 +356,7 @@ function autorelease_for_round( $round )
                     SELECT *
                     FROM projects
                     WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
-                    ORDER BY modifieddate ASC
+                    ORDER BY modifieddate ASC, nameofwork ASC
                 ");
 
                 $extra_project = mysql_fetch_assoc($extra_waiting_res);

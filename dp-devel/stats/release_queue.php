@@ -153,7 +153,7 @@ else
 		FROM projects
 		WHERE ($cooked_project_selector)
 			AND state='{$round->project_waiting_state}'
-		ORDER BY modifieddate
+		ORDER BY modifieddate, nameofwork
 	");
 }
 
