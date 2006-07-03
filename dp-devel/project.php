@@ -19,6 +19,7 @@ include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manage
 include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
+include_once($relPath.'release_queue.inc'); // cook_project_selector
 
 error_reporting(E_ALL);
 
@@ -106,6 +107,7 @@ else
     do_blurb_box( $bottom_blurb );
 
     do_early_uploads();
+    do_waiting_queues();
     do_post_downloads();
     do_postcomments();
     do_smooth_reading();
@@ -868,6 +870,74 @@ function do_early_uploads()
             _("Reminder for uploads: host=<b>%s</b> account=<b>%s</b> password=<i><font color='#DDDDDD'>%s</font></i>"),
             $uploads_host, $uploads_account, $uploads_password );
         echo "</p>";
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_waiting_queues()
+{
+    global $project, $code_url;
+
+    $round = get_Round_for_project_state($project->state);
+
+    if ( is_null($round) ) return;
+    if ( $project->state != $round->project_waiting_state ) return;
+
+    // Okay, so the project is in some round's waiting state.
+    // What queues is it in, if any?
+
+    echo "<h4>";
+    echo _("Queues");
+    echo "</h4>\n";
+
+    $res = mysql_query("
+        SELECT name, project_selector
+        FROM queue_defns
+        WHERE round_id='{$round->id}'
+        ORDER BY ordering
+    ") or die(mysql_error());
+    if ( mysql_num_rows($res) == 0 )
+    {
+        // No queues defined for this round.
+        echo sprintf(
+            _('There are no queues defined for round %s, so this project should be automatically released within a few minutes.'),
+            $round->id
+        );
+    }
+    else
+    {
+        echo sprintf(
+            _('This project is in the following round %s queues:'),
+            $round->id
+        );
+        echo "<br>\n";
+
+        echo "<ul>\n";
+        $n_queues = 0;
+        while ( list($q_name,$q_project_selector) = mysql_fetch_row($res) )
+        {
+            $cooked_project_selector = cook_project_selector($q_project_selector);
+
+            $res2 = mysql_query("
+                SELECT projectid
+                FROM projects
+                WHERE projectid='{$project->projectid}' AND ($cooked_project_selector)
+            ") or die(mysql_error());
+            if ( mysql_num_rows($res2) > 0 )
+            {
+                $n_queues += 1;
+                $enc_q_name = urlencode($q_name);
+                $url = "$code_url/stats/release_queue.php?round_id={$round->id}&name=$enc_q_name";
+                $enc_url = htmlspecialchars( $url, ENT_QUOTES );
+                echo "<li><a href='$enc_url'>$q_name</a></li>\n";
+            }
+        }
+        if ( $n_queues == 0 )
+        {
+            echo "<li>(none!)</li>\n";
+        }
+        echo "</ul>\n";
     }
 }
 
