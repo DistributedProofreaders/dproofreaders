@@ -688,24 +688,9 @@ class ProjectInfoHolder
 
     function show_visible_controls()
     {
-        function row( $label, $display_function, $field_value, $field_name=NULL, $explan='' )
-        {
-            echo "<tr>";
-            echo   "<td bgcolor='#CCCCCC'>";
-            echo     "<b>$label</b>";
-            echo   "</td>";
-            echo   "<td>";
-            $display_function( $field_value, $field_name );
-            echo   "  ";
-            echo   $explan;
-            echo   "</td>";
-            echo "</tr>";
-            echo "\n";
-        }
-
         if (!empty($this->projectid))
         {
-            row( _("Project ID"), 'just_echo', $this->projectid );
+            $this->row( _("Project ID"), 'just_echo', $this->projectid );
         }
         if (!empty($this->up_projectid))
         {
@@ -716,26 +701,41 @@ class ProjectInfoHolder
             ");
             $up_nameofwork = mysql_result($res2, 0, "up_nameofwork");
 
-            row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
+            $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
-        row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork' );
-        row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
-        row( _("Language"),                    'language_list',       $this->language         );
-        row( _("Genre"),                       'genre_list',          $this->genre            );
-        row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
-        row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
-        row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , _("Optionally reserve for a PPer. DP username only."));
-        row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
-        row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', _("DP user who scanned or harvested the images."));
-        row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', _("DP user who prepared the text files.") );
-        row( _("Extra Credits (to be included in list of names)"),   
+        $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork' );
+        $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
+        $this->row( _("Language"),                    'language_list',       $this->language         );
+        $this->row( _("Genre"),                       'genre_list',          $this->genre            );
+        $this->row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
+        $this->row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
+        $this->row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , _("Optionally reserve for a PPer. DP username only."));
+        $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
+        $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', _("DP user who scanned or harvested the images."));
+        $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', _("DP user who prepared the text files.") );
+        $this->row( _("Extra Credits (to be included in list of names)"),   
                                                'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {
-            row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
+            $this->row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
         }
-        row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
-        row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
-        row( _("Project Comments"),            'proj_comments_field', $this->comments         );
+        $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
+        $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
+        $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
+    }
+
+    function row( $label, $display_function, $field_value, $field_name=NULL, $explan='' )
+    {
+        echo "<tr>";
+        echo   "<td bgcolor='#CCCCCC'>";
+        echo     "<b>$label</b>";
+        echo   "</td>";
+        echo   "<td>";
+        $display_function( $field_value, $field_name );
+        echo   "  ";
+        echo   $explan;
+        echo   "</td>";
+        echo "</tr>";
+        echo "\n";
     }
 
     // =========================================================================
