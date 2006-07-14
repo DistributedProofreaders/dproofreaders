@@ -389,7 +389,12 @@ function do_project_info_table()
 
     if ( $project->state == PROJ_DELETE )
     {
-        echo_row_a( _("Reason for Deletion"), $project->deletion_reason );
+        // Change anything that looks like a projectid into a link.
+        $cooked_reason = preg_replace(
+            '/\b(projectID[0-9a-f]{13})\b/',
+            '<a href="project.php?id=\1">\1</a>',
+            $project->deletion_reason );
+        echo_row_a( _("Reason for Deletion"), $cooked_reason );
     }
 
     // -------------------------------------------------------------------------
