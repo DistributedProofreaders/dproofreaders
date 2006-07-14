@@ -8,6 +8,21 @@ header('Content-type: text/plain');
 
 echo "Altering 'projects' table...\n";
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+echo "Adding the 'deletion_reason' column...\n";
+
+$sql = "
+    ALTER TABLE projects
+        ADD COLUMN deletion_reason TINYTEXT
+";
+echo "$sql\n";
+mysql_query($sql) or die( mysql_error() );
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+echo "Harmonizing the types of user-name columns...\n";
+
 // Currently, in the 'projects' table,
 // the columns that contain usernames have various types:
 //     username       VARCHAR(255) NOT NULL default '',

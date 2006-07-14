@@ -387,6 +387,11 @@ function do_project_info_table()
     }
     echo_row_a( _("Project State"), $right );
 
+    if ( $project->state == PROJ_DELETE )
+    {
+        echo_row_a( _("Reason for Deletion"), $project->deletion_reason );
+    }
+
     // -------------------------------------------------------------------------
     // Information about the work itself (independent of DP)
 

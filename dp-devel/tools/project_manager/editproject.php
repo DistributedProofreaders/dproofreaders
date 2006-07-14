@@ -156,6 +156,7 @@ class ProjectInfoHolder
         $this->image_preparer   = $pguser;
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
+        $this->deletion_reason  = '';
         // $this->year          = '';
     }
 
@@ -204,6 +205,7 @@ class ProjectInfoHolder
         $this->image_preparer   = $pguser;
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
+        $this->deletion_reason  = '';
 
         $this->original_marc_array_encd = $r1;
     }
@@ -248,6 +250,7 @@ class ProjectInfoHolder
         $this->image_preparer   = $up_info['d_image_preparer'];
         $this->text_preparer    = $up_info['d_text_preparer'];
         $this->extra_credits    = $up_info['d_extra_credits'];
+        $this->deletion_reason  = '';
 
         // $this->year          = $up_info['d_year'];
 
@@ -311,6 +314,7 @@ class ProjectInfoHolder
         $this->image_preparer   = $ar['image_preparer'];
         $this->text_preparer    = $ar['text_preparer'];
         $this->extra_credits    = $ar['extra_credits'];
+        $this->deletion_reason  = $ar['deletion_reason'];
         $this->up_projectid     = $ar['up_projectid'];
 
         $this->posted = @$_GET['posted'];
@@ -490,6 +494,7 @@ class ProjectInfoHolder
         $this->up_projectid     = @$_POST['up_projectid'];
         $this->original_marc_array_encd = @$_POST['rec'];
         $this->extra_credits    = @$_POST['extra_credits'];
+        $this->deletion_reason  = @$_POST['deletion_reason'];
 
         if ($this->difficulty_level == '')
         {
@@ -528,7 +533,8 @@ class ProjectInfoHolder
             postednum      = $postednum_str,
             image_preparer = '{$this->image_preparer}',
             text_preparer  = '{$this->text_preparer}',
-            extra_credits  = '".addslashes($this->extra_credits)."'
+            extra_credits  = '".addslashes($this->extra_credits)."',
+            deletion_reason= '".addslashes($this->deletion_reason)."'
         ";
 
         if (isset($this->projectid))
@@ -691,6 +697,18 @@ class ProjectInfoHolder
         if (!empty($this->projectid))
         {
             $this->row( _("Project ID"), 'just_echo', $this->projectid );
+
+            // Somewhat kludgey to have to do this query here.
+            $res = mysql_query("
+                SELECT state
+                FROM projects
+                WHERE projectid='{$this->projectid}'
+            ") or die(mysql_error());
+            list($state) = mysql_fetch_row($res);
+            if ($state == PROJ_DELETE)
+            {
+                $this->row( _("Reason for Deletion"),         'text_field',          $this->deletion_reason, 'deletion_reason' );
+            }
         }
         if (!empty($this->up_projectid))
         {
