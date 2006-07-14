@@ -14,7 +14,7 @@ echo "Adding the 'deletion_reason' column...\n";
 
 $sql = "
     ALTER TABLE projects
-        ADD COLUMN deletion_reason TINYTEXT
+        ADD COLUMN deletion_reason TINYTEXT NOT NULL
 ";
 echo "$sql\n";
 mysql_query($sql) or die( mysql_error() );
