@@ -245,11 +245,31 @@ function decide_blurbs()
         return array( $blurb, $blurb );
     }
 
-    if ( $project->difficulty == 'beginner' && !user_can_work_on_beginner_pages_in_round($round) )
+    // (This code has parallels to code in get_available_page().)
+    if ( $project->difficulty == 'beginner' )
     {
-        $blurb =
-            _("You have reached your quota of pages from 'Beginners Only' projects in this round.");
-        return array( $blurb, $blurb );
+        if ( $round->is_a_mentee_round() )
+        {
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
+            {
+                $blurb =
+                    _("You have reached your quota of pages from 'Beginners Only' projects in this round.");
+                return array( $blurb, $blurb );
+            }
+        }
+        else if ( $round->is_a_mentor_round() )
+        {
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
+            {
+                $blurb =
+                    _("You do not have access to difficulty='beginner' (Mentors Only) projects in this round.");
+                return array( $blurb, $blurb );
+            }
+        }
+        else
+        {
+            // difficulty='beginner' projects aren't handled differently
+        }
     }
 
     {
