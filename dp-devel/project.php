@@ -238,17 +238,20 @@ function decide_blurbs()
 
     if ( $num_pages_available == 0 )
     {
-        $top_blurb = $bottom_blurb =
+        $blurb =
             _("Round Complete")
             . "<br>"
             . _("There are no pages available for proofreading.");
+        return array( $blurb, $blurb );
     }
-    else if ( $project->difficulty == 'beginner' && !user_can_work_on_beginner_pages_in_round($round) )
+
+    if ( $project->difficulty == 'beginner' && !user_can_work_on_beginner_pages_in_round($round) )
     {
-        $top_blurb = $bottom_blurb =
+        $blurb =
             _("You have reached your quota of pages from 'Beginners Only' projects in this round.");
+        return array( $blurb, $blurb );
     }
-    else
+
     {
         // If there's any proofreading to be done, this is the link to use.
         $url = url_for_pi_do_whichever_page( $projectid, $state );
