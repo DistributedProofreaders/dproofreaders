@@ -138,8 +138,6 @@ function page_list_sql($projectid)
 
     // ---------------------------------------------------------------
 
-    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
-    echo "<br>" . _("Oldest project listed first.") . "<br>";
 
     echo "<p>" . _('Show projects from:');
     foreach ( $Round_for_round_id_ as $round )
@@ -159,6 +157,9 @@ function page_list_sql($projectid)
         }
     }
     echo "</p>.";
+
+    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
+    echo "<br>" . _("Oldest project listed first.") . "<br>";
 
     $mentored_round_id = $mentoring_round->mentee_round->id;
     $result = mysql_query(project_sql($mentoring_round->id));
