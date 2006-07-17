@@ -138,25 +138,28 @@ function page_list_sql($projectid)
 
     // ---------------------------------------------------------------
 
-
-    echo "<p>" . _('Show projects from:');
+    // Are there other mentoring rounds? If so, provide mentoring links for them.
+    $other_mentoring_rounds = array();
     foreach ( $Round_for_round_id_ as $round )
     {
-        if ( $round->is_a_mentor_round() )
+        if ( $round->is_a_mentor_round() && $round->id != $mentoring_round->id )
         {
-            echo " ";
-            if ( $round->id == $mentoring_round->id )
-            {
-                echo "<b>{$round->id}</b>";
-            }
-            else
-            {
-                $url = "$code_url/tools/proofers/for_mentors.php?round_id={$round->id}";
-                echo "<a href='$url'>{$round->id}</a>";
-            }
+            $other_mentoring_rounds[] = $round;
         }
     }
-    echo "</p>.";
+    if ( count($other_mentoring_rounds) > 0 )
+    {
+        echo "<p>(" . _('Show this page for:');
+
+        foreach( $other_mentoring_rounds as $other_round )
+        {
+            $url = "$code_url/tools/proofers/for_mentors.php?round_id={$other_round->id}";
+            echo " <a href='$url'>{$other_round->id}</a>";
+        }
+        echo ")</p>";
+    }
+
+    // ---------------------------------------------------------------
 
     echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
