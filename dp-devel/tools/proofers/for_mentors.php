@@ -161,6 +161,19 @@ function page_list_sql($projectid)
 
     // ---------------------------------------------------------------
 
+    if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
+    {
+        echo sprintf(
+                _("You do not have access to 'Mentors Only' projects in %s."),
+                $mentoring_round->id
+            );
+        echo "\n";
+        theme("","footer");
+        exit;
+    }
+
+    // ---------------------------------------------------------------
+
     echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
