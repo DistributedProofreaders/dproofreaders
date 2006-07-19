@@ -30,8 +30,8 @@ foreach ( array(1,7,28) as $days_back )
     
     $template = (
         $days_back == 1
-        ? _('%d active users in the past twenty-four hours.')
-        : _('%d active users in the past %d days.')
+        ? _('%s active users in the past twenty-four hours.')
+        : _('%s active users in the past %d days.')
     );
     $msg = sprintf( $template, number_format($num_users), $days_back );
     echo "<center><i><b>$msg</b></i></center>\n";
