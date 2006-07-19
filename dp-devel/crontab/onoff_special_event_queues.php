@@ -96,7 +96,7 @@ foreach ( array('open', 'close') as $which )
             Looking for queues that deal with special event '$spec_code'...
         ";
         $w = '[[:space:]]*';
-        $selector_pattern = "^{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']";
+        $selector_pattern = "{$w}special_code{$w}={$w}[\"\\']{$spec_code}[\"\\']";
         $update_query = "
             UPDATE queue_defns
             SET enabled = $value_for_queue_enable
