@@ -18,21 +18,26 @@ $etext_limit = 10;
 
 default_page_heading();
 
-//get total number of users
-$users = mysql_query("
-    SELECT count(*) AS numusers
-    FROM users $joined_with_user_ELR_page_tallies
-    WHERE $user_ELR_page_tally_column >=1
-");
-$totalusers = $users?mysql_result($users,0,"numusers"):0;
+// Show the number of users that have been active over various recent timescales.
+foreach ( array(1,7,28) as $days_back )
+{
+    $res = mysql_query("
+        SELECT COUNT(*)
+        FROM users
+        WHERE t_last_activity > UNIX_TIMESTAMP() - $days_back * 24*60*60
+    ") or die(mysql_error());
+    $num_users = mysql_result($res,0);
+    
+    $template = (
+        $days_back == 1
+        ? _('%d active users in the past twenty-four hours.')
+        : _('%d active users in the past %d days.')
+    );
+    $msg = sprintf( $template, number_format($num_users), $days_back );
+    echo "<center><i><b>$msg</b></i></center>\n";
+}
 
-//get total users active in the last 24 hours
-$begin_time = time() - (60 * 60 * 24);
-$users = mysql_query("SELECT count(*) AS numusers FROM users WHERE t_last_activity > $begin_time");
-$activeusers = $users?mysql_result($users,0,"numusers"):0;
 ?>
-
-<center><i><b><? echo number_format($activeusers); echo _(" active users out of "); echo number_format($totalusers); echo _(" total users in the past twenty-four hours.") ?></b></i></center><br>
 
 <p><font face="<? echo $theme['font_mainbody']; ?>" color="<? echo $theme['color_headerbar_bg']; ?>" size="+1"><b><? echo _("About This Site") ?></b></font><br>
 <?
@@ -66,4 +71,6 @@ showstartexts($etext_limit,'silver');
 //Bronze E-texts
 showstartexts($etext_limit,'bronze');
 theme("", "footer");
+
+// vim: sw=4 ts=4 expandtab
 ?>
