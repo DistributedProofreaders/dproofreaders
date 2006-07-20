@@ -317,6 +317,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             echo "</a>";
             echo "<br>";
             echo "<br>";
+            echo "\n";
         }
     }
 
@@ -339,6 +340,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "<b>$text</b>";
         echo "</font>";
         echo "</td>";
+        echo "\n";
     }
 
     echo "<tr>";
@@ -444,6 +446,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     }
 
     echo "<tr><td colspan=7 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+    echo "\n";
 
     // special colours legend
     // Don't display if the user has selected the
