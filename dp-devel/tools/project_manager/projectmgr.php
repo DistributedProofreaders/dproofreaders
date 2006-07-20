@@ -84,7 +84,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo "<option value='$s_code'>$s_day</option>";
     }
-    echo "  </select></td>
+    echo "
+                </select>
+            </td>
         </tr>
         <tr>
             <td>"._("Language")."</td>
