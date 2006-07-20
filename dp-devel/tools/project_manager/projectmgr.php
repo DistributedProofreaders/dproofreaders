@@ -151,6 +151,20 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             </td>
         </tr>
         <tr>
+            <td>"._("Number of results per page")."</td>
+            <td>
+                <select name='n_results_per_page'>
+    ";
+    foreach ( array(30,100,300,1000) as $n )
+    {
+        $selected = ( $n == DEFAULT_N_RESULTS_PER_PAGE ? 'SELECTED' : '' );
+        echo "<option value='$n' $selected>$n</option>\n";
+    }
+    echo "
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td>
                 <table width='100%'>
