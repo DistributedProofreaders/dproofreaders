@@ -33,34 +33,37 @@ function echo_manager_header( $which )
 	);
 
 	echo "<p>";
-	echo "<center>";
+	echo "<center>\n";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
-	echo " | ";
+	echo "\n|\n";
 	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
-	echo " | ";
+	echo "\n|\n";
 	echo "<a href='$create_project_url'>"._("Create Project")."</a>";
-	echo " | ";
+	echo "\n|\n";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
-		echo " | ";
+		echo "\n|\n";
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
 	}
 	else
 	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
+	echo "\n";
 
-	echo "<br><a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a>";
-	echo " | ";
+	echo "<br>\n";
+	echo "<a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a>";
+	echo "\n|\n";
 	echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a>";
-	echo " | ";
+	echo "\n|\n";
 	if (user_is_image_sources_manager())
 	{
-		echo " <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
+		echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
 	} else {
-		echo " <a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
+		echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
 	}
+	echo "\n";
 
 	echo "</center>";
 
