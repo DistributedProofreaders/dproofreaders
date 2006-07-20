@@ -177,12 +177,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </tr>
         </table>
         </form>
-        "._("Matching [except for State and multiple projectIDs]
-            is case-insensitive and unanchored;<br>
-        so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.<br>
-        <br>
-        If desired, you should be able to select<br>
-        multiple values for State (e.g., by holding down Ctrl).")."
+        "._("Matching [except for State and multiple projectIDs] is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.")."
+        <br><br>
+        "._("If desired, you should be able to select multiple values for State (e.g., by holding down Ctrl).")."
         </center>
     ";
 } else {
