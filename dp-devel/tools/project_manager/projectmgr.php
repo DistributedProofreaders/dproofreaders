@@ -51,6 +51,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         WHERE enable = 1
         ORDER BY open_month, open_day");
 
+    $special_days = array();
     while ( $s_row = mysql_fetch_assoc($special_day_res) )
     {
         $show = $s_row['display_name']." (".$s_row['Start Date'].")";
