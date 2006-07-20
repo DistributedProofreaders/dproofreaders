@@ -43,7 +43,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo_manager_header('project_search_page');
     
     $special_day_res = mysql_query("        
-		    SELECT
+        SELECT
             spec_code,
             display_name,
             DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
@@ -79,12 +79,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <tr>
             <td>"._("Special day")."</td>
             <td><select name='special_day'>
-						    <option value='' selected>Any day</option>";
+                <option value='' selected>Any day</option>";
     foreach ($special_days as $s_code => $s_day)
     {
         echo "<option value='$s_code'>$s_day</option>";
     }
-		echo "  </select></td>
+    echo "  </select></td>
         </tr>
         <tr>
             <td>"._("Language")."</td>
@@ -519,18 +519,18 @@ function echo_project_state_changer($project)
 
 function echo_project_state_option($project_state,$selected)
 {
-	echo "<option value='$project_state'";
-	if ($selected) echo " SELECTED";
-	echo ">";
-	if ($project_state == 'automodify')
-	{
-		echo 'automodify';
-	}
-	else
-	{
-		echo project_states_text($project_state);
-	}
-	echo "</option>\n";
+    echo "<option value='$project_state'";
+    if ($selected) echo " SELECTED";
+    echo ">";
+    if ($project_state == 'automodify')
+    {
+        echo 'automodify';
+    }
+    else
+    {
+        echo project_states_text($project_state);
+    }
+    echo "</option>\n";
 }
 
 // -----------------------------------------------------------------------------
