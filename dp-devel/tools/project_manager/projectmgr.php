@@ -228,11 +228,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
         if ( $_GET['projectid'] != '' )
         {
-            if (!$_GET['projectid_in'])
-            {
-                $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
-            }
-            else 
+            if ($_GET['projectid_in'])
             {
                 $pid_list = mysql_real_escape_string($_GET['projectid']);
                 $pid_list = preg_split('/[\s,;]/',$pid_list);
@@ -240,6 +236,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 foreach ($pid_list as $proj) { $sql_list .= "'$proj',"; }
                 $sql_list = substr($sql_list,0,(strlen($sql_list) - 1));
                 $condition .= " AND projectid IN ($sql_list)";
+            }
+            else
+            {
+                $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
             }
         }
         if ( isset($_GET['state']) && count($_GET['state']) > 0 )
