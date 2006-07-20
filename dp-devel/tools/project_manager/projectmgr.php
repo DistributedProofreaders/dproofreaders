@@ -121,10 +121,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo "
         <tr>
             <td>"._("Project ID")."</td>
-            <td><input type='text' name='projectid'>
-                <input type='checkbox' name='projectid_in' id='projectid_in'>
-                <label for='projectid_in' title='"._("Separate IDs with spaces")."'>
-                Multiple?</label></td>
+            <td><input type='text' name='projectid'> ("._("list ok").")</td>
         </tr>
     ";
     // In the <select> tag, we set the name attribute to 'state[]'.
@@ -179,6 +176,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </form>
         "._("Matching [except for State and multiple projectIDs] is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.")."
         <br><br>
+        "._('"(list ok)": You can search by multiple ProjectIDs at once: enter the list of ProjectIDs, separated by commas, semicolons, or spaces.')."
+        <br><br>
         "._("If desired, you should be able to select multiple values for State (e.g., by holding down Ctrl).")."
         </center>
     ";
@@ -228,7 +227,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
         if ( $_GET['projectid'] != '' )
         {
-            if ($_GET['projectid_in'])
+            if ( preg_match('/[\s,;]/', $_GET['projectid']) )
             {
                 $pid_list = mysql_real_escape_string($_GET['projectid']);
                 $pid_list = preg_split('/[\s,;]/',$pid_list);
