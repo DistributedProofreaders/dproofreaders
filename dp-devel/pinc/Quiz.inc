@@ -3,10 +3,11 @@ include_once($relPath."connect.inc");
 include_once($relPath."v_site.inc");
 class Quiz
 {
-  function Quiz($id,$name,$pages, $pass_requirements)
+  function Quiz($id,$name,$descrption,$pages, $pass_requirements)
   {
     $this->id = $id;
     $this->name = $name;
+    $this->description = $descrption;
     $this->pages = $pages;
     $this->pass_requirements = $pass_requirements;
     // Currently supported pass_requirements:
@@ -68,7 +69,9 @@ class Quiz
     global $code_url;
     echo "<p>
           <table border='0' cellpadding='2' style='border:2px solid black;'>
-          <tr><th class='q' colspan='5'>$this->name</th></tr>";
+          <tr><th class='q' colspan='5'>$this->name</th></tr>
+	  <tr><td colspan='5'>$this->description</td></tr>
+    ";
     $pages = $this->pages;
     foreach ($pages as $desc => $page)
     {

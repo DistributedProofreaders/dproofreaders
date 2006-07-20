@@ -7,6 +7,7 @@ $defined_quizzes = array('PQ','FQ');
 $FQ = new Quiz(
  "FQ",
  _("Formatting Quiz"),
+ _("This quiz covers the corrections you should make in the formatting rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),
  array(
  _('Page one: Italics, bold, and small caps') => 'formatting1',
  _('Page two: Section headings, hyphens and em-dashes') => 'formatting2',
@@ -21,6 +22,7 @@ $FQ = new Quiz(
 $PQ = new Quiz(
  "PQ",
  "Proofreading Quiz",
+ _("This quiz covers the corrections you should make in the proofreading rounds."),
  array(
  _('Page One') => 'step1',
  _('Page Two') => 'step2',
