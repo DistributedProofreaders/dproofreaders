@@ -33,6 +33,7 @@ theme(_("Project Managers"), "header");
 
 abort_if_not_manager();
 
+define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
@@ -277,15 +278,25 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
     }
 
+    $n_results_per_page = @$_GET['n_results_per_page'];
+    if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
+
+    $results_offset = intval(@$_GET['results_offset']);
+
     $state_collater = sql_collater_for_project_state('state');
     $result = mysql_query("
-        SELECT *
+        SELECT SQL_CALC_FOUND_ROWS *
         FROM projects
         WHERE $condition
         ORDER BY $state_collater, nameofwork asc
+        LIMIT $n_results_per_page OFFSET $results_offset
     ") or die(mysql_error());
 
     $numrows = mysql_num_rows($result);
+
+    $res_found = mysql_query("SELECT FOUND_ROWS()");
+    $num_found_rows = mysql_result($res_found,0);
+
     if ( $numrows == 0 )
     {
         echo _("<b>No projects matched the search criteria.</b>");
@@ -330,6 +341,43 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     // -------------------------------------------------------------
 
     // Present the results of the search query.
+
+    function results_navigator()
+    {
+        global $n_results_per_page, $results_offset, $numrows, $num_found_rows;
+
+        // The REQUEST_URI must have at least one query-string parameter,
+        // otherwise the response would have been just the search form,
+        // and this function wouldn't have been called.
+        $url_base = $_SERVER['REQUEST_URI'] . '&';
+        $url_base = preg_replace('/results_offset=[^&]*&/', '', $url_base);
+
+        if ( $results_offset > 0 )
+        {
+            $t = _('Previous');
+            $prev_offset = max(0, $results_offset - $n_results_per_page );
+            $url = $url_base . "results_offset=$prev_offset";
+            echo "<a href='$url'>$t</a> | ";
+        }
+
+        echo sprintf(
+            _("Projects %d to %d of %d"),
+            $results_offset + 1,
+            $results_offset + $numrows,
+            $num_found_rows
+        );
+        echo "\n";
+
+        if ( $results_offset + $numrows < $num_found_rows )
+        {
+            $t = _('Next');
+            $next_offset = $results_offset + $n_results_per_page;
+            $url = $url_base . "results_offset=$next_offset";
+            echo " | <a href='$url'>$t</a>";
+        }
+    }
+
+    results_navigator();
 
     $show_pages_total = 1;
 
@@ -450,6 +498,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     echo "<tr><td colspan=7 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     echo "\n";
+
+    results_navigator();
 
     // special colours legend
     // Don't display if the user has selected the
