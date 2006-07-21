@@ -152,7 +152,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             <td>
                 <select name='n_results_per_page'>
     ";
-    foreach ( array(30,100,300,1000) as $n )
+    foreach ( array(30,100,300) as $n )
     {
         $selected = ( $n == DEFAULT_N_RESULTS_PER_PAGE ? 'SELECTED' : '' );
         echo "<option value='$n' $selected>$n</option>\n";
