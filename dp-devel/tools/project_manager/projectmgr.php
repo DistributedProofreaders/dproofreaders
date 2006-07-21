@@ -62,6 +62,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     echo "
         <center>
+        <h1>Search for Projects</h1>
         "._("Search for projects matching the following criteria:")."<br>
         <form method=get action='projectmgr.php'>
         <input type='hidden' name='show' value='search'>
@@ -306,6 +307,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     $res_found = mysql_query("SELECT FOUND_ROWS()");
     $num_found_rows = mysql_result($res_found,0);
+
+    echo "<h1>Search Results</h1>\n";
 
     if ( $numrows == 0 )
     {
