@@ -415,7 +415,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo_header_cell( 50, _("Total") );
     }
-    echo_header_cell(  75, ($_GET['show'] == "site_active" ? _("PM") : _("Owner") ) );
+    echo_header_cell(  75, ($_GET['show'] == "site_active" ? _("PM") : _("Checked Out By") ) );
     echo_header_cell( 180, _("Project Status") );
     echo_header_cell(  50, _("Options") );
     echo "</tr>";
@@ -468,7 +468,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
 
 
-        // Owner
+        // PM / Checked Out By
         echo "<td align=\"center\">";
         if ($_GET['show'] == 'site_active') {
             print $project->username;
