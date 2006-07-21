@@ -17,7 +17,7 @@ include_once('projectmgr.inc');
 
 
 
-if (empty($_GET['show']) && empty($_GET['up_projectid'])) {
+if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
     if ($userP['i_pmdefault'] == 0) {
         metarefresh(0,"projectmgr.php?show=user_all","","");
         exit();
@@ -27,9 +27,7 @@ if (empty($_GET['show']) && empty($_GET['up_projectid'])) {
     }
 }
 
-theme(_("Project Managers"), "header");
-
-abort_if_not_manager();
+theme(_("Project Search"), "header");
 
 define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
 
@@ -393,6 +391,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $show_pages_total = 1;
 
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
+    $show_options_column = $user_can_see_download_links || user_is_PM();
 
     echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
 
@@ -418,7 +417,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo_header_cell(  75, _("PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
-    echo_header_cell(  50, _("Options") );
+    if ( $show_options_column )
+    {
+        echo_header_cell(  30, _("Options") );
+    }
     echo "</tr>";
 
     // Determine whether to use special colors or not
@@ -493,26 +495,29 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "</td>\n";
 
         // Options
-        echo "<td align=center>";
-        if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
+        if ( $show_options_column )
         {
-            print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
-        }
-        if ( $user_can_see_download_links )
-        {
-            if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
-                $project->state == PROJ_POST_FIRST_AVAILABLE ||
-                $project->state == PROJ_POST_FIRST_CHECKED_OUT)
+            echo "<td align=center>";
+            if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
             {
-                print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+                print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
             }
-            if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
-                $project->state == PROJ_POST_COMPLETE)
+            if ( $user_can_see_download_links )
             {
-                print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+                if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
+                    $project->state == PROJ_POST_FIRST_AVAILABLE ||
+                    $project->state == PROJ_POST_FIRST_CHECKED_OUT)
+                {
+                    print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+                }
+                if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
+                    $project->state == PROJ_POST_COMPLETE)
+                {
+                    print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+                }
             }
+            echo "</td>\n";
         }
-        echo "</td>\n";
 
         echo "</tr>\n";
 

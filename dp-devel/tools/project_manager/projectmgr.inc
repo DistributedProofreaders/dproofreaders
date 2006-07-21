@@ -24,7 +24,7 @@ function abort_if_not_manager()
 
 function echo_manager_header( $which )
 {
-	global $pguser, $forums_url, $code_url, $external_catalog_locator;
+	global $pguser, $code_url, $external_catalog_locator;
 
 	$create_project_url = (
 		empty($external_catalog_locator)
@@ -47,7 +47,7 @@ function echo_manager_header( $which )
 		echo "\n|\n";
 		echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage Image Sources")."</a>";
 	}
-	else
+	else if ( user_is_PM() )
 	{
 		echo "\n|\n";
 		echo "<a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose a new Image Source")."</a>";
@@ -56,8 +56,8 @@ function echo_manager_header( $which )
 
 	echo "<br>\n";
 	// ---------------------------------------
+	// Links for everyone
 
-	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
 		echo "\n|\n";
@@ -66,9 +66,12 @@ function echo_manager_header( $which )
 	echo "\n";
 
 	// ---------------------------------------
+	// Links for PMs only
 
+	if ( user_is_PM() )
 	{
 		echo "<br>\n";
+		echo _("PM links"), ": ";
 		$enc_pguser = urlencode($pguser);
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'>"._("<b>Search Your Projects</b>")."</a>"; 
 		echo "\n|\n";
@@ -83,19 +86,6 @@ function echo_manager_header( $which )
 	// --------------------------
 
 	echo "</center>";
-
-	echo "
-		<p><center>
-		".sprintf("<font size=-1>
-		Visit the 
-		%shelp section%s
-		or
-		%sforum topic%s
-		for this page.
-		</font>","<a href='$code_url/faq/pm-faq.php#$which'>","</a>","<a href='$forums_url/viewtopic.php?t=2793'>","</a>")."
-		</center></p>
-	";
-
 }
 
 ?>
