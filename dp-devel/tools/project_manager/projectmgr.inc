@@ -24,7 +24,7 @@ function abort_if_not_manager()
 
 function echo_manager_header( $which )
 {
-	global $userP, $forums_url, $code_url, $external_catalog_locator;
+	global $pguser, $forums_url, $code_url, $external_catalog_locator;
 
 	$create_project_url = (
 		empty($external_catalog_locator)
@@ -69,9 +69,10 @@ function echo_manager_header( $which )
 		echo "\n|\n";
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
 	}
-	else
+
 	{
-		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search Your Projects</b>")."</a>"; 
+		$enc_pguser = urlencode($pguser);
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'>"._("<b>Search Your Projects</b>")."</a>"; 
 	}
 	echo "\n";
 

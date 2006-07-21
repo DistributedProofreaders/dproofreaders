@@ -104,10 +104,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     ";
 
     {
+        $project_manager = @$_GET['project_manager'];
         echo "
         <tr>
             <td>"._("Project Manager")."</td>
-            <td><input type='text' name='project_manager'></td>
+            <td><input type='text' name='project_manager' value='$project_manager'></td>
         </tr>
         ";
     }
