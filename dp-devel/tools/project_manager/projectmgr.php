@@ -27,8 +27,6 @@ if (empty($_GET['show']) && empty($_GET['up_projectid'])) {
     }
 }
 
-$can_see_all = user_is_a_sitemanager() || user_is_proj_facilitator();
-
 theme(_("Project Managers"), "header");
 
 abort_if_not_manager();
@@ -104,7 +102,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             </td>
         </tr>
     ";
-    if ($can_see_all)
+
     {
         echo "
         <tr>
@@ -213,18 +211,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         {
             $condition .= " AND checkedoutby LIKE '%{$_GET['checkedoutby']}%'";
         }
-        if ($can_see_all)
         {
             if ( $_GET['project_manager' ] != '' )
             {
                 $condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
             }
-        }
-        else
-        {
-            // The user is a project manager, not a site admin or project facilitator
-            // so they can only see their own projects.
-            $condition .= " AND username='$pguser'";
         }
         if ( $_GET['projectid'] != '' )
         {
@@ -258,9 +249,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             }
             $condition .= ")";
         }
-    } elseif ($_GET['show'] == "site_active" && $can_see_all) {
+    } elseif ($_GET['show'] == "site_active") {
         $condition = $PROJECT_IS_ACTIVE_sql;
-    } elseif ($_GET['show'] == "allfor" && $can_see_all && isset($_GET['up_projectid'])) {
+    } elseif ($_GET['show'] == "allfor" && isset($_GET['up_projectid'])) {
         $condition = " 1 ";
     } elseif ($_GET['show'] == "user_all") {
         $condition = "username = '$pguser'";
@@ -273,7 +264,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     if (isset($_GET['up_projectid'])) {
         $up_projectid = $_GET['up_projectid'];
-        $can_see_this_uber = $can_see_all;
+        $can_see_this_uber = TRUE;
         if (!$can_see_this_uber) {
             $UP_ok_qry = mysql_query("
             SELECT * FROM uber_projects up, usersettings us
@@ -348,8 +339,14 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
     }
 
-    option_to_move( PROJ_NEW, PROJ_P1_UNAVAILABLE );
-    option_to_move( PROJ_P1_UNAVAILABLE, PROJ_P1_WAITING_FOR_RELEASE );
+    // Formerly, a user's search results could only contain projects
+    // that the user could manage. Now that we've opened up the search page,
+    // this is no longer true. E.g., the results may contain New projects
+    // that the user does not have the authority to push to P1.unavail.
+    // Thus, these links would be confusing/misleading. So comment them out.
+    //
+    // option_to_move( PROJ_NEW, PROJ_P1_UNAVAILABLE );
+    // option_to_move( PROJ_P1_UNAVAILABLE, PROJ_P1_WAITING_FOR_RELEASE );
 
     // -------------------------------------------------------------
 
@@ -496,7 +493,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
         // Options
         echo "<td align=center>";
-        print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
+        if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
+        {
+            print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
+        }
         if ( $user_can_see_download_links )
         {
             if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
@@ -539,7 +539,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     }
 
     // Commented out until it's working.
-    // list_uber_projects( $can_see_all );
+    // list_uber_projects( TRUE );
 }
 echo "<br>";
 theme("","footer");
