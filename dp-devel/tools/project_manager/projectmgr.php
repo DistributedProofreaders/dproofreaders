@@ -394,6 +394,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     $show_pages_total = 1;
 
+    $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
+
     echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
 
     function echo_header_cell( $width, $text )
@@ -495,16 +497,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         // Options
         echo "<td align=center>";
         print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
-        if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
-            $project->state == PROJ_POST_FIRST_AVAILABLE ||
-            $project->state == PROJ_POST_FIRST_CHECKED_OUT)
+        if ( $user_can_see_download_links )
         {
-            print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
-        }
-        if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
-            $project->state == PROJ_POST_COMPLETE)
-        {
-            print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+            if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
+                $project->state == PROJ_POST_FIRST_AVAILABLE ||
+                $project->state == PROJ_POST_FIRST_CHECKED_OUT)
+            {
+                print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+            }
+            if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
+                $project->state == PROJ_POST_COMPLETE)
+            {
+                print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+            }
         }
         echo "</td>\n";
 
