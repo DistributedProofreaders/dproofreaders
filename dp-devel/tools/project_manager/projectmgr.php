@@ -174,7 +174,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </tr>
         </table>
         </form>
-        "._("Matching [except for State and multiple projectIDs] is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.")."
+        "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.")."
         <br><br>
         "._('"(list ok)": You can search by multiple ProjectIDs at once: enter the list of ProjectIDs, separated by commas, semicolons, or spaces.')."
         <br><br>
@@ -220,19 +220,14 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
         if ( $_GET['projectid'] != '' )
         {
-            if ( preg_match('/[\s,;]/', $_GET['projectid']) )
+            $projectids = preg_split('/[\s,;]+/', trim($_GET['projectid']) );
+            $likes_array = array();
+            foreach ( $projectids AS $projectid )
             {
-                $pid_list = mysql_real_escape_string($_GET['projectid']);
-                $pid_list = preg_split('/[\s,;]/',$pid_list);
-                $sql_list = '';
-                foreach ($pid_list as $proj) { $sql_list .= "'$proj',"; }
-                $sql_list = substr($sql_list,0,(strlen($sql_list) - 1));
-                $condition .= " AND projectid IN ($sql_list)";
+                $likes_array[] = "projectid LIKE '%{$projectid}%'";
             }
-            else
-            {
-                $condition .= " AND projectid LIKE '%{$_GET['projectid']}%'";
-            }
+            $likes_str = implode(' OR ', $likes_array);
+            $condition .= " AND ($likes_str)";
         }
         if ( isset($_GET['state']) && count($_GET['state']) > 0 )
         {
