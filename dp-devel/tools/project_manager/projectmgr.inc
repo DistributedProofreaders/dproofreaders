@@ -57,24 +57,30 @@ function echo_manager_header( $which )
 	echo "<br>\n";
 	// ---------------------------------------
 
-	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
-	echo "\n|\n";
-	echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
-	echo "\n|\n";
-	echo "<a href='$create_project_url'>"._("Create Project")."</a>";
-	echo "\n|\n";
 	if (user_is_a_sitemanager() or user_is_proj_facilitator())
 	{
-		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
-		echo "\n|\n";
 		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
-	}
-
-	{
-		$enc_pguser = urlencode($pguser);
-		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'>"._("<b>Search Your Projects</b>")."</a>"; 
+		echo "\n|\n";
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
 	}
 	echo "\n";
+
+	// ---------------------------------------
+
+	{
+		echo "<br>\n";
+		$enc_pguser = urlencode($pguser);
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'>"._("<b>Search Your Projects</b>")."</a>"; 
+		echo "\n|\n";
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
+		echo "\n|\n";
+		echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
+		echo "\n|\n";
+		echo "<a href='$create_project_url'>"._("Create Project")."</a>";
+	}
+	echo "\n";
+
+	// --------------------------
 
 	echo "</center>";
 
