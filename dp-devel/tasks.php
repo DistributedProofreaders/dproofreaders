@@ -55,6 +55,7 @@ $categories_array = array(1 => "None",
     20 => "HTML Pool",
     21 => "phpBB Forums",
     22 => "Spell Check",
+    23 => "Project Search",
     99 => "Other");
 $tasks_status_array = array(1 => "New",
     2 => "Accepted",
