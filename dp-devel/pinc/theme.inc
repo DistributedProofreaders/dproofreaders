@@ -220,6 +220,7 @@ function html_logobar($nameofpage) {
 			echo headerbar_text(" Start Here -->&nbsp;",'',true);
 		echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
 		echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
+		echo headerbar_text(_("Project Search"),"$code_url/tools/project_manager/projectmgr.php?show=search_form",true);
 
 		echo headerbar_text(_("My Projects"),"$code_url/tools/proofers/my_projects.php",true);
 
