@@ -473,7 +473,13 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
         // PM
         echo "<td align=\"center\">";
-            print $project->username;
+        if ( $project->username != '' )
+        {
+            $res_pm = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '{$project->username}'");
+            $pm_user_id = mysql_result($res_pm,0);
+            $contact_url = "$forums_url/privmsg.php?mode=post&amp;u=$pm_user_id";
+            print "<a href='$contact_url'>{$project->username}</a>";
+        }
         echo "</td>\n";
 
         // Checked Out By
@@ -481,6 +487,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         if ($project->checkedoutby != "") {
             // Maybe we should get this info via a
             // left outer join in the big select query.
+            // (Actually, I tried it in a few cases and the left outer join was always slower.)
             $tempsql = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '{$project->checkedoutby}'");
             $outby_user_id = mysql_result($tempsql, 0);
             $contact_url = "$forums_url/privmsg.php?mode=post&amp;u=$outby_user_id";
