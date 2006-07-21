@@ -415,7 +415,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo_header_cell( 50, _("Total") );
     }
-    echo_header_cell(  75, ($_GET['show'] == "site_active" ? _("PM") : _("Checked Out By") ) );
+    echo_header_cell(  75, _("PM") );
+    echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
     echo_header_cell(  50, _("Options") );
     echo "</tr>";
@@ -468,11 +469,14 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
 
 
-        // PM / Checked Out By
+        // PM
         echo "<td align=\"center\">";
-        if ($_GET['show'] == 'site_active') {
             print $project->username;
-        } else if ($project->checkedoutby != "") {
+        echo "</td>\n";
+
+        // Checked Out By
+        echo "<td align=\"center\">";
+        if ($project->checkedoutby != "") {
             // Maybe we should get this info via a
             // left outer join in the big select query.
             $tempsql = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '{$project->checkedoutby}'");
@@ -509,7 +513,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $tr_num++;
     }
 
-    echo "<tr><td colspan=7 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+    echo "<tr><td colspan=8 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     echo "\n";
 
     results_navigator();
