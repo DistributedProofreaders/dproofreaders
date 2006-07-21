@@ -119,9 +119,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo "
         <tr>
             <td>"._("Project ID")."</td>
-            <td><input type='text' name='projectid'> ("._("list ok").")</td>
+            <td><input type='text' size='45' name='projectid'> ("._("list ok").")</td>
         </tr>
     ";
+    // 45 is big enough to show two projectids without scrolling.
+
     // In the <select> tag, we set the name attribute to 'state[]'.
     // I'm pretty sure this doesn't mean anything to HTML/HTTP,
     // but PHP takes it as a cue to make the multiple values of
