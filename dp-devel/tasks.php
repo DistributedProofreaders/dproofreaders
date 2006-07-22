@@ -61,6 +61,7 @@ $categories_array = array(1 => "None",
     26 => "Page Details, Diffs",
     27 => "Quizzes",
     28 => "Rounds",
+    29 => "Release Queues",
     99 => "Other");
 $tasks_status_array = array(1 => "New",
     2 => "Accepted",
