@@ -63,6 +63,7 @@ $categories_array = array(1 => "None",
     28 => "Rounds",
     29 => "Release Queues",
     30 => "Teams",
+    31 => "Project Notifications",
     99 => "Other");
 $tasks_status_array = array(1 => "New",
     2 => "Accepted",
