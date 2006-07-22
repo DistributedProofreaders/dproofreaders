@@ -62,6 +62,7 @@ $categories_array = array(1 => "None",
     27 => "Quizzes",
     28 => "Rounds",
     29 => "Release Queues",
+    30 => "Teams",
     99 => "Other");
 $tasks_status_array = array(1 => "New",
     2 => "Accepted",
