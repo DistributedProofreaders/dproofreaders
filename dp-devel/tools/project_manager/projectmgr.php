@@ -67,6 +67,25 @@ class Widget
             return $r;
         }
     }
+
+    function get_sql_contribution()
+    {
+        $value = @$_GET[$this->id];
+        if ( $value == '' ) return NULL;
+
+        $contrib_template = $this->q_contrib;
+        if ( function_exists($contrib_template) )
+        {
+            $contribution = $contrib_template( $value );
+        }
+        else
+        {
+            $contribution = str_replace('{VALUE}', $value, $contrib_template);
+        }
+
+        return $contribution;
+    }
+
 }
 
 // -------------------------------------------------------------------
@@ -112,16 +131,22 @@ $widgets = array(
         'id'         => 'title',
         'label'      => _('Title'),
         'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "nameofwork LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'author',
         'label'      => _('Author'),
         'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "authorsname LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'genre',
         'label'      => _('Genre'),
         'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "genre LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'special_day',
@@ -130,6 +155,8 @@ $widgets = array(
         'options'    => $special_day_options,
         'can_be_multiple' => FALSE,
         'initial_value'   => '',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "special_code = '{VALUE}'",
     )),
     new Widget( array(
         'id'         => 'language',
@@ -138,22 +165,30 @@ $widgets = array(
         'options'    => $lang_options,
         'can_be_multiple' => FALSE,
         'initial_value'   => '',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "language LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'project_manager',
         'label'      => _('Project Manager'),
         'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "username LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'checkedoutby',
         'label'      => _('Checked out by'),
         'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "checkedoutby LIKE '%{VALUE}%'",
     )),
     new Widget( array(
         'id'         => 'projectid',
         'label'      => _('Project ID'),
         'type'       => 'text',
         'size'       => 45, // big enough to show two projectids without scrolling.
+        'q_part'     => 'WHERE',
+        'q_contrib'  => 'projectid_contrib_func',
     )),
     new Widget( array(
         'id'           => 'state',
@@ -161,6 +196,8 @@ $widgets = array(
         'type'         => 'select',
         'options'      => $state_options,
         'can_be_multiple' => TRUE,
+        'q_part'       => 'WHERE',
+        'q_contrib'    => 'state_contrib_func',
     )),
     new Widget( array(
         'id'           => 'n_results_per_page',
@@ -169,9 +206,49 @@ $widgets = array(
         'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
         'can_be_multiple' => FALSE,
         'initial_value'   => DEFAULT_N_RESULTS_PER_PAGE,
+        'q_part'       => 'LIMIT',
+        'q_contrib'    => '{VALUE}',
     )),
 );
 
+function projectid_contrib_func( $value )
+{
+    $projectids = preg_split('/[\s,;]+/', trim($value) );
+    $likes_str = surround_and_join( $projectids, "projectid LIKE '%", "%'", ' OR ' );
+    return "($likes_str)";
+}
+
+function state_contrib_func( $states )
+{
+    if ( count($states) > 0 )
+    {
+        $foo = "(0";
+        // $foo .= surround_and_join( $states, " OR state='", "'", '' );
+        foreach( $states as $state )
+        {
+            if ( $state == '' )
+            {
+                $foo .= " OR 1";
+            }
+            else
+            {
+                $foo .= " OR state='$state'";
+            }
+        }
+        $foo .= ")";
+    }
+    return $foo;
+}
+
+function surround_and_join( $strings, $L, $R, $joiner )
+{
+    $parts = array();
+    foreach ( $strings as $string )
+    {
+        $parts[] = $L . $string . $R;
+    }
+    return implode($joiner,$parts);
+}
 
 // -----------------------------------------------------------------------------
 
@@ -242,62 +319,23 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     if ($_GET['show'] == 'search') {
         $condition = '1';
-        if ( $_GET['title'] != '' )
+        foreach ( $widgets as $widget )
         {
-            $condition .= " AND nameofwork LIKE '%{$_GET['title']}%'";
-        }
-        if ( $_GET['author'] != '' )
-        {
-            $condition .= " AND authorsname LIKE '%{$_GET['author']}%'";
-        }
-        if ( $_GET['genre'] != '' )
-        {
-            $condition .= " AND genre LIKE '%{$_GET['genre']}%'";
-        }
-        if ( $_GET['special_day'] != '' )
-        {
-            $condition .= " AND special_code = '{$_GET['special_day']}'";
-        }
-        if ( $_GET['language'] != '' )
-        {
-            $condition .= " AND language LIKE '%{$_GET['language']}%'";
-        }
-        if ( $_GET['checkedoutby'] != '' )
-        {
-            $condition .= " AND checkedoutby LIKE '%{$_GET['checkedoutby']}%'";
-        }
-        {
-            if ( $_GET['project_manager' ] != '' )
+            $contribution = $widget->get_sql_contribution();
+            if ( $contribution == '' ) continue;
+
+            if ( $widget->q_part == 'WHERE' )
             {
-                $condition .= " AND username LIKE '%{$_GET['project_manager']}%'";
+                $condition .= "\nAND $contribution";
             }
-        }
-        if ( $_GET['projectid'] != '' )
-        {
-            $projectids = preg_split('/[\s,;]+/', trim($_GET['projectid']) );
-            $likes_array = array();
-            foreach ( $projectids AS $projectid )
+            else if ( $widget->q_part == 'LIMIT' )
             {
-                $likes_array[] = "projectid LIKE '%{$projectid}%'";
+                // n_results_per_page is handled below
             }
-            $likes_str = implode(' OR ', $likes_array);
-            $condition .= " AND ($likes_str)";
-        }
-        if ( isset($_GET['state']) && count($_GET['state']) > 0 )
-        {
-            $condition .= " AND (0";
-            foreach( $_GET['state'] as $state )
+            else
             {
-                if ( $state == '' )
-                {
-                    $condition .= " OR 1";
-                }
-                else
-                {
-                    $condition .= " OR state='$state'";
-                }
+                assert(FALSE);
             }
-            $condition .= ")";
         }
     } elseif ($_GET['show'] == "site_active") {
         $condition = $PROJECT_IS_ACTIVE_sql;
