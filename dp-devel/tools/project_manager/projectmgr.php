@@ -15,7 +15,165 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once('projectmgr.inc');
 
+class Widget
+{
+    function Widget( $properties )
+    {
+        foreach ( $properties as $property => $value )
+        {
+            $this->$property = $value;
+        }
+    }
 
+    function get_html_control()
+    {
+        if ( $this->type == 'text' )
+        {
+            $size_attr = ( isset($this->size) ? "size='{$this->size}'" : '' );
+            if ( isset($_GET[$this->id]) )
+            {
+                $value_attr = "value='{$_GET[$this->id]}'";
+            }
+            else if ( isset($this->initial_value) )
+            {
+                $value_attr = "value='{$this->initial_value}'";
+            }
+            else
+            {
+                $value_attr = '';
+            }
+            return "<input type='text' name='{$this->id}' $size_attr $value_attr>";
+        }
+        else if ( $this->type == 'select' )
+        {
+            if ( $this->can_be_multiple )
+            {
+                $r = "<select name='{$this->id}[]' multiple>\n";
+            }
+            else
+            {
+                $r = "<select name='{$this->id}'>\n";
+            }
+            foreach ( $this->options as $option_value => $option_label )
+            {
+                $selected_attr = ( 
+                    ( isset($this->initial_value) && $option_value == $this->initial_value )
+                    ? 'selected'
+                    : ''
+                );
+                $r .= "<option value='$option_value' $selected_attr>$option_label</option>\n";
+            }
+            $r .= "</select>\n";
+            return $r;
+        }
+    }
+}
+
+// -------------------------------------------------------------------
+
+$special_day_options = array();
+$special_day_options[''] = _('Any day');
+$special_day_res = mysql_query("        
+    SELECT
+        spec_code,
+        display_name,
+        DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b')
+    FROM special_days
+    WHERE enable = 1
+    ORDER BY open_month, open_day
+");
+while ( list($s_code, $s_display_name, $s_start) = mysql_fetch_row($special_day_res) )
+{
+    $special_day_options[$s_code] = "$s_display_name ($s_start)";
+}
+
+// ---------
+
+$lang_options[''] = _('Any');
+foreach($lang_list as $k=>$v)
+{
+    $lang_options[$v['lang_name']] = $v['lang_name'];
+}
+
+// ---------
+
+$state_options[''] = _('any state');
+foreach ($PROJECT_STATES_IN_ORDER as $proj_state)
+{
+    $state_options[$proj_state] = project_states_text($proj_state);
+}
+
+// ---------
+
+define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
+
+$widgets = array(
+    new Widget( array(
+        'id'         => 'title',
+        'label'      => _('Title'),
+        'type'       => 'text',
+    )),
+    new Widget( array(
+        'id'         => 'author',
+        'label'      => _('Author'),
+        'type'       => 'text',
+    )),
+    new Widget( array(
+        'id'         => 'genre',
+        'label'      => _('Genre'),
+        'type'       => 'text',
+    )),
+    new Widget( array(
+        'id'         => 'special_day',
+        'label'      => _('Special day'),
+        'type'       => 'select',
+        'options'    => $special_day_options,
+        'can_be_multiple' => FALSE,
+        'initial_value'   => '',
+    )),
+    new Widget( array(
+        'id'         => 'language',
+        'label'      => _('Language'),
+        'type'       => 'select',
+        'options'    => $lang_options,
+        'can_be_multiple' => FALSE,
+        'initial_value'   => '',
+    )),
+    new Widget( array(
+        'id'         => 'project_manager',
+        'label'      => _('Project Manager'),
+        'type'       => 'text',
+    )),
+    new Widget( array(
+        'id'         => 'checkedoutby',
+        'label'      => _('Checked out by'),
+        'type'       => 'text',
+    )),
+    new Widget( array(
+        'id'         => 'projectid',
+        'label'      => _('Project ID'),
+        'type'       => 'text',
+        'size'       => 45, // big enough to show two projectids without scrolling.
+    )),
+    new Widget( array(
+        'id'           => 'state',
+        'label'        => _('State'),
+        'type'         => 'select',
+        'options'      => $state_options,
+        'can_be_multiple' => TRUE,
+    )),
+    new Widget( array(
+        'id'           => 'n_results_per_page',
+        'label'        => _('Number of results per page'),
+        'type'         => 'select',
+        'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
+        'can_be_multiple' => FALSE,
+        'initial_value'   => DEFAULT_N_RESULTS_PER_PAGE,
+    )),
+);
+
+
+// -----------------------------------------------------------------------------
 
 if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
     if ($userP['i_pmdefault'] == 0) {
@@ -29,8 +187,6 @@ if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
 
 theme(_("Project Search"), "header");
 
-define( 'DEFAULT_N_RESULTS_PER_PAGE', 100 );
-
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
 if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
@@ -39,23 +195,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     echo_manager_header('project_search_page');
     
-    $special_day_res = mysql_query("        
-        SELECT
-            spec_code,
-            display_name,
-            DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%e %b') as 'Start Date'
-        FROM special_days
-        WHERE enable = 1
-        ORDER BY open_month, open_day");
-
-    $special_days = array();
-    while ( $s_row = mysql_fetch_assoc($special_day_res) )
-    {
-        $show = $s_row['display_name']." (".$s_row['Start Date'].")";
-        $code = $s_row['spec_code'];
-        $special_days["$code"] = $show;
-    }
-
     echo "
         <center>
         <h1>Search for Projects</h1>
@@ -63,104 +202,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <form method=get action='projectmgr.php'>
         <input type='hidden' name='show' value='search'>
         <table>
-        <tr>
-            <td>"._("Title")."</td>
-            <td><input type='text' name='title'></td>
-        </tr>
-        <tr>
-            <td>"._("Author")."</td>
-            <td><input type='text' name='author'></td>
-        </tr>
-        <tr>
-            <td>"._("Genre")."</td>
-            <td><input type='text' name='genre'></td>
-        </tr>
-        <tr>
-            <td>"._("Special day")."</td>
-            <td><select name='special_day'>
-                <option value='' selected>Any day</option>";
-    foreach ($special_days as $s_code => $s_day)
-    {
-        echo "<option value='$s_code'>$s_day</option>";
-    }
-    echo "
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>"._("Language")."</td>
-            <td>
-            <select name='language'>
-                <option value='' selected>"._("Any")."</option>
-    ";
-    foreach($lang_list as $k=>$v)
-        echo "<option value='{$v['lang_name']}'>{$v['lang_name']}</option>\n";
-    echo "
-            </select>
-            </td>
-        </tr>
     ";
 
+    foreach ( $widgets as $widget )
     {
-        $project_manager = @$_GET['project_manager'];
         echo "
-        <tr>
-            <td>"._("Project Manager")."</td>
-            <td><input type='text' name='project_manager' value='$project_manager'></td>
-        </tr>
+            <tr>
+                <td>{$widget->label}</td>
+                <td>".$widget->get_html_control()."</td>
+            </tr>
         ";
     }
-    echo "
-        <tr>
-            <td>"._("Checked out by")."</td>
-            <td><input type='text' name='checkedoutby'></td>
-        </tr>
-        ";
-    echo "
-        <tr>
-            <td>"._("Project ID")."</td>
-            <td><input type='text' size='45' name='projectid'> ("._("list ok").")</td>
-        </tr>
-    ";
-    // 45 is big enough to show two projectids without scrolling.
 
-    // In the <select> tag, we set the name attribute to 'state[]'.
-    // I'm pretty sure this doesn't mean anything to HTML/HTTP,
-    // but PHP takes it as a cue to make the multiple values of
-    // the select control available as an array.
-    // That is, $_GET['state'] will be an array containing
-    // all selected values.
     echo "
-        <tr>
-            <td>"._("State")."</td>
-            <td>
-            <select name='state[]' multiple>
-            <option value=''>any state</option>
-    ";
-    foreach ($PROJECT_STATES_IN_ORDER as $proj_state_in_order)
-    {
-        echo "<option value='$proj_state_in_order'>";
-        echo project_states_text($proj_state_in_order);
-        echo "</option>\n";
-    }
-    echo "
-            </select>
-            </td>
-        </tr>
-        <tr>
-            <td>"._("Number of results per page")."</td>
-            <td>
-                <select name='n_results_per_page'>
-    ";
-    foreach ( array(30,100,300) as $n )
-    {
-        $selected = ( $n == DEFAULT_N_RESULTS_PER_PAGE ? 'SELECTED' : '' );
-        echo "<option value='$n' $selected>$n</option>\n";
-    }
-    echo "
-                </select>
-            </td>
-        </tr>
         <tr>
             <td></td>
             <td>
