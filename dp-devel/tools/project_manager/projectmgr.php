@@ -282,13 +282,15 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $results_offset = intval(@$_GET['results_offset']);
 
     $state_collater = sql_collater_for_project_state('state');
-    $result = mysql_query("
+    $sql = "
         SELECT SQL_CALC_FOUND_ROWS *
         FROM projects
         WHERE $condition
         ORDER BY $state_collater, nameofwork asc
         LIMIT $n_results_per_page OFFSET $results_offset
-    ") or die(mysql_error());
+    ";
+    // echo "<pre>\n$sql\n</pre>\n";
+    $result = mysql_query($sql) or die(mysql_error());
 
     $numrows = mysql_num_rows($result);
 
