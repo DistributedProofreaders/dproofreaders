@@ -1,12 +1,7 @@
- 
-The BAE projects have three special proofreading features (not all of them appearing in every project...):<br>
+<p>BAE projects have two special rules that always apply, <i>whether or not</i> the general Guidelines currently say the same thing:<br>
+* Preserve the page numbers in index, tables of contents, etc.<br>
+* Preserve information about all diacritical marks, sub-/superscripts and other special characters. Where possible, use the forms shown in the Proofing or Formatting Guidelines.</p>
 
+<p>For more information about BAE projects, see <a href="http://www.pgdp.net/phpBB2/viewtopic.php?p=50987&start=2">the Uber-Project thread</a>.</p>
 
-* Preserve the page numbers in index, tables of contents, etc (but not the number of the individual pages). Format index items in a special form<br>
-* Use the (semi-standard) diacritic marks<br>
-* you can use LaTeX-like markup for tables (optional, if you want to manually format the table it is always possible)<br>
-<p>
-They are discussed in <a href="http://www.pgdp.net/phpBB2/viewtopic.php?p=50987&start=2"> the Uber-Project thread</a>
-
-
-<p>For the rest, refer to the <a href="http://www.pgdp.net/c/faq/document.php">Proofreading Guidelines</a>.</p>
+<p>For everything else, refer to the <a href="http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading Guidelines</a> and <a href="http://www.pgdp.net/c/faq/document.php">Formatting Guidelines</a>.</p>
