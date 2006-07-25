@@ -129,6 +129,16 @@ foreach($lang_list as $k=>$v)
 
 // ---------
 
+$difficulty_options = array(
+    ''         => _('any'),
+    'beginner' => _('Beginner'),
+    'easy'     => _('Easy'),
+    'average'  => _('Average'),
+    'hard'     => _('Hard'),
+);
+
+// ---------
+
 $state_options[''] = _('any state');
 foreach ($PROJECT_STATES_IN_ORDER as $proj_state)
 {
@@ -170,6 +180,15 @@ $widgets = array(
         'type'       => 'text',
         'q_part'     => 'WHERE',
         'q_contrib'  => "genre LIKE '%{VALUE}%'",
+    )),
+    new Widget( array(
+        'id'         => 'difficulty',
+        'label'      => _('Difficulty'),
+        'type'       => 'select',
+        'options'    => $difficulty_options,
+        'can_be_multiple' => TRUE,
+        'q_part'     => 'WHERE',
+        'q_contrib'  => 'difficulty IN ({VALUES,q+cs})',
     )),
     new Widget( array(
         'id'         => 'special_day',
