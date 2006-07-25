@@ -26,6 +26,16 @@ function endswith( $subject, $suffix )
     return ( substr( $subject, -strlen($suffix) ) == $suffix );
 }
 
+function surround_and_join( $strings, $L, $R, $joiner )
+{
+    $parts = array();
+    foreach ( $strings as $string )
+    {
+        $parts[] = $L . $string . $R;
+    }
+    return implode($joiner,$parts);
+}
+
 // -----------------------------------------------------------------------------
 
 // file_get_contents() is predefined in PHP 4.3.0 and on.

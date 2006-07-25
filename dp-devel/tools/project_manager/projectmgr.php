@@ -276,16 +276,6 @@ $widgets = array(
     )),
 );
 
-function surround_and_join( $strings, $L, $R, $joiner )
-{
-    $parts = array();
-    foreach ( $strings as $string )
-    {
-        $parts[] = $L . $string . $R;
-    }
-    return implode($joiner,$parts);
-}
-
 // -----------------------------------------------------------------------------
 
 if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
