@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'iso_lang_list.inc');
+include_once($relPath.'genres.inc');
 
 function encodeFormValue($value)
 {
@@ -74,90 +75,9 @@ function language_list($language)
 
 function genre_list($genre)
 {
-    $array_list = array(
-        'Other'=>_('Other'),
-        'Adventure'=>_('Adventure'),
-        'Agriculture'=>_('Agriculture'),
-        'Archaeology'=>_('Archaeology'),
-        'Art'=>_('Art'),
-        'Animals'=>_('Animals'),
-        'Anthropology'=>_('Anthropology'),
-        'Architecture'=>_('Architecture'),
-        'Astronomy'=>_('Astronomy'),
-        'Autobiography'=>_('Autobiography'),
-        'Bibliography'=>_('Bibliography'),
-        'Biography'=>_('Biography'),
-        'Biology'=>_('Biology'),
-        'Business'=>_('Business'),
-        'Chemistry'=>_('Chemistry'),
-        'Collection'=>_('Collection'),
-        'Comics'=>_('Comics'),
-        'Cooking'=>_('Cooking'),
-        'Correspondence'=>_('Correspondence'),
-        'Crafts'=>_('Crafts'),
-        'Diary'=>_('Diary'),
-        'Dictionary'=>_('Dictionary'),
-        'Drama'=>_('Drama'),
-        'Economics'=>_('Economics'),
-        'Education'=>_('Education'),
-        'Encyclopedia'=>_('Encyclopedia'),
-        'Engineering'=>_('Engineering'),
-        'Essay'=>_('Essay'),
-        'Folklore'=>_('Folklore'),
-        'General Fiction'=>_('General Fiction'),
-        'Geography'=>_('Geography'),
-        'Geology'=>_('Geology'),
-        'Grammar'=>_('Grammar'),
-        'Health'=>_('Health'),
-        'History'=>_('History'),
-        'Historical Fiction'=>_('Historical Fiction'),
-        'Horror'=>_('Horror'),
-        'Horticulture'=>_('Horticulture'),
-        'Humor'=>_('Humor'),
-        'Instructional'=>_('Instructional'),
-        'Juvenile'=>_('Juvenile'),
-        'Law'=>_('Law'),
-        'Linguistics'=>_('Linguistics'),
-        'Literature'=>_('Literature'),
-        'Mathematics'=>_('Mathematics'),
-        'Medicine'=>_('Medicine'),
-        'Military'=>_('Military'),
-        'Mixed Form'=>_('Mixed Form'),
-        'Music'=>_('Music'),
-        'Musicology'=>_('Musicology'),
-        'Mystery'=>_('Mystery'),
-        'Mythology'=>_('Mythology'),
-        'Nature'=>_('Nature'),
-        'Natural Science'=>_('Natural Science'),
-        'Non-Fiction'=>_('Non-Fiction'),
-        'Periodical'=>_('Periodical'),
-        'Philosophy'=>_('Philosophy'),
-        'Physics'=>_('Physics'),
-        'Picture Book'=>_('Picture Book'),
-        'Poetry'=>_('Poetry'),
-        'Political Science'=>_('Political Science'),
-        'Psychology'=>_('Psychology'),
-        'Recreation'=>_('Recreation'),
-        'Religious'=>_('Religious'),
-        'Reference'=>_('Reference'),
-        'Romance'=>_('Romance'),
-        'Satire'=>_('Satire'),
-        'Science'=>_('Science'),
-        'Science Fiction'=>_('Science Fiction'),
-        'Short Story'=>_('Short Story'),
-        'Sociology'=>_('Sociology'),
-        'Speech'=>_('Speech'),
-        'Spirituality'=>_('Spirituality'),
-        'Sports'=>_('Sports'),
-        'Technology'=>_('Technology'),
-        'Travel'=>_('Travel'),
-        'Veterinary'=>_('Veterinary'),
-        'Western'=>_('Western'),
-        'Zoology'=>_('Zoology'),
-    );
-
+    global $GENRES;
     echo "<select name='genre'>";
-    foreach($array_list as $k=>$v)
+    foreach($GENRES as $k=>$v)
     {
         echo "<option value='".encodeFormValue($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
