@@ -85,18 +85,20 @@ class Widget
                 list($column_name,$comparator) = $this->q_contrib;
                 if ( $this->type == 'select' && $this->can_be_multiple )
                 {
+                    $values = $value;
+
                     // If the user picks the 'any' option as well as some others,
                     // it's as if they'd just picked the 'any' option.
-                    if ( in_array( '', $value ) ) return NULL;
+                    if ( in_array( '', $values ) ) return NULL;
 
                     if ( $comparator == '=' )
                     {
-                        $values_list = surround_and_join( $value, "'", "'", "," );
+                        $values_list = surround_and_join( $values, "'", "'", "," );
                         $contribution = "$column_name IN ($values_list)";
                     }
                     elseif ( $comparator == 'LIKE' )
                     {
-                        $likes_str = surround_and_join( $value, "$column_name LIKE '%", "%'", ' OR ' );
+                        $likes_str = surround_and_join( $values, "$column_name LIKE '%", "%'", ' OR ' );
                         $contribution = "($likes_str)";
                     }
                 }
