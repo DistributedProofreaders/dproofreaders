@@ -27,9 +27,9 @@ class Widget
 
     function get_html_control()
     {
+        $size_attr = ( isset($this->size) ? "size='{$this->size}'" : '' );
         if ( $this->type == 'text' )
         {
-            $size_attr = ( isset($this->size) ? "size='{$this->size}'" : '' );
             if ( isset($_GET[$this->id]) )
             {
                 $value_attr = "value='{$_GET[$this->id]}'";
@@ -48,11 +48,11 @@ class Widget
         {
             if ( $this->can_be_multiple )
             {
-                $r = "<select name='{$this->id}[]' multiple>\n";
+                $r = "<select name='{$this->id}[]' $size_attr multiple>\n";
             }
             else
             {
-                $r = "<select name='{$this->id}'>\n";
+                $r = "<select name='{$this->id}' $size_attr>\n";
             }
             foreach ( $this->options as $option_value => $option_label )
             {
