@@ -319,9 +319,25 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     foreach ( $widgets as $widget )
     {
+        if ( @$widget->can_be_multiple )
+        {
+            if ( $widget->type == 'text' )
+            {
+                $help = _('list ok');
+            }
+            elseif ( $widget->type == 'select' )
+            {
+                $help = _('multi-select');
+            }
+            $help = "<br>($help)";
+        }
+        else
+        {
+            $help = '';
+        }
         echo "
             <tr>
-                <td align='right'>{$widget->label}</td>
+                <td align='right'>{$widget->label}$help</td>
                 <td>".$widget->get_html_control()."</td>
             </tr>
         ";
@@ -345,7 +361,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <br><br>
         "._('"(list ok)": You can search by multiple ProjectIDs at once: enter the list of ProjectIDs, separated by commas, semicolons, or spaces.')."
         <br><br>
-        "._("If desired, you should be able to select multiple values for State (e.g., by holding down Ctrl).")."
+        "._('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
         </center>
     ";
 } else {
