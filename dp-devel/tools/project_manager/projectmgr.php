@@ -28,6 +28,16 @@ class Widget
 
     function get_html_control()
     {
+        // If you don't specify a size for a <select> control,
+        // browsers vary widely in what they use for a default.
+        // (e.g., Firefox 1.0 uses 20, IE 5.5 and Opera 8 use 4, Opera 9 uses 1.)
+        // To avoid this, set a reasonable size.
+        if ( $this->type == 'select' && !isset($this->size) )
+        {
+            $co = count($this->options);
+            $this->size = ( $co <= 6 ? $co : 4 );
+        }
+
         $size_attr = ( isset($this->size) ? "size='{$this->size}'" : '' );
         if ( $this->type == 'text' )
         {
