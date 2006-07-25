@@ -74,21 +74,43 @@ class Widget
         if ( $value == '' ) return NULL;
 
         $contrib_template = $this->q_contrib;
-        if ( function_exists($contrib_template) )
+        if ( is_string($contrib_template) && function_exists($contrib_template) )
         {
             $contribution = $contrib_template( $value );
         }
         else
         {
-            if ( $this->type == 'select' && $this->can_be_multiple )
+            if ( $this->q_part == 'WHERE' )
             {
-                // If the user picks the 'any' option as well as some others,
-                // it's as if they'd just picked the 'any' option.
-                if ( in_array( '', $value ) ) return NULL;
+                list($column_name,$comparator) = $this->q_contrib;
+                if ( $this->type == 'select' && $this->can_be_multiple )
+                {
+                    // If the user picks the 'any' option as well as some others,
+                    // it's as if they'd just picked the 'any' option.
+                    if ( in_array( '', $value ) ) return NULL;
 
-                // "{VALUES,q+cs}" = "VALUES, quoted and comma-separated"
-                $values_q_cs = surround_and_join( $value, "'", "'", "," );
-                $contribution = str_replace('{VALUES,q+cs}', $values_q_cs, $contrib_template);
+                    if ( $comparator == '=' )
+                    {
+                        $values_list = surround_and_join( $value, "'", "'", "," );
+                        $contribution = "$column_name IN ($values_list)";
+                    }
+                    elseif ( $comparator == 'LIKE' )
+                    {
+                        $likes_str = surround_and_join( $value, "$column_name LIKE '%", "%'", ' OR ' );
+                        $contribution = "($likes_str)";
+                    }
+                }
+                else
+                {
+                    if ( $comparator == '=' )
+                    {
+                        $contribution = "$column_name = '$value'";
+                    }
+                    elseif ( $comparator == 'LIKE' )
+                    {
+                        $contribution = "$column_name LIKE '%$value%'";
+                    }
+                }
             }
             else
             {
@@ -155,14 +177,14 @@ $widgets = array(
         'label'      => _('Title'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "nameofwork LIKE '%{VALUE}%'",
+        'q_contrib'  => array('nameofwork', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'author',
         'label'      => _('Author'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "authorsname LIKE '%{VALUE}%'",
+        'q_contrib'  => array('authorsname', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'language',
@@ -172,14 +194,14 @@ $widgets = array(
         'can_be_multiple' => FALSE,
         'initial_value'   => '',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "language LIKE '%{VALUE}%'",
+        'q_contrib'  => array('language', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'genre',
         'label'      => _('Genre'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "genre LIKE '%{VALUE}%'",
+        'q_contrib'  => array('genre', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'difficulty',
@@ -188,7 +210,7 @@ $widgets = array(
         'options'    => $difficulty_options,
         'can_be_multiple' => TRUE,
         'q_part'     => 'WHERE',
-        'q_contrib'  => 'difficulty IN ({VALUES,q+cs})',
+        'q_contrib'  => array('difficulty', '='),
     )),
     new Widget( array(
         'id'         => 'special_day',
@@ -198,7 +220,7 @@ $widgets = array(
         'can_be_multiple' => TRUE,
         'initial_value'   => '',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "special_code IN ({VALUES,q+cs})",
+        'q_contrib'  => array('special_code', '='),
     )),
     new Widget( array(
         'id'         => 'projectid',
@@ -213,14 +235,14 @@ $widgets = array(
         'label'      => _('Project Manager'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "username LIKE '%{VALUE}%'",
+        'q_contrib'  => array('username', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'checkedoutby',
         'label'      => _('Checked out by'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "checkedoutby LIKE '%{VALUE}%'",
+        'q_contrib'  => array('checkedoutby', 'LIKE'),
     )),
     new Widget( array(
         'id'           => 'state',
@@ -229,7 +251,7 @@ $widgets = array(
         'options'      => $state_options,
         'can_be_multiple' => TRUE,
         'q_part'       => 'WHERE',
-        'q_contrib'    => 'state IN ({VALUES,q+cs})',
+        'q_contrib'    => array('state', '='),
     )),
     new Widget( array(
         'id'           => 'n_results_per_page',
