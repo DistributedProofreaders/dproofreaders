@@ -80,7 +80,20 @@ class Widget
         }
         else
         {
-            $contribution = str_replace('{VALUE}', $value, $contrib_template);
+            if ( $this->type == 'select' && $this->can_be_multiple )
+            {
+                // If the user picks the 'any' option as well as some others,
+                // it's as if they'd just picked the 'any' option.
+                if ( in_array( '', $value ) ) return NULL;
+
+                // "{VALUES,q+cs}" = "VALUES, quoted and comma-separated"
+                $values_q_cs = surround_and_join( $value, "'", "'", "," );
+                $contribution = str_replace('{VALUES,q+cs}', $values_q_cs, $contrib_template);
+            }
+            else
+            {
+                $contribution = str_replace('{VALUE}', $value, $contrib_template);
+            }
         }
 
         return $contribution;
@@ -197,7 +210,7 @@ $widgets = array(
         'options'      => $state_options,
         'can_be_multiple' => TRUE,
         'q_part'       => 'WHERE',
-        'q_contrib'    => 'state_contrib_func',
+        'q_contrib'    => 'state IN ({VALUES,q+cs})',
     )),
     new Widget( array(
         'id'           => 'n_results_per_page',
@@ -216,28 +229,6 @@ function projectid_contrib_func( $value )
     $projectids = preg_split('/[\s,;]+/', trim($value) );
     $likes_str = surround_and_join( $projectids, "projectid LIKE '%", "%'", ' OR ' );
     return "($likes_str)";
-}
-
-function state_contrib_func( $states )
-{
-    if ( count($states) > 0 )
-    {
-        $foo = "(0";
-        // $foo .= surround_and_join( $states, " OR state='", "'", '' );
-        foreach( $states as $state )
-        {
-            if ( $state == '' )
-            {
-                $foo .= " OR 1";
-            }
-            else
-            {
-                $foo .= " OR state='$state'";
-            }
-        }
-        $foo .= ")";
-    }
-    return $foo;
 }
 
 function surround_and_join( $strings, $L, $R, $joiner )
