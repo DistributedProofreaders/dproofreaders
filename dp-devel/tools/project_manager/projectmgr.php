@@ -83,13 +83,20 @@ class Widget
             if ( $this->q_part == 'WHERE' )
             {
                 list($column_name,$comparator) = $this->q_contrib;
-                if ( $this->type == 'select' && $this->can_be_multiple )
+                if ( @$this->can_be_multiple )
                 {
-                    $values = $value;
+                    if ( $this->type == 'text' )
+                    {
+                        $values = preg_split( "($this->separator)",  trim($value) );
+                    }
+                    elseif ( $this->type == 'select' )
+                    {
+                        $values = $value;
 
-                    // If the user picks the 'any' option as well as some others,
-                    // it's as if they'd just picked the 'any' option.
-                    if ( in_array( '', $values ) ) return NULL;
+                        // If the user picks the 'any' option as well as some others,
+                        // it's as if they'd just picked the 'any' option.
+                        if ( in_array( '', $values ) ) return NULL;
+                    }
 
                     if ( $comparator == '=' )
                     {
@@ -229,8 +236,10 @@ $widgets = array(
         'label'      => _('Project ID'),
         'type'       => 'text',
         'size'       => 45, // big enough to show two projectids without scrolling.
+        'can_be_multiple' => TRUE,
+        'separator'  => '[\s,;]+',
         'q_part'     => 'WHERE',
-        'q_contrib'  => 'projectid_contrib_func',
+        'q_contrib'  => array('projectid', 'LIKE'),
     )),
     new Widget( array(
         'id'         => 'project_manager',
@@ -266,13 +275,6 @@ $widgets = array(
         'q_contrib'    => '{VALUE}',
     )),
 );
-
-function projectid_contrib_func( $value )
-{
-    $projectids = preg_split('/[\s,;]+/', trim($value) );
-    $likes_str = surround_and_join( $projectids, "projectid LIKE '%", "%'", ' OR ' );
-    return "($likes_str)";
-}
 
 function surround_and_join( $strings, $L, $R, $joiner )
 {
