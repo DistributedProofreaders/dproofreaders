@@ -317,7 +317,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo "
             <tr>
-                <td>{$widget->label}</td>
+                <td align='right'>{$widget->label}</td>
                 <td>".$widget->get_html_control()."</td>
             </tr>
         ";
