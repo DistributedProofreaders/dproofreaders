@@ -195,10 +195,10 @@ $widgets = array(
         'label'      => _('Special day'),
         'type'       => 'select',
         'options'    => $special_day_options,
-        'can_be_multiple' => FALSE,
+        'can_be_multiple' => TRUE,
         'initial_value'   => '',
         'q_part'     => 'WHERE',
-        'q_contrib'  => "special_code = '{VALUE}'",
+        'q_contrib'  => "special_code IN ({VALUES,q+cs})",
     )),
     new Widget( array(
         'id'         => 'projectid',
