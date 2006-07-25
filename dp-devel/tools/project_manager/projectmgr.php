@@ -13,6 +13,7 @@ include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'ProjectTransition.inc');
+include_once($relPath.'genres.inc');
 include_once('projectmgr.inc');
 
 class Widget
@@ -160,6 +161,10 @@ foreach($lang_list as $k=>$v)
 
 // ---------
 
+$genre_options = array_merge( array( '' => _('any') ), $GENRES );
+
+// ---------
+
 $difficulty_options = array(
     ''         => _('any'),
     'beginner' => _('Beginner'),
@@ -208,9 +213,11 @@ $widgets = array(
     new Widget( array(
         'id'         => 'genre',
         'label'      => _('Genre'),
-        'type'       => 'text',
+        'type'       => 'select',
+        'options'    => $genre_options,
+        'can_be_multiple' => TRUE,
         'q_part'     => 'WHERE',
-        'q_contrib'  => array('genre', 'LIKE'),
+        'q_contrib'  => array('genre', '='),
     )),
     new Widget( array(
         'id'         => 'difficulty',
