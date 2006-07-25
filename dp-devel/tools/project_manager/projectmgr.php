@@ -142,6 +142,16 @@ $widgets = array(
         'q_contrib'  => "authorsname LIKE '%{VALUE}%'",
     )),
     new Widget( array(
+        'id'         => 'language',
+        'label'      => _('Language'),
+        'type'       => 'select',
+        'options'    => $lang_options,
+        'can_be_multiple' => FALSE,
+        'initial_value'   => '',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => "language LIKE '%{VALUE}%'",
+    )),
+    new Widget( array(
         'id'         => 'genre',
         'label'      => _('Genre'),
         'type'       => 'text',
@@ -159,14 +169,12 @@ $widgets = array(
         'q_contrib'  => "special_code = '{VALUE}'",
     )),
     new Widget( array(
-        'id'         => 'language',
-        'label'      => _('Language'),
-        'type'       => 'select',
-        'options'    => $lang_options,
-        'can_be_multiple' => FALSE,
-        'initial_value'   => '',
+        'id'         => 'projectid',
+        'label'      => _('Project ID'),
+        'type'       => 'text',
+        'size'       => 45, // big enough to show two projectids without scrolling.
         'q_part'     => 'WHERE',
-        'q_contrib'  => "language LIKE '%{VALUE}%'",
+        'q_contrib'  => 'projectid_contrib_func',
     )),
     new Widget( array(
         'id'         => 'project_manager',
@@ -181,14 +189,6 @@ $widgets = array(
         'type'       => 'text',
         'q_part'     => 'WHERE',
         'q_contrib'  => "checkedoutby LIKE '%{VALUE}%'",
-    )),
-    new Widget( array(
-        'id'         => 'projectid',
-        'label'      => _('Project ID'),
-        'type'       => 'text',
-        'size'       => 45, // big enough to show two projectids without scrolling.
-        'q_part'     => 'WHERE',
-        'q_contrib'  => 'projectid_contrib_func',
     )),
     new Widget( array(
         'id'           => 'state',
