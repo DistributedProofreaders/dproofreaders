@@ -14,7 +14,7 @@ function move_project_thread( $project_id, $to_forum_id)
 
 	if ($topic_id != "")  // there is a project thread
 	{
-		move_forum_thread($topic_id, $to_forum_id);
+		phpbb2_move_topic($topic_id, $to_forum_id);
 	}
 
 }
@@ -24,7 +24,7 @@ function move_project_thread( $project_id, $to_forum_id)
 // $topic_id can be a comma separated string of topic_ids, or a single topic number
 // $to_forum_id is the forum id keying into phpbb_forums table
 
-function move_forum_thread( $topic_id, $to_forum_id)
+function phpbb2_move_topic( $topic_id, $to_forum_id)
 {
 	assert( $topic_id != '' );
 
