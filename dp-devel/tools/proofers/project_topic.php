@@ -4,17 +4,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-
-// PHPBB includes (from the standard installation)
-define('IN_PHPBB', true);
-$phpbb_root_path = $forums_dir.'/';
-include_once($phpbb_root_path . 'extension.inc');
-include_once($phpbb_root_path . 'common.'.$phpEx);
-include_once($phpbb_root_path . 'includes/bbcode.'.$phpEx);
-include_once($phpbb_root_path . 'includes/functions_post.'.$phpEx);
-
-// include the custom PHPBB file
-include_once($relPath . 'functions_insert_post.'.$phpEx);
+include_once($relPath.'phpbb2.inc');
 
 // Which project?
 $project_id = $_GET['project'];
@@ -61,39 +51,15 @@ Please review the [url=$code_url/project.php?id=$project_id&detail_level=1]proje
 (This post is automatically generated.)
 ";
 
-        // determine forums ID and signature preference of PM
-
-        $id_result = mysql_query("SELECT user_id, user_attachsig FROM phpbb_users WHERE username = '".$proj_mgr."'");
-        $id_row = mysql_fetch_array($id_result);
-
-        $owner = $id_row['user_id'];
-        $sig = $id_row['user_attachsig'];
-        if ($sig == '') {$sig = 1;}
-
-	// Don't post auto-posts as $pguser
-	$user_ip = '7f000001'; //127.0.0.1
-
-        // create the post
-        $post_result =  insert_post(
+        $topic_id = phpbb2_create_topic(
                 $message,
                 $post_subject,
-                $forum_id,  
-                $owner,
                 $proj_mgr,
-                $sig);
-
-        $topic_id = $post_result['topic_id'];
+                $forum_id,
+                $sign_PM_up );
 
         //Update project_db with topic_id so it can be moved later
         $update_project = mysql_query("UPDATE projects SET topic_id=$topic_id WHERE projectid='$project_id'");
-
-
-        // if the PM wanted to be signed up for notifications, do so
-
-        if ($sign_PM_up) {
-             $do_signup = mysql_query("INSERT INTO phpbb_topics_watch (user_id, topic_id, notify_status)
-                                     VALUES (". $owner . ", $topic_id, 0)");
-        }
 
 }
 

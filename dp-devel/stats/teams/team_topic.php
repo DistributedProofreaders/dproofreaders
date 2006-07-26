@@ -4,17 +4,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-
-// PHPBB includes (from the standard installation)
-define('IN_PHPBB', true);
-$phpbb_root_path = $forums_dir.'/';
-include_once($phpbb_root_path . 'extension.inc');
-include_once($phpbb_root_path . 'common.'.$phpEx);
-include_once($phpbb_root_path . 'includes/bbcode.'.$phpEx);
-include_once($phpbb_root_path . 'includes/functions_post.'.$phpEx);
-
-// include the custom PHPBB file
-include_once($relPath . 'functions_insert_post.'.$phpEx);
+include_once($relPath.'phpbb2.inc');
 
 // Which team?
 $team_id = $_GET['team'];
@@ -51,25 +41,12 @@ Use this area to have a discussion with your fellow teammates! :-D
 
         $post_subject = $tname;
 
-        // determine signature preference of owner
-
-        $id_result = mysql_query("SELECT user_id, user_attachsig FROM phpbb_users WHERE username = '".$towner_name."'");
-        $id_row = mysql_fetch_array($id_result);
-
-        $owner = $id_row['user_id'];
-        $sig = $id_row['user_attachsig'];
-        if ($sig == '') {$sig = 1;}
-
-        // create the post
-        $post_result =  insert_post(
+        $topic_id = phpbb2_create_topic(
                 $message,
                 $post_subject,
-                $forum_id,  
-                $owner,
                 $towner_name,
-                $sig);
-
-        $topic_id = $post_result['topic_id'];
+                $forum_id,
+                FALSE );
 
         //Update user_teams with topic_id so it won't be created again
         $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
