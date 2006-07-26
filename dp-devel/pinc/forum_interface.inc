@@ -1,25 +1,4 @@
 <?
-include_once($relPath.'v_site.inc');
-
-
-function move_project_thread( $project_id, $to_forum_id)
-{
-
-	//Move the project thread (if there is one) to another forum
-
-	$result = mysql_query("
-		SELECT topic_id FROM projects WHERE projectid='$project_id'
-	");
-	$topic_id = mysql_result($result, 0, "topic_id");
-
-	if ($topic_id != "")  // there is a project thread
-	{
-		phpbb2_move_topic($topic_id, $to_forum_id);
-	}
-
-}
-
-
 
 // $topic_id can be a comma separated string of topic_ids, or a single topic number
 // $to_forum_id is the forum id keying into phpbb_forums table

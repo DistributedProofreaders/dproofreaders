@@ -286,9 +286,14 @@ class ProjectTransition
             Pages_prepForRound( $projectid, $to_round->round_number );
         }
 
-        // move the project topic in synch with the project's progress
-        move_project_thread(
-            $projectid, get_forum_id_for_project_state($this->to_state) );
+        if ( $project->topic_id != "" )
+        {
+            // The project has a discussion topic.
+            // Ensure it's in the appropriate forum for the project's new state.
+            phpbb2_move_topic(
+                $project->topic_id,
+                get_forum_id_for_project_state($this->to_state) );
+        }
 
         if ( $this->collateral_actions )
         {
