@@ -36,38 +36,37 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
 
         $num_topics = mysql_affected_rows();
 
-        forum_resynch( $from_forum_id, -$num_posts, -$num_topics );
-        forum_resynch( $to_forum_id,   +$num_posts, +$num_topics );
+        forum_resynch( $from_forum_id );
+        forum_resynch( $to_forum_id );
     }
 }
 
 // -----------------------------------------------------------------------------
 
-function forum_resynch( $forum_id, $change_in_n_posts, $change_in_n_topics )
+function forum_resynch( $forum_id )
 {
-    // read numbers of posts and topics from forum
-
-    $get_count = mysql_query("
-        SELECT forum_posts, forum_topics
-        FROM phpbb_forums
+    // Count the number of topics in the forum
+    $res1 = mysql_query("
+        SELECT COUNT(*)
+        FROM phpbb_topics
         WHERE forum_id = $forum_id
     ");
-    $forum_posts = mysql_result($get_count, 0, "forum_posts");
-    $forum_topics = mysql_result($get_count, 0, "forum_topics");
+    list($forum_topics) = mysql_fetch_row($res1);
 
-    $forum_topics = $forum_topics + $change_in_n_topics;
-    $forum_posts = $forum_posts + $change_in_n_posts;
-
-    // get id of most recent post in forum
-    // (just in case this changed when we moved the topic(s))
-
-    $get_last_post = mysql_query("
-        SELECT MAX(post_id) AS last_post
+    // Count the number of posts in the forum,
+    // and get the id of most recent post in the forum,
+    // which might have changed when we moved the topic(s).
+    $res2 = mysql_query("
+        SELECT COUNT(*), MAX(post_id)
         FROM phpbb_posts
         WHERE forum_id = $forum_id
     ");
-    $last_post = mysql_result($get_last_post, 0, "last_post");
-    $last_post = ($last_post == '') ? 0 : $last_post;
+    list($forum_posts, $last_post) = mysql_fetch_row($res2);
+    if ( $forum_posts == 0 )
+    {
+        // $last_post is NULL
+        $last_post = 0;
+    }
 
     // adjust total posts and topics and last post for forum
 
