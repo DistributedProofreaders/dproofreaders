@@ -6,7 +6,7 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
 
     $result = mysql_query("
         SELECT forum_id
-        FROM phpbb_posts
+        FROM phpbb_topics
         WHERE topic_id=$topic_id
     ");
     $from_forum_id = mysql_result($result, 0, "forum_id");  
