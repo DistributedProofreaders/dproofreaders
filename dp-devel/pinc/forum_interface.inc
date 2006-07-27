@@ -14,27 +14,15 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
 
     if ($from_forum_id != $to_forum_id)
     {
-        $i = 0;
-
-
         // move posts to new forum
-        // ***********************
-
-        $update_post = mysql_query("
+        mysql_query("
             UPDATE phpbb_posts SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
         ");
 
-        $num_posts = mysql_affected_rows();
-
-
         // move topics to new forum
-        // ***********************
-
-        $update_topic = mysql_query("
+        mysql_query("
             UPDATE phpbb_topics SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
         ");
-
-        $num_topics = mysql_affected_rows();
 
         forum_resynch( $from_forum_id );
         forum_resynch( $to_forum_id );
