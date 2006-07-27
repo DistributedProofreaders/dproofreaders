@@ -1,8 +1,5 @@
 <?
 
-// $topic_id can be a comma separated string of topic_ids, or a single topic number
-// $to_forum_id is the forum id keying into phpbb_forums table
-
 function phpbb2_move_topic( $topic_id, $to_forum_id)
 {
     assert( $topic_id != '' );
@@ -20,14 +17,14 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
         mysql_query("
             UPDATE phpbb_posts
             SET forum_id = $to_forum_id
-            WHERE topic_id in ($topic_id)
+            WHERE topic_id = $topic_id
         ");
 
-        // move topics to new forum
+        // move topic to new forum
         mysql_query("
             UPDATE phpbb_topics
             SET forum_id = $to_forum_id
-            WHERE topic_id in ($topic_id)
+            WHERE topic_id = $topic_id
         ");
 
         forum_resynch( $from_forum_id );
