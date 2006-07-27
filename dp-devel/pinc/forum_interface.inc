@@ -8,7 +8,9 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
     assert( $topic_id != '' );
 
     $result = mysql_query("
-        SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+        SELECT forum_id
+        FROM phpbb_posts
+        WHERE topic_id=$topic_id
     ");
     $from_forum_id = mysql_result($result, 0, "forum_id");  
 
@@ -16,12 +18,16 @@ function phpbb2_move_topic( $topic_id, $to_forum_id)
     {
         // move posts to new forum
         mysql_query("
-            UPDATE phpbb_posts SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
+            UPDATE phpbb_posts
+            SET forum_id = $to_forum_id
+            WHERE topic_id in ($topic_id)
         ");
 
         // move topics to new forum
         mysql_query("
-            UPDATE phpbb_topics SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
+            UPDATE phpbb_topics
+            SET forum_id = $to_forum_id
+            WHERE topic_id in ($topic_id)
         ");
 
         forum_resynch( $from_forum_id );
