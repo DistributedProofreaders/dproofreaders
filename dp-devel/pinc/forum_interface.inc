@@ -1,6 +1,6 @@
 <?
 
-function phpbb2_move_topic( $topic_id, $to_forum_id)
+function topic_change_forum( $topic_id, $to_forum_id)
 {
     assert( $topic_id != '' );
 
