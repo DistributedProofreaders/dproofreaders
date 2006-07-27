@@ -5,116 +5,117 @@
 
 function phpbb2_move_topic( $topic_id, $to_forum_id)
 {
-	assert( $topic_id != '' );
+    assert( $topic_id != '' );
 
-	$result = mysql_query("
-		SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
-	");
-	$from_forum_id = mysql_result($result, 0, "forum_id");  
+    $result = mysql_query("
+        SELECT forum_id FROM phpbb_posts WHERE topic_id=$topic_id
+    ");
+    $from_forum_id = mysql_result($result, 0, "forum_id");  
 
-	if ($from_forum_id != $to_forum_id)
-	{
-		$i = 0;
-
-
-		// move posts to new forum
-		// ***********************
-
-		$update_post = mysql_query("
-			UPDATE phpbb_posts SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
-		");
-
-		$num_posts = mysql_affected_rows();
+    if ($from_forum_id != $to_forum_id)
+    {
+        $i = 0;
 
 
-		// move topics to new forum
-		// ***********************
+        // move posts to new forum
+        // ***********************
 
-		$update_topic = mysql_query("
-			UPDATE phpbb_topics SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
-		");
+        $update_post = mysql_query("
+            UPDATE phpbb_posts SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
+        ");
 
-		$num_topics = mysql_affected_rows();
-
-
-		// resynch old forum
-		// *****************
-
-		// read numbers of posts and topics from old forum
-
-		$get_count = mysql_query("
-			SELECT forum_posts, forum_topics FROM phpbb_forums
-			WHERE forum_id = $from_forum_id
-		");
-
-		$forum_posts = mysql_result($get_count, 0, "forum_posts");
-		$forum_topics = mysql_result($get_count, 0, "forum_topics");
+        $num_posts = mysql_affected_rows();
 
 
-		// we've removed $num_topics topics and $num_posts posts
+        // move topics to new forum
+        // ***********************
 
-		$forum_topics = $forum_topics - $num_topics;
-		$forum_posts = $forum_posts - $num_posts;
+        $update_topic = mysql_query("
+            UPDATE phpbb_topics SET forum_id = $to_forum_id WHERE topic_id in ($topic_id)
+        ");
 
-
-		// get id of most recent post in old forum
-		// (just in case this changed when we moved the topic(s) out)
-
-		$get_last_post = mysql_query("
-			SELECT MAX(post_id) AS last_post FROM phpbb_posts
-			WHERE forum_id = $from_forum_id
-		");
-
-		$last_post = mysql_result($get_last_post, 0, "last_post");
+        $num_topics = mysql_affected_rows();
 
 
-		$last_post = ($last_post == '') ? 0 : $last_post;
+        // resynch old forum
+        // *****************
 
-		// adjust total posts and topics and last post for old forum
+        // read numbers of posts and topics from old forum
 
-		$update_count = mysql_query("
-			UPDATE phpbb_forums
-			SET forum_posts = $forum_posts, forum_topics = $forum_topics, forum_last_post_id = $last_post
-			WHERE forum_id = $from_forum_id
-		");
+        $get_count = mysql_query("
+            SELECT forum_posts, forum_topics FROM phpbb_forums
+            WHERE forum_id = $from_forum_id
+        ");
+
+        $forum_posts = mysql_result($get_count, 0, "forum_posts");
+        $forum_topics = mysql_result($get_count, 0, "forum_topics");
 
 
-		// resynch new forum
-		// *****************
+        // we've removed $num_topics topics and $num_posts posts
 
-		// read numbers of posts and topics from new forum
+        $forum_topics = $forum_topics - $num_topics;
+        $forum_posts = $forum_posts - $num_posts;
 
-		$get_count = mysql_query("
-			SELECT forum_posts, forum_topics FROM phpbb_forums
-			WHERE forum_id=$to_forum_id
-		");
-		$forum_posts = mysql_result($get_count, 0, "forum_posts");
-		$forum_topics = mysql_result($get_count, 0, "forum_topics");
 
-		// we've added $num_topics topics and $num_posts posts
+        // get id of most recent post in old forum
+        // (just in case this changed when we moved the topic(s) out)
 
-		$forum_topics = $forum_topics + $num_topics;
-		$forum_posts = $forum_posts + $num_posts;
+        $get_last_post = mysql_query("
+            SELECT MAX(post_id) AS last_post FROM phpbb_posts
+            WHERE forum_id = $from_forum_id
+        ");
 
-		// get id of most recent post in new forum
-		// (just in case this changed when we moved the topic(s) in)
+        $last_post = mysql_result($get_last_post, 0, "last_post");
 
-		$get_last_post = mysql_query("
-			SELECT MAX(post_id) AS last_post FROM phpbb_posts
-			WHERE forum_id = $to_forum_id
-		");
 
-		$last_post = mysql_result($get_last_post, 0, "last_post");
+        $last_post = ($last_post == '') ? 0 : $last_post;
 
-		// adjust total posts and topics and last post for new forum
+        // adjust total posts and topics and last post for old forum
 
-		$update_count = mysql_query("
-			UPDATE phpbb_forums
-			SET forum_posts=$forum_posts, forum_topics=$forum_topics,  forum_last_post_id = $last_post
-			WHERE forum_id=$to_forum_id
-		");
+        $update_count = mysql_query("
+            UPDATE phpbb_forums
+            SET forum_posts = $forum_posts, forum_topics = $forum_topics, forum_last_post_id = $last_post
+            WHERE forum_id = $from_forum_id
+        ");
 
-	}
+
+        // resynch new forum
+        // *****************
+
+        // read numbers of posts and topics from new forum
+
+        $get_count = mysql_query("
+            SELECT forum_posts, forum_topics FROM phpbb_forums
+            WHERE forum_id=$to_forum_id
+        ");
+        $forum_posts = mysql_result($get_count, 0, "forum_posts");
+        $forum_topics = mysql_result($get_count, 0, "forum_topics");
+
+        // we've added $num_topics topics and $num_posts posts
+
+        $forum_topics = $forum_topics + $num_topics;
+        $forum_posts = $forum_posts + $num_posts;
+
+        // get id of most recent post in new forum
+        // (just in case this changed when we moved the topic(s) in)
+
+        $get_last_post = mysql_query("
+            SELECT MAX(post_id) AS last_post FROM phpbb_posts
+            WHERE forum_id = $to_forum_id
+        ");
+
+        $last_post = mysql_result($get_last_post, 0, "last_post");
+
+        // adjust total posts and topics and last post for new forum
+
+        $update_count = mysql_query("
+            UPDATE phpbb_forums
+            SET forum_posts=$forum_posts, forum_topics=$forum_topics,  forum_last_post_id = $last_post
+            WHERE forum_id=$to_forum_id
+        ");
+
+    }
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
