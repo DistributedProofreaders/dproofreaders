@@ -4,7 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
-include_once($relPath.'f_move_post.inc'); // topic_change_forum
+include_once($relPath.'topic.inc'); // topic_change_forum
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
