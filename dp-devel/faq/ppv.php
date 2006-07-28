@@ -12,142 +12,385 @@ theme('Post-Processing Verification Guidelines','header');
 
 <h1>Post-Processing Verification Guidelines</h1>
 
-
 <h2>Contents</h2>
 
-<h3><a href="#gen">General Procedures</a></h3>
-<h3><a href="#rev">Requests to Revise and Resubmit</a></h3>
-<h3><a href="#text">Specific Procedures: Text Version</a></h3>
-<h3><a href="#html">Specific Procedures: HTML Version</a></h3>
-<h3><a href="#track">Tracking PP Progress</a></h3>
-
-
-<hr>
-
-
-<h2><a name="gen">General Procedures</a></h2>
-
-<ol>
-<li>Make all the checks you would make on a text you are post-processing.</li>
-
-<li>Keep track of all the corrections you make.</li>
-
-<li>Send the PPer a feedback note describing the corrections you made, and providing helpful hints for future work.</li>
-
-<li>Upload the project to PG.</li>
-</ol>
-
-<hr>
-
-<h2><a name="rev">Requests to Revise and Resubmit</a></h2>
-
 <p>
-Sometimes a PPVer will decide to ask the PPer to revise and resubmit. This is an OPTION. You do not have to do this. Usually revise and resubmit cases fall into one of three scenarios:
+
+<a href="#gen">General Procedures</a><br>
+<a href="#rr">Requests to Revise and Resubmit</a><br>
+<a href="#checks">Specific Checks to Make</a><br>
+<a href="#rptcard">Submitting a PPV Report Card</a>
 </p>
 
+<h3><a name="gen">General Procedures</a></h3>
+
 <ol>
-<li><b>The text file is in very poor shape</b>. Sometimes a first-timer has completely missed the point of PPing, submitting a file with no formatting at all, or with dozens of gutcheck or spellcheck errors, etc. <i>If you feel that it would be faster to PP the text yourself from scratch than to fix up what has been submitted</i>, this is a case for requesting a resubmit. I find that these cases are rather rare.</li>
+<li>
+Make <a href="#checks">all the checks</a> you would make on a project 
+you are post-processing.
+</li>   
 
-<li><b>The HTML file is in poor shape</b>. For example, the validator lists numerous errors, or the image sizes are much too large (<a href="">see below</a>). <i>If you feel it would be faster to generate the HTML version yourself rather than to correct what has been submitted</i>, this is a case for requesting a resubmit. This scenario occurs rather often with newbie HTML producers, but rarely occurs a second time; the PPer is usually simply unaware of requirements for HTML.</li>
-
-<li><b>The required HTML file is absent</b>. The PPVer can of course go ahead and create the HTML if they wish. If the PPVer does not wish to do this, then this is a case for requesting a resubmit. This scenario occurs rather often. Sometimes the PPer simply overlooks the instruction to create an HTML version. Sometimes they do not have the knowledge to do it, in which case they can be encouraged to find another DPer to do it for them (an "HTML partner").</li>
+<li>
+Keep track of all the corrections you make.
+</li>
+<li>
+Send the PPer a feedback note describing the corrections you made, 
+and providing helpful hints for future work.
+</li>
+<li>
+Upload the project to PG.
+</li>
+<li>
+Submit a <a href="#rptcard">PPV report card</a>.
+</li>
 </ol>
+
+<h3><a name="rr">Requests to Revise and Resubmit</a></h3>
 
 <p>
-<b>Note:</b> Currently we do not require an HTML version for every project; an HTML version is required only when explicitly stated in the project comments.
-</p>
+Sometimes the PPer requests that they be allowed to make any necessary 
+corrections and reupload the project for PPV. 
+In this case, use the option on the project page to return the project to the PPer's queue, 
+and send them an email or private message noting the items to be corrected.  
 
-<h3>How to request a revise and resubmit:</h3>
-
-<ol>
-<li>Use the option on the project page to return the project to the PPers queue.</li>
-
-<li>Send a private message or email to the PPer letting them know to expect the project to show up in their queue again, explaining the corrections that need to be made before re-uploading for PPV, and stating that if they do not wish/do not have time to revise, they can return the project to the PP queue so that someone else can work on it. Try to be as tactful and helpful as possible. Point them to posted projects to show them what the final product is supposed to look like. Provide links to relevant parts of the PP guidelines which they overlooked.</li>
-</ol>
-
-<hr>
-
-<h2><a name="text">Specific Procedures</a></h2>
-
-This is what I do, in the order I do it. Feel free to follow whatever procedure works best for you, using your preferred tools. I do not provide great detail, since this is more or less a repetition of the PP checklist.
-
-
-<h3>Specific Procedures: Text version</h3>
-
-<ol>
-
-<li>Check project comments/forum discussion for specific project requirements or for specific problems noted in the text during proofreading.</li>
-
-<li>Check for end-of-line spaces. </li>
-
-<li>Check for extraneous or wrong characters:<br />
-e.g.: ~ ` @ # $ % ^ & + = | \ « » </li>
-
-<li>Check for comma/period error.</li>
-
-<li>Check for extra period after lowercase a (gutcheck doesn't flag this)</li>
-
-<li>Spellcheck/scanno check.</li>
-
-<li>Hyphen check.</li>
-
-<li>Check for two spaces between words and at ends of sentences.</li>
-
-<li>Check footnotes for proper formatting/placement/numbering.</li>
-
-<li>Check illustrations for proper formatting/placement, and verify that the list of illustrations, if any, matches the illustrations marked in the text.</li>
-
-<li>Check that poetry is indented at least two spaces.</li>
-
-<li>Check ellipses for formatting.</li>
-
-<li>Check that any fractions are formatted properly.</li>
-
-<li>Check that thought breaks (rows of asterisks) are consistent.</li>
-
-<li>Check that chapter spacing is consistent and that all chapter headings are present.</li>
-
-<li>Check general formatting of title page info, leaving in publication year and publisher info.</li>
-
-<li>Gutcheck</li>
-</ol>
-
-<hr>
-
-<h3><a name="html">Specific Procedures: HTML version</a></h3>
-
-<p>
-<b>Note:</b> Currently we do not require an HTML version for every project; an HTML version is required only when explicitly stated in the project comments.
 </p>
 
 <p>
-PG's guidelines on HTML can be found here: http://gutenberg.net/faq/H-4
+Sometimes a PPVer may decide to ask the PPer to revise and resubmit. 
+This is an optional decision on the PPVer's part; it is not required. 
+If you feel it would be too time-consuming for you to make all the corrections necessary, 
+or that the PPer would benefit from the experience of revising the project, 
+ask the PPer to revise and resubmit, following these steps:
 </p>
 
 <ol>
-<li>Run through validator at http://validator.w3.org/. Make corrections if there are only a few and it's easy to do. Otherwise, you may decide to return the project to the PPer for revision.</li>
-
-<li>Run HTML Tidy. If you are not experienced with HTML Tidy, be aware that if you set Tidy to "repair" the code rather than just give you a list of warnings/errors, you may get unexpected results. Address any warnings/errors. Run through validator again.</li>
-
-<li><a name="imagesize"></a>Check image size. If total file size (text, html, images) is under 1MB, image size isn't critical. If total file size is over 1MB, 50k is the suggested maximum for each image file. If images are excessively large, return the project to the PPer for revision (unless you would rather resize the images yourself).</li>
-
-<li>Check that all images referenced in the HTML are actually present.</li>
-
-<li>Check that all images and directories are named in lowercase, and referred to in lowercase in the HTML.</li>
-
-<li>Check all links in the table of contents to make sure they work. If possible, check all remaining links.</li>
-
-<li>Current recommendation is that background color and absolute font size and font family not be forced; preference is for white as a background color and relative font sizes. However, this is a gray area. Use your judgment: if the background color or font is really hard to read, contact the PPer to discuss changing them. Otherwise, try submitting to PG as is.</li>
+<li>
+Use the option on the project page to return the project to the PPer's queue.
+</li>
+<li>
+Send a private message or email to the PPer letting them know to expect the project to show up in their queue again, 
+explaining the corrections that need to be made before re-uploading for PPV, 
+and stating that if they do not wish/do not have time to revise, 
+they can return the project to the PP queue so that someone else can work on it. 
+Try to be as tactful and helpful as possible. 
+Point them to posted projects to show them what the final product is supposed to look like. 
+Provide links to relevant parts of the PP guidelines which they overlooked.
+</li>
 </ol>
 
-<hr>
+<h3><a name="checks">Specific Checks to Make</a></h3>
 
-<h2><a name="track">Tracking PP Progress</a></h2>
-
-<p>For each PP project you PPV, submit a PPV report card. You'll find a link to the PPV report card at the top of the PPV page.</p>
-<p>Reports are submitted automatically to the PPV mailing list when mailed to ppv-reports @ pgdp.net.</p>
 <p>
-After a PPer has completed at least 8 projects, if their work is of consistent high quality it may be time to allow them to submit directly to PG and to become PPVers themselves. If you have worked with the same PPer through several projects and feel they are ready to be "promoted", send an email to the PPV mailing list with a recommendation that they be promoted.
+
+Check for the following types of errors, using tools you usually use for PPing:
+</p>
+
+<h4>Level 1 (minor errors)</h4>
+
+<ul>
+<li>Spellcheck errors</li>
+<li>Scanno check errors</li>
+<li>Comma/period error</li>
+<li>Gutcheck errors</li>
+<li>Jeebies errors</li>
+
+<li>Extraneous characters, such as ~ ` + = | \ » « < > / £</li>
+<li>Ellipses not formatted according to guidelines</li>
+<li>Ligature inconsistency (e.g., using [oe] and oe in same project, or ae and æ in same project when page scan uses all æ)</li>
+<li>Italic markup incorrectly placed relative to punctuation</li>
+<li>Inconsistently spaced initials</li>
+<li>TOC not complete, or formatted inconsistently</li>
+<li>Chapter heading inconsistency (# blank lines before/after; 
+inconsistently centered or left-justified; 
+inconsistently capitalized; 
+period missing at end of chapter heading or subheading)</li>
+<li>Footnotes/footnote markers missing or out of order</li>
+
+<li>Improper joining or separating of paragraphs at page break</li>
+<li>Hyphenated/non-hyphenated variants not addressed</li>
+<li>Hyphen/emdash confusion (i.e., hyphen used instead of emdash, or emdash
+used instead of hyphen)</li>
+<li>Emdash incorrect length</li>
+<li>HTML - title tag not filled in correctly</li>
+<li>HTML - Tidy-reported issues have not been addressed as necessary**</li>
+</ul>
+
+<h4>Level 2 (major errors)</h4>
+
+<ul>
+<li>Text not rewrapped to required line length</li>
+<li>Rewrapping errors, e.g., rewrapped poetry</li>
+<li>Poetry indentation not preserved</li>
+<li>Markup (e.g., italic markup, blockquote/poetry indentation) removed</li>
+<li>Missing page(s)</li>
+<li>Printers' errors not addressed***</li>
+<li>
+Improper placement of pagenum markup, if a TOC or index in the project uses page numbers (otherwise, placement of pagenum markup is not important)
+</li>
+<li>HTML - invalid HTML (obviously not caused by a last-minute change to code)</li>
+
+<li>HTML - invalid CSS</li>
+<li>HTML - non-working links</li>
+<li>HTML - filenames not in lowercase</li>
+<li>HTML - images not in "images" directory</li>
+<li>HTML - images not optimized</li>
+</ul>
+
+<h4>Other errors (not counted toward rating)</h4>
+
+<ul>
+<li>HTML - Not removing unused css</li>
+
+</ul>
+
+<p>
+** When using Tidy, use the report mode, but do not allow Tidy to alter your code; 
+instead, look at the report and make changes to your code as necessary.
+</p>
+
+<p>
+*** Printers' errors should be addressed in one of the following ways:
+</p>
+
+<ol>
+<li>Correct silently</li>
+<li>Correct and note corrections in Transcriber's Note</li>
+<li>Leave uncorrected, and note errors in Transcriber's Note</li>
+
+</ol>
+
+<p>
+"Not addressing printers' errors" means that all, 
+or a large percentage, 
+of printers' errors have been left uncorrected and not noted. 
+If just one or two have been missed, and the rest addressed, 
+then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.)
+</p>
+
+<h3><a name="rptcard">Submitting a Report Card</a></h3>
+
+<p>
+Using the link on the project page, submit a report card for the project, 
+using the following criteria for determing project difficulty and rating of PPer's work:
+</p>
+
+<h4>Determining whether a project is Easy, Average, or Difficult</h4>
+
+<p>
+
+Easy Project:
+</p>
+
+<ul>
+<li>Straight fiction with little or no poetry</li>
+<li>Straight poetry</li>
+<li>Other straight text, e.g., essay</li>
+<li>Can include illustration markup</li>
+<li>No footnotes, no index, no blockquotes, etc.</li>
+<li>100 or fewer gutcheck flags</li>
+<li>100 or fewer spellcheck flags</li>
+
+</ul>
+
+<p>
+Average Project:
+</p>
+
+<p>
+Can include up to 3 of the following kinds of content:
+</p>
+
+<ul>
+<li>poetry</li>
+<li>blockquotes</li>
+<li>footnotes</li>
+
+<li>sidenotes</li>
+<li>index</li>
+<li>advertisements</li>
+<li>tables</li>
+</ul>
+
+<p>
+and/or:
+</p>
+
+<ul>
+<li>100-500 gutcheck flags</li>
+
+<li>100-500 spellcheck flags</li>
+</ul>
+
+<p>
+Difficult Project:
+</p>
+
+<p>
+Includes more than 3 of the following kinds of content:
+</p>
+
+<ul>
+<li>poetry</li>
+<li>blockquotes</li>
+
+<li>footnotes</li>
+<li>sidenotes</li>
+<li>index</li>
+<li>advertisements</li>
+<li>tables</li>
+</ul>
+
+<p>
+and/or:
+</p>
+
+<ul>
+
+<li>500+ gutcheck flags</li>
+<li>500+ spellcheck flags</li>
+</ul>
+
+<p>
+and/or includes any of the following kinds of content:
+</p>
+
+<ul>
+<li>multiple languages*</li>
+<li>Englifh</li>
+<li>musical notation/lilypond/midi files</li>
+
+<li>extensive mathematical or chemical notation</li>
+<li>LATex</li>
+</ul>
+
+<p>
+* How to define multiple languages:
+</p>
+
+<ul>
+<li>
+If the book is English on one page and Latin on the facing page, it counts
+as multiple languages.
+</li>
+<li>
+If the author is travelling and repeatedly reports conversations in the
+foreign language of the country, it counts as multiple languages.
+</li>
+<li>
+If extensive (paragraph or more) quotations in a language other than the
+base language are present, it counts as multiple languages.
+</li>
+
+<li>If the Frenchman in the novel says "Zut!" a lot, it does NOT count as
+multiple languages.</li>
+</ul>
+
+
+
+<h4>Determining Allowable Errors for Various Ratings</h4>
+
+<p>
+Excellent
+</p>
+
+<ul>
+<li>No Level 2 errors </li>
+<li>If project is:
+
+
+<ul>
+<li>Easy
+	<ul>
+	<li>Up to 0.3 Level 1 errors/100k (or 1 error if file size < 300k)</li>
+		</ul>
+	</li>
+
+<li>Average
+		<ul>
+	<li>Up to 0.5 Level 1 errors/100k (or 1 error if file size < 200k)</li>
+
+		</ul>
+	</li>
+
+<li>Difficult
+		<ul>
+	<li>Up to 1 Level 1 error/100k (or 1 error if file size < 100k)</li>
+		</ul>
+	</li>
+	</ul>
+
+</li>
+</ul>
+
+<p>
+Good
+</p>
+
+<ul>
+<li>No Level 2 errors</li>
+<li>If project is:
+<ul>
+<li>Easy
+<ul>
+	<li>Up to 0.6 Level 1 errors/100k (or 1 error if file size < 165k)</li>
+
+</ul>
+</li>
+
+<li>Average
+<ul>
+	<li>Up to 1 Level 1 error/100k (or 1 error if file size < 100k)</li>
+</ul>
+</li>
+
+<li>Difficult
+<ul>
+	<li>Up to 2 Level 1 errors/100k (or 1 error if file size < 50k)</li>
+
+</ul>
+</li>
+</ul>
+</li>
+	</ul>
+
+<p>
+Fair
+</p>
+
+<ul>
+<li>May contain Level 2 errors </li>
+<li>If project is:
+<ul>
+<li>Easy
+
+<ul>
+	<li>More than 0.6 Level 1 errors/100k (or more than 1 error if file size < 165k)</li>
+</ul>
+</li>
+
+<li>Average
+<ul>
+	<li>More than 1 Level 1 errors/100k (or more than 1 error if file size < 100k)</li>
+</ul>
+</li>
+
+<li>Difficult
+<ul>
+	<li>More than 2 Level 1 errors/100k (or more than 1 error if file size < 50k)</li>
+</ul>
+</li>
+</ul>
+</li>
+	</ul>
+
+
+<p>
+Poor
+</p>
+
+<p>
+Poor rating should be assigned at the PPVer's discretion, 
+if it is felt that the project contains too many errors to be assigned a rating of Fair.
 </p>
 
 </div>
