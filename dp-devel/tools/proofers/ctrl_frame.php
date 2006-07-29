@@ -15,6 +15,49 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 include_once($relPath.'slim_header.inc');
 slim_header("Control Frame",TRUE,FALSE);
+
+function echo_character_selector( $id, $title, $option_args )
+{
+    global $utf8_site;
+
+    echo '<td align="right">';
+    echo <<<EOS
+<select
+    name="tChars{$id}"
+    ID="tChars{$id}"
+    title="{$title}"
+    onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
+    class="dropchars"
+>
+
+EOS;
+
+    foreach ( $option_args as $arg )
+    {
+        if ( is_string($arg) )
+        {
+            echo "<option value='0'>{$arg}</option>\n";
+        }
+        elseif ( is_array($arg) )
+        {
+            foreach ( $arg as $codepoint )
+            {
+                if ( $codepoint <= 255 || $utf8_site )
+                {
+                    echo "<option value='$codepoint'>&#{$codepoint};</option>\n";
+                }
+            }
+        }
+        else
+        {
+            assert( 0 );
+        }
+    }
+
+    echo "</select>";
+    echo "</td>\n";
+}
+
 ?>
 <style type="text/css">
 <!--
@@ -93,237 +136,98 @@ cursor: pointer;
 	border="0"
 	cellpadding="0"
 	cellspacing="0"
-><tr><td align="right"><select
-	name="tCharsA"
-	ID="tCharsA"
-	title="A"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
->
-<option value="0">A</option>
-<option value="0">--</option>
-<option value="192">&#192;</option>
-<option value="224">&#224;</option>
-<option value="193">&#193;</option>
-<option value="225">&#225;</option>
-<option value="194">&#194;</option>
-<option value="226">&#226;</option>
-<option value="195">&#195;</option>
-<option value="227">&#227;</option>
-<option value="196">&#196;</option>
-<option value="228">&#228;</option>
-<option value="197">&#197;</option>
-<option value="229">&#229;</option>
-<option value="198">&#198;</option>
-<option value="230">&#230;</option>
-<? if($utf8_site) { ?>
-<option value="256">&#256;</option>
-<option value="257">&#257;</option>
-<option value="258">&#258;</option>
-<option value="259">&#259;</option>
-<option value="260">&#260;</option>
-<option value="261">&#261;</option>
-<? } ?>
-</select></td><td align="right"><select
-	name="tCharsE"
-	ID="tCharsE"
-	title="E"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
->
-<option value="0">E</option>
-<option value="0">--</option>
-<option value="200">&#200;</option>
-<option value="232">&#232;</option>
-<option value="201">&#201;</option>
-<option value="233">&#233;</option>
-<option value="202">&#202;</option>
-<option value="234">&#234;</option>
-<option value="203">&#203;</option>
-<option value="235">&#235;</option>
-<? if($utf8_site) { ?>
-<option value="274">&#274;</option>
-<option value="275">&#275;</option>
-<option value="276">&#276;</option>
-<option value="277">&#277;</option>
-<option value="278">&#278;</option>
-<option value="279">&#279;</option>
-<option value="280">&#280;</option>
-<option value="281">&#281;</option>
-<option value="282">&#282;</option>
-<option value="283">&#283;</option>
-<? } ?>
-</select></td><td align="right"><select
-	name="tCharsI"
-	ID="tCharsI"
-	title="I"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
->
-<option value="0">I</option>
-<option value="0">--</option>
-<option value="204">&#204;</option>
-<option value="236">&#236;</option>
-<option value="205">&#205;</option>
-<option value="237">&#237;</option>
-<option value="206">&#206;</option>
-<option value="238">&#238;</option>
-<option value="207">&#207;</option>
-<option value="239">&#239;</option>
-<? if($utf8_site) { ?>
-<option value="296">&#296;</option>
-<option value="297">&#297;</option>
-<option value="298">&#298;</option>
-<option value="299">&#299;</option>
-<option value="300">&#300;</option>
-<option value="301">&#301;</option>
-<option value="302">&#302;</option>
-<option value="303">&#303;</option>
-<option value="304">&#304;</option>
-<option value="305">&#305;</option>
-<? } ?>
-</select></td><td align="right"><select
-	name="tCharsO"
-	ID="tCharsO"
-	title="O"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
->
-<option value="0">O</option>
-<option value="0">--</option>
-<option value="210">&#210;</option>
-<option value="242">&#242;</option>
-<option value="211">&#211;</option>
-<option value="243">&#243;</option>
-<option value="212">&#212;</option>
-<option value="244">&#244;</option>
-<option value="213">&#213;</option>
-<option value="245">&#245;</option>
-<option value="214">&#214;</option>
-<option value="246">&#246;</option>
-<option value="216">&#216;</option>
-<option value="248">&#248;</option>
-<? if($utf8_site) { ?>
-<option value="332">&#332;</option>
-<option value="333">&#333;</option>
-<option value="334">&#334;</option>
-<option value="335">&#335;</option>
-<option value="336">&#336;</option>
-<option value="337">&#337;</option>
-<option value="338">&#338;</option>
-<option value="339">&#339;</option>
-<? } ?>
-</select></td><td align="right"><select
-	name="tCharsU"
-	ID="tCharsU"
-	title="U"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-class="dropchars"
->
-<option value="0">U</option>
-<option value="0">--</option>
-<option value="217">&#217;</option>
-<option value="249">&#249;</option>
-<option value="218">&#218;</option>
-<option value="250">&#250;</option>
-<option value="219">&#219;</option>
-<option value="251">&#251;</option>
-<option value="220">&#220;</option>
-<option value="252">&#252;</option>
-<option value="181">&#181;</option>
-<? if($utf8_site) { ?>
-<option value="362">&#362;</option>
-<option value="363">&#363;</option>
-<option value="368">&#368;</option>
-<option value="369">&#369;</option>
-<? } ?>
-</select></td><td align="right"><select
-	name="tCharsM"
-	ID="tCharsM"
-	title="More"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
->
-<option value="0">+</option>
-<option value="0">--</option>
-<option value="036">&#036;</option>
-<option value="162">&#162;</option>
-<option value="163">&#163;</option>
-<option value="164">&#164;</option>
-<option value="165">&#165;</option>
+><tr><?
 
-<option value="161">&#161;</option>
-<option value="191">&#191;</option>
+echo_character_selector(
+    'A',
+    'A',
+    array(
+        'A',
+        '--',
+        array( 192, 224, 193, 225, 194, 226, 195, 227, 196, 228, 197, 229, 198, 230 ),
+        array( 256, 257, 258, 259, 260, 261 ),
+    )
+);
 
-<option value="169">&#169;</option>
-<option value="174">&#174;</option>
-<option value="0">--</option>
+echo_character_selector(
+    'E',
+    'E',
+    array(
+        'E',
+        '--',
+        array( 200, 232, 201, 233, 202, 234, 203, 235 ),
+        array( 274, 275, 276, 277, 278, 279, 280, 281, 282, 283 ),
+    )
+);
 
-<option value="171">&#171;</option>
-<option value="187">&#187;</option>
-<? if($utf8_site) { ?>
-<option value="8222">&#8222;</option>
-<option value="8220">&#8220;</option>
-<? } ?>
-<option value="0">--</option>
+echo_character_selector(
+    'I',
+    'I',
+    array(
+        'I',
+        '--',
+        array( 204, 236, 205, 237, 206, 238, 207, 239 ),
+        array( 296, 297, 298, 299, 300, 301, 302, 303, 304, 305 ),
+    )
+);
 
-<option value="222">&#222;</option>
-<option value="254">&#254;</option>
-<option value="223">&#223;</option>
-<? if($utf8_site) { ?>
-<option value="502">&#502;</option>
-<option value="405">&#405;</option>
-<? } ?>
-<option value="0">--</option>
+echo_character_selector(
+    'O',
+    'O',
+    array(
+        'O',
+        '--',
+        array( 210, 242, 211, 243, 212, 244, 213, 245, 214, 246, 216, 248 ),
+        array( 332, 333, 334, 335, 336, 337, 338, 339 ),
+    )
+);
 
-<option value="0">Y</option>
-<option value="0">--</option>
-<option value="221">&#221;</option>
-<option value="253">&#253;</option>
-<option value="255">&#255;</option>
-<option value="0">--</option>
+echo_character_selector(
+    'U',
+    'U',
+    array(
+        'U',
+        '--',
+        array( 217, 249, 218, 250, 219, 251, 220, 252, 181 ),
+        array( 362, 363, 368, 369 ),
+    )
+);
 
-<option value="0">C</option>
-<option value="0">--</option>
-<option value="199">&#199;</option>
-<option value="231">&#231;</option>
-<option value="0">--</option>
+echo_character_selector(
+    'M',
+    'More',
+    array(
+        '+',
+        '--',
+        array( 36, 162, 163, 164, 165, 161, 191, 169, 174 ),
+        '--',
+        array( 171, 187 ),
+        array( 8222, 8220 ),
+        '--',
+        array( 222, 254, 223 ),
+        array( 502, 405 ),
+        '--',
+        'Y',
+        '--',
+        array( 221, 253, 255 ),
+        '--',
+        'C',
+        '--',
+        array( 199, 231 ),
+        '--',
+        'D',
+        '--',
+        array( 208, 240 ),
+        '--',
+        'N',
+        '--',
+        array( 209, 241 ),
+        '--',
+        array( 166, 167, 168, 170, 172, 173, 175, 176, 177, 178, 179, 180, 182, 183, 184, 185, 186, 188, 189, 190, 215, 247 ),
+    )
+);
 
-<option value="0">D</option>
-<option value="0">--</option>
-<option value="208">&#208;</option>
-<option value="240">&#240;</option>
-<option value="0">--</option>
-
-<option value="0">N</option>
-<option value="0">--</option>
-<option value="209">&#209;</option>
-<option value="241">&#241;</option>
-<option value="0">--</option>
-
-<option value="166">&#166;</option>
-<option value="167">&#167;</option>
-<option value="168">&#168;</option>
-<option value="170">&#170;</option>
-<option value="172">&#172;</option>
-<option value="173">&#173;</option>
-<option value="175">&#175;</option>
-<option value="176">&#176;</option>
-<option value="177">&#177;</option>
-<option value="178">&#178;</option>
-<option value="179">&#179;</option>
-<option value="180">&#180;</option>
-<option value="182">&#182;</option>
-<option value="183">&#183;</option>
-<option value="184">&#184;</option>
-<option value="185">&#185;</option>
-<option value="186">&#186;</option>
-<option value="188">&#188;</option>
-<option value="189">&#189;</option>
-<option value="190">&#190;</option>
-<option value="215">&#215;</option>
-<option value="247">&#247;</option>
-</select></td><td valign="top" <? if($utf8_site) echo "rowspan='2'"; ?>><input
+?><td valign="top" <? if($utf8_site) echo "rowspan='2'"; ?>><input
 	TYPE="text"
 	VALUE=""
 	accesskey="\"
@@ -331,224 +235,75 @@ class="dropchars"
 	class="dropnormal"
 	size="1"
 	onclick="this.select()"
-></td></tr><tr><td
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsC"
-	ID="tCharsC"
-	title="CD"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">CD</option>
-<option value="0">--</option>
-<option value="199">&#199;</option>
-<option value="231">&#231;</option>
-<option value="262">&#262;</option>
-<option value="263">&#263;</option>
-<option value="264">&#264;</option>
-<option value="265">&#265;</option>
-<option value="266">&#266;</option>
-<option value="267">&#267;</option>
-<option value="268">&#268;</option>
-<option value="269">&#269;</option>
-<option value="390">&#390;</option>
-<option value="391">&#391;</option>
-<option value="208">&#208;</option>
-<option value="240">&#240;</option>
-<option value="270">&#270;</option>
-<option value="271">&#271;</option>
-<option value="272">&#272;</option>
-<option value="273">&#273;</option>
-<option value="393">&#393;</option>
-<option value="394">&#394;</option>
-</select></td><td	
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsD"
-	ID="tCharsD"
-	title="LN"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">LN</option>
-<option value="0">--</option>
-<option value="313">&#313;</option>
-<option value="314">&#314;</option>
-<option value="315">&#315;</option>
-<option value="316">&#316;</option>
-<option value="317">&#317;</option>
-<option value="318">&#318;</option>
-<option value="319">&#319;</option>
-<option value="320">&#320;</option>
-<option value="321">&#321;</option>
-<option value="322">&#322;</option>
-<option value="209">&#209;</option>
-<option value="241">&#241;</option>
-<option value="323">&#323;</option>
-<option value="324">&#324;</option>
-<option value="325">&#325;</option>
-<option value="326">&#326;</option>
-<option value="327">&#327;</option>
-<option value="328">&#328;</option>
-<option value="329">&#329;</option>
-<option value="330">&#330;</option>
-<option value="331">&#331;</option>
-</select></td><td	
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsS"
-	ID="tCharsS"
-	title="RS"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">RS</option>
-<option value="0">--</option>
-<option value="340">&#340;</option>
-<option value="341">&#341;</option>
-<option value="342">&#342;</option>
-<option value="343">&#343;</option>
-<option value="344">&#344;</option>
-<option value="345">&#345;</option>
-<option value="223">&#223;</option>
-<option value="346">&#346;</option>
-<option value="347">&#347;</option>
-<option value="348">&#348;</option>
-<option value="349">&#349;</option>
-<option value="350">&#350;</option>
-<option value="351">&#351;</option>
-<option value="352">&#352;</option>
-<option value="353">&#353;</option>
-</select></td><td	
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsZ"
-	ID="tCharsZ"
-	title="TZ"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">TZ</option>
-<option value="0">--</option>
-<option value="354">&#354;</option>
-<option value="355">&#355;</option>
-<option value="356">&#356;</option>
-<option value="357">&#357;</option>
-<option value="358">&#358;</option>
-<option value="359">&#359;</option>
-<option value="377">&#377;</option>
-<option value="378">&#378;</option>
-<option value="379">&#379;</option>
-<option value="380">&#380;</option>
-<option value="381">&#381;</option>
-<option value="382">&#382;</option>
-</select></td><td
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsCyr"
-	ID="tCharsCyr"
-	title="Cyrillic"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">&#1035;</option>
-<option value="0">--</option>
-<option value="1026">&#1026;</option>
-<option value="1106">&#1106;</option>
-<option value="1027">&#1027;</option>
-<option value="1107">&#1107;</option>
-<option value="1024">&#1024;</option>
-<option value="1104">&#1104;</option>
-<option value="1025">&#1025;</option>
-<option value="1105">&#1105;</option>
-<option value="1028">&#1028;</option>
-<option value="1108">&#1108;</option>
-<option value="1029">&#1029;</option>
-<option value="1109">&#1109;</option>
-<option value="1037">&#1037;</option>
-<option value="1117">&#1117;</option>
-<option value="1030">&#1030;</option>
-<option value="1110">&#1110;</option>
-<option value="1031">&#1031;</option>
-<option value="1111">&#1111;</option>
-<option value="1049">&#1049;</option>
-<option value="1081">&#1081;</option>
-<option value="1032">&#1032;</option>
-<option value="1112">&#1112;</option>
-<option value="1033">&#1033;</option>
-<option value="1113">&#1113;</option>
-<option value="1034">&#1034;</option>
-<option value="1114">&#1114;</option>
-<option value="1035">&#1035;</option>
-<option value="1115">&#1115;</option>
-<option value="1036">&#1036;</option>
-<option value="1116">&#1116;</option>
-<option value="1038">&#1038;</option>
-<option value="1118">&#1118;</option>
-<option value="1039">&#1039;</option>
-<option value="1119">&#1119;</option>
-<option value="1065">&#1065;</option>
-<option value="1097">&#1097;</option>
-<option value="1066">&#1066;</option>
-<option value="1098">&#1098;</option>
-<option value="1067">&#1067;</option>
-<option value="1099">&#1099;</option>
-<option value="1068">&#1068;</option>
-<option value="1100">&#1100;</option>
-<option value="1069">&#1069;</option>
-<option value="1101">&#1101;</option>
-<option value="1070">&#1070;</option>
-<option value="1102">&#1102;</option>
-<option value="1071">&#1071;</option>
-<option value="1103">&#1103;</option>
-</select></td><td	
-<? if(!$utf8_site) echo "style='display: none;'"; ?>><select
-	name="tCharsOCyr"
-	ID="tCharsOCyr"
-	title="OldCyrillic"
-	onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
-	class="dropchars"
-	<? if(!$utf8_site) echo "disabled"; ?>
->
-<option value="0">&#1122;</option>
-<option value="0">--</option>
-<option value="1120">&#1120;</option>
-<option value="1121">&#1121;</option>
-<option value="1122">&#1122;</option>
-<option value="1123">&#1123;</option>
-<option value="1124">&#1124;</option>
-<option value="1125">&#1125;</option>
-<option value="1126">&#1126;</option>
-<option value="1127">&#1127;</option>
-<option value="1128">&#1128;</option>
-<option value="1129">&#1129;</option>
-<option value="1130">&#1130;</option>
-<option value="1131">&#1131;</option>
-<option value="1132">&#1132;</option>
-<option value="1133">&#1133;</option>
-<option value="1134">&#1134;</option>
-<option value="1135">&#1135;</option>
-<option value="1136">&#1136;</option>
-<option value="1137">&#1137;</option>
-<option value="1138">&#1138;</option>
-<option value="1139">&#1139;</option>
-<option value="1140">&#1140;</option>
-<option value="1141">&#1141;</option>
-<option value="1142">&#1142;</option>
-<option value="1143">&#1143;</option>
-<option value="1144">&#1144;</option>
-<option value="1145">&#1145;</option>
-<option value="1146">&#1146;</option>
-<option value="1147">&#1147;</option>
-<option value="1148">&#1148;</option>
-<option value="1149">&#1149;</option>
-<option value="1150">&#1150;</option>
-<option value="1151">&#1151;</option>
-<option value="1152">&#1152;</option>
-<option value="1153">&#1153;</option>
-<option value="1154">&#1154;</option>
-</select></td></tr></table>
+></td></tr>
+<?
+if ($utf8_site)
+{
+echo "<tr>\n";
+
+echo_character_selector(
+    'C',
+    'CD',
+    array(
+        'CD',
+        '--',
+        array( 199, 231, 262, 263, 264, 265, 266, 267, 268, 269, 390, 391, 208, 240, 270, 271, 272, 273, 393, 394 ),
+    )
+);
+
+echo_character_selector(
+    'D',
+    'LN',
+    array(
+        'LN',
+        '--',
+        array( 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 209, 241, 323, 324, 325, 326, 327, 328, 329, 330, 331 ),
+    )
+);
+
+echo_character_selector(
+    'S',
+    'RS',
+    array(
+        'RS',
+        '--',
+        array( 340, 341, 342, 343, 344, 345, 223, 346, 347, 348, 349, 350, 351, 352, 353 ),
+    )
+);
+
+echo_character_selector(
+    'Z',
+    'TZ',
+    array(
+        'TZ',
+        '--',
+        array( 354, 355, 356, 357, 358, 359, 377, 378, 379, 380, 381, 382 ),
+    )
+);
+
+echo_character_selector(
+    'Cyr',
+    'Cyrillic',
+    array(
+        '&#1035;',
+        '--',
+        array( 1026, 1106, 1027, 1107, 1024, 1104, 1025, 1105, 1028, 1108, 1029, 1109, 1037, 1117, 1030, 1110, 1031, 1111, 1049, 1081, 1032, 1112, 1033, 1113, 1034, 1114, 1035, 1115, 1036, 1116, 1038, 1118, 1039, 1119, 1065, 1097, 1066, 1098, 1067, 1099, 1068, 1100, 1069, 1101, 1070, 1102, 1071, 1103 ),
+    )
+);
+
+echo_character_selector(
+    'OCyr',
+    'OldCyrillic',
+    array(
+        '&#1122;',
+        '--',
+        array( 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150, 1151, 1152, 1153, 1154 ),
+    )
+);
+
+echo "</tr>";
+}
+?></table>
 <center><font size=-1><a href="#" onClick="window.open('srchrep.php','dp_searchrepl','width=300,height=250,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><?
 echo _("Search/Replace");
 ?></a>&nbsp;|&nbsp;<a href="mktable.php" target="_new"><? 
