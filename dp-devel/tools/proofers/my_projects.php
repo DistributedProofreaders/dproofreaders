@@ -15,6 +15,7 @@ if ($userP['i_newwin']==1)
 }
 else
 {
+    $theme_args = array();
     $link_js = '';
 }
 
