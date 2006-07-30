@@ -306,7 +306,7 @@ echo "</tr>";
 ?></table>
 <center><font size=-1><a href="#" onClick="window.open('srchrep.php','dp_searchrepl','width=300,height=250,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><?
 echo _("Search/Replace");
-?></a>&nbsp;|&nbsp;<a href="mktable.php" target="_new"><? 
+?></a>&nbsp;|&nbsp;<a href="#" onClick="window.open('mktable.php','dp_mktable','width=600,height=500,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><? 
 echo _("Table Maker");
 ?></a><?
 if($wikihiero_dir) {
