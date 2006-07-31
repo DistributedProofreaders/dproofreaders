@@ -372,7 +372,9 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	align="center">
 <?PHP 
 echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> </font>";
-include('ptags.inc');
+echo "<font size='-1'>\n";
+echo_tool_links();
+echo "</font>\n";
 ?>
 <br>
 <font size="-1">
