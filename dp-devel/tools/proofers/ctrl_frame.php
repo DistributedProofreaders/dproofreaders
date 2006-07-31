@@ -3,7 +3,13 @@ $relPath="./../../pinc/";
 include_once($relPath.'http_headers.inc');
 //include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
+include_once($relPath.'stages.inc');
 include_once('toolbox.inc');
+
+$round_id = @$_GET['round_id'];
+assert( !empty($round_id) );
+$round = get_Round_for_round_id($round_id);
+assert( !is_null($round) );
 
 /*
 include_once($relPath.'v_resolution.inc');
@@ -308,7 +314,7 @@ echo "</tr>";
 <center><font size=-1><?
 
 echo "<i>", _('Pop-up tools'), ":</i>\n";
-echo_popup_links();
+echo_popup_links( $round->pi_tools['popup_links'] );
 
 ?></font></center>
 </td><td
@@ -333,7 +339,7 @@ echo_popup_links();
 >
 <?
 
-echo_tool_buttons();
+echo_tool_buttons( $round->pi_tools['tool_buttons'] );
 
 /* temp disabled
 <a
@@ -373,16 +379,18 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 <?PHP 
 echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> </font>";
 echo "<font size='-1'>\n";
-echo_tool_links();
+echo_tool_links( $round->pi_tools['tool_links'] );
 echo "</font>\n";
 ?>
 <br>
 <font size="-1">
 <? 
 echo "<i>"._("Reference Information").":</i> ";
-// Until ctrl_frame knows about round id, just display two links
-echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."proofreading_guidelines.php' target='_blank'>". _('Proofreading')."</a> and ";
-echo "<a style=\"color:#0000FF; text-decoration: underline;\" href='$code_url/faq/".lang_dir()."document.php' target='_blank'>". _('Formatting')."</a> ". _('Guidelines') . "] ";
+$url = "$code_url/faq/".lang_dir().$round->document;
+echo "<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
+echo _('Guidelines');
+echo "</a>\n";
+
 echo "<i>"._("Proofreading Diagrams:")."</i>"; ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>

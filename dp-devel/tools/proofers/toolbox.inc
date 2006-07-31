@@ -20,10 +20,10 @@ function define_pit_popup_link( $id, $label, $url, $window_name, $width, $height
     $all_pit_popup_links[$id] = $element;
 }
 
-function echo_popup_links()
+function echo_popup_links( $ids )
 {
     global $all_pit_popup_links;
-    echo implode('&nbsp;|&nbsp;', $all_pit_popup_links);
+    echo implode('&nbsp;|&nbsp;', array_extract($all_pit_popup_links, $ids));
 }
 
 define_pit_popup_link(
@@ -96,10 +96,10 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
 EOS;
 }
 
-function echo_tool_buttons()
+function echo_tool_buttons( $ids )
 {
     global $all_pit_tool_buttons;
-    echo implode('', $all_pit_tool_buttons);
+    echo implode('', array_extract($all_pit_tool_buttons, $ids));
 }
 
 define_pit_tool_button(
@@ -165,10 +165,10 @@ function define_pit_tool_link( $id, $label, $title, $onclick )
         "<a href='#' onclick=\"$onclick\" title=\"$title\">$label</a>";
 }
 
-function echo_tool_links()
+function echo_tool_links( $ids )
 {
     global $all_pit_tool_links;
-    echo implode("\n|\n", $all_pit_tool_links);
+    echo implode("\n&nbsp;\n", array_extract($all_pit_tool_links, $ids));
 }
 
 define_pit_tool_link(
@@ -233,6 +233,21 @@ define_pit_tool_link(
 );
 
 // -----------------------------------------------------------------------------
+
+function array_extract( $source, $keys )
+{
+    if ( $keys == 'ALL' )
+    {
+        return $source;
+    }
+
+    $result = array();
+    foreach ( $keys as $key )
+    {
+        $result[$key] = $source[$key];
+    }
+    return $result;
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
