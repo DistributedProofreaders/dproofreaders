@@ -36,12 +36,16 @@ cRef.tCharsI.selectedIndex=0;
 cRef.tCharsO.selectedIndex=0;
 cRef.tCharsU.selectedIndex=0;
 cRef.tCharsM.selectedIndex=0;
-cRef.tCharsC.selectedIndex=0;
-cRef.tCharsD.selectedIndex=0;
-cRef.tCharsS.selectedIndex=0;
-cRef.tCharsZ.selectedIndex=0;
-cRef.tCharsCyr.selectedIndex=0;
-cRef.tCharsOCyr.selectedIndex=0;
+
+// These ones (now) only exist if $utf8_site is true.
+// This script doesn't have access to that variable,
+// so we test each individually.
+if (cRef.tCharsC) cRef.tCharsC.selectedIndex=0;
+if (cRef.tCharsD) cRef.tCharsD.selectedIndex=0;
+if (cRef.tCharsS) cRef.tCharsS.selectedIndex=0;
+if (cRef.tCharsZ) cRef.tCharsZ.selectedIndex=0;
+if (cRef.tCharsCyr) cRef.tCharsCyr.selectedIndex=0;
+if (cRef.tCharsOCyr) cRef.tCharsOCyr.selectedIndex=0;
 
 cRef.markBoxChar.value=String.fromCharCode(wM);
 insertTags(String.fromCharCode(wM),'','',true);
