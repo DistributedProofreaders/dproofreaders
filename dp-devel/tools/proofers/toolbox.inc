@@ -147,5 +147,92 @@ define_pit_tool_button(
 
 // -----------------------------------------------------------------------------
 
+// PIT Tool Link
+// A link that, when clicked, alters the text in some way.
+// (It's not clear whether it's useful to have both
+// tool buttons and tool links in the toolbox.)
+
+$all_pit_tool_links = array();
+
+function define_pit_tool_link( $id, $label, $title, $onclick )
+{
+    $label   = htmlspecialchars($label, ENT_NOQUOTES);
+    $title   = htmlspecialchars($title);
+    $onclick = htmlspecialchars($onclick);
+
+    global $all_pit_tool_links;
+    $all_pit_tool_links[$id] =
+        "<a href='#' onclick=\"$onclick\" title=\"$title\">$label</a>";
+}
+
+function echo_tool_links()
+{
+    global $all_pit_tool_links;
+    echo implode("\n|\n", $all_pit_tool_links);
+}
+
+define_pit_tool_link(
+    'greek',
+    '[Greek: ]',
+    '[Greek:',
+    "top.new_iMU('[Greek: ',']')"
+);
+define_pit_tool_link(
+    'sidenote',
+    '[Sidenote: ]',
+    '[Sidenote:',
+    "top.new_iMU('[Sidenote: ',']')"
+);
+define_pit_tool_link(
+    'illustration',
+    '[Illustration: ]',
+    '[Illustration:',
+    "top.new_iMU('[Illustration: ',']')"
+);
+define_pit_tool_link(
+    'asterisk',
+    '*',
+    '*',
+    "top.new_iMU('*','')"
+);
+define_pit_tool_link(
+    'brackets',
+    '[ ]',
+    '[ ]',
+    "top.new_iMU('[',']')"
+);
+define_pit_tool_link(
+    'footnote',
+    '[Footnote #: ]',
+    '[Footnote #:',
+    "top.new_iMU('[Footnote #: ',']')"
+);
+define_pit_tool_link(
+    'slash_star',
+    '/* */',
+    _('Start poetry/table'),
+    "top.new_iMU('/*\\n','\\n*/')"
+);
+define_pit_tool_link(
+    'slash_number',
+    '/# #/',
+    _('Start block quote'),
+    "top.new_iMU('/#\\n','\\n#/')"
+);
+define_pit_tool_link(
+    'thought_break',
+    '<tb>',
+    _('Thought Break'),
+    "top.new_iMU('\\n<tb>\\n','')"
+);
+define_pit_tool_link(
+    'blank_page',
+    '[Blank Page]',
+    '[Blank Page]',
+    "top.iMUO(6)"
+);
+
+// -----------------------------------------------------------------------------
+
 // vim: sw=4 ts=4 expandtab
 ?>
