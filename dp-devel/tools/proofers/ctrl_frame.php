@@ -407,16 +407,6 @@ $spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
   <?=$amazing_button_pushing_action?>
 	align="top"
 	title="<?=_("Lowercase selection")?>"><?=$spc?>abc
-</div></a>
-<a
-	href="#"
-	onclick="top.mGR()"
-><div
-  class='proofbutton'
-  style='height: 22px; padding-left: 2px; padding-right: 2px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Open Greek Transliteration Window")?>"><?=dgettext("iso_639","Greek")?>
 </div></a><?PHP
 
 

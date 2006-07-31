@@ -40,6 +40,13 @@ define_pit_popup_link(
     'dp_mktable',
     600, 500
 );
+define_pit_popup_link(
+    'greek_transliterator',
+    _('Greek Transliterator'),
+    'greek2ascii.php',
+    'gkasciiWin',
+    640, 210
+);
 if ($wikihiero_dir)
 {
     define_pit_popup_link(
