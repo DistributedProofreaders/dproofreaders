@@ -307,6 +307,7 @@ echo "</tr>";
 ?></table>
 <center><font size=-1><?
 
+echo "<i>", _('Pop-up tools'), ":</i>\n";
 echo_popup_links();
 
 ?></font></center>
