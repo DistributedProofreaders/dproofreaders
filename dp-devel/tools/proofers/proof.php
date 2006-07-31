@@ -73,8 +73,7 @@ if ( $code != $project->CBP_OKAY )
 
 // Add name of round before nameofwork
 $round = get_Round_for_project_state($project->state);
-$rn = $round->id;
-$nameofwork = "[" . $rn . "] " . $project->nameofwork;
+$nameofwork = "[" . $round->id . "] " . $project->nameofwork;
 slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
 $frameGet="?" . $_SERVER['QUERY_STRING'];
 
