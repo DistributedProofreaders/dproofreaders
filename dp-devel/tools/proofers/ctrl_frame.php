@@ -165,20 +165,24 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	colspan="3"
 	align="center">
 <?PHP 
-echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> ";
+echo "<font size='-1'>\n";
+
+echo "<i>"._("Markup shortcuts").":</i>\n";
 echo_tool_links( $round->pi_tools['tool_links'] );
-?>
-<br>
-<? 
+echo "\n<br>\n";
+
 echo "<i>"._("Reference Information").":</i> ";
 $url = "$code_url/faq/".lang_dir().$round->document;
 echo "<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
 echo _('Guidelines');
 echo "</a>\n";
 
-echo "<i>"._("Proofreading Diagrams:")."</i>"; ?> [<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
+echo "<i>"._("Proofreading Diagrams:")."</i>\n"; ?>
+[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
 [<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
-[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]</font>
+[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]
+
+</font>
 </td>
 </tr>
 </table>
