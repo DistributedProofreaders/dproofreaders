@@ -165,13 +165,10 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	colspan="3"
 	align="center">
 <?PHP 
-echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> </font>";
-echo "<font size='-1'>\n";
+echo "<font size=\"-1\"><i>"._("Markup shortcuts").":</i> ";
 echo_tool_links( $round->pi_tools['tool_links'] );
-echo "</font>\n";
 ?>
 <br>
-<font size="-1">
 <? 
 echo "<i>"._("Reference Information").":</i> ";
 $url = "$code_url/faq/".lang_dir().$round->document;
