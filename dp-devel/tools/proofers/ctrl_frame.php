@@ -332,84 +332,8 @@ echo_popup_links();
 	onclick="this.select()"
 >
 <?
-$amazing_button_pushing_action = <<<BUTTONS
-onmousedown="this.style.position = 'relative';this.style.top = '1px';this.style.left = '1px'"
-onmouseup="this.style.top = '0px';this.style.left = '0px'"
-BUTTONS;
 
-# IE, not surprisingly, differs from all other browsers
-# in rendering the buttons. The difference is in the centering
-# of the labels, and only Opera gets it wrong if pretending to be IE
-$spc = stristr($_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
-?>
-<a
-	href="#"
-	onclick="top.new_iMU('<i>','</i>')"
-	accesskey="i"
->
-<div
-  class='proofbutton'
-  style='width: 22px; height: 22px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Italics")?>"><i><?=$spc?>i</i>
-</div>
-</a><a
-	href="#"
-	onclick="top.new_iMU('<b>','</b>')"
-	accesskey="b"
-><div
-  class='proofbutton'
-  style='width: 22px; height: 22px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Bold")?>"><b><?=$spc?>B</b>
-</div></a>
-<a
-	href="#"
-	onclick="top.new_iMU('<sc>','</sc>')"
-	accesskey="s"
-><div
-  class='proofbutton'
-  style='height: 22px; padding-left: 2px; padding-right: 2px; font-variant: small-caps;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Small Caps markup")?>"><?=$spc?>Sc
-</div></a>
-<a
-	href="#"
-	onclick="top.transformText('upper-case')"
-	accesskey="u"
-><div
-  class='proofbutton'
-  style='height: 22px; padding-left: 2px; padding-right: 2px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Uppercase selection")?>"><?=$spc?>ABC
-</div></a>
-<a
-	href="#"
-	onclick="top.transformText('title-case')"
-	accesskey="t"
-><div
-  class='proofbutton'
-  style='height: 22px; padding-left: 2px; padding-right: 2px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Title case selection")?>"><?=$spc?>Abc
-</div></a>
-<a
-	href="#"
-	onclick="top.transformText('lower-case')"
-	accesskey="l"
-><div
-  class='proofbutton'
-  style='height: 22px; padding-left: 2px; padding-right: 2px;'
-  <?=$amazing_button_pushing_action?>
-	align="top"
-	title="<?=_("Lowercase selection")?>"><?=$spc?>abc
-</div></a><?PHP
-
+echo_tool_buttons();
 
 /* temp disabled
 <a
