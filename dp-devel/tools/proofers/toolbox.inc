@@ -477,7 +477,16 @@ function array_extract( $source, $keys )
     $result = array();
     foreach ( $keys as $key )
     {
-        $result[$key] = $source[$key];
+        if ( array_key_exists($key, $source) )
+        {
+            $result[$key] = $source[$key];
+        }
+        else
+        {
+            // It's tempting to do an assert(0), but $key could be for a tool
+            // that *can* exist, but happens not to in this installation.
+            // (i.e., currently, hieroglyph_transliterator)
+        }
     }
     return $result;
 }
