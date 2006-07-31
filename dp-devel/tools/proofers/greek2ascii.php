@@ -6,7 +6,7 @@ echo $docType. "\r\n";
 ?>
 <html>
 <?
-	$greek_contents = $_GET['textbox'];
+	$greek_contents = @$_GET['textbox'];
 ?>
 
 <!-- Graphics and html/javascript for Greek text conversion
@@ -50,7 +50,7 @@ p.info {
 // Use the form x/y coords for image button to see which one was pressed.
 // Later, we can add other glyphsets and image maps, for alternate glyphs.
 
-if ( $_REQUEST['italic_y'] != 0 || $_REQUEST['italic_x'] != 0 )
+if ( @$_REQUEST['italic_y'] != 0 || @$_REQUEST['italic_x'] != 0 )
  { echo "src=\"gfx/igreek.png\""; }
 else
  { echo "src=\"gfx/greek.png\""; }
