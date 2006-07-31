@@ -99,12 +99,6 @@ cursor: pointer;
 echo_character_selectors_block();
 
 ?>
-<center><font size=-1><?
-
-echo "<i>", _('Pop-up tools'), ":</i>\n";
-echo_popup_links( $round->pi_tools['popup_links'] );
-
-?></font></center>
 </td><td
 	valign="top"
 	align="center"
@@ -169,6 +163,10 @@ echo "<font size='-1'>\n";
 
 echo "<i>"._("Markup shortcuts").":</i>\n";
 echo_tool_links( $round->pi_tools['tool_links'] );
+echo "\n<br>\n";
+
+echo "<i>", _('Pop-up tools'), ":</i>\n";
+echo_popup_links( $round->pi_tools['popup_links'] );
 echo "\n<br>\n";
 
 echo "<i>"._("Reference Information").":</i> ";
