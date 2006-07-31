@@ -53,6 +53,17 @@ new Stage(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+$pi_tools_for_P = array(
+    'popup_links'  => array('search_and_replace','greek_transliterator','hieroglyph_transliterator'),
+    'tool_buttons' => array('upper_case','title_case','lower_case'),
+    'tool_links'   => array('greek','asterisk','brackets','blank_page'),
+);
+$pi_tools_for_F = array(
+    'popup_links'  => 'ALL',
+    'tool_buttons' => 'ALL',
+    'tool_links'   => 'ALL',
+);
+
 new Round(
     'P1',
     _('Proofreading Round 1'),
@@ -64,6 +75,7 @@ new Round(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
     ),
+    $pi_tools_for_P,
     array(),
     array(
              0 => _('Novice'),
@@ -105,6 +117,7 @@ new Round(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
     ),
+    $pi_tools_for_P,
     array( 'P1' ),
     array(
              0 => _('Precise Proofreader'),
@@ -146,6 +159,7 @@ new Round(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
+    $pi_tools_for_P,
     array( 'P1', 'P2' ),
     array(
              0 => _('Specialist Proofreader'),
@@ -187,6 +201,7 @@ new Round(
         0 => '#FFE4B5', // mocassin
         1 => '#FFF8DC', // cornsilk
     ),
+    $pi_tools_for_F,
     array(),
     array(
              0 => _('Formatting Neophyte'),
@@ -228,6 +243,7 @@ new Round(
         0 => '#DDA0DD', // plum
         1 => '#D8BFD8', // thistle
     ),
+    $pi_tools_for_F,
     array( 'F1' ),
     array(
              0 => _('Refurbisher of Texts'),

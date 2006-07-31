@@ -29,6 +29,10 @@ class Round extends Stage
             // corresponding parameters of the Stage constructor.
             // See Stage.inc for documentation.
 
+        $pi_tools,
+            // A list of which tools should be available in the proofing
+            // interface's toolbox when proofing a page in this round.
+
         $other_rounds_with_visible_usernames,
             // An array of round_ids.
             // If user X worked on a page in this round, they can see the
@@ -60,6 +64,7 @@ class Round extends Stage
         $n_rounds++;
         $this->round_number       = $n_rounds;
 
+        $this->pi_tools = $pi_tools;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
