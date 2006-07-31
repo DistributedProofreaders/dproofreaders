@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'http_headers.inc');
 //include_once($relPath.'dp_main.inc');
 include_once($relPath.'v_site.inc');
+include_once('toolbox.inc');
 
 /*
 include_once($relPath.'v_resolution.inc');
@@ -304,15 +305,10 @@ echo_character_selector(
 echo "</tr>";
 }
 ?></table>
-<center><font size=-1><a href="#" onClick="window.open('srchrep.php','dp_searchrepl','width=300,height=250,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><?
-echo _("Search/Replace");
-?></a>&nbsp;|&nbsp;<a href="#" onClick="window.open('mktable.php','dp_mktable','width=600,height=500,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><? 
-echo _("Table Maker");
-?></a><?
-if($wikihiero_dir) {
-?>&nbsp;|&nbsp;<a href="#" onClick="window.open('hiero/index.php','dp_hiero','width=600,height=400,directories=0,location=0,menubar=0,resizable,scrollbars,status=0,toolbar=0'); return false;"><? 
-echo _("Hieroglyphs"); ?></a><? 
-}
+<center><font size=-1><?
+
+echo_popup_links();
+
 ?></font></center>
 </td><td
 	valign="top"
