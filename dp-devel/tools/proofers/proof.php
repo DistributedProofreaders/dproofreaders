@@ -93,7 +93,7 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 </head>
 <frameset rows="*,73">
 <frame name="proofframe" src="<?PHP echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
-<frame name="menuframe" src="ctrl_frame.php" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="ctrl_frame.php?round_id=<? echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 <noframes>
 <? _("Your browser currently does not display frames!"); ?>
