@@ -138,7 +138,6 @@ cursor: pointer;
 	border="0"
 ><tr><td
 	valign="top"
-	<? if($utf8_site) echo "rowspan=\"2\""; ?>
 ><table
 	border="0"
 	cellpadding="0"
