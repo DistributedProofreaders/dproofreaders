@@ -94,6 +94,7 @@ cursor: pointer;
 	border="0"
 ><tr><td
 	valign="top"
+	align="right"
 ><?
 
 echo_character_selectors_block();
