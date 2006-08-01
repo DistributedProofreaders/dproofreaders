@@ -192,10 +192,10 @@ define_pit_tool_link(
     "top.new_iMU('[Illustration: ',']')"
 );
 define_pit_tool_link(
-    'asterisk',
-    '*',
-    '*',
-    "top.new_iMU('*','')"
+    'note',
+    '[** ]',
+    'Note',
+    "top.new_iMU('[** ',']')"
 );
 define_pit_tool_link(
     'brackets',

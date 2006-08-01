@@ -56,7 +56,7 @@ new Stage(
 $pi_tools_for_P = array(
     'popup_links'  => array('search_and_replace','greek_transliterator','hieroglyph_transliterator'),
     'tool_buttons' => array('upper_case','title_case','lower_case'),
-    'tool_links'   => array('greek','asterisk','brackets','blank_page'),
+    'tool_links'   => array('greek','note','brackets','blank_page'),
 );
 $pi_tools_for_F = array(
     'popup_links'  => 'ALL',
