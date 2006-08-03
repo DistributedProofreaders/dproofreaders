@@ -1040,6 +1040,10 @@ function do_extra_files()
         $excluded_filenames[$project->projectid . '.zip'] = 1;
         $excluded_filenames[$project->projectid . '_TEI.zip'] = 1;
 
+        // should really exclude uploaded SR, PP and PPV files too,
+        // but we can't just add them to excluded_filenames because we
+        // don't know their names in advance
+
         foreach ($filenames as $filename)
         {
             if ( !array_key_exists( $filename, $excluded_filenames ) )
@@ -1080,10 +1084,20 @@ function do_post_downloads()
         echo_download_zip( _("Download Zipped Text"), '' );
 
         echo_download_zip( _("Download Zipped TEI Text"), '_TEI' );
+
+        echo "<li>";
+        echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
+        echo "</li>";
+
+
     }
     elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
     {
         echo_download_zip( _("Download Zipped Text"), '_second' );
+
+        echo "<li>";
+        echo_uploaded_zips('_second_in_prog_', _('partially verified'));
+        echo "</li>";
     }
     elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
     {
@@ -1147,6 +1161,30 @@ function do_post_downloads()
     echo "</ul>\n";
 }
 
+// -----------------------------------------------------------------------------
+function echo_uploaded_zips($discriminator, $upload_type)
+{
+  global $project;
+
+  $done_files = glob("$project->dir/*".$discriminator."*.zip");
+  if ($done_files)
+    {
+      echo sprintf( _("Download %s file uploaded by:"), $upload_type);
+      echo "<ul>";
+      foreach ($done_files as $filename)
+        {
+          $showname = basename($filename,".zip");
+          $showname = substr($showname, strpos($showname,$discriminator) + strlen($discriminator));
+          echo_download_zip( $showname, $discriminator.$showname );
+        }
+      echo "</ul>";
+    }
+  else
+    {
+      echo sprintf( _("No %s results have been uploaded."), $upload_type);
+    }
+
+}
 // -----------------------------------------------------------------------------
 
 function echo_download_zip( $link_text, $discriminator )
@@ -1375,23 +1413,7 @@ function do_smooth_reading()
             echo "</li>\n";
 
             echo "<li>";
-            $done_files = glob("$project->dir/*smooth_done_*.zip");
-            if ($done_files)
-            {
-                echo _("Download smoothread file uploaded by:");
-                echo "<ul>";
-                foreach ($done_files as $filename)
-                {
-                    $showname = basename($filename,".zip");
-                    $showname = substr($showname, strpos($showname,"_done_") + 6);
-                    echo_download_zip( $showname, '_smooth_done_'.$showname );
-                }
-                echo "</ul>";
-            }
-            else
-            {
-                echo _("No smooth-read results have been uploaded.");
-            }
+            echo_uploaded_zips('_smooth_done_', _('smoothread'));
             echo "</li>";
         }
     }
