@@ -932,9 +932,9 @@ new ProjectTransition(
     array(
         'project_restriction'   => null,
         'action_name'           => _("Return to Available"),
-        'confirmation_question' => _("Are you sure you want to make this book available to others for post processing?"),
-        'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'confirmation_question' => null,
+        'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0', postcomments=CONCAT(postcomments,'{G:postcomments}')",
         'collateral_actions'    => null,
     )
 );
@@ -946,9 +946,9 @@ new ProjectTransition(
     array(
         'project_restriction'   => null,
         'action_name'           => _("Return to Available"),
-        'confirmation_question' => _("Are you sure you want to make this book available to others to verify and lose your work?"),
-        'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer",
+        'confirmation_question' => null,
+        'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_2",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'{G:postcomments}')",
         'collateral_actions'    => null,
     )
 );
@@ -985,7 +985,7 @@ new ProjectTransition(
         'action_name'           => _("Upload for Verification"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments='{G:postcomments}'",
+        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments=CONCAT(postcomments,'{G:postcomments}')",
         'collateral_actions'    => null,
     )
 );
