@@ -7,53 +7,54 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 
-// use: $code_url/tools/upload_text.php?project=projectid&curr_state=...
+// use:
+// $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
 if ($stage == 'post_1')
 {
-	$what = _("Post-Processed File");
-      $for_what = _("for Verification");
-	$indicator = "_second";
-	$new_state = PROJ_POST_SECOND_AVAILABLE;
-	$extras = array();
-	$back_url = "$code_url/tools/pool.php?pool_id=PP";
-	$back_blurb = _("Back to Post Proofers Page");
-	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $what = _("Post-Processed File");
+    $for_what = _("for Verification");
+    $indicator = "_second";
+    $new_state = PROJ_POST_SECOND_AVAILABLE;
+    $extras = array();
+    $back_url = "$code_url/tools/pool.php?pool_id=PP";
+    $back_blurb = _("Back to Post Proofers Page");
+    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 }
 else if ($stage == 'correct')
 {
-	$what = _("Corrected Edition");
-      $for_what = _("for Verification");
-	$indicator = "_corrections";
-	$new_state = PROJ_CORRECT_AVAILABLE;
-	$extras = array();
-	$back_url = "$code_url/list_etexts.php?x=g";
-	$back_blurb = _("Back to Gold List");
-	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.	This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
+    $what = _("Corrected Edition");
+    $for_what = _("for Verification");
+    $indicator = "_corrections";
+    $new_state = PROJ_CORRECT_AVAILABLE;
+    $extras = array();
+    $back_url = "$code_url/list_etexts.php?x=g";
+    $back_blurb = _("Back to Gold List");
+    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.	This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
 }
 else if ($stage == 'smooth_avail')
 {
 	$what = _("File Ready for Smooth Reading");
-      $for_what = "";
+    $for_what = "";
 	$indicator = "_smooth_avail";
 	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	$extras = array();
 	$back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
 	$back_blurb = _("Back to Project Page");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
-      $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
+    $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
 else if ($stage == 'smooth_done')
 {
 	$what = _("Smooth Read Version");
-      $for_what = "";
+    $for_what = "";
 	$indicator = "_smooth_done_".$pguser;
 	$new_state = PROJ_POST_FIRST_CHECKED_OUT;
 	$extras = array();
 	$back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
 	$back_blurb = _("Back to Project Page");
 	$bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
-      $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
+    $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
 }
 
@@ -65,7 +66,7 @@ else
 
 if (!isset($action))
 {
-	// Present the upload page.
+        // Present the upload page.
 
 	$header = "$what "._("Upload");
 	theme($header, "header");
@@ -85,15 +86,15 @@ if (!isset($action))
 	echo "<td bgcolor='#ffffff' align='center'>";
 	echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
 	echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
-      if ($stage != 'smooth_done') {
-          if ($stage != 'smooth_avail') {
-              echo "<STRONG>"._("Leave Comments:")."</STRONG>";
-          } else {
-              echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
-          }
-          echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-          echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
-      }
+    if ($stage != 'smooth_done') {
+        if ($stage != 'smooth_avail') {
+            echo "<STRONG>"._("Leave Comments:")."</STRONG>";
+        } else {
+            echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
+        }
+        echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
+        echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
+    }
 	echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
 	echo "<INPUT TYPE='submit' VALUE='Upload'>";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
@@ -106,11 +107,11 @@ if (!isset($action))
 }
 else
 {
-	// Handle a submission from the upload page.
+        // Handle a submission from the upload page.
 
-	// if files have been uploaded, process them
+        // if files have been uploaded, process them
 
-	// make reasonably sure script does not timeout on large file uploads
+        // make reasonably sure script does not timeout on large file uploads
 	set_time_limit(14400);
 	$path_to_file = "$projects_dir/$project";
 
@@ -127,40 +128,40 @@ else
 	}
 
 	function ensure_path_is_unused( $path )
-	// Ensure that nothing exists at $path.
-	// (If something's there, rename it.)
-      // EXCEPT: let people overwrite their finished SR files as often as they want
-	{
-             global $stage, $db_requests_email_addr;
+            // Ensure that nothing exists at $path.
+            // (If something's there, rename it.)
+            // EXCEPT: let people overwrite their finished SR files as often as they want
+        {
+            global $stage, $db_requests_email_addr;
+            
+            if ( file_exists($path) )
+            {
 
-		if ( file_exists($path) )
-		{
+                if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
 
-                   if (($stage != 'smooth_done') AND ($stage != 'smooth_avail')){
-
-   			    $bak = "$path.bak";
-			    ensure_path_is_unused( $bak );
-			    $success = rename( $path, $bak );
-			    if (!$success)
-			    {
-				    // It will already have printed a warning.
-				    echo sprintf(
+                    $bak = "$path.bak";
+                    ensure_path_is_unused( $bak );
+                    $success = rename( $path, $bak );
+                    if (!$success)
+                    {
+                            // It will already have printed a warning.
+                        echo sprintf(
 				           	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
-					     $db_requests_email_addr );
-				   exit;
-			    }
-                  } else {
+                            $db_requests_email_addr );
+                        exit;
+                    }
+                } else {
 
-                        unlink($path);
-                  }
-		}
-	}
+                    unlink($path);
+                }
+            }
+        }
 
 	foreach ($files['name'] as $key=>$name)
 	{
 		if ($files['size'][$key])
 		{
-			// replace filename
+                // replace filename
 			$zipext = ".zip";
 			$name = $project.$indicator.$zipext;
 			$location = $path_to_file.$name;
@@ -174,22 +175,23 @@ else
 				echo "$error_msg<br>\n";
 			}
 
-                   // special handling for smooth reading, which does not involve a state change
-                   // but still needs some changes recorded in project table
-                   if ($stage == 'smooth_avail' && $weeks != "replace") {
-                      $qry =  mysql_query("
+                // special handling for smooth reading, which does not involve a state change
+                // but still needs some changes recorded in project table
+            if ($stage == 'smooth_avail' && $weeks != "replace") {
+                $qry =  mysql_query("
                           UPDATE projects SET smoothread_deadline = $deadline,  postcomments = '$postcomments'
                           WHERE projectid = '$project'
                       ");
 
-                   }
+            }
 
 
-			// let them know file uploaded and send back to pp page
+                // let them know file uploaded and send back to pp page
 			$msg = _("File uploaded. Thank you!");
 			metarefresh(1, $back_url, $msg, $msg);
 		}
 	}
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
