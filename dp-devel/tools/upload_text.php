@@ -66,7 +66,7 @@ else
 
 if (!isset($action))
 {
-        // Present the upload page.
+    // Present the upload page.
 
 	$header = "$what "._("Upload");
 	theme($header, "header");
@@ -107,11 +107,11 @@ if (!isset($action))
 }
 else
 {
-        // Handle a submission from the upload page.
+    // Handle a submission from the upload page.
 
-        // if files have been uploaded, process them
+    // if files have been uploaded, process them
 
-        // make reasonably sure script does not timeout on large file uploads
+    // make reasonably sure script does not timeout on large file uploads
 	set_time_limit(14400);
 	$path_to_file = "$projects_dir/$project";
 
@@ -128,9 +128,9 @@ else
 	}
 
 	function ensure_path_is_unused( $path )
-            // Ensure that nothing exists at $path.
-            // (If something's there, rename it.)
-            // EXCEPT: let people overwrite their finished SR files as often as they want
+        // Ensure that nothing exists at $path.
+        // (If something's there, rename it.)
+        // EXCEPT: let people overwrite their finished SR files as often as they want
         {
             global $stage, $db_requests_email_addr;
             
@@ -144,7 +144,7 @@ else
                     $success = rename( $path, $bak );
                     if (!$success)
                     {
-                            // It will already have printed a warning.
+                        // It will already have printed a warning.
                         echo sprintf(
 				           	_("A problem occurred with your upload. Please email %s for assistance, and include the text of this page."),
                             $db_requests_email_addr );
@@ -158,39 +158,38 @@ else
         }
 
 	foreach ($files['name'] as $key=>$name)
-	{
-		if ($files['size'][$key])
-		{
+        {
+            if ($files['size'][$key])
+            {
                 // replace filename
-			$zipext = ".zip";
-			$name = $project.$indicator.$zipext;
-			$location = $path_to_file.$name;
-			ensure_path_is_unused( $location );
-			copy($files['tmp_name'][$key],$location);
-			unlink($files['tmp_name'][$key]);
+                $zipext = ".zip";
+                $name = $project.$indicator.$zipext;
+                $location = $path_to_file.$name;
+                ensure_path_is_unused( $location );
+                copy($files['tmp_name'][$key],$location);
+                unlink($files['tmp_name'][$key]);
 
-			$error_msg = project_transition( $project, $new_state, $pguser, $extras );
-			if ($error_msg)
-			{
-				echo "$error_msg<br>\n";
-			}
+                $error_msg = project_transition( $project, $new_state, $pguser, $extras );
+                if ($error_msg)
+                {
+                    echo "$error_msg<br>\n";
+                }
 
                 // special handling for smooth reading, which does not involve a state change
                 // but still needs some changes recorded in project table
-            if ($stage == 'smooth_avail' && $weeks != "replace") {
-                $qry =  mysql_query("
+                if ($stage == 'smooth_avail' && $weeks != "replace") {
+                    $qry =  mysql_query("
                           UPDATE projects SET smoothread_deadline = $deadline,  postcomments = '$postcomments'
                           WHERE projectid = '$project'
                       ");
 
-            }
-
+                }
 
                 // let them know file uploaded and send back to pp page
-			$msg = _("File uploaded. Thank you!");
-			metarefresh(1, $back_url, $msg, $msg);
-		}
-	}
+                $msg = _("File uploaded. Thank you!");
+                metarefresh(1, $back_url, $msg, $msg);
+            }
+        }
 }
 
 // vim: sw=4 ts=4 expandtab
