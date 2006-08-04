@@ -4,7 +4,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'phpbb2.inc');
+include_once($relPath.'topic.inc'); // topic_create
 
 // Which team?
 $team_id = $_GET['team'];
@@ -41,7 +41,7 @@ Use this area to have a discussion with your fellow teammates! :-D
 
         $post_subject = $tname;
 
-        $topic_id = phpbb2_create_topic(
+        $topic_id = topic_create(
                 $forum_id,
                 $post_subject,
                 $message,

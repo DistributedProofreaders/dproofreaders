@@ -8,8 +8,25 @@
 //     What:  $post_subject, $post_text
 //     Who:   $poster_name
 
-// It should probably stay fairly independent of DP.
-// (So it's code that could conceivably have been provided by phpBB itself.)
+// WARNING:
+// This file includes phpBB2 files, which set and use global variables,
+// some of which have the same names as global variables that the DP code
+// sets and uses. (e.g., $theme, $lang, $starttime).  Because of the
+// potential for collisions, you should avoid mixing this file with DP code.
+
+$this_is_top_level_cli_invocation = (
+    php_sapi_name() == 'cli' &&
+    count(get_included_files()) == 1 );
+// i.e., this file is being executed because it was the
+// script argument to a command-line invocation of php,
+// probably invoked by DP code via exec() or system().
+
+if ( $this_is_top_level_cli_invocation )
+{
+    // We assume it was invoked from the pinc/ directory.
+    $relPath = './';
+    include_once($relPath.'v_site.inc'); // $forums_dir
+}
 
 // PHPBB includes (from the standard installation)
 define('IN_PHPBB', true);
@@ -73,6 +90,25 @@ function phpbb2_create_topic(
     }
 
     return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+if ( $this_is_top_level_cli_invocation )
+{
+    // $argv[0] is the location of this file.
+    // $argv[1] indicates the function to call.
+    // $argv[2+] are the arguments to pass to it.
+
+    $func_name = 'phpbb2_' . $argv[1];
+    $args = array_slice( $argv, 2 );
+
+    // echo "calling $func_name with "; var_dump($args);
+    $result = call_user_func_array( $func_name, $args );
+    echo $result;
+    // So that $result will show up as the last line of input,
+    // which is captured & returned by exec() and system(),
+    // assuming that's how this is being invoked.
 }
 
 // vim: sw=4 ts=4 expandtab
