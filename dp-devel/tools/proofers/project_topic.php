@@ -52,10 +52,10 @@ Please review the [url=$code_url/project.php?id=$project_id&detail_level=1]proje
 ";
 
         $topic_id = phpbb2_create_topic(
-                $message,
-                $post_subject,
-                $proj_mgr,
                 $forum_id,
+                $post_subject,
+                $message,
+                $proj_mgr,
                 $sign_PM_up );
 
         //Update project_db with topic_id so it can be moved later

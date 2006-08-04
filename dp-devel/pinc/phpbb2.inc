@@ -1,7 +1,13 @@
 <?PHP
 
 // Wrappers around some phpBB2 functionality.
-//
+
+// Generally, for functions defined here,
+// parameters are in the order Where, What, Who:
+//     Where: $forum_id and/or $topic_id
+//     What:  $post_subject, $post_text
+//     Who:   $poster_name
+
 // It should probably stay fairly independent of DP.
 // (So it's code that could conceivably have been provided by phpBB itself.)
 
@@ -19,10 +25,10 @@ include_once($relPath . 'functions_insert_post.'.$phpEx);
 // -----------------------------------------------------------------------------
 
 function phpbb2_create_topic(
-    $post_text,
-    $post_subject,
-    $poster_name,
     $forum_id,
+    $post_subject,
+    $post_text,
+    $poster_name,
     $make_poster_watch_topic
 )
 {

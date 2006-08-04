@@ -42,10 +42,10 @@ Use this area to have a discussion with your fellow teammates! :-D
         $post_subject = $tname;
 
         $topic_id = phpbb2_create_topic(
-                $message,
-                $post_subject,
-                $towner_name,
                 $forum_id,
+                $post_subject,
+                $message,
+                $towner_name,
                 FALSE );
 
         //Update user_teams with topic_id so it won't be created again
