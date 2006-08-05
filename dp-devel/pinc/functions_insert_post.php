@@ -106,7 +106,7 @@ function insert_post(
     // parse the message and the subject (belt & braces :)
     $message = addslashes(unprepare_message($message));
     $message = prepare_message(trim($message), $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
-    $subject = addslashes(trim($subject));
+    $subject = addslashes(str_replace('"','&quot;',trim($subject)));
     $username = addslashes(unprepare_message(trim($user_name)));
     
     // fix for \" in username - wineknow.com
