@@ -3,6 +3,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'topic.inc'); // topic_create
 
@@ -10,19 +11,17 @@ include_once($relPath.'topic.inc'); // topic_create
 $project_id = $_GET['project'];
 
 // Get info about project
-$proj_result = mysql_query("SELECT nameofwork, authorsname, topic_id, username, state FROM projects WHERE projectid='$project_id'");
+$project = new Project($project_id);
 
-$row = mysql_fetch_array($proj_result);
-
-$topic_id = $row['topic_id'];
+$topic_id = $project->topic_id;
 
 //Determine if there is an existing topic or not; if not, create one
 if(($topic_id == "") || ($topic_id == 0))
 {
-        $nameofwork = $row['nameofwork'];
-        $authorsname = $row['authorsname'];
-        $proj_mgr = $row['username'];
-	$state = $row['state'];
+        $nameofwork = $project->nameofwork;
+        $authorsname = $project->authorsname;
+        $proj_mgr = $project->username;
+	$state = $project->state;
 
         // find out PM's preference about being signed up for notifications of replies to this thread;
         // can't use settings object, which would be for the user following the link to create the thread, 
