@@ -1104,6 +1104,7 @@ function do_post_downloads()
         echo_download_zip( _("Download Zipped Text"), '_corrections' );
     }
 
+    // regenerate post files. Only for site managers.
     if ( user_is_a_sitemanager() )
     {
         global $Round_for_round_id_, $code_url;
@@ -1152,6 +1153,12 @@ function do_post_downloads()
         echo "<input type='radio' name='which_text' value='LE'>";
         echo "the latest text saved in any round up to and including the selected round.<br>\n";
         echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
+
+        echo "Include proofer names:<br />\n";
+        echo "<input type='radio' name='include_proofers' value='Y' CHECKED />";
+        echo "include names<br />\n";
+        echo "<input type='radio' name='include_proofers' value='N' />";
+        echo "omit names<br />\n";
 
         echo "<input type='submit' value='(Re)generate'>\n";
         echo "</form>\n";
