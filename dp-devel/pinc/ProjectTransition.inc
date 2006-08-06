@@ -802,7 +802,7 @@ function proj_would_go_to_PP_out( $project, $transition )
 function round_to_PP_avail_collateral( $project, $transition, $who )
 {
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files( $project->projectid, $from_round->id, 'LE', '' );
+    generate_post_files( $project->projectid, $from_round->id, 'LE', 'Y', '' );
 
     $body_blurb =
         "This project has completed all rounds\n".
@@ -815,7 +815,7 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
 function round_to_PP_out_collateral( $project, $transition, $who )
 {
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files( $project->projectid, $from_round->id, 'LE', '' );
+    generate_post_files( $project->projectid, $from_round->id, 'LE', 'Y', '' );
 
     // The project has been checked out to someone for PPing.
     // We want to notify the PPer and the PM,
