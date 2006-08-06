@@ -4,7 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 
-function generate_post_files( $project, $limit_round_id, $which_text, $base_extra )
+function generate_post_files( $project, $limit_round_id, $which_text, $include_proofers, $base_extra )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
@@ -23,7 +23,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $base_extr
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
-    join_proofed_text($project, $pages_res, $fp);
+    join_proofed_text($project, $pages_res, $include_proofers, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -36,7 +36,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $base_extr
     // Join all the page texts into a TEIXLITE file...
     $tei_path = "{$pathbase}_TEI.txt";
     $fp = fopen($tei_path, "w");
-    join_proofed_text_tei($project, $pages_res, $fp);
+    join_proofed_text_tei($project, $pages_res, $include_proofers, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -63,7 +63,7 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
-function join_proofed_text ($project, $pages_res, $fp)
+function join_proofed_text ($project, $pages_res, $include_proofers, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -75,9 +75,11 @@ function join_proofed_text ($project, $pages_res, $fp)
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $info_str = "-----File: $filename---\\";
-        foreach ( $proofer_names as $proofer_name )
-        {
-            $info_str .= "$proofer_name\\";
+        if ('Y' == $include_proofers) {
+            foreach ( $proofer_names as $proofer_name )
+                {
+                    $info_str .= "$proofer_name\\";
+                }
         }
         $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
         $fileinfo = $eol . $separator_line . $eol . $text_data;
@@ -96,7 +98,7 @@ $linefeed = chr(10);
 // Tough luck for Mac or Unix users.
 
 
-function join_proofed_text_tei ($project, $pages_res, $fp)
+function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -178,15 +180,16 @@ function join_proofed_text_tei ($project, $pages_res, $fp)
 
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
-        $proofer_attributes = "";
-        $i = 0;
-        foreach ( $proofer_names as $proofer_name )
-        {
-            $i++;
-            $proofer_attributes .= " proofer$i='$proofer_name'";
-        }
-        fputs($fp,"\r\n\r\n<pb id='$filename'$proofer_attributes/>\r\n\r\n");
 
+        $proofer_attributes = "";
+        if ('Y' == $include_proofers) {            $i = 0;
+            foreach ( $proofer_names as $proofer_name )
+                {
+                    $i++;
+                    $proofer_attributes .= " proofer$i='$proofer_name'";
+                }
+            fputs($fp,"\r\n\r\n<pb id='$filename'$proofer_attributes/>\r\n\r\n");
+        }
         // SENDING PAGE-TEXT TO USER
         // It's an XML file, so the non-markup angle-brackets and ampersands
         // should be entity-encoded, but it's tricky to find them.
