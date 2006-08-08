@@ -50,7 +50,50 @@ function phpbb2_create_topic(
     $make_poster_watch_topic
 )
 {
-    // determine forum id and signature preference of poster
+    $post_result = _insert_post(
+        $forum_id,
+        NULL, // causes a new topic to be created
+        $post_subject,
+        $post_text,
+        $poster_name,
+        $poster_is_real
+    );
+
+    $topic_id = $post_result['topic_id'];
+
+    // if the poster wanted to be signed up for notifications, do so
+    if ($make_poster_watch_topic)
+    {
+        assert($poster_is_real);
+        $poster_id = $post_result['poster_id'];
+        mysql_query("
+            INSERT INTO phpbb_topics_watch
+            SET
+                user_id = $poster_id,
+                topic_id = $topic_id,
+                notify_status = 0
+        ") or die_nz(mysql_error());
+    }
+
+    return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+function _insert_post(
+    $forum_id,
+    $topic_id,
+    $post_subject,
+    $post_text,
+    $poster_name,
+    $poster_is_real
+)
+// Same as insert_post() in functions_insert_post.php, except:
+// -- if $poster_is_real, deduce $poster_id from $poster_name; otherwise use -1.
+// -- attachsig is deduced from poster's preferences;
+// -- we override $user_ip;
+// -- we omit some of insert_post()'s parameters, and rearrange the rest
+{
     if ( $poster_is_real )
     {
         // determine user_id and signature preference of poster
@@ -81,32 +124,19 @@ function phpbb2_create_topic(
     global $user_ip;
     $user_ip = '7f000001'; //127.0.0.1
 
-    // Create the topic (by calling insert_post() without a topic_id)
     $post_result = insert_post(
         $post_text,
         $post_subject,
         $forum_id,  
         $poster_id,
         $poster_name,
-        $poster_attachsig);
+        $poster_attachsig,
+        $topic_id
+    );
 
-    $topic_id = $post_result['topic_id'];
+    $post_result['poster_id'] = $poster_id;
 
-    // if the PM wanted to be signed up for notifications, do so
-
-    if ($make_poster_watch_topic)
-    {
-         assert($poster_is_real);
-         mysql_query("
-             INSERT INTO phpbb_topics_watch
-             SET
-                 user_id = $poster_id,
-                 topic_id = $topic_id,
-                 notify_status = 0
-         ") or die_nz(mysql_error());
-    }
-
-    return $topic_id;
+    return $post_result;
 }
 
 // -----------------------------------------------------------------------------
