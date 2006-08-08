@@ -1,8 +1,8 @@
 <?
 
-// Parameters for topic_create()
+// Parameters for topic_create() and topic_add_post()
 // are in the order Where, What, Who:
-//     Where: $forum_id
+//     Where: $forum_id or $topic_id
 //     What:  $post_subject, $post_text
 //     Who:   $poster_name, $poster_is_real
 
@@ -27,6 +27,21 @@ function topic_create(
     }
 
     return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+function topic_add_post(
+    $topic_id, 
+    $post_subject,
+    $post_text,
+    $poster_name,
+    $poster_is_real
+)
+// A proxy for phpbb2_add_post() in phpbb2.inc
+{
+    $args = func_get_args();
+    call_phpbb2_function( 'add_post', $args );
 }
 
 // -----------------------------------------------------------------------------
