@@ -54,7 +54,11 @@ function phpbb2_create_topic(
         SELECT user_id, user_attachsig
         FROM phpbb_users
         WHERE username = '$poster_name'
-    ");
+    ") or die_nz(mysql_error());
+    if ( mysql_num_rows($id_result) == 0 )
+    {
+        die_nz("no user named '$poster_name'");
+    }
     list($poster_id,$poster_attachsig) = mysql_fetch_row($id_result);
 
     // I'm not sure why we'd need this bit, but it was in the old code.
@@ -86,10 +90,19 @@ function phpbb2_create_topic(
                  user_id = $poster_id,
                  topic_id = $topic_id,
                  notify_status = 0
-         ") or die(mysql_error());
+         ") or die_nz(mysql_error());
     }
 
     return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+function die_nz($string)
+// Like die($string), but with a non-zero exit status.
+{
+    echo $string, "\n";
+    exit(1);
 }
 
 // -----------------------------------------------------------------------------
