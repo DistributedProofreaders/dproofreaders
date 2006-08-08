@@ -317,6 +317,7 @@ EOS;
             $post_subject,
             $post_body,
             $this->username,
+            TRUE,
             $sign_PM_up );
 
         // Save $topic_id in db and in $this.

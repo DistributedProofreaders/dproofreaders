@@ -6,7 +6,7 @@
 // parameters are in the order Where, What, Who:
 //     Where: $forum_id and/or $topic_id
 //     What:  $post_subject, $post_text
-//     Who:   $poster_name
+//     Who:   $poster_name, $poster_is_real
 
 // WARNING:
 // This file includes phpBB2 files, which set and use global variables,
@@ -46,23 +46,35 @@ function phpbb2_create_topic(
     $post_subject,
     $post_text,
     $poster_name,
+    $poster_is_real,
     $make_poster_watch_topic
 )
 {
     // determine forum id and signature preference of poster
-    $id_result = mysql_query("
-        SELECT user_id, user_attachsig
-        FROM phpbb_users
-        WHERE username = '$poster_name'
-    ") or die_nz(mysql_error());
-    if ( mysql_num_rows($id_result) == 0 )
+    if ( $poster_is_real )
     {
-        die_nz("no user named '$poster_name'");
-    }
-    list($poster_id,$poster_attachsig) = mysql_fetch_row($id_result);
+        // determine user_id and signature preference of poster
+        $id_result = mysql_query("
+            SELECT user_id, user_attachsig
+            FROM phpbb_users
+            WHERE username = '$poster_name'
+        ") or die_nz(mysql_error());
+        if ( mysql_num_rows($id_result) == 0 )
+        {
+            die_nz("no user named '$poster_name'");
+        }
+        list($poster_id,$poster_attachsig) = mysql_fetch_row($id_result);
 
-    // I'm not sure why we'd need this bit, but it was in the old code.
-    if ($poster_attachsig == '') {$poster_attachsig = 1;}
+        // I'm not sure why we'd need this bit, but it was in the old code.
+        if ($poster_attachsig == '') {$poster_attachsig = 1;}
+    }
+    else
+    {
+        // poster is fake
+        // (i.e., $poster_name is not the username of an actual user)
+        $poster_id = -1;
+        $poster_attachsig = FALSE;
+    }
 
     // Don't attach the current user's IP address (if any) to this post.
     // functions_insert_post.php gets the IP address from global $user_ip
@@ -84,6 +96,7 @@ function phpbb2_create_topic(
 
     if ($make_poster_watch_topic)
     {
+         assert($poster_is_real);
          mysql_query("
              INSERT INTO phpbb_topics_watch
              SET

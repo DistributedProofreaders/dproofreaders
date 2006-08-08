@@ -46,6 +46,7 @@ Use this area to have a discussion with your fellow teammates! :-D
                 $post_subject,
                 $message,
                 $towner_name,
+		TRUE,
                 FALSE );
 
         //Update user_teams with topic_id so it won't be created again

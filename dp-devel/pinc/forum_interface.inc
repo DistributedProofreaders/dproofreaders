@@ -4,7 +4,7 @@
 // are in the order Where, What, Who:
 //     Where: $forum_id
 //     What:  $post_subject, $post_text
-//     Who:   $poster_name
+//     Who:   $poster_name, $poster_is_real
 
 // -----------------------------------------------------------------------------
 
@@ -13,6 +13,7 @@ function topic_create(
     $post_subject,
     $post_text,
     $poster_name,
+    $poster_is_real,
     $make_poster_watch_topic
 )
 // A proxy for phpbb2_create_topic() in phpbb2.inc
