@@ -66,16 +66,48 @@ function phpbb2_create_topic(
     {
         assert($poster_is_real);
         $poster_id = $post_result['poster_id'];
-        mysql_query("
-            INSERT INTO phpbb_topics_watch
-            SET
-                user_id = $poster_id,
-                topic_id = $topic_id,
-                notify_status = 0
-        ") or die_nz(mysql_error());
+         mysql_query("
+             INSERT INTO phpbb_topics_watch
+             SET
+                 user_id = $poster_id,
+                 topic_id = $topic_id,
+                 notify_status = 0
+         ") or die_nz(mysql_error());
     }
 
     return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+function phpbb2_add_post(
+    $topic_id,
+    $post_subject,
+    $post_text,
+    $poster_name,
+    $poster_is_real
+)
+{
+    // Which forum is the topic in?
+    $res = mysql_query("
+        SELECT forum_id
+        FROM phpbb_topics
+        WHERE topic_id = $topic_id
+    ") or die_nz(mysql_error());
+    if ( mysql_num_rows($res) == 0 )
+    {
+        die_nz("no such topic: '$topic_id'\n");
+    }
+    list($forum_id) = mysql_fetch_row($res);
+
+    _insert_post(
+        $forum_id,
+        $topic_id,
+        $post_subject,
+        $post_text,
+        $poster_name,
+        $poster_is_real
+    );
 }
 
 // -----------------------------------------------------------------------------
@@ -127,7 +159,7 @@ function _insert_post(
     $post_result = insert_post(
         $post_text,
         $post_subject,
-        $forum_id,  
+        $forum_id,
         $poster_id,
         $poster_name,
         $poster_attachsig,
