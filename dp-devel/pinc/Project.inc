@@ -1,6 +1,9 @@
 <?PHP
 include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'topic.inc'); // topic_create
+
 new dbConnect;
 
 class Project
@@ -278,6 +281,53 @@ class Project
         }
 
         return $credits_line;
+    }
+
+    // -------------------------------------------------------------------------
+
+    function ensure_topic()
+    {
+        if ( !empty($this->topic_id) ) return $this->topic_id;
+
+        // Find out PM's preference about being signed up for notifications of replies to this topic.
+        $res = mysql_query("
+            SELECT value
+            FROM usersettings
+            WHERE username = '{$this->username}' AND setting = 'auto_proj_thread'
+        ") or die(mysql_error());
+        $signup_pref = @mysql_result($res,0); // @ because the result set may be empty
+        $sign_PM_up = ($signup_pref == 'yes');
+
+        // determine appropriate forum to create thread in
+        $forum_id = get_forum_id_for_project_state($this->state);
+
+        $post_subject = "\"{$this->nameofwork}\"    by {$this->authorsname}";
+
+        global $code_url;
+        $post_body = <<<EOS
+This thread is for discussion specific to "$this->nameofwork" by $this->authorsname.
+
+Please review the [url=$code_url/project.php?id={$this->projectid}&detail_level=1]project comments[/url] before posting, as well as any posts below, as your question may already be answered there.
+
+(This post is automatically generated.)
+EOS;
+
+        $topic_id = topic_create(
+            $forum_id,
+            $post_subject,
+            $post_body,
+            $this->username,
+            $sign_PM_up );
+
+        // Save $topic_id in db and in $this.
+        $update_project = mysql_query("
+            UPDATE projects
+            SET topic_id=$topic_id
+            WHERE projectid='{$this->projectid}'
+        ");
+        $this->topic_id = $topic_id;
+
+        return $topic_id;
     }
 }
 
