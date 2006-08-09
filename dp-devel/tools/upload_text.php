@@ -59,7 +59,7 @@ else if ($stage == 'correct')
     $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
     $back_blurb = _("Back to Gold List");
-    $bottom_blurb = $standard_blurb ._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
+    $bottom_blurb = $standard_blurb . " " . _("When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
 }
 else if ($stage == 'smooth_avail')
 {
@@ -233,10 +233,10 @@ else
     $postcomments = @$_POST['postcomments'];
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
-        $divider .= "  ".$name._(" uploaded by ");
+        $divider .= "  ".$name." "._("uploaded by")." ";
     }
     else if ($returning_to_pool) {
-        $divider .= _(" returned by ");
+        $divider .= " "._("returned by")." ";
     }
     else {
         $divider .= " "; // this shouldn't actually happen
