@@ -10,6 +10,11 @@ include_once($relPath.'theme.inc');
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
+$project = $_REQUEST['project'];
+$stage   = $_REQUEST['stage'];
+$weeks   = @$_REQUEST['weeks'];
+$action  = @$_REQUEST['action'];
+
 if ($stage == 'post_1')
 {
     $what = _("Post-Processed File");
@@ -223,6 +228,7 @@ else
     // if we're returning to available, and the user hasn't loaded a file, and not
     // entered any comments, we don't bother.
     // Otherwise, we add a divider, time stamp, user name, and the name of the file
+    $postcomments = @$_POST['postcomments'];
     $divider = "\n----------\n".date("Y-m-d H:i");
     if ($have_file) {
         $divider .= "  ".$name._(" uploaded by ");
