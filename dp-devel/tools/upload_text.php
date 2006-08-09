@@ -6,6 +6,8 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
+include_once($relPath.'topic.inc');
 
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
@@ -262,6 +264,17 @@ else
                           WHERE projectid = '$projectid'
                       ";
         $qry =  mysql_query($qstring);
+
+        // Add an auto-post to the project's discussion topic.
+        $project = new Project($projectid);
+        $project->ensure_topic();
+        topic_add_post(
+            $project->topic_id,
+            "Project made available for smooth-reading",
+            "The project has just been made available for smooth-reading for $weeks weeks.",
+            '[Smooth Reading Monitor]',
+            FALSE
+        );
     }
 
     // let them know file uploaded and send back to the right place
