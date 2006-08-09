@@ -271,7 +271,9 @@ else
         topic_add_post(
             $project->topic_id,
             "Project made available for smooth-reading",
-            "The project has just been made available for smooth-reading for $weeks weeks.",
+            "The project has just been made available for smooth-reading for $weeks weeks."
+                . "\n\n"
+                . "(This post is automatically generated.)",
             '[Smooth Reading Monitor]',
             FALSE
         );
