@@ -184,7 +184,8 @@ function html_logobar($nameofpage) {
 
 	echo headerbar_text("DP","$code_url/default.php");
 
-	if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
+	// This probably isn't useful enough to justify its presence.
+	// if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
 	//Code to display login form if not logged in
 	if (!isset($GLOBALS['pguser'])) {
