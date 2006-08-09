@@ -616,7 +616,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'confirmation_question' => null,
             'detour'                => null,
             'settings_template'     => '',
-            'collateral_actions'    => null,
+            'collateral_actions'    => 'round_complete_collateral',
         )
     );
 
@@ -772,6 +772,20 @@ function round_release_collateral( $project, $transition, $who )
             "This project has been manually released by $who and has just become available in '{$round->name}'.",
             "DP Proofreading Started (Manual Release)");
     }
+
+    $project->ensure_topic();
+
+    topic_add_post(
+        $project->topic_id,
+        "Project released in {$round->id}",
+        "The project has just changed state from "
+            . project_states_text($transition->from_state)
+            . " to "
+            . project_states_text($transition->to_state)
+            . "\n\n(This post is automatically generated.)",
+        '[Round Release Monitor]',
+        FALSE
+    );
 }
 
 function bad_project_collateral( $project, $transition, $who )
@@ -785,6 +799,26 @@ of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
     maybe_mail_project_manager(
         get_object_vars($project), $body_blurb, "DP Bad Project");
+}
+
+function round_complete_collateral( $project, $transition, $who )
+{
+    $round = get_Round_for_project_state($transition->to_state);
+    assert( !is_null($round) );
+
+    $project->ensure_topic();
+
+    topic_add_post(
+        $project->topic_id,
+        "Project completed {$round->id}",
+        "The project has just changed state from "
+            . project_states_text($transition->from_state)
+            . " to "
+            . project_states_text($transition->to_state)
+            . "\n\n(This post is automatically generated.)",
+        '[Round Completion Monitor]',
+        FALSE
+    );
 }
 
 function proj_would_go_to_PP_avail( $project, $transition )
