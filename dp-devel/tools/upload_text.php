@@ -10,7 +10,7 @@ include_once($relPath.'theme.inc');
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
-$project = $_REQUEST['project'];
+$projectid = $_REQUEST['project'];
 $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
@@ -57,7 +57,7 @@ else if ($stage == 'correct')
     $back_blurb = _("Back to Gold List");
     $corrections_blurb = sprintf(
         _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
-        "$code_url/project.php?id=$project&detail_level=3"
+        "$code_url/project.php?id=$projectid&detail_level=3"
     );
     $bottom_blurb = $standard_blurb . " " . $corrections_blurb;
 }
@@ -67,7 +67,7 @@ else if ($stage == 'smooth_avail')
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
-    $back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
+    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Back to Project Page");
     $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
@@ -78,7 +78,7 @@ else if ($stage == 'smooth_done')
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
-    $back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
+    $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Back to Project Page");
     $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
@@ -102,7 +102,7 @@ if (!isset($action))
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<B><font color='#ffffff'>$title</font></B>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
+    echo "<INPUT TYPE='hidden' NAME='project' VALUE='$projectid'>";
     echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
     echo "<INPUT TYPE='hidden' NAME='weeks' VALUE='$weeks'>";
     echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
@@ -140,7 +140,7 @@ else
 
     // make reasonably sure script does not timeout on large file uploads
     set_time_limit(14400);
-    $path_to_file = "$projects_dir/$project";
+    $path_to_file = "$projects_dir/$projectid";
 
     $files = $HTTP_POST_FILES['files'];
 
@@ -215,7 +215,7 @@ else
     if ($have_file) {
         // replace filename
         $zipext = ".zip";
-        $name = $project.$indicator.$zipext;
+        $name = $projectid.$indicator.$zipext;
         $location = $path_to_file.$name;
         ensure_path_is_unused( $location );
         copy($files['tmp_name'][0],$location);
@@ -243,7 +243,7 @@ else
         $postcomments = $divider . $postcomments;
     }
 
-    $error_msg = project_transition( $project, $new_state, $pguser, $extras );
+    $error_msg = project_transition( $projectid, $new_state, $pguser, $extras );
     if ($error_msg)
     {
         echo "$error_msg<br>\n";
@@ -259,7 +259,7 @@ else
             $qstring .= "smoothread_deadline = $deadline, ";
         }
         $qstring .= "postcomments = CONCAT(postcomments,'$postcomments')
-                          WHERE projectid = '$project'
+                          WHERE projectid = '$projectid'
                       ";
         $qry =  mysql_query($qstring);
     }
