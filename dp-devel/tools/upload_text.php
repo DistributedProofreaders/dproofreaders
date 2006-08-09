@@ -19,8 +19,7 @@ $standard_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped 
 
 if ($stage == 'post_1')
 {
-    $what = _("Post-Processed File");
-    $for_what = _("for Verification");
+    $title = _("Upload Post-Processed File for Verification");
     $indicator = "_second";
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -30,8 +29,7 @@ if ($stage == 'post_1')
 }
 else if ($stage == 'return_1')
 {
-    $what = _("In progress Post-Processed File");
-    $for_what = _("for others to work on");
+    $title = _("Upload In progress Post-Processed File for others to work on");
     $indicator = "_first_in_prog_".$pguser;
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
@@ -41,8 +39,7 @@ else if ($stage == 'return_1')
 }
 else if ($stage == 'return_2')
 {
-    $what = _("In progress Verified File");
-    $for_what = _("for others to work on");
+    $title = _("Upload In progress Verified File for others to work on");
     $indicator = "_second_in_prog_".$pguser;
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -52,8 +49,7 @@ else if ($stage == 'return_2')
 }
 else if ($stage == 'correct')
 {
-    $what = _("Corrected Edition");
-    $for_what = _("for Verification");
+    $title = _("Upload Corrected Edition for Verification");
     $indicator = "_corrections";
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
@@ -63,8 +59,7 @@ else if ($stage == 'correct')
 }
 else if ($stage == 'smooth_avail')
 {
-    $what = _("File Ready for Smooth Reading");
-    $for_what = "";
+    $title = _("Upload File Ready for Smooth Reading");
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -75,8 +70,7 @@ else if ($stage == 'smooth_avail')
 }
 else if ($stage == 'smooth_done')
 {
-    $what = _("Smooth Read Version");
-    $for_what = "";
+    $title = _("Upload Smooth Read Version");
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -97,13 +91,12 @@ if (!isset($action))
 {
     // Present the upload page.
 
-    $header = "$what "._("Upload");
-    theme($header, "header");
+    theme($title, "header");
 
     echo "<FORM ACTION='upload_text.php' METHOD='POST' ENCTYPE='multipart/form-data'>";
     echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<B><font color='#ffffff'>"._("Upload $what $for_what")."</font></B>";
+    echo "<B><font color='#ffffff'>$title</font></B>";
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<INPUT TYPE='hidden' NAME='project' VALUE=$project>";
     echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
