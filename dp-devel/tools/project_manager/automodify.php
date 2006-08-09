@@ -325,7 +325,7 @@ if ($verbose)
 
 echo "</pre>\n";
 
-if (!$one_project || startswith(@$_GET['project'], 'adhoc_p2w_')) // TESTING ONLY; DON'T COMMIT THIS CHANGE
+if (!$one_project)
 {
     // log tracetimes
     $tracetimea = time();
