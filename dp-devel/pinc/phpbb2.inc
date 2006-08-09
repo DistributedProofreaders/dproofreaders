@@ -140,8 +140,15 @@ function _insert_post(
         }
         list($poster_id,$poster_attachsig) = mysql_fetch_row($id_result);
 
-        // I'm not sure why we'd need this bit, but it was in the old code.
-        if ($poster_attachsig == '') {$poster_attachsig = 1;}
+        // The 'user_attachsig' column is defined as "tinyint(1) default NULL",
+        // so its possible values are 0, 1, and NULL,
+        // and the possible values of $poster_attachsig are '0', '1', and NULL.
+        // (Note that mysql_fetch_* always returns values as string or null.)
+        // It turns out that insert_post()'s $user_attach_sig parameter
+        // can't handle a NULL, so we have to deal with that here.
+        //
+        if ( is_null($poster_attachsig) ) {$poster_attachsig = 1;}
+        // (It seems to me that 0 or '0' would make more sense than 1.)
     }
     else
     {
