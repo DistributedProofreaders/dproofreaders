@@ -55,7 +55,11 @@ else if ($stage == 'correct')
     $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
     $back_blurb = _("Back to Gold List");
-    $bottom_blurb = $standard_blurb . " " . _("When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
+    $corrections_blurb = sprintf(
+        _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
+        "http://www.pgdp.net/projects/$project"
+    );
+    $bottom_blurb = $standard_blurb . " " . $corrections_blurb;
 }
 else if ($stage == 'smooth_avail')
 {
