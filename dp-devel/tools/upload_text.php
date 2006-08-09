@@ -15,6 +15,8 @@ $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
 
+$standard_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+
 if ($stage == 'post_1')
 {
     $what = _("Post-Processed File");
@@ -24,7 +26,7 @@ if ($stage == 'post_1')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Back to Post Proofers Page");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'return_1')
 {
@@ -35,7 +37,7 @@ else if ($stage == 'return_1')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Back to Post Proofers Page");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file. To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
+    $bottom_blurb = $standard_blurb . " " . _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
 }
 else if ($stage == 'return_2')
 {
@@ -46,7 +48,7 @@ else if ($stage == 'return_2')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Back to Post Proofer Verification Page");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file. To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
+    $bottom_blurb = $standard_blurb . " " . _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
 }
 else if ($stage == 'correct')
 {
@@ -57,7 +59,7 @@ else if ($stage == 'correct')
     $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
     $back_blurb = _("Back to Gold List");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page.    This is because it is uploading the file.")._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
+    $bottom_blurb = $standard_blurb ._(" When making corrections, please read over the entire book and compare your corrections to the <a href='http://www.pgdp.net/projects/$project'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums.");
 }
 else if ($stage == 'smooth_avail')
 {
@@ -68,7 +70,7 @@ else if ($stage == 'smooth_avail')
     $extras = array();
     $back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
     $back_blurb = _("Back to Project Page");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
 else if ($stage == 'smooth_done')
@@ -80,7 +82,7 @@ else if ($stage == 'smooth_done')
     $extras = array();
     $back_url = "$code_url/project.php?id=$project&amp;expected_state=$new_state";
     $back_blurb = _("Back to Project Page");
-    $bottom_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
 }
