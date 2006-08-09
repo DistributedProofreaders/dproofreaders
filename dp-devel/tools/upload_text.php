@@ -57,7 +57,7 @@ else if ($stage == 'correct')
     $back_blurb = _("Back to Gold List");
     $corrections_blurb = sprintf(
         _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
-        "http://www.pgdp.net/projects/$project"
+        "$code_url/project.php?id=$project&detail_level=3"
     );
     $bottom_blurb = $standard_blurb . " " . $corrections_blurb;
 }
