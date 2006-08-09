@@ -155,7 +155,7 @@ function _insert_post(
         // poster is fake
         // (i.e., $poster_name is not the username of an actual user)
         $poster_id = -1;
-        $poster_attachsig = FALSE;
+        $poster_attachsig = '0';
     }
 
     // Don't attach the current user's IP address (if any) to this post.
