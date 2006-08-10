@@ -37,10 +37,9 @@ if ( empty($which_text) )
     die( "parameter 'which_text' is empty or unset" );
 }
 
-if ( empty($include_proofers) )
-{
-    die( "parameter 'include_proofers' is empty or unset" );
-}
+// don't check $include_proofers, as it is allowed to be '0' which counts
+// as empty. 
+// if it hasn't been set, it'll default to FALSE, which will be OK. 
 
 
 set_time_limit(0); // no time limit

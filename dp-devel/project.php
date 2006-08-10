@@ -1155,9 +1155,9 @@ function do_post_downloads()
         echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
 
         echo "Include proofer names:<br />\n";
-        echo "<input type='radio' name='include_proofers' value='Y' CHECKED />";
+        echo "<input type='radio' name='include_proofers' value='1' CHECKED />";
         echo "include names<br />\n";
-        echo "<input type='radio' name='include_proofers' value='N' />";
+        echo "<input type='radio' name='include_proofers' value='0' />";
         echo "omit names<br />\n";
 
         echo "<input type='submit' value='(Re)generate'>\n";

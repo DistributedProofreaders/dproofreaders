@@ -75,7 +75,7 @@ function join_proofed_text ($project, $pages_res, $include_proofers, $fp)
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
         $info_str = "-----File: $filename---\\";
-        if ('Y' == $include_proofers) {
+        if ($include_proofers) {
             foreach ( $proofer_names as $proofer_name )
                 {
                     $info_str .= "$proofer_name\\";
@@ -182,7 +182,7 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     {
 
         $proofer_attributes = "";
-        if ('Y' == $include_proofers) {            $i = 0;
+        if ($include_proofers) {            $i = 0;
             foreach ( $proofer_names as $proofer_name )
                 {
                     $i++;
