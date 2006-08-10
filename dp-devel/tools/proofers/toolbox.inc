@@ -86,7 +86,7 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
 >
 <div
     class='proofbutton'
-    style='height: 22px; padding-left: 2px; padding-right: 2px;'
+    style='height: 22px; width: 22px; padding-left: 2px; padding-right: 2px;'
     onmousedown="$onmousedown_js"
     onmouseup="$onmouseup_js"
     align="top"
