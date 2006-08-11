@@ -592,7 +592,7 @@ class ProjectInfoHolder
             project_allow_pages( $this->projectid );
 
             // Make a directory in the projects_dir for this project
-            mkdir("$projects_dir/$this->projectid", 0777);
+            mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
             chmod("$projects_dir/$this->projectid", 0777);
 
             $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd));
