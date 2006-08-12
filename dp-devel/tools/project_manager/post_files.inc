@@ -50,7 +50,22 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
 // generate a zip file on the fly and download it
 function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
 {
-    $filename = $project."_interim";
+    $filename = $project;
+    if ('[OCR]' == $limit_round_id) 
+    {
+        $filename .= '_OCR';
+    }
+    else
+    {
+        $filename .= '_' . $limit_round_id;
+        if ('EQ' == $which_text) {
+            $filename .= '_saved';
+        }
+        else 
+        {
+            $filename .= '_latest';
+        }
+    }
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
     // join the page texts together
     $filedata = join_proofed_text($project, $pages_res, $include_proofers, $save_files, '');
