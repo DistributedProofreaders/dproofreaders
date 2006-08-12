@@ -1064,106 +1064,147 @@ function do_post_downloads()
 {
     global $project, $pguser;
 
-    if ( !user_can_work_in_stage($pguser, 'PP') ) return;
-
     if ( !$project->dir_exists && !$project->pages_table_exists ) return;
 
     $projectid = $project->projectid;
     $state = $project->state;
 
-    echo "<h4>";
-    echo _("Post Downloads");
-    echo "</h4>\n";
-
-    echo "<ul>";
-
-    echo_download_zip( _("Download Zipped Images"), 'images' );
-
-    if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
+    if ( user_can_work_in_stage($pguser, 'PP') )
     {
-        echo_download_zip( _("Download Zipped Text"), '' );
+        echo "<h4>";
+        echo _("Post Downloads");
+        echo "</h4>\n";
+        
+        echo "<ul>";
 
-        echo_download_zip( _("Download Zipped TEI Text"), '_TEI' );
+        echo_download_zip( _("Download Zipped Images"), 'images' );
 
-        echo "<li>";
-        echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
-        echo "</li>";
-
-
-    }
-    elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
-    {
-        echo_download_zip( _("Download Zipped Text"), '_second' );
-
-        echo "<li>";
-        echo_uploaded_zips('_second_in_prog_', _('partially verified'));
-        echo "</li>";
-    }
-    elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
-    {
-        echo_download_zip( _("Download Zipped Text"), '_corrections' );
-    }
-
-    // regenerate post files. Only for site managers.
-    if ( user_is_a_sitemanager() )
-    {
-        global $Round_for_round_id_, $code_url;
-
-        $sums_str = "";
-        foreach ( $Round_for_round_id_ as $round )
+        if ($state==PROJ_POST_FIRST_AVAILABLE || $state==PROJ_POST_FIRST_CHECKED_OUT)
         {
-            if ( !empty($sums_str) ) $sums_str .= ', ';
-            $sums_str .= "SUM( $round->text_column_name != '' ) AS $round->id";
+            echo_download_zip( _("Download Zipped Text"), '' );
+
+            echo_download_zip( _("Download Zipped TEI Text"), '_TEI' );
+
+            echo "<li>";
+            echo_uploaded_zips('_first_in_prog_', _('partially post-processed'));
+            echo "</li>";
+
+
         }
-        $res = mysql_query("
+        elseif ($state==PROJ_POST_SECOND_AVAILABLE || $state==PROJ_POST_SECOND_CHECKED_OUT)
+        {
+            echo_download_zip( _("Download Zipped Text"), '_second' );
+
+            echo "<li>";
+            echo_uploaded_zips('_second_in_prog_', _('partially verified'));
+            echo "</li>";
+        }
+        elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
+        {
+            echo_download_zip( _("Download Zipped Text"), '_corrections' );
+        }
+        echo "<br>";
+    }
+    else
+    {
+        echo "<h4>";
+        echo _("Concatenated Text Files");
+        echo "</h4>\n";
+
+        echo "<ul>";
+    }
+    // regenerate post files. Only for site managers.
+    // or download concatenated text, for all. Do we want to limit
+    // this to people allowed to work in PP? If so, we should definitely 
+    // include the PM of this project.
+
+    global $Round_for_round_id_, $code_url;
+
+    $sums_str = "";
+    foreach ( $Round_for_round_id_ as $round )
+    {
+        if ( !empty($sums_str) ) $sums_str .= ', ';
+        $sums_str .= "SUM( $round->text_column_name != '' ) AS $round->id";
+    }
+    $res = mysql_query("
             SELECT $sums_str
             FROM $projectid
         ") or die(mysql_error());
-        $sums = mysql_fetch_assoc($res);
+    $sums = mysql_fetch_assoc($res);
 
+    foreach ( $Round_for_round_id_ as $round )
+    {
+        if ( intval($sums[$round->id]) != 0 )
+        {
+            $highest_round_id = $round->id;
+        }
+    }
+
+    echo "<li>";
+    if ( user_is_a_sitemanager() )
+    {
+        echo "Generate Post Files (This will overwrite existing post files, if any.)\n";
+    }
+    else
+    {
+        echo "Download Concatenated Text\n";
+    }
+    echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
+    echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+
+    echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
+    if ( isset($highest_round_id) )
+    {
         foreach ( $Round_for_round_id_ as $round )
         {
-            if ( intval($sums[$round->id]) != 0 )
-            {
-                $highest_round_id = $round->id;
-            }
+            $checked = ( $round->id == $highest_round_id ? 'CHECKED' : '');
+            echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
+            if ( $round->id == $highest_round_id ) break;
         }
+    }
+    echo "<br>";
 
-        echo "<br>";
-        echo "<li>";
-        echo "Generate Post Files (This will overwrite existing post files, if any.)\n";
-        echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
-        echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+    echo "For each page, use:<br>\n";
+    echo "<input type='radio' name='which_text' value='EQ' CHECKED>";
+    echo "the text (if any) saved in the selected round; or<br>\n";
+    echo "<input type='radio' name='which_text' value='LE'>";
+    echo "the latest text saved in any round up to and including the selected round.<br>\n";
+    echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
 
-        echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
-        if ( isset($highest_round_id) )
-        {
-            foreach ( $Round_for_round_id_ as $round )
-            {
-                $checked = ( $round->id == $highest_round_id ? 'CHECKED' : '');
-                echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
-                if ( $round->id == $highest_round_id ) break;
-            }
-        }
-        echo "<br>";
-
-        echo "For each page, use:<br>\n";
-        echo "<input type='radio' name='which_text' value='EQ' CHECKED>";
-        echo "the text (if any) saved in the selected round; or<br>\n";
-        echo "<input type='radio' name='which_text' value='LE'>";
-        echo "the latest text saved in any round up to and including the selected round.<br>\n";
-        echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
-
-        echo "Include proofer names:<br />\n";
+    // proofer names allowed for people who can see proofer names
+    // on the page details
+    if ( $project->names_can_be_seen_by_current_user )
+    {
+        echo "Include proofer names? &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='1' CHECKED />";
-        echo "include names<br />\n";
+        echo "Yes &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='0' />";
-        echo "omit names<br />\n";
+        echo "No<br />\n";
+    }
+    else
+    {
+        echo "<input type='hidden' name='include_proofers' value='0' />";
+    }
+
+    // saving files allowed only for sitemanagers
+    if (user_is_a_sitemanager())
+    {
+        echo "Save file on server?  &nbsp;&nbsp; ";
+        echo "<input type='radio' name='save_file' value='1' CHECKED />";
+        echo "Yes &nbsp;&nbsp; ";
+        echo "<input type='radio' name='save_file' value='0' />";
+        echo "No<br />\n";
 
         echo "<input type='submit' value='(Re)generate'>\n";
-        echo "</form>\n";
-        echo "</li>";
     }
+    else
+    {
+        echo "<input type='hidden' name='save_file' value='0' />";
+        echo "<input type='submit' value='Download'>\n";
+    }
+
+    echo "</form>\n";
+    echo "</li>";
 
     echo "</ul>\n";
 }
