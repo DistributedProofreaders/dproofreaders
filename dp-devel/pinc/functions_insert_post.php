@@ -194,8 +194,17 @@ function insert_post(
         global $userdata;
         $userdata['user_id'] = $user_id;
 
+	// DP bugfix (minor): We should pass the topic title, not the post subject,
+	// as the third param to user_notification.
+        $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id = $topic_id";
+        if ( !($result = $db->sql_query($sql)) )
+        {
+            $error_die_function(GENERAL_ERROR, 'Error getting topic_title', '', __LINE__, __FILE__, $sql);
+        }
+        list($topic_title) = $db->sql_fetchrow($result); 
+
         $post_data = array();
-        user_notification($mode, $post_data, $subject, $forum_id, $topic_id, $post_id, $notify_user);
+        user_notification($mode, $post_data, $topic_title, $forum_id, $topic_id, $post_id, $notify_user);
     }
     
     // if all is well then return the id of our new post
