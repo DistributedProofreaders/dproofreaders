@@ -18,10 +18,7 @@ function echo_page_table(
 	$can_edit = $project->can_be_managed_by_current_user;
 
 	// want PPers able to see names
-	$can_see_names_for_all_pages = (
-		$can_edit
-		|| $project->PPer_is_current_user
-		|| $project->PPVer_is_current_user ) ;
+	$can_see_names_for_all_pages = $project->names_can_be_seen_by_current_user;
 
 	if ( $disable_editing )
 	{
