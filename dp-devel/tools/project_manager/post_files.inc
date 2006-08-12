@@ -3,6 +3,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'make_zip.inc');
 
 function generate_post_files( $project, $limit_round_id, $which_text, $include_proofers, $base_extra )
 // Generate the files needed for post-processing.
@@ -23,7 +24,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
-    join_proofed_text($project, $pages_res, $include_proofers, $fp);
+    join_proofed_text($project, $pages_res, $include_proofers, $save_files, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -46,6 +47,21 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
 }
 
 // -----------------------------------------------------------------------------
+// generate a zip file on the fly and download it
+function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
+{
+    $filename = $project."_interim";
+    $pages_res = page_info_query($project, $limit_round_id, $which_text);
+    // join the page texts together
+    $filedata = join_proofed_text($project, $pages_res, $include_proofers, $save_files, '');
+    $zipfile = new zipfile();   
+    $zipfile -> add_file($filedata, "{$filename}.txt");   
+    header("Content-type: application/octet-stream");   
+    header("Content-disposition: attachment; filename={$filename}.zip");   
+    echo $zipfile -> file();   
+}
+
+// -----------------------------------------------------------------------------
 
 function write_project_comments($project, $fp)
 {
@@ -63,7 +79,7 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
-function join_proofed_text ($project, $pages_res, $include_proofers, $fp)
+function join_proofed_text ($project, $pages_res, $include_proofers, $save_files, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -72,21 +88,31 @@ function join_proofed_text ($project, $pages_res, $include_proofers, $fp)
     $linefeed = chr(10);
     $eol = $carriagereturn.$linefeed;
 
+    $filedata = "";
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
-        $info_str = "-----File: $filename---\\";
+        $info_str = "-----File: $filename---";
         if ($include_proofers) {
+            $info_str .= "\\";
             foreach ( $proofer_names as $proofer_name )
-                {
-                    $info_str .= "$proofer_name\\";
-                }
+            {
+                $info_str .= "$proofer_name\\";
+            }
         }
         $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
         $fileinfo = $eol . $separator_line . $eol . $text_data;
-        // SENDING PAGE-TEXT TO USER
-        // It's a text-file, so no encoding is necessary.
-        fputs($fp,$fileinfo);
+        if ($save_files) 
+        {
+            // SENDING PAGE-TEXT TO USER
+            // It's a text-file, so no encoding is necessary.
+            fputs($fp,$fileinfo);
+        }
+        else
+        {
+            $filedata .= $fileinfo;
+        }
     }
+    return $filedata;
 }
 
 // -----------------------------------------------------------------------------
