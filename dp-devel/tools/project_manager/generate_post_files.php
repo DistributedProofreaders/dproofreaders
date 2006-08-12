@@ -4,6 +4,7 @@ include_once($relPath.'v_site.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'Project.inc');
 include_once('./post_files.inc');
 
 $projectid = @$_REQUEST['projectid'];
