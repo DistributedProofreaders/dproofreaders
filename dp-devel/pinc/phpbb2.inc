@@ -170,7 +170,9 @@ function _insert_post(
         $poster_id,
         $poster_name,
         $poster_attachsig,
-        $topic_id
+        $topic_id,
+        POST_NORMAL,
+        TRUE
     );
 
     $post_result['poster_id'] = $poster_id;
