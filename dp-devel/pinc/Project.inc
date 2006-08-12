@@ -92,39 +92,50 @@ class Project
 
         $this->can_be_managed_by_current_user =
             $this->can_be_managed_by_user( $pguser );
+        $this->names_can_be_seen_by_current_user =
+            $this->names_can_be_seen_by_user( $pguser );
+        $this->PPer_is_current_user =
+            $this->PPer_is_user( $pguser);
+        $this->PPVer_is_current_user =
+            $this->PPVer_is_user( $pguser);
+    }
 
-        if (is_null($pguser))
-        {
-            $this->PPer_is_current_user = FALSE;
-            $this->PPVer_is_current_user = FALSE;
-        }
-        else
-        {
-            $this->PPer_is_current_user =
-                $this->postproofer == $pguser
-                ||
-                (
-                    $this->checkedoutby == $pguser
-                    &&
-                    (
-                        $this->state != 'proj_post_second_checked_out'
-                        &&
-                        $this->state != 'proj_correct_checked_out'
-                    )
-                );
+    // -------------------------------------------------------------------------
 
-            $this->PPVer_is_current_user =
-                ( $this->state == 'proj_post_first_checked_out'
-                    || $this->state == 'proj_post_second_checked_out' )
-                && $this->checkedoutby == $pguser
-                && user_can_work_in_stage($pguser, 'PPV');
-            // You might think that we should only allow
-            //     $this->state == 'proj_post_second_checked_out'
-            // But if someone with PPV-ability is PPing a project,
-            // they can (and probably will) directly post to PG,
-            // with no explicit PPV phase. Thus, they are effectively
-            // both the PPer and PPVer of the project.
-        }
+    function PPer_is_user($username) 
+    {
+        if ( is_null($username) ) return FALSE;
+        return 
+            ($this->postproofer == $username
+             ||
+             (
+              $this->checkedoutby == $username
+              &&
+              (
+               $this->state != 'proj_post_second_checked_out'
+               &&
+               $this->state != 'proj_correct_checked_out'
+               )
+              )
+             );
+    }
+
+    // -------------------------------------------------------------------------
+
+    function PPVer_is_user($username)
+    {
+        if ( is_null($username) ) return FALSE;
+        return 
+            ( $this->state == 'proj_post_first_checked_out'
+              || $this->state == 'proj_post_second_checked_out' )
+            && $this->checkedoutby == $username
+            && user_can_work_in_stage($username, 'PPV');
+        // You might think that we should only allow
+        //     $this->state == 'proj_post_second_checked_out'
+        // But if someone with PPV-ability is PPing a project,
+        // they can (and probably will) directly post to PG,
+        // with no explicit PPV phase. Thus, they are effectively
+        // both the PPer and PPVer of the project.
     }
 
     // -------------------------------------------------------------------------
@@ -138,6 +149,17 @@ class Project
             || that_user_is_proj_facilitator($username) );
     }
 
+    // -------------------------------------------------------------------------
+
+    function names_can_be_seen_by_user( $username)
+    {
+        if ( is_null($username) ) return FALSE;
+        return
+            ($this->can_be_managed_by_user($username)
+             || $this->PPer_is_user($username)
+             || $this->PPVer_is_user($username) );
+        
+    }
     // -------------------------------------------------------------------------
 
     // These should be treated as constants.
