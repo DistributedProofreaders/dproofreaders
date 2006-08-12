@@ -1152,15 +1152,19 @@ function do_post_downloads()
     echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 
-    echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
     if ( isset($highest_round_id) )
     {
+        echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
         foreach ( $Round_for_round_id_ as $round )
         {
             $checked = ( $round->id == $highest_round_id ? 'CHECKED' : '');
             echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
             if ( $round->id == $highest_round_id ) break;
         }
+    }
+    else
+    {
+        echo "<input type='radio' name='round_id' value='[OCR]' CHECKED>[OCR]&nbsp;\n";
     }
     echo "<br>";
 
