@@ -26,6 +26,11 @@ function endswith( $subject, $suffix )
     return ( substr( $subject, -strlen($suffix) ) == $suffix );
 }
 
+function str_contains( $haystack, $needle )
+{
+    return ( strpos( $haystack, $needle ) !== FALSE );
+}
+
 function surround_and_join( $strings, $L, $R, $joiner )
 {
     $parts = array();
