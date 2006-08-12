@@ -9,6 +9,7 @@ include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
+include_once($relPath.'v_site.inc'); // $auto_post_to_project_topic
 
 define('PT_AUTO', '[AUTO]');
 
@@ -773,19 +774,23 @@ function round_release_collateral( $project, $transition, $who )
             "DP Proofreading Started (Manual Release)");
     }
 
-    $project->ensure_topic();
+    global $auto_post_to_project_topic;
+    if ( $auto_post_to_project_topic )
+    {
+        $project->ensure_topic();
 
-    topic_add_post(
-        $project->topic_id,
-        "Project released in {$round->id}",
-        "The project has just changed state from "
-            . project_states_text($transition->from_state)
-            . " to "
-            . project_states_text($transition->to_state)
-            . "\n\n(This post is automatically generated.)",
-        '[Round Release Monitor]',
-        FALSE
-    );
+        topic_add_post(
+            $project->topic_id,
+            "Project released in {$round->id}",
+            "The project has just changed state from "
+                . project_states_text($transition->from_state)
+                . " to "
+                . project_states_text($transition->to_state)
+                . "\n\n(This post is automatically generated.)",
+            '[Round Release Monitor]',
+            FALSE
+        );
+    }
 }
 
 function bad_project_collateral( $project, $transition, $who )
@@ -806,19 +811,23 @@ function round_complete_collateral( $project, $transition, $who )
     $round = get_Round_for_project_state($transition->to_state);
     assert( !is_null($round) );
 
-    $project->ensure_topic();
+    global $auto_post_to_project_topic;
+    if ( $auto_post_to_project_topic )
+    {
+        $project->ensure_topic();
 
-    topic_add_post(
-        $project->topic_id,
-        "Project completed {$round->id}",
-        "The project has just changed state from "
-            . project_states_text($transition->from_state)
-            . " to "
-            . project_states_text($transition->to_state)
-            . "\n\n(This post is automatically generated.)",
-        '[Round Completion Monitor]',
-        FALSE
-    );
+        topic_add_post(
+            $project->topic_id,
+            "Project completed {$round->id}",
+            "The project has just changed state from "
+                . project_states_text($transition->from_state)
+                . " to "
+                . project_states_text($transition->to_state)
+                . "\n\n(This post is automatically generated.)",
+            '[Round Completion Monitor]',
+            FALSE
+        );
+    }
 }
 
 function proj_would_go_to_PP_avail( $project, $transition )

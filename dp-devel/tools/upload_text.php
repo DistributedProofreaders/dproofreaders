@@ -265,18 +265,21 @@ else
                       ";
         $qry =  mysql_query($qstring);
 
-        // Add an auto-post to the project's discussion topic.
-        $project = new Project($projectid);
-        $project->ensure_topic();
-        topic_add_post(
-            $project->topic_id,
-            "Project made available for smooth-reading",
-            "The project has just been made available for smooth-reading for $weeks weeks."
-                . "\n\n"
-                . "(This post is automatically generated.)",
-            '[Smooth Reading Monitor]',
-            FALSE
-        );
+        if ( $auto_post_to_project_topic )
+        {
+            // Add an auto-post to the project's discussion topic.
+            $project = new Project($projectid);
+            $project->ensure_topic();
+            topic_add_post(
+                $project->topic_id,
+                "Project made available for smooth-reading",
+                "The project has just been made available for smooth-reading for $weeks weeks."
+                    . "\n\n"
+                    . "(This post is automatically generated.)",
+                '[Smooth Reading Monitor]',
+                FALSE
+            );
+        }
     }
 
     // let them know file uploaded and send back to the right place

@@ -155,6 +155,10 @@ $site_supports_metadata = <<METADATA>>;
 
 $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 
+// Should we automatically add a post to a project's discussion topic
+// when the project undergoes certain events?
+$auto_post_to_project_topic = FALSE;
+
 // -----------------------------------------------------------------------------
 
 // The external catalog to search (using Z39.50) when creating a project.
