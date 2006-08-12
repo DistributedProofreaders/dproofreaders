@@ -189,6 +189,11 @@ function insert_post(
     // do we need to do user notification
     if ( ($mode == 'reply') && $do_notification )
     {
+        // DP bugfix (critical): $userdata['user_id'] must be set; otherwise,
+        // user_notification() will generate a bad SQL query and die.
+        global $userdata;
+        $userdata['user_id'] = $user_id;
+
         $post_data = array();
         user_notification($mode, $post_data, $subject, $forum_id, $topic_id, $post_id, $notify_user);
     }
