@@ -3,7 +3,6 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'v_site.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'make_zip.inc');
 
 function generate_post_files( $project, $limit_round_id, $which_text, $include_proofers, $base_extra )
 // Generate the files needed for post-processing.
@@ -76,30 +75,24 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     $dirname = "/tmp/".uniqid("post_files");
     mkdir($dirname, 0777);      // and make the directory
 
-    $zipfile_path = "{$dirname}/{$filename}.zip";
     $textfile_path = "{$dirname}/{$filename}.txt";
 
     // now write the text file
     $handle = fopen($textfile_path,"w");
     fwrite($handle,$filedata);
     fclose($handle);
-    // make the zip..
-    exec("zip -q -j $zipfile_path $textfile_path",
-         $output,
-         $return_code );
+    // make the zip and sent it to the user
+    header("Content-type: application/octet-stream");   
+    header("Content-disposition: attachment; filename={$filename}.zip");   
+    passthru("zip -q -j - $textfile_path", $return_code);
     if ($return_code != 0)
     {
         echo "post_files: the zip command failed.";
         exit;
     }
-    // with any luck we now have a valid zipfile. Send it out to the user.
-    header("Content-type: application/octet-stream");   
-    header("Content-disposition: attachment; filename={$filename}.zip");   
-    echo file_get_contents($zipfile_path);
 
     // now we must clean up behind ourselves
     unlink($textfile_path);
-    unlink($zipfile_path);
     rmdir($dirname);
   
 }
