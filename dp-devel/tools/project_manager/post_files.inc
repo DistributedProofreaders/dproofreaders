@@ -69,11 +69,39 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
     // join the page texts together
     $filedata = join_proofed_text($project, $pages_res, $include_proofers, $save_files, '');
-    $zipfile = new zipfile();   
-    $zipfile -> add_file($filedata, "{$filename}.txt");   
+
+    // zip it all up
+
+    // first find a unique place to operate in:
+    $dirname = "/tmp/".uniqid("post_files");
+    mkdir($dirname, 0777);      // and make the directory
+
+    $zipfile_path = "{$dirname}/{$filename}.zip";
+    $textfile_path = "{$dirname}/{$filename}.txt";
+
+    // now write the text file
+    $handle = fopen($textfile_path,"w");
+    fwrite($handle,$filedata);
+    fclose($handle);
+    // make the zip..
+    exec("zip -q -j $zipfile_path $textfile_path",
+         $output,
+         $return_code );
+    if ($return_code != 0)
+    {
+        echo "post_files: the zip command failed.";
+        exit;
+    }
+    // with any luck we now have a valid zipfile. Send it out to the user.
     header("Content-type: application/octet-stream");   
     header("Content-disposition: attachment; filename={$filename}.zip");   
-    echo $zipfile -> file();   
+    echo file_get_contents($zipfile_path);
+
+    // now we must clean up behind ourselves
+    unlink($textfile_path);
+    unlink($zipfile_path);
+    rmdir($dirname);
+  
 }
 
 // -----------------------------------------------------------------------------
