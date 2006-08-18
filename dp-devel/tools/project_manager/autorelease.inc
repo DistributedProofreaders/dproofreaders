@@ -97,7 +97,7 @@ function autorelease_for_round( $round )
         while ( $project = mysql_fetch_assoc($waiting_res) )
         {
             echo "\n";
-            echo "    considering project \"{$project['nameofwork']}\"...\n";
+            echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
 
             if (!attempt_to_release($round, $project, ''))
             {
@@ -245,7 +245,7 @@ function autorelease_for_round( $round )
 
         while ( $project = mysql_fetch_assoc($waiting_res) )
         {
-            echo "    considering project \"{$project['nameofwork']}\"...\n";
+            echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
 
             $authorsname = $project['authorsname'];
             $pm = $project['username'];
@@ -362,7 +362,7 @@ function autorelease_for_round( $round )
                 $extra_project = mysql_fetch_assoc($extra_waiting_res);
                 
                 echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
-                echo "    considering project \"{$extra_project['nameofwork']}\"...\n";
+                echo "    considering {$extra_project['projectid']} \"{$extra_project['nameofwork']}\"...\n";
 
                 $authorsname = $extra_project['authorsname'];
                 $pm = $extra_project['username'];
