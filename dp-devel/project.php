@@ -253,7 +253,9 @@ function decide_blurbs()
             if ( !user_can_work_on_beginner_pages_in_round($round) )
             {
                 $blurb =
-                    _("You have reached your quota of pages from 'Beginners Only' projects in this round.");
+                    _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
+                    . " "
+                    . _("Perhaps you could try working on an EASY project.");
                 return array( $blurb, $blurb );
             }
         }
