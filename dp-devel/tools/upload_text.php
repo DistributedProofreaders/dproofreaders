@@ -265,6 +265,15 @@ else
                       ";
         $qry =  mysql_query($qstring);
 
+        if ( $weeks == "replace" )
+        {
+            log_project_event( $projectid, $pguser, 'smooth-reading', 'text replaced' );
+        }
+        else
+        {
+            log_project_event( $projectid, $pguser, 'smooth-reading', 'text available', $deadline );
+        }
+
         if ( $auto_post_to_project_topic )
         {
             // Add an auto-post to the project's discussion topic.
