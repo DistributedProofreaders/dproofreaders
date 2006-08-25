@@ -77,6 +77,9 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
 
     $textfile_path = "{$dirname}/{$filename}.txt";
 
+    // make sure that everything will be cleaned up on exit
+    register_shutdown_function("clean_up_temp", $dirname, $textfile_path);
+
     // now write the text file
     $handle = fopen($textfile_path,"w");
     fwrite($handle,$filedata);
@@ -88,13 +91,15 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     if ($return_code != 0)
     {
         echo "post_files: the zip command failed.";
-        exit;
     }
+    // cleanup will get called whatever happens  
+}
 
+function clean_up_temp($dirname, $textfile_path) 
+{
     // now we must clean up behind ourselves
     unlink($textfile_path);
     rmdir($dirname);
-  
 }
 
 // -----------------------------------------------------------------------------
