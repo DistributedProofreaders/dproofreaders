@@ -118,6 +118,7 @@ else
     {
         // Stuff that's (usually) only of interest to
         // PMs/PFs/SAs and curious others.
+        do_history();
         do_images();
         do_extra_files();
         do_page_summary();
@@ -974,6 +975,150 @@ function do_waiting_queues()
         }
         echo "</ul>\n";
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_history()
+{
+    global $project;
+
+    echo "<h4>Project History</h4>\n";
+
+    $res = mysql_query("
+        SELECT timestamp, who, event_type, details1, details2, details3
+        FROM project_events
+        WHERE projectid = '{$project->projectid}'
+        ORDER BY event_id
+    ") or die(mysql_error());
+
+    $events = array();
+    while ( $event = mysql_fetch_assoc($res) )
+    {
+        $events[] = $event;
+    }
+
+    $events2 = fill_gaps_in_events( $events );
+
+    echo "<table border='1'>\n";
+    foreach ( $events2 as $event )
+    {
+        echo "<tr>\n";
+
+        echo "<td>";
+        echo (
+            $event['timestamp'] == '?'
+            ? '?'
+            : strftime('%Y-%m-%d %H:%M:%S', $event['timestamp'])
+        );
+        echo "</td>\n";
+
+        echo "<td align-='center'>{$event['who']}</td>\n";
+
+        echo "<td>{$event['event_type']}</td>\n";
+
+        if ( $event['event_type'] == 'transition' || $event['event_type'] == 'transition(s)')
+        {
+            $from_state = $event['details1'];
+            $from_state_t = (
+                $from_state == '?'
+                ? _('unknown state')
+                : project_states_text($from_state)
+            );
+            if ( $from_state_t == '' ) $from_state_t = $from_state;
+
+            $to_state = $event['details2'];
+            $to_state_t = (
+                $to_state == '?'
+                ? _('unknown state')
+                : project_states_text($to_state)
+            );
+            if ( $to_state_t == '' ) $to_state_t = $to_state;
+
+            echo "<td>from $from_state_t</td>\n";
+            echo "<td>to $to_state_t</td>\n";
+            echo "<td>{$event['details3']}</td>\n";
+        }
+        elseif ( $event['event_type'] == 'smooth-reading' )
+        {
+            echo "<td>{$event['details1']}</td>\n";
+            if ( $event['details1'] == 'text available' )
+            {
+                $deadline_f = strftime('%Y-%m-%d %H:%M:%S', $event['details2']);
+                echo "<td>until $deadline_f</td>\n";
+            }
+        }
+
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
+}
+
+function fill_gaps_in_events( $in_events )
+// If the project's event-history has gaps, fill them with pseudo-events.
+{
+    $out_events = array();
+
+    // Creation at the start
+    if ( count($in_events) == 0 || $in_events[0]['event_type'] != 'creation' )
+    {
+        $pseudo_event = array(
+            'timestamp'  => '?',
+            'who'        => '?',
+            'event_type' => 'creation',
+        );
+        $out_events[] = $pseudo_event;
+    }
+
+    // Continuity of state
+    $running_state = NULL;
+    foreach ( $in_events as $event )
+    {
+        switch ( $event['event_type'] )
+        {
+            case 'creation':
+                $running_state = PROJ_NEW;
+                break;
+
+            case 'transition':
+                $from_state = $event['details1'];
+                $to_state   = $event['details2'];
+                if ( $running_state != $from_state )
+                {
+                    $pseudo_event = array(
+                        'timestamp'  => '?',
+                        'who'        => '?',
+                        'event_type' => 'transition(s)',
+                        'details1'   => $running_state,
+                        'details2'   => $from_state,
+                        'details3'   => '',
+                    );
+                    $out_events[] = $pseudo_event;
+                }
+                $running_state = $to_state;
+                break;
+
+            case 'deletion':
+                $running_state = NULL;
+                break;
+        }
+        $out_events[] = $event;
+    }
+
+    global $project;
+    if ( $running_state != $project->state )
+    {
+        $pseudo_event = array(
+            'timestamp'  => '?',
+            'who'        => '?',
+            'event_type' => 'transition(s)',
+            'details1'   => $running_state,
+            'details2'   => $project->state,
+            'details3'   => '',
+        );
+        $out_events[] = $pseudo_event;
+    }
+    return $out_events;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
