@@ -126,9 +126,9 @@ else
         {
             do_page_table();
         }
-        do_detail_level_switch();
     }
 
+    do_detail_level_switch();
     theme('', 'footer');
 }
 
