@@ -23,7 +23,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
-    join_proofed_text($project, $pages_res, $include_proofers, $save_files, $fp);
+    join_proofed_text($project, $pages_res, $include_proofers, true, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -67,7 +67,7 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     }
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
     // join the page texts together
-    $filedata = join_proofed_text($project, $pages_res, $include_proofers, $save_files, '');
+    $filedata = join_proofed_text($project, $pages_res, $include_proofers, false, '');
 
     // zip it all up
 
