@@ -1341,16 +1341,16 @@ function do_post_downloads()
     if (user_is_a_sitemanager())
     {
         echo "Save file on server?  &nbsp;&nbsp; ";
-        echo "<input type='radio' name='save_file' value='1' CHECKED />";
+        echo "<input type='radio' name='save_files' value='1' CHECKED />";
         echo "Yes &nbsp;&nbsp; ";
-        echo "<input type='radio' name='save_file' value='0' />";
+        echo "<input type='radio' name='save_files' value='0' />";
         echo "No<br />\n";
 
         echo "<input type='submit' value='(Re)generate'>\n";
     }
     else
     {
-        echo "<input type='hidden' name='save_file' value='0' />";
+        echo "<input type='hidden' name='save_files' value='0' />";
         echo "<input type='submit' value='Download'>\n";
     }
 
