@@ -1035,9 +1035,16 @@ function do_history()
             );
             if ( $to_state_t == '' ) $to_state_t = $to_state;
 
+            $queue_name = $event['details3'];
+            $queue_name_t = (
+                $queue_name == ''
+                ? ''
+                : sprintf( _('via "%s" queue'), $queue_name )
+            );
+
             echo "<td>from $from_state_t</td>\n";
             echo "<td>to $to_state_t</td>\n";
-            echo "<td>{$event['details3']}</td>\n";
+            echo "<td>$queue_name_t</td>\n";
         }
         elseif ( $event['event_type'] == 'smooth-reading' )
         {
