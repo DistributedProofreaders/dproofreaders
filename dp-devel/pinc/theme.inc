@@ -707,7 +707,7 @@ function show_donation_stuff()
 	global $forums_url;
 
 	$paypal_business_id = 'DPFoundation@pgdp.net';
-	$info_url = $code_url.'/about_dpf.php';
+	$info_url = $code_url.'/faq/dpf.php';
 
 	echo "<center>";
 	echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
