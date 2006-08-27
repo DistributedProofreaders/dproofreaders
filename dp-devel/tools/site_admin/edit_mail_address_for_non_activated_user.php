@@ -61,16 +61,17 @@ else if ($_GET['action'] == 'list_all') {
     $order_by = $_GET['order_by'];
   else
     $order_by = 'date_created DESC';
-  $result = mysql_query("SELECT username, email, FROM_UNIXTIME(date_created, '%M %e, %Y, %H:%i') AS date FROM non_activated_users ORDER BY $order_by");
+  $result = mysql_query("SELECT username, real_name, email, FROM_UNIXTIME(date_created, '%M %e, %Y, %H:%i') AS date FROM non_activated_users ORDER BY $order_by");
   if (mysql_num_rows($result) == 0)
     echo "<p>No user accounts are awaiting activation.</p>";
   else {
     echo "<p>Sort by <a href='?action=list_all&order_by=date_created+DESC'>registration date (latest first)</a>, 
+      <a href='?action=list_all&order_by=real_name'>real name (ascending)</a>,
       <a href='?action=list_all&order_by=email'>email address (ascending)</a>, or
-                   <a href='?action=list_all&order_by=username'>username (ascending)</a>.</p>";
+      <a href='?action=list_all&order_by=username'>username (ascending)</a>.</p>";
     echo "<p>The following accounts are awaiting activation:\n<ul>\n";
     while ($row = mysql_fetch_assoc($result)) {
-      echo "<li><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a> &mdash; {$row['email']} ({$row['date']})</li>\n";
+      echo "<li><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a> &mdash; {$row['real_name']} &mdash; {$row['email']} ({$row['date']})</li>\n";
     }
     echo "</ul></p>";
   }
