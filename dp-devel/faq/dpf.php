@@ -162,7 +162,7 @@ all along, that DP is a separate organization from PG.
 <h2>Contact Information:</h2>
 
 <p>
-dpfoundation@pgdp.org
+dpfoundation@pgdp.net
 </p>
 
 <div style="height:4em;"><br /></div>
