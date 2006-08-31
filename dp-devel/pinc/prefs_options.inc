@@ -1,5 +1,5 @@
 <?php
-include_once($relPath.'v_resolution.inc');
+include_once($relPath.'resolution.inc');
 include_once($relPath.'languages.inc');
 
 define( 'BROWSER_DEFAULT_STR', _("Browser Default") );

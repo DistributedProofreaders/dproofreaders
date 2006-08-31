@@ -1,5 +1,5 @@
 <?PHP
-include_once($relPath.'v_resolution.inc');
+include_once($relPath.'resolution.inc');
 
 $i_r = $i_resolutions;
 $wSize = explode("x",$i_r[$userP['i_res']*1]);

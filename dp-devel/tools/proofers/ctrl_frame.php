@@ -12,7 +12,7 @@ $round = get_Round_for_round_id($round_id);
 assert( !is_null($round) );
 
 /*
-include_once($relPath.'v_resolution.inc');
+include_once($relPath.'resolution.inc');
 $i_r= $i_resolutions;
 $wSize=explode("x",$i_r[$userP['i_res']*1]);
 $menuWidth=$wSize[0]<=800?'99%':'820';

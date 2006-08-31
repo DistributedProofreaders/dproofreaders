@@ -4,7 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'doctype.inc');
-include_once($relPath.'v_resolution.inc');
+include_once($relPath.'resolution.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
@@ -40,7 +40,7 @@ if (isset($swProfile))
     exit;
 }
 
-include_once($relPath.'v_resolution.inc');
+include_once($relPath.'resolution.inc');
 
 $event_id = 0;
 $window_onload_event= '';
