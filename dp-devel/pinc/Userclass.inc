@@ -2,7 +2,7 @@
 
 // ID: $Id$
 
-require_once 'v_site.inc';
+require_once 'site_vars.php';
 require_once 'prefs_options.inc'; // PRIVACY_*
 require_once 'dpsession.inc';
 require_once "Profileclass.inc";

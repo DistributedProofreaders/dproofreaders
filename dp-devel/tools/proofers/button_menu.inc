@@ -1,5 +1,5 @@
 <?
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'button_defs.inc');
 include_once('PPage.inc');

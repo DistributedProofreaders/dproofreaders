@@ -1,7 +1,7 @@
 <?
 // DP includes
 $relPath="./../../pinc/";
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'topic.inc'); // topic_create

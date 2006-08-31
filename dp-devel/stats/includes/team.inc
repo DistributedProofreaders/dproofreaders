@@ -2,7 +2,7 @@
 //A file full of functions used in team stats
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'../stats/includes/common.inc');

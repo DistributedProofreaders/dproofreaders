@@ -1,5 +1,5 @@
 <?
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 
     function maybe_mail( $to, $subject, $message, $additional_headers )
     // If this is for real, send the message.

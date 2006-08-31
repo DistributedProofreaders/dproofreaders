@@ -1,6 +1,6 @@
 <?
 $relPath="./../pinc/";
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 $faq_file=array(
 	"ProoferFAQ.php"=>TRUE,

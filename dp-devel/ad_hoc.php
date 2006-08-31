@@ -85,7 +85,7 @@ if (0)
 
 if (0)
 {
-	include_once($relPath.'v_site.inc');
+	include_once($relPath.'site_vars.php');
 	include_once($relPath.'misc.inc');
 
 	$allscripts = array_merge(

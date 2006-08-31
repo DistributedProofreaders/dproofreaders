@@ -1,6 +1,6 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include_once($relPath.'misc.inc');
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');

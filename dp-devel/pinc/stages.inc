@@ -3,7 +3,7 @@
 // Declarations for all stages.
 // (Construction of all Stage objects.)
 
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');

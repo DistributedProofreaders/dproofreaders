@@ -1,6 +1,6 @@
 <?
 $relPath="./../pinc/";
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'xml.inc');
 
 //Try our best to make sure no browser caches the page
@@ -31,7 +31,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 	readfile($xmlfile);
 } else {
 	$relPath="./../pinc/";
-	include($relPath.'v_site.inc');
+	include($relPath.'site_vars.php');
 	include($relPath.'pg.inc');
 	include($relPath.'connect.inc');
 	include($relPath.'project_states.inc');

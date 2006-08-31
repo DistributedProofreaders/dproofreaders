@@ -1,6 +1,6 @@
 <?
 $relPath="./pinc/";
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include($relPath.'theme.inc');
@@ -40,9 +40,9 @@ if (!$auth) {
 		}
 		fclose($udb_user_file);
 
-		//Update v_site.inc
-		$lines = file($relPath.'v_site.inc');
-		$v_site_file = fopen($relPath.'v_site.inc', "w");
+		//Update site_vars.php
+		$lines = file($relPath.'site_vars.php');
+		$v_site_file = fopen($relPath.'site_vars.php', "w");
 		$i=0;
 		while ($i < count($lines)) {
 			if (substr($lines[$i], 1, 8) == "code_dir") { fputs($v_site_file, "\$code_dir = '".$_POST['code_dir']."';\n"); }
@@ -75,7 +75,7 @@ if (!$auth) {
 		fclose($udb_user_file);
 		echo "<br><center><b>Update Completed!</b></center>";
 	}
-	include($relPath.'v_site.inc');
+	include($relPath.'site_vars.php');
 
 	echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
 

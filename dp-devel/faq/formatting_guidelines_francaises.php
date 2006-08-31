@@ -3,7 +3,7 @@
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 
 $relPath='../pinc/';
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
 include($relPath.'pg.inc');
 include($relPath.'connect.inc');

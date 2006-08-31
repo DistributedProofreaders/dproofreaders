@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'misc.inc'); // array_get
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 /*
   States:

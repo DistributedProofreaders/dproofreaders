@@ -1,5 +1,5 @@
 <?
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 function check_email_address( $email_address )
 // Check whether $email_address is a reasonable/acceptable E-mail Address.

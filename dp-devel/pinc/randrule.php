@@ -1,5 +1,5 @@
 <?
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 
 /* dpRandomRule - Select and format a random rule from the database
  *

@@ -1,5 +1,5 @@
 <?
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
 

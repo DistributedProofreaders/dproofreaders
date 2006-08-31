@@ -14,6 +14,6 @@ dp_main.inc
             $_GET variables are extracted first and $_POST variables are extracted secondly.
             So, $_POST variables will overwrite $_GET variables with the same name.
 
-v_site.inc
+site_vars.php
 
 	 $code_url

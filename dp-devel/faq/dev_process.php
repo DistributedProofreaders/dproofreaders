@@ -1,6 +1,6 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
 
 $test_host='http://www.pgdp.org';	
@@ -132,7 +132,7 @@ After that, do your editing in your working copy
  and use <code>scp</code> to copy <i>changed</i> files
  from your working copy to your sandbox.
 (If you need help with <code>scp</code> please contact pourlean in Jabber.)
-Note: If you copy the CVS versions of pinc/v_site.inc or pinc/udb_user.php
+Note: If you copy the CVS versions of pinc/site_vars.php or pinc/udb_user.php
  into your sandbox, it will stop working.
 If you need to change either of these files, seek help from a Site Admin.
 </p>

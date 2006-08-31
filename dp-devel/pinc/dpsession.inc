@@ -36,7 +36,7 @@
 $pguser = NULL;
 $userP  = NULL;
 
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 if ( $use_php_sessions )
 {

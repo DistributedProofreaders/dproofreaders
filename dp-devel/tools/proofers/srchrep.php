@@ -1,6 +1,6 @@
 <?php
 $relPath = './../../pinc/';
-include_once($relPath."v_site.inc");
+include_once($relPath."site_vars.php");
 include_once($relPath."slim_header.inc");
 slim_header(_("Search/Replace"));
 ?>

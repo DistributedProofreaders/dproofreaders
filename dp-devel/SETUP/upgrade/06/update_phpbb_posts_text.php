@@ -3,7 +3,7 @@
 // (from c/tools/proofers/projects.php?project=foo to c/project.php?id=foo)
 
 $relPath='../../../pinc/';
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 new dbConnect;
 

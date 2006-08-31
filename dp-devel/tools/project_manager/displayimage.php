@@ -1,6 +1,6 @@
 <?PHP
 $relPath='../../pinc/';
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 $project = $_GET['project'];
 $imagefile = $_GET['imagefile'];

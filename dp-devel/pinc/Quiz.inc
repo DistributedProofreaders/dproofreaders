@@ -1,6 +1,6 @@
 <?
 include_once($relPath."connect.inc");
-include_once($relPath."v_site.inc");
+include_once($relPath."site_vars.php");
 class Quiz
 {
   function Quiz($id,$name,$descrption,$pages, $pass_requirements)

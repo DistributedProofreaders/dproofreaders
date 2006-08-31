@@ -1,5 +1,5 @@
 <?PHP
-include_once($relPath.'v_site.inc'); // $wikihiero_dir
+include_once($relPath.'site_vars.php'); // $wikihiero_dir
 
 $utf8_site = (strcasecmp($charset,"UTF-8") == 0);
 

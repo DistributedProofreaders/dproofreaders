@@ -5,7 +5,7 @@
 // enclosed in %scannoslist = ( );.
 
 $relPath="../../pinc/";
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'theme.inc');
 
 

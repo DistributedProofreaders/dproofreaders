@@ -1,5 +1,5 @@
 <?PHP
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'maybe_mail.inc');
 
 // Two mails are sent out to new users. First an activation mail where they

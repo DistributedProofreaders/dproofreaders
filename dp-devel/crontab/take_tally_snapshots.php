@@ -5,7 +5,7 @@
 
 $relPath='./../pinc/';
 include_once($relPath.'misc.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();

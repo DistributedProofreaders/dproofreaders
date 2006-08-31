@@ -1,6 +1,6 @@
 <?
 $relPath='../pinc/';
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');

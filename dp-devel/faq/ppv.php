@@ -1,6 +1,6 @@
 <?
 $relPath='../pinc/';
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();

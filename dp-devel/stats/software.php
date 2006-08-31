@@ -1,6 +1,6 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 // This include setup is highly unusual but neccesary because of mixing of
 // phpBB2's and DP's database setup

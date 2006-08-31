@@ -1,7 +1,7 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'misc.inc');
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'udb_user.php');
 include($relPath.'f_dpsql.inc');
 include($relPath.'connect.inc');

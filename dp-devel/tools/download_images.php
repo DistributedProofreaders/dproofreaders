@@ -5,7 +5,7 @@
 
 $relPath='../pinc/';
 include_once($relPath.'misc.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 
 $projectid = array_get( $_GET, 'projectid', '' );
 if (empty($projectid))

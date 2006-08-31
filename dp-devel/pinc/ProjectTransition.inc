@@ -9,7 +9,7 @@ include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
-include_once($relPath.'v_site.inc'); // $auto_post_to_project_topic
+include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
 
 define('PT_AUTO', '[AUTO]');
 

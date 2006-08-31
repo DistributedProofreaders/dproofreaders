@@ -1,7 +1,7 @@
 <?php
 // This include holds site-specific things. Currently, only the heading on
 // default.php but it may grow. It should be viewed as complement of
-// v_site.inc
+// site_vars.php
  
 function default_page_heading()
 {

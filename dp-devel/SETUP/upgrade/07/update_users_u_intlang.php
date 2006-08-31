@@ -1,6 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 

@@ -2,7 +2,7 @@
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'misc.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');

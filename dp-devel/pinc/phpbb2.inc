@@ -25,7 +25,7 @@ if ( $this_is_top_level_cli_invocation )
 {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
-    include_once($relPath.'v_site.inc'); // $forums_dir
+    include_once($relPath.'site_vars.php'); // $forums_dir
 }
 
 // PHPBB includes (from the standard installation)

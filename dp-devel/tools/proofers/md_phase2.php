@@ -1,6 +1,6 @@
 <?
 $relPath="./../../pinc/";
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include($relPath."doctype.inc");

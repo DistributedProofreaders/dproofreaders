@@ -608,7 +608,7 @@ the FAQ file with a snippet of PHP code like:
 
 <?
 $relPath='../pinc/';
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
@@ -696,7 +696,7 @@ we can start our FAQs with
 
 <?
 $relPath='../pinc/';
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();

@@ -2,7 +2,7 @@
 $relPath='./pinc/';
 
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');

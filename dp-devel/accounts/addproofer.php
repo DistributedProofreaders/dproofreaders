@@ -1,6 +1,6 @@
 <?
 $relPath="./../pinc/";
-include($relPath.'v_site.inc');
+include($relPath.'site_vars.php');
 include($relPath.'pg.inc');
 include($relPath.'username.inc');
 include($relPath.'email_address.inc');

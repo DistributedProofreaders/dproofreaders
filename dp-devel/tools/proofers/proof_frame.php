@@ -4,7 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'v_site.inc');
+include_once($relPath.'site_vars.php');
 include_once('PPage.inc');
 
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
