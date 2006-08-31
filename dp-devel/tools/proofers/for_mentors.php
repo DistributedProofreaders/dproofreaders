@@ -9,7 +9,7 @@ $relPath='../..//pinc/';
 // to establish logon
 include_once($relPath.'dp_main.inc');
 // for dpsql_dump_query
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 // for PRIVACY_* constants
 include_once($relPath.'prefs_options.inc');
 // for page marginalia

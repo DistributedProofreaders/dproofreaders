@@ -1,6 +1,6 @@
 <?
 include_once($relPath."connect.inc");
-include_once($relPath."f_dpsql.inc");
+include_once($relPath."dpsql.inc");
 
 
 function log_access_change( $subject_username, $modifier_username, $activity_id, $action_type )

@@ -3,7 +3,7 @@ $relPath="./../pinc/";
 include($relPath.'misc.inc');
 include($relPath.'site_vars.php');
 include($relPath.'udb_user.php');
-include($relPath.'f_dpsql.inc');
+include($relPath.'dpsql.inc');
 include($relPath.'connect.inc');
 include($relPath.'project_states.inc');
 include($relPath.'project_events.inc');

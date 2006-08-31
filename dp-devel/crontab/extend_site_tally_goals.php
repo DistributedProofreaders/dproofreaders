@@ -1,6 +1,6 @@
 <?
 $relPath='./../pinc/';
-include($relPath.'f_dpsql.inc');
+include($relPath.'dpsql.inc');
 include($relPath.'connect.inc');
 new dbConnect();
 

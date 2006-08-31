@@ -5,7 +5,7 @@
 
 $relPath='../../../pinc/';
 include_once($relPath.'connect.inc');
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 new dbConnect();
 
 header( 'Content-type: text/plain');

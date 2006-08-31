@@ -3,7 +3,7 @@ $relPath='../pinc/';
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 

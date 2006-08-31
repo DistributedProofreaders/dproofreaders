@@ -7,7 +7,7 @@ include_once($relPath.'dpsession.inc');
 include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to 

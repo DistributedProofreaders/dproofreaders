@@ -1,6 +1,6 @@
 <?PHP
 $relPath = '../../../pinc/';
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();

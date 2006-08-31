@@ -1,6 +1,6 @@
 <?
 $relPath="./../../pinc/";
-include_once($relPath.'f_dpsql.inc');
+include_once($relPath.'dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');

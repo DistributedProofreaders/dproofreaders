@@ -4,7 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'release_queue.inc');
-// include_once($relPath.'f_dpsql.inc');
+// include_once($relPath.'dpsql.inc');
 
 function autorelease()
 {
