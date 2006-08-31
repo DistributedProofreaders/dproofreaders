@@ -8,7 +8,7 @@
 // stored in those tables.
 
 // (Originally, this script updated the project_selectors for Birthday/Otherday
-// queues, hence the [now misleading] name of the script.)
+// queues, hence the original name of the script, update_birthday_queues.php.)
 
 $relPath='../pinc/';
 include($relPath.'connect.inc');
