@@ -399,7 +399,31 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
             {
                 $round = get_Round_for_round_number($rn);
                 $text_column_expr .=
-                    " WHEN LENGTH({$round->user_column_name}) THEN {$round->text_column_name}";
+                    " WHEN LENGTH({$round->text_column_name}) THEN {$round->text_column_name}";
+
+                // Originally the condition was:
+                //    WHEN LENGTH({$round->user_column_name})
+                // The problem is that the user column is filled in as soon as
+                // the page is checked out to the user, but until the user does
+                // a save (in progress or as done), the associated text is empty.
+                // (So you get a blank page in the output, rather than getting
+                // the text from the previous round.)
+                // One possible fix might be to copy the starting text into the
+                // text column when the page is checked out. But I'm not sure
+                // what repercussions that would have elsewhere.
+                //
+                // Instead, I changed user_column_name to text_column_name. I.e.,
+                // we simply look for the latest non-empty text for the page.
+                // The problem with that is, if the user has intentionally saved
+                // an empty text, we'll skip over it. Supposedly, this shouldn't
+                // happen -- the text should at least be '[Blank Page]' or
+                // '[Illustration]' or something -- but (a) mistakes happen, and
+                // (b) some other DP site might say empty pages are fine.
+                // It's possible to distinguish between an unsaved text and a
+                // saved-empty text, but the resulting SQL would be complicated,
+                // and there's a fair chance I'd get it wrong.
+                //
+                // On balance, I think this is an okay solution for now.
             }
             $text_column_expr .= " ELSE master_text";
             $text_column_expr .= " END";
