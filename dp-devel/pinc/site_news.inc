@@ -25,7 +25,7 @@ function get_news_subject( $news_page_id )
 function get_news_page_last_modified_date( $news_page_id )
 {
     $res = mysql_query("
-        SELECT modifieddate
+        SELECT t_last_change
         FROM news_pages 
         WHERE news_page_id = '$news_page_id'
     ") or die(mysql_error());
@@ -37,8 +37,8 @@ function get_news_page_last_modified_date( $news_page_id )
     }
     else
     {
-        list($modifieddate) = mysql_fetch_row($res);
-        return $modifieddate;
+        list($t_last_change) = mysql_fetch_row($res);
+        return $t_last_change;
     }
 }
 

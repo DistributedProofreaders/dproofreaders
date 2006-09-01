@@ -278,7 +278,7 @@ function news_change_made ($news_page_id) {
     $date_changed = time();
     $result = mysql_query("
             REPLACE INTO news_pages
-            SET news_page_id = '$news_page_id', modifieddate = $date_changed
+            SET news_page_id = '$news_page_id', t_last_change = $date_changed
     ");
 }
 
