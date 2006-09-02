@@ -281,15 +281,15 @@ function decide_blurbs()
         $label = _("Start Proofreading");
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
-        // When were the project comments last modified?
-        $comments_timestamp = $project->t_last_edit;
-        $comments_time_str = strftime(_("%A, %B %e, %Y at %X"), $comments_timestamp);
-        $comments_last_modified_blurb = _("Project information last modified:") . " " . $comments_time_str;
+        // When was the project info last modified?
+        $info_timestamp = $project->t_last_edit;
+        $info_time_str = strftime(_("%A, %B %e, %Y at %X"), $info_timestamp);
+        $info_last_modified_blurb = _("Project information last modified:") . " " . $info_time_str;
 
         // Other possible components of blurbs:
         $please_scroll_down = _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
         $the_link_appears_below = _("The 'Start Proofreading' link appears below the Project Comments");
-        $comments_have_changed =
+        $info_have_changed =
             "<font color='red'>"
             . "<b>"
             . _("Project information has changed!")
@@ -299,12 +299,12 @@ function decide_blurbs()
         // ---
 
         $bottom_blurb =
-            $comments_last_modified_blurb
+            $info_last_modified_blurb
             . "<br>"
             . $proofreading_link;
 
-        // Has the user saved a page of this project since the comments were
-        // last changed? If not, it's unlikely they've seen the revised comments.
+        // Has the user saved a page of this project since the project info was
+        // last changed? If not, it's unlikely they've seen the revised info.
         $res = mysql_query("
             SELECT {$round->time_column_name}
             FROM $projectid
@@ -318,7 +318,7 @@ function decide_blurbs()
             $top_blurb =
                 $please_scroll_down
                 . "<br>"
-                . $comments_last_modified_blurb
+                . $info_last_modified_blurb
                 . "<br>"
                 . $the_link_appears_below;
         }
@@ -327,27 +327,27 @@ function decide_blurbs()
             // The user has saved a page for this project.
             $my_latest_save_timestamp = mysql_result($res,0,$round->time_column_name);
 
-            if ($my_latest_save_timestamp < $comments_timestamp)
+            if ($my_latest_save_timestamp < $info_timestamp)
             {
-                // The latest page-save was before the comments were revised.
-                // The user probably hasn't seen the revised project comments.
+                // The latest page-save was before the info was revised.
+                // The user probably hasn't seen the revised project info.
                 $top_blurb =
-                    $comments_have_changed
+                    $info_have_changed
                     . "<br>"
                     . $please_scroll_down
                     . "<br>"
-                    . $comments_last_modified_blurb
+                    . $info_last_modified_blurb
                     . "<br>"
                     . $the_link_appears_below;
             }
             else
             {
-                // The latest page-save was after the comments were revised.
-                // We'll assume that the user has read the comments.
+                // The latest page-save was after the info was revised.
+                // We'll assume that the user has read the new info.
                 $top_blurb =
                     $please_scroll_down
                     . "<br>"
-                    . $comments_last_modified_blurb
+                    . $info_last_modified_blurb
                     . "<br>"
                     . $proofreading_link;
             }
