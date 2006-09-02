@@ -518,6 +518,7 @@ class ProjectInfoHolder
         // would otherwise break the query).
 
         $common_project_settings = "
+            t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
             nameofwork     = '".addslashes($this->nameofwork)."',
             authorsname    = '".addslashes($this->authorsname)."',
