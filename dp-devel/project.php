@@ -562,6 +562,14 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Current activity
 
+    echo_row_a(
+        _("Last Edit of Project Info"),
+        strftime($datetime_format, $project->t_last_edit) );
+
+    echo_row_a(
+        _("Last State Change"),
+        strftime($datetime_format, $project->modifieddate) );
+
     if ($round)
     {
         $proofdate = mysql_query("
